@@ -1,0 +1,172 @@
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ ************************************************************************************/
+body {
+	font-family: Helvetica;
+	padding: 0;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, b, p, i, u {
+	padding: 0;
+	margin: 0;
+}
+
+p {
+	color: #9f9f9f;
+}
+
+table {
+	font: inherit;
+}
+
+a {
+	color: #0070BA;
+	text-decoration: none;
+}
+
+input {
+	font-size: 15px;
+}
+
+.error {
+	color: red;
+}
+
+.button {
+	color: white;
+	background-color: #5992CC;
+	border: 1px solid #5992CC;
+	border-right: 2px groove;
+	border-bottom: 2px groove;
+	width: 80px;
+	height: 25px;
+}
+
+img {
+	border: 0;
+	vertical-align: top;
+}
+
+.hide {
+	display: none;
+}
+
+.toright {
+	float: right;
+}
+
+.toolbar {
+	background: #5992CC;
+}
+
+.toolbar .link {
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.page_title {
+	font-size: 20px;
+	background-color: #5992CC;
+	padding: 5px 0 2px 0;
+	color: white;
+	text-align: center;
+}
+
+.panel_login {
+	border: 2px solid #5992CC;
+}
+
+.table_list, .table_detail {
+	
+}
+
+.table_list td {
+	border-bottom: 1px solid #DDDDFF;
+	font-size: 15px;
+}
+
+.table_list a, .table_detail a {
+	display: block;
+	padding: 10px 1px 10px 5px;	
+}
+
+.table_list .info > td {
+	padding: 10px 1px; 
+}
+
+a.link_rhook {
+	display: block;
+	text-decoration: none;
+	padding: 0 10px 0 0;
+	margin-bottom: 2px;
+}
+
+a.autolink {
+	border-bottom: 0;
+	padding: 0;
+	font: inherit;
+	display: inline;
+}
+
+.table_detail .hdrlabel {
+	font-weight: bold;
+	font-size: 15px;
+	border-bottom: 1px solid #DDDDFF;
+}
+
+.table_detail .label, .table_detail .label2 {
+	font-size: 13px;
+	text-align: right;	
+	color: gray;
+	font-weight: normal;
+}
+
+.table_detail .label2 {
+	font-size: 15px;
+	text-align: left;
+}
+
+.table_detail .data {
+	font-size: 14px;
+}
+
+.searchbox {
+	font-size: 20px;
+	margin: 20px;
+}
+
+/* Checkbox UI similar to iPhone */
+.table_checkbox {
+	width: 100px;
+	font-size: 12px;
+	font-weight: bold;
+	border: 1px solid #888888;
+	background-color: #FCFCFC;
+}
+.table_checkbox .on {
+	float: right; 
+	padding: 5px 15px;
+	background: #5F92FF;
+	color: white; 
+}
+
+.table_checkbox .off {
+	float: left; 
+	padding: 5px 15px;
+	background: #EFEFEF;
+	color: #888888; 
+}
+
+.table_checkbox a {
+	color: inherit;
+	padding: 0;
+}
+
+/* END */

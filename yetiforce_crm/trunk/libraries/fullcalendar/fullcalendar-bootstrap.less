@@ -1,0 +1,66 @@
+/* FullCalendar fc-button themed using Twitter Bootstrap. */
+/* https://github.com/addyosmani/jquery-ui-bootstrap/issues/37#issuecomment-7127690 */
+
+.fc-button.fc-state-default {
+	.btn;
+
+	/* .btn-group > .btn */
+	position: relative;
+	/*float: left;*/
+	/*margin-left: -1px;*/
+	.border-radius(0);
+}
+
+.fc-button.fc-state-active {
+	.btn.active;
+}
+
+.fc-button.fc-state-disabled {
+	.btn.disabled;
+}
+.fc-button.fc-state-disabled:active {
+	.box-shadow(none);
+}
+
+.fc-button.fc-corner-left {
+	/* .btn-group > .btn:first-child */
+	margin-left: 0;
+		-webkit-border-top-left-radius: 4px;
+			-moz-border-radius-topleft: 4px;
+				border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+		-moz-border-radius-bottomleft: 4px;
+			border-bottom-left-radius: 4px;
+}
+
+.fc-button.fc-corner-right {
+	/* .btn-group > .btn:last-child, .btn-group > .dropdown-toggle */
+		-webkit-border-top-right-radius: 4px;
+			-moz-border-radius-topright: 4px;
+				border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+		-moz-border-radius-bottomright: 4px;
+			border-bottom-right-radius: 4px;
+}
+
+
+/* Override some FullCalendar CSS properties that conflict with Twitter Bootstrap btn. */
+
+.fc-state-default .fc-button-inner {
+	background: transparent;
+	border-width: 0 0;
+}
+
+.fc-button-content {
+	line-height: @baseLineHeight;
+	height: @baseLineHeight;
+	padding: 0 0;
+}
+
+.fc-state-default .fc-button-effect span {
+	.buttonBackground(@btnBackground, @btnBackgroundHighlight);
+}
+
+.fc-state-active .fc-button-inner {
+	color: @grayDark;
+}

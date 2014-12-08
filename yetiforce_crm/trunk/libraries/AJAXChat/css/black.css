@@ -1,0 +1,115 @@
+/*
+ * @package AJAX_Chat
+ * @author Sebastian Tschan
+ * @author Philip Nicolcev
+ * @copyright (c) Sebastian Tschan
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ */
+
+@import url('global.css');
+@import url('fonts.css');
+@import url('print.css');
+
+@media screen,projection,handheld {
+
+	/* Buttons */
+	#content #bbCodeContainer input, #content #logoutButton, #content #submitButton, #loginForm #loginButton {
+		background-color:#000;
+		color:#f0f0f0;
+		border: 1px solid #808080;
+		background-image: linear-gradient(to bottom, #222, #000);
+	}
+	#content select, #loginForm select, #loginForm input, #content textarea {
+		background-color:#000;
+		color:#fafafa;
+		border: 1px solid #808080;
+	}
+	
+	/* Status Icon */
+	#content #statusIconContainer {
+		background-image: url('../img/loading-sprite.png'); 
+	}
+	#content .statusContainerOff {
+		background-position: 0px 0px;
+	}
+	#content .statusContainerOn {
+		background-position: 0px -22px;
+	}
+	#content .statusContainerAlert {
+		background-position: 0px -44px;
+	}
+	
+	/* Other Theme Elements */
+	#loginContent {
+		background-color:#000;
+		color:#FFF;
+	}
+	#loginContent h1 {
+		color:#FFF;
+	}
+	#loginContent a {
+		color:#FFF;
+	}
+	#loginContent input, #loginContent select {
+		background-color:#212121;
+		color:#FFF;
+	}
+	#loginContent #errorContainer {
+		color:red;
+	}
+	#content {
+		background-color:#000;
+		color:#FFF;
+	}
+	#content h1 {
+		color:#FFF;
+	}
+	#content a {
+		color:#FFF;
+	}
+	#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content #colorCodesContainer, #content textarea {
+		border-color:gray;
+		background-color:#000;
+	}
+	#content #colorCodesContainer a {
+		border-color:black;
+	}
+	#content #optionsContainer input {
+	    background-color:transparent;
+	}
+	#content .rowEven {
+		background-color:#212121;
+	}
+	#content .rowOdd {
+		background-color:#000;
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#FFF;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#FF6600;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList a {
+		color:#1E90FF;
+	}
+	#content #chatList .deleteSelected {
+		border-color:red;
+	}
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
+		background-color:#212121;
+		color:#FFF;
+	}
+}

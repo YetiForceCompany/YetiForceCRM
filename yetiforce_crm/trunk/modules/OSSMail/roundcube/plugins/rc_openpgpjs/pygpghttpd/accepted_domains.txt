@@ -1,0 +1,9 @@
+################################################################################
+# THIS FILE CONTAINS THE LIST OF DOMAINS THAT YOU PERMIT READ YOUR LOCAL GPG   #
+# DATA. THIS FILE IS THE ENTIRE SECURITY MECHANISM GUARDING YOUR GPG SECRETS   #
+# SO TREAT IT THAT WAY.                                                        #
+################################################################################
+#
+# List each domain that you permit access your GPG data on separate lines.
+# localhost is included as an example.
+localhost

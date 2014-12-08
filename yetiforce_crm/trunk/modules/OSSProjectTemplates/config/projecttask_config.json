@@ -1,0 +1,19 @@
+{
+    "projecttaskname" : "Manual",
+    "description" : "Manual",
+    "projecttasknumber" : "Manual",
+    
+    "projectid" : "ParentRecordId",
+    
+    "projecttaskhours" : "Manual",
+    "startdate" : "Date",
+    "enddate" : "Date",
+    
+    "projecttaskpriority" : "Select",
+    "projecttasktype" : "Select",
+    "projecttaskstatus" : "Select",
+    "projecttaskprogress" : "Select",
+    
+    "assigned_user_id" : "Owner"
+    
+}

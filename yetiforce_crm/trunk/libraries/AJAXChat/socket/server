@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Simple bash script to start and stop a service
+# Works without access to /var/run/ or ps and pidof commands
+#
+# Date:: Wed, 09 Jan 2008
+# Author:: Sebastian Tschan, https://blueimp.net
+# License:: GNU Affero General Public License
+
+
+SERVICE_TITLE=Service
+SERVICE_BASENAME=${0##*/}
+SERVICE_DIR=${0%/$SERVICE_BASENAME}
+SERVICE_COMMAND=$SERVICE_DIR/$SERVICE_BASENAME.rb
+SERVICE_CONFIG=$SERVICE_DIR/$SERVICE_BASENAME.conf
+SERVICE_LOG=$SERVICE_DIR/$SERVICE_BASENAME.log
+SERVICE_PIDFILE=$SERVICE_DIR/$SERVICE_BASENAME.pid
+
+
+function start
+{
+	if [ -f $SERVICE_PIDFILE ]
+	then
+		echo "PID file $SERVICE_PIDFILE found - $SERVICE_TITLE already running?"
+	else
+		$SERVICE_COMMAND $SERVICE_CONFIG >> $SERVICE_LOG & echo "Started $SERVICE_TITLE..."
+		PID=$!
+		echo $PID > $SERVICE_PIDFILE
+	fi
+	exit 0
+}
+
+function stop
+{
+	if [ -f $SERVICE_PIDFILE ]
+	then
+		PID=`cat $SERVICE_PIDFILE`
+		kill -TERM $PID
+		rm -f $SERVICE_PIDFILE
+		echo "Stopped $SERVICE_TITLE."
+	else
+		echo "PID file $SERVICE_PIDFILE not found - $SERVICE_TITLE not running?"
+	fi
+	exit 0
+}
+
+function main 
+{ 
+	for arg in $@
+	do
+		if [ $arg == "start" ]
+		then
+			start
+		elif [ $arg == "stop" ]
+		then
+			stop
+		else
+			echo "Unknown argument:" $arg
+			echo "Usage: $0 [start|stop]"
+			exit 0
+		fi
+	done
+
+	echo "Missing argument."
+	echo "Usage: $0 [start|stop]"
+	exit 0
+} 
+
+
+# Script execution: 
+main $@

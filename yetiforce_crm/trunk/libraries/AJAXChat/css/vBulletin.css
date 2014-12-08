@@ -1,0 +1,127 @@
+/*
+ * @package AJAX_Chat
+ * @author Sebastian Tschan
+ * @author Philip Nicolcev
+ * @copyright (c) Sebastian Tschan
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ * 
+ * Color palette inspired by vBulletin style "Standard-Style":
+ * http://www.vbulletin.com/
+ */
+
+@import url('global.css');
+@import url('fonts.css');
+@import url('print.css');
+
+@media screen,projection,handheld {
+
+	/* Buttons */
+	#content #bbCodeContainer input, #content #logoutButton, #content #submitButton, #loginForm #loginButton {
+		background-color:#7192A8;
+		color:#fff;
+		border: 0;
+	}
+	#content select, #loginForm select, #loginForm input, #content textarea {
+		background-color:#7192A8;
+		color:#fff;
+		border: 1px solid #2F4456;
+	}
+
+	/* Status Icon */
+	#content #statusIconContainer {
+		background-image: url('../img/loading-sprite.png'); 
+	}
+	#content .statusContainerOff {
+		background-position: 0px 0px;
+	}
+	#content .statusContainerOn {
+		background-position: 0px -22px;
+	}
+	#content .statusContainerAlert {
+		background-position: 0px -44px;
+	}
+	
+	#loginContent {
+		background-color:#E1E1E2;
+		color:#000;
+	}
+	#loginContent h1 {
+		color:#3B5485;
+	}
+	#loginContent a {
+		color:#3B5485;
+	}
+	#loginContent #errorContainer {
+		color:red;
+	}
+	#content {
+		background-color:#E1E1E2;
+		color:#000;
+	}
+	#content #headlineContainer h1 {
+		color:#fff;
+		margin-left: 20px;
+	}
+	#content #headlineContainer { 
+		top: 0;
+		left: 10px;
+		right: 10px;
+		background: #2F4456;
+		border-radius: 0px 0px 5px 5px;
+	}
+	#content #copyright, #content #copyright a {
+		color: white;
+	}
+	#content a {
+		color:#3B5485;
+	}
+	#content input, #content select, #content textarea {
+		background-color:#FFF;
+		color:#000;
+	}
+	#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content #colorCodesContainer {
+		border-color:#0B198C;
+		background-color:#FFF;
+	}
+	#content #colorCodesContainer a {
+		border-color:black;
+	}
+	#content #optionsContainer input {
+	    background-color:transparent;
+	}
+	#content .rowEven {
+		background-color:#E1E4F2;
+	}
+	#content .rowOdd {
+		background-color:#F5F5FF;
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#000;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#3B5485;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList a {
+		color:#3B5485;
+	}
+	#content #chatList .deleteSelected {
+		border-color:red;
+	}
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
+		background-color:#7192A8;
+		color:#FFF;
+	}
+}

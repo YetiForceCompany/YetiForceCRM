@@ -1,0 +1,90 @@
+<?php
+
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+
+include_once 'modules/Vtiger/CRMEntity.php';
+
+class OSSProjectTemplates extends Vtiger_CRMEntity {
+
+    function vtlib_handler($moduleName, $eventType) {
+        
+        $db = PearDatabase::getInstance();
+
+        if ($eventType == 'module.postinstall') {
+
+            $this->addLink($moduleName);
+            $this->addRelationModue();
+            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+            
+            $db->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
+
+            
+        } else if ($eventType == 'module.disabled') {
+			$this->removeRecords();
+        } else if($eventType == 'module.enabled') {
+            $this->addLink($moduleName);
+            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+        } else if ($eventType == 'module.preuninstall') {
+            // TODO Handle actions when this module is about to be deleted.
+        } else if ($eventType == 'module.preupdate') {
+            // TODO Handle actions before this module is updated.
+        } else if ($eventType == 'module.postupdate') {
+            // TODO Handle actions after this module is updated.
+        }
+    }
+
+    private function addLink($moduleName) {
+        global $adb;
+
+        $blockid = $adb->query_result(
+                $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
+        $sequence = (int) $adb->query_result(
+                        $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
+        $fieldid = $adb->getUniqueId('vtiger_settings_field');
+        $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', $moduleName, 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
+    }
+
+    private function addRelationModue() {
+        global $adb;
+
+        $id = $adb->getUniqueID('vtiger_relatedlists');
+        $projectTabId = getTabid('Project');
+        $potentialsTabId = getTabid('Potentials');
+
+        $adb->query("INSERT INTO vtiger_relatedlists VALUES ($id, $potentialsTabId, $projectTabId, 'get_related_list', 16, 'Projects', 0, 'ADD,SELECT')", true);
+        
+    }
+
+    private function addWidgetToListView($moduleNames, $widgetName, $widgetType = 'LISTVIEWSIDEBARWIDGET') {
+        if (empty($moduleNames))
+            return;
+
+        if (is_string($moduleNames)){
+            $moduleNames = array($moduleNames);
+        }
+
+        foreach ($moduleNames as $moduleName) {
+            $module = Vtiger_Module::getInstance($moduleName);
+            if ($module) {
+                $module->addLink($widgetType, $widgetName, "module=OSSProjectTemplates&view=GenerateProject", '', '', '');
+            }
+        }
+    }
+    
+    private function removeRecords() {
+        $db = PearDatabase::getInstance();
+        
+        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='Generuj z szablonu'", true);
+        $db->query("DELETE FROM `vtiger_settings_field` WHERE `name` = 'Project Templates' AND `linkto` = 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'", true);
+    }
+
+}

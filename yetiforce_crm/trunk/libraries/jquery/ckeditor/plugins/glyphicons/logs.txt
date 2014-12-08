@@ -1,0 +1,12 @@
+v2.1.1 - July 30, 2014
+	- fixed minor bug
+
+v2.1 - July 24, 2014
+	- converted to a widget for easy deletion
+
+v2.0 - June 25, 2014
+	- color and size feature
+	- new interface
+
+v1.0
+	- initial release

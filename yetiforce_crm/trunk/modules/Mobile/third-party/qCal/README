@@ -1,0 +1,33 @@
+qCal iCalendar Library for PHP5, by Luke Visinoni
+-------------------------------------------------------------------------------
+
+qCal is an object-oriented, open-source iCalendar library for PHP5.
+It is released under the LGPL license.
+
+Homepage:      http://qcal.lukevisinoni.com/
+Documentation: http://qcal.lukevisinoni.com/doku.php?id=start
+Mailing List:  http://groups.google.com/group/qcal
+Bugs:          http://code.google.com/p/qcal/issues/list
+Repository:    https://qcal.googlecode.com/svn/
+
+Installation
+------------
+
+This library requires no installation. At least not in the traditional sense.
+Simply upload to a path within PHP's include path and include
+"lib/autoload.php".
+
+For more info, visit http://qcal.lukevisinoni.com/doku.php?id=installation
+
+Show your support!
+------------------
+
+If you use the library and would like to show your support, feel free to make a
+donation. I accept donations via PayPal. You can send me money at the following
+e-mail address.
+
+  luke.visinoni@gmail.com
+
+I didn't write this library to make money, but I do appreciate donations. In
+fact, those users who donate to the project are by far cooler than those who
+don't. I like donors better than non-donors. LOL!

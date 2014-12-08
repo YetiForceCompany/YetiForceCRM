@@ -1,0 +1,11 @@
+1. Extract the downloaded file (glyphicons.zip)
+2. Copy the "glyphicons" folder to "ckeditor/plugins/" folder
+3. Open the file "ckeditor/config.js"
+4. Add theses lines:
+	config.extraPlugins = 'glyphicons';
+	config.contentsCss = 'path/to/your/bootstrap.css';
+	config.allowedContent = true;
+5. In your HTML's <head> section add this code:
+	<script>CKEDITOR.dtd.$removeEmpty['span'] = false;</script>
+6. Make sure to clear your browser's cache
+7. Done

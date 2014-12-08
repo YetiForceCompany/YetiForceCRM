@@ -1,0 +1,112 @@
+/*
+ * @package AJAX_Chat
+ * @author Rosina Ramirez
+ * @copyright (c) Rosina Ramirez
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ */
+
+@import url('global.css');
+@import url('fonts.css');
+@import url('print.css');
+
+@media screen,projection,handheld {
+
+	#content input, select, #content textarea, #loginButton { 
+		border: 0; box-shadow:1px 1px 4px 0px rgba(0,0,0,0.5);
+	}
+	#content textarea { border-color: #383838; }
+	#content input, #loginButton { border-radius: 8px; }
+	#loginContent, #content {
+		background-color:#2A112F;
+		color:#9765A0;
+	}
+	a {
+		color:#DA83A1;
+	}
+	input, select {
+		background:#17081a;
+		border: 1px solid rgba(0,0,0,1);
+		color:#9765A0;
+	}
+	#loginContent #errorContainer {
+		color:red;
+	}
+	h1 {
+		color:#CDA6D2;
+	}
+	
+	#content textarea {
+		background:rgba(0,0,0,0.3);
+		color:#9765A0;
+	}
+	#content #chatList{
+		background: url('plum_images/plum.png') no-repeat bottom right rgba(0,0,0,0.3);
+	}
+	#content #colorCodesContainer {
+		padding: 5px; 
+		box-shadow: 2px 2px 4px #000;
+		border-radius: 3px;
+		background:rgba(225,225,225,0.2)
+	}
+	#content #onlineListContainer, #content #helpContainer, #content #settingsContainer {
+		background: url('plum_images/plum2.png') no-repeat bottom left rgba(0,0,0,0.3);
+	}
+	#content #onlineListContainer #onlineList ul {
+		list-style: none;
+	}
+	#content #emoticonsContainer { border-radius: 3px; }
+	#content #bbCodeContainer { border: 0; padding-left: 0; }
+	#content #statusIconContainer { background-image: url('../img/loading-sprite.png'); }
+	#content .statusContainerOff {
+		background-position: 0px 0px;
+	}
+	#content .statusContainerOn {
+		background-position: 0px -22px;
+	}
+	#content .statusContainerAlert {
+		background-position: 0px -44px;
+	}
+	#content #bbCodeContainer input, #content #logoutButton, #content #submitButton, #loginButton {
+		background-color:#461124;
+		color:#DAABBC;
+	}
+	#content #bbCodeContainer input:hover, #content #logoutButton:hover, #content #submitButton:hover, #loginButton:hover {
+		background-color:#591E33;
+	}
+	#content #optionsContainer input.button { border: 0; }
+	#content #optionsContainer input {
+	    background-color:transparent;
+	}
+	#content .rowEven {
+		background:rgba(0,0,0,0.2);
+	}
+	#content .rowOdd {
+		background:rgba(0,0,0,0.3);
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#CDA6D2;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#CDA6D2;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList .deleteSelected {
+		border-color:red;
+	}
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
+		color:#CDA6D2;
+		height: 15px;
+	}
+}

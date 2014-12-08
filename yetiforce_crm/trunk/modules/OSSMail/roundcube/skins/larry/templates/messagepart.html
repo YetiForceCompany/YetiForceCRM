@@ -1,0 +1,37 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="extwin noscroll">
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen">
+
+<div id="messagetoolbar" class="toolbar fullwidth">
+	<roundcube:button command="download" type="link" class="button download disabled" classAct="button download" classSel="button download pressed" label="download" />
+	<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" />
+	<roundcube:container name="toolbar" id="messagetoolbar" />
+</div>
+
+<div id="messagepartheader" class="uibox listbox">
+	<h2 class="boxtitle"><roundcube:label name="properties" /></h2>
+	<div class="scroller">
+		<roundcube:object name="messagePartControls" class="listing" />
+	</div>
+</div>
+
+<div id="messagepartcontainer" class="uibox">
+	<div class="iframebox">
+	<roundcube:object name="messagePartFrame" id="messagepartframe" frameborder="0" />
+	</div>
+</div>
+
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

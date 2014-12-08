@@ -1,0 +1,25 @@
+<roundcube:object name="message" id="messagestack" condition="env:task != 'login'" />
+
+<script type="text/javascript">
+
+// UI startup
+var UI = new rcube_mail_ui();
+$(document).ready(function(){
+	UI.set('errortitle', '<roundcube:label name="errortitle" quoting="javascript" />');
+	UI.init();
+});
+
+</script>
+<!--[if lte IE 8]>
+<script type="text/javascript">
+
+// fix missing :last-child selectors
+$(document).ready(function(){
+	$('ul.treelist ul').each(function(i,ul){
+		$('li:last-child', ul).css('border-bottom', 0);
+	});
+});
+
+</script>
+<![endif]-->
+

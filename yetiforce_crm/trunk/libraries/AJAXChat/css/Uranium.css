@@ -1,0 +1,178 @@
+/*
+ * @package AJAX_Chat
+ * @author Rosina Ramirez
+ * @copyright (c) Rosina Ramirez
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ * 
+ */
+
+@import url('global.css');
+@import url('fonts.css');
+@import url('print.css');
+
+@media screen,projection,handheld {
+
+	input, select, textarea, #content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content .rowEven,
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3, #content #inputFieldContainer, #loginContent input
+	{ border-radius: 5px; -webkit-border-radius:5px;border:0;}
+	#loginContent a {
+		color:#4c9546;
+	}
+	#content #inputFieldContainer{height:46px; background:#0E0E0E;padding:0;}
+	#content #inputFieldContainer #inputField{box-shadow: inset 1px 1px 5px 1px #000; border:0;height: 40px;padding: 3px 0.5%;width: 99%;}
+	#content #inputFieldContainer #inputField:focus{outline:none;box-shadow:0px 0px 8px 1px #376e34;}
+	#loginContent #loginFormContainer #loginButton {
+		background-color:#424242;
+		color:#b0b8a8;
+		border-radius: 3px;
+	}
+	#loginContent #errorContainer {
+		color:red;
+	}
+	
+	#content, #loginContent {
+	background-color: #464646;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#464646), to(#181818));
+	background-image: -webkit-linear-gradient(top, #464646, #181818);
+	background-image:    -moz-linear-gradient(top, #464646, #181818);
+	background-image:      -o-linear-gradient(top, #464646, #181818);
+	background-image:         linear-gradient(to bottom, #464646, #181818);
+	color:#b0b8a8;
+	}
+	h1, h3 {
+		color:#e2e9db;
+		text-shadow: 1px 1px 2px #191919;
+	}
+	#content a {
+		color:#4c9546;
+	}
+	#loginContent input, #loginContent select{background:#171717; color:#b0b8a8;}
+	input, select{padding: 3px;}
+	#content input,#content select,#content textarea {
+		background-color:#0e0e0e;
+		color:#b0b8a8;
+	}
+	#content #colorCodesContainer,#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content #inputFieldContainer,
+	#loginContent input[type=text], #loginContent input[type=password]{
+	box-shadow: 0px 0px 8px 1px #495a49; -webkit-box-shadow: 0px 0px 8px 1px #495a49;
+	}
+	#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer {
+		background-color:#171717;
+		border:0;
+	}
+	#content #chatList:after, #content #chatList:before{
+		content:'';
+		display:block;
+		position:absolute;
+		border-radius: 5px;
+	}
+	#content #chatList:before{top:17px;left:0px;width:0px;height:98%;box-shadow: 1px 0px 8px 1px #000;}
+	#content #chatList:after{top:0px;left:17px;width:98%;height:0px;box-shadow: 0px 1px 8px 1px #000;}
+	
+	#content #onlineListContainer #onlineList div { 
+		margin: 0 1px 1px 1px;
+		background: none;
+	}
+	#content #onlineListContainer #onlineList ul {
+		margin-top: 1px;
+		list-style: none;
+	}
+	
+	#content #helplist table, #content  #settingsList table{border-spacing:0;}
+	#content #emoticonsContainer { border-radius: 3px; }
+	#content #bbCodeContainer { border: 0; padding-left: 0; }
+	#content #statusIconContainer { background-image: url('../img/loading-sprite.png'); }
+	#content .statusContainerOff {
+		background-position: 0px 0px;
+	}
+	#content .statusContainerOn {
+		background-position: 0px -22px;
+	}
+	#content .statusContainerAlert {
+		background-position: 0px -44px;
+	}
+	#content #bbCodeContainer input {
+		background-color: #d8ffd6;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#d8ffd6), to(#467a44));
+		background-image: -webkit-linear-gradient(top, #d8ffd6, #467a44);
+		background-image:    -moz-linear-gradient(top, #d8ffd6, #467a44);
+		background-image:      -o-linear-gradient(top, #d8ffd6, #467a44);
+		background-image:         linear-gradient(to bottom, #d8ffd6, #467a44);
+		color:#1d1d1d;
+	}
+	#content #bbCodeContainer input:hover{
+		background-color: #ffffff;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#08ff35));
+		background-image: -webkit-linear-gradient(top, #ffffff, #08ff35);
+		background-image:    -moz-linear-gradient(top, #ffffff, #08ff35);
+		background-image:      -o-linear-gradient(top, #ffffff, #08ff35);
+		background-image:         linear-gradient(to bottom, #ffffff, #08ff35);
+	}
+	#content #bbCodeContainer input:active, #content #logoutButton:active, #content #submitButton:active, #loginContent #loginButton:active{box-shadow:0px 0px 8px 1px #38ff56;}
+	#content #logoutButton, #content #submitButton,#loginContent #loginButton{
+		background-color: #4fff58;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#4fff58), to(#194221));
+		background-image: -webkit-linear-gradient(top, #4fff58, #194221);
+		background-image:    -moz-linear-gradient(top, #4fff58, #194221);
+		background-image:      -o-linear-gradient(top, #4fff58, #194221);
+		background-image:         linear-gradient(to bottom, #4fff58, #194221);
+		font-weight:bold; color:#fff;
+		text-shadow:0px 0px 5px #000;
+	}
+	#content #logoutButton:hover, #content #submitButton:hover, #loginContent #loginButton:hover{
+		background-color: #99ffa8;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#99ffa8), to(#002405));
+		background-image: -webkit-linear-gradient(top, #99ffa8, #002405);
+		background-image:    -moz-linear-gradient(top, #99ffa8, #002405);
+		background-image:      -o-linear-gradient(top, #99ffa8, #002405);
+		background-image:         linear-gradient(to bottom, #99ffa8, #002405);
+	}
+
+	#content #colorCodesContainer{
+		border:0;
+		background:rgba(0,0,0,0.7);
+		padding:7px;
+	}
+	#content #colorCodesContainer a{border-radius:10px; box-shadow:0px 0px 3px 1px rgba(255,255,255,0.3); margin:0 5px;border:0;}
+	#content #optionsContainer input.button { border: 0; padding: 0; margin-right: 5px;}
+	#content #optionsContainer input {
+	    background-color:transparent;
+	}
+	#content .rowEven {
+		background-color:#131413;
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#b0b8a8;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#4c9546;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList a {
+		color:#4c9546;
+	}
+	#content #chatList .deleteSelected {
+		border-color:red;
+	}
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
+	background-color: #171717;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#3b6c37), to(#171717));
+	background-image: -webkit-linear-gradient(top, #3b6c37, #223220, #171717);
+	background-image:    -moz-linear-gradient(top, #3b6c37, #223220, #171717);
+	background-image:      -o-linear-gradient(top, #3b6c37, #223220, #171717);
+	background-image:         linear-gradient(to bottom, #3b6c37, #223220, #171717);
+	}
+
+}

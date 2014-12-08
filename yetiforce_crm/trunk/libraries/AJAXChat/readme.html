@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>AJAX Chat Readme</title>
+	
+	<style type="text/css">
+	body,td,th { font-family: Arial, Helvetica, sans-serif; line-height:1.6em; color:#000; font-size: inherit; }
+	body{background:#E7E7E7;margin:0; font-size: 0.8em;}
+	pre {font-size: 1.2em}
+	#wrap{max-width:1200px;background:#fff;margin:0.5em auto;padding:1.5em;box-shadow:2px 2px 4px #555;}
+	.subsection{border:1px solid #006;padding:0.8em 1.6em; background:#F2F5F9;}
+	.subsection .subsection{border:0}
+	a:link{color:#036;text-decoration:none}
+	a:visited{color:#03F;text-decoration:none}
+	td{padding:.5em}
+	.filename{color:#060}
+	.note{font-style:italic;background-color:#FFFFa9;border-radius:10px;padding:1em 1.2em}
+	a:hover{color:#03F;text-decoration:underline}
+	a:active{color:#03F;text-decoration:none;text-align:center}
+	h1,h2,h3,h4,h5,h6{font-weight:400;line-height:100%;margin:0; font-family: Verdana, Geneva, sans-serif;}
+	h1{font-size:1.8em;color:#E3E3FB;margin:-0.7em -0.7em 0.5em -0.7em;padding:0.8em; background: #2F2E8B; font-weight: 700;}
+	h2{font-size:1.3em;color:#FFF;background-color:#2F2E8B;clear:both;border-radius:5px 5px 0 0;margin:2em 0 0;padding:.5em}
+	h2:target{background-color:#6854E4;}
+	.version { font-size: 0.6em; font-weight: bold; line-height: 150%; display: block; }
+	.version a { color:#e4e4e4; text-decoration: underline;}
+	#toc{color:#000;background-color:#EBEBEB;display:block;float:right;width:20em;line-height:170%;border-radius:5px;border-color:#FFF;margin:0 0 1em 1em;padding:1.2em}
+	#toc h2{background:#333;color:#FFF;margin:-1em -1em 0.5em;padding:0.5em}
+	#toc ol{margin:0}
+	ol li{margin-bottom:1em}
+	h3{color:#000;background-color:#CED2DD;padding:.5em; font-weight: bold;border-radius:5px;}
+	code{display:block;background-color:#DDD;margin:1em;padding:1em; font-family: Consolas,"Liberation Mono",Courier,monospace;}
+	table{border:0}
+	th{font-weight:bold;vertical-align:middle;text-align:left;padding:.2em; }
+	p{margin:.5em 0}
+	#toc ol li,#toc p{margin:0;padding:0}
+	</style>
+</head>
+
+<body>
+<div id="wrap">
+
+<h1 id="top">AJAX Chat
+	<span class="version">
+		v 0.8.7 standalone ( <a href="https://blueimp.net/ajax/">blueimp.net/ajax/</a> )
+	</span>
+</h1> 
+
+<div id="toc">
+	<h2>Table of Contents</h2>
+	<p><a href="#requirements">Requirements</a></p>
+	<p><a href="#installation">Installation</a></p>
+	<p><a href="#configuring">Configuring and Customizing</a></p>
+	<p><a href="#logs">Logs</a></p>
+	<p><a href="#shoutbox">Shoutbox</a></p>
+	<p><a href="#socket">Socket Server</a></p>
+	<p><a href="#support">Support</a></p>
+	<p><a href="#donate">Donate</a></p>
+	<p><a href="#license">License</a></p>
+</div>
+
+<p style="margin:1.5em">This is the <strong>standalone</strong> version of blueimp's AJAX Chat designed to run on its own, without another web application.<br>
+If you want to integrate AJAX Chat with one of the forums we support, go back and choose the right version. <br>
+This version is good for customizing your own integration, or using on its own.</p>
+
+<p class="note" style="margin-right: 30em;">
+	AJAX stands for &quot;Asynchronous JavaScript and XML&quot;.<br>
+	The AJAX Chat client (your browser) uses JavaScript to query the web server for updates.<br>
+	Instead of delivering a complete HTML page only updated data is sent in XML format.<br>
+	By using JavaScript the chat page can be updated without having to reload the whole page.<br>
+	PHP is used to communicate with the database and authenticate users.
+</p>
+
+<h2 id="requirements">Requirements</h2>
+<div class="subsection">
+  <table style="width: 550px;" summary="Requirements for running AJAX Chat.">
+    <tr>
+      <th width="275" scope="col">Server-Side</th>
+      <th width="275" scope="col">Client-Side</th>
+    </tr>
+    <tr>
+      <td>
+		PHP &gt;= 5<br>
+		MySQL &gt;= 4<br>
+		Ruby &gt;= 1.8 (optional)
+	  </td>
+      <td>
+		Enabled JavaScript<br>
+		Enabled Cookies<br>
+		Flash Plugin &gt;= 9 (optional)
+	  </td>
+    </tr>
+  </table>
+</div>
+
+<h2 id="installation">Installation</h2>
+<div class="subsection">
+    <p>Download your preferred version of AJAX Chat and unzip the file on your computer.<br></p>
+    <h3>Before You Begin</h3>
+    <div class="subsection">
+		<p>
+			In order to edit PHP files you will need a good text editor. <strong>You should not use Windows notepad, wordpad, or Microsoft Word to edit PHP files.</strong> These programs will add something called a byte-order-mark (BOM) to the files and this may prevent chat from functioning properly. 
+			We recommend using Notepad ++ ( <a href="http://notepad-plus-plus.org/">http://notepad-plus-plus.org</a> ) for editing all files. It also has the benefit of color-coding your files so you can edit them more easily.<br>
+			If you get an error message like &quot;<strong>Cannot modify header information - headers already sent</strong>&quot; it is likely because you have used one of the above programs to edit files.
+		</p>
+    </div>
+	
+    <h3>Configure Database Settings</h3>
+    <div class="subsection">
+      <p>
+		The first and most important thing you need to do is tell AJAX Chat how to connect to your database. This, and all core settings must be located inside the file <span class="filename">lib/config.php</span>. <br>
+		<strong>You need to create this file.</strong> <br>
+		An example <span class="filename">config.php</span> file can be found in <span class="filename">lib/config.php.example</span> that shipped with chat.<br>
+		Duplicate this file and save it as config.php (or just delete .example from the end of the file name) and then fill out at least the following four fields in the file:</p>
+      <p>
+	  <code>$config['dbConnection']['host'] = '<em>your_database_hostname</em>';<br>
+      $config['dbConnection']['user'] = '<em>your_database_username</em>';<br>
+      $config['dbConnection']['pass'] = '<em>your_database_password</em>';<br>
+      $config['dbConnection']['name'] = '<em>your_database_name</em>';</code>
+	  </p>
+      <p>Sufficed to say you need this information. Talk to your hosting provider if you don't know. </p>
+      <p>In most cases, chat will function with only these fields filled out and you can proceed to the next step.<br>
+      </p>
+      <p class="note">If your host does not use mysqli you will need to change the connection type field:<br>
+        $config['dbConnection']['type'] = null;<br>
+        If this is set to &quot;null&quot; it defaults to &quot;mysqli&quot; if existing, else to &quot;mysql&quot;. In most cases this field can be left as null.<br>
+        <br>
+        You can reference an existing database connection link or object by changing:<br>
+        $config['dbConnection']['link'] = null;<br>
+        If this is set to null, a new database connection is created.</p>
+    </div>
+	
+	<h3>Choose Your Channel Settings</h3>
+	<div class="subsection">
+	  <p>Edit the file <span class="filename">lib/data/channels.php.</span><br>
+		We have provided you with two sample channels, named public and private. You can add your own, or leave it as-is.<br>
+		Channels follow the following format:
+		<br>
+		<code>$channels[<em>channel id</em>] = '<em>channel name</em>';</code>
+		Each channel must have a unique channel id number and a unique name.<br>
+		Whitespace in the channel names will be converted to the underscore &quot;_&quot;.</p>
+	</div>
+
+    <h3>Add Your Users</h3>
+    <div class="subsection">
+      <p> Edit users in <span class="filename">lib/data/users.php</span>.<br>
+        Users follow the following format:
+      </p>
+      <p><code>$users[<em>user id</em>] = array();<br>
+        $users[<em>user id</em>]['userRole'] = <em>AJAX_CHAT_ROLE</em>;<br>
+        $users[<em>user id</em>]['userName'] = '<em>user name</em>';<br>
+        $users[<em>user id</em>]['password'] = '<em>user password</em>';<br>
+        $users[<em>user id</em>]['channels'] = array(<em>allowed channel ids</em>);</code><br>
+        Each user must have a unique user id number and a unique name.<br>
+        The first user in the list (user id 0) is used for the guest user settings. All guest users will have access to the channels set for this user and the user role AJAX_CHAT_GUEST.<br>
+        Registered users can have the user roles AJAX_CHAT_USER, AJAX_CHAT_MODERATOR or AJAX_CHAT_ADMIN. (this is case sensitive, type it exactly)<br>
+        The list of channels a user has access to can be set for each user individually. Channel id's are separated by commas. eg: array(0,1,23); allows channels 0, 1 and 23.<br>
+        Whitespace in the user names will be converted to the underscore &quot;_&quot;.</p>
+    </div>
+	
+    <h3>Upload to Your Server</h3>
+    <div class="subsection">
+      <p>Upload the chat folder to your server somewhere under your document root:<br>
+        e.g. http://example.org/path/to/chat/</p>
+    </div>
+    <h3>Create the Database Tables</h3>
+    <div class="subsection">
+      <p>There are two options available to you to create the database. The first, and usually the easiest option, is to run the installation script included with AJAX Chat. Alternatively, you may use a database tool like PHPMyAdmin to manually create the tables.</p>
+      <ol>
+        <li> To use the installation script, visit the following URL in your browser:<br>
+          <span class="filename">http://example.org/path/to/chat/install.php</span><br> 
+          Where 
+          &quot;http://example.org/path/to/chat/&quot; is the real URL to your chat directory.</li>
+        <li>To install it manually using PHPMyAdmin or a similar tool, copy the contents of the <span class="filename">chat.sql</span> file and run it as a query.</li>
+      </ol>
+      <p>Either of these methods will create the tables your database needs to store chat messages and other information.</p>
+    </div>
+	
+    <h3>Delete the Installation Script</h3>
+    <div class="subsection">
+      <p>Delete the file <span class="filename">install.php</span> from the chat directory on your server. You may also delete the file <span class="filename">chat.sql</span>.</p>
+    </div>
+	
+    <h3>Congradulation! You Are Winner!</h3>
+    <div class="subsection">
+      <p>Yay! You're done! To test your chat, navigate to your chat URL in a browser: <span class="filename">http://example.org/path/to/chat/index.php<br>
+      </span>You are now free to customize chat to further suit your needs.</p>
+    </div>
+</div>
+
+<h2 id="configuring">Configuring and Customizing</h2>
+<div class="subsection">
+  <h3>Configuration Files</h3>
+  <div class="subsection">
+    <p>AJAX Chat is fully customizable and contains two configuration files:</p>
+    <ol>
+      <li><span class="filename">lib/config.php</span>: This file contains the core configuration options for chat. Essential options for configuring the database, security, available languages, etc, are found here.</li>
+      <li><span class="filename">js/config.js</span>: This file contains client side settings that change your users' default options in chat. Many of these settings can be changed by users in their options but some (like the refresh rate) cannot. </li>
+    </ol>
+    <p>Both of these files are well commented with information on what the settings mean.</p>
+  </div>
+  
+  <h3>Customizing the Layout </h3>
+  <div class="subsection">
+    <p>The layout of AJAX Chat is fully customizable by using CSS (Cascaded Style Sheets).<br>
+      AJAX Chat comes with a predefined set of styles. To add your own style, do the following:</p>
+    <ol>
+      <li>Add a new CSS file (e.g. mystyle.css) by copying one of the existing styles from the CSS directory.</li>
+      <li>Edit your file (css/mystyle.css) and adjust the CSS settings to your liking.</li>
+      <li>Add the name of your style without file extension to the available styles in lib/config.php:<br>
+        <code>// Available styles:      <br>
+      $config['styleAvailable'] = array('mystyle','beige','black','grey');<br>
+      // Default style:<br>
+      $config['styleDefault'] = 'mystyle';</code></li>
+    </ol>
+    <p>To further customize the layout you can adjust the template files in lib/template/.</p>
+    <p>Make sure you are creating valid XHTML, else you will produce errors in modern browsers.<br>
+      This is due to the page content-type served as &quot;application/xhtml+xml&quot;.<br>
+      Using this content-type improves performance when manipulating the Document Object Model (DOM).</p>
+    <p>If for some reason you cannot create valid XHTML you can force a HTML content-type.<br>
+      Just edit lib/config.php and set the following option:</p>
+    <p><code>$config['contentType'] = 'text/html';</code></p>
+  </div>
+  
+  <h3>Adjusting the Language Settings</h3>
+  <div class="subsection">
+    <p>AJAX Chat comes with two language file directories:</p>
+    <ol>
+      <li><span class="filename">js/lang/</span>: This directory contains the language files used for the chat messages localization. These are JavaScript files with the extension &quot;.js&quot;.</li>
+      <li><span class="filename">lib/lang/</span>: This directory contains the language files used for the template output. These are PHP files with the extension &quot;.php&quot;.</li>
+    </ol>
+    <p>Many languages are already included with the download and you can customize them by editing these files.<br>
+      For each language, you need a file in both of these directories, with the language code as file name (such as en.js and en.php)..<br>
+    The language code is used following the ISO 639 standards.</p>
+    <p>The files for the english (language code &quot;en&quot;) localization are <span class="filename">js/lang/en.js</span> and <span class="filename">lib/lang/en.php</span>.</p>
+    <p>If you create your own localization, you must put the files in the correct folders and then make two changes to config.php:</p>
+    <ol>
+      <li>Add the language code (this must match the filename you chose for the language. Remember to use commas correctly to separate multiple language codes): <br>
+      <code>$config['langAvailable'] = array('en');      </code></li>
+      <li>Add the language name (this is what users see in the dropdown menu to choose the language): <br>
+      <code>$config['langNames'] = array('en'=&gt;'English');</code></li>
+    </ol>
+    <p>To avoid errors, you should follow these rules:</p>
+    <ol>
+      <li>Make sure you encode your localization files in UTF-8 (without Byte-order mark).</li>
+      <li>Don't use HTML entities in your localization files.</li>
+      <li>Don't remove any &quot;%s&quot; inside the JavaScript language files - these are filled with dynamic data.  </li>
+    </ol>
+  </div>
+  
+  <h3>Adding Features</h3>
+  <div class="subsection">
+    <p>AJAX Chat is designed with numerous hooks and overrides available to improve core functionality without requiring you to edit the core files.
+	With an intermediate understading of PHP and javascript you can modify your chat to suit your needs.</p>
+	<p>Have a look through a few examples available on the wiki: 
+	<a href="https://github.com/Frug/AJAX-Chat/wiki/General-modifications">https://github.com/Frug/AJAX-Chat/wiki/General-modifications</a>
+	</p>
+  </div>
+  
+</div>
+
+<h2 id="logs">Logs</h2>
+<div class="subsection">
+  <h3>Accessing the Logs</h3>
+  <div class="subsection">
+    <p>By default, AJAX Chat stores all chat messages in the database.<br>
+      To access the logs you have to add the GET parameter view=logs to your chat url (add ?view=logs to the end of the url):</p>
+    <p class="note">e.g. http://example.org/path/to/chat/?view=logs</p>
+    <p>If you are not already logged in, you have to login as administrator to access the logs.</p>
+    <p>The log view enables you to monitor the latest chat messages on all channels.<br>
+      It is also possible to view the logs of private rooms and private messages.<br>
+    You have the option to filter the logs by date, time and search strings.</p>
+    <p class="note">The search filter accepts MySQL style regular expressions as described here: <a href="http://dev.mysql.com/doc/refman/5.1/en/regexp.html">http://dev.mysql.com/doc/refman/5.1/en/regexp.html</a><br>
+    You can search for IPs, using the following syntax: ip=127.0.0.1</p>
+  </div>
+</div>
+
+<h2 id="shoutbox">Shoutbox</h2>
+<div class="subsection">
+	<p>AJAX Chat is also usable as shoutbox - this is a short guide on how to set it up:</p>
+
+	<h3>Shoutbox Stylesheet</h3>
+	<div class="subsection">
+	<p>Add the following line to the stylesheet (CSS) of all pages displaying the shoutbox:</p>
+	<p> <code>@import url(&quot;http://example.org/path/to/chat/css/shoutbox.css&quot;);</code></p>
+	<p> Replace http://example.org/path/to/chat/ with the URL to the chat.<br>
+	  Modify css/shoutbox.css to your liking.</p>
+	</div>
+
+	<h3>Shoutbox Function</h3>
+	<div class="subsection">
+		<p>Add the following function to your PHP code:</p>
+
+<code><pre>
+&lt;?php
+function getShoutBoxContent() {
+// URL to the chat directory:
+if(!defined('AJAX_CHAT_URL')) {
+	define('AJAX_CHAT_URL', './chat/');
+}
+
+// Path to the chat directory:
+if(!defined('AJAX_CHAT_PATH')) {
+	define('AJAX_CHAT_PATH', realpath(dirname($_SERVER['SCRIPT_FILENAME']).'/chat').'/');
+}
+
+// Validate the path to the chat:
+if(@is_file(AJAX_CHAT_PATH.'lib/classes.php')) {
+	
+	// Include Class libraries:
+	require_once(AJAX_CHAT_PATH.'lib/classes.php');
+	
+	// Initialize the shoutbox:
+	$ajaxChat = new CustomAJAXChatShoutBox();
+	
+	// Parse and return the shoutbox template content:
+	return $ajaxChat-&gt;getShoutBoxContent();
+}
+
+return null;
+}
+?&gt;
+</pre></code>
+
+		<p>Make sure AJAX_CHAT_URL and AJAX_CHAT_PATH point to the chat directory.</p>
+	</div>
+
+	<h3>Shoutbox Output</h3>
+	<div class="subsection">
+		<p>Display the shoutbox content using the shoutbox function:</p>
+		<p> <code>&lt;div style=&quot;width:200px;&quot;&gt;&lt;?php echo getShoutBoxContent(); ?&gt;&lt;/div&gt;</code></p>
+	</div>
+</div>
+
+<h2 id="socket">Socket Server</h2>
+<div class="subsection">
+	<p>Using the AJAX technology alone the chat clients have to permanently pull updates from the server.<br>
+	This is due to AJAX being a web technology and HTTP being a stateless protocol.<br>
+	Events pushed from server-side need a permanent or long-lasting socket connection between clients and server.<br>
+	This requires either a custom HTTP server (called &quot;comet&quot;) or another custom socket server.</p>
+	<p>AJAX Chat uses a JavaScript-to-Flash bridge to establish a permanent socket connection from client side.<br>
+	The JavaScript-to-Flash bridge requires a Flash plugin &gt;= 9 installed on the user browser.<br>
+	Clients without this requirement will fall back to pull the server for updates.</p>
+	<p class="note">This part of the setup is OPTIONAL and meant for experienced users only.</p>
+	<h3>Installation</h3>
+	<div class="subsection">
+	<p>The socket server coming with AJAX Chat is implemented in Ruby.<br>
+	  You need to be able to run a Ruby script as a service to run the socket server.<br>
+	To be able to start the service, the script files in the socket/ directory have to be executable:</p>
+	<p> <code>$ chmod +x server<br>
+	  $ chmod +x server.rb</code></p>
+	<p> &quot;server&quot; is a simple bash script to start and stop a service.<br>
+	&quot;server.rb&quot; is the ruby socket server script.<br>
+	&quot;server.conf&quot; is a configuration file - each setting is explained with a comment.</p>
+	<p> To start the service, execute the &quot;server&quot; script with the parameter &quot;start&quot;:</p>
+	<p> <code>$ ./server start</code></p>
+	<p> This will create two additional files:</p>
+	<p> &quot;server.pid&quot; contains the process id of the service.<br>
+	&quot;server.log&quot; is filled with the socket server log.</p>
+	<p> To monitor the socket server logs, you can use the &quot;tail&quot; command included in most GNU/Linux distributions:</p>
+	<p> <code>$ tail -f server.log</code></p>
+	<p> By default only errors and start/stop of the server are logged.<br>
+	  To get more detailed logs configure the log level by editing the configuration file.</p>
+	<p> To stop the service, execute the &quot;server&quot; script with the parameter &quot;stop&quot;:</p>
+	<p> <code>$ ./server stop</code></p>
+	<p> If the socket server is running, you have to enable the following option in lib/config.php:</p>
+	<p> <code>$config['socketServerEnabled'] = true;</code><br>
+	  <br>
+	  This tells the server-side chat script to broadcast chat messages via the socket server.<br>
+	  Chat clients will establish a permanent connection to the socket server to listen for chat messages.</p>
+	<p> By default only local clients (127.0.0.1,::1) may broadcast messages.<br>
+	  Clients allowed to broadcast messages may also handle the channel authentication.<br>
+	  If your socket server is running on another host you should set the broadcast_clients option to the chat server IP.</p>
+	<p> Using the socket server increases response time while improving server performance at the same time.</p>
+	</div>
+
+	<h3>Flash Permissions</h3>
+	<div class="subsection">
+	<p>
+		Since Flash 9.0.115.0 and all Flash 10 versions, permissions for creating sockets using Flash have changed.<br>
+		Now an explicit permission (using xml-syntax) is required for creating socket connections. <br>
+		In the current state, socket server won't work with the newest Flash versions. <br>
+		You will get a &quot;Flash security error&quot; in the browser.
+	</p>
+	<p>
+		A solution is to use a policy-files server which will listen to connections in port 843 in the server.<br>
+		Each time a client tries to connect to the chat, the Flash client will request the policy authorization to the server.<br>
+		The policy-files server is downloadable from http://ammonlauritzen.com/FlashPolicyService-09b.zip<br>
+		It works with FF3 and IE7 (not yet tested in other browsers).
+	</p>
+	<p> A more detailed explanation can be found here:</p>
+	<p> * <a href="http://ammonlauritzen.com/blog/2007/12/13/new-flash-security-policies/">http://ammonlauritzen.com/blog/2007/12/13/new-flash-security-policies/</a><br>
+	  * <a href="http://ammonlauritzen.com/blog/2008/04/22/flash-policy-service-daemon/">http://ammonlauritzen.com/blog/2008/04/22/flash-policy-service-daemon/</a><br>
+	</p>
+	<p> Official Adobe documentation:</p>
+	<p> * <a href="http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security.html">http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security.html</a><br>
+	* <a href="http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security_04.html">http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security_04.html</a></p>
+	</div>
+	<p>&nbsp;</p>
+</div>
+
+<h2 id="support">Support</h2>
+<div class="subsection">
+	<p>
+		<b>Please do not email the devs with support questions.</b><br>
+		For further documentation and some examples, check out our <a href="https://github.com/Frug/AJAX-Chat/wiki">github wiki</a>.<br>
+		For general support questions use <a href="https://groups.google.com/forum/?#!forum/ajax-chat">our google group</a>.<br>
+		For specific bug reports and a list of pending issues view <a href="https://github.com/Frug/AJAX-Chat">our github project</a>.<br>
+	</p>
+</div>
+
+<h2 id="donate">Donate</h2>
+<div class="subsection">
+	<p>
+		Your donations contribute to the growth and development of this project and are always appreciated.<br>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="hosted_button_id" value="PUMN737V7XKG8">
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit">
+		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+		I'm on gittip at <a href="https://www.gittip.com/Frug/">https://www.gittip.com/Frug</a>
+	</p>
+</div>
+
+<h2 id="license">License</h2>
+<div class="subsection">
+	<p>Bluimp's AJAX Chat is released under a Modified MIT License.</p>
+	<p>You should also find this license included with your download of this project.</p>
+</div>
+
+<p align="center"><a href="#top">back to top</a></p>
+
+</div>
+</body>
+</html>

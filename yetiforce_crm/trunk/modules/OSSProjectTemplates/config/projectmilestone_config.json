@@ -1,0 +1,13 @@
+{
+    "projectmilestonename" : "Manual",
+    "description" : "Manual",
+    
+    "projectid" : "ParentRecordId",
+    
+    "projectmilestonedate" : "Date",
+    
+    "projectmilestonetype" : "Select",
+    
+    "assigned_user_id" : "Owner"
+    
+}

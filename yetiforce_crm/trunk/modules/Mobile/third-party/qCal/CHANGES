@@ -1,0 +1,15 @@
+Changelog for qCal, since Version 0.0.2
+---------------------------------------------
+
+January 14, 2010: v0.0.2
+--------------------
+
+ * Integrated qCal_DateTime sub-components into the library.
+ * Removed old qCal_Date component (replaced by qCal_DateTime, qCal_DateV2,
+	which has been renamed qCal_Date, and qCal_Time)
+ * Added full documentation for the library at http://qcal.lukevisinoni.com/ as
+	well as inside the "docs" sub-folder.
+ * Added this changelog.
+ * Added README and VERSION files.
+
+-- End of Changes --

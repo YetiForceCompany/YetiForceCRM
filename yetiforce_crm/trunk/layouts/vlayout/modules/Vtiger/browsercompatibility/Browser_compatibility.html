@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Vtiger CRM Browser Incompatibility</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
+		<style>
+			div{
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			body{
+				font-size: 140%;
+				background: #DFE4E7;
+				line-height: 30px;
+			}
+			#page{
+				width: 70%;
+				margin: 0 auto;
+				min-width: 950px;
+			}
+			hr{
+				margin: 0;
+				border: 1px solid #ccc;
+				border-bottom-color: #ddd;
+				opacity: 0.7;
+				height: 0;
+			}
+            #header{
+                padding-top: 5%;
+            }
+			#content{
+				padding: 12% 5%;
+				background: #fff;
+				border-radius: 2px;
+				border: 1px solid #ddd;
+				box-shadow: 0 0 8px #BBBBBB;
+			}
+			#browserLinks{
+				padding-top: 5%;
+			}
+			#browserLinks p{
+				margin: 1px;
+				padding: 0 28px 40px 0;
+				vertical-align: middle;
+				display: inline-block;
+			}
+			.browser{
+				background: url("Browsers.png") no-repeat;
+				display: inline-block;
+				height: 54px;
+				width: 50px;
+			}
+            .internet_explorer{
+                background-position: -7px -1px;
+            }
+            .chrome{
+				background-position: -65px -1px;
+			}
+			.firefox{
+				background-position: -123px -1px;
+			}
+            .opera{
+
+				background-position: -178px -2px;
+			}
+			.safari{
+				background-position: -233px -1px;
+			}
+			.proceed {
+				background-color:#037E47;
+				border:1px solid #006739;
+				display:inline-block;
+				color:#ffffff;
+				font-weight:bold;
+				padding: 6px 18px;
+				text-decoration:none;
+				text-align:center;
+				text-shadow:1px 1px 0px #689324;
+			}
+			.proceed:hover {
+				background-color:#07A45E;
+			}
+			.proceed:active {
+				position:relative;
+				top:1px;
+			}
+		</style>
+	</head>
+	<body> <!--style="background: url('shelf.jpg');">-->
+		<div id="page">
+			<div id="header" class="clearfix" style="text-align:center">
+				<img src="vtiger_logo.png"/>
+			</div>
+			<div id="content" class="row-fluid">
+				<div class="span1 left">
+					&nbsp;
+				</div>
+				<div class="span3 left">
+					<img src="hourGlass.png"/>
+				</div>
+				<div class="span7 right">
+					<span> You seem to be using an older version of your browser !
+                        <br> <br>
+                        For best experience with Vtiger CRM please upgrade to one of following modern browsers.
+                    </span>
+					<br>
+					<div id="browserLinks">
+                        <a href="http://windows.microsoft.com/en-in/internet-explorer/ie-11-worldwide-languages" target="_blank" class="browser internet_explorer" title="Interner Explorer 11"></a>
+						<a href="https://www.google.com/intl/en/chrome/browser/" target="_blank" class="browser chrome" title="Chrome"></a>
+						<a href="http://www.mozilla.org/en-US/firefox/new/" target="_blank" class="browser firefox" title="Firefox"></a>
+						<a href="http://www.opera.com/" target="_blank" class="browser opera" title="Opera"></a>
+                        <a href="http://support.apple.com/downloads/#safari" target="_blank" class="browser safari" title="Safari"></a>
+					</div>
+					<br>
+					<div>
+						<button name="button" class="proceed" type="reset" onclick="javascript:window.history.back();"> No Thanks ! &nbsp;Proceed to Vtiger CRM</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+</html>

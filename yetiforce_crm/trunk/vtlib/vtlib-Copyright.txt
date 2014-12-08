@@ -1,0 +1,37 @@
+vtlib uses third party libraries to enable certain functionality.
+
+1. For creating and unpacking zip files
+-- ====================================
+vtlib/thirdparty/dZip.php
+vtlib/thirdparty/dUnzip2.inc.php
+
+DOWNLOAD URL:
+http://www.phpclasses.org/browse/package/2495/
+
+BSD License: http://www.opensource.org/licenses/bsd-license.html
+
+NOTE: Bug Fix was added to function addFile of dZip class.
+
+2. For Feed Parsing
+-- ===============
+vtlib/thirdparty/parser/feed/simplepie.inc
+
+DOWNLOAD URL: http://simplepie.org
+
+BSD License: http://www.opensource.org/licenses/bsd-license.php
+
+3. For HTTP Communication
+-- ======================
+Vtiger_Net_Client is based on the following:
+
+http://pear.php.net/package/HTTP_Request 
+[License: http://www.opensource.org/licenses/bsd-license.php]
+
+http://pear.php.net/package/Net_URL
+[License: http://www.opensource.org/licenses/bsd-license.php]
+
+http://pear.php.net/package/Net_Socket
+[License: http://www.php.net/license/3_01.txt]
+
+http://pear.php.net/package/PEAR (Only PEAR.php)
+[License: http://www.php.net/license/3_01.txt]

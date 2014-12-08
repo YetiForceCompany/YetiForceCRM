@@ -1,0 +1,154 @@
+/*
+ * @package AJAX_Chat
+ * @author Sebastian Tschan
+ * @author Philip Nicolcev
+ * @copyright (c) Sebastian Tschan
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ * 
+ * Color palette inspired by PunBB style "Mercury":
+ * http://punbb.org/
+ */
+
+@import url('global.css');
+@import url('fonts.css');
+@import url('print.css');
+
+@media screen,projection,handheld {
+
+	/* Status Icon */
+	#content #statusIconContainer {
+		background-image: url('../img/loading-sprite.png'); 
+	}
+	#content .statusContainerOff {
+		background-position: 0px 0px;
+	}
+	#content .statusContainerOn {
+		background-position: 0px -22px;
+	}
+	#content .statusContainerAlert {
+		background-position: 0px -44px;
+	}
+
+	#content input, #content select, #content textarea { 
+		border: 1px solid #565656; 
+	}
+	#content textarea { 
+		border-color: #383838; 
+	}
+	#content input { 
+		border-radius: 3px; 
+	}
+	#loginContent {
+		background-color:#2A2A2A;
+		color:#D4D4D4;
+	}
+	#loginContent h1 {
+		color:#D4D4D4;
+	}
+	#loginContent a {
+		color:#F6B620;
+	}
+	#loginContent input, #loginContent select {
+		background-color:#424242;
+		border-color:#565656;
+		color:#D4D4D4;
+	}
+	#loginContent #loginFormContainer #loginButton {
+		background-color:#424242;
+		color:#D4D4D4;
+		border-radius: 3px;
+	}
+	#loginContent #errorContainer {
+		color:red;
+	}
+	
+	#content {
+		background-color:#2A2A2A;
+		color:#D4D4D4;
+	}
+	#content h1 {
+		color:#D4D4D4;
+	}
+	#content a {
+		color:#F6B620;
+	}
+	#content input, #content select, #content textarea {
+		background-color:#383838;
+		color:#D4D4D4;
+	}
+	#content #chatList, #content #onlineListContainer, #content #helpContainer, #content #settingsContainer, #content #colorCodesContainer, #content #emoticonsContainer {
+		border: 0;
+		background-color:#383838;
+	}
+	#content #colorCodesContainer {
+		padding: 5px; 
+		box-shadow: 2px 2px 4px #000;
+		border-radius: 3px;
+	}
+	#content #onlineListContainer {
+		background: #383838;
+	}
+	#content #onlineListContainer #onlineList div { 
+		margin: 0 1px 1px 1px;
+		border-radius: 5px;
+		background: #404040;
+	}
+	#content #onlineListContainer #onlineList ul {
+		margin-top: 1px;
+		list-style: none;
+	}
+	#content #emoticonsContainer { 
+		border-radius: 3px; 
+	}
+	#content #bbCodeContainer { 
+		border: 0; padding-left: 0; 
+	}
+	#content #bbCodeContainer input, #content #logoutButton, #content #submitButton {
+		background-color:#383838;
+		color:#D4D4D4;
+	}
+	#content #bbCodeContainer input:hover, #content #logoutButton:hover, #content #submitButton:hover {
+		background-color:#565656;
+	}
+	#content #optionsContainer input.button { 
+		border: 0; 
+	}
+	#content #optionsContainer input {
+	    background-color:transparent;
+	}
+	#content .rowEven {
+		background-color:#505050;
+	}
+	#content .rowOdd {
+		background-color:#484848;
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#D4D4D4;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#F6B620;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList a {
+		color:#F6B620;
+	}
+	#content #chatList .deleteSelected {
+		border-color:red;
+	}
+	#content #onlineListContainer h3, #content #helpContainer h3, #content #settingsContainer h3 {
+		color:#D4D4D4;
+		height: 15px;
+	}
+}

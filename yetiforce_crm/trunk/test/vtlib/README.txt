@@ -1,0 +1,3 @@
+vtlib related temporary directory
+
+* Used for packaging the module to export etc...

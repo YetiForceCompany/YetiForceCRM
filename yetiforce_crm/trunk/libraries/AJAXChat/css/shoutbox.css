@@ -1,0 +1,168 @@
+/*
+ * @package AJAX_Chat
+ * @author Sebastian Tschan
+ * @copyright (c) Sebastian Tschan
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ */
+
+
+/*
+ * Positioning
+ */
+#ajaxChatContent #ajaxChatChatList {
+	height:300px;
+	overflow:auto;
+}
+#ajaxChatContent  #ajaxChatChatList div {
+	padding-left:5px;
+	padding-top:2px;
+	padding-right:5px;
+	padding-bottom:2px;
+}
+#ajaxChatContent #ajaxChatChatList img {
+	vertical-align:middle;
+	margin-bottom:2px;
+}
+#ajaxChatContent #ajaxChatChatList cite {
+	margin-right:5px;
+}
+#ajaxChatContent #ajaxChatChatList .bbCodeImage {
+	vertical-align:top;
+	overflow:auto;
+	margin:5px;
+}
+#ajaxChatContent #ajaxChatChatList .delete {
+	float:right;
+	width:10px;
+	height:10px;
+	margin-top:5px;
+	margin-left:5px;
+}
+#ajaxChatContent #ajaxChatInputFieldContainer #ajaxChatInputField {
+	width:90%;
+}
+#ajaxChatContent #ajaxChatCopyright {
+	margin-top:5px;
+}
+#ajaxChatContent #ajaxChatInputFieldContainer.write_forbidden {
+	display:none;
+}
+
+
+/*
+ * Borders
+ */
+
+#ajaxChatContent img {
+	border:none;
+}
+#ajaxChatContent #ajaxChatChatList .deleteSelected {
+	border-width:1px;
+	border-style:dotted;
+}
+
+
+/*
+ * Fonts
+ */
+
+#ajaxChatContent {
+	font-size:0.9em;
+}
+#ajaxChatContent a {
+	text-decoration:none;
+}
+#ajaxChatContent a:hover {
+	text-decoration:underline;
+}
+#ajaxChatContent #ajaxChatCopyright {
+	font-size:0.8em;
+}
+#ajaxChatContent #ajaxChatChatList span.dateTime {
+	font-size:0.7em;
+}
+#ajaxChatContent #ajaxChatChatList span.guest {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ajaxChatContent #ajaxChatChatList span.user {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ajaxChatContent #ajaxChatChatList span.moderator {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ajaxChatContent #ajaxChatChatList span.admin {
+	font-size:0.9em;
+	font-weight:bold;
+}
+#ajaxChatContent #ajaxChatChatList span.chatBot {
+	font-size:0.9em;
+	font-weight:bold;
+	font-style:italic;
+}
+#ajaxChatContent #ajaxChatList .chatBotMessage {
+	font-style:italic;
+}
+#ajaxChatContent #ajaxChatChatList .chatBotErrorMessage {
+	font-style:italic;
+}
+#ajaxChatContent #ajaxChatChatList .privmsg {
+	font-style:italic;
+}
+#ajaxChatContent #ajaxChatChatList .action {
+	font-style:italic;
+}
+#ajaxChatContent #ajaxChatChatList q {
+	font-variant:small-caps;
+}
+#ajaxChatContent #ajaxChatChatList code {
+    font-size:1.2em;
+}
+
+
+/*
+ * Colors
+ */
+
+#ajaxChatContent #ajaxChatChatList {
+	color:#000;
+}
+#ajaxChatContent #ajaxChatChatList {
+	background-color:#FFF;
+}
+#ajaxChatContent .rowEven {
+	background-color:#FFF;
+}
+#ajaxChatContent .rowOdd {
+	background-color:#F6F6F6;
+}
+#ajaxChatContent .guest {
+	color:gray;
+}
+#ajaxChatContent .user {
+	color:#000;
+}
+#ajaxChatContent .moderator {
+	color:#00AA00;
+}
+#ajaxChatContent .admin {
+	color:red;
+}
+#ajaxChatContent .chatBot {
+	color:#FF6600;
+}
+#ajaxChatContent #ajaxChatChatList .chatBotErrorMessage {
+	color:red;
+}
+#ajaxChatContent #ajaxChatChatList a {
+	color:#1E90FF;
+}
+#ajaxChatContent #ajaxChatChatList .delete {
+	background:url('../img/delete.png') no-repeat right;
+}
+#ajaxChatContent #ajaxChatChatList .deleteSelected {
+	border-color:red;
+}

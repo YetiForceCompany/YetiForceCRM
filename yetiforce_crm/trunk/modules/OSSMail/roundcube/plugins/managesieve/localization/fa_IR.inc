@@ -1,0 +1,192 @@
+<?php
+
+/*
+ +-----------------------------------------------------------------------+
+ | plugins/managesieve/localization/<lang>.inc                           |
+ |                                                                       |
+ | Localization file of the Roundcube Webmail Managesieve plugin         |
+ | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
+*/
+$labels['filters'] = 'صافی‌ها';
+$labels['managefilters'] = 'مدیریت صافی‌های نامه ورودی';
+$labels['filtername'] = 'نام صافی';
+$labels['newfilter'] = 'صافی جدید';
+$labels['filteradd'] = 'افزودن صافی';
+$labels['filterdel'] = 'حذف صافی';
+$labels['moveup'] = 'انتقال به بالا';
+$labels['movedown'] = 'انتقال به پایین';
+$labels['filterallof'] = 'مطابقت همه قوانین ذیل';
+$labels['filteranyof'] = 'مطابقت هر کدام از قوانین ذیل';
+$labels['filterany'] = 'همه پیغام ها';
+$labels['filtercontains'] = 'شامل‌';
+$labels['filternotcontains'] = 'بدون';
+$labels['filteris'] = 'برابر است با';
+$labels['filterisnot'] = 'برابر نیست با';
+$labels['filterexists'] = 'وجود دارد';
+$labels['filternotexists'] = 'وجود ندارد';
+$labels['filtermatches'] = 'با عبارت تطابق دارد';
+$labels['filternotmatches'] = 'با عبارت تطابق ندارد';
+$labels['filterregex'] = 'با عبارت عمومی تطابق دارد';
+$labels['filternotregex'] = 'با عبارت عمومی تطابق ندارد';
+$labels['filterunder'] = 'زیر';
+$labels['filterover'] = 'بالا';
+$labels['addrule'] = 'افزودن قانون';
+$labels['delrule'] = 'حذف قانون';
+$labels['messagemoveto'] = 'انتقال پیغام به';
+$labels['messageredirect'] = 'بازگردانی پیغام به';
+$labels['messagecopyto'] = 'رونوشت پیغام به';
+$labels['messagesendcopy'] = 'ارسال رونوشت پیغام به';
+$labels['messagereply'] = 'پاسخ همراه پیغام';
+$labels['messagedelete'] = 'حذف پیغام';
+$labels['messagediscard'] = 'دور ریختن با پیغام';
+$labels['messagekeep'] = 'پیغام را در صندوق ورودی نگه دار';
+$labels['messagesrules'] = 'برای  صندوق ورودی:';
+$labels['messagesactions'] = '...انجام اعمال ذیل:';
+$labels['add'] = 'افزودن';
+$labels['del'] = 'حذف';
+$labels['sender'] = 'فرستنده';
+$labels['recipient'] = 'گیرنده';
+$labels['vacationaddr'] = 'آدرس(های) ایمیل اضافی من:';
+$labels['vacationdays'] = 'پیغام ها در چه مواقعی فرستاده شدند (در روزهای):';
+$labels['vacationinterval'] = 'مواقعی که پیغام‌ها ارسال می‌شوند:';
+$labels['vacationreason'] = 'بدنه پیغام (علت مسافرت):';
+$labels['vacationsubject'] = 'موضوع پیغام:';
+$labels['days'] = 'روزها';
+$labels['seconds'] = 'ثانیه‌ها';
+$labels['rulestop'] = 'توقف قوانین ارزیابی';
+$labels['enable'] = 'فعال/غیرفعال‌سازی';
+$labels['filterset'] = 'مجموعه صافی‌ها';
+$labels['filtersets'] = 'مجموعه‌های صافی‌ها';
+$labels['filtersetadd'] = 'افزودن مجموعه صافی‌ها';
+$labels['filtersetdel'] = 'حذف مجموعه صافی‌های جاری';
+$labels['filtersetact'] = 'فعال کردن مجموعه صافی‌های جاری';
+$labels['filtersetdeact'] = 'غیرفعال کردن مجموعه صافی‌های جاری';
+$labels['filterdef'] = 'تعریف صافی';
+$labels['filtersetname'] = 'نام مجموعه صافی‌ها';
+$labels['newfilterset'] = 'مجموعه صافی‌های جدید';
+$labels['active'] = 'فعال';
+$labels['none'] = 'هیچ‌کدام';
+$labels['fromset'] = 'از مجموعه';
+$labels['fromfile'] = 'از پرونده';
+$labels['filterdisabled'] = 'صافی غیرفعال شد';
+$labels['countisgreaterthan'] = 'تعداد بیشتر است از';
+$labels['countisgreaterthanequal'] = 'تعداد بیشتر یا مساوی است با';
+$labels['countislessthan'] = 'تعداد کمتر است از';
+$labels['countislessthanequal'] = 'تعداد کمتر یا مساوی است با';
+$labels['countequals'] = 'تعداد مساوی است با';
+$labels['countnotequals'] = 'تعداد برابر نیست با';
+$labels['valueisgreaterthan'] = 'مقدار بیشتر است از';
+$labels['valueisgreaterthanequal'] = 'مقدار بیشتر یا مساوی است با';
+$labels['valueislessthan'] = 'مقدار کمتر است از';
+$labels['valueislessthanequal'] = 'مقدار کمتر یا مساوی است با';
+$labels['valueequals'] = 'مقدار مساوی است با';
+$labels['valuenotequals'] = 'مقدار برابر نیست با';
+$labels['setflags'] = 'انتخاب پرچم‌ها برای پیغام';
+$labels['addflags'] = 'افزودن پرچم‌ها برای پیغام';
+$labels['removeflags'] = 'حذف پرچم‌ها از پیغام';
+$labels['flagread'] = 'خوانده‌‌شده';
+$labels['flagdeleted'] = 'حذف شده';
+$labels['flaganswered'] = 'جواب داده شده';
+$labels['flagflagged'] = 'پرچم‌دار';
+$labels['flagdraft'] = 'پیش‌نویس';
+$labels['setvariable'] = 'تنظیم متغیر';
+$labels['setvarname'] = 'نام متغییر';
+$labels['setvarvalue'] = 'مقدار متغیر:';
+$labels['setvarmodifiers'] = 'اصلاح:';
+$labels['varlower'] = 'حروف کوچک';
+$labels['varupper'] = 'حروف بزرگ';
+$labels['varlowerfirst'] = 'حرف اول کوچک';
+$labels['varupperfirst'] = 'حرف اول بزرگ';
+$labels['varquotewildcard'] = 'نقل قول کاراکترهای خاص';
+$labels['varlength'] = 'طول';
+$labels['notify'] = 'ارسال تذکر';
+$labels['notifyaddress'] = 'به آدرس پست الکترونیکی:';
+$labels['notifybody'] = 'بدنه تذکر:';
+$labels['notifysubject'] = 'موضوع تذکر:';
+$labels['notifyfrom'] = 'فرستنده تذکر:';
+$labels['notifyimportance'] = 'اهمیت:';
+$labels['notifyimportancelow'] = 'کم';
+$labels['notifyimportancenormal'] = 'معمولی';
+$labels['notifyimportancehigh'] = 'زیاد';
+$labels['filtercreate'] = 'ایجاد صافی';
+$labels['usedata'] = 'استفاده از داده ذیل در صافی:';
+$labels['nextstep'] = 'مرحله بعدی';
+$labels['...'] = '...';
+$labels['currdate'] = 'تاریخ جاری';
+$labels['datetest'] = 'تاریخ';
+$labels['dateheader'] = 'سربرگ:';
+$labels['year'] = 'سال';
+$labels['month'] = 'ماه';
+$labels['day'] = 'روز';
+$labels['date'] = 'تاریخ (yyyy-mm-dd)';
+$labels['julian'] = 'تاریخ (میلادی)';
+$labels['hour'] = 'ساعت';
+$labels['minute'] = 'دقیقه';
+$labels['second'] = 'ثانیه';
+$labels['time'] = 'ساعت (hh:mm:ss)';
+$labels['iso8601'] = 'تاریخ (ISO8601)';
+$labels['std11'] = 'تاریخ (RFC2822)';
+$labels['zone'] = 'منطقه زمانی';
+$labels['weekday'] = 'روز هفته (0-6)';
+$labels['advancedopts'] = 'گزینه‌های پیشرفته';
+$labels['body'] = 'بدنه';
+$labels['address'] = 'نشانی';
+$labels['envelope'] = 'پاکت';
+$labels['modifier'] = 'تغییر دهنده:';
+$labels['text'] = 'متن‌';
+$labels['undecoded'] = 'کد نشده (خام)';
+$labels['contenttype'] = 'نوع محتوا';
+$labels['modtype'] = 'نوع';
+$labels['allparts'] = 'همه';
+$labels['domain'] = 'دامنه';
+$labels['localpart'] = 'قسمت محلی';
+$labels['user'] = 'کاربر';
+$labels['detail'] = 'جزئیات';
+$labels['comparator'] = 'مقایسه:';
+$labels['default'] = 'پیش‌فرض';
+$labels['octet'] = 'سخت (octet)';
+$labels['asciicasemap'] = 'حساس به حروه کوچک و بزرگ (ascii-casemap)';
+$labels['asciinumeric'] = 'عددی (ascii-numeric)';
+$labels['index'] = 'فهرست:';
+$labels['indexlast'] = 'به عقب';
+$messages['filterunknownerror'] = 'خطای سرور نامعلوم.';
+$messages['filterconnerror'] = 'ناتوانی در اتصال به سرور.';
+$messages['filterdeleteerror'] = 'ناتوانی در حذف صافی. خطای سرور رخ داد.';
+$messages['filterdeleted'] = 'صافی با موفقیت حذف شد.';
+$messages['filtersaved'] = 'صافی با موفقیت ذخیره شد.';
+$messages['filtersaveerror'] = 'ناتوانی در ذخیره فیلتر. خطای سرور رخ داد.';
+$messages['filterdeleteconfirm'] = 'آیا مطمئن به حذف صافی انتخاب شده هستید؟';
+$messages['ruledeleteconfirm'] = 'آیا مطمئن هستید که می خواهید قانون انتخاب شده را حذف کنید؟';
+$messages['actiondeleteconfirm'] = 'آیا مطمئن هستید که می خواهید عمل انتخاب شده را حذف کنید.';
+$messages['forbiddenchars'] = 'حروف ممنوعه در فیلد.';
+$messages['cannotbeempty'] = 'فیلد نمی تواند خالی باشد.';
+$messages['ruleexist'] = 'صافی با این نام مشخص وجود دارد.';
+$messages['setactivateerror'] = 'ناتوان در فعال کردن مجموعه صافی‌ها انتخاب شده. خطای سرور رخ داد.';
+$messages['setdeactivateerror'] = 'ناتوان در غیرفعال کردن مجموعه صافی‌ها انتخاب شده. خطای سرور رخ داد.';
+$messages['setdeleteerror'] = 'ناتوان در حذف مجموعه صافی‌ها انتخاب شده. خطای سرور رخ داد.';
+$messages['setactivated'] = 'مجموعه صافی‌ها با موفقیت فعال شد.';
+$messages['setdeactivated'] = 'مجموعه صافی‌ها با موفقیت غیرفعال شد.';
+$messages['setdeleted'] = 'مجموعه صافی‌ها با موفقیت حذف شد.';
+$messages['setdeleteconfirm'] = 'آیا مطمئن هستید که می‌خواهید مجموعه صافی‌ها انتخاب شده را حذف کنید؟';
+$messages['setcreateerror'] = 'ناتوانی در ایجاد مجموعه صافی‌ها. خطای سرور رخ داد.';
+$messages['setcreated'] = 'مجموعه صافی‌ها با موفقیت ایجاد شد.';
+$messages['activateerror'] = 'ناتوانی در فعال کردن صافی(های) انتخاب شده. خطای سرور رخ داد.';
+$messages['deactivateerror'] = 'ناتوانی در غیرفعال کردن صافی(های) انتخاب شده. خطای سرور رخ داد.';
+$messages['deactivated'] = 'صافی(ها) با موفقیت فعال شدند.';
+$messages['activated'] = 'صافی(ها) با موفقیت غیرفعال شدند.';
+$messages['moved'] = 'صافی با موفقیت منتقل شد.';
+$messages['moveerror'] = 'ناتوانی در انتقال صافی انتخاب شده. خطای سرور رخ داد.';
+$messages['nametoolong'] = 'نام خیلی بلند.';
+$messages['namereserved'] = 'نام رزرو شده.';
+$messages['setexist'] = 'مجموعه در حال حاضر موجود است.';
+$messages['nodata'] = 'حداقل باید یک موقعیت باید انتخاب شود.';
+$messages['invaliddateformat'] = 'قالب تاریخ اشتباه';
+?>

@@ -1,0 +1,114 @@
+/*
+ * @package AJAX_Chat
+ * @author Sebastian Tschan
+ * @copyright (c) Sebastian Tschan
+ * @license Modified MIT License
+ * @link https://blueimp.net/ajax/
+ */
+
+
+/*
+ * Print layout
+ */
+
+@media print {
+
+	#content {
+		position:static;
+	}
+	#content #copyright {
+		display:none;
+	}
+	#content #headlineContainer {
+		display:none;
+	}
+	#content #logoutChannelContainer {
+		display:none;
+	}
+	#content #statusIconContainer {
+		display:none;
+	}
+	#content #chatList {
+		position:static;
+		overflow:visible;
+	}
+	#content #inputFieldContainer {
+		display:none;
+	}
+	#content #submitButtonContainer {
+		display:none;
+	}
+	#content #onlineListContainer {
+		display:none;
+	}
+	#content #helpContainer {
+		display:none;
+	}
+	#content #settingsContainer {
+		display:none;
+	}
+	#content #bbCodeContainer {
+		display:none;
+	}
+	#content #colorCodesContainer {
+		display:none;
+	}
+	#content #emoticonsContainer {
+		display:none;
+	}
+	#content #optionsContainer {
+		display:none;
+	}
+	#content #chatList div {
+		padding-bottom:5px;
+	}
+	#content #chatList img {
+		vertical-align:middle;
+		margin-bottom:2px;
+	}
+	#content #chatList cite {
+		margin-right:5px;
+	}
+	#content #chatList .delete {
+	    display:none;
+	}
+	
+	#content #chatList {
+		border:none;
+	}
+	
+	#content {
+		font-family:'times new roman', times, serif;
+		font-size:1.0em;
+		text-align:justify;
+	}
+	#content #chatList code {
+		font-size:0.8em;
+	}
+	
+	#content {
+		color:#000;
+	}
+	#content .guest {
+		color:gray;
+	}
+	#content .user {
+		color:#000;
+	}
+	#content .moderator {
+		color:#00AA00;
+	}
+	#content .admin {
+		color:red;
+	}
+	#content .chatBot {
+		color:#FF6600;
+	}
+	#content #chatList .chatBotErrorMessage {
+		color:red;
+	}
+	#content #chatList a {
+		color:#1E90FF;
+	}
+
+}

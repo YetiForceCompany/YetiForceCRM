@@ -1,0 +1,9 @@
+#AJAXChatBlock{
+width:600px;
+top:40px;
+position: fixed;
+z-index: 9999;
+border:1px solid #A1A1A1;
+right: -603px;
+box-shadow: 0 0 10px 0px #B8B8B8;
+}

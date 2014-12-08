@@ -1,0 +1,54 @@
+{*<!--
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+-->*}
+{strip}
+<div class="container-fluid">
+	<div class="clearfix treeView">
+		<form id="PassForm" class="form-horizontal">
+			<div class="widget_header row-fluid">
+				<div class="span8"><h3>{vtranslate($MODULE, $MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $MODULE)}</div>
+			</div>
+			<hr>
+			<table class="table table-bordered table-condensed themeTableColor">
+				<thead>
+					<tr class="blockHeader"><th colspan="2" class="mediumWidthType">{vtranslate('LBL_Password_Header', $MODULE)}</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Minimum password length', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="text" name="min_length" id="min_length" value="{$DETAIL['min_length']}" /></td>
+					</tr>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Maximum password length', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="text" name="max_length" id="max_length" value="{$DETAIL['max_length']}" /></td>
+					</tr>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Uppercase letters from A to Z', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="checkbox" name="big_letters" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} /></td>
+					</tr>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Lowercase letters a to z', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="checkbox" name="small_letters" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} /></td>
+					</tr>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain numbers', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="checkbox" name="numbers" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} /></td>
+					</tr>
+					<tr>
+						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain special characters', $MODULE)}</label></td>
+						<td style="border-left: none;"><input type="checkbox" name="special" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} /></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+{/strip}

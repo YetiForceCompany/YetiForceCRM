@@ -1,0 +1,23 @@
+.imageHolder.bigLoading{
+	width: 300px;
+}
+.imageHolder.smallLoading{
+	width: 100px;
+	background: inherit;
+	padding: 0;
+}
+.gridster ul li.dashboardWidget{
+	overflow: hidden;
+}
+.btn-toolbar .btn-group.hide{
+	display: none;
+}
+.dropdown-menu{
+	text-align: left;
+}
+.rightText{
+	text-align: right;
+}
+.defaultMarginP p {
+	margin: 0;
+}

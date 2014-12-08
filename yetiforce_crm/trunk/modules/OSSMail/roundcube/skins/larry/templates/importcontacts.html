@@ -1,0 +1,34 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body>
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen">
+
+<div id="addressbooktoolbar" class="toolbar">
+	<roundcube:button command="list" type="link" class="button back disabled" classAct="button back" classSel="button back pressed" label="back" />
+</div>
+
+<div id="pluginbody" class="offset uibox contentbox">
+<h2 class="boxtitle"><roundcube:label name="importcontacts" /></h2>
+
+<div id="import-box" class="boxcontent">
+<roundcube:object name="importstep" class="propform" />
+<br/>
+<p class="formbuttons">
+	<roundcube:object name="importnav" class="button" />
+</p>
+</div>
+
+</div>
+</div>
+
+<roundcube:include file="/includes/footer.html" />
+
+</body>
+</html>

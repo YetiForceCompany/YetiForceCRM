@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>rc_openpgpjs test suite</title>
+	</head>
+	<body>
+		<div id="info">
+			<h1>rc_openpgpjs test suite</h1>
+			Click <a href="#" onclick="runAll();">here</a> to run all tests.
+		</div>
+		<div id="container" style="float:left;">
+			<div id="keygen">
+				<h2>Keygen</h2>
+				Bits: 
+				<select id="gen_bits">
+					<option value="1024">1024</option>
+					<option value="2048">2048</option>
+					<option value="4096">4096</option>
+				</select>
+				Passphrase: 
+				<input type="text" id="gen_passphrase" value="test" />
+				<input type="submit" onclick="testGenerateKeys();" value="Generate keypair" />
+				<div>
+					<textarea id="privkey"></textarea>
+					<textarea id="pubkey"></textarea>
+				</div>
+			</div>
+
+
+			<div id="encrypt">
+				<h2>Encrypt</h2>
+				<input type="text" id="string_to_encrypt" value="String to encrypt..." />
+				<input type="button" value="Encrypt" onclick="testEncrypt();" />
+				<input type="button" value="Encrypt & sign" onclick="testEncryptAndSign();" />
+				<div>
+					<textarea id="encrypted"></textarea>
+				</div>
+			</div>
+
+			<div id="sign">
+				<h2>Sign</h2>
+				<input type="text" id="string_to_sign" value="String to sign..." />
+				<input type="button" value="Sign" onclick="testSign();" />
+				<div>
+					<textarea id="signed"></textarea>
+				</div>
+			</div>
+		</div>
+		<div id="debug" style="float:right;min-width:50%;padding:5px;"></div>
+		<script type="text/javascript" src="../../../program/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/openpgp.min.js"></script>
+		<script type="text/javascript" src="../js/rc_openpgpjs.crypto.js"></script>
+		<script type="text/javascript">
+			openpgp.init();
+			openpgp.config.debug = true;
+
+			resetDebug();
+
+			function testDecrypt() {
+				var msg = openpgp.read_message($("#encrypted").html());
+				return decrypt(msg, $("#privkey").html(), $("#gen_passphrase").val());
+			}
+
+			function testGenerateKeys() {
+				try {
+					bits = $("#gen_bits option:selected").text();
+					keys = generateKeys(bits, 1, "test <test@foo.bar>", $("#gen_passphrase").val());
+					$("#privkey").html(keys["private"]);
+					$("#pubkey").html(keys["public"]);
+					return true;
+				} catch(e) {
+					return false;
+				}
+			}
+
+			function testEncrypt() {
+				var pubkeys = new Array();
+				var pub_key = openpgp.read_publicKey($("#pubkey").html());
+				pubkeys.push(pub_key[0]);
+
+				try {
+					encrypted = encrypt(pubkeys, $("#string_to_encrypt").val());
+					$("#encrypted").html(encrypted);
+					return true;
+				} catch(e) {
+					return false;
+				}
+			}
+
+			function testSign() {
+				try {
+					signed = sign($("#string_to_sign").val(), $("#privkey").html(), $("#gen_passphrase").val());
+					$("#signed").html(signed);
+					return true;
+				} catch(e) {
+					return false;
+				}
+			}
+
+			function testEncryptAndSign() {
+				var pubkeys = new Array();
+				// read armored keys
+				var priv_key = openpgp.read_privateKey($("#privkey").html());
+				var pub_key = openpgp.read_publicKey($("#pubkey").html());
+				pubkeys.push(pub_key[0]);
+
+				try {
+					encrypted = encrypt(pubkeys, $("#string_to_encrypt").val(), 1, priv_key, $("#gen_passphrase").val());
+					$("#encrypted").html(encrypted);
+					return true;
+				} catch(e) {
+					return false;
+				}
+			}
+
+			function runAll() {
+				resetDebug();
+				var fail = new Array();
+				var success = new Array();
+				var tests = new Array("testGenerateKeys", "testEncrypt", "testDecrypt", "testEncryptAndSign", "testSign");
+				for(var i = 0; i < tests.length; i++)
+				{
+					if(window[tests[i]]()) {
+						success.push(tests[i]);
+					} else {
+						fail.push(tests[i]);
+					}
+				}
+				alert("All tests completed, success: " + success.length + ", fail: " + fail.length);
+				if(fail.length > 0) {
+					var fails = "";
+					for(var i = 0; i < fail.length; i++) {
+						var fails = fails + fail[i] + ", ";
+					}
+					alert("The following tests failed: " + fails);
+				}
+			}
+
+			function showMessages(msg) { $("#debug").append(msg); }
+
+			function resetDebug() {
+				$("#debug").html("<strong>Debug</strong> <input type='button' onclick='resetDebug();' value='reset' />");
+			}
+		</script>
+	</body>
+</html>
