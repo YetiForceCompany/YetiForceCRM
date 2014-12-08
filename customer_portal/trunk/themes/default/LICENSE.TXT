@@ -1,0 +1,33 @@
+Default Theme - MYC Vtiger Customer Portal Theme
+============================================
+
+
+This theme has been built using several other open source libraries
+whose details are given below:
+
+
+JQuery
+----------------------------------------------------------------------
+http://jquery.com/
+
+
+Choosen JS
+----------------------------------------------------------------------
+http://harvesthq.github.io/chosen/
+
+
+Twitter Bootstrap 3
+----------------------------------------------------------------------
+http://getbootstrap.com/
+
+
+Start Bootstrap - SB Admin 2 Theme
+----------------------------------------------------------------------
+http://startbootstrap.com/template-overviews/sb-admin-2/
+
+
+This Theme is distribuited under GNU General Public License (GPL) 
+----------------------------------------------------------------------
+http://www.gnu.org/licenses/gpl.txt
+
+Copyright 2014 Proseguo s.l. - MakeYourCloud
