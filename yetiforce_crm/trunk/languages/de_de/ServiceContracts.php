@@ -9,6 +9,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = array(
+	'Services'	=>	'Dienstleistungen',
+	'In Progress'	=>	'In Arbeit',
 	// Basic Strings
 	'ServiceContracts' => 'Serviceverträge',
 	'Service Contracts' => 'Serviceverträge',

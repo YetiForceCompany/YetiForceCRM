@@ -43,7 +43,7 @@
 					<a href="#" class="btn btn-large btn-primary bt_install">
 						{vtranslate('LBL_INSTALL_BUTTON','Install')}
 					</a>
-					<a style="display: none;" href="#" class="btn btn-large btn-primary bt_migrate">
+					<a style="" href="#" class="btn btn-large btn-primary bt_migrate">
 						{vtranslate('LBL_MIGRATION','Install')}
 					</a>
 				</div>

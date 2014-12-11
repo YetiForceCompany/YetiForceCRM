@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v12.01 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce
 *********************************************************************
 */
 
@@ -1320,26 +1320,6 @@ CREATE TABLE `vtiger_contactsubdetails` (
   `leadsource` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`contactsubscriptionid`),
   CONSTRAINT `fk_1_vtiger_contactsubdetails` FOREIGN KEY (`contactsubscriptionid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_continent` */
-
-DROP TABLE IF EXISTS `vtiger_continent`;
-
-CREATE TABLE `vtiger_continent` (
-  `continentid` int(11) NOT NULL AUTO_INCREMENT,
-  `continent` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`continentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_continent_seq` */
-
-DROP TABLE IF EXISTS `vtiger_continent_seq`;
-
-CREATE TABLE `vtiger_continent_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contpotentialrel` */
@@ -6765,26 +6745,6 @@ CREATE TABLE `vtiger_subindustry` (
 DROP TABLE IF EXISTS `vtiger_subindustry_seq`;
 
 CREATE TABLE `vtiger_subindustry_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_symbol` */
-
-DROP TABLE IF EXISTS `vtiger_symbol`;
-
-CREATE TABLE `vtiger_symbol` (
-  `symbolid` int(11) NOT NULL AUTO_INCREMENT,
-  `symbol` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`symbolid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_symbol_seq` */
-
-DROP TABLE IF EXISTS `vtiger_symbol_seq`;
-
-CREATE TABLE `vtiger_symbol_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

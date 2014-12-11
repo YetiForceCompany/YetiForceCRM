@@ -8,6 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_ATTACHED'	=>	'Angehängt',
 	'Date & Time Sent'             => 'Sendedatum'                   , 
 	'Emails'                       => 'Emails'                      , 
 	'LBL_ADD_BCC'                  => 'Bcc hinzufügen'                     , 
@@ -21,7 +22,6 @@ $languageStrings = array(
 	'LBL_MAIL_DATE' => 'EMaildatum',
 	'LBL_DRAFTED_ON'               => 'entwerfen'                  , 
 	'LBL_DRAFT' => 'Entwurf',
-	'LBL_ATTACHES' => 'angehängt',
     'LBL_EMAIL_INFORMATION' => 'E-Mail Informationen',
 	'LBL_EXCEEDED'                 => 'Überschritten'                    , 
 	'LBL_FORWARD'                  => 'Weiterleiten'                     , 

@@ -8,6 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_BASIC_EXPORT'	=>	'Exportiere Grunddaten',
+	'no'	=>	'Nein',
+	'yes'	=>	'Ja',
+	'Inactive'	=>	'Inaktiv',
+	'Active'	=>	'Aktiv',
 	'Users' => 'Benutzer',
 	'Admin' => 'Admin',
 	'Asterisk Configuration'  =>  'Asterisk Konfiguration',

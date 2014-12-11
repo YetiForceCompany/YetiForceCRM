@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Add Project Task'	=>	'Projekt Aufgabe hinzufügen',
 	// Basic Strings
 	'SINGLE_Project' => 'Projekt',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',

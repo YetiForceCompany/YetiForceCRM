@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Inactive'	=>	'Inaktiv',
+	'Active'	=>	'Aktiv',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Outsourcing-Produkte',
 	'SINGLE_OutsourcedProducts' => 'Outsourcing-Produkt',

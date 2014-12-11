@@ -8,6 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Training'	=>	'Training',
+	'Customization'	=>	'Anpassung',
+	'Migration'	=>	'Migration',
+	'Installation'	=>	'Installation',
+	'Support'	=>	'Support',
 	// Basic Strings
 	'Services' => 'Dienstleistungen',
 	'SINGLE_Services' => 'Dienstleistung',

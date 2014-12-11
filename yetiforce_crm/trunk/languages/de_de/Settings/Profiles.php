@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'CreateCustomFilter'	=>	'Benutzerdefinierte Filter-Erstellung',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_CHOOSE_PROFILES' => 'Profil auswählen',
 	'LBL_CREATE_PROFILE' => 'Profil erstellen',

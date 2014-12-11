@@ -8,8 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'Cron Job' => 'Zeitplan Aufgaben',
-	'CronTasks' => 'Zeitplan Aufgaben',
+	'Cron Job' => 'CRON Aufgabe',
+	'CronTasks' => 'CRON Aufgaben',
 	'Frequency' => 'Frequenz',
 	'Frequency(H:M)' => 'Frequenz(h:m)',
 	'Id' => 'Id',

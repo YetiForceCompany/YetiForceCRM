@@ -14,7 +14,7 @@ jQuery.Class('Install_Index_Js', {}, {
 			jQuery('form[name="step1"]').submit();
 		});
 		jQuery('.bt_migrate').on('click', function(e){
-			jQuery('input[name="mode"]').val('mStep2');
+			jQuery('input[name="mode"]').val('mStep0');
 			jQuery('form[name="step1"]').submit();
 		});
 	},
@@ -259,7 +259,7 @@ jQuery.Class('Install_Index_Js', {}, {
 		var step = jQuery('#step').val();
 		if(step == 'm3'){
 			var migrationURL = jQuery('input[name="migrationURL"]').val();
-			/*
+			
 			var interval = setInterval(function(){
 				$.ajax({
 					url: 'Install.php?mode=loadProgressBar&ajax=true'
@@ -274,7 +274,7 @@ jQuery.Class('Install_Index_Js', {}, {
 					}
 				});
 			}, 2000);
-			*/
+			
 			$.ajax({
 				type: "GET",
 				url: migrationURL,

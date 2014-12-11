@@ -40,7 +40,7 @@ $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
 $config['plugins'] = array('autologon','identity_smtp');
-$config['language'] = 'pl_PL';
+$config['language'] = $default_language;
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");
 $config['ip_check'] = false;///

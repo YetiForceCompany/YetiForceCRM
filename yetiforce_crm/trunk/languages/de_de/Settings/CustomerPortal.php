@@ -24,7 +24,7 @@ $languageStrings = array(
 	'LBL_PRIVILEGES_MESSAGE' => "Diese Berechtigungen bekommt der Portalbenutzer",
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Die Tickets werden dem ausgewählten Standard Verantwortlichen aus dem Kundenportal zugewiesen.',
 	'LBL_PORTAL_URL_MESSAGE' => 'Dies ist die URL für das Portal, in dem Ihre Kontakte sich anmelden können, um Tickets einzureichen oder zu verfolgen, einen Zugang zur Wissensbasis zu haben und noch mehr. Kontakten werden die Login-Daten gesendet, wenn der Portalzugriff in den Kontaktdaten aktiviert wird.',
-	'LBL_DRAG_AND_DROP_MESSAGE' => 'Drag & Drop der Module, um Sie im Kundenportal neu zu ordnen',
+	'LBL_DRAG_AND_DROP_MESSAGE' => 'Ziehen/Ablegen der Module, um Sie im Kundenportal neu zu ordnen',
 );
 
 $jsLanguageStrings = array(

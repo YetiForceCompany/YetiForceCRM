@@ -40,7 +40,6 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Next',
 	'LBL_ONE_LAST_THING' => 'One last thing...',
 	'LBL_PASSWORD_MISMATCH' => 'Please re-enter passwords.  The \"Password\" and \"Re-type password\" values do not match.',
-	'LBL_PASSWORD' => 'Password',
 	'LBL_PHP_CONFIGURATION' => 'PHP Configuration',
 	'LBL_PHP_RECOMMENDED_SETTINGS'=>'Recommended PHP Settings',
 	'LBL_PHP_VERSION' => 'PHP Version',
@@ -81,6 +80,8 @@ $languageStrings = array(
 	'LBL_HAVE_BACKUP_FILES'=>'I have back-up copy of files',
 	'LBL_LOGIN'=>'Login',
 	'LBL_PASSWORD'=>'Password',
+	'LBL_ADMIN_LOGIN'=>'Admin - Login',
+	'LBL_ADMIN_PASSWORD'=>'Admin - Password',
 	'LBL_SOURCE_DIRECTORY'=>'Local address of the system',
 	'LBL_SYSTEM_FOR_MIGRATION'=>'System for migration',
 	'LBL_SELECT'=>'-- Select --',
@@ -88,6 +89,8 @@ $languageStrings = array(
 	'LBL_END_MIGRATION'=>'End',
 	'LBL_MIGRATION_SYSTEM_FINISH'=>'Zakończono migrację systemu YetiForce CRM',
 	'LBL_EXAMPLE_DIRECTORY'=>'Example',
+	'LBL_ACCEPT'=>'I accept changes',
+	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warning!</strong> During the migration you will loose all data related to the following modules: MailManager, EmailTemplates, Workflows. <br /> Please be aware that migration is still in its testing stage so you should make all possible back-up copies and follow security procedures in case of any unforeseen events.',
 );
 
 $jsLanguageStrings = array(

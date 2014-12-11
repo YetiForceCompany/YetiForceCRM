@@ -8,6 +8,8 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_LANGUAGE_NOTIFICATIONS'	=>	'Sprach Benachrichtigung',
+	'Email'	=>	'Primäre E-Mail',
 	'Member Of' => 'Mitglied von',
 	'Assistant'                    => 'Assistent'                   , 
 	'Assistant Phone'              => 'Telefon Assistent'           , 

@@ -900,8 +900,7 @@ ALTER TABLE `vtiger_products`
 	CHANGE `productid` `productid` int(19)   NOT NULL first , 
 	ADD COLUMN `pscategory` varchar(200)  COLLATE utf8_general_ci NULL after `productcode` , 
 	CHANGE `manufacturer` `manufacturer` varchar(200)  COLLATE utf8_general_ci NULL after `pscategory` , 
-	ADD COLUMN `pssubcategory` varchar(255)  COLLATE utf8_general_ci NULL after `currency_id` , 
-	DROP COLUMN `productcategory` ;
+	ADD COLUMN `pssubcategory` varchar(255)  COLLATE utf8_general_ci NULL after `currency_id` ; 
 	
 ALTER TABLE `vtiger_project` 
 	CHANGE `projectid` `projectid` int(19)   NOT NULL first , 

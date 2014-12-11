@@ -46,6 +46,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$this->exposeMethod('Step6');
 		$this->exposeMethod('Step7');
 		//Migrate
+		$this->exposeMethod('mStep0');
+		$this->exposeMethod('mStep1');
 		$this->exposeMethod('mStep2');
 		$this->exposeMethod('mStep3');
     }
@@ -253,7 +255,35 @@ class Install_Index_view extends Vtiger_View_Controller {
         }
     }
 	
-    public function mStep2(Vtiger_Request $request) {
+	public function mStep0(Vtiger_Request $request) {
+		$schemaLists = Install_InitSchema_Model::getMigrationSchemaList();
+		$root_directory = getcwd();
+		if(substr($root_directory, -1) != '/'){
+			$root_directory = $root_directory . '/';
+		}
+        $viewer = new Vtiger_Viewer();
+		$viewer->assign('LANG', $request->get('lang'));
+        $viewer->setTemplateDir('install/tpl/');
+		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('SCHEMALISTS', $schemaLists);
+		echo $viewer->fetch('mStep0.tpl');
+	}
+	
+	public function mStep1(Vtiger_Request $request) {
+		$schemaLists = Install_InitSchema_Model::getMigrationSchemaList();
+		$root_directory = getcwd();
+		if(substr($root_directory, -1) != '/'){
+			$root_directory = $root_directory . '/';
+		}
+        $viewer = new Vtiger_Viewer();
+		$viewer->assign('LANG', $request->get('lang'));
+        $viewer->setTemplateDir('install/tpl/');
+		$viewer->assign('EXAMPLE_DIRECTORY', $root_directory);
+		$viewer->assign('SCHEMALISTS', $schemaLists);
+		echo $viewer->fetch('mStep1.tpl');
+	}
+	
+	public function mStep2(Vtiger_Request $request) {
 		$schemaLists = Install_InitSchema_Model::getMigrationSchemaList();
 		$root_directory = getcwd();
 		if(substr($root_directory, -1) != '/'){

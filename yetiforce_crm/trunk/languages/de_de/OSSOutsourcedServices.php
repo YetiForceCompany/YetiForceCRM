@@ -9,6 +9,8 @@
  ************************************************************************************/
 
 $languageStrings = array(
+	'Inactive'	=>	'Inaktiv',
+	'Active'	=>	'Aktiv',
 'OSSOutsourcedServices' => 'Outsourcing-Dienste',
 'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
 'LBL_INFORMATION' => 'Informationsblock',

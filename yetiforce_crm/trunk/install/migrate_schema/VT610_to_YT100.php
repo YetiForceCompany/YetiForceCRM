@@ -20,6 +20,9 @@ include_once('vtlib/Vtiger/Event.php');
 include_once('vtlib/Vtiger/Webservice.php');
 include_once('vtlib/Vtiger/Version.php');
 require_once 'includes/runtime/Cache.php';
+require_once 'modules/com_vtiger_workflow/include.inc';
+require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 
 class VT610_to_YT100 {
@@ -41,14 +44,13 @@ class VT610_to_YT100 {
 		self::load_default_menu();
 		self::addModule();
 		self::settingsReplace();
-		//if(self::checkModuleExists('OSSMenuManager'))
-		//	self::menuManager();
 		self::addBlocks();
 		self::addFields();
+		self::picklists();
 		self::InactiveFields();
 		
-		$fieldsToDelete = array('Assets'=>array('account',"shippingtrackingnumber"),
-		'Contacts'=>array('mailingcity',"mailingstreet",'mailingcountry',"othercountry",'mailingstate',"mailingpobox",'othercity',"otherstate",'mailingzip',"otherzip",'otherstreet',"otherpobox","accountid","fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
+		$fieldsToDelete = array(
+		'Contacts'=>array('mailingcity',"mailingstreet",'mailingcountry',"othercountry",'mailingstate',"mailingpobox",'othercity',"otherstate",'mailingzip',"otherzip",'otherstreet',"otherpobox"),
 		'Invoice'=>array('s_h_amount',"adjustment",'s_h_percent','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
 		'Leads'=>array('city',"code",'state','country','lane','leadaddresstype','pobox',"emailoptout","designation","rating"),
 		'PurchaseOrder'=>array('s_h_percent',"s_h_amount",'adjustment','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
@@ -59,6 +61,10 @@ class VT610_to_YT100 {
 		);
 		self::deleteFields($fieldsToDelete);
 		self::handlers();
+		self::worflowEnityMethod();
+		self::deleteWorkflow();
+		self::addWorkflowType();
+		self::addWorkflow();
 		self::addEmployees();
 		$log->debug("Exiting VT610_to_YT100::process() method ...");
 	}
@@ -66,7 +72,15 @@ class VT610_to_YT100 {
 	public function addModule(){
 		global $log;
 		$log->debug("Entering VT610_to_YT100::addModule() method ...");
-		$modules = array('OSSMail', 'OSSMailTemplates', 'Password', 'OSSTimeControl', 'OSSMenuManager', 'OSSMailScanner','OSSPdf', 'OSSMailView', 'OSSDocumentControl', 'OSSProjectTemplates', 'OSSOutsourcedServices', 'OSSSoldServices', 'OutsourcedProducts', 'OSSPasswords', 'OSSEmployees', 'Calculations', 'OSSCosts', 'AJAXChat');
+		
+		$modules = array();
+		foreach(new DirectoryIterator('install/migrate_schema/VT610_to_YT100') as $file){
+			if(!$file->isDot()){
+				if( strpos($file->getFilename(), '.xml') !== false){
+					$modules[]= str_replace(".xml", "",$file->getFilename()) ;
+				}
+			}
+		}
 		foreach($modules AS $module){
 			try {
 				if(!self::checkModuleExists($module)){
@@ -123,7 +137,7 @@ class VT610_to_YT100 {
 		}
 	}
 	public function load_default_menu( ) {
-        $adb = PearDatabase::getInstance();
+		$adb = PearDatabase::getInstance();
 		
 		//menu manager
 		$menu_manager = array();
@@ -207,8 +221,6 @@ class VT610_to_YT100 {
 		global $log;
 		$log->debug("Entering VT610_to_YT100::settingsReplace() method ...");
 		$adb = PearDatabase::getInstance();
-		//clear vtiger_settings_blocks table
-		//$adb->pquery("DELETE FROM `vtiger_settings_blocks`", array(), true);
 		//add new record
 		$settings_blocks = array();
 		$settings_blocks[] = array('LBL_USER_MANAGEMENT',1);
@@ -325,9 +337,7 @@ class VT610_to_YT100 {
 		$settings_field[] = array("LBL_STUDIO","LBL_QUICK_CREATE_EDITOR", "","LBL_QUICK_CREATE_EDITOR_DESCRIPTION","index.php?module=QuickCreateEditor&parent=Settings&view=Index","11","0","0");
 		$settings_field[] = array("LBL_INTEGRATION","LBL_API_ADDRESS","","LBL_API_ADDRESS_DESCRIPTION","index.php?module=ApiAddress&parent=Settings&view=Configuration","4","0","0");
 		$settings_field[] = array("LBL_SECURITY_MANAGEMENT","LBL_BRUTEFORCE","","LBL_BRUTEFORCE_DESCRIPTION","index.php?module=BruteForce&parent=Settings&view=Show","20","0","0");
-		
-		
-		
+
 		foreach ($settings_field AS $field){
 			try {
 				if(!self::checkFieldExists( $field, 'Settings' )){
@@ -366,7 +376,7 @@ class VT610_to_YT100 {
 		require_once('include/events/include.inc');
 		global $adb;
 		
-		$removeClass = array('RecurringInvoiceHandler','HelpDeskHandler','ModTrackerHandler','PBXManagerHandler','PBXManagerBatchHandler','ServiceContractsHandler','InvoiceHandler','PurchaseOrderHandler','ModCommentsHandler','Vtiger_RecordLabelUpdater_Handler','SECURE');
+		$removeClass = array('none'=>'RecurringInvoiceHandler','none1'=>'HelpDeskHandler','ModTracker'=>'ModTrackerHandler','none2'=>'PBXManagerHandler','none3'=>'PBXManagerBatchHandler','ServiceContracts'=>'ServiceContractsHandler','Invoice'=>'InvoiceHandler','PurchaseOrder'=>'PurchaseOrderHandler','none4'=>'ModCommentsHandler','Home'=>'Vtiger_RecordLabelUpdater_Handler','none5'=>'SECURE');
 		$addHandler = array();
 		$addHandler[] = array('vtiger.entity.beforeunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
 		$addHandler[] = array('vtiger.entity.afterunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
@@ -395,11 +405,14 @@ class VT610_to_YT100 {
 		
 		try {
 			$em = new VTEventsManager($adb);
-			foreach($removeClass as $handlerClass)
+			foreach($removeClass as $moduleName=>$handlerClass){
 				$em->unregisterHandler($handlerClass);
-
-			foreach($addHandler as $handler)
+				if (strpos($moduleName, 'none') === false) 
+					$em->setModuleForHandler($moduleName, $handlerClass);
+			}
+			foreach($addHandler as $handler){
 				$em->registerHandler($handler[0], $handler[1], $handler[2], $handler[3], $handler[5]);
+			}
 		} catch (Exception $e) {
 			Install_InitSchema_Model::addMigrationLog('handlers '.$e->getMessage(),'error');
 		}
@@ -415,6 +428,195 @@ class VT610_to_YT100 {
 		}
 		return true;
 	}
+	
+	public function worflowEnityMethod (){
+		global $log, $adb;
+		$log->debug("Entering VT610_to_YT100::worflowEnityMethod() method ...");
+		// delete all entity method
+		$adb->query("DELETE FROM `com_vtiger_workflowtasks_entitymethod` ");
+		//add new entity method
+		$task_entity_method = array();
+		$task_entity_method[] = array('SalesOrder','UpdateInventory','modules/Inventory/handlers/InventoryHandler.php','handleInventoryProductRel');
+		$task_entity_method[] = array('Invoice','UpdateInventory','modules/Inventory/handlers/InventoryHandler.php','handleInventoryProductRel');
+		$task_entity_method[] = array('Contacts','CreatePortalLoginDetails','modules/Contacts/handlers/ContactsHandler.php','Contacts_createPortalLoginDetails');
+		$task_entity_method[] = array('ModComments','CustomerCommentFromPortal','modules/ModComments/handlers/ModCommentsHandler.php','CustomerCommentFromPortal');
+		$task_entity_method[] = array('ModComments','TicketOwnerComments','modules/ModComments/handlers/ModCommentsHandler.php','TicketOwnerComments');
+		$task_entity_method[] = array('PurchaseOrder','UpdateInventory','modules/Inventory/handlers/InventoryHandler.php','handleInventoryProductRel');
+		$emm = new VTEntityMethodManager($adb);
+		foreach($task_entity_method as $method){
+			$emm->addEntityMethod($method[0], $method[1], $method[2], $method[3]);
+		}
+		$log->debug("Exiting VT610_to_YT100::worflowEnityMethod() method ...");
+	}
+	public function deleteWorkflow (){
+		global $log, $adb;
+		$log->debug("Entering VT610_to_YT100::deleteWorkflow() method ...");
+		// delete all tasks
+		$adb->query('UPDATE com_vtiger_workflows SET defaultworkflow = "0";');
+		$result = $adb->query('SELECT * FROM com_vtiger_workflows ');
+		for($i=0;$i<$adb->num_rows($result);$i++){
+			$recordId = $adb->query_result($result, $i, 'workflow_id');
+			$recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
+			$recordModel->delete();
+		}
+		$log->debug("Exiting VT610_to_YT100::deleteWorkflow() method ...");
+	}
+	public function addWorkflowType (){
+		global $log, $adb;
+		$log->debug("Entering VT610_to_YT100::addWorkflowType() method ...");
+		
+		$newTaskType = array();
+		$newTaskType[] = array('VTEmailTemplateTask','Email Template Task','VTEmailTemplateTask','modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.inc','com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl','{""include"":[],""exclude"":[]}', '');
+		$newTaskType[] = array('VTSendPdf','Send Pdf','VTSendPdf","modules/com_vtiger_workflow/tasks/VTSendPdf.inc','com_vtiger_workflow/taskforms/VTSendPdf.tpl','{""include"":[],""exclude"":[]}', '');
+		
+		foreach($newTaskType as $taskType){
+			$taskTypeId = $adb->getUniqueID("com_vtiger_workflow_tasktypes");
+			$adb->pquery("INSERT INTO com_vtiger_workflow_tasktypes (id, tasktypename, label, classname, classpath, templatepath, modules, sourcemodule) values (?,?,?,?,?,?,?,?)", array($taskTypeId, $taskType[0], $taskType[1], $taskType[2],  $taskType[3], $taskType[4], $taskType[5], $taskType[6]));
+		}
+		$log->debug("Exiting VT610_to_YT100::addWorkflowType() method ...");
+	}
+	public function addWorkflow (){
+		global $log, $adb;
+		$log->debug("Entering VT610_to_YT100::addWorkflow() method ...");
+		
+		$workflow = array();
+		$workflow[] = array('Invoice','UpdateInventoryProducts On Every Save','[{"fieldname":"subject","operation":"does not contain","value":"`!`"}]',3,1,'basic',5,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(1));
+		$workflow[] = array('Events','Workflow for Events when Send Notification is True','[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,1,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(79));
+		$workflow[] = array('Calendar','Workflow for Calendar Todos when Send Notification is True','[{"fieldname":"sendnotification","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,1,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(80));
+		$workflow[] = array('PurchaseOrder','Update Inventory Products On Every Save',NULL,3,1,'basic',5,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(2));
+		$workflow[] = array('HelpDesk','Ticket change: Send Email to Record Owner','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(77));
+		$workflow[] = array('HelpDesk','Ticket change: Send Email to Record Contact','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(contact_id : (Contacts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(76));
+		$workflow[] = array('HelpDesk','Ticket change: Send Email to Record Account','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is not","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(75));
+		$workflow[] = array('HelpDesk','Ticket Closed: Send Email to Record Owner','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(74));
+		$workflow[] = array('HelpDesk','Ticket Closed: Send Email to Record Contact','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(contact_id : (Contacts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(73));
+		$workflow[] = array('HelpDesk','Ticket Closed: Send Email to Record Account','[{"fieldname":"ticketstatus","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(72));
+		$workflow[] = array('HelpDesk','Ticket Creation: Send Email to Record Owner','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(71));
+		$workflow[] = array('HelpDesk','Ticket Creation: Send Email to Record Contact','[{"fieldname":"(contact_id : (Contacts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(70));
+		$workflow[] = array('HelpDesk','Ticket Creation: Send Email to Record Account','[{"fieldname":"(parent_id : (Accounts) emailoptout)","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(69));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Weryfikacja danych','[{"fieldname":"sales_stage","operation":"is","value":"Data verification","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(3));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Wewnętrzna analiza Klienta','[{"fieldname":"sales_stage","operation":"is","value":"Customer internal analysis","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(4,5,6));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Pierwszy kontakt z Klientem','[{"fieldname":"sales_stage","operation":"is","value":"First contact with a customer","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(7,8,9,10,11,12));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Zaawansowana analiza biznesowa','[{"fieldname":"sales_stage","operation":"is","value":"Advanced business analysis","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(13,14,15,16,17));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Przygotowywanie kalkulacji','[{"fieldname":"sales_stage","operation":"is","value":"Preparation of calculations","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(18,19,20));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Przygotowywanie oferty','[{"fieldname":"sales_stage","operation":"is","value":"Preparation of offers","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(21,22,23,24,25));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Oczekiwanie na decyzje','[{"fieldname":"sales_stage","operation":"is","value":"Awaiting a decision","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(26));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Negocjacje','[{"fieldname":"sales_stage","operation":"is","value":"Negotiations","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(27,28,29,30,31,32,33,34));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Zamówienie i umowa','[{"fieldname":"sales_stage","operation":"is","value":"Order and contract","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(35,36,37,38,39,40,41));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Weryfikacja dokumentów','[{"fieldname":"sales_stage","operation":"is","value":"Documentation verification","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(42,43,44));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Sprzedaż wygrana - oczekiwanie na realizacje','[{"fieldname":"sales_stage","operation":"is","value":"Closed Waiting for processing","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(45,46,47));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Sprzedaż wygrana - realizacja zamówienia/umowy','[{"fieldname":"sales_stage","operation":"is","value":"Closed Order\\/contract processing","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(48,49));
+		$workflow[] = array('Potentials','Proces sprzedażowy - Sprzedaż wygrana - działania posprzedażowe','[{"fieldname":"sales_stage","operation":"is","value":"Closed Presale activities","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(50,51,52,53));
+		$workflow[] = array('Leads','Proces marketingowy - Weryfikacja danych','[{"fieldname":"leadstatus","operation":"is","value":"LBL_REQUIRES_VERIFICATION","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(54));
+		$workflow[] = array('Leads','Proces marketingowy - Wstępna analiza','[{"fieldname":"leadstatus","operation":"is","value":"LBL_PRELIMINARY_ANALYSIS_OF","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(55,56));
+		$workflow[] = array('Leads','Proces marketingowy - Zaawansowana analiza','[{"fieldname":"leadstatus","operation":"is","value":"LBL_ADVANCED_ANALYSIS","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(57,58,59,60,61,62,63,64));
+		$workflow[] = array('Leads','Proces marketingowy - Wstępne pozyskanie','[{"fieldname":"leadstatus","operation":"is","value":"LBL_INITIAL_ACQUISITION","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(65,66,67));
+		$workflow[] = array('Leads','Proces marketingowy - Kontakt w przyszłości','[{"fieldname":"leadstatus","operation":"is","value":"LBL_CONTACTS_IN_THE_FUTURE","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(68));
+		$workflow[] = array('Contacts','Generate Customer Login Details','[{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(78));
+		$workflow[] = array('Contacts','Send Customer Login Details','[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL, 'task'=>array(81));
+		
+		$workflowTask[1] = array('','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:1;s:7:"summary";s:0:"";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:1;}');
+		$workflowTask[2] = array('Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:16;s:7:"summary";s:25:"Update Inventory Products";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:18;}');
+		$workflowTask[3] = array('Weryfikacja danych','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"34";s:7:"summary";s:18:"Weryfikacja danych";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:18:"Weryfikacja danych";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:38;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[4] = array('Zapoznanie się z historią współpracy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"35";s:7:"summary";s:40:"Zapoznanie się z historią współpracy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:40:"Zapoznanie się z historią współpracy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:09";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:4:"High";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:41;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[5] = array('Zapoznanie się z aktualnościami na stronie Klienta','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"35";s:7:"summary";s:52:"Zapoznanie się z aktualnościami na stronie Klienta";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:52:"Zapoznanie się z aktualnościami na stronie Klienta";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:4:"High";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:42;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[6] = array('Zapoznanie się z aktualnościami społecznościowymi','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"35";s:7:"summary";s:53:"Zapoznanie się z aktualnościami społecznościowymi";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:53:"Zapoznanie się z aktualnościami społecznościowymi";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:4:"High";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:43;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[7] = array('Kontakt telefoniczny lub mailowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:32:"Kontakt telefoniczny lub mailowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Kontakt telefoniczny lub mailowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:44;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[8] = array('Przypisanie osoby decyzyjnej do szansy sprzedaży','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:49:"Przypisanie osoby decyzyjnej do szansy sprzedaży";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:49:"Przypisanie osoby decyzyjnej do szansy sprzedaży";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:45;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[9] = array('Wstępna analiza potrzeb Klienta','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:32:"Wstępna analiza potrzeb Klienta";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Wstępna analiza potrzeb Klienta";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:46;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[10] = array('Uzupełnienie wstępnych ustaleń na szansie sprzedażowej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:58:"Uzupełnienie wstępnych ustaleń na szansie sprzedażowej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:58:"Uzupełnienie wstępnych ustaleń na szansie sprzedażowej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:47;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[11] = array('Ustalenie terminu kolejnego kontaktu','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:36:"Ustalenie terminu kolejnego kontaktu";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:36:"Ustalenie terminu kolejnego kontaktu";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:48;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[12] = array('Wysłanie maila z podziękowaniem za rozmowę oraz podsumowaniem ustaleń','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"36";s:7:"summary";s:73:"Wysłanie maila z podziękowaniem za rozmowę oraz podsumowaniem ustaleń";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:73:"Wysłanie maila z podziękowaniem za rozmowę oraz podsumowaniem ustaleń";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:49;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[13] = array('Uzupełnienie informacji o: "Zainteresowany produktami"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"37";s:7:"summary";s:55:"Uzupełnienie informacji o: "Zainteresowany produktami"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:55:"Uzupełnienie informacji o: "Zainteresowany produktami"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:50;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[14] = array('Uzupełnienie informacji o: "Zainteresowany usługami"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"37";s:7:"summary";s:54:"Uzupełnienie informacji o: "Zainteresowany usługami"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:54:"Uzupełnienie informacji o: "Zainteresowany usługami"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:51;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[15] = array('Uzupełnienie informacji o: "Produkty obce"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"37";s:7:"summary";s:43:"Uzupełnienie informacji o: "Produkty obce"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:43:"Uzupełnienie informacji o: "Produkty obce"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:24";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:52;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[16] = array('Uzupełnienie informacji o: "Usługi obce"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"37";s:7:"summary";s:42:"Uzupełnienie informacji o: "Usługi obce"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:42:"Uzupełnienie informacji o: "Usługi obce"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:24";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:53;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[17] = array('Uzupełnienie dodatkowych ustaleń na szansie sprzedażowej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"37";s:7:"summary";s:59:"Uzupełnienie dodatkowych ustaleń na szansie sprzedażowej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:59:"Uzupełnienie dodatkowych ustaleń na szansie sprzedażowej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:25";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:54;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[18] = array('Utworzenie kalkulacji o statusie "Do przygotowania"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"38";s:7:"summary";s:51:"Utworzenie kalkulacji o statusie "Do przygotowania"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:51:"Utworzenie kalkulacji o statusie "Do przygotowania"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:55;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[19] = array('Monitorowanie przygotowywanych kalkulacji','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"38";s:7:"summary";s:41:"Monitorowanie przygotowywanych kalkulacji";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:41:"Monitorowanie przygotowywanych kalkulacji";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:56;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[20] = array('Weryfikacja przygotowanych kalkulacji','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"38";s:7:"summary";s:37:"Weryfikacja przygotowanych kalkulacji";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:37:"Weryfikacja przygotowanych kalkulacji";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:57;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[21] = array('Utworzenie oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"39";s:7:"summary";s:17:"Utworzenie oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:17:"Utworzenie oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:58;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[22] = array('Przygotowywanie oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"39";s:7:"summary";s:22:"Przygotowywanie oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:22:"Przygotowywanie oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:59;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[23] = array('Weryfikacja przygotowanej oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"39";s:7:"summary";s:32:"Weryfikacja przygotowanej oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Weryfikacja przygotowanej oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:60;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[24] = array('Akceptacja oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"39";s:7:"summary";s:17:"Akceptacja oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:17:"Akceptacja oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:61;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[25] = array('Wysyłka oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"39";s:7:"summary";s:15:"Wysyłka oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:15:"Wysyłka oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:32";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:62;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[26] = array('Monitorowanie decyzji w sprawie oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"40";s:7:"summary";s:38:"Monitorowanie decyzji w sprawie oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:38:"Monitorowanie decyzji w sprawie oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:34";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:63;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[27] = array('Utworzenie kalkulacji o statusie "Do przygotowania"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:51:"Utworzenie kalkulacji o statusie "Do przygotowania"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:51:"Utworzenie kalkulacji o statusie "Do przygotowania"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:64;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[28] = array('Monitorowanie przygotowywanych kalkulacji','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:41:"Monitorowanie przygotowywanych kalkulacji";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:41:"Monitorowanie przygotowywanych kalkulacji";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:65;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[29] = array('Weryfikacja przygotowanych kalkulacji','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:37:"Weryfikacja przygotowanych kalkulacji";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:37:"Weryfikacja przygotowanych kalkulacji";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:66;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[30] = array('Utworzenie oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:17:"Utworzenie oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:17:"Utworzenie oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:67;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[31] = array('Przygotowywanie oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:22:"Przygotowywanie oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:22:"Przygotowywanie oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:68;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[32] = array('Weryfikacja przygotowanej oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:32:"Weryfikacja przygotowanej oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Weryfikacja przygotowanej oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:69;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[33] = array('Uzyskanie akceptacji dla oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:31:"Uzyskanie akceptacji dla oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:31:"Uzyskanie akceptacji dla oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:70;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[34] = array('Wysyłka oferty','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"41";s:7:"summary";s:15:"Wysyłka oferty";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:15:"Wysyłka oferty";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:71;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[35] = array('Tworzenie zamówienia/umowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:27:"Tworzenie zamówienia/umowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:27:"Tworzenie zamówienia/umowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:72;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[36] = array('Weryfikacja od strony technicznej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:33:"Weryfikacja od strony technicznej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:33:"Weryfikacja od strony technicznej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:73;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[37] = array('Weryfikacja od strony finansowej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:32:"Weryfikacja od strony finansowej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Weryfikacja od strony finansowej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:74;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[38] = array('Weryfikacja od strony prawnej','O:16:"VTCreateTodoTask":17:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:29:"Weryfikacja od strony prawnej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:29:"Weryfikacja od strony prawnej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:1:"3";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:75;}');
+		$workflowTask[39] = array('Uzyskanie akceptacji dla zamówienia/umowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:42:"Uzyskanie akceptacji dla zamówienia/umowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:42:"Uzyskanie akceptacji dla zamówienia/umowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:76;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[40] = array('Wysyłka zamówienia/umowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:26:"Wysyłka zamówienia/umowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:26:"Wysyłka zamówienia/umowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:77;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[41] = array('Monitorowanie otrzymania oryginałów podpisanych dokumentów','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"42";s:7:"summary";s:61:"Monitorowanie otrzymania oryginałów podpisanych dokumentów";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:61:"Monitorowanie otrzymania oryginałów podpisanych dokumentów";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:50";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:78;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[42] = array('Weryfikacja od strony finansowej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"43";s:7:"summary";s:32:"Weryfikacja od strony finansowej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Weryfikacja od strony finansowej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:79;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[43] = array('Weryfikacja od strony prawnej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"43";s:7:"summary";s:29:"Weryfikacja od strony prawnej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:29:"Weryfikacja od strony prawnej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:80;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[44] = array('Wysłanie informacji do Klienta w sprawie zamówienia/usługi','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"43";s:7:"summary";s:61:"Wysłanie informacji do Klienta w sprawie zamówienia/usługi";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:61:"Wysłanie informacji do Klienta w sprawie zamówienia/usługi";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:81;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[45] = array('Uzupełnienie informacji o: "Produkty sprzedane"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"44";s:7:"summary";s:48:"Uzupełnienie informacji o: "Produkty sprzedane"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:48:"Uzupełnienie informacji o: "Produkty sprzedane"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:82;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[46] = array('Uzupełnienie informacji o: "Usługi sprzedane"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"44";s:7:"summary";s:47:"Uzupełnienie informacji o: "Usługi sprzedane"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:47:"Uzupełnienie informacji o: "Usługi sprzedane"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:83;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[47] = array('Utworzenie projektów/zadań/etapów w celu realizacji zamówienia/umowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"44";s:7:"summary";s:72:"Utworzenie projektów/zadań/etapów w celu realizacji zamówienia/umowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:72:"Utworzenie projektów/zadań/etapów w celu realizacji zamówienia/umowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:84;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[48] = array('Monitorowanie realizacji projektów','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"45";s:7:"summary";s:35:"Monitorowanie realizacji projektów";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:35:"Monitorowanie realizacji projektów";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:85;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[49] = array('Ogólna weryfikacja procesu sprzedażowego','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"45";s:7:"summary";s:42:"Ogólna weryfikacja procesu sprzedażowego";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:42:"Ogólna weryfikacja procesu sprzedażowego";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:86;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[50] = array('Ocena procesu realizacji przez Klienta','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"46";s:7:"summary";s:38:"Ocena procesu realizacji przez Klienta";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:38:"Ocena procesu realizacji przez Klienta";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:87;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[51] = array('Ocena Klienta pod względem współpracy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"46";s:7:"summary";s:40:"Ocena Klienta pod względem współpracy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:40:"Ocena Klienta pod względem współpracy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:88;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[52] = array('Wyznaczenie kolejnych kontaktów na najbliższe 6 miesięcy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"46";s:7:"summary";s:59:"Wyznaczenie kolejnych kontaktów na najbliższe 6 miesięcy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:59:"Wyznaczenie kolejnych kontaktów na najbliższe 6 miesięcy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:89;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[53] = array('Utworzenie nowej szansy sprzedaży z datą przyszłą','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"46";s:7:"summary";s:53:"Utworzenie nowej szansy sprzedaży z datą przyszłą";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:53:"Utworzenie nowej szansy sprzedaży z datą przyszłą";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:90;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[54] = array('Weryfikacja danych','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"47";s:7:"summary";s:18:"Weryfikacja danych";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:18:"Weryfikacja danych";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:91;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[55] = array('Zapoznanie się z aktualnościami na stronie','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"48";s:7:"summary";s:44:"Zapoznanie się z aktualnościami na stronie";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:44:"Zapoznanie się z aktualnościami na stronie";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:92;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[56] = array('Zapoznanie się z aktualnościami społecznościowymi','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"48";s:7:"summary";s:53:"Zapoznanie się z aktualnościami społecznościowymi";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:53:"Zapoznanie się z aktualnościami społecznościowymi";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:93;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[57] = array('Kontakt telefoniczny lub mailowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:32:"Kontakt telefoniczny lub mailowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Kontakt telefoniczny lub mailowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:94;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[58] = array('Określenie osoby decyzyjnej','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:28:"Określenie osoby decyzyjnej";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:28:"Określenie osoby decyzyjnej";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:95;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[59] = array('Prezentacja doświadczenia firmy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:32:"Prezentacja doświadczenia firmy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Prezentacja doświadczenia firmy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:96;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[60] = array('Prezentacja produktów i usług','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:31:"Prezentacja produktów i usług";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:31:"Prezentacja produktów i usług";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:97;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[61] = array('Wstępna analiza potrzeb Klienta','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:32:"Wstępna analiza potrzeb Klienta";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Wstępna analiza potrzeb Klienta";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:98;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[62] = array('Uzupełnienie informacji o: "Usługi obce"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:42:"Uzupełnienie informacji o: "Usługi obce"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:42:"Uzupełnienie informacji o: "Usługi obce"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:99;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[63] = array('Uzupełnienie informacji o: "Produkty obce"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:43:"Uzupełnienie informacji o: "Produkty obce"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:43:"Uzupełnienie informacji o: "Produkty obce"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:100;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[64] = array('Uzupełnienie wstępnych ustaleń w systemie','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"49";s:7:"summary";s:44:"Uzupełnienie wstępnych ustaleń w systemie";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:44:"Uzupełnienie wstępnych ustaleń w systemie";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:101;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[65] = array('Uszczegółowienie potrzeb Klienta','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"50";s:7:"summary";s:34:"Uszczegółowienie potrzeb Klienta";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:34:"Uszczegółowienie potrzeb Klienta";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:102;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[66] = array('Uzupełnienie informacji o: "Zainteresowany usługami"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"50";s:7:"summary";s:54:"Uzupełnienie informacji o: "Zainteresowany usługami"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:54:"Uzupełnienie informacji o: "Zainteresowany usługami"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:103;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[67] = array('Uzupełnienie informacji o: "Zainteresowany produktami"','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"50";s:7:"summary";s:55:"Uzupełnienie informacji o: "Zainteresowany produktami"";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:55:"Uzupełnienie informacji o: "Zainteresowany produktami"";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:104;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[68] = array('Kontakt telefoniczny lub mailowy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"51";s:7:"summary";s:32:"Kontakt telefoniczny lub mailowy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:32:"Kontakt telefoniczny lub mailowy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:105;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
+		$workflowTask[69] = array('Notify Account On Ticket Create','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"33";s:7:"summary";s:31:"Notify Account On Ticket Create";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"40";s:11:"attachments";s:0:"";s:5:"email";s:25:"parent_id=Accounts=email1";s:10:"copy_email";s:0:"";s:2:"id";i:106;}');
+		$workflowTask[70] = array('Notify Contact On Ticket Create','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"32";s:7:"summary";s:31:"Notify Contact On Ticket Create";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"39";s:11:"attachments";s:0:"";s:5:"email";s:25:"contact_id=Contacts=email";s:10:"copy_email";s:0:"";s:2:"id";i:107;}');
+		$workflowTask[71] = array('Notify Owner On Ticket Create','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"31";s:7:"summary";s:29:"Notify Owner On Ticket Create";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"43";s:11:"attachments";s:0:"";s:5:"email";s:29:"assigned_user_id=Users=email1";s:10:"copy_email";s:0:"";s:2:"id";i:108;}');
+		$workflowTask[72] = array('Notify Account On Ticket Closed','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"30";s:7:"summary";s:31:"Notify Account On Ticket Closed";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"38";s:11:"attachments";s:0:"";s:5:"email";s:25:"parent_id=Accounts=email1";s:10:"copy_email";s:0:"";s:2:"id";i:109;}');
+		$workflowTask[73] = array('Notify Contact On Ticket Closed','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"29";s:7:"summary";s:31:"Notify Contact On Ticket Closed";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"37";s:11:"attachments";s:0:"";s:5:"email";s:25:"contact_id=Contacts=email";s:10:"copy_email";s:0:"";s:2:"id";i:110;}');
+		$workflowTask[74] = array('Notify Owner On Ticket Closed','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"28";s:7:"summary";s:29:"Notify Owner On Ticket Closed";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"42";s:11:"attachments";s:0:"";s:5:"email";s:29:"assigned_user_id=Users=email1";s:10:"copy_email";s:0:"";s:2:"id";i:111;}');
+		$workflowTask[75] = array('Notify Account On Ticket Change','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"27";s:7:"summary";s:31:"Notify Account On Ticket Change";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"36";s:11:"attachments";s:0:"";s:5:"email";s:25:"parent_id=Accounts=email1";s:10:"copy_email";s:0:"";s:2:"id";i:112;}');
+		$workflowTask[76] = array('Notify Contact On Ticket Change','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"26";s:7:"summary";s:31:"Notify Contact On Ticket Change";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"41";s:11:"attachments";s:0:"";s:5:"email";s:25:"contact_id=Contacts=email";s:10:"copy_email";s:0:"";s:2:"id";i:113;}');
+		$workflowTask[77] = array('Notify Owner On Ticket Change','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"25";s:7:"summary";s:29:"Notify Owner On Ticket Change";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"35";s:11:"attachments";s:0:"";s:5:"email";s:29:"assigned_user_id=Users=email1";s:10:"copy_email";s:0:"";s:2:"id";i:114;}');
+		$workflowTask[78] = array('Create Portal Login Details','O:18:"VTEntityMethodTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"52";s:7:"summary";s:27:"Create Portal Login Details";s:6:"active";b:0;s:7:"trigger";N;s:10:"methodName";s:24:"CreatePortalLoginDetails";s:2:"id";i:116;}');
+		$workflowTask[79] = array('Send Notification is True','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"13";s:7:"summary";s:25:"Send Notification is True";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"45";s:11:"attachments";s:0:"";s:5:"email";s:29:"assigned_user_id=Users=email1";s:10:"copy_email";s:0:"";s:2:"id";i:118;}');
+		$workflowTask[80] = array('Notification Email to Record Owner','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"14";s:7:"summary";s:34:"Notification Email to Record Owner";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"46";s:11:"attachments";s:0:"";s:5:"email";s:29:"assigned_user_id=Users=email1";s:10:"copy_email";s:0:"";s:2:"id";i:119;}');
+		$workflowTask[81] = array('Send Customer Login Details','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"53";s:7:"summary";s:27:"Send Customer Login Details";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"44";s:11:"attachments";s:0:"";s:5:"email";s:5:"email";s:10:"copy_email";s:0:"";s:2:"id";i:120;}');
+		
+		$workflowManager = new VTWorkflowManager($adb);
+		$taskManager = new VTTaskManager($adb);
+		foreach($workflow as $record){
+			$newWorkflow = $workflowManager->newWorkFlow($record[0]);
+			$newWorkflow->description = $record[1];
+			$newWorkflow->test = $record[2];
+			$newWorkflow->executionCondition = $record[3];
+			$newWorkflow->defaultworkflow = $record[4];
+			$newWorkflow->type = $record[5];
+			$newWorkflow->filtersavedinnew = $record[6];
+			$workflowManager->save($newWorkflow);
+			foreach($record['task'] as $indexTask){
+				$task = $taskManager->unserializeTask($workflowTask[$indexTask][1]);
+				$task->id = '';
+				$task->workflowId = $newWorkflow->id;
+				$taskManager->saveTask($task);
+			}
+		}
+		$log->debug("Exiting VT610_to_YT100::addWorkflow() method ...");
+	}
+
 	public function blocksTable(){
 		global $log;
 		$log->debug("Entering VT610_to_YT100::blocksTable() method ...");
@@ -440,7 +642,7 @@ class VT610_to_YT100 {
 		$blocksPotentials = array(array('LBL_SUMMARY',6,0,0,0,0,0,1,0),array('LBL_FINANSIAL_SUMMARY',2,0,0,0,0,0,1,1),array('LBL_SHARING_INFORMATION',4,0,0,0,0,0,0,1));
 		$blocksCampaigns = array(array('LBL_SHARING_INFORMATION',4,0,0,0,0,0,0,1));
 		$blocksProject = array(array('LBL_SUMMARY',5,0,0,0,0,0,1,0),array('LBL_SHARING_INFORMATION',3,0,0,0,0,0,0,1));
-		$blocksAssets = array(array('BLOCK_INFORMATION_TIME',3,0,0,0,0,0,1,1));
+		$blocksAssets = array(array('BLOCK_INFORMATION_TIME',3,0,0,0,0,0,1,1),array('LBL_SHARING_INFORMATION',5,0,0,0,0,0,1,1));
 
 		$moduleBlocks = array(
 		'OSSPdf'=>$blocksOSSPdf,
@@ -476,24 +678,7 @@ class VT610_to_YT100 {
 		}
 		return $setBlockToCRM;
 	}
-	/*public function menuManager(){
-		global $log;
-		$log->debug("Entering VT610_to_YT100::menuManager() method ...");
-		$adb = PearDatabase::getInstance();
 
-		try {
-			$result = $adb->query("SELECT * FROM `vtiger_ossmenumanager` ;", true);
-		} catch (Exception $e) {
-			Install_InitSchema_Model::addMigrationLog('menuManager '.$e->getMessage(),'error');
-		}
-		
-		if(!$adb->num_rows($result)){
-			$recordModel = Vtiger_Record_Model::getCleanInstance( 'OSSMenuManager' );
-			$recordModel->load_default_menu();
-		}
-		Install_InitSchema_Model::addMigrationLog('menuManager');
-	}*/
-	// self::addBlocks($setBlockToCRM);
 	public function addBlocks(){
 		global $log;
 		$log->debug("Entering VT610_to_YT100::addBlocks() method ...");
@@ -559,7 +744,7 @@ class VT610_to_YT100 {
 	public function getFieldsAll(){
 		global $log;
 		$log->debug("Entering VT610_to_YT100::getFieldsAll() method ...");
-		$columnName = array("tabid","id","column","table","generatedtype","uitype","name","label","readonly","presence","defaultvalue","maximumlength","sequence","block","displaytype","typeofdata","quickcreate","quicksequence","info_type","masseditable","helpinfo","summaryfield","columntype","blocklabel","setpicklistvalues");
+		$columnName = array("tabid","id","column","table","generatedtype","uitype","name","label","readonly","presence","defaultvalue","maximumlength","sequence","block","displaytype","typeofdata","quickcreate","quicksequence","info_type","masseditable","helpinfo","summaryfield","columntype","blocklabel","setpicklistvalues","setrelatedmodules");
 
 		$tab = 8;
 		$Documents = array(
@@ -569,8 +754,8 @@ class VT610_to_YT100 {
 		$tab = 42;
 		$ProjectTask = array(
 		array("42","816","sum_time","vtiger_projecttask","1","7","sum_time","Total time [h]","1","2","","100","10","104","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_PROJECT_TASK_INFORMATION"),
-		array("42","1318","parentid","vtiger_projecttask","2","10","parentid","Parent ID","1","2","","100","11","104","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_PROJECT_TASK_INFORMATION"),
-		array("42","1319","projectmilestoneid","vtiger_projecttask","2","10","projectmilestoneid","ProjectMilestone","1","2","","100","12","104","1","V~M","2", "","BAS","1","0","0","int(19)","LBL_PROJECT_TASK_INFORMATION"),
+		array("42","1318","parentid","vtiger_projecttask","2","10","parentid","Parent ID","1","2","","100","11","104","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_PROJECT_TASK_INFORMATION",array(),array('ProjectTask')),
+		array("42","1319","projectmilestoneid","vtiger_projecttask","2","10","projectmilestoneid","ProjectMilestone","1","2","","100","12","104","1","V~M","2", "","BAS","1","0","0","int(19)","LBL_PROJECT_TASK_INFORMATION",array(),array('ProjectMilestone')),
 		array("42","1320","targetenddate","vtiger_projecttask","2","5","targetenddate","Target End Date","1","2","","100","6","105","1","D~O","1", "","BAS","1","0","0","date","LBL_CUSTOM_INFORMATION")
 		);
 
@@ -602,7 +787,7 @@ class VT610_to_YT100 {
 		array("43","826","sum_time","vtiger_project","1","7","sum_time","Total time [Project]","1","2","","100","1","132","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_SUMMARY"),
 		array("43","830","sum_time_h","vtiger_project","1","7","sum_time_h","Total time [Tickets]","1","2","","100","5","132","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_SUMMARY"),
 		array("43","832","sum_time_all","vtiger_project","1","7","sum_time_all","Total time [Sum]","1","2","","100","7","132","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_SUMMARY"),
-		array("43","1044","servicecontractsid","vtiger_project","2","10","servicecontractsid","ServiceContracts","1","2","","100","11","107","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_PROJECT_INFORMATION"),
+		array("43","1044","servicecontractsid","vtiger_project","2","10","servicecontractsid","ServiceContracts","1","2","","100","11","107","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_PROJECT_INFORMATION",array(),array('ServiceContracts')),
 		array("43","1381","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","1","203","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SHARING_INFORMATION")
 		);
 
@@ -613,8 +798,8 @@ class VT610_to_YT100 {
 		$tab = 13;
 		$HelpDesk = array(
 		array("13","814","sum_time","vtiger_troubletickets","1","7","sum_time","Total time [h]","1","2","","100","21","25","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_TICKET_INFORMATION"),
-		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION"),
-		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION"),
+		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('Project')),
+		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
 		array("13","1383","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","1","204","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SHARING_INFORMATION")
 		);
@@ -666,7 +851,7 @@ class VT610_to_YT100 {
 		array("4","1295","buildingnumberb","vtiger_contactaddress","1","1","buildingnumberb","Building number","1","2","","100","1","178","1","V~O~LE~100","1", "","BAS","1","0","0","varchar(100)","LBL_ADDRESS_MAILING_INFORMATION"),
 		array("4","1296","localnumberb","vtiger_contactaddress","1","1","localnumberb","Local number","1","2","","100","2","178","1","V~O~LE~100","1", "","BAS","1","0","0","varchar(100)","LBL_ADDRESS_MAILING_INFORMATION"),
 		array("4","1278","verification","vtiger_contactdetails","2","33","verification","Werification data","1","2","","100","3","5","1","V~O","1", "","BAS","1","0","0","text","LBL_CUSTOM_INFORMATION"),
-		array("4","72","parentid","vtiger_contactdetails","2","10","parent_id","Member Of","1","2","","100","6","4","1","I~O","2","6","BAS","1","0","1","int(19)","LBL_CONTACT_INFORMATION"),
+		array("4","72","parentid","vtiger_contactdetails","2","10","parent_id","Member Of","1","2","","100","6","4","1","I~O","2","6","BAS","1","0","1","int(19)","LBL_CONTACT_INFORMATION",array(),array('Accounts','Leads')),
 		array("4","1368","secondary_email","vtiger_contactdetails","2","13","secondary_email","Secondary Email","1","2","","100","4","197","1","E~O","1", "","BAS","1","0","0","varchar(50)","LBL_CONTACT_INFO"),
 		array("4","1385","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","1","205","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SHARING_INFORMATION"),
 		array("4","1391","notifilanguage","vtiger_contactdetails","2","32","notifilanguage","LBL_LANGUAGE_NOTIFICATIONS","1","2","","100","4","6","1","V~O","1", "","BAS","1","0","0","varchar(100)","LBL_CUSTOMER_PORTAL_INFORMATION")
@@ -860,7 +1045,7 @@ class VT610_to_YT100 {
 		array("23","1351","total_purchase","vtiger_invoice","1","7","total_purchase","Total Purchase","1","2","","100","1","70","3","NN~O","3","24","BAS","1","0","0","decimal(13,2)","LBL_RELATED_PRODUCTS"),
 		array("23","1352","total_margin","vtiger_invoice","1","7","total_margin","Total margin","1","2","","100","2","70","3","NN~O","3","25","BAS","1","0","0","decimal(13,2)","LBL_RELATED_PRODUCTS"),
 		array("23","1353","total_marginp","vtiger_invoice","1","7","total_marginp","Total margin Percentage","1","2","","100","3","70","3","NN~O","3","26","BAS","1","0","0","decimal(13,2)","LBL_RELATED_PRODUCTS"),
-		array("23","1367","potentialid","vtiger_invoice","2","10","potentialid","Potential","1","2","","100","27","67","1","V~M","1","27","BAS","1","0","0","int(19)","LBL_INVOICE_INFORMATION")
+		array("23","1367","potentialid","vtiger_invoice","2","10","potentialid","Potential","1","2","","100","27","67","1","V~M","1","27","BAS","1","0","0","int(19)","LBL_INVOICE_INFORMATION",array(),array('Potentials'))
 		);
 
 
@@ -888,9 +1073,12 @@ class VT610_to_YT100 {
 		$tab = 37;
 		$Assets = array(
 		array("37","818","sum_time","vtiger_assets","1","7","sum_time","Total time [h]","1","2","","100","1","192","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","BLOCK_INFORMATION_TIME"),
-		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION"),
-		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION"),
-		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION")
+		array("37","1324","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","97","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array("37","1420","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","1","218","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SHARING_INFORMATION"),
+		array("37","1421","shownerid","vtiger_crmentity","1","120","shownerid","Share with users","1","2","","100","2","218","1","V~O","1", "","BAS","1","0","0","set('1')","LBL_SHARING_INFORMATION"),
+		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
+		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Accounts','Contacts','Leads')),
+		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials'))
 		);
 
 		$setToCRM = array('OSSMailTemplates'=>$OSSMailTemplates,'OSSEmployees'=>$OSSEmployees,'Users'=>$Users,'PurchaseOrder'=>$PurchaseOrder,'Vendors'=>$Vendors,'Accounts'=>$Accounts,'Contacts'=>$Contacts,'Leads'=>$Leads,'SalesOrder'=>$SalesOrder,'Invoice'=>$Invoice,'Quotes'=>$Quotes,'OSSCosts'=>$OSSCosts,'Calculations'=>$Calculations,'Campaigns'=>$Campaigns,'Assets'=>$Assets,'HelpDesk'=>$HelpDesk,'Project'=>$Project,'OSSPasswords'=>$OSSPasswords,'OSSMailView'=>$OSSMailView,'OSSTimeControl'=>$OSSTimeControl,'OutsourcedProducts'=>$OutsourcedProducts,'OSSSoldServices'=>$OSSSoldServices,'OSSOutsourcedServices'=>$OSSOutsourcedServices,'Services'=>$Services,'OSSPdf'=>$OSSPdf,'ServiceContracts'=>$ServiceContracts,'Products'=>$Products,'ProjectTask'=>$ProjectTask,'Documents'=>$Documents,'Potentials'=>$Potentials);
@@ -909,21 +1097,27 @@ class VT610_to_YT100 {
 		return $setToCRMAfter;
 	}
 	public function addFields(){
-		global $log;
+		global $log, $adb;
 		$log->debug("Entering VT610_to_YT100::addFields() method ...");
 		include_once('vtlib/Vtiger/Module.php'); 
-		$moduleToCopyValues = array('Contacts'=>array(array('table'=>'vtiger_contactaddress','copy'=>'addresslevel8a = mailingstreet, addresslevel5a = mailingcity, addresslevel1a = mailingcountry, addresslevel2a = mailingstate, addresslevel7a = mailingzip, addresslevel8b = otherstreet, addresslevel5b = othercity, addresslevel2b = otherstate, addresslevel1b = othercountry,  addresslevel7b = otherzip'),array('table'=>'vtiger_contactdetails','copy'=>'secondary_email = secondaryemail')),
+		$moduleToCopyValues = array('Contacts'=>array(array('table'=>'vtiger_contactaddress','copy'=>'addresslevel8a = mailingstreet, addresslevel5a = mailingcity, addresslevel1a = mailingcountry, addresslevel2a = mailingstate, addresslevel7a = mailingzip, addresslevel8b = otherstreet, addresslevel5b = othercity, addresslevel2b = otherstate, addresslevel1b = othercountry,  addresslevel7b = otherzip'),array('table'=>'vtiger_contactdetails','copy'=>'secondary_email = secondaryemail'),array('table'=>'vtiger_contactdetails','copy'=>'parentid = accountid')),
 		'Accounts'=>array('newTab'=>'vtiger_accountaddress', 'oldTab1'=>'vtiger_accountbillads', 'oldTab2'=>'vtiger_accountshipads', 'newId'=>'accountaddressid', 'oldId1'=>'accountaddressid', 'oldId2'=>'accountaddressid'),
 		'Invoice'=>array('newTab'=>'vtiger_invoiceaddress', 'oldTab1'=>'vtiger_invoicebillads', 'oldTab2'=>'vtiger_invoiceshipads', 'newId'=>'invoiceaddressid', 'oldId1'=>'invoicebilladdressid', 'oldId2'=>'invoiceshipaddressid'),
-		'Invoice'=>array('newTab'=>'vtiger_purchaseorderaddress', 'oldTab1'=>'vtiger_pobillads', 'oldTab2'=>'vtiger_poshipads', 'newId'=>'purchaseorderaddressid', 'oldId1'=>'pobilladdressid', 'oldId2'=>'poshipaddressid'),
+		'PurchaseOrder'=>array('newTab'=>'vtiger_purchaseorderaddress', 'oldTab1'=>'vtiger_pobillads', 'oldTab2'=>'vtiger_poshipads', 'newId'=>'purchaseorderaddressid', 'oldId1'=>'pobilladdressid', 'oldId2'=>'poshipaddressid'),
 		'Vendors'=>array(),
+		'Assets'=>array(array('table'=>'vtiger_assets','copy'=>'parent_id = account')),
 		'Leads'=>array(array('table'=>'vtiger_leadaddress','copy'=>'addresslevel8a = lane, addresslevel5a = city, addresslevel1a = country, addresslevel2a = state, addresslevel7a = code'),array('table'=>'vtiger_leaddetails','copy'=>'noapprovalemails = emailoptout'))
 			);
 		$setToCRMAfter = self::getFieldsAll();
 		foreach($setToCRMAfter as $moduleName=>$fields){
 			foreach($fields as $field){
-				if(self::checkFieldExists($field))
+				if(self::checkFieldExists($field)){
+					if($field['column'] == 'end_hour'){
+						$sql = "UPDATE vtiger_field SET `uitype` = ? WHERE `columnname` = ? AND `tablename` = ?;";
+						$adb->pquery($sql, array(16,$field['column'], 'vtiger_users'), true);
+					}
 					continue;
+				}
 				try {
 					$moduleInstance = Vtiger_Module::getInstance($moduleName);
 					$blockInstance = Vtiger_Block::getInstance($field['blocklabel'],$moduleInstance);
@@ -949,6 +1143,9 @@ class VT610_to_YT100 {
 					$blockInstance->addField($fieldInstance);
 					if($field['setpicklistvalues'] && ($field['uitype'] == 15 || $field['uitype'] == 16 || $field['uitype'] == 33 ))
 						$fieldInstance->setPicklistValues($field['setpicklistvalues']);
+					if($field['setrelatedmodules'] && $field['uitype'] == 10){
+						$fieldInstance->setRelatedModules($field['setrelatedmodules']);
+					}
 				} catch (Exception $e) {
 					Install_InitSchema_Model::addMigrationLog('addFields '.$e->getMessage(),'error');
 				}
@@ -1005,7 +1202,10 @@ class VT610_to_YT100 {
 		$log->debug("Entering VT610_to_YT100::InactiveFields() method ...");
 		$fieldsInactive = array('HelpDesk'=>array('days',"hours"),
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
+		'Products'=>array('productcategory'),
+		'Assets'=>array('account',"shippingtrackingnumber",'shippingmethod','tagnumber'),
 		'ProjectTask'=>array('projecttaskhours'),
+		'Contacts'=>array('accountid',"fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
 		'Potentials'=>array('probability','nextstep','amount'),
 		'Users'=>array('address_street','address_city','department','department','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_city','address_state','address_country','address_postalcode','phone_work','title'),
 		'Services'=>array('servicecategory') //copy to picklist
@@ -1047,7 +1247,7 @@ class VT610_to_YT100 {
 					$employee->column_fields['code'] = $adb->query_result($result, $i, 'address_postalcode');
 					$saved = $employee->save('OSSEmployees');
 				} catch (Exception $e) {
-					Install_InitSchema_Model::addMigrationLog('addModule '.$e->getMessage(),'error');
+					Install_InitSchema_Model::addMigrationLog('addEmployees '.$e->getMessage(),'error');
 				}
 			}
 		}
@@ -1142,5 +1342,34 @@ class VT610_to_YT100 {
 		}
 		Install_InitSchema_Model::addMigrationLog('deleteFields');
 		$log->debug("Exiting VT610_to_YT100::deleteFields() method ...");
+	}
+	public function picklists(){
+		global $log;
+		$log->debug("Entering VT610_to_YT100::picklist() method ...");
+		
+		$addPicklists = array();
+		$addPicklists['Assets'][] = array('name'=>'assetstatus','add_values'=>array('Draft','Realization proceeding','Warranty proceeding','Delivered to Organization'),'remove_values'=>array('In Service','Out-of-service'));
+		$addPicklists['Users'][] = array('name'=>'date_format','add_values'=>array('dd.mm.yyyy','mm.dd.yyyy','yyyy.mm.dd','dd/mm/yyyy','mm/dd/yyyy','yyyy/mm/dd'),'remove_values'=>array());
+		$addPicklists['Users'][] = array('name'=>'end_hour','add_values'=>array("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"),'remove_values'=>array());
+
+		foreach($addPicklists as $moduleName=>$piscklists){
+			$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+			if(!$moduleModel)
+				continue;
+			foreach($piscklists as $piscklist){
+				$fieldModel = Settings_Picklist_Field_Model::getInstance($piscklist['name'], $moduleModel);
+				if(!$fieldModel)
+					continue;
+				$pickListValues = Vtiger_Util_Helper::getPickListValues($piscklist['name']);
+				foreach($piscklist['add_values'] as $newValue){
+					if(!in_array($newValue, $pickListValues))
+						$moduleModel->addPickListValues($fieldModel, $newValue);
+				}
+			}
+		}
+		$log->debug("Exiting VT610_to_YT100::picklist() method ...");
+	}
+	public function convertLeadMapping(){
+		
 	}
 }

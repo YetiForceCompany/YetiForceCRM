@@ -76,5 +76,4 @@ $languageStrings = array(
 	'Website' => 'Webseite',	
 	'Service' => 'Service',
 	'Sales' => 'Vertrieb',
-	'Add Project Task' => 'Add Project Task',
 );

@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Not Held'	=>	'Nicht gehalten',
+	'Held'	=>	'Gehalten',
 	'Activity Type'=>'Aktivitätstyp',
 	'Call' => 'Anruf',
 	'Completed' => 'abgeschlossen',
@@ -93,6 +95,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'JS_RECORD_DELETED'	=>	'Datensatz wurde gelöscht',
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Kalendersicht hinzugefügt',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Kalendersichtfarbe geändert!',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Sind Sie sicher die Kalendersicht zu löschen?',

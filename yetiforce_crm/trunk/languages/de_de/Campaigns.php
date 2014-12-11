@@ -8,6 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Active'	=>	'Aktiv',
 	'Actual Cost'                  => 'aktuelle Kosten'             , 
 	'Actual Response Count'        => 'aktuelle Rücklaufmenge'     , 
 	'Actual ROI'                   => 'aktueller ROI'               , 

@@ -59,7 +59,7 @@
 			<div class="row-fluid endContainer hide">
 				<div class="span12">
 					<div class="button-container">
-						<a href="/" class="btn btn-large btn-primary">
+						<a href="../index.php" class="btn btn-large btn-primary">
 							{vtranslate('LBL_END_MIGRATION','Install')}
 						</a>
 					</div>

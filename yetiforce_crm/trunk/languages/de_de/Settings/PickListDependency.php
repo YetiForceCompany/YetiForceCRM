@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Target Field'	=>	'Feld Ziel',
+	'Source Field'	=>	'Feld Quelle',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'PickListDependency' => 'Auswahllisten-Abhängigkeit',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Nur zugeordnete Auswahllistenwerte des Quellfeldes wird unten gezeigt (Ausnahme beim ersten Mal)',

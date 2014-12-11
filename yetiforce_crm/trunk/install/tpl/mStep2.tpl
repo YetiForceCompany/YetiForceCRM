@@ -45,12 +45,12 @@
 					</div>
 					<br />
 					<div class="row-fluid">
-						<div class="span2">{vtranslate('LBL_LOGIN', 'Install')}</div>
+						<div class="span2">{vtranslate('LBL_ADMIN_LOGIN', 'Install')}</div>
 						<div class="span5"><input type="text" value="" name="username" id="username" class="span5" required /></div>
 					</div>
 					<br />
 					<div class="row-fluid">
-						<div class="span2">{vtranslate('LBL_PASSWORD', 'Install')}</div>
+						<div class="span2">{vtranslate('LBL_ADMIN_PASSWORD', 'Install')}</div>
 						<div class="span5"><input type="password" value="" name="password" id="password" class="span5" required /></div>
 					</div>
 					<br />
