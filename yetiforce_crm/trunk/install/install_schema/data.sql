@@ -74,10 +74,11 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (51,'Leads','Proces marketingowy - Kontakt w przyszłości','[{\"fieldname\":\"leadstatus\",\"operation\":\"is\",\"value\":\"LBL_CONTACTS_IN_THE_FUTURE\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (52,'Contacts','Generate Customer Login Details','[{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (53,'Contacts','Send Customer Login Details','[{\"fieldname\":\"emailoptout\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (54,'HelpDesk','Update Closed Time','[{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Rejected\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `com_vtiger_workflows_seq` */
 
-insert  into `com_vtiger_workflows_seq`(`id`) values (53);
+insert  into `com_vtiger_workflows_seq`(`id`) values (54);
 
 /*Data for the table `com_vtiger_workflowtask_queue` */
 
@@ -164,6 +165,7 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (118,13,'Send Notification is True','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"13\";s:7:\"summary\";s:25:\"Send Notification is True\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"45\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:118;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (119,14,'Notification Email to Record Owner','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"14\";s:7:\"summary\";s:34:\"Notification Email to Record Owner\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"46\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:119;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (120,53,'Send Customer Login Details','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"53\";s:7:\"summary\";s:27:\"Send Customer Login Details\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"44\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:5:\"email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:120;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (121,54,'Update Closed Time','O:18:\"VTUpdateClosedTime\":6:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"54\";s:7:\"summary\";s:18:\"Update Closed Time\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:2:\"id\";i:121;}');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -180,7 +182,7 @@ insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (19);
 
 /*Data for the table `com_vtiger_workflowtasks_seq` */
 
-insert  into `com_vtiger_workflowtasks_seq`(`id`) values (120);
+insert  into `com_vtiger_workflowtasks_seq`(`id`) values (121);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
 
@@ -1322,6 +1324,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) 
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (7,'Leads','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Checking whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
@@ -1333,6 +1336,8 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (47,4,'sales_stage','is','Closed Lost',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (48,4,'sales_stage','is','Closed Won',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
 
 /*Data for the table `vtiger_datashare_grp2grp` */
 
