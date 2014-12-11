@@ -31,7 +31,12 @@ $default_language = 'en_us';
 //This is an array of available languages declared as follow: "filename"=>"Language Label", 
 //the language file should be created in the language folder with the format: namespecified.lang.php 
 //Ex.: "en_us" will correspond to a file named "en_us.lang.php"
-$languages = Array('en_us'=>'English','pl_pl'=>'Polski');
+$languages = Array(
+	'en_us'=>'English',
+	'pl_pl'=>'Polski',
+	'de_de'=>'Deutsch',
+	'pt_br'=>'Brazilian Portuguese'
+);
 
 //Define the default theme to apply to the portal, the theme folder should be present in the themes directory with the same name specified here
 $portal_theme = 'default';

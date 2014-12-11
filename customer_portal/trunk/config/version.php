@@ -8,6 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$version = '1.0.0 RC';
-$SVN_version = '1680';
+$version = '1.0.2 RC';
+$SVN_version = '6';
 $patch_version = '20141208'; 
