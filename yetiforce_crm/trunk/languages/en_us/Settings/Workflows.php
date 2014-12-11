@@ -133,6 +133,10 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'Choose date:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Selected month and day:',
 	'LBL_SELECTED_DATES' => 'Selected dates:',
+	
+	//workflow task types
+	'Update Closed Time' => 'Update Closed Time',
+	
 );
 
 $jsLanguageStrings = array(

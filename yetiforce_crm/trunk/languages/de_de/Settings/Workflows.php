@@ -119,6 +119,10 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
+	
+	//workflow task types
+	'Update Closed Time' => 'Update Closed Time',
+	
 );
 
 $jsLanguageStrings = array(
