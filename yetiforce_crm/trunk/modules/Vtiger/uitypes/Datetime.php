@@ -24,6 +24,9 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType {
 	 * @return <Object>
 	 */
 	public function getDisplayValue($value) {
+		if(empty($value)) {
+			return '';
+		}
 		return $dateValue = self::getDisplayDateTimeValue($value);
 	}
 	
