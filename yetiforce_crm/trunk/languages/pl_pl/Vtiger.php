@@ -49,6 +49,7 @@ $languageStrings = array(
         'Currency Code'=>'Kod waluty',
 	'Country' => 'Kraj',
 	'Created Time' => 'Czas utworzenia',
+	'Closed Time' => 'Czas zamknięcia',
 	'Created' => 'Utworzona',
 	'Currency' => 'Waluta',
 	'Customer Name' => 'Nazwa Klienta',

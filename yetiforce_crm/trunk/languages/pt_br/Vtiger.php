@@ -45,6 +45,7 @@ $languageStrings = array(
 	'Conversion Rate'=> 'Taxa Câmbio' ,
 	'Country' => 'País' ,
 	'Created Time' => 'Data Criação',
+	'Closed Time' => 'Closed Time',
 	'Created' => 'Criado',
 	'Currency' => 'Moeda' ,
 	'Customer Name'=>'Nome Cliente',

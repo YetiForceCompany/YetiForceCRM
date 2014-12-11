@@ -1428,6 +1428,7 @@ CREATE TABLE `vtiger_crmentity` (
   `createdtime` datetime NOT NULL,
   `modifiedtime` datetime NOT NULL,
   `viewedtime` datetime DEFAULT NULL,
+  `closedtime` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `version` int(19) NOT NULL DEFAULT '0',
   `presence` tinyint(1) DEFAULT '1',
@@ -2500,7 +2501,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1448 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1482 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
