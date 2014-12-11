@@ -1,4 +1,4 @@
-CREATE TABLE `vtiger_vendoraddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_vendoraddress`(
 	`vendorid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -28,7 +28,7 @@ CREATE TABLE `vtiger_vendoraddress`(
 	CONSTRAINT `vtiger_vendoraddress_ibfk_1` 
 	FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_salesorderaddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_salesorderaddress`(
 	`salesorderaddressid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -54,7 +54,7 @@ CREATE TABLE `vtiger_salesorderaddress`(
 	CONSTRAINT `vtiger_salesorderaddress_ibfk_1` 
 	FOREIGN KEY (`salesorderaddressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_quotesaddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_quotesaddress`(
 	`quoteaddressid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -80,7 +80,7 @@ CREATE TABLE `vtiger_quotesaddress`(
 	CONSTRAINT `vtiger_quotesaddress_ibfk_1` 
 	FOREIGN KEY (`quoteaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_purchaseorderaddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_purchaseorderaddress`(
 	`purchaseorderaddressid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -106,7 +106,7 @@ CREATE TABLE `vtiger_purchaseorderaddress`(
 	CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` 
 	FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_invoiceaddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_invoiceaddress`(
 	`invoiceaddressid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -132,7 +132,7 @@ CREATE TABLE `vtiger_invoiceaddress`(
 	CONSTRAINT `vtiger_invoiceaddress_ibfk_1` 
 	FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_accountaddress`(
+CREATE TABLE IF NOT EXISTS `vtiger_accountaddress`(
 	`accountaddressid` int(19) NOT NULL  , 
 	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -169,7 +169,7 @@ CREATE TABLE `vtiger_accountaddress`(
 	FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_ossmailscanner_config` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_config` (
   `conf_type` varchar(100) NOT NULL,
   `parameter` varchar(100) DEFAULT NULL,
   `value` text
@@ -177,7 +177,7 @@ CREATE TABLE `vtiger_ossmailscanner_config` (
 
 
 
-CREATE TABLE `vtiger_ossoutsourcedservices` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
   `ossoutsourcedservicesid` int(19) NOT NULL DEFAULT '0',
   `ossoutsourcedservices_no` varchar(255) DEFAULT NULL,
   `productname` varchar(100) DEFAULT '',
@@ -194,13 +194,13 @@ CREATE TABLE `vtiger_ossoutsourcedservices` (
   CONSTRAINT `fk_1_vtiger_ossoutsourcedservices` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossoutsourcedservicescf` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservicescf` (
   `ossoutsourcedservicesid` int(11) NOT NULL,
   PRIMARY KEY (`ossoutsourcedservicesid`),
   CONSTRAINT `fk_1_vtiger_ossoutsourcedservicescf` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_ossoutsourcedservices` (`ossoutsourcedservicesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osspasswords` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspasswords` (
   `osspasswordsid` int(11) NOT NULL,
   `osspassword_no` varchar(100) NOT NULL,
   `passwordname` varchar(100) NOT NULL,
@@ -212,13 +212,13 @@ CREATE TABLE `vtiger_osspasswords` (
   CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osspasswordscf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspasswordscf` (
   `osspasswordsid` int(19) NOT NULL,
   PRIMARY KEY (`osspasswordsid`),
   CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osspdf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspdf` (
   `osspdfid` int(11) NOT NULL DEFAULT '0',
   `oss_mod_no` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE `vtiger_osspdf` (
   CONSTRAINT `fk_1_vtiger_osspdf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osspdf_config` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspdf_config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `conf_id` varchar(100) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -257,7 +257,7 @@ CREATE TABLE `vtiger_osspdf_config` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `vtiger_osspdf_constraints` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspdf_constraints` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `relid` int(19) NOT NULL,
   `fieldname` varchar(255) NOT NULL,
@@ -268,13 +268,13 @@ CREATE TABLE `vtiger_osspdf_constraints` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osspdfcf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osspdfcf` (
   `osspdfid` int(11) NOT NULL,
   PRIMARY KEY (`osspdfid`),
   CONSTRAINT `fk_1_vtiger_osspdfcf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_osspdf` (`osspdfid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osssoldservices`(
+CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices`(
 	`osssoldservicesid` int(19) NOT NULL  DEFAULT 0 , 
 	`osssoldservices_no` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`productname` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
@@ -298,13 +298,13 @@ CREATE TABLE `vtiger_osssoldservices`(
 	FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_osssoldservicescf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osssoldservicescf` (
   `osssoldservicesid` int(11) NOT NULL,
   PRIMARY KEY (`osssoldservicesid`),
   CONSTRAINT `fk_1_vtiger_osssoldservicescf` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_osssoldservices` (`osssoldservicesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osstimecontrol` (
+CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol` (
   `osstimecontrolid` int(19) NOT NULL DEFAULT '0',
   `name` varchar(128) DEFAULT NULL,
   `osstimecontrol_no` varchar(255) DEFAULT NULL,
@@ -353,13 +353,13 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `vtiger_osstimecontrolcf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrolcf` (
   `osstimecontrolid` int(19) NOT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   CONSTRAINT `vtiger_osstimecontrolcf` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_osstimecontrol` (`osstimecontrolid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_outsourcedproducts`(
+CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproducts`(
 	`outsourcedproductsid` int(11) NOT NULL  DEFAULT 0 , 
 	`asset_no` varchar(32) COLLATE utf8_general_ci NULL  , 
 	`productname` varchar(255) COLLATE utf8_general_ci NULL  , 
@@ -379,25 +379,25 @@ CREATE TABLE `vtiger_outsourcedproducts`(
 	FOREIGN KEY (`outsourcedproductsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_outsourcedproductscf` (
+CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproductscf` (
   `outsourcedproductsid` int(11) NOT NULL,
   PRIMARY KEY (`outsourcedproductsid`),
   CONSTRAINT `fk_1_vtiger_outsourcedproductscf` FOREIGN KEY (`outsourcedproductsid`) REFERENCES `vtiger_outsourcedproducts` (`outsourcedproductsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_password` (
+CREATE TABLE IF NOT EXISTS `vtiger_password` (
   `type` varchar(20) NOT NULL,
   `val` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_passwords_config` (
+CREATE TABLE IF NOT EXISTS `vtiger_passwords_config` (
   `pass_length_min` int(3) NOT NULL,
   `pass_length_max` int(3) NOT NULL,
   `pass_allow_chars` varchar(200) NOT NULL,
   `register_changes` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_osscosts` (
+CREATE TABLE IF NOT EXISTS `vtiger_osscosts` (
   `osscostsid` int(19) NOT NULL,
   `osscosts_no` varchar(30) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
@@ -431,7 +431,7 @@ CREATE TABLE `vtiger_osscosts` (
   CONSTRAINT `fk_1_vtiger_osscosts` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmenumanager` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `parent_id` int(19) DEFAULT NULL,
   `tabid` int(19) DEFAULT NULL,
@@ -451,7 +451,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
 ) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
 
 	
-CREATE TABLE `vtiger_ossdocumentcontrol` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol` (
   `ossdocumentcontrolid` int(19) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(255) DEFAULT NULL,
   `summary` varchar(255) NOT NULL,
@@ -463,7 +463,7 @@ CREATE TABLE `vtiger_ossdocumentcontrol` (
   KEY `ossdocumentcontrolid` (`ossdocumentcontrolid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossdocumentcontrol_cnd` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol_cnd` (
   `ossdocumentcontrol_cndid` int(19) NOT NULL AUTO_INCREMENT,
   `ossdocumentcontrolid` int(19) NOT NULL,
   `fieldname` varchar(255) NOT NULL,
@@ -474,7 +474,7 @@ CREATE TABLE `vtiger_ossdocumentcontrol_cnd` (
   PRIMARY KEY (`ossdocumentcontrol_cndid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossemployees` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossemployees` (
   `ossemployeesid` int(19) NOT NULL DEFAULT '0',
   `ossemployees_no` varchar(255) DEFAULT NULL,
   `parentid` int(19) DEFAULT '0',
@@ -503,14 +503,14 @@ CREATE TABLE `vtiger_ossemployees` (
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossemployeescf` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossemployeescf` (
   `ossemployeesid` int(19) NOT NULL,
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployeescf` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_ossemployees` (`ossemployeesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `vtiger_ossmails_logs` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `end_time` timestamp NULL DEFAULT NULL,
@@ -525,14 +525,14 @@ CREATE TABLE `vtiger_ossmails_logs` (
 
 
 
-CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_folders_uid` (
   `user_id` int(10) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `folder` varchar(100) DEFAULT NULL,
   `uid` int(19) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailscanner_log_cron` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_log_cron` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `laststart` int(11) unsigned DEFAULT NULL,
@@ -540,7 +540,7 @@ CREATE TABLE `vtiger_ossmailscanner_log_cron` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailtemplates` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailtemplates` (
   `ossmailtemplatesid` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `oss_module_list` varchar(255) DEFAULT '',
@@ -551,13 +551,13 @@ CREATE TABLE `vtiger_ossmailtemplates` (
   CONSTRAINT `vtiger_ossmailtemplates_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailtemplatescf` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailtemplatescf` (
   `ossmailtemplatesid` int(11) NOT NULL,
   PRIMARY KEY (`ossmailtemplatesid`),
   CONSTRAINT `vtiger_ossmailtemplatescf_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_ossmailtemplates` (`ossmailtemplatesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailview` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailview` (
   `ossmailviewid` int(19) NOT NULL,
   `ossmailview_no` varchar(50) DEFAULT NULL,
   `from_email` text,
@@ -585,7 +585,7 @@ CREATE TABLE `vtiger_ossmailview` (
   CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailview_files` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailview_files` (
   `ossmailviewid` int(19) NOT NULL,
   `documentsid` int(19) NOT NULL,
   `attachmentsid` int(19) NOT NULL,
@@ -594,7 +594,7 @@ CREATE TABLE `vtiger_ossmailview_files` (
   CONSTRAINT `fk_1_vtiger_ossmailview_files` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_ossmailviewcf` (
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailviewcf` (
   `ossmailviewid` int(19) NOT NULL,
   PRIMARY KEY (`ossmailviewid`),
   CONSTRAINT `fk_1_vtiger_ossmailviewcf` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
@@ -608,7 +608,7 @@ CREATE TABLE `vtiger_ossmailviewcf` (
 
 
 
-CREATE TABLE `vtiger_oss_project_templates` (
+CREATE TABLE IF NOT EXISTS `vtiger_oss_project_templates` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `fld_name` varchar(255) NOT NULL,
   `fld_val` varchar(255) NOT NULL,
@@ -619,7 +619,7 @@ CREATE TABLE `vtiger_oss_project_templates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `chat_bans` (
+CREATE TABLE IF NOT EXISTS `chat_bans` (
   `userID` int(11) NOT NULL,
   `userName` varchar(64) NOT NULL,
   `dateTime` datetime NOT NULL,
@@ -629,7 +629,7 @@ CREATE TABLE `chat_bans` (
   KEY `dateTime` (`dateTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `chat_invitations` (
+CREATE TABLE IF NOT EXISTS `chat_invitations` (
   `userID` int(11) NOT NULL,
   `channel` int(11) NOT NULL,
   `dateTime` datetime NOT NULL,
@@ -637,7 +637,7 @@ CREATE TABLE `chat_invitations` (
   KEY `dateTime` (`dateTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `chat_messages` (
+CREATE TABLE IF NOT EXISTS `chat_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `userName` varchar(64) NOT NULL,
@@ -651,7 +651,7 @@ CREATE TABLE `chat_messages` (
   KEY `dateTime` (`dateTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `chat_online` (
+CREATE TABLE IF NOT EXISTS `chat_online` (
   `userID` int(11) NOT NULL,
   `userName` varchar(64) NOT NULL,
   `userRole` int(1) NOT NULL,
@@ -663,7 +663,7 @@ CREATE TABLE `chat_online` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `roundcube_users` (
+CREATE TABLE IF NOT EXISTS `roundcube_users` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `mail_host` varchar(128) NOT NULL,
@@ -679,7 +679,7 @@ CREATE TABLE `roundcube_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `roundcube_cache` (
+CREATE TABLE IF NOT EXISTS `roundcube_cache` (
   `user_id` int(10) unsigned NOT NULL,
   `cache_key` varchar(128) CHARACTER SET ascii NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -690,7 +690,7 @@ CREATE TABLE `roundcube_cache` (
   CONSTRAINT `roundcube_user_id_fk_cache` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_cache_index` (
+CREATE TABLE IF NOT EXISTS `roundcube_cache_index` (
   `user_id` int(10) unsigned NOT NULL,
   `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `expires` datetime DEFAULT NULL,
@@ -701,7 +701,7 @@ CREATE TABLE `roundcube_cache_index` (
   CONSTRAINT `roundcube_user_id_fk_cache_index` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_cache_messages` (
+CREATE TABLE IF NOT EXISTS `roundcube_cache_messages` (
   `user_id` int(10) unsigned NOT NULL,
   `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `uid` int(11) unsigned NOT NULL DEFAULT '0',
@@ -713,7 +713,7 @@ CREATE TABLE `roundcube_cache_messages` (
   CONSTRAINT `roundcube_user_id_fk_cache_messages` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_cache_shared` (
+CREATE TABLE IF NOT EXISTS `roundcube_cache_shared` (
   `cache_key` varchar(255) CHARACTER SET ascii NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `expires` datetime DEFAULT NULL,
@@ -722,7 +722,7 @@ CREATE TABLE `roundcube_cache_shared` (
   KEY `cache_key_index` (`cache_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_cache_thread` (
+CREATE TABLE IF NOT EXISTS `roundcube_cache_thread` (
   `user_id` int(10) unsigned NOT NULL,
   `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `expires` datetime DEFAULT NULL,
@@ -734,7 +734,7 @@ CREATE TABLE `roundcube_cache_thread` (
 
 
 
-CREATE TABLE `roundcube_contactgroups` (
+CREATE TABLE IF NOT EXISTS `roundcube_contactgroups` (
   `contactgroup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -745,7 +745,7 @@ CREATE TABLE `roundcube_contactgroups` (
   CONSTRAINT `roundcube_user_id_fk_contactgroups` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_contacts` (
+CREATE TABLE IF NOT EXISTS `roundcube_contacts` (
   `contact_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `del` tinyint(1) NOT NULL DEFAULT '0',
@@ -761,7 +761,7 @@ CREATE TABLE `roundcube_contacts` (
   CONSTRAINT `roundcube_user_id_fk_contacts` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_contactgroupmembers` (
+CREATE TABLE IF NOT EXISTS `roundcube_contactgroupmembers` (
   `contactgroup_id` int(10) unsigned NOT NULL,
   `contact_id` int(10) unsigned NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -771,7 +771,7 @@ CREATE TABLE `roundcube_contactgroupmembers` (
   CONSTRAINT `roundcube_contact_id_fk_contacts` FOREIGN KEY (`contact_id`) REFERENCES `roundcube_contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_dictionary` (
+CREATE TABLE IF NOT EXISTS `roundcube_dictionary` (
   `user_id` int(10) unsigned DEFAULT NULL,
   `language` varchar(5) NOT NULL,
   `data` longtext NOT NULL,
@@ -779,7 +779,7 @@ CREATE TABLE `roundcube_dictionary` (
   CONSTRAINT `roundcube_user_id_fk_dictionary` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_identities` (
+CREATE TABLE IF NOT EXISTS `roundcube_identities` (
   `identity_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -798,7 +798,7 @@ CREATE TABLE `roundcube_identities` (
   CONSTRAINT `roundcube_user_id_fk_identities` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_searches` (
+CREATE TABLE IF NOT EXISTS `roundcube_searches` (
   `search_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `type` int(3) NOT NULL DEFAULT '0',
@@ -809,7 +809,7 @@ CREATE TABLE `roundcube_searches` (
   CONSTRAINT `roundcube_user_id_fk_searches` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_session` (
+CREATE TABLE IF NOT EXISTS `roundcube_session` (
   `sess_id` varchar(128) NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
   `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -819,25 +819,25 @@ CREATE TABLE `roundcube_session` (
   KEY `changed_index` (`changed`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `roundcube_system` (
+CREATE TABLE IF NOT EXISTS `roundcube_system` (
   `name` varchar(64) NOT NULL,
   `value` mediumtext,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_apiaddress` (
+CREATE TABLE IF NOT EXISTS `vtiger_apiaddress` (
   `nominatim` int(1) DEFAULT '1',
   `key` varchar(255) DEFAULT NULL,
   `source` varchar(128) DEFAULT NULL,
   `min_lenght` int(2) DEFAULT '3'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_bruteforce` (
+CREATE TABLE IF NOT EXISTS `vtiger_bruteforce` (
   `attempsnumber` int(11) NOT NULL COMMENT 'Number of attempts',
   `timelock` int(11) DEFAULT NULL COMMENT 'Time lock'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_calculations`(
+CREATE TABLE IF NOT EXISTS `vtiger_calculations`(
 	`calculationsid` int(19) NOT NULL  , 
 	`calculations_no` varchar(30) COLLATE utf8_general_ci NOT NULL  , 
 	`name` varchar(200) COLLATE utf8_general_ci NULL  , 
@@ -859,23 +859,23 @@ CREATE TABLE `vtiger_calculations`(
 	FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_osscosts_config` (
+CREATE TABLE IF NOT EXISTS `vtiger_osscosts_config` (
   `param` varchar(100) DEFAULT NULL,
   `value` varchar(100) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `vtiger_osscostscf` (
+CREATE TABLE IF NOT EXISTS `vtiger_osscostscf` (
   `osscostsid` int(19) NOT NULL,
   PRIMARY KEY (`osscostsid`),
   CONSTRAINT `fk_1_vtiger_osscostscf` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_osscosts` (`osscostsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_calculationscf` (
+CREATE TABLE IF NOT EXISTS `vtiger_calculationscf` (
   `calculationsid` int(19) NOT NULL,
   PRIMARY KEY (`calculationsid`),
   CONSTRAINT `fk_1_vtiger_calculationscf` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_calculations` (`calculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_calculationsproductrel` (
+CREATE TABLE IF NOT EXISTS `vtiger_calculationsproductrel` (
   `id` int(19) DEFAULT NULL,
   `productid` int(19) DEFAULT NULL,
   `sequence_no` int(4) DEFAULT NULL,
@@ -896,7 +896,7 @@ CREATE TABLE `vtiger_calculationsproductrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `vtiger_dataaccess` (
+CREATE TABLE IF NOT EXISTS `vtiger_dataaccess` (
   `dataaccessid` int(19) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(255) DEFAULT NULL,
   `summary` varchar(255) NOT NULL,
@@ -905,7 +905,7 @@ CREATE TABLE `vtiger_dataaccess` (
   KEY `dataaccesid` (`dataaccessid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `vtiger_dataaccess_cnd` (
+CREATE TABLE IF NOT EXISTS `vtiger_dataaccess_cnd` (
   `dataaccess_cndid` int(19) NOT NULL AUTO_INCREMENT,
   `dataaccessid` int(19) NOT NULL,
   `fieldname` varchar(255) NOT NULL,
@@ -917,11 +917,11 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `vtiger_invoicestatushistory_seq`(
+CREATE TABLE IF NOT EXISTS `vtiger_invoicestatushistory_seq`(
 	`id` int(11) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_widgets`(
+CREATE TABLE IF NOT EXISTS `vtiger_widgets`(
 	`id` int(19) NOT NULL  auto_increment , 
 	`tabid` int(19) NULL  , 
 	`type` varchar(30) COLLATE utf8_general_ci NULL  , 
@@ -936,7 +936,7 @@ CREATE TABLE `vtiger_widgets`(
 	FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `yetiforce_updates`(
+CREATE TABLE IF NOT EXISTS `yetiforce_updates`(
 	`id` int(11) NOT NULL  auto_increment , 
 	`time` timestamp NOT NULL  DEFAULT CURRENT_TIMESTAMP , 
 	`user` varchar(50) COLLATE utf8_general_ci NULL  , 
@@ -947,18 +947,18 @@ CREATE TABLE `yetiforce_updates`(
 	PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_picklist_dependency_seq`(
+CREATE TABLE IF NOT EXISTS `vtiger_picklist_dependency_seq`(
 	`id` int(11) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_end_hour`(
+CREATE TABLE IF NOT EXISTS `vtiger_end_hour`(
 	`end_hourid` int(11) NOT NULL  auto_increment , 
 	`end_hour` varchar(200) COLLATE utf8_general_ci NOT NULL  , 
 	`sortorderid` int(11) NULL  , 
 	`presence` int(11) NOT NULL  DEFAULT 1 , 
 	PRIMARY KEY (`end_hourid`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE `vtiger_end_hour_seq`(
+CREATE TABLE IF NOT EXISTS `vtiger_end_hour_seq`(
 	`id` int(11) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 

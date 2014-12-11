@@ -206,7 +206,7 @@ class Install_Utils_Model {
 		include 'config/config.db.php';
 		
 		$parameters = array(
-			'db_hostname' => '',
+			'db_hostname' => 'localhost',
 			'db_username' => '',
 			'db_password' => '',
 			'db_name'     => '',

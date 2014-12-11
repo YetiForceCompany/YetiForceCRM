@@ -214,46 +214,45 @@ class Install_Index_view extends Vtiger_View_Controller {
         echo $viewer->fetch('Step6.tpl');
     }
 
-    public function Step7(Vtiger_Request $request) {
-        // Set favourable error reporting
+	public function Step7(Vtiger_Request $request) {
+		// Set favourable error reporting
 		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
-        $moduleName = $request->getModule();
-        $webuiInstance = new Vtiger_WebUI();
-        $isInstalled = $webuiInstance->isInstalled();
-        if (!$isInstalled) {
-            if ($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
-                die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
-            }
+		$moduleName = $request->getModule();
+		$webuiInstance = new Vtiger_WebUI();
+		$isInstalled = $webuiInstance->isInstalled();
+		if (!$isInstalled) {
+			if ($_SESSION['config_file_info']['authentication_key'] != $request->get('auth_key')) {
+				die(vtranslate('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION', $moduleName));
+			}
 
-            // Create configuration file
-            $configParams = $_SESSION['config_file_info'];
+			// Create configuration file
+			$configParams = $_SESSION['config_file_info'];
 
-            $configFile = new Install_ConfigFileUtils_Model($configParams);
-            $configFile->createConfigFile();
+			$configFile = new Install_ConfigFileUtils_Model($configParams);
+			$configFile->createConfigFile();
 
-            global $adb;
-            
-            $adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
-            $adb->query('SET NAMES utf8');
+			global $adb;
+			$adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
+			$adb->query('SET NAMES utf8');
 
-            // Initialize and set up tables
-            Install_InitSchema_Model::initialize();
+			// Initialize and set up tables
+			Install_InitSchema_Model::initialize();
 
-            $viewer = new Vtiger_Viewer();
+			$viewer = new Vtiger_Viewer();
 			$viewer->assign('LANG', $request->get('lang'));
-            $viewer->setTemplateDir('install/tpl/');
-            $viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-            $viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-            $viewer->assign('CURRENT_VERSION', $_SESSION['yetiforce_version']);
-            $viewer->assign('INDUSTRY', $request->get('industry'));
-            echo $viewer->fetch('Step7.tpl');
-        } else {
-            $response = new Vtiger_Response();
-            $response->setResult(vtranslate('THIS_INSTANCE_IS_ALREADY_INSTALLED', $moduleName));
-            return $response;
-        }
-    }
+			$viewer->setTemplateDir('install/tpl/');
+			$viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
+			$viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
+			$viewer->assign('CURRENT_VERSION', $_SESSION['yetiforce_version']);
+			$viewer->assign('INDUSTRY', $request->get('industry'));
+			echo $viewer->fetch('Step7.tpl');
+		} else {
+			$response = new Vtiger_Response();
+			$response->setResult(vtranslate('THIS_INSTANCE_IS_ALREADY_INSTALLED', $moduleName));
+			return $response;
+		}
+	}
 	
 	public function mStep0(Vtiger_Request $request) {
 		$schemaLists = Install_InitSchema_Model::getMigrationSchemaList();
@@ -307,14 +306,14 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer = new Vtiger_Viewer();
 		$createConfig = Install_InitSchema_Model::createConfig($source_directory, $username, $password, $system);
 		if($createConfig['result']){
-			/*
 			include('config/config.inc.php');
-			$adb = PearDatabase::getInstance();
+            global $adb;
+            $adb->resetSettings($dbconfig['db_type'],$dbconfig['db_hostname'],$dbconfig['db_name'],$dbconfig['db_username'],$dbconfig['db_password']);
+            $adb->query('SET NAMES utf8');
 			$loginStatus = false;
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
-			
-			if (!empty($result)) {
+			if ($adb->num_rows($result) > 0) {
 				$crypt_type = $adb->query_result($result, 0, 'crypt_type');
 				$salt = substr($username, 0, 2);
 				if($crypt_type == 'MD5') {
@@ -324,19 +323,17 @@ class Install_Index_view extends Vtiger_View_Controller {
 				} elseif($crypt_type == 'PHP5.3MD5') {
 					$salt = '$1$' . str_pad($salt, 9, '0');
 				}
-				$encrypted_password = crypt($username, $salt);
+				$encrypted_password = crypt($password, $salt);
 				$query = "SELECT 1 from vtiger_users where user_name=? AND user_password=? AND status = ?";
-				$result = $adb->requirePsSingleResult($query, array($usr_name, $encrypted_password, 'Active'), true);
-				if (!empty($result)) {
+				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
+				if ($adb->num_rows($result) > 0) {
 					$loginStatus = true;
 				}
-				
 			}
-			
 			if(!$loginStatus){
 				$errorText = 'LBL_WRONG_USERNAME_OR_PASSWORD';
+				file_put_contents('config/config.inc.php', '');
 			}
-			*/
 		}else{
 			$errorText = $createConfig['text'];
 		}
