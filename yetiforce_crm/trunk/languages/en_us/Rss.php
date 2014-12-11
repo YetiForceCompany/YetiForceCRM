@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
-
 $languageStrings = Array(
     'LBL_ADD_FEED_SOURCE' => 'Add Feed Source',
     'LBL_ENTER_FEED_SOURCE' => 'Enter Feed Source',
@@ -18,13 +18,8 @@ $languageStrings = Array(
     'LBL_SET_AS_DEFAULT' => 'Set As Default',
     'SINGLE_Rss' => 'Rss Feed',
 );
-
 $jsLanguageStrings = array(
     'JS_INVALID_RSS_URL' => 'Invalid Rss Url',
     'JS_RSS_MADE_AS_DEFAULT' => 'Rss Made as Default',
 	'JS_RSS_SUCCESSFULLY_SAVED' => 'Rss Successfully saved',
-
 );
-
-
-?>

@@ -6,7 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 $languageStrings = array(
 	'300-Sales-Software'=>'300-Sales-Software',
 	'301-Sales-Hardware'=>'301-Sales-Hardware',

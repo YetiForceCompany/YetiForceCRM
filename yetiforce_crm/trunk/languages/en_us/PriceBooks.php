@@ -6,7 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_TO' => 'Add to',

@@ -6,7 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 $languageStrings = array(
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'Send SMS to the selected numbers',

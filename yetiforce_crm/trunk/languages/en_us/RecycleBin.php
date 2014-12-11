@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
-
 $languageStrings = Array(
 	'RecycleBin' => 'Recycle Bin',
 	'LBL_SELECT_MODULE' => 'Select Module',
@@ -17,12 +17,8 @@ $languageStrings = Array(
 	'LBL_RECORDS_LIST' => 'Recycle Bin List',
 	'LBL_NO_RECORDS_FOUND' => 'No records found to Restore in module',
 );
-
 $jsLanguageStrings = array(
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Are you sure you want to permanently remove all the deleted records from your database?',
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Are you sure you want to restore the records?',
 	'JS_RESTORING_RECORDS' => 'Restoring records',
 );
-
-
-?>

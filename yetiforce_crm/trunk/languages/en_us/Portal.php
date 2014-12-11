@@ -6,7 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 $languageStrings = array(
 	'HTTP_ERROR' => 'The website that you are trying to open is not secure and might not open. If you still wish to view the webpage then you can click on the content blocker in the address bar and enable it.',
 	'LBL_ADD_BOOKMARK' => 'Add Bookmark',
