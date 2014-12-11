@@ -122,8 +122,16 @@ $languageStrings = array(
 	'LBL_SELECTED_DATES' => 'Wybrane daty:',
 	
 	//workflow task types
+	'Send Mail' => 'Wyślij maila',
+	'Invoke Custom Function' => 'Uruchom funkcje niestandardowe',
+	'Create Todo' => 'Utwórz zadanie',
+	'Create Event' => 'Utwórz termin',
+	'Update Fields' => 'Aktualizuj rekord',
+	'Create Entity' => 'Utwórz rekord',
+	'SMS Task' => 'Wyślij SMS',
+	'Email Template Task' => 'Wyślij maila z szablonów',
+	'Send Pdf' => 'Wyślij maila z wydrukiem PDF',
 	'Update Closed Time' => 'Aktualizacja czasu zamknięcia',
-	
 );
 
 $jsLanguageStrings = array(

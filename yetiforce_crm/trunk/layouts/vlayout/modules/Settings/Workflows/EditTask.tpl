@@ -14,7 +14,7 @@
 	<div class='modelContainer' id="addTaskContainer">
 		<div class="modal-header contentsBackground">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>{vtranslate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)} -> {$TASK_TYPE_MODEL->get('label')}</h3>
+			<h3>{vtranslate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {vtranslate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h3>
 		</div>
 		<form class="form-horizontal" id="saveTask" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}" />

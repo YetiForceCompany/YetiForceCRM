@@ -121,6 +121,15 @@ $languageStrings = array(
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
 	
 	//workflow task types
+	'Send Mail' => 'Send Mail',
+	'Invoke Custom Function' => 'Invoke Custom Function',
+	'Create Todo' => 'Create ToDo',
+	'Create Event' => 'Create Event',
+	'Update Fields' => 'Update Fields',
+	'Create Entity' => 'Create Entity',
+	'SMS Task' => 'Send SMS',
+	'Email Template Task' => 'Send Mail Template',
+	'Send Pdf' => 'Send PDF',
 	'Update Closed Time' => 'Update Closed Time',
 	
 );
