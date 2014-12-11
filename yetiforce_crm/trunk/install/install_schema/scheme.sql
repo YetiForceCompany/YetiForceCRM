@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.01 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce
+SQLyog Ultimate v12.03 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -3132,7 +3132,7 @@ CREATE TABLE `vtiger_language` (
   `isdefault` int(1) DEFAULT '0',
   `active` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language_seq` */
 
