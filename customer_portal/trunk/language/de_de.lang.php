@@ -111,5 +111,5 @@ $app_strings = Array(
 'LBL_WIDGET_OPENTICKETS' => 'Offene Tickets',
 'LBL_WIDGET_TICKETSBYSTATUS' => 'Tickets nach Status',
 'LBL_WIDGET_TICKETSSUMTIME' => 'Tickets - Arbeitszeit nach Benutzern aufgeteilt',
-'LBL_WIDGET_PROJECTSUMTIME' => 'Projects - Arbeitszeit in Projekte aufgeteilt',
+'LBL_WIDGET_PROJECTSUMTIME' => 'Projekte - Arbeitszeit in Projekte aufgeteilt',
 );
