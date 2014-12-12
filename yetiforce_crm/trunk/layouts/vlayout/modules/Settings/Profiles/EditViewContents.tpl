@@ -202,7 +202,7 @@
 										{else}
 											style="border-right: 1px solid #DDD !important;"
 											{/if}>
-												<input type="checkbox" class="alignTop" {if empty($RECORD_ID)} checked="true" {/if} name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true"{/if}> {$ACTION_MODEL->getName()}</td>
+												<input type="checkbox" class="alignTop" {if empty($RECORD_ID)} checked="true" {/if} name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true"{/if}> {vtranslate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
 												{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
 												</div>
 											{/if}
