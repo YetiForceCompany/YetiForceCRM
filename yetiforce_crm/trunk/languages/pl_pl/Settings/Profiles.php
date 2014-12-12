@@ -50,6 +50,7 @@ $languageStrings = array(
 	'Merge'  => 'Łączenie',
 	'CreateCustomFilter'  => 'Tworzenie filtrów niestandardowych',
 	'DuplicateRecord'  => 'Tworzenie duplikatów',
+	'EditableComments'  => 'Edycja komentarzy',
 );
 
 $jsLanguageStrings = array(

@@ -50,6 +50,7 @@ $languageStrings = array(
         'Print' => 'Imprimir',
 	'CreateCustomFilter'  => 'Criação filtros customizados',
 	'DuplicateRecord'  => 'Duplicando',
+	'EditableComments'  => 'Edit comments',
 );
 
 $jsLanguageStrings = array(

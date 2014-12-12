@@ -49,6 +49,7 @@ $languageStrings = array(
    'MakeOutgoingCalls' => 'Abgehende Anrufe',
    'Print' => 'Drucken',
 	'DuplicateRecord'  => 'Dupliziere',
+	'EditableComments'  => 'Edit comments',
 );
 
 $jsLanguageStrings = array(
