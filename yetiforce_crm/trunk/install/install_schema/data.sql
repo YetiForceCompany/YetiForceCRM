@@ -4497,7 +4497,7 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 
 /*Data for the table `vtiger_language_seq` */
 
-insert  into `vtiger_language_seq`(`id`) values (2);
+insert  into `vtiger_language_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_lead_view` */
 
