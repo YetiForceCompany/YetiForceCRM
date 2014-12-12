@@ -779,7 +779,7 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',
-	'of2' => 'z',
+	'JS_OF' => 'z',
 	'AM' => 'AM',
 	'JS_LBL_NO_TAXES' => 'Selected product does not contain tax',
 	'INVALID_NUMBER' => 'Invalid number',

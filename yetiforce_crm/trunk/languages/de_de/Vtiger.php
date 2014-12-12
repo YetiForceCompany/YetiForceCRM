@@ -775,7 +775,7 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',
-	'of2' => 's',
+	'JS_OF' => 's',
 	'AM' => 'AM',
 	'JS_LBL_NO_TAXES' => 'Ausgewähltes Produkt beinhaltet keine Steuer',
 	'INVALID_NUMBER' => 'Ungültige Anzahl',
