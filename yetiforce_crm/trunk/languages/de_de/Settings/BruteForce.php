@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'BruteForce'  => 'Brute Force',
+    'BruteForce'  => 'Brute Force',
     'Number of attempts' => 'Anzahl von Versuchen',
     'Time lock' => 'Zeitsperre (Minuten)',
     'Settings' => 'Einstellungen des Anmeldungseinschränkung',
@@ -20,7 +20,7 @@ $languageStrings = array(
     'LBL_FAIL' => 'Änderungen sind nicht gespeichert',
     'LBL_UNBLOCK_FAIL' => 'IP-Adresse noch nicht freigegeben',
     'LBL_UNBLOCK_SUCCESS' => 'IP-Adresse wurde freigegeben',
-    'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die IP-Blockzeit.',
+    'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die IP-Blockzeit ein.',
     'Could not finnish reaction.' => 'Änderungen noch nicht gespeichert',
     'IP' => 'IP-Adresse',
     'Date' => 'Datum',

@@ -18,30 +18,30 @@ $languageStrings = array(
 	'LBL_ASSET_INFORMATION' => 'Bestand Details',
 
 	//Field Labels
-    'Asset No' => 'Bestandsverwaltung Nr.',
+	'Asset No' => 'Bestandsverwaltung Nr.',
 	'Serial Number' => 'Seriennummer',
 	'Date Sold' => 'Verkaufsdatum',
 	'Date in Service' => 'Servicedatum',
 	'Invoice Name' => 'Rechnung',
 	'Shipping Tracking Number' => 'Sendungsverfolgungsnummer',
-	'Asset Name' => 'Bestandsverwaltung',
+	'Asset Name' => 'Bestandsname',
 	'Customer Name' => 'Organisation',
 	'Notes' => 'Beschreibung',
 
 	/*picklist values*/
-	'In Service'=>'In Service',
-	'Out-of-service'=>'Out-of-service',
-	'Draft'=>'Draft',
-	'Realization proceeding'=>'Realization proceeding',
-	'Warranty proceeding'=>'Warranty proceeding',
-	'Delivered to Organization'=>'Delivered to Organization',
+	'In Service'=>'Im Dienst',
+	'Out-of-service'=>'Außer Dienst',
+	'Draft'=>'Entwurf',
+	'Realization proceeding'=>'Realisierung fortfahren',
+	'Warranty proceeding'=>'Garantieverfahren',
+	'Delivered to Organization'=>'Ausgeliefert an Organisation',
 	
 	//YetiForce
-	'description'=>'Description',
+	'description'=>'Beschreibung',
 	'attentions'=>'Attentions',
-	'BLOCK_INFORMATION_TIME'=>'Information time',
-	'Total time [h]'=>'Total time [h]',
-	'Potential'=>'Source sales',
-	'Potential renewal'=>'Potential renewal',
+	'BLOCK_INFORMATION_TIME'=>'Zeitinformation',
+	'Total time [h]'=>'Gesamtzeit [h]',
+	'Potential'=>'Potenzial',
+	'Potential renewal'=>'Potenzielle Verlängerung',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 );

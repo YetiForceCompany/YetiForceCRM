@@ -9,7 +9,7 @@
  *************************************************************************************/
 $languageStrings = array(
 	'ALVT' => 'Top Organisationen',
-	'CVLVT' => 'Key Metrics',
+	'CVLVT' => 'Schlüsselmetrik',
 	'GRT' => 'Meine Gruppenzuordnung',
 	'HDB' => 'Startseiten Armaturenbrett',
 	'HLT' => 'Top Support Tickets',

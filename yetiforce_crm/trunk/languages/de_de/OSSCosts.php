@@ -19,7 +19,7 @@ $languageStrings = array(
 	'LBL_ADDRESS_INFORMATION' => 'Hauptadresse',
 
 	//Field Labels
-    'Title' => 'Titel',
+	'Title' => 'Titel',
 	'Costs_no' => 'Nr',
 	'Potential' => 'Potential',
 	'Parent ID' => 'übergeordnete Kosten',
@@ -31,7 +31,7 @@ $languageStrings = array(
 	'City' => 'Ort',
 	'Country' => 'Land',
 	'State' => 'Bundesland',
-	'individual' => 'individual',
+	'individual' => 'Individual',
 	'group' => 'Gruppe',
 	'LBL_SHOW_HIERARCHY' => 'Hierarchie',
 	'Current state storage' => 'Lager',
@@ -42,10 +42,10 @@ $languageStrings = array(
 	'kol_count' => 'Konfiguration',
 	//settings
 	'SETTINGS' => 'Einstellungen',
-	'show_widgets_opportunities' => 'Zeige Gesamtkosten für Opportunities',
-	'show_widgets_helpdesk' => 'Zeige Gesamtkosten für Helpdesk',
+	'show_widgets_opportunities' => 'Zeige Gesamtkosten für Potentiale',
+	'show_widgets_helpdesk' => 'Zeige Gesamtkosten für HelpDesk',
 	'show_widgets_project' => 'Zeige Gesamtkosten für Projekte',
-	'restrict_opportunities' => 'Liste der Opportunities auf gewählte Organisationen einschränken.',
+	'restrict_opportunities' => 'Liste der Potentiale auf gewählte Organisationen einschränken.',
 	'restrict_helpdesk' => 'Liste der Tickets auf gewählte Organisationen einschränken.',
 	'restrict_project' => 'Liste der Projekte auf gewählte Organisationen einschränken.',
 	'Alert_title' => 'Information',

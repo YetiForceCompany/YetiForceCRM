@@ -2,7 +2,7 @@
 
 $languageStrings = array(
 	'CustomView'	=> 'Benutzerdefinierte Ansichten',
-	'LBL_MODULE_DESC'	=> 'Dieses Tool ermöglicht die Einstellung benutzerdefinierte Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter in YetiForce CRM.',
+	'LBL_MODULE_DESC'	=> 'Dieses Tool ermöglicht die Erstellung benutzerdefinierter Ansichten für Module. Diese Module müssen Datensätze enthalten und verwenden Standard-Filter im CRM.',
 	'Module'	=> 'Modul',
 	'ViewName'	=> 'Ansichtsname',
 	'SetDefault'	=> 'Standard',

@@ -19,7 +19,7 @@ $languageStrings = array(
 	'308-Sales-Books'=>'308-Sales-Books',
 
 	'Email' => 'Primäre Email',
-	'GL Account' => 'GL Account',
+	'GL Account' => 'Sachkonto',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_RECORDS_LIST' => 'Lieferanten Liste',
 	'LBL_VENDOR_INFORMATION' => 'Lieferanten Details',

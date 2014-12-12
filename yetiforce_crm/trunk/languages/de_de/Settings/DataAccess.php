@@ -9,8 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Fehler bei Änderungsgenehmigung',
-	'LBL_MANDATORY_FIELD' => 'Pflichtfeld',
+'LBL_FAILED_TO_APPROVE_CHANGES' => 'Fehler bei Änderungsgenehmigung',
+'LBL_MANDATORY_FIELD' => 'Pflichtfeld',
 'LBL_DATAACCESS' => 'Zugriffsberechtigung',
 'DataAccess' => 'Zugriffsberechtigung',
 'LBL_NEW_TPL' => 'Neue Bedingung hinzufügen',

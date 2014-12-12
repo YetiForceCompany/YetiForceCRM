@@ -14,19 +14,19 @@ $languageStrings = array(
 'LBL_INFORMATION' => 'Informationsblock',
 
 //fields
-'Invoice number' => 'RechnungsNr.',
+'Invoice number' => 'Rechnungs-Nr.',
 'Number' => 'Nummer',
-'Assigned To' => 'Zuständig',
+'Assigned To' => 'ZustÃ¤ndig',
 'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
 'LBL_ssservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',
-'In service' => 'Wird unterstützt',
-'Finished support' => 'Unterstützung beendet',
+'In service' => 'Wird unterstÃ¼tzt',
+'Finished support' => 'UnterstÃ¼tzung beendet',
 'Product Name' => 'Produkt Name',
 'Sub Category' => 'Unterkategorie',
 'Category' => 'Kategorie',
 'Date Sold' => 'Verkaufsdatum',
-'Date in Service' => 'Unterstützung Beendigungsdatum',
+'Date in Service' => 'UnterstÃ¼tzung Beendigungsdatum',
 'Description' => 'Beschreibung',
 'LBL_DESCRIPTION_INFORMATION' => 'Beschreibende Informationen',
 'LBL_CUSTOM_INFORMATION' => 'System Information',
@@ -35,4 +35,3 @@ $languageStrings = array(
 'Potential renewal'=>'Verkauf erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 );
-

@@ -51,8 +51,8 @@ $languageStrings = array(
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Service wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz',
 	'LBL_THIS' => 'Produkt/Service (',
 	'Form of payment' => 'Zahlungsweise',
-	'Transfer' => 'Transfer',
-	'Cash' => 'Cash',
+	'Transfer' => 'Überweisung',
+	'Cash' => 'Bar',
 );
 
 $jsLanguageStrings = array(
