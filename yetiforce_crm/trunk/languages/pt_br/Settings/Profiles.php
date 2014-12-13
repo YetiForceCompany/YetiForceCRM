@@ -2,17 +2,17 @@
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:vtiger CRM Open Source
+ * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 04/07/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Adicionar Perfil',
 	'LBL_CHOOSE_PROFILES' => 'Escolher Perfis',
 	'LBL_CREATE_PROFILE' => 'Criar Perfil',
 	'LBL_DELETE_PROFILE' => 'Apagar Perfil',
-	'LBL_DELETE_PRVILIGE' => 'Apagar',
+	'LBL_DELETE_PRIVILIGE' => 'Apagar',
 	'LBL_DELETE_RECORD' => 'Apagar',
 	'LBL_DESCRIPTION' => 'Descrição',
 	'LBL_DUPLICATE_RECORD' => 'Duplicar',
@@ -20,7 +20,7 @@ $languageStrings = array(
         'LBL_EDIT_ALL_DESC' => 'Permite editar todas as informações dos módulos',
         'LBL_EDIT_ALL' => 'Editar Tudo',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Editar privilégios para este Perfil',
-	'LBL_EDIT_PRVILIGE' => 'Criar/Editar',
+	'LBL_EDIT_PRIVILIGE' => 'Criar/Editar',
 	'LBL_EDIT_RECORD' => 'Editar',
 	'LBL_FIELD_AND_TOOL_PRVILIGES' => 'Privilégios para Campos e Ferramentas',
 	'LBL_FIELDS' => 'Campos',
@@ -30,7 +30,7 @@ $languageStrings = array(
 	'LBL_PROFILES' => 'Perfis',
 	'LBL_PROFILE_VIEW' => 'Visualizar Perfil',
 	'LBL_READ_ONLY' => 'Somente Leitura',
-	'LBL_TOOLS' => 'Ferramentas',
+	'LBL_TOOLS' => 'Privilégios para ações e visualização',
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Transferir Funções para Perfil',
         'LBL_VIEW_ALL_DESC' => 'Permite visualizar todas informações dos módulos',
         'LBL_VIEW_ALL' => 'Visualizar Tudo',

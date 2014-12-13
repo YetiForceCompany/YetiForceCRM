@@ -11,6 +11,7 @@ $languageStrings = array(
 	'Cron Job' => 'Tarefa Cron',
 	'CronTasks' => 'Agendador',
 	'Frequency' => 'Frequência',
+        'Frequency(H:M)' =>'Frequência (H:M)',
 	'Id' => 'Id',
 	'Last End' => 'Final Última verificação',
 	'Last Start' => 'Início Última verificação',
@@ -24,10 +25,9 @@ $languageStrings = array(
 	'MODULE' => 'Módulo',
 	'LBL_NAME' => 'Nome',
 	'LBL_PATH_TO_FILE' => 'Diretório do arquivo',
-
-//Missing fields
-        'Frequency(H:M)'=>'Frequência (H:M)',
 );
+
+
 $jsLanguageStrings = array(
 	'FREQUENCY_NUMBER' => 'A frequência deve ser um número inteiro',
 	'FREQUENCY_REQUIRED' => 'O frequência do campo é obrigatório',

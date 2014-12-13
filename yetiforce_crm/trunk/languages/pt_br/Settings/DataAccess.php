@@ -5,9 +5,8 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
-*  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. All Rights Reserved.
+*  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_DATAACCES' => 'Validação de acesso',
@@ -17,7 +16,6 @@ $languageStrings = array(
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Nenhuma condição foi adicionada',
 	'LBL_NO_TPL_ADDED' => 'Nenhuma condição foi adicionada',
 	'LBL_CREATING_TPL' => 'Criar condições',
-	'ADD_CONDITIONS' => 'Adicionar condição',
 	'LBL_FILL_BASE_DATA' => 'Destalhes da condição',
 	'LBL_ENTER_BASIC_INFO' => 'Adicionar detalhes da condição',
 	'LBL_CHOOSE_ACTIONS' => 'Lista de Ações',
@@ -40,13 +38,14 @@ $languageStrings = array(
 	'LBL_CREATION_DESC' => 'Selecionar ação para ser adicionada',
 	'LBL_NO_ACTION' => 'Nenhuma ação criada',
 	'LBL_CONFIG_ACTION' => 'Configuração de Ações',
+	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Falha ao aprovar as alterações',
+	'LBL_MANDATORY_FIELD' => 'Cambpos Obrigatórios',
 
 	//comparators
  	'starts with' => 'iniciar com',
  	'is' => 'é',
 	'contains' => 'contém',
 	'does not contain' => 'não contém',
-	'starts with' => 'iniciar com',
  	'ends with' => 'final com',
  	'is empty' => 'está vazio',
  	'is not empty' => 'não está vazio',
@@ -72,7 +71,7 @@ $languageStrings = array(
  	'has changed' => 'alterado',
 );
 
-	$jsLanguageStrings = array(
+$jsLanguageStrings = array(
 	'DES_REQUIRED' => 'A descrição é obrigatória',
 
 	//comparators
@@ -80,7 +79,6 @@ $languageStrings = array(
  	'is' => 'é',
  	'contains' => 'contém',
  	'does not contain' => 'não contém',
- 	'starts with' => 'inicia com',
  	'ends with' => 'final com',
  	'is empty' => 'está vazio',
  	'is not empty' => 'não está vazio',

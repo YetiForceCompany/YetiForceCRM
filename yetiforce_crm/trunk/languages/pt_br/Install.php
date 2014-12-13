@@ -1,14 +1,13 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): YetiForce.com
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  * *********************************************************************************** */
-
 $languageStrings = array(
 	'LANGNAME' => 'Inglês',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Não foi possível conectar à Base de Dados',
@@ -40,7 +39,6 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Próximo',
 	'LBL_ONE_LAST_THING' => 'Um última coisa...',
 	'LBL_PASSWORD_MISMATCH' => 'Por favor, redigite a senha. Os valores da \"Senha\" e \"Senha Re-digitada\" não são iguais.',
-	'LBL_PASSWORD' => 'Senha',
 	'LBL_PHP_CONFIGURATION' => 'Configuração PHP',
 	'LBL_PHP_RECOMMENDED_SETTINGS'=>'Configurações do PHP Recomendadas',
 	'LBL_PHP_VERSION' => 'Versão do PHP',
@@ -58,19 +56,40 @@ $languageStrings = array(
 	'LBL_TRUE' => 'Verdadeiro',
 	'LBL_URL' => 'URL',
 	'LBL_USERNAME' => 'Nome Usuário',
-	'LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION' => 'Este assistente irá guia-lo através da instalação do Vtiger CRM 6',
-	'LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD' => 'Bem Vindo(a) ao Assitente de Configuração do Vtiger CRM 6',
+	'LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION' => 'Este assistente irá guia-lo através da instalação do YetiForce CRM',
+	'LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD' => 'Bem Vindo(a) ao Assitente de Configuração do YetiForce CRM',
 	'LBL_WELCOME' => 'Bem Vindo(a)',
 	'LBL_ZLIB_SUPPORT' => 'Suporte Zlib',
 	'MSG_DB_PARAMETERS_INVALID' => 'usuário da base de dados, senha, nome do host, tipo da base de dados ou porta inválida',
 	'MSG_DB_ROOT_USER_NOT_AUTHORIZED' => 'Mensagem: O Usuário Root da Base de Dados não tem permissão para Criar base de dados ou o nome da Base de Dados possui caracteres especiais. Tente mudar as configurações da Base de Dados',
 	'MSG_DB_USER_NOT_AUTHORIZED' => 'o usuário da base de dados não tem acesso para conectar à base de dados a partir do host',
 	'MSG_LIST_REASONS' => 'Isto pode ser devido às seguintes razões',
-	        'LBL_MYSQLI_CONNECT_SUPPORT'=>'Suporte Mysqli',
+	'LBL_MYSQLI_CONNECT_SUPPORT'=>'Suporte Mysqli',
         'LBL_OPEN_SSL'=>'Suporte Openssl',
 	'LBL_LICENSE' => 'Licença',
         'LBL_CURL'=>'Suporte cURL',
 	'LBL_INDUSTRY_OPTION' => 'Por favor, selecione a atividade apropriada.',
+
+	//Migration
+	'LBL_MIGRATION'=>'Migração',
+	'LBL_START_MIGRATION'=>'Iniciar migração',
+	'LBL_MIGRATION_HEADER'=>'Bem vindo(a) ao Sistema Migração do YetiForce',
+	'LBL_MIGRATION_DESC'=>'<strong>Aatenção: </strong>Antes de iniciar a migração, por favor, faça backup dos arquivos e banco de dados do Sistema que você está migrando.',
+	'LBL_HAVE_BACKUP_DATABASE'=>'Tenho um backup da base de dados',
+	'LBL_HAVE_BACKUP_FILES'=>'Tenho um backup dos arquivos',
+	'LBL_LOGIN'=>'Acesso',
+	'LBL_PASSWORD'=>'Senha',
+	'LBL_ADMIN_LOGIN'=>'Acesso - Admin',
+	'LBL_ADMIN_PASSWORD'=>'Senha - Admin',
+	'LBL_SOURCE_DIRECTORY'=>'Endereço local do Sistema',
+	'LBL_SYSTEM_FOR_MIGRATION'=>'Sistema para migração',
+	'LBL_SELECT'=>'-- Selecionar --',
+	'LBL_MIGRATION_SYSTEM'=>'Migração em andamento...',
+	'LBL_END_MIGRATION'=>'Final',
+	'LBL_MIGRATION_SYSTEM_FINISH'=>'Migração do Sistema YetiForce CRM concluída',
+	'LBL_EXAMPLE_DIRECTORY'=>'Exemplo',
+	'LBL_ACCEPT'=>'Aceito as mudanças',
+	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Atenção!</strong> Durante a migração você perderá todos os dados relacionados com os seguintes módulos: Gestor de Mensagens, Modelos de Email e Workflows. <br /> Por favor, esteja ciente que a a migração ainda está em fase de testes, portanto, realize todos o backups e siga os procedimentos de segurança em caso de imprevistos.',
 );
 
 $jsLanguageStrings = array(

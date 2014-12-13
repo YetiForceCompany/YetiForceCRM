@@ -5,7 +5,7 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'ADD_CONDITIONS' => 'Adicionar Condições',
@@ -135,16 +135,16 @@ $languageStrings = array(
 	'LBL_SELECTED_DATES' => 'Datas selecionadas:',
 	
 	//workflow task types
-	'Send Mail' => 'Send Mail',
-	'Invoke Custom Function' => 'Invoke Custom Function',
-	'Create Todo' => 'Create ToDo',
-	'Create Event' => 'Create Event',
-	'Update Fields' => 'Update Fields',
-	'Create Entity' => 'Create Entity',
-	'SMS Task' => 'Send SMS',
-	'Email Template Task' => 'Send Mail Template',
-	'Send Pdf' => 'Send PDF',
-	'Update Closed Time' => 'Update Closed Time',
+	'Send Mail' => 'Enviar Mensagem',
+	'Invoke Custom Function' => 'Invocar Função Customizada',
+	'Create Todo' => 'Criar Tarefa',
+	'Create Event' => 'Criar Evento',
+	'Update Fields' => 'Atualizar Campos',
+	'Create Entity' => 'Criara Entidade',
+	'SMS Task' => 'Enviar SMS',
+	'Email Template Task' => 'Enviar Modelo Mensagem',
+	'Send Pdf' => 'Enviar PDF',
+	'Update Closed Time' => 'Atualizar Tempo Fechado',
 );
 
 $jsLanguageStrings = array(

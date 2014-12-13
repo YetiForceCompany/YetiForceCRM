@@ -110,4 +110,6 @@ $app_strings = Array(
 //Widgets
 'LBL_WIDGET_OPENTICKETS' => 'Vhamados Abertos',
 'LBL_WIDGET_TICKETSBYSTATUS' => 'Chamado por Status',
+'LBL_WIDGET_TICKETSSUMTIME' => 'Chamados - Tempo de trabalho dividido entre Usuários',
+'LBL_WIDGET_PROJECTSUMTIME' => 'Projetos - Tempo de trabalho dividido entre Projetos',
 );

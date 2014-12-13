@@ -5,7 +5,8 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 19/02/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): YetiForce.com
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 19/02/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'Active'=>'Ativo',

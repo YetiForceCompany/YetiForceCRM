@@ -4,10 +4,10 @@
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
+ * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved. All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 12/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-
 $languageStrings = Array(
     'LBL_ADD_FEED_SOURCE' => 'Adicionar Fonte Feed',
     'LBL_ENTER_FEED_SOURCE' => 'Digitar Fonte Feed',
@@ -18,13 +18,8 @@ $languageStrings = Array(
     'LBL_SET_AS_DEFAULT' => 'Configurar como Padrão',
     'SINGLE_Rss' => 'Feed RSS',
 );
-
 $jsLanguageStrings = array(
     'JS_INVALID_RSS_URL' => 'URL do RSS Inválida',
     'JS_RSS_MADE_AS_DEFAULT' => 'Definir RSS como Padrão',
 	'JS_RSS_SUCCESSFULLY_SAVED' => 'RSS salvo com sucesso',
-
 );
-
-
-?>

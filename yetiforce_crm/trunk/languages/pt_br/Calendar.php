@@ -5,7 +5,8 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): YetiForce.com
+ * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'Activity Type'=> 'Tipo Atividade', 
@@ -114,6 +115,22 @@ $jsLanguageStrings = array(
     'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é pode ser realizado no futuro',
         'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Nenhuma visualização da Agenda para adicionar',
     'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'A Tarefa foi adicionada com sucesso em sua Agenda',
+	'JS Start Date'=>'Data Início',
+	'JS End Date'=>'Data Final',
+	'JS Satatus'=>'Satatus',
+	'JS Activity Type'=>'Tipo Atividade',
+	'JS Not Started' => 'Não Iniciado',
+	'JS In Progress' => 'Em Andamento',
+	'JS Completed' => 'Concluído',
+	'JS Pending Input' => 'Pendente',
+	'JS Deferred' => 'Adiado',
+	'JS Planned' => 'Planejado',
+	'JS Call' => 'Chamada',
+	'JS Held' => 'Realizado',
+	'JS Not Held' => 'Não Realizado',
+	'JS Meeting' => 'Reunião',
+	'JS Task' => 'Tarefa',
+
 	'LBL_ADD_EVENT_TASK' => 'Adicionar Evento / Tarefa',
 	'LBL_ALL_DAY' => 'Todos os Dias',
 	'LBL_APR' => 'Abr',
@@ -161,4 +178,5 @@ $jsLanguageStrings = array(
 	'LBL_WEEK' => 'Semana',
 	'Mobile Call' => 'Ligar para Celular',
     'NOTIFICATION_ACCEPTED' => 'Aceita',
+	'JS_RECORD_DELETED' => 'A atividade foi apagada',
 );

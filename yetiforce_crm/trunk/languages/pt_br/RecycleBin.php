@@ -5,9 +5,9 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 21/12/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
-
 $languageStrings = Array(
 	'RecycleBin' => 'Lixeira',
 	'LBL_SELECT_MODULE' => 'Selecionar Módulo',
@@ -17,12 +17,8 @@ $languageStrings = Array(
 	'LBL_RECORDS_LIST' => 'Lista Lixeira',
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum registro foi encontrado para Restaurar no módulo',
 );
-
 $jsLanguageStrings = array(
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Tem certeza que deseja remover permanentemente, de sua base de dados, todos os registros apagados?',
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Tem certeza que deseja restaurar os registros?',
 	'JS_RESTORING_RECORDS' => 'Restaurando registros',
 );
-
-
-?>

@@ -1,13 +1,14 @@
 <?php
-/*+**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] and Gabriel Porto Trindade [gptrind@gmail.com] - 08/12/2014
- ************************************************************************************/
-
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade [valmir@ttcasolucoes.com.br] and Gabriel P. Trindade [gptrind@gmail.com] - 08/12/2014
+ *************************************************************************************************************************************/
 $languageStrings = array(
 	'OSSOutsourcedServices' => 'Serviços de Terceiros',
 	'SINGLE_OSSOutsourcedServices' => 'Serviço de Terceiros',
@@ -35,4 +36,3 @@ $languageStrings = array(
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
 );
-?>

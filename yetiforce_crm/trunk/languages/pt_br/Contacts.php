@@ -5,6 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 26/04/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
@@ -45,6 +46,13 @@ $languageStrings = array(
 	'Ms.'=> 'Sra.',
 	'Prof.'=> 'Prof.' ,
 
+	'LBL_ADDRESS_INFORMATION' => 'Endereço residencial',
+	'Werification data'=>'Verificação dados',
+	'LBL_CONTACT_INFO' => 'Informação contato',
+	'Approval for phone calls'=>'Permissão Chamada',
+	'Approval for email'=>'Permissão envio emails',
+	'LBL_LANGUAGE_NOTIFICATIONS' => 'Notificações Idioma',
+
 	//Missing Fields | Valmir C Trindade
 	'Sales Order'=>'Pedido Vendas',
 	'Activities'=>'Atividades',
@@ -52,12 +60,6 @@ $languageStrings = array(
 	'Projects'=>'Projetos',
 	'Purchase Order'=>'Pedido Compras',
 
-	'LBL_ADDRESS_INFORMATION' => 'Endereço residencial',
-	'Werification data'=>'Verificação dados',
-	'LBL_CONTACT_INFO' => 'Informação contato',
-	'Approval for phone calls'=>'Permissão Chamada',
-	'Approval for email'=>'Permissão envio emails',
-	'LBL_LANGUAGE_NOTIFICATIONS' => 'Notificações Idioma',
 );
 
 $jsLanguageStrings = array(

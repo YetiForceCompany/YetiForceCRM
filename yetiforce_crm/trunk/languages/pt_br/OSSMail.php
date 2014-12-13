@@ -1,13 +1,14 @@
 <?php
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- * *******************************************************************************
- *  Module				: OSSMail
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
  *  Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 24/10/2014 - www.ttcasolucoes.com.br
- * *******************************************************************************+ */
+ *************************************************************************************************************************************/
 $languageStrings = array(
     'OSSMail' => 'Caixa Correio',
     'OSSMail_manual' => 'Módulo Correio',
@@ -83,7 +84,7 @@ $languageStrings = array(
     'mdn_requests_4' => 'enviar automaticamente se o remetente estiver na lista de endereço, caso contrário, ignore',
     'Autologon' => 'Auto acesso',
 	'LBL_SAVE' => 'Salvar configuração',    
-	'LBL_MAILSLIST' => 'Emails mais recentes',
+	'Mails List' => 'Emails mais recentes',
 	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',
 );
 

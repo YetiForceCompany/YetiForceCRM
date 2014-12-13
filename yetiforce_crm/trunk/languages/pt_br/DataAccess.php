@@ -9,7 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
-// Action translation
 $languageStrings = array(
 	'LBL_NONE' => '--Nada--',
 	'Message' => 'Mensagem',
@@ -66,7 +65,7 @@ $languageStrings = array(
 	'LBL_CURRENT_USER' => 'Usuário atual',
 	//
 	'Action_colorList' => 'Colorindo linhas na lista de registros',
-	'Action_Desc_colorList' => 'Esta ferramenta permite colorir linhas que satisfaçam as condições correspondentes. Graças a esta funcionalidade, os registros com prioridade mais elevada podem ser distinguidos.',
+	'Action_Desc_colorList' => 'Esta ferramenta permite colorir linhas que satisfaçam as condições correspondentes. Graças a esta funcionalidade, os registros com prioridade mais elevada podem ser diferenciados.',
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
 );
