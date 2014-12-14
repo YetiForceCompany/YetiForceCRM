@@ -49,8 +49,8 @@ $languageStrings = array(
 	'LBL_ADDRESS_INFORMATION' => 'Endereço residencial',
 	'Werification data'=>'Verificação dados',
 	'LBL_CONTACT_INFO' => 'Informação contato',
-	'Approval for phone calls'=>'Permissão Chamada',
-	'Approval for email'=>'Permissão envio emails',
+	'Approval for phone calls'=>'Permissão Chamadas',
+	'Approval for email'=>'Permissão envio e-mails',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Notificações Idioma',
 
 	//Missing Fields | Valmir C Trindade

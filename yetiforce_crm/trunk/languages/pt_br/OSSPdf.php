@@ -105,7 +105,7 @@ $languageStrings = Array(
     'users' => 'Usuários',
 ##################################
     'LBL_TEMPLATES' => 'Selecionar modelo PDF',
-    'LBL_NO_TEMPLATES' => 'Falta modelos disponíveis!',
+    'LBL_NO_TEMPLATES' => 'Nenhum modelo disponível!',
     'company_name' => 'OpenSaaS Sp. z o.o.',
     'street' => 'ul. Kasprzaka 29/31',
     'city' => '01-234 Warszawa',

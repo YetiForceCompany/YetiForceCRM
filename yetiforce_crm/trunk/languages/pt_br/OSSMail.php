@@ -85,7 +85,8 @@ $languageStrings = array(
     'Autologon' => 'Auto acesso',
 	'LBL_SAVE' => 'Salvar configuração',    
 	'Mails List' => 'Emails mais recentes',
-	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',
+	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',   
+
 );
 
 $jsLanguageStrings = array(

@@ -29,6 +29,10 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
+	//Missing Quote Stage Item
+	'Created'=>'Criada',
+	'Reviewed'=>'Revisada',
+
 );
 
 $jsLanguageStrings = array(

@@ -5,7 +5,7 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 24/05/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 13/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'CustomerPortal' => 'Portal do Cliente',
@@ -21,7 +21,7 @@ $languageStrings = array(
 	'LBL_VIEW_ALL_RECORDS' => 'Visualiza os Registros de toda a Organização',
 
 	//Messages
-	'LBL_PREVILEGES_MESSAGE' => "Os privilégios da Função selecionada serão aplicados ao Usuário do Portal.",
+	'LBL_PRIVILEGES_MESSAGE' => "Os privilégios da Função selecionada serão aplicados ao Usuário do Portal.",
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Os Tickets serão atribuídos ao Responsável selecionado como Usuário/Grupo padrão do Portal do Cliente.',
 	'LBL_PORTAL_URL_MESSAGE' => 'Esta é a URL do Portal onde seus Contatos poderão acessar para submeter/acompanhar os Tickets, acessar a Base de Conhecimento e muito mais. Os detalhes para acesso ao Portal do Cliente serão enviados assim que o acesso for habilitado no cadastro do Contato.',
 	'LBL_DRAG_AND_DROP_MESSAGE' => 'Arraste e solte os módulos para que sejam reordenados no Portal do Cliente',

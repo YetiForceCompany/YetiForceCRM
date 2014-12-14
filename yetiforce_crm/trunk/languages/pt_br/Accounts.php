@@ -60,8 +60,8 @@ $languageStrings = array(
 	'LBL_FINANSIAL_SUMMARY' => 'Resumo Financeiro',
 	'Balance' => 'Balanço',
 	'Average profit sales order' => 'Lucro médio Pedido Vendas(%)',
-	'Approval for email'=>'Permissão para enviar emails',
-	'Approval for phone calls'=>'Permissão para ligações telefônicas',
+	'Approval for email'=>'Permissão envio e-mails',
+	'Approval for phone calls'=>'Permissão Chamadas',
 	//Missing Fields in Right Bar | Valmir C Trindade
 	'Sales Order'=>'Pedido Vendas',
 	'Activities'=>'Atividades',

@@ -72,8 +72,8 @@ $languageStrings = array(
 	'Contact Information' => 'Informação contato',
 	'LBL_REGISTRATION_INFO'=>'Detalhes registro',
     'LBL_REQUIRES_VERIFICATION' => 'Verificação de dados',
-	'Approval for phone calls'=>'Permissão para chamadas telefônicas',
-	'Approval for email'=>'Permissão para envio de emails',
+	'Approval for phone calls'=>'Permissão Chamadas',
+	'Approval for email'=>'Permissão envio e-mails',
     
 	'Total emails'=>'Número de Emails',
 	'Total comments'=>'Número de Comentários',

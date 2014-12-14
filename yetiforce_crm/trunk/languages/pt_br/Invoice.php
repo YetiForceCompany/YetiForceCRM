@@ -11,7 +11,7 @@
 $languageStrings = array(
 	'AutoCreated'=> 'Requer Aprovação' ,
 	'Created'=>'Rascunho',
-	'Cancel' => 'Cancelar',
+	'Cancel' => 'Cancelada',
 	'Credit Invoice' => 'A Receber' , 
 	'Customer No'=> 'Cod. Cliente', 
 	'Invoice Date' => 'Data Fatura' , 
@@ -22,7 +22,7 @@ $languageStrings = array(
 	'LBL_EXPORT_TO_PDF'=> 'Exportar para PDF' ,
 	'LBL_INVOICE_INFORMATION'=> 'Detalhes da Fatura' ,
 	'LBL_NOT_A_BUNDLE' => 'Não é um pacote',
-	'LBL_RECEIVED' => 'Recebido',
+	'LBL_RECEIVED' => 'Recebida',
 	'LBL_RECORDS_LIST' => 'Lista Faturas' ,
     	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'LBL_SUB_PRODUCTS'	=> 'Sub Produtos',
@@ -33,14 +33,16 @@ $languageStrings = array(
 	'Sent' => 'Enviada' , 
 	'SINGLE_Invoice' => 'Fatura', 
     'Potential' => 'Oportunidade',
-    'Invoice entered' => 'Reservado',
-	'Derecognized' => 'Baixado',
+    'Invoice entered' => 'Reservada',
+	'Derecognized' => 'Baixada',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') foi removido do Sistema. Tente substitui-lo por um Produto/Serviço diferente.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Este Produto/Serviço removido do Sistema. Remova-o do registro',
 	'LBL_THIS' => 'Produto/Serviço (',
 	'Form of payment' => 'Forma de pagamento',
-	'Bank account' => 'Conta bancária',
+	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
+	//Missing Invoice Status Item. In Portuguese the word "Approved" has in masculine [Aprovado] and feminine [Aprovada]. For Invoice, this word is feminine.
+	'Approved' => 'Aprovada',
 );
 
 $jsLanguageStrings = array(

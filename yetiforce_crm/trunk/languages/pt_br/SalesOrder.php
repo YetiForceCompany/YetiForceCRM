@@ -9,7 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
-	'AutoCreated'=> 'Auto Criado' , 
+	'AutoCreated'=> 'Auto Criada' , 
 	'Credit Invoice' => 'Fatura Crédito' , 
 	'Customer No'=> 'Cód. Cliente' , 
 	'Enable Recurring' => 'Habilitar Recorrência', 
@@ -54,6 +54,12 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
+	//Missing Items in "Invoice Status" Field - In Portuguese, this list items is feminine for Invoice. 
+	'Created'=>'Criada',	
+	'Derecognized'=>'Baixada',
+	'Invoice entered'=>'Entrada Fatura',
+	'Cancel'=>'Cancelada',
+	'Approved'=>'Aprovada',
 );
 
 $jsLanguageStrings = array(
