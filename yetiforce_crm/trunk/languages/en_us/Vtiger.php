@@ -776,10 +776,12 @@ $languageStrings = array(
 	'LBL_NULL_VALUE' => '(No value)',
 	'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'List of records is limited to the products and services associated with the sales opportunity',
+	'LBL_UPDATES' => 'Updates',
+	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',
-	'JS_OF' => 'z',
+	'JS_OF' => 'of',
 	'AM' => 'AM',
 	'JS_LBL_NO_TAXES' => 'Selected product does not contain tax',
 	'INVALID_NUMBER' => 'Invalid number',
