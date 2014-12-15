@@ -1,6 +1,10 @@
-Options -Indexes
+<IfModule mod_autoindex.c>
+	Options -Indexes
+</ifModule>
 ########################
-#RewriteEngine On
-#RewriteCond %{HTTPS} off
-#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+<IfModule mod_rewrite.c>
+	#RewriteEngine On
+	#RewriteCond %{HTTPS} off
+	#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+</ifModule>
 ########################
