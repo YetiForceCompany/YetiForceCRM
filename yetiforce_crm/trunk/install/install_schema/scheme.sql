@@ -861,6 +861,67 @@ CREATE TABLE `vtiger_audit_trial` (
   PRIMARY KEY (`auditid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_backup` */
+
+DROP TABLE IF EXISTS `vtiger_backup`;
+
+CREATE TABLE `vtiger_backup` (
+  `backupid` int(11) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `create_time` varchar(40) NOT NULL,
+  `how_many` int(11) NOT NULL,
+  PRIMARY KEY (`backupid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_backup_db_tmp` */
+
+DROP TABLE IF EXISTS `vtiger_backup_db_tmp`;
+
+CREATE TABLE `vtiger_backup_db_tmp` (
+  `tmpbackupid` int(11) NOT NULL AUTO_INCREMENT,
+  `table_name` varchar(100) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`tmpbackupid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_backup_db_tmp_info` */
+
+DROP TABLE IF EXISTS `vtiger_backup_db_tmp_info`;
+
+CREATE TABLE `vtiger_backup_db_tmp_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `time` varchar(40) DEFAULT '0',
+  `howmany` int(11) NOT NULL DEFAULT '0',
+  `tables_prepare` tinyint(1) NOT NULL,
+  `backup_db` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_backup_dir` */
+
+DROP TABLE IF EXISTS `vtiger_backup_dir`;
+
+CREATE TABLE `vtiger_backup_dir` (
+  `name` varchar(200) NOT NULL,
+  `backup` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_backup_ftp` */
+
+DROP TABLE IF EXISTS `vtiger_backup_ftp`;
+
+CREATE TABLE `vtiger_backup_ftp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `host` varchar(50) NOT NULL,
+  `login` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_blocks` */
 
 DROP TABLE IF EXISTS `vtiger_blocks`;

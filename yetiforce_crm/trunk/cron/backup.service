@@ -1,0 +1,7 @@
+<?php
+include_once 'includes/main/WebUI.php';
+$current_user = Users::getActiveAdminUser();
+
+global $adb, $log;
+
+Settings_BackUp_Module_Model::cronBackUp();
