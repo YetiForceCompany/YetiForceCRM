@@ -51,7 +51,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
                     $newDirs[] = $dir;
                 }
                 if (!isset($dbDirs[$dir]) || $dbDirs[$dir] == 0) {
-                    Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$this->fileName.'.zip', 0, $cron);
+                    Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$this->fileName.'.zip', 0, $cron,array() , $this->fileName);
                 }
             }
             Settings_BackUp_Module_Model::addBackupDirs($newDirs);
@@ -59,7 +59,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
 
         $dbAccuallyDirs = Settings_BackUp_Module_Model::getDirs();
         foreach ($dirs as $dir) {
-            Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$this->fileName.'.zip', 1, $cron, $dbAccuallyDirs);
+            Settings_BackUp_CreateFileBackUp_Action::zipData($dir, Settings_BackUp_Module_Model::$tempDir.'/'.$this->fileName.'.zip', 1, $cron, $dbAccuallyDirs, $this->fileName);
         }
         $zip = new ZipArchive();
         $zip->open( Settings_BackUp_Module_Model::$destDir.'/'.$sqlFileName.'.zip', ZipArchive::CREATE );
@@ -74,7 +74,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
         echo json_encode(array('percentage' => 100));
     }
 
-    public function zipData($source, $destination, $backup, $cron, $backupedDirs = array()) {
+    public function zipData($source, $destination, $backup, $cron, $backupedDirs = array(), $fileName) {
         global $log;
         $log->info('Create zip');
         $newSubDirs[] = (string) $source;
@@ -104,7 +104,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
                                     }
                                 }
                             } else if (is_file($file)) {
-                                if ($backup && strpos((string) $file, $this->fileName) === FALSE)
+                                if ($backup && strpos((string) $file, $fileName) === FALSE)
                                     $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
                             }
                         }
