@@ -147,11 +147,11 @@ class Install_InitSchema_Model {
 		}
 		return $schemaList;
 	}
-	public static function executeMigrationSchema($system) {
+	public static function executeMigrationSchema($system, $userName) {
 		//ini_set('display_errors', 'Off');
 		include_once self::migration_schema.$system.'.php';
 		$migrationObject = new $system;
-		$migrationObject->preProcess();
+		$migrationObject->preProcess($userName);
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
 		Vtiger_Deprecated::createModuleMetaFile();

@@ -70,6 +70,12 @@ class OSSMailScanner {
 		$fieldid = $adb->getUniqueId('vtiger_settings_field');
 		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,'Mail Scanner','','OSSMailScanner', 'index.php?module=OSSMailScanner&parent=Settings&view=index'));
+		$blockid = $adb->query_result( 
+			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_SECURITY_MANAGEMENT'",array()),
+			0, 'blockid');
+		$sequence = (int)$adb->query_result(
+			$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?",array($blockid)),
+			0, 'sequence') + 1;
 		$fieldid = $adb->getUniqueId('vtiger_settings_field');
 		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence+1,'Mail Logs','','OSSMailScanner', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));	

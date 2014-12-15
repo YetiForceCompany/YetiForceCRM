@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-
 class Install_Index_view extends Vtiger_View_Controller {
 
     protected $debug = false;
@@ -298,11 +296,11 @@ class Install_Index_view extends Vtiger_View_Controller {
 
     public function mStep3(Vtiger_Request $request) {
 		$system = $request->get('system');
-		$migrationURL = 'Install.php?mode=execute&ajax=true&system='.$system;
 		$source_directory = $request->get('source_directory');
 		$username = $request->get('username');
 		$password = $request->get('password');
 		$errorText = '';
+		$migrationURL = 'Install.php?mode=execute&ajax=true&system='.$system.'&user='.$username;
 		$viewer = new Vtiger_Viewer();
 		$createConfig = Install_InitSchema_Model::createConfig($source_directory, $username, $password, $system);
 		if($createConfig['result']){

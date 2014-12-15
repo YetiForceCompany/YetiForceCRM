@@ -20,12 +20,12 @@ class OSSMail {
             $displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
             $blockid = $adb->query_result(
-                    $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
+                    $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'", array()), 0, 'blockid');
             $sequence = (int) $adb->query_result(
                             $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
             $fieldid = $adb->getUniqueId('vtiger_settings_field');
             $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $displayLabel, '', 'OSSMail', 'index.php?module=OSSMail&parent=Settings&view=index'));
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Mail', '', 'LBL_OSSMAIL_DESCRIPTION', 'index.php?module=OSSMail&parent=Settings&view=index'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'autologon','true'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'time_checking_mail','10'));
 			$adb->query("CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (

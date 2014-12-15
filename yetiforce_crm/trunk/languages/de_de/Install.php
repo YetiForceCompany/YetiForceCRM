@@ -90,6 +90,9 @@ $languageStrings = array(
 	'LBL_MIGRATION_SYSTEM'=>'Migration in Arbeit...',
 	'LBL_END_MIGRATION'=>'Ende',
 	'LBL_ACCEPT'=>'Ich akzeptiere die Änderungen',
+	'LBL_MIGRATION_ERROR'=>'Error occurred during your attempt to migrate',
+	'LBL_ERROR_NO_CONFIG'=>'Incorrect system local address',
+	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Incorrect login or password',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warnung!</strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:	MailManager, EmailTemplates, Workflows. <br> Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen',
 );
 

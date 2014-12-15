@@ -127,13 +127,14 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 			$assetInstance = Vtiger_Module::getInstance($moduleName);
 
 			$accountInstance = Vtiger_Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($assetInstance,$moduleName,array(ADD),'get_dependents_list');
+			$accountInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
 			$productInstance = Vtiger_Module::getInstance('Products');
-			$productInstance->setRelatedlist($assetInstance,$moduleName,array(ADD),'get_dependents_list');
+			$productInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
 			$InvoiceInstance = Vtiger_Module::getInstance('Invoice');
-			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array(ADD),'get_dependents_list');
+			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');$InvoiceInstance = Vtiger_Module::getInstance('Leads');
+			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));
 			if (!($adb->num_rows($result))) {

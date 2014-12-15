@@ -83,18 +83,6 @@ class OSSMailTemplates extends Vtiger_CRMEntity {
 
             $adb->query("UPDATE vtiger_tab SET customized = 0 WHERE name = '$moduleName'", true);
 
-            $fieldid = $adb->getUniqueID('vtiger_settings_field');
-            $blockid = getSettingsBlockId('LBL_OTHER_SETTINGS');
-            $seq_res = $adb->pquery("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid = ?", array($blockid));
-            if ($adb->num_rows($seq_res) > 0) {
-                $cur_seq = $adb->query_result($seq_res, 0, 'max_seq');
-                if ($cur_seq != null) {
-                    $seq = $cur_seq + 1;
-                }
-            }
-
-            $adb->pquery('INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence)
-            VALUES (?,?,?,?,?,?,?)', array($fieldid, $blockid, $moduleName, 'portal_icon.png', $moduleName . 'Description', 'index.php?module=' . $moduleName . '&view=Index&parent=Settings', $seq));
 			$Module = Vtiger_Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' .$Module->version, $user_id),false);

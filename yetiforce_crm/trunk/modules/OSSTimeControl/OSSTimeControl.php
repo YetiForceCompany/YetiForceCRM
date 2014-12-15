@@ -130,6 +130,8 @@ class OSSTimeControl extends Vtiger_CRMEntity {
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Quotes');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
+			$docelowy_Module = Vtiger_Module::getInstance('Leads');
+			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
 		
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

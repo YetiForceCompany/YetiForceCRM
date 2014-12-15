@@ -119,11 +119,13 @@ class OSSSoldServices extends Vtiger_CRMEntity {
 			// deklaracja modulow do powiazania 
 			$moduleInstance = Vtiger_Module::getInstance($modulename);
 			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_related_list');	
+			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
         	$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_related_list');	
-        	$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_related_list');	
+			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
+			$docelowy_Module = Vtiger_Module::getInstance('Potentials');
+			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');
+			$docelowy_Module = Vtiger_Module::getInstance('Invoice');
+			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
         	
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.

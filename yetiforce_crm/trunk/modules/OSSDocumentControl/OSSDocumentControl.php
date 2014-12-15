@@ -116,7 +116,7 @@ class OSSDocumentControl extends Vtiger_CRMEntity {
                         $db->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
         $fieldid = $db->getUniqueId('vtiger_settings_field');
         $db->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $moduleName, '', $moduleName, 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Document Control', '', 'LBL_DOCUMENT_CONTROL_DESCRIPTION', 'index.php?module=OSSDocumentControl&parent=Settings&view=Index'));
         
         
         $module = Vtiger_Module::getInstance($moduleName);

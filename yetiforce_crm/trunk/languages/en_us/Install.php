@@ -89,6 +89,9 @@ $languageStrings = array(
 	'LBL_MIGRATION_SYSTEM_FINISH'=>'Zakończono migrację systemu YetiForce CRM',
 	'LBL_EXAMPLE_DIRECTORY'=>'Example',
 	'LBL_ACCEPT'=>'I accept changes',
+	'LBL_MIGRATION_ERROR'=>'Error occurred during your attempt to migrate',
+	'LBL_ERROR_NO_CONFIG'=>'Incorrect system local address',
+	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Incorrect login or password',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warning!</strong> During the migration you will loose all data related to the following modules: MailManager, EmailTemplates, Workflows. <br /> Please be aware that migration is still in its testing stage so you should make all possible back-up copies and follow security procedures in case of any unforeseen events.',
 );
 

@@ -962,6 +962,48 @@ CREATE TABLE IF NOT EXISTS `vtiger_end_hour_seq`(
 	`id` int(11) NOT NULL  
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
+CREATE TABLE `vtiger_backup` (
+`backupid` int(11) NOT NULL AUTO_INCREMENT,
+`file_name` varchar(50) NOT NULL,
+`created_at` datetime NOT NULL,
+`create_time` varchar(40) NOT NULL,
+`how_many` int(11) NOT NULL,
+PRIMARY KEY (`backupid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_backup_db_tmp` (
+`tmpbackupid` int(11) NOT NULL AUTO_INCREMENT,
+`table_name` varchar(100) NOT NULL,
+`status` tinyint(1) NOT NULL,
+PRIMARY KEY (`tmpbackupid`)) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_backup_db_tmp_info` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`file_name` varchar(50) NOT NULL,
+`status` varchar(20) NOT NULL,
+`time` varchar(40) DEFAULT '0',
+`howmany` int(11) NOT NULL DEFAULT '0',
+`tables_prepare` tinyint(1) NOT NULL,
+`backup_db` tinyint(1) NOT NULL,
+PRIMARY KEY (`id`))
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_backup_dir` (
+`name` varchar (200) NOT NULL,
+`backup` int (11) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_backup_ftp` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`host` varchar(50) NOT NULL,
+`login` varchar(50) NOT NULL,
+`password` varchar(100) NOT NULL,
+`status` tinyint(1) NOT NULL,
+PRIMARY KEY (`id`))
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 insert into `vtiger_bruteforce` (`attempsnumber`, `timelock`) values('10','15');
 insert into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`) values (0,'0','https://api.opencagedata.com/geocode/v1/',3);
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (1,'HelpDesk','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
@@ -982,3 +1024,27 @@ insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (47,4,'sales_stage','is','Closed Lost',0,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (48,4,'sales_stage','is','Closed Won',0,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
+
+insert  into `vtiger_password`(`type`,`val`) values ('min_length','8');
+insert  into `vtiger_password`(`type`,`val`) values ('max_length','32');
+insert  into `vtiger_password`(`type`,`val`) values ('big_letters','true');
+insert  into `vtiger_password`(`type`,`val`) values ('small_letters','true');
+insert  into `vtiger_password`(`type`,`val`) values ('numbers','true');
+insert  into `vtiger_password`(`type`,`val`) values ('special','false');
+
+
+/*Data for the table `vtiger_passwords_config` */
+insert  into `vtiger_passwords_config`(`pass_length_min`,`pass_length_max`,`pass_allow_chars`,`register_changes`) values (10,15,'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9',0);
+
+insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('300','text');
+insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'Project');
+insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'ServiceContracts');
+
+CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtask_queue` (
+  `task_id` int(11) DEFAULT NULL,
+  `entity_id` varchar(100) DEFAULT NULL,
+  `do_after` int(11) DEFAULT NULL,
+  `task_contents` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert  into `com_vtiger_workflowtask_queue`(`task_id`,`entity_id`,`do_after`,`task_contents`) values (6,'12x4',0,'{\"fromEmail\":\"test@yetiforce.com\",\"fromName\":\"admin\",\"toEmail\":\"test@yetiforce.com\",\"ccEmail\":\"\",\"bccEmail\":\"\",\"subject\":\"Regarding Contact Assignment\",\"content\":\"An Contact has been assigned to you on vtigerCRM<br>Details of Contact are :<br><br>Contact Id:<b>CON1<\\/b><br>LastName:<b>kontakt<\\/b><br>FirstName:<b>tset<\\/b><br>Lead Source:<b>Rozmowa telefoniczna<\\/b><br>Department:<b><\\/b><br>Description:<b>sfsafsafasdfsadfsadfsdf<\\/b><br><br><br>And <b>CustomerPortal Login Details<\\/b> is sent to the EmailID :-<br><br>Thank You<br>Admin\"}');

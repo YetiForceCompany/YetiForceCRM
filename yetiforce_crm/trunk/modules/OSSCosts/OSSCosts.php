@@ -133,12 +133,7 @@ class OSSCosts extends CRMEntity {
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Vendors');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
-            $blockid = $adb->query_result( $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
-            $sequence = (int) $adb->query_result(
-                            $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-            $fieldid = $adb->getUniqueId('vtiger_settings_field');
-            $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $moduleName, '', 'OSSCosts', 'index.php?module=OSSCosts&parent=Settings&view=index'));
+
 			$adb->query("INSERT INTO vtiger_osscosts_config (param) VALUES ('show_widgets_opportunities')");
 			$adb->query("INSERT INTO vtiger_osscosts_config (param) VALUES ('show_widgets_helpdesk')");
 			$adb->query("INSERT INTO vtiger_osscosts_config (param) VALUES ('show_widgets_project')");

@@ -30,14 +30,14 @@ class OSSMenuManager extends CRMEntity {
 		if($event_type == 'module.postinstall') {
 		
 			$blockid = $adb->query_result( 
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'",array()),
+				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_STUDIO'",array()),
 				0, 'blockid');
 			$sequence = (int)$adb->query_result(
 				$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?",array($blockid), true),
 				0, 'sequence') + 1;
 			$fieldid = $adb->getUniqueId('vtiger_settings_field');
 			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,'Menu Manager','','The module to manage the main menu', 'index.php?module=OSSMenuManager&view=Configuration&parent=Settings'), true);
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,'Menu Manager','menueditor.png','LBL_MENU_DESC', 'index.php?module=OSSMenuManager&view=Configuration&parent=Settings'), true);
             
             $adb->query("UPDATE vtiger_tab SET customized = 0 WHERE name='$moduleName'");
 

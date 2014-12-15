@@ -319,7 +319,6 @@ class OSSEmployees extends Vtiger_CRMEntity {
 	 
     function vtlib_handler($modulename, $event_type) {
 		global $adb;
-		$displayLabel = 'OSS Employees';
         if($event_type == 'module.postinstall') {
 			//blok z polami w podsumowaniu
 			$tabid = getTabid($modulename);
@@ -335,15 +334,6 @@ class OSSEmployees extends Vtiger_CRMEntity {
 			}
 			// blok EH
 			//$this->addWidgetTo(array('OSSEmployees'));
-			$blockid = $adb->query_result( 
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'",array()),
-				0, 'blockid');
-			$sequence = (int)$adb->query_result(
-				$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?",array($blockid)),
-				0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,$displayLabel,'','OSSEmployees', 'index.php?module=OSSEmployees&parent=Settings&view=index'));
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {

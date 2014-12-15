@@ -20,7 +20,8 @@ class Install_Ajax_Model{
     }
     public function execute(Vtiger_Request $request) {
 		$system = $request->get('system');
-		$result = Install_InitSchema_Model::executeMigrationSchema($system);
+		$userName = $request->get('user');
+		$result = Install_InitSchema_Model::executeMigrationSchema($system, $userName);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

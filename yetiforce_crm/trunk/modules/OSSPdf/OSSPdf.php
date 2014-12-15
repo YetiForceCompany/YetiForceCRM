@@ -468,7 +468,7 @@ class OSSPdf extends CRMEntity {
         }
 
         $db->pquery("INSERT INTO vtiger_settings_field ( fieldid, blockid, name, iconpath, description, linkto, sequence )  VALUES ( ?,?,?,?,?,?,? )", 
-        Array($fieldid, $blockid, 'OSS PDF', 'Smarty/templates/modules/OSSValidation/currency_update_mini.png', "OSSPDF_INFO", "index.php?module=OSSPdf&view=Index&parent=Settings", $seq), true);
+        Array($fieldid, $blockid, 'PDF', 'Smarty/templates/modules/OSSValidation/currency_update_mini.png', "LBL_OSSPDF_INFO", "index.php?module=OSSPdf&view=Index&parent=Settings", $seq), true);
 
 		$mods = Vtiger_Module::getInstance( "OSSPdf" );
 		$mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/vlayout/modules/{$modulename}/resources/PDFUtils.js");
