@@ -851,6 +851,8 @@ $languageStrings = array(
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Lista rekordów jest ograniczona do produktów i usług powiązanych z szansą sprzedaży',
 	'LBL_UPDATES' => 'Aktualizacje',
 	'LBL_UPDATES_DESCRIPTION' => 'Historia wykonanych aktualizacji',
+	'LBL_CONFREPORT' => 'Konfiguracja serwera',
+	'LBL_CONFREPORT_DESCRIPTION' => 'Przedstawia zalecane i aktualne ustawienia serwera',
 );
 
 $jsLanguageStrings = array(

@@ -774,6 +774,8 @@ $languageStrings = array(
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufsmöglichkeit verbunden sind',
 	'LBL_UPDATES' => 'Updates',
 	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
+	'LBL_CONFREPORT' => 'Server configuration',
+	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',
