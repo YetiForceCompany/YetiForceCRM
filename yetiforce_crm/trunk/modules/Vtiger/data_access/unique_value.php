@@ -49,19 +49,21 @@ Class DataAccess_unique_value{
 			foreach($wheres1 as $where){
 				$where = explode('=', $where);
 				$DestModuleName = Vtiger_Functions::getModuleName($where[2]);
+				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
+				$tab_name_index = $ModuleInstance->tab_name_index;
+				$index = $tab_name_index[$where[0]];
 				$sql_param = array( $value1 );
 				$sql_ext = '';
 				if($ModuleNameID == $where[2] && $ID != 0 && $ID != ''){
-					$ModuleInstance = CRMEntity::getInstance($ModuleName);
 					$sql_param[] = $ID;
-					$tab_name_index = $ModuleInstance->tab_name_index;
-					$sql_ext = 'AND '.$tab_name_index[$where[0]].' <> ?';
+					$sql_ext = 'AND '.$index.' <> ?';
 				}
-				$result = $db->pquery( "SELECT count({$where[1]}) as num FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param,true);
-				if($db->query_result($result, 0, 'num') > 0){
+				$result = $db->pquery( "SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true );
+				for($i = 0; $i < $db->num_rows($result); $i++){
 					$save_record1 = false;
-					$result = $db->pquery( "SELECT fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?", array($where[1], $where[2] ) ,true);
-					$fieldlabel .= vtranslate( $DestModuleName , $DestModuleName ).':'.vtranslate( $db->query_result($result, 0, 'fieldlabel') , $DestModuleName ).',';
+					$id = $db->query_result_raw($result, $i, $index);
+					$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
+					$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
 				}
 			}
 		}
@@ -69,19 +71,21 @@ Class DataAccess_unique_value{
 			foreach($wheres2 as $where){
 				$where = explode('=', $where);
 				$DestModuleName = Vtiger_Functions::getModuleName($where[2]);
-				$sql_param = array( $value2 );
+				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
+				$tab_name_index = $ModuleInstance->tab_name_index;
+				$index = $tab_name_index[$where[0]];
+				$sql_param = array( $value1 );
 				$sql_ext = '';
 				if($ModuleNameID == $where[2] && $ID != 0 && $ID != ''){
-					$ModuleInstance = CRMEntity::getInstance($ModuleName);
 					$sql_param[] = $ID;
-					$tab_name_index = $ModuleInstance->tab_name_index;
-					$sql_ext = 'AND '.$tab_name_index[$where[0]].' <> ?';
+					$sql_ext = 'AND '.$index.' <> ?';
 				}
-				$result = $db->pquery( "SELECT count({$where[1]}) as num FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param,true);
-				if($db->query_result($result, 0, 'num') > 0){
+				$result = $db->pquery( "SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true );
+				for($i = 0; $i < $db->num_rows($result); $i++){
 					$save_record2 = false;
-					$result = $db->pquery( "SELECT fieldlabel FROM vtiger_field WHERE fieldname = ? AND tabid = ?", array($where[1], $where[2] ) ,true);
-					$fieldlabel .= vtranslate( $DestModuleName , $DestModuleName ).':'.vtranslate( $db->query_result($result, 0, 'fieldlabel') , $DestModuleName ).',';
+					$id = $db->query_result_raw($result, $i, $index);
+					$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
+					$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
 				}
 			}
 		}
@@ -102,13 +106,15 @@ Class DataAccess_unique_value{
 				'save_record'=>$save_record,
 				'type'=>0,
 				'info'=>Array(
-					'title'=> vtranslate($info, 'DataAccess').' ('.trim($fieldlabel,',').')',
-					'type'=> $type
+					'title'=> vtranslate($info, 'DataAccess').' <br/ >'.trim($fieldlabel,','),
+					'type'=> $type,
+					'hide'=> false
 				)
 			);
 		else
 			return Array('save_record'=> true );
     }
+
     public function getConfig( $id,$module,$baseModule ) {
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery( "SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' AND vtiger_field.displaytype IN ('1','10') ORDER BY name", array() ,true);

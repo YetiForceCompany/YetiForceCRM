@@ -80,6 +80,10 @@ function SaveResult() {
 		if(info.type){
 			params.type = info.type;
 		}
+		if(typeof params.hide === 'undefined'){
+			params.hide = info.hide;
+		}
+
 		Vtiger_Helper_Js.showPnotify(params);
 	}
 	this.showQuickCreate = function(moduleName,orgExecuteTaskStatus) {
