@@ -56,14 +56,17 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			'zlib.output_compression' => array('prefer' => 'Off'),
 			'zend.ze1_compatibility_mode' => array('prefer' => 'Off'),
 			'session.auto_start' => array('prefer' => 'Off'),
-			'magic_quotes_sybase' => array('prefer' => 'Off')
-			);
-			if ( extension_loaded('suhosin') ){
-				$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
-				$directiveValues['suhosin.request.max_vars'] = array('prefer' => '5000');
-				$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
-				$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
-			}
+			'magic_quotes_sybase' => array('prefer' => 'Off'),
+			'session.gc_maxlifetime' => array('prefer' => '21600'),
+			'session.gc_divisor' => array('prefer' => '500'),
+			'session.gc_probability' => array('prefer' => '1'),
+		);
+		if ( extension_loaded('suhosin') ){
+			$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
+			$directiveValues['suhosin.request.max_vars'] = array('prefer' => '5000');
+			$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
+			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
+		}
 		
 		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') > -1)
 			$directiveValues['safe_mode']['current'] = 'On';
@@ -99,7 +102,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['mbstring.func_overload']['current'] = ini_get('mbstring.func_overload');
 		if (ini_get('magic_quotes_sybase') == '1' || stripos(ini_get('magic_quotes_sybase'), 'On') > -1)
 			$directiveValues['magic_quotes_sybase']['current'] = ini_get('magic_quotes_sybase');
-		
+		if (ini_get('session.gc_maxlifetime') < 21600)
+			$directiveValues['session.gc_maxlifetime']['current'] = ini_get('session.gc_maxlifetime');
+		if (ini_get('session.gc_divisor') < 21600)
+			$directiveValues['session.gc_divisor']['current'] = ini_get('session.gc_divisor');
+		if (ini_get('session.gc_probability') < 1)
+			$directiveValues['session.gc_probability']['current'] = ini_get('session.gc_probability');
+			
+		$directiveValues['error_log'] = ini_get('error_log');
+			
 		$version = explode('.', PHP_VERSION);
 		$php_version = ($version[0] * 10000 + $version[1] * 100 + $version[2]);
 		if ($php_version < 50300) {

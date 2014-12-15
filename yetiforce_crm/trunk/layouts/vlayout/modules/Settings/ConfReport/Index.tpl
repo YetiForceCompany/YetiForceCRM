@@ -27,18 +27,23 @@
 						</tr>
 				</thead>
 				<tbody>
-					{foreach from=$CONF key=key item=foo}	
-						{if isset($foo.current)}
+					{foreach from=$CONF key=key item=foo}
+						{if is_array($foo) eq 1 && isset($foo.current)}
 							<tr style="background-color: #FFBABA;">
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{$key}</label></td>
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.current, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.prefer, $MODULE)}</label></td>
+								<td><label class="marginRight5px" style="color: #D8000C;">{$key}</label></td>
+								<td><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.current, $MODULE)}</label></td>
+								<td><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.prefer, $MODULE)}</label></td>
 							</tr>
-						{else}			
-							<tr>	
-								<td width="23%"><label class="marginRight5px">{$key}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
+						{elseif is_array($foo) neq 1}
+							<tr>
+								<td><label class="marginRight5px">{$key}</label></td>
+								<td colspan="2"><label class="marginRight5px">{vtranslate($foo, $MODULE)}</label></td>
+							</tr>
+						{else}
+							<tr>
+								<td><label class="marginRight5px">{$key}</label></td>
+								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
+								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
 							</tr>
 						{/if}	
 					{/foreach}
