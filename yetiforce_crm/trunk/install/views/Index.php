@@ -300,6 +300,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$username = $request->get('username');
 		$password = $request->get('password');
 		$errorText = '';
+		$loginStatus = false;
+		
 		$migrationURL = 'Install.php?mode=execute&ajax=true&system='.$system.'&user='.$username;
 		$viewer = new Vtiger_Viewer();
 		$createConfig = Install_InitSchema_Model::createConfig($source_directory, $username, $password, $system);
@@ -308,7 +310,7 @@ class Install_Index_view extends Vtiger_View_Controller {
             global $adb;
             $adb->resetSettings($dbconfig['db_type'],$dbconfig['db_hostname'],$dbconfig['db_name'],$dbconfig['db_username'],$dbconfig['db_password']);
             $adb->query('SET NAMES utf8');
-			$loginStatus = false;
+			
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
 			if ($adb->num_rows($result) > 0) {
@@ -339,7 +341,13 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->assign('MIGRATIONURL', $migrationURL);
 		$viewer->assign('ERRORTEXT', $errorText);
+		$viewer->assign('MIGRATIONRESULT', $migrationResult);
 		echo $viewer->fetch('mStep3.tpl');
+		if( $loginStatus ){
+			echo $viewer->fetch('mStep3Pre.tpl');
+			$migrationResult = Install_InitSchema_Model::executeMigrationSchema($system, $username);
+			echo $viewer->fetch('mStep3Post.tpl');
+		}
     }
     // Helper function as configuration file is still not loaded.
     protected function retrieveConfiguredAppUniqueKey() {

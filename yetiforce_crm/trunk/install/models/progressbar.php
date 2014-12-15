@@ -1,2 +1,0 @@
-<?php
-$progress = 0;

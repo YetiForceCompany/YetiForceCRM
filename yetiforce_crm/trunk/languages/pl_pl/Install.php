@@ -95,6 +95,7 @@ $languageStrings = array(
 	'LBL_ERROR_NO_CONFIG'=>'Błędny adres lokalny systemu',
 	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Błędny login lub hasło',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Uwaga: </strong>W trakcie migracji zostana bezpowrotnie utracone wszystkie dane związane z modułami: MailManager, EmailTemplates, Workflows. <br /> Migracja jest ciągle w fazie testów, więc należy wykonać wszelkie możliwe kopie i zabazpieczenia w przypadku wystąpienia nieprzewidzianych zdarzeń.',
+	'LBL_MIGRATION_IN_PROGRESS'=>'Trwa proces migracji',
 );
 
 $jsLanguageStrings = array(

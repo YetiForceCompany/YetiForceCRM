@@ -26,45 +26,4 @@
 			</div>
 		</div>
 	</div>
-{else}
-	<input type=hidden id="step" value="m3" />
-	<input type=hidden name="migrationURL" value="{$MIGRATIONURL}" />
-	<div class="row-fluid main-container">
-		<div class="inner-container">
-			<div class="startContainer">
-				<h2>{vtranslate('LBL_MIGRATION_SYSTEM', 'Install')}</h2><br />
-				<div class="row-fluid">
-					<div class="span12">
-						<div class="progress_info" style="text-align: center;">0%</div>
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span12">
-						<div class="progress progress-striped active">
-							<div class="bar" style="width: 0%;"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="endContainer hide">
-				<div class="inner-container">
-					<h2>{vtranslate('LBL_MIGRATION_SYSTEM_FINISH', 'Install')}</h2><br />
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div class="span12">
-					<div class="logs well" style="overflow:scroll; height:350px;"></div>
-				</div>
-			</div>
-			<div class="row-fluid endContainer hide">
-				<div class="span12">
-					<div class="button-container">
-						<a href="../index.php" class="btn btn-large btn-primary">
-							{vtranslate('LBL_END_MIGRATION','Install')}
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 {/if}

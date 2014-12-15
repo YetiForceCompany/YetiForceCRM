@@ -90,6 +90,7 @@ $languageStrings = array(
 	'LBL_EXAMPLE_DIRECTORY'=>'Exemplo',
 	'LBL_ACCEPT'=>'Aceito as mudanças',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Atenção!</strong> Durante a migração você perderá todos os dados relacionados com os seguintes módulos: Gestor de Mensagens, Modelos de Email e Workflows. <br /> Por favor, esteja ciente que a a migração ainda está em fase de testes, portanto, realize todos o backups e siga os procedimentos de segurança em caso de imprevistos.',
+	'LBL_MIGRATION_IN_PROGRESS'=>'Migration in progress',
 );
 
 $jsLanguageStrings = array(

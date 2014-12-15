@@ -10,7 +10,20 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid main-container">
+<div id="progressIndicator" class="row-fluid main-container hide">
+	<div class="inner-container">
+		<div class="span12 inner-container">
+			<div class="row-fluid">
+				<div class="span12 welcome-div alignCenter">
+					<h3>{vtranslate('LBL_MIGRATION_IN_PROGRESS','Install')}...</h3><br>
+					<img src="../layouts/vlayout/skins/images/install_loading.gif"/>
+					<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="mainContainer" class="row-fluid main-container">
 	<div class="inner-container">
 		<h2>{vtranslate('LBL_MIGRATION_HEADER', 'Install')}</h2>
 		<form class="form-horizontal" name="step2" method="post" action="Install.php">

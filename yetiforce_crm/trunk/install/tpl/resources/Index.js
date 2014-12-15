@@ -256,32 +256,11 @@ jQuery.Class('Install_Index_Js', {}, {
 	},
 	
 	registerEventForMigration : function() {
-		var step = jQuery('#step').val();
-		if(step == 'm3'){
-			var migrationURL = jQuery('input[name="migrationURL"]').val();
-			
-			var interval = setInterval(function(){
-				$.ajax({
-					url: 'Install.php?mode=loadProgressBar&ajax=true'
-				}).done(function( response ) {
-					var step = response.result.step;
-					step = step + '%';
-					jQuery('.progress_info').text(step);
-					jQuery('.logs').html(response.result.info);
-					jQuery('.progress .bar').css('width',step);
-					if(response.result.step == 100){
-						clearInterval(interval);
-					}
-				});
-			}, 2000);
-			
-			$.ajax({
-				type: "GET",
-				url: migrationURL,
-				async: true
-			}).done(function( response ) {
-				jQuery('.startContainer').hide();
-				jQuery('.endContainer').show();
+		var step = jQuery('input[name="mode"]').val();
+		if(step == 'mStep3'){
+			jQuery('#agree').on('click', function() {
+				jQuery('#progressIndicator').show();
+				jQuery('#mainContainer').hide();
 			});
 		}	
 	},
