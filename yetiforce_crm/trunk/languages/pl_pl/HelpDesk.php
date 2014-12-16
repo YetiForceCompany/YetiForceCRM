@@ -85,6 +85,7 @@ $languageStrings = array(
 	'Total time [h]'=>'Łączny czas [h]',
 	'Rejected'=>'Odrzucony',
 	'Answered'=>'Udzielono odpowiedzi',
+	'P&S Sold'=>'Produkt/Usługa Sprzedana',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Witaj w platformie',
