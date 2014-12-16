@@ -16,7 +16,7 @@
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if {$REFERENCE_LIST_COUNT} eq 1}
-	<input name="popupReferenceModule" type="hidden" value="{$REFERENCE_LIST[0]}" />
+	<input name="popupReferenceModule" type="hidden" data-multi-reference="0" value="{$REFERENCE_LIST[0]}" />
 {/if}
 {if {$REFERENCE_LIST_COUNT} gt 1}
 	{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
@@ -25,9 +25,9 @@
 		{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 	{/if}
 	{if in_array($REFERENCED_MODULE_NAME, $REFERENCE_LIST)}
-		<input name="popupReferenceModule" type="hidden" value="{$REFERENCED_MODULE_NAME}" />
+		<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}" />
 	{else}
-		<input name="popupReferenceModule" type="hidden" value="{$REFERENCE_LIST[0]}" />
+		<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}" />
 	{/if}
 {/if}
 <input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-displayvalue='{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}' data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} />

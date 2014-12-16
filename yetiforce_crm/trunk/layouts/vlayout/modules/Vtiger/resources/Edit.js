@@ -171,10 +171,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 		fieldElement.trigger(Vtiger_Edit_Js.referenceSelectionEvent, {'source_module' : popupReferenceModule, 'record' : id, 'selectedName' : selectedName});
 
 		fieldDisplayElement.validationEngine('closePrompt',fieldDisplayElement);
-		
 		var formElement = container.closest('form');
-		var mappingRelatedField = this.getMappingRelatedField(sourceField, formElement);
-		if( mappingRelatedField != undefined ){
+		var mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
+		if( typeof mappingRelatedField != undefined ){
 			var data = {
 				'source_module' : popupReferenceModule, 'record' : id
 			};
@@ -182,14 +181,18 @@ jQuery.Class("Vtiger_Edit_Js",{
 				function(data){
 					var response = data['result']['data'];
 					$.each( mappingRelatedField, function( key, value ) {
-						if( response[value] != 0){
+						if( response[value[0]] != 0){
 							var mapFieldElement = formElement.find('input[name="'+key+'"]');
 							if(mapFieldElement.length > 0){
-								mapFieldElement.val(response[value]);
+								mapFieldElement.val(response[value[0]]);
 							}
 							var mapFieldDisplayElement = formElement.find('input[name="'+key+'_display"]');
 							if(mapFieldDisplayElement.length > 0){
-								mapFieldDisplayElement.val(response[value+'_label']).attr('readonly',true);
+								mapFieldDisplayElement.val(response[value[0]+'_label']).attr('readonly',true);
+								var referenceModulesList = formElement.find('#'+app.getModuleName()+'_editView_fieldName_'+key+'_dropDown');
+								if(referenceModulesList.length > 0){
+									referenceModulesList.val( value[1] ).trigger("liszt:updated");
+								}
 							}
 						}
 					});
@@ -1086,9 +1089,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerApiAddress();
 	//this.triggerDisplayTypeEvent();
 	},
-	getMappingRelatedField : function(sourceField, container){
+	getMappingRelatedField : function(sourceField, sourceFieldModule, container){
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedFieldJason = JSON.parse(mappingRelatedField);
-		return mappingRelatedFieldJason[sourceField];
+		var mappingRelatedModule = JSON.parse(mappingRelatedField);
+		return mappingRelatedModule[sourceField][sourceFieldModule];
 	}
 });
