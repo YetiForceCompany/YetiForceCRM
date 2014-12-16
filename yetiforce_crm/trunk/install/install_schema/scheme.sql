@@ -2562,7 +2562,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1482 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1483 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7222,6 +7222,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `projectid` int(19) DEFAULT NULL,
   `servicecontractsid` int(19) DEFAULT NULL,
   `attention` text,
+  `pssold_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -7230,6 +7231,7 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `contact_id` (`contact_id`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `projectid` (`projectid`),
+  KEY `pssold_id` (`pssold_id`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
