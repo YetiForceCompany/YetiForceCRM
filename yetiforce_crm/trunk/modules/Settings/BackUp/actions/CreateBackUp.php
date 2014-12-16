@@ -10,15 +10,6 @@
  * *********************************************************************************************************************************** */
 
 class Settings_BackUp_CreateBackUp_Action extends Settings_Vtiger_Basic_Action {
-    function checkPermission(Vtiger_Request $request) {
-        $moduleName = $request->getModule();
-        $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-        $currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-        if (!$currentUserPriviligesModel->hasModulePermission($moduleModel->getId())) {
-            throw new AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
-        }
-    }
 
     public function process(Vtiger_Request $request) {
 		Settings_BackUp_Module_Model::userBackUpCall($request);

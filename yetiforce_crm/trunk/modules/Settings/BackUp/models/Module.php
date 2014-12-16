@@ -254,17 +254,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		if(empty($content)){
 			$content = ' ';
 		}
-		chmod("backup", 0600);
-		try {
-			@file_put_contents(self::$tempDir."/$fileName.sql", $content, FILE_APPEND);
-		} catch ( Exception $e ) {
-			$msg = "Exception " . $e->getCode() . " / " . $e->getMessage();
-			$file = 'xxxxxxx.txt';
-			file_put_contents($file ,$msg.'\n',FILE_APPEND);
-
-			//$result = array('success' => true, 'status' => 'end');
-			//exit(json_encode($result));
-		}
+		@file_put_contents(self::$tempDir."/$fileName.sql", $content, FILE_APPEND);
     }
 	
     public function newBackUp() {
