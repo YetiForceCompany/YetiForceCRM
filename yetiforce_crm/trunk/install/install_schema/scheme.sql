@@ -715,6 +715,7 @@ CREATE TABLE `vtiger_assets` (
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
@@ -2562,7 +2563,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1483 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1486 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4465,12 +4466,13 @@ CREATE TABLE `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) DEFAULT NULL,
+  `contact` int(19) NOT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
   `serviceid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`osssoldservicesid`),
+  `ordertime` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`osssoldservicesid`,`contact`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
   KEY `serviceid` (`serviceid`),
@@ -7223,6 +7225,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `servicecontractsid` int(19) DEFAULT NULL,
   `attention` text,
   `pssold_id` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),

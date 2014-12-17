@@ -783,3 +783,38 @@ Vtiger_Widget_Js('Vtiger_Notebook_Widget_Js', {
 		});
 	}
 });
+
+Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js',{},{
+	generateChartData : function() {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = new Array();
+		var yMaxValue = 0;
+		return {'chartData':[[[data['result'],data['all']]]], 'yMaxValue':data['maxValue'], 'labels':''};
+	},
+	loadChart : function() {
+		var data = this.generateChartData();
+		this.getPlotContainer(false).jqplot(data['chartData'] , {
+			animate: !$.jqplot.use_excanvas,
+			seriesDefaults:{
+				renderer:jQuery.jqplot.BarRenderer,
+				rendererOptions: {
+					showDataLabels: true,
+					dataLabels: 'value',
+					barDirection : 'horizontal'
+				},
+			},
+			axes: {
+				xaxis: {
+					min: 0,
+					max: data['yMaxValue'],
+				},
+				yaxis: {
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+				}
+			}
+		});
+	}
+});
