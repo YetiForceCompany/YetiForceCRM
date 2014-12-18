@@ -85,7 +85,7 @@ $languageStrings = array(
 	
 	'Rejected'		=>	'Abgelehnt',
 	'Answered'		=>	'Beantwortet',
-	'P&S Sold'=>'Product / Service Sold',
+	'P&S Sold'=>'Produkt/Dienstleistung verkauft',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'	=>	'Willkommen',
