@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 18/12/2014 - www.ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  * ***********************************************************************************/
 $languageStrings = array(
@@ -776,6 +776,8 @@ $languageStrings = array(
 	'LBL_NULL_VALUE' => '(Nenhum valor)',
 	'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
+	'LBL_UPDATES' => 'Atualizações',
+	'LBL_UPDATES_DESCRIPTION' => 'Histórico Atualizações',
 
 	//Missing Fields in Menu
 	'Companies'=>'Empresas',
@@ -787,7 +789,7 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',
-	'JS_OF' => 'z',
+	'JS_OF' => 'de',
 	'AM' => 'AM',
 	'JS_LBL_NO_TAXES' => 'O produto selecionado não possui impostos',
 	'INVALID_NUMBER' => 'Número inválido',
