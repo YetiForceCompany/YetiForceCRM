@@ -124,13 +124,15 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			$recordModel->set('time_end', $endTime);
 			$recordModel->set('due_date', $endDate);
 		}
-
-		$activityType = $request->get('activitytype');
-		$visibility = $request->get('visibility');
-		if(empty($activityType)) {
-			$recordModel->set('activitytype', 'Task');
-			$visibility = 'Private';
-			$recordModel->set('visibility', $visibility);
+		$record = $request->get('record');
+		if(!$record){
+			$activityType = $request->get('activitytype');
+			$visibility = $request->get('visibility');
+			if(empty($activityType)) {
+				$recordModel->set('activitytype', 'Task');
+				$visibility = 'Private';
+				$recordModel->set('visibility', $visibility);
+			}
 		}
 
 		if(empty($visibility)) {
