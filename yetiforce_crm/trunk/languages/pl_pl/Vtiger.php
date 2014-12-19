@@ -608,6 +608,7 @@ $languageStrings = array(
 	'Trade Show' => 'Targi / Szkolenia',
 	'Type' => 'Rodzaj',
 	'Upcoming Activities' => 'Sprawy bieżące',
+	'Activity History' => 'Wykonane zdarzenia',
 	'Delagated Events/To Dos' => 'Zlecone terminy/zadania',
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',

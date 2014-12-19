@@ -602,6 +602,7 @@ $languageStrings = array(
 	'Type' => 'Tipo',
 	'Upcoming Activities'=> 'Atividades Programadas',
 	'Upcoming Tasks' => 'Próximas Tarefas',
+	'Activity History' => 'Activity History',
 	'UPS' => 'ECT' ,
 	'USPS' => 'Braspress',
 	'Valid Date' => 'Data Validade',

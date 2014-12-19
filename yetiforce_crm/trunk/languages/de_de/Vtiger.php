@@ -610,6 +610,7 @@ $languageStrings = array(
 	'Type' => 'Typ',
 	'Upcoming Activities' => 'Geplante Aktivitäten',
 	'Upcoming Tasks' => 'Die nächsten Aufgaben',
+	'Activity History' => 'Activity History',
 	'UPS' => 'UPS',
 	'USPS' => 'Deutsche Post',
 	'Valid Date' => 'Gültigkeitsdatum',
