@@ -524,7 +524,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("update roundcube_users set language=?", array( $param['language'] ) );
+		if($adb->database){
+			$adb->pquery("update roundcube_users set language=?", array( $param['language'] ) );
+		}
 		return vtranslate('JS_save_config_info', 'OSSMailScanner');
 	}
 	function getEditableFields() {

@@ -5,7 +5,7 @@ If your IMAP/SMTP servers are on the same host or are connected via a secure net
 
 
 Debug:
-$config['debug_level'] = 8;
+$config['debug_level'] = 1;
 $config['imap_debug'] = true;
 $config['smtp_debug'] = true;
 $config['log_logins'] = true;
@@ -40,7 +40,7 @@ $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
 $config['plugins'] = array('autologon','identity_smtp');
-$config['language'] = $default_language;
+$config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");
 $config['ip_check'] = false;///
