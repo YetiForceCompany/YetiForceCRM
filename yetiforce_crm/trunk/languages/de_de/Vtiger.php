@@ -9,6 +9,16 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
+	'Dashboards'	=>	'Meine Startseite',
+	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
+	'Total margin'	=>	'Gesamtmarge',
+	'Users'	=>	'Benutzer',
+	'Service Requests'	=>	'Service-Anfrage',
+	'LBL_QUICK_CREATE_EDITOR'	=>	'Schnellerfassungs-Editor',
+	'LBL_NULL_VALUE'	=>	'(kein Wert)',
+	'LBL_CONFREPORT_DESCRIPTION'	=>	'Zeige empfohlene und aktuelle Serverkonfiguration',
+	'LBL_CONFREPORT'	=>	'Server Konfiguration',
 	'--None--' => '--keine--',
 	'Account Name' => 'Organisation',
 	'Accounts' => 'Organisationen',
@@ -81,7 +91,7 @@ $languageStrings = array(
 
 	'In Progress' => 'In Bearbeitung',
 	'Invoice' => 'Rechnung',
-	'Is Converted From Lead' => 'Wurde konvertiert aus Zielkontakt',
+	'Is Converted From Lead'	=>	'Wurde aus Lead konvertiert',
 	'Issued Date' => 'Erstellungsdatum',
 	'Item Comment' => 'Artikel Kommentar',
 	'Item Discount Amount' => 'Artikel Rabatt Menge',
@@ -749,7 +759,6 @@ $languageStrings = array(
     'LBL_MARGIN' => 'Marge',
     'LBL_MARGINP' => 'Marge (%)',
     'LBL_TOTAL_DISCOUNT' => 'Gruppen-Rabatt',
-    'Tatal margin' => 'Margensumme',
 	'Total margin Percentage' => 'Margensumme (%)',
     'TAG_PLACEHOLDER' => ' Marke eingeben',
 	'LBL_TOTAL_TIME' =>'Gesamtzeit',
