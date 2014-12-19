@@ -11,11 +11,14 @@
  /* NOTE: Should be inline with Calendar language translation but few variations */
 
 $languageStrings = array(
+	'Low'	=>	'Niedrig',
+	'Medium'	=>	'Medium',
+	'High'	=>	'Hoch',
 	'Activity Type'                => 'Aktivitätentyp'             , 
 	'Busy'				=> 'Beschäftigt',
 	'Call'                         => 'Anruf'                       , 
 	'Daily'                        => 'Täglich'                      , 
-	'End Date & Time'              => 'Enddatum & Zeit'                , 
+	'End Date & Time'	=>	'Enddatum & Zeit',
 	'Events'                       => 'Ereignisse'                  , 
 	'Held'                         => 'stattgefunden'               , 
 	'INVITATION'			=> 'Einladung',
@@ -68,7 +71,7 @@ $languageStrings = array(
 	'Send Notification'            => 'Notiz senden'           , 
 	'Send Reminder'                => 'Erinnerung senden'               , 
 	'SINGLE_Events'                => 'Ereignis'                    , 
-	'Start Date & Time'            => 'Startdatum & Zeit'              , 
+	'Start Date & Time'	=>	'Startdatum & Zeit',
 	'Visibility'                   => 'Sichtbar'                  , 
 	'Weekly'                       => 'wöchentlich'                     , 
 	'Yearly'                       => 'jährlich'                        , 

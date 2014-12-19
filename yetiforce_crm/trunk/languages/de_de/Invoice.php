@@ -8,6 +8,8 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM'	=>	') wurde aus dem System entfernt. Versuchen Sie es mit einem anderen Produkt/Dienstleistung zu ersetzen.',
+	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM'	=>	'Produkt/Service wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz',
 	'AutoCreated'                  => 'automatisch erzeugt'         , 
 	'Created'=>'Erzeugt',
 	'Cancel'                       => 'Abbrechen'                   , 
@@ -38,4 +40,7 @@ $languageStrings = array(
 	'Form of payment' 		=> 'Zahlweise',
 	'Transfer' 			=> 'Überweisung',
 	'Cash' 				=> 'Bar',
+);
+$jsLanguageStrings = array(
+	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED'	=>	'Entfernen Sie Posten, die gelöscht wurden',
 );

@@ -1,6 +1,10 @@
 <?php
 
 $languageStrings = array(
+	'MSG_EDIT_OK'	=>	'Sie haben Änderungen an der Konfiguration vorgenommen.',
+	'Canceled'	=>	'Abgebrochen',
+	'Achieved'	=>	'Erreicht',
+	'name'	=>	'Betreff',
 	'Accounting work' => 'Fakturierung',
 	'Administrative work' => 'Administration',
 	'Office work' => 'Büro',
@@ -63,4 +67,8 @@ $languageStrings = array(
 	'LBL_BLOCK' => 'Beziehungen',
 	'OSSTimeControl' => 'Zeiterfassung',
 	'SINGLE_OSSTimeControl' => 'Zeiterfassung',
+);
+$jsLanguageStrings = array(
+	'LBL_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
+	'MSG_ERROR_NUMBER'	=>	'Erlaubte Zeichen: [0-9]',
 );

@@ -51,6 +51,7 @@ $languageStrings = array(
 	'Sprawdzono'			 => 'geprüft', 
 );
 $jsLanguageStrings = array(
+	'JS_NOT_ALLOWED'	=>	'sind nicht erlaubt',
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Dateien in folgendes Verzeichnis verschieben', 
 	'JS_FOLDER'                    => 'Verzeichnis'                      , 
 	'JS_FOLDER_IS_NOT_EMPTY' => 'Verzeichnis ist nicht leer',

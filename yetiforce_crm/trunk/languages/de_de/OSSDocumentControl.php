@@ -1,6 +1,7 @@
 ﻿<?php
 
 $languageStrings = array(
+	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
     'LBL_NEW_TPL' => 'Neues Dokument',
 	 'OSSDocumentControl' => 'Dokumentenkontrolle',
     'LBL_MODULE_NAME' => 'Modulname',
