@@ -72,7 +72,7 @@ class PerformancePrefs {
 
 class PearDatabase{
     var $database = null;
-    var $dieOnError = true;
+    var $dieOnError = false;
     var $dbType = null;
     var $dbHostName = null;
     var $dbName = null;

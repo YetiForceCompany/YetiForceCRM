@@ -52,7 +52,7 @@ class Install_InitSchema_Model {
 			$query = trim($query);
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-')){
 				try{
-					$db->query($query, true);
+					$db->query($query);
 					$executed_query++;
 				} catch (RuntimeException $e){
 					echo $e->getMessage();
@@ -147,15 +147,15 @@ class Install_InitSchema_Model {
 		}
 		return $schemaList;
 	}
-	public static function executeMigrationSchema($system, $userName) {
+	public static function executeMigrationSchema($system, $userName, $source) {
 		//ini_set('display_errors', 'Off');
 		include_once self::migration_schema.$system.'.php';
 		$migrationObject = new $system;
-		$migrationObject->preProcess($userName);
+		Vtiger_Access::syncSharingAccess();
+		$migrationObject->preProcess($userName, $source);
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
 		Vtiger_Deprecated::createModuleMetaFile();
-		Vtiger_Access::syncSharingAccess();
 		return $return;
 	}	
 	public static function addMigrationLog($text,$type = 'success') {

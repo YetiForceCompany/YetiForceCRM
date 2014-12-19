@@ -487,9 +487,6 @@ class OSSPdf extends CRMEntity {
             $mods->addLink('HEADERSCRIPT', 'PDFUtils', "layouts/vlayout/modules/{$modulename}/resources/PDFUtils.js");
 		} else if($event_type == 'module.preuninstall') {		
 			// TODO Handle actions when this module is about to be deleted.
-			require_once( 'modules/'.$modulename.'/RemoveModule.php' );
-			$obiekt = new RemoveModule( $modulename );
-			$obiekt->DeleteAll();
 		} else if($event_type == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
 		} else if($event_type == 'module.postupdate') {

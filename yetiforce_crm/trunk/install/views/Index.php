@@ -345,7 +345,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		echo $viewer->fetch('mStep3.tpl');
 		if( $loginStatus ){
 			echo $viewer->fetch('mStep3Pre.tpl');
-			$migrationResult = Install_InitSchema_Model::executeMigrationSchema($system, $username);
+			$migrationResult = Install_InitSchema_Model::executeMigrationSchema($system, $username, $source_directory);
 			echo $viewer->fetch('mStep3Post.tpl');
 		}
     }
