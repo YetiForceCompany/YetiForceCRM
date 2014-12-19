@@ -187,6 +187,28 @@ function getReportFieldValue ($report, $picklistArray, $dbField, $valueArray, $f
         if($current_user->truncate_trailing_zeros == true)
             $fieldvalue = decimalFormat($fieldvalue);
     }
+	
+	
+	if ('vtiger_crmentity' == $dbField->table && false != strpos($dbField->name, '_Sharing')) {
+	
+		if ($value) {
+			$listId = explode(',', $value);
+			$getListUserSql = "select CONCAT(first_name, ' ', last_name) as uname from vtiger_users WHERE id IN (" . generateQuestionMarks($listId) . ') ';
+			$getListUserResult = $db->pquery($getListUserSql, array($listId), TRUE);
+			
+			$fieldvalue = '';
+			$finalList = array();
+			
+			$listUsers = $getListUserResult->GetAll();
+			
+			for ($i = 0; $i < count($listUsers); $i++) {
+				$finalList[] = $listUsers[$i][0];
+			}
+			
+			$fieldvalue = implode(', ', $finalList);
+		}
+	}
+	
 	if($fieldvalue == "") {
 		return "-";
 	}
