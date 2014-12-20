@@ -155,6 +155,7 @@ class Install_InitSchema_Model {
 		$migrationObject->preProcess($userName, $source);
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
+		Vtiger_Access::syncSharingAccess();
 		Vtiger_Deprecated::createModuleMetaFile();
 		return $return;
 	}	
