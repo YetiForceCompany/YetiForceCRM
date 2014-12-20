@@ -3,6 +3,9 @@
     text-align:center !important; 
     vertical-align:middle !important; 
 }
+.table tbody tr.error > td {
+	background-color: #f2dede;
+}
 </style>
 <div class="container-fluid" style="margin-top:10px;">
 	<h3>{vtranslate('LBL_CONFIGURATION', $MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
@@ -29,10 +32,10 @@
 				<tbody>
 					{foreach from=$CONF key=key item=foo}
 						{if is_array($foo) eq 1 && isset($foo.current)}
-							<tr style="background-color: #FFBABA;">
-								<td><label class="marginRight5px" style="color: #D8000C;">{$key}</label></td>
-								<td><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.current, $MODULE)}</label></td>
-								<td><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.prefer, $MODULE)}</label></td>
+							<tr class="error">
+								<td><label class="marginRight5px">{$key}</label></td>
+								<td><label class="marginRight5px">{vtranslate($foo.current, $MODULE)}</label></td>
+								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
 							</tr>
 						{elseif is_array($foo) neq 1}
 							<tr>
@@ -68,10 +71,10 @@
 				<tbody>
 					{foreach from=$PERMISSIONS key=key item=foo}	
 						{if $foo.permission eq 'FailedPermission'}
-							<tr style="background-color: #FFBABA;">
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{vtranslate($key, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{vtranslate($foo.path, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px" style="color: #D8000C;">{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}</label></td>							
+							<tr class="error">
+								<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
+								<td width="23%"><label class="marginRight5px">{vtranslate($foo.path, $MODULE)}</label></td>
+								<td width="23%"><label class="marginRight5px">{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}</label></td>			
 							</tr>
 						{else}			
 							<tr>	

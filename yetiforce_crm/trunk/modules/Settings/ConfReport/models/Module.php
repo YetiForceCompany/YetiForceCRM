@@ -91,7 +91,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		if (ini_get('magic_quotes_runtime') == '1' || stripos(ini_get('magic_quotes_runtime'), 'On') > -1)
 			$directiveValues['magic_quotes_runtime']['current'] = ini_get('magic_quotes_runtime');
 		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') > -1)
-			$directiveValues['zlib.output_compression']['current'] = ini_get('zlib.output_compression');			
+			$directiveValues['zlib.output_compression']['current'] = 'On';			
 		if (ini_get('zend.ze1_compatibility_mode') == '1' || stripos(ini_get('zend.ze1_compatibility_mode'), 'On') > -1)
 			$directiveValues['zend.ze1_compatibility_mode']['current'] = ini_get('zend.ze1_compatibility_mode');			
 		if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') > -1)
@@ -104,7 +104,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['magic_quotes_sybase']['current'] = ini_get('magic_quotes_sybase');
 		if (ini_get('session.gc_maxlifetime') < 21600)
 			$directiveValues['session.gc_maxlifetime']['current'] = ini_get('session.gc_maxlifetime');
-		if (ini_get('session.gc_divisor') < 21600)
+		if (ini_get('session.gc_divisor') < 500)
 			$directiveValues['session.gc_divisor']['current'] = ini_get('session.gc_divisor');
 		if (ini_get('session.gc_probability') < 1)
 			$directiveValues['session.gc_probability']['current'] = ini_get('session.gc_probability');
