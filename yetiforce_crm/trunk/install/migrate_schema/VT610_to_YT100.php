@@ -33,7 +33,7 @@ class VT610_to_YT100 {
 	
 	function preProcess($userName, $source) {
 		global $current_user, $adb, $log;
-		$log->debug("Entering VT610_to_YT100::preProcess(".$userName.") method ...");
+		$log->debug("Entering VT610_to_YT100::preProcess(".$userName. ', '.$source.") method ...");
 		include('config/config.inc.php');
 		$globalConfig = $dbconfig;
 		global $dbconfig;
@@ -76,6 +76,7 @@ class VT610_to_YT100 {
 		self::relatedList();
 		self::addSharingToModules();
 		self::addClosedtimeField();
+		self::pobox();
 		self::updateRecords();
 		self::InactiveFields();
 		
@@ -872,6 +873,8 @@ class VT610_to_YT100 {
 		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('Project')),
 		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION"),
+		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','Czas realizacji','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
 		);
 
 		$tab = 7;
@@ -1148,7 +1151,8 @@ class VT610_to_YT100 {
 		array("37","1324","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","97","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
 		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
 		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Accounts','Contacts','Leads')),
-		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials'))
+		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
+		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','Czas realizacji','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array())
 		);
 
 		$tab = 41;
@@ -1340,7 +1344,7 @@ class VT610_to_YT100 {
 		'Contacts'=>array('accountid',"fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
 		'Potentials'=>array('probability','nextstep','amount'),
 		'Leads'=>array('firstname'),
-		'Users'=>array('address_street','address_city','department','department','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_city','address_state','address_country','address_postalcode','phone_work','title'),
+		'Users'=>array('address_street','address_city','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_state','address_country','address_postalcode','phone_work','title'),
 		'Services'=>array('servicecategory') //copy to picklist
 		);
 		foreach($fieldsInactive AS $moduleName=>$fields){
@@ -1657,16 +1661,17 @@ class VT610_to_YT100 {
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
 		$adb->pquery("UPDATE vtiger_version SET old_version = ?, `current_version` = ? ;",array(1,'1.0.0','1.0.0'));
-		//update tax in inventoryproductrel. this must change
-		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax =  
-			CASE
+		//update tax in inventoryproductrel
+		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
+			  CASE
 				WHEN `tax1` IS NOT NULL 
+				OR
+				`tax2` IS NOT NULL 
+				OR 
+				`tax3` IS NOT NULL 
 				THEN 'tax1' 
-				WHEN `tax2` IS NOT NULL 
-				THEN 'tax2' 
-				WHEN `tax3` IS NOT NULL 
-				THEN 'tax3' 
-			END	;"
+			  END,
+			  tax1 = IFNULL(tax1, 0) + IFNULL(tax2, 0) + IFNULL(tax3, 0) ;"
 		);
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
 		return $fieldsResult;
@@ -1706,6 +1711,38 @@ class VT610_to_YT100 {
 		}
 		$log->debug("Exiting VT610_to_YT100::addClosedtimeField() method ...");
 	}
+	
+	public function pobox(){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT100::pobox() method ...");
+		$sql = "SELECT * FROM `vtiger_field` WHERE `fieldname` LIKE 'addresslevel1%';";
+		$result = $adb->query($sql,true);
+		$Num = $adb->num_rows($result);
+
+		for($i = 0; $i < $Num; $i++){
+			$row = $adb->query_result_rowdata($result, $i);
+			$tabid = $row['tabid'];
+			$moduleName = Vtiger_Functions::getModuleName($tabid);
+			$block = $row['block'];
+			$tablename = $row['tablename'];
+			$fieldname = $row['fieldname'];
+			$name = 'pobox'.substr($fieldname, -1);
+			
+			$moduleInstance = Vtiger_Module::getInstance($moduleName);
+			$blockInstance = Vtiger_Block::getInstance($block,$moduleInstance);
+			$fieldInstance = new Vtiger_Field(); 
+			$fieldInstance->name = $name; 
+			$fieldInstance->table = $tablename; 
+			$fieldInstance->label = 'Po Box'; 
+			$fieldInstance->column = $name; 
+			$fieldInstance->columntype = 'varchar(50)'; 
+			$fieldInstance->uitype = 1;
+			$fieldInstance->typeofdata = 'V~O'; 
+			$blockInstance->addField($fieldInstance);
+		}
+		$log->debug("Exiting VT610_to_YT100::pobox() method ...");
+	}
+	
 	public function fieldsModuleRel(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::fieldsModuleRel() method ...");
