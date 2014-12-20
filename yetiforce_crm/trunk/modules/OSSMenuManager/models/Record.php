@@ -205,7 +205,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         $adb = PearDatabase::getInstance();        
         
         if ( intval($params['sequence']) == -1 )
-            $params['sequence'] = $this->getSequence( $params['parent_id'] );
+            $params['sequence'] = self::getSequence( $params['parent_id'] );
         
         $sql = "INSERT INTO `vtiger_ossmenumanager` (`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`, `locationicon`, `sizeicon`, `langfield` ) values (?,?,?,?,?,?,?,?,?,?,?,?);";        
         $parametry = array( 

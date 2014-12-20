@@ -88,9 +88,10 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 				if( $fieldModel->isReferenceField() && $fieldValue != ''){
 					$fieldValueModule = Vtiger_Functions::getCRMRecordType($fieldValue);
 					$mapping = $moduleModel->getMappingRelatedField($moduleName, $fieldName);
-					if(count ($mapping) > 0){
+					$mappingModule = $mapping[$sourceModule];
+					if(count ($mappingModule) > 0){
 						$relatedRecordModel = Vtiger_Record_Model::getInstanceById($fieldValue, $fieldValueModule);
-						foreach($mapping as $fieldDest=>$fieldSource) {
+						foreach($mappingModule as $fieldDest=>$fieldSource) {
 							$fieldDestModel = $fieldList[$fieldDest];
 							$fieldDestValue = $relatedRecordModel->get($fieldSource);
 							$recordModel->set($fieldDest, $fieldDestModel->getDBInsertValue($fieldDestValue));

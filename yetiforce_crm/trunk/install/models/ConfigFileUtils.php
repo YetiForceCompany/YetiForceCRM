@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Install_ConfigFileUtils_Model {
@@ -104,7 +105,8 @@ class Install_ConfigFileUtils_Model {
 	  		}
 	  		fclose($templateHandle);
 	  	}
-
+		$language = explode("_", $this->default_language);
+		OSSMail_Record_Model::setConfigData( array( 'language' => $language[0].'_'.strtoupper($language[1]) ) , false );
 	  	if ($templateHandle && $includeHandle) {
 	  		return true;
 	  	}

@@ -88,7 +88,15 @@
         {/if}
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 		{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-		<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList neq ''}{$LISTVIEW_ENTRY->colorList}{/if}>
+		<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
+			{if $LISTVIEW_ENTRY->colorList neq ''}
+				<style>
+				#{$MODULE}_listView_row_{$smarty.foreach.listview.index+1} > td {
+					background-color: {$LISTVIEW_ENTRY->colorList.background};
+					color: {$LISTVIEW_ENTRY->colorList.text};
+				}
+				</style>
+			{/if}
             <td  width="5%" class="{$WIDTHTYPE}">
 				{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
 					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
@@ -98,7 +106,7 @@
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 			<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
 				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
-					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}" {if $LISTVIEW_ENTRY->colorList neq ''}{$LISTVIEW_ENTRY->colorList}{/if}>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
 				{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
 					{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
 					{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}

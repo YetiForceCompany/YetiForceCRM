@@ -228,7 +228,7 @@ $languageStrings = array(
 	'Please enter new Password' => 'Wprowadź nowe hasło',
 	'Password and Confirm Password should be same' => 'Hasła powinny być takie same',
 	'LBL_MOBILE_VERSION_TITLE' => 'Wersja mobilna systemu CRM',
-	'LBL_MOBILE_VERSION_DESC' => 'Wykryliśmy że korzystasz z małej rozdzielczości ekranu, w celu ułatwienia pracy zalecamy kożystanie z wersji mobilnej systemu CRM.',
+	'LBL_MOBILE_VERSION_DESC' => 'Wykryliśmy że korzystasz z małej rozdzielczości ekranu, w celu ułatwienia pracy zalecamy korzystanie z wersji mobilnej systemu CRM.',
 	'LBL_MOBILE_VERSION_BUTTON' => 'Uruchom wersję mobilną',
 	
 	//YetiForce

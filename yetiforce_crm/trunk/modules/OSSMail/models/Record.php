@@ -503,7 +503,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		}
 		return $return;
 	}
-	public static function setConfigData($param) {
+	public static function setConfigData($param, $dbupdate = true) {
 		$fileName = 'modules/OSSMail/roundcube/config/config.inc.php';
 		$fileContent = file_get_contents($fileName);
 		$Fields = self::getEditableFields();
@@ -523,8 +523,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("update roundcube_users set language=?", array( $param['language'] ) );
+		if($dbupdate){
+			$adb = PearDatabase::getInstance();
+			$adb->pquery("update roundcube_users set language=?", array( $param['language'] ) );
+		}
 		return vtranslate('JS_save_config_info', 'OSSMailScanner');
 	}
 	function getEditableFields() {

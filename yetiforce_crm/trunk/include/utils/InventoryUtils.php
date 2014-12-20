@@ -1183,7 +1183,7 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
 function getImportStatusCount($obj) {
 	global $adb;
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
-	$result = $adb->query('SELECT status FROM '.$tableName. ' GROUP BY subject');
+	$result = $adb->query('SELECT temp_status FROM '.$tableName. ' GROUP BY subject');
 
 	$statusCount = array('TOTAL' => 0, 'IMPORTED' => 0, 'FAILED' => 0, 'PENDING' => 0,
 			'CREATED' => 0, 'SKIPPED' => 0, 'UPDATED' => 0, 'MERGED' => 0);

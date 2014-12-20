@@ -492,6 +492,9 @@ CREATE TABLE `vtiger_accountaddress` (
   `localnumberb` varchar(100) DEFAULT NULL,
   `buildingnumberc` varchar(100) DEFAULT NULL,
   `localnumberc` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`accountaddressid`),
   CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -715,6 +718,7 @@ CREATE TABLE `vtiger_assets` (
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
@@ -1323,6 +1327,8 @@ CREATE TABLE `vtiger_contactaddress` (
   `localnumbera` varchar(100) DEFAULT NULL,
   `buildingnumberb` varchar(100) DEFAULT NULL,
   `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`contactaddressid`),
   CONSTRAINT `fk_1_vtiger_contactaddress` FOREIGN KEY (`contactaddressid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2562,7 +2568,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1483 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1503 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3120,6 +3126,8 @@ CREATE TABLE `vtiger_invoiceaddress` (
   `localnumbera` varchar(100) DEFAULT NULL,
   `buildingnumberb` varchar(100) DEFAULT NULL,
   `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`invoiceaddressid`),
   CONSTRAINT `vtiger_invoiceaddress_ibfk_1` FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3243,6 +3251,7 @@ CREATE TABLE `vtiger_leadaddress` (
   `addresslevel8a` varchar(255) DEFAULT NULL,
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`leadaddressid`),
   CONSTRAINT `fk_1_vtiger_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4465,12 +4474,13 @@ CREATE TABLE `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) DEFAULT NULL,
+  `contact` int(19) NOT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
   `serviceid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`osssoldservicesid`),
+  `ordertime` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`osssoldservicesid`,`contact`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
   KEY `serviceid` (`serviceid`),
@@ -5584,6 +5594,8 @@ CREATE TABLE `vtiger_purchaseorderaddress` (
   `localnumbera` varchar(100) DEFAULT NULL,
   `buildingnumberb` varchar(100) DEFAULT NULL,
   `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`purchaseorderaddressid`),
   CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5662,6 +5674,8 @@ CREATE TABLE `vtiger_quotesaddress` (
   `localnumbera` varchar(100) DEFAULT NULL,
   `buildingnumberb` varchar(100) DEFAULT NULL,
   `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`quoteaddressid`),
   CONSTRAINT `vtiger_quotesaddress_ibfk_1` FOREIGN KEY (`quoteaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6238,6 +6252,8 @@ CREATE TABLE `vtiger_salesorderaddress` (
   `localnumbera` varchar(100) DEFAULT NULL,
   `buildingnumberb` varchar(100) DEFAULT NULL,
   `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`salesorderaddressid`),
   CONSTRAINT `vtiger_salesorderaddress_ibfk_1` FOREIGN KEY (`salesorderaddressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7223,6 +7239,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `servicecontractsid` int(19) DEFAULT NULL,
   `attention` text,
   `pssold_id` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
@@ -7460,6 +7477,9 @@ CREATE TABLE `vtiger_vendoraddress` (
   `addresslevel8a` varchar(255) DEFAULT NULL,
   `addresslevel8b` varchar(255) DEFAULT NULL,
   `addresslevel8c` varchar(255) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `vtiger_vendoraddress_ibfk_1` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

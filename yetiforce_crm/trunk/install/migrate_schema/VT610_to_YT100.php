@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-require_once('includes/main/WebUI.php');
 include_once('vtlib/Vtiger/Access.php');
 include_once('vtlib/Vtiger/Block.php');
 include_once('vtlib/Vtiger/Field.php');
@@ -24,15 +23,24 @@ require_once 'modules/com_vtiger_workflow/include.inc';
 require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
 require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
+include_once('config/config.php');
 
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
 	var $adminId = '';
+	var $source = '';
 	
-	function preProcess($userName) {
-		global $current_user, $adb,$log;
-		$log->debug("Entering VT610_to_YT100::preProcess(".$userName.") method ...");
+	function preProcess($userName, $source) {
+		global $current_user, $adb, $log;
+		$log->debug("Entering VT610_to_YT100::preProcess(".$userName. ', '.$source.") method ...");
+		include('config/config.inc.php');
+		$globalConfig = $dbconfig;
+		global $dbconfig;
+		if(!$dbconfig)
+			$dbconfig = $globalConfig;
+		$this->source = $source;
+		
 		$query = "SELECT * from vtiger_users where user_name=? AND status = ? AND is_admin = ? ;";
 		$result = $adb->pquery( $query, array($userName, 'Active', 'on'), true );
 		$assigned_user_id = $adb->query_result( $result, 0, 'id' );
@@ -46,13 +54,20 @@ class VT610_to_YT100 {
 		$log->debug("Exiting VT610_to_YT100::preProcess() method ...");
 	}
 	function postProcess() {
+		global $log;
+		$log->debug("Entering VT610_to_YT100::postProcess() method ...");
+		
+
 		$location = Install_InitSchema_Model::migration_schema;
 		Install_InitSchema_Model::initializeDatabase($location, array('VT610_to_YT100_delete'));
+		$log->debug("Exiting VT610_to_YT100::postProcess() method ...");
 		return true;
 	}
 	public function process() {
 		global $log;
 		$log->debug("Entering VT610_to_YT100::process() method ...");
+		self::transferLogo();
+		self::removeModules();
 		self::load_default_menu();
 		self::settingsReplace();
 		self::addModule();
@@ -61,6 +76,7 @@ class VT610_to_YT100 {
 		self::relatedList();
 		self::addSharingToModules();
 		self::addClosedtimeField();
+		self::pobox();
 		self::updateRecords();
 		self::InactiveFields();
 		
@@ -85,7 +101,6 @@ class VT610_to_YT100 {
 		self::customerPortal();
 		self::cron();
 		self::picklists();
-		self::removeModules();
 		self::addWidget();
 		self::actionMapping();
 		self::addSearchfield();
@@ -148,7 +163,7 @@ class VT610_to_YT100 {
 				'parent_id'     => $adb->query_result( $result, 0, 'id' ),
 				'tabid'         => getTabid($moduleName),
 				'label'         => $moduleName,
-				'sequence'      => 0,
+				'sequence'      => -1,
 				'visible'       => '1',
 				'type'          => 0,
 				'url'           => '',
@@ -244,9 +259,8 @@ class VT610_to_YT100 {
 		}
     }
 	function settingsReplace() {
-		global $log;
+		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::settingsReplace() method ...");
-		$adb = PearDatabase::getInstance();
 		//add new record
 		$settings_blocks = array();
 		$settings_blocks[] = array('LBL_USER_MANAGEMENT',1);
@@ -424,6 +438,7 @@ class VT610_to_YT100 {
 		global $adb;
 		
 		$removeClass = array('none'=>'RecurringInvoiceHandler','none1'=>'HelpDeskHandler','ModTracker'=>'ModTrackerHandler','none2'=>'PBXManagerHandler','none3'=>'PBXManagerBatchHandler','ServiceContracts'=>'ServiceContractsHandler','Invoice'=>'InvoiceHandler','PurchaseOrder'=>'PurchaseOrderHandler','none4'=>'ModCommentsHandler','Home'=>'Vtiger_RecordLabelUpdater_Handler','none5'=>'SECURE');
+
 		$addHandler = array();
 		$addHandler[] = array('vtiger.entity.beforeunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
 		$addHandler[] = array('vtiger.entity.afterunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
@@ -858,6 +873,8 @@ class VT610_to_YT100 {
 		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('Project')),
 		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION"),
+		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','Czas realizacji','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
 		);
 
 		$tab = 7;
@@ -1134,7 +1151,8 @@ class VT610_to_YT100 {
 		array("37","1324","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","97","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
 		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
 		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Accounts','Contacts','Leads')),
-		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials'))
+		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
+		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','Czas realizacji','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array())
 		);
 
 		$tab = 41;
@@ -1170,6 +1188,7 @@ class VT610_to_YT100 {
 		'Accounts'=>array('newTab'=>'vtiger_accountaddress', 'oldTab1'=>'vtiger_accountbillads', 'oldTab2'=>'vtiger_accountshipads', 'newId'=>'accountaddressid', 'oldId1'=>'accountaddressid', 'oldId2'=>'accountaddressid'),
 		'Invoice'=>array('newTab'=>'vtiger_invoiceaddress', 'oldTab1'=>'vtiger_invoicebillads', 'oldTab2'=>'vtiger_invoiceshipads', 'newId'=>'invoiceaddressid', 'oldId1'=>'invoicebilladdressid', 'oldId2'=>'invoiceshipaddressid'),
 		'PurchaseOrder'=>array('newTab'=>'vtiger_purchaseorderaddress', 'oldTab1'=>'vtiger_pobillads', 'oldTab2'=>'vtiger_poshipads', 'newId'=>'purchaseorderaddressid', 'oldId1'=>'pobilladdressid', 'oldId2'=>'poshipaddressid'),
+		'SalesOrder'=>array('newTab'=>'vtiger_salesorderaddress', 'oldTab1'=>'vtiger_sobillads', 'oldTab2'=>'vtiger_soshipads', 'newId'=>'salesorderaddressid', 'oldId1'=>'sobilladdressid', 'oldId2'=>'soshipaddressid'),
 		'Vendors'=>array(),
 		'Assets'=>array(array('table'=>'vtiger_assets','copy'=>'parent_id = account')),
 		'Leads'=>array(array('table'=>'vtiger_leadaddress','copy'=>'addresslevel8a = lane, addresslevel5a = city, addresslevel1a = country, addresslevel2a = state, addresslevel7a = code'),array('table'=>'vtiger_leaddetails','copy'=>'noapprovalemails = emailoptout'))
@@ -1288,7 +1307,7 @@ class VT610_to_YT100 {
 		$log->debug("Entering VT610_to_YT100::copyValues() method ...");
 		$adb = PearDatabase::getInstance();
 		try {
-			if($moduleName == "Accounts" || $moduleName == "PurchaseOrder" || $moduleName == "Invoice"){
+			if($moduleName == "Accounts" || $moduleName == "PurchaseOrder" || $moduleName == "Invoice" || $moduleName == "SalesOrder"){
 				$query = "INSERT INTO ".$moduleToCopyValues[$moduleName]['newTab']." (".$moduleToCopyValues[$moduleName]['newId'].", addresslevel5a, addresslevel7a, addresslevel1a, addresslevel2a, addresslevel8a) 
 				SELECT ".$moduleToCopyValues[$moduleName]['oldId1'].", bill_city, bill_code, bill_country, bill_state, bill_street 
 				FROM ".$moduleToCopyValues[$moduleName]['oldTab1'].";";
@@ -1325,7 +1344,7 @@ class VT610_to_YT100 {
 		'Contacts'=>array('accountid',"fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
 		'Potentials'=>array('probability','nextstep','amount'),
 		'Leads'=>array('firstname'),
-		'Users'=>array('address_street','address_city','department','department','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_city','address_state','address_country','address_postalcode','phone_work','title'),
+		'Users'=>array('address_street','address_city','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_state','address_country','address_postalcode','phone_work','title'),
 		'Services'=>array('servicecategory') //copy to picklist
 		);
 		foreach($fieldsInactive AS $moduleName=>$fields){
@@ -1473,8 +1492,14 @@ class VT610_to_YT100 {
 		$addPicklists['Invoice'][] = array('name'=>'invoicestatus','uitype'=>'15','add_values'=>array("Derecognized","Invoice entered"),'remove_values'=>array('Sent','Credit Invoice','Paid'));
 		$addPicklists['Leads'][] = array('name'=>'leadsource','uitype'=>'15','add_values'=>array(),'remove_values'=>array('Existing Customer','Employee','Partner','Public Relations','Direct Mail'));
 		$addPicklists['Leads'][] = array('name'=>'leadstatus','uitype'=>'15','add_values'=>array('LBL_TO_REALIZE','LBL_REQUIRES_VERIFICATION','LBL_PRELIMINARY_ANALYSIS_OF','LBL_ADVANCED_ANALYSIS','LBL_INITIAL_ACQUISITION','LBL_CONTACTS_IN_THE_FUTURE','LBL_LEAD_UNTAPPED','LBL_LEAD_ACQUIRED'),'remove_values'=>array('Attempted to Contact','Cold','Contact in Future','Contacted','Hot','Junk Lead','Lost Lead','Not Contacted','Pre Qualified','Qualified','Warm'));
-		$addPicklists['Leads'][] = array('name'=>'industry','uitype'=>'15','add_values'=>array('Administration','Construction Industry','Power Industry','Trade','Hotels and Restaurants','Health Care','Industry / Manufacturing','Uniformed Services','Transport & Logistics','Technologies'),'remove_values'=>array('Apparel','Banking','Biotechnology','Chemicals','Communications','Construction','Consulting','Electronics','Energy','Engineering','Entertainment','Environmental','Food & Beverage','Government','Healthcare','Hospitality','Insurance','Machinery','Manufacturing','Media','Not For Profit','Recreation','Retail','Shipping','Technology','Telecommunications','Transportation','Utilities','Other'));
+		$addPicklists['Leads'][] = array('name'=>'salutationtype','uitype'=>'15','add_values'=>array(),'remove_values'=>array('--None--'));
+		$addPicklists['Leads'][] = array('name'=>'industry','uitype'=>'15','add_values'=>array('Administration','Construction Industry','Power Industry','Trade','Hotels and Restaurants','Health Care','Industry / Manufacturing','Uniformed Services','Transport & Logistics','Technologies'),'remove_values'=>array('--None--','Apparel','Banking','Biotechnology','Chemicals','Communications','Construction','Consulting','Electronics','Energy','Engineering','Entertainment','Environmental','Food & Beverage','Government','Healthcare','Hospitality','Insurance','Machinery','Manufacturing','Media','Not For Profit','Recreation','Retail','Shipping','Technology','Telecommunications','Transportation','Utilities','Other'));
 
+		$roleRecordList = Settings_Roles_Record_Model::getAll();
+		$rolesSelected = array();
+		foreach($roleRecordList as $roleRecord) {
+			$rolesSelected[] = $roleRecord->getId();
+		}
 		foreach($addPicklists as $moduleName=>$piscklists){
 			$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 			if(!$moduleModel)
@@ -1486,7 +1511,8 @@ class VT610_to_YT100 {
 				$pickListValues = Vtiger_Util_Helper::getPickListValues($piscklist['name']);
 				foreach($piscklist['add_values'] as $newValue){
 					if(!in_array($newValue, $pickListValues)){
-						$moduleModel->addPickListValues($fieldModel, $newValue);
+						//$moduleModel->addPickListValues($fieldModel, $newValue);
+						$moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
 					}
 				}
 				foreach($piscklist['remove_values'] as $newValue){
@@ -1635,6 +1661,18 @@ class VT610_to_YT100 {
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
 		$adb->pquery("UPDATE vtiger_version SET old_version = ?, `current_version` = ? ;",array(1,'1.0.0','1.0.0'));
+		//update tax in inventoryproductrel
+		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
+			  CASE
+				WHEN `tax1` IS NOT NULL 
+				OR
+				`tax2` IS NOT NULL 
+				OR 
+				`tax3` IS NOT NULL 
+				THEN 'tax1' 
+			  END,
+			  tax1 = IFNULL(tax1, 0) + IFNULL(tax2, 0) + IFNULL(tax3, 0) ;"
+		);
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
 		return $fieldsResult;
 	}
@@ -1673,6 +1711,38 @@ class VT610_to_YT100 {
 		}
 		$log->debug("Exiting VT610_to_YT100::addClosedtimeField() method ...");
 	}
+	
+	public function pobox(){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT100::pobox() method ...");
+		$sql = "SELECT * FROM `vtiger_field` WHERE `fieldname` LIKE 'addresslevel1%';";
+		$result = $adb->query($sql,true);
+		$Num = $adb->num_rows($result);
+
+		for($i = 0; $i < $Num; $i++){
+			$row = $adb->query_result_rowdata($result, $i);
+			$tabid = $row['tabid'];
+			$moduleName = Vtiger_Functions::getModuleName($tabid);
+			$block = $row['block'];
+			$tablename = $row['tablename'];
+			$fieldname = $row['fieldname'];
+			$name = 'pobox'.substr($fieldname, -1);
+			
+			$moduleInstance = Vtiger_Module::getInstance($moduleName);
+			$blockInstance = Vtiger_Block::getInstance($block,$moduleInstance);
+			$fieldInstance = new Vtiger_Field(); 
+			$fieldInstance->name = $name; 
+			$fieldInstance->table = $tablename; 
+			$fieldInstance->label = 'Po Box'; 
+			$fieldInstance->column = $name; 
+			$fieldInstance->columntype = 'varchar(50)'; 
+			$fieldInstance->uitype = 1;
+			$fieldInstance->typeofdata = 'V~O'; 
+			$blockInstance->addField($fieldInstance);
+		}
+		$log->debug("Exiting VT610_to_YT100::pobox() method ...");
+	}
+	
 	public function fieldsModuleRel(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::fieldsModuleRel() method ...");
@@ -1725,7 +1795,13 @@ class VT610_to_YT100 {
 	public function addRecords(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::addRecords() method ...");
+		//include('config/config.inc.php');
+		global $dbconfig;
 		$assigned_user_id = $this->adminId;
+		$log->debug("Entering VT610_to_YT100::addRecords88(".$dbconfig['db_type'].' '.$dbconfig['db_hostname'].' '.$dbconfig['db_name'].' '.$dbconfig['db_username'].") method ...");
+		$log->debug("Entering VT610_to_YT100::addRecords44(".$assigned_user_id.") method ...");
+		$user = new Users();
+		$current_user = $user->retrieveCurrentUserInfoFromFile( $assigned_user_id );
 		$moduleName = 'OSSMailTemplates';
 		vimport('~~modules/' . $moduleName . '/' . $moduleName . '.php');
 		$records = array();
@@ -2276,6 +2352,8 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$targetvalues = Zend_Json::decode($targetvalues);
 		$dependencyMap['valuemapping'][] = array('sourcevalue'=>'Technologies','targetvalues'=>$targetvalues);
 		Vtiger_DependencyPicklist::savePickListDependencies($moduleName, $dependencyMap);
+		//info on migration
+		$adb->pquery("INSERT INTO yetiforce_updates (`time`, `user`, `name`, `from_version`, `to_version`, `result`) VALUES  (?, ?, ?, ?, ?, ?)", array(date('Y-m-d H:i:s'), $this->adminId, 'migration', $this->name, 'Yetiforce CRM 1.0.0', 1 ));
 		$log->debug("Exiting VT610_to_YT100::addRecords() method ...");
 	}
 	public function customerPortal(){
@@ -2605,6 +2683,8 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$addRelations['Accounts'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Quotes'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Leads'][] = array('related_tabid'=>'Contacts', 'label'=>'Contacts', 'actions'=>'ADD', 'name'=>'get_dependents_list');
+		$addRelations['ServiceContracts'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');
+		$addRelations['Project'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');
 		$addRelations['HelpDesk'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD,SELECT', 'name'=>'get_dependents_list');
 		foreach($addRelations as $moduleName=>$relations){
 			$moduleInstance = Vtiger_Module::getInstance($moduleName);
@@ -2639,13 +2719,31 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$log->debug("Exiting VT610_to_YT100::relatedList() method ...");
 	}
 	
+	public function transferLogo(){
+		global $log,$adb,$root_directory;
+		$log->debug("Entering VT610_to_YT100::transferLogo() method ...");
+		$result = $adb->query( "SELECT `logoname` FROM `vtiger_organizationdetails` ;");
+		$num = $adb->num_rows( $result );
+		if($num == 1){
+			$logoName = $adb->query_result( $result, 0, 'logoname' );
+			$source = $this->source;
+			if(!$root_directory)
+				$root_directory = getcwd();
+			copy($source.'test/logo/'.$logoName, $root_directory.'/test/logo/'.$logoName);
+		}
+		$log->debug("Exiting VT610_to_YT100::transferLogo() method ...");
+	}
+	
 	public function removeModules(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::removeModules() method ...");
-		$removeModules = array('EmailTemplates'=>array(),'Webmails'=>array(),
+		$removeModules = array('EmailTemplates'=>array(),'Webmails'=>array(),'FieldFormulas'=>array(),
 		'Google'=>array('added_links'=>array(array('type' => 'DETAILVIEWSIDEBARWIDGET', 'label'  => 'Google Map'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Contacts'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Calendar'))),
-		'ExtensionStore'=>array());
+		'ExtensionStore'=>array()
+		);
 		foreach($removeModules as $moduleName=>$removeModule){
+			if(!self::checkModuleExists($moduleName))
+				continue;
 			$moduleInstance = Vtiger_Module::getInstance($moduleName);
 			$moduleInstance->delete();
 			$obiekt = new RemoveModule( $moduleName );
