@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -11,23 +10,20 @@
  * *********************************************************************************************************************************** */
 $permitted_modules = array('all');
 
-/// ZNACZNIK WYWOLUJACY TE FUNKCJE => #special_function#example#end_special_function#
-/// funkcja MUSI miec taką samą nazwe jak PLIK
+/// Variable calling a function => #special_function#example#end_special_function#
+/// function MUST have the same name as FILE
 
 function example($module, $id, $templateid, $content, $tcpdf) {
 	
 	$db = PearDatabase::getInstance();
-	/// przykladowe zapytanie
+	/// Sample Query
 	$sql = $db->query("select accountname from vtiger_account LIMIT 5", true);
-	
-	//poczatek tabeli
+
+	//Build data table
 	$content = '<br/><table border="1">';
-	// dla pobranych zapytaniem rekordów - tworz kolejne wiersze
 	for ($i = 0; $i < $db->num_rows($sql); $i++) {
-		$content .= '<tr><td align="center"> Nazwa </td><td>' . $db->query_result($sql, $i, "accountname") . '</td></tr>';
+		$content .= '<tr><td align="center"> Account Name </td><td>' . $db->query_result($sql, $i, "accountname") . '</td></tr>';
 	}
-	//koniec tabeli
 	$content .= '</table><br/>';
-	//zwracamy wynik
 	return $content;
 }
