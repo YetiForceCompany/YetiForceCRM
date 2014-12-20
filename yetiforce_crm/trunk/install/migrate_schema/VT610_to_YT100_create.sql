@@ -183,7 +183,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
   `productname` varchar(100) DEFAULT '',
   `osservicesstatus` varchar(50) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT NULL,
-  `pssubcategory` varchar(255) DEFAULT NULL,
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
@@ -275,28 +274,28 @@ CREATE TABLE IF NOT EXISTS `vtiger_osspdfcf` (
   CONSTRAINT `fk_1_vtiger_osspdfcf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_osspdf` (`osspdfid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
-  `osssoldservicesid` int(19) NOT NULL DEFAULT '0',
-  `osssoldservices_no` varchar(255) DEFAULT NULL,
-  `productname` varchar(255) DEFAULT '',
-  `ssservicesstatus` varchar(255) DEFAULT NULL,
-  `pscategory` varchar(255) DEFAULT '',
-  `pssubcategory` varchar(255) DEFAULT '',
-  `datesold` date DEFAULT NULL,
-  `dateinservice` date DEFAULT NULL,
-  `invoice` varchar(255) DEFAULT '',
-  `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) NOT NULL,
-  `potential` int(19) DEFAULT NULL,
-  `parent_id` int(19) DEFAULT NULL,
-  `pot_renewal` int(19) DEFAULT NULL,
-  `serviceid` int(19) DEFAULT NULL,
-  `ordertime` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`osssoldservicesid`,`contact`),
-  KEY `parent_id` (`parent_id`),
-  KEY `pot_renewal` (`pot_renewal`),
-  KEY `serviceid` (`serviceid`),
-  CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices`(
+	`osssoldservicesid` int(19) NOT NULL  DEFAULT 0 , 
+	`osssoldservices_no` varchar(255) COLLATE utf8_general_ci NULL  , 
+	`productname` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
+	`ssservicesstatus` varchar(255) COLLATE utf8_general_ci NULL  , 
+	`pscategory` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
+	`pssubcategory` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
+	`datesold` date NULL  , 
+	`dateinservice` date NULL  , 
+	`invoice` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
+	`invoiceid` int(19) NULL  , 
+	`contact` int(19) NULL  , 
+	`potential` int(19) NULL  , 
+	`parent_id` int(19) NULL  , 
+	`pot_renewal` int(19) NULL  , 
+	`serviceid` int(19) NULL  , 
+	PRIMARY KEY (`osssoldservicesid`) , 
+	KEY `parent_id`(`parent_id`) , 
+	KEY `pot_renewal`(`pot_renewal`) , 
+	KEY `serviceid`(`serviceid`) , 
+	CONSTRAINT `fk_1_vtiger_osssoldservices` 
+	FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
 CREATE TABLE IF NOT EXISTS `vtiger_osssoldservicescf` (

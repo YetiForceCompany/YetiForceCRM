@@ -106,7 +106,7 @@ class Install_ConfigFileUtils_Model {
 	  		fclose($templateHandle);
 	  	}
 		$language = explode("_", $this->default_language);
-		OSSMail_Record_Model::setConfigData( array( 'language' => $language[0].'_'.strtoupper($language[1]) ) );
+		OSSMail_Record_Model::setConfigData( array( 'language' => $language[0].'_'.strtoupper($language[1]) ) , false );
 	  	if ($templateHandle && $includeHandle) {
 	  		return true;
 	  	}
