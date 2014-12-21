@@ -521,8 +521,8 @@ class TCPDF {
 	 * The right-bottom (or left-bottom for RTL) corner X coordinate of last inserted image.
 	 * @since 2002-07-31
 	 * @author Nicola Asuni
-	 * @protected
-	 */
+me($opt['FS'])]))) {
+
 	protected $img_rb_x;
 
 	/**

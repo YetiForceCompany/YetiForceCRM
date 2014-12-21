@@ -2,7 +2,7 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
