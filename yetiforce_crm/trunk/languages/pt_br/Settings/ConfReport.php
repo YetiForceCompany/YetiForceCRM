@@ -5,22 +5,23 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 19/12/2014 - www.ttcasolucoes.com.br
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_CONFIGURATION' => 'Server configuration',
-	'LBL_CONFREPORT_DESCRIPTION' => 'Allows you to verify that the main server settings are compatible with the recommended parameters.',
-	'LBL_PARAMETER' => 'Parameter',
-	'LBL_VALUE' => 'Current configuration',
-	'LBL_RECOMMENDED' => 'Recommended configuration',
-	'LBL_FILES_PERMISSIONS' => 'Files permissions',
-	'LBL_FILE' => 'Name',
-	'LBL_PATH' => 'Path',
-	'LBL_PERMISSION' => 'Permission',	
-	'LBL_TRUE_PERMISSION' => 'Allowed',
-	'LBL_FAILED_PERMISSION' => 'Not allowed',	
-	'On' => 'On',
-	'Off' => 'Off',
-	'NOT RECOMMENDED' => 'Not Recommended'
+	'LBL_CONFIGURATION' => 'Configuração do Servidor',
+	'LBL_CONFREPORT_DESCRIPTION' => 'Permite verificar se as configurações do servidor principal são compatíveis com os parâmetros recomendados.',
+	'LBL_PARAMETER' => 'Parâmetro',
+	'LBL_VALUE' => 'Configurações atuais',
+	'LBL_RECOMMENDED' => 'Configuração recomendada',
+	'LBL_FILES_PERMISSIONS' => 'Permissões arquivos',
+	'LBL_FILE' => 'Nome',
+	'LBL_PATH' => 'Diretório',
+	'LBL_PERMISSION' => 'Permissão',	
+	'LBL_TRUE_PERMISSION' => 'Permitido',
+	'LBL_FAILED_PERMISSION' => 'Não permitido',	
+	'On' => 'Ligar',
+	'Off' => 'Desligar',
+	'NOT RECOMMENDED' => 'Não Recomendado'
 );
