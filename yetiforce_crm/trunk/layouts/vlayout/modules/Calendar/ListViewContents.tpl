@@ -106,14 +106,6 @@
 			{/if}
 		<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' 
 			{if $DETAIL_VIEW_URL} data-recordUrl='{$DETAIL_VIEW_URL}' {/if} id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-			{if $LISTVIEW_ENTRY->colorList neq ''}
-				<style>
-				#{$MODULE}_listView_row_{$smarty.foreach.listview.index+1} > td {
-					background-color: {$LISTVIEW_ENTRY->colorList.background};
-					color: {$LISTVIEW_ENTRY->colorList.text};
-				}
-				</style>
-			{/if}
             <td  width="5%" class="{$WIDTHTYPE}">
 				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
 			</td>

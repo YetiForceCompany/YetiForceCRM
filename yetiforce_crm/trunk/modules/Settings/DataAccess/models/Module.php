@@ -370,7 +370,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model {
 			$condition_result = $conditions->checkConditions( $row['dataaccessid'],	$recordModel->entity->column_fields	);
 			if ($condition_result['test'] == true) {
 				$data = unserialize($row['data']);
-				return array( 'text' => $data[0]['text'], 'background' => $data[0]['bg'] );
+				return 'style="color: '.$data[0]['text'].';background-color: '.$data[0]['bg'].';"';
 			}
         }
 		return false;

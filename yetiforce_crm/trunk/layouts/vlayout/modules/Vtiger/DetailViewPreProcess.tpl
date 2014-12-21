@@ -9,13 +9,7 @@
 *
  ********************************************************************************/
 -->*}
-{if $COLORLISTHANDLERS}
-	<style>
-	.detailViewContainer{
-		border: 2px solid {$COLORLISTHANDLERS.background};
-	}
-	</style>
-{/if}
+
 {strip}
 {include file="Header.tpl"|vtemplate_path:$MODULE_NAME}
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE_NAME}
