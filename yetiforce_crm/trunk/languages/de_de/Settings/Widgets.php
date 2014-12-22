@@ -15,7 +15,8 @@ $languageStrings = array(
 	'Type widget'	=> 'Typ',
     'LBL_WIDGET_TYPE' => 'Widget Typ',
 	'LBL_SELECT'	=> 'Auswahl',
-	'Summary'	=> 'Überblick',
+	'Summary'	=> 'Fields summary',
+	'SummaryCategory'	=> 'Data summary',
 	'Comments'	=> 'Kommentar',
 	'Updates'	=> 'Updates',
 
