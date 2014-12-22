@@ -246,7 +246,8 @@ class iCalendar_property_prodid extends iCalendar_property {
     var $val_default = NULL;
 
     function construct() {
-        $this->val_default = '-//John Papaioannou/NONSGML Bennu '._BENNU_VERSION.'//EN';
+		global $YetiForce_current_version;
+        $this->val_default = '-//YetiForce CRM//YetiForce CRM '.$YetiForce_current_version.'//EN';
 
         $this->valid_parameters = array(
             RFC2445_XNAME => RFC2445_OPTIONAL

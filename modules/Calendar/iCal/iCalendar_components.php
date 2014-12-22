@@ -359,16 +359,17 @@ class iCalendar_event extends iCalendar_component {
     var $properties;
     var $mapping_arr = array(
     	'CLASS'			=>	array('component'=>'visibility','type'=>'string'),
-    	'DESCRIPTION'	=>	array('component'=>'description','type'=>'string'),
     	'DTSTART'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstart','type'=>'datetime'),
     	'DTEND'			=>	array('component'=>array('due_date','time_end'),'function'=>'iCalendar_event_dtend','type'=>'datetime'),
     	'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
     	'LOCATION'		=>	array('component'=>'location','type'=>'string'),
+		'ORGANIZER'		=>	array('component'=>'activityid','function'=>'icalendar_event_organizer','type'=>'user'),
     	'STATUS'		=>	array('component'=>'eventstatus','type'=>'string'),
     	'SUMMARY'		=>	array('component'=>'subject','type'=>'string'),
     	'PRIORITY'		=>	array('component'=>'priority','type'=>'string'),
     	'ATTENDEE'		=>	array('component'=>'activityid','function'=>'iCalendar_event_attendee','type'=>'user'),
     	'RESOURCES'		=>	array('component'=>array('location','eventstatus'),'type'=>'string'),
+		'DESCRIPTION'	=>	array('component'=>'description','type'=>'string'),
     );
     var $field_mapping_arr = array(
     	'priority'=>'taskpriority'
@@ -490,7 +491,14 @@ class iCalendar_event extends iCalendar_component {
 		}
     	return true;
 	}
-
+	function icalendar_event_organizer($activity){
+		global $adb;
+		$recordModel = Users_Record_Model::getInstanceById($activity['assigned_user_id'], 'Users');
+		$email = $recordModel->get('email1');
+		$organizer = 'mailto:'.$email;
+		$this->add_property('ORGANIZER',$organizer);
+    	return true;
+	}
 }
 
 class iCalendar_todo extends iCalendar_component {

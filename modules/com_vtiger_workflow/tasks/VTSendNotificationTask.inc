@@ -7,121 +7,57 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
+require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
+require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+class VTSendNotificationTask extends VTTask {
+	// Sending email takes more time, this should be handled via queue all the time.
+	public $executeImmediately = true; 
 
-require_once('modules/com_vtiger_workflow/tasks/VTEmailTask.inc');
-
-class VTSendNotificationTask extends VTEmailTask {
-
-	public function doTask($entity) {
-		global $adb, $current_user;
+	public function getFieldNames(){
+		return array("template");
+	}
+	public function doTask($entity){
+		global $adb,$site_URL , $current_user,$HELPDESK_SUPPORT_NAME,$HELPDESK_SUPPORT_EMAIL_ID;
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
+		$ws_id = $entity->getId();
 		$module = $entity->getModuleName();
-
-		$taskContents = Zend_Json::decode($this->getContents($entity));
-		$fromEmail	= $taskContents['fromEmail'];
-		$fromName	= $taskContents['fromName'];
-		$toEmail	= $taskContents['toEmail'];
-		$cc			= $taskContents['ccEmail'];
-		$bcc		= $taskContents['bccEmail'];
-		$subject	= $taskContents['subject'];
-		$content	= $taskContents['content'];
-
-		//Storing the details of emails
-		$entityIdDetails = vtws_getIdComponents($entity->getId());
-		$entityId = $entityIdDetails[1];
-		$moduleName = 'Emails';
-		$userId = $current_user->id;
-		$emailFocus = CRMEntity::getInstance($moduleName);
-        $dateTime = new DateTimeField(null);
-		$emailFieldValues = array(
-				'assigned_user_id' => $userId,
-				'subject' => $subject,
-				'description' => $content,
-				'from_email' => $fromEmail,
-				'saved_toid' => $toEmail,
-				'ccmail' => $cc,
-				'bccmail' => $bcc,
-				'parent_id' => $entityId."@$userId|",
-				'email_flag' => 'SENT',
-				'activitytype' => $moduleName,
-				'date_start' => date($dateTime->getDisplayDate($current_user)),
-				'time_start' => date($dateTime->getDisplayTime($current_user)),
-				'mode' => '',
-				'id' => ''
-		);
-		$emailFocus->column_fields = $emailFieldValues;
-		$emailFocus->save($moduleName);
-
-		//Including email tracking details
-		global $site_URL, $application_unique_key;
-		$emailId = $emailFocus->id;
-		$trackURL = "$site_URL/modules/Emails/actions/TrackAccess.php?record=$entityId&mailid=$emailId&app_key=$application_unique_key";
-		$content = "<img src='$trackURL' alt='' width='1' height='1'>$content";
-
-		if (stripos($content, '<img src="cid:logo" />')) {
-			$logo = 1;
-		}
-
-		$status = send_mail($module, $toEmail, $fromName, $fromEmail, $subject, $content, $cc, $bcc, '', '', $logo);
-
-		if(!empty($emailId)) {
-			$emailFocus->setEmailAccessCountValue($emailId);
-		}
-		if(!$status) {
-			//If mail is not sent then removing the details about email
-			$emailFocus->trash($moduleName, $emailId);
-		}
-
-		$util->revertUser();
-	}
-
-	/**
-	 * Function to get contents of this task
-	 * @param <Object> $entity
-	 * @return <Array> contents
-	 */
-	public function getContents($entity, $entityCache=false) {
-		if (!$this->contents) {
-			$util = new VTWorkflowUtils();
-			$admin = $util->adminUser();
-			$entityCache = new VTEntityCache($admin);
-
-			$entityOwnerId = $entity->get('assigned_user_id');
-			$entityId = $entity->getId();
-			$entity = $entityCache->forId($entityId);
-
-			list($referenceEntityId, $ownerId) = vtws_getIdComponents($entityOwnerId);
-
-			$referenceEntity = $entityCache->forId($entityOwnerId);
-			if($referenceEntity->getModuleName() === 'Groups') {
-				require_once('include/utils/GetGroupUsers.php');
-
-				$groupModel = new GetGroupUsers();
-				$groupModel->getAllUsersInGroup($ownerId);
-				$usersList = $groupModel->group_users;
-				if ($usersList) {
-					$ownerId = $usersList[0];
+		$parts = explode('x', $ws_id);
+		$entityId = $parts[1];
+		
+		if(is_numeric($this->template) && $this->template > 0){
+			$fieldName = 'storage/'.$entityId.'_invitation.ics';
+		
+			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0 WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
+			$result = $adb->pquery($sql, array($entityId) );
+			
+			$moduleModel = Vtiger_Module_Model::getInstance( $module );
+			$moduleModel->setEventFieldsForExport();
+			$moduleModel->setTodoFieldsForExport();
+			$ExportData = new Calendar_ExportData_Action();
+			$iCal = $ExportData->output('', $result, $moduleModel, $fieldName, true);
+			file_put_contents($fieldName, $iCal);
+			$attachment['invite.ics'] = $fieldName;
+			$result_invitees = $adb->pquery("SELECT * FROM vtiger_invitees WHERE activityid = ?", array($entityId) );
+			while ($recordinfo = $adb->fetch_array($result_invitees)) {
+				$recordModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
+				$email = $recordModel->get('email1');
+				$language = $recordModel->get('language');
+				if($recordModel->get('status') == 'Active'){
+					$data = array(
+						'id' => $this->template,
+						'to_email' => $email,
+						'to_email_mod' => 'Users',
+						'notifilanguage' => $language,
+						'module' => $module,
+						'record' => $entityId,
+						'attachment_src' => $attachment,
+					);
+					$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+					$recordModel->sendMailFromTemplate($data);
 				}
 			}
-			if ($ownerId) {
-				$ownerFocus = CRMEntity::getInstance('Users');
-				$ownerFocus->retrieve_entity_info($ownerId, 'Users');
-
-				$dateTime = new DateTimeField($entity->get('date_start') .' '. $entity->get('time_start'));
-				$entity->set('date_start', $dateTime->getDisplayDate($ownerFocus));
-				$entity->set('time_start', $dateTime->getDisplayTime($ownerFocus));
-
-				$dateTime = new DateTimeField($entity->get('due_date') .' '. $entity->get('time_end'));
-				$entity->set('due_date', $dateTime->getDisplayDate($ownerFocus));
-				$entity->set('time_end', $dateTime->getDisplayTime($ownerFocus));
-			}
-			$entityCache->cache[$entityId] = $entity;
-			$this->contents = parent::getContents($entity, $entityCache);
-			$util->revertUser();
+			unlink($fieldName);
 		}
-		return $this->contents;
 	}
 }
-
-?>

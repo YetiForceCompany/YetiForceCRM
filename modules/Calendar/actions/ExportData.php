@@ -32,7 +32,7 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 	 * @param Vtiger_Request $request
 	 * @return <String>
 	 */
-	public function getExportContentType(Vtiger_Request $request) {
+	public function getExportContentType() {
 		return 'text/calendar';
 	}
 
@@ -43,14 +43,14 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 	public function ExportData(Vtiger_Request $request) {
 		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
-
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
 		$query = $this->getExportQuery($request);
 		$result = $db->pquery($query, array());
-
-		$this->output($request, $result, $moduleModel);
+		$fileName = $request->get('filename');
+		
+		$this->output($request, $result, $moduleModel, $fileName);
 	}
 
 	/**
@@ -59,14 +59,7 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 	 * @param <Array> $result
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function output($request, $result, $moduleModel) {
-		$fileName = $request->get('filename');
-		$exportType = $this->getExportContentType($request);
-
-		// Send the right content type and filename
-		header("Content-type: $exportType");
-		header("Content-Disposition: attachment; filename={$fileName}.ics");
-
+	public function output($request, $result, $moduleModel, $fileName, $toFile = false) {
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = split('/', date_default_timezone_get());
 
@@ -107,11 +100,13 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
                         else 
                             $temp[$fieldName] = $icalZeroPriority;
                     }
-                    else
+                    else{
                         $temp[$fieldName] = $eventFields[$fieldName];
+						
+					}
 				}
 				$temp['id'] = $id;
-
+var_dump($temp);
 				$iCalTask = new iCalendar_event;
 				$iCalTask->assign_values($temp);
 
@@ -136,10 +131,17 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 				$iCalTask = new iCalendar_todo;
 				$iCalTask->assign_values($temp);
 			}
-
 			$myiCal->add_component($iCalTask);
 			$result->MoveNext();
 		}
-		echo $myiCal->serialize();
+		if($toFile){
+			return $myiCal->serialize();
+		}else{
+			$exportType = $this->getExportContentType();
+			// Send the right content type and filename
+			header("Content-type: $exportType");
+			header("Content-Disposition: attachment; filename={$fileName}.ics");
+			echo $myiCal->serialize();
+		}
 	}
 }
