@@ -95,11 +95,6 @@
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
-<picklistvalue>Hardware</picklistvalue>
-<picklistvalue>Software</picklistvalue>
-<picklistvalue>CRM Applications</picklistvalue>
-<picklistvalue>Antivirus</picklistvalue>
-<picklistvalue>Backup</picklistvalue>
 </picklistvalues>
 </field>
 <field>
@@ -123,11 +118,6 @@
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
-<picklistvalue>Dell</picklistvalue>
-<picklistvalue>Symantec</picklistvalue>
-<picklistvalue>Eset</picklistvalue>
-<picklistvalue>Kaspersky</picklistvalue>
-<picklistvalue>Sophos</picklistvalue>
 </picklistvalues>
 </field>
 <field>

@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_purchaseorderaddress`(
 	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
 	PRIMARY KEY (`purchaseorderaddressid`) , 
 	CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` 
-	FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
+	FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 CREATE TABLE IF NOT EXISTS `vtiger_invoiceaddress`(
 	`invoiceaddressid` int(19) NOT NULL  , 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_invoiceaddress`(
 	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
 	PRIMARY KEY (`invoiceaddressid`) , 
 	CONSTRAINT `vtiger_invoiceaddress_ibfk_1` 
-	FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
+	FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 CREATE TABLE IF NOT EXISTS `vtiger_accountaddress`(
 	`accountaddressid` int(19) NOT NULL  , 
