@@ -131,7 +131,7 @@ $languageStrings = array(
 	'Email Template Task' => 'E-Mail-Vorlage senden',
 	'Send Pdf' => 'PDF senden',
 	'Update Closed Time' => 'Abschluss-Zeit aktualisieren',
-	
+	'Send Notification' => 'Invitees - Send Notification',
 );
 
 $jsLanguageStrings = array(

@@ -132,6 +132,7 @@ $languageStrings = array(
 	'Email Template Task' => 'Wyślij maila z szablonów',
 	'Send Pdf' => 'Wyślij maila z wydrukiem PDF',
 	'Update Closed Time' => 'Aktualizacja czasu zamknięcia',
+	'Send Notification' => 'Wyślij zaproszenie',
 );
 
 $jsLanguageStrings = array(
