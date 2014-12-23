@@ -83,7 +83,7 @@ class VT610_to_YT100 {
 		$fieldsToDelete = array(
 		'Contacts'=>array('mailingcity',"mailingstreet",'mailingcountry',"othercountry",'mailingstate',"mailingpobox",'othercity',"otherstate",'mailingzip',"otherzip",'otherstreet',"otherpobox"),
 		'Invoice'=>array('s_h_amount',"adjustment",'s_h_percent','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
-		'Leads'=>array('city',"code",'state','country','lane','leadaddresstype','pobox',"emailoptout","designation","rating"),
+		'Leads'=>array('city',"code",'state','country','lane','leadaddresstype','pobox',"designation","rating"),
 		'PurchaseOrder'=>array('s_h_percent',"s_h_amount",'adjustment','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
 		'Quotes'=>array('s_h_percent',"s_h_amount",'adjustment','inventorymanager'),
 		'SalesOrder'=>array('s_h_percent',"s_h_amount",'adjustment'),
