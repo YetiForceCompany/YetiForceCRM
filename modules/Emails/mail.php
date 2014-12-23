@@ -95,7 +95,16 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	
 	if (count($attachmentSrc)) {
 		foreach ($attachmentSrc as $name => $src) {
-			$mail->AddAttachment($src, $name);
+			if( is_array($src) ){
+				$mail->AddStringAttachment(
+					$src['string'],
+					$src['filename'], 
+					$src['encoding'], 
+					$src['type']
+				);
+			}else{
+				$mail->AddAttachment($src, $name);
+			}
 		}
 	}
 
@@ -413,13 +422,13 @@ function MailSend($mail)
 	global $log;
          $log->info("Inside of Send Mail function.");
 	if(!$mail->Send())
-        {
+	{
 		$log->debug("Error in Mail Sending : Error log = '".$mail->ErrorInfo."'");
 		return $mail->ErrorInfo;
-        }
+	}
 	else
 	{
-		 $log->info("Mail has been sent from the vtigerCRM system : Status : '".$mail->ErrorInfo."'");
+		$log->info("Mail has been sent from the vtigerCRM system : Status : '".$mail->ErrorInfo."'");
 		return 1;
 	}
 }

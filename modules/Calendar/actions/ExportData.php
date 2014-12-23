@@ -106,7 +106,7 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 					}
 				}
 				$temp['id'] = $id;
-var_dump($temp);
+
 				$iCalTask = new iCalendar_event;
 				$iCalTask->assign_values($temp);
 
