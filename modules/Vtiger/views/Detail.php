@@ -260,10 +260,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
-		if(method_exists($moduleName."_Record_Model",'getStructure')){
+		if(is_callable($moduleName."_Record_Model",'getStructure')){
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		}
-		if(method_exists($moduleName."_Record_Model",'getSummaryInfo')){
+		if(is_callable($moduleName."_Record_Model",'getSummaryInfo')){
 			$viewer->assign('SUMMARY_INFORMATION', $recordModel->getSummaryInfo());
 			return $viewer->view('ModuleSummaryBlockView.tpl', $moduleName, true);
 		}else{
