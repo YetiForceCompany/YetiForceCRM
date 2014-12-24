@@ -38,15 +38,27 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
+		
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
+		$recordStructure = $recordStructureInstance->getStructure();
 		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
+		
+		$sourceRelatedField = $moduleModel->getSourceRelatedFieldToQuickCreate($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+		foreach($sourceRelatedField as $field=>$value){
+			if(array_key_exists($field,$recordStructure)){
+				$recordStructure[$field]->set('fieldvalue',$value);
+				unset($sourceRelatedField[$field]);
+			}
+		}
+
 		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('SOURCE_RELATED_FIELD',$sourceRelatedField);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_'.$moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
