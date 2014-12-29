@@ -39,7 +39,7 @@ $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
-$config['plugins'] = array('autologon','identity_smtp');
+$config['plugins'] = array('autologon','identity_smtp','ical_attachments');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");

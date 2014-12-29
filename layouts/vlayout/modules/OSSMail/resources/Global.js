@@ -12,7 +12,27 @@ $("#roundcube_interface").load(function() {
     var crm_path = getAbsolutePath();
     load_all_widgets(inframe, crm_path);
     load_compose_btn(inframe, crm_path);
+	load_ical_attachments(inframe, crm_path);
 });
+function load_ical_attachments(inframe, crm_path) {
+    $(inframe.find('#messagecontent .icalattachments a')).click(function() {
+		var params = {};
+		params.data = {module: 'Calendar', action: 'ImportICS', ics: $(this).attr('class')}
+		params.async = true;
+		params.dataType = 'json';
+		$(this).closest('.icalattachments').remove();
+		AppConnector.request(params).then(
+			function(response) {
+				var notify_params = {
+					text: response['result'],
+					type: 'info',
+					animation: 'show'
+				};
+				Vtiger_Helper_Js.showPnotify(notify_params);
+			}
+		);
+    });
+}
 function load_compose_btn(inframe, crm_path) {
     $(inframe.find('#oss_btn_bar .oss_btn')).click(function() {
         var params = {};
