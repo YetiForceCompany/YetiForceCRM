@@ -162,7 +162,7 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model {
         if ( $fieldModule != $module && $module != 'Calendar' ) {
             return $tpl;
         }
-		if( $module == 'Calendar' ){
+		if( $module == 'Calendar' || $module == 'Events'){
 			vimport("~~modules/Calendar/Activity.php");
 			$module = 'Activity';
 		}else{

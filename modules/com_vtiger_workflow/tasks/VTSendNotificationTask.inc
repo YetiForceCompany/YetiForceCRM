@@ -26,7 +26,9 @@ class VTSendNotificationTask extends VTTask {
 		$entityId = $parts[1];
 		
 		if(is_numeric($this->template) && $this->template > 0){
-			$fieldName = 'storage/'.$entityId.'_invitation.ics';
+			$fieldName = $entityId.'_invitation.ics';
+			$fieldNameUrl = 'storage/'.$fieldName;
+			$attachment = array();
 		
 			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0 WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
 			$result = $adb->pquery($sql, array($entityId) );
@@ -35,9 +37,15 @@ class VTSendNotificationTask extends VTTask {
 			$moduleModel->setEventFieldsForExport();
 			$moduleModel->setTodoFieldsForExport();
 			$ExportData = new Calendar_ExportData_Action();
-			$iCal = $ExportData->output('', $result, $moduleModel, $fieldName, true);
-			file_put_contents($fieldName, $iCal);
-			$attachment['invite.ics'] = $fieldName;
+			$iCal = $ExportData->output('', $result, $moduleModel, $fieldNameUrl, true);
+			file_put_contents($fieldNameUrl, $iCal);
+			$attachment[] = array(
+				'string' => "$iCal",
+				'filename' => "invite.ics",
+				'filenameurl' => $fieldNameUrl,
+				'encoding' => "base64",
+				'type' => "application/ics; charset=utf-8; method=REQUEST"
+			);
 			$result_invitees = $adb->pquery("SELECT * FROM vtiger_invitees WHERE activityid = ?", array($entityId) );
 			while ($recordinfo = $adb->fetch_array($result_invitees)) {
 				$recordModel = Users_Record_Model::getInstanceById($recordinfo['inviteeid'], 'Users');
@@ -57,7 +65,7 @@ class VTSendNotificationTask extends VTTask {
 					$recordModel->sendMailFromTemplate($data);
 				}
 			}
-			unlink($fieldName);
+			unlink($fieldNameUrl);
 		}
 	}
 }

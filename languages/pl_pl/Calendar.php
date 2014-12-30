@@ -113,6 +113,8 @@ $languageStrings = array(
     'TASK_CUR' => 'Zadania zaplanowane na dziś',
     'TASK_NEXT' => 'Zadania zaplanowane na jutro',
 	'LBL_NO_DESCRIPTION'=>'Brak opisu',
+	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Błędny plik ICS',
+	'LBL_IMPORT_ICS_SUCCESS'=>'Dodano wpis do kalendarza',
 );
 
 $jsLanguageStrings = array(

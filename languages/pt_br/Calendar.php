@@ -96,6 +96,8 @@ $languageStrings = array(
     'TASK_CUR' => 'Tarefas agendadas para hoje',
     'TASK_NEXT' => 'Tarefas agendadas para amanhã',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
+	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Wrong ICS file',
+	'LBL_IMPORT_ICS_SUCCESS'=>'Added entry to the calendar',
         // Missing Fields
         'Selected Users'=>'Selecionar Usuários',
         'Starting Day of the week'=>'Inicio Dia Semana',
