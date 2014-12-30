@@ -339,7 +339,6 @@ function getAssociatedProducts($module,$focus,$seid='')
 			$amount = number_format($amount, $no_of_decimal_places,'.','');
 			$product_Detail[$i]['taxes'][$tax_count]['amount'] = $amount;
 			if($tax == $tax_name){
-				$finalTaxTotal += $amount;
 				$product_Detail[$i]['taxTotal'.$i] = $amount;
 			}
 		}
