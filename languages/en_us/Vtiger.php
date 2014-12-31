@@ -781,6 +781,14 @@ $languageStrings = array(
 	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
 	'LBL_CONFREPORT' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
+	
+	//breadcrumbs view name
+	'LBL_VIEW_CREATE' => 'Create',
+	'LBL_VIEW_EDIT' => 'Edit',
+	'LBL_VIEW_DETAIL' => 'Detail',
+	'LBL_VIEW_LIST' => 'List',
+	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
+	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',

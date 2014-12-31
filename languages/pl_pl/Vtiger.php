@@ -854,6 +854,14 @@ $languageStrings = array(
 	'LBL_UPDATES_DESCRIPTION' => 'Historia wykonanych aktualizacji',
 	'LBL_CONFREPORT' => 'Konfiguracja serwera',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Przedstawia zalecane i aktualne ustawienia serwera',
+	
+	//breadcrumbs view name
+	'LBL_VIEW_CREATE' => 'Dodawanie',
+	'LBL_VIEW_EDIT' => 'Edycja',
+	'LBL_VIEW_DETAIL' => 'Podgląd',
+	'LBL_VIEW_LIST' => 'Lista',
+	'LBL_VIEW_CALENDAR' => 'Kalendarz graficzny',
+	'LBL_VIEW_SHAREDCALENDAR' => 'Kalendarz wspólny',
 );
 
 $jsLanguageStrings = array(
