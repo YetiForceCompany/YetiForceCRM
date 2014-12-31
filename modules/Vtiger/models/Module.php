@@ -1552,4 +1552,22 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			return $data[$moduleName];
 		return array();
     }
+	public function getSourceRelatedFieldToQuickCreate( $moduleName, $sourceModule = false, $sourceRecord = false) {
+		$data = array();
+		if($sourceModule && $sourceRecord){
+			$mapping = array();
+			// [target module][Source module] = ( target field => (source module field, source field) )
+			$mapping['OSSTimeControl']['HelpDesk'] = array( 'contactid' => array('Contacts','contact_id'), 'accountid' => array('Accounts','parent_id') );
+			
+			if(!$mapping[$moduleName][$sourceModule])
+				return $data;
+			$recordModel = Vtiger_Record_Model::getInstanceById( $sourceRecord, $sourceModule );
+			foreach($mapping[$moduleName][$sourceModule] as $fieldName=>$relatedField){
+				$fieldValue = $recordModel->get($relatedField[1]);
+				if($fieldValue && Vtiger_Functions::getCRMRecordType($fieldValue) == $relatedField[0])
+					$data[$fieldName] = $fieldValue;
+			}
+		}
+		return $data;
+	}
 }

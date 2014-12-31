@@ -1196,7 +1196,7 @@ class VT610_to_YT100 {
 		$setToCRMAfter = self::getFieldsAll();
 		foreach($setToCRMAfter as $moduleName=>$fields){
 			foreach($fields as $field){
-				if(self::checkFieldExists($field)){
+				if(self::checkFieldExists($field, $moduleName)){
 					continue;
 				}
 				try {
@@ -1290,12 +1290,12 @@ class VT610_to_YT100 {
 		$log->debug("Exiting VT610_to_YT100::addSharingToModules() method ...");
 	}
 	
-	public function checkFieldExists($field, $parent = ''){
+	public function checkFieldExists($field, $moduleName){
 		global $adb;
-		if($parent)
+		if($moduleName == 'Settings')
 			$result = $adb->pquery("SELECT * FROM vtiger_settings_field WHERE name = ? AND linkto = ? ;", array($field[1],$field[4]));
 		else
-			$result = $adb->pquery("SELECT * FROM vtiger_field WHERE columnname = ? AND tablename = ? ;", array($field['name'],$field['table']));
+			$result = $adb->pquery("SELECT * FROM vtiger_field WHERE columnname = ? AND tablename = ? AND tabid = ?;", array($field['name'],$field['table'], getTabid($moduleName)));
 		if(!$adb->num_rows($result)) {
 			return false;
 		}
@@ -1614,7 +1614,7 @@ class VT610_to_YT100 {
 		$log->debug("Entering VT610_to_YT100::updateRecords() method ...");
 		$changes = array();
 		$changes[] = array('where'=>array('columnname'=>array('calendarsharedtype')), 'setColumn'=>array('displaytype'), 'setValue'=>array(1));
-		$changes[] = array('where'=>array('columnname'=>array('description'), 'tabid'=>array(getTabid('Accounts'),getTabid('Leads'),getTabid('Assets'),getTabid('Vendors'),getTabid('Quotes'),getTabid('Contacts'),getTabid('Potentials'),getTabid('PurchaseOrder'),getTabid('Project'),getTabid('HelpDesk'),getTabid('SalesOrder'),getTabid('Invoice'))), 'setColumn'=>array('displaytype'), 'setValue'=>array(300));
+		$changes[] = array('where'=>array('columnname'=>array('description'), 'tabid'=>array(getTabid('Accounts'),getTabid('Leads'),getTabid('Assets'),getTabid('Vendors'),getTabid('Quotes'),getTabid('Contacts'),getTabid('Potentials'),getTabid('PurchaseOrder'),getTabid('Project'),getTabid('HelpDesk'),getTabid('SalesOrder'),getTabid('Invoice'))), 'setColumn'=>array('uitype'), 'setValue'=>array(300));
 		$changes[] = array('where'=>array('columnname'=>array('createdtime','modifiedtime' )), 'setColumn'=>array('typeofdata'), 'setValue'=>array('DT~O'));
 		$changes[] = array('where'=>array('columnname'=>array('donotcall'),'tabid'=>array(getTabid('Contacts'))), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Approval for phone calls'));
 		$changes[] = array('where'=>array('columnname'=>array('emailoptout'),'tabid'=>array(getTabid('Contacts'), getTabid('Accounts'))), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Approval for email'));
