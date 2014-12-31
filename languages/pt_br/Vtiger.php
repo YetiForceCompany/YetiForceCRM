@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 18/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/12/2014 - www.ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  * ***********************************************************************************/
 $languageStrings = array(
@@ -789,12 +789,12 @@ $languageStrings = array(
 	'Lists'=>'Listas',
 	
 	//breadcrumbs view name
-	'LBL_VIEW_CREATE' => 'Create',
-	'LBL_VIEW_EDIT' => 'Edit',
-	'LBL_VIEW_DETAIL' => 'Detail',
-	'LBL_VIEW_LIST' => 'List',
-	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
-	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
+	'LBL_VIEW_CREATE' => 'Criar',
+	'LBL_VIEW_EDIT' => 'Editar',
+	'LBL_VIEW_DETAIL' => 'Detalhes',
+	'LBL_VIEW_LIST' => 'Lista',
+	'LBL_VIEW_CALENDAR' => 'Calendário Gráfico',
+	'LBL_VIEW_SHAREDCALENDAR' => 'Calendário compartilhado',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',
