@@ -787,6 +787,14 @@ $languageStrings = array(
 	'Products database'=>'Dados Produtos',
 	'Services database'=>'Dados Serviços',
 	'Lists'=>'Listas',
+	
+	//breadcrumbs view name
+	'LBL_VIEW_CREATE' => 'Create',
+	'LBL_VIEW_EDIT' => 'Edit',
+	'LBL_VIEW_DETAIL' => 'Detail',
+	'LBL_VIEW_LIST' => 'List',
+	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
+	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',

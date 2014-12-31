@@ -203,12 +203,16 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
+// Change of logs directory with PHP errors
 ini_set('error_log',$root_directory.'logs/php_error_log.log');
 
+// Enable sharing of records?
 $shared_owners = true;
 
+// Maximum length of characters for title
 $title_max_length = 60;
 
+// Maximum length for href tag
 $href_max_length = 35;
 
 // Maximum number of displayed search results
@@ -216,3 +220,9 @@ $max_number_search_result = 100;
 
 // List of products in the inventory module popup limited to products / services selected in Potentials
 $inventory_popup_limited_from_potentials = true;
+
+//Should menu breadcrumbs be visible? true = show, false = hide
+$breadcrumbs = true;
+
+//Separator for menu breadcrumbs default value = '>'
+$breadcrumbs_separator = '>';

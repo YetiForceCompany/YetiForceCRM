@@ -46,7 +46,9 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 		$num = $db->num_rows( $result );
         
         $menuStructure = array();
-        
+		$breadcrumbs = array();
+		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		
         if ( $num > 0 ) {
             for ( $i=0; $i<$num; $i++ ) {
                 $id = $db->query_result( $result, $i, 'id' );
@@ -56,7 +58,6 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$sizeicon_first = substr( $sizeicon, 0, strpos($sizeicon, "x") );
 				$sizeicon_second = substr( $sizeicon, 3, 5 );
 				$langfied = $db->query_result( $result, $i, 'langfield' );
-								
                 
 				if(	$langfied ){
 					$res = explode('#',$langfied);
@@ -102,37 +103,28 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                         $subsizeicon_first 	= substr($subsizeicon, 0, strpos($subsizeicon, "x"));
 						$subsizeicon_second	= substr($subsizeicon, 3, 5);
 						$langfiedpick 		= $db->query_result( $subResult, $j, 'langfield' );
-						
-					   
-					 
 
-
-
-
-					 
-					if(	$langfiedpick && (intval($type)==0) ){
-						$res = explode('#',$langfiedpick);
-						for ($k=0; count($res)>$k; $k++){
-							$prefix=substr( $res[$k], 0, strpos($res[$k], "*") );
-							$value=substr( $res[$k], 6 );
-						//	echo '<pre>';print_r($value);echo '</pre>';exit;
-							if(Users_Record_Model::getCurrentUserModel()->get('language')==$prefix){
-								$subName=$value;
+						if(	$langfiedpick && (intval($type)==0) ){
+							$res = explode('#',$langfiedpick);
+							for ($k=0; count($res)>$k; $k++){
+								$prefix=substr( $res[$k], 0, strpos($res[$k], "*") );
+								$value=substr( $res[$k], 6 );
+							//	echo '<pre>';print_r($value);echo '</pre>';exit;
+								if(Users_Record_Model::getCurrentUserModel()->get('language')==$prefix){
+									$subName=$value;
+								}
+							}
+						}elseif($langfiedpick){
+							$res = explode('#',$langfiedpick);
+							for ($k=0; count($res)>$k; $k++){
+								$prefix=substr( $res[$k], 0, strpos($res[$k], "*") );
+								$value=substr( $res[$k], 6 );
+							//	echo '<pre>';print_r($value);echo '</pre>';exit;
+								if(Users_Record_Model::getCurrentUserModel()->get('language')==$prefix){
+									$subName=$value;
+								}
 							}
 						}
-					}elseif($langfiedpick){
-						$res = explode('#',$langfiedpick);
-						for ($k=0; count($res)>$k; $k++){
-							$prefix=substr( $res[$k], 0, strpos($res[$k], "*") );
-							$value=substr( $res[$k], 6 );
-						//	echo '<pre>';print_r($value);echo '</pre>';exit;
-							if(Users_Record_Model::getCurrentUserModel()->get('language')==$prefix){
-								$subName=$value;
-							}
-						}
-					}
-					
-									   
                         if ( $newWindow == 1 )
                             $newWindow = '*_blank*';
                         else
@@ -158,12 +150,28 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                             default:
                                 $url = $db->query_result( $subResult, $j, 'url' );
                         }
-                        
-                        // jesli false tzn. że moduł do którego prowadzi url nie istnieje
+
 						if ( $url !== false ) {
 							$url = $newWindow.$url;
-                        
 							$menuStructure[$name][$j] = array( 'name' => $subName, 'link' => $url, 'sizeicon_first' =>$subsizeicon_first, 'sizeicon_second' =>$subsizeicon_second, 'locationiconname' => $locationiconname);
+						}
+
+						$moduleName = Vtiger_Functions::getModuleName($tabId);
+						$excludedViews = array("DashBoard",'index','Index');
+						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs')) {
+							$breadcrumbs[] = array('lable' => $name);
+							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url);
+							if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
+								$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $moduleName) );
+							}elseif(!in_array($request->get('view'), $excludedViews)){
+								$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_'.strtoupper($request->get('view')), $moduleName) );
+							}
+							if( $request->get('record') != '' ){
+								$recordLabel = Vtiger_Functions::getCRMRecordLabel( $request->get('record') );
+								if ( $recordLabel != '' ) {
+									$breadcrumbs[] = array('lable' => $recordLabel );
+								}
+							}
 						}
                     }
                 }
@@ -172,8 +180,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['picon'] = $locationicon;			
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
-
-            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe);
+            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs);
 
         }
         else 

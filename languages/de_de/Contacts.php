@@ -46,6 +46,8 @@ $languageStrings = array(
 	'Mr.'                          => 'Sehr geehrter Herr'          , 
 	'Ms.'                          => 'Sehr geehrte Frau'           , 
 	'Prof.'                        => 'Sehr geehrter Herr Prof.'    , 
+	'Active' => 'Active',
+	'Inactive' => 'Inactive',
 	
 	'LBL_ADDRESS_INFORMATION' => 'Hauptadresse',
 	'Werification data'=>'Datenvalidierung',

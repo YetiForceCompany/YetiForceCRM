@@ -97,6 +97,28 @@
                     </div>
                 </div>
             </div>
+			{assign var="BREADCRUMBS" value=$MENU_STRUCTURE['breadcrumbs']}
+			{if $BREADCRUMBS}
+				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
+					<style>
+					.mainContainer{
+						margin-top: 110px;
+					}
+					.commonActionsContainer .actionsContainer{
+						height: 70px;
+					}
+					</style>
+					<span><a href="index.php"><i class="icon-home"></i></a></span>
+					{foreach item=item from=$BREADCRUMBS}
+						<span>&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+						{if $item.url}
+							<span><a href="{$item.url}">{$item.lable}</a></span>
+						{else}
+							<span>{$item.lable}</span>
+						{/if}
+					{/foreach}
+				</div>
+			{/if}
         </div>
     </div>
 {/strip}

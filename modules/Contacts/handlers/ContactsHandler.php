@@ -17,7 +17,7 @@ function Contacts_createPortalLoginDetails($entityData){
 
 	$email = $entityData->get('email');
 
-	if ($entityData->get('portal') == 'on' || $entityData->get('portal') == '1') {
+	if ( ( $entityData->get('portal') == 'on' || $entityData->get('portal') == '1' ) && $entityData->get('contactstatus') != 'Inactive') {
 		$sql = "SELECT id, user_name, user_password, isactive FROM vtiger_portalinfo WHERE id=?";
 		$result = $adb->pquery($sql, array($entityId));
 		$insert = false;

@@ -784,6 +784,14 @@ $languageStrings = array(
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufsmöglichkeit verbunden sind',
 	'LBL_UPDATES' => 'Updates',
 	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
+	
+	//breadcrumbs view name
+	'LBL_VIEW_CREATE' => 'Create',
+	'LBL_VIEW_EDIT' => 'Edit',
+	'LBL_VIEW_DETAIL' => 'Detail',
+	'LBL_VIEW_LIST' => 'List',
+	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
+	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',

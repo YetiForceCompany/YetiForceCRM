@@ -753,12 +753,8 @@ function get_tickets_list($input_array) {
 	$query = "SELECT vtiger_troubletickets.*, vtiger_crmentity.smownerid,vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, '' AS setype
 		FROM vtiger_troubletickets
 		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid AND vtiger_crmentity.deleted = 0
-		WHERE (vtiger_troubletickets.contact_id IN (". generateQuestionMarks($entity_ids_list) .")";
-	if($acc_id) {
-		$query .= " OR vtiger_troubletickets.parent_id = $acc_id) ";
-	} else {
-		$query .= ')';
-	}
+		WHERE (vtiger_troubletickets.parent_id IN (". generateQuestionMarks($entity_ids_list) .") )";
+
 	// Add conditions if there are any search parameters
 	if ($join_type != '' && $where_conditions != '') {
 		$query .= " AND (".$where_conditions.")";
@@ -2604,34 +2600,6 @@ function get_details($id,$module,$customerid,$sessionid)
 				$fieldvalue = $invoicename;
 			}
 		}
-		if($module == 'HelpDesk' && $fieldname == 'ticketstatus'){
-                $parentid = $adb->query_result($res,0,'parent_id');
- 		        $contactid = $adb->query_result($res,0,'contact_id');
- 		        $status = $adb->query_result($res,0,'status');
-
- 		        if($parentid!=0) {//allow contacts related to organization to close the ticket
-                        $focus = CRMEntity::getInstance('Accounts');
-                        $focus->id = $parentid;
-                        $entityIds = $focus->getRelatedContactsIds();
-                        if($contactid != 0 ) {
-                                if(in_array($customerid, $entityIds) && in_array($contactid, $entityIds))
-                                        $fieldvalue = $status;
-                                else if($customerid == $contactid)
-                                        $fieldvalue = $status;
-                                else
-                                        $fieldvalue = '';
-                        } else {
-                                if(in_array($customerid, $entityIds))
-                                        $fieldvalue = $status;
-                                else
-                                        $fieldvalue = '';
-                        }
-                } else if($customerid != $contactid ) {//allow only the owner to close the ticket
-                        $fieldvalue = '';
-                } else {
-                        $fieldvalue = $status;
-                }
-		}
 		if( in_array( $uitype, array('15', '16', '120' ) ) ){
 			$output[0][$module][$i]['orgfieldvalue'] = $fieldvalue;
 			$fieldvalue = Vtiger_Language_Handler::getTranslatedString( $fieldvalue, $module , vglobal('default_language'));
@@ -2818,10 +2786,9 @@ function check_permission($customerid, $module, $entityid) {
 								}
 								break;
 
-		case 'HelpDesk'	:	if($acc_id) $accCondition = "OR vtiger_troubletickets.parent_id = $acc_id";
-							$query = "SELECT vtiger_troubletickets.ticketid FROM vtiger_troubletickets
+		case 'HelpDesk'	:	$query = "SELECT vtiger_troubletickets.ticketid FROM vtiger_troubletickets
 									INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid AND vtiger_crmentity.deleted = 0
-									WHERE (vtiger_troubletickets.contact_id IN (". generateQuestionMarks($allowed_contacts_and_accounts) .") $accCondition )
+									WHERE (vtiger_troubletickets.parent_id IN (". generateQuestionMarks($allowed_contacts_and_accounts) .") )
 									AND vtiger_troubletickets.ticketid = ?";
 							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 							if ($adb->num_rows($res) > 0) {
