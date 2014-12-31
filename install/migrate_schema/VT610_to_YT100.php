@@ -1799,6 +1799,27 @@ class VT610_to_YT100 {
 		return false;
 		
 	}
+	
+	public function changeOutgoingServerFile($id){
+		global $log,$adb,$root_directory;
+		$log->debug("Entering VT610_to_YT100::changeOutgoingServerFile(".$id.") method ...");
+		
+		if(!$root_directory)
+			$root_directory = getcwd();
+		$fileName = $root_directory.'/modules/Settings/Vtiger/models/OutgoingServer.php';
+		$completeData = file_get_contents($fileName);
+		$updatedFields = "'id'";
+		$patternString = "%s => %s,";
+		$pattern = '/' . $updatedFields . '[\s]+=([^,]+),/';
+		$replacement = sprintf($patternString, $updatedFields, ltrim($id, '0'));
+		$fileContent = preg_replace($pattern, $replacement, $completeData);
+		$filePointer = fopen($fileName, 'w');
+		fwrite($filePointer, $fileContent);
+		fclose($filePointer);
+		
+		$log->debug("Exiting VT610_to_YT100::changeOutgoingServerFile() method ...");
+	}
+	
 	public function addRecords(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT100::addRecords() method ...");
@@ -1949,7 +1970,9 @@ class VT610_to_YT100 {
 				$instance->column_fields['oss_module_list'] = $record[1];
 				$instance->column_fields['subject'] = $record[2];
 				$instance->column_fields['content'] = $record[3];
-				$saved = $instance->save($moduleName);
+				$save = $instance->save($moduleName);
+				if($record[0] == 'Test mail about the mail server configuration.')
+					self::changeOutgoingServerFile($instance->id);
 			} catch (Exception $e) {
 				Install_InitSchema_Model::addMigrationLog('addRecords '.$e->getMessage(),'error');
 			}
