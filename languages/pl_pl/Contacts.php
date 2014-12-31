@@ -40,7 +40,8 @@ $languageStrings = array(
 	'Ms.'=>'Panna',
 	'Prof.'=>'prof.',
 	'LBL_CONTACT_INFORMATION_PHONE' => 'Informacje kontaktowe', //OpenSaaS
-
+	'Active' => 'Aktywny',
+	'Inactive' => 'Nieaktywny',
 	
 	//Opensaas
 	'Other Po Box' => 'Adres dodatkowy: skrytka pocztowa',

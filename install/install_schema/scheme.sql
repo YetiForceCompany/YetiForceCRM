@@ -1359,6 +1359,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `verification` text,
   `secondary_email` varchar(50) DEFAULT '',
   `notifilanguage` varchar(100) DEFAULT '',
+  `contactstatus` varchar(255) DEFAULT '',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -1373,6 +1374,27 @@ CREATE TABLE `vtiger_contactscf` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`contactid`),
   CONSTRAINT `fk_1_vtiger_contactscf` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_contactstatus` */
+
+DROP TABLE IF EXISTS `vtiger_contactstatus`;
+
+CREATE TABLE `vtiger_contactstatus` (
+  `contactstatusid` int(11) NOT NULL AUTO_INCREMENT,
+  `contactstatus` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`contactstatusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_contactstatus_seq` */
+
+DROP TABLE IF EXISTS `vtiger_contactstatus_seq`;
+
+CREATE TABLE `vtiger_contactstatus_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactsubdetails` */
@@ -2568,7 +2590,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1503 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1504 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4763,7 +4785,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 

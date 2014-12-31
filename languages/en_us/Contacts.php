@@ -45,6 +45,8 @@ $languageStrings = array(
 	'Mrs.'=>'Mrs.',
 	'Ms.'=>'Ms.',
 	'Prof.'=>'Prof.',
+	'Active' => 'Active',
+	'Inactive' => 'Inactive',
 	
 	'LBL_ADDRESS_INFORMATION' => 'Address of permanent residence',
 	'Werification data'=>'Data verification',
