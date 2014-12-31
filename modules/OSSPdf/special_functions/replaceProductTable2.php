@@ -572,9 +572,9 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
     if ($final_details['taxtype'] == 'group') {
         $grup_tax = 0.00;
         for ($i = 0; $i < 3; $i++) {
-			if( $associated_products[1]['final_details']['taxes'] == $associated_products[1]['final_details']['taxes'][$i]['taxname'] ){
-				$grup_tax += (float) $associated_products[1]['final_details']['taxes'][$i]['amount'];
-				$grup_tax_percent += (float) $associated_products[1]['final_details']['taxes'][$i]['percentage'];
+			if( $associated_products[1]['final_details']['tax'] == $associated_products[1]['final_details']['taxes'][$i]['taxname'] ){
+				$grup_tax = (float) $associated_products[1]['final_details']['taxes'][$i]['amount'];
+				$grup_tax_percent = (float) $associated_products[1]['final_details']['taxes'][$i]['percentage'];
 			}
         }
         $currfield = new CurrencyField($grup_tax);
