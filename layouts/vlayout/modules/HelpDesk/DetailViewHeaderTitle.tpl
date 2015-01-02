@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -27,6 +27,13 @@
                 {/foreach}
             </h4>
         </span>
+        {assign var=RELATED_TO value=$RECORD->get('parent_id')}
+        {if !empty($RELATED_TO)}
+            <span class="row-fluid">
+				<span class="muted"></span>
+				<h5><span class="">{$RECORD->getDisplayValue('parent_id')}</span></h5>
+            </span>
+        {/if}
         {assign var=PRIORITY value=$RECORD->get('ticketpriorities')}
         {if !empty($PRIORITY)}
             <span class="row-fluid">

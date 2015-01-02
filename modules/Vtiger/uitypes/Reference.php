@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Vtiger_Reference_UIType extends Vtiger_Base_UIType {
@@ -57,7 +58,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType {
 				if (strlen($name) > $href_max_length){
 					$name = substr($name, 0, $href_max_length - 3) . '...';
 				}
-				$linkValue = "<a href='index.php?module=$referenceModuleName&view=".$referenceModule->getDetailViewName()."&record=$value' title='".vtranslate($referenceModuleName, $referenceModuleName)."'>$name</a>";
+				$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=".$referenceModule->getDetailViewName()."&record=$value' title='".vtranslate($referenceModuleName, $referenceModuleName)."'>$name</a>";
 				return $linkValue;
 			}
 		}

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -30,8 +30,8 @@
         {assign var=RELATED_TO value=$RECORD->get('related_to')}
         {if !empty($RELATED_TO)}
             <span class="row-fluid">
-                <span class="muted"></span>
-               <span class="wrapper">{$RECORD->getDisplayValue('related_to')}</span>
+				<span class="muted"></span>
+				<h5><span class="">{$RECORD->getDisplayValue('related_to')}</span></h5>
             </span>
         {/if}
 		<span class="row-fluid">
@@ -39,8 +39,14 @@
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
 				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
-				{/if}
+				{/if}			
 			</span>
 		</span>
+		{if $RECORD->get('sales_stage') != ''}
+            <span class="row-fluid">
+				<span class="muted">{vtranslate('Sales Stage',$MODULE_NAME)} </span>
+				<span class="wrapper">{$RECORD->getDisplayValue('sales_stage')}</span>
+            </span>
+		{/if}
     </span>
 {/strip}
