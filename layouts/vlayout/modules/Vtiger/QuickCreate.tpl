@@ -59,8 +59,7 @@
 								{if !empty($REFERENCED_MODULE_STRUCT)}
 									{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 								{/if}
-								{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-								{vtranslate($FIELD_MODEL->get('label'), $MODULE)}<br />
+								<label class="muted textAlignRight">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 								<span class="pull-right">
 									<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
 										<optgroup>
