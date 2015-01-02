@@ -98,6 +98,7 @@
                 </div>
             </div>
 			{assign var="BREADCRUMBS" value=$MENU_STRUCTURE['breadcrumbs']}
+			{assign var="MENUSCOLOR" value=$MENU_STRUCTURE['menusColor']}
 			{if $BREADCRUMBS}
 				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
 					<style>
@@ -112,11 +113,22 @@
 					{foreach item=item from=$BREADCRUMBS}
 						<span>&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
 						{if $item.url}
-							<span><a href="{$item.url}">{$item.lable}</a></span>
+							<span><a {if $item.class}class="{$item.class}" {/if}href="{$item.url}">{$item.lable}</a></span>
 						{else}
-							<span>{$item.lable}</span>
+							<span {if $item.class}class="{$item.class}"{/if}>{$item.lable}</span>
 						{/if}
 					{/foreach}
+				</div>
+			{/if}
+			{if $MENUSCOLOR}
+				<div class="menusColorContainer" style="display: none;">
+					<style>
+					{foreach item=item from=$MENUSCOLOR}
+						.{$item.class}{
+							color: {$item.color} !important;
+						}
+					{/foreach}
+					</style>
 				</div>
 			{/if}
         </div>

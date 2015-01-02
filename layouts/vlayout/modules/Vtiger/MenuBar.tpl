@@ -58,20 +58,20 @@ font-weight: 800;
                                     <li>
                                         {if strlen($module.link) gt 0}
                                             {if $module.link|strpos:'*_blank*' === 0}
-				                                <a class="menuLinkClass etykietaUrl" href="{$module.link}" target="_blank">
+				                                <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}" target="_blank">
                                                 {if !empty($module.locationiconname)}
                                                 <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;									
 												{/if}
                                                 {vtranslate($module.name, $module.name)}</a>
                                             {else}
-		                                        <a class="menuLinkClass etykietaUrl" href="{$module.link}">
+		                                        <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}">
                                                 {if !empty($module.locationiconname)}
                                                 <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;											
 												{/if}
                                                 {vtranslate($module.name, $module.name)}</a>
                                             {/if}
                                         {else}
-	                                            <a class="menuLinkClass etykietaUrl">
+	                                            <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if}>
                                                 {if !empty($module.locationiconname)}
                                                 <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;											
 												{/if}
@@ -79,12 +79,10 @@ font-weight: 800;
                                         {/if}
                                     </li>
                                 {else if $module.link eq '*separator*'}
-							<li class="divider">
-				
-								</li>
+									<li class="divider"></li>
                                 {else if $module.link|strpos:"javascript:" === 0 || $module.link|strpos:"jQuery" === 0}
                                 <li>
-								<a class="menuLinkClass" href="#" onclick="{$module.link} return false;">
+								<a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="#" onclick="{$module.link} return false;">
 									{if !empty($module.locationiconname)}
                                         <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;							
                                     {/if}
@@ -92,14 +90,14 @@ font-weight: 800;
                                 {else}
                                     {if $module.link|strpos:"*_blank*" === 0}
                                         {$module.link=$module.link|replace:'*_blank*':''}	
-								<li><a class="menuLinkClass" href="{$module.link}" target="_blank">
+								<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}" target="_blank">
 									{if !empty($module.locationiconname)}
                                         <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;							
                                     {/if}
                                 {vtranslate($module.name, $module.name)}</a></li>
                                     {else if $module.link|strpos:"index" === 0 || $module.link|strpos:"http://" === 0 || $module.link|strpos:"https://" === 0 || $module.link|strpos:"www" === 0}
 								
-								<li><a class="menuLinkClass" href="{$module.link}">
+								<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}">
                                     {if !empty($module.locationiconname)}
                                         <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>
                                   	{/if}
@@ -268,8 +266,6 @@ font-weight: 800;
     {literal}
     <script>
         jQuery( function() {
-            jQuery('.menuLinkClass').css( 'color', '#000000' );
-            jQuery('.etykietaUrl').css( 'color', 'grey' );
 			jQuery( ".OSSMenuBlock" ).hover(
 				function() {
 					jQuery(this).dropdown('toggle');
