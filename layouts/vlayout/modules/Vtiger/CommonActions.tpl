@@ -102,10 +102,10 @@
 				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
 					<style>
 					.mainContainer{
-						margin-top: 110px;
+						margin-top: 110px !important;
 					}
 					.commonActionsContainer .actionsContainer{
-						height: 70px;
+						height: 70px !important;
 					}
 					</style>
 					<span><a href="index.php"><i class="icon-home"></i></a></span>

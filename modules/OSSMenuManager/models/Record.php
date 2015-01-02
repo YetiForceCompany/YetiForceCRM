@@ -148,7 +148,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                             case 3:
                             case 4:
                             default:
-                                $url = $db->query_result( $subResult, $j, 'url' );
+                                $url = $db->query_result_raw( $subResult, $j, 'url' );
                         }
 
 						if ( $url !== false ) {
@@ -159,7 +159,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 						$moduleName = Vtiger_Functions::getModuleName($tabId);
 						$excludedViews = array("DashBoard",'index','Index');
 						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs')) {
-							$breadcrumbs[] = array('lable' => $name);
+							$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
 							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url);
 							if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
 								$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $moduleName) );
@@ -172,6 +172,14 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 									$breadcrumbs[] = array('lable' => $recordLabel );
 								}
 							}
+						}else{
+							$parts = parse_url($url);
+							parse_str($parts['query'], $query);
+							if( $request->get('module') == $query['module'] && $request->get('view') == $query['view'] && $request->get('viewname') == $query['viewname'] ){
+								$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
+								$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List');
+								$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url);
+							}
 						}
                     }
                 }
@@ -180,6 +188,20 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['picon'] = $locationicon;			
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
+			if(count($breadcrumbs) == 0){
+				$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List');
+				if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
+					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $request->get('module')) );
+				}else{
+					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_'.strtoupper($request->get('view')), $request->get('module')) );
+				}
+				if( $request->get('record') != '' ){
+					$recordLabel = Vtiger_Functions::getCRMRecordLabel( $request->get('record') );
+					if ( $recordLabel != '' ) {
+						$breadcrumbs[] = array('lable' => $recordLabel );
+					}
+				}
+			}			
             return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs);
 
         }
