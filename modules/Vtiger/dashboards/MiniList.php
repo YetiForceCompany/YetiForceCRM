@@ -34,7 +34,8 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
-
+		$viewer->assign('SCRIPTS', $this->getHeaderScripts());
+		
 		$content = $request->get('content');
 		if(!empty($content)) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
@@ -44,5 +45,9 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
 			$viewer->view('dashboards/MiniList.tpl', $moduleName);
 		}
 
+	}
+
+	function getHeaderScripts() {
+		return $this->checkAndConvertJsScripts(array('modules.Emails.resources.MassEdit'));
 	}
 }

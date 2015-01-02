@@ -1004,10 +1004,8 @@ function vtws_getWebserviceTranslatedStringForLanguage($label, $currentLanguage)
 	static $translations = array();
 	$currentLanguage = vtws_getWebserviceCurrentLanguage();
 	if(empty($translations[$currentLanguage])) {
-            if(file_exists('include/Webservices/language/'.$currentLanguage.'.lang.php')){
-		include 'include/Webservices/language/'.$currentLanguage.'.lang.php';
-            }
-		$translations[$currentLanguage] = $webservice_strings;
+		include 'languages/'.$currentLanguage.'/Webservices.php';
+		$translations[$currentLanguage] = $languageStrings;
 	}
 	if(isset($translations[$currentLanguage][$label])) {
 		return $translations[$currentLanguage][$label];

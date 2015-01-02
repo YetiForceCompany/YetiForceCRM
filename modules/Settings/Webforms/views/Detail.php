@@ -27,7 +27,8 @@ class Settings_Webforms_Detail_View extends Settings_Vtiger_Index_View {
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordModel = Settings_Webforms_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-		$recordModel->set('posturl', vglobal('site_URL').'modules/Webforms/capture.php');
+		$trailing_slash_URL =  vglobal('site_URL') . (substr(vglobal('site_URL'),-1) == '/' ? '' : '/'); 
+		$recordModel->set('posturl', $trailing_slash_URL.'modules/Webforms/capture.php');
 	
 		$recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$moduleModel = $recordModel->getModule();

@@ -80,7 +80,7 @@ abstract class WSAPP_SynchronizeController {
 			$record->setSyncIdentificationKey(uniqid());
 		}
 		$transformedRecords = $this->targetConnector->transformToTargetRecord($sourceRecords);
-		$targetRecords = $this->targetConnector->push($transformedRecords);
+		$targetRecords = $this->targetConnector->push($transformedRecords, $this->user); 
 		$targetSyncStateModel = $this->getSyncStateModel($this->targetConnector);
         foreach($sourceRecords as $sourceRecord){
 			$sourceId = $sourceRecord->getId();
@@ -141,14 +141,14 @@ abstract class WSAPP_SynchronizeController {
 		
 	}
 
-	public function synchronize($pullTargetFirst = true) {
+	public function synchronize($pullTargetFirst = true, $push = true, $pull = true) { 
 		$records = array();
 		if ($pullTargetFirst) {
-			$records['push'] = $this->synchronizePush();
-			$records['pull'] = $this->synchronizePull();
+			if($push) $records['push'] = $this->synchronizePush(); 
+                        if($pull) $records['pull'] = $this->synchronizePull(); 
 		} else {
-			$records['pull'] = $this->synchronizePull();
-			$records['push'] = $this->synchronizePush();
+			if($pull) $records['pull'] = $this->synchronizePull(); 
+                        if($push) $records['push'] = $this->synchronizePush(); 
 		}
 		return $records;
 	}

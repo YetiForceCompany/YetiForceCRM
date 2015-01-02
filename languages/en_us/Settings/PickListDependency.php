@@ -30,7 +30,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'You need to select atleast one value for',
+	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'You need to select at least one value for',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dependency deleted successfully',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Are you sure you want to delete this picklist dependency?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Picklist Dependency Saved',

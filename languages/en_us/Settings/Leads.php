@@ -38,18 +38,17 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_CANT_MAP' => 'Cant map',
+	'JS_CANT_MAP' => 'Can\'t map',
 	'JS_checkBox' => 'Check Box',
 	'JS_currency' => 'Currency',
 	'JS_date' => 'Date',
 	'JS_decimal' => 'Decimal',
 	'JS_email' => 'Email',
 	'JS_integer' => 'Integer',
-	'JS_IS_ALREADY_BEEN_MAPPED' => 'is already been mapped',
+	'JS_IS_ALREADY_BEEN_MAPPED' => 'has already been mapped',
 	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Mapping Deleted Successfully',
 	'JS_multiSelectCombo' => 'Multi-Select Combo Box',
 	'JS_NONE' => 'None',
-	'JS_None' => 'None',
 	'JS_percent' => 'Percent',
 	'JS_phone' => 'Phone',
 	'JS_picklist' => 'Pick List',

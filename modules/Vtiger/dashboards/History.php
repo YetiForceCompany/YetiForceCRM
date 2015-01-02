@@ -20,7 +20,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View {
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-
+		if( empty($page)) { $page=1; }
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $LIMIT);
