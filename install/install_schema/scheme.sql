@@ -4222,6 +4222,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `sizeicon` varchar(255) DEFAULT NULL,
   `langfield` text,
   `paintedicon` int(1) DEFAULT '0',
+  `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
