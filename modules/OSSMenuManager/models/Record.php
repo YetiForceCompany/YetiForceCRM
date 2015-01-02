@@ -172,7 +172,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 									$breadcrumbs[] = array('lable' => $recordLabel );
 								}
 							}
-						}elseif( $request->get('module') != '' ){
+						}elseif( $request->get('module') != '' && $request->get('parent') == ''){
 							$parts = parse_url($url);
 							parse_str($parts['query'], $query);
 							if( $request->get('module') == $query['module'] && $request->get('view') == $query['view'] && $request->get('viewname') == $query['viewname'] ){
@@ -188,7 +188,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['picon'] = $locationicon;			
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
-			if(count($breadcrumbs) == 0 && $request->get('module') != ''){
+			if(count($breadcrumbs) == 0 && $request->get('module') != '' && $request->get('parent') == ''){
 				$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List');
 				if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
 					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $request->get('module')) );
