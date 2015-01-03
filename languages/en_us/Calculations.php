@@ -38,6 +38,7 @@ $languageStrings = array(
 	'Total margin' => 'Total margin',
 	'Total margin Percentage' => 'Total margin Percentage',
 	'LBL_DATE' => 'Date',
+	'CalculationStatus'	=>	'Calculation Status',
 	
 	//CalculationStatus
 	'Draft' => 'Draft',
