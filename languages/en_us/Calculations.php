@@ -15,6 +15,7 @@ $languageStrings = array(
 	'SINGLE_Calculations' => 'Calculation',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Calculations list',
+	'LBL_GENERATE_QUOTES'	=>	'Generate Quotes',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Custom Information',
