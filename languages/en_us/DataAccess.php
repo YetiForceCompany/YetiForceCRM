@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'DataAccess'	=>	'Data Access',
 	'LBL_NONE' => '--None--',
 	'Message' => 'Message',
 	'Action_unique_value' => 'Field value is unique.',
@@ -68,4 +69,8 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'This tool allows to color lines that fulfil corresponding conditions. Thanks to this, records with higher priority can be distinguished.',
 	'LBL_BACKGROUND_COLOR' => 'Background color',
 	'LBL_TEXT_COLOR' => 'Text color',
+);
+
+$jsLanguageStrings = array(
+	'DataAccess'	=>	'Data Access',
 );
