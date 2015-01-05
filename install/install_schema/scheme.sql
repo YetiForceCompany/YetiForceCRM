@@ -125,7 +125,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `nexttrigger_time` datetime DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows_seq` */
 
@@ -157,7 +157,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -1364,6 +1364,20 @@ CREATE TABLE `vtiger_contactdetails` (
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
   CONSTRAINT `fk_1_vtiger_contactdetails` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_contactsbookmails` */
+
+DROP TABLE IF EXISTS `vtiger_contactsbookmails`;
+
+CREATE TABLE `vtiger_contactsbookmails` (
+  `contactid` int(19) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `users` text,
+  KEY `email` (`email`,`name`),
+  KEY `contactid` (`contactid`),
+  CONSTRAINT `vtiger_contactsbookmails_ibfk_1` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactscf` */

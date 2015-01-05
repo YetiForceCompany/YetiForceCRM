@@ -14,23 +14,45 @@ class OSSMail_Module_Model extends Vtiger_Module_Model {
 		return 'index';
 	}
         
-        public function getSettingLinks() {
-            vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+	public function getSettingLinks() {
+		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-            $layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
-            $settingsLinks = array();
+		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
+		$settingsLinks = array();
 
-            $db = PearDatabase::getInstance();
-            $result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
-            
-            $settingsLinks[] = array(
-                'linktype' => 'LISTVIEWSETTING',
-                'linklabel' => 'LBL_MODULE_CONFIGURATION',
-                'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
-                'linkicon' => $layoutEditorImagePath
-            );
-            
-            return $settingsLinks;
+		$db = PearDatabase::getInstance();
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
+		
+		$settingsLinks[] = array(
+			'linktype' => 'LISTVIEWSETTING',
+			'linklabel' => 'LBL_MODULE_CONFIGURATION',
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->query_result($result, 0, 'fieldid'),
+			'linkicon' => $layoutEditorImagePath
+		);
+		
+		return $settingsLinks;
+	}
+
+	public function createBookMailsFiles() {
+		global $adb;
+		$files = array();
+		
+		$result = $adb->query( 'SELECT * FROM vtiger_contactsbookmails;');
+        $fstart = '<?php $bookMails = array(';
+		$fend .= ');';
+        for($i = 0; $i < $adb->num_rows($result); $i++){
+            $name = $adb->query_result($result, $i, 'name');
+			$email = $adb->query_result($result, $i, 'email');
+			$users = $adb->query_result_raw($result, $i, 'users');
+			if($users != ''){
+				$users = explode(',',$users);
+				foreach ($users as $user){
+					$files[$user] .= "'$name <$email>',";
+				}
+			}
         }
-
+		foreach ($files as $user => $file){
+			file_put_contents( 'cache/addressBook/mails_'.$user.'.php' , $fstart.$file.$fend );
+		}
+	}
 }
