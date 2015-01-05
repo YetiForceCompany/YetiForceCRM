@@ -432,24 +432,25 @@ CREATE TABLE IF NOT EXISTS `vtiger_osscosts` (
   CONSTRAINT `fk_1_vtiger_osscosts` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(19) DEFAULT NULL,
-  `tabid` int(19) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL,
-  `sequence` int(3) DEFAULT NULL,
-  `visible` int(3) DEFAULT NULL,
-  `type` int(3) DEFAULT NULL,
-  `url` text,
-  `new_window` int(3) DEFAULT NULL,
-  `permission` text,
-  `locationicon` varchar(255) DEFAULT NULL,
-  `sizeicon` varchar(255) DEFAULT NULL,
-  `langfield` text,
-  `paintedicon` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager`(
+	`id` int(19) NOT NULL  auto_increment , 
+	`parent_id` int(19) DEFAULT NULL  , 
+	`tabid` int(19) DEFAULT NULL  , 
+	`label` varchar(100) DEFAULT NULL  , 
+	`sequence` int(3) DEFAULT NULL  , 
+	`visible` int(3) DEFAULT NULL  , 
+	`type` int(3) DEFAULT NULL  , 
+	`url` text DEFAULT NULL  , 
+	`new_window` int(3) DEFAULT NULL  , 
+	`permission` text DEFAULT NULL  , 
+	`locationicon` varchar(255) DEFAULT NULL  , 
+	`sizeicon` varchar(255) DEFAULT NULL  , 
+	`langfield` text DEFAULT NULL  , 
+	`paintedicon` int(1) DEFAULT 0 , 
+	`color` varchar(10) DEFAULT NULL , 
+	PRIMARY KEY (`id`) , 
+	KEY `parent_id`(`parent_id`) 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8' COLLATE='utf8_general_ci';
 
 	
 CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol` (
