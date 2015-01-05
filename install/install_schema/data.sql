@@ -87,7 +87,7 @@ insert  into `com_vtiger_workflows_seq`(`id`) values (55);
 
 /*Data for the table `com_vtiger_workflowtasks` */
 
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (1,1,'','O:18:\"VTEntityMethodTask\":6:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";i:1;s:7:\"summary\";s:0:\"\";s:6:\"active\";b:0;s:10:\"methodName\";s:15:\"UpdateInventory\";s:2:\"id\";i:1;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (1,1,'Update Inventory Products','O:18:\"VTEntityMethodTask\":6:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";i:1;s:7:\"summary\";s:0:\"\";s:6:\"active\";b:0;s:10:\"methodName\";s:15:\"UpdateInventory\";s:2:\"id\";i:1;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (18,16,'Update Inventory Products','O:18:\"VTEntityMethodTask\":6:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";i:16;s:7:\"summary\";s:25:\"Update Inventory Products\";s:6:\"active\";b:0;s:10:\"methodName\";s:15:\"UpdateInventory\";s:2:\"id\";i:18;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (38,34,'Weryfikacja danych','O:16:\"VTCreateTodoTask\":23:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"34\";s:7:\"summary\";s:18:\"Weryfikacja danych\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:18:\"Weryfikacja danych\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"08:00\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:11:\"Not Started\";s:8:\"priority\";s:6:\"Medium\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:38;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (41,35,'Zapoznanie się z historią współpracy','O:16:\"VTCreateTodoTask\":23:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"35\";s:7:\"summary\";s:40:\"Zapoznanie się z historią współpracy\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:4:\"todo\";s:40:\"Zapoznanie się z historią współpracy\";s:11:\"description\";s:0:\"\";s:16:\"sendNotification\";s:0:\"\";s:4:\"time\";s:5:\"09:09\";s:4:\"date\";s:0:\"\";s:6:\"status\";s:11:\"Not Started\";s:8:\"priority\";s:4:\"High\";s:4:\"days\";s:0:\"\";s:9:\"direction\";s:5:\"after\";s:9:\"datefield\";s:12:\"modifiedtime\";s:16:\"assigned_user_id\";s:15:\"copyParentOwner\";s:2:\"id\";i:41;s:10:\"days_start\";s:1:\"2\";s:8:\"days_end\";s:1:\"3\";s:15:\"direction_start\";s:5:\"after\";s:15:\"datefield_start\";s:12:\"modifiedtime\";s:13:\"direction_end\";s:5:\"after\";s:13:\"datefield_end\";s:12:\"modifiedtime\";}');
@@ -213,8 +213,6 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (123);
 /*Data for the table `roundcube_searches` */
 
 /*Data for the table `roundcube_session` */
-
-insert  into `roundcube_session`(`sess_id`,`created`,`changed`,`ip`,`vars`) values ('h80v2hhiql4sqktn0r3aieegm2','2015-01-05 11:11:29','2015-01-05 11:11:29','127.0.0.1','dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJwbF9QTCI7dGFza3xzOjU6ImxvZ2luIjs=');
 
 /*Data for the table `roundcube_system` */
 
