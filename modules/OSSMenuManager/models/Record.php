@@ -162,7 +162,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 						$excludedViews = array("DashBoard",'index','Index');
 						$purl = false;
 						
-						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs')) {
+						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs') && $request->get('parent') == '') {
 							$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
 							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url, 'class' => 'moduleColor_'.$moduleName );
 							if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
