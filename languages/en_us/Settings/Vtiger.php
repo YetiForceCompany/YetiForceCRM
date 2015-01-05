@@ -207,10 +207,30 @@ $languageStrings = array(
     'Project Templates' => 'Project Templates',
     'Mail Scanner'=>'Mail Scanner',
     'Mail View'=> 'Emails',
+
+	/* settings menu */
+	'Menu Manager' => 'Menu',
     'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
 	'LBL_API_ADDRESS' => 'Address Search',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Module allowing to search/ autocomplete address during creating/editing data within the system.',
+	'LBL_ACTIVITY_TYPES' => 'Activity types',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
+	'LBL_BRUTEFORCE' => 'Brute force',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Set the number of invalid login attempts and time of Ip block.',
+	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
+	'LBL_CREDITS_DESCRIPTION'	=> ' ',
+	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
+	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
+	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
+	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
+	'LBL_DATAACCESS_DESCRIPTION'	=> ' ',
+	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
+	'LBL_LICENSE_DESCRIPTION'	=> ' ',
+	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
+	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',
@@ -229,22 +249,6 @@ $languageStrings = array(
 	'Document Control'=>'Document Control',
 	'Time control' => 'Time control',
 	"Credits"	=> 'Credits',
-	
-	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
-	'LBL_CREDITS_DESCRIPTION'	=> ' ',
-	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
-	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
-	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
-	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
-	'LBL_DATAACCESS_DESCRIPTION'	=> ' ',
-	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
-	'LBL_LICENSE_DESCRIPTION'	=> ' ',
-	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
-	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_BRUTEFORCE' => 'Brute force',
-	'LBL_BRUTEFORCE_DESCRIPTION' => 'Set the number of invalid login attempts and time of Ip block.',
 );
 
 $jsLanguageStrings = array(
