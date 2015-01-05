@@ -25,6 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
+// migration to version '1.0.33 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -843,7 +844,8 @@ class VT610_to_YT100 {
 		array("34","820","sum_time","vtiger_servicecontracts","1","7","sum_time","Total time [Service Contract]","1","2","","100","3","180","10","NN~O","1", "","BAS","1","0","0","decimal(10,2)","LBL_SUMMARY"),
 		array("34","1046","sum_time_p","vtiger_servicecontracts","1","7","sum_time_p","Total time [Projects]","1","2","","100","2","180","10","NN~O","1", "","BAS","1","0","0","decimal(13,2)","LBL_SUMMARY"),
 		array("34","1047","sum_time_h","vtiger_servicecontracts","1","7","sum_time_h","Total time [Tickets]","1","2","","100","1","180","10","NN~O","1", "","BAS","1","0","0","decimal(13,2)","LBL_SUMMARY"),
-		array("34","1048","sum_time_all","vtiger_servicecontracts","1","7","sum_time_all","Total time [Sum]","1","2","","100","4","180","10","NN~O","1", "","BAS","1","0","0","decimal(13,2)","LBL_SUMMARY")
+		array("34","1048","sum_time_all","vtiger_servicecontracts","1","7","sum_time_all","Total time [Sum]","1","2","","100","4","180","10","NN~O","1", "","BAS","1","0","0","decimal(13,2)","LBL_SUMMARY"),
+		array('34','742','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','19','89','2','V~O','3','10','BAS','0','0','0',"int(19)","LBL_SERVICE_CONTRACT_INFORMATION")
 
 		);
 
@@ -851,7 +853,8 @@ class VT610_to_YT100 {
 		$Services = array(
 		array("35","910","pssubcategory","vtiger_service","1","15","pssubcategory","Sub Category","1","2","","100","18","91","1","V~O","2","5","BAS","1","0","0","varchar(255)","LBL_SERVICE_INFORMATION"),
 		array("35","574","pscategory","vtiger_service","1","15","pscategory","Service Category","1","2","","100","7","91","1","V~O","2","3","BAS","1","0","1","varchar(200)","LBL_SERVICE_INFORMATION"),
-		array("35","1394","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","19","91","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SERVICE_INFORMATION")
+		array("35","1394","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","19","91","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SERVICE_INFORMATION"),
+		array('35','743','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','17','91','2','V~O','3','4','BAS','0','0','0',"int(19)","LBL_SERVICE_INFORMATION")
 		);
 
 		$tab = 43;
@@ -935,7 +938,8 @@ class VT610_to_YT100 {
 		array("4","72","parentid","vtiger_contactdetails","2","10","parent_id","Member Of","1","2","","100","6","4","1","I~O","2","6","BAS","1","0","1","int(19)","LBL_CONTACT_INFORMATION",array(),array('Accounts','Leads')),
 		array("4","1368","secondary_email","vtiger_contactdetails","2","13","secondary_email","Secondary Email","1","2","","100","4","197","1","E~O","1", "","BAS","1","0","0","varchar(50)","LBL_CONTACT_INFO"),
 		array("4","1391","notifilanguage","vtiger_contactdetails","2","32","notifilanguage","LBL_LANGUAGE_NOTIFICATIONS","1","2","","100","4","6","1","V~O","1", "","BAS","1","0","0","varchar(100)","LBL_CUSTOMER_PORTAL_INFORMATION"),
-		array("4","1332","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","8","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION")
+		array("4","1332","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","8","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array('4','1503','contactstatus','vtiger_contactdetails','2','15','contactstatus','Status','1','2','','100','29','4','1','V~O','1',NULL,'BAS','1','0','0',"varchar(255)","LBL_CONTACT_INFORMATION", array('Active','Inactive'))
 		);
 
 		$tab = 6;
@@ -1159,7 +1163,8 @@ class VT610_to_YT100 {
 		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
 		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Accounts','Contacts','Leads')),
 		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
-		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','Czas realizacji','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array())
+		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','Czas realizacji','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array()),
+		array('37','744','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','8','96','2','V~O','3','7','BAS','0','0','0',"int(19)","LBL_CUSTOM_INFORMATION",array())
 		);
 
 		$tab = 41;
@@ -1167,12 +1172,17 @@ class VT610_to_YT100 {
 		array("41","746","smcreatorid","vtiger_crmentity","1","52","created_user_id","Created By","1","2","","100","8","101","2","V~O","3","5","BAS","0","0","0","int(19)","LBL_PROJECT_MILESTONE_INFORMATION")
 		);
 
+		$tab = 33;
+		$PBXManager = array(
+		array('33','741','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','17','88','2','V~O','3','1','BAS','0','0','0',"int(19)","LBL_PBXMANAGER_INFORMATION")
+		);
+
 		$tab = 45;
 		$SMSNotifier = array(
 		array("45","749","smcreatorid","vtiger_crmentity","1","52","created_user_id","Created By","1","2","","100","8","110","2","V~O","3","1","BAS","0","0","0","int(19)","LBL_SMSNOTIFIER_INFORMATION")
 		);
 
-		$setToCRM = array('OSSMailTemplates'=>$OSSMailTemplates,'OSSEmployees'=>$OSSEmployees,'Users'=>$Users,'PurchaseOrder'=>$PurchaseOrder,'Vendors'=>$Vendors,'Accounts'=>$Accounts,'Contacts'=>$Contacts,'Leads'=>$Leads,'SalesOrder'=>$SalesOrder,'Invoice'=>$Invoice,'Quotes'=>$Quotes,'OSSCosts'=>$OSSCosts,'Calculations'=>$Calculations,'Assets'=>$Assets,'HelpDesk'=>$HelpDesk,'Project'=>$Project,'OSSPasswords'=>$OSSPasswords,'OSSMailView'=>$OSSMailView,'OSSTimeControl'=>$OSSTimeControl,'OutsourcedProducts'=>$OutsourcedProducts,'OSSSoldServices'=>$OSSSoldServices,'OSSOutsourcedServices'=>$OSSOutsourcedServices,'Services'=>$Services,'OSSPdf'=>$OSSPdf,'ServiceContracts'=>$ServiceContracts,'Products'=>$Products,'ProjectTask'=>$ProjectTask,'Documents'=>$Documents,'Potentials'=>$Potentials,'ModComments'=>$ModComments,'ProjectMilestone'=>$ProjectMilestone,'SMSNotifier'=>$SMSNotifier);
+		$setToCRM = array('OSSMailTemplates'=>$OSSMailTemplates,'OSSEmployees'=>$OSSEmployees,'Users'=>$Users,'PurchaseOrder'=>$PurchaseOrder,'Vendors'=>$Vendors,'Accounts'=>$Accounts,'Contacts'=>$Contacts,'Leads'=>$Leads,'SalesOrder'=>$SalesOrder,'Invoice'=>$Invoice,'Quotes'=>$Quotes,'OSSCosts'=>$OSSCosts,'Calculations'=>$Calculations,'Assets'=>$Assets,'HelpDesk'=>$HelpDesk,'Project'=>$Project,'OSSPasswords'=>$OSSPasswords,'OSSMailView'=>$OSSMailView,'OSSTimeControl'=>$OSSTimeControl,'OutsourcedProducts'=>$OutsourcedProducts,'OSSSoldServices'=>$OSSSoldServices,'OSSOutsourcedServices'=>$OSSOutsourcedServices,'Services'=>$Services,'OSSPdf'=>$OSSPdf,'ServiceContracts'=>$ServiceContracts,'Products'=>$Products,'ProjectTask'=>$ProjectTask,'Documents'=>$Documents,'Potentials'=>$Potentials,'ModComments'=>$ModComments,'ProjectMilestone'=>$ProjectMilestone,'SMSNotifier'=>$SMSNotifier,'PBXManager'=>$PBXManager);
 
 		$setToCRMAfter = array();
 		foreach($setToCRM as $nameModule=>$module){

@@ -635,6 +635,7 @@ ALTER TABLE `vtiger_contactdetails`
 	ADD COLUMN `verification` text  COLLATE utf8_general_ci NULL after `isconvertedfromlead` , 
 	ADD COLUMN `secondary_email` varchar(50)  COLLATE utf8_general_ci NULL DEFAULT '' after `verification` , 
 	ADD COLUMN `notifilanguage` varchar(100)  COLLATE utf8_general_ci NULL DEFAULT '' after `secondary_email` , 
+	ADD COLUMN `contactstatus` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `notifilanguage` ,
 	DROP KEY `contactdetails_accountid_idx`, ADD KEY `contactdetails_accountid_idx`(`parentid`) ;
 ALTER TABLE `vtiger_contactdetails`
 	ADD CONSTRAINT `fk_1_vtiger_contactdetails` 
