@@ -135,6 +135,9 @@ class Activity extends CRMEntity {
 				}
 			}
 			$adb->pquery($sql, array());
+		} else if (isset($this->column_fields['contact_id']) && $this->column_fields['contact_id'] != '') {
+			$adb->pquery( 'DELETE from vtiger_cntactivityrel WHERE activityid = ?', array($recordId));
+			$adb->pquery( 'INSERT INTO vtiger_cntactivityrel (`contactid`, `activityid`) VALUES (?, ?)', array( $this->column_fields['contact_id'] , $recordId ) );
 		} else if ($_REQUEST['contactidlist'] == '' && $this->column_fields['contact_id'] == '' && $insertion_mode == "edit") {
         	$adb->pquery('DELETE FROM vtiger_cntactivityrel WHERE activityid = ?', array($recordId));
         }
