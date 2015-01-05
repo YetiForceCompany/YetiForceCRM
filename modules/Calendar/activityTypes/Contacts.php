@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class Calendar_Contacts_ActivityTypes{
 	public function process($feed, $request, $start, $end, &$result, $userid = false,$color = null,$textColor = 'white') {
-		if($request->get('fieldname') == 'support_end_date') {
+		if($request->get('fieldname') == 'Support end date') {
 			self::pullContactsBySupportEndDate($feed, $start, $end, $result, $color, $textColor);
 		}else{
 			self::pullContactsByBirthday($feed, $start, $end, $result, $color, $textColor);

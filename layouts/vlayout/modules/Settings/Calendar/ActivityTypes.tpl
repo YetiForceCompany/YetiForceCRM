@@ -16,17 +16,9 @@
 		<div class="span2"></div>
 	</div>
 	<hr>
-	<div class="btn-toolbar">
-		<span class="pull-right group-desc ">
-			<button class="btn btn-success saveModuleSequence visibility" type="button">
-				<strong>{vtranslate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
-			</button>
-		</span>
-		<div class="clearfix"></div>
-	</div>
 	<div class="row-fluid">
         <div class="contents tabbable">
-			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
+			<table class="table table-bordered table-condensed listViewEntriesTable">
 				<thead>
 					<tr class="blockHeader">
 						<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>

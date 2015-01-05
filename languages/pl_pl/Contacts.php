@@ -54,6 +54,9 @@ $languageStrings = array(
 	'Do Not Call' => 'Nie dzwonić',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Język powiadomień',
 
+	//Activity Types
+	'Support end date' => 'Koniec wsparcia kontaktu',
+	'Birthday' => 'Urodziny kontaktów',
 );
 
 $jsLanguageStrings = array(

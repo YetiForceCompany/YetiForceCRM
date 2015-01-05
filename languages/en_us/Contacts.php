@@ -54,6 +54,10 @@ $languageStrings = array(
 	'Approval for phone calls'=>'Permission to call',
 	'Approval for email'=>'Permission to send emails',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Language notifications',
+	
+	//Activity Types
+	'Support end date' => 'End of support contact',
+	'Birthday' => 'Birthdays contacts',
 );
 
 $jsLanguageStrings = array(

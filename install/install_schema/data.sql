@@ -595,8 +595,8 @@ insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (1,'Events','Events','#17309A');
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (2,'Calendar','Tasks','#3A87AD');
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (3,'Potentials','Potentials','#AA6705');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (4,'Contacts','support_end_date','#953B39');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (5,'Contacts','birthday','#545252');
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (4,'Contacts','Support end date','#953B39');
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (5,'Contacts','Birthday','#545252');
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (6,'Invoice','Invoice','#87865D');
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (7,'Project','Project','#C71585');
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (8,'ProjectTask','Project Task','#006400');
@@ -17741,10 +17741,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (63,9,'LBL_UPDATES',NULL,'LBL_UPDATES_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (64,7,'Backup','','LBL_BACKUP_DESCRIPTION','index.php?parent=Settings&module=BackUp&view=Index',20,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (65,9,'LBL_CONFREPORT','','LBL_CONFREPORT_DESCRIPTION','index.php?parent=Settings&module=ConfReport&view=Index',20,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (66,4,'LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes',25,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (65);
+insert  into `vtiger_settings_field_seq`(`id`) values (66);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

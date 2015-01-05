@@ -56,6 +56,10 @@ $languageStrings = array(
 	'Approval for email'=>'Erlaubnis für Mailkontakt',
 	'LBL_SHARING_INFORMATION' => 'Freigaben',
 	'LBL_ADDRESS_MAILING_INFORMATION' => 'Adresse für Mailingzwecke',
+	
+	//Activity Types
+	'Support end date' => 'End of support contact',
+	'Birthday' => 'Birthdays contacts',
 );
 $jsLanguageStrings = array(
 );
