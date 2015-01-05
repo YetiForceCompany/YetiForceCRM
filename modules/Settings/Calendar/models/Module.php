@@ -38,9 +38,16 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 	* @param $color -- new color
 	* @param $viewtypesid -- view type id 
 	*/
-	public static function UpdateColor($params){
+	public static function updateColor($params){
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_calendar_default_activitytypes SET defaultcolor = ? WHERE id = ?;', array( $params['color'], $params['viewtypesid'] ));
 		$adb->pquery('UPDATE vtiger_calendar_user_activitytypes SET color = ? WHERE defaultid = ?;', array( $params['color'], $params['viewtypesid'] ));
+	}
+	
+	public static function addActivityTypes($module, $fieldname, $defaultcolor){
+		$adb = PearDatabase::getInstance();
+		$queryResult = $adb->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', array());
+		$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)';
+		$insertActivityTypesParams = array($adb->getUniqueID('vtiger_calendar_default_activitytypes'), $module, $fieldname, $defaultcolor);
 	}
 }

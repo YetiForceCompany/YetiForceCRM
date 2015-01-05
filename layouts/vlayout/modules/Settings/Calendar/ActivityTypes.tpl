@@ -9,14 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<style type="text/css">
-.visibility{
-visibility: hidden;
-}
-.turn_off{
-min-width: 20px;
-}
-</style>
 {strip}
 <div class="container-fluid ActivityTypes">
 	<div class="widget_header row-fluid">

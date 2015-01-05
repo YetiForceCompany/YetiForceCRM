@@ -8,19 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
-		parent::__construct();
-		$this->exposeMethod('UpdateColor');
-	}
-	public function UpdateColor(Vtiger_Request $request) {
-		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
-		));
-		$response->emit();
+class Calendar_MultipleEvents_ActivityTypes{
+	public function process($feed, $request, $start, $end, &$result, $userid = false,$color = null,$textColor = 'white') {
+		foreach ($request->get('mapping') as $id=>$backgroundColorAndTextColor) {
+			$userEvents = array();
+			$colorComponents = explode(',',$backgroundColorAndTextColor);
+			Calendar_Events_ActivityTypes::process($start, $end, $userEvents ,$id, $colorComponents[0], $colorComponents[1]);
+			$result[$id] = $userEvents;
+		}
 	}
 }

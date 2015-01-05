@@ -8,19 +8,21 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
-	function __construct() {
-		parent::__construct();
-		$this->exposeMethod('UpdateColor');
-	}
-	public function UpdateColor(Vtiger_Request $request) {
-		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
-		));
-		$response->emit();
+class Calendar_Potentials_ActivityTypes{
+	public function process($feed, $request, $start, $end, &$result, $userid = false,$color = null,$textColor = 'white') {
+		$query = "SELECT potentialname,closingdate FROM Potentials";
+		$query.= " WHERE closingdate >= '$start' AND closingdate <= '$end'";
+		$records = $feed->queryForRecords($query);
+		foreach ($records as $record) {
+			$item = array();
+			list ($modid, $crmid) = vtws_getIdComponents($record['id']);
+			$item['id'] = $crmid;
+			$item['title'] = decode_html($record['potentialname']);
+			$item['start'] = $record['closingdate'];
+			$item['url']   = sprintf('index.php?module=Potentials&view=Detail&record=%s', $crmid);
+			$item['color'] = $color;
+			$item['textColor'] = $textColor;
+			$result[] = $item;
+		}
 	}
 }
