@@ -47,6 +47,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         
         $menuStructure = array();
 		$breadcrumbs = array();
+		$menusColor = array();
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		
         if ( $num > 0 ) {
@@ -103,7 +104,8 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                         $subsizeicon_first 	= substr($subsizeicon, 0, strpos($subsizeicon, "x"));
 						$subsizeicon_second	= substr($subsizeicon, 3, 5);
 						$langfiedpick 		= $db->query_result( $subResult, $j, 'langfield' );
-
+						$color 		= $db->query_result( $subResult, $j, 'color');
+						
 						if(	$langfiedpick && (intval($type)==0) ){
 							$res = explode('#',$langfiedpick);
 							for ($k=0; count($res)>$k; $k++){
@@ -148,19 +150,21 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                             case 3:
                             case 4:
                             default:
-                                $url = $db->query_result( $subResult, $j, 'url' );
+                                $url = $db->query_result_raw( $subResult, $j, 'url' );
                         }
 
 						if ( $url !== false ) {
 							$url = $newWindow.$url;
-							$menuStructure[$name][$j] = array( 'name' => $subName, 'link' => $url, 'sizeicon_first' =>$subsizeicon_first, 'sizeicon_second' =>$subsizeicon_second, 'locationiconname' => $locationiconname);
+							$menuStructure[$name][$j] = array( 'name' => $subName,'mod' => $subNameOrg, 'link' => $url, 'sizeicon_first' => $subsizeicon_first, 'sizeicon_second' => $subsizeicon_second, 'locationiconname' => $locationiconname, 'color' => $color);
 						}
-
+						
 						$moduleName = Vtiger_Functions::getModuleName($tabId);
 						$excludedViews = array("DashBoard",'index','Index');
+						$purl = false;
+						
 						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs')) {
-							$breadcrumbs[] = array('lable' => $name);
-							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url);
+							$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
+							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url, 'class' => 'moduleColor_'.$moduleName );
 							if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
 								$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $moduleName) );
 							}elseif(!in_array($request->get('view'), $excludedViews)){
@@ -172,6 +176,22 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 									$breadcrumbs[] = array('lable' => $recordLabel );
 								}
 							}
+						}elseif( $request->get('module') != '' && $request->get('parent') == ''){
+							$parts = parse_url($url);
+							parse_str($parts['query'], $purl);
+							if( $request->get('module') == $purl['module'] && $request->get('view') == $purl['view'] && $request->get('viewname') == $purl['viewname'] ){
+								$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
+								$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List' , 'class' => 'moduleColor_'.$request->get('module'));
+								$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url);
+							}
+						}
+						
+						if($color != ''){
+							if(!$purl){
+								$parts = parse_url($url);
+								parse_str($parts['query'], $purl);
+							}
+							$menusColor[] = array('color' => '#'.$color, 'class' => 'moduleColor_'.$purl['module']);
 						}
                     }
                 }
@@ -180,8 +200,21 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['picon'] = $locationicon;			
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
-            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs);
-
+			if(count($breadcrumbs) == 0 && $request->get('module') != '' && $request->get('parent') == ''){
+				$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List', 'class' => 'moduleColor_'.$request->get('module'));
+				if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
+					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $request->get('module')) );
+				}else{
+					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_'.strtoupper($request->get('view')), $request->get('module')) );
+				}
+				if( $request->get('record') != '' ){
+					$recordLabel = Vtiger_Functions::getCRMRecordLabel( $request->get('record') );
+					if ( $recordLabel != '' ) {
+						$breadcrumbs[] = array('lable' => $recordLabel );
+					}
+				}
+			}			
+            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs,'menusColor'=>$menusColor);
         }
         else 
             return array();
@@ -214,7 +247,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         if ( intval($params['sequence']) == -1 )
             $params['sequence'] = self::getSequence( $params['parent_id'] );
         
-        $sql = "INSERT INTO `vtiger_ossmenumanager` (`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`, `locationicon`, `sizeicon`, `langfield` ) values (?,?,?,?,?,?,?,?,?,?,?,?);";        
+        $sql = "INSERT INTO `vtiger_ossmenumanager` (`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`, `locationicon`, `sizeicon`, `langfield`, `color` ) values (?,?,?,?,?,?,?,?,?,?,?,?,?);";        
         $parametry = array( 
             $params['parent_id'], 
             $params['tabid'], 
@@ -227,7 +260,8 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
             $params['permission'],
 			$params['locationicon'],
 			$params['sizeicon'],
-			$params['langfield']
+			$params['langfield'],
+			$params['color']
         );
 		$adb->pquery( $sql, $parametry, true );
         
@@ -237,7 +271,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
     public function editMenu( $params ) {
         $adb = PearDatabase::getInstance();     
         $params['locationicon'] = trim( $params['locationicon']);
-        $sql = "UPDATE `vtiger_ossmenumanager` SET `tabid` = ?, `label` = ?, `visible` = ?, `url` = ?, `new_window` = ?, `permission` = ?, `locationicon` = ?, `sizeicon` = ? WHERE `id` = ? LIMIT 1;";        
+        $sql = "UPDATE `vtiger_ossmenumanager` SET `tabid` = ?, `label` = ?, `visible` = ?, `url` = ?, `new_window` = ?, `permission` = ?, `locationicon` = ?, `sizeicon` = ?, `color` = ? WHERE `id` = ? LIMIT 1;";        
         $parametry = array( 
             $params['tabid'], 
             $params['label'],
@@ -246,7 +280,8 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
             $params['new_window'], 
             $params['permission'],
 			$params['locationicon'],
-			$params['sizeicon'],	
+			$params['sizeicon'],
+			$params['color'],
             $params['id']
 
         );

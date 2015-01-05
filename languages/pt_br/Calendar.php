@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 31/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'Activity Type'=> 'Tipo Atividade', 
@@ -67,7 +67,7 @@ $languageStrings = array(
 	'LBL_TOTAL_EVENTS_SKIPPED' => 'No. de Eventos Ignorados em função de um ou mais campos obrigatórios ausentes ',
 	'LBL_TOTAL_TASKS_IMPORTED' => 'No. de Tarefas Importadas com Sucesso ',
 	'LBL_TOTAL_TASKS_SKIPPED' => 'No. de Tarefas Ignoradas em função de um ou mais campos obrigatórios ausentes',
-        'LBL_TYPE' => 'Tipo',
+    'LBL_TYPE' => 'Tipo',
 	'LBL_UNDO_LAST_IMPORT' => 'Desfazer Última Importação',
 	'Location' => 'Local' , 
 	'Medium' => 'Média',
@@ -79,9 +79,7 @@ $languageStrings = array(
 	'SINGLE_Calendar' => 'Tarefa',
 	'SINGLE_Events' => 'Evento',
 	'Start Date & Time' => 'Data e Hora Início',
-	'End Date & Time' => 'Data e Hora Final',
-	'Start Date &amp; Time' => 'Data e Hora Início', 
-	'End Date &amp; Time' => 'Data e Hora Final', 
+	'End Date & Time' => 'Data e Hora Final', 
 	'End Date'=>'Data Final',
 	'End Time'=>'Hora Final',
 	'Subject' => 'Assunto',
@@ -96,16 +94,16 @@ $languageStrings = array(
     'TASK_CUR' => 'Tarefas agendadas para hoje',
     'TASK_NEXT' => 'Tarefas agendadas para amanhã',
 	'LBL_NO_DESCRIPTION'=>'Sem descrição',
-	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Wrong ICS file',
-	'LBL_IMPORT_ICS_SUCCESS'=>'Added entry to the calendar',
-        // Missing Fields
-        'Selected Users'=>'Selecionar Usuários',
-        'Starting Day of the week'=>'Inicio Dia Semana',
-        'Day starts at'=>'Dia começa as',
-        'Date Format'=>'Formato Data',
-        'Calendar Hour Format'=>'Formato Hora',
-        'Time Zone'=>'Fuso Horário',
-        'Default Activity View'=>'Padrão Visualização Atividade',
+	'LBL_IMPORT_ICS_ERROR_NO_RECORD'=>'Arquivo ICS incorreto',
+	'LBL_IMPORT_ICS_SUCCESS'=>'Entrada adicionada na Agenda',
+    // Missing Fields
+    'Selected Users'=>'Usuários Selecionados',
+    'Starting Day of the week'=>'Dia Início Semana',
+    'Day starts at'=>'Dia começa as',
+    'Date Format'=>'Formato Data',
+    'Calendar Hour Format'=>'Formato Hora',
+    'Time Zone'=>'Fuso Horário',
+    'Default Activity View'=>'Padrão Visualização Atividade',
 );
 
 $jsLanguageStrings = array(
@@ -115,7 +113,7 @@ $jsLanguageStrings = array(
 	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'A vistualização da Agenda foi apagada com sucesso',
 	'JS_EDIT_CALENDAR' => 'Editar Agenda',
     'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é pode ser realizado no futuro',
-        'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Nenhuma visualização da Agenda para adicionar',
+    'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Nenhuma visualização da Agenda para adicionar',
     'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'A Tarefa foi adicionada com sucesso em sua Agenda',
 	'JS Start Date'=>'Data Início',
 	'JS End Date'=>'Data Final',

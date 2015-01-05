@@ -68,20 +68,17 @@
 									{/if}
 									<td class="fieldLabel alignMiddle">
 									{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+									{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 									{if {$isReferenceField} eq "reference"}
 										{if $refrenceListCount > 1}
-											<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList">
+											<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
 												<optgroup>
 													{foreach key=index item=value from=$refrenceList}
 														<option value="{$value}">{vtranslate($value, $value)}</option>
 													{/foreach}
 												</optgroup>
 											</select>
-										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 										{/if}
-									{else}
-										{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 									{/if}
 									&nbsp;&nbsp;
 								</td>

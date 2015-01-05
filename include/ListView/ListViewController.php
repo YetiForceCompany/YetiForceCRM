@@ -391,7 +391,7 @@ class ListViewController {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$value = textlength_check($this->nameList[$fieldName][$value]);
 						if ($parentMeta->isModuleEntity() && $parentModule != "Users") {
-							$value = "<a href='?module=$parentModule&view=Detail&".
+							$value = "<a class='moduleColor_$parentModule' href='?module=$parentModule&view=Detail&".
 								"record=$rawValue' title='".getTranslatedString($parentModule, $parentModule)."'>$value</a>";
 						}
 					} else {

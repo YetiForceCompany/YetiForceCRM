@@ -5,7 +5,7 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'ADD_CONDITIONS' => 'Adicionar Condições',
@@ -145,7 +145,7 @@ $languageStrings = array(
 	'Email Template Task' => 'Enviar Modelo Mensagem',
 	'Send Pdf' => 'Enviar PDF',
 	'Update Closed Time' => 'Atualizar Tempo Fechado',
-	'Send Notification' => 'Invitees - Send Notification',
+	'Send Notification' => 'Convites - Enviar Notificação',
 );
 
 $jsLanguageStrings = array(

@@ -33,6 +33,7 @@ class OSSMenuManager_AddMenu_Action extends Vtiger_Action_Controller {
 		$locationicon	= $request->get( 'locationicon' );
 		$sizeicon 		= $request->get( 'sizeicon' );
 		$langfield 		= $request->get( 'langfield' );
+		$color 		= $request->get( 'color' );
         
         $typeId = false;        
         switch( $type ) {
@@ -92,6 +93,7 @@ class OSSMenuManager_AddMenu_Action extends Vtiger_Action_Controller {
 				'permission'    => $permissions,
 				'locationicon'	=> $locationicon,
 				'sizeicon'		=> $sizeicon,
+				'color'		=> $color,
 				'langfield'		=> $langfield
 			);
         

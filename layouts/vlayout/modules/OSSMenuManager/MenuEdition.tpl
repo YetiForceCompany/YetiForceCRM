@@ -74,6 +74,13 @@
             <div class="span7"><input name="visible" class="span3" type="checkbox" value="1" {if $MENU_RECORD.visible eq 1} checked="checked" {/if}/></div><br /><br />
         </div>
 		{if $MENU_RECORD.type ne 'LBL_separator'}
+		<div id="color_div" class="row-fluid">
+			<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_MENUCOLOR', 'OSSMenuManager')}:</label></div>
+			<div class="span7">
+				<p class="colorPickerDiv"></p>
+				<input name="color" class="span3 colorPicker" type="text" value="{$MENU_RECORD.color}">
+			</div>
+		</div>
 		<div id="location_div" class="row-fluid">	
 			<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_LOCATIONICON', 'OSSMenuManager')}:</label></div>
 			<div class="span7"><input name="location_icon" class="span3" type="text" value="{$MENU_RECORD.locationicon}"></div>
@@ -175,6 +182,7 @@ function editMenu() {
             var moduleName = jQuery('[name="module_modules"] option:selected').data('modulename');
             var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
+			var color = jQuery('[name="color"]').val();
 			
             var params = {};
             params.async = false;
@@ -191,6 +199,7 @@ function editMenu() {
                 'newWindow' : newWindow,
                 'permission' : roles,
 				'locationicon' : locationIcon,
+				'color' : color,
 				'sizeicon' : sizeIcon,
 				'parent_id': parentId
             }
@@ -201,6 +210,7 @@ function editMenu() {
             var shortcut_url = jQuery('[name="shortcut_url"]').val(); 
 			var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
+			var color = jQuery('[name="color"]').val();
       //  console.log(shortcut_label);    
             var params = {};
             params.async = false;
@@ -217,6 +227,7 @@ function editMenu() {
                 'newWindow' : newWindow,
                 'permission' : roles,
 				'locationicon' : locationIcon,
+				'color' : color,
 				'sizeicon' : sizeIcon,
 				'parent_id': parentId
             }
@@ -226,7 +237,8 @@ function editMenu() {
             var label = jQuery('[name="label_label"]').val();
 			var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
-            
+            var color = jQuery('[name="color"]').val();
+			
             var params = {};
             params.async = false;
             params.dataType = 'json';
@@ -242,6 +254,7 @@ function editMenu() {
                 'newWindow' : newWindow,
                 'permission' : roles,
 				'locationicon' : locationIcon,
+				'color' : color,
 				'sizeicon' : sizeIcon,
 				'parent_id': parentId
             }
@@ -274,7 +287,8 @@ function editMenu() {
             var script_url = jQuery('[name="script_url"]').val();
 			var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
-            
+            var color = jQuery('[name="color"]').val();
+			
             var params = {};
             params.async = false;
             params.dataType = 'json';
@@ -290,6 +304,7 @@ function editMenu() {
                 'newWindow' : newWindow,
                 'permission' : roles,
 				'locationicon' : locationIcon,
+				'color' : color,
 				'sizeicon' : sizeIcon,
 				'parent_id': parentId
             }

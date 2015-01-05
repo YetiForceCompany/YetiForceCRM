@@ -26,6 +26,6 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Please select atleast one member for a group',
+	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Please select at least one member for a group',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Group deleted successfully',
 );
