@@ -30,7 +30,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-        'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Você precisa selecionar ao menos um valor para',
+        'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Você precisa selecionar pelo menos um valor para',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dependencia apagada com Sucesso',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Tem certeza que deseja apagar esta dependência de Lista de Opções?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Dependência de Lista de Opções Salva',

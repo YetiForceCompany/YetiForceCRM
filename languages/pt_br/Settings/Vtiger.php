@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
@@ -214,8 +214,8 @@ $languageStrings = array(
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'O módulo permite pesquisar/autocompletar endereços durante a criação/edição de dados no Sistema.',
-	'LBL_ACTIVITY_TYPES' => 'Activity types',
-	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
+	'LBL_ACTIVITY_TYPES' => 'Tipos Atividade',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Gerenciamento Tipos de Atividade.',
 	'LBL_BRUTEFORCE' => 'Força Bruta',
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Defina o número de tentativas de acessos inválidos e o tempo de bloqueio do IP.',
 	'LBL_WIDGETS_DESCRIPTION'	=> ' ',

@@ -7,19 +7,20 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Activity types',
-	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
-	'LBL_ACTIVITY_NAME' => 'Activity types name',
-	'LBL_MODULE' => 'Module',
-	'LBL_COLOR' => 'Color',
-	'LBL_TOOLS' => 'Tools',
-	'LBL_UPDATE_COLOR' => 'Change Color',
-	'LBL_EDIT_COLOR' => 'Edit color',
-	'LBL_SELECT_COLOR' => 'Select color:',
-	'LBL_SAVE_COLOR' => 'Saved color',
+	'LBL_ACTIVITY_TYPES' => 'Tipos Atividades',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Gerencimaneto Tipos de Atividades.',
+	'LBL_ACTIVITY_NAME' => 'Nome Tipo de Atividade',
+	'LBL_MODULE' => 'Módulo',
+	'LBL_COLOR' => 'Cor',
+	'LBL_TOOLS' => 'Ferramentas',
+	'LBL_UPDATE_COLOR' => 'Mudar Cor',
+	'LBL_EDIT_COLOR' => 'Editar Cor',
+	'LBL_SELECT_COLOR' => 'Selecionar cor:',
+	'LBL_SAVE_COLOR' => 'Cor salva',
 );
 $jsLanguageStrings = array(
 

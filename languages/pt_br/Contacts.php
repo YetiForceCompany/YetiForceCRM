@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 31/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 05/01/2015 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'Assistant'=> 'Assistente', 
@@ -63,8 +63,8 @@ $languageStrings = array(
 	'Purchase Order'=>'Pedido Compras',
 
 	//Activity Types
-	'Support end date' => 'End of support contact',
-	'Birthday' => 'Birthdays contacts',
+	'Support end date' => 'Fim Suporte',
+	'Birthday' => 'Aniversários Contatos',
 );
 
 $jsLanguageStrings = array(
