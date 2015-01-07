@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.0.33 RC';
+// migration to version '1.0.39 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -183,59 +183,60 @@ class VT610_to_YT100 {
 		
 		//menu manager
 		$menu_manager = array();
-		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(238,237,-1,'Home',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(239,237,-1,'Calendar',2,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(241,301,-1,'Campaigns',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(242,282,-1,'Accounts',2,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(243,282,-1,'Contacts',3,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(244,282,-1,'Leads',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(245,305,-1,'Documents',1004,1,0,'',0,'','','','en_us*List of documents#pl_pl*Lista dokumentów',1);
-		$menu_manager[] = array(247,301,-1,'Potentials',2,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(248,301,-1,'Quotes',4,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(249,301,-1,'SalesOrder',5,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(250,301,-1,'Invoice',7,1,0,'',0,'','','','en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1);
-		$menu_manager[] = array(251,301,-1,'PriceBooks',9,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(253,304,-1,'HelpDesk',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(254,304,-1,'Faq',3,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(255,304,-1,'ServiceContracts',2,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(256,302,-1,'ProjectMilestone',2,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(257,302,-1,'ProjectTask',3,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(258,302,-1,'Project',1,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(260,305,-1,'Reports',1009,1,0,'',0,'','','','en_us*List of reports#pl_pl*Lista raportów',1);
-		$menu_manager[] = array(262,305,-1,'Products',989,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(263,282,-1,'Vendors',4,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(264,301,-1,'PurchaseOrder',6,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(265,305,-1,'Services',994,1,0,'',0,'','','','',1);
-		$menu_manager[] = array(266,305,-1,'Assets',991,1,0,'',0,'','','','en_us*Sold Products#pl_pl*Produkty sprzedane',1);
-		$menu_manager[] = array(268,305,-1,'PBXManager',1002,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista poączeń telefonicznych',1);
-		$menu_manager[] = array(269,305,-1,'RecycleBin',1006,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1);
-		$menu_manager[] = array(270,305,-1,'SMSNotifier',1001,1,0,'',0,'','','','en_us*List of text messages#pl_pl*Lista smsów',1);
-		$menu_manager[] = array(271,305,-1,'OSSPdf',1005,1,0,'',0,'','','','en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1);
-		$menu_manager[] = array(272,237,-1,'OSSMail',3,1,0,'',0,'','','','en_us*My mailbox#pl_pl*Moja poczta',1);
-		$menu_manager[] = array(273,305,-1,'OSSMailTemplates',1003,1,0,'',0,'','','','en_us*List of email templates#pl_pl*Lista szablonów mailowych',1);
-		$menu_manager[] = array(274,292,-1,'OSSTimeControl',2,1,0,'',0,'','','','en_us*Time control#pl_pl*Czas pracy',1);
-		$menu_manager[] = array(277,305,-1,'OutsourcedProducts',990,1,0,'index.php?module=OutsourcedProducts&view=List',0,'','','16x16','',0);
-		$menu_manager[] = array(278,305,-1,'OSSSoldServices',996,1,0,'index.php?module=OSSSoldServices&view=List',0,'','','16x16','',0);
-		$menu_manager[] = array(279,305,-1,'OSSOutsourcedServices',995,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,'','','16x16','',0);
-		$menu_manager[] = array(280,305,-1,'OSSMailView',1000,1,0,'index.php?module=OSSMailView&view=List',0,'','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0);
-		$menu_manager[] = array(282,0,0,'Companies',2,1,0,'',0,'','','16x16','en_us*Companies#pl_pl*Firmy',0);
-		$menu_manager[] = array(292,0,0,'Human resources',6,1,0,'',0,'','','16x16','en_us*HR#pl_pl*Kadry',0);
-		$menu_manager[] = array(299,305,0,'*separator*',992,1,3,'*separator*',0,'','','','',0);
-		$menu_manager[] = array(301,0,0,'Sales',3,1,0,'',0,'','','16x16','en_us*Sales#pl_pl*Sprzedaż',0);
-		$menu_manager[] = array(302,0,0,'Projects',4,1,0,'',0,'','','16x16','en_us*Projects#pl_pl*Projekty',0);
-		$menu_manager[] = array(304,0,0,'Support',5,1,0,'',0,'','','16x16','en_us*Support#pl_pl*Wsparcie',0);
-		$menu_manager[] = array(305,0,0,'Databases',7,1,0,'',0,'  ','','16x16','en_us*Databases#pl_pl*Bazy danych',0);
-		$menu_manager[] = array(306,305,0,'Products database',988,1,2,'*etykieta*',0,'','','16x16','en_us*Products database#pl_pl*Baza produktów',0);
-		$menu_manager[] = array(307,305,0,'Services database',993,1,2,'*etykieta*',0,'','','16x16','en_us*Services database#pl_pl*Baza usług',0);
-		$menu_manager[] = array(308,305,0,'*separator*',997,1,3,'*separator*',0,'  ','','','',0);
-		$menu_manager[] = array(309,305,0,'Lists',998,1,2,'*etykieta*',0,'','','16x16','en_us*Lists#pl_pl*Wykazy',0);
-		$menu_manager[] = array(311,292,-1,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,'','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
-		$menu_manager[] = array(312,305,-1,'OSSPasswords',1007,1,0,'index.php?module=OSSPasswords&view=List',0,'','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
-		$menu_manager[] = array(323,301,-1,'Calculations',3,1,0,'index.php?module=Calculations&view=List',0,'','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0);
-		$menu_manager[] = array(324,301,-1,'OSSCosts',8,1,0,'index.php?module=OSSCosts&view=List',0,'','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
-		$menu_manager[] = array(325,305,-1,'AddressLevel1',999,1,0,'index.php?module=AddressLevel1&view=List',0,'','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0);
-		$menu_manager[] = array(327,305,0,'*separator*',1008,1,3,'*separator*',0,'','','','',0);
+		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(238,237,3,'Home',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(239,237,9,'Calendar',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(241,301,26,'Campaigns',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(242,282,6,'Accounts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(243,282,4,'Contacts',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(244,282,7,'Leads',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(245,305,8,'Documents',1004,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of documents#pl_pl*Lista dokumentów',1,NULL);
+		$menu_manager[] = array(247,301,2,'Potentials',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(248,301,20,'Quotes',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(249,301,22,'SalesOrder',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(250,301,23,'Invoice',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1,NULL);
+		$menu_manager[] = array(251,301,19,'PriceBooks',9,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(253,304,13,'HelpDesk',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(254,304,15,'Faq',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(255,304,34,'ServiceContracts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(256,302,41,'ProjectMilestone',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(257,302,42,'ProjectTask',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(258,302,43,'Project',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(260,305,25,'Reports',1009,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of reports#pl_pl*Lista raportów',1,NULL);
+		$menu_manager[] = array(262,305,14,'Products',989,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(263,282,18,'Vendors',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(264,301,21,'PurchaseOrder',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(265,305,35,'Services',994,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
+		$menu_manager[] = array(266,305,37,'Assets',991,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sold Products#pl_pl*Produkty sprzedane',1,NULL);
+		$menu_manager[] = array(268,305,33,'PBXManager',1002,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista połączeń telefonicznych',1,NULL);
+		$menu_manager[] = array(269,305,44,'RecycleBin',1006,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1,NULL);
+		$menu_manager[] = array(270,305,45,'SMSNotifier',1001,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of text messages#pl_pl*Lista smsów',1,NULL);
+		$menu_manager[] = array(271,305,47,'OSSPdf',1005,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1,NULL);
+		$menu_manager[] = array(272,237,48,'OSSMail',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*My mailbox#pl_pl*Moja poczta',1,NULL);
+		$menu_manager[] = array(273,305,49,'OSSMailTemplates',1003,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1,NULL);
+		$menu_manager[] = array(274,292,51,'OSSTimeControl',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1,NULL);
+		$menu_manager[] = array(277,305,59,'OutsourcedProducts',990,1,0,'index.php?module=OutsourcedProducts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
+		$menu_manager[] = array(278,305,58,'OSSSoldServices',996,1,0,'index.php?module=OSSSoldServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
+		$menu_manager[] = array(279,305,57,'OSSOutsourcedServices',995,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
+		$menu_manager[] = array(280,305,54,'OSSMailView',1000,1,0,'index.php?module=OSSMailView&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0,NULL);
+		$menu_manager[] = array(282,0,0,'Companies',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Companies#pl_pl*Firmy',0,NULL);
+		$menu_manager[] = array(292,0,0,'Human resources',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*HR#pl_pl*Kadry',0,NULL);
+		$menu_manager[] = array(299,305,0,'*separator*',992,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0,NULL);
+		$menu_manager[] = array(301,0,0,'Sales',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Sales#pl_pl*Sprzedaż',0,NULL);
+		$menu_manager[] = array(302,0,0,'Projects',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Projects#pl_pl*Projekty',0,NULL);
+		$menu_manager[] = array(304,0,0,'Support',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Support#pl_pl*Wsparcie',0,NULL);
+		$menu_manager[] = array(305,0,0,'Databases',7,1,0,'',0,'  ','','16x16','en_us*Databases#pl_pl*Bazy danych',0,NULL);
+		$menu_manager[] = array(306,305,0,'Products database',988,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Products database#pl_pl*Baza produktów',0,NULL);
+		$menu_manager[] = array(307,305,0,'Services database',993,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Services database#pl_pl*Baza usług',0,NULL);
+		$menu_manager[] = array(308,305,0,'*separator*',997,1,3,'*separator*',0,'  ','','','',0,NULL);
+		$menu_manager[] = array(309,305,0,'Lists',998,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Lists#pl_pl*Wykazy',0,NULL);
+		$menu_manager[] = array(311,292,61,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0,NULL);
+		$menu_manager[] = array(312,305,60,'OSSPasswords',1007,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0,NULL);
+		$menu_manager[] = array(323,301,70,'Calculations',3,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0,NULL);
+		$menu_manager[] = array(324,301,71,'OSSCosts',8,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0,NULL);
+		$menu_manager[] = array(325,305,69,'AddressLevel1',999,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0,NULL);
+		$menu_manager[] = array(327,305,0,'*separator*',1008,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0,NULL);
+
 		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database');
 		
 		$sql = "SELECT `profileid` FROM `vtiger_profile` WHERE 1;";
@@ -255,7 +256,7 @@ class VT610_to_YT100 {
 				if(!in_array($module[3],$blocksModule))
 					$module[2] = getTabid($module[3]);
 				$module[9] = $profilePermissions;
-			$adb->pquery("insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", $module);
+			$adb->pquery("insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`,`color`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", $module);
 			}
 		}
     }
@@ -358,18 +359,9 @@ class VT610_to_YT100 {
 		$settings_field[] = array("LBL_INTEGRATION","LBL_CUSTOMER_PORTAL","portal_icon.png","PORTAL_EXTENSION_DESCRIPTION","index.php?module=CustomerPortal&action=index&parenttab=Settings","1","0","0");
 		$settings_field[] = array("LBL_INTEGRATION","Webforms","modules/Webforms/img/Webform.png","LBL_WEBFORMS_DESCRIPTION","index.php?module=Webforms&action=index&parenttab=Settings","3","0","0");
 		$settings_field[] = array("LBL_STUDIO","LBL_EDIT_FIELDS","","LBL_LAYOUT_EDITOR_DESCRIPTION","index.php?module=LayoutEditor&parent=Settings&view=Index","10","0","0");
-		//$settings_field[] = array("LBL_OTHER_SETTINGS","PDF","Smarty/templates/modules/OSSValidation/currency_update_mini.png","LBL_OSSPDF_INFO","index.php?module=OSSPdf&view=Index&parent=Settings","12","0","0");
-		//$settings_field[] = array("LBL_MAIL","Mail","","LBL_OSSMAIL_DESCRIPTION","index.php?module=OSSMail&parent=Settings&view=index","13","0","0");
 		$settings_field[] = array("LBL_SECURITY_MANAGEMENT","LBL_PASSWORD_CONF", "","LBL_PASSWORD_DESCRIPTION","index.php?module=Password&parent=Settings&view=Index","1","0","0");
-		//$settings_field[] = array("LBL_STUDIO","Menu Manager","menueditor.png","LBL_MENU_DESC","index.php?module=OSSMenuManager&view=Configuration&parent=Settings","3","0","1");
 		$settings_field[] = array("LBL_STUDIO","LBL_ARRANGE_RELATED_TABS","picklist.gif","LBL_ARRANGE_RELATED_TABS","index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout","4","0","1");
-		//$settings_field[] = array("LBL_MAIL","Mail Scanner","","LBL_MAIL_SCANNER_DESCRIPTION","index.php?module=OSSMailScanner&parent=Settings&view=index","19","0","0");
-		//$settings_field[] = array("LBL_SECURITY_MANAGEMENT","Mail Logs","","LBL_MAIL_LOGS_DESCRIPTION","index.php?module=OSSMailScanner&parent=Settings&view=logs","20","0","0");
-		//$settings_field[] = array("LBL_MAIL","Mail View","","LBL_MAIL_VIEW_DESCRIPTION","index.php?module=OSSMailView&parent=Settings&view=index","21","0","0");
-		//$settings_field[] = array("LBL_OTHER_SETTINGS","Document Control","","LBL_DOCUMENT_CONTROL_DESCRIPTION","index.php?module=OSSDocumentControl&parent=Settings&view=Index","22","0","0");
-		//$settings_field[] = array("LBL_OTHER_SETTINGS","Project Templates","","LBL_PROJECT_TEMPLATES_DESCRIPTION","index.php?module=OSSProjectTemplates&parent=Settings&view=Index","23","0","0");
 		$settings_field[] = array("LBL_About_YetiForce","License", "","LBL_LICENSE_DESCRIPTION","index.php?module=Vtiger&parent=Settings&view=License", "","0","0");
-		//$settings_field[] = array("LBL_OTHER_SETTINGS","OSSPassword Configuration","migrate.gif","LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION","index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings","24","0","0");
 		$settings_field[] = array("LBL_STUDIO","LBL_DATAACCESS", "","LBL_DATAACCESS_DESCRIPTION","index.php?module=DataAccess&parent=Settings&view=Index","5","0","0");
 		$settings_field[] = array("LBL_CUSTOMIZE_TRANSLATIONS","LangManagement", "","LBL_LANGMANAGEMENT_DESCRIPTION","index.php?module=LangManagement&parent=Settings&view=Index","6","0","0");
 		$settings_field[] = array("LBL_USER_MANAGEMENT","GlobalPermission","","LBL_GLOBALPERMISSION_DESCRIPTION","index.php?module=GlobalPermission&parent=Settings&view=Index","7","0","0");
@@ -381,6 +373,9 @@ class VT610_to_YT100 {
 		$settings_field[] = array("LBL_INTEGRATION","LBL_API_ADDRESS","","LBL_API_ADDRESS_DESCRIPTION","index.php?module=ApiAddress&parent=Settings&view=Configuration","4","0","0");
 		$settings_field[] = array("LBL_SECURITY_MANAGEMENT","LBL_BRUTEFORCE","","LBL_BRUTEFORCE_DESCRIPTION","index.php?module=BruteForce&parent=Settings&view=Show","20","0","0");
 		$settings_field[] = array('LBL_SECURITY_MANAGEMENT','Backup','','LBL_BACKUP_DESCRIPTION','index.php?parent=Settings&module=BackUp&view=Index','20','0','0');
+		$settings_field[] = array('LBL_About_YetiForce','LBL_CONFREPORT','','LBL_CONFREPORT_DESCRIPTION','index.php?parent=Settings&module=ConfReport&view=Index','20','0','0');
+		$settings_field[] = array('LBL_About_YetiForce','LBL_UPDATES',NULL,'LBL_UPDATES_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index','3','0','0');
+		$settings_field[] = array('LBL_OTHER_SETTINGS','LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes','25','0','0');
 
 		foreach ($settings_field AS $field){
 			try {
@@ -537,6 +532,7 @@ class VT610_to_YT100 {
 		$newTaskType[] = array('VTSendPdf','Send Pdf','VTSendPdf','modules/com_vtiger_workflow/tasks/VTSendPdf.inc','com_vtiger_workflow/taskforms/VTSendPdf.tpl','{"include":[],"exclude":[]}', '');
 		$newTaskType[] = array('VTUpdateClosedTime','Update Closed Time','VTUpdateClosedTime','modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.inc','com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl','{"include":[],"exclude":[]}',NULL);
 		$newTaskType[] = array('VTSendNotificationTask','Send Notification','VTSendNotificationTask','modules/com_vtiger_workflow/tasks/VTSendNotificationTask.inc','com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl','{"include":["Calendar","Events"],"exclude":[]}',NULL);
+		$newTaskType[] = array('VTAddressBookTask','Create Address Book','VTAddressBookTask','modules/com_vtiger_workflow/tasks/VTAddressBookTask.inc','com_vtiger_workflow/taskforms/VTAddressBookTask.tpl','{"include":["Contacts"],"exclude":[]}',NULL);
 		
 		foreach($newTaskType as $taskType){
 			$taskTypeId = $adb->getUniqueID("com_vtiger_workflow_tasktypes");
@@ -583,9 +579,10 @@ class VT610_to_YT100 {
 		$workflow[] = array(52,'Contacts','Generate Customer Login Details','[{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 		$workflow[] = array(53,'Contacts','Send Customer Login Details','[{"fieldname":"emailoptout","operation":"is","value":"1","valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"has changed","value":null,"valuetype":"rawtext","joincondition":"and","groupjoin":"and","groupid":"0"},{"fieldname":"portal","operation":"is","value":"1","valuetype":"rawtext","joincondition":"","groupjoin":"and","groupid":"0"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 		$workflow[] = array(54,'HelpDesk','Update Closed Time','[{"fieldname":"ticketstatus","operation":"is","value":"Rejected","valuetype":"rawtext","joincondition":"or","groupjoin":null,"groupid":"1"},{"fieldname":"ticketstatus","operation":"is","value":"Closed","valuetype":"rawtext","joincondition":"","groupjoin":null,"groupid":"1"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+		$workflow[] = array(55,'Contacts','Generate mail address book','[]',3,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 
 		$workflowTask = array();
-		$workflowTask[] = array(1,1,'','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:1;s:7:"summary";s:0:"";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:1;}');
+		$workflowTask[] = array(1,1,'Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:1;s:7:"summary";s:0:"";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:1;}');
 		$workflowTask[] = array(18,16,'Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:16;s:7:"summary";s:25:"Update Inventory Products";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:18;}');
 		$workflowTask[] = array(38,34,'Weryfikacja danych','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"34";s:7:"summary";s:18:"Weryfikacja danych";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:18:"Weryfikacja danych";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:38;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
 		$workflowTask[] = array(41,35,'Zapoznanie się z historią współpracy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"35";s:7:"summary";s:40:"Zapoznanie się z historią współpracy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:40:"Zapoznanie się z historią współpracy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:09";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:4:"High";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:41;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
@@ -667,6 +664,7 @@ class VT610_to_YT100 {
 		$workflowTask[] = array(120,53,'Send Customer Login Details','O:19:"VTEmailTemplateTask":10:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"53";s:7:"summary";s:27:"Send Customer Login Details";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"44";s:11:"attachments";s:0:"";s:5:"email";s:5:"email";s:10:"copy_email";s:0:"";s:2:"id";i:120;}');
 		$workflowTask[] = array(121,54,'Update Closed Time','O:18:"VTUpdateClosedTime":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"54";s:7:"summary";s:18:"Update Closed Time";s:6:"active";b:1;s:7:"trigger";N;s:2:"id";i:121;}');
 		$workflowTask[] = array(122,13,'Send invitations','O:22:"VTSendNotificationTask":7:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"13";s:7:"summary";s:16:"Send invitations";s:6:"active";b:0;s:7:"trigger";N;s:8:"template";s:2:"45";s:2:"id";i:122;}');
+		$workflowTask[] = array(123,55,'Generate mail address book','O:17:"VTAddressBookTask":7:{s:18:"executeImmediately";b:0;s:10:"workflowId";s:2:"55";s:7:"summary";s:26:"Generate mail address book";s:6:"active";b:1;s:7:"trigger";N;s:4:"test";s:0:"";s:2:"id";i:123;}');
 
 		$workflowManager = new VTWorkflowManager($adb);
 		$taskManager = new VTTaskManager($adb);
@@ -1651,6 +1649,7 @@ class VT610_to_YT100 {
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('HelpDesk')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Open'));
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('Calendar')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Not Started'));
 		$changes[] = array('where'=>array('columnname'=>array('totalduration'), 'tabid'=>array('PBXManager')), 'setColumn'=>array('uitype'), 'setValue'=>array(1));
+		$changes[] = array('where'=>array('columnname'=>array('campaignrelstatus')), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Campaign status'));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -1690,8 +1689,12 @@ class VT610_to_YT100 {
 			  END,
 			  tax1 = IFNULL(tax1, 0) + IFNULL(tax2, 0) + IFNULL(tax3, 0) ;"
 		);
+		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('End of support for contact','Contacts','support_end_date'));
+		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('Birthdays of contacts','Contacts','birthday'));
+		
+		$instanceModule = Vtiger_Module::getInstance('Potentials');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
-		return $fieldsResult;
 	}
 	
 	public function addClosedtimeField(){
@@ -1967,7 +1970,6 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
 		$records[] = array('Customer Portal Login Details','Contacts','Customer Portal Login Details','<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#68#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>');
-		$records[] = array('Send Notification Email to Record Owner','Events','Event :  #a#255#aEnd#','#a#256#aEnd#<br /><br style="line-height:20.7999992370605px;" /><b style="line-height:20.7999992370605px;">Activity Notification Details:</b><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject : </span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Start date and time : </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">End date and time : </span>#a#259#aEnd# #a#260#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Status : </span>#a#265#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Priority : </span>#a#271#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Related To : </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Contacts List : </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Location : </span>#a#268#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Description : </span>#a#275#aEnd#');
 		$records[] = array('Send Notification Email to Record Owner','Calendar','Task :  #a#231#aEnd#','#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#');
 		$records[] = array('Activity Reminder Notification','Calendar','Reminder:  #a#231#aEnd#','This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#');
 		$records[] = array('Activity Reminder Notification','Events','Reminder: #a#255#aEnd#','<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#');
@@ -2942,7 +2944,7 @@ class RemoveModule {
 		}
 		$adb->query( "DELETE FROM vtiger_links WHERE linkurl like '%module=".$this->module_name."%'", true, "Błąd podczas usuwania linków w funkcji DeleteLinks()" );
 	}
-
+	
 	function DeleteHandlers()
 	{
 		global $adb;

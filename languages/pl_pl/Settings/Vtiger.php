@@ -253,6 +253,7 @@ $languageStrings = array(
     
 	'OSSPassword Configuration'=>'Konfiguracja hasła',
 	'Document Control'=>'Przepływ dokumentów',
+	'LBL_WIDGETS_MANAGEMENT' => 'Zarządzanie widgetami',
 	'Time control' => 'Czas pracy',
 	"Credits"	=> 'Współtwórcy',
 );

@@ -53,7 +53,13 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		$widgets = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-
+			
+			if($row['data']){
+				$data = Zend_Json::decode(html_entity_decode($row['data']));
+				if($data['inactive'] == 1 && in_array($currentUser->getRole(), $data['roles'])){
+					continue;
+				}
+			}
 			if($row['linklabel'] == 'Tag Cloud') {
 				$isTagCloudExists = getTagCloudView($currentUser->getId());
 				if($isTagCloudExists == 'false') {
