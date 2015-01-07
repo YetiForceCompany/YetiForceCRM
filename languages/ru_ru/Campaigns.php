@@ -57,3 +57,7 @@ $languageStrings = array(
     'Completed'                    => 'Завершена',
     'Partners'                     => 'Партнеры',
 );
+
+$jsLanguageStrings = array(
+
+);
