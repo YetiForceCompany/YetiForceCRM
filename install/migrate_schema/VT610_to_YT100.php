@@ -1649,6 +1649,7 @@ class VT610_to_YT100 {
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('HelpDesk')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Open'));
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('Calendar')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Not Started'));
 		$changes[] = array('where'=>array('columnname'=>array('totalduration'), 'tabid'=>array('PBXManager')), 'setColumn'=>array('uitype'), 'setValue'=>array(1));
+		$changes[] = array('where'=>array('columnname'=>array('campaignrelstatus')), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Campaign status'));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -1691,6 +1692,8 @@ class VT610_to_YT100 {
 		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('End of support for contact','Contacts','support_end_date'));
 		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('Birthdays of contacts','Contacts','birthday'));
 		
+		$instanceModule = Vtiger_Module::getInstance('Potentials');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
 	}
 	
@@ -1967,7 +1970,6 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
 		$records[] = array('Customer Portal Login Details','Contacts','Customer Portal Login Details','<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#68#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>');
-		$records[] = array('Send Notification Email to Record Owner','Events','Event :  #a#255#aEnd#','#a#256#aEnd#<br /><br style="line-height:20.7999992370605px;" /><b style="line-height:20.7999992370605px;">Activity Notification Details:</b><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject : </span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Start date and time : </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">End date and time : </span>#a#259#aEnd# #a#260#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Status : </span>#a#265#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Priority : </span>#a#271#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Related To : </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Contacts List : </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Location : </span>#a#268#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Description : </span>#a#275#aEnd#');
 		$records[] = array('Send Notification Email to Record Owner','Calendar','Task :  #a#231#aEnd#','#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#');
 		$records[] = array('Activity Reminder Notification','Calendar','Reminder:  #a#231#aEnd#','This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#');
 		$records[] = array('Activity Reminder Notification','Events','Reminder: #a#255#aEnd#','<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#');
@@ -2942,7 +2944,7 @@ class RemoveModule {
 		}
 		$adb->query( "DELETE FROM vtiger_links WHERE linkurl like '%module=".$this->module_name."%'", true, "Błąd podczas usuwania linków w funkcji DeleteLinks()" );
 	}
-
+	
 	function DeleteHandlers()
 	{
 		global $adb;
