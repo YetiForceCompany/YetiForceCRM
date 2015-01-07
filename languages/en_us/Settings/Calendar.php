@@ -19,7 +19,7 @@ $languageStrings = array(
 	'LBL_UPDATE_COLOR' => 'Change Color',
 	'LBL_EDIT_COLOR' => 'Edit color',
 	'LBL_SELECT_COLOR' => 'Select color:',
-	'LBL_SAVE_COLOR' => 'Saved color',
+	'LBL_SAVE_COLOR' => 'Color saved',
 );
 $jsLanguageStrings = array(
 
