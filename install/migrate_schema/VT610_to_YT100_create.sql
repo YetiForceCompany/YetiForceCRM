@@ -1005,6 +1005,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_backup_ftp` (
 PRIMARY KEY (`id`))
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `vtiger_contactsbookmails` (
+  `contactid` int(19) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `users` text,
+  KEY `email` (`email`,`name`),
+  KEY `contactid` (`contactid`),
+  CONSTRAINT `vtiger_contactsbookmails_ibfk_1` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into `vtiger_bruteforce` (`attempsnumber`, `timelock`) values('10','15');
 insert into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`) values (0,'0','https://api.opencagedata.com/geocode/v1/',3);
