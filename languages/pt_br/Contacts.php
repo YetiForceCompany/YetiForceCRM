@@ -63,8 +63,8 @@ $languageStrings = array(
 	'Purchase Order'=>'Pedido Compras',
 
 	//Activity Types
-	'Support end date' => 'Fim Suporte',
-	'Birthday' => 'Aniversários Contatos',
+	'End of support for contact' => 'Fim Suporte',
+	'Birthdays of contacts' => 'Aniversários Contatos',
 );
 
 $jsLanguageStrings = array(

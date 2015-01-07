@@ -58,8 +58,8 @@ $languageStrings = array(
 	'LBL_ADDRESS_MAILING_INFORMATION' => 'Adresse für Mailingzwecke',
 	
 	//Activity Types
-	'Support end date' => 'End of support contact',
-	'Birthday' => 'Birthdays contacts',
+	'End of support for contact' => 'End of support for contact',
+	'Birthdays of contacts' => 'Birthdays of contacts',
 );
 $jsLanguageStrings = array(
 );

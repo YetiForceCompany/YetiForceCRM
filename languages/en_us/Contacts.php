@@ -56,8 +56,8 @@ $languageStrings = array(
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Language notifications',
 	
 	//Activity Types
-	'Support end date' => 'End of support contact',
-	'Birthday' => 'Birthdays contacts',
+	'End of support for contact' => 'End of support for contact',
+	'Birthdays of contacts' => 'Birthdays of contacts',
 );
 
 $jsLanguageStrings = array(
