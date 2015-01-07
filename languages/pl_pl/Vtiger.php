@@ -850,8 +850,8 @@ $languageStrings = array(
 	'LBL_NULL_VALUE' => '(Brak)',
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Lista rekordów jest ograniczona do produktów i usług powiązanych z szansą sprzedaży',
-	'LBL_UPDATES' => 'Historia zmian',
-	'LBL_UPDATES_DESCRIPTION' => 'Historia wykonanych aktualizacji',
+	'LBL_UPDATES_HISTORY' => 'Historia aktualizacji',
+	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Historia wykonanych aktualizacji',
 	'LBL_CONFREPORT' => 'Konfiguracja serwera',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Przedstawia zalecane i aktualne ustawienia serwera',
 	
