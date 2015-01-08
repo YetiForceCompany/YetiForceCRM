@@ -203,9 +203,20 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 	 * @return <boolean> true/false
 	 */
 	public function isDefault() {
-		if($this->get('isdefault') == 1) {
+		$defaultWidgets = $this->getDefaultWidgets();
+		$widgetName = $this->getName();
+
+		if (in_array($widgetName, $defaultWidgets)) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Function to get Default widget Names
+	 * @return <type>
+	 */
+	public function getDefaultWidgets() {
+		return array();
 	}
 }
