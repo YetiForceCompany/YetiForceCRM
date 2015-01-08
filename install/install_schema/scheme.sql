@@ -3438,6 +3438,7 @@ CREATE TABLE `vtiger_links` (
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
+  `linkdata` text,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
@@ -3664,8 +3665,9 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `title` varchar(100) DEFAULT NULL,
   `data` text,
   `position` varchar(50) DEFAULT NULL,
+  `isdefault` int(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_name` */
 
