@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.0.39 RC';
+// migration to version '1.0.41 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
