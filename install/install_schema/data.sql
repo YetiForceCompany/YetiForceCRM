@@ -18296,7 +18296,7 @@ insert  into `vtiger_verification_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_version` */
 
-insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'1.0.0','1.0.0');
+insert  into `vtiger_version`(`id`,`old_version`,`current_version`) values (1,'1.1.0','1.1.0');
 
 /*Data for the table `vtiger_version_seq` */
 
