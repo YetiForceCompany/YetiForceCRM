@@ -85,6 +85,20 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					if(!in_array($role, $data['roles']))
 						$data['roles'][] = $role;
 					$adb->pquery('UPDATE vtiger_links SET linkdata = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+				
+					//
+					$query='SELECT * from vtiger_module_dashboard_widgets WHERE linkid = ?;';
+					$result = $adb->pquery($query, array($widget),true);
+					for($i=0;$i<$adb->num_rows( $result ); $i++){
+						$userId = $adb->query_result( $result, $i, 'userid' );
+						$sql='SELECT * from vtiger_user2role WHERE userid = ?;';
+						$resultSql = $adb->pquery($sql, array($userId),true);
+						if($adb->num_rows( $resultSql ) > 0){
+							$roleId = $adb->query_result( $resultSql, 0, 'roleid' );
+							if($roleId == $role)
+								$adb->pquery("DELETE FROM vtiger_module_dashboard_widgets WHERE linkid = ? AND userid = ? ", array($widget, $userId));
+						}
+					}
 				}
 			}
 		}
@@ -151,7 +165,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query='SELECT 
 				  linkid,
-				  data
+				  linkdata
 				FROM
 				  `vtiger_links`  
 				WHERE linktype = ? AND tabid = ?;';

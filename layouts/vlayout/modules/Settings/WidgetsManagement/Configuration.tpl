@@ -65,8 +65,8 @@ padding: 20px 20px 20px 20px;
 						<!-- hide element -->
 						<tr class="hide copyRow">
 							<td style="text-align:center;" class="span3">
-								<div class="pull-left" style="margin-left:5px;">           
-									<select class="role " name="role" style="margin-bottom:0px;" >
+								<div class="pull-left">           
+									<select class="role span3" name="role" style="margin-bottom:0px;" >
 										<option>{vtranslate('LBL_CHOISE_ROLE',$MODULENAME)}</option>
 										{foreach from=$ROLES item=ROLE}
 											<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
@@ -145,8 +145,8 @@ padding: 20px 20px 20px 20px;
 						<!-- hide element -->
 						<tr class="hide copyRow">
 							<td style="text-align:center;" class="span3">
-								<div class="pull-left" style="margin-left:5px;">           
-									<select class="role " name="role" style="margin-bottom:0px;" >
+								<div class="pull-left">           
+									<select class="role span3" name="role" style="margin-bottom:0px;" >
 										<option value='0'>{vtranslate('LBL_CHOISE_ROLE',$MODULENAME)}</option>
 										{foreach from=$ROLES item=ROLE}
 											<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
