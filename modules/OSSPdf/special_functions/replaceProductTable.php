@@ -185,7 +185,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
     $total_discount = 0.0;
 
     $suma_netto = 0.0;
-    $suma_brutto = $associated_products[1]['final_details']['hdnSubTotal'];
+    $suma_brutto = $associated_products[1]['final_details']['grandTotal'];
     $rabat_calkowity = $associated_products[1]['final_details']['discountTotal_final'];
 
     $suma_vat = 0;
