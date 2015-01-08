@@ -1066,6 +1066,11 @@ ALTER TABLE `vtiger_account`
 ALTER TABLE `vtiger_crmentity` 
 	ADD COLUMN `inheritsharing` tinyint(1)   NULL DEFAULT 0 after `searchlabel` ;
 	
+ALTER TABLE `vtiger_links` 
+	ADD COLUMN `linkdata` text  COLLATE utf8_general_ci NULL after `handler` ;
+	
+ALTER TABLE `vtiger_module_dashboard_widgets` 
+	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` ;
 	
 	
 	

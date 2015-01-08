@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.0.39 RC';
+// migration to version '1.0.41 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -374,8 +374,9 @@ class VT610_to_YT100 {
 		$settings_field[] = array("LBL_SECURITY_MANAGEMENT","LBL_BRUTEFORCE","","LBL_BRUTEFORCE_DESCRIPTION","index.php?module=BruteForce&parent=Settings&view=Show","20","0","0");
 		$settings_field[] = array('LBL_SECURITY_MANAGEMENT','Backup','','LBL_BACKUP_DESCRIPTION','index.php?parent=Settings&module=BackUp&view=Index','20','0','0');
 		$settings_field[] = array('LBL_About_YetiForce','LBL_CONFREPORT','','LBL_CONFREPORT_DESCRIPTION','index.php?parent=Settings&module=ConfReport&view=Index','20','0','0');
-		$settings_field[] = array('LBL_About_YetiForce','LBL_UPDATES',NULL,'LBL_UPDATES_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index','3','0','0');
+		$settings_field[] = array('LBL_About_YetiForce','LBL_UPDATES_HISTORY',NULL,'LBL_UPDATES_HISTORY_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index','3','0','0');
 		$settings_field[] = array('LBL_OTHER_SETTINGS','LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes','25','0','0');
+		$settings_field[] = array('LBL_STUDIO','LBL_WIDGETS_MANAGEMENT','','LBL_WIDGETS_MANAGEMENT_DESCRIPTION','index.php?module=WidgetsManagement&parent=Settings&view=Configuration','12','0','0');
 
 		foreach ($settings_field AS $field){
 			try {
@@ -1846,7 +1847,8 @@ class VT610_to_YT100 {
 		$moduleName = 'OSSMailTemplates';
 		vimport('~~modules/' . $moduleName . '/' . $moduleName . '.php');
 		$records = array();
-		$records[] = array('Notify Owner On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+
+$records[] = array('Notify Owner On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1860,7 +1862,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Account On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Account On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1874,7 +1876,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Contact On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Contact On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1888,7 +1890,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Account On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Account On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1902,7 +1904,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Contact On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Contact On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
 
@@ -1915,7 +1917,7 @@ class VT610_to_YT100 {
 	<li>#b#718#bEnd#: #a#718#aEnd#</li>
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Account On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Account On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
 
@@ -1928,7 +1930,7 @@ class VT610_to_YT100 {
 	<li>#b#718#bEnd#: #a#718#aEnd#</li>
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Contact On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Contact On Ticket Change','HelpDesk','#t#LBL_NOTICE_MODIFICATION#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_UPDATED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1942,7 +1944,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Owner On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Owner On Ticket Closed','HelpDesk','#t#LBL_NOTICE_CLOSE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3><span>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></span></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CLOSED#tEnd# #a#168#aEnd#). #s#ChangesList#sEnd#
 
@@ -1956,7 +1958,7 @@ class VT610_to_YT100 {
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /> #b#171#bEnd#: #a#171#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Notify Owner On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
+$records[] = array('Notify Owner On Ticket Create','HelpDesk','#t#LBL_NOTICE_CREATE#tEnd# #a#155#aEnd#: #a#169#aEnd#','<div>
 <h3>#t#LBL_NOTICE_WELCOME#tEnd# <strong>YetiForce Sp. z o.o.</strong></h3>
 #t#SINGLE_HelpDesk#tEnd# #a#155#aEnd# #t#LBL_NOTICE_CREATED#tEnd# #a#168#aEnd#).
 
@@ -1969,11 +1971,62 @@ class VT610_to_YT100 {
 	<li>#b#718#bEnd#: #a#718#aEnd#</li>
 </ul><hr /> #b#170#bEnd#: #a#170#aEnd#
 <hr /><span><em>#t#LBL_NOTICE_FOOTER#tEnd#</em></span></div>');
-		$records[] = array('Customer Portal Login Details','Contacts','Customer Portal Login Details','<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#68#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>');
-		$records[] = array('Send Notification Email to Record Owner','Calendar','Task :  #a#231#aEnd#','#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#');
-		$records[] = array('Activity Reminder Notification','Calendar','Reminder:  #a#231#aEnd#','This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#');
-		$records[] = array('Activity Reminder Notification','Events','Reminder: #a#255#aEnd#','<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#');
-		$records[] = array('Test mail about the mail server configuration.','Users','Test mail about the mail server configuration.','<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>#a#478#aEnd# #a#479#aEnd#<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">, </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><b style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. </b><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail. </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>');
+$records[] = array('Customer Portal Login Details','Contacts','Customer Portal Login Details','<p>#s#LogoImage#sEnd# </p><p>Dear #a#67#aEnd#  #a#68#aEnd#</p><p>Created for your account in the customer portal, below sending data access.</p><p>Login: #a#80#aEnd#<br />Password: #s#ContactsPortalPass#sEnd#</p><p>Regards</p>');
+$records[] = array('Send invitations','Events','#a#267#aEnd#:  #a#255#aEnd#','<table border="0" cellpadding="8" cellspacing="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;" summary=""><tbody><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>#a#255#aEnd#</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#257#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#257#aEnd# #a#258#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#259#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#259#aEnd# #a#260#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#264#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#264#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#277#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#277#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#267#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#267#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#271#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#271#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#268#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top"><span><span>#a#268#aEnd#</span><span dir="ltr"> (<a href="https://maps.google.pl/maps?q=%23a%23268%23aEnd%23" style="color:#20c;white-space:nowrap;">mapa</a>)</span></span></td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#265#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#265#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#275#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#275#aEnd#</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;" valign="top">
+						<div><i style="font-style:normal;">#b#256#bEnd#</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;" valign="top">#a#256#aEnd#</td>
+					</tr></tbody></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>YetiForce CRM - Notification activities on the calendar</p>
+			</td>
+		</tr></tbody></table>');
+$records[] = array('Send Notification Email to Record Owner','Calendar','Task :  #a#231#aEnd#','#a#232#aEnd#<br /><br />Activity Notification Details:<br />Subject : #a#231#aEnd#<br />Start date and time : #a#233#aEnd# #a#234#aEnd#<br />End date and time : #a#235#aEnd# #a#236#aEnd#<br />Status : #a#239#aEnd#<br />Priority : #a#241#aEnd#<br />Related To : #a#237#aEnd#<br />Contacts List : #a#238#aEnd#<br />Location : #a#250#aEnd#<br />Description : #a#247#aEnd#');
+$records[] = array('Activity Reminder Notification','Calendar','Reminder:  #a#231#aEnd#','This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#');
+$records[] = array('Activity Reminder Notification','Events','Reminder: #a#255#aEnd#','<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#');
+$records[] = array('Test mail about the mail server configuration.','Users','Test mail about the mail server configuration.','<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>#a#478#aEnd# #a#479#aEnd#<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">, </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><b style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. </b><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail. </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>');
 		foreach($records as $record){
 			try {
 				$instance = new $moduleName();

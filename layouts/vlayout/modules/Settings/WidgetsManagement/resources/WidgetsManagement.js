@@ -274,7 +274,7 @@ function WidgetsManagement() {
 		return aDeferred.promise();
 	},
 	this.multiselectAdd = function(){
-		var widgetsList = jQuery('.rowtr select');
+		var widgetsList = jQuery('.rowtr select[name^="widgets"]');
 			widgetsList.select2({});
 	},
 	
@@ -284,7 +284,7 @@ function WidgetsManagement() {
 		var moduleName = app.getModuleName();
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.addCondition();
-		//thisInstance.multiselectAdd();
+		thisInstance.multiselectAdd();
 		var element = jQuery('.contents');
 		thisInstance.deleteRow(element);
 		thisInstance.lastRow();

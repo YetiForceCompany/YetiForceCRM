@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) NOT NULL,
+  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
