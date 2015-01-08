@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/09/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 06/01/2015 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'LBL_ADD_FOLDER' => 'Adicionar Pasta',
@@ -17,7 +17,7 @@ $languageStrings = array(
 	'LBL_AT_TIME' => 'Hora',
 	'LBL_AVERAGE' => 'Média',
 	'LBL_AVG' => 'MED' ,
-	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Os cálculos são baseados na moeda padrão do seu CRM',
+	'LBL_CALCULATION_CONVERSION_MESSAGE' => 'Os cálculos são realizados com base na moeda padrão do seu CRM',
 	'LBL_CALCULATIONS' => 'Cálculos' , 
 	'LBL_CHOOSE_DATE' => 'Escolher Data',
 	'LBL_COLUMNS' => 'Colunas' , 

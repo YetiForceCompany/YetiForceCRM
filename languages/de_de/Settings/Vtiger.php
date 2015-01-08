@@ -9,13 +9,6 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
-	'LBL_DATAACCESS_DESCRIPTION'	=>	' ',
-	'LBL_API_ADDRESS_DESCRIPTION'	=>	' Modul erlaubt das Suchen/Autokompletieren der Adresse während der Erstellung/Bearbeitung von Daten im System.',
-	'LBL_BRUTEFORCE_DESCRIPTION'	=>	'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
-	'LBL_BRUTEFORCE'	=>	'Brute force',
-	'LBL_API_ADDRESS'	=>	'Adressen-Suche',
-	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION'	=>	'Modul ermöglicht, das Layout der Felder innerhalb im -Schnell erstellen- Fenster zu ändern',
-	'LBL_QUICK_CREATE_EDITOR'	=>	'-Schnell erstellen- Editor',
 	'LBL_MAX_SEARCH_RESULT'	=>	'Maximale Anzahl der angezeigten Suchergebnisse',
 	'address' => 'Adresse',
 	'Allows you to Configure Cron Task' => 'Ermöglicht Ihnen die Konfiguration von CRON Aufgaben',
@@ -216,6 +209,32 @@ $languageStrings = array(
     'Mail View'=> 'E-Mails',
 
 	
+	/* settings menu */
+	'Menu Manager' => 'Menu',
+	'LBL_BRUTEFORCE_DESCRIPTION'	=>	'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
+	'LBL_BRUTEFORCE'	=>	'Brute force',
+	'LBL_API_ADDRESS'	=>	'Adressen-Suche',
+	'LBL_API_ADDRESS_DESCRIPTION'	=>	' Modul erlaubt das Suchen/Autokompletieren der Adresse während der Erstellung/Bearbeitung von Daten im System.',
+	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION'	=>	'Modul ermöglicht, das Layout der Felder innerhalb im -Schnell erstellen- Fenster zu ändern',
+	'LBL_QUICK_CREATE_EDITOR'	=>	'-Schnell erstellen- Editor',
+	'LBL_ACTIVITY_TYPES' => 'Activity types',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
+	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
+	'LBL_DATAACCESS_DESCRIPTION'	=>	' ',
+	'LBL_CREDITS_DESCRIPTION'	=> ' ',
+	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
+	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
+	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
+	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
+	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
+	'LBL_LICENSE_DESCRIPTION'	=> ' ',
+	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
+	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
+	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
 	'Sales Department'	=> 'Verkaufsabteilung',
@@ -234,18 +253,6 @@ $languageStrings = array(
 	'Time control' => 'Zeitkontrolle',
 	"Credits"	=> 'Ehre',
 	
-	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
-	'LBL_CREDITS_DESCRIPTION'	=> ' ',
-	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
-	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
-	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
-	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
-	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
-	'LBL_LICENSE_DESCRIPTION'	=> ' ',
-	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
-	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 );
 
 $jsLanguageStrings = array(

@@ -350,7 +350,6 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 	performCalendarFeedIntiate : function() {
 		this.allocateColorsForAllUsers();
 		this.fetchAllEvents();
-		this.buttonClickEvents();
 		this.registerCalendarFeedChange();
 		this.registerEventForDeleteUserCalendar();
 		this.registerEventForEditUserCalendar();

@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) NOT NULL,
+  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
@@ -432,24 +432,25 @@ CREATE TABLE IF NOT EXISTS `vtiger_osscosts` (
   CONSTRAINT `fk_1_vtiger_osscosts` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(19) DEFAULT NULL,
-  `tabid` int(19) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL,
-  `sequence` int(3) DEFAULT NULL,
-  `visible` int(3) DEFAULT NULL,
-  `type` int(3) DEFAULT NULL,
-  `url` text,
-  `new_window` int(3) DEFAULT NULL,
-  `permission` text,
-  `locationicon` varchar(255) DEFAULT NULL,
-  `sizeicon` varchar(255) DEFAULT NULL,
-  `langfield` text,
-  `paintedicon` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager`(
+	`id` int(19) NOT NULL  auto_increment , 
+	`parent_id` int(19) DEFAULT NULL  , 
+	`tabid` int(19) DEFAULT NULL  , 
+	`label` varchar(100) DEFAULT NULL  , 
+	`sequence` int(3) DEFAULT NULL  , 
+	`visible` int(3) DEFAULT NULL  , 
+	`type` int(3) DEFAULT NULL  , 
+	`url` text DEFAULT NULL  , 
+	`new_window` int(3) DEFAULT NULL  , 
+	`permission` text DEFAULT NULL  , 
+	`locationicon` varchar(255) DEFAULT NULL  , 
+	`sizeicon` varchar(255) DEFAULT NULL  , 
+	`langfield` text DEFAULT NULL  , 
+	`paintedicon` int(1) DEFAULT 0 , 
+	`color` varchar(10) DEFAULT NULL , 
+	PRIMARY KEY (`id`) , 
+	KEY `parent_id`(`parent_id`) 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8' COLLATE='utf8_general_ci';
 
 	
 CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol` (
@@ -1004,6 +1005,15 @@ CREATE TABLE IF NOT EXISTS `vtiger_backup_ftp` (
 PRIMARY KEY (`id`))
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `vtiger_contactsbookmails` (
+  `contactid` int(19) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `users` text,
+  KEY `email` (`email`,`name`),
+  KEY `contactid` (`contactid`),
+  CONSTRAINT `vtiger_contactsbookmails_ibfk_1` FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into `vtiger_bruteforce` (`attempsnumber`, `timelock`) values('10','15');
 insert into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`) values (0,'0','https://api.opencagedata.com/geocode/v1/',3);
@@ -1016,7 +1026,9 @@ insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) v
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (7,'Leads','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Checking whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
 
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (37,1,'ticketstatus','has changed','Open',1,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (38,2,'taskstatus','has changed','Not Started',1,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
@@ -1025,6 +1037,7 @@ insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (47,4,'sales_stage','is','Closed Lost',0,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (48,4,'sales_stage','is','Closed Won',0,'picklist');
 insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 
 insert  into `vtiger_password`(`type`,`val`) values ('min_length','8');
 insert  into `vtiger_password`(`type`,`val`) values ('max_length','32');

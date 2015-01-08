@@ -313,14 +313,12 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 	}
 
 	protected function createFiles(Vtiger_Module $module, Vtiger_Field $entityField) {
-		global $YetiForce_current_version;
 		$targetpath = 'modules/' . $module->name;
 
 		if (!is_file($targetpath)) {
 			mkdir($targetpath);
-			mkdir($targetpath . '/language');
 
-			$templatepath = 'vtlib/ModuleDir/'.$YetiForce_current_version;
+			$templatepath = 'vtlib/ModuleDir/BaseModule';
 
 			$moduleFileContents = file_get_contents($templatepath . '/ModuleName.php');
 			$replacevars = array(
@@ -335,6 +333,9 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 				$moduleFileContents = str_replace($key, $value, $moduleFileContents);
 			}
 			file_put_contents($targetpath.'/'.$module->name.'.php', $moduleFileContents);
+			
+			copy($templatepath . '/languages/en_us/ModuleName.php', 'languages/en_us/' . $module->name . '.php');
+
 		}
 	}
 

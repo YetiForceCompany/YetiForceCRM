@@ -133,6 +133,7 @@ $languageStrings = array(
 	'Send Pdf' => 'Wyślij maila z wydrukiem PDF',
 	'Update Closed Time' => 'Aktualizacja czasu zamknięcia',
 	'Send Notification' => 'Wyślij zaproszenie',
+	'Create Address Book' => 'Generuj książkę adresową mail',
 );
 
 $jsLanguageStrings = array(

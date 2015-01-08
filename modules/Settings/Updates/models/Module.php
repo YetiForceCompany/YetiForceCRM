@@ -13,7 +13,7 @@ class Settings_Updates_Module_Model extends Settings_Vtiger_Module_Model {
 	
 		$db = PearDatabase::getInstance();
 
-		$query = 'SELECT yup.id, yup.time, yup.name, yup.from_version, yup.to_version, yup.result FROM `yetiforce_updates` yup';
+		$query = 'SELECT * FROM `yetiforce_updates` yup';
 		$result = $db->pquery($query);
 		$noOfRows = $db->num_rows($result);
 

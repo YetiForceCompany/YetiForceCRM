@@ -177,7 +177,7 @@ jQuery.Class("Calendar_CalendarView_Js",{
 		this.allocateColorsForAllActivityTypes();
 		this.registerCalendarFeedChange();
 		this.fetchAllCalendarFeeds();
-		this.registerEventForEditUserCalendar();
+		//this.registerEventForEditUserCalendar();
 		this.registerEventForDeleteUserCalendar();
 	},
 

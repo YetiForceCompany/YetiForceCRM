@@ -50,6 +50,8 @@
                                                     data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}">
                                                     {vtranslate($MINILISTWIDGET->getTitle(), $MODULE_NAME)}</a>
                                     </li>
+									{/if}
+									{if $NOTEBOOKWIDGET && $MODULE_NAME == 'Home'}
                                     <li>
                                             <a onclick="Vtiger_DashBoard_Js.addNoteBookWidget(this, '{$NOTEBOOKWIDGET->getUrl()}')" href="javascript:void(0);"
                                                     data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}">

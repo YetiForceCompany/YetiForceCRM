@@ -10,6 +10,7 @@
 $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Projektaufgabe',
+	'Project Task' => 'Project Tasks',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_RECORDS_LIST' => 'Projekt Aufgabenliste',
 	'Worked Hours' => 'Zeit gearbeitet',

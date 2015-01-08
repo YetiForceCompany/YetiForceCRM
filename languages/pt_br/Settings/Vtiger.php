@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
@@ -207,10 +207,32 @@ $languageStrings = array(
     'Project Templates' => 'Modelos de Projeto',
     'Mail Scanner'=>'Escaner de Mensagens',
     'Mail View'=> 'Emails',
+
+	/* settings menu */
+	'Menu Manager' => 'Menu',
     'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'O módulo permite pesquisar/autocompletar endereços durante a criação/edição de dados no Sistema.',
+	'LBL_ACTIVITY_TYPES' => 'Tipos Atividade',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Gerenciamento Tipos de Atividade.',
+	'LBL_BRUTEFORCE' => 'Força Bruta',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Defina o número de tentativas de acessos inválidos e o tempo de bloqueio do IP.',
+	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
+	'LBL_DATAACCESS_DESCRIPTION'	=>	' ',
+	'LBL_CREDITS_DESCRIPTION'	=> ' ',
+	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
+	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
+	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
+	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
+	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
+	'LBL_LICENSE_DESCRIPTION'	=> ' ',
+	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
+	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
+	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
@@ -229,22 +251,6 @@ $languageStrings = array(
 	'Document Control'=>'Controle de Documento',
 	'Time control' => 'Controle de Tempo',
 	"Credits"	=> 'Créditos',
-	
-	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
-	'LBL_CREDITS_DESCRIPTION'	=> ' ',
-	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
-	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
-	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
-	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
-	'LBL_DATAACCESS_DESCRIPTION'	=> ' ',
-	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
-	'LBL_LICENSE_DESCRIPTION'	=> ' ',
-	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
-	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_BRUTEFORCE' => 'Força Bruta',
-	'LBL_BRUTEFORCE_DESCRIPTION' => 'Defina o número de tentativas de acessos inválidos e o tempo de bloqueio do IP.',
 );
 
 $jsLanguageStrings = array(

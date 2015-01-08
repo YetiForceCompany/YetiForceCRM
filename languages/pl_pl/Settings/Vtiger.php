@@ -214,13 +214,32 @@ $languageStrings = array(
 	'CustomView'	=> 'Widoki',
 	'Widgets'	=> 'Widżety',
 	
-	/* YetiForce */
+	/* settings menu */
 	'Menu Manager' => 'Menu',
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.',
 	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Moduł umożliwiający wyszukiwanie/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.',
-
+	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
+	'LBL_BRUTEFORCE' => 'Brute force',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Ustaw po jakiej ilośći błędnych prób logowania i na jak długo numer IP ma zostać zablokowany.',
+	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
+	'LBL_CREDITS_DESCRIPTION'	=> ' ',
+	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
+	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
+	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
+	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
+	'LBL_DATAACCESS_DESCRIPTION'	=> ' ',
+	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
+	'LBL_LICENSE_DESCRIPTION'	=> ' ',
+	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
+	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
+	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
+	'LBL_WIDGETS_MANAGEMENT' => 'Zarządzanie widgetami',
+	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
 	'Sales Department'	=> 'Dział sprzedaży',
@@ -238,22 +257,6 @@ $languageStrings = array(
 	'Document Control'=>'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
 	"Credits"	=> 'Współtwórcy',
-	
-	'LBL_WIDGETS_DESCRIPTION'	=> ' ',
-	'LBL_CREDITS_DESCRIPTION'	=> ' ',
-	'LBL_CUSTOMVIEW_DESCRIPTION'	=> ' ',
-	'LBL_SEARCH_SETUP_DESCRIPTION'	=> ' ',
-	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> ' ',
-	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> ' ',
-	'LBL_DATAACCESS_DESCRIPTION'	=> ' ',
-	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> ' ',
-	'LBL_LICENSE_DESCRIPTION'	=> ' ',
-	'LBL_PROJECT_TEMPLATES_DESCRIPTION'	=> ' ',
-	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
-	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_BRUTEFORCE' => 'Brute force',
-	'LBL_BRUTEFORCE_DESCRIPTION' => 'Ustaw po jakiej ilośći błędnych prób logowania i na jak długo numer IP ma zostać zablokowany.',
 );
 
 $jsLanguageStrings = array(

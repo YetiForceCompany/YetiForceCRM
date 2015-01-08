@@ -146,6 +146,7 @@ $languageStrings = array(
 	'Send Pdf' => 'Send PDF',
 	'Update Closed Time' => 'Update Closed Time',
 	'Send Notification' => 'Invitees - Send Notification',
+	'Create Address Book' => 'Create Address Book',
 );
 
 $jsLanguageStrings = array(
