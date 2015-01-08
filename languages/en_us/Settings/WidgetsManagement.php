@@ -18,9 +18,12 @@ $languageStrings = array(
 	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
 	'LBL_CHOISE_ROLE' => 'Select role',
 	'LBL_CHOISE_WIDGET' => 'Select widgets',
+	'LBL_ROLE' => 'Roles',
+	'LBL_WIDGET' => 'Widgets',
 	
 	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
 	'LBL_FAILED_TO_SAVE' => 'No changes were made',
+	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
 
 );
 $jsLanguageStrings = array(

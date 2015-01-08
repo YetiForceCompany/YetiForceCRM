@@ -13,51 +13,118 @@ function WidgetsManagement() {
 	this.addCondition = function() {
 		var thisInstance = this;
 		jQuery('button.addCondition').on('click', function(){
-
-			var copyElement = jQuery(this).closest('td').find('.copyRow');
+			var roles = thisInstance.getRoles(jQuery(this).closest('.active'));
+			var copyElement = jQuery(this).closest('.active').find('.copyRow');
 			var element = copyElement.clone(true,true);
-
 			element.removeAttr('class');
 			element.attr('class', 'rowtr');
+			element.find('select.role option').each(function(){
+				if(thisInstance.in_array(jQuery(this).val(), roles)){
+					jQuery(this).remove();
+				}
+			});
 			copyElement.closest('table').append(element);
-
-			thisInstance.deleteRow();
-			thisInstance.lastRow(copyElement.closest('table'));
-			var widgetsList = element.find('[name^="widgets"]');
+			thisInstance.deleteRow(element);
+			thisInstance.lastRow();
+			
+			var widgetsList = element.find('select');
 			widgetsList.select2({});
+			
+			thisInstance.setReadOnly(element);
 		});
 	},
 	
-	this.deleteRow = function() {
+	this.getRoles = function(continer) {
 		var thisInstance = this;
-		jQuery('.deleteRecordButton').on('click', function(){
-			var allRowInTable = jQuery(this).closest('table');
+		var roles = new Array();
+		continer.find('.rowtr select.role :selected').each(function(){
+			if(jQuery(this).val() != 0)
+				roles.push( jQuery(this).val() );
+		});
+		return roles;
+	},
+	
+	this.setReadOnly = function(element) {
+		var thisInstance = this;
+		element.find('select.role').on('change', function(){
+		jQuery(this).parent().hide();
+		html = '<big>'+jQuery(this).find(':selected').text()+'</big>';
+		jQuery(this).parent().parent().append(html);
+		});
+	},
+	
+	this.deleteRow = function(element) {
+		var thisInstance = this;
+		jQuery('.deleteRecordButton', element).on('click', function(){
 			var removeRow = jQuery(this).closest('tr');
-			removeRow.remove();
-			thisInstance.lastRow(allRowInTable);
+			role = removeRow.find('[name="role"]').val();
+			storedValue = thisInstance.checkStoredValue(role);
+			if(storedValue){
+				var oldWidgetsToRole = Array();
+				oldWidgetsToRole[role] = storedValue[role];
+				overlap = removeRow.closest('.active').data('save');
+				
+				oldWidgetsToRole = jQuery.extend({}, oldWidgetsToRole);
+				var params = {};
+				params.data = {module: 'WidgetsManagement', parent: 'Settings', action: 'SaveWidgets', 'widgetsToRole': Array(),'oldWidgetsToRole': oldWidgetsToRole, 'overlap': overlap}
+				params.async = false;
+				params.dataType = 'json';
+				AppConnector.request(params).then(
+					function(data) {
+						var response = data['result'];
+						if ( response['success'] ) {    
+							var parametry = {
+								text:  response['message'],
+								type: 'info'
+								};
+							Vtiger_Helper_Js.showPnotify(parametry);
+							storedValue[role] = Array();
+							var newValue = JSON.stringify(storedValue);
+							jQuery('.active input[name="oldWidgets"]').val(newValue);
+							removeRow.remove();
+							thisInstance.lastRow();
+						}
+					},
+					function(data,err){
+						var parametry = {
+						text: app.vtranslate('JS_ERROR_CONNECTING'),
+						type: 'error'
+						};
+					Vtiger_Helper_Js.showPnotify(parametry);
+					}
+				);
+			}else{
+				removeRow.remove();
+				thisInstance.lastRow();
+			}
+			
 		});
 	},
 
-	this.lastRow = function(allRowInTable) {
+	this.checkStoredValue = function(role){
 		var thisInstance = this;
-		if(allRowInTable == false){
-			jQuery('.condition').each(function(){
-				allRowInTable = jQuery(this);
-				var element = allRowInTable.find('.deleteRecordButton');
+		var storedValue = jQuery('.active input[name="oldWidgets"]');
+		var oldValue = storedValue.val();
+		if( oldValue != '' && typeof oldValue != 'undefined' ){
+			oldValueArray = JSON.parse(oldValue);
+			if(typeof oldValueArray[role] != 'undefined')
+				return oldValueArray;
+		}
+		return false;
+	},
+	
+	this.lastRow = function() {
+		var thisInstance = this;
+			jQuery('.active').each(function(){
+				table = jQuery(this).find('.overlap');
+				var element = jQuery(this).find('tr');
 				var numRow = element.length;
 				if(numRow == 2)
-					element.hide();
+					table.hide();
 				else
-					element.show();
+					table.show();
 			});
-		} else {
-			var element = allRowInTable.find('.deleteRecordButton');
-			var numRow = element.length;
-			if(numRow == 2)
-				element.hide();
-			else
-				element.show();
-		}
+
 	},
 
 	this.checkDuplicate = function(elements, nawValues) {
@@ -74,7 +141,7 @@ function WidgetsManagement() {
 			result['otherOverlap'] = 'JS_INACTIVE';
 		}
 		var jsonOverlap = jQuery('.'+otherOverlap+' input[name="oldWidgets"]').val();
-		if(typeof jsonOverlap != 'undefined')
+		if( jsonOverlap != '' && typeof jsonOverlap != 'undefined' )
 			otherOverlapValue = JSON.parse(jsonOverlap);
 		else
 			otherOverlapValue = Array();
@@ -105,7 +172,7 @@ function WidgetsManagement() {
 	this.saveRole = function() {
 		var thisInstance = this;
 		jQuery('.saveCondition').on('click', function(){
-			var elements = jQuery(this).closest('td');
+			var elements = jQuery(this).closest('.active');
 			var saveBlock = elements.find('tr.rowtr');
 			var tab = new Array();
 			var element = '';
@@ -130,7 +197,6 @@ function WidgetsManagement() {
 				Vtiger_Helper_Js.showPnotify(parametry);
 				return false;
 			}
-			
 			var params = {};
 			params.data = {module: 'WidgetsManagement', parent: 'Settings', action: 'SaveWidgets', 'widgetsToRole': tab,'oldWidgetsToRole': elements.find('[name="oldWidgets"]').val(), 'overlap': elements.data('save')}
 			params.async = false;
@@ -208,7 +274,7 @@ function WidgetsManagement() {
 		return aDeferred.promise();
 	},
 	this.multiselectAdd = function(){
-		var widgetsList = jQuery('.rowtr [name^="widgets"]');
+		var widgetsList = jQuery('.rowtr select');
 			widgetsList.select2({});
 	},
 	
@@ -218,9 +284,10 @@ function WidgetsManagement() {
 		var moduleName = app.getModuleName();
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.addCondition();
-		thisInstance.multiselectAdd();
-		thisInstance.deleteRow();
-		thisInstance.lastRow(false);
+		//thisInstance.multiselectAdd();
+		var element = jQuery('.contents');
+		thisInstance.deleteRow(element);
+		thisInstance.lastRow();
 		thisInstance.saveRole();
 	};
 }

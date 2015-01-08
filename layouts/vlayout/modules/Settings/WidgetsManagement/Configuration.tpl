@@ -47,39 +47,36 @@ padding: 20px 20px 20px 20px;
 	</ul>
 	<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
 		
-	<div class=" tab-pane active " id="mandatoryWidgets" style="min-height:500px">
-		<table>
-			<tr>
-			<td class="mandatory" valign="top" data-save="mandatory">
+	<div class=" tab-pane active mandatory" id="mandatoryWidgets" data-save="mandatory">
 				<div class="pull-left">
-					<button type="button" class="btn addCondition">{vtranslate('LBL_ADD_CONDITION', $MODULENAME)}</button>
+					<button type="button" class="btn addCondition"><i class="icon-plus"></i>&nbsp;{vtranslate('LBL_ADD_CONDITION', $MODULENAME)}</button>
 				</div>
 				<div class="pull-right">
-					<button type="button" class="saveCondition btn btn-success">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
+					<button type="button" class="saveCondition btn btn-success overlap {if !$MANDATORY_WIDGETS} hide {/if}" style="margin-right:0px;">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
 				</div>
 				
 				<br /><br />
-				<div>
-					<table class="table table-bordered blockContainer showInlineTable condition" style="vertical-align: middle;">
+				<table class="table table-bordered blockContainer showInlineTable condition overlap {if !$MANDATORY_WIDGETS} hide {/if} " style="vertical-align: middle;">
 						<tr>
-							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_CHOISE_ROLE', $MODULENAME)}</th>
-							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_CHOISE_WIDGET', $MODULENAME)}</th>
+							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_ROLE', $MODULENAME)}</th>
+							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_WIDGET', $MODULENAME)}</th>
 							<th style="background-color: #0065a6; text-align:center;"></th>
 						</tr>
 						<!-- hide element -->
 						<tr class="hide copyRow">
-							<td class="span12" >
+							<td style="text-align:center;" class="span3">
 								<div class="pull-left" style="margin-left:5px;">           
-									<select class="role" name="role" style="margin-bottom:0px;">
+									<select class="role " name="role" style="margin-bottom:0px;" >
+										<option>{vtranslate('LBL_CHOISE_ROLE',$MODULENAME)}</option>
 										{foreach from=$ROLES item=ROLE}
 											<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
 										{/foreach}
 									</select>
 								</div> 
 							</td>
-							<td class="span12">
+							<td class="">
 								<div class="pull-left" style="margin-left:5px;">            
-									<select multiple class="select"name="widgets[]" style="width:300px;">
+									<select multiple class="select span8"name="widgets[]" placeholder="{vtranslate('LBL_CLICK_TO_SELECT_WIDGETS', $MODULENAME)}">
 										{foreach from=$WIDGETS item=WIDGET}
 											{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
 												{continue}
@@ -89,27 +86,29 @@ padding: 20px 20px 20px 20px;
 									</select>
 								</div>
 							</td>
-							<td nowrap style="min-width:20px;">
-								<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
+							<td nowrap class="span1" style="text-align:center;">
+								<i class="icon-trash deleteRecordButton alignMiddle cursorPointer " title="{vtranslate('LBL_DELETE', $MODULE)}" ></i>
 							</td>
 						</tr>
 						<!-- end hide element -->
-						{if $MANDATORY_WIDGETS}
 							<input class="hide" name="oldWidgets" value='{Zend_Json::encode($MANDATORY_WIDGETS)}'>
 							{foreach from = $MANDATORY_WIDGETS item = widgetsRow key = roleRow}
 								<tr class="rowtr">
-									<td class="span12">
-										<div class="pull-left" style="margin-left:5px;">           
-											<select class="role" name="role" style="margin-bottom:0px;">
+									<td class="span3" style="text-align:center;">
+										<div class="pull-left" >           
+											<select class="role  hide" name="role" style="margin-bottom:0px;" >
 												{foreach from=$ROLES item=ROLE}
 													<option value="{$ROLE.roleid}" {if $roleRow eq $ROLE.roleid} selected {/if}>{vtranslate($ROLE.rolename,$MODULENAME)}</option>
 												{/foreach}
 											</select>
 										</div> 
+										{foreach from=$ROLES item=ROLE}
+											{if $roleRow eq $ROLE.roleid} <big>{vtranslate($ROLE.rolename,$MODULENAME)}</big>{/if}
+										{/foreach}
 									</td>
-									<td class="span12">
+									<td class="">
 										<div class="pull-left" style="margin-left:5px;">            
-											<select multiple class="select2" name="widgets[]" style="width:300px;">
+											<select multiple class="select2 span8" name="widgets[]" placeholder="{vtranslate('LBL_CLICK_TO_SELECT_WIDGETS', $MODULENAME)}">
 												{foreach from=$WIDGETS item=WIDGET}
 													{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
 														{continue}
@@ -120,79 +119,44 @@ padding: 20px 20px 20px 20px;
 											</select>
 										</div>
 									</td>
-									<td nowrap style="min-width:20px;">
-										<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
+									<td nowrap class="span1" style="text-align:center;">
+										<i class="icon-trash deleteRecordButton alignMiddle cursorPointer " title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
 									</td>
 								</tr>
 							{/foreach}
-						{else}
-							<tr class="rowtr">
-								<td class="span12">
-									<div class="pull-left" style="margin-left:5px;">           
-										<select class="role" name="role" style="margin-bottom:0px;">
-											{foreach from=$ROLES item=ROLE}
-												<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
-											{/foreach}
-										</select>
-									</div> 
-								</td>
-								<td class="span12">
-									<div class="pull-left" style="margin-left:5px;">            
-										<select multiple class="select2" name="widgets[]" style="width:300px;">
-											{foreach from=$WIDGETS item=WIDGET}
-												{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
-													{continue}
-												{/if}
-												{assign var=LINKID value=$WIDGET->get('linkid')}
-												<option value="{$LINKID}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</td>
-								<td nowrap style="min-width:20px;">
-									<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
-								</td>
-							</tr>
-						{/if}
-					</table>
-				</div>
-			</td>
-			</tr>
-		</table>
+				</table>
 	</div>
 	
 	{* settings module form *}
-	<div class=" tab-pane " id="inactiveWidgets" style="min-height:500px">
-		<table>
-			<tr>
-			<td class="inactive" valign="top" data-save="inactive">
+	<div class=" tab-pane inactive" id="inactiveWidgets" data-save="inactive">
 					<div class="pull-left">
-						<button type="button" class="btn addCondition">{vtranslate('LBL_ADD_CONDITION', $MODULENAME)}</button>
+						<button type="button" class="btn addCondition"><i class="icon-plus"></i>&nbsp;{vtranslate('LBL_ADD_CONDITION', $MODULENAME)}</button>
 					</div>
 					<div class="pull-right">
-						<button type="button" class="saveCondition btn btn-success">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
+						<button type="button" class="saveCondition btn btn-success overlap  {if !$INACTIVE_WIDGETS} hide {/if}" style="margin-right:0px;">{vtranslate('LBL_SAVE', $MODULENAME)}</button>
 					</div>
 					<br /><br />
-					<table class="table table-bordered blockContainer showInlineTable condition" >
+					<table class="table table-bordered blockContainer showInlineTable condition overlap {if !$INACTIVE_WIDGETS} hide {/if}" >
 						<tr>
-							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_CHOISE_ROLE', $MODULENAME)} </th>
-							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_CHOISE_WIDGET', $MODULENAME)}</th>
+							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_ROLE', $MODULENAME)} </th>
+							<th style="background-color: #0065a6; text-align:center;">{vtranslate('LBL_WIDGET', $MODULENAME)}</th>
 							<th style="background-color: #0065a6; text-align:center;"></th>
 						</tr>
 						<!-- hide element -->
 						<tr class="hide copyRow">
-							 <td class="span12">
+							<td style="text-align:center;" class="span3">
 								<div class="pull-left" style="margin-left:5px;">           
-									<select class="role" name="role" style="margin-bottom:0px;">
+									<select class="role " name="role" style="margin-bottom:0px;" >
+										<option value='0'>{vtranslate('LBL_CHOISE_ROLE',$MODULENAME)}</option>
 										{foreach from=$ROLES item=ROLE}
 											<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
 										{/foreach}
 									</select>
 								</div> 
 							</td>
-							<td class="span12">
+							<td class="">
 								<div class="pull-left" style="margin-left:5px;">            
-									<select multiple class="select" name="widgets[]" style="width:300px;">
+									<select multiple class="select span8" name="widgets[]" placeholder="{vtranslate('LBL_CLICK_TO_SELECT_WIDGETS', $MODULENAME)}">
 										{foreach from=$WIDGETS item=WIDGET}
 											{assign var=LINKID value=$WIDGET->get('linkid')}
 											<option value="{$LINKID}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
@@ -200,27 +164,29 @@ padding: 20px 20px 20px 20px;
 									</select>
 								</div>
 							</td>
-							<td nowrap style="min-width:20px;">
-								<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
+							<td nowrap class="span1" style="text-align:center;">
+								<i class="icon-trash deleteRecordButton alignMiddle cursorPointer " title="{vtranslate('LBL_DELETE', $MODULE)}" ></i>
 							</td>
 						</tr>
 						<!-- end hide element -->
-						{if $INACTIVE_WIDGETS}
 							<input class="hide" name="oldWidgets" value='{Zend_Json::encode($INACTIVE_WIDGETS)}'>
 							{foreach from = $INACTIVE_WIDGETS item = widgetsRow key = roleRow}
 								<tr class="rowtr">
-									 <td class="span12">
-										<div class="pull-left" style="margin-left:5px;">           
-											<select class="role" name="role" style="margin-bottom:0px;">
+									<td class="span3" style="text-align:center;">
+										<div class="pull-left" >           
+											<select class="role  hide" name="role" style="margin-bottom:0px;" >
 												{foreach from=$ROLES item=ROLE}
 													<option value="{$ROLE.roleid}" {if $roleRow eq $ROLE.roleid} selected {/if}>{vtranslate($ROLE.rolename,$MODULENAME)}</option>
 												{/foreach}
 											</select>
-										</div>
+										</div> 
+										{foreach from=$ROLES item=ROLE}
+											{if $roleRow eq $ROLE.roleid} <big>{vtranslate($ROLE.rolename,$MODULENAME)}</big>{/if}
+										{/foreach}
 									</td>
-									<td class="span12">
+									<td class="">
 										<div class="pull-left" style="margin-left:5px;">            
-											<select multiple class="select2" name="widgets[]" style="width:300px;">
+											<select multiple class="select2 span8" name="widgets[]" placeholder="{vtranslate('LBL_CLICK_TO_SELECT_WIDGETS', $MODULENAME)}">
 												{foreach from=$WIDGETS item=WIDGET}
 													{assign var=LINKID value=$WIDGET->get('linkid')}										
 													<option value="{$LINKID}" {if in_array($LINKID, $widgetsRow)} selected {/if}>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
@@ -228,41 +194,12 @@ padding: 20px 20px 20px 20px;
 											</select>
 										</div>
 									</td>
-									<td nowrap style="min-width:20px;">
-										<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
+									<td nowrap class="span1" style="text-align:center;">
+										<i class="icon-trash deleteRecordButton cursorPointer alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}" ></i>
 									</td>
 								</tr>
 							{/foreach}
-						{else}
-							<tr class="rowtr">
-								 <td class="span12">
-									<div class="pull-left" style="margin-left:5px;">           
-										<select class="role" name="role" style="margin-bottom:0px;">
-											{foreach from=$ROLES item=ROLE}
-												<option value="{$ROLE.roleid}">{vtranslate($ROLE.rolename,$MODULENAME)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</td>
-								<td class="span12">
-									<div class="pull-left" style="margin-left:5px;">            
-										<select multiple class="select2" name="widgets[]" style="width:300px;">
-											{foreach from=$WIDGETS item=WIDGET}
-												{assign var=LINKID value=$WIDGET->get('linkid')}										
-												<option value="{$LINKID}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</td>
-								<td nowrap style="min-width:20px;">
-									<i class="icon-trash deleteRecordButton cursorPointer" title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i>
-								</td>
-							</tr>
-						{/if}
 					</table>
-				</td>
-			</tr>
-		</table>
     </div>
 </div>
 </div>

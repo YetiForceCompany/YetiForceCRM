@@ -20,6 +20,9 @@ class Settings_WidgetsManagement_SaveWidgets_Action extends Vtiger_Action_Contro
 		$moduleName = $request->getModule(false);
 		$widgetsToRole = $request->get( 'widgetsToRole' ); 
 		$oldWidgetsToRole = $request->get( 'oldWidgetsToRole' ); 
+		
+		if(!is_array($widgetsToRole))
+			$widgetsToRole = array();
 		if(!is_array($oldWidgetsToRole))
 			$oldWidgetsToRole = array();
 		$overlap = $request->get( 'overlap' ); 

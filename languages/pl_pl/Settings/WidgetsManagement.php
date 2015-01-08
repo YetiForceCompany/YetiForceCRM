@@ -17,10 +17,13 @@ $languageStrings = array(
 	'LBL_MANDATORY_WIDGETS' => 'Widgety obowiązkowe',
 	'LBL_INACTIVE_WIDGETS' => 'Widgety nieaktywne',
 	'LBL_CHOISE_ROLE' => 'Wybierz rolę',
+	'LBL_ROLE' => 'Role',
+	'LBL_WIDGET' => 'Widgety',
 	'LBL_CHOISE_WIDGET' => 'Wybierz widgety',
 	
 	'LBL_SAVE_CHANGE' => 'Pomyślnie dokonano zmian',
 	'LBL_FAILED_TO_SAVE' => 'Nie udało się dokonać zmian',
+	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Kliknij, aby wybrać widgety',
 
 );
 $jsLanguageStrings = array(

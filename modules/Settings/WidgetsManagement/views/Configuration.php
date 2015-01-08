@@ -40,10 +40,14 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$widgets = $dashboardModules[$sourceModule];
 
 		$role = Settings_WidgetsManagement_Module_Model::getRole();
-		$mandatoryWidgets = Settings_WidgetsManagement_Module_Model::getMandatoryWidgets($sourceModule);
-		$inactiveWidgets = Settings_WidgetsManagement_Module_Model::getInactiveWidgets($sourceModule);
-		$viewer->assign('MANDATORY_WIDGETS', $mandatoryWidgets);
-		$viewer->assign('INACTIVE_WIDGETS', $inactiveWidgets);
+		$widgetsStored = Settings_WidgetsManagement_Module_Model::getWidgets($sourceModule);
+		if(!$widgetsStored['mandatory'])
+			$widgetsStored['mandatory'] = array();
+		if(!$widgetsStored['inactive'])
+			$widgetsStored['inactive'] = array();
+		
+		$viewer->assign('MANDATORY_WIDGETS', $widgetsStored['mandatory']);
+		$viewer->assign('INACTIVE_WIDGETS', $widgetsStored['inactive']);
 		$viewer->assign('ROLES', $role);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));

@@ -69,7 +69,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::inactiveWidgets(".$widgetsToRole."".$oldWidgetsToRole.") method ...");
 		$adb = PearDatabase::getInstance();
-		self::removeOldInactiveWidgets($oldWidgetsToRole);
+		self::removeWidgets($oldWidgetsToRole, 'inactive');
 		foreach($widgetsToRole as $role=>$widgets){
 			foreach($widgets as $widget){
 				$query='SELECT * from vtiger_links WHERE linkid = ?;';
@@ -92,13 +92,22 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
         return true;
 	}
 	
-	public function removeOldInactiveWidgets($oldWidgetsToRole){
+	public function removeWidgets($oldWidgetsToRole, $overlap){
 		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeOldInactiveWidgets(".$oldWidgetsToRole.") method ...");
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeWidgets(".$oldWidgetsToRole.", " .$overlap. ") method ...");
 		$adb = PearDatabase::getInstance();
 		$done = array();
+		
 		foreach($oldWidgetsToRole as $role=>$widgets){
+			$rolesId = array();
+			$query='SELECT userid FROM `vtiger_user2role` WHERE roleid = ?;';
+			$result = $adb->pquery($query, array($role),true);
+			for($i=0;$i<$adb->num_rows( $result );$i++){
+				$rolesId[] = $adb->query_result( $result, $i, 'userid' );
+			}
 			foreach($widgets as $widget){
+				if($overlap == 'mandatory')
+					$adb->pquery('UPDATE vtiger_module_dashboard_widgets SET isdefault = ? WHERE linkid = ? AND userid IN ('.generateQuestionMarks($rolesId).');',array(0, $widget, $rolesId));
 				if(in_array($widget, $done))
 					continue;
 				$query='SELECT * from vtiger_links WHERE linkid = ?;';
@@ -106,47 +115,38 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				if($adb->num_rows( $result ) > 0){
 					$data = $adb->query_result( $result, 0, 'data' );
 					$data = Zend_Json::decode(html_entity_decode($data));
-					$data['inactive'] = 0;
-					$data['roles'] = array();
-					$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+					if($overlap == 'mandatory'){
+						if($data['mandatory']['roles']){
+							if(in_array($role, $data['mandatory']['roles'])){
+								$key = array_search($role, $data['mandatory']['roles']);
+								unset($data['mandatory']['roles'][$key]);
+							}
+						} else {
+							$data['mandatory']['roles'] = array();
+						}
+						$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+					} else {
+						if($data['roles']){
+							if(in_array($role, $data['roles'])){
+								$key = array_search($role, $data['roles']);
+								unset($data['roles'][$key]);
+							}
+						} else {
+							$data['inactive'] = 0;
+							$data['roles'] = array();
+						}
+						$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+					}
 					$done[] = $widget;
 				}
 			}
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeOldInactiveWidgets() method ...");
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeWidgets() method ...");
 	}
-	
-	function getMandatoryWidgets($moduleName){
-		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getMandatoryWidgets(".$moduleName.") method ...");
-		$adb = PearDatabase::getInstance();
 
-		$query='SELECT 
-				  mdw.linkid AS idlink,
-				  mdw.userid,
-				  u2r.roleid 
-				FROM
-				  vtiger_module_dashboard_widgets AS mdw 
-				  INNER JOIN `vtiger_links` AS links 
-					ON mdw.linkid = links.linkid 
-				  LEFT JOIN `vtiger_user2role` AS u2r 
-					ON u2r.userid = mdw.userid 
-				WHERE mdw.isdefault = ? AND links.tabid = ? ;';
-		$result = $adb->pquery($query, array(1, getTabid($moduleName)),true);
-		$num = $adb->num_rows( $result );
-		$tab = array();
-		for ( $i=0; $i<$num; $i++ ) {
-			$role = $adb->query_result( $result, $i, 'roleid' );
-			$widgets[] = $adb->query_result( $result, $i, 'idlink' );
-			$tab[$role] = $widgets;
-		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getMandatoryWidgets() method ...");
-		return $tab;
-	}
-	
-	function getInactiveWidgets($moduleName){
+	function getWidgets($moduleName){
 		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getInactiveWidgets(".$moduleName.") method ...");
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgets(".$moduleName.") method ...");
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query='SELECT 
@@ -163,11 +163,16 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data = Zend_Json::decode(html_entity_decode($data));
 			if($data['inactive'] == 1){
 				foreach($data['roles'] AS $role){
-					$tab[$role][] = $adb->query_result( $result, $i, 'linkid' );
+					$tab['inactive'][$role][] = $adb->query_result( $result, $i, 'linkid' );
+				}
+			}
+			if($data['mandatory']['roles']){
+				foreach($data['mandatory']['roles'] AS $role){
+					$tab['mandatory'][$role][] = $adb->query_result( $result, $i, 'linkid' );
 				}
 			}
 		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getInactiveWidgets() method ...");
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgets() method ...");
 		return $tab;
 	}
 
@@ -175,47 +180,49 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveWidgetsManagement(".$widgetsToRole.",".$oldWidgetsToRole.") method ...");
 		$adb = PearDatabase::getInstance();
-		self::removeOldMandatoryWidgets($oldWidgetsToRole);
+		self::removeWidgets($oldWidgetsToRole, 'mandatory');
 		$users = Users_Record_Model::getAll();
 		if(!is_array($widgetsToRole))
 			$widgetsToRole = array();
+		$i = 0;
+		
 		foreach($users as $user){
-			$role = $user->getRole();
-			if(array_key_exists($role, $widgetsToRole)){
+			$roleUser = $user->getRole();
+			if(array_key_exists($roleUser, $widgetsToRole)){
 				$userId = $user->getId();
 				foreach($widgetsToRole as $role=>$widgets){
 					foreach($widgets as $widget){
-						$query='SELECT * from vtiger_module_dashboard_widgets WHERE userid = ? AND linkid = ?;';
-						$result = $adb->pquery($query, array($userId, $widget),true);
-						if($adb->num_rows( $result ) == 0){
-							$adb->pquery('INSERT INTO vtiger_module_dashboard_widgets(linkid, userid, isdefault) VALUES(?, ?, ?)',array($widget, $userId, 1));
+						if($i == 0){
+							$query='SELECT * from vtiger_links WHERE linkid = ?;';
+							$result = $adb->pquery($query, array($widget),true);
+							if($adb->num_rows( $result ) > 0){
+								$data = $adb->query_result( $result, 0, 'data' );
+								if($data){
+									$data = Zend_Json::decode(html_entity_decode($data));
+								}
+								if(!is_array($data['mandatory']) && !$data['mandatory'])
+									$data['mandatory']['roles'] = array();
+								if(!in_array($role, $data['mandatory']['roles']))
+									$data['mandatory']['roles'][] = $role;
+								$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+							}
 						}
-						else
-							$adb->pquery('UPDATE vtiger_module_dashboard_widgets SET isdefault = ? WHERE linkid = ? AND userid = ?',array(1, $widget, $userId));
+						if($roleUser == $role){
+							$query='SELECT * from vtiger_module_dashboard_widgets WHERE userid = ? AND linkid = ?;';
+							$result = $adb->pquery($query, array($userId, $widget),true);
+							if($adb->num_rows( $result ) == 0){
+								$adb->pquery('INSERT INTO vtiger_module_dashboard_widgets(linkid, userid, isdefault) VALUES(?, ?, ?)',array($widget, $userId, 1));
+							}
+							else
+								$adb->pquery('UPDATE vtiger_module_dashboard_widgets SET isdefault = ? WHERE linkid = ? AND userid = ?',array(1, $widget, $userId));
+						}
 					}
-					
 				}
+				$i++;
 			}
 		}
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::setMandatoryWidgets() method ...");
         return true;;
 	}
-	
-	public function removeOldMandatoryWidgets($oldWidgetsToRole){
-		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeOldMandatoryWidgets(".$oldWidgetsToRole.") method ...");
-		$adb = PearDatabase::getInstance();
-		foreach($oldWidgetsToRole as $roleId=>$widgets){
-			$rolesId = array();
-			$query='SELECT userid FROM `vtiger_user2role` WHERE roleid = ?;';
-			$result = $adb->pquery($query, array($roleId),true);
-			for($i=0;$i<$adb->num_rows( $result );$i++){
-				$rolesId[] = $adb->query_result( $result, $i, 'userid' );
-			}
-			foreach($widgets as $widget){
-				$adb->pquery('UPDATE vtiger_module_dashboard_widgets SET isdefault = ? WHERE linkid = ? AND userid IN ('.generateQuestionMarks($rolesId).');',array(0, $widget, $rolesId));
-			}
-		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeOldMandatoryWidgets() method ...");
-	}
+
 }
