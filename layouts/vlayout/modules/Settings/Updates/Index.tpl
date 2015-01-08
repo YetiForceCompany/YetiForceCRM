@@ -35,7 +35,7 @@
 			{foreach from=$UPDATES key=key item=foo}						
 				<tr>	
 					<td width="16%"><label class="marginRight5px">{$foo.time}</label></td>
-					<td width="16%"><label class="marginRight5px">{$foo.name}</label></td>
+					<td width="16%"><label class="marginRight5px">{$foo.user}</label></td>
 					<td width="16%"><label class="marginRight5px">{$foo.from_version}</label></td>
 					<td width="16%"><label class="marginRight5px">{$foo.to_version}</label></td>
 					<td width="16%"><label class="marginRight5px">{if $foo.result eq 1}{vtranslate('LBL_YES', $MODULE)}{else}{vtranslate('LBL_NO', $MODULE)}{/if}</label></td>

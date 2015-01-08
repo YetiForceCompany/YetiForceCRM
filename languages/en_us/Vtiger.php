@@ -777,8 +777,8 @@ $languageStrings = array(
 	'LBL_NULL_VALUE' => '(No value)',
 	'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'List of records is limited to the products and services associated with the sales opportunity',
-	'LBL_UPDATES' => 'Updates',
-	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
+	'LBL_UPDATES_HISTORY' => 'Updates',
+	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates history',
 	'LBL_CONFREPORT' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
 	

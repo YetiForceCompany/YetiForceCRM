@@ -8,21 +8,23 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Updates_Module_Model extends Settings_Vtiger_Module_Model {
-	public static function getUpdates() {
+
+$languageStrings = array(
+
+	'WidgetsManagement' => 'Management widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
+	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
+	'LBL_CHOISE_ROLE' => 'Select role',
+	'LBL_CHOISE_WIDGET' => 'Select widgets',
 	
-		$db = PearDatabase::getInstance();
+	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
+	'LBL_FAILED_TO_SAVE' => 'No changes were made',
 
-		$query = 'SELECT * FROM `yetiforce_updates` yup';
-		$result = $db->pquery($query);
-		$noOfRows = $db->num_rows($result);
-
-		$matchingRecords = array();
-		$updates = array();
-		for($i=0; $i<$noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
-			$updates[] = $row;
-		}
-		return $updates;
-	}
-}
+);
+$jsLanguageStrings = array(
+	'JS_MANDATORY' => 'Mandatory widget: ',
+	'JS_INACTIVE' => 'Inactive widget: ',
+);
+?>

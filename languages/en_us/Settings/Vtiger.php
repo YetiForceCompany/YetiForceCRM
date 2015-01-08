@@ -247,6 +247,7 @@ $languageStrings = array(
     
 	'OSSPassword Configuration'=>'Password Configuration',
 	'Document Control'=>'Document Control',
+	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
 	'Time control' => 'Time control',
 	"Credits"	=> 'Credits',
 );
