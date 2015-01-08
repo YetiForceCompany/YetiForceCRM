@@ -232,6 +232,8 @@ $languageStrings = array(
 	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
+	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
