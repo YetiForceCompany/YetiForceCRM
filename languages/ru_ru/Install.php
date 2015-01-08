@@ -100,6 +100,9 @@ $languageStrings = array(
     'LBL_OPEN_SSL' => 'Поддержка OpenSSL',
     'NOT RECOMMENDED' => 'Не рекомендуемые параметры',
     'Vtiger CRM Setup' => 'Установка',
+	'LBL_READ_LICENSE' => 'Лицензия',
+	'Short name' => 'Должность',
+	'First Name' => 'Имя',
 );
 
 $jsLanguageStrings = array(
@@ -114,5 +117,4 @@ $jsLanguageStrings = array(
 	'LBL_PASS_REENTER_ERROR'	=>	'Внимание! Пароли не совпадают.',
 	'LBL_INVALID_EMAIL_ERROR'	=>	'Внимание! Неверный адрес электронной почты.',
 	'LBL_RESOLVE_ERROR'	=>	'Пожалуйста, устраните ошибки перед продолжением установки',
-
 );
