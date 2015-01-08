@@ -75,7 +75,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$query='SELECT * from vtiger_links WHERE linkid = ?;';
 				$result = $adb->pquery($query, array($widget),true);
 				if($adb->num_rows( $result ) > 0){
-					$data = $adb->query_result( $result, 0, 'data' );
+					$data = $adb->query_result( $result, 0, 'linkdata' );
 					if($data){
 						$data = Zend_Json::decode(html_entity_decode($data));
 					}
@@ -84,7 +84,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 					$data['inactive'] = 1;
 					if(!in_array($role, $data['roles']))
 						$data['roles'][] = $role;
-					$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+					$adb->pquery('UPDATE vtiger_links SET linkdata = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
 				}
 			}
 		}
@@ -113,7 +113,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$query='SELECT * from vtiger_links WHERE linkid = ?;';
 				$result = $adb->pquery($query, array($widget),true);
 				if($adb->num_rows( $result ) > 0){
-					$data = $adb->query_result( $result, 0, 'data' );
+					$data = $adb->query_result( $result, 0, 'linkdata' );
 					$data = Zend_Json::decode(html_entity_decode($data));
 					if($overlap == 'mandatory'){
 						if($data['mandatory']['roles']){
@@ -124,7 +124,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 						} else {
 							$data['mandatory']['roles'] = array();
 						}
-						$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+						$adb->pquery('UPDATE vtiger_links SET linkdata = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
 					} else {
 						if($data['roles']){
 							if(in_array($role, $data['roles'])){
@@ -135,7 +135,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 							$data['inactive'] = 0;
 							$data['roles'] = array();
 						}
-						$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+						$adb->pquery('UPDATE vtiger_links SET linkdata = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
 					}
 					$done[] = $widget;
 				}
@@ -159,7 +159,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$num = $adb->num_rows( $result );
 		$tab = array();
 		for ( $i=0; $i<$num; $i++ ) {
-			$data = $adb->query_result( $result, $i, 'data' );
+			$data = $adb->query_result( $result, $i, 'linkdata' );
 			$data = Zend_Json::decode(html_entity_decode($data));
 			if($data['inactive'] == 1){
 				foreach($data['roles'] AS $role){
@@ -196,7 +196,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 							$query='SELECT * from vtiger_links WHERE linkid = ?;';
 							$result = $adb->pquery($query, array($widget),true);
 							if($adb->num_rows( $result ) > 0){
-								$data = $adb->query_result( $result, 0, 'data' );
+								$data = $adb->query_result( $result, 0, 'linkdata' );
 								if($data){
 									$data = Zend_Json::decode(html_entity_decode($data));
 								}
@@ -204,7 +204,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 									$data['mandatory']['roles'] = array();
 								if(!in_array($role, $data['mandatory']['roles']))
 									$data['mandatory']['roles'][] = $role;
-								$adb->pquery('UPDATE vtiger_links SET data = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
+								$adb->pquery('UPDATE vtiger_links SET linkdata = ? WHERE linkid = ?;',array(Zend_Json::encode($data), $widget));
 							}
 						}
 						if($roleUser == $role){
