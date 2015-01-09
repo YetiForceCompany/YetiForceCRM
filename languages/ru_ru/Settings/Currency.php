@@ -9,6 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'Currency'	=>	'Валюта',
 	'LBL_ADD_NEW_CURRENCY' => 'Добавить Валюту',
 	'LBL_ADD_RECORD' => 'Добавить Валюту',
 	'LBL_CONVERSION_RATE' => 'Обменный курс',
