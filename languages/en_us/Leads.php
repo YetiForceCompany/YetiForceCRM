@@ -82,7 +82,7 @@ $languageStrings = array(
 	'Total time worked'=>'Total working time',
 	'Total contacts'=>'Number of contacts',
 	'Attention' => 'Notes',    
-    "Attorney General's Office" => "Attorney General's Offic2",
+    "Attorney General's Office" => "Attorney General's Office",
 );
 
 $jsLanguageStrings = array(
