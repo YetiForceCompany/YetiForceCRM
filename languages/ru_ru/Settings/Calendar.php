@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Calendar'	=>	'Календарь',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES'	=>	'Типы',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION'	=>	'Управление типами календаря',
