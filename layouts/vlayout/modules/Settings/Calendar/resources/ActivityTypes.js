@@ -48,6 +48,7 @@ var Settings_ActivityTypes_Js = {
 					'viewtypesid':closestTrElement.data('viewtypesid'),
 				});
 				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
+				closestTrElement.data('color', selectedColor.val());
 				progress.progressIndicator({'mode': 'hide'});
 			});
 		}
