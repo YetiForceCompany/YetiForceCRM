@@ -39,7 +39,7 @@ $languageStrings = array(
 	'LBL_NO_ACTION' => 'Nenhuma ação criada',
 	'LBL_CONFIG_ACTION' => 'Configuração de Ações',
 	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Falha ao aprovar as alterações',
-	'LBL_MANDATORY_FIELD' => 'Cambpos Obrigatórios',
+	'LBL_MANDATORY_FIELD' => 'Campos Obrigatórios',
 
 	//comparators
  	'starts with' => 'iniciar com',

@@ -86,14 +86,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		if (!$port) { $port = $roundcube_config['default_port'];}
 		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
 		imap_timeout(IMAP_OPENTIMEOUT,5);
-		try {
-			$mbox = imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password);
-		} catch (Exception $e) {
-			$log->debug("Error OSSMail_Record_Model::imap_connect(): ".imap_last_error().' ['.$e->getMessage().']');
-			die( self::createdAlert(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.imap_last_error().' ['.$e->getMessage().']' ));
-		}
+			$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
+			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
+			die( self::imap_open_error(imap_last_error()) );
 		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
 		return $mbox;
+	}
+	public static function imap_open_error($error) {
+		global $log;
+		$log->debug("Error OSSMail_Record_Model::imap_connect(): ".$error); 
+		self::createdAlert(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error );
 	}
 	public static function getMailBoxmsgInfo($userid = false) {
 		if($userid){

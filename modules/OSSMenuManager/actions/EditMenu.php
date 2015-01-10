@@ -29,7 +29,6 @@ class OSSMenuManager_EditMenu_Action extends Vtiger_Action_Controller {
 		$locationicon   = $request->get( 'locationicon');
 		$sizeicon		= $request->get( 'sizeicon');
 		$parentId 		= $request->get( 'parent_id');
-		$color 		= $request->get( 'color');
 		
         $tab=array();
         $ifExist = $adb->query( "SELECT label, id FROM vtiger_ossmenumanager WHERE parent_id = $parentId", true );
@@ -56,7 +55,6 @@ class OSSMenuManager_EditMenu_Action extends Vtiger_Action_Controller {
 				'permission'    => $permissions,
 				'locationicon'	=> $locationicon,
 				'sizeicon'		=> $sizeicon,
-				'color'		=> $color,
 			);
         
 			$updated = $recordModel->editMenu( $param );

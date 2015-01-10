@@ -8,14 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-vimport('~~modules/Calendar/activityTypes/Events.php');
-class Calendar_MultipleEvents_ActivityTypes{
-	public function process($feed, $request, $start, $end, &$result, $userid = false,$color = null,$textColor = 'white') {
-		foreach ($request->get('mapping') as $id=>$backgroundColorAndTextColor) {
-			$userEvents = array();
-			$colorComponents = explode(',',$backgroundColorAndTextColor);
-			Calendar_Events_ActivityTypes::process($feed, $request, $start, $end, $userEvents ,$id, $colorComponents[0], $colorComponents[1]);
-			$result[$id] = $userEvents;
-		}
-	}
-}
+$languageStrings = array(
+	'LBL_MDULES_COLOR_EDITOR' => 'Kolory modułów',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
+	'LBL_MODULE' => 'Moduł',
+	'LBL_COLOR' => 'Kolor',
+	'LBL_TOOLS' => 'Narzędzia',
+	'LBL_UPDATE_COLOR' => 'Zmień kolor',
+	'LBL_EDIT_COLOR' => 'Edycja koloru',
+	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
+	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+);
+$jsLanguageStrings = array(
+
+);
