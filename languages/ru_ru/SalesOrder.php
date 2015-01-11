@@ -60,5 +60,5 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите удаленную позицию',
+	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите позиции, которые были удалены из системы.',
 );
