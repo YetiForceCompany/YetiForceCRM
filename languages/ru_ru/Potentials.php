@@ -83,7 +83,10 @@ $languageStrings = array(
 	'Total time [Sum]' => 'Итого <br />[Общий итог]',
 	'Total time [h]'=>'Всего времени [ч]',
 	'Unit Price' => 'Цена за единицу',
-	'Value Proposition'=> 'Предложение', 
+	'Value Proposition'=> 'Предложение',
+	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Создание сделки завершено',
+	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
+	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',
 );
 
 $jsLanguageStrings = array(
