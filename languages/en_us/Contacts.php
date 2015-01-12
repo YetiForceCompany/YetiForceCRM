@@ -10,16 +10,12 @@
  ************************************************************************************/
 $languageStrings = array(
 	'Member Of' => 'Member Of',
-	'Assistant' => 'Assistant',
-	'Assistant Phone' => 'Assistant Phone',
 	'Birthdate' => 'Date of Birth',
 	'Contact Id' => 'Contact Id',
 	'Contact Image' => 'Contact Image',
 	'Contacts' => 'Contacts',
-	'Department' => 'Department',
 	'Do Not Call' => 'Do Not Call',
 	'Email' => 'Primary Email',
-	'Home Phone' => 'Home Phone',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_CONTACT_INFORMATION' => 'Basic Information',
 	'LBL_COPY_MAILING_ADDRESS' => 'Copy Mailing Address',
@@ -37,7 +33,6 @@ $languageStrings = array(
     'Support Start Date' => 'Support Start Date',
 	'Title' => 'Title',
 	'User List'=>'User List',
-	'Last Name'=>'Last Name',
 	
 	//Added for Picklist Values
 	'Dr.'=>'Dr.',
@@ -48,8 +43,9 @@ $languageStrings = array(
 	'Active' => 'Active',
 	'Inactive' => 'Inactive',
 	
+	'Other Po Box' => 'Additional Address: PO Box',
+	'Mailing Po Box' => 'Primary Address: PO Box',
 	'LBL_ADDRESS_INFORMATION' => 'Address of permanent residence',
-	'Werification data'=>'Data verification',
 	'LBL_CONTACT_INFO' => 'Contact information',
 	'Approval for phone calls'=>'Permission to call',
 	'Approval for email'=>'Permission to send emails',

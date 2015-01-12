@@ -95,6 +95,12 @@ $languageStrings = array(
 	
 	//dashboards
 	'Graf' => 'Corporate emails by Type',
+	'Today' => 'Today',
+	'Yesterday' => 'Yesterday',
+	'Current week' => 'Current week',
+	'Previous week' => 'Previous week',	
+	'Current month' => 'Current month',
+	'Previous month' => 'Previous month',
 );
 $jsLanguageStrings = array(
 	'From' => 'From',

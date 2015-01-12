@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
-	'No approval for email' => 'Phone Opt Out',
 	'Account Name' => 'Organization Name',
 	'Account No' => 'Organization Number',
 	'Accounts' => 'Organizations',

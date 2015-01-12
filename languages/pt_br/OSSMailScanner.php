@@ -164,5 +164,6 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Conta apagada',
 	'No' => 'Não',
 	'LBL_MAIL_LOGS' => 'Log das Mensagens',
+	'Group list' => 'Group list',
 	
 );

@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'No approval for email' => 'E-Mail Abgelehnt',
 	'Account Name' => 'Organisation',
 	'Account No' => 'Organisationsnummer',
 	'Accounts' => 'Organisationen',
