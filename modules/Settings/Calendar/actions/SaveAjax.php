@@ -12,6 +12,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('UpdateColor');
+		$this->exposeMethod('UpdateActiveType');
 	}
 	public function UpdateColor(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -20,6 +21,16 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function UpdateActiveType(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Settings_Calendar_Module_Model::updateActiveType($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE',$request->getModule(false))
 		));
 		$response->emit();
 	}

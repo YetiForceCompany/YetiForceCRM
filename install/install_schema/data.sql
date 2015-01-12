@@ -592,14 +592,14 @@ insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (1,'Events','Events','#17309A');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (2,'Calendar','Tasks','#3A87AD');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (3,'Potentials','Potentials','#AA6705');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (4,'Contacts','End of support for contact','#953B39');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (5,'Contacts','Birthdays of contacts','#545252');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (6,'Invoice','Invoice','#87865D');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (7,'Project','Project','#C71585');
-insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`) values (8,'ProjectTask','Project Task','#006400');
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (1,'Events','Events','#17309A',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (2,'Calendar','Tasks','#3A87AD',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (3,'Potentials','Potentials','#AA6705',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (4,'Contacts','End of support for contact','#953B39',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (5,'Contacts','Birthdays of contacts','#545252',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (6,'Invoice','Invoice','#87865D',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (7,'Project','Project','#C71585',1);
+insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (8,'ProjectTask','Project Task','#006400',1);
 
 /*Data for the table `vtiger_calendar_default_activitytypes_seq` */
 
