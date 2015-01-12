@@ -61,6 +61,7 @@
 		<input type="hidden" id="start_day" value="{$CURRENT_USER_MODEL->get('dayoftheweek')}" />
 		<input type="hidden" id="row_type" value="{$CURRENT_USER_MODEL->get('rowheight')}" />
 		<input type="hidden" id="current_user_id" value="{$CURRENT_USER_MODEL->get('id')}" />
+		<input type="hidden" id="userDateFormat" value="{$CURRENT_USER_MODEL->get('date_format')}" />
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
