@@ -54,6 +54,7 @@ $languageStrings = array(
 	'SINGLE_Leads' => 'Lead',
 	'Warm'=>'Warm',
 	'Website' => 'Website',
+	'Werification data'=>'Data verification',
 
 	/* YetiForce Lead Status */
 	'LBL_TO_REALIZE'=>'For processing',
@@ -66,6 +67,8 @@ $languageStrings = array(
 	'LBL_LEAD_ACQUIRED'=>'Lead obtained',
 	
 	/* YetiForce */
+	'No approval for phone calls'=>'No approval for phone calls',
+	'No approval for email'=>'No approval for email',
 	'Contact Information' => 'Contact Information',
 	'LBL_REGISTRATION_INFO'=>'Registration Details',
     'LBL_REQUIRES_VERIFICATION' => 'Data verification',
@@ -79,8 +82,7 @@ $languageStrings = array(
 	'Total time worked'=>'Total working time',
 	'Total contacts'=>'Number of contacts',
 	'Attention' => 'Notes',    
-    "Attorney General's Office" => "Attorney General's Offic2",
-	'Orders accepted'=>'Orders accepted',
+    "Attorney General's Office" => "Attorney General's Office",
 );
 
 $jsLanguageStrings = array(

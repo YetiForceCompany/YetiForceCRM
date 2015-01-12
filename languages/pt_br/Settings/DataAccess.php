@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_DATAACCES' => 'Validação de acesso',
-	'DataAcces' => 'Validação de acesso',
+	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',
 	'LBL_MODULE_NAME' => 'Nome módulo',
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Nenhuma condição foi adicionada',
