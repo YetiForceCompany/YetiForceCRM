@@ -239,6 +239,8 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 	'LBL_WIDGETS_MANAGEMENT' => 'Zarządzanie widgetami',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	'LBL_MDULES_COLOR_EDITOR' => 'Kolory modułów',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

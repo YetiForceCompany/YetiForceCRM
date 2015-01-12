@@ -14,6 +14,7 @@ $languageStrings = array(
 	'LBL_MODULE' => 'Moduł',
 	'LBL_COLOR' => 'Kolor',
 	'LBL_TOOLS' => 'Narzędzia',
+	'LBL_ACTIVE' => 'Aktywny',
 	'LBL_UPDATE_COLOR' => 'Zmień kolor',
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',

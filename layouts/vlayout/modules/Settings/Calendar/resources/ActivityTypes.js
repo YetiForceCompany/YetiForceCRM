@@ -10,8 +10,16 @@
 var Settings_ActivityTypes_Js = {
 	initEvants: function() {
 		$('.ActivityTypes .updateColor').click(Settings_ActivityTypes_Js.updateColor);
+		$('.ActivityTypes .activeType').click(Settings_ActivityTypes_Js.updateActiveType);
 	},
-	
+	updateActiveType: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
+		Settings_ActivityTypes_Js.registerSaveEvent('UpdateActiveType',{
+			'active': target.is(':checked'),
+			'viewtypesid':closestTrElement.data('viewtypesid'),
+		});
+	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
