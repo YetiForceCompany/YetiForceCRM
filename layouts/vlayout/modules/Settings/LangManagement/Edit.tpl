@@ -105,7 +105,7 @@
 				{if $TEMPDATA == 1}
 					<tr data-langkey="{$lang_key}">
 						<td>{$lang_key}</td>
-						{foreach from=$langs item=item}
+						{foreach from=$langs item=item key=lang}
 							<td><input 
 								data-lang="{$lang}"
 								data-type="js"
