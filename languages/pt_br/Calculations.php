@@ -18,6 +18,7 @@ $languageStrings = array(
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informação Customizada',
+	'LBL_PRODUCT_INFORMATION' => 'Details of the calculation',
 	
 	//Field Labels
     'Title' => 'Título',
@@ -29,15 +30,17 @@ $languageStrings = array(
 	'Comments' => 'Comentários',
 	'LBL_TOTAL' => 'Total',
 	'LBL_GRAND_TOTAL' => 'Total Geral',
-	'LBL_Purchase' => 'Compra',
-	'LBL_Margin' => 'Margem',
+	'LBL_PURCHASE' => 'Compra',
+	'LBL_MARGIN' => 'Margem',
     'LBL_RBH' => 'MH',
-	'LBL_MarginP' => 'Margem',
+	'LBL_MARGINP' => 'Margem',
 	'ProductComments' => 'Comentário',
 	'Total Purchase' => 'Total Compra',
 	'Tatal margin' => 'Total Margem',
 	'Total margin Percentage' => 'Percentagem Total Margem',
 	'LBL_DATE' => 'Data',
+	'Quotes' => 'Quotes',
+	'CalculationStatus' => 'Status',
 	
 	//CalculationStatus
 	'Draft' => 'Rascunho',

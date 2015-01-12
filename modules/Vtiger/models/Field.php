@@ -169,7 +169,9 @@ class Vtiger_Field_Model extends Vtiger_Field {
             } else if($uiType == '54') {
                 $fieldDataType = 'multiowner';
             } else if($uiType == '120') {
-                $fieldDataType = 'sharedOwner';				
+                $fieldDataType = 'sharedOwner';		
+            } else if($uiType == '301') {
+                $fieldDataType = 'modules';	
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -258,6 +260,26 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			return $fieldPickListValues;
 			}
 		return null;
+    }
+	
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 */
+	public function getModulesListValues($onlyActive = true) {
+		global $adb;
+		$modules = array();
+		$params = array();
+		if($onlyActive){
+			$where .= ' WHERE presence = ? AND isentitytype = ?';
+			array_push($params, 0);
+			array_push($params, 1);
+		}
+		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab'.$where, $params );
+		while ($row = $adb->fetch_array($result)) {
+			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate( $row['name'], $row['name'] ) );
+		}
+		return $modules;
     }
 
 	public function showDisplayTypeList() {

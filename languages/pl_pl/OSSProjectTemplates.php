@@ -33,7 +33,6 @@ $languageStrings = array(
     'LBL_NO_TASKS_ADDED' => 'Nie dodano żadnych zadań',
     'Save' => 'Zapisz',
     'FIELD_LIST' => 'Lista pól',
-    'No' => 'Nie',
     
     'NONE' => 'Brak',
     'BASE_ON_RECORD' => 'Bazujący na rekordzie',
@@ -47,11 +46,6 @@ $languageStrings = array(
     'GENERATE_FROM_TPL' => 'Generuj z szablonu',
     'GENERATE' => 'Generuj',
     'TPL_LIST' => 'Lista szablonów',
-    
-    'Delete_panel' => 'Poniższy panel konfiguracyjny, jest przeznaczony do usunięcia modułu. Nazwa modułu: ',
-    'Uninstall' => 'Odinstaluj',
-    'Cancel' => 'Anuluj',
-    'Yes' => 'Tak',
     
     'MSG_DEL_WARN1' => 'UWAGA!',
     'MSG_DEL_WARN2' => 'Po usunięciu modułu znikają wszelakie wpisy informujące CRM o tym że moduł działa nadal. Mogą pozostać jednakże pliki w katalogu:',

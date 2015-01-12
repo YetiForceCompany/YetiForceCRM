@@ -69,6 +69,7 @@ $languageStrings = array(
 	'LBL_LICENSE' => 'Licença',
         'LBL_CURL'=>'Suporte cURL',
 	'LBL_INDUSTRY_OPTION' => 'Por favor, selecione a atividade apropriada.',
+	'LBL_ERROR_LOGIN'=>'Authorization error, the data entered is incorrect.',
 
 	//Migration
 	'LBL_MIGRATION'=>'Migração',

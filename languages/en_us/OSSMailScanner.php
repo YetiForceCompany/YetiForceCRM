@@ -164,5 +164,6 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Deleted account',
 	'No' => 'No',
 	'LBL_MAIL_LOGS' => 'Mail Logs',
+	'Group list' => 'Group list',
 
 );

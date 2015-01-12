@@ -101,7 +101,7 @@ $languageStrings = array(
 	'Current week' => 'Aktualny tydzień',
 	'Previous week' => 'Poprzedni tydzień',	
 	'Current month' => 'Aktualny miesiąc',
-	'Previous month' => 'Poprzedni miesiąc',	
+	'Previous month' => 'Poprzedni miesiąc',
 	
 );
 $jsLanguageStrings = array(

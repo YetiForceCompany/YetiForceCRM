@@ -95,6 +95,12 @@ $languageStrings = array(
 	
 	//dashboards
 	'Graf' => 'E-mails Corporativos por Tipo',
+	'Today' => 'Today',
+	'Yesterday' => 'Yesterday',
+	'Current week' => 'Current week',
+	'Previous week' => 'Previous week',	
+	'Current month' => 'Current month',
+	'Previous month' => 'Previous month',
 );
 $jsLanguageStrings = array(
 	'From' => 'A partir de',

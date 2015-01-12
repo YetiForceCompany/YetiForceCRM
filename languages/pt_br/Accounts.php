@@ -9,7 +9,6 @@
  * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 13/10/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
-	'No approval for email' => 'Recusa Chamada',
 	'Account Name' => 'Nome Organização',
 	'Account No' => 'Cód. Organização',
 	'Accounts' => 'Organizações',
