@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
+ * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 
 $languageStrings = array(
