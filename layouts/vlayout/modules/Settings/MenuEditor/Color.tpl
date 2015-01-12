@@ -22,6 +22,7 @@
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
@@ -30,7 +31,12 @@
 							{foreach from=$MODULE_MODEL->getModulesColors() item=item key=key}
 								<tr data-id="{$item.id}" data-color="{$item.color}">
 									<td>{vtranslate($item.module,$item.module)}</td>
-									<td class="calendarColor" style="background: {$item.color};"></td>
+									<td>
+										<label class="checkbox">
+											<input class="activeColor" type="checkbox" name="active" value="1" {if $item.color neq '#'}checked=""{/if}>
+										</label> 
+									</td>
+									<td class="moduleColor" style="background: {$item.color};"></td>
 									<td>
 										<button class="btn marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>

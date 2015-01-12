@@ -59,7 +59,7 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 					'id':closestTrElement.data('id'),
 				});
 				console.log(selectedColor.val());
-				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
+				closestTrElement.find('.moduleColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
 				progress.progressIndicator({'mode': 'hide'});
 			});
@@ -70,7 +70,24 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 			}
 		}, {'width':'1000px'});
 	},
-	
+	activeColor: function(e) {
+		
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
+		var container = target.closest('#menuEditorContainer');
+		var editColorModal = container.find('.editColorContainer');
+		var color = '';
+		if( target.is(':checked') ){
+			color = '#4d90fe';
+		}
+		var settingMenuEditorInstance = new Settings_Menu_Editor_Js();
+		settingMenuEditorInstance.registerSaveEvent('UpdateColor',{
+			'color': color,
+			'id':closestTrElement.data('id'),
+		});
+		closestTrElement.find('.moduleColor').css('background',color);
+		closestTrElement.data('color', color);
+	},
 	registerSaveEvent: function(mode, data) {
 		var params = {}
 		params.data = {
@@ -100,6 +117,7 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 		var thisInstance = this;
 		var container = thisInstance.getContainer();
 		container.find('.updateColor').click(thisInstance.updateColor);
+		container.find('.activeColor').click(thisInstance.activeColor);
 	}
 });
 
