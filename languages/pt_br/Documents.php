@@ -50,6 +50,8 @@ $languageStrings = array(
 	'ossdc_status' => 'Status',
 	'Brak statusu' => 'Falta status',
 	'Sprawdzono' => 'Verificado', 
+	'Default' => 'Default',
+	'LBL_SELECT_Documents' => 'Select the document',
 );
 
 $jsLanguageStrings = array(

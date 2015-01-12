@@ -22,7 +22,7 @@
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
 						{if $FIELD_MODEL->getPermissions()}
-							<span class="{$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
+							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
 						{/if}
 				{/foreach}
 			</span>

@@ -9,19 +9,16 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Activity types',
-	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
-	'LBL_ACTIVITY_NAME' => 'Activity types name',
-	'LBL_MODULE' => 'Module',
-	'LBL_COLOR' => 'Color',
-	'LBL_TOOLS' => 'Tools',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_SAVE_ACTIVE_TYPE' => 'Saved change',
-	'LBL_UPDATE_COLOR' => 'Change Color',
-	'LBL_EDIT_COLOR' => 'Edit color',
-	'LBL_SELECT_COLOR' => 'Select color:',
-	'LBL_SAVE_COLOR' => 'Color saved',
+	'LBL_MDULES_COLOR_EDITOR' => 'Kolory modułów',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
+	'LBL_MODULE' => 'Moduł',
+	'LBL_COLOR' => 'Kolor',
+	'LBL_TOOLS' => 'Narzędzia',
+	'LBL_ACTIVE' => 'Aktywny',
+	'LBL_UPDATE_COLOR' => 'Zmień kolor',
+	'LBL_EDIT_COLOR' => 'Edycja koloru',
+	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
+	'LBL_SAVE_COLOR' => 'Zapisano kolor',
 );
 $jsLanguageStrings = array(
 

@@ -39,7 +39,6 @@ $languageStrings = array(
 	'Mrs.'=>'Pani',
 	'Ms.'=>'Panna',
 	'Prof.'=>'prof.',
-	'LBL_CONTACT_INFORMATION_PHONE' => 'Informacje kontaktowe', //OpenSaaS
 	'Active' => 'Aktywny',
 	'Inactive' => 'Nieaktywny',
 	

@@ -1,12 +1,14 @@
 <?php
-/* +********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl
- * *******************************************************************************
- *  Module				: Calculations
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- * *******************************************************************************+ */
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): 
+ *************************************************************************************************************************************/
 $languageStrings = array(
 	// Basic Strings
 	'Calculations' => 'Kalkulationen',
@@ -16,6 +18,7 @@ $languageStrings = array(
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informationen',
+	'LBL_PRODUCT_INFORMATION' => 'Details of the calculation',
 	
 	//Field Labels
     'Title' => 'Titel',
@@ -27,15 +30,17 @@ $languageStrings = array(
 	'Comments' => 'Kommentare',
 	'LBL_TOTAL' => 'Gesamt',
 	'LBL_GRAND_TOTAL' => 'Insgesamt',
-	'LBL_Purchase' => 'Verkaufspreis',
-	'LBL_Margin' => 'Differenz',
+	'LBL_PURCHASE' => 'Verkaufspreis',
+	'LBL_MARGIN' => 'Differenz',
     'LBL_RBH' => 'MH???',
-	'LBL_MarginP' => 'Differenz in %',
+	'LBL_MARGINP' => 'Differenz in %',
 	'ProductComments' => 'Kommentar',
 	'Total Purchase' => 'Gesamt Verkaufspreis',
 	'Total margin' => 'Gesamtdifferenz',
 	'Total margin Percentage' => 'Gesamtdifferenz in %',
 	'LBL_DATE' => 'Datum',
+	'Quotes' => 'Quotes',
+	'CalculationStatus' => 'Status',
 	
 	//CalculationStatus
 	'Draft' => 'Entwurf',

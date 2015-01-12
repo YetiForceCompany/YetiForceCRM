@@ -49,6 +49,8 @@ $languageStrings = array(
 	'ossdc_status'			 => 'Status',
 	'Brak statusu'			 => 'fehlender Status',
 	'Sprawdzono'			 => 'geprüft', 
+	'Default' => 'Default',
+	'LBL_SELECT_Documents' => 'Select the document',
 );
 $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED'	=>	'sind nicht erlaubt',

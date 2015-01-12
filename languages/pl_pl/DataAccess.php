@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'DataAccess' => 'Walidacja dostępu',
 	'Message' => 'Komunikat',
 	'LBL_NONE' => '--Brak--',
 	'Action_unique_value' => 'Wartość pola jest unikatowa w module',

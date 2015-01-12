@@ -68,10 +68,6 @@
 				</select>
             </div>
         </div>
-		<div id="color_div" class="row-fluid">
-			<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_MENUCOLOR', 'OSSMenuManager')}:</label></div>
-			<div class="span7"><input name="color" class="span3" type="text"></div>
-		</div>
         <div id="newwinwod_div" class="row-fluid">        
             <div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_WINDOWNEW', 'OSSMenuManager')}:</label></div>
             <div class="span7"><input name="new_window" class="span3" type="checkbox" value="1" {if $MENU_RECORD.new_window eq 1} checked="checked" {/if}/></div><br /><br />
@@ -121,8 +117,7 @@ function addMenu() {
             var moduleName = jQuery('[name="module_modules"] option:selected').data('modulename');
             var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
-			var color = jQuery('[name="color"]').val();
-			
+
             var params = {};
             params.async = false;
             params.dataType = 'json';
@@ -139,7 +134,6 @@ function addMenu() {
                 'newWindow' : newWindow,
                 'permissions' : roles,
 				'locationicon' : locationIcon,
-				'color' : color,
 				'sizeicon' : sizeIcon
             }
         break;
@@ -149,8 +143,7 @@ function addMenu() {
             var shortcut_url = jQuery('[name="shortcut_url"]').val(); 
             var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();			
-            var color = jQuery('[name="color"]').val();
-			
+
 			var tab = Array('index','http://', 'https://', 'www');
 			var statusOk = 0;
 			for (var i=0;i<4;i++){
@@ -184,7 +177,6 @@ function addMenu() {
                 'newWindow' : newWindow,
                 'permissions' : roles,
 				'locationicon' : locationIcon,
-				'color' : color,
 				'sizeicon' : sizeIcon
             }
         break;
@@ -193,7 +185,6 @@ function addMenu() {
             var label = jQuery('[name="label_label"]').val();
 			var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();	
-			var color = jQuery('[name="color"]').val();
           //  var label_url = jQuery('[name="label_url"]').val();
             
             var params = {};
@@ -212,7 +203,6 @@ function addMenu() {
                 'newWindow' : newWindow,
                 'permissions' : roles,
 				'locationicon' : locationIcon,
-				'color' : color,
 				'sizeicon' : sizeIcon
             }
         break;
@@ -245,8 +235,7 @@ function addMenu() {
             var script_url = jQuery('[name="script_url"]').val();
 			var sizeIcon = jQuery('[name="select_icon"]').val();
 			var locationIcon = jQuery('[name="location_icon"]').val();
-            var color = jQuery('[name="color"]').val();
-			
+
             var params = {};
             params.async = false;
             params.dataType = 'json';
@@ -263,7 +252,6 @@ function addMenu() {
                 'newWindow' : 0,
                 'permissions' : roles,
 				'locationicon' : locationIcon,
-				'color' : color,
 				'sizeicon' : sizeIcon
             }
         break;

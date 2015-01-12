@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',
 	'Action_unique_value' => 'Feld Wert ist einzigartig.',

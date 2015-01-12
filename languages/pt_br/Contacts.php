@@ -9,17 +9,12 @@
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 05/01/2015 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
-	'Assistant'=> 'Assistente', 
-	'Assistant Phone'=> 'Telefone Assistente' , 
 	'Birthdate'=> 'Aniversário', 
 	'Contact Id' => 'No. Contato',
 	'Contact Image'=> 'Imagem Contato',
 	'Contacts' => 'Contatos', 
-	'Department' => 'Departamento', 
 	'Do Not Call'=> 'Recusa Chamada', 
 	'Email' => 'Email',
-	'Home Phone' => 'Telefone Residencial',
-	'Last Name'=>'Sobrenome',
 	'LBL_ADD_RECORD' => 'Adicionar Contato' , 
 	'LBL_CONTACT_INFORMATION'=> 'Informação do Contato' , 
 	'LBL_COPY_MAILING_ADDRESS' => 'Copiar Endereço Correspondência',
@@ -48,8 +43,9 @@ $languageStrings = array(
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
 	
+	'Other Po Box' => 'Additional Address: PO Box',
+	'Mailing Po Box' => 'Primary Address: PO Box',
 	'LBL_ADDRESS_INFORMATION' => 'Endereço residencial',
-	'Werification data'=>'Verificação dados',
 	'LBL_CONTACT_INFO' => 'Informação contato',
 	'Approval for phone calls'=>'Permissão Chamadas',
 	'Approval for email'=>'Permissão envio e-mails',

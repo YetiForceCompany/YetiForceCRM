@@ -10,6 +10,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'DataAccess' => 'Validação de acesso',
 	'LBL_NONE' => '--Nada--',
 	'Message' => 'Mensagem',
 	'Action_unique_value' => 'O valor do campo é único.',

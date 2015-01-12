@@ -120,6 +120,12 @@ $languageStrings = array(
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
 	
+	//workflow task
+	'EmailTempleteList' => 'Select a template email to be sent',
+	'Do you send all attachments' => 'Send all attachments?',
+	'Select e-mail address' => 'Select e-mail address',
+	'Send a copy to email' => 'Send a copy to email',
+	
 	//workflow task types
 	'Send Mail' => 'E-Mail senden',
 	'Invoke Custom Function' => 'Benutzerdefinierte Funktion aufrufen',

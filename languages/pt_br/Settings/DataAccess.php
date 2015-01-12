@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_DATAACCES' => 'Validação de acesso',
-	'DataAcces' => 'Validação de acesso',
+	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',
 	'LBL_MODULE_NAME' => 'Nome módulo',
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Nenhuma condição foi adicionada',
@@ -39,7 +39,7 @@ $languageStrings = array(
 	'LBL_NO_ACTION' => 'Nenhuma ação criada',
 	'LBL_CONFIG_ACTION' => 'Configuração de Ações',
 	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Falha ao aprovar as alterações',
-	'LBL_MANDATORY_FIELD' => 'Cambpos Obrigatórios',
+	'LBL_MANDATORY_FIELD' => 'Campos Obrigatórios',
 
 	//comparators
  	'starts with' => 'iniciar com',

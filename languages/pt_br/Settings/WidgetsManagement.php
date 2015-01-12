@@ -5,29 +5,30 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/01/2015 - www.ttcasolucoes.com.br
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
 $languageStrings = array(
 
-	'WidgetsManagement' => 'Management widgets',
-	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'WidgetsManagement' => 'Gerenciamento Widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Gerenciamento Widgets',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
-	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
-	'LBL_CHOISE_ROLE' => 'Select role',
-	'LBL_CHOISE_WIDGET' => 'Select widgets',
-	'LBL_ROLE' => 'Roles',
+	'LBL_MANDATORY_WIDGETS' => 'Widgets Obrigatórios',
+	'LBL_INACTIVE_WIDGETS' => 'Widgets inativos',
+	'LBL_CHOISE_ROLE' => 'Selecionar Função',
+	'LBL_CHOISE_WIDGET' => 'Selecionar Widgets',
+	'LBL_ROLE' => 'Funções',
 	'LBL_WIDGET' => 'Widgets',
 	
-	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
-	'LBL_FAILED_TO_SAVE' => 'No changes were made',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
+	'LBL_SAVE_CHANGE' => 'As alterações foram realizadas com sucesso',
+	'LBL_FAILED_TO_SAVE' => 'Nenhuma mudança foi realizada',
+	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Clique para selecionar Widgets',
 
 );
 $jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Mandatory widget: ',
-	'JS_INACTIVE' => 'Inactive widget: ',
+	'JS_MANDATORY' => 'Widget obrigatório: ',
+	'JS_INACTIVE' => 'Widget inativo: ',
 );
 ?>

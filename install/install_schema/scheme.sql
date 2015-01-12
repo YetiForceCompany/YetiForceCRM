@@ -1053,6 +1053,7 @@ CREATE TABLE `vtiger_calendar_default_activitytypes` (
   `module` varchar(50) DEFAULT NULL,
   `fieldname` varchar(50) DEFAULT NULL,
   `defaultcolor` varchar(50) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

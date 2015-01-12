@@ -449,7 +449,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 							'addresslevel5',
 							'addresslevel6',
 							'addresslevel7',
-							'addresslevel8'
+							'addresslevel8',
+							'pobox'
 							],
 	addressFieldsMappingBlockID : {
 									'LBL_ADDRESS_INFORMATION':'a',
@@ -565,7 +566,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var sourceModule = data['source_module'];
 		var noAddress = true;
 		var errorMsg;
-
 		thisInstance.getRecordDetails(data).then(
 			function(data){
 				var response = data['result'];
@@ -581,21 +581,23 @@ jQuery.Class("Vtiger_Edit_Js",{
 	 * Function to copy address between fields
 	 * @param strings which accepts value as either odd or even
 	 */
-	copyAddress : function(from, to, reletedRecord,sourceModule){
+	copyAddress : function(fromLabel, toLabel, reletedRecord,sourceModule){
 		var status = false;
 		var thisInstance = this;
 		var formElement = this.getForm();
 		var addressMapping = this.addressFieldsMapping;
 		var BlockIds = this.addressFieldsMappingBlockID;
-		if( app.getModuleName() == 'Quotes'){
+
+		from = BlockIds[fromLabel];
+		if( app.getModuleName() == 'Quotes' || app.getModuleName() == 'Invoice'){
 			BlockIds = {
 				'LBL_ADDRESS_INFORMATION':'a',
 				'LBL_ADDRESS_DELIVERY_INFORMATION'	:'b'
 				};
 		}
-		from = BlockIds[from];
-		to = BlockIds[to];	
-		
+		if( reletedRecord === false || sourceModule === false )
+			from = BlockIds[fromLabel];
+		to = BlockIds[toLabel];
 		for(var key in addressMapping) {
 			var nameElementFrom = addressMapping[key]+from;
 			var nameElementTo = addressMapping[key]+to;
@@ -608,7 +610,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 			}			
 			var toElement = formElement.find('[name="'+nameElementTo+'"]');
 			var toElementLable = formElement.find('[name="'+nameElementTo+'_display"]');
-
 			if(fromElement != '' && fromElement != '0' && fromElement != undefined){
 				if(toElementLable.length > 0)
 					toElementLable.attr('readonly',true);
@@ -1092,6 +1093,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 	getMappingRelatedField : function(sourceField, sourceFieldModule, container){
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 		var mappingRelatedModule = JSON.parse(mappingRelatedField);
-		return mappingRelatedModule[sourceField][sourceFieldModule];
+		if(!mappingRelatedField)
+			return mappingRelatedModule[sourceField][sourceFieldModule];
+		return [];
 	}
 });

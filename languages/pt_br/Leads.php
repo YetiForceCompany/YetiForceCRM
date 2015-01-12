@@ -54,7 +54,6 @@ $languageStrings = array(
 	'SINGLE_Leads' => 'Lead', 
 	'Warm' => 'Morno' ,
 	'Website'=> 'Website' ,
-	'Werification data'=>'Verificação de dados',
 
 	/* YetiForce Lead Status */
 	'LBL_TO_REALIZE'=>'Para processamento',
@@ -67,8 +66,6 @@ $languageStrings = array(
 	'LBL_LEAD_ACQUIRED'=>'Lead adquirido',
 	
 	/* YetiForce */
-	'No approval for phone calls'=>'Recusa chamada telefônica',
-	'No approval for email'=>'Recusa email',
 	'Contact Information' => 'Informação contato',
 	'LBL_REGISTRATION_INFO'=>'Detalhes registro',
     'LBL_REQUIRES_VERIFICATION' => 'Verificação de dados',
@@ -83,6 +80,7 @@ $languageStrings = array(
 	'Total contacts'=>'Número de Contatos',
 	'Attention' => 'Notas',    
     "Attorney General's Office" => "Escritório da Procuradoria Geral",
+	'Orders accepted'=>'Orders accepted',
 );
 
 $jsLanguageStrings = array(

@@ -30,5 +30,4 @@
 	</ul>
 	<input type="hidden" id=row value="{$ROWCOUNT}" />
 	<input type="hidden" id=col value="{$COLCOUNT}" />
-	<input type="hidden" id="userDateFormat" value="{$CURRENT_USER->get('date_format')}" />
 </div>

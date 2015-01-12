@@ -11,7 +11,9 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 
 	protected $module = false;
 	protected $record = false;
-
+	public $widgetsList = array();
+	public $widgets = array();
+	
 	/**
 	 * Function to get Module instance
 	 * @return <Vtiger_Module_Model>
@@ -205,25 +207,26 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 	 * @return <Array> - List of widgets , where each widget is an Vtiger_Link_Model
 	 */
 	public function getWidgets() {
+		if(count($this->widgetsList) > 0)
+			return;
 		$moduleModel = $this->getModule();
 		$Module = $this->getModuleName();
 		$Record = $this->getRecord()->getId();
-		$widgets = array();
 		$ModelWidgets = $moduleModel->getWidgets($Module,$Record);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($ModelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
 				$widgetName = 'Vtiger_'.$widget['type'].'_Widget';
 				if ( class_exists($widgetName) ) {
+					$this->widgetsList[] = $widget['type'];
 					$widgetInstance = new $widgetName($Module, $moduleModel, $Record, $widget);
 					$widgetObject = $widgetInstance->getWidget();
 					if(count($widgetObject) > 0){
-						$widgets[$widgetObject['wcol']][] = $widgetObject;
+						$this->widgets[$widgetObject['wcol']][] = $widgetObject;
 					}
 				}
 			}
 		}
-		return $widgets;
 	}
 
 	/**

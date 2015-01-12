@@ -249,7 +249,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         if ( intval($params['sequence']) == -1 )
             $params['sequence'] = self::getSequence( $params['parent_id'] );
         
-        $sql = "INSERT INTO `vtiger_ossmenumanager` (`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`, `locationicon`, `sizeicon`, `langfield`, `color` ) values (?,?,?,?,?,?,?,?,?,?,?,?,?);";        
+        $sql = "INSERT INTO `vtiger_ossmenumanager` (`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`, `locationicon`, `sizeicon`, `langfield` ) values (?,?,?,?,?,?,?,?,?,?,?,?);";        
         $parametry = array( 
             $params['parent_id'], 
             $params['tabid'], 
@@ -262,8 +262,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
             $params['permission'],
 			$params['locationicon'],
 			$params['sizeicon'],
-			$params['langfield'],
-			$params['color']
+			$params['langfield']
         );
 		$adb->pquery( $sql, $parametry, true );
         
@@ -273,7 +272,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
     public function editMenu( $params ) {
         $adb = PearDatabase::getInstance();     
         $params['locationicon'] = trim( $params['locationicon']);
-        $sql = "UPDATE `vtiger_ossmenumanager` SET `tabid` = ?, `label` = ?, `visible` = ?, `url` = ?, `new_window` = ?, `permission` = ?, `locationicon` = ?, `sizeicon` = ?, `color` = ? WHERE `id` = ? LIMIT 1;";        
+        $sql = "UPDATE `vtiger_ossmenumanager` SET `tabid` = ?, `label` = ?, `visible` = ?, `url` = ?, `new_window` = ?, `permission` = ?, `locationicon` = ?, `sizeicon` = ? WHERE `id` = ? LIMIT 1;";        
         $parametry = array( 
             $params['tabid'], 
             $params['label'],
@@ -283,7 +282,6 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
             $params['permission'],
 			$params['locationicon'],
 			$params['sizeicon'],
-			$params['color'],
             $params['id']
 
         );

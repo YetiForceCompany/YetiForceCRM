@@ -10,7 +10,11 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+<<<<<<< HEAD
 	'DataAccess'	=>	'Data Access',
+=======
+	'DataAccess' => 'Validation of access',
+>>>>>>> 95675d08c9ae927fc2ce6c83e94fd6d276233fd3
 	'LBL_NONE' => '--None--',
 	'Message' => 'Message',
 	'Action_unique_value' => 'Field value is unique.',

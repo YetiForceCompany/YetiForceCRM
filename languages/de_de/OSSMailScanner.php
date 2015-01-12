@@ -162,4 +162,5 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Konto löschen',
 	'No' => 'Nein',
 	'LBL_MAIL_LOGS' => 'E-Mail Logbücher',
+	'Group list' => 'Group list',
 );

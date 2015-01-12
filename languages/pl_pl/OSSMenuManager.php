@@ -136,6 +136,8 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR' => 'Nie udało się zatwierdzić zmian',
 	'MSG_CHANGE_ICON' => 'Pomyślnie dokonano zmian',
 	'LBL_ADDICON' => 'Dodaj ikonę zmiany motywu',
+	'Blok menu' => 'Blok menu',
+	'Typ menu' => 'Typ menu',
 );
 
 $jsLanguageStrings = array(

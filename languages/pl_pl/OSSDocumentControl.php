@@ -26,11 +26,6 @@ $languageStrings = array(
     'MSG_DEL_WARN4' => 'Jeżeli będziesz chciał ponownie zainstalować moduł, niezbędne jest usunięcie tych katalogów.',
     'MSG_DEL_WARN5' => 'W razie problemów skontaktuj się z nami poprzez email, lub zgłoszenie serwisowe na stronie www.opensaas.pl',
     'MSG_DEL_WARN6' => 'Z wyrazami szacunku, ekipa OpenSaaS Sp. z o.o.',
-	'Uninstall OSSDocumentControl module' => 'Usuń moduł OSSDocumentControl',
-	'Uninstall' => 'Odinstaluj',
-	'Cancel' => 'Anuluj',
-	'Yes' => 'Tak',
-	'No' => 'Nie',
     
     'HelpDescription' => 'Pod poniższym adresem znajduje się strona internetowa na której będziesz miał możliwość dodawać Zgłoszenia Serwisowe, propozycje ulepszenia modułu lub po prostu zapoznać się z opisem działania modułu.',
     'LBL_TroubleUrl' => 'Adres strony',

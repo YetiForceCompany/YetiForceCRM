@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/01/2015 - www.ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
@@ -231,8 +231,10 @@ $languageStrings = array(
 	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Gerenciamento Widgets',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',

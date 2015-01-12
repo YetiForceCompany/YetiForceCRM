@@ -28,7 +28,8 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 				'module'=>$activityTypes['module'], 
 				'fieldname'=>$activityTypes['fieldname'], 
 				'fieldlabel'=>$activityTypes['fieldname'], 
-				'color' => $activityTypes['defaultcolor']
+				'color' => $activityTypes['defaultcolor'],
+				'active' => $activityTypes['active']
 			);
         }
 		return $calendarViewTypes;
@@ -49,5 +50,11 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 		$queryResult = $adb->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', array());
 		$insertActivityTypesSql = 'INSERT INTO vtiger_calendar_default_activitytypes (id, module, fieldname, defaultcolor) VALUES (?,?,?,?)';
 		$insertActivityTypesParams = array($adb->getUniqueID('vtiger_calendar_default_activitytypes'), $module, $fieldname, $defaultcolor);
+	}
+	
+	public static function updateActiveType($params){
+		$adb = PearDatabase::getInstance();
+		$active = $params['active'] == 'true' ? '1': '0';
+		$adb->pquery('UPDATE vtiger_calendar_default_activitytypes SET active = ? WHERE id = ?;', array( $active, $params['viewtypesid'] ));
 	}
 }

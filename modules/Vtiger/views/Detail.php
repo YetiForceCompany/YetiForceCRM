@@ -58,7 +58,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$detailViewWidgets = $this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets($detailViewLinkParams);
 		$navigationInfo = ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
@@ -105,7 +105,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-		$viewer->assign('DETAILVIEW_WIDGETS', $detailViewWidgets);
+		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
@@ -197,6 +197,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			"libraries.jquery.ckeditor.adapters.jquery",
 			"modules.Emails.resources.MassEdit",
 			"modules.Vtiger.resources.CkEditor",
+			"modules.Vtiger.resources.Widgets",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -287,11 +288,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 
 		$detailViewLinkParams = array('MODULE'=>$moduleName,'RECORD'=>$recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$detailViewWidgets = $this->record->getWidgets($detailViewLinkParams);
+		$this->record->getWidgets($detailViewLinkParams);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
-		$viewer->assign('DETAILVIEW_WIDGETS', $detailViewWidgets);
+		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));

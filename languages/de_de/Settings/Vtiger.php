@@ -234,6 +234,8 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
+	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
