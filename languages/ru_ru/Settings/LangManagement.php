@@ -58,7 +58,7 @@ $jsLanguageStrings = array(
 	'LBL_AreYouSure'	=>	'Вы уверены, что хотите удалить этот язык?',
 	'Delete'	=>	'Удалить',
 	'Cancel'	=>	'Отмена',
-	'LBL_Loader'	=>	'Загрузка',
+	'LBL_Loader'	=>	'Пожалуйста ждите...',
 	'No matching records found'	=>	'Не найдено ни одной записи',
 	'Search'	=>	'Поиск:',
 	

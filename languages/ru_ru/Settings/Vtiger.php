@@ -153,7 +153,7 @@ $languageStrings = array(
 	'LBL_TAX_DESCRIPTION' => 'Управление налогами и ставками налогов',
 	'LBL_TAX_NAME_EXIST' => 'Название налога уже используется',
 	'LBL_TAX_NAME' =>  'Налог',
-	'LBL_TAX_SETTINGS' => 'Настройки налого',
+	'LBL_TAX_SETTINGS'	=>	'Настройки налогов',
 	'LBL_TAX_STATUS_DESC' => 'Включить/Отключить налог',
 	'LBL_TAX_VALUE' => 'Ставка налога',
 	'LBL_TEMPLATE_NAME' => 'Название шаблона',
@@ -250,7 +250,7 @@ $languageStrings = array(
 	"Marketing Department"	=> 'Отдел маркетинга',
     
 	'OSSPassword Configuration'=>'Конфигурация пароля',
-	'Document Control'=>'DМенеджер документов',
+	'Document Control'	=>	'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
 );
