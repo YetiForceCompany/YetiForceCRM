@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<div class="row-fluid">
-			<span class="span4">{vtranslate('MAIL_TPL_LIST', $QUALIFIED_MODULE)}</span>
+			<span class="span4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 			<div class="row-fluid padding-bottom1per">
 				<select class="chzn-select span4" name="email_tpl">
 					<option value="none"></option>
@@ -48,13 +48,15 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 							{assign var=KEYVAL value=$FIELD_MODEL->get(selectOption)}
-							<option value="{$KEYVAL}" {if $TASK_OBJECT->email eq $KEYVAL}selected=""{/if}>
-								{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
-									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
-								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
-								{/if}
-							</option>
+							{if $KEYVAL neq ''} 
+								<option value="{$KEYVAL}" {if $TASK_OBJECT->email_fld eq $KEYVAL}selected=""{/if}>
+									{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
+										({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									{else}
+										{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
+									{/if}
+								</option>
+							{/if}
 						{/foreach}
 					</optgroup>
 				{/foreach}
