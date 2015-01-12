@@ -82,10 +82,6 @@ $languageStrings = array(
 	'Module' => 'Moduł',
 	'Summary' => 'Podsumowanie',
 	'Workflows' => 'Obieg informacji',
-	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
-	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
-	'Select e-mail address' => 'Wybierz adres mail',
-	'Send a copy to email' => 'Uaktualnij zapas produktów dla każdego zapisu',
 	'UpdateInventoryProducts On Every Save'	=> 'Uaktualnij zapas produktów dla każdego zapisu',
 	'Workflow for Events when Send Notification is True'	=> 'Obieg informacji dla terminów kiedy wysłane zgłoszenie jest prawdziwe',
 	'Workflow for Calendar Todos when Send Notification is True'	=> 'Obieg informacji dla zadania z kalendarza kiedy wysłane zgłoszenie jest prawdziwe',
@@ -120,6 +116,12 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'W określonej dacie:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Wybierz dni:',
 	'LBL_SELECTED_DATES' => 'Wybrane daty:',
+	
+	//workflow task
+	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
+	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
+	'Select e-mail address' => 'Wybierz adres mail',
+	'Send a copy to email' => 'Kopia na adres na adres',
 	
 	//workflow task types
 	'Send Mail' => 'Wyślij maila',

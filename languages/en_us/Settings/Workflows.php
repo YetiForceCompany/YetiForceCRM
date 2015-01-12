@@ -134,6 +134,12 @@ $languageStrings = array(
 	'LBL_SELECT_MONTH_AND_DAY' => 'Selected month and day:',
 	'LBL_SELECTED_DATES' => 'Selected dates:',
 	
+	//workflow task
+	'EmailTempleteList' => 'Select a template email to be sent',
+	'Do you send all attachments' => 'Send all attachments?',
+	'Select e-mail address' => 'Select e-mail address',
+	'Send a copy to email' => 'Send a copy to email',
+	
 	//workflow task types
 	'Send Mail' => 'Send Mail',
 	'Invoke Custom Function' => 'Invoke Custom Function',
