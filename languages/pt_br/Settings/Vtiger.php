@@ -111,8 +111,6 @@ $languageStrings = array(
 	'LBL_MODULE_MANAGER' => 'Gerenciar Módulo' ,
 	'LBL_MODULES' => 'Módulos',
 	'LBL_NOTIFICATIONS' => 'Notificações' ,
-	'LBL_OPTIONS1'=>'',
-	'LBL_OPTIONS2'=>"",
 	'LBL_OTHER_SETTINGS' => 'Outras Configurações',
 	'LBL_OUTGOING_SERVER_DESC' => 'Configurar detalhes do Servidor Envio Mensagem',
 	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'NOTA: Se o campo "Responder a [Email]" estiver em branco, o endereço de email do Usuário será utilizado.',
@@ -207,6 +205,9 @@ $languageStrings = array(
     'Project Templates' => 'Modelos de Projeto',
     'Mail Scanner'=>'Escaner de Mensagens',
     'Mail View'=> 'Emails',
+	'Mail'=> 'Mail client',
+	'GlobalPermission' => 'Global permission',
+	'OSSCosts'=>'Costs',
 
 	/* settings menu */
 	'Menu Manager' => 'Menu',
