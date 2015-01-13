@@ -745,11 +745,11 @@ class Users extends CRMEntity {
 		}
 
 		if(empty($this->column_fields['currency_decimal_separator'])) {
-			$this->column_fields['currency_decimal_separator'] = '.';
+			$this->column_fields['currency_decimal_separator'] = ' ';
 		}
 
 		if(empty($this->column_fields['currency_grouping_separator'])) {
-			$this->column_fields['currency_grouping_separator'] = ',';
+			$this->column_fields['currency_grouping_separator'] = ' ';
 		}
 
         $this->db->println("TRANS saveentity starts $module");
