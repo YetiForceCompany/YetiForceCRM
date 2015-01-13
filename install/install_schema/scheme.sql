@@ -3239,7 +3239,7 @@ CREATE TABLE `vtiger_language` (
   `isdefault` int(1) DEFAULT '0',
   `active` int(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language_seq` */
 
@@ -7902,6 +7902,19 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `stateencodedvalues` varchar(300) NOT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_mobile_keys` */
+
+DROP TABLE IF EXISTS `yetiforce_mobile_keys`;
+
+CREATE TABLE `yetiforce_mobile_keys` (
+  `id` int(19) NOT NULL,
+  `user` int(19) NOT NULL,
+  `service` varchar(50) NOT NULL,
+  `key` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user` (`user`,`service`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_updates` */
