@@ -4568,10 +4568,11 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (2,'Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,0,1);
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (3,'Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (4,'Portuguese','pt_br','Brazilian Portuguese','2014-12-11 11:12:39',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (5,'Russian','ru_ru','Russian','2015-01-13 15:12:39',NULL,0,1);
 
 /*Data for the table `vtiger_language_seq` */
 
-insert  into `vtiger_language_seq`(`id`) values (4);
+insert  into `vtiger_language_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_lead_view` */
 
