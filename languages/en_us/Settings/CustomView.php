@@ -9,6 +9,7 @@ $languageStrings = array(
 	'Privileges'	=> 'Privileges',
 	'Delete'	=> 'Delete',
 	'Delete CustomView'	=> 'Custom view has been deleted',
+	'Saving CustomView'	=> 'View has been saved',
 	'Actions'	=> 'Actions',
 	'Edit'	=> 'Edit',
 );

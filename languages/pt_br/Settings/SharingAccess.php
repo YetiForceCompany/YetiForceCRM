@@ -31,6 +31,9 @@ $languageStrings = array(
 	'Public: Read Only' => 'Público: Somente Leitura',
 	'Public: Read, Create/Edit, Delete' => 'Público: Leitura, Criar/Editar, Apagar',
 	'Public: Read, Create/Edit' => 'Público: Ler, Criar/Editar',
+	'RoleAndSubordinates' => 'Role And Subordinates',
+	'Roles' => 'Roles',
+	'Groups' => 'Groups',
 );
 
 $jsLanguageStrings = array(

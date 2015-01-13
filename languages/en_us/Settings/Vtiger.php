@@ -111,8 +111,6 @@ $languageStrings = array(
 	'LBL_MODULE_MANAGER' => 'Module Management',
 	'LBL_MODULES' => 'Modules',
 	'LBL_NOTIFICATIONS' => 'Notifications',
-	'LBL_OPTIONS1'=>'',
-	'LBL_OPTIONS2'=>"",
 	'LBL_OTHER_SETTINGS' => 'Other Settings',
 	'LBL_OUTGOING_SERVER_DESC' => 'Configure your Outgoing Mail Server details',
 	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'NOTE: If "From Email" field is set to blank then the User Email address will be picked up.',
@@ -207,6 +205,9 @@ $languageStrings = array(
     'Project Templates' => 'Project Templates',
     'Mail Scanner'=>'Mail Scanner',
     'Mail View'=> 'Emails',
+	'Mail'=> 'Mail client',
+	'GlobalPermission' => 'Global permission',
+	'OSSCosts'=>'Costs',
 
 	/* settings menu */
 	'Menu Manager' => 'Menu',
