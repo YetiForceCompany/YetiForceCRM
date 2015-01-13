@@ -15,18 +15,23 @@ Class DataAccess_check_taskdate{
 		$projectmilestoneid = $record_form['projectmilestoneid'];
 		if( !isset($projectmilestoneid)|| $projectmilestoneid == 0 || $projectmilestoneid == '')
 			return Array('save_record' => true );
-		$targetenddate = strtotime($record_form['targetenddate']);
+
 		$moduleModel = Vtiger_Record_Model::getInstanceById($projectmilestoneid, 'ProjectMilestone');
-		$projectmilestonedate = $moduleModel->get('projectmilestonedate');
-		if( !isset($projectmilestonedate)|| $projectmilestonedate == 0 || $projectmilestonedate == '')
+		$projectMilestoneDate = $moduleModel->get('projectmilestonedate');
+		if( !isset($projectMilestoneDate)|| $projectMilestoneDate == 0 || $projectMilestoneDate == '')
 			return Array('save_record' => true );
 		
-		if($targetenddate > strtotime($projectmilestonedate)){
+		$dateField = new DateTimeField($projectMilestoneDate);
+		$projectMilestoneDateUserFormat = $dateField->convertToUserFormat($projectMilestoneDate);
+		$dateField = new DateTimeField($record_form['targetenddate']);
+		$targetEndDateUserFormat = $dateField->convertToDBFormat($record_form['targetenddate']);
+		
+		if( strtotime($targetEndDateUserFormat) > strtotime($projectMilestoneDate) ){
 			return Array(
 				'save_record' => false,
 				'type'=>0,
 				'info'=>Array(
-					'text'=> vtranslate('Date can not be greater', 'DataAccess').' ( '.$record_form['targetenddate'].' < '.$projectmilestonedate.')',
+					'text'=> vtranslate('Date can not be greater', 'DataAccess').' ( '.$record_form['targetenddate'].' < '.$projectMilestoneDateUserFormat.')',
 					'type'=> 'error'
 				)
 			);
