@@ -358,6 +358,8 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model {
 		return array('success' => $success);
 	}
 	public function executeColorListHandlers($moduleName, $record, $recordModelObiect) {
+		if(!isRecordExists($record))
+			return false;
 		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 		$db = PearDatabase::getInstance();
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
