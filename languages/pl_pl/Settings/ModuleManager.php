@@ -10,7 +10,6 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
-	'LBL_ALREADY_EXISTS' => 'Już istnieje',
 	'LBL_DECLINE' => 'Odrzuć',
 	'LBL_EXISTS'=>'Istnieje',
 	'LBL_FAILED' => 'Niepowodzenie',

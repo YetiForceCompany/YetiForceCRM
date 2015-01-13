@@ -116,6 +116,8 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'W określonej dacie:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Wybierz dni:',
 	'LBL_SELECTED_DATES' => 'Wybrane daty:',
+	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Maksymalny limit przekroczony', 
+	'LBL_NEXT_TRIGGER_TIME' => 'Następny czas uruchomienia', 
 	
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',

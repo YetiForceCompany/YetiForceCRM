@@ -322,8 +322,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
 			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
-			WHERE vtiger_calendar_user_activitytypes.userid=?";
-        $result = $db->pquery($query, array($id));
+			WHERE vtiger_calendar_user_activitytypes.userid=? AND vtiger_calendar_default_activitytypes.active = ?";
+        $result = $db->pquery($query, array($id,1));
         $rows = $db->num_rows($result);
 
 		$calendarViewTypes = Array();

@@ -40,7 +40,6 @@ $languageStrings = array(
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' fornecido para importar o módulo! Tente Novamente.',
 	'LBL_IMPORTED_MODULE' => ' o módulo foi importado com sucesso.',
 	'LBL_IMPORTING_MODULE' => 'Importando o Módulo',
-    	'LBL_EXTENSION_STORE' => 'Loja de Extensões',
 	'LBL_DELETE_EXIST_DIRECTORY' => 'Por favor, apague o diretório do módulo existente para seguir com a importação do módulo',
 	'LBL_UPDATE_MODULE_FROM_FILE' => 'Atualizar Módulo a partir do Arquivo',
 	'LBL_UPDATED_MODULE' => ' o Módulo fou atualizado com sucesso.',

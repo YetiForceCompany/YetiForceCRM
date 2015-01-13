@@ -111,8 +111,6 @@ $languageStrings = array(
 	'LBL_MODULE_MANAGER' => 'Modul-Verwaltung',
 	'LBL_MODULES' => 'Module',
 	'LBL_NOTIFICATIONS' => 'Benachrichtigungen',
-	'LBL_OPTIONS1'=>'',
-	'LBL_OPTIONS2'=>"",
 	'LBL_OTHER_SETTINGS' => 'Weitere Einstellungen',
 	'LBL_OUTGOING_SERVER_DESC' => 'Konfigurieren Sie Ihren Postausgangsserver',
 	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'Anmerkung: Wenn das "Von E-Mail" leer bleibt, wird die jeweilige Benutzer E-Mail-Adresse automatisch beim Versand eingetragen.',
@@ -207,7 +205,9 @@ $languageStrings = array(
     'Project Templates' => 'Projekt Vorlagen',
     'Mail Scanner'=>'Mail Scanner',
     'Mail View'=> 'E-Mails',
-
+	'Mail'=> 'Mail client',
+	'GlobalPermission' => 'Global permission',
+	'OSSCosts'=>'Costs',
 	
 	/* settings menu */
 	'Menu Manager' => 'Menu',
