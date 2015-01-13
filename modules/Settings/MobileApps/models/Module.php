@@ -36,7 +36,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 	
 	public function addKey($params){
-		$adb = PearDatabase::getInstance();
+		global $adb;
 		$result = $adb->pquery( "SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;", array( $params['user'] , $params['service'] ), true );
         $rows = $adb->num_rows($result);
 		if($rows != 0){
@@ -51,7 +51,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 	
 	public function deleteKey($params){
-		$adb = PearDatabase::getInstance();
+		global $adb;
 		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $params['user'] , $params['service'] ));
 	}
 }
