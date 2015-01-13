@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Mobile_Module_Model extends Settings_Vtiger_Module_Model {
+class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	public $serviceDir = 'api/mobile_services';
 	
 	public function getAllMobileKeys() {

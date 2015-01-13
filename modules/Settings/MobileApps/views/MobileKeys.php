@@ -8,11 +8,11 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Mobile_MobileKeys_View extends Settings_Vtiger_Index_View{
+class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Mobile_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel );
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

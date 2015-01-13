@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Mobile_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
+class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('addKey');
@@ -17,7 +17,7 @@ class Settings_Mobile_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	public function addKey(Vtiger_Request $request) {
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Mobile_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
 		$result = $moduleModel->addKey($params);
 		$success = true;
 		$message = vtranslate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false) );
@@ -39,7 +39,7 @@ class Settings_Mobile_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	public function deleteKey(Vtiger_Request $request) {
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Mobile_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
 		$result = $moduleModel->deleteKey($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
