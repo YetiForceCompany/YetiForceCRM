@@ -18,8 +18,7 @@
 			<span class="span4">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}</span>
 			<div class="row-fluid padding-bottom1per">
 				<select class="chzn-select span4" name="pdf_tpl" data-validation-engine="validate[required]">
-					<option value="none"></option>
-
+					<option value=""></option>
 					{foreach from=$PDF_TPL key=key item=item}
 						<option {if $TASK_OBJECT->pdf_tpl eq $item.id}selected{/if} value="{$item.id}">{$item.name}</option>
 					{/foreach}
@@ -29,8 +28,8 @@
 		<div class="row-fluid">
 			<span class="span4">{vtranslate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 			<div class="row-fluid padding-bottom1per">
-				<select class="chzn-select span4" name="email_tpl">
-					<option value="none"></option>
+				<select class="chzn-select span4" name="email_tpl"  data-validation-engine="validate[required]">
+					<option value=""></option>
 					{foreach from=$MAIL_TPL key=key item=item}
 						<option {if $TASK_OBJECT->email_tpl eq $item.ossmailtemplatesid}selected{/if} value="{$item.ossmailtemplatesid}">{$item.name}</option>
 					{/foreach}
@@ -40,7 +39,7 @@
 		<div class="row-fluid padding-bottom1per">
 			<span class="span4">{vtranslate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 			<select class="chzn-select span4" name="email_fld" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
-				<option value="none"></option>
+				<option value=""></option>
 				{assign var=RECORD_STRUCTURE_TYPE value=$RECORD_STRUCTURE_MODEL->getStructure('email')}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE_TYPE }
 					<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>

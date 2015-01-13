@@ -9,7 +9,11 @@
    * VERSION YetiForceCRM: 1.1.0 RC
  * *******************************************************************************+ */
 $languageStrings = array(
+<<<<<<< HEAD
     'OSSMail' => 'Почта',
+=======
+	'OSSMail'	=>	'Почта',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 );
 
 $jsLanguageStrings = array(

@@ -193,22 +193,35 @@ $languageStrings = array(
 	//YetiForce
     'vatid'=>'VAT ID', 
 	'LBL_SECURITY_MANAGEMENT' => 'Безопасность',
+<<<<<<< HEAD
 	'LBL_MAIL' => 'Почта',
+=======
+	'LBL_MAIL'	=>	'Настройка почты',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'LBL_PASSWORD_CONF' => 'Настройка паролей',
 	'LBL_PASSWORD_DESCRIPTION' => 'Модуль позволяет настраивать сложность пароля',
 	'LBL_LOGS_MANAGEMENT' => 'Журналы',
     'LBL_ARRANGE_RELATED_TABS' => 'Редактор связей',
 	'LBL_About_YetiForce' => 'О системе',
 	'LBL_DATAACCESS' => 'Редактор условий',
+<<<<<<< HEAD
 	'LangManagement' => 'Менеджер языков',
 	'LBL_CUSTOMIZE_TRANSLATIONS' => 'Языки',
+=======
+	'LangManagement'	=>	'Редактор языков',
+	'LBL_CUSTOMIZE_TRANSLATIONS'	=>	'Менеджер языков',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'CustomView'	=> 'Редактор фильтров',
     'Widgets' => 'Редактор Виджетов',
     'Search Setup'=>'Редактор поиска',
 	'License' => 'Лицензия',
     'Project Templates' => 'Шаблоны проектов',
     'Mail Scanner'=>'Сканер почты',
+<<<<<<< HEAD
     'Mail View'=> 'Почта',
+=======
+	'Mail View'	=>	'Корпоративная почта',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 
 	/* settings menu */
 	'Menu Manager' => 'Редактор меню',
@@ -256,6 +269,10 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+<<<<<<< HEAD
+=======
+	'LangManagement'	=>	'Редактор языков',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'JS_ANNOUNCEMENT_SAVED' => 'Оповещение сохранено',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Конфигурация сохранена',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Вы уверены, что хотите установить значения сервера по умолчанию?',

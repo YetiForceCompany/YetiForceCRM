@@ -9,6 +9,12 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+<<<<<<< HEAD
+=======
+	'Mail Logs'	=>	'Журнал почты',
+	'LBL_MAIL_LOGS'	=>	'Журнал почты',
+	'LangManagement'	=>	'Редактор языков',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'Vtiger'	=>	'Система',
 	'LBL_SEND_MAIL'	=> 'Отправить e-mail',
 	'--None--'=> '--нет--', 
@@ -699,7 +705,11 @@ $languageStrings = array(
 	'Low'=> 'Низкий' , 
 	'Machinery'=> 'Машиностроение',
 	'Mail Manager' => 'Менеджер почты',
+<<<<<<< HEAD
 	'Mail'=> 'Почта',
+=======
+	'Mail'	=>	'Личная почта',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'MailConverter' => 'Сканер почты',
 	'MailManager' => 'Менеджер почты',
 	'MakeOutgoingCalls'=> 'Сделать исходящий звонок',
@@ -734,7 +744,11 @@ $languageStrings = array(
 	'OSSCosts' => 'Затраты',
 	'OSSEmployees' => 'Сотрудники',
 	'OSSMailTemplates' => 'Шаблоны электронной почты',
+<<<<<<< HEAD
 	'OSSMailView' => 'Почта',
+=======
+	'OSSMailView'	=>	'Почта',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'OSSOutsourcedServices' => 'Аутсорсинг Услуг',
 	'OSSSoldServices' => 'Продаваемые Услуги',
 	'OSSTimeControl' => 'Учет времени',
@@ -846,7 +860,11 @@ $languageStrings = array(
 	'SELECT_ATLEAST_ONE' => 'Пожайлуста, выберите хотя бы одну запись',
 	'SINGLE_Accounts'=> 'Контрагент',
 	'SINGLE_Contacts'=> 'Контакт',
+<<<<<<< HEAD
 	'SINGLE_Emails'=> 'Почта',
+=======
+	'SINGLE_Emails'	=>	'Почта',
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'SINGLE_Vendors'=> 'Поставщик',
 	'SMSNotifier' => 'SMS-Уведомления',
 	'SPConfigurationManager' => 'Менеджер Конфигураций',

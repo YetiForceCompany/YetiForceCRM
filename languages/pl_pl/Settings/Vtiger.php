@@ -112,11 +112,6 @@ $languageStrings = array(
 	'LBL_MODULE_MANAGER' => 'Dostosuj moduły',
 	'LBL_MODULES' => 'Modułów',
 	'LBL_NOTIFICATIONS' => 'Powiadomienia',
-	'LBL_OPTIONS1'=>'Wysyłaj emaile z Twojego serwera mailowego<br>
-					- Podaj konfigurację konta SMTP (nazwa serwera, użytkownik serwera i hasło) dla konta które podałeś w polu od.',
-	'LBL_OPTIONS2'=>'Dodaj serwer od1.vtiger.com jako uprawniony do wysyłania wiadomości z Twojego serwera.<br>
-					- Jeśli chcesz na stałe wysyłać maile z serwera od1.vtiger.com, zalecamy skonfigurować rekord SPF na Twojej domenie, uwzględniając serwer vtiger jako uprawiony do wysyłania wiadomości z tej domeny.
-					 Jeśli potrzebujesz więcej informacji o konfiguracji rekordu SPF napisz do: od-support@vtiger.com .',
 	'LBL_OTHER_SETTINGS' => 'Narzędzia',
 	'LBL_OUTGOING_SERVER_DESC' => 'Konfiguruj serwer poczty wychodzącej',
 	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'UWAGA: Jezeli pole Od nie zostanie wpisane wtedy zostanie domyślnie wybrany adres email użytkownika',
@@ -241,6 +236,8 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MDULES_COLOR_EDITOR' => 'Kolory modułów',
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
+	'LBL_MOBILE_KEYS' => 'Klucze aplikacji mobilnych',
+	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

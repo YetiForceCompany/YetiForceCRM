@@ -17,6 +17,7 @@ $languageStrings = array(
 	'LBL_MODULE_NAME'	=>	'Название модуля',
 	'LBL_NO_PROJECT_TPL_ADDED'	=>	'Документов нет',
 	'TPL'	=>	'Документы',
+<<<<<<< HEAD
 	'DELETE_MODULE'	=>	'Удалить модуль',
 	'LBL_HELP_SETTINGS'	=>	'Справка',
 	'Delete_panel'	=>	'Эта панель конфигурации предназначен для удаления модуля. Название модуля:',
@@ -48,6 +49,10 @@ $languageStrings = array(
     'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information'	=>	'Информация о модулях:',
     
+=======
+	'OSSProjectTemplates_manual'	=>	'Шаблоны проектов',
+        
+>>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'LBL_CREATING_TPL'	=>	'Создание документа',
 	'LBL_FILL_BASE_DATA'	=>	'Информация',
 	'ADD_CONDITIONS'	=>	'Добавить условие',

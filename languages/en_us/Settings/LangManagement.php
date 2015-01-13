@@ -54,5 +54,5 @@ $jsLanguageStrings = array(
 	'LBL_Loader'	=> 'Downloading',
 	'No matching records found'	=> 'No matching records found',
 	'Search'	=> 'Search:',
-	
+	'No data available in table'	=> 'No translations',
 );
