@@ -1,0 +1,37 @@
+<?php
+/*+***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
+ * VERSION YetiForceCRM: 1.1.0 RC
+ ************************************************************************************/
+$languageStrings = array(
+	'LBL_ADD_RECORD' => 'Добавить Закупку',
+	'LBL_BALANCE' => 'Баланс',
+	'LBL_COPY_BILLING_ADDRESS' => 'Копировать юридический адрес в фактический',
+	'LBL_COPY_SHIPPING_ADDRESS' => 'Копировать фактический адрес в юридический',
+	'LBL_EXPORT_TO_PDF' => 'Экспорт в PDF:',
+	'LBL_LIST_PRICE'               => 'Прайс лист',
+	'LBL_PAID' => 'Оплачено',
+	'LBL_PO_INFORMATION' => 'Закупка',
+	'LBL_RECORDS_LIST' => 'Список Закупок',
+	'LBL_SEND_MAIL_PDF' => 'Отправить PDF по Email:',
+	'List Price'                   => 'Прайс лист',
+	'PurchaseOrder No' => 'Закупка №',
+	'Received Shipment'=>'Получено с доставкой',
+	'Requisition No' => '№',
+	'Sales Commission' => 'Коммисия',
+	'SINGLE_PurchaseOrder' => 'Закупка',
+	'Tracking Number' => 'Отслеживаемый номер',
+	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
+	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар или Услуга были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
+	'LBL_THIS' => 'Товар или Услуга (',
+);
+
+$jsLanguageStrings = array(
+	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите позиции, которые были удалены из системы.',
+);
