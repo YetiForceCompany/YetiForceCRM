@@ -944,7 +944,8 @@ class Vtiger_Functions {
 	}
 	
 	static function throwNewException($Message) {
-		if (class_exists('Vtiger_Viewer')) {
+		$request = new Vtiger_Request($_REQUEST);
+		if ( !$request->get('action') != '') {
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('MESSAGE', $Message);
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
