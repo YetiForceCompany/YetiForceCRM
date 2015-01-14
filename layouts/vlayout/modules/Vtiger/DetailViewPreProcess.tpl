@@ -9,6 +9,10 @@
 *
  ********************************************************************************/
 -->*}
+
+{strip}
+{include file="Header.tpl"|vtemplate_path:$MODULE_NAME}
+{include file="BasicHeader.tpl"|vtemplate_path:$MODULE_NAME}
 {if $COLORLISTHANDLERS}
 	<style>
 	.detailViewContainer{
@@ -16,10 +20,6 @@
 	}
 	</style>
 {/if}
-{strip}
-{include file="Header.tpl"|vtemplate_path:$MODULE_NAME}
-{include file="BasicHeader.tpl"|vtemplate_path:$MODULE_NAME}
-
 <div class="bodyContents">
 	<div class="mainContainer row-fluid">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
