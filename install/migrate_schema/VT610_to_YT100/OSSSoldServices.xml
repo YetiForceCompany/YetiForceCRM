@@ -466,7 +466,7 @@
 <columnname>ordertime</columnname>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
-<fieldlabel>Czas realizacji</fieldlabel>
+<fieldlabel>LBL_ORDER_TIME</fieldlabel>
 <readonly>1</readonly>
 <presence>2</presence>
 <defaultvalue></defaultvalue>

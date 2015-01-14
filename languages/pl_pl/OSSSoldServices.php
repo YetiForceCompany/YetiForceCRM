@@ -37,5 +37,6 @@ $languageStrings = array(
 	'Potential renewal'=>'Odnowienie sprzedaży',
 	'Services' => 'Nazwa usługi',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
+	'LBL_ORDER_TIME'=>'Czas realizacji',
 );
 ?>
