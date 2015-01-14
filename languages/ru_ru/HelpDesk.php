@@ -94,6 +94,7 @@ $languageStrings = array(
 	'replied' => 'отвечено',
 	'reply' => 'Добавлен новый комментарий для заявки ',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
+	'LBL_ORDER_TIME'=>'Order time',
 );
 
 $jsLanguageStrings = array(

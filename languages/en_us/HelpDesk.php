@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_ORDER_TIME'=>'Order time',
 	'Big Problem'=>'Big Problem',
 	'Closed'=>'Closed',
 	'created' => 'created',
