@@ -7909,10 +7909,11 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
 DROP TABLE IF EXISTS `yetiforce_mobile_keys`;
 
 CREATE TABLE `yetiforce_mobile_keys` (
-  `id` int(19) NOT NULL,
+  `id` int(19) NOT NULL AUTO_INCREMENT,
   `user` int(19) NOT NULL,
   `service` varchar(50) NOT NULL,
   `key` varchar(30) NOT NULL,
+  `privileges_users` text,
   PRIMARY KEY (`id`),
   KEY `user` (`user`,`service`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
