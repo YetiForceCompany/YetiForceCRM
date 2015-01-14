@@ -120,30 +120,27 @@ ul > li.blockHeader {
 			{/if}
 			</tr>
 			<tr>
-			{assign var=NUMBER value=1}
-                        {assign var=COUNTER value=1}
+			{assign var=COUNTER value=0}
 			{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 
 				{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
-					{if $NUMBER%2 eq 0}
-						{if $FIELD_MODEL->getName() eq 'filename'}
-							<td></td><td></td>
-						{/if}
-					</tr><tr>
-					{/if}
-			
-					{assign var=NUMBER value=$NUMBER+1}
-
-                {if $FIELD_MODEL->getName() neq 'footer_content' AND $FIELD_MODEL->getName() neq 'content' AND $FIELD_MODEL->getName() neq 'header_content' AND $FIELD_MODEL->getName() neq 'constraints'}
-				<!--		
-				{if $FIELD_MODEL->getName() eq 'filename'}
-					<td class="fieldLabel">
-					</td>
-					<td class="fieldValue">
-					</td>
+				{if $FIELD_MODEL->get('uitype') eq "20" || $FIELD_MODEL->get('uitype') eq "19" || $FIELD_MODEL->getName() eq 'filename'}
+					{if $COUNTER eq '1'}
+						<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
 					</tr>
+					<tr>
+						{assign var=COUNTER value=0}
+					{/if}
 				{/if}
-				-->
+				{if $COUNTER eq 2}
+				</tr>
+				<tr>
+					{assign var=COUNTER value=1}
+				{else}
+					{assign var=COUNTER value=$COUNTER+1}
+				{/if}
+
+				{if $FIELD_MODEL->getName() neq 'footer_content' AND $FIELD_MODEL->getName() neq 'content' AND $FIELD_MODEL->getName() neq 'header_content' AND $FIELD_MODEL->getName() neq 'constraints'}
 				<td class="fieldLabel">
 					<label class="muted pull-right marginRight10px">
 						{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
@@ -179,7 +176,7 @@ ul > li.blockHeader {
 				
 				{if $FIELD_MODEL->get('uitype') neq "83"}
 					
-					<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=NUMBER value=$NUMBER+1} {assign var=COUNTER value=$COUNTER+1} {/if}>
+					<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 					{if $FIELD_MODEL->getName() eq 'filename'}
 								<select id="addFieldName" style="width:180px;  padding-left:0px;margin-left: 10px;">
@@ -192,11 +189,11 @@ ul > li.blockHeader {
 					</td>
 				{/if}
 
-				{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('name') neq "recurringtype"}<td></td><td></td>{/if}
+				{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('name') neq "recurringtype" && $FIELD_MODEL->getName() neq 'filename' && $BLOCK_LABEL neq 'LBL_FOOTER_HEADER'}<td></td><td></td>{/if}
 				{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }	
 					{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
 				{/if}
-			{* Dodatkowe pole *}
+			{* Additional field *}
 			{if $BLOCK_LABEL eq 'LBL_FOOTER_HEADER'}
 			<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
 			<td class="fieldValue wideWidthType">
@@ -209,12 +206,8 @@ ul > li.blockHeader {
 							</optgroup>
 					{/foreach}
 				</select>
-			</td>
-			<td class="fieldValue wideWidthType">
-				<input type="hidden" value="" id="id1" /><button class="btn btn-info" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
-			</td>
-			<td class="fieldValue wideWidthType">
-				<input type="hidden" value="" id="id2" /><button class="btn btn-warning" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+				<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>&nbsp;
+				<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
 			</td>
             {/if}
 			{/foreach}
