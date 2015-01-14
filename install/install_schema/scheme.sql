@@ -7917,6 +7917,16 @@ CREATE TABLE `yetiforce_mobile_keys` (
   KEY `user` (`user`,`service`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `yetiforce_mobile_pushcall` */
+
+DROP TABLE IF EXISTS `yetiforce_mobile_pushcall`;
+
+CREATE TABLE `yetiforce_mobile_pushcall` (
+  `user` int(19) NOT NULL,
+  `number` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `yetiforce_updates` */
 
 DROP TABLE IF EXISTS `yetiforce_updates`;
