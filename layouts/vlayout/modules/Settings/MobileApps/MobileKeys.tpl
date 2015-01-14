@@ -1,12 +1,13 @@
 {*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- ********************************************************************************/
+ *************************************************************************************************************************************/
 -->*}
 {strip}
 	<div class="container-fluid" id="MobileKeysContainer">
@@ -31,7 +32,7 @@
 						<tbody>
 							{foreach from=$MODULE_MODEL->getAllMobileKeys() item=item key=key}
 								<tr data-service="{$item.service}" data-user="{$item.userid}">
-									<td><span title="{$item.user_name}">{$item.first_name} {$item.last_name}</span></td>
+									<td><span title="{$item.first_name} {$item.last_name}">{$item.user_name}</span></td>
 									<td>{vtranslate($item.name,$QUALIFIED_MODULE)}</td>
 									<td>{$item.key}</td>
 									<td>
