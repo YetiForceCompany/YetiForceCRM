@@ -883,7 +883,7 @@ class VT610_to_YT100 {
 		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
 		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION"),
-		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','Czas realizacji','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
+		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','LBL_ORDER_TIME','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
 		);
 
 		$tab = 7;
@@ -1162,7 +1162,7 @@ class VT610_to_YT100 {
 		array("37","926","potential","vtiger_assets","1","10","potential","Potential","1","2","","100","3","96","1","I~M","2","8","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
 		array("37","1314","parent_id","vtiger_assets","2","10","parent_id","Parent ID","1","2","","100","1","96","1","V~M","2","2","BAS","1","0","1","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Accounts','Contacts','Leads')),
 		array("37","1325","pot_renewal","vtiger_assets","2","10","pot_renewal","Potential renewal","1","2","","100","4","96","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_CUSTOM_INFORMATION",array(),array('Potentials')),
-		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','Czas realizacji','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array()),
+		array('37','1484','ordertime','vtiger_assets','2','7','ordertime','LBL_ORDER_TIME','1','2','','100','7','192','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","BLOCK_INFORMATION_TIME",array()),
 		array('37','744','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','8','96','2','V~O','3','7','BAS','0','0','0',"int(19)","LBL_CUSTOM_INFORMATION",array())
 		);
 

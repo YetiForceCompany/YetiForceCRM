@@ -9,6 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 28/11/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_ORDER_TIME'=>'Order time',
 	'Big Problem'=> 'Problema Grande' , 
 	'Closed' => 'Fechado' ,
 	'created' => 'criado',

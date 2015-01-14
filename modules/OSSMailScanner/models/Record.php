@@ -444,6 +444,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$count_emails = 0;
 		$scan_id = 0;
+		$accounts = $OSSMailModel->getAccountsList();
+		if(!$accounts)
+			return false;
 		self::setCronStatus('2');
 		$scan_id = $OSSMailScannerModel->add_scan_history( Array('user' => $who_trigger) );
 		foreach ($OSSMailModel->getAccountsList() as $Account) {

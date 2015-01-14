@@ -45,4 +45,5 @@ $languageStrings = array(
 	'Potential'=>'Fonte Vendas',
 	'Potential renewal'=>'Renovação Oportunidade',
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
+	'LBL_ORDER_TIME'=>'Order time',
 );

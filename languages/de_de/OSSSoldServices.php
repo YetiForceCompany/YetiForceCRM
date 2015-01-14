@@ -34,4 +34,5 @@ $languageStrings = array(
 'Number' => 'Nummer',
 'Potential renewal'=>'Verkauf erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
+'LBL_ORDER_TIME'=>'Order time',
 );

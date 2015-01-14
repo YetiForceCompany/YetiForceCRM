@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = Array(
 
@@ -52,7 +53,7 @@ $languageStrings = Array(
 'Show document summary :' => 'Wyświetlaj podsumowanie dokumentu :',
  'LBL_TRUE' => 'Tak',
  'LBL_FALSE' => 'Nie',
-####################
+
 'LBL_Variables_list' => 'Konfiguracja zmiennych: ',
 'Save' => 'Zapisz',
 'LBL_specialfunctions_config' => 'Konfiguracja funkcji specjalnych',
@@ -67,7 +68,7 @@ $languageStrings = Array(
 'Constraints' => 'Ograniczenia',
 'LBL_CONSTRAINTS' => 'Ograniczenia dla wzorca',
 'File Name' => 'Nazwa pliku',
-###
+
 'VAT_SUMMARY' => 'Podsumowanie VAT: ',
 'SUMMARY' => 'Podsumowanie ',
 'yes' => 'Tak',
@@ -105,7 +106,7 @@ $languageStrings = Array(
 'CreateButtons'=>'Twórz przyciski dla modułu',
 'LBL_INSERTREPORT' => 'Wybierz raport',
 'LBL_CHOSENMODULE' => 'Tylko dla pojedynczego rekordu: ',
-####################
+
 'AttachInfo' => 'Wybierz kto (użytkownik/grupa) powinien być przypisany do tworzonych dokumentów:',
 'default' => 'Domyślna opcja',
 'LBL_default' => 'Aktualnie zalogowany użytkownik',
@@ -117,7 +118,7 @@ $languageStrings = Array(
 'LinkInfo' => 'Ustawienia dla przycisków',
 'DeleteButtons' => 'Usuń przyciski',
 'ButtonsNo' => 'Przyciski nie instnieją!',
-####################
+
 	'LBL_TEMPLATES' => 'Wybierz szablon PDF',
 	'LBL_NO_TEMPLATES' => 'Brak dostępnych szablonów!',
 	'company_name' => 'OpenSaaS Sp. z o.o.',
@@ -177,7 +178,7 @@ $languageStrings = Array(
 	'MSG_DEL_WARN5' =>'W razie problemów skontaktuj się z nami poprzez email, lub zgłoszenie serwisowe na stronie www.opensaas.pl',
 	'MSG_DEL_WARN6' =>'Z wyrazami szacunku, ekipa OpenSaaS Sp. z o.o.',
 /*+**********************************************************************************
- * Tłumacznie dla nowego modułu
+ * Translations for the new module.
  ************************************************************************************/
 'OSSModule' => 'Przykładowy moduł',
 'SINGLE_OSSModule' => 'Przykładowy moduł',
@@ -198,7 +199,7 @@ $languageStrings = Array(
 'page_break' => 'Znacznik następnej rozpoczęcia nowej strony',
 'amount_in_words' => 'Kwota słownie',
 'error' => 'Niepoprawnie zapisane warunki w polu ograniczeń - nie podałeś żadnego warunku!',
-###########################################################
+
 'LBL_DEFAULT_FIELDS' => 'Pola z modułu głównego',
 'LBL_RELATED_MODULE' => 'Powiązane moduły',
 'LBL_RELATED_FIELDS' => 'Pola z powiązanego modułu',
@@ -206,7 +207,7 @@ $languageStrings = Array(
 'LBL_GET_VARIABLE' => 'Pobierz zmienną',
 'LBL_empty' => 'Brak powiązanych modułów',
 'LBL_moduleid' => 'Wybierz moduł',
-###########################################################
+
 'LBL_method0' => 'Gdy spełnimy warunki to szablon nie jest wyświetlany',
 'LBL_method1' => 'Szablon widoczny zawsze. Gdy spełnione są warunki to checkbox jest zaznaczony, jeśli nie są spełnione to jest niezaznaczony',
 'LBL_method2' => 'Szablon widoczny tylko gdy są spełnione warunki - domyślnie checkbox niezaznaczony',
@@ -217,7 +218,6 @@ $languageStrings = Array(
 'LBL_method' => 'Działanie ograniczeń',
 'Button_copy_to_constraints' => 'Skopiuj do pola warunków',
 
-###########################################################
 'SINGLE_OSSPdf' => 'PDF',
 'OSSPdf' => 'PDF',
 'LBL_PRODUCT_MODULE' => 'Specjalne funkcjonalności',
@@ -233,7 +233,7 @@ $languageStrings = Array(
 'get_terms' => 'Wypisanie warunków współpracy',
 'replaceProductTableInvoiceCost' => 'Tabela z produktami dla faktury kosztowej',
 'replaceCorrectedTableProducts' => 'Tabela z produktami dla faktury korekty',
-###########################################################
+
 'LBL_Quantity' => 'Ilość',
 	'LBL_productname' => 'Produkt lub usługa',
 		'LBL_nr' => 'L.p.',

@@ -25,11 +25,11 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model {
 	 */
 	public function isAddCustomFieldEnabled() {
         $actionNotSupportedModules = array('calendar','events','faq', 'helpdesk');
-		$blocksEliminatedArray = array('calendar' => array('LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'),
+		$blocksEliminatedArray = array('calendar' => array('LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_CUSTOM_INFORMATION', 'LBL_SHARING_INFORMATION'),
 									'helpdesk' =>  array('LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'),
                                                                    'faq'=>array('LBL_COMMENT_INFORMATION'),
                                     'events' => array('LBL_EVENT_INFORMATION','LBL_REMINDER_INFORMATION','LBL_DESCRIPTION_INFORMATION',
-                                                      'LBL_RECURRENCE_INFORMATION','LBL_RELATED_TO','LBL_INVITE_USER_BLOCK'));
+                                                      'LBL_RECURRENCE_INFORMATION','LBL_RELATED_TO','LBL_INVITE_USER_BLOCK', 'LBL_CUSTOM_INFORMATION', 'LBL_SHARING_INFORMATION'));
         if(in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
 			if(!empty($blocksEliminatedArray[strtolower($this->module->name)])) {
 				if(in_array($this->get('label'), $blocksEliminatedArray[strtolower($this->module->name)])) {

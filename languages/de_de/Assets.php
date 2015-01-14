@@ -44,4 +44,5 @@ $languageStrings = array(
 	'Potential'=>'Potenzial',
 	'Potential renewal'=>'Potenzielle Verlängerung',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
+	'LBL_ORDER_TIME'=>'Order time',
 );

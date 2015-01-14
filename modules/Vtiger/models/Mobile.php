@@ -8,26 +8,24 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
-$languageStrings = array(
-
-	'WidgetsManagement' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
-	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
-	'LBL_CHOISE_ROLE' => 'Select role',
-	'LBL_CHOISE_WIDGET' => 'Select widgets',
-	'LBL_ROLE' => 'Roles',
-	'LBL_WIDGET' => 'Widgets',
-	
-	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
-	'LBL_FAILED_TO_SAVE' => 'No changes were made',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
-
-);
-$jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Mandatory widget: ',
-	'JS_INACTIVE' => 'Inactive widget: ',
-);
-?>
+class Vtiger_Mobile_Model extends Vtiger_Base_Model {
+	public function checkPermissionForOutgoingCall() {
+		global $adb;
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$result = $adb->pquery( "SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;", array( $currentUser->getId() , 'pushcall' ), true );
+		if($adb->num_rows($result) > 0){
+			return true;
+		}
+		return false;
+	}
+	public function performCall( $record = false, $phoneNumber = false ) {
+		global $adb;
+		$return = false;
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		if($phoneNumber){
+			$result = $adb->pquery('INSERT INTO yetiforce_mobile_pushcall (`user`, `number`) VALUES (?, ?);', array( $currentUser->getId() , $phoneNumber ));
+			$return = true;
+		}
+		return $return;
+	}
+}

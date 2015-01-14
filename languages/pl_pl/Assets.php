@@ -45,4 +45,5 @@ $languageStrings = array(
 	'Total time [h]'=>'Łączny czas [h]',
 	'Potential'=>'Źródło sprzedaży',
 	'Potential renewal'=>'Odnowienie sprzedaży',
+	'LBL_ORDER_TIME'=>'Czas realizacji',
 );

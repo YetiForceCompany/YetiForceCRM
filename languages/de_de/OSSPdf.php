@@ -1,12 +1,16 @@
 <?php
-
-/* +**********************************************************************************
- * Terms & Conditions are placed on the: http://opensaas.pl/index.php/ruls.html     *
- *  Author       : OpenSaaS Sp. z o.o. - Professional software                      *
- *  Website      : www.opensaas.pl                                                  *
- * ********************************************************************************** */
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): 
+ *************************************************************************************************************************************/
 $languageStrings = Array(
-##################################
+
     'LBL_NORECORDS_CHECKED' => 'Sie haben keinen Datensatz gewählt',
     'Enable Numbering' => 'Aktivieren Sie die Seitennummerierung',
     'LBLEdit' => 'Bearbeiten',
@@ -55,7 +59,7 @@ $languageStrings = Array(
     'Top margin [mm]' => 'Oberer Rand [mm]',
     'Left margin [mm]' => 'Linker Rand [mm]',
     'Right margin [mm]' => 'Rechter Rand [mm]',
-###
+
     'OSSPdf' => 'PDF',
     'VAT_SUMMARY' => 'MwSt. Zusammenfassung: ',
     'SUMMARY' => 'Zusammenfassung ',
@@ -93,13 +97,13 @@ $languageStrings = Array(
     'page_break' => 'Seitenumbruch hinzufüen',
     'amount_in_words' => 'Gesamtsumme in Worten',
     'error' => 'Informationen im Einschränkungsfeld wurden nicht korrekt gespeichert => Sie haben keine Bedingungen hinzugefügt und können sie nicht bearbeiten!',
-####################################
+
     'AttachInfo' => 'Entscheiden Sie wem (Benutzer/Gruppe) die erstellen Dokumente zugewiesen werden sollen:',
     'default' => 'Standardoption',
     'LBL_default' => 'Zur Zeit angemeldeter Benutzer',
     'groups' => 'Gruppen',
     'users' => 'Benutzer',
-##################################
+
     'LBL_TEMPLATES' => 'PDF-Vorlage wählen',
     'LBL_NO_TEMPLATES' => 'Keine Vorlagen vorhanden!',
     
@@ -160,7 +164,7 @@ $languageStrings = Array(
     'MSG_DEL_WARN5' => 'If you have any problems, please send us an email, or a notification using our website www.opensaas.pl',
     'MSG_DEL_WARN6' => 'Regards, OpenSaaS team.',
     /* +**********************************************************************************
-     * Tlumacznie dla nowego modulu
+     * Translations for the new module
      * ********************************************************************************** */
     'OSSModule' => 'Sample module',
     'SINGLE_OSSModule' => 'Sample module',
@@ -178,7 +182,7 @@ $languageStrings = Array(
     'LBL_lower' => 'lower',
     'LBL_lower_equal' => 'lower or equal',
     'LBL_contains' => 'contains',
-###########################################################
+
     'LBL_method0' => 'If conditions are fulfilled, templated will be visible',
     'LBL_method1' => 'Template always visible - if conditions fulfilled: checked, if not - then not checked',
     'LBL_method2' => 'Visible only if fulfilled, default unchecked',
@@ -188,7 +192,7 @@ $languageStrings = Array(
     'LBL_condition_type' => 'Method of checking constraints',
     'LBL_method' => 'Reaction after constraints check-in',
     'Button_copy_to_constraints' => 'Copy to textarea',
-###########################################################
+
     'LBL_DEFAULT_FIELDS' => 'Fields from main module',
     'LBL_RELATED_MODULE' => 'Related modules',
     'LBL_RELATED_FIELDS' => 'Fields from related module',
@@ -196,13 +200,13 @@ $languageStrings = Array(
     'LBL_GET_VARIABLE' => 'Get a variable',
     'LBL_empty' => 'Lack of related modules',
     'LBL_moduleid' => 'Select module',
-###########################################################
+
     'SINGLE_OSSPdf' => 'PDF',
     'LBL_PRODUCT_MODULE' => 'Special functionalities',
     'LBL_prodtable1' => 'Product table (type 1)',
     'LBL_prodtableNP' => 'Product table with vat equal np (nontaxable) ',
     'LBL_amountwords' => 'Total with taxes written in words',
-###########################################################
+
     'LBL_Quantity' => 'Quantity',
     'LBL_productname' => 'Product or service',
     'LBL_nr' => 'Nr',

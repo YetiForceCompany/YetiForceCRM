@@ -10,7 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = Array(
-##################################
+
     'LBL_NORECORDS_CHECKED' => 'You haven`t choosen any record yet',
     'Enable Numbering' => 'Enable page numbering',
     'LBLEdit' => 'Edit',
@@ -59,7 +59,7 @@ $languageStrings = Array(
     'Top margin [mm]' => 'Top margin [mm]',
     'Left margin [mm]' => 'Left margin [mm]',
     'Right margin [mm]' => 'Right margin [mm]',
-###
+
     'OSSPdf' => 'PDF',
     'VAT_SUMMARY' => 'VAT summary: ',
     'SUMMARY' => 'Summary ',
@@ -97,13 +97,13 @@ $languageStrings = Array(
     'page_break' => 'Adding new page',
     'amount_in_words' => 'Total amount in words',
     'error' => 'Information in the constraints field was not saved correctly => you did not add any conditions and you can`t edit them!',
-####################################
+
     'AttachInfo' => 'Decide who (user/group) should be assigned to created Documents:',
     'default' => 'Default option',
     'LBL_default' => 'User currently logged in',
     'groups' => 'Groups',
     'users' => 'Users',
-##################################
+
     'LBL_TEMPLATES' => 'Select PDF template',
     'LBL_NO_TEMPLATES' => 'Lack of available templates!',
     'company_name' => 'OpenSaaS Sp. z o.o.',
@@ -163,7 +163,7 @@ $languageStrings = Array(
     'MSG_DEL_WARN5' => 'If you have any problems, please send us an email, or a notification using our website www.opensaas.pl',
     'MSG_DEL_WARN6' => 'Regards, OpenSaaS team.',
     /* +**********************************************************************************
-     * Tlumacznie dla nowego modulu
+     * Translations for the new module.
      * ********************************************************************************** */
     'OSSModule' => 'Sample module',
     'SINGLE_OSSModule' => 'Sample module',
@@ -181,7 +181,7 @@ $languageStrings = Array(
     'LBL_lower' => 'lower',
     'LBL_lower_equal' => 'lower or equal',
     'LBL_contains' => 'contains',
-###########################################################
+
     'LBL_method0' => 'If conditions are fulfilled, templated will be visible',
     'LBL_method1' => 'Template always visible - if conditions fulfilled: checked, if not - then not checked',
     'LBL_method2' => 'Visible only if fulfilled, default unchecked',
@@ -191,7 +191,7 @@ $languageStrings = Array(
     'LBL_condition_type' => 'Method of checking constraints',
     'LBL_method' => 'Reaction after constraints check-in',
     'Button_copy_to_constraints' => 'Copy to textarea',
-###########################################################
+
     'LBL_DEFAULT_FIELDS' => 'Fields from main module',
     'LBL_RELATED_MODULE' => 'Related modules',
     'LBL_RELATED_FIELDS' => 'Fields from related module',
@@ -199,13 +199,13 @@ $languageStrings = Array(
     'LBL_GET_VARIABLE' => 'Get a variable',
     'LBL_empty' => 'Lack of related modules',
     'LBL_moduleid' => 'Select module',
-###########################################################
+
     'SINGLE_OSSPdf' => 'PDF',
     'LBL_PRODUCT_MODULE' => 'Special functionalities',
     'LBL_prodtable1' => 'Product table (type 1)',
     'LBL_prodtableNP' => 'Product table with vat equal np (nontaxable) ',
     'LBL_amountwords' => 'Total with taxes written in words',
-###########################################################
+
     'LBL_Quantity' => 'Quantity',
     'LBL_productname' => 'Product or service',
     'LBL_nr' => 'Nr',
