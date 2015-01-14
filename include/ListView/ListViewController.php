@@ -172,12 +172,6 @@ class ListViewController {
 				$this->setupAccessiblePicklistValueList($fieldName);
 			}
 		}
-        
-		$moduleInstance = Vtiger_Module_Model::getInstance("PBXManager");
-		if($moduleInstance && $moduleInstance->isActive()) {
-			$outgoingCallPermission = PBXManager_Server_Model::checkPermissionForOutgoingCall();
-		}
-
 		$useAsterisk = get_use_asterisk($this->user->id);
 
 		$data = array();
@@ -373,9 +367,10 @@ class ListViewController {
 				} elseif ($field->getFieldDataType() == 'skype') {
 					$value = ($value != "") ? "<a href='skype:$value?call'>".textlength_check($value)."</a>" : "";
 				} elseif ($field->getUIType() == 11) {
+					$outgoingCallPermission = Vtiger_Mobile_Model::checkPermissionForOutgoingCall();
 					if($outgoingCallPermission && !empty($value)) {
-						$phoneNumber = preg_replace('/[-()\s+]/', '',$value);
-						$value = '<a class="phoneField" data-value="'.$phoneNumber.'" record="'.$recordId.'" onclick="Vtiger_PBXManager_Js.registerPBXOutboundCall(\''.$phoneNumber.'\', '.$recordId.')">'.textlength_check($value).'</a>';
+						$phoneNumber = preg_replace('/[-()\s]/', '',$value);
+						$value = '<a class="phoneField" data-phoneNumber="'.$phoneNumber.'" record="'.$recordId.'" onclick="Vtiger_Mobile_Js.registerOutboundCall(\''.$phoneNumber.'\', '.$recordId.')">'.textlength_check($value).'</a>';
 					}else {
 						$value = textlength_check($value);
 					}
