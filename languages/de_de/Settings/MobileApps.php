@@ -8,26 +8,26 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
 $languageStrings = array(
+ 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
+ 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys.',
+ 	'LBL_USERNAME' => 'User',
+ 	'LBL_SERVICE' => 'Application',
+ 	'LBL_KEY' => 'Key',
+ 	'LBL_TOOLS' => 'Tools',
+ 	'LBL_DELETE_KEY' => 'Delete key',
+ 	'LBL_ADD_KEY' => 'Add key',
+ 	'LBL_SELECT_USER' => 'Select user:',
+ 	'LBL_SELECT_SERVICE' => 'Select application',
+ 	'LBL_SUCCESS_SAVE_KEY' => 'New key saved',
+ 	'LBL_ERROR_SAVE_KEY' => 'Error saving key',
+ 	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
+ 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
 
-	'WidgetsManagement' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
-	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
-	'LBL_CHOISE_ROLE' => 'Select role',
-	'LBL_CHOISE_WIDGET' => 'Select widgets',
-	'LBL_ROLE' => 'Roles',
-	'LBL_WIDGET' => 'Widgets',
-	
-	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
-	'LBL_FAILED_TO_SAVE' => 'No changes were made',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
-
+ 	// Mobile services
+ 	'LBL_MOBILE_CALLHISTORY' => 'Mobile call history',
+ 	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
 );
 $jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Mandatory widget: ',
-	'JS_INACTIVE' => 'Inactive widget: ',
+	'Adding a Key' => 'Add key',
 );
-?>
