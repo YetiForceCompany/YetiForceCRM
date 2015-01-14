@@ -23,7 +23,8 @@ class Vtiger_Mobile_Action extends Vtiger_Action_Controller {
 		$module = $request->getModule();
 		$phoneNumber = $request->get('phoneNumber');
 		$record = $request->get('record');
-		$result = Vtiger_Mobile_Model::performCall($record, $phoneNumber);
+		$user = $request->get('user');
+		$result = Vtiger_Mobile_Model::performCall($record, $phoneNumber, $user);
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

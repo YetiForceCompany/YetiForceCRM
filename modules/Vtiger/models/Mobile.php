@@ -18,14 +18,50 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 		}
 		return false;
 	}
-	public function performCall( $record = false, $phoneNumber = false ) {
+	public function performCall( $record = false, $phoneNumber = false, $user = false ) {
 		global $adb;
 		$return = false;
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if($phoneNumber){
-			$result = $adb->pquery('INSERT INTO yetiforce_mobile_pushcall (`user`, `number`) VALUES (?, ?);', array( $currentUser->getId() , $phoneNumber ));
+		$queryUser = $currentUser->getId();
+		if($user){
+			$queryUser = $user;
+		}
+		if($phoneNumber && $queryUser){
+			$result = $adb->pquery('INSERT INTO yetiforce_mobile_pushcall (`user`, `number`) VALUES (?, ?);', array( $queryUser , $phoneNumber ));
 			$return = true;
 		}
 		return $return;
+	}
+	
+	public function getAllMobileKeys( $service = false ) {
+		global $adb;
+		$params = array( 'Active' );
+		$sql = '';
+		if( $service ){
+			$sql .= ' AND yetiforce_mobile_keys.service = ?';
+			$params[] = $service;
+		}
+		$result = $adb->pquery( "SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ?".$sql, $params, true );
+        $rows = $adb->num_rows($result);
+		$keys = Array();
+        for($i=0; $i<$rows; $i++){
+			$row = $adb->raw_query_result_rowdata($result, $i);
+			$keys[ $row['id'] ] = $row;
+			$keys[ $row['id'] ]['name'] = 'LBL_MOBILE_'.strtoupper($row['service']);
+			$privileges_users = unserialize($row['privileges_users']);
+			$keys[ $row['id'] ]['privileges_users'] = $privileges_users!=''?$privileges_users:array();
+        }
+		return $keys;
+	}
+	
+	public function getPrivilegesUsers() {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$users = array();
+		$keys = self::getAllMobileKeys( 'pushcall' );
+        foreach ($keys as $id => $key) {
+			if( in_array( $currentUser->getId() , $key['privileges_users']) )
+				$users[$key['userid']] = $key['first_name'].' '.$key['last_name'];
+        }
+		return $users;
 	}
 }

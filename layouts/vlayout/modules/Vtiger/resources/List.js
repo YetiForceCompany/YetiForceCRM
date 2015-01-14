@@ -1560,6 +1560,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
 		listViewContentDiv.on('click','.listViewEntries',function(e){
+			if(jQuery(e.target).closest('a').hasClass('noLinkBtn')) return;
 			if(jQuery(e.target, jQuery(e.currentTarget)).is('td:first-child')) return;
 			if(jQuery(e.target).is('input[type="checkbox"]')) return;
 			var elem = jQuery(e.currentTarget);

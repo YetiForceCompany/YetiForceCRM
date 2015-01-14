@@ -2164,6 +2164,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 		});
 
 		detailContentsHolder.on('click','table.detailview-table td.fieldValue', function(e) {
+			if( jQuery(e.target).closest('a').hasClass('btnNoFastEdit') )
+				return;
 			var currentTdElement = jQuery(e.currentTarget);
 			thisInstance.ajaxEditHandling(currentTdElement);
 		});

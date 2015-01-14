@@ -24,6 +24,7 @@
 								<th><strong>{vtranslate('LBL_USERNAME',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_SERVICE',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_KEY',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_WHO_CAN_DIAL',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
@@ -33,6 +34,16 @@
 									<td><span title="{$item.user_name}">{$item.first_name} {$item.last_name}</span></td>
 									<td>{vtranslate($item.name,$QUALIFIED_MODULE)}</td>
 									<td>{$item.key}</td>
+									<td>
+										{if $item.service == 'pushcall'}
+										<select multiple class="chzn-select span5 privileges_users" name="privileges_users" data-validation-engine="validate[required]">
+											{assign var=ALLUSERS value=Users_Record_Model::getAll()}
+											{foreach from=$ALLUSERS item=item2 key=key2}
+												<option value="{$key2}" {if in_array($key2,$item.privileges_users)}selected{/if}>{$item2->getDisplayName()}</option>
+											{/foreach}
+										</select>
+										{/if}
+									</td>
 									<td>
 										<button class="btn btn-danger deleteKey">{vtranslate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 									</td>

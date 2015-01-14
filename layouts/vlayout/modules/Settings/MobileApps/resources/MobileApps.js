@@ -59,6 +59,17 @@ jQuery.Class('Settings_Mobile_Js', {}, {
 		});
 		closestTrElement.remove();
 	},
+	changePrivileges: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
+		console.log(target.val());
+		var settingMobileInstance = new Settings_Mobile_Js();
+		settingMobileInstance.registerSaveEvent('changePrivileges',{
+			'user': closestTrElement.data('user'),
+			'service': closestTrElement.data('service'),
+			'privileges': target.val(),
+		});
+	},
 	registerSaveEvent: function(mode, data, reload) {
 		var params = {}
 		params.data = {
@@ -92,6 +103,7 @@ jQuery.Class('Settings_Mobile_Js', {}, {
 		var container = thisInstance.getContainer();
 		container.find('.addKey').click(thisInstance.addKey);
 		container.find('.deleteKey').click(thisInstance.deleteKey);
+		container.find('.privileges_users').change(thisInstance.changePrivileges);
 	}
 });
 jQuery(document).ready(function(){
