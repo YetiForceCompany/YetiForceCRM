@@ -103,7 +103,7 @@
 				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
 					<style>
 					.mainContainer{
-						margin-top: 110px !important;
+						margin-top: {if !empty($announcement)} 135px {else} 110px {/if}!important;
 					}
 					.commonActionsContainer .actionsContainer{
 						height: 70px !important;
