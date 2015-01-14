@@ -31,7 +31,7 @@
 							{foreach from=$MODULE_MODEL->getAllMobileKeys() item=item key=key}
 								<tr data-service="{$item.service}" data-user="{$item.userid}">
 									<td><span title="{$item.user_name}">{$item.first_name} {$item.last_name}</span></td>
-									<td>{vtranslate($item.service,$QUALIFIED_MODULE)}</td>
+									<td>{vtranslate($item.name,$QUALIFIED_MODULE)}</td>
 									<td>{$item.key}</td>
 									<td>
 										<button class="btn btn-danger deleteKey">{vtranslate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>

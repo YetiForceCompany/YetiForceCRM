@@ -19,6 +19,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
         for($i=0; $i<$rows; $i++){
 			$row = $adb->query_result_rowdata($result, $i);
 			$keys[ $row['id'] ] = $row;
+			$keys[ $row['id'] ]['name'] = 'LBL_MOBILE_'.strtoupper($row['service']);
         }
 		return $keys;
 	}

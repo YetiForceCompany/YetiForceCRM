@@ -18650,6 +18650,8 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 
 /*Data for the table `yetiforce_mobile_keys` */
 
+/*Data for the table `yetiforce_mobile_pushcall` */
+
 /*Data for the table `yetiforce_updates` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
