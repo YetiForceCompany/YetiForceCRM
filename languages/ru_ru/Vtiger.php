@@ -9,12 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
-<<<<<<< HEAD
-=======
+	'Mails List'	=>	'Последние письма',
+	'Leads by Status Converted'	=>	'Преобразованные Сделки',
 	'Mail Logs'	=>	'Журнал почты',
 	'LBL_MAIL_LOGS'	=>	'Журнал почты',
 	'LangManagement'	=>	'Редактор языков',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'Vtiger'	=>	'Система',
 	'LBL_SEND_MAIL'	=> 'Отправить e-mail',
 	'--None--'=> '--нет--', 
@@ -36,10 +35,10 @@ $languageStrings = array(
 	'Active' => 'Активный',
 	'Activities'				=> 'Действия',
 	'Activity History' => 'История',
-	'Delegated Events/To Dos' => 'Zlecone terminy/zadania',
-	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
-	'Delegated project tasks' => 'Zlecone zadania projektu',
-	'Delegated (overdue) project tasks' => 'Zlecone (nieterminowe) zadania projektu',
+	'Delagated Events/To Dos'	=>	'События и Задачи',
+	'Delegated (overdue) Events/ToDos'	=>	'Просроченные События и Задачи',
+	'Delegated project tasks'	=>	'Проектные Задачи',
+	'Delegated (overdue) project tasks'	=>	'Просроченные События и Задачи',
 	'Add Comment'=> 'Добавить комментарий' , 
 	'Add Note' => 'Добавить документ',
 	'Address details' => 'Детали адреса',
@@ -709,11 +708,7 @@ $languageStrings = array(
 	'Low'=> 'Низкий' , 
 	'Machinery'=> 'Машиностроение',
 	'Mail Manager' => 'Менеджер почты',
-<<<<<<< HEAD
-	'Mail'=> 'Почта',
-=======
 	'Mail'	=>	'Личная почта',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'MailConverter' => 'Сканер почты',
 	'MailManager' => 'Менеджер почты',
 	'MakeOutgoingCalls'=> 'Сделать исходящий звонок',
@@ -748,11 +743,7 @@ $languageStrings = array(
 	'OSSCosts' => 'Затраты',
 	'OSSEmployees' => 'Сотрудники',
 	'OSSMailTemplates' => 'Шаблоны электронной почты',
-<<<<<<< HEAD
-	'OSSMailView' => 'Почта',
-=======
 	'OSSMailView'	=>	'Почта',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'OSSOutsourcedServices' => 'Аутсорсинг Услуг',
 	'OSSSoldServices' => 'Продаваемые Услуги',
 	'OSSTimeControl' => 'Учет времени',
@@ -864,11 +855,7 @@ $languageStrings = array(
 	'SELECT_ATLEAST_ONE' => 'Пожайлуста, выберите хотя бы одну запись',
 	'SINGLE_Accounts'=> 'Контрагент',
 	'SINGLE_Contacts'=> 'Контакт',
-<<<<<<< HEAD
-	'SINGLE_Emails'=> 'Почта',
-=======
 	'SINGLE_Emails'	=>	'Почта',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'SINGLE_Vendors'=> 'Поставщик',
 	'SMSNotifier' => 'SMS-Уведомления',
 	'SPConfigurationManager' => 'Менеджер Конфигураций',
@@ -1010,6 +997,10 @@ $languageStrings = array(
 	'okpo' => 'ОКПО',
 	'yes' => 'Да',
 	'yyyy-mm-dd' => 'гггг-мм-дд',
+	
+	//Call popover
+	'LBL_BTN_CALL'	=>	'Позвонить',
+	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
 );
 $jsLanguageStrings = array(
 	'AM'                           => 'AM'                          , 

@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Mails List'	=>	'Mails List',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
 	'Dashboards'	=>	'Meine Startseite',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
@@ -615,6 +616,7 @@ $languageStrings = array(
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',
 	'Delegated (overdue) project tasks' => 'Zlecone (nieterminowe) zadania projektu',
+	'Leads by Status Converted'	=>	'Leads by Status Converted',
 	'UPS' => 'UPS',
 	'USPS' => 'Deutsche Post',
 	'Valid Date' => 'Gültigkeitsdatum',
