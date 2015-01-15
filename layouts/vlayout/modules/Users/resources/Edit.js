@@ -185,5 +185,6 @@ Vtiger_Edit_Js("Users_Edit_Js",{},{
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
 		this.registerCalendarSharedType(form);
+		Users_PreferenceEdit_Js.registerChangeEventForCurrencySeperator();
 	}
 });
