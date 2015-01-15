@@ -15,7 +15,7 @@ chdir ($crmPath);
 
 require_once 'api/config.php';
 if(!in_array('mobile',$enabledServices)){
-	die("{'status': 0,'masage': 'Mobile - Service is not active'}");
+	die("{'status': 0,'message': 'Mobile - Service is not active'}");
 }
 require_once 'libraries/restler/restler.php';
 require_once 'config/config.php';
