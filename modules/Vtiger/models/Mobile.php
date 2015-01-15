@@ -12,7 +12,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	public function checkPermissionForOutgoingCall() {
 		global $adb;
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $adb->pquery( "SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;", array( $currentUser->getId() , 'pushcall' ), true );
+		$result = $adb->pquery( 'SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $currentUser->getId() , 'pushcall' ), true );
 		if($adb->num_rows($result) > 0){
 			return true;
 		}
@@ -33,15 +33,20 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 		return $return;
 	}
 	
-	public function getAllMobileKeys( $service = false ) {
+	public function getAllMobileKeys( $service , $userid = false) {
 		global $adb;
-		$params = array( 'Active' );
+		
+		$params = array( 'Active', $userid );
 		$sql = '';
+		if( $userid ){
+			$sql .= ' AND vtiger_users.id <> ?';
+			$params[] = $userid;
+		}
 		if( $service ){
 			$sql .= ' AND yetiforce_mobile_keys.service = ?';
 			$params[] = $service;
 		}
-		$result = $adb->pquery( "SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ?".$sql, $params, true );
+		$result = $adb->pquery( 'SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? '.$sql, $params, true );
         $rows = $adb->num_rows($result);
 		$keys = Array();
         for($i=0; $i<$rows; $i++){
@@ -57,7 +62,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	public function getPrivilegesUsers() {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$users = array();
-		$keys = self::getAllMobileKeys( 'pushcall' );
+		$keys = self::getAllMobileKeys( 'pushcall' , $currentUser->getId() );
         foreach ($keys as $id => $key) {
 			if( in_array( $currentUser->getId() , $key['privileges_users']) )
 				$users[$key['userid']] = $key['first_name'].' '.$key['last_name'];

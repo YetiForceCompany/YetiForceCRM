@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v12.01 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce
 *********************************************************************
 */
 
