@@ -8,10 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * Contributor(s): 
-<<<<<<< HEAD
-=======
  * VERSION YetiForceCRM: 1.1.0 RC
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'AJAXChat'  => 'Чат',

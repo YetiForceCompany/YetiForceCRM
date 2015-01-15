@@ -10,6 +10,8 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST'	=>	'Аутсорсинг Услуг',
+	'LBL_ADD_RECORD'	=>	'Аутсорсинг Услуг',
 	'OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
 	'SINGLE_OSSOutsourcedServices'	=>	'Аутсорсинг Услуг',
 	'LBL_INFORMATION'	=>	'Информация',

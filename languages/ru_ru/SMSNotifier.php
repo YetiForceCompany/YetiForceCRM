@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST'	=>	'Список SMS',
 	'LBL_ADD_MORE_FIELDS'               => 'Добавьте поле',
 	'LBL_CHECK_STATUS'                  => 'Проверить статус',
 	'LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND' => 'Выберите тип телефонного номера', 

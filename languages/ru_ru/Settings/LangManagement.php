@@ -9,17 +9,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ********************************************************************************+*/
 $languageStrings = array(
-<<<<<<< HEAD
-	'Language editor'	=>	'Менеджер языков',
-	'Translations'	=>	'Менеджер языков',
-	'No data available in table'	=>	'Не найдено ни одной записи',
-	'LangManagement'	=>	'Менеджер языков',
-=======
 	'Language editor'	=>	'Редактор языков',
 	'Translations'	=>	'Редактор языков',
 	'No data available in table'	=>	'Не найдено ни одной записи',
 	'LangManagement'	=>	'Редактор языков',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'LBL_Module_desc'	=>	'Управление языками системы',
 	'LBL_TAB_LIST'	=>	'Доступные языки',
 	'LBL_TAB_EDITLANG'	=>	'Редактировать язык',
@@ -59,13 +52,8 @@ $languageStrings = array(
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=>	'Показать недостающие переводы',
 );
 $jsLanguageStrings = array(
-<<<<<<< HEAD
-	'Language editor'	=>	'Менеджер языков',
-	'Translations'	=>	'Менеджер языков',
-=======
 	'Language editor'	=>	'Редактор языков',
 	'Translations'	=>	'Редактор языков',
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'No data available in table'	=>	'Не найдено ни одной записи',
 	'LBL_AreYouSure'	=>	'Вы уверены, что хотите удалить этот язык?',
 	'Delete'	=>	'Удалить',

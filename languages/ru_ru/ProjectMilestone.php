@@ -10,7 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
-	'LBL_ADD_RECORD'               => 'Добавить Контрольные точки'       , 
+	'LBL_ADD_RECORD'	=>	'Добавить Контрольную точку',
 	'LBL_MILESTONES_LIST'          => 'Список Контрольных точек',
 	'LBL_PROJECTS_LIST'            => 'Список Проектов',
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Информация'   , 

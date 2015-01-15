@@ -6,10 +6,7 @@
  * The Original Code is: vtiger CRM Open Source
  * All Rights Reserved.
  * Description: Defines the Russian language pack.
-<<<<<<< HEAD
-=======
  * VERSION YetiForceCRM: 1.1.0 RC
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
  ************************************************************************************/
 
 $languageStrings = array(

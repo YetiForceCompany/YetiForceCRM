@@ -17,42 +17,8 @@ $languageStrings = array(
 	'LBL_MODULE_NAME'	=>	'Название модуля',
 	'LBL_NO_PROJECT_TPL_ADDED'	=>	'Документов нет',
 	'TPL'	=>	'Документы',
-<<<<<<< HEAD
-	'DELETE_MODULE'	=>	'Удалить модуль',
-	'LBL_HELP_SETTINGS'	=>	'Справка',
-	'Delete_panel'	=>	'Эта панель конфигурации предназначен для удаления модуля. Название модуля:',
-	'MSG_DEL_WARN1'	=>	'Предупреждение!',
-	'MSG_DEL_WARN2'	=>	'Если вы удалите этот модуль, вы потеряете все данные, связанные с этим модулем в CRM. Так же, после удаления необходимо удалить файлы, оставшиеся в:',
-    'MSG_DEL_PATH1' => ' Smarty/templates/modules/module_name',
-    'MSG_DEL_PATH2' => ' modules/module_name',
-	'MSG_DEL_WARN3'	=>	'и в папке:',
-	'MSG_DEL_WARN4'	=>	'Если вы планируете устанавливать этот модуль в будущем, необходимо удалить эти папки.',
-	'MSG_DEL_WARN5'	=>	'Если у вас есть какие-либо проблемы, вы можете связаться с нами по нашей почте или с помощью уведомлений, отправленных на www.opensaas.pl',
-	'MSG_DEL_WARN6'	=>	'С уважением, команда OpenSaaS',
-    
-	'HelpDescription'	=>	'На этом сайте, вы можете отправлять уведомления, ваши рекомендации о том, как улучшить модуль или просто прочитать описание модуля.',
-	'LBL_TroubleUrl'	=>	'Сайт модуля',
-	'LBL_OurWebsite'	=>	'Наш сайт',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',
-	'LBL_UrlLinkInfo'	=>	'Вы должны зарегистрировать учетную запись',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
-	'LBL_Manual'	=>	'Документация',
-	'OSSProjectTemplates_manual'	=>	'Шаблоны проектов',
-    
-	'LBL_Helpforthemodule'	=>	'Модуль Заявки: ',
-    'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-    'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-    'LBL_UrlHelp2' => 'bok@opensaas.pl',
-    'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License'	=>	'Информация о лицензии:',
-	'LBL_Company'	=>	'Информация о компании:',
-    'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information'	=>	'Информация о модулях:',
-    
-=======
 	'OSSProjectTemplates_manual'	=>	'Шаблоны проектов',
         
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
 	'LBL_CREATING_TPL'	=>	'Создание документа',
 	'LBL_FILL_BASE_DATA'	=>	'Информация',
 	'ADD_CONDITIONS'	=>	'Добавить условие',

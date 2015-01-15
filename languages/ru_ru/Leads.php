@@ -6,10 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-<<<<<<< HEAD
-=======
  * VERSION YetiForceCRM: 1.1.0 RC
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
  ************************************************************************************/
 $languageStrings = array(
 	'Township'	=>	'Поселок',
@@ -83,7 +80,7 @@ $languageStrings = array(
     "Attorney General's Office" => "Офис Генерального прокурора",
     'Hot Leads'                    => 'Горячие Обращения',
 	'LBL_REQUIRES_VERIFICATION'	=>	'Проверка данных',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм'              , 
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
     'Prospecting'                  => 'Разведка',
 );
 

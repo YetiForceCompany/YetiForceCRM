@@ -7,10 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
-<<<<<<< HEAD
-=======
  * VERSION YetiForceCRM: 1.1.0 RC
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
  ************************************************************************************/
 $mod_strings = Array (
 'Mobile' => 'Мобильная версия',

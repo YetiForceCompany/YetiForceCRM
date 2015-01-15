@@ -11,6 +11,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST'	=>	'Список Учета времени',
+	'LBL_ADD_RECORD'	=>	'Добавить Учет времени',
 	'SINGLE_OSSTimeControl'	=>	'Учет времени',
 	'OSSTimeControl'	=>	'Учет времени',
 	'LBL_MAIN_INFORMATION'	=>	'Информация',

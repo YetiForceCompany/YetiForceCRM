@@ -14,6 +14,7 @@ $languageStrings = array(
  	'LBL_USERNAME' => 'User',
  	'LBL_SERVICE' => 'Application',
  	'LBL_KEY' => 'Key',
+	'LBL_WHO_CAN_DIAL' => 'Who can dial a number',
  	'LBL_TOOLS' => 'Tools',
  	'LBL_DELETE_KEY' => 'Delete key',
  	'LBL_ADD_KEY' => 'Add key',
@@ -23,6 +24,7 @@ $languageStrings = array(
  	'LBL_ERROR_SAVE_KEY' => 'Error saving key',
  	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
  	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
+	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved successfully',
 
  	// Mobile services
  	'LBL_MOBILE_CALLHISTORY' => 'Mobile call history',
