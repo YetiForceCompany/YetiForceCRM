@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Lists'	=>	'Lists',
+	'Services database'	=>	'Services database',
+	'Products database'	=>	'Products database',
 	'Mails List'	=>	'Mails List',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
 	'Dashboards'	=>	'Meine Startseite',

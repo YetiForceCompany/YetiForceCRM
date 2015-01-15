@@ -10,6 +10,9 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Lists'	=>	'Lists',
+	'Services database'	=>	'Services database',
+	'Products database'	=>	'Products database',
 	'Mails List'	=>	'Mails List',
 	'--None--' => '--Brak--',
 	'Account Name' => 'Nazwa kontrahenta',

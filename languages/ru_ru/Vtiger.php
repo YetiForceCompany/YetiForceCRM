@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Lists'	=>	'Инструменты',
+	'Services database'	=>	'Услуги',
+	'Products database'	=>	'Товары',
 	'Mails List'	=>	'Последние письма',
 	'Leads by Status Converted'	=>	'Преобразованные Сделки',
 	'Mail Logs'	=>	'Журнал почты',
@@ -248,7 +251,7 @@ $languageStrings = array(
 	'LBL_ADD_WIDGET'=> 'Добавить Виджет', 
 	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Добавить комментарий...', 
 	'LBL_ADJUSTMENT'=> 'Корректировка',
-	'LBL_ADVANCE_SEARCH' => 'расширенный',
+	'LBL_ADVANCE_SEARCH'	=>	'Расширенный поиск',
 	'LBL_AFTER'=> 'после' , 
 	'LBL_AGO'=> 'назад' , 
 	'LBL_ALL'=> 'Все',
