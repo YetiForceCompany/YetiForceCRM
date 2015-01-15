@@ -304,7 +304,7 @@ class Vtiger_ModuleBasic {
 		if($this->entityidfield && $this->entityidcolumn) {
 			$result=$adb->pquery("SELECT tabid FROM vtiger_entityname WHERE tablename=? AND tabid=?",array($fieldInstance->table,$this->id)); 
 			if($adb->num_rows($result)==0){
-				$adb->pquery("INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?)",
+				$adb->pquery("INSERT INTO vtiger_entityname(tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn) VALUES(?,?,?,?,?,?,?)",
 					Array($this->id, $this->name, $fieldInstance->table, $fieldInstance->name, $this->entityidfield, $this->entityidcolumn, $this->entityidcolumn));
 				self::log("Setting entity identifier ... DONE");
 			}else{ 
