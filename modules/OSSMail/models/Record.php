@@ -9,11 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class OSSMail_Record_Model extends Vtiger_Record_Model {
-	function getAccountsList($user = false, $onlyMy = false) {
+	function getAccountsList($user = false, $onlyMy = false, $password = false) {
 		$adb = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$param = array();
 		$sql = "SELECT * FROM roundcube_users";
+		if( $password ){
+			$where .= " AND password <> ''";
+		}
 		if( $user ){
 			$where .= " AND user_id = ?";
 			$param[] = $user;
@@ -391,7 +394,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return true;
 	}
 	public static function get_default_mailboxes() {
-		$Accounts = self::getAccountsList();
+		$Accounts = self::getAccountsList(false,false,true);
 		$mailboxs = Array();
 		if($Accounts){
 			$mbox = self::imap_connect($Accounts[0]['username'] , $Accounts[0]['password']);
