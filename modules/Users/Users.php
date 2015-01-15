@@ -744,11 +744,11 @@ class Users extends CRMEntity {
 			$this->column_fields['status'] = 'Active';
 		}
 
-		if(empty($this->column_fields['currency_decimal_separator'])) {
-			$this->column_fields['currency_decimal_separator'] = ' ';
+		if(empty($this->column_fields['currency_decimal_separator']) && $this->column_fields['currency_decimal_separator'] != ' ') {
+			$this->column_fields['currency_decimal_separator'] = '.';
 		}
 
-		if(empty($this->column_fields['currency_grouping_separator'])) {
+		if(empty($this->column_fields['currency_grouping_separator']) && $this->column_fields['currency_grouping_separator'] != ' ') {
 			$this->column_fields['currency_grouping_separator'] = ' ';
 		}
 
