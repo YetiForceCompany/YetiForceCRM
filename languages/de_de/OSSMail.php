@@ -127,9 +127,9 @@ $jsLanguageStrings = array(
     'Activities' => 'Aktivitäten',
     'HelpDesk' => 'HelpDesk',
     'Marketing' => 'Marketing',
-    'MHelpDesk' => 'MHelpDesk',
-    'MPotentials' => 'MVerkaufsmöglichkeiten',
-    'MProject' => 'MProjekt',
+    'MHelpDesk' => 'HelpDesk',
+    'MPotentials' => 'Verkaufsmöglichkeiten',
+    'MProject' => 'Projekt',
 	
 #	'Sale' => 'Sale',
 #    'Calendar' => 'Calendar',
