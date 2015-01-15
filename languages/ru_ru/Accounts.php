@@ -6,10 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-<<<<<<< HEAD
-=======
  * VERSION YetiForceCRM: 1.1.0 RC
->>>>>>> 2cf0f3dedd551a30446a6b736cbb8cbd7453449b
  ************************************************************************************/
 $languageStrings = array(
 	'Account Name'                 => 'Контрагент'        , 
@@ -66,7 +63,7 @@ $languageStrings = array(
 	'LBL_CONTACT_INFO'	=>	'Контактная информация',
     'LBL_DUPLICATES_EXIST'         => 'Такой клиент уже существует.',
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
     'Prosepect Accounts'           => 'Проспект счета',
 );
 $jsLanguageStrings = array(
