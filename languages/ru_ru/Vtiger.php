@@ -991,6 +991,10 @@ $languageStrings = array(
 	'okpo' => 'ОКПО',
 	'yes' => 'Да',
 	'yyyy-mm-dd' => 'гггг-мм-дд',
+	
+	//Call popover
+	'LBL_BTN_CALL' => 'Call',
+	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
 );
 $jsLanguageStrings = array(
 	'AM'                           => 'AM'                          , 

@@ -10,7 +10,7 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
  *************************************************************************************************************************************/
 $languageStrings = Array(
-##################################
+
     'LBL_NORECORDS_CHECKED' => 'Você ainda não selecionou um registro',
     'Enable Numbering' => 'Habilitar numeração página',
     'LBLEdit' => 'Editar',
@@ -59,7 +59,7 @@ $languageStrings = Array(
     'Top margin [mm]' => 'Margem superior [mm]',
     'Left margin [mm]' => 'Margem esquerda [mm]',
     'Right margin [mm]' => 'Margem direita [mm]',
-###
+
     'OSSPdf' => 'PDF',
     'VAT_SUMMARY' => 'Resumo Imposto: ',
     'SUMMARY' => 'Resumo ',
@@ -97,13 +97,13 @@ $languageStrings = Array(
     'page_break' => 'Adicionando nova página',
     'amount_in_words' => 'Quantidade total em palavras',
     'error' => 'A Informação no campo de restrição não foi salva corretamente => você não adicionou nenhuma condição e portanto não poderá edita-lo!',
-####################################
+
     'AttachInfo' => 'Decidir quem (Usuário/Grupo) poderá ser designado para os Documentos criados:',
     'default' => 'Opção padrão',
     'LBL_default' => 'Usuário atualmente conectado em',
     'groups' => 'Grupos',
     'users' => 'Usuários',
-##################################
+
     'LBL_TEMPLATES' => 'Selecionar modelo PDF',
     'LBL_NO_TEMPLATES' => 'Nenhum modelo disponível!',
     'company_name' => 'OpenSaaS Sp. z o.o.',
@@ -163,7 +163,7 @@ $languageStrings = Array(
     'MSG_DEL_WARN5' => 'Se você tiver algum problema, envie-nos um e-mail ou uma notificação através nosso site www.opensaas.pl',
     'MSG_DEL_WARN6' => 'Cordialmente, equipe OpenSaaS.',
     /* +**********************************************************************************
-     * Tlumacznie dla nowego modulu
+     * Translations for the new module.
      * ********************************************************************************** */
     'OSSModule' => 'Módulo de exemplo',
     'SINGLE_OSSModule' => 'Módulo de exemplo',
@@ -181,7 +181,7 @@ $languageStrings = Array(
     'LBL_lower' => 'menor',
     'LBL_lower_equal' => 'menor ou igual',
     'LBL_contains' => 'contém',
-###########################################################
+
     'LBL_method0' => 'Se as condições forem satisfeitas, o modelo ficará visível',
     'LBL_method1' => 'Modelo sempre visível - se as condições forem satisfeitas: marcada, se não - não marcada',
     'LBL_method2' => 'Visível somente se satisfeitas, padrão desmarcada',
@@ -191,7 +191,7 @@ $languageStrings = Array(
     'LBL_condition_type' => 'Método de verificação das condições',
     'LBL_method' => 'Reação após verificação das condições',
     'Button_copy_to_constraints' => 'Copiar para área de texto',
-###########################################################
+
     'LBL_DEFAULT_FIELDS' => 'Campos do módulo principal',
     'LBL_RELATED_MODULE' => 'Módulos relacionados',
     'LBL_RELATED_FIELDS' => 'Campos do módulo relacionado',
@@ -199,13 +199,13 @@ $languageStrings = Array(
     'LBL_GET_VARIABLE' => 'Obter uma variável',
     'LBL_empty' => 'Faltam módulos relacionados',
     'LBL_moduleid' => 'Selecionar módulo',
-###########################################################
+
     'SINGLE_OSSPdf' => 'PDF',
     'LBL_PRODUCT_MODULE' => 'Funcionalidades especiais',
     'LBL_prodtable1' => 'Tabela Produto (tipo 1)',
     'LBL_prodtableNP' => 'Tabela Produto isento de Imposto',
     'LBL_amountwords' => 'Total com Impostos escrito por extenso',
-###########################################################
+
     'LBL_Quantity' => 'Quantidade',
     'LBL_productname' => 'Produto ou Serviço',
     'LBL_nr' => 'No.',

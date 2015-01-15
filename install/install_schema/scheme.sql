@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v12.01 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce
 *********************************************************************
 */
 
@@ -7909,12 +7909,23 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
 DROP TABLE IF EXISTS `yetiforce_mobile_keys`;
 
 CREATE TABLE `yetiforce_mobile_keys` (
-  `id` int(19) NOT NULL,
+  `id` int(19) NOT NULL AUTO_INCREMENT,
   `user` int(19) NOT NULL,
   `service` varchar(50) NOT NULL,
   `key` varchar(30) NOT NULL,
+  `privileges_users` text,
   PRIMARY KEY (`id`),
   KEY `user` (`user`,`service`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_mobile_pushcall` */
+
+DROP TABLE IF EXISTS `yetiforce_mobile_pushcall`;
+
+CREATE TABLE `yetiforce_mobile_pushcall` (
+  `user` int(19) NOT NULL,
+  `number` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_updates` */

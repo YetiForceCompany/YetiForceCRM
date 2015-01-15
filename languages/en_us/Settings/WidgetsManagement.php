@@ -11,8 +11,8 @@
 
 $languageStrings = array(
 
-	'WidgetsManagement' => 'Management widgets',
-	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'WidgetsManagement' => 'Widgets Management',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
 	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',

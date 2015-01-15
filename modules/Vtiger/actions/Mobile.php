@@ -8,26 +8,25 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
-$languageStrings = array(
-
-	'WidgetsManagement' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
-	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
-	'LBL_CHOISE_ROLE' => 'Select role',
-	'LBL_CHOISE_WIDGET' => 'Select widgets',
-	'LBL_ROLE' => 'Roles',
-	'LBL_WIDGET' => 'Widgets',
-	
-	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
-	'LBL_FAILED_TO_SAVE' => 'No changes were made',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
-
-);
-$jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Mandatory widget: ',
-	'JS_INACTIVE' => 'Inactive widget: ',
-);
-?>
+class Vtiger_Mobile_Action extends Vtiger_Action_Controller {
+	function __construct() {
+		parent::__construct();
+		$this->exposeMethod('performCall');
+	}
+	public function process(Vtiger_Request $request) {
+		$mode = $request->getMode();
+		if(!empty($mode)) {
+			echo $this->invokeExposedMethod($mode, $request);
+		}
+	}
+	function performCall(Vtiger_Request $request) {
+		$module = $request->getModule();
+		$phoneNumber = $request->get('phoneNumber');
+		$record = $request->get('record');
+		$user = $request->get('user');
+		$result = Vtiger_Mobile_Model::performCall($record, $phoneNumber, $user);
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+}

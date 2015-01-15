@@ -862,6 +862,10 @@ $languageStrings = array(
 	'LBL_VIEW_LIST' => 'Lista',
 	'LBL_VIEW_CALENDAR' => 'Kalendarz graficzny',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Kalendarz wspólny',
+	
+	//Call popover
+	'LBL_BTN_CALL' => 'Zadzwoń',
+	'LBL_SELECT_USER_TO_CALL' => 'Wybierz do kogo chcesz zadzwonić',
 );
 
 $jsLanguageStrings = array(
@@ -1017,4 +1021,7 @@ $jsLanguageStrings = array(
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Osoba kontaktowa',
 	'JS_PARENT_ID' => 'Powiązany z',
+	
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer został wysłany do telefonu',
+	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
 );

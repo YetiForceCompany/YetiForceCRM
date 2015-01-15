@@ -789,6 +789,10 @@ $languageStrings = array(
 	'LBL_VIEW_LIST' => 'List',
 	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
+	
+	//Call popover
+	'LBL_BTN_CALL' => 'Call',
+	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',

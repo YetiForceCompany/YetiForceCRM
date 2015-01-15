@@ -232,12 +232,12 @@ $languageStrings = array(
 	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_WIDGETS_MANAGEMENT' => 'Management Widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
-	'LBL_MOBILE_KEYS' => 'Keys mobile applications',
-	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage keys mobile applications',
+	'LBL_MOBILE_KEYS' => 'Mobile application keys',
+	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

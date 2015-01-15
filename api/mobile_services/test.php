@@ -8,3 +8,20 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
+class Test{
+	public $restler;
+	
+	function post($app_name = ''){
+		global $log,$adb;
+		$log->info('Start Test metod');
+		$return = 'false';
+		if ($app_name == 'PushCall')
+			$return = "true";
+		if ($app_name == 'PushMessage')
+			$return = "true";
+		if ($app_name == 'CallHistory')
+			$return = "true";
+		$log->info('tart Test metod | return: '.$return);
+		return $return;
+	}
+}

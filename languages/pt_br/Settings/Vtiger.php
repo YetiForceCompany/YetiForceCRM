@@ -236,8 +236,8 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
-	'LBL_MOBILE_KEYS' => 'Keys mobile applications',
-	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage keys mobile applications',
+	'LBL_MOBILE_KEYS' => 'Mobile application keys',
+	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',

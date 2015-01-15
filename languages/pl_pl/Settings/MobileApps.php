@@ -14,6 +14,7 @@ $languageStrings = array(
 	'LBL_USERNAME' => 'Użytkownik',
 	'LBL_SERVICE' => 'Aplikacja',
 	'LBL_KEY' => 'Klucz',
+	'LBL_WHO_CAN_DIAL' => 'Kto może wybierać numer',
 	'LBL_TOOLS' => 'Narzędzia',
 	'LBL_DELETE_KEY' => 'Usuń klucz',
 	'LBL_ADD_KEY' => 'Dodaj klucz',
@@ -23,6 +24,7 @@ $languageStrings = array(
 	'LBL_ERROR_SAVE_KEY' => 'Błąd podczas dodawania klucza',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Już został wygenerowany klucz dla tej aplikacji',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Klucz został usunięty',
+	'LBL_SUCCESS_SAVE_CHANGES' => 'Zapisano zmiany',
 	
 	// Mobile services
 	'LBL_MOBILE_CALLHISTORY' => 'Historia wykonanych połączeń',
