@@ -277,7 +277,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$field3->table = 'vtiger_crmentity';
 		$field3->column = 'createdtime';
 		$field3->uitype = 70;
-		$field3->typeofdata = 'T~O';
+		$field3->typeofdata = 'DT~O';
 		$field3->displaytype= 2;
 		$block->addField($field3);
 
@@ -287,7 +287,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$field4->table = 'vtiger_crmentity';
 		$field4->column = 'modifiedtime';
 		$field4->uitype = 70;
-		$field4->typeofdata = 'T~O';
+		$field4->typeofdata = 'DT~O';
 		$field4->displaytype= 2;
 		$block->addField($field4);
 
