@@ -650,23 +650,17 @@ insert  into `vtiger_callduration_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_callhistorycf` */
 
-/*Data for the table `vtiger_callhistorystatus` */
-
-insert  into `vtiger_callhistorystatus`(`callhistorystatusid`,`callhistorystatus`,`sortorderid`,`presence`) values (1,'stat1',1,1);
-insert  into `vtiger_callhistorystatus`(`callhistorystatusid`,`callhistorystatus`,`sortorderid`,`presence`) values (2,'stat2',2,1);
-
-/*Data for the table `vtiger_callhistorystatus_seq` */
-
-insert  into `vtiger_callhistorystatus_seq`(`id`) values (2);
-
 /*Data for the table `vtiger_callhistorytype` */
 
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (1,'Outgoing',1,1);
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (2,'Incoming',2,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (1,'Outgoing missed',1,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (2,'Outgoing received',2,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (3,'Incoming',3,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (4,'Missed',4,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (5,'Voicemail',5,1);
 
 /*Data for the table `vtiger_callhistorytype_seq` */
 
-insert  into `vtiger_callhistorytype_seq`(`id`) values (2);
+insert  into `vtiger_callhistorytype_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_campaign` */
 
@@ -1367,7 +1361,6 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (67
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (68,0,'vtiger_callhistory:from_number:from_number:CallHistory_LBL_FROM_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (68,1,'vtiger_callhistory:to_number:to_number:CallHistory_LBL_TO_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (68,2,'vtiger_callhistory:duration:duration:CallHistory_LBL_DURATION:I');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (68,3,'vtiger_callhistory:callhistorystatus:callhistorystatus:CallHistory_LBL_STATUS:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (68,4,'vtiger_callhistory:start_time:start_time:CallHistory_LBL_START_TIME:V');
 
 /*Data for the table `vtiger_cvstdfilter` */
@@ -2780,7 +2773,6 @@ insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) valu
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1507,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1508,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1509,0,0);
-insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1510,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1511,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1512,0,0);
 insert  into `vtiger_def_org_field`(`tabid`,`fieldid`,`visible`,`readonly`) values (74,1513,0,0);
@@ -4288,7 +4280,6 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1507,'location','vtiger_callhistory',1,'1','location','LBL_LOCATION',1,2,'',100,9,232,1,'V~O',1,NULL,'BAS',1,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1508,'phonecallid','vtiger_callhistory',1,'1','phonecallid','LBL_PHONE_CALL_ID',1,2,'',100,8,232,1,'V~O',1,NULL,'BAS',1,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1509,'duration','vtiger_callhistory',1,'7','duration','LBL_DURATION',1,2,'',100,7,232,1,'I~O',1,NULL,'BAS',1,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1510,'callhistorystatus','vtiger_callhistory',1,'16','callhistorystatus','LBL_STATUS',1,2,'',100,4,232,1,'V~O',1,NULL,'BAS',1,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1511,'start_time','vtiger_callhistory',1,'70','start_time','LBL_START_TIME',1,2,'',100,5,232,1,'V~O',1,NULL,'BAS',0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1512,'end_time','vtiger_callhistory',1,'70','end_time','LBL_END_TIME',1,2,'',100,6,232,1,'V~O',1,NULL,'BAS',0,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`) values (74,1513,'country','vtiger_callhistory',1,'1','country','LBL_COUNTRY_CODE',1,2,'',100,10,232,1,'V~O',1,NULL,'BAS',1,0,0);
@@ -5707,7 +5698,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (70);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (560);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (563);
 
 /*Data for the table `vtiger_portal` */
 
@@ -7080,7 +7071,6 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1507,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1508,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1509,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1510,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1511,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1512,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,74,1513,0,0);
@@ -8405,7 +8395,6 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1507,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1508,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1509,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1510,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1511,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1512,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,74,1513,0,0);
@@ -9730,7 +9719,6 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1507,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1508,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1509,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1510,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1511,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1512,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,74,1513,0,0);
@@ -11055,7 +11043,6 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1507,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1508,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1509,0,0);
-insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1510,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1511,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1512,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,74,1513,0,0);

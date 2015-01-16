@@ -39,8 +39,9 @@ $languageStrings = Array(
 	'LBL_SOURCE' => 'Źródło rozmowy',
 	
 	//pick list values
-	'Outgoing' => 'Wychodząca',
-	'Incoming' => 'Przychodząca',
-	'stat1' => 'Odebrana',
-	'stat2' => 'Nie odebrana',
+	'Outgoing missed' => 'Wychodząca nieodebrana',
+	'Outgoing received' => 'Wychodząca odebrana',
+	'Incoming' => 'Przychodząca odebrana',
+	'Missed' => 'Przychodząca nieodebrana',
+	'Voicemail' => 'Przychodząca poczta głosowa',
 );

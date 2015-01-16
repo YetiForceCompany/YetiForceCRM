@@ -14,12 +14,14 @@ class HistoryCall{
 	public $debug = true;
 	public $permittedActions = array('addCallLogs');
 	public $types = array(
-		'OUTGOING' => 'Outgoing',
-		'INCOMING' => 'Incoming'
+		'1' => 'Incoming',
+		'2' => 'Outgoing',
+		'3' => 'Missed',
+		'4' => 'Voicemail',
 	);
-	public $status = array(
-		'OUTGOING' => 'stat1',
-		'INCOMING' => 'stat2'
+	public $outgoingStatus = array(
+		0 => 'Outgoing missed',
+		1 => 'Outgoing received',
 	);
 	
     function post($type = '', $authorization = '', $data = ''){
@@ -35,7 +37,7 @@ class HistoryCall{
 		}
 		if($this->debug){
 			$file = 'api/mobile_services_HistoryCall_logs.txt';
-			$dane = print_r( $resultData ,true);
+			$dane = print_r( array( $data, $resultData ) ,true);
 			file_put_contents($file,'-----> '.date("Y-m-d H:i:s").' <-----'.PHP_EOL.$dane.PHP_EOL,FILE_APPEND | LOCK_EX);
 		}
         return $test;
@@ -53,20 +55,20 @@ class HistoryCall{
 		$data = json_decode($data);
 
 		foreach ($data->callLogs as $call) {
-			$to_number = $call->number;
+			$to_number = $call->to_number;
 			$from_number = $data->phoneNumber;
 			$destination = $this->findPhoneNumber($to_number);
 			
 			$CallHistory = CRMEntity::getInstance('CallHistory');
 			$CallHistory->column_fields['assigned_user_id'] =  $this->userID;
-			$CallHistory->column_fields['callhistorytype'] = $this->getType( $call->type_text );
-			$CallHistory->column_fields['callhistorystatus'] = $this->getStatus( $call->type_id );
+			$CallHistory->column_fields['callhistorytype'] = $this->getType( $call->type , $call->duration);
 			$CallHistory->column_fields['country'] = $call->country_iso;
 			$CallHistory->column_fields['to_number'] = $to_number;
 			$CallHistory->column_fields['from_number'] = $from_number;
-			$CallHistory->column_fields['location'] = $call->geocoded_location;
-			$CallHistory->column_fields['phonecallid'] = $call->id;
-			$CallHistory->column_fields['start_time'] = $call->call_date;
+			$CallHistory->column_fields['location'] = $call->location;
+			$CallHistory->column_fields['phonecallid'] = $call->callid;
+			$CallHistory->column_fields['start_time'] = date("Y-m-d H:i:s", $call->start_time);
+			$CallHistory->column_fields['end_time'] = date("Y-m-d H:i:s", $call->end_time);
 			$CallHistory->column_fields['duration'] = $call->duration;
 			$CallHistory->column_fields['imei'] = $data->imei;
 			$CallHistory->column_fields['ipAddress'] = $data->ipAddress;
@@ -99,7 +101,7 @@ class HistoryCall{
 		global $log,$adb;
 		$crmid = false;
 		$modulesInstance = array();
-		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE uitype = '11' AND vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
+		$sql = "SELECT columnname,tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 AND uitype = '11' AND vtiger_tab.name IN ('Contacts','Accounts','Leads','OSSEmployees','Vendors')";
 		$result = $adb->query($sql,true);
 		for($i = 0; $i < $adb->num_rows($result); $i++){
 			$module = $adb->query_result_raw($result, $i, 'name');
@@ -111,11 +113,14 @@ class HistoryCall{
 				$modulesInstance[$module] = $moduleInstance->tab_name_index;
 			}
 			$table_index = $modulesInstance[$module][$tablename];
+			if( strpos($number, '+') !== false )
+				$number = substr($number, 3);
+			$number = preg_replace('/\D/', '',$number);
 			$sqlNumber = '';
 			foreach (str_split($number) as $num) {
 				$sqlNumber .= '[^0-9]*'.$num;
 			}
-			$sql = "SELECT crmid FROM $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$table_index WHERE $columnname RLIKE '$sqlNumber';";
+			$sql = "SELECT crmid FROM $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$table_index WHERE vtiger_crmentity.deleted = 0 AND $columnname RLIKE '$sqlNumber';";
 			$resultData = $adb->query($sql,true);
 			if($adb->num_rows($resultData) > 0 ){
 				$crmid = $adb->query_result_raw($resultData, 0, 'crmid');
@@ -124,10 +129,11 @@ class HistoryCall{
 		}
 		return $crmid;
 	}
-	function getType($type){
-		return !$this->types[$type]? $type : $this->types[$type];
-	}
-	function getStatus($status){
-		return !$this->status[$status]? $status : $this->status[$status];
+	function getType($type, $duration){
+		if($type == 2){
+			return $duration > 0 ? $this->outgoingStatus[1] : $this->outgoingStatus[0];
+		}else{
+			return !$this->types[$type]? $type : $this->types[$type];
+		}
 	}
 }

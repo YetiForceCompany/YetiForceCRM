@@ -1138,7 +1138,6 @@ CREATE TABLE `vtiger_callhistory` (
   `location` varchar(200) DEFAULT NULL,
   `phonecallid` varchar(100) DEFAULT NULL,
   `duration` int(10) DEFAULT NULL,
-  `callhistorystatus` varchar(255) DEFAULT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
@@ -1164,26 +1163,6 @@ CREATE TABLE `vtiger_callhistorycf` (
   CONSTRAINT `vtiger_callhistorycf_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_callhistorystatus` */
-
-DROP TABLE IF EXISTS `vtiger_callhistorystatus`;
-
-CREATE TABLE `vtiger_callhistorystatus` (
-  `callhistorystatusid` int(11) NOT NULL AUTO_INCREMENT,
-  `callhistorystatus` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`callhistorystatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_callhistorystatus_seq` */
-
-DROP TABLE IF EXISTS `vtiger_callhistorystatus_seq`;
-
-CREATE TABLE `vtiger_callhistorystatus_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_callhistorytype` */
 
 DROP TABLE IF EXISTS `vtiger_callhistorytype`;
@@ -1194,7 +1173,7 @@ CREATE TABLE `vtiger_callhistorytype` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`callhistorytypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_callhistorytype_seq` */
 

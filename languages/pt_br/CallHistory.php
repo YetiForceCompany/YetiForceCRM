@@ -39,8 +39,9 @@ $languageStrings = Array(
 	'LBL_SOURCE' => 'Call source',
 	
 	//pick list values
-	'Outgoing' => 'Outgoing',
-	'Incoming' => 'Incoming',
-	'stat1' => 'Answered',
-	'stat2' => 'Missed',
+	'Outgoing missed' => 'Outgoing missed',
+	'Outgoing received' => 'Outgoing received',
+	'Incoming' => 'Incoming received',
+	'Missed' => 'Incoming missed',
+	'Voicemail' => 'Incoming voicemail',
 );
