@@ -26,7 +26,7 @@ class PushCall{
 			$resultData = Array('status' => 0,'message' =>  'Method not found: '.$type);
 		}
 		if($this->debug){
-			$file = 'api/mobile_services/_PushCall.txt';
+			$file = 'api/mobile_services_PushCall_logs.txt';
 			$test = print_r( array('respons' => $resultData, 'request' => $type ),true);
 			file_put_contents($file,'-----> '.date("Y-m-d H:i:s").' <-----'.PHP_EOL.$test.PHP_EOL,FILE_APPEND | LOCK_EX);
 		}
