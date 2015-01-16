@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Modul aus Datei importieren',
@@ -47,4 +48,13 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Falsche Version vom Modul, Modulversion ist __MODULEVERSION__ , aber es sollte größer als __CRMVERSION__ sein',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Modul ist nicht in Standardsprache (__DEFAULTLANGUAGE__) enthalten.',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
+	
+	'LBL_CREATE_MODULE' => 'Create module',
+	'LBL_CREATING_MODULE' => 'Creating new module',
+	'LBL_ENTER_MODULE_NAME' => 'Module name',
+	'LBL_ENTER_MODULE_LABEL' => 'Module label',
+	'LBL_ENTITY_FIELDNAME' => 'Entity field name',
+	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
+	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
 );

@@ -47,4 +47,13 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Versão do módulo incorreta, versão __MODULEVERSION__, contudo, deveria ser maior que __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'O módulo não possui o idioma padrão (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Nenhum arquivo',
+	
+	'LBL_CREATE_MODULE' => 'Create module',
+	'LBL_CREATING_MODULE' => 'Creating new module',
+	'LBL_ENTER_MODULE_NAME' => 'Module name',
+	'LBL_ENTER_MODULE_LABEL' => 'Module label',
+	'LBL_ENTITY_FIELDNAME' => 'Entity field name',
+	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
+	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
 );
