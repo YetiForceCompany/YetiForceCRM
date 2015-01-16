@@ -7,7 +7,54 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-Vtiger_Edit_Js("Users_Edit_Js",{},{
+Vtiger_Edit_Js("Users_Edit_Js",{
+	
+	/**
+	 * Function to register change event for currency seperator
+	 */
+	registerChangeEventForCurrencySeperator : function(){
+		var form = jQuery('form');
+		jQuery('[name="currency_decimal_separator"]',form).on('change',function(e){
+			var element = jQuery(e.currentTarget);
+			var selectedValue = element.val();
+			var groupingSeperatorValue = jQuery('[name="currency_grouping_separator"]',form).data('selectedValue');
+			if(groupingSeperatorValue == selectedValue){
+				var message = app.vtranslate('JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME');
+				var params = {
+					text: message,
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				var previousSelectedValue = element.data('selectedValue');
+				element.find('option').removeAttr('selected');
+				element.find('option[value="'+previousSelectedValue+'"]').attr('selected','selected');
+				element.trigger("liszt:updated");
+			}else{
+				element.data('selectedValue',selectedValue);
+			}
+		})
+		jQuery('[name="currency_grouping_separator"]',form).on('change',function(e){
+			var element = jQuery(e.currentTarget);
+			var selectedValue = element.val();
+			var decimalSeperatorValue = jQuery('[name="currency_decimal_separator"]',form).data('selectedValue');
+			if(decimalSeperatorValue == selectedValue){
+				var message = app.vtranslate('JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME');
+				var params = {
+					text: message,
+					type: 'error'
+				};
+				Vtiger_Helper_Js.showMessage(params);
+				var previousSelectedValue = element.data('selectedValue');
+				element.find('option').removeAttr('selected');
+				element.find('option[value="'+previousSelectedValue+'"]').attr('selected','selected');
+				element.trigger("liszt:updated");
+			}else{
+				element.data('selectedValue',selectedValue);
+			}
+		})
+	}
+	
+},{
 	
 	duplicateCheckCache : {},
 	
@@ -185,5 +232,6 @@ Vtiger_Edit_Js("Users_Edit_Js",{},{
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
 		this.registerCalendarSharedType(form);
+		Users_Edit_Js.registerChangeEventForCurrencySeperator();
 	}
 });

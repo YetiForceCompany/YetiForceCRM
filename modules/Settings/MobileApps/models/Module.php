@@ -11,17 +11,8 @@
 class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	public $serviceDir = 'api/mobile_services';
 	
-	public function getAllMobileKeys() {
-		global $adb;
-		$result = $adb->pquery( "SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ?;", array( 'Active' ), true );
-        $rows = $adb->num_rows($result);
-		$keys = Array();
-        for($i=0; $i<$rows; $i++){
-			$row = $adb->query_result_rowdata($result, $i);
-			$keys[ $row['id'] ] = $row;
-			$keys[ $row['id'] ]['name'] = 'LBL_MOBILE_'.strtoupper($row['service']);
-        }
-		return $keys;
+	public function getAllMobileKeys( $service = false ) {
+		return Vtiger_Mobile_Model::getAllMobileKeys( $service );
 	}
 	
 	public function getAllService() {
@@ -54,5 +45,15 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	public function deleteKey($params){
 		global $adb;
 		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $params['user'] , $params['service'] ));
+	}
+	
+	public function changePrivileges($params){
+		global $adb;
+		if($params['privileges'] != 'null'){
+			$privileges = serialize($params['privileges']);
+		}else{
+			$privileges = '';
+		}
+		$adb->pquery('UPDATE yetiforce_mobile_keys SET privileges_users = ? WHERE user = ? AND service = ?;', array( $privileges ,$params['user'] , $params['service'] ));
 	}
 }

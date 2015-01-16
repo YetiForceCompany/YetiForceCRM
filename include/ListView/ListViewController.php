@@ -371,6 +371,14 @@ class ListViewController {
 					if($outgoingCallPermission && !empty($value)) {
 						$phoneNumber = preg_replace('/[-()\s]/', '',$value);
 						$value = '<a class="phoneField" data-phoneNumber="'.$phoneNumber.'" record="'.$recordId.'" onclick="Vtiger_Mobile_Js.registerOutboundCall(\''.$phoneNumber.'\', '.$recordId.')">'.textlength_check($value).'</a>';
+						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();
+						if($callUsers){
+							$value .= '  <a class="btn btn-mini noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\''.$phoneNumber.'\','.$recordId.')" data-placement="right" data-original-title="'.vtranslate('LBL_SELECT_USER_TO_CALL',$module).'" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
+							foreach($callUsers as $key => $item) {
+								$value .= '<option value="'.$key.'">'.$item.'</option>';
+							}
+							$value .= '</select><br /><a class="btn btn-success popoverCallOK">'.vtranslate('LBL_BTN_CALL',$module).'</a>   <a class="btn btn-inverse popoverCallCancel">'.vtranslate('LBL_CANCEL',$module).'</a>\' data-trigger="manual"><i class="icon-user"></i></a>';
+						}
 					}else {
 						$value = textlength_check($value);
 					}

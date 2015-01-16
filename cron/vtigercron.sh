@@ -10,6 +10,7 @@
 
 export VTIGERCRM_ROOTDIR=`dirname "$0"`/..
 export USE_PHP=php
+#export USE_PHP=/usr/local/php53/bin/php
 
 cd $VTIGERCRM_ROOTDIR
 # TO RUN ALL CORN JOBS

@@ -21,13 +21,28 @@ jQuery.Class("Vtiger_Mobile_Js",{
 			Vtiger_Mobile_Js.performCall( phoneNumber, record )
 		}
 	},
-	performCall : function( phoneNumber, record ) {
+	registerOutboundCallToUser : function( elmnt, phoneNumber, record ) {
+		$( elmnt ).popover('toggle');
+		$('.popoverCallOK').click(function(e) {
+			var currentTdElement = jQuery(e.currentTarget);
+			var user = currentTdElement.closest('.popover-content').find('.sesectedUser').val();
+			Vtiger_Mobile_Js.performCall( phoneNumber, record , user)
+			$( elmnt ).popover('hide');
+		});
+		$('.popoverCallCancel').click(function() {
+			$( elmnt ).popover('hide');
+		});
+	},
+	performCall : function( phoneNumber, record , user) {
 		var params = {
 		'module'	: 'Vtiger',
 		'action'	: "Mobile",
 		'mode'		: 'performCall',
 		'record'	: record,
 		'phoneNumber' : phoneNumber
+		}
+		if(user != undefined){
+			params.user = user;
 		}
         AppConnector.request(params).then(
 			function(data) {

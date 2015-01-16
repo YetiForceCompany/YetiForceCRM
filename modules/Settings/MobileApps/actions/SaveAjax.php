@@ -13,6 +13,7 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		parent::__construct();
 		$this->exposeMethod('addKey');
 		$this->exposeMethod('deleteKey');
+		$this->exposeMethod('changePrivileges');
 	}
 	public function addKey(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -45,6 +46,18 @@ class Settings_MobileApps_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_KEY_HAS_BEEN_REMOVED', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function changePrivileges(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$qualifiedModuleName = $request->getModule(false);
+		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
+		$result = $moduleModel->changePrivileges($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SUCCESS_SAVE_CHANGES', $request->getModule(false))
 		));
 		$response->emit();
 	}

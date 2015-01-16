@@ -8,25 +8,20 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Vtiger_Mobile_Action extends Vtiger_Action_Controller {
-	function __construct() {
-		parent::__construct();
-		$this->exposeMethod('performCall');
-	}
-	public function process(Vtiger_Request $request) {
-		$mode = $request->getMode();
-		if(!empty($mode)) {
-			echo $this->invokeExposedMethod($mode, $request);
-		}
-	}
-	function performCall(Vtiger_Request $request) {
-		$module = $request->getModule();
-		$phoneNumber = $request->get('phoneNumber');
-		$record = $request->get('record');
-		$user = $request->get('user');
-		$result = Vtiger_Mobile_Model::performCall($record, $phoneNumber, $user);
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
+class Test{
+	public $restler;
+	
+	function post($app_name = ''){
+		global $log,$adb;
+		$log->info('Start Test metod');
+		$return = 'false';
+		if ($app_name == 'PushCall')
+			$return = "true";
+		if ($app_name == 'PushMessage')
+			$return = "true";
+		if ($app_name == 'CallHistory')
+			$return = "true";
+		$log->info('tart Test metod | return: '.$return);
+		return $return;
 	}
 }

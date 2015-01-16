@@ -866,6 +866,10 @@ $languageStrings = array(
 	'LBL_VIEW_LIST' => 'Lista',
 	'LBL_VIEW_CALENDAR' => 'Kalendarz graficzny',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Kalendarz wspólny',
+	
+	//Call popover
+	'LBL_BTN_CALL' => 'Zadzwoń',
+	'LBL_SELECT_USER_TO_CALL' => 'Wybierz do kogo chcesz zadzwonić',
 );
 
 $jsLanguageStrings = array(
