@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 require_once 'includes/runtime/Cache.php';
@@ -162,6 +163,38 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 		Vtiger_Webservice::uninitialize($this);
 	}
 
+	function createFiles(Vtiger_Field $entityField) {
+		$targetpath = 'modules/' . $this->name;
+
+		if (!is_file($targetpath)) {
+			mkdir($targetpath);
+
+			$templatepath = 'vtlib/ModuleDir/BaseModule';
+			$moduleFileContents = file_get_contents($templatepath . '/ModuleName.php');
+			$replacevars = array(
+				'ModuleName'   => $this->name,
+				'<modulename>' => strtolower($this->name),
+				'<entityfieldlabel>' => $entityField->label,
+				'<entitycolumn>' => $entityField->column,
+				'<entityfieldname>' => $entityField->name,
+			);
+			foreach ($replacevars as $key => $value) {
+				$moduleFileContents = str_replace($key, $value, $moduleFileContents);
+			}
+			file_put_contents($targetpath.'/'.$this->name.'.php', $moduleFileContents);
+			$languageFileContents = file_get_contents($templatepath . '/languages/en_us/ModuleName.php');
+			$replacevars = array(
+				'<ModuleName>'   => $this->name,
+				'<ModuleLabel>'   => $this->label,
+				'<entityfieldlabel>' => $entityField->label,
+				'<entityfieldname>' => $entityField->name,
+			);
+			foreach ($replacevars as $key => $value) {
+				$languageFileContents = str_replace($key, $value, $languageFileContents);
+			}
+			file_put_contents('languages/en_us/' . $this->name . '.php', $languageFileContents);
+		}
+	}
 	/**
 	 * Get instance by id or name
 	 * @param mixed id or name of the module

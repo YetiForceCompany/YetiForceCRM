@@ -8,13 +8,19 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
-	'<ModuleName>' => '<ModuleLabel>',
-	'SINGLE_<ModuleName>' => '<ModuleLabel>',
-	'<ModuleName> ID' => '<ModuleLabel> ID',
+Class Settings_ModuleManager_CreateModule_View extends Settings_Vtiger_Index_View {
 
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
+	public function  preProcess(Vtiger_Request $request) {
+		parent::preProcess($request);
+	}
 
-	'<entityfieldname>' => '<entityfieldlabel>',
-);
+	public function process(Vtiger_Request $request) {
+		$viewer = $this->getViewer ($request);
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
+		
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->view('CreateModule.tpl', $qualifiedModuleName);
+	}
+}

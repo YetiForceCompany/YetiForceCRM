@@ -6,13 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View {
     function __construct() {
 		parent::__construct();
 		$this->exposeMethod('updateModuleStatus');
-                $this->exposeMethod('importUserModuleStep3');
-                $this->exposeMethod('updateUserModuleStep3');
+		$this->exposeMethod('importUserModuleStep3');
+		$this->exposeMethod('updateUserModuleStep3');
+		$this->exposeMethod('checkModuleName');
+		$this->exposeMethod('createModule');
 	}
     
     function process(Vtiger_Request $request) {
@@ -92,7 +95,36 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
         $response->emit();
     }
 
-	 public function validateRequest(Vtiger_Request $request) { 
+	public function validateRequest(Vtiger_Request $request) { 
         $request->validateWriteAccess(); 
     } 
+    public function checkModuleName(Vtiger_Request $request){
+		$qualifiedModuleName = $request->getModule(false);
+        $moduleName = $request->get('moduleName');
+		$module = Vtiger_Module::getInstance($moduleName);
+		if ($module) {
+			$result = array('success'=>false, 'text'=> vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+		}elseif( preg_match('/[^A-Za-z]/i', $moduleName) ){
+			$result = array('success'=>false, 'text'=> vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+		}else{
+			$result = array('success'=>true);
+		}
+        $response = new Vtiger_Response();
+        $response->setResult($result);
+        $response->emit();
+    }
+    public function createModule(Vtiger_Request $request){
+		$qualifiedModuleName = $request->getModule(false);
+        $formData = $request->get('formData');
+        $moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		$result = array('success'=>true, 'text'=> ucfirst($formData['module_name']) );
+		try {
+			$moduleManagerModel->createModule($formData);
+		} catch (Exception $e) {
+			$result = array('success'=>false,'text'=> $e->getMessage() );
+		}
+        $response = new Vtiger_Response();
+        $response->setResult($result);
+        $response->emit();
+    }
 }

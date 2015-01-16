@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
@@ -46,4 +47,13 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Błędna wersja modułu, wersja modułu __MODULEVERSION__ a powinna być większa niż __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Moduł nie zawiera domyślnego języka systemu (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Brak plików smartów',
+	
+	'LBL_CREATE_MODULE' => 'Utwórz moduł',
+	'LBL_CREATING_MODULE' => 'Tworzenie nowego modułu',
+	'LBL_ENTER_MODULE_NAME' => 'Nazwa modułu',
+	'LBL_ENTER_MODULE_LABEL' => 'Etykieta modułu',
+	'LBL_ENTITY_FIELDNAME' => 'Nazwa pola głównego',
+	'LBL_ENTITY_FIELDLABEL' => 'Etykieta pola głównego',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Moduł o takiej nazwie już istnieje',
+	'LBL_INVALID_MODULE_NAME' => 'Błędna nazwa modułu',
 );
