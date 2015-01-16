@@ -13,10 +13,6 @@ $service = $_REQUEST['service'];
 
 if(isset($service))
 {
-	if(strpos($service,'/') !== false){
-		$servicetab = explode('/',$service);
-		$service = $servicetab[0];
-	}
 	if(!in_array($service,$enabledServices)){
 		die($service.' - Service is not active');
 	}	
@@ -52,7 +48,6 @@ if(isset($service))
 else
 {
 	echo "<h1>YetiForceCRM API Services</h1>";
-	echo "<li>YetiForceCRM Mobile EndPoint URL -- Click <a href='api.php?service=mobile'>here</a></li>";
 	echo "<li>YetiForceCRM Yeti Portal EndPoint URL -- Click <a href='api.php?service=yetiportal'>here</a></li>";
 	echo "<li>YetiForceCRM Outlook Plugin EndPoint URL -- Click <a href='api.php?service=outlook'>here</a></li>";
 	echo "<li>YetiForceCRM Word Plugin EndPoint URL -- Click <a href='api.php?service=wordplugin'>here</a></li>";
