@@ -36,7 +36,7 @@ $languageStrings = Array(
 	'LBL_SIMSERIAL' => 'Numer SIM',
 	'LBL_SUBSCRIBERID' => 'Numer abonenta',
 	'LBL_DESTINATION' => 'Do kogo dzwoniono',
-	'LBL_SOURCE' => 'Źrudło rozmowy',
+	'LBL_SOURCE' => 'Źródło rozmowy',
 	
 	//pick list values
 	'Outgoing' => 'Wychodząca',
