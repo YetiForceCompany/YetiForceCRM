@@ -490,8 +490,8 @@ hr {
   border-radius: 0;
 }
 .commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown {
-  left: -371px !important;
-  min-width: 400px;
+  left: -450px !important;
+  min-width: 450px;
   top: 28px;
 }
 .commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown li.title {
