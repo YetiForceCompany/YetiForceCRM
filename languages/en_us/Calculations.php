@@ -15,6 +15,7 @@ $languageStrings = array(
 	'SINGLE_Calculations' => 'Calculation',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Calculations list',
+	'LBL_GENERATE_QUOTES'	=>	'Generate Quotes',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Custom Information',
@@ -39,8 +40,12 @@ $languageStrings = array(
 	'Total margin' => 'Total margin',
 	'Total margin Percentage' => 'Total margin Percentage',
 	'LBL_DATE' => 'Date',
+<<<<<<< HEAD
+	'CalculationStatus'	=>	'Calculation Status',
+=======
 	'Quotes' => 'Quotes',
 	'CalculationStatus' => 'Status',
+>>>>>>> 95675d08c9ae927fc2ce6c83e94fd6d276233fd3
 	
 	//CalculationStatus
 	'Draft' => 'Draft',

@@ -80,7 +80,7 @@ $languageStrings = array(
     "Attorney General's Office" => "Офис Генерального прокурора",
     'Hot Leads'                    => 'Горячие Обращения',
 	'LBL_REQUIRES_VERIFICATION'	=>	'Проверка данных',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм'              , 
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
     'Prospecting'                  => 'Разведка',
 );
 

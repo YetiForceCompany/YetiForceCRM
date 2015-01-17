@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'PDF'	=>	'Шаблоны PDF',
+	'No matches found'	=>	'Записи не найдены',
 	'Vtiger'	=>	'Система',
 	'address' => 'Адрес',
 	'Allows you to Configure Cron Task' => 'Позволяет настроить задачи планировщика',
@@ -256,6 +258,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'No matches found'	=>	'Записи не найдены',
 	'LangManagement'	=>	'Редактор языков',
 	'JS_ANNOUNCEMENT_SAVED' => 'Оповещение сохранено',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Конфигурация сохранена',

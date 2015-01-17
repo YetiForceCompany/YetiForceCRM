@@ -10,6 +10,10 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Lists'	=>	'Lists',
+	'Services database'	=>	'Services database',
+	'Products database'	=>	'Products database',
+	'Mails List'	=>	'Mails List',
 	'--None--' => '--Brak--',
 	'Account Name' => 'Nazwa kontrahenta',
 	'Accounts' => 'Kontrahenci',
@@ -613,8 +617,12 @@ $languageStrings = array(
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',
 	'Delegated (overdue) project tasks' => 'Zlecone (nieterminowe) zadania projektu',
+<<<<<<< HEAD
 	'Mails List' => 'Lista poczta',
 	
+=======
+	'Leads by Status Converted'	=>	'Leads by Status Converted',
+>>>>>>> origin/master
 	'Upcoming Tasks' => 'Zadania',
 	'UPS' => 'UPS',
 	'USPS' => 'USPS',

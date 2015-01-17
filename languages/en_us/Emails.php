@@ -42,3 +42,6 @@ $languageStrings = array(
 	'SINGLE_Emails' => 'Email',
 	'Time Start' => 'Time Sent',
 );
+
+$jsLanguageStrings = array(
+);

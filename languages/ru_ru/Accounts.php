@@ -63,7 +63,7 @@ $languageStrings = array(
 	'LBL_CONTACT_INFO'	=>	'Контактная информация',
     'LBL_DUPLICATES_EXIST'         => 'Такой клиент уже существует.',
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
     'Prosepect Accounts'           => 'Проспект счета',
 );
 $jsLanguageStrings = array(

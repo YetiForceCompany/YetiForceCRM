@@ -14,8 +14,6 @@ $mod_strings = Array (
 
 );
 
-
-
 $languageStrings = array(
 	'WSAPP'	=>	'WSAPP',
 );

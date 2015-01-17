@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST'	=>	'Список Звонков',
 	'Asterisk'                     => 'Asterisk'                    , 
 	'Bill Duration' => 'Время разговора (сек)',
 	'Call From'                    => 'Звонок От'           , 
