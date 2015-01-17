@@ -13,9 +13,9 @@
 $languageStrings = array(
 	// Basic Strings
 	'OSSCosts'	=>	'Расходы',
-	'SINGLE_OSSCosts'	=>	'Расход',
-	'LBL_ADD_RECORD'	=>	'Расход',
-	'LBL_RECORDS_LIST'	=>	'Расходы',
+	'SINGLE_OSSCosts'	=>	'Расходы',
+	'LBL_ADD_RECORD'	=>	'Добавить Расходы',
+	'LBL_RECORDS_LIST'	=>	'Список Расходов',
 
 	// Blocks
 	'LBL_INFORMATION'	=>	'Информация о расходах',

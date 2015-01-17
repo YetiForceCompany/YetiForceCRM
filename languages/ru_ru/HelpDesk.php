@@ -93,8 +93,8 @@ $languageStrings = array(
 	'link' => 'Вы можете использовать приведенную ссылку для просмотра комментариев:',
 	'replied' => 'отвечено',
 	'reply' => 'Добавлен новый комментарий для заявки ',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
+	'LBL_ORDER_TIME'	=>	'Время заказа',
 );
 
 $jsLanguageStrings = array(

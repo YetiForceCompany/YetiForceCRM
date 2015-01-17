@@ -10,7 +10,7 @@
 $languageStrings = array(
     'Support Start Date' 			=> 'Начало тех. поддержки',
     'Support End Date'   			=> 'Окончание тех. поддержки',
-    'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
+	'LBL_SETUP_WEBFORMS'	=>	'Изменить Веб-Формы',
     'Contacted - Successful'       => 'Успешный Контакт', 
 	'Werification data'				=>'Проверка данных',
 	'User List'                    => 'Список Пользователей', 

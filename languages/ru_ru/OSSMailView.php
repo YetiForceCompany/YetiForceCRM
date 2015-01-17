@@ -14,7 +14,7 @@ $languageStrings = array(
 	'OSSMailView'	=>	'Корпоративная почта',
 	'SINGLE_OSSMailView'	=>	'Корпоративная почта',
 	'LBL_ADD_RECORD'	=>	'Добавить запись',
-	'LBL_RECORDS_LIST'	=>	'Список писем',
+	'LBL_RECORDS_LIST'	=>	'Список Писем',
 
 	// Blocks
 	'LBL_INFORMATION'	=>	'Информация',
@@ -52,7 +52,7 @@ $languageStrings = array(
 	'emailPreviewHeader'	=>	'Предварительный просмотр',
 	'Email_list'	=>	'Корпоративная почта',
 	'Email_list'	=>	'Корпоративная почта',
-	'LBL_CREATEMAIL'	=>	'Отправить почту',
+	'LBL_CREATEMAIL'	=>	'Написать письмо',
 	'LBL_OUTCOMING'	=>	'Исходящие',
 	'LBL_INCOMING'	=>	'Входящие',
 	'Internal'	=>	'Внутренний',

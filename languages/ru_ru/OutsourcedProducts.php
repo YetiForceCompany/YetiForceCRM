@@ -11,10 +11,11 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST'	=>	'Аутсорсинг Товаров',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
 	'SINGLE_OutsourcedProducts' => 'Аутсорсинг Товаров',
-	'LBL_ADD_RECORD' => 'Добавить Аутсорсинг Товара',
+	'LBL_ADD_RECORD'	=>	'Аутсорсинг Товара',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Аутсорсинг Товаров',

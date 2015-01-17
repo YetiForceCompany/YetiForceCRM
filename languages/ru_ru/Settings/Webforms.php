@@ -26,7 +26,7 @@ $languageStrings = array(
 	'LBL_DUPLICATES_EXIST' => 'Вебформа уже существует',
 
 	//Blocks
-	'LBL_WEBFORM_INFORMATION' => 'Информация Вебформы',
+	'LBL_WEBFORM_INFORMATION'	=>	'Информация Веб-Формы',
 	'LBL_FIELD_INFORMATION' => 'Информация о поле',
 	'LBL_FIELD_NAME' => 'Название поля',
 	'LBL_OVERRIDE_VALUE' => 'Перезаписать значение',

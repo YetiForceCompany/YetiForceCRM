@@ -15,8 +15,8 @@ $languageStrings = array(
 	// Basic Strings
 	'OSSPasswords'	=>	'Пароли',
 	'SINGLE_OSSPasswords'	=>	'Пароль',
-	'LBL_ADD_RECORD'	=>	'Добавить запись',
-	'LBL_RECORDS_LIST'	=>	'Список паролей',
+	'LBL_ADD_RECORD'	=>	'Добавить Пароль',
+	'LBL_RECORDS_LIST'	=>	'Список Паролей',
 	'LBL_PASS_CONFIGURATION'	=>	'Настройка паролей',
 	'LBL_HELP'	=>	'Справка',
 
