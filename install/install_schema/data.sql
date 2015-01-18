@@ -2,7 +2,7 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4820,7 +4820,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (198,48,'HEADERSCRIPT','OSSMailJScheckmails','layouts/vlayout/modules/OSSMail/resources/checkmails.js',NULL,0,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (199,3,'DASHBOARDWIDGET','Mails List','index.php?module=Home&view=ShowWidget&name=MailsList','',NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (200,72,'HEADERSCRIPT','Chat','layouts/vlayout/modules/AJAXChat/Chat.js',NULL,0,NULL,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (201,3,'DASHBOARDWIDGET','Delagated Events/To Dos','index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks','',NULL,NULL,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (201,3,'DASHBOARDWIDGET','Delegated Events/To Dos','index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks','',NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (202,3,'DASHBOARDWIDGET','Delegated (overdue) Events/ToDos','index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks','',NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (203,3,'DASHBOARDWIDGET','Delegated project tasks','index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks',NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`,`linkdata`) values (204,3,'DASHBOARDWIDGET','Delegated (overdue) project tasks','index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks',NULL,NULL,NULL,NULL,NULL,NULL);
