@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * ***********************************************************************************/
 $languageStrings = array(
+	'MobileApps'	=>	'Mobile Apps',
 	'--None--' => '--Nada--',
 	'Account Name' => 'Nome Organização', 
 	'Accounts' => 'Organizações', 
@@ -603,6 +604,11 @@ $languageStrings = array(
 	'Upcoming Activities'=> 'Atividades Programadas',
 	'Upcoming Tasks' => 'Próximas Tarefas',
 	'Activity History' => 'Activity History',
+	'Delegated Events/To Dos' => 'Delegated Events/To Dos',
+	'Delegated (overdue) Events/ToDos' => 'Delegated (overdue) Events/ToDos',
+	'Delegated project tasks' => 'Delegated project tasks',
+	'Delegated (overdue) project tasks' => 'Delegated (overdue) project tasks',
+	'Mails List' => 'Mails List',	'Leads by Status Converted' => '  Leads by Status Converted',
 	'UPS' => 'ECT' ,
 	'USPS' => 'Braspress',
 	'Valid Date' => 'Data Validade',

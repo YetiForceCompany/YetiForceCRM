@@ -27,7 +27,7 @@ $languageStrings = array(
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Zapisano zmiany',
 	
 	// Mobile services
-	'LBL_MOBILE_CALLHISTORY' => 'Historia wykonanych połączeń',
+	'LBL_MOBILE_HISTORYCALL' => 'Historia wykonanych połączeń',
 	'LBL_MOBILE_PUSHCALL' => 'Wykonywanie popłaczeń',
 );
 $jsLanguageStrings = array(
