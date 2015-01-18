@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_MOBILE_KEYS_DESCRIPTION'	=>	'Создание и управление ключами мобильных приложений.',
+	'LBL_MOBILE_KEYS'	=>	'Ключи мобильных приложений',
 	'Vtiger'	=>	'Система',
 	'address' => 'Адрес',
 	'Allows you to Configure Cron Task' => 'Позволяет настроить задачи планировщика',

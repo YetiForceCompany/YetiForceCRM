@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = array(	'MobileApps'	=>	'Mobile Apps',
 	'--None--' => '--Brak--',
 	'Account Name' => 'Nazwa kontrahenta',
 	'Accounts' => 'Kontrahenci',

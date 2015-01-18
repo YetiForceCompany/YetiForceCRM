@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'MobileApps'	=>	'Mobile Apps',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
 	'Dashboards'	=>	'Meine Startseite',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',

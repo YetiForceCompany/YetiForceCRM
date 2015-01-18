@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'MobileApps'	=>	'Mobile Apps',
 	'--None--' => '--None--',
 	'Account Name' => 'Organization Name',
 	'Accounts' => 'Organizations',

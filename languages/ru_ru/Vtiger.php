@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'MobileApps'	=>	'Мобильные приложения',
 	'Mail Logs'	=>	'Журнал почты',
 	'LBL_MAIL_LOGS'	=>	'Журнал почты',
 	'LangManagement'	=>	'Редактор языков',
@@ -1011,7 +1012,7 @@ $jsLanguageStrings = array(
 	'JS_ACCEPT_POSITIVE_NUMBER'    => 'Допускаются только положительные числа', 
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Вы имеете право выбрать не более трех записей',
 	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET' => 'Вы действительно хотите удалить Виджет',
-	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO' => 'Это будет доступно в соответствии с "Добавить Виджет".',
+	'JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO'	=>	'Виджет можно будет установить, нажав на кнопку [Добавить Виджет].',
 	'JS_CAN_NOT_REMOVE_DEFAULT_WIDGET' => 'Нельзя удалить Виджет по умолчанию', 
 	'JS_CHANGES_WILL_BE_LOST' => 'Вы не сохранили данные, все изменения будут потеряны.',
 	'JS_CHECK_FILE_INTEGRITY'      => 'Проверка целостности файла'        , 
