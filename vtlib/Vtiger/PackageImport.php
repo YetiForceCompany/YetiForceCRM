@@ -377,7 +377,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					//module images
 					'images' => "layouts/vlayout/skins/images/$module",
 					'settings' => "modules/Settings",
-					'cache/updates/files' => "",
+					'updates/files' => ".",
 					'updates' => "cache/updates",
 				)
 			);
@@ -907,39 +907,30 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('".$currentUser->get('user_name')."', '".$modulenode->label."', '".$modulenode->from_version."', '".$modulenode->to_version."','".$result."');",true);
 		$adb->query("UPDATE vtiger_version SET `current_version` = '".$modulenode->to_version."';");
 		
-		if($result && $dirHandle = opendir($dirName)){
-			while(false !== ($dirFile = readdir($dirHandle)))
-				if ($dirFile != "." && $dirFile != "..") 
-					if(!unlink($dirName . "/" . $dirFile))
-						return false;
-			closedir($dirHandle);
-		}
-		if ( is_dir($dirName.'/files') ) { 
-			$this->cleanUpdate($dirName.'/files');
+		if($result){
+			$this->deleteDirFile($dirName.'/files');
 		}
 	}
 	
-	function cleanUpdate($src) {
-		global $root_directory;
-		$dir = opendir($src); 
-		while(false !== ( $file = readdir($dir)) ) { 
-			if (( $file != '.' ) && ( $file != '..' )) { 
-				if ( is_dir($src . '/' . $file) ) { 
-					$this->cleanUpdate($src . '/' . $file); 
-					rmdir($root_directory.$src . '/' . $file);
-				} else {
-					unlink($root_directory.$src . '/' . $file);
-				}
-			} 
-		} 
-		closedir($dir); 
-	}
 	function deleteDirFile($src) {
 		global $root_directory;
-		$src = $root_directory.$src;
-		if( file_exists($src) )
-			@unlink($src);
-		if(is_dir($src))
-			@rmdir($src);
+		if(!file_exists( $src ) )
+			return;
+		if(is_dir($src)){
+			$dir = opendir($src); 
+			while(false !== ( $file = readdir($dir)) ) { 
+				if (( $file != '.' ) && ( $file != '..' )) { 
+					if ( is_dir($src . '/' . $file) ) { 
+						$this->cleanUpdate($src . '/' . $file); 
+						rmdir($root_directory.$src . '/' . $file);
+					} else {
+						unlink($root_directory.$src . '/' . $file);
+					}
+				} 
+			} 
+			closedir($dir); 
+		} else{
+			unlink($src);
+		}
 	}
 }
