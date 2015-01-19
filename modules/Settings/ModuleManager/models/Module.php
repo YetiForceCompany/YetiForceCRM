@@ -185,7 +185,13 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 		// Create files
 		$module->createFiles($field1);
 	}
+	
 	public function toAlphaNumeric($value) {
 		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
+	}
+	
+	public function getUploadDirectory() {
+		$uploadDir = 'test/vtlib';
+		return $uploadDir;
 	}
 }

@@ -45,7 +45,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
     public function importUserModuleStep3(Vtiger_Request $request) {
         $importModuleName = $request->get('module_import_name');
         $uploadFile = $request->get('module_import_file');
-        $uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
+        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
         $uploadFileName = "$uploadDir/$uploadFile";
         checkFileAccess($uploadFileName);
 
@@ -69,7 +69,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
     public function updateUserModuleStep3(Vtiger_Request $request){
         $importModuleName = $request->get('module_import_name');
         $uploadFile = $request->get('module_import_file');
-        $uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
+        $uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
         $uploadFileName = "$uploadDir/$uploadFile";
         checkFileAccess($uploadFileName);
 
