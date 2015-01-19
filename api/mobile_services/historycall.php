@@ -11,7 +11,7 @@
 class HistoryCall{
     public $restler;
 	public $userID;
-	public $debug = true;
+	public $debug = false;
 	public $permittedActions = array('addCallLogs');
 	public $types = array(
 		'1' => 'Incoming',
@@ -40,13 +40,12 @@ class HistoryCall{
 			$dane = print_r( array( $data, $resultData ) ,true);
 			file_put_contents($file,'-----> '.date("Y-m-d H:i:s").' <-----'.PHP_EOL.$dane.PHP_EOL,FILE_APPEND | LOCK_EX);
 		}
-        return $test;
+        return $resultData;
     }
 	
 	function addCallLogs($data){
-		global $log,$adb;
-		include_once 'modules/Users/Users.php';
-		include_once 'modules/CallHistory/CallHistory.php';
+		global $log,$adb,$current_user;
+		include_once 'includes/main/WebUI.php';
 		$log->info("Start HistoryCall::addCallLogs | user id: ".$this->userID);
 		$resultData = array('status' => 2);
 		$user = new Users();
@@ -79,7 +78,7 @@ class HistoryCall{
 			$CallHistory->save('CallHistory');
 			$count++;
 		}
-		$resultData = array('status' => 1, 'restStatus' => 'true', 'count' => $count);
+		$resultData = array('status' => 1, 'count' => $count);
 		$log->info("End HistoryCall::addCallLogs | return: ".print_r( $resultData,true));
 		return $resultData;
 	}
