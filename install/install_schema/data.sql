@@ -5195,10 +5195,6 @@ insert  into `vtiger_organizationdetails`(`organization_id`,`organizationname`,`
 
 insert  into `vtiger_organizationdetails_seq`(`id`) values (1);
 
-/*Data for the table `vtiger_oss_module_list` */
-
-/*Data for the table `vtiger_oss_module_list_seq` */
-
 /*Data for the table `vtiger_oss_project_templates` */
 
 /*Data for the table `vtiger_osscosts` */

@@ -3919,26 +3919,6 @@ CREATE TABLE `vtiger_organizationdetails_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_oss_module_list` */
-
-DROP TABLE IF EXISTS `vtiger_oss_module_list`;
-
-CREATE TABLE `vtiger_oss_module_list` (
-  `oss_module_listid` int(11) NOT NULL AUTO_INCREMENT,
-  `oss_module_list` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`oss_module_listid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_oss_module_list_seq` */
-
-DROP TABLE IF EXISTS `vtiger_oss_module_list_seq`;
-
-CREATE TABLE `vtiger_oss_module_list_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_oss_project_templates` */
 
 DROP TABLE IF EXISTS `vtiger_oss_project_templates`;
