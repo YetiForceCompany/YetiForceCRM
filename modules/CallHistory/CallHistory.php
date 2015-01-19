@@ -42,7 +42,6 @@ class CallHistory extends Vtiger_CRMEntity {
 		'LBL_FROM_NUMBER' => Array('callhistory', 'from_number'),
 		'LBL_DURATION' => Array('callhistory', 'duration'),
 		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
-		'LBL_STATUS' => Array('callhistory', 'callhistorystatus'),
 		'LBL_START_TIME' => Array('callhistory', 'start_time'),
 	);
 	var $list_fields_name = Array (
@@ -51,7 +50,6 @@ class CallHistory extends Vtiger_CRMEntity {
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
 		'LBL_TYPE' => 'callhistorytype',
-		'LBL_STATUS' => 'callhistorystatus',
 		'LBL_START_TIME' => 'start_time',
 	);
 
@@ -66,7 +64,6 @@ class CallHistory extends Vtiger_CRMEntity {
 		'LBL_FROM_NUMBER' => Array('callhistory', 'from_number'),
 		'LBL_DURATION' => Array('callhistory', 'duration'),
 		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
-		'LBL_STATUS' => Array('callhistory', 'callhistorystatus'),
 		'LBL_START_TIME' => Array('callhistory', 'start_time'),
 	);
 	var $search_fields_name = Array (
@@ -75,7 +72,6 @@ class CallHistory extends Vtiger_CRMEntity {
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
 		'LBL_TYPE' => 'callhistorytype',
-		'LBL_STATUS' => 'callhistorystatus',
 		'LBL_START_TIME' => 'start_time',
 	);
 
