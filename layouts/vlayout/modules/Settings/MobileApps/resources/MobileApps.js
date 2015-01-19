@@ -28,8 +28,7 @@ jQuery.Class('Settings_Mobile_Js', {}, {
 		
 		var callBackFunction = function(data) {	
 			data.find('.addKeyContainer').removeClass('hide');
-			data.find('.select').addClass('chzn-select');
-			app.changeSelectElementView(data); // chzn-select select2
+			app.showSelect2ElementView(data.find('.select')); // chzn-select select2
 			data.find('[name="saveButton"]').click(function(e) {
 				var form = data.find('form');
 				var formData = form.serializeFormData();

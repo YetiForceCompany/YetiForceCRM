@@ -12,7 +12,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	public function checkPermissionForOutgoingCall() {
 		global $adb;
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $adb->pquery( 'SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $currentUser->getId() , 'pushcall' ), true );
+		$result = $adb->pquery( 'SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $currentUser->getId() , 'pushcall' ) );
 		if($adb->num_rows($result) > 0){
 			return true;
 		}
@@ -26,6 +26,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 		if($user){
 			$queryUser = $user;
 		}
+		$result = $adb->pquery( 'DELETE FROM yetiforce_mobile_pushcall WHERE user = ?;', array( $queryUser ) );
 		if($phoneNumber && $queryUser){
 			$result = $adb->pquery('INSERT INTO yetiforce_mobile_pushcall (`user`, `number`) VALUES (?, ?);', array( $queryUser , $phoneNumber ));
 			$return = true;
@@ -46,7 +47,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 			$sql .= ' AND yetiforce_mobile_keys.service = ?';
 			$params[] = $service;
 		}
-		$result = $adb->pquery( 'SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? '.$sql, $params, true );
+		$result = $adb->pquery( 'SELECT yetiforce_mobile_keys.*, vtiger_users.user_name, vtiger_users.first_name, vtiger_users.last_name, vtiger_users.id AS userid FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE vtiger_users.status = ? '.$sql, $params );
         $rows = $adb->num_rows($result);
 		$keys = Array();
         for($i=0; $i<$rows; $i++){
