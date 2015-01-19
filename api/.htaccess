@@ -1,7 +1,7 @@
 # For security purpose we deny web-access to this folder.
 deny from all
 allow from 127.0.0.1
-<Files /mobile.php>
+<Files mobile.php>
     Order Allow,Deny
     Allow from all
 </Files>
