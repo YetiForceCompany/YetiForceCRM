@@ -548,7 +548,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	 */
 	function import_Tables($modulenode) {
 		if(empty($modulenode->tables) || empty($modulenode->tables->table)) return;
-
+		$adb = PearDatabase::getInstance();
+		$adb->query( 'SET FOREIGN_KEY_CHECKS = 0;');
 		/**
 		 * Record the changes in schema file
 		 */
@@ -598,6 +599,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			fwrite($schemafile, "</schema>\n");
 			fclose($schemafile);
 		}
+		$adb->query( 'SET FOREIGN_KEY_CHECKS = 1;');
 	}
 
 	/**
@@ -890,8 +892,10 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	function import_update($modulenode) {
 		$dirName = 'cache/updates';
 		$result = false;
+		$adb = PearDatabase::getInstance();
 		if(file_exists($dirName."/init.php")){
 			require_once $dirName."/init.php";
+			$adb->query( 'SET FOREIGN_KEY_CHECKS = 0;');
 			$Instance = new YetiForceUpdate($modulenode);
 			$Instance->preupdate();
 			$Instance->update();
@@ -901,8 +905,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 				}
 			}
 			$result = $Instance->postupdate();
+			$adb->query( 'SET FOREIGN_KEY_CHECKS = 1;');
 		}	
-		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('".$currentUser->get('user_name')."', '".$modulenode->label."', '".$modulenode->from_version."', '".$modulenode->to_version."','".$result."');",true);
 		$adb->query("UPDATE vtiger_version SET `current_version` = '".$modulenode->to_version."';");
