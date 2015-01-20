@@ -26,7 +26,7 @@ include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
 // migration to version '1.1.41 RC';
-class VT610_to_YT100 {
+class VT610_to_YT {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
 	var $adminId = '';
@@ -34,7 +34,7 @@ class VT610_to_YT100 {
 	
 	function preProcess($userName, $source) {
 		global $current_user, $adb, $log;
-		$log->debug("Entering VT610_to_YT100::preProcess(".$userName. ', '.$source.") method ...");
+		$log->debug("Entering VT610_to_YT::preProcess(".$userName. ', '.$source.") method ...");
 		include('config/config.inc.php');
 		$globalConfig = $dbconfig;
 		global $dbconfig;
@@ -50,23 +50,23 @@ class VT610_to_YT100 {
 		$current_user = $user->retrieveCurrentUserInfoFromFile( $assigned_user_id );
 		
 		$location = Install_InitSchema_Model::migration_schema;
-		Install_InitSchema_Model::initializeDatabase($location, array('VT610_to_YT100_create', 'VT610_to_YT100_update'));
+		Install_InitSchema_Model::initializeDatabase($location, array('VT610_to_YT_create', 'VT610_to_YT_update'));
 		
-		$log->debug("Exiting VT610_to_YT100::preProcess() method ...");
+		$log->debug("Exiting VT610_to_YT::preProcess() method ...");
 	}
 	function postProcess() {
 		global $log;
-		$log->debug("Entering VT610_to_YT100::postProcess() method ...");
+		$log->debug("Entering VT610_to_YT::postProcess() method ...");
 		
 
 		$location = Install_InitSchema_Model::migration_schema;
-		Install_InitSchema_Model::initializeDatabase($location, array('VT610_to_YT100_delete'));
-		$log->debug("Exiting VT610_to_YT100::postProcess() method ...");
+		Install_InitSchema_Model::initializeDatabase($location, array('VT610_to_YT_delete'));
+		$log->debug("Exiting VT610_to_YT::postProcess() method ...");
 		return true;
 	}
 	public function process() {
 		global $log;
-		$log->debug("Entering VT610_to_YT100::process() method ...");
+		$log->debug("Entering VT610_to_YT::process() method ...");
 		self::transferLogo();
 		self::removeModules();
 		self::load_default_menu();
@@ -108,15 +108,15 @@ class VT610_to_YT100 {
 		self::customView();
 		self::addRecords();
 		self::addEmployees();
-		$log->debug("Exiting VT610_to_YT100::process() method ...");
+		$log->debug("Exiting VT610_to_YT::process() method ...");
 	}
 	
 	public function addModule(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::addModule() method ...");
+		$log->debug("Entering VT610_to_YT::addModule() method ...");
 		
 		$modules = array();
-		foreach(new DirectoryIterator('install/migrate_schema/VT610_to_YT100') as $file){
+		foreach(new DirectoryIterator('install/migrate_schema/VT610_to_YT') as $file){
 			if(!$file->isDot()){
 				if( strpos($file->getFilename(), '.xml') !== false){
 					$modules[]= str_replace(".xml", "",$file->getFilename()) ;
@@ -127,7 +127,7 @@ class VT610_to_YT100 {
 			try {
 				if(!self::checkModuleExists($module)){
 					$importInstance = new Vtiger_PackageImport();
-					$importInstance->_modulexml = simplexml_load_file('install/migrate_schema/VT610_to_YT100/'.$module.'.xml');
+					$importInstance->_modulexml = simplexml_load_file('install/migrate_schema/VT610_to_YT/'.$module.'.xml');
 					$importInstance->import_Module();
 					self::addModuleToMenu($module, (string)$importInstance->_modulexml->parent);
 				}
@@ -136,7 +136,7 @@ class VT610_to_YT100 {
 			}
 		}
 		Install_InitSchema_Model::addMigrationLog('addModule');
-		$log->debug("Exiting VT610_to_YT100::addModule() method ...");
+		$log->debug("Exiting VT610_to_YT::addModule() method ...");
 	}
 	public function addModuleToMenu($moduleName, $parent){
 		$adb = PearDatabase::getInstance();
@@ -263,7 +263,7 @@ class VT610_to_YT100 {
     }
 	function settingsReplace() {
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::settingsReplace() method ...");
+		$log->debug("Entering VT610_to_YT::settingsReplace() method ...");
 		//add new record
 		$settings_blocks = array();
 		$settings_blocks[] = array('LBL_USER_MANAGEMENT',1);
@@ -399,11 +399,11 @@ class VT610_to_YT100 {
 			Install_InitSchema_Model::addMigrationLog('settingsReplace '.$e->getMessage(),'error');
 		}
 		Install_InitSchema_Model::addMigrationLog('settingsReplace');
-		$log->debug("Exiting VT610_to_YT100::settingsReplace() method ...");
+		$log->debug("Exiting VT610_to_YT::settingsReplace() method ...");
 	}
 	public function sequanceSettingsBlocks($blockSequence){
 		global $adb,$log;
-		$log->debug("Entering VT610_to_YT100::sequanceSettingsBlocks() method ...");
+		$log->debug("Entering VT610_to_YT::sequanceSettingsBlocks() method ...");
 		$blockList = array();
         $query = 'UPDATE vtiger_settings_blocks SET ';
         $query .=' sequence = CASE ';
@@ -416,7 +416,7 @@ class VT610_to_YT100 {
 		$query .=' END ';
         $query .= ' WHERE label IN ('.generateQuestionMarks($blockList).')';
 		$adb->pquery($query, array($blockList));
-		$log->debug("Exiting VT610_to_YT100::sequanceSettingsBlocks() method ...");
+		$log->debug("Exiting VT610_to_YT::sequanceSettingsBlocks() method ...");
 	}
 	public function countRow($table, $field){
 		global $adb;
@@ -430,7 +430,7 @@ class VT610_to_YT100 {
 	}
 	public function handlers(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::handlers() method ...");
+		$log->debug("Entering VT610_to_YT::handlers() method ...");
 		require_once 'modules/com_vtiger_workflow/include.inc';
 		require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
 		require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
@@ -480,24 +480,24 @@ class VT610_to_YT100 {
 			Install_InitSchema_Model::addMigrationLog('handlers '.$e->getMessage(),'error');
 		}
 		Install_InitSchema_Model::addMigrationLog('handlers');
-		$log->debug("Exiting VT610_to_YT100::handlers() method ...");
+		$log->debug("Exiting VT610_to_YT::handlers() method ...");
 	}
 	public function checkModuleExists($moduleName){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::checkModuleExists() method ...");
+		$log->debug("Entering VT610_to_YT::checkModuleExists() method ...");
 		global $adb;
 		$result = $adb->pquery('SELECT * FROM vtiger_tab WHERE name = ?', array($moduleName));
 		if(!$adb->num_rows($result)) {
-			$log->debug("Exiting VT610_to_YT100::checkModuleExists() method ...");
+			$log->debug("Exiting VT610_to_YT::checkModuleExists() method ...");
 			return false;
 		}
-		$log->debug("Exiting VT610_to_YT100::checkModuleExists() method ...");
+		$log->debug("Exiting VT610_to_YT::checkModuleExists() method ...");
 		return true;
 	}
 	
 	public function worflowEnityMethod (){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::worflowEnityMethod() method ...");
+		$log->debug("Entering VT610_to_YT::worflowEnityMethod() method ...");
 		// delete all entity method
 		$adb->query("DELETE FROM `com_vtiger_workflowtasks_entitymethod` ");
 		//add new entity method
@@ -512,11 +512,11 @@ class VT610_to_YT100 {
 		foreach($task_entity_method as $method){
 			$emm->addEntityMethod($method[0], $method[1], $method[2], $method[3]);
 		}
-		$log->debug("Exiting VT610_to_YT100::worflowEnityMethod() method ...");
+		$log->debug("Exiting VT610_to_YT::worflowEnityMethod() method ...");
 	}
 	public function deleteWorkflow (){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::deleteWorkflow() method ...");
+		$log->debug("Entering VT610_to_YT::deleteWorkflow() method ...");
 		// delete all tasks
 		$adb->query('UPDATE com_vtiger_workflows SET defaultworkflow = "0";');
 		$result = $adb->query('SELECT * FROM com_vtiger_workflows ');
@@ -525,11 +525,11 @@ class VT610_to_YT100 {
 			$recordModel = Settings_Workflows_Record_Model::getInstance($recordId);
 			$recordModel->delete();
 		}
-		$log->debug("Exiting VT610_to_YT100::deleteWorkflow() method ...");
+		$log->debug("Exiting VT610_to_YT::deleteWorkflow() method ...");
 	}
 	public function addWorkflowType (){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::addWorkflowType() method ...");
+		$log->debug("Entering VT610_to_YT::addWorkflowType() method ...");
 		
 		$newTaskType = array();
 		$newTaskType[] = array('VTEmailTemplateTask','Email Template Task','VTEmailTemplateTask','modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.inc','com_vtiger_workflow/taskforms/VTEmailTemplateTask.tpl','{"include":[],"exclude":[]}', '');
@@ -542,11 +542,11 @@ class VT610_to_YT100 {
 			$taskTypeId = $adb->getUniqueID("com_vtiger_workflow_tasktypes");
 			$adb->pquery("INSERT INTO com_vtiger_workflow_tasktypes (id, tasktypename, label, classname, classpath, templatepath, modules, sourcemodule) values (?,?,?,?,?,?,?,?)", array($taskTypeId, $taskType[0], $taskType[1], $taskType[2],  $taskType[3], $taskType[4], $taskType[5], $taskType[6]));
 		}
-		$log->debug("Exiting VT610_to_YT100::addWorkflowType() method ...");
+		$log->debug("Exiting VT610_to_YT::addWorkflowType() method ...");
 	}
 	public function addWorkflow (){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::addWorkflow() method ...");
+		$log->debug("Entering VT610_to_YT::addWorkflow() method ...");
 		
 		$workflow = array();
 		$workflow[] = array(1,'Invoice','UpdateInventoryProducts On Every Save','[{"fieldname":"subject","operation":"does not contain","value":"`!`"}]',3,1,'basic',5,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -690,12 +690,12 @@ class VT610_to_YT100 {
 				}
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::addWorkflow() method ...");
+		$log->debug("Exiting VT610_to_YT::addWorkflow() method ...");
 	}
 
 	public function blocksTable(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::blocksTable() method ...");
+		$log->debug("Entering VT610_to_YT::blocksTable() method ...");
 		// add Blocks
 		$blockColumnName = array('blocklabel','sequence','show_title','visible','create_view','edit_view','detail_view','display_status','iscustom');
 		$blocksOSSPdf = array(array('LBL_MAIN_INFORMATION',1,0,0,0,0,0,1,0),array('LBL_FOOTER_HEADER',2,0,0,0,0,0,1,0),array('HEADER',3,0,0,0,0,0,1,0),array('CONTENT',4,0,0,0,0,0,1,0),array('FOOTER',5,0,0,0,0,0,1,0),array('LBL_CUSTOM_INFORMATION',6,0,0,0,0,0,1,0));
@@ -748,13 +748,13 @@ class VT610_to_YT100 {
 				}
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::blocksTable() method ...");
+		$log->debug("Exiting VT610_to_YT::blocksTable() method ...");
 		return $setBlockToCRM;
 	}
 
 	public function addBlocks(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::addBlocks() method ...");
+		$log->debug("Entering VT610_to_YT::addBlocks() method ...");
 		include_once('vtlib/Vtiger/Module.php'); 
 		
 		$adb = PearDatabase::getInstance();
@@ -797,11 +797,11 @@ class VT610_to_YT100 {
 			}
 		}
 		Install_InitSchema_Model::addMigrationLog('addBlocks');
-		$log->debug("Exiting VT610_to_YT100::addBlocks() method ...");
+		$log->debug("Exiting VT610_to_YT::addBlocks() method ...");
 	}
 	public function checkBlockExists($moduleName, $block){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::checkBlockExists() method ...");
+		$log->debug("Entering VT610_to_YT::checkBlockExists() method ...");
 		
 		if($moduleName == 'Settings')
 			$result = $adb->pquery("SELECT * FROM vtiger_settings_blocks WHERE label = ? ;", array($block), true);
@@ -809,15 +809,15 @@ class VT610_to_YT100 {
 			$result = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ? AND blocklabel = ? ;", array(getTabid($moduleName),$block['blocklabel']));
 
 		if(!$adb->num_rows($result)) {
-			$log->debug("Exiting VT610_to_YT100::checkBlockExists() method ...");
+			$log->debug("Exiting VT610_to_YT::checkBlockExists() method ...");
 			return false;
 		}
-		$log->debug("Exiting VT610_to_YT100::checkBlockExists() method ...");
+		$log->debug("Exiting VT610_to_YT::checkBlockExists() method ...");
 		return true;
 	}
 	public function getFieldsAll(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::getFieldsAll() method ...");
+		$log->debug("Entering VT610_to_YT::getFieldsAll() method ...");
 		$columnName = array("tabid","id","column","table","generatedtype","uitype","name","label","readonly","presence","defaultvalue","maximumlength","sequence","block","displaytype","typeofdata","quickcreate","quicksequence","info_type","masseditable","helpinfo","summaryfield","columntype","blocklabel","setpicklistvalues","setrelatedmodules");
 
 		$tab = 8;
@@ -1196,12 +1196,12 @@ class VT610_to_YT100 {
 				}
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::getFieldsAll() method ...");
+		$log->debug("Exiting VT610_to_YT::getFieldsAll() method ...");
 		return $setToCRMAfter;
 	}
 	public function addFields(){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::addFields() method ...");
+		$log->debug("Entering VT610_to_YT::addFields() method ...");
 		include_once('vtlib/Vtiger/Module.php'); 
 		$moduleToCopyValues = array('Contacts'=>array(array('table'=>'vtiger_contactaddress','copy'=>'addresslevel8a = mailingstreet, addresslevel5a = mailingcity, addresslevel1a = mailingcountry, addresslevel2a = mailingstate, addresslevel7a = mailingzip, addresslevel8b = otherstreet, addresslevel5b = othercity, addresslevel2b = otherstate, addresslevel1b = othercountry,  addresslevel7b = otherzip'),array('table'=>'vtiger_contactdetails','copy'=>'secondary_email = secondaryemail'),array('table'=>'vtiger_contactdetails','copy'=>'parentid = accountid')),
 		'Accounts'=>array('newTab'=>'vtiger_accountaddress', 'oldTab1'=>'vtiger_accountbillads', 'oldTab2'=>'vtiger_accountshipads', 'newId'=>'accountaddressid', 'oldId1'=>'accountaddressid', 'oldId2'=>'accountaddressid'),
@@ -1254,12 +1254,12 @@ class VT610_to_YT100 {
 				self::copyValues($moduleName,$moduleToCopyValues);
 		}
 		Install_InitSchema_Model::addMigrationLog('addFields');
-		$log->debug("Exiting VT610_to_YT100::addFields() method ...");
+		$log->debug("Exiting VT610_to_YT::addFields() method ...");
 	}
 	
 	public function addSharingToModules(){
 		global $log, $adb;
-		$log->debug("Entering VT610_to_YT100::addSharingToModules() method ...");
+		$log->debug("Entering VT610_to_YT::addSharingToModules() method ...");
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
 		$params = array(1, $restrictedModules);
@@ -1306,7 +1306,7 @@ class VT610_to_YT100 {
 				$blockInstance->addField($fieldInstance); 
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::addSharingToModules() method ...");
+		$log->debug("Exiting VT610_to_YT::addSharingToModules() method ...");
 	}
 	
 	public function checkFieldExists($field, $moduleName){
@@ -1323,7 +1323,7 @@ class VT610_to_YT100 {
 	//copy values
 	public function copyValues($moduleName,$moduleToCopyValues){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::copyValues() method ...");
+		$log->debug("Entering VT610_to_YT::copyValues() method ...");
 		$adb = PearDatabase::getInstance();
 		try {
 			if($moduleName == "Accounts" || $moduleName == "PurchaseOrder" || $moduleName == "Invoice" || $moduleName == "SalesOrder"){
@@ -1347,12 +1347,12 @@ class VT610_to_YT100 {
 		} catch (Exception $e) {
 			Install_InitSchema_Model::addMigrationLog('copyValues '.$e->getMessage(),'error');
 		}
-		$log->debug("Exiting VT610_to_YT100::copyValues() method ...");
+		$log->debug("Exiting VT610_to_YT::copyValues() method ...");
 	}
 	// self::InactiveFields($fieldsInactive);
 	public function InactiveFields (){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::InactiveFields() method ...");
+		$log->debug("Entering VT610_to_YT::InactiveFields() method ...");
 		$fieldsInactive = array('HelpDesk'=>array('days',"hours"),
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
 		'Quotes'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
@@ -1376,11 +1376,11 @@ class VT610_to_YT100 {
 			}
 		}
 		Install_InitSchema_Model::addMigrationLog('InactiveFields');
-		$log->debug("Exiting VT610_to_YT100::InactiveFields() method ...");
+		$log->debug("Exiting VT610_to_YT::InactiveFields() method ...");
 	}
 	function addEmployees() {
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::addEmployees() method ...");
+		$log->debug("Entering VT610_to_YT::addEmployees() method ...");
 		$moduleName = 'OSSEmployees';
 		vimport('~~modules/' . $moduleName . '/' . $moduleName . '.php');
 		$result = $adb->pquery("SELECT * FROM vtiger_users WHERE id NOT IN (?) ;", array(1));
@@ -1408,12 +1408,12 @@ class VT610_to_YT100 {
 			}
 		}
 		Install_InitSchema_Model::addMigrationLog('addEmployees');
-		$log->debug("Exiting VT610_to_YT100::addEmployees() method ...");
+		$log->debug("Exiting VT610_to_YT::addEmployees() method ...");
 	}
 	// self::deleteFields($fieldsToDelete);
 	public function deleteFields($fieldsToDelete){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::deleteFields() method ...");
+		$log->debug("Entering VT610_to_YT::deleteFields() method ...");
 		require_once('includes/main/WebUI.php');
 		$adb = PearDatabase::getInstance();
 		foreach($fieldsToDelete AS $fld_module=>$columnnames){
@@ -1497,11 +1497,11 @@ class VT610_to_YT100 {
 			
 		}
 		Install_InitSchema_Model::addMigrationLog('deleteFields');
-		$log->debug("Exiting VT610_to_YT100::deleteFields() method ...");
+		$log->debug("Exiting VT610_to_YT::deleteFields() method ...");
 	}
 	public function picklists(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::picklists() method ...");
+		$log->debug("Entering VT610_to_YT::picklists() method ...");
 		
 		$addPicklists = array();
 		$addPicklists['Assets'][] = array('name'=>'assetstatus','uitype'=>'15','add_values'=>array('Draft','Realization proceeding','Warranty proceeding','Delivered to Organization'),'remove_values'=>array('Out-of-service','In Service'));
@@ -1547,11 +1547,11 @@ class VT610_to_YT100 {
 				}
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::picklists() method ...");
+		$log->debug("Exiting VT610_to_YT::picklists() method ...");
 	}
 	public function cron(){
 		global $log;
-		$log->debug("Entering VT610_to_YT100::cron() method ...");
+		$log->debug("Entering VT610_to_YT::cron() method ...");
 		$removeCrons = array();
 		$removeCrons[] = 'MailScanner';
 		$addCrons = array();
@@ -1561,11 +1561,11 @@ class VT610_to_YT100 {
 		foreach($addCrons as $cron)
 			Vtiger_Cron::register($cron[0],$cron[1],$cron[2],$cron[6],$cron[5],0,$cron[8]);
 		
-		$log->debug("Exiting VT610_to_YT100::cron() method ...");
+		$log->debug("Exiting VT610_to_YT::cron() method ...");
 	}
 	public function leadMapping(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::leadMapping() method ...");
+		$log->debug("Entering VT610_to_YT::leadMapping() method ...");
 		$adb->query("DELETE FROM `vtiger_convertleadmapping` ");
 		$fieldsLeads = array("phone","lastname","mobile","company","fax","email","leadsource","website","industry","annualrevenue","noofemployees","description","vat_id","registration_number_2","addresslevel1a","addresslevel2a","addresslevel3a","addresslevel4a","addresslevel5a","addresslevel6a","addresslevel7a","addresslevel8a","buildingnumbera","localnumbera");
 		$fieldsAccounts = array('accountname','phone','website','fax','email1','employees','industry','annual_revenue','description','vat_id','registration_number_2','adresslevel1a','addresslevel2a','addresslevel3a','addresslevel4a','addresslevel5a','addresslevel6a','addresslevel7a','addresslevel8a','buildingnumbera','localnumbera','addresslevel1a');
@@ -1611,11 +1611,11 @@ class VT610_to_YT100 {
 			$query = "INSERT INTO vtiger_convertleadmapping (leadfid, accountfid, contactfid, potentialfid, editable) values (?,?,?,?,?);";
 			$adb->pquery($query, array($leadfid, $accountid, $contactsid, $potentialsid, $fieldConvert[4]));
 		}
-		$log->debug("Exiting VT610_to_YT100::leadMapping() method ...");
+		$log->debug("Exiting VT610_to_YT::leadMapping() method ...");
 	}
 	public function getFieldsId($fields, $moduleName){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::getFieldsId(".$fields.', '. $moduleName.") method ...");
+		$log->debug("Entering VT610_to_YT::getFieldsId(".$fields.', '. $moduleName.") method ...");
 		if(!is_array($fields))
 			$fields = array($fields);
 		$params = $fields;
@@ -1625,12 +1625,12 @@ class VT610_to_YT100 {
 		for($i=0;$i<$adb->num_rows($result);$i++){
 			$fieldsResult[$adb->query_result($result, $i, 'fieldname')] = $adb->query_result($result, $i, 'fieldid');
 		}
-		$log->debug("Exiting VT610_to_YT100::getFieldsId() method ...");
+		$log->debug("Exiting VT610_to_YT::getFieldsId() method ...");
 		return $fieldsResult;
 	}
 	public function updateRecords(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::updateRecords() method ...");
+		$log->debug("Entering VT610_to_YT::updateRecords() method ...");
 		$changes = array();
 		$changes[] = array('where'=>array('columnname'=>array('calendarsharedtype')), 'setColumn'=>array('displaytype'), 'setValue'=>array(1));
 		$changes[] = array('where'=>array('columnname'=>array('description'), 'tabid'=>array(getTabid('Accounts'),getTabid('Leads'),getTabid('Assets'),getTabid('Vendors'),getTabid('Quotes'),getTabid('Contacts'),getTabid('Potentials'),getTabid('PurchaseOrder'),getTabid('Project'),getTabid('HelpDesk'),getTabid('SalesOrder'),getTabid('Invoice'))), 'setColumn'=>array('uitype'), 'setValue'=>array(300));
@@ -1715,12 +1715,12 @@ class VT610_to_YT100 {
 		if($adb->num_rows($result) == 0){
 			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Services',NULL,2);");
 		}
-		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
+		$log->debug("Exiting VT610_to_YT::updateRecords() method ...");
 	}
 	
 	public function addClosedtimeField(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::addClosedtimeField() method ...");
+		$log->debug("Entering VT610_to_YT::addClosedtimeField() method ...");
 		$adb->query('ALTER TABLE `vtiger_crmentity` ADD COLUMN `closedtime` DATETIME NULL AFTER `viewedtime`;');
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
@@ -1750,12 +1750,12 @@ class VT610_to_YT100 {
 				$blockInstance->addField($fieldInstance); 
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::addClosedtimeField() method ...");
+		$log->debug("Exiting VT610_to_YT::addClosedtimeField() method ...");
 	}
 	
 	public function pobox(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::pobox() method ...");
+		$log->debug("Entering VT610_to_YT::pobox() method ...");
 		$sql = "SELECT * FROM `vtiger_field` WHERE `fieldname` LIKE 'addresslevel1%';";
 		$result = $adb->query($sql,true);
 		$Num = $adb->num_rows($result);
@@ -1781,12 +1781,12 @@ class VT610_to_YT100 {
 			$fieldInstance->typeofdata = 'V~O'; 
 			$blockInstance->addField($fieldInstance);
 		}
-		$log->debug("Exiting VT610_to_YT100::pobox() method ...");
+		$log->debug("Exiting VT610_to_YT::pobox() method ...");
 	}
 	
 	public function fieldsModuleRel(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::fieldsModuleRel() method ...");
+		$log->debug("Entering VT610_to_YT::fieldsModuleRel() method ...");
 		
 		$fieldsModuleRel = array();
 		//$fieldsModuleRel[] = array('field'=>'related_to','module'=>'ModComments', 'relmodule'=>array('OSSTimeControl','OSSEmployees'));//testing
@@ -1796,11 +1796,11 @@ class VT610_to_YT100 {
 			$fieldModel = Vtiger_Field_Model::getInstance($fieldModuleRel['field'], $moduleModel);
 			$fieldModel->setRelatedModules($fieldModuleRel['relmodule']);
 		}
-		$log->debug("Exiting VT610_to_YT100::fieldsModuleRel() method ...");
+		$log->debug("Exiting VT610_to_YT::fieldsModuleRel() method ...");
 	}
 	public function actionMapping(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::actionMapping() method ...");
+		$log->debug("Entering VT610_to_YT::actionMapping() method ...");
 
 		
 		$adb->query("insert into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (14,'CreateCustomFilter',0);");
@@ -1815,28 +1815,28 @@ class VT610_to_YT100 {
 		}
 		Vtiger_Deprecated::createModuleMetaFile();
 		Vtiger_Access::syncSharingAccess();
-		$log->debug("Exiting VT610_to_YT100::actionMapping() method ...");
+		$log->debug("Exiting VT610_to_YT::actionMapping() method ...");
 	}
 	
 	public function getPicklistId($fieldName, $value){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::getPicklistId(".$fieldName.','.$value.") method ...");
+		$log->debug("Entering VT610_to_YT::getPicklistId(".$fieldName.','.$value.") method ...");
 		if(Vtiger_Utils::CheckTable('vtiger_' .$fieldName)) {
 			$sql = 'SELECT * FROM vtiger_' .$fieldName. ' WHERE ' .$fieldName. ' = ? ;';
 			$result = $adb->pquery($sql, array($value));
 			if($adb->num_rows($result) > 0){
-				$log->debug("Exiting VT610_to_YT100::getPicklistId() method ...");
+				$log->debug("Exiting VT610_to_YT::getPicklistId() method ...");
 				return $adb->query_result($result, 0, 'picklist_valueid');
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::getPicklistId() method ...");
+		$log->debug("Exiting VT610_to_YT::getPicklistId() method ...");
 		return false;
 		
 	}
 	
 	public function changeOutgoingServerFile($id){
 		global $log,$adb,$root_directory;
-		$log->debug("Entering VT610_to_YT100::changeOutgoingServerFile(".$id.") method ...");
+		$log->debug("Entering VT610_to_YT::changeOutgoingServerFile(".$id.") method ...");
 		
 		if(!$root_directory)
 			$root_directory = getcwd();
@@ -1851,17 +1851,17 @@ class VT610_to_YT100 {
 		fwrite($filePointer, $fileContent);
 		fclose($filePointer);
 		
-		$log->debug("Exiting VT610_to_YT100::changeOutgoingServerFile() method ...");
+		$log->debug("Exiting VT610_to_YT::changeOutgoingServerFile() method ...");
 	}
 	
 	public function addRecords(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::addRecords() method ...");
+		$log->debug("Entering VT610_to_YT::addRecords() method ...");
 		//include('config/config.inc.php');
 		global $dbconfig;
 		$assigned_user_id = $this->adminId;
-		$log->debug("Entering VT610_to_YT100::addRecords88(".$dbconfig['db_type'].' '.$dbconfig['db_hostname'].' '.$dbconfig['db_name'].' '.$dbconfig['db_username'].") method ...");
-		$log->debug("Entering VT610_to_YT100::addRecords44(".$assigned_user_id.") method ...");
+		$log->debug("Entering VT610_to_YT::addRecords88(".$dbconfig['db_type'].' '.$dbconfig['db_hostname'].' '.$dbconfig['db_name'].' '.$dbconfig['db_username'].") method ...");
+		$log->debug("Entering VT610_to_YT::addRecords44(".$assigned_user_id.") method ...");
 		$user = new Users();
 		$current_user = $user->retrieveCurrentUserInfoFromFile( $assigned_user_id );
 		$moduleName = 'OSSMailTemplates';
@@ -2469,11 +2469,11 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		Vtiger_DependencyPicklist::savePickListDependencies($moduleName, $dependencyMap);
 		//info on migration
 		$adb->pquery("INSERT INTO yetiforce_updates (`time`, `user`, `name`, `from_version`, `to_version`, `result`) VALUES  (?, ?, ?, ?, ?, ?)", array(date('Y-m-d H:i:s'), $this->adminId, 'migration', $this->name, 'Yetiforce CRM 1.0.0', 1 ));
-		$log->debug("Exiting VT610_to_YT100::addRecords() method ...");
+		$log->debug("Exiting VT610_to_YT::addRecords() method ...");
 	}
 	public function customerPortal(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::customerPortal() method ...");
+		$log->debug("Entering VT610_to_YT::customerPortal() method ...");
 		$portal_tabs[] = array(getTabid('Contacts'),1,8);
 		$portal_tabs[] = array(getTabid('Accounts'),1,9);
 		$portal_tabs[] = array(getTabid('Documents'),1,10);
@@ -2504,12 +2504,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$adb->pquery("INSERT INTO vtiger_customerportal_tabs (tabid,visible,sequence) VALUES (?,?,?)", array($portal[0], $portal[1], ++$count));
 			$adb->pquery("INSERT INTO vtiger_customerportal_prefs(tabid,prefkey,prefvalue) VALUES (?,?,?)", array($portal[0],'showrelatedinfo', 1));
 		}
-		$log->debug("Exiting VT610_to_YT100::customerPortal() method ...");
+		$log->debug("Exiting VT610_to_YT::customerPortal() method ...");
 	}
 	
 	public function customView(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::customView() method ...");
+		$log->debug("Entering VT610_to_YT::customView() method ...");
 		$columnList = array();
 		$columnList['Leads'][] = array(1,1,'vtiger_leaddetails:firstname:firstname:Leads_First_Name:V');
 		$columnList['Leads'][] = array(1,2,'vtiger_leaddetails:lastname:lastname:Leads_Last_Name:V');
@@ -2676,12 +2676,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 				}
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::customView() method ...");
+		$log->debug("Exiting VT610_to_YT::customView() method ...");
 	}
 	
 	public function addSearchfield(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::addSearchfield() method ...");
+		$log->debug("Entering VT610_to_YT::addSearchfield() method ...");
 		$entityName[] = array(2,'Potentials','vtiger_potential','potentialname','potentialid','potential_id','potentialname',1,0);
 		$entityName[] = array(4,'Contacts','vtiger_contactdetails','firstname,lastname','contactid','contact_id','firstname,lastname',1,0);
 		$entityName[] = array(6,'Accounts','vtiger_account','accountname','accountid','account_id','accountname',1,0);
@@ -2727,12 +2727,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]), true);
 		}
 		
-		$log->debug("Exiting VT610_to_YT100::addSearchfield() method ...");
+		$log->debug("Exiting VT610_to_YT::addSearchfield() method ...");
 	}
 	
 	public function addWidget(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::addWidget() method ...");
+		$log->debug("Entering VT610_to_YT::addWidget() method ...");
 		$widgets[] = array(1,'Accounts','Summary',NULL,1,0,NULL,'[]');
 		$widgets[] = array(2,'Accounts','Comments','ModComments',2,6,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
 		$widgets[] = array(3,'Accounts','Updates','LBL_UPDATES',1,2,NULL,'[]');
@@ -2785,12 +2785,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 				$adb->pquery($sql, array( getTabid($widget[1]), $widget[2], $widget[3], $widget[4], $widget[5], $widget[6], $widget[7]));
 			}
 		}
-		$log->debug("Exiting VT610_to_YT100::addWidget() method ...");
+		$log->debug("Exiting VT610_to_YT::addWidget() method ...");
 	}
 	
 	public function relatedList(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::relatedList() method ...");
+		$log->debug("Entering VT610_to_YT::relatedList() method ...");
 		
 		$addRelations = array();
 		$addRelations['Potentials'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD', 'name'=>'get_dependents_list');
@@ -2832,12 +2832,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$sql .= 'WHERE `tabid` = ? AND `related_tabid` = ? ;';
 			$adb->pquery($sql, array(1,$presents['tabid'],$presents['related_tabid']), true);
 		}
-		$log->debug("Exiting VT610_to_YT100::relatedList() method ...");
+		$log->debug("Exiting VT610_to_YT::relatedList() method ...");
 	}
 	
 	public function transferLogo(){
 		global $log,$adb,$root_directory;
-		$log->debug("Entering VT610_to_YT100::transferLogo() method ...");
+		$log->debug("Entering VT610_to_YT::transferLogo() method ...");
 		$result = $adb->query( "SELECT `logoname` FROM `vtiger_organizationdetails` ;");
 		$num = $adb->num_rows( $result );
 		if($num == 1){
@@ -2847,12 +2847,12 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 				$root_directory = getcwd();
 			copy($source.'test/logo/'.$logoName, $root_directory.'/test/logo/'.$logoName);
 		}
-		$log->debug("Exiting VT610_to_YT100::transferLogo() method ...");
+		$log->debug("Exiting VT610_to_YT::transferLogo() method ...");
 	}
 	
 	public function removeModules(){
 		global $log,$adb;
-		$log->debug("Entering VT610_to_YT100::removeModules() method ...");
+		$log->debug("Entering VT610_to_YT::removeModules() method ...");
 		$removeModules = array('EmailTemplates'=>array(),'Webmails'=>array(),'FieldFormulas'=>array(),
 		'Google'=>array('added_links'=>array(array('type' => 'DETAILVIEWSIDEBARWIDGET', 'label'  => 'Google Map'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Contacts'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Calendar'))),
 		'ExtensionStore'=>array()
@@ -2867,7 +2867,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 				$obiekt->added_links = $removeModule['added_links'];
 			$obiekt->DeleteAll();
 		}
-		$log->debug("Exiting VT610_to_YT100::removeModules() method ...");
+		$log->debug("Exiting VT610_to_YT::removeModules() method ...");
 	}
 }
 class RemoveModule {
