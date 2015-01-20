@@ -11,7 +11,7 @@
 class HistoryCall{
     public $restler;
 	public $userID;
-	public $debug = false;
+	public $debug = true;
 	public $permittedActions = array('addCallLogs');
 	public $types = array(
 		'1' => 'Incoming',
@@ -37,7 +37,7 @@ class HistoryCall{
 		}
 		if($this->debug){
 			$file = 'api/mobile_services_HistoryCall_logs.txt';
-			$dane = print_r( array( $data, $resultData ) ,true);
+			$dane = print_r( array( $type,$authorization, $data, $resultData ) ,true);
 			file_put_contents($file,'-----> '.date("Y-m-d H:i:s").' <-----'.PHP_EOL.$dane.PHP_EOL,FILE_APPEND | LOCK_EX);
 		}
         return $resultData;
@@ -66,8 +66,8 @@ class HistoryCall{
 			$CallHistory->column_fields['from_number'] = $from_number;
 			$CallHistory->column_fields['location'] = $call->location;
 			$CallHistory->column_fields['phonecallid'] = $call->callid;
-			$CallHistory->column_fields['start_time'] = date("Y-m-d H:i:s", $call->start_time);
-			$CallHistory->column_fields['end_time'] = date("Y-m-d H:i:s", $call->end_time);
+			$CallHistory->column_fields['start_time'] = $this->getDate($call->start_time);
+			$CallHistory->column_fields['end_time'] = $this->getDate($call->end_time);
 			$CallHistory->column_fields['duration'] = $call->duration;
 			$CallHistory->column_fields['imei'] = $data->imei;
 			$CallHistory->column_fields['ipAddress'] = $data->ipAddress;
@@ -134,5 +134,10 @@ class HistoryCall{
 		}else{
 			return !$this->types[$type]? $type : $this->types[$type];
 		}
+	}
+	
+	function getDate($timestamp){
+		$timestamp = substr($timestamp, 0, 10);
+		return date("Y-m-d H:i:s", $timestamp);
 	}
 }
