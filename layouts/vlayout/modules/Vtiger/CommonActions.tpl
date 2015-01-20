@@ -98,7 +98,6 @@
                 </div>
             </div>
 			{assign var="BREADCRUMBS" value=$MENU_STRUCTURE['breadcrumbs']}
-			{assign var="MENUSCOLOR" value=$MENU_STRUCTURE['menusColor']}
 			{if $BREADCRUMBS}
 				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
 					<style>
@@ -120,11 +119,12 @@
 					{/foreach}
 				</div>
 			{/if}
+			{assign var="MENUSCOLOR" value=Settings_MenuEditor_Module_Model::getModulesColors(true)}
 			{if $MENUSCOLOR}
 				<div class="menusColorContainer" style="display: none;">
 					<style>
 					{foreach item=item from=$MENUSCOLOR}
-						.{$item.class}{
+						.moduleColor_{$item.module}{
 							color: {$item.color} !important;
 						}
 					{/foreach}

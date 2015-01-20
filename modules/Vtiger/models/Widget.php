@@ -65,7 +65,8 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 	public function getUrl() {
 		$url = decode_html($this->get('linkurl')).'&linkid='.$this->get('linkid');
 		$widgetid = $this->has('widgetid')? $this->get('widgetid') : $this->get('id');
-		if ($widgetid) $url .= '&widgetid=' . $widgetid;
+		$url .= '&widgetid=' . $widgetid .'&active='.$this->get('active');
+		
 		return $url;
 	}
 
@@ -143,48 +144,43 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 		$self = new self();
 		if($db->num_rows($result)) {
 			$row = $db->query_result_rowdata($result, 0);
+			if($row['linklabel'] == 'Mini List'){
+				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
+				$minilistWidgetModel = new Vtiger_MiniList_Model();
+				$minilistWidgetModel->setWidgetModel($minilistWidget);
+				$row['title'] = $minilistWidgetModel->getTitle();
+			}
 			$self->setData($row);
 		}
 		return $self;
 	}
 
 	/**
-	 * Function to add a widget from the Users Dashboard
+	 * Function to show a widget from the Users Dashboard
 	 */
-	public function add() {
+	public function show() {
 		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT id FROM vtiger_module_dashboard_widgets WHERE linkid = ? AND userid = ?';
-		$params = array($this->get('linkid'), $this->get('userid'));
-
-		$filterid = $this->get('filterid');
-		if (!empty($filterid)) {
-			$sql .= ' AND filterid = ?';
-			$params[] = $this->get('filterid');
+		if( 0 == $this->get('active') ){
+			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
+			$params = array(1, $this->get('widgetid'));
+			$db->pquery($query, $params);
 		}
-
-		$result = $db->pquery($sql, $params);
-		if(!$db->num_rows($result)) {
-			$db->pquery('INSERT INTO vtiger_module_dashboard_widgets(linkid, userid, filterid, title, data) VALUES(?,?,?,?,?)',
-					array($this->get('linkid'), $this->get('userid'), $this->get('filterid'), $this->get('title'), Zend_Json::encode($this->get('data'))));
-			$this->set('id', $db->getLastInsertID());
-		} else if($this->has('data')){
-			$db->pquery('INSERT INTO vtiger_module_dashboard_widgets(linkid, userid, filterid, title, data) VALUES(?,?,?,?,?)',
-					array($this->get('linkid'), $this->get('userid'), $this->get('filterid'), $this->get('title'), Zend_Json::encode($this->get('data'))));
-			$this->set('id', $db->getLastInsertID());
-		}
-        else {
-            $this->set('id', $db->query_result($result, 0, 'id'));
-        }
+		$this->set('id', $this->get('widgetid'));
 	}
-
+	
 	/**
 	 * Function to remove the widget from the Users Dashboard
 	 */
-	public function remove() {
+	public function remove($action = 'hide') {
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? AND userid = ?',
-				array($this->get('id'), $this->get('userid')));
+		if($action == 'delete')
+			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE id = ? AND blockid = ?',
+				array($this->get('id'), $this->get('blockid')));
+		else if($action == 'hide'){
+			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
+			$params = array(0, $this->get('id'));
+			$db->pquery($query, $params);
+		}
 	}
 
 	/**

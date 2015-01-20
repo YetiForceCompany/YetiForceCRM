@@ -50,6 +50,15 @@ $languageStrings = array(
 	'LBL_ERROR_VERSION' => 'Некорректная версия модуля.Версия модуля: __MODULEVERSION__ - Версия системы: __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
+	
+	'LBL_CREATE_MODULE' => 'Create module',
+	'LBL_CREATING_MODULE' => 'Creating new module',
+	'LBL_ENTER_MODULE_NAME' => 'Module name',
+	'LBL_ENTER_MODULE_LABEL' => 'Module label',
+	'LBL_ENTITY_FIELDNAME' => 'Entity field name',
+	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
+	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
 );
 $jsLanguageStrings = array(
   'JS_ON' => 'вкл',

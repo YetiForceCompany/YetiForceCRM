@@ -5,8 +5,68 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Module_Manager_Js', {
+	registerMondalCreateModule : function(data) {
+		data.find('[name="saveButton"]').attr("disabled", true);
+		var thisInstance = new Settings_Module_Manager_Js();
+		data.find('input').on('change', function(e) {
+			if( $( this ).attr("name") == 'module_name'){
+				thisInstance.checkModuleName( $( this ).val(), data );
+			}else{
+				if( $( this ).val() != ''){
+					$( this ).attr("check", true);
+				}else{
+					$( this ).attr("check", false);
+				}
+			}
+			var status = true;
+			data.find('input').each(function() {
+				if( $( this ).attr("check") == 'false' || $( this ).attr("check") == undefined){
+					status = false;
+				}
+			});
+			if( status ){
+				data.find('[name="saveButton"]').attr("disabled", false);
+			}else{
+				data.find('[name="saveButton"]').attr("disabled", true);
+			}
+		})
+		data.find('[name="saveButton"]').click(function(e) {
+			var form = data.find('form');
+			var formData = form.serializeFormData();
+			var progress = $.progressIndicator({
+				'message' : app.vtranslate('Adding a Key'),
+				'blockInfo' : {
+					'enabled' : true
+				}
+			});
+			var params = {}
+			params['module'] = app.getModuleName();
+			params['parent'] = app.getParentModuleName();
+			params['action'] = 'Basic';
+			params['mode'] = 'createModule';
+			params['formData'] = formData;
+			AppConnector.request(params).then(
+				function(data) {
+					var result = data.result;
+					if( !result.success ){
+						var params = {
+							text: result.text,
+							animation: 'show',
+							type: 'error'
+						};
+						Vtiger_Helper_Js.showPnotify(params);
+					}else{
+						window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule='+result.text;
+					}
+				}
+			);
+			progress.progressIndicator({'mode': 'hide'});
+		});
+		
+	}
 }, {
 	
 	/*
@@ -46,7 +106,45 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		);
 		return aDeferred.promise();
 	},
-	
+	createModule : function(currentTarget) {
+		var progressIndicatorElement = jQuery.progressIndicator();
+		app.showModalWindow(null, "index.php?module=ModuleManager&parent=Settings&view=CreateModule", function(wizardContainer){
+			progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+			Settings_Module_Manager_Js.registerMondalCreateModule(wizardContainer);
+		});
+	},
+	checkModuleName : function(name , wizardContainer) {
+		var progressIndicatorElement = jQuery.progressIndicator();
+		wizardContainer.find('[name="module_name"]').attr("check", false);
+		var params = {}
+		params.data = {
+			module: app.getModuleName(),
+			action: 'Basic',
+			parent: app.getParentModuleName(),
+			mode: 'checkModuleName',
+			moduleName: name
+		}
+		params.async = false;
+		params.dataType = 'json';
+		AppConnector.request(params).then(
+			function(data) {
+				var result = data.result;
+				if( result.success ){
+					wizardContainer.find('[name="module_name"]').attr("check", true);
+				}else{
+					wizardContainer.find('[name="module_name"]').attr("check", false);
+					var params = {
+						text: result.text,
+						animation: 'show',
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(params);
+					wizardContainer.find('[name="saveButton"]').attr("disabled", true);
+				}
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+			}
+		);
+	},
 	//This will show the notification message using pnotify
 	showNotify : function(customParams) {
 		var params = {
@@ -61,7 +159,8 @@ jQuery.Class('Settings_Module_Manager_Js', {
 	registerEvents : function(e){
 		var thisInstance = this;
 		var container = jQuery('#moduleManagerContents');
-		
+		container.find('.createModule').click(thisInstance.createModule);
+
 		//register click event for check box to update the module status
 		container.on('click', '[name="moduleStatus"]', function(e){
 			var currentTarget = jQuery(e.currentTarget);
@@ -114,8 +213,6 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		});
 	}
 });
-
-
 jQuery(document).ready(function(){
 	var settingModuleManagerInstance = new Settings_Module_Manager_Js();
 	settingModuleManagerInstance.registerEvents();

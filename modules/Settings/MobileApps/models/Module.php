@@ -21,7 +21,8 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
         foreach ($dir as $fileinfo) {
             if (!$fileinfo->isDot()) {
 				$tmp = explode('.', $fileinfo->getFilename());
-				$serices[$tmp[0]] = 'LBL_MOBILE_'.strtoupper($tmp[0]);
+				if($tmp[0]!= 'test')
+					$serices[$tmp[0]] = 'LBL_MOBILE_'.strtoupper($tmp[0]);
             }
         }
 		return $serices;

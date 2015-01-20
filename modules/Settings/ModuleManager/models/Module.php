@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
@@ -104,5 +105,93 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	 */
 	public static function getActionsRestrictedModulesList() {
 		return array('Home', 'Emails');
+	}
+	
+	public static function createModule($moduleInformation) {
+		$moduleInformation['entityfieldname']  = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
+
+		$module = new Vtiger_Module();
+		$module->name = ucfirst($moduleInformation['module_name']);
+		$module->label = $moduleInformation['module_label'];
+		$module->save();
+		$module->initTables();
+
+		$block = new Vtiger_Block();
+		$block->label = 'LBL_'. strtoupper($module->name) . '_INFORMATION';
+		$module->addBlock($block);
+
+		$blockcf = new Vtiger_Block();
+		$blockcf->label = 'LBL_CUSTOM_INFORMATION';
+		$module->addBlock($blockcf);
+
+		$field1  = new Vtiger_Field();
+		$field1->name = $moduleInformation['entityfieldname'];
+		$field1->label= $moduleInformation['entityfieldlabel'];
+		$field1->uitype= 2;
+		$field1->column = $field1->name;
+		$field1->columntype = 'VARCHAR(255)';
+		$field1->typeofdata = 'V~M';
+		$block->addField($field1);
+
+		$module->setEntityIdentifier($field1);
+
+		/** Common fields that should be in every module, linked to vtiger CRM core table */
+		$field2 = new Vtiger_Field();
+		$field2->name = 'assigned_user_id';
+		$field2->label = 'Assigned To';
+		$field2->table = 'vtiger_crmentity';
+		$field2->column = 'smownerid';
+		$field2->uitype = 53;
+		$field2->typeofdata = 'V~M';
+		$block->addField($field2);
+
+		$field3 = new Vtiger_Field();
+		$field3->name = 'createdtime';
+		$field3->label= 'Created Time';
+		$field3->table = 'vtiger_crmentity';
+		$field3->column = 'createdtime';
+		$field3->uitype = 70;
+		$field3->typeofdata = 'DT~O';
+		$field3->displaytype= 2;
+		$block->addField($field3);
+
+		$field4 = new Vtiger_Field();
+		$field4->name = 'modifiedtime';
+		$field4->label= 'Modified Time';
+		$field4->table = 'vtiger_crmentity';
+		$field4->column = 'modifiedtime';
+		$field4->uitype = 70;
+		$field4->typeofdata = 'DT~O';
+		$field4->displaytype= 2;
+		$block->addField($field4);
+
+		// Create default custom filter (mandatory)
+		$filter1 = new Vtiger_Filter();
+		$filter1->name = 'All';
+		$filter1->isdefault = true;
+		$module->addFilter($filter1);
+		// Add fields to the filter created
+		$filter1->addField($field1)->addField($field2, 1)->addField($field3, 2);
+
+		// Set sharing access of this module
+		$module->setDefaultSharing();
+
+		// Enable and Disable available tools
+		$module->enableTools(Array('Import', 'Export', 'Merge'));
+
+		// Initialize Webservice support
+		$module->initWebservice();
+
+		// Create files
+		$module->createFiles($field1);
+	}
+	
+	public function toAlphaNumeric($value) {
+		return preg_replace("/[^a-zA-Z0-9_]/", "", $value);
+	}
+	
+	public function getUploadDirectory() {
+		$uploadDir = 'test/vtlib';
+		return $uploadDir;
 	}
 }

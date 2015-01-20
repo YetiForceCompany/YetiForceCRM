@@ -41,10 +41,14 @@ class Vtiger_DependencyPicklist {
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
 				$targetFieldLabel = $adb->query_result($fieldResult,0,'fieldlabel');
-
-				$dependentPicklists[] = array('sourcefield'=>$sourceField, 'sourcefieldlabel'=>$sourceFieldLabel,
-						'targetfield'=>$targetField, 'targetfieldlabel'=>$targetFieldLabel,
-						'module'=>getTabModuleName($fieldTabId));
+				$forModule = getTabModuleName($fieldTabId);
+				$dependentPicklists[] = array(
+					'sourcefield'=>$sourceField, 
+					'sourcefieldlabel'=>vtranslate($sourceFieldLabel, $forModule),
+					'targetfield'=>$targetField, 
+					'targetfieldlabel'=>vtranslate($targetFieldLabel, $forModule),
+					'module'=>$forModule
+				);
 			}
 		}
 		return $dependentPicklists;

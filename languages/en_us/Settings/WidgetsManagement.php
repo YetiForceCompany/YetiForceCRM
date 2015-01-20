@@ -8,26 +8,28 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
 $languageStrings = array(
+	'LBL_CHOISE_AUTHORIZED' => 'Select role',
+	'LBL_ADD_DASHBOARD_BLOCK' => 'Add summary block for module',
+	'LBL_WIDTH' => 'Width',
+	'LBL_HIGHT' => 'Height',
+	'LBL_ADD_WIDGET' => 'Widget',
+	'LBL_ADD_NOTEBOOK' => 'Notebook',
+	'LBL_ADD_MINILIST' => 'Widget with filter',
+	'LBL_SELECT_WIDGET' => 'Select widget',
+	'LBL_CREATE_CUSTOM_FIELD' => 'Add widget to panel',
+	'LBL_ADD_CONDITION' => 'Add role',
+	'LBL_INVALID_DATA' => 'Invalid data',
 
-	'WidgetsManagement' => 'Widgets Management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
+	'WidgetsManagement' => 'Widget management',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widget management',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Mandatory widgets',
-	'LBL_INACTIVE_WIDGETS' => 'Inactive widgets',
-	'LBL_CHOISE_ROLE' => 'Select role',
-	'LBL_CHOISE_WIDGET' => 'Select widgets',
-	'LBL_ROLE' => 'Roles',
+	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
 	'LBL_WIDGET' => 'Widgets',
-	
-	'LBL_SAVE_CHANGE' => 'You have successfully made ​​changes',
-	'LBL_FAILED_TO_SAVE' => 'No changes were made',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Click to select widgets',
-
 );
 $jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Mandatory widget: ',
-	'JS_INACTIVE' => 'Inactive widget: ',
+	'JS_BLOCK_ADDED' => 'Block has been added successfully',
+	'JS_CUSTOM_FIELD_ADDED' => 'Widget has been added successfully to block ',
+	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
+	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
 );
-?>

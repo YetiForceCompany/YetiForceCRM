@@ -8,14 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
- 
 $currentPath = dirname(__FILE__);
 $crmPath =  $currentPath . '/../';
 chdir ($crmPath);
 
 require_once 'api/config.php';
 if(!in_array('mobile',$enabledServices)){
-	die("{'status': 0,'masage': 'Mobile - Service is not active'}");
+	die("{'status': 0,'message': 'Mobile - Service is not active'}");
 }
 require_once 'libraries/restler/restler.php';
 require_once 'config/config.php';
@@ -26,14 +25,13 @@ ini_set('error_log',$root_directory.'logs/mobileApps.log');
 global $log,$adb;
 $log = &LoggerManager::getLogger('mobileApps');
 $adb = PearDatabase::getInstance();
-
 $log->info('Start mobile service');
 
 spl_autoload_register('spl_autoload');
 $r = new Restler();
-//$r->addAPIClass('CallHistory');
+$r->addAPIClass('Test');
+$r->addAPIClass('HistoryCall');
 $r->addAPIClass('PushCall');
 //$r->addAPIClass('PushMessage');
-$r->addAPIClass('Test');
 $r->handle();
 $log->info('End mobile service');

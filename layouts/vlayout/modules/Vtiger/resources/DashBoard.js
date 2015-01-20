@@ -1,12 +1,12 @@
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ ************************************************************************************/
 
 jQuery.Class("Vtiger_DashBoard_Js", {
 	gridster : false,
@@ -27,107 +27,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
 	},
 
-	addMiniListWidget: function(element, url) {
-		// 1. Show popup window for selection (module, filter, fields)
-		// 2. Compute the dynamic mini-list widget url
-		// 3. Add widget with URL to the page.
-
-		element = jQuery(element);
-
-		app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function(wizardContainer){
-			var form = jQuery('form', wizardContainer);
-
-			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-			var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
-			var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
-
-			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
-				placeholder: app.vtranslate('JS_SELECT_MODULE')
-			});
-			var filteridSelect2 = app.showSelect2ElementView(filteridSelectDOM,{
-				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
-			});
-			var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
-				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
-				closeOnSelect: true,
-				maximumSelectionSize: 6
-			});
-			var footer = jQuery('.modal-footer', wizardContainer);
-
-			filteridSelectDOM.closest('tr').hide();
-			fieldsSelectDOM.closest('tr').hide();
-			footer.hide();
-
-			moduleNameSelect2.change(function(){
-				if (!moduleNameSelect2.val()) return;
-
-				AppConnector.request({
-					module: 'Home',
-					view: 'MiniListWizard',
-					step: 'step2',
-					selectedModule: moduleNameSelect2.val()
-				}).then(function(res) {
-					filteridSelectDOM.empty().html(res).trigger('change');
-					filteridSelect2.closest('tr').show();
-				})
-			});
-			filteridSelect2.change(function(){
-				if (!filteridSelect2.val()) return;
-
-				AppConnector.request({
-					module: 'Home',
-					view: 'MiniListWizard',
-					step: 'step3',
-					selectedModule: moduleNameSelect2.val(),
-					filterid: filteridSelect2.val()
-				}).then(function(res){
-					fieldsSelectDOM.empty().html(res).trigger('change');
-					fieldsSelect2.closest('tr').show();
-				});
-			});
-			fieldsSelect2.change(function() {
-				if (!fieldsSelect2.val()) {
-					footer.hide();
-				} else {
-					footer.show();
-				}
-			});
-
-			form.submit(function(e){
-				e.preventDefault();
-                //To disable savebutton after one submit to prevent multiple submits
-                jQuery("[name='saveButton']").attr('disabled','disabled');
-				var selectedModule = moduleNameSelect2.val();
-				var selectedFilterId= filteridSelect2.val();
-				var selectedFields = [];
-				fieldsSelect2.select2('data').map(function (obj) { 
-					selectedFields.push(obj.id);
-				});
-				// TODO mandatory field validation
-				finializeAdd(selectedModule, selectedFilterId, selectedFields);
-			});
-		});
-
-		function finializeAdd(moduleName, filterid, fields) {
-			var data = {
-				module: moduleName
-			}
-			if (typeof fields != 'object') fields = [fields];
-			data['fields'] = fields;
-
-			url += '&filterid='+encodeURIComponent(filterid)+'&data=' + encodeURIComponent(JSON.stringify(data));
-
-			var linkId = element.data('linkid');
-			var name = element.data('name');
-			var widgetContainer = jQuery('<li class="new dashboardWidget" id="'+ linkId +"-" + filterid +'" data-name="'+name+'" data-mode="open"></li>');
-			widgetContainer.data('url', url);
-			var width = element.data('width');
-			var height = element.data('height');
-			Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
-			Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
-            app.hideModalWindow();
-		}
-	},
+	
 
 
 	restrictContentDrag : function(container){
@@ -141,55 +41,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			e.stopPropagation();
 		})
 	},
-
-	addNoteBookWidget : function(element, url) {
-		// 1. Show popup window for selection (module, filter, fields)
-		// 2. Compute the dynamic mini-list widget url
-		// 3. Add widget with URL to the page.
-
-		element = jQuery(element);
-
-		app.showModalWindow(null, "index.php?module=Home&view=AddNotePad", function(wizardContainer){
-			var form = jQuery('form', wizardContainer);
-			var params = app.validationEngineOptions;
-			params.onValidationComplete = function(form, valid){
-				if(valid) {
-                    //To prevent multiple click on save
-                    jQuery("[name='saveButton']").attr('disabled','disabled');
-					var notePadName = form.find('[name="notePadName"]').val();
-					var notePadContent = form.find('[name="notePadContent"]').val();
-					var linkId = element.data('linkid');
-					var noteBookParams = {
-						'module' : app.getModuleName(),
-						'action' : 'NoteBook',
-						'mode' : 'NoteBookCreate',
-						'notePadName' : notePadName,
-						'notePadContent' : notePadContent,
-						'linkId' : linkId
-					}
-					AppConnector.request(noteBookParams).then(
-						function(data){
-							if(data.result.success){
-								var widgetId = data.result.widgetId;
-								app.hideModalWindow();
-
-								url += '&widgetid='+widgetId
-
-								var name = element.data('name');
-								var widgetContainer = jQuery('<li class="new dashboardWidget" id="'+ linkId +"-" + widgetId +'" data-name="'+name+'" data-mode="open"></li>');
-								widgetContainer.data('url', url);
-								var width = element.data('width');
-								var height = element.data('height');
-								Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
-								Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
-							}
-						})
-				}
-				return false;
-			}
-			form.validationEngine(params);
-		});
-	}
 
 }, {
 
@@ -342,7 +193,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 						AppConnector.request(url).then(
 							function(response) {
 								if (response.success) {
-									var nonReversableWidgets = ['MiniList','Notebook']
+									var nonReversableWidgets = []
 
 									parent.fadeOut('slow', function() {
 										parent.remove();

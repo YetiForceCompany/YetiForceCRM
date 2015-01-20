@@ -235,7 +235,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 
 	protected function create($moduleInformation) {
 		$moduleInformation['entityfieldname']  = strtolower($this->toAlphaNumeric($moduleInformation['entityfieldlabel']));
-
+		$moduleInformation['module_name'] = $moduleInformation['name'];
 		$module = new Vtiger_Module();
 		$module->name = $moduleInformation['name'];
 		$module->save();
@@ -309,36 +309,8 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$module->initWebservice();
 
 		// Create files
-		$this->createFiles($module, $field1);
+		$module->createFiles($field1);
 	}
-
-	protected function createFiles(Vtiger_Module $module, Vtiger_Field $entityField) {
-		$targetpath = 'modules/' . $module->name;
-
-		if (!is_file($targetpath)) {
-			mkdir($targetpath);
-
-			$templatepath = 'vtlib/ModuleDir/BaseModule';
-
-			$moduleFileContents = file_get_contents($templatepath . '/ModuleName.php');
-			$replacevars = array(
-				'ModuleName'   => $module->name,
-				'<modulename>' => strtolower($module->name),
-				'<entityfieldlabel>' => $entityField->label,
-				'<entitycolumn>' => $entityField->column,
-				'<entityfieldname>' => $entityField->name,
-			);
-
-			foreach ($replacevars as $key => $value) {
-				$moduleFileContents = str_replace($key, $value, $moduleFileContents);
-			}
-			file_put_contents($targetpath.'/'.$module->name.'.php', $moduleFileContents);
-			
-			copy($templatepath . '/languages/en_us/ModuleName.php', 'languages/en_us/' . $module->name . '.php');
-
-		}
-	}
-
 }
 
 class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Controller {

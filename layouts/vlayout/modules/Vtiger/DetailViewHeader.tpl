@@ -16,12 +16,12 @@
 		<div class="row-fluid detailViewTitle">
 			<div class="{if $NO_PAGINATION} span12 {else} span10 {/if}">
 				<div class="row-fluid">
-					<div class="span5">
+					<div class="span6">
 						<div class="row-fluid">
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
-					<div class="span7 detailViewToolbar" style="text-align: right;">
+					<div class="span6 detailViewToolbar" style="text-align: right;">
 						<div>
 							<div class="btn-toolbar">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}

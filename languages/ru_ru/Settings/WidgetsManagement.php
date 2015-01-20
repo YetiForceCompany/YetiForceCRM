@@ -7,28 +7,29 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-
 $languageStrings = array(
-	'Management Widgets'	=>	'Менеджер Виджетов',
+	'LBL_CHOISE_AUTHORIZED' => 'Select role',
+	'LBL_ADD_DASHBOARD_BLOCK' => 'Add summary block for module',
+	'LBL_WIDTH' => 'Width',
+	'LBL_HIGHT' => 'Height',
+	'LBL_ADD_WIDGET' => 'Widget',
+	'LBL_ADD_NOTEBOOK' => 'Notebook',
+	'LBL_ADD_MINILIST' => 'Widget with filter',
+	'LBL_SELECT_WIDGET' => 'Select widget',
+	'LBL_CREATE_CUSTOM_FIELD' => 'Add widget to panel',
+	'LBL_ADD_CONDITION' => 'Add role',
+	'LBL_INVALID_DATA' => 'Invalid data',
+
 	'WidgetsManagement'	=>	'Менеджер Виджетов',
 	'LBL_WIDGETS_MANAGEMENT'	=>	'Менеджер Виджетов',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION'	=>	' Менеджер управления Виджетами',
-	'LBL_MANDATORY_WIDGETS'	=>	'Системные Виджеты',
-	'LBL_INACTIVE_WIDGETS'	=>	'Неактивные Виджеты',
-	'LBL_CHOISE_ROLE'	=>	'Выберите Роль',
-	'LBL_CHOISE_WIDGET'	=>	'Выберите Виджеты',
-	'LBL_ROLE'	=>	'Роли',
-	'LBL_WIDGET'	=>	'Виджеты',
-	
-	'LBL_SAVE_CHANGE'	=>	'Изменения успешно сохранены',
-	'LBL_FAILED_TO_SAVE'	=>	'Изменений нет',
-	'LBL_CLICK_TO_SELECT_WIDGETS'	=>	'Выберите Виджет',
-
+	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
+	'LBL_WIDGET' => 'Виджеты',
 );
 $jsLanguageStrings = array(
-	'JS_MANDATORY'	=>	'Системный Виджет: ',
-	'JS_INACTIVE'	=>	'Неактивный Виджет: ',
+	'JS_BLOCK_ADDED' => 'Block has been added successfully',
+	'JS_CUSTOM_FIELD_ADDED' => 'Widget has been added successfully to block ',
+	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
+	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
 );
-?>

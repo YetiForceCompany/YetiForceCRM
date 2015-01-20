@@ -25,12 +25,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 			return;
 		}
 		
-		$EXTENSIONS = Settings_ModuleManager_Extension_Model::getAll();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('EXTENSIONS', $EXTENSIONS);
-		$viewer->assign('EXTENSIONS_AVAILABLE', (count($EXTENSIONS) > 0)? true :false);
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
@@ -62,7 +59,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	
 	public function importUserModuleStep2(Vtiger_Request $request){
 		$viewer = $this->getViewer($request);
-		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
+		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$uploadFile = 'usermodule_'. time() . '.zip';
@@ -110,7 +107,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$qualifiedModuleName = $request->getModule(false);
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
+		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		checkFileAccess($uploadFileName);
 		
@@ -135,7 +132,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$qualifiedModuleName = $request->getModule(false);
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
-		$uploadDir = Settings_ModuleManager_Extension_Model::getUploadDirectory();
+		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
 		checkFileAccess($uploadFileName);
 		

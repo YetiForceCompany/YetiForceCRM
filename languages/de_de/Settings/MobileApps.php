@@ -27,7 +27,7 @@ $languageStrings = array(
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved successfully',
 
  	// Mobile services
- 	'LBL_MOBILE_CALLHISTORY' => 'Mobile call history',
+ 	'LBL_MOBILE_HISTORYCALL' => 'Mobile call history',
  	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
 );
 $jsLanguageStrings = array(

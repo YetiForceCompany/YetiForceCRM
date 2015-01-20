@@ -33,7 +33,7 @@
 									<td>{vtranslate($item.module,$item.module)}</td>
 									<td>
 										<label class="checkbox">
-											<input class="activeColor" type="checkbox" name="active" value="1" {if $item.color neq '#'}checked=""{/if}>
+											<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 										</label> 
 									</td>
 									<td class="moduleColor" style="background: {$item.color};"></td>

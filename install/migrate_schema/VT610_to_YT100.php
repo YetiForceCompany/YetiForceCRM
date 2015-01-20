@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.0.41 RC';
+// migration to version '1.1.41 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -182,60 +182,61 @@ class VT610_to_YT100 {
 		$adb = PearDatabase::getInstance();
 		
 		//menu manager
-		$menu_manager = array();
-		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(238,237,3,'Home',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(239,237,9,'Calendar',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(241,301,26,'Campaigns',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(242,282,6,'Accounts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(243,282,4,'Contacts',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(244,282,7,'Leads',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(245,305,8,'Documents',1004,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of documents#pl_pl*Lista dokumentów',1,NULL);
-		$menu_manager[] = array(247,301,2,'Potentials',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(248,301,20,'Quotes',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(249,301,22,'SalesOrder',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(250,301,23,'Invoice',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1,NULL);
-		$menu_manager[] = array(251,301,19,'PriceBooks',9,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(253,304,13,'HelpDesk',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(254,304,15,'Faq',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(255,304,34,'ServiceContracts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(256,302,41,'ProjectMilestone',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(257,302,42,'ProjectTask',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(258,302,43,'Project',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(260,305,25,'Reports',1009,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of reports#pl_pl*Lista raportów',1,NULL);
-		$menu_manager[] = array(262,305,14,'Products',989,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(263,282,18,'Vendors',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(264,301,21,'PurchaseOrder',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(265,305,35,'Services',994,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1,NULL);
-		$menu_manager[] = array(266,305,37,'Assets',991,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sold Products#pl_pl*Produkty sprzedane',1,NULL);
-		$menu_manager[] = array(268,305,33,'PBXManager',1002,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista połączeń telefonicznych',1,NULL);
-		$menu_manager[] = array(269,305,44,'RecycleBin',1006,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1,NULL);
-		$menu_manager[] = array(270,305,45,'SMSNotifier',1001,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of text messages#pl_pl*Lista smsów',1,NULL);
-		$menu_manager[] = array(271,305,47,'OSSPdf',1005,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1,NULL);
-		$menu_manager[] = array(272,237,48,'OSSMail',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*My mailbox#pl_pl*Moja poczta',1,NULL);
-		$menu_manager[] = array(273,305,49,'OSSMailTemplates',1003,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1,NULL);
-		$menu_manager[] = array(274,292,51,'OSSTimeControl',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1,NULL);
-		$menu_manager[] = array(277,305,59,'OutsourcedProducts',990,1,0,'index.php?module=OutsourcedProducts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
-		$menu_manager[] = array(278,305,58,'OSSSoldServices',996,1,0,'index.php?module=OSSSoldServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
-		$menu_manager[] = array(279,305,57,'OSSOutsourcedServices',995,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0,NULL);
-		$menu_manager[] = array(280,305,54,'OSSMailView',1000,1,0,'index.php?module=OSSMailView&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0,NULL);
-		$menu_manager[] = array(282,0,0,'Companies',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Companies#pl_pl*Firmy',0,NULL);
-		$menu_manager[] = array(292,0,0,'Human resources',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*HR#pl_pl*Kadry',0,NULL);
-		$menu_manager[] = array(299,305,0,'*separator*',992,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0,NULL);
-		$menu_manager[] = array(301,0,0,'Sales',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Sales#pl_pl*Sprzedaż',0,NULL);
-		$menu_manager[] = array(302,0,0,'Projects',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Projects#pl_pl*Projekty',0,NULL);
-		$menu_manager[] = array(304,0,0,'Support',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Support#pl_pl*Wsparcie',0,NULL);
-		$menu_manager[] = array(305,0,0,'Databases',7,1,0,'',0,'  ','','16x16','en_us*Databases#pl_pl*Bazy danych',0,NULL);
-		$menu_manager[] = array(306,305,0,'Products database',988,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Products database#pl_pl*Baza produktów',0,NULL);
-		$menu_manager[] = array(307,305,0,'Services database',993,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Services database#pl_pl*Baza usług',0,NULL);
-		$menu_manager[] = array(308,305,0,'*separator*',997,1,3,'*separator*',0,'  ','','','',0,NULL);
-		$menu_manager[] = array(309,305,0,'Lists',998,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Lists#pl_pl*Wykazy',0,NULL);
-		$menu_manager[] = array(311,292,61,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0,NULL);
-		$menu_manager[] = array(312,305,60,'OSSPasswords',1007,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0,NULL);
-		$menu_manager[] = array(323,301,70,'Calculations',3,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0,NULL);
-		$menu_manager[] = array(324,301,71,'OSSCosts',8,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0,NULL);
-		$menu_manager[] = array(325,305,69,'AddressLevel1',999,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0,NULL);
-		$menu_manager[] = array(327,305,0,'*separator*',1008,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0,NULL);
+		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(238,237,3,'Home',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(239,237,9,'Calendar',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(241,301,26,'Campaigns',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(242,282,6,'Accounts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(243,282,4,'Contacts',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(244,282,7,'Leads',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(245,305,8,'Documents',17,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of documents#pl_pl*Lista dokumentów',1);
+		$menu_manager[] = array(247,301,2,'Potentials',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(248,301,20,'Quotes',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(249,301,22,'SalesOrder',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(250,301,23,'Invoice',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1);
+		$menu_manager[] = array(251,301,19,'PriceBooks',9,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(253,304,13,'HelpDesk',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(254,304,15,'Faq',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(255,304,34,'ServiceContracts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(256,302,41,'ProjectMilestone',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(257,302,42,'ProjectTask',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(258,302,43,'Project',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(260,305,25,'Reports',23,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of reports#pl_pl*Lista raportów',1);
+		$menu_manager[] = array(262,305,14,'Products',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(263,282,18,'Vendors',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(264,301,21,'PurchaseOrder',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(265,305,35,'Services',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+		$menu_manager[] = array(266,305,37,'Assets',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sold Products#pl_pl*Produkty sprzedane',1);
+		$menu_manager[] = array(268,305,33,'PBXManager',15,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista połączeń telefonicznych',1);
+		$menu_manager[] = array(269,305,44,'RecycleBin',19,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1);
+		$menu_manager[] = array(270,305,45,'SMSNotifier',14,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of text messages#pl_pl*Lista smsów',1);
+		$menu_manager[] = array(271,305,47,'OSSPdf',18,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1);
+		$menu_manager[] = array(272,237,48,'OSSMail',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*My mailbox#pl_pl*Moja poczta',1);
+		$menu_manager[] = array(273,305,49,'OSSMailTemplates',16,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1);
+		$menu_manager[] = array(274,292,51,'OSSTimeControl',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1);
+		$menu_manager[] = array(277,305,59,'OutsourcedProducts',3,1,0,'index.php?module=OutsourcedProducts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
+		$menu_manager[] = array(278,305,58,'OSSSoldServices',9,1,0,'index.php?module=OSSSoldServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
+		$menu_manager[] = array(279,305,57,'OSSOutsourcedServices',8,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
+		$menu_manager[] = array(280,305,54,'OSSMailView',13,1,0,'index.php?module=OSSMailView&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0);
+		$menu_manager[] = array(282,0,0,'Companies',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Companies#pl_pl*Firmy',0);
+		$menu_manager[] = array(292,0,0,'Human resources',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*HR#pl_pl*Kadry',0);
+		$menu_manager[] = array(299,305,0,'*separator*',5,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
+		$menu_manager[] = array(301,0,0,'Sales',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Sales#pl_pl*Sprzedaż',0);
+		$menu_manager[] = array(302,0,0,'Projects',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Projects#pl_pl*Projekty',0);
+		$menu_manager[] = array(304,0,0,'Support',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Support#pl_pl*Wsparcie',0);
+		$menu_manager[] = array(305,0,0,'Databases',7,1,0,'',0,'  ','','16x16','en_us*Databases#pl_pl*Bazy danych',0);
+		$menu_manager[] = array(306,305,0,'Products database',1,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Products database#pl_pl*Baza produktów',0);
+		$menu_manager[] = array(307,305,0,'Services database',6,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Services database#pl_pl*Baza usług',0);
+		$menu_manager[] = array(308,305,0,'*separator*',10,1,3,'*separator*',0,'  ','','','',0);
+		$menu_manager[] = array(309,305,0,'Lists',11,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Lists#pl_pl*Wykazy',0);
+		$menu_manager[] = array(311,292,61,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
+		$menu_manager[] = array(312,305,60,'OSSPasswords',20,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
+		$menu_manager[] = array(323,301,70,'Calculations',3,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0);
+		$menu_manager[] = array(324,301,71,'OSSCosts',8,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
+		$menu_manager[] = array(325,305,69,'AddressLevel1',12,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0);
+		$menu_manager[] = array(327,305,0,'*separator*',22,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
+		$menu_manager[] = array(328,305,74,'CallHistory',21,1,0,'index.php?module=CallHistory&view=List',0,'  ','','16x16','',0);
+
 
 		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database');
 		
@@ -256,7 +257,7 @@ class VT610_to_YT100 {
 				if(!in_array($module[3],$blocksModule))
 					$module[2] = getTabid($module[3]);
 				$module[9] = $profilePermissions;
-			$adb->pquery("insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`,`color`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", $module);
+			$adb->pquery("insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", $module);
 			}
 		}
     }
@@ -375,8 +376,10 @@ class VT610_to_YT100 {
 		$settings_field[] = array('LBL_SECURITY_MANAGEMENT','Backup','','LBL_BACKUP_DESCRIPTION','index.php?parent=Settings&module=BackUp&view=Index','20','0','0');
 		$settings_field[] = array('LBL_About_YetiForce','LBL_CONFREPORT','','LBL_CONFREPORT_DESCRIPTION','index.php?parent=Settings&module=ConfReport&view=Index','20','0','0');
 		$settings_field[] = array('LBL_About_YetiForce','LBL_UPDATES_HISTORY',NULL,'LBL_UPDATES_HISTORY_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index','3','0','0');
-		$settings_field[] = array('LBL_OTHER_SETTINGS','LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes','25','0','0');
+		$settings_field[] = array('LBL_STUDIO','LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes','25','0','0');
 		$settings_field[] = array('LBL_STUDIO','LBL_WIDGETS_MANAGEMENT','','LBL_WIDGETS_MANAGEMENT_DESCRIPTION','index.php?module=WidgetsManagement&parent=Settings&view=Configuration','12','0','0');
+		$settings_field[] = array('LBL_STUDIO','LBL_MDULES_COLOR_EDITOR','','LBL_MDULES_COLOR_EDITOR_DESCRIPTION','index.php?parent=Settings&module=MenuEditor&view=Colors','13','0','0');
+		$settings_field[] = array('LBL_INTEGRATION','LBL_MOBILE_KEYS',NULL,'LBL_MOBILE_KEYS_DESCRIPTION','index.php?parent=Settings&module=MobileApps&view=MobileKeys','5','0','0');
 
 		foreach ($settings_field AS $field){
 			try {
@@ -882,7 +885,7 @@ class VT610_to_YT100 {
 		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('Project')),
 		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
-		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION"),
+		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION",array(),array('Assets','OSSSoldServices')),
 		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','LBL_ORDER_TIME','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
 		);
 
@@ -1651,6 +1654,10 @@ class VT610_to_YT100 {
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('Calendar')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Not Started'));
 		$changes[] = array('where'=>array('columnname'=>array('totalduration'), 'tabid'=>array('PBXManager')), 'setColumn'=>array('uitype'), 'setValue'=>array(1));
 		$changes[] = array('where'=>array('columnname'=>array('campaignrelstatus')), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Campaign status'));
+		$changes[] = array('where'=>array('columnname'=>array('user_name'), 'tablename'=>array('vtiger_users')), 'setColumn'=>array('displaytype'), 'setValue'=>array(4));
+		$changes[] = array('where'=>array('columnname'=>array('product_id'), 'tablename'=>array('vtiger_troubletickets')), 'setColumn'=>array('displaytype','uitype'), 'setValue'=>array(10,10));
+		$changes[] = array('where'=>array('columnname'=>array('startdate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
+		$changes[] = array('where'=>array('columnname'=>array('targetenddate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -1667,16 +1674,21 @@ class VT610_to_YT100 {
 			$query = "UPDATE vtiger_field SET ".$setColumn." WHERE ".$where." ; ";
 			$adb->pquery($query, $params);
 		}
+		
+		$adb->query("DELETE FROM `vtiger_module_dashboard_widgets` ");
 		//delete value?
 		$adb->query("UPDATE vtiger_inventory_tandc SET tandc = '';");
 		// delete all language
 		$adb->query("DELETE FROM `vtiger_language` ");
 		// add lang from yeti
-		$lang[] = array('English','en_us','US English','2014-07-16 11:20:12',NULL,1,1);
-		$lang[] = array('Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,0,1);
-		$lang[] = array('Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
+		$lang[] = array('English','en_us','US English','2014-07-16 11:20:12',NULL,'1','1');
+		$lang[] = array('Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,'0','1');
+		$lang[] = array('Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,'0','1');
+		$lang[] = array('Portuguese','pt_br','Brazilian Portuguese','2014-12-11 11:12:39',NULL,'0','1');
+		$lang[] = array('Russian','ru_ru','Russian','2015-01-13 15:12:39',NULL,'0','1');
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
+		$adb->query("UPDATE vtiger_language_seq SET `id` = (SELECT count(*) FROM `vtiger_language`);");
 		$adb->pquery("UPDATE vtiger_version SET old_version = ?, `current_version` = ? ;",array(1,'1.0.0','1.0.0'));
 		//update tax in inventoryproductrel
 		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
@@ -1695,6 +1707,14 @@ class VT610_to_YT100 {
 		
 		$instanceModule = Vtiger_Module::getInstance('Potentials');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
+		
+		if($adb->num_rows($result) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Products',NULL,1);");
+		}
+		$result = $adb->query("SELECT * FROM `vtiger_fieldmodulerel` WHERE module = 'HelpDesk' AND relmodule = 'Services'");
+		if($adb->num_rows($result) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Services',NULL,2);");
+		}
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
 	}
 	
@@ -2701,6 +2721,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$entityName[] = array(61,'OSSEmployees','vtiger_ossemployees','last_name','ossemployeesid','ossemployeesid','last_name',1,0);
 		$entityName[] = array(70,'Calculations','vtiger_calculations','name','calculationsid','calculationsid','calculations_no,name',1,0);
 		$entityName[] = array(71,'OSSCosts','vtiger_osscosts','name','osscostsid','osscostsid','name',1,0);
+		$entityName[] = array(74,'CallHistory','vtiger_callhistory','to_number','callhistoryid','callhistoryid','to_number',1,0);
 		
 		foreach($entityName as $name){
 			$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]), true);

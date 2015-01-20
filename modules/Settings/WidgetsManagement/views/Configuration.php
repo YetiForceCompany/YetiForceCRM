@@ -8,24 +8,9 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
- 
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View {
 
-	function __construct() {
-		$this->exposeMethod('showWidgetsManagement');
-	}
-
 	public function process(Vtiger_Request $request) {
-		$mode = $request->getMode();
-		if($this->isMethodExposed($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-		}else {
-			//by default
-			$this->showWidgetsManagement($request);
-		}
-	}
-
-	public function showWidgetsManagement(Vtiger_Request $request) {
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::showWidgetsManagement() method ...");
 		$sourceModule = $request->get('sourceModule');
@@ -39,20 +24,20 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		// get widgets list
 		$widgets = $dashboardModules[$sourceModule];
 
-		$role = Settings_WidgetsManagement_Module_Model::getRole();
-		$widgetsStored = Settings_WidgetsManagement_Module_Model::getWidgets($sourceModule);
-		if(!$widgetsStored['mandatory'])
-			$widgetsStored['mandatory'] = array();
-		if(!$widgetsStored['inactive'])
-			$widgetsStored['inactive'] = array();
-		
-		$viewer->assign('MANDATORY_WIDGETS', $widgetsStored['mandatory']);
-		$viewer->assign('INACTIVE_WIDGETS', $widgetsStored['inactive']);
-		$viewer->assign('ROLES', $role);
+		$dashboardStored = Settings_WidgetsManagement_Module_Model::getDashboardForModule($sourceModule);
+
+		$authorization = Settings_WidgetsManagement_Module_Model::getAuthorization();
+		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId();
+		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
+		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
+		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule]);
+		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
+		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
 		$viewer->assign('WIDGETS', $widgets);
-		$viewer->assign('MODULENAME', $request->getModule(false));
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
 		$log->debug("Exiting Settings_WidgetsManagement_Configuration_View::showWidgetsManagement() method ...");
 	}

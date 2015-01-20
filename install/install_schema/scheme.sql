@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.01 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce
+SQLyog Ultimate v12.03 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -1126,6 +1126,63 @@ CREATE TABLE `vtiger_callduration_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_callhistory` */
+
+DROP TABLE IF EXISTS `vtiger_callhistory`;
+
+CREATE TABLE `vtiger_callhistory` (
+  `callhistoryid` int(19) NOT NULL,
+  `callhistorytype` varchar(255) DEFAULT NULL,
+  `from_number` varchar(30) DEFAULT NULL,
+  `to_number` varchar(30) DEFAULT NULL,
+  `location` varchar(200) DEFAULT NULL,
+  `phonecallid` varchar(100) DEFAULT NULL,
+  `duration` int(10) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `imei` varchar(100) DEFAULT NULL,
+  `ipaddress` varchar(100) DEFAULT NULL,
+  `simserial` varchar(100) DEFAULT NULL,
+  `subscriberid` varchar(100) DEFAULT NULL,
+  `destination` int(19) DEFAULT NULL,
+  `source` int(19) DEFAULT NULL,
+  PRIMARY KEY (`callhistoryid`),
+  KEY `source` (`source`),
+  KEY `destination` (`destination`),
+  CONSTRAINT `vtiger_callhistory_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_callhistorycf` */
+
+DROP TABLE IF EXISTS `vtiger_callhistorycf`;
+
+CREATE TABLE `vtiger_callhistorycf` (
+  `callhistoryid` int(19) NOT NULL,
+  PRIMARY KEY (`callhistoryid`),
+  CONSTRAINT `vtiger_callhistorycf_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_callhistorytype` */
+
+DROP TABLE IF EXISTS `vtiger_callhistorytype`;
+
+CREATE TABLE `vtiger_callhistorytype` (
+  `callhistorytypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `callhistorytype` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`callhistorytypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_callhistorytype_seq` */
+
+DROP TABLE IF EXISTS `vtiger_callhistorytype_seq`;
+
+CREATE TABLE `vtiger_callhistorytype_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_campaign` */
 
 DROP TABLE IF EXISTS `vtiger_campaign`;
@@ -2146,7 +2203,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2605,7 +2662,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1504 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1523 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3439,7 +3496,6 @@ CREATE TABLE `vtiger_links` (
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
-  `linkdata` text,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
@@ -3469,7 +3525,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mail_accounts` */
 
@@ -3654,21 +3710,53 @@ CREATE TABLE `vtiger_modtracker_tabs` (
   PRIMARY KEY (`tabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_module_dashboard` */
+
+DROP TABLE IF EXISTS `vtiger_module_dashboard`;
+
+CREATE TABLE `vtiger_module_dashboard` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `blockid` int(100) NOT NULL,
+  `linkid` int(19) DEFAULT NULL,
+  `filterid` int(19) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `data` text,
+  `isdefault` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `vtiger_module_dashboard_ibfk_1` (`blockid`),
+  CONSTRAINT `vtiger_module_dashboard_ibfk_1` FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_module_dashboard_blocks` */
+
+DROP TABLE IF EXISTS `vtiger_module_dashboard_blocks`;
+
+CREATE TABLE `vtiger_module_dashboard_blocks` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `authorized` varchar(10) NOT NULL,
+  `tabid` int(19) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_module_dashboard_widgets` */
 
 DROP TABLE IF EXISTS `vtiger_module_dashboard_widgets`;
 
 CREATE TABLE `vtiger_module_dashboard_widgets` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `linkid` int(19) DEFAULT NULL,
+  `linkid` int(19) NOT NULL,
   `userid` int(19) DEFAULT NULL,
+  `templateid` int(19) NOT NULL,
   `filterid` int(19) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
   `data` text,
   `position` varchar(50) DEFAULT NULL,
   `isdefault` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  `active` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
+  CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_name` */
 
@@ -3859,26 +3947,6 @@ CREATE TABLE `vtiger_organizationdetails` (
 DROP TABLE IF EXISTS `vtiger_organizationdetails_seq`;
 
 CREATE TABLE `vtiger_organizationdetails_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_oss_module_list` */
-
-DROP TABLE IF EXISTS `vtiger_oss_module_list`;
-
-CREATE TABLE `vtiger_oss_module_list` (
-  `oss_module_listid` int(11) NOT NULL AUTO_INCREMENT,
-  `oss_module_list` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`oss_module_listid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_oss_module_list_seq` */
-
-DROP TABLE IF EXISTS `vtiger_oss_module_list_seq`;
-
-CREATE TABLE `vtiger_oss_module_list_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4239,10 +4307,9 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `sizeicon` varchar(255) DEFAULT NULL,
   `langfield` text,
   `paintedicon` int(1) DEFAULT '0',
-  `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=329 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -6901,6 +6968,8 @@ CREATE TABLE `vtiger_tab` (
   `version` varchar(10) DEFAULT NULL,
   `parent` varchar(30) DEFAULT NULL,
   `trial` int(1) DEFAULT '0',
+  `color` varchar(30) DEFAULT NULL,
+  `coloractive` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
@@ -7699,7 +7768,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 

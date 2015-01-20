@@ -19,7 +19,7 @@ class Test{
 			$return = "true";
 		if ($app_name == 'PushMessage')
 			$return = "true";
-		if ($app_name == 'CallHistory')
+		if ($app_name == 'HistoryCall')
 			$return = "true";
 		$log->info('tart Test metod | return: '.$return);
 		return $return;

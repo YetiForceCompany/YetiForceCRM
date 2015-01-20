@@ -12,6 +12,7 @@ class Settings_MenuEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('UpdateColor');
+		$this->exposeMethod('ActiveColor');
 	}
 	public function UpdateColor(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -19,6 +20,17 @@ class Settings_MenuEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function ActiveColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$color = Settings_MenuEditor_Module_Model::activeColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
 			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
 		));
 		$response->emit();

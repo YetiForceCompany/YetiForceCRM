@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -15,6 +15,11 @@
 			<div class="span6"><h3>{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h3></div>
 			<div class="span6">
 				<span class="btn-toolbar pull-right margin0px">
+					<span class="btn-group">
+						<button class="btn createModule" type="button">
+							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
+						</button>
+					</span>
 					<span class="btn-group">
 						<button class="btn" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_URL}"'>
 							<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>

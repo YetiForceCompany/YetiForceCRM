@@ -1528,9 +1528,11 @@ function autoload_formats($class_name)
     if (file_exists($file)) {
         require_once ($file);
     } else {
-        $file = RESTLER_PATH . "/$class_name.php";
+		$file = RESTLER_PATH . "/../../api/mobile_services/$class_name.php";
         if (file_exists($file)) {
             require_once ($file);
+        } elseif (file_exists(RESTLER_PATH . "/../api/mobile_services/$class_name.php")) {
+            require_once ("/../api/mobile_services/$class_name.php");
         } elseif (file_exists("$class_name.php")) {
             require_once ("$class_name.php");
         }

@@ -11,11 +11,13 @@
 vimport('~~modules/Calendar/activityTypes/Events.php');
 class Calendar_MultipleEvents_ActivityTypes{
 	public function process($feed, $request, $start, $end, &$result, $userid = false,$color = null,$textColor = 'white') {
-		foreach ($request->get('mapping') as $id=>$backgroundColorAndTextColor) {
-			$userEvents = array();
-			$colorComponents = explode(',',$backgroundColorAndTextColor);
-			Calendar_Events_ActivityTypes::process($feed, $request, $start, $end, $userEvents ,$id, $colorComponents[0], $colorComponents[1]);
-			$result[$id] = $userEvents;
+		if ($request->get('mapping')) {
+			foreach ($request->get('mapping') as $id => $backgroundColorAndTextColor) {
+				$userEvents = array();
+				$colorComponents = explode(',', $backgroundColorAndTextColor);
+				Calendar_Events_ActivityTypes::process($feed, $request, $start, $end, $userEvents, $id, $colorComponents[0], $colorComponents[1]);
+				$result[$id] = $userEvents;
+			}
 		}
 	}
 }

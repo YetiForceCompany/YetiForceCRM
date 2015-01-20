@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   `pot_renewal` int(19) DEFAULT NULL,
   `serviceid` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`osssoldservicesid`,`contact`),
+  PRIMARY KEY (`osssoldservicesid`),
   KEY `parent_id` (`parent_id`),
   KEY `pot_renewal` (`pot_renewal`),
   KEY `serviceid` (`serviceid`),
@@ -447,7 +447,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager`(
 	`sizeicon` varchar(255) DEFAULT NULL  , 
 	`langfield` text DEFAULT NULL  , 
 	`paintedicon` int(1) DEFAULT 0 , 
-	`color` varchar(10) DEFAULT NULL , 
 	PRIMARY KEY (`id`) , 
 	KEY `parent_id`(`parent_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8' COLLATE='utf8_general_ci';
@@ -1061,4 +1060,70 @@ CREATE TABLE IF NOT EXISTS `com_vtiger_workflowtask_queue` (
   `task_contents` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert  into `com_vtiger_workflowtask_queue`(`task_id`,`entity_id`,`do_after`,`task_contents`) values (6,'12x4',0,'{\"fromEmail\":\"test@yetiforce.com\",\"fromName\":\"admin\",\"toEmail\":\"test@yetiforce.com\",\"ccEmail\":\"\",\"bccEmail\":\"\",\"subject\":\"Regarding Contact Assignment\",\"content\":\"An Contact has been assigned to you on vtigerCRM<br>Details of Contact are :<br><br>Contact Id:<b>CON1<\\/b><br>LastName:<b>kontakt<\\/b><br>FirstName:<b>tset<\\/b><br>Lead Source:<b>Rozmowa telefoniczna<\\/b><br>Department:<b><\\/b><br>Description:<b>sfsafsafasdfsadfsadfsdf<\\/b><br><br><br>And <b>CustomerPortal Login Details<\\/b> is sent to the EmailID :-<br><br>Thank You<br>Admin\"}');
+CREATE TABLE IF NOT EXISTS `yetiforce_mobile_keys` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `user` int(19) NOT NULL,
+  `service` varchar(50) NOT NULL,
+  `key` varchar(30) NOT NULL,
+  `privileges_users` text,
+  PRIMARY KEY (`id`),
+  KEY `user` (`user`,`service`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `yetiforce_mobile_pushcall` (
+  `user` int(19) NOT NULL,
+  `number` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_module_dashboard`(
+	`id` int(100) NOT NULL  auto_increment , 
+	`blockid` int(100) NOT NULL  , 
+	`linkid` int(19) NULL  , 
+	`filterid` int(19) NULL  , 
+	`title` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`data` text COLLATE utf8_general_ci NULL  , 
+	`isdefault` int(1) NOT NULL  DEFAULT 0 , 
+	PRIMARY KEY (`id`) , 
+	KEY `vtiger_module_dashboard_ibfk_1`(`blockid`) , 
+	CONSTRAINT `vtiger_module_dashboard_ibfk_1` 
+	FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+
+CREATE TABLE IF NOT EXISTS  `vtiger_module_dashboard_blocks`(
+	`id` int(100) NOT NULL  auto_increment , 
+	`authorized` varchar(10) COLLATE utf8_general_ci NOT NULL  , 
+	`tabid` int(19) NOT NULL  , 
+	PRIMARY KEY (`id`) 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+
+CREATE TABLE `vtiger_callhistory`(
+	`callhistoryid` int(19) NOT NULL  , 
+	`callhistorytype` varchar(255) COLLATE utf8_general_ci NULL  , 
+	`from_number` varchar(30) COLLATE utf8_general_ci NULL  , 
+	`to_number` varchar(30) COLLATE utf8_general_ci NULL  , 
+	`location` varchar(200) COLLATE utf8_general_ci NULL  , 
+	`phonecallid` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`duration` int(10) NULL  , 
+	`start_time` datetime NULL  , 
+	`end_time` datetime NULL  , 
+	`country` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`imei` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`ipaddress` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`simserial` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`subscriberid` varchar(100) COLLATE utf8_general_ci NULL  , 
+	`destination` int(19) NULL  , 
+	`source` int(19) NULL  , 
+	PRIMARY KEY (`callhistoryid`) , 
+	KEY `source`(`source`) , 
+	KEY `destination`(`destination`) , 
+	CONSTRAINT `vtiger_callhistory_ibfk_1` 
+	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+
+CREATE TABLE `vtiger_callhistorycf`(
+	`callhistoryid` int(19) NOT NULL  , 
+	PRIMARY KEY (`callhistoryid`) , 
+	CONSTRAINT `vtiger_callhistorycf_ibfk_1` 
+	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET='utf8';

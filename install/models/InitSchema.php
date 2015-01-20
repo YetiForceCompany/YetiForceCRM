@@ -27,6 +27,7 @@ class Install_InitSchema_Model {
 	
 	function initializeDatabase($location, $filesName = array()){
 		$db = PearDatabase::getInstance();
+		$db->query( 'SET FOREIGN_KEY_CHECKS = 0;');
 		if(!$filesName){
 			echo 'No files';
 			return false;
@@ -60,6 +61,7 @@ class Install_InitSchema_Model {
 				}
 			}
 		}
+		$db->query( 'SET FOREIGN_KEY_CHECKS = 1;');
 		return array('status'=>$return,'create'=>$create_query,'insert'=>$insert_query,'alter'=>$alter_query,'executed'=>$executed_query);
 	}
 	/**

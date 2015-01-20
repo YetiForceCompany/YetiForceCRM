@@ -1,22 +1,20 @@
 <?php
-/*+**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- ************************************************************************************/
-
+ *************************************************************************************************************************************/
 $languageStrings = Array(
-	'ModuleName' => 'Module Name',
-	'SINGLE_ModuleName' => 'Module Name',
-	'ModuleName ID' => 'Module Name ID',
+	'<ModuleName>' => '<ModuleLabel>',
+	'SINGLE_<ModuleName>' => '<ModuleLabel>',
+	'<ModuleName> ID' => '<ModuleLabel> ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+	'<entityfieldname>' => '<entityfieldlabel>',
 );
-
-?>
