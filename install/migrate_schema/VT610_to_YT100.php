@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.0.41 RC';
+// migration to version '1.1.41 RC';
 class VT610_to_YT100 {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -377,6 +377,8 @@ class VT610_to_YT100 {
 		$settings_field[] = array('LBL_About_YetiForce','LBL_UPDATES_HISTORY',NULL,'LBL_UPDATES_HISTORY_DESCRIPTION','index.php?parent=Settings&module=Updates&view=Index','3','0','0');
 		$settings_field[] = array('LBL_OTHER_SETTINGS','LBL_ACTIVITY_TYPES','','LBL_ACTIVITY_TYPES_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=ActivityTypes','25','0','0');
 		$settings_field[] = array('LBL_STUDIO','LBL_WIDGETS_MANAGEMENT','','LBL_WIDGETS_MANAGEMENT_DESCRIPTION','index.php?module=WidgetsManagement&parent=Settings&view=Configuration','12','0','0');
+		$settings_field[] = array('LBL_STUDIO','LBL_MDULES_COLOR_EDITOR','','LBL_MDULES_COLOR_EDITOR_DESCRIPTION','index.php?parent=Settings&module=MenuEditor&view=Colors','13','0','0');
+		$settings_field[] = array('LBL_INTEGRATION','LBL_MOBILE_KEYS',NULL,'LBL_MOBILE_KEYS_DESCRIPTION','index.php?parent=Settings&module=MobileApps&view=MobileKeys','5','0','0');
 
 		foreach ($settings_field AS $field){
 			try {
@@ -882,7 +884,7 @@ class VT610_to_YT100 {
 		array("13","1043","projectid","vtiger_troubletickets","2","10","projectid","Project","1","2","","100","22","25","1","V~O","2", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('Project')),
 		array("13","1049","servicecontractsid","vtiger_troubletickets","2","10","servicecontractsid","ServiceContracts","1","2","","100","23","25","1","V~O","1", "","BAS","1","0","0","int(19)","LBL_TICKET_INFORMATION",array(),array('ServiceContracts')),
 		array("13","1341","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","28","1","V~O","1", "","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
-		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION"),
+		array('13','1482','pssold_id','vtiger_troubletickets','2','10','pssold_id','P&S Sold','1','2','','100','25','25','1','V~O','1','','BAS','1','0','0',"int(19)","LBL_TICKET_INFORMATION",array(),array('Assets','OSSSoldServices')),
 		array('13','1483','ordertime','vtiger_troubletickets','2','7','ordertime','LBL_ORDER_TIME','1','2','','100','26','25','1','NN~O','1','','BAS','1','0','0',"decimal(10,2)","LBL_TICKET_INFORMATION")
 		);
 
@@ -1651,6 +1653,10 @@ class VT610_to_YT100 {
 		$changes[] = array('where'=>array('columnname'=>array('status'), 'tabid'=>array('Calendar')), 'setColumn'=>array('defaultvalue'), 'setValue'=>array('Not Started'));
 		$changes[] = array('where'=>array('columnname'=>array('totalduration'), 'tabid'=>array('PBXManager')), 'setColumn'=>array('uitype'), 'setValue'=>array(1));
 		$changes[] = array('where'=>array('columnname'=>array('campaignrelstatus')), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Campaign status'));
+		$changes[] = array('where'=>array('columnname'=>array('user_name'), 'tablename'=>array('vtiger_users')), 'setColumn'=>array('displaytype'), 'setValue'=>array(4));
+		$changes[] = array('where'=>array('columnname'=>array('product_id'), 'tablename'=>array('vtiger_troubletickets')), 'setColumn'=>array('displaytype','uitype'), 'setValue'=>array(10,10));
+		$changes[] = array('where'=>array('columnname'=>array('startdate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
+		$changes[] = array('where'=>array('columnname'=>array('targetenddate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -1667,16 +1673,21 @@ class VT610_to_YT100 {
 			$query = "UPDATE vtiger_field SET ".$setColumn." WHERE ".$where." ; ";
 			$adb->pquery($query, $params);
 		}
+		
+		$adb->query("DELETE FROM `vtiger_module_dashboard_widgets` ");
 		//delete value?
 		$adb->query("UPDATE vtiger_inventory_tandc SET tandc = '';");
 		// delete all language
 		$adb->query("DELETE FROM `vtiger_language` ");
 		// add lang from yeti
-		$lang[] = array('English','en_us','US English','2014-07-16 11:20:12',NULL,1,1);
-		$lang[] = array('Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,0,1);
-		$lang[] = array('Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
+		$lang[] = array('English','en_us','US English','2014-07-16 11:20:12',NULL,'1','1');
+		$lang[] = array('Język Polski','pl_pl','Język Polski','2014-07-16 11:20:40',NULL,'0','1');
+		$lang[] = array('Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,'0','1');
+		$lang[] = array('Portuguese','pt_br','Brazilian Portuguese','2014-12-11 11:12:39',NULL,'0','1');
+		$lang[] = array('Russian','ru_ru','Russian','2015-01-13 15:12:39',NULL,'0','1');
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
+		$adb->query("UPDATE vtiger_language_seq SET `id` = (SELECT count(*) FROM `vtiger_language`);");
 		$adb->pquery("UPDATE vtiger_version SET old_version = ?, `current_version` = ? ;",array(1,'1.0.0','1.0.0'));
 		//update tax in inventoryproductrel
 		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
@@ -1695,6 +1706,14 @@ class VT610_to_YT100 {
 		
 		$instanceModule = Vtiger_Module::getInstance('Potentials');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
+		
+		if($adb->num_rows($result) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Products',NULL,1);");
+		}
+		$result = $adb->query("SELECT * FROM `vtiger_fieldmodulerel` WHERE module = 'HelpDesk' AND relmodule = 'Services'");
+		if($adb->num_rows($result) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Services',NULL,2);");
+		}
 		$log->debug("Exiting VT610_to_YT100::updateRecords() method ...");
 	}
 	
@@ -2701,6 +2720,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$entityName[] = array(61,'OSSEmployees','vtiger_ossemployees','last_name','ossemployeesid','ossemployeesid','last_name',1,0);
 		$entityName[] = array(70,'Calculations','vtiger_calculations','name','calculationsid','calculationsid','calculations_no,name',1,0);
 		$entityName[] = array(71,'OSSCosts','vtiger_osscosts','name','osscostsid','osscostsid','name',1,0);
+		$entityName[] = array(74,'CallHistory','vtiger_callhistory','to_number','callhistoryid','callhistoryid','to_number',1,0);
 		
 		foreach($entityName as $name){
 			$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]), true);
