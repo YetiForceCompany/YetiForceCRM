@@ -106,6 +106,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		$moduleModel = $this->getModule();
 		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole() );
 		$query='SELECT * FROM `vtiger_module_dashboard` WHERE `blockid` = ?;';
+		if(count ($blockId) == 0)
+			return ;
 		$params = array( $blockId );
 		$result = $adb->pquery($query,$params);
 		for ( $i=0; $i<$adb->num_rows( $result ); $i++ ) {
