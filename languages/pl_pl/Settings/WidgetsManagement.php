@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
- 
 $languageStrings = array(
 	'LBL_CHOISE_AUTHORIZED' => 'Wybierz rolę',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Dodaj blok widoku podsumowania dla modułu',
@@ -34,4 +33,3 @@ $jsLanguageStrings = array(
 	'JS_CUSTOM_FIELD_DELETED' => 'Pomyślnie usunięto widget',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Pomyślnie usunięto blok',
 );
-?>

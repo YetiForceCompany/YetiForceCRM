@@ -9,7 +9,6 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/01/2015 - www.ttcasolucoes.com.br
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
 $languageStrings = array(
 	'LBL_CHOISE_AUTHORIZED' => 'Select role',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Add summary block for module',
@@ -35,5 +34,3 @@ $jsLanguageStrings = array(
 	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
 );
-
-?>

@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
- 
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model {
 	
 	public function getAuthorization(){

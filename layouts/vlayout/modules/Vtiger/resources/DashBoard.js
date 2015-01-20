@@ -1,12 +1,12 @@
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ ************************************************************************************/
 
 jQuery.Class("Vtiger_DashBoard_Js", {
 	gridster : false,
@@ -183,7 +183,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
             var height = listItem.attr('data-sizey');
             
 			var url = element.data('url');
-			console.log(url)
 			var parent = element.closest('.dashboardWidgetHeader').parent();
 			var widgetName = parent.data('name');
 			var widgetTitle = parent.find('.dashboardTitle').attr('title');
