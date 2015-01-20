@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce_new
+SQLyog Ultimate v12.03 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -4307,7 +4307,6 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `sizeicon` varchar(255) DEFAULT NULL,
   `langfield` text,
   `paintedicon` int(1) DEFAULT '0',
-  `color` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=329 DEFAULT CHARSET=utf8;
@@ -6969,6 +6968,8 @@ CREATE TABLE `vtiger_tab` (
   `version` varchar(10) DEFAULT NULL,
   `parent` varchar(30) DEFAULT NULL,
   `trial` int(1) DEFAULT '0',
+  `color` varchar(30) DEFAULT NULL,
+  `coloractive` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`tabid`),
   UNIQUE KEY `tab_name_idx` (`name`),
   KEY `tab_modifiedby_idx` (`modifiedby`),
