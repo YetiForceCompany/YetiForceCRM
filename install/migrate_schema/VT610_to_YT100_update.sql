@@ -1076,11 +1076,15 @@ ALTER TABLE `vtiger_module_dashboard_widgets`
 	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` , 
 	ADD COLUMN `active` int(1)   NULL DEFAULT 0 after `isdefault` , 
 	ADD KEY `vtiger_module_dashboard_widgets_ibfk_1`(`templateid`) ;
+	
 ALTER TABLE `vtiger_module_dashboard_widgets`
 	ADD CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` 
 	FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_calendar_default_activitytypes` 
 	ADD COLUMN `active` tinyint(1)   NULL DEFAULT 0 after `defaultcolor` ;
-	
+
+ALTER TABLE `vtiger_tab` 
+	ADD COLUMN `color` VARCHAR(30) NULL AFTER `trial`, 
+	ADD COLUMN `coloractive` TINYINT(1) DEFAULT 0 NULL AFTER `color`;
 	
