@@ -47,7 +47,6 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         
         $menuStructure = array();
 		$breadcrumbs = array();
-		$menusColor = array();
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		
         if ( $num > 0 ) {
@@ -104,7 +103,6 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
                         $subsizeicon_first 	= substr($subsizeicon, 0, strpos($subsizeicon, "x"));
 						$subsizeicon_second	= substr($subsizeicon, 3, 5);
 						$langfiedpick 		= $db->query_result( $subResult, $j, 'langfield' );
-						$color 		= $db->query_result( $subResult, $j, 'color');
 						
 						if(	$langfiedpick && (intval($type)==0) ){
 							$res = explode('#',$langfiedpick);
@@ -155,7 +153,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 
 						if ( $url !== false ) {
 							$url = $newWindow.$url;
-							$menuStructure[$name][$j] = array( 'name' => $subName,'mod' => $subNameOrg, 'link' => $url, 'sizeicon_first' => $subsizeicon_first, 'sizeicon_second' => $subsizeicon_second, 'locationiconname' => $locationiconname, 'color' => $color);
+							$menuStructure[$name][$j] = array( 'name' => $subName,'mod' => $subNameOrg, 'link' => $url, 'sizeicon_first' => $subsizeicon_first, 'sizeicon_second' => $subsizeicon_second, 'locationiconname' => $locationiconname);
 						}
 						
 						$moduleName = Vtiger_Functions::getModuleName($tabId);
@@ -187,14 +185,6 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 								}
 							}
 						}
-						
-						if($color != ''){
-							if(!$purl){
-								$parts = parse_url($url);
-								parse_str($parts['query'], $purl);
-							}
-							$menusColor[] = array('color' => '#'.$color, 'class' => 'moduleColor_'.$purl['module']);
-						}
                     }
                 }
 				
@@ -216,7 +206,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 					}
 				}
 			}			
-            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs,'menusColor'=>$menusColor);
+            return array('structure'=>$menuStructure,'icons'=>$menuStructureGroupe,'breadcrumbs'=>$breadcrumbs);
         }
         else 
             return array();

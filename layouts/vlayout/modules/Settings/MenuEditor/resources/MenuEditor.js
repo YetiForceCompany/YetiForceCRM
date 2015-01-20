@@ -71,22 +71,37 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 		}, {'width':'1000px'});
 	},
 	activeColor: function(e) {
-		
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		var container = target.closest('#menuEditorContainer');
-		var editColorModal = container.find('.editColorContainer');
-		var color = '';
-		if( target.is(':checked') ){
-			color = '#4d90fe';
+		var params = {}
+		params.data = {
+			module: app.getModuleName(), 
+			parent: app.getParentModuleName(), 
+			action: 'SaveAjax', 
+			mode: 'ActiveColor',
+			params: {
+				'status': target.is(':checked'),
+				'color': closestTrElement.data('color'),
+				'id':closestTrElement.data('id')
+			}
 		}
-		var settingMenuEditorInstance = new Settings_Menu_Editor_Js();
-		settingMenuEditorInstance.registerSaveEvent('UpdateColor',{
-			'color': color,
-			'id':closestTrElement.data('id'),
-		});
-		closestTrElement.find('.moduleColor').css('background',color);
-		closestTrElement.data('color', color);
+		params.async = false;
+		params.dataType = 'json';
+        AppConnector.request(params).then(
+			function(data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					animation: 'show',
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				if( closestTrElement.data('color') == ''){
+					closestTrElement.find('.moduleColor').css('background', '#'+response['color']);
+					closestTrElement.data('color','#'+response['color']);
+				}
+			}
+        );
 	},
 	registerSaveEvent: function(mode, data) {
 		var params = {}
