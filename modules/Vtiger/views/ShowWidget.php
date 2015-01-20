@@ -20,6 +20,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 		$moduleName = $request->getModule();
 		$componentName = $request->get('name');
 		$linkId = $request->get('linkid');
+		$id = $request->get('widgetid');
 		if(!empty($componentName)) {
 			$className = Vtiger_Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
 			if(!empty($className)) {
@@ -28,11 +29,13 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View {
 					$widget = new Vtiger_Widget_Model();
 					$widget->set('linkid', $linkId);
 					$widget->set('userid', $currentUser->getId());
+					$widget->set('widgetid', $id);
+					$widget->set('active', $request->get('active'));
 					$widget->set('filterid', $request->get('filterid', NULL));
 					if ($request->has('data')) {
 						$widget->set('data', $request->get('data'));
 					}
-					$widget->add();
+					$widget->show();
 				}
 				$classInstance = new $className();
 				$classInstance->process($request, $widget);

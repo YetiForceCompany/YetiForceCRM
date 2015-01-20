@@ -24,11 +24,12 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller {
 	
 	function NoteBookCreate(Vtiger_Request $request){
 		$adb = PearDatabase::getInstance();
-		
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$linkId = $request->get('linkId');
 		$noteBookName = $request->get('notePadName');
 		$noteBookContent = $request->get('notePadContent');
+		$blockid = $request->get('blockid');
+		$isdefault = $request->get('isdefault');
 		
 		$date_var = date("Y-m-d H:i:s");
 		$date = $adb->formatDate($date_var, true);
@@ -39,8 +40,8 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller {
 		
 		$data = Zend_Json::encode((object) $dataValue);
 
-		$query="INSERT INTO vtiger_module_dashboard_widgets(linkid, userid, filterid, title, data) VALUES(?,?,?,?,?)";
-		$params= array($linkId,$userModel->getId(),0,$noteBookName,$data);
+		$query="INSERT INTO vtiger_module_dashboard(linkid, blockid, filterid, title, data, isdefault) VALUES(?,?,?,?,?,?)";
+		$params= array($linkId,$blockid,0,$noteBookName,$data, $isdefault);
 		$adb->pquery($query, $params);
 		$id = $adb->getLastInsertID();
 		

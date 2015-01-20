@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce_new
 *********************************************************************
 */
 
@@ -4945,18 +4945,11 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (45,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (54,1);
 insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (60,1);
 
-/*Data for the table `vtiger_module_dashboard_widgets` */
+/*Data for the table `vtiger_module_dashboard` */
 
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (1,59,1,NULL,NULL,'null','{\"row\":\"1\",\"col\":\"1\"}',0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (6,51,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (9,55,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (10,54,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (12,52,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (13,53,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (14,60,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (15,69,1,NULL,NULL,'null',NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (16,64,1,NULL,NULL,NULL,NULL,0);
-insert  into `vtiger_module_dashboard_widgets`(`id`,`linkid`,`userid`,`filterid`,`title`,`data`,`position`,`isdefault`) values (17,66,1,NULL,NULL,NULL,NULL,0);
+/*Data for the table `vtiger_module_dashboard_blocks` */
+
+/*Data for the table `vtiger_module_dashboard_widgets` */
 
 /*Data for the table `vtiger_name` */
 
