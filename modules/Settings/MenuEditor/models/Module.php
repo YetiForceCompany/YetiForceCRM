@@ -43,7 +43,7 @@ class Settings_MenuEditor_Module_Model extends Settings_Vtiger_Module_Model {
 		$adb = PearDatabase::getInstance();
 		$sql_params = Array();
 		$sql = '';
-		if( $params['status'] != ''){
+		if( $params['color'] == ''){
 			$color = self::getColor();
 			$sql = ' color = ?,';
 			$sql_params[] = $color;
