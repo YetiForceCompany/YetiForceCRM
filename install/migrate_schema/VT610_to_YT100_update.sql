@@ -1066,11 +1066,21 @@ ALTER TABLE `vtiger_account`
 ALTER TABLE `vtiger_crmentity` 
 	ADD COLUMN `inheritsharing` tinyint(1)   NULL DEFAULT 0 after `searchlabel` ;
 	
-ALTER TABLE `vtiger_links` 
-	ADD COLUMN `linkdata` text  COLLATE utf8_general_ci NULL after `handler` ;
-	
 ALTER TABLE `vtiger_module_dashboard_widgets` 
-	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` ;
+	CHANGE `linkid` `linkid` int(19)   NOT NULL after `id` , 
+	ADD COLUMN `templateid` int(19)   NOT NULL after `userid` , 
+	CHANGE `filterid` `filterid` int(19)   NULL after `templateid` , 
+	CHANGE `title` `title` varchar(100)  COLLATE utf8_general_ci NULL after `filterid` , 
+	CHANGE `data` `data` text  COLLATE utf8_general_ci NULL after `title` , 
+	CHANGE `position` `position` varchar(50)  COLLATE utf8_general_ci NULL after `data` , 
+	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` , 
+	ADD COLUMN `active` int(1)   NULL DEFAULT 0 after `isdefault` , 
+	ADD KEY `vtiger_module_dashboard_widgets_ibfk_1`(`templateid`) ;
+ALTER TABLE `vtiger_module_dashboard_widgets`
+	ADD CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` 
+	FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE ;
 	
+ALTER TABLE `vtiger_calendar_default_activitytypes` 
+	ADD COLUMN `active` tinyint(1)   NULL DEFAULT 0 after `defaultcolor` ;
 	
 	
