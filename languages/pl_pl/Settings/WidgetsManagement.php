@@ -10,24 +10,28 @@
  *************************************************************************************************************************************/
  
 $languageStrings = array(
+	'LBL_CHOISE_AUTHORIZED' => 'Wybierz rolę',
+	'LBL_ADD_DASHBOARD_BLOCK' => 'Dodaj blok widoku podsumowania dla modułu',
+	'LBL_WIDTH' => 'Szerokość',
+	'LBL_HIGHT' => 'Wysokość',
+	'LBL_ADD_WIDGET' => 'Widget',
+	'LBL_ADD_NOTEBOOK' => 'Notatnik',
+	'LBL_ADD_MINILIST' => 'Widget z filtrem',
+	'LBL_SELECT_WIDGET' => 'Wybierz widget',
+	'LBL_CREATE_CUSTOM_FIELD' => 'Dodaj widget do panelu',
+	'LBL_ADD_CONDITION' => 'Dodaj rolę',
+	'LBL_INVALID_DATA' => 'Błędne dane',
 
 	'WidgetsManagement' => 'Zarządzanie widgetami',
 	'LBL_WIDGETS_MANAGEMENT' => 'Zarządzanie widgetami',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MANDATORY_WIDGETS' => 'Widgety obowiązkowe',
-	'LBL_INACTIVE_WIDGETS' => 'Widgety nieaktywne',
-	'LBL_CHOISE_ROLE' => 'Wybierz rolę',
-	'LBL_ROLE' => 'Role',
+	'LBL_MANDATORY_WIDGET' => 'Widget obowiązkowy',
 	'LBL_WIDGET' => 'Widgety',
-	'LBL_CHOISE_WIDGET' => 'Wybierz widgety',
-	
-	'LBL_SAVE_CHANGE' => 'Pomyślnie dokonano zmian',
-	'LBL_FAILED_TO_SAVE' => 'Nie udało się dokonać zmian',
-	'LBL_CLICK_TO_SELECT_WIDGETS' => 'Kliknij, aby wybrać widgety',
-
 );
 $jsLanguageStrings = array(
-	'JS_MANDATORY' => 'Widget obowiązkowy: ',
-	'JS_INACTIVE' => 'Widget nieaktywny: ',
+	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',
+	'JS_CUSTOM_FIELD_ADDED' => 'Pomyślnie dodano widget do bloku',
+	'JS_CUSTOM_FIELD_DELETED' => 'Pomyślnie usunięto widget',
+	'JS_CUSTOM_BLOCK_DELETED' => 'Pomyślnie usunięto blok',
 );
 ?>

@@ -28,7 +28,8 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		if($permission) {
-			$widgets = $dashBoardModel->getSelectableDashboard();
+			$dashBoardModel->verifyDashboard($moduleName);
+			$widgets = $dashBoardModel->getDashboards('Header');
 		} else {
 			$widgets = array();
 		}

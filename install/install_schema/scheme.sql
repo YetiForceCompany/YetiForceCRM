@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce_new
 *********************************************************************
 */
 
@@ -3496,7 +3496,6 @@ CREATE TABLE `vtiger_links` (
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
-  `linkdata` text,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
@@ -3526,7 +3525,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mail_accounts` */
 
@@ -3711,21 +3710,53 @@ CREATE TABLE `vtiger_modtracker_tabs` (
   PRIMARY KEY (`tabid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_module_dashboard` */
+
+DROP TABLE IF EXISTS `vtiger_module_dashboard`;
+
+CREATE TABLE `vtiger_module_dashboard` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `blockid` int(100) NOT NULL,
+  `linkid` int(19) DEFAULT NULL,
+  `filterid` int(19) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `data` text,
+  `isdefault` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `vtiger_module_dashboard_ibfk_1` (`blockid`),
+  CONSTRAINT `vtiger_module_dashboard_ibfk_1` FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_module_dashboard_blocks` */
+
+DROP TABLE IF EXISTS `vtiger_module_dashboard_blocks`;
+
+CREATE TABLE `vtiger_module_dashboard_blocks` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `authorized` varchar(10) NOT NULL,
+  `tabid` int(19) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_module_dashboard_widgets` */
 
 DROP TABLE IF EXISTS `vtiger_module_dashboard_widgets`;
 
 CREATE TABLE `vtiger_module_dashboard_widgets` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `linkid` int(19) DEFAULT NULL,
+  `linkid` int(19) NOT NULL,
   `userid` int(19) DEFAULT NULL,
+  `templateid` int(19) NOT NULL,
   `filterid` int(19) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
   `data` text,
   `position` varchar(50) DEFAULT NULL,
   `isdefault` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+  `active` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
+  CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_name` */
 
