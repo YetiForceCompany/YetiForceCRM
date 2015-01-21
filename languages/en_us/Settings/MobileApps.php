@@ -25,7 +25,9 @@ $languageStrings = array(
  	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
  	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved successfully',
-
+	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Mobile application is not active',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile application has not been activated yet, please enable "mobile" in api/config.php file',
+	
  	// Mobile services
  	'LBL_MOBILE_HISTORYCALL' => 'Mobile call history',
  	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
