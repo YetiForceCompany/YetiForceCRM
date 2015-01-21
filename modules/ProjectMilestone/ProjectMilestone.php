@@ -166,7 +166,7 @@ class ProjectMilestone extends CRMEntity {
 
 		global $current_user;
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
-		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$usewhere;
+		$query .= "	WHERE vtiger_crmentity.deleted = 0 ".$where;
 		return $query;
 	}
 
