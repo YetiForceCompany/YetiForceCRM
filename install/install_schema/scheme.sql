@@ -2655,6 +2655,7 @@ CREATE TABLE `vtiger_field` (
   `masseditable` int(10) NOT NULL DEFAULT '1',
   `helpinfo` tinyint(1) DEFAULT '0',
   `summaryfield` int(10) NOT NULL DEFAULT '0',
+  `fieldparams` varchar(255) DEFAULT '',
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -7334,7 +7335,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `module` int(19) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
