@@ -7324,6 +7324,33 @@ CREATE TABLE `vtiger_tracking_unit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_trees_templates` */
+
+DROP TABLE IF EXISTS `vtiger_trees_templates`;
+
+CREATE TABLE `vtiger_trees_templates` (
+  `templateid` int(19) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `module` int(19) DEFAULT NULL,
+  PRIMARY KEY (`templateid`),
+  KEY `module` (`module`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_trees_templates_data` */
+
+DROP TABLE IF EXISTS `vtiger_trees_templates_data`;
+
+CREATE TABLE `vtiger_trees_templates_data` (
+  `templateid` int(19) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tree` varchar(255) DEFAULT NULL,
+  `parenttrre` varchar(255) DEFAULT NULL,
+  `depth` int(10) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  KEY `id` (`templateid`),
+  KEY `parenttrre` (`parenttrre`,`templateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_troubletickets` */
 
 DROP TABLE IF EXISTS `vtiger_troubletickets`;
