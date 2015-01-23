@@ -60,6 +60,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 	public static function load_roundcube_config() {
 		global $no_include_config;
 		$no_include_config = true;
+		include 'modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'modules/OSSMail/roundcube/config/config.inc.php';
 		return $config;
 	}
@@ -86,19 +87,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			}
 			$port = $roundcube_config['default_port'];
 		}
-		if (!$port) { $port = $roundcube_config['default_port'];}
+		if (empty($port)){ $port = $roundcube_config['default_port'];}
 		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
 		imap_timeout(IMAP_OPENTIMEOUT,5);
-			$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
-			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
+		$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
+		$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
 			die( self::imap_open_error(imap_last_error()) );
 		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
 		return $mbox;
 	}
 	public static function imap_open_error($error) {
 		global $log;
-		$log->debug("Error OSSMail_Record_Model::imap_connect(): ".$error); 
-		self::createdAlert(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error );
+		$log->error("Error OSSMail_Record_Model::imap_connect(): ".$error); 
+		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error);
 	}
 	public static function getMailBoxmsgInfo($userid = false) {
 		if($userid){
@@ -535,33 +536,27 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return vtranslate('JS_save_config_info', 'OSSMailScanner');
 	}
 	function getEditableFields() {
-	return array(
-		'product_name'				=> array('label' => 'LBL_RC_product_name',			'fieldType' => 'text'),
-		'validate_cert'				=> array('label' => 'LBL_RC_validate_cert',			'fieldType' => 'checkbox'),
-		'default_host'				=> array('label' => 'LBL_RC_default_host',			'fieldType' => 'text'),
-		'default_port'				=> array('label' => 'LBL_RC_default_port',			'fieldType' => 'int'),
-		'smtp_server'				=> array('label' => 'LBL_RC_smtp_server',			'fieldType' => 'text'),
-		'smtp_user'					=> array('label' => 'LBL_RC_smtp_user',				'fieldType' => 'text'),
-		'smtp_pass'					=> array('label' => 'LBL_RC_smtp_pass',				'fieldType' => 'text'),
-		'smtp_port'					=> array('label' => 'LBL_RC_smtp_port',				'fieldType' => 'int'),
-		'language'					=> array('label' => 'LBL_RC_language',				'fieldType' => 'picklist', 'value' => array('ar_SA','az_AZ','be_BE','bg_BG','bn_BD','bs_BA','ca_ES','cs_CZ','cy_GB','da_DK','de_CH','de_DE','el_GR','en_CA','en_GB','en_US','es_419','es_AR','es_ES','et_EE','eu_ES','fa_AF','fa_IR','fi_FI','fr_FR','fy_NL','ga_IE','gl_ES','he_IL','hi_IN','hr_HR','hu_HU','hy_AM','id_ID','is_IS','it_IT','ja_JP','ka_GE','km_KH','ko_KR','lb_LU','lt_LT','lv_LV','mk_MK','ml_IN','mr_IN','ms_MY','nb_NO','ne_NP','nl_BE','nl_NL','nn_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','si_LK','sk_SK','sl_SI','sq_AL','sr_CS','sv_SE','ta_IN','th_TH','tr_TR','uk_UA','ur_PK','vi_VN','zh_CN','zh_TW') ),
-		'username_domain'			=> array('label' => 'LBL_RC_username_domain',		'fieldType' => 'text'),
-		'debug_level'				=> array('label' => 'LBL_RC_debug_level',			'fieldType' => 'int'),
-		'skin_logo'					=> array('label' => 'LBL_RC_skin_logo',				'fieldType' => 'text'),
-		'ip_check'					=> array('label' => 'LBL_RC_ip_check',				'fieldType' => 'checkbox'),
-		'enable_spellcheck'			=> array('label' => 'LBL_RC_enable_spellcheck',		'fieldType' => 'checkbox'),
-		'identities_level'			=> array('label' => 'LBL_RC_identities_level',		'fieldType' => 'picklist', 'value' => array(0,1,2,3,4) ),
-		'auto_create_user'			=> array('label' => 'LBL_RC_auto_create_user',		'fieldType' => 'checkbox'),
-		'smtp_log'					=> array('label' => 'LBL_RC_smtp_log',				'fieldType' => 'checkbox'),
-		'session_lifetime'			=> array('label' => 'LBL_RC_session_lifetime',		'fieldType' => 'int'),
-	);
+		return array(
+			'product_name'				=> array('label' => 'LBL_RC_product_name',			'fieldType' => 'text'		,'required' => 1),
+			'validate_cert'				=> array('label' => 'LBL_RC_validate_cert',			'fieldType' => 'checkbox'	,'required' => 0),
+			'default_host'				=> array('label' => 'LBL_RC_default_host',			'fieldType' => 'text'		,'required' => 1),
+			'default_port'				=> array('label' => 'LBL_RC_default_port',			'fieldType' => 'int'		,'required' => 1),
+			'smtp_server'				=> array('label' => 'LBL_RC_smtp_server',			'fieldType' => 'text'		,'required' => 1),
+			'smtp_user'					=> array('label' => 'LBL_RC_smtp_user',				'fieldType' => 'text'		,'required' => 1),
+			'smtp_pass'					=> array('label' => 'LBL_RC_smtp_pass',				'fieldType' => 'text'		,'required' => 1),
+			'smtp_port'					=> array('label' => 'LBL_RC_smtp_port',				'fieldType' => 'int'		,'required' => 1),
+			'language'					=> array('label' => 'LBL_RC_language',				'fieldType' => 'picklist' 	,'required' => 1, 'value' => array('ar_SA','az_AZ','be_BE','bg_BG','bn_BD','bs_BA','ca_ES','cs_CZ','cy_GB','da_DK','de_CH','de_DE','el_GR','en_CA','en_GB','en_US','es_419','es_AR','es_ES','et_EE','eu_ES','fa_AF','fa_IR','fi_FI','fr_FR','fy_NL','ga_IE','gl_ES','he_IL','hi_IN','hr_HR','hu_HU','hy_AM','id_ID','is_IS','it_IT','ja_JP','ka_GE','km_KH','ko_KR','lb_LU','lt_LT','lv_LV','mk_MK','ml_IN','mr_IN','ms_MY','nb_NO','ne_NP','nl_BE','nl_NL','nn_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','si_LK','sk_SK','sl_SI','sq_AL','sr_CS','sv_SE','ta_IN','th_TH','tr_TR','uk_UA','ur_PK','vi_VN','zh_CN','zh_TW') ),
+			'username_domain'			=> array('label' => 'LBL_RC_username_domain',		'fieldType' => 'text'		,'required' => 0),
+			'debug_level'				=> array('label' => 'LBL_RC_debug_level',			'fieldType' => 'int'		,'required' => 1),
+			'skin_logo'					=> array('label' => 'LBL_RC_skin_logo',				'fieldType' => 'text'		,'required' => 1),
+			'ip_check'					=> array('label' => 'LBL_RC_ip_check',				'fieldType' => 'checkbox'	,'required' => 0),
+			'enable_spellcheck'			=> array('label' => 'LBL_RC_enable_spellcheck',		'fieldType' => 'checkbox'	,'required' => 0),
+			'identities_level'			=> array('label' => 'LBL_RC_identities_level',		'fieldType' => 'picklist' 	,'required' => 1, 'value' => array(0,1,2,3,4) ),
+			'smtp_log'					=> array('label' => 'LBL_RC_smtp_log',				'fieldType' => 'checkbox'	,'required' => 0),
+			'session_lifetime'			=> array('label' => 'LBL_RC_session_lifetime',		'fieldType' => 'int'		,'required' => 1),
+		);
 	}
-	function createdAlert($info) {
-		$return = '<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<h4 class="alert-heading">'.$info.'</h4></div>';
-	return $return;
-	}
+
 	function GetSite_URL() {
 		$site_URL = vglobal('site_URL');
 		if(substr($site_URL, -1) != '/'){
