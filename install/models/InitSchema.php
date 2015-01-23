@@ -16,13 +16,14 @@ class Install_InitSchema_Model {
 	 * Function starts applying schema changes
 	 */
 	public static function initialize() {
-		global $adb;
+		global $adb, $YetiForce_current_version;
 		self::initializeDatabase(self::sql_directory, array('scheme','data'));
 		self::setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$adb->pquery("UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?", array(	$currencyName,$currencyCode,$currencySymbol));
+		$adb->pquery("UPDATE vtiger_version SET `current_version` = ? ;",array(1, $YetiForce_current_version));
 	}
 	
 	function initializeDatabase($location, $filesName = array()){

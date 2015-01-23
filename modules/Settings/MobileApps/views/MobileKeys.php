@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 	public function process(Vtiger_Request $request) {
+		include_once 'api/config.php';
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_MobileApps_Module_Model::getInstance($qualifiedModuleName);
@@ -18,6 +19,7 @@ class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('USERS', Users_Record_Model::getAll());
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('ENABLEMOBILE', !in_array('mobile',$enabledServices));
 		$viewer->view('MobileKeys.tpl', $qualifiedModuleName);
 	}
 	function getHeaderScripts(Vtiger_Request $request) {

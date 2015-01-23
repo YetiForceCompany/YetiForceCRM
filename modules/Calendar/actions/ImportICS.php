@@ -70,16 +70,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller {
 
 				$totalCount[$module]++;
 				$activityFieldsList = $activity->generateArray($icalActivities[$i]);
-				if (!array_key_exists('visibility', $activityFieldsList)) {
-					$activityFieldsList['visibility'] = ' ';
-				}
-				if(array_key_exists('taskpriority',$activityFieldsList)) {
-					$priorityMap = array('0'=>'Medium','1'=>'High','2'=>'Medium','3'=>'Low');
-					$priorityval = $activityFieldsList['taskpriority'];
-					if(array_key_exists($priorityval,$priorityMap))
-						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
-				}
-
+				
 				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);

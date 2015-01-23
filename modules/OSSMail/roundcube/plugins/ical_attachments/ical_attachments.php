@@ -77,7 +77,7 @@ class ical_attachments extends rcube_plugin{
     }
 
     function is_ics($part){
-		//return ( $part->mimetype == 'application/ics' || $part->mimetype == 'text/calendar' );
-		return ( $part->mimetype == 'application/ics' );
+		return ( $part->mimetype == 'application/ics' || $part->mimetype == 'text/calendar' );
+		//return ( $part->mimetype == 'application/ics' );
     }
 }

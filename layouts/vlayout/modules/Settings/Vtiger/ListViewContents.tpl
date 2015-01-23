@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -87,7 +87,7 @@
 		<tbody>
 			<tr>
 				<td>
-					{vtranslate('LBL_NO')} {vtranslate($MODULE, $QUALIFIED_MODULE)} {vtranslate('LBL_FOUND')}
+					{vtranslate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
 				</td>
 			</tr>
 		</tbody>

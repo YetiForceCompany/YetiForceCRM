@@ -991,6 +991,7 @@ $languageStrings = array(
 	'okpo' => 'ОКПО',
 	'yes' => 'Да',
 	'yyyy-mm-dd' => 'гггг-мм-дд',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
 	
 	//Call popover
 	'LBL_BTN_CALL' => 'Call',

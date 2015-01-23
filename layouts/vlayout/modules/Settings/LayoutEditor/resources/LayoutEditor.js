@@ -627,6 +627,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var predefinedmodulelist = form.find('.preDefinedModuleList');
 				predefinedmodulelist.removeClass('hide');
 			}
+			if(selectedOption.data('predefinedtreelist')) {
+				var predefinedtreelist = form.find('.preDefinedTreeList');
+				predefinedtreelist.removeClass('hide');
+			}
 		})
 	},
 

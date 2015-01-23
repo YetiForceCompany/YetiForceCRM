@@ -275,6 +275,9 @@ class iCalendar_component {
 		}
 		if($activitytype=='VEVENT'){
 			$activity['activitytype'] = 'Meeting';
+			if(empty($activity['eventstatus'])) {
+				$activity['eventstatus'] = 'Planned';
+			}
 			if(!empty($ical_activity['VALARM'])){
 				$temp = str_replace("P",'',$ical_activity['VALARM']['TRIGGER']);
                 //if there is negative value then ignore it because in vtiger even though its negative or postiview we 
@@ -313,6 +316,24 @@ class iCalendar_component {
 			}
 		} else {
 			$activity['activitytype'] = 'Task';
+			if(empty($activity['taskstatus'])) {
+				$activity['taskstatus'] = 'Not Started';
+			}
+		}
+		if($activity['visibility'] == 'PUBLIC') {
+			$activity['visibility'] = 'Public';
+		}
+		if($activity['visibility'] == 'PRIVATE' || empty($activity['visibility'])) {
+			$activity['visibility'] = 'Private';
+		}
+		if(array_key_exists('taskpriority',$activity)) {
+			$priorityMap = array('1'=>'Low','5'=>'Medium','9'=>'High');
+			$priorityval = $activity['taskpriority'];
+			if(array_key_exists($priorityval,$priorityMap))
+				$activity['taskpriority'] = $priorityMap[$priorityval];
+		}
+		if (!array_key_exists('visibility', $activity)) {
+			$activity['visibility'] = ' ';
 		}
 		return $activity;
 	}
@@ -326,6 +347,12 @@ class iCalendar_component {
 		$minutes = substr($date,10,2);
 		$seconds = substr($date,12,2);
 		$datetime[] = $year."-".$month."-".$day;
+		if(empty($hours))
+			$hours = '00';
+		if(empty($minutes))
+			$minutes = '00';
+		if(empty($seconds))
+			$seconds = '00';			
 		$datetime[] = $hours.":".$minutes.":".$seconds;
 		return $datetime;
 	}
@@ -506,7 +533,7 @@ class iCalendar_todo extends iCalendar_component {
     var $properties;
     var $mapping_arr = array(
     	'DESCRIPTION'	=>	array('component'=>'description','type'=>'string'),
-    	'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
+    	//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
     	'DTSTART'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstart','type'=>'datetime'),
     	'DUE'			=>	array('component'=>array('due_date'),'function'=>'iCalendar_event_dtend','type'=>'datetime'),
     	'STATUS'		=>	array('component'=>'status','type'=>'string'),

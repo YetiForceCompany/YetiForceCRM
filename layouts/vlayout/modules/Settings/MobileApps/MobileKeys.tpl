@@ -17,6 +17,13 @@
 		</div>
 		<hr>
 		<div class="contents">
+			{if $ENABLEMOBILE }
+				<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<h4 class="alert-heading">{vtranslate('LBL_ALERT_MOBILE_NO_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
+					<p>{vtranslate('LBL_ALERT_MOBILE_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
+				</div>	
+			{/if}
 			<div class="row-fluid">
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">

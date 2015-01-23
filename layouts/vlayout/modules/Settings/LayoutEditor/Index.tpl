@@ -244,7 +244,7 @@ display: none;
 												{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 												<select style="margin-left: 10px;" name="displaytype" class="span1">
 													{foreach item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-														<option value="{$DISPLAY_TYPE_VALUE}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if}>{$DISPLAY_TYPE_VALUE}</option>
+														<option value="{$DISPLAY_TYPE_VALUE}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{$DISPLAY_TYPE_VALUE}</option>
 													{/foreach}
 												</select>
 												</label>
@@ -431,7 +431,7 @@ display: none;
 				{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 				<select style="margin-left: 10px;" name="displaytype" class="span1">
 					{foreach item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
-						<option value="{$DISPLAY_TYPE_VALUE}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if}>{$DISPLAY_TYPE_VALUE}</option>
+						<option value="{$DISPLAY_TYPE_VALUE}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{$DISPLAY_TYPE_VALUE}</option>
 					{/foreach}
 				</select>
 				</label>
@@ -766,6 +766,23 @@ display: none;
                     <label class="checkbox span3" style="margin-left: 0px;">
                         <input type="checkbox" class="checkbox" name="isRoleBasedPickList" value="1" >&nbsp;{vtranslate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
                     </label>
+                </div>
+            </div>
+            <div class="control-group supportedType preDefinedTreeList hide">
+                <span class="control-label">
+                    <span class="redColor">*</span>&nbsp;
+                    {vtranslate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
+                </span>
+                <div class="controls">
+                    <div class="row-fluid">
+                        <select class="TreeList span7" name="TreeList">
+							{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
+								<option value="{$key}">{vtranslate($item, $SELECTED_MODULE_NAME)}</option>
+							{foreachelse}
+								<option value="-">{vtranslate('LBL_NONE')}</option>
+							{/foreach}
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
