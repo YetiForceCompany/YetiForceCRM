@@ -781,6 +781,7 @@ $languageStrings = array(
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates history',
 	'LBL_CONFREPORT' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',

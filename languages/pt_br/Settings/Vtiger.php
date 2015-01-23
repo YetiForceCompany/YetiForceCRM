@@ -238,6 +238,8 @@ $languageStrings = array(
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
