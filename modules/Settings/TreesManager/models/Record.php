@@ -9,7 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
-
 	/**
 	 * Function to get the Id
 	 * @return <Number> Role Id
@@ -98,7 +97,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 	public function insertData($tree, $depth, $parenttrre) {
 		$adb = PearDatabase::getInstance();
 		$label = $tree['data'];
-		$id = $tree['metadata']['id'];
+		$id = $tree['attr']['id'];
 		$treeID = 'T'.$id;
 		if($parenttrre != '')
 			$parenttrre = $parenttrre.'::';
@@ -132,7 +131,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			$row = $adb->query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
 			$depth = (int)$row['depth']; 
-			$data[$row['tree']] = array( 'data' => $row['name'], 'metadata' =>  array('id' => $treeID ) );
+			$data[$row['tree']] = array( 'data' => $row['name'], 'attr' =>  array('id' => $treeID ) );
 			if($depth != 0)
 				$parent[$depth][] = $row;
 			if( $depth > $maxDepth)

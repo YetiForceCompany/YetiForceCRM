@@ -1,4 +1,4 @@
-<?php
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -8,26 +8,16 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Vtiger_Modules_UIType extends Vtiger_Base_UIType {
-
-	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
-	 */
-	public function getTemplateName() {
-		return 'uitypes/Modules.tpl';
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getDisplayValue($value) {
-		return  vtranslate( $value, $value );
-	}
-    
-    public function getListSearchTemplateName() {
-        return 'uitypes/ModulesFieldSearchView.tpl';
-    }
-}
+-->*}
+{strip}
+    {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+    {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+    <div class="row-fluid">
+        <select class="select2noactive listSearchContributor span9" name="{$FIELD_MODEL->get('name')}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
+        {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
+                <option value="{$PICKLIST_KEY}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES) && ($PICKLIST_KEY neq "") } selected{/if}>{$PICKLIST_LABEL}</option>
+        {/foreach}
+    </select>
+    </div>
+{/strip}

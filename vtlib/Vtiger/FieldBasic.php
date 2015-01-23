@@ -1,5 +1,4 @@
 <?php
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -7,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 /**
@@ -38,6 +38,7 @@ class Vtiger_FieldBasic {
     var $quicksequence = false;
     var $info_type = 'BAS';
     var $block;
+	var $fieldparams = '';
 
     /**
      * Constructor
@@ -72,6 +73,7 @@ class Vtiger_FieldBasic {
         $this->sequence = $valuemap['sequence'];
         $this->quicksequence = $valuemap['quickcreatesequence'];
         $this->summaryfield = $valuemap['summaryfield'];
+		$this->fieldparams = $valuemap['fieldparams'];
         $this->block = $blockInstance ? $blockInstance : Vtiger_Block::getInstance($valuemap['block'], $moduleInstance);
     }
 
@@ -175,11 +177,11 @@ class Vtiger_FieldBasic {
 
         $adb->pquery("INSERT INTO vtiger_field (tabid, fieldid, columnname, tablename, generatedtype,
 uitype, fieldname, fieldlabel, readonly, presence, defaultvalue, maximumlength, sequence,
-block, displaytype, typeofdata, quickcreate, quickcreatesequence, info_type, helpinfo, summaryfield) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(), $this->id, $this->column, $this->table, $this->generatedtype,
+block, displaytype, typeofdata, quickcreate, quickcreatesequence, info_type, helpinfo, summaryfield, fieldparams) 
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(), $this->id, $this->column, $this->table, $this->generatedtype,
             $this->uitype, $this->name, $this->label, $this->readonly, $this->presence, $this->defaultvalue,
             $this->maximumlength, $this->sequence, $this->getBlockId(), $this->displaytype, $this->typeofdata,
-            $this->quickcreate, $this->quicksequence, $this->info_type, $this->helpinfo, $this->summaryfield));
+            $this->quickcreate, $this->quicksequence, $this->info_type, $this->helpinfo, $this->summaryfield, $this->fieldparams));
 
 // Set the field status for mass-edit (if set)
         $adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($this->masseditable, $this->id));
