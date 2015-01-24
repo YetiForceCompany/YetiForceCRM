@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+*************************************************************************************************************************************/
 class OSSMailTemplates_Record_Model extends Vtiger_Record_Model {
     function getTempleteList($module) {
         $db = PearDatabase::getInstance();
