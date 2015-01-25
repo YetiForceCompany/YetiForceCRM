@@ -142,11 +142,11 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
 
 
     $currency_id = $focus->column_fields['currency_id'];
-    $pobierz = $adb->query("select currency_symbol, currency_code from vtiger_currency_info where id = '$currency_id'", true);
-    $symbol_waluty = $adb->query_result($pobierz, 0, "currency_symbol");
+    $download = $adb->query("select currency_symbol, currency_code from vtiger_currency_info where id = '$currency_id'", true);
+    $currency_symbol = $adb->query_result($download, 0, "currency_symbol");
 
 
-    $kod_aktualnej_waluty = $adb->query_result($pobierz, 0, "currency_code");
+    $present_currency_code = $adb->query_result($download, 0, "currency_code");
 
     $focus->id = $focus->column_fields["record_id"];
 
@@ -156,23 +156,23 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
         $associated_products = getAssociatedProducts($pdftype, $focus);
     }
 
-    $czyDrukowacKolumneZPrzeliczonymPodatkiem = FALSE;
+    $printColumnWithCalculatedTax = FALSE;
 
     $moduleFilePath = "modules/OSSCurrencyUpdate/OSSCurrencyUpdate.php";
     $moduleFilePathTpl = "Smarty/templates/modules/OSSCurrencyUpdate/index.tpl";
     $checkInDatabaseSql = "SELECT * FROM vtiger_tab WHERE name = 'OSSCurrencyUpdate'";
 
-    $pobierzGluwnaWaluteSql = $adb->query("select currency_code from vtiger_currency_info where id = '1'", true);
-    $kod_waluty = $adb->query_result($pobierzGluwnaWaluteSql, 0, "currency_code");
+    $downloadMainSqlCurrency = $adb->query("select currency_code from vtiger_currency_info where id = '1'", true);
+    $kod_waluty = $adb->query_result($downloadMainSqlCurrency, 0, "currency_code");
 
     $checkInDatabaseResult = $adb->query($checkInDatabaseSql, true);
     $numDB = $adb->num_rows($checkInDatabaseResult);
 
-    if (file_exists($moduleFilePath) && file_exists($moduleFilePathTpl) && ($numDB > 0) && $kod_waluty == 'PLN' && $kod_aktualnej_waluty != 'PLN' && vtlib_isModuleActive('OSSCurrencyUpdate')) {
-        $czyDrukowacKolumneZPrzeliczonymPodatkiem = TRUE;
+    if (file_exists($moduleFilePath) && file_exists($moduleFilePathTpl) && ($numDB > 0) && $kod_waluty == 'PLN' && $present_currency_code != 'PLN' && vtlib_isModuleActive('OSSCurrencyUpdate')) {
+        $printColumnWithCalculatedTax = TRUE;
     }
 
-    if ($czyDrukowacKolumneZPrzeliczonymPodatkiem == TRUE) {
+    if ($printColumnWithCalculatedTax == TRUE) {
         require_once($moduleFilePath);
     }
 
@@ -184,9 +184,9 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
 
     $total_discount = 0.0;
 
-    $suma_netto = 0.0;
-    $suma_brutto = $associated_products[1]['final_details']['hdnSubTotal'];
-    $rabat_calkowity = $associated_products[1]['final_details']['discountTotal_final'];
+    $total_net_amount = 0.0;
+    $total_gross_amount = $associated_products[1]['final_details']['hdnSubTotal'];
+    $total_discount_new = $associated_products[1]['final_details']['discountTotal_final'];
 
     $suma_vat = 0;
 
@@ -196,13 +196,13 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
         for ($i = 1; $i <= count($associated_products); $i++) {
 
             $total_discount += $associated_products[$i]['discountTotal' . $i];
-            $suma_netto += ( $associated_products[$i]['listPrice' . $i] - $total_discount );
+            $total_net_amount += ( $associated_products[$i]['listPrice' . $i] - $total_discount );
         }
     } else {
         for ($i = 1; $i <= count($associated_products); $i++) {
 
             $TotalAfterDiscount = $associated_products[$i]['totalAfterDiscount' . $i];
-            $suma_netto += $TotalAfterDiscount;
+            $total_net_amount += $TotalAfterDiscount;
             foreach ($associated_products[$i]['taxes'] as $podatek) {
                 if ($podatek['taxlabel'] == 'VAT') {
                     $vat[$podatek['percentage']] += $TotalAfterDiscount * ($podatek['percentage'] / 100.0);
@@ -328,7 +328,7 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
 
     $tax_pl = 0;
 
-    if ($czyDrukowacKolumneZPrzeliczonymPodatkiem == TRUE) {
+    if ($printColumnWithCalculatedTax == TRUE) {
         //invoicedate
         $invoice_date_sql = "SELECT invoicedate FROM `vtiger_invoice` WHERE invoiceid = $id";
         $invoice_date_result = $adb->query($invoice_date_sql, true);
@@ -339,19 +339,19 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
         $newdate = date('Y-m-d', $newdate);
 
         $CurrencyUpdate = Vtiger_Record_Model::getCleanInstance( 'OSSCurrencyUpdate' );
-        $kurs_waluty_result = $CurrencyUpdate->getCurrencyRate($newdate, $currency_id);
+        $currency_rate_result = $CurrencyUpdate->getCurrencyRate($newdate, $currency_id);
 
-        $num_rate = $adb->num_rows($kurs_waluty_result, true);
-        $kurs_waluty = '0.00';
+        $num_rate = $adb->num_rows($currency_rate_result, true);
+        $currency_rate = '0.00';
         if ($num_rate != 0) {
-            $kurs_waluty = (float) $adb->query_result($kurs_waluty_result, 0, 'kurs');
-            $newdate = date('Y-m-d', strtotime($adb->query_result($kurs_waluty_result, 0, "data_faktyczna_kursu")));
+            $currency_rate = (float) $adb->query_result($currency_rate_result, 0, 'kurs');
+            $newdate = date('Y-m-d', strtotime($adb->query_result($currency_rate_result, 0, "data_faktyczna_kursu")));
         } else {
             $CurrencyUpdate->getCurrency($newdate);
-            $kurs_waluty_result = $CurrencyUpdate->getCurrencyRate($newdate, $currency_id);
-            $num_rate = $adb->num_rows($kurs_waluty_result);
+            $currency_rate_result = $CurrencyUpdate->getCurrencyRate($newdate, $currency_id);
+            $num_rate = $adb->num_rows($currency_rate_result);
             if ($num_rate != 0) {
-                $kurs_waluty = (float) $adb->query_result($kurs_waluty_result, 0, 'kurs');
+                $currency_rate = (float) $adb->query_result($currency_rate_result, 0, 'kurs');
             }
         }
     }
@@ -421,14 +421,14 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
         }
 
         if ($enable_vatamount_column) {
-            $header[7] = vtranslate('LBL_vat_waluta', 'OSSPdf') . " (" . $symbol_waluty . ")";
+            $header[7] = vtranslate('LBL_vat_waluta', 'OSSPdf') . " (" . $currency_symbol . ")";
         }
 
         if ($enable_gross_column) {
             $header[8] = vtranslate('LBL_brutto', 'OSSPdf');
         }
 
-        if ($enable_taxes_inPLN == TRUE && $czyDrukowacKolumneZPrzeliczonymPodatkiem == TRUE) {
+        if ($enable_taxes_inPLN == TRUE && $printColumnWithCalculatedTax == TRUE) {
             $header[9] = vtranslate('TAXES_IN_PLN', 'OSSPdf');
         }
     }
@@ -436,7 +436,7 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
     $data = Array();
     $i = 1;
 
-    $suma_podatku_w_pln = 0.00;
+    $total_tax_in_PLN = 0.00;
     $tax_percentage_array = Array();
     foreach ($product_line as $item) {
         $currfield = new CurrencyField($item["tax_percentage"]);
@@ -463,8 +463,8 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
 
             $data[$i] = Array($i, $item['Product Name'], $item['Qty'], $item['Price'], $item['Discount'], $netto, $item['Total']);
         } else {
-            $tax_pln = $item['Tax'] * $kurs_waluty;
-            $suma_podatku_w_pln += $tax_pln;
+            $tax_pln = $item['Tax'] * $currency_rate;
+            $total_tax_in_PLN += $tax_pln;
             //$currfield = new CurrencyField( $tax_pln );
             //$tax_pln = $currfield->getDisplayValue();
 
@@ -520,13 +520,16 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
 	$product_table .= '</tr>';
 	
     $group_sep = ' ';
-    $separatorSql = "SELECT currency_decimal_separator FROM vtiger_users WHERE id = '$current_user->id'";
+    $separatorSql = "SELECT `currency_decimal_separator`,`currency_grouping_separator`  FROM vtiger_users WHERE id = '$current_user->id'";
     $separatorResult = $adb->query($separatorSql, true);
     $dec_sep = $adb->query_result($separatorResult, 0, 'currency_decimal_separator');
     $group_sep = $adb->query_result($separatorResult, 0, 'currency_grouping_separator');
 
     if ($dec_sep == '') {
         $dec_sep = ' ';
+    }
+	if ($group_sep == '') {
+        $group_sep = ' ';
     }
 
     $align = array("center", "left", "center", "center", "center", "center", "center", "center", "center", "center");
@@ -543,10 +546,10 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
             }
             if ($wyswietlaj[$key]) {
                 if ($key == 9) {
-                    if ($czyDrukowacKolumneZPrzeliczonymPodatkiem == TRUE) {
+                    if ($printColumnWithCalculatedTax == TRUE) {
                         $currfield = new CurrencyField(0);
                         $zero = $currfield->getDisplayValue();
-                        if (( $item != 0 ) && $kurs_waluty) {
+                        if (( $item != 0 ) && $currency_rate) {
                             //var_dump($item);
                             //exit();
                             $product_table .= '<td style="border: 0.2mm solid black;" width="' . $width[$key] . '" align="' . $align[$key] . '"><small>' . number_format((float) $item, 2, $dec_sep, $group_sep) . '</small></td>';
@@ -622,16 +625,16 @@ function replaceProductTable2($pdftype, $id, $templateid,$content, $tcpdf) {
     if ($displays_a_summary_of_invoices == TRUE) {
 		$product_table .= '<tr ><td colspan="'.$mainolspan.'" style="border: 0.2mm solid black; background-color: #e8e8e8;"><small><b>' . $languageStrings["SUMMARY"] . '</b></small></td></tr>';
         if ($enable_summary_rebate) {
-			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["Discount Amount"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($rabat_calkowity, 2, $dec_sep, $group_sep) . ' (' . $symbol_waluty . ')</small></td></tr>';
+			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["Discount Amount"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($total_discount_new, 2, $dec_sep, $group_sep) . ' (' . $currency_symbol . ')</small></td></tr>';
         }
         if ($enable_summary_taxpercentage && $final_details['taxtype'] == 'group') {
 			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["The percentage of tax"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . $grup_tax_percent . ' (%)</small></td></tr>';
         }
         if ($enable_summary_taxamount && $final_details['taxtype'] == 'group') {
-			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["The amount of tax"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($grup_tax, 2, $dec_sep, $group_sep) . ' (' . $symbol_waluty . ')</small></td></tr>';
+			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["The amount of tax"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($grup_tax, 2, $dec_sep, $group_sep) . ' (' . $currency_symbol . ')</small></td></tr>';
         }
         if ($enable_summary_topay) {
-			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["Grand Total"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($grand_total, 2, $dec_sep, $group_sep) . ' (' . $symbol_waluty . ')</small></td></tr>';
+			$product_table .= '<tr><td colspan="4" style="border: 0.2mm solid black; text-align:right;"><small><b>' . $languageStrings["Grand Total"] . '</b> :</small></td><td colspan="'.$colspan.'" style="border: 0.2mm solid black; text-align:right;"><small>' . number_format($grand_total, 2, $dec_sep, $group_sep) . ' (' . $currency_symbol . ')</small></td></tr>';
         }
         $product_table .= "</table>";
     }
