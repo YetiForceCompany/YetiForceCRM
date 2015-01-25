@@ -86,8 +86,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 
     public function getAddSupportedFieldTypes() {
         return array(
-            'Text','Decimal','Integer','Percent','Currency','Date','Email','Phone','Picklist',
-            'URL','Checkbox','TextArea','MultiSelectCombo','Skype','Time','Related1M', 'Editor'
+            'Text','Decimal','Integer','Percent','Currency','Date','Email','Phone','Picklist','URL','Checkbox','TextArea','MultiSelectCombo','Skype','Time','Related1M', 'Editor','Tree'
         ); 
     }
 
@@ -124,6 +123,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
                 $details['preDefinedModuleList'] = true;
 				$details['ModuleListMultiple'] = true;
             }
+            if($fieldType == 'Tree') {
+				$details['preDefinedTreeList'] = true;
+            }
             $fieldTypesInfo[$fieldType] = $details;
         }
         return $fieldTypesInfo;
@@ -134,6 +136,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
         $label = $params['fieldLabel'];
 		$type = $params['fieldTypeList'];
 		$name = $params['fieldName'];
+		$fieldparams = '';
         if($this->checkFieldLableExists($label)){
             throw new Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
         }
@@ -162,7 +165,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 				$tableName= 'vtiger_'.strtolower($moduleName).'cf';
 			}
 		}
-
+		if($fieldType == 'Tree') {
+			$fieldparams = $params['TreeList'];
+		}
         $details = $this->getTypeDetailsForAddField($fieldType, $params);
         $uitype = $details['uitype'];
         $typeofdata = $details['typeofdata'];
@@ -178,6 +183,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
                    ->set('label', $label)
                    ->set('typeofdata',$typeofdata)
                    ->set('quickcreate',$quickCreate)
+				   ->set('fieldparams',$fieldparams)
                    ->set('columntype', $dbType);
 
         $blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
@@ -198,109 +204,114 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
     }
 
     public function getTypeDetailsForAddField($fieldType,$params) {
-        switch ($fieldType) {
-                Case 'Text' :
-                               $fieldLength = $params['fieldLength'];
-                               $uichekdata='V~O~LE~'.$fieldLength;
-                               $uitype = 1;
-                               $type = "VARCHAR(".$fieldLength.") default ''"; // adodb type
-                               break;
-                Case 'Decimal' :
-                               $fieldLength = $params['fieldLength'];
-                               $decimal = $params['decimal'];
-                               $uitype = 7;
-                               //this may sound ridiculous passing decimal but that is the way adodb wants
-                               $dbfldlength = $fieldLength + $decimal + 1;
-                               $type="NUMERIC(".$dbfldlength.",".$decimal.")";	// adodb type
-                               // Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
-                               $uichekdata='NN~O';
-                               break;
-               Case 'Percent' :
-                               $uitype = 9;
-                               $type="NUMERIC(5,2)"; //adodb type
-                               $uichekdata='N~O~2~2';
-                               break;
-               Case 'Currency' :
-                               $fieldLength = $params['fieldLength'];
-                               $decimal = $params['decimal'];
-                               $uitype = 71;
-                               $dbfldlength = $fieldLength + $decimal + 1;
-                               $decimal = $decimal + 3;
-                               $type="NUMERIC(".$dbfldlength.",".$decimal.")"; //adodb type
-                               $uichekdata='N~O';
-                               break;
-               Case 'Date' :
-                               $uichekdata='D~O';
-                               $uitype = 5;
-                               $type = "DATE"; // adodb type
-                               break;
-               Case 'Email' :
-                               $uitype = 13;
-                               $type = "VARCHAR(50) default '' "; //adodb type
-                               $uichekdata='E~O';
-                               break;
-               Case 'Time' :
-                               $uitype = 14;
-                               $type = "TIME";
-                               $uichekdata='T~O';
-                               break;
-               Case 'Phone' :
-                               $uitype = 11;
-                               $type = "VARCHAR(30) default '' "; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'Picklist' :
-                               $uitype = 16;
-                               if(!empty($params['isRoleBasedPickList']))
-                                    $uitype = 15;
-                               $type = "VARCHAR(255) default '' "; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'URL' :
-                               $uitype = 17;
-                               $type = "VARCHAR(255) default '' "; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'Checkbox' :
-                               $uitype = 56;
-                               $type = "TINYINT(1) default 0"; //adodb type
-                               $uichekdata='C~O';
-                               break;
-               Case 'TextArea' :
-                               $uitype = 21;
-                               $type = "TEXT"; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'MultiSelectCombo' :
-                               $uitype = 33;
-                               $type = "TEXT"; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'Skype' :
-                               $uitype = 85;
-                               $type = "VARCHAR(255) default '' "; //adodb type
-                               $uichekdata='V~O';
-                               break;
-               Case 'Integer' :
-                               $fieldLength = $params['fieldLength'];
-                               $uitype = 7;
-							   if ($fieldLength > 10) {
-                                    $type = "BIGINT(".$fieldLength.")"; //adodb type
-							   } else {
-                                    $type = "INTEGER(".$fieldLength.")"; //adodb type
-							   }
-                               $uichekdata='I~O';
-                               break;
-               Case 'Related1M' :
-                               $uitype = 10;
-                               $type = "INTEGER(19)"; //adodb type
-                               $uichekdata='V~O';
-                               break;
-                           Case 'Editor' : 
-                                $uitype = 300;
-                                $type = "TEXT";
-                                $uichekdata = 'V~O';
-                                break;
+		switch ($fieldType) {
+			Case 'Text' :
+				$fieldLength = $params['fieldLength'];
+				$uichekdata='V~O~LE~'.$fieldLength;
+				$uitype = 1;
+				$type = "VARCHAR(".$fieldLength.") default ''"; // adodb type
+			break;
+			Case 'Decimal' :
+				$fieldLength = $params['fieldLength'];
+				$decimal = $params['decimal'];
+				$uitype = 7;
+				//this may sound ridiculous passing decimal but that is the way adodb wants
+				$dbfldlength = $fieldLength + $decimal + 1;
+				$type="NUMERIC(".$dbfldlength.",".$decimal.")";	// adodb type
+				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
+				$uichekdata='NN~O';
+			break;
+			Case 'Percent' :
+				$uitype = 9;
+				$type="NUMERIC(5,2)"; //adodb type
+				$uichekdata='N~O~2~2';
+			break;
+			Case 'Currency' :
+				$fieldLength = $params['fieldLength'];
+				$decimal = $params['decimal'];
+				$uitype = 71;
+				$dbfldlength = $fieldLength + $decimal + 1;
+				$decimal = $decimal + 3;
+				$type="NUMERIC(".$dbfldlength.",".$decimal.")"; //adodb type
+				$uichekdata='N~O';
+				break;
+			Case 'Date' :
+				$uichekdata='D~O';
+				$uitype = 5;
+				$type = "DATE"; // adodb type
+				break;
+			Case 'Email' :
+				$uitype = 13;
+				$type = "VARCHAR(50) default '' "; //adodb type
+				$uichekdata='E~O';
+				break;
+			Case 'Time' :
+				$uitype = 14;
+				$type = "TIME";
+				$uichekdata='T~O';
+				break;
+			Case 'Phone' :
+				$uitype = 11;
+				$type = "VARCHAR(30) default '' "; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'Picklist' :
+				$uitype = 16;
+				if(!empty($params['isRoleBasedPickList']))
+				$uitype = 15;
+				$type = "VARCHAR(255) default '' "; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'URL' :
+				$uitype = 17;
+				$type = "VARCHAR(255) default '' "; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'Checkbox' :
+				$uitype = 56;
+				$type = "TINYINT(1) default 0"; //adodb type
+				$uichekdata='C~O';
+			break;
+			Case 'TextArea' :
+				$uitype = 21;
+				$type = "TEXT"; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'MultiSelectCombo' :
+				$uitype = 33;
+				$type = "TEXT"; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'Skype' :
+				$uitype = 85;
+				$type = "VARCHAR(255) default '' "; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'Integer' :
+				$fieldLength = $params['fieldLength'];
+				$uitype = 7;
+				if ($fieldLength > 10) {
+					$type = "BIGINT(".$fieldLength.")"; //adodb type
+				} else {
+					$type = "INTEGER(".$fieldLength.")"; //adodb type
+				}
+				$uichekdata='I~O';
+				break;
+			Case 'Related1M' :
+				$uitype = 10;
+				$type = "INTEGER(19)"; //adodb type
+				$uichekdata='V~O';
+				break;
+			Case 'Editor' : 
+				$uitype = 300;
+				$type = "TEXT";
+				$uichekdata = 'V~O';
+				break;
+			Case 'Tree' : 
+				$uitype = 302;
+				$type = "VARCHAR(255) default '' "; //adodb type
+				$uichekdata = 'V~O';
+				break;
         }
         return array(
             'uitype' => $uitype,
@@ -454,5 +465,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		}
 
 		return $this->relations;
+	}
+	
+	public function getTreeTemplates($sourceModule) {
+		$adb = PearDatabase::getInstance();
+		$sourceModule = Vtiger_Functions::getModuleId($sourceModule);
+
+		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
+		$result = $adb->pquery($query, array($sourceModule));
+		$numOfRows = $adb->num_rows($result);
+
+		$treeList = array();
+		for($i=0; $i<$numOfRows; $i++) {
+			$treeList[$adb->query_result($result, $i, 'templateid')] = $adb->query_result($result, $i, 'name');
+		}
+		return $treeList;
 	}
 }

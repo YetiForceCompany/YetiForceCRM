@@ -938,6 +938,7 @@ $jsLanguageStrings = array(
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marcar a entrada na Agenda como concluída?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'Generate default PDF'=>'Gerar padrão PDF ',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
 		
 	//Inventory module Translations
         'JS_PLEASE_ENABLE_PRODUCT_OR_SERVICE_MODULE'=>'Por favor, habilite o Módulo de Produto ou Serviço',

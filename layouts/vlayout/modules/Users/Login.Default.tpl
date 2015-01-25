@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 <style>
@@ -74,17 +74,17 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 						{/if}
 						{if isset($smarty.request.fpError)}
 							<div class="alert alert-error">
-								<p>{vtranslate('ForgotPassword',$MODULE)}</p>
+								<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
 							</div>
 						{/if}
 						{if isset($smarty.request.status)}
 							<div class="alert alert-success">
-								<p>{vtranslate('ForgotPassword',$MODULE)}</p>
+								<p>{vtranslate('Mail was send to your inbox, please check your e-mail.',$MODULE)}</p>
 							</div>
 						{/if}
 						{if isset($smarty.request.statusError)}
 							<div class="alert alert-error">
-								<p>{vtranslate('ForgotPassword',$MODULE)}</p>
+								<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
 							</div>
 						{/if}
 					</div>
@@ -92,7 +92,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 			</div>
 			<div class="login-box hide row-fluid bg-div" id="forgotPasswordDiv">
 				<div class="login-form-content">
-					<form class="form-horizontal row-fluid login-form" style="margin:0;" action="forgotPassword.php" method="POST">
+					<form class="form-horizontal row-fluid login-form" style="margin:0;" action="modules/Users/actions/ForgotPassword.php" method="POST">
 						<div class="span9 main-panel">
 							<div class="username">
 								<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}">
@@ -110,9 +110,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 					<div class="span12 backButtonBox">
 						<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
 					</div>
-					<div class="span12 nomargin">
-
-					</div>
+					<div class="span12 nomargin"></div>
 				</div>
 			</div>
 		</div>
@@ -136,7 +134,6 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 		jQuery("input[name='retrievePassword']").click(function (){
 			var username = jQuery('#user_name').val();
 			var email = jQuery('#emailId').val();
-			
 			var email1 = email.replace(/^\s+/,'').replace(/\s+$/,'');
 			var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
 			var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
@@ -153,7 +150,6 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 			} else {
 				return true;
 			}
-			
 		});
 	});
 </script>

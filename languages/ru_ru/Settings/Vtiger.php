@@ -235,6 +235,8 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 	'LBL_WIDGETS_MANAGEMENT' => 'Управление Виджетами',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => '',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

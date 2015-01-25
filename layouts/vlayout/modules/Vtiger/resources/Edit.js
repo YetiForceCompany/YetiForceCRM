@@ -209,6 +209,50 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 	},
 
+	treePopupRegisterEvent : function(container){
+		var thisInstance = this;
+		container.on("click",'.treePopup',function(e){
+			thisInstance.openTreePopUp(e);
+		});
+	},
+	/**
+	 * Function which will register reference field clear event
+	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
+	 */
+	registerClearTreeSelectionEvent : function(container) {
+		container.find('.clearTreeSelection').on('click', function(e){
+			var element = jQuery(e.currentTarget);
+			var parentTdElement = element.closest('td');
+			var fieldNameElement = parentTdElement.find('.sourceField');
+			var fieldName = fieldNameElement.attr('name');
+			fieldNameElement.val('');
+			parentTdElement.find('#'+fieldName+'_display').removeAttr('readonly').val('');
+			e.preventDefault();
+		})
+	},
+	openTreePopUp : function(e){
+		var thisInstance = this;
+		var parentElem = jQuery(e.target).closest('td');
+		var params = {};
+		var sourceFieldElement = jQuery('input[class="sourceField"]',parentElem);
+		var sourceFieldDisplay = sourceFieldElement.attr('name')+"_display"; 
+		var fieldDisplayElement = jQuery('input[name="'+sourceFieldDisplay+'"]',parentElem);
+		var sourceRecordElement = jQuery('input[name="record"]');
+		var sourceRecordId = '';
+		if(sourceRecordElement.length > 0) {
+			sourceRecordId = sourceRecordElement.val();
+		}
+		urlOrParams = 'module='+app.getModuleName()+'&view=TreePopup&template='+sourceFieldElement.data('treetemplate')+'&src_field='+sourceFieldElement.attr('name')+'&src_record='+sourceRecordId;
+		var popupInstance = Vtiger_Popup_Js.getInstance();
+		popupInstance.show(urlOrParams,function(data){
+			var responseData = JSON.parse(data);
+			console.log(responseData);
+			sourceFieldElement.val('T'+responseData.id);
+			console.log(fieldDisplayElement);
+			fieldDisplayElement.val(responseData.name).attr('readonly',true);
+		});
+	},
+	
 	referenceModulePopupRegisterEvent : function(container){
 		var thisInstance = this;
 		container.on("click",'.relatedPopup',function(e){
@@ -686,6 +730,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 	 *
 	 */
 	registerBasicEvents : function(container) {
+		this.treePopupRegisterEvent(container);
+		this.registerClearTreeSelectionEvent(container);
 		this.referenceModulePopupRegisterEvent(container);
 		this.registerAutoCompleteFields(container);
 		this.registerClearReferenceSelectionEvent(container);

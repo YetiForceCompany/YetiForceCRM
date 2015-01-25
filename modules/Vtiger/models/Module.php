@@ -1210,6 +1210,12 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		);
 		$settingsLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
+					'linklabel' => 'LBL_TREES_MANAGER',
+                    'linkurl' => 'index.php?parent=Settings&module=TreesManager&view=List&sourceModule='.$this->getName(),
+					'linkicon' => $layoutEditorImagePath
+		);
+		$settingsLinks[] = array(
+					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_WIDGETS_MANAGMENT',
                     'linkurl' => 'index.php?parent=Settings&module=Widgets&sourceModule='.$this->getName(),
 					'linkicon' => $layoutEditorImagePath

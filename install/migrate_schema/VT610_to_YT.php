@@ -1629,7 +1629,7 @@ class VT610_to_YT {
 		return $fieldsResult;
 	}
 	public function updateRecords(){
-		global $log,$adb;
+		global $log,$adb,$YetiForce_current_version;
 		$log->debug("Entering VT610_to_YT::updateRecords() method ...");
 		$changes = array();
 		$changes[] = array('where'=>array('columnname'=>array('calendarsharedtype')), 'setColumn'=>array('displaytype'), 'setValue'=>array(1));
@@ -1689,7 +1689,7 @@ class VT610_to_YT {
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
 		$adb->query("UPDATE vtiger_language_seq SET `id` = (SELECT count(*) FROM `vtiger_language`);");
-		$adb->pquery("UPDATE vtiger_version SET old_version = ?, `current_version` = ? ;",array(1,'1.0.0','1.0.0'));
+		$adb->pquery("UPDATE vtiger_version SET `current_version` = ? ;",array(1, $YetiForce_current_version));
 		//update tax in inventoryproductrel
 		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
 			  CASE

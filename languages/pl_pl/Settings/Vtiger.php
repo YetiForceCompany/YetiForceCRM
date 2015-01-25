@@ -238,6 +238,8 @@ $languageStrings = array(
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
 	'LBL_MOBILE_KEYS' => 'Klucze aplikacji mobilnych',
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
+    'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Zarządzanie listami drzew',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

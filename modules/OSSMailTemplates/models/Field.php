@@ -7,9 +7,29 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+*************************************************************************************************************************************/
 class OSSMailTemplates_Field_Model extends Vtiger_Field_Model {
     function isAjaxEditable() {
         return false;
+    }
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 */
+	public function getModulesListValues($onlyActive = true) {
+		global $adb;
+		$modules = array();
+		$params = array();
+		if($onlyActive){
+			$where .= ' WHERE (presence = ? AND isentitytype = ? ) or name = ?';
+			array_push($params, 0);
+			array_push($params, 1);
+			array_push($params, 'Users');
+		}
+		$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab'.$where, $params );
+		while ($row = $adb->fetch_array($result)) {
+			$modules[$row['tabid']] = array('name' => $row['name'], 'label' => vtranslate( $row['name'], $row['name'] ) );
+		}
+		return $modules;
     }
 }

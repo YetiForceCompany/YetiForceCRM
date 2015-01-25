@@ -854,6 +854,7 @@ $languageStrings = array(
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Historia wykonanych aktualizacji',
 	'LBL_CONFREPORT' => 'Konfiguracja serwera',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Przedstawia zalecane i aktualne ustawienia serwera',
+	'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',

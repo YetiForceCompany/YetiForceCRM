@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 include_once 'vtlib/Vtiger/Field.php';
 
@@ -172,6 +173,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
                 $fieldDataType = 'sharedOwner';		
             } else if($uiType == '301') {
                 $fieldDataType = 'modules';	
+            } else if($uiType == '302') {
+                $fieldDataType = 'tree';	
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
 				$fieldDataType = $webserviceField->getFieldDataType();
@@ -1208,4 +1211,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			$this->set('fieldvalue', $defaultValue);
 		return $this;
     }
+	
+	public function getFieldParams() {
+		return $this->get('fieldparams');
+	}
 }

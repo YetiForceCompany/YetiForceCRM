@@ -784,6 +784,7 @@ $languageStrings = array(
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufsmöglichkeit verbunden sind',
 	'LBL_UPDATES_HISTORY' => 'Updates',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates history',
+	'LBL_TREES_MANAGER' => 'Tree Manager',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',

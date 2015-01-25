@@ -1,0 +1,67 @@
+<?php
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
+
+	public function process(Vtiger_Request $request) {
+		$viewer = $this->getViewer ($request);
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
+		$record = $request->get('record');
+
+		if(!empty($record)) {
+			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($record);
+			if($request->get('module') != '')
+				$viewer->assign('SOURCE_MODULE', $request->get('module'));
+			$viewer->assign('MODE', 'edit');
+		} else {
+			$recordModel = new Settings_TreesManager_Record_Model();
+			$viewer->assign('MODE', '');
+			$viewer->assign('SOURCE_MODULE', $recordModel->get('module'));
+			$recordModel->set('lastId',0);
+		}
+
+		$tree = $recordModel->getTree();
+		$viewer->assign('TREE', Zend_Json::encode($tree));
+		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('RECORD_ID', $record);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('SOURCE_MODULE', $source_module);
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->view('EditView.tpl', $qualifiedModuleName);
+	}
+	
+	public function getHeaderScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getHeaderScripts($request);
+		$moduleName = $request->getModule();
+
+		$jsFileNames = array(
+			'~libraries/jquery/jstree/jquery.jstree.js',
+			'~libraries/jquery/jstree/jquery.hotkeys.js',
+			"modules.Settings.$moduleName.resources.Edit",
+		);
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		return $headerScriptInstances;
+	}
+
+	function getHeaderCss(Vtiger_Request $request) {
+		$headerCssInstances = parent::getHeaderCss($request);
+		$moduleName = $request->getModule();
+		$cssFileNames = array(
+			'~libraries/jquery/jstree/themes/default/style.css',
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
+		return $headerCssInstances;
+	}
+}

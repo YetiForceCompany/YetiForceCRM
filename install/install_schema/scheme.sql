@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
@@ -2655,6 +2655,7 @@ CREATE TABLE `vtiger_field` (
   `masseditable` int(10) NOT NULL DEFAULT '1',
   `helpinfo` tinyint(1) DEFAULT '0',
   `summaryfield` int(10) NOT NULL DEFAULT '0',
+  `fieldparams` varchar(255) DEFAULT '',
   PRIMARY KEY (`fieldid`),
   KEY `field_tabid_idx` (`tabid`),
   KEY `field_fieldname_idx` (`fieldname`),
@@ -7322,6 +7323,33 @@ DROP TABLE IF EXISTS `vtiger_tracking_unit_seq`;
 
 CREATE TABLE `vtiger_tracking_unit_seq` (
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_trees_templates` */
+
+DROP TABLE IF EXISTS `vtiger_trees_templates`;
+
+CREATE TABLE `vtiger_trees_templates` (
+  `templateid` int(19) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `module` int(19) DEFAULT NULL,
+  PRIMARY KEY (`templateid`),
+  KEY `module` (`module`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_trees_templates_data` */
+
+DROP TABLE IF EXISTS `vtiger_trees_templates_data`;
+
+CREATE TABLE `vtiger_trees_templates_data` (
+  `templateid` int(19) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tree` varchar(255) DEFAULT NULL,
+  `parenttrre` varchar(255) DEFAULT NULL,
+  `depth` int(10) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  KEY `id` (`templateid`),
+  KEY `parenttrre` (`parenttrre`,`templateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
