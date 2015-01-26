@@ -246,10 +246,66 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams,function(data){
 			var responseData = JSON.parse(data);
-			console.log(responseData);
 			sourceFieldElement.val('T'+responseData.id);
-			console.log(fieldDisplayElement);
 			fieldDisplayElement.val(responseData.name).attr('readonly',true);
+		});
+	},
+	/**
+	 * Function which will handle the reference auto complete event registrations
+	 * @params - container <jQuery> - element in which auto complete fields needs to be searched
+	 */
+	registerTreeAutoCompleteFields : function(container) {
+		var thisInstance = this;
+		container.find('input.treeAutoComplete').autocomplete({
+			'delay' : '600',
+			'minLength' : '3',
+			'source' : function(request, response){
+				//element will be array of dom elements
+				//here this refers to auto complete instance
+				var inputElement = jQuery(this.element[0]);
+				var searchValue = request.term;
+				var parentElem = inputElement.closest('td');
+				var sourceFieldElement = jQuery('input[class="sourceField"]',parentElem);
+				var allValues = sourceFieldElement.data('allvalues');
+				var reponseDataList = new Array();
+				for(var id in allValues){
+					var responseData = allValues[id];
+					if (allValues[id].toLowerCase().indexOf(searchValue) >= 0)
+						reponseDataList.push({"label":allValues[id],"value":allValues[id],"id":id});
+				}
+				if(reponseDataList.length <= 0) {
+					jQuery(inputElement).val('');
+					reponseDataList.push({
+						'label' : app.vtranslate('JS_NO_RESULTS_FOUND'),
+						'type'  : 'no results'
+					});
+				}
+				response(reponseDataList);
+			},
+			'select' : function(event, ui ){
+				var selectedItemData = ui.item;
+				//To stop selection if no results is selected
+				if(typeof selectedItemData.type != 'undefined' && selectedItemData.type=="no results"){
+					return false;
+				}
+				selectedItemData.name = selectedItemData.value;
+				var element = jQuery(this);
+				var tdElement = element.closest('td');
+				var sourceField = tdElement.find('input[class="sourceField"]');
+				var sourceFieldDisplay = sourceField.attr('name')+"_display"; 
+				var fieldDisplayElement = jQuery('input[name="'+sourceFieldDisplay+'"]',tdElement);
+				
+				sourceField.val(selectedItemData.id);
+				fieldDisplayElement.val(selectedItemData.label).attr('readonly',true);
+			},
+			'change' : function(event, ui) {
+				var element = jQuery(this);
+			},
+			'open' : function(event,ui) {
+				//To Make the menu come up in the case of quick create
+				jQuery(this).data('autocomplete').menu.element.css('z-index','100001');
+
+			}
 		});
 	},
 	
@@ -732,6 +788,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerBasicEvents : function(container) {
 		this.treePopupRegisterEvent(container);
 		this.registerClearTreeSelectionEvent(container);
+		this.registerTreeAutoCompleteFields(container);
 		this.referenceModulePopupRegisterEvent(container);
 		this.registerAutoCompleteFields(container);
 		this.registerClearReferenceSelectionEvent(container);

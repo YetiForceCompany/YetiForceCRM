@@ -905,7 +905,7 @@ class QueryGenerator {
 		$db = PearDatabase::getInstance();
 
 		if(is_string($value) && $this->ignoreComma == false) {
-			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time');
+			$commaSeparatedFieldTypes = array('picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree');
 			if(in_array($field->getFieldDataType(), $commaSeparatedFieldTypes)) {
 				$valueArray = explode(',' , $value);
 				if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {

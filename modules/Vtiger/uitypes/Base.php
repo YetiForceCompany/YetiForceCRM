@@ -6,10 +6,13 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Vtiger_Base_UIType extends Vtiger_Base_Model {
-
+	public function isAjaxEditable() {
+		return true;
+	}
 	/**
 	 * Function to get the Template name for the current UI Type Object
 	 * @return <String> - Template Name
@@ -44,7 +47,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model {
 	public function getDisplayValue($value, $record=false, $recordInstance=false) {
 		return $value;
 	}
-
+	
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
 	 * @param Vtiger_Field_Model $fieldModel
