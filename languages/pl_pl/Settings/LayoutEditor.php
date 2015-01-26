@@ -79,6 +79,8 @@ $languageStrings = array(
 	'LBL_DISPLAY_TYPE' => 'DisplayType',
 	'LBL_HELP_INFO' => 'Ikona pomocy',
 	'LBL_GENERATED_TYPE' => 'Systemowe',
+	'LBL_TREE_TEMPLATE' => 'Drzewo',
+	'Tree' => 'Pole drzewa',
 );
 
 $jsLanguageStrings = array(

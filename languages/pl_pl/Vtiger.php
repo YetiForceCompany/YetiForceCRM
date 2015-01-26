@@ -855,6 +855,7 @@ $languageStrings = array(
 	'LBL_CONFREPORT' => 'Konfiguracja serwera',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Przedstawia zalecane i aktualne ustawienia serwera',
 	'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
+	'LBL_SELECT_TREE_ITEM' => 'Wybierz element:',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',

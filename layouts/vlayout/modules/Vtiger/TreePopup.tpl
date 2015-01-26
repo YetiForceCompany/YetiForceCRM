@@ -17,9 +17,16 @@
 	<input type="hidden" name="template" value="{$TEMPLATE}" />
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
 	<input type="hidden" name="tree" id="treePopupValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
+	{assign var="MODULE_INSTANCE" value=Vtiger_Module_Model::getInstance($MODULE)}
+	{assign var="FIELD_INSTANCE" value=Vtiger_Field_Model::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
+	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
+	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="paddingLeftRight10px">
+	    <div class="popupContainer row-fluid">
+	        <div class="logo span6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
+	    </div>
 		<div class="widget_header row-fluid">
-			<h3>{vtranslate('LBL_SELECT_ITEM', $QUALIFIED_MODULE)}</h3>
+			<h3>{vtranslate('LBL_SELECT_TREE_ITEM', $MODULE)} {vtranslate($FIELD_INSTANCE->get('label'), $MODULE)}</h3>
 		</div>
 		<div class="contentsBackground">
 			<div id="treePopupContents"></div>

@@ -785,6 +785,7 @@ $languageStrings = array(
 	'LBL_UPDATES_HISTORY' => 'Updates',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates history',
 	'LBL_TREES_MANAGER' => 'Tree Manager',
+	'LBL_SELECT_TREE_ITEM' => 'Select item:',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',

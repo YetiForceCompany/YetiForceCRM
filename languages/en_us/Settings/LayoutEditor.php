@@ -78,6 +78,8 @@ $languageStrings = array(
 	'LBL_GENERATED_TYPE' => 'Basic field',
 	'LBL_FIELD_TYPE0' => 'Basic (eg. vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Additional (eg. vtiger_accountcf)',
+	'LBL_TREE_TEMPLATE' => 'Tree',
+	'Tree' => 'Field of trees',
 );
 
 $jsLanguageStrings = array(

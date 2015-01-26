@@ -787,6 +787,7 @@ $languageStrings = array(
 	'Products database'=>'Dados Produtos',
 	'Services database'=>'Dados Serviços',
 	'Lists'=>'Listas',
+	'LBL_SELECT_TREE_ITEM' => 'Select item:',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Criar',
