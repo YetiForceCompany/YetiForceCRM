@@ -12,7 +12,7 @@ $languageStrings = array(
 	'LBL_CHOISE_AUTHORIZED' => 'Select role',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Add summary block for module',
 	'LBL_WIDTH' => 'Width',
-	'LBL_HIGHT' => 'Height',
+	'LBL_HEIGHT' => 'Height',
 	'LBL_ADD_WIDGET' => 'Widget',
 	'LBL_ADD_NOTEBOOK' => 'Notebook',
 	'LBL_ADD_MINILIST' => 'Widget with filter',
@@ -26,10 +26,12 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION'	=>	' Менеджер управления Виджетами',
 	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
 	'LBL_WIDGET' => 'Виджеты',
+	'LBL_NUMBER_OF_RECORDS_DISPLAYED' => 'Displayed records number',
 );
 $jsLanguageStrings = array(
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',
 	'JS_CUSTOM_FIELD_ADDED' => 'Widget has been added successfully to block ',
 	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
+	'JS_FIELD_EMPTY' => 'The field can not be empty',
 );

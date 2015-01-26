@@ -101,7 +101,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model {
 	}
 
 	public function getRecordLimit() {
-		return 10;
+		return $this->widgetModel->get('limit');;
 	}
 
 	public function getRecords($user) {

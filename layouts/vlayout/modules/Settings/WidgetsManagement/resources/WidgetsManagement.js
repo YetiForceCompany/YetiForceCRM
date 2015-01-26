@@ -26,7 +26,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	getAllFieldsInBlock : function(continer) {
 		var thisInstance = this;
 		var fields = new Array();
-		continer.find('.blockFieldsList .editFields').each(function(){
+		continer.find('.blockFieldsList .editFieldsWidget').each(function(){
 			fields.push( jQuery(this).data('linkid').toString() );
 		});
 		return fields;
@@ -52,16 +52,18 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				
 				var form = data.find('.addBlockDashBoardForm');
 				var params = app.validationEngineOptions;
-
+				var block = form.find('[name="authorized"]');
+				
 				params.onValidationComplete = function(form, valid){
 
 					if(valid) {
+						if(block.val()){
 						paramsForm = form.serializeFormData();
 						paramsForm['action'] = 'addBlock';
-						var field = form.find('[name="authorized"]');
+						
 						var paramsBlock = [];
-						paramsBlock['authorized'] = field.val();
-						paramsBlock['label'] = field.find(':selected').text();
+						paramsBlock['authorized'] = block.val();
+						paramsBlock['label'] = block.find(':selected').text();
 						thisInstance.save(paramsForm, 'save').then(
 							function(data) {
 								var params = {};
@@ -80,6 +82,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						);
 						
 						return valid;
+						}else {
+							var result = app.vtranslate('JS_FIELD_EMPTY');
+							block.prev('div').validationEngine('showPrompt', result , 'error','bottomLeft',true);
+							e.preventDefault();
+							return;
+						}
 					}
 				}
 				form.validationEngine(params);
@@ -156,7 +164,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			var allFieldsInBlock = thisInstance.getAllFieldsInBlock(continer);
-			addFieldContainer.find('select.fieldTypesList option').each(function(){
+			addFieldContainer.find('select.widgets option').each(function(){
 				if(jQuery.inArray(jQuery(this).val(),allFieldsInBlock) != -1){
 					jQuery(this).remove();
 				}
@@ -169,43 +177,54 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-
-				var params = app.getvalidationEngineOptions(true);
+				var widgets = form.find('[name="widgets"]');
+				var params = app.validationEngineOptions;
 				params.onValidationComplete = function(form, valid){
 					if(valid) {
-						var saveButton = form.find(':submit');
-						saveButton.attr('disabled', 'disabled');
-						var field = form.find('[name="widgets"]');
-						
-						paramsForm = form.serializeFormData();
-						paramsForm['action'] = 'addWidget';
-						paramsForm['blockid'] = blockId;
-						paramsForm['linkid'] = field.val();
-						paramsForm['label'] = field.find(':selected').text();
-						if(form.find('[name="isdefault"]').prop("checked"))
-							paramsForm['isdefault'] = 1;
-						thisInstance.save(paramsForm, 'save').then(
-							function(data) {
-								var result = data['result'];
-								var params = {};
-								if(data['success']) {
-									app.hideModalWindow();
-									paramsForm['id'] = result['id']
-									params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
-									Settings_Vtiger_Index_Js.showMessage(params);
-									thisInstance.showCustomField(paramsForm);
-								} else {
-									var message = data['error']['message'];
-									if(data['error']['code'] != 513){
-										var errorField = form.find('[name="fieldName"]');
-									}else{
-										var errorField = form.find('[name="fieldLabel"]');
+						if(widgets.val()){
+							var saveButton = form.find(':submit');
+							saveButton.attr('disabled', 'disabled');
+							var field = form.find('[name="widgets"]');
+							
+							paramsForm = form.serializeFormData();
+							paramsForm['action'] = 'addWidget';
+							paramsForm['blockid'] = blockId;
+							paramsForm['linkid'] = field.val();
+							paramsForm['label'] = field.find(':selected').text();
+							paramsForm['name'] = field.find(':selected').data('name');
+							paramsForm['height'] = form.find('[name="height"]').val();
+							paramsForm['width'] = form.find('[name="width"]').val();
+							if(form.find('[name="isdefault"]').prop("checked"))
+								paramsForm['isdefault'] = 1;
+							thisInstance.save(paramsForm, 'save').then(
+								function(data) {
+									var result = data['result'];
+									var params = {};
+									if(data['success']) {
+										app.hideModalWindow();
+										paramsForm['id'] = result['id']
+										paramsForm['status'] = result['status']
+										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+										Settings_Vtiger_Index_Js.showMessage(params);
+										thisInstance.showCustomField(paramsForm);
+									} else {
+										var message = data['error']['message'];
+										if(data['error']['code'] != 513){
+											var errorField = form.find('[name="fieldName"]');
+										}else{
+											var errorField = form.find('[name="fieldLabel"]');
+										}
+										errorField.validationEngine('showPrompt', message , 'error','topLeft',true);
+										saveButton.removeAttr('disabled');
 									}
-									errorField.validationEngine('showPrompt', message , 'error','topLeft',true);
-									saveButton.removeAttr('disabled');
 								}
-							}
-						);
+							);
+						} else {
+							var result = app.vtranslate('JS_FIELD_EMPTY');
+							widgets.prev('div').validationEngine('showPrompt', result , 'error','topLeft',true);
+							e.preventDefault();
+							return;
+						}
 					}
 					//To prevent form submit
 					return false;
@@ -224,15 +243,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	 * Function to add new custom field ui to the list
 	 */
 	showCustomField : function(result) {
-
 		var thisInstance = this;
 		var contents = jQuery('#layoutDashBoards');
 		var relatedBlock = contents.find('.block_'+result['blockid']);
 		var fieldCopy = contents.find('.newCustomFieldCopy').clone(true, true);
 		var fieldContainer = fieldCopy.find('div.marginLeftZero.border1px');
-		fieldContainer.addClass('opacity editFields').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
+		fieldContainer.addClass('opacity editFieldsWidget').attr('data-field-id', result['id']).attr('data-block-id', result['blockid']).attr('data-linkid', result['linkid']);
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		fieldContainer.find('.fieldLabel').html(result['label']);
+		if(!result['status'])
+			fieldContainer.find('input[name="limit"]').closest('div').remove();
+		
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
 		var length1 = sortable1.children().length;
@@ -260,7 +281,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		if(result['isdefault']) {
 			form.find('[name="isdefault"]').filter(':checkbox').attr('checked', true);
 		}
-
+		if(result['width']) {
+			form.find('select[name="width"]').find('option').removeAttr('selected');
+			form.find('select[name="width"]').find('option[value="'+result['width']+'"]').attr('selected','selected');
+		}
+		if(result['height']) {
+			form.find('select[name="height"]').find('option').removeAttr('selected');
+			form.find('select[name="height"]').find('option[value="'+result['height']+'"]').attr('selected','selected');
+		}
 	},
 	
 	registerEditFieldDetailsClick : function() {
@@ -268,7 +296,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		contents = jQuery('#layoutDashBoards');
 		contents.find('.editFieldDetails').click(function(e) {
 			var currentTarget = jQuery(e.currentTarget);
-			var fieldRow = currentTarget.closest('div.editFields');
+			var fieldRow = currentTarget.closest('div.editFieldsWidget');
 			fieldRow.removeClass('opacity');
 			var basicDropDown = fieldRow.find('.basicFieldOperations');
 			var dropDownContainer = currentTarget.closest('.btn-group');
@@ -280,13 +308,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			params.binded = false,
 			params.onValidationComplete = function(form,valid){
 				if(valid) {
-					
 					paramsForm = form.serializeFormData();
 					if(form.find('[name="isdefault"]').prop("checked"))
-							paramsForm['isdefault'] = 1;
+						paramsForm['isdefault'] = 1;
 					var id = form.find('.saveFieldDetails').data('field-id');
 					paramsForm['action'] = 'saveDetails';
 					paramsForm['id'] = id;
+					
 					thisInstance.save(paramsForm, 'save');
 					thisInstance.registerSaveFieldDetailsEvent(form);
 				}
@@ -346,11 +374,16 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		//close the drop down
 		submitButtton.closest('.btn-group').removeClass('open');
 		//adding class opacity to fieldRow - to give opacity to the actions of the fields
-		var fieldRow = submitButtton.closest('.editFields');
+		var fieldRow = submitButtton.closest('.editFieldsWidget');
 		fieldRow.addClass('opacity');
 		var dropDownMenu = form.closest('.dropdown-menu');
-				app.destroyChosenElement(form);
-		var basicContents = form.closest('.editFields').find('.basicFieldOperations');
+		app.destroyChosenElement(form);
+		form.find('select').each(function(){
+			var value = jQuery(this).val();
+			jQuery(this).find('option').removeAttr('selected');
+			jQuery(this).find('[value="'+value+'"]').attr('selected','selected');
+		});
+		var basicContents = form.closest('.editFieldsWidget').find('.basicFieldOperations');
 			basicContents.html(form);
 			dropDownMenu.remove();
 	},
@@ -384,7 +417,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			params.onValidationComplete = function(form, valid){
 				if(valid) {
                     //To prevent multiple click on save
-                    jQuery("[name='saveButton']").attr('disabled','disabled');
+                    jQuery("[name='saveButton']", wizardContainer).attr('disabled','disabled');
 					var notePadName = form.find('[name="notePadName"]').val();
 					var notePadContent = form.find('[name="notePadContent"]').val();
 					var isDefault = 0;
@@ -398,7 +431,9 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						'notePadContent' : notePadContent,
 						'blockid' : blockId,
 						'linkId' : linkId,
-						'isdefault' : isDefault
+						'isdefault' : isDefault,
+						'width' : 4,
+						'height' : 3
 					}
 					AppConnector.request(noteBookParams).then(
 						function(data){
@@ -489,8 +524,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 
 			form.submit(function(e){
 				e.preventDefault();
-                //To disable savebutton after one submit to prevent multiple submits
-                jQuery("[name='saveButton']").attr('disabled','disabled');
 				var selectedModule = moduleNameSelect2.val();
 				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
 				var selectedFilterId= filteridSelect2.val();
@@ -517,8 +550,11 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['blockid'] = element.data('block-id');;
 			paramsForm['linkid'] = element.data('linkid');
 			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel;
+			paramsForm['name'] = 'Mini List';
 			paramsForm['filterid'] = filterid;
 			paramsForm['isdefault'] = 0;
+			paramsForm['height'] = 3;
+			paramsForm['width'] = 4;
 
 			thisInstance.save(paramsForm, 'save').then(
 				function(data) {
@@ -526,7 +562,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var params = {};
 					if(data['success']) {
 						app.hideModalWindow();
-						paramsForm['id'] = result['id']
+						paramsForm['id'] = result['id'];
+						paramsForm['status'] = result['status'];
 						params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
@@ -538,7 +575,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							var errorField = form.find('[name="fieldLabel"]');
 						}
 						errorField.validationEngine('showPrompt', message , 'error','topLeft',true);
-						saveButton.removeAttr('disabled');
 					}
 				}
 			);
@@ -564,7 +600,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				function(e) {
 					thisInstance.save(paramsForm, 'delete').then(
 						function(data) {
-							var field = currentTarget.closest('div.editFields');
+							var field = currentTarget.closest('div.editFieldsWidget');
 							var blockId = field.data('block-id');
 							field.parent().fadeOut('slow').remove();
 							var block = jQuery('#block_'+blockId);

@@ -18,7 +18,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var element = jQuery(element);
 		var linkId = element.data('linkid');
 		var name = element.data('name');
-		jQuery(element).parent().hide();
+		jQuery(element).parent().remove();
+		if(jQuery('ul.widgetsList li').size() < 1){
+			jQuery('ul.widgetsList').prev('button').css('visibility','hidden');
+		}
 		var widgetContainer = jQuery('<li class="new dashboardWidget" id="'+ linkId +'" data-name="'+name+'" data-mode="open"></li>');
 		widgetContainer.data('url', url);
 		var width = element.data('width');
@@ -26,9 +29,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		Vtiger_DashBoard_Js.gridster.add_widget(widgetContainer, width, height);
 		Vtiger_DashBoard_Js.currentInstance.loadWidget(widgetContainer);
 	},
-
-	
-
 
 	restrictContentDrag : function(container){
 		container.on('mousedown.draggable', function(e){
@@ -72,9 +72,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		Vtiger_DashBoard_Js.gridster = this.getContainer().gridster({
 			widget_margins: [7, 7],
-			widget_base_dimensions: [100, 300],
+			widget_base_dimensions: [((thisInstance.getContainer().width()/10)-14), 100],
 			min_cols: 6,
 			min_rows: 20,
+			max_size_x:10,
 			draggable: {
 				'stop': function() {
 					thisInstance.savePositions(jQuery('.dashboardWidget'));
@@ -199,13 +200,15 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 										parent.remove();
 									});
 									if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
+										Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
+										jQuery('.widgetsList').prev('button').css('visibility','visible');
 										var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \''+response.result.url+'\')" href="javascript:void(0);"';
 										data += 'data-width='+width+' data-height='+height+ ' data-linkid='+response.result.linkid+' data-name='+response.result.name+'>'+response.result.title+'</a></li>';
 										var divider = jQuery('.widgetsList .divider');
 										if(divider.length) {
 											jQuery(data).insertBefore(divider);
 										} else {
-											jQuery(data).insertAfter(jQuery('.widgetsList li:last'));
+											jQuery('.widgetsList').append(data);
 										}
 									}
 								}
@@ -262,8 +265,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var contentContainer = parent.find('.refresh');
 			var optionSelected = $("option:selected", this);
 			var url = parent.data('url')+'&user='+optionSelected.val();
-			
-			console.log( url );
+
 			params = {};
 			params.url = url
 			params.data = {};

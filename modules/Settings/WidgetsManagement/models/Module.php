@@ -10,30 +10,34 @@
  *************************************************************************************************************************************/
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model {
 	
-	public function getAuthorization(){
+	public function getWidgetsWithLimit(){
 		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getAuthorization() method ...");
-		$db = PearDatabase::getInstance();
-			
-		$sql = "SELECT * FROM `vtiger_role`;";
-		$result = $db->query( $sql, true );
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 		
-		$roleData = array();
+		$widgetWithLimit = array('History', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos');
 		
-		if ( $db->num_rows( $result ) == 0 )
-			return false;
-		for($i=0; $i<$db->num_rows( $result );$i++){
-			$roleId = $db->query_result( $result, $i, 'roleid' );
-			$roleData[$roleId]['authorizedid']                 = $roleId;
-			$roleData[$roleId]['authorizedname']               = $db->query_result( $result, $i, 'rolename' );
-			$roleData[$roleId]['parentrole']             = $db->query_result( $result, $i, 'parentrole' );
-			$roleData[$roleId]['depth']                  = $db->query_result( $result, $i, 'depth' );
-			$roleData[$roleId]['allowassignedrecordsto'] = $db->query_result( $result, $i, 'allowassignedrecordsto' );
-		}
-		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getAuthorization() method ...");
-		return $roleData;
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
+		return $widgetWithLimit;
 	}
-
+	public function getSize(){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
+		
+		$width = array(3,4,5,6,7,8,9,10);
+		$height = array(3,4,5,6,7,8,9,10);
+		
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...");
+		return array('width'=>$width,'height'=>$height);
+	}
+	public function getDefaultValues(){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
+		
+		$defaultValues = array('width'=>4, 'height'=>4);
+		
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
+		return $defaultValues;
+	}
 	public function getSelectableDashboard() {
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
@@ -90,12 +94,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			try{
 				if($data['isdefault'])
 					$active = 1;
-				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ? WHERE `id` = ? ;';
-				$params = array($data['isdefault'], $data['id']);
+				$size = Zend_Json::encode(array('width'=>$data['width'], 'height'=>$data['height']));
+				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ? WHERE `id` = ? ;';
+				$params = array($data['isdefault'], $size, $data['limit'], $data['id']);
 				$adb->pquery($query, $params);
 				
-				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ? ';
-				$params = array($data['isdefault']);
+				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ? ';
+				$params = array($data['isdefault'], $size, $data['limit']);
 				if($active){
 					$query .= ', `active` = ? ';
 					$params[] = $active;
@@ -129,15 +134,26 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::addWidget(".$data.", ".$moduleName.") method ...");
 		$adb = PearDatabase::getInstance();
-		$query='INSERT INTO vtiger_module_dashboard(linkid, blockid, filterid, title, data, isdefault) VALUES(?,?,?,?,?,?);';
+		
+		$status = false;
+		$widgetWithLimit = self::getWidgetsWithLimit();
+		if(in_array($data['name'], $widgetWithLimit))
+			$status = true;
+		
+		if($status && !$data['limit'])
+			$data['limit'] = 10;
+		$query='INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `isdefault`) VALUES(?,?,?,?,?,?,?,?);';
 		if($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $data['isdefault']);
+		$size = Zend_Json::encode(array('width'=>$data['width'], 'height'=>$data['height']));
+		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $data['isdefault']);
 		$adb->pquery($query,$params,true);
 		$widgetId = $adb->getLastInsertID(); 
-
+		
+		
+		
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
-		return array('success'=>true, 'id'=>$widgetId);
+		return array('success'=>true, 'id'=>$widgetId, 'status'=>$status);
 	}
 	
 	public function getBlocksId(){
@@ -224,6 +240,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.title,
 				  mdw.filterid,
 				  mdw.id,
+				  mdw.size,
+				  mdw.limit,
 				  mdw.isdefault,
 				  `vtiger_links`.*,
 				  `mdb`.`authorized`

@@ -16,11 +16,10 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 	public function getWidth() {
 		$largerSizedWidgets = array('GroupedBySalesPerson', 'PipelinedAmountPerSalesPerson', 'GroupedBySalesStage', 'Funnel Amount','LeadsByIndustry');
 		$title = $this->getName();
-		if(in_array($title, $largerSizedWidgets)) {
-			$this->set('width', '6');
-		}
+		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$width = $size['width'];
+		$this->set('width', $width);
 
-		$width = $this->get('width');
 		if(empty($width)) {
 			$this->set('width', '4');
 		}
@@ -29,11 +28,10 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 
 	public function getHeight() {
 		//Special case for History widget
-		$title = $this->getTitle();
-		if($title == 'History' || $title == 'Upcoming Activities' || $title == 'Overdue Activities') {
-			$this->set('height', '2');
-		}
-		$height = $this->get('height');
+		$size = Zend_Json::decode(html_entity_decode($this->get('size')));
+		$height = $size['height'];
+		$this->set('height', $height);
+
 		if(empty($height)) {
 			$this->set('height', '1');
 		}
@@ -180,6 +178,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 			$query = 'UPDATE vtiger_module_dashboard_widgets SET `active` = ? WHERE id = ?';
 			$params = array(0, $this->get('id'));
 			$db->pquery($query, $params);
+			$this->set('active', 0);
 		}
 	}
 

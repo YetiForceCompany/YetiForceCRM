@@ -14,7 +14,7 @@
 	<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
 </a>
 {/if}
-<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
+<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
 	<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
 </a>
 {if !$WIDGET->isDefault()}

@@ -47,7 +47,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		$moduleModel = $this->getModule();
 		if($action == 'Header')
 			$action = 0;
-		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active,  mdw.title, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id 
+		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit 
 			FROM vtiger_links 
 			INNER JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
 			WHERE mdw.userid = ? AND linktype = ? AND tabid = ? AND `active` = ?";
@@ -113,16 +113,17 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		for ( $i=0; $i<$adb->num_rows( $result ); $i++ ) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$row['data'] = htmlspecialchars_decode($row['data']);
+			$row['size'] = htmlspecialchars_decode($row['size']);
 			$query='SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? AND `templateid` = ?;';
 			$params = array($currentUser->getId(), $row['id'] );
 			$resultVerify = $adb->pquery($query,$params);
 			if(!$adb->num_rows( $resultVerify )) {
 				
-				$query='INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `isdefault`, `active`) VALUES(?,?,?,?,?,?,?,?);';
+				$query='INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`,  `limit`, `isdefault`, `active`) VALUES(?,?,?,?,?,?,?,?,?,?);';
 				$active = 0;
 				if($row['isdefault'])
 					$active = 1;
-				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['isdefault'], $active);
+				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'], $row['isdefault'], $active);
 				$adb->pquery($query,$params);
 			}
 		}

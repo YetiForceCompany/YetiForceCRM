@@ -38,10 +38,12 @@
 									{/foreach}
 								</ul>
 							{else if $MODULE_PERMISSION}
-								<button class='btn addButton dropdown-toggle' disabled="disabled" data-toggle='dropdown'>
-									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> &nbsp;&nbsp;
+								<button class='btn addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
+									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
 									<i class="caret"></i>
 								</button>
+								<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
+								</ul>
 							{/if}
 					</span>
 				</div>
