@@ -10,18 +10,20 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span class="span2">
-        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
-		{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-			{if !empty($IMAGE_INFO.path)}
-				<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
-			{else}
-				<img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
-			{/if}
-		{/foreach}
-        {if empty($IMAGE_DETAILS)}
-            <img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
-        {/if}
+	<span class="span2 spanModuleIcon moduleIcon{$MODULE_NAME}">
+		<span class="moduleIcon">
+	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
+			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
+				{if !empty($IMAGE_INFO.path)}
+					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
+				{else}
+					<img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
+				{/if}
+			{/foreach}
+	        {if empty($IMAGE_DETAILS)}
+	            <img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
+	        {/if}
+		</span>
 	</span>
 	<span class="span8 margin0px">
 		<span class="row-fluid">

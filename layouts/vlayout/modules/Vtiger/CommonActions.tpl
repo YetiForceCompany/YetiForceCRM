@@ -127,6 +127,9 @@
 						.moduleColor_{$item.module}{
 							color: {$item.color} !important;
 						}
+						.moduleIcon{$item.module}{
+							background: {$item.color} !important;
+						}
 					{/foreach}
 					</style>
 				</div>

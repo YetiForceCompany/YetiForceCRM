@@ -21,3 +21,16 @@
 .defaultMarginP p {
 	margin: 0;
 }
+.spanModuleIcon{
+	margin: 0 5px 0 0 !important;
+}
+.moduleIcon{
+	display: block;
+	text-align: center;
+	height: 64px;
+	width: 64px;
+	line-height: 64px;
+}
+.moduleIcon img{
+	vertical-align: middle;
+}
