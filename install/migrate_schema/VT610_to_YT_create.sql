@@ -1086,6 +1086,8 @@ CREATE TABLE IF NOT EXISTS `vtiger_module_dashboard`(
 	`filterid` int(19) NULL  , 
 	`title` varchar(100) COLLATE utf8_general_ci NULL  , 
 	`data` text COLLATE utf8_general_ci NULL  , 
+	`size` varchar(50) COLLATE utf8_general_ci NULL  , 
+	`limit` int(10) NULL  , 
 	`isdefault` int(1) NOT NULL  DEFAULT 0 , 
 	PRIMARY KEY (`id`) , 
 	KEY `vtiger_module_dashboard_ibfk_1`(`blockid`) , 
