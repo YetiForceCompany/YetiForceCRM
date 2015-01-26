@@ -949,4 +949,7 @@ $jsLanguageStrings = array(
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Contact Name',
 	'JS_PARENT_ID' => 'Related to',
+	
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
+	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 );

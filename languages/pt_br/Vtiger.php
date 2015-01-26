@@ -955,4 +955,7 @@ $jsLanguageStrings = array(
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Nome contato',
 	'JS_PARENT_ID' => 'Relacionado a',
+	
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
+	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 );

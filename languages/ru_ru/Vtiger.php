@@ -1193,4 +1193,7 @@ $jsLanguageStrings = array(
     'SYNC_REMOVED_SUCCESSFULLY'    => 'Синхронизация успешно удалена',
     'Transfer records to user' => 'Прикрепить все записи к пользователю',
     'User to be deleted' => 'Удаляемый пользователь',
+	
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
+	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 );

@@ -1024,6 +1024,6 @@ $jsLanguageStrings = array(
 	'JS_CONTACT_NAME' => 'Osoba kontaktowa',
 	'JS_PARENT_ID' => 'Powiązany z',
 	
-	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer został wysłany do telefonu',
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer telefonu został wysłany do telefonu',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
 );

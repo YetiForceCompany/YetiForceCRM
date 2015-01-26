@@ -46,6 +46,3 @@ $languageStrings = Array(
 	'Voicemail'	=>	'Голосовая почта',
 	'Call history'	=>	'Журнал Вызовов',
 );
-$jsLanguageStrings = array(
-	'JS_MOBILE_PERFORM_CALL_OK'	=>	'Вызов отправлен на ваш телефон',
-);
