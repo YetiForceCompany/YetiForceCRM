@@ -44,4 +44,8 @@ $languageStrings = Array(
 	'Incoming' => 'Incoming received',
 	'Missed' => 'Incoming missed',
 	'Voicemail' => 'Incoming voicemail',
+	'Call history'	=>	'Call History',
+);
+$jsLanguageStrings = array(
+	'JS_MOBILE_PERFORM_CALL_OK'	=>	'Mobile Perform Call Ok',
 );
