@@ -35,6 +35,9 @@ ALTER TABLE `vtiger_contactaddress`
 	ADD COLUMN `localnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumbera` , 
 	ADD COLUMN `buildingnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `localnumbera` , 
 	ADD COLUMN `localnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumberb` ; 
+	
+ALTER TABLE `vtiger_field` 
+	ADD COLUMN `fieldparams` varchar(255) COLLATE utf8_general_ci NULL after `summaryfield` ;
 
 ALTER TABLE `vtiger_contactscf`
 	ADD CONSTRAINT `fk_1_vtiger_contactscf` 
@@ -1072,7 +1075,9 @@ ALTER TABLE `vtiger_module_dashboard_widgets`
 	CHANGE `filterid` `filterid` int(19)   NULL after `templateid` , 
 	CHANGE `title` `title` varchar(100)  COLLATE utf8_general_ci NULL after `filterid` , 
 	CHANGE `data` `data` text  COLLATE utf8_general_ci NULL after `title` , 
-	CHANGE `position` `position` varchar(50)  COLLATE utf8_general_ci NULL after `data` , 
+	ADD COLUMN `size` varchar(50)  COLLATE utf8_general_ci NULL after `data` , 
+	ADD COLUMN `limit` int(10)   NULL after `size` , 
+	CHANGE `position` `position` varchar(50)  COLLATE utf8_general_ci NULL after `limit` , 
 	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` , 
 	ADD COLUMN `active` int(1)   NULL DEFAULT 0 after `isdefault` , 
 	ADD KEY `vtiger_module_dashboard_widgets_ibfk_1`(`templateid`) ;

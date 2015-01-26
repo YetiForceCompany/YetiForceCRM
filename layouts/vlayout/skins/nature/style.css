@@ -2205,6 +2205,12 @@ th.htColHeader,
   left: -215px;
   position: absolute;
 }
+.blockFieldsList .editFieldsWidget .dropdown-menu {
+  z-index: 1000003;
+  padding: 0;
+  left: -315px;
+  position: absolute;
+}
 .blockFieldsList .editFields .dropdown-menu .modal-header {
   border-width: 0;
   border-bottom-width: 1px;

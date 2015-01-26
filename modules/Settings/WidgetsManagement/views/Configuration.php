@@ -12,7 +12,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 
 	public function process(Vtiger_Request $request) {
 		global $log;
-		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::showWidgetsManagement() method ...");
+		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
 		$sourceModule = $request->get('sourceModule');
 		$dashboardModules = Settings_WidgetsManagement_Module_Model::getSelectableDashboard();
 
@@ -25,8 +25,11 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$widgets = $dashboardModules[$sourceModule];
 
 		$dashboardStored = Settings_WidgetsManagement_Module_Model::getDashboardForModule($sourceModule);
-
-		$authorization = Settings_WidgetsManagement_Module_Model::getAuthorization();
+		
+		$defaultValues = Settings_WidgetsManagement_Module_Model::getDefaultValues();
+		$size = Settings_WidgetsManagement_Module_Model::getSize();
+		$widgetsWithLimit = Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit();
+		$authorization = Settings_Roles_Record_Model::getAll();
 		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId();
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
@@ -36,10 +39,13 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
 		$viewer->assign('WIDGETS', $widgets);
+		$viewer->assign('SIZE', $size);
+		$viewer->assign('DEFAULTVALUES', $defaultValues);
+		$viewer->assign('TITLE_OF_LIMIT', $widgetsWithLimit);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		$log->debug("Exiting Settings_WidgetsManagement_Configuration_View::showWidgetsManagement() method ...");
+		$log->debug("Exiting Settings_WidgetsManagement_Configuration_View::process() method ...");
 	}
 
 }

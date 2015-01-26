@@ -17,15 +17,16 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View {
 
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-
+		
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
-		$pagingModel->set('limit', 10);
+		$pagingModel->set('limit', (int)$widget->get('limit'));
 
 		$user = $request->get('type');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = $moduleModel->getCalendarActivities('upcoming', $pagingModel, $user);			
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

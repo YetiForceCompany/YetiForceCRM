@@ -12,7 +12,7 @@ $languageStrings = array(
 	'LBL_CHOISE_AUTHORIZED' => 'Wybierz rolę',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Dodaj blok widoku podsumowania dla modułu',
 	'LBL_WIDTH' => 'Szerokość',
-	'LBL_HIGHT' => 'Wysokość',
+	'LBL_HEIGHT' => 'Wysokość',
 	'LBL_ADD_WIDGET' => 'Widget',
 	'LBL_ADD_NOTEBOOK' => 'Notatnik',
 	'LBL_ADD_MINILIST' => 'Widget z filtrem',
@@ -26,10 +26,12 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MANDATORY_WIDGET' => 'Widget obowiązkowy',
 	'LBL_WIDGET' => 'Widgety',
+	'LBL_NUMBER_OF_RECORDS_DISPLAYED' => 'Liczba wyświetlanych rekordów',
 );
 $jsLanguageStrings = array(
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',
 	'JS_CUSTOM_FIELD_ADDED' => 'Pomyślnie dodano widget do bloku',
 	'JS_CUSTOM_FIELD_DELETED' => 'Pomyślnie usunięto widget',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Pomyślnie usunięto blok',
+	'JS_FIELD_EMPTY' => 'Pole nie może być puste',
 );

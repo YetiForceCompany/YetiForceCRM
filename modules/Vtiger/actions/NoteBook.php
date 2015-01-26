@@ -31,6 +31,8 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller {
 		$noteBookContent = $request->get('notePadContent');
 		$blockid = $request->get('blockid');
 		$isdefault = $request->get('isdefault');
+		$width = $request->get('width');
+		$height = $request->get('height');
 		
 		$date_var = date("Y-m-d H:i:s");
 		$date = $adb->formatDate($date_var, true);
@@ -40,9 +42,9 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller {
 		$dataValue['lastSavedOn'] = $date;
 		
 		$data = Zend_Json::encode((object) $dataValue);
-
-		$query="INSERT INTO vtiger_module_dashboard(linkid, blockid, filterid, title, data, isdefault) VALUES(?,?,?,?,?,?)";
-		$params= array($linkId,$blockid,0,$noteBookName,$data, $isdefault);
+		$size = Zend_Json::encode(array('width'=>$width, 'height'=>$height));
+		$query="INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `isdefault`, `size`) VALUES(?,?,?,?,?,?,?)";
+		$params= array($linkId,$blockid,0,$noteBookName,$data, $isdefault, $size);
 		$adb->pquery($query, $params);
 		$id = $adb->getLastInsertID();
 		

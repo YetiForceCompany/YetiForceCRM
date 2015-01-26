@@ -21,6 +21,9 @@ margin-left: 20px;
 .marginRight20{
 	margin-right: 20px;
 }
+.marginTop5{
+	margin-top: 5px;
+}
 .paddingNoTop20{
 padding: 20px 20px 20px 20px;
 }
@@ -100,29 +103,65 @@ padding: 20px 20px 20px 20px;
 								{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 								{if $smarty.foreach.fieldlist.index % 2 eq 0}
 									<li>
-										<div class="opacity editFields marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
+										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 											<div class="row-fluid padding1per">
-												<span class="marginLeft20">&nbsp;
-												</span>
 												<div class="span10 " style="word-wrap: break-word;">
-													<span class="fieldLabel">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
+													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 														<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
 													</a>
-													<div class="basicFieldOperations pull-right hide" style="width : 250px;">
+													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
 															<div class="modal-header contentsBackground">
 																<strong>{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
-															<div style="padding-bottom: 5px;">
-																<span>
-																	<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																		<input type="checkbox" name="isdefault" {if $WIDGET_MODEL->get('isdefault')  eq 1} checked {/if}>&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
+															<div class="clearfix">
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
+																	</span>	
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
-																</span>
+																</div>
+																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<select class="width span1 pull-left" name="width" >
+																			{foreach from=$SIZE.width item=item}
+																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
+																			{/foreach}
+																		</select>
+																	</span>	
+																	<label  class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
+																	</label>
+																</div>
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<select class="height span1 pull-left" name="height">
+																			{foreach from=$SIZE.height item=item}
+																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
+																			{/foreach}
+																		</select>
+																	</span>
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
+																	</label>	
+																</div>
+																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<input type="text" name="limit" class="span1" value="{$WIDGET_MODEL->get('limit')}" >
+																	</span>
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
+																	</label>
+																</div>
+																{/if}
 															</div>
 															<div class="modal-footer" style="padding: 0px;">
 																<span class="pull-right">
@@ -150,30 +189,66 @@ padding: 20px 20px 20px 20px;
 								{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 								{if $smarty.foreach.fieldlist1.index % 2 neq 0}
 									<li>
-										<div class="opacity editFields marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
+										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 											<div class="row-fluid padding1per">
-												<span class="marginLeft20">&nbsp;
-												</span>
 												<div class="span10 " style="word-wrap: break-word;">
-													<span class="fieldLabel">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
+													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 													
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 														<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
 													</a>
-													<div class="basicFieldOperations pull-right hide" style="width : 250px;">
+													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
 															<div class="modal-header contentsBackground">
 																<strong>{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
 																<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 															</div>
-															<div style="padding-bottom: 5px;">
-																<span>
-																	<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-																		<input type="checkbox" name="isdefault" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
+															<div class="clearfix">
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
+																	</span>	
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 																	</label>
-																</span>
+																</div>
+																{assign var=WIDGET_SIZE value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<select class="width span1 pull-left" name="width" >
+																			{foreach from=$SIZE.width item=item}
+																				<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
+																			{/foreach}
+																		</select>
+																	</span>	
+																	<label  class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
+																	</label>
+																</div>
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<select class="height span1 pull-left" name="height">
+																			{foreach from=$SIZE.height item=item}
+																				<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
+																			{/foreach}
+																		</select>
+																	</span>
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
+																	</label>	
+																</div>
+																{if in_array($WIDGET_MODEL->get('linklabel'), $TITLE_OF_LIMIT) }
+																<div class="row-fluid" style="padding: 5px; ">
+																	<span class="span3" style="text-align:center">
+																		<input type="text" name="limit" class="span1" value="{$WIDGET_MODEL->get('limit')}" >
+																	</span>
+																	<label class="span9 marginTop5 pull-left" >
+																		&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
+																	</label>
+																</div>
+																{/if}
 															</div>
 															<div class="modal-footer" style="padding: 0px;">
 																<span class="pull-right">
@@ -214,8 +289,8 @@ padding: 20px 20px 20px 20px;
 						</span>
 						<div class="controls">
 							<select class="authorized span3" name="authorized" style="margin-bottom:0px;" >
-								{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED}
-									<option value="{$AUTHORIZED.authorizedid}" data-label="{$AUTHORIZED.authorizedname}">{vtranslate($AUTHORIZED.authorizedname,$QUALIFIED_MODULE)}</option>
+								{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
+									<option value="{$AUTHORIZED_CODE}" data-label="{$AUTHORIZED->get('rolename')}">{vtranslate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 								{/foreach}
 							</select>
 						</div>
@@ -280,16 +355,37 @@ padding: 20px 20px 20px 20px;
 						</span>
 						<div class="controls">
 							<span class="row-fluid">
-								<select class="fieldTypesList span7" name="widgets">
+								<select class="widgets span9" name="widgets" data-validation-engine="validate[required]"  >
 									{foreach from=$WIDGETS item=WIDGET}
 										{if $WIDGET->getTitle() eq 'Mini List' || $WIDGET->getTitle() eq 'Notebook'}
 											{continue}
 										{/if}
-										<option value="{$WIDGET->get('linkid')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
+										<option value="{$WIDGET->get('linkid')}" data-name="{$WIDGET->get('linklabel')}">{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</option>
 									{/foreach}
 								</select>
 							</span>
 						</div>
+					</div>
+					<div class="control-group">
+						<span class="control-label">
+							{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}
+						</span>
+						
+						<select class="width span1 pull-left" name="width" style="margin-left: 10px;" >
+							{foreach from=$SIZE.width item=item}
+								<option value="{$item}" {if $DEFAULTVALUES.width eq $item} selected {/if}>{$item}</option>
+							{/foreach}
+						</select>
+						
+						<span class="control-label" style="width:135px">
+							{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}
+						</span>	
+						
+						<select class="height span1 pull-left" name="height"  >
+							{foreach from=$SIZE.height item=item}
+								<option value="{$item}" {if $DEFAULTVALUES.height eq $item} selected {/if}>{$item}</option>
+							{/foreach}
+						</select>
 					</div>
 					<div class="control-group">
 						<span class="control-label">
@@ -307,26 +403,58 @@ padding: 20px 20px 20px 20px;
 		<li class="newCustomFieldCopy hide">
 			<div class="marginLeftZero border1px" data-field-id="" data-linkid="" data-sequence="">
 				<div class="row-fluid padding1per">
-					<span class="marginLeft20">&nbsp;
-					</span>
 					<div class="span10 " style="word-wrap: break-word;">
-						<span class="fieldLabel"></span>
-						
+						<span class="fieldLabel marginLeft20"></span>
 					</div>
 					<span class="btn-group pull-right marginRight20 actions">
 						<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 							<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
 						</a>
-						<div class="basicFieldOperations hide pull-right" style="width: 250px;">
+						<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 							<form class="form-horizontal fieldDetailsForm" method="POST">
 								<div class="modal-header contentsBackground">
 								</div>
-								<div style="padding-bottom: 5px;">
-									<span>
-										<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-											<input type="checkbox" name="isdefault" />&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
+								<div class="clearfix">
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span3" style="text-align:center">
+											<input type="checkbox" name="isdefault" >
+										</span>	
+										<label class="span9 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 										</label>
-									</span>
+									</div>
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span3" style="text-align:center">
+											<select class="width span1 pull-left" name="width" >
+												{foreach from=$SIZE.width item=item}
+													<option value="{$item}">{$item}</option>
+												{/foreach}
+											</select>
+										</span>	
+										<label  class="span9 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
+										</label>
+									</div>
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span3" style="text-align:center">
+											<select class="height span1 pull-left" name="height">
+												{foreach from=$SIZE.height item=item}
+													<option value="{$item}" >{$item}</option>
+												{/foreach}
+											</select>
+										</span>
+										<label class="span9 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
+										</label>	
+									</div>
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span3" style="text-align:center">
+											<input type="text" name="limit" class="span1" value="10" >
+										</span>
+										<label class="span9 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
+										</label>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<span class="pull-right">

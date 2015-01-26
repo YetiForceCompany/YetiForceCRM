@@ -1050,6 +1050,9 @@ insert  into `vtiger_password`(`type`,`val`) values ('special','false');
 insert  into `vtiger_passwords_config`(`pass_length_min`,`pass_length_max`,`pass_allow_chars`,`register_changes`) values (10,15,'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9',0);
 
 insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('300','text');
+insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('120','sharedOwner');
+insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('301','modules');
+insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('302','tree');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'Project');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (34,'ServiceContracts');
 
@@ -1083,6 +1086,8 @@ CREATE TABLE IF NOT EXISTS `vtiger_module_dashboard`(
 	`filterid` int(19) NULL  , 
 	`title` varchar(100) COLLATE utf8_general_ci NULL  , 
 	`data` text COLLATE utf8_general_ci NULL  , 
+	`size` varchar(50) COLLATE utf8_general_ci NULL  , 
+	`limit` int(10) NULL  , 
 	`isdefault` int(1) NOT NULL  DEFAULT 0 , 
 	PRIMARY KEY (`id`) , 
 	KEY `vtiger_module_dashboard_ibfk_1`(`blockid`) , 
