@@ -8,14 +8,14 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Vtiger_Modules_UIType extends Vtiger_Base_UIType {
+class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
 
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
 	 */
 	public function getTemplateName() {
-		return 'uitypes/Modules.tpl';
+		return 'uitypes/Tree.tpl';
 	}
 
 	/**
@@ -24,10 +24,25 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType {
 	 * @return <Object>
 	 */
 	public function getDisplayValue($value) {
-		return  vtranslate( $value, $value );
+		$template = $this->get('field')->getFieldParams();
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', array($template,$value));
+		if($adb->num_rows($result)) {
+			return $adb->query_result($result, 0, 'name');
+		}
+		return false;
 	}
-    
+	
+	/**
+	 * Function to get the display value in edit view
+	 * @param reference record id
+	 * @return link
+	 */
+	public function getEditViewDisplayValue($value) {
+		return $this->getDisplayValue($value);
+	}
+	
     public function getListSearchTemplateName() {
-        return 'uitypes/ModulesFieldSearchView.tpl';
+        return 'uitypes/TreeFieldSearchView.tpl';
     }
 }

@@ -7,13 +7,13 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+*************************************************************************************************************************************/
 class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
     function getListFiledOfModule($moduleName,$relID = false) {
         $db = PearDatabase::getInstance();
         $tabid = getTabid($moduleName);
-        $sql = "select fieldid, fieldlabel, uitype from vtiger_field where tabid = ? AND presence <> 1";
-        $result = $db->pquery($sql, array($tabid), true);
+        $sql = "select fieldid, fieldlabel, uitype from vtiger_field where tabid = ? AND presence <> ? AND typeofdata <> ?";
+        $result = $db->pquery($sql, array($tabid,1,'P~M'), true);
         $output = array();
         for ($i = 0; $i < $db->num_rows($result); $i++) {
 			if($relID){
@@ -83,7 +83,6 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
                 }
             }
         }
-
         return $specialFunctionList;
     }
 
@@ -94,17 +93,13 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
                 . "FROM vtiger_ossmailtemplates "
                 . "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailtemplates.ossmailtemplatesid "
                 . "WHERE vtiger_crmentity.deleted = 0";
-
         $result = $db->query($sql, true);
-
         $output = array();
-
         for ($i = 0; $i < $db->num_rows($result); $i++) {
             $output[$i]['id'] = $db->query_result($result, $i, 'id');
             $output[$i]['name'] = $db->query_result($result, $i, 'name');
             $output[$i]['module'] = $db->query_result($result, $i, 'module');
         }
-
         return $output;
     }
 
@@ -117,8 +112,6 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model {
             $output[$i]['name'] = $db->query_result($result, $i, 'oss_module_list');
             $output[$i]['tr_name'] = vtranslate($output[$i]['name'], $output[$i]['name']);
         }
-
         return $output;
     }
-
 }

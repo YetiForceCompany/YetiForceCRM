@@ -8,26 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Vtiger_Modules_UIType extends Vtiger_Base_UIType {
+class LinkToForgotPassword {
+	private $moduleList = array('Users');
 
-	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
-	 */
-	public function getTemplateName() {
-		return 'uitypes/Modules.tpl';
+	function process($data){
+		return '<a target="_blank" href='.$data['trackURL'].'>'.$data['trackURL'].'</a>';
 	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getDisplayValue($value) {
-		return  vtranslate( $value, $value );
+	function getListAllowedModule() {
+		return $this->moduleList;
 	}
-    
-    public function getListSearchTemplateName() {
-        return 'uitypes/ModulesFieldSearchView.tpl';
-    }
 }
