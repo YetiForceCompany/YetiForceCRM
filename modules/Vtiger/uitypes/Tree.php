@@ -9,7 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
-
+	public function isAjaxEditable() {
+		return false;
+	}
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name
@@ -45,4 +47,20 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
     public function getListSearchTemplateName() {
         return 'uitypes/TreeFieldSearchView.tpl';
     }
+	
+	/**
+	 * Function to get the all Values
+	 * @param <Object> $value
+	 * @return <Object>
+	 */
+	public function getAllValue() {
+		$template = $this->get('field')->getFieldParams();
+		$adb = PearDatabase::getInstance();
+		$values = array();
+		$result = $adb->pquery('SELECT tree,name FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$values[$adb->query_result_raw($result, $i, 'tree')] = vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName());
+		}
+		return $values;
+	}
 }

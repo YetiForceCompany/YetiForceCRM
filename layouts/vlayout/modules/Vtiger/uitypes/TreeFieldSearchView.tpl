@@ -11,12 +11,12 @@
 -->*}
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
-    {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
+    {assign var=ALL_VALUES value=$FIELD_MODEL->getUITypeModel()->getAllValue()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
     <div class="row-fluid">
-        <select class="select2noactive listSearchContributor span9" name="{$FIELD_MODEL->get('name')}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
-        {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
-                <option value="{$PICKLIST_KEY}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES) && ($PICKLIST_KEY neq "") } selected{/if}>{$PICKLIST_LABEL}</option>
+        <select class="select2noactive listSearchContributor span9" multiple name="{$FIELD_MODEL->get('name')}" style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
+        {foreach item=LABEL key=KEY from=$ALL_VALUES}
+                <option value="{$KEY}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL}</option>
         {/foreach}
     </select>
     </div>

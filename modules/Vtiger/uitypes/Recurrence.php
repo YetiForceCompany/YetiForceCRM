@@ -6,10 +6,13 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType {
-
+	public function isAjaxEditable() {
+		return false;
+	}
 	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return <String> - Template Name

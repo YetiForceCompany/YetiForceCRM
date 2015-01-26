@@ -399,7 +399,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 */
 	public function isAjaxEditable() {
 		$ajaxRestrictedFields = array('4', '72','10', '300');
-		if(!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields)) {
+		if(!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable()) {
 			return false;
 		}
 		return true;
@@ -997,7 +997,14 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		$uiTypeInstance = $this->uitype_instance;
 		return $uiTypeInstance->getEditViewDisplayValue($value);
 	}
-
+	
+	public function getUitypeInstance() {
+		if(!$this->uitype_instance) {
+			$this->uitype_instance = Vtiger_Base_UIType::getInstanceFromField($this);
+		}
+		return $this->uitype_instance;
+	}
+	
 	/**
 	 * Function to retieve types of file locations in Documents Edit
 	 * @return <array> - List of file location types

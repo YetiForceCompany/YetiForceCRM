@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 jQuery.Class("Vtiger_List_Js",{
@@ -1947,7 +1948,7 @@ jQuery.Class("Vtiger_List_Js",{
                 searchOperator = 'bw';
             }else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
                 || fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
-                fieldInfo.type == "picklist") {
+                fieldInfo.type == "picklist"|| fieldInfo.type == "tree") {
                 searchOperator = 'e';
             }
             searchInfo.push(fieldName);
