@@ -37,7 +37,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	public function getAllMobileKeys( $service , $userid = false) {
 		global $adb;
 		
-		$params = array( 'Active', $userid );
+		$params = array( 'Active' );
 		$sql = '';
 		if( $userid ){
 			$sql .= ' AND vtiger_users.id <> ?';
