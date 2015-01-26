@@ -1854,6 +1854,25 @@ class VT610_to_YT {
 		$log->debug("Exiting VT610_to_YT::changeOutgoingServerFile() method ...");
 	}
 	
+	public function updateForgotPassword($id){
+		global $log,$adb,$root_directory;
+		$log->debug("Entering VT610_to_YT::updateForgotPassword(".$id.") method ...");
+		if(!$root_directory)
+			$root_directory = getcwd();
+		$fileName = $root_directory.'/modules/Users/actions/ForgotPassword.php';
+		$completeData = file_get_contents($fileName);
+		$updatedFields = "'id'";
+		$patternString = "%s => %s,";
+		$pattern = '/' . $updatedFields . '[\s]+=([^,]+),/';
+		$replacement = sprintf($patternString, $updatedFields, ltrim($id, '0'));
+		$fileContent = preg_replace($pattern, $replacement, $completeData);
+		$filePointer = fopen($fileName, 'w');
+		fwrite($filePointer, $fileContent);
+		fclose($filePointer);
+		
+		$log->debug("Exiting VT610_to_YT::updateForgotPassword() method ...");
+	}
+	
 	public function addRecords(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::addRecords() method ...");
@@ -2047,6 +2066,7 @@ $records[] = array('Send Notification Email to Record Owner','Calendar','Task : 
 $records[] = array('Activity Reminder Notification','Calendar','Reminder:  #a#231#aEnd#','This is a reminder notification for the Activity:<br />Subject: #a#231#aEnd#<br />Date & Time: #a#233#aEnd# #a#234#aEnd#<br /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Contact Name: </span>#a#238#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Related To: </span>#a#237#aEnd#<br style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;" /><span style="color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;line-height:20.7999992370605px;">Description: </span>#a#247#aEnd#');
 $records[] = array('Activity Reminder Notification','Events','Reminder: #a#255#aEnd#','<span style="line-height:20.7999992370605px;">This is a reminder notification for the Activity:</span><br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Subject:</span>#a#255#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;">Date & Time: </span>#a#257#aEnd# #a#258#aEnd#<br style="line-height:20.7999992370605px;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Contact Name: </span>#a#277#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Related To: </span>#a#264#aEnd#<br style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;" /><span style="line-height:20.7999992370605px;color:rgb(43,43,43);font-family:\'Helvetica Neue\', Helvetica, Arial, sans-serif;">Description: </span>#a#275#aEnd#');
 $records[] = array('Test mail about the mail server configuration.','Users','Test mail about the mail server configuration.','<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>#a#478#aEnd# #a#479#aEnd#<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">, </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><b style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. </b><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail. </span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;" /><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>');
+$records[] = array('ForgotPassword','Users','Request: ForgotPassword','Dear user,<br /><br />\r\nYou recently requested a password reset for your YetiForce CRM.<br />\r\nTo create a new password, click on the link #s#LinkToForgotPassword#sEnd#.<br /><br />\r\nThis request was made on #s#CurrentDateTime#sEnd# and will expire in next 24 hours.<br /><br />\r\nRegards,<br />\r\nYetiForce CRM Support Team.');
 		foreach($records as $record){
 			try {
 				$instance = new $moduleName();
@@ -2058,6 +2078,8 @@ $records[] = array('Test mail about the mail server configuration.','Users','Tes
 				$save = $instance->save($moduleName);
 				if($record[0] == 'Test mail about the mail server configuration.')
 					self::changeOutgoingServerFile($instance->id);
+				if($record[0] == 'ForgotPassword')
+					self::updateForgotPassword($instance->id);
 			} catch (Exception $e) {
 				Install_InitSchema_Model::addMigrationLog('addRecords '.$e->getMessage(),'error');
 			}

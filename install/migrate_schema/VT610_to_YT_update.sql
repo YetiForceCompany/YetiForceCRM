@@ -35,6 +35,9 @@ ALTER TABLE `vtiger_contactaddress`
 	ADD COLUMN `localnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumbera` , 
 	ADD COLUMN `buildingnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `localnumbera` , 
 	ADD COLUMN `localnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumberb` ; 
+	
+ALTER TABLE `vtiger_field` 
+	ADD COLUMN `fieldparams` varchar(255) COLLATE utf8_general_ci NULL after `summaryfield` ;
 
 ALTER TABLE `vtiger_contactscf`
 	ADD CONSTRAINT `fk_1_vtiger_contactscf` 
