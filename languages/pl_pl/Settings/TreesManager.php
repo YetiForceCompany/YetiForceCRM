@@ -30,4 +30,5 @@ $jsLanguageStrings = array(
 	'JS_JSTREE_CUT' => 'Wytnij',
 	'JS_JSTREE_COPY' => 'Kopiuj',
 	'JS_JSTREE_PASTE' => 'Wklej',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
 );
