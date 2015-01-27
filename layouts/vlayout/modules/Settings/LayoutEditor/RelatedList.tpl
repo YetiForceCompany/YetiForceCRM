@@ -38,30 +38,34 @@
                 <div class="relatedListContainer">
                     <div class="row-fluid">
                         <div class="span2">
-                            <strong>
-                                {vtranslate('LBL_ARRANGE_RELATED_LIST', $QUALIFIED_MODULE)}
-                            </strong>
+                            <h5>{vtranslate('LBL_ARRANGE_RELATED_LIST', $QUALIFIED_MODULE)}</h5>
                         </div>
-                        <div class="span10 row-fluid">
-                            <span class="span5">
-                                <ul class="relatedModulesList" style="list-style: none;">
-                                    {foreach item=MODULE_MODEL from=$RELATED_MODULES}
-                                        {if $MODULE_MODEL->isActive()}
-                                            <li class="relatedModule module_{$MODULE_MODEL->getId()} border1px contentsBackground" style="width: 200px; padding: 5px;" data-relation-id="{$MODULE_MODEL->getId()}">
-                                                <a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
-                                                <span class="moduleLabel">{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}</span>
-                                                <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-                                            </li>
-                                        {/if}
-                                    {/foreach}
-                                </ul>
-                            </span>
-                            <span class="span7" style="padding: 5% 0;">
-                                <i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_RELATED_LIST_INFO', $QUALIFIED_MODULE)}.<br><br>
-                                <i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_REMOVE_INFO', $QUALIFIED_MODULE)}.<br><br>
-                                <i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_ADD_MODULE_INFO', $QUALIFIED_MODULE)}
-                            </span>
-                        </div>
+					</div>	
+					<div class="relatedModulesList">
+						{foreach item=MODULE_MODEL from=$RELATED_MODULES}
+							{if $MODULE_MODEL->isActive()}
+                                <div class="row-fluid relatedModuleHeader">
+                                    <div class="relatedModuleLabel span5 padding10 marginLeftZero">
+                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
+                                        <strong>{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}</strong>
+                                    </div>
+                                </div>
+								<div class="relatedModuleFieldsList row-fluid" style="padding:5px;min-height: 27px">
+							
+							
+								</div>
+								<div class="relatedModule module_{$MODULE_MODEL->getId()} border1px contentsBackground" data-relation-id="{$MODULE_MODEL->getId()}">
+									<a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
+									<span class="moduleLabel">{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}</span>
+									<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
+								</div>
+							{/if}
+						{/foreach}
+						<span class="span7" style="padding: 5% 0;">
+							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_RELATED_LIST_INFO', $QUALIFIED_MODULE)}.<br><br>
+							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_REMOVE_INFO', $QUALIFIED_MODULE)}.<br><br>
+							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_ADD_MODULE_INFO', $QUALIFIED_MODULE)}
+						</span>
                     </div>
                     <br>
                     <div class="row-fluid">
