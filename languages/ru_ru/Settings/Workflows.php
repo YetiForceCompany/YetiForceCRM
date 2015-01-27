@@ -120,10 +120,10 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Этап продаж - Подготовка расчетов',
 	'Sales stage - Preparing quote'	=> 'Этап продаж - Подготовка коммерческого предложения',
 	'Sales stage - Awaiting decision'	=> 'Этап продаж - Ожидание решения',
-	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
-	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
-	'LBL_ALL_TASKS' => 'All Tasks', 
-	'LBL_ACTIVE_TASKS' => 'Active Tasks',
+	'LBL_ACTIVATION_TASKS' => 'Активировать Задачу', 
+	'LBL_DEACTIVATION_TASKS' => 'Деактивировать Задачу', 
+	'LBL_ALL_TASKS' => 'Все Задачи', 
+	'LBL_ACTIVE_TASKS' => 'Активные Задачи',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить E-mail',
@@ -145,6 +145,6 @@ $jsLanguageStrings = array(
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Задача удалена', 
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Некоторые поля выбраны более одного раза',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Обработчик успешно сохранен', 
-	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
-	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
+	'LBL_STATUS_CONFIRMATION' => 'Вы уверены, что хотите изменить состояние всех Задач?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Изменение состояния Задач...',
 );
