@@ -1,13 +1,13 @@
 <?php
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 $languageStrings = array(
 	'ADD_CONDITIONS' => 'Фильтры',
 	'ADD_TASKS' => 'Задачи',
@@ -120,6 +120,10 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Этап продаж - Подготовка расчетов',
 	'Sales stage - Preparing quote'	=> 'Этап продаж - Подготовка коммерческого предложения',
 	'Sales stage - Awaiting decision'	=> 'Этап продаж - Ожидание решения',
+	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
+	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
+	'LBL_ALL_TASKS' => 'All Tasks', 
+	'LBL_ACTIVE_TASKS' => 'Active Tasks',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить E-mail',
@@ -141,4 +145,6 @@ $jsLanguageStrings = array(
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Задача удалена', 
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Некоторые поля выбраны более одного раза',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Обработчик успешно сохранен', 
+	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
 );
