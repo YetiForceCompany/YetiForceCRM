@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_LayoutEditor_Js', {
 
@@ -13,10 +14,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 	reactiveFieldsList : [],
 
-	updatedRelatedList : {'updated' : [], 'deleted' : []},
-
-	removeModulesArray : false,
-
 	inActiveFieldsList : false,
 
 	updatedBlockFieldsList : [],
@@ -24,16 +21,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	updatedBlocksList : [],
 
 	blockNamesList : [],
-
-	/**
-	 * Function to set the removed modules array used in related list
-	 */
-	setRemovedModulesList : function() {
-		var thisInstance = this;
-		var relatedList = jQuery('#relatedTabOrder');
-		var container = relatedList.find('.relatedTabModulesList');
-		thisInstance.removeModulesArray = JSON.parse(container.find('.RemovedModulesListArray').val());
-	},
 
 	/**
 	 * Function to set the inactive fields list used to show the inactive fields
@@ -120,157 +107,186 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	},
 
 	/**
-	 * Function to regiser the event to make the related modules sortable
-	 */
-	makeRelatedModuleSortable : function() {
-		var thisInstance = this;
-		var relatedModulesContainer = jQuery('#relatedTabOrder');
-		var modulesList = relatedModulesContainer.find('li.relatedModule');
-		relatedModulesContainer.sortable({
-			'containment' : relatedModulesContainer,
-			'items' : modulesList,
-			'revert' : true,
-			'tolerance':'pointer',
-			'cursor' : 'move',
-			'update' : function(e, ui) {
-				thisInstance.showSaveButton();
-			}
-		});
-	},
-
-	/**
-	 * Function which will enable the save button in realted tabs list
-	 */
-	showSaveButton : function() {
-		var relatedList = jQuery('#relatedTabOrder');
-		var saveButton = relatedList.find('.saveRelatedList');
-		if(saveButton.attr('disabled') ==  'disabled') {
-			saveButton.removeAttr('disabled');
-		}
-	},
-
-	/**
-	 * Function which will disable the save button in related tabs list
-	 */
-	disableSaveButton : function() {
-		var relatedList = jQuery('#relatedTabOrder');
-		var saveButton = relatedList.find('.saveRelatedList');
-		saveButton.attr('disabled', 'disabled');
-	},
-
-	/**
 	 * Function to register all the relatedList Events
 	 */
 	registerRelatedListEvents : function() {
 		var thisInstance = this;
 		var relatedList = jQuery('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
-		var allModulesListArray = JSON.parse(container.find('.ModulesListArray').val());
 		var ulEle = container.find('ul.relatedModulesList');
-
-		var selectEle = container.find('[name="addToList"]');
-		app.showSelect2ElementView(selectEle, {maximumSelectionSize : 1, closeOnSelect : true, dropdownCss : {'z-index' : 0}});
-		selectEle.on('change', function() {
-			var selectedVal = selectEle.val();
-			var moduleLabel = allModulesListArray[selectedVal];
-			//remove the element if its already exists
-			ulEle.find('.module_'+selectedVal[0]).remove();
-
-			//append li element for the selected module
-			var liEle = container.find('.moduleCopy').clone(true, true);
-			liEle.data('relationId', selectedVal[0]).find('.moduleLabel').text(moduleLabel);
-			ulEle.append(liEle.removeClass('hide moduleCopy').addClass('relatedModule module_'+selectedVal[0]));
-			thisInstance.makeRelatedModuleSortable();
-
-			//remove that selected module from the select element
-			selectEle.select2('data',[]);
-			selectEle.find('option[value="'+selectedVal[0]+'"]').remove();
-
-			thisInstance.showSaveButton();
-		})
-
-		//register the event to click on close the related module
-		container.find('.close').one('click', function(e) {
+		var select2Element = app.showSelect2ElementView(container.find('.select2_container'));
+		thisInstance.makeColumnListSortable(container);
+		
+		relatedList.on('click', '.inActiveRelationModule', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
-			thisInstance.showSaveButton();
-			var liEle = currentTarget.closest('li.relatedModule');
-			var relationId = liEle.data('relationId');
-			var moduleLabel = liEle.find('.moduleLabel').text();
-			liEle.fadeOut('slow').addClass('deleted');
-			selectEle.append('<option value="'+relationId+'">'+moduleLabel+'</option>');
+			var relatedModule = currentTarget.closest('.relatedModule');
+			relatedModule.find('.activeRelationModule').show();
+			currentTarget.hide();
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),0);
 		})
-
-		//register click event for save related  list button
-		relatedList.on('click', '.saveRelatedList', function(e) {
+		relatedList.on('click', '.activeRelationModule', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
-			if(currentTarget.attr('disabled') != 'disabled') {
-				thisInstance.disableSaveButton();
-				thisInstance.updatedRelatedList['deleted'] = [];
-				for(var key in thisInstance.removeModulesArray) {
-					thisInstance.updatedRelatedList['deleted'].push(thisInstance.removeModulesArray[key]);
-				}
-				thisInstance.saveRelatedListInfo();
-			}
+			var relatedModule = currentTarget.closest('.relatedModule');
+			relatedModule.find('.inActiveRelationModule').show();
+			currentTarget.hide();
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),1);
+		})
+		var relatedColumnsList = container.find('.relatedColumnsList');
+		relatedColumnsList.on('change', function(e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var relatedModule = currentTarget.closest('.relatedModule');
+			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
 		})
 	},
 
+	getSelectedFields : function(target) {
+		var selectedFields = [];
+		target.select2('data').map(function (obj) { 
+			selectedFields.push(obj.id);
+		});
+		return selectedFields;
+	},
+	
 	/**
-	 * Function to save the updated information in related list
+	 * Function to regiser the event to make the related modules sortable
 	 */
-	saveRelatedListInfo : function() {
+	makeRelatedModuleSortable : function() {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
+		var relatedModulesContainer = jQuery('.relatedModulesList');
+		var modulesList = relatedModulesContainer.find('.relatedModule');
+		relatedModulesContainer.sortable({
+			'containment' : relatedModulesContainer,
+			'items' : modulesList,
+			'handle' : ".mainBlockTableLabel",
+			'revert' : true,
+			'tolerance':'pointer',
+			'cursor' : 'move',
+			'update' : function(e, ui) {
+				thisInstance.updateSequenceRelatedModule();
+			}
+		});
+	},
+	
+	changeStatusRelatedModule : function(relationId,status) {
+		var thisInstance = this;
+
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'Relation';
+		params['mode'] = 'changeStatusRelation';
+		params['relationId'] = relationId;
+		params['status'] = status;
+
+		AppConnector.request(params).then(
+			function(data) {
+				var params = {};
+				if(status == 1){
+					params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
+				}else{
+					params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');
+				}
+				Settings_Vtiger_Index_Js.showMessage(params);
+			},
+			function(error) {
+				var params = {};
+				params['text'] = error;
+				Settings_Vtiger_Index_Js.showMessage(params);
+			}
+		);
+	},
+	
+	updateSequenceRelatedModule : function() {
+		var thisInstance = this;
+		var modules = [];
+		var relatedModulesContainer = jQuery('.relatedModulesList');
+		var params = {};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position' : 'html',
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
-
-		var params = {};
+		relatedModulesContainer.find('.relatedModule').each(function(index,domElement) {
+			var relationId = jQuery(domElement).data('relationId');
+			modules.push({relationId: relationId, index: index});
+		});
+		
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'Relation';
-		params['related_info'] = thisInstance.getUpdatedModulesInfo();
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
+		params['mode'] = 'updateSequenceRelatedModule';
+		params['modules'] = modules;
 
 		AppConnector.request(params).then(
 			function(data) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 				var params = {};
-				params['text'] = app.vtranslate('JS_RELATED_INFO_SAVED');
+				params['text'] = app.vtranslate('JS_UPDATE_SEQUENCE');
 				Settings_Vtiger_Index_Js.showMessage(params);
-				aDeferred.resolve(data);
 			},
 			function(error) {
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-				aDeferred.reject(error);
+				var params = {};
+				params['text'] = error;
+				Settings_Vtiger_Index_Js.showMessage(params);
 			}
 		);
-		return aDeferred.promise();
 	},
-
-	/**
-	 * Function to get the updates happened with the related modules list
-	 */
-	getUpdatedModulesInfo : function() {
+	
+	updateSelectedFields : function(target) {
 		var thisInstance = this;
-		var relatedList = jQuery('#relatedTabOrder');
-		var removedModulesList = relatedList.find('li.relatedModule').filter('.deleted');
-		var updatedModulesList = relatedList.find('li.relatedModule').not('.deleted');
-		thisInstance.updatedRelatedList['updated'] = [];
+		var selectedFields = thisInstance.getSelectedFields(target);
+		var params = {};
+		var relatedModule = target.closest('.relatedModule');
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'position' : 'html',
+			'blockInfo' : {
+				'enabled' : true
+			}
+		});
+		
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'Relation';
+		params['mode'] = 'updateSelectedFields';
+		params['relationId'] = relatedModule.data('relation-id');
+		params['fields'] = selectedFields;
 
-		//update deleted related modules list
-		removedModulesList.each(function(index,domElement) {
-			var relationId = jQuery(domElement).data('relationId');
-			thisInstance.updatedRelatedList['deleted'].push(relationId);
+		AppConnector.request(params).then(
+			function(data) {
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				var params = {};
+				params['text'] = app.vtranslate('JS_UPDATED_FIELD_LIST_MODULE_RELATED');
+				Settings_Vtiger_Index_Js.showMessage(params);
+			},
+			function(error) {
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				var params = {};
+				params['text'] = error;
+				Settings_Vtiger_Index_Js.showMessage(params);
+			}
+		);
+	},
+	
+	/**
+	 * Function to regiser the event to make the columns list sortable
+	 */
+	makeColumnListSortable : function(container) {
+		var thisInstance = this;
+		//TODO : peform the selection operation in context this might break if you have multi select element in advance filter
+		//The sorting is only available when Select2 is attached to a hidden input field.
+		var chozenChoiceElement = container.find('ul.select2-choices');
+		chozenChoiceElement.each(function(index,element){
+			var chosenOption = jQuery(element);
+			chosenOption.sortable({
+                'containment': chosenOption,
+                update: function(e, ui) {
+	    			var relatedModule = chosenOption.closest('.relatedModule');
+	    			var selectedFields = thisInstance.updateSelectedFields(container.find('.relatedColumnsList'));
+                }
+            });
 		});
-		//update the existing related modules list
-		updatedModulesList.each(function(index,domElement){
-			var relationId = jQuery(domElement).data('relationId');
-			thisInstance.updatedRelatedList['updated'].push(relationId);
-		});
-		return thisInstance.updatedRelatedList;
 	},
 
 	/**
@@ -1378,7 +1394,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				if(jQuery(data).find('.relatedListContainer').length > 0) {
 					thisInstance.makeRelatedModuleSortable();
 					thisInstance.registerRelatedListEvents();
-					thisInstance.setRemovedModulesList();
 				}
 			},
 			function(error) {
@@ -1652,23 +1667,21 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	 */
 	registerEvents : function() {
 		var thisInstance = this;
-
+	
 		thisInstance.registerBlockEvents();
 		thisInstance.registerFieldEvents();
 		thisInstance.setInactiveFieldsList();
 		thisInstance.registerAddCustomBlockEvent();
 		thisInstance.registerFieldSequenceSaveClick();
-
+	
 		thisInstance.relatedModulesTabClickEvent();
 		thisInstance.registerModulesChangeEvent();
 		thisInstance.registerRelModulesChangeEvent();
-                
-                
-            if(1 === jQuery('#relatedTabOrder').length){    
-                thisInstance.registerRelatedListEvents();
-                thisInstance.makeRelatedModuleSortable();
-            }
-                //thisInstance.setRemovedModulesList();
+		
+	    if(1 === jQuery('#relatedTabOrder').length){    
+	    	thisInstance.registerRelatedListEvents();
+			thisInstance.makeRelatedModuleSortable();
+	    }
 	}
 
 });
@@ -1692,6 +1705,7 @@ Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_
 		if(response != true){
 			return rangeInstance.getError();
 		}
+		
 	}
 	
 },{

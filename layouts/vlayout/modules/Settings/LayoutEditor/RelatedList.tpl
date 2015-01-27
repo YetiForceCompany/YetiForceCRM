@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -35,79 +36,61 @@
                     </div>
                 </div>
             {else}
-                <div class="relatedListContainer">
-                    <div class="row-fluid">
-                        <div class="span2">
-                            <h5>{vtranslate('LBL_ARRANGE_RELATED_LIST', $QUALIFIED_MODULE)}</h5>
-                        </div>
-					</div>	
+                <div class="relatedListContainer">	
 					<div class="relatedModulesList">
 						{foreach item=MODULE_MODEL from=$RELATED_MODULES}
+							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
+							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
+							{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
+							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
 							{if $MODULE_MODEL->isActive()}
-                                <div class="row-fluid relatedModuleHeader">
-                                    <div class="relatedModuleLabel span5 padding10 marginLeftZero">
-                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
-                                        <strong>{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}</strong>
-                                    </div>
-                                </div>
-								<div class="relatedModuleFieldsList row-fluid" style="padding:5px;min-height: 27px">
-							
-							
-								</div>
-								<div class="relatedModule module_{$MODULE_MODEL->getId()} border1px contentsBackground" data-relation-id="{$MODULE_MODEL->getId()}">
-									<a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
-									<span class="moduleLabel">{vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}</span>
-									<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-								</div>
+								{assign var=STATUS value='1'}
+							{else}
+								{assign var=STATUS value='0'}
 							{/if}
-						{/foreach}
-						<span class="span7" style="padding: 5% 0;">
-							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_RELATED_LIST_INFO', $QUALIFIED_MODULE)}.<br><br>
-							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_REMOVE_INFO', $QUALIFIED_MODULE)}.<br><br>
-							<i class="icon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_ADD_MODULE_INFO', $QUALIFIED_MODULE)}
-						</span>
-                    </div>
-                    <br>
-                    <div class="row-fluid">
-                        <div class="span2">
-                            <strong>
-                                {vtranslate('LBL_SELECT_MODULE_TO_ADD', $QUALIFIED_MODULE)}
-                            </strong>
-                        </div>
-                        <div class="span4">
-                            {assign var=ModulesList value=[]}
-                            {assign var=removedModuleIds value=array()}
-                            <ul style="list-style: none; width:213px;" class="displayInlineBlock">
-                                <li>
-                                    <div class="row-fluid"><select class="select2" multiple name="addToList" placeholder="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}">
-                                            {foreach item=MODULE_MODEL from=$RELATED_MODULES}
-                                                {$ModulesList[$MODULE_MODEL->getId()] = vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}
-                                                {if !$MODULE_MODEL->isActive()}
-                                                    {array_push($removedModuleIds, $MODULE_MODEL->getId())}
-                                                    <option value="{$MODULE_MODEL->getId()}">
-                                                        {vtranslate($MODULE_MODEL->get('label'), $MODULE_MODEL->getRelationModuleName())}
-                                                    </option>
-                                                {/if}
-                                            {/foreach}
-                                        </select>
+							{assign var=SELECTED_FIELDS value=$MODULE_MODEL->getRelationFields(true)}
+							<div class="relatedModule mainBlockTable marginBottom10px border1px" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}" style="border-radius: 4px 4px 0px 0px;background: white;">
+                                <div class="row-fluid mainBlockTableHeader">
+                                    <div class="relatedModuleLabel mainBlockTableLabel padding10 span6 marginLeftZero">
+                                        <a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
+                                        <strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
                                     </div>
-                                </li>
-                            </ul>
-                            <input type="hidden" class="ModulesListArray" value='{ZEND_JSON::encode($ModulesList)}' />
-                            <input type="hidden" class="RemovedModulesListArray" value='{ZEND_JSON::encode($removedModuleIds)}' />
-                        </div>
-                        <div class="span6">
-                            <button class="btn btn-success saveRelatedList" type="button" disabled="disabled"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-                            <br>
-                        </div>
+			                        <div class="btn-toolbar pull-right">
+			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><i class="icon-ok icon-white"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><i class="icon-remove icon-white"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+										<!-- <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button> -->
+			                        </div>
+                                </div>
+								<div class="relatedModuleFieldsList mainBlockTableContent">
+									<div class="row-fluid">
+										<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
+				                        	<optgroup label=''>
+												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
+													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
+													{if $FIELD_INSTANCE}
+														<option value="{$FIELD_INSTANCE->getId()}" selected>
+															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+												  		</option>
+											  		{/if}
+												{/foreach}
+											</optgroup>
+					                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+												<optgroup label='{vtranslate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
+													{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+														{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
+															<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
+																{vtranslate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+													  		</option>
+												  		{/if}
+													{/foreach}
+												</optgroup>
+						                    {/foreach}
+                     					</select>
+                    				</div>
+								</div>
+							</div>
+						{/foreach}
                     </div>
-                    <li class="moduleCopy hide border1px contentsBackground" style="width: 200px; padding: 5px;">
-                        <a>
-                            <img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
-                        </a>&nbsp;&nbsp;
-                        <span class="moduleLabel"></span>
-                        <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-                    </li>
                 </div>
             {/if}
         </div>
