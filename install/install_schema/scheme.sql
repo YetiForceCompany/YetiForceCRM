@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
+SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
@@ -5938,6 +5938,17 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_relatedlists_fields` */
+
+DROP TABLE IF EXISTS `vtiger_relatedlists_fields`;
+
+CREATE TABLE `vtiger_relatedlists_fields` (
+  `relation_id` int(19) DEFAULT NULL,
+  `fieldid` int(19) DEFAULT NULL,
+  `sequence` int(10) DEFAULT NULL,
+  KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_rb` */
