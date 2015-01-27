@@ -117,6 +117,10 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
+	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
+	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
+	'LBL_ALL_TASKS' => 'All Tasks', 
+	'LBL_ACTIVE_TASKS' => 'Active Tasks', 
 	
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
@@ -144,4 +148,6 @@ $jsLanguageStrings = array(
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status geändert Erfolgreich',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Aufgabe erfolgreich gelöscht',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow erfolgreich gespeichert',
+	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
 );

@@ -118,6 +118,10 @@ $languageStrings = array(
 	'LBL_SELECTED_DATES' => 'Wybrane daty:',
 	'LBL_EXCEEDING_MAXIMUM_LIMIT' => 'Maksymalny limit przekroczony', 
 	'LBL_NEXT_TRIGGER_TIME' => 'Następny czas uruchomienia', 
+	'LBL_ACTIVATION_TASKS' => 'Aktywuj zadania', 
+	'LBL_DEACTIVATION_TASKS' => 'Dezaktywuj zadnia', 
+	'LBL_ALL_TASKS' => 'Liczba zadań', 
+	'LBL_ACTIVE_TASKS' => 'Aktywnych zadań', 
 	
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
@@ -145,4 +149,6 @@ $jsLanguageStrings = array(
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status zmieniono poprawnie',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Zadanie usunięto poprawnie',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Obieg informacji zapisano poprawnie',
+	'LBL_STATUS_CONFIRMATION' => 'Czy na pewno chcesz zmienić statusy wszystkich zadań?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Zmiana statusu zadań...',
 );

@@ -15,7 +15,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
 
 	var $baseTable = 'com_vtiger_workflows';
 	var $baseIndex = 'workflow_id';
-	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition');
+	var $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
 	var $name = 'Workflows';
 
 	static $metaVariables = array(
@@ -91,8 +91,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model {
 		if(!$this->listFieldModels) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
+			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
 			foreach($fields as $fieldName => $fieldLabel) {
-				if($fieldName == 'module_name' || $fieldName == 'execution_condition') {
+				if(in_array($fieldName, $fieldsNoSort)) {
 					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort'=>false));
 				} else {
 					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
