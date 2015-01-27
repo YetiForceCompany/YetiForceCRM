@@ -14,6 +14,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 		parent::__construct();
 		$this->exposeMethod('Delete');
 		$this->exposeMethod('ChangeStatus');
+		$this->exposeMethod('ChangeStatusAllTasks');
 		$this->exposeMethod('Save');
 	}
 
@@ -48,6 +49,27 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
 			$response->setResult(array('ok'));
+			$response->emit();
+		}
+	}
+	
+	public function ChangeStatusAllTasks(Vtiger_Request $request) {
+		$record = $request->get('record');
+		$status = $request->get('status');
+		if(!empty($record)) {
+			$workflowModel = Settings_Workflows_Record_Model::getInstance($record);
+			$taskList = $workflowModel->getTasks();
+			foreach($taskList as $task){
+				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($task->getId());
+				$taskObject = $taskRecordModel->getTaskObject();
+				if($status == 'true')
+					$taskObject->active = true;
+				else
+					$taskObject->active = false;
+				$taskRecordModel->save();
+			}
+			$response = new Vtiger_Response();
+			$response->setResult(array('success'=>true,'count'=>count($taskList)));
 			$response->emit();
 		}
 	}

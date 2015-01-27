@@ -36,7 +36,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 //		}
 		return parent::get($key);
 	}
-
+	
 	public function getEditViewUrl() {
 		return 'index.php?module=Workflows&parent=Settings&view=Edit&record='.$this->getId();
 	}
@@ -134,6 +134,20 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 		$recordLinks = array(
 			array(
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_ACTIVATION_TASKS',
+				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().',true);',
+				'linkicon' => 'icon-ok',
+				'class' => 'activeTasks'
+			),
+			array(
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DEACTIVATION_TASKS',
+				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().', false);',
+				'linkicon' => 'icon-remove',
+				'class' => 'deactiveTasks'
+			),
+			array(
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'icon-pencil'
@@ -212,6 +226,23 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
         }
         return count($examinedIdList);
     }
+	
+	public static function getActiveCountFromRecord($taskList = array()) {
+
+		$examinedIdList = array();
+		if(!is_array($taskList))
+			$taskList = array();
+		foreach($taskList as $taskDetails) {
+			$workFlowId = $taskDetails->getId();
+			if(in_array($workFlowId,$examinedIdList)) {
+				continue;
+			}
+			if($taskDetails->isActive()) {
+				array_push($examinedIdList,$workFlowId);
+			}
+		}
+		return count($examinedIdList);
+	}
 
 	function isFilterSavedInNew() {
 		$wf = $this->getWorkflowObject();

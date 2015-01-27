@@ -31,6 +31,8 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 
 		$listFields = $module->listFields;
+		unset($listFields['all_tasks']);
+		unset($listFields['active_tasks']);
 		$listQuery = "SELECT ";
 		foreach ($listFields as $fieldName => $fieldLabel) {
 			$listQuery .= "$fieldName, ";
@@ -75,13 +77,18 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model {
 			}else{
 				$module_name = vtranslate($module_name, $module_name);
 			}
-			
+			$workflowModel = $record->getInstance($row['workflow_id']);
+			$taskList = $workflowModel->getTasks();
 			$row['module_name'] = $module_name;
 			$row['execution_condition'] = vtranslate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
 			$row['summary'] = vtranslate($row['summary'],'Settings:Workflows');
+			$row['all_tasks'] = count($taskList);
+			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
+			
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
 		}
+		
 		$pagingModel->calculatePageRange($listViewRecordModels);
 		
 		if($db->num_rows($listResult) > $pageLimit){

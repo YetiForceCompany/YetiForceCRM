@@ -131,6 +131,10 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'Escolha data:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Dia e Mês selecionados:',
 	'LBL_SELECTED_DATES' => 'Datas selecionadas:',
+	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
+	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
+	'LBL_ALL_TASKS' => 'All Tasks', 
+	'LBL_ACTIVE_TASKS' => 'Active Tasks',
 	
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
@@ -158,4 +162,6 @@ $jsLanguageStrings = array(
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status alterado com Sucesso',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Tarefa excluída com Sucesso',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow salvo com Sucesso',
+	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
 );
