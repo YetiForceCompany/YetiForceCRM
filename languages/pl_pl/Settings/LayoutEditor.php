@@ -22,7 +22,6 @@ $languageStrings = array(
 	'LBL_ADD_AFTER' => 'Dodaj po',
 	'LBL_ADD_CUSTOM_BLOCK' => 'Dodaj nowy blok',
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj nowe pole',
-	'LBL_ADD_MODULE_INFO' => 'Zaznacz moduł z listy usuniętych, żeby dodać go',
 	'LBL_ALWAYS_SHOW' => 'Zawsze widoczne',
 	'LBL_ARRANGE_RELATED_LIST' => 'Powiązane moduły',
 	'LBL_ARRANGE_RELATED_TABS' => 'Moduły powiązane',
@@ -48,13 +47,10 @@ $languageStrings = array(
 	'LBL_PICKLIST_VALUES' => 'Wartości słownika',
 	'LBL_QUICK_CREATE' => 'Szybkie tworzenie',
 	'LBL_REACTIVATE' => 'Reaktywuj',
-	'LBL_RELATED_LIST_INFO' => 'Chwyć i przesuń moduł, żeby zmienić kolejność',
-	'LBL_REMOVE_INFO' => 'Wciśnij przycisk usuń w celu usunięcia modułu z listy',
 	'LBL_ROLE_BASED_PICKLIST' => 'Lista wyboru w oparciu o role',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Zapisz kolejność pól',
 	'LBL_SELECT_FIELD_TYPE' => 'Wybierz typ pola',
 	'LBL_SELECT_MODULE' => 'Zaznacz moduł..',
-	'LBL_SELECT_MODULE_TO_ADD' => 'Zaznacz moduły w celu dodania',
 	'LBL_SUMMARY_FIELD' => 'Widoczne na podsumowaniu',
 	'LBL_WRONG_FIELD_TYPE' => 'Zły typ pola',
 	'MultiSelectCombo'=>'Pole słownikowe (wielokrotnego wyboru)',
@@ -67,7 +63,9 @@ $languageStrings = array(
 	'Time'=>'Pole czasu',
 	'URL' => 'Adres WWW',
     'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edytor modułów powiązanych',
-	
+	'LBL_VISIBLE' => 'Widoczny',
+	'LBL_HIDDEN' => 'Ukryty',
+
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Wybierz moduły',
 	'LBL_FIELD_NAME' => 'Nazwa systemowa',
@@ -103,4 +101,8 @@ $jsLanguageStrings = array(
 	'JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE' => 'Zapisz zmiany, aby zaktualizować kolejność pól',
 	'JS_SELECTED_FIELDS_REACTIVATED' => 'Reaktywowano wybrane pola',
 	'JS_SPECIAL_CHARACTERS' => 'Znaków specjalnych takich jak',
+	'JS_SAVED_CHANGE_STATUS_1' => 'Włączono moduł powiązany',
+	'JS_SAVED_CHANGE_STATUS_0' => 'Wyłączono moduł powiązany',
+	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
+	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
 );

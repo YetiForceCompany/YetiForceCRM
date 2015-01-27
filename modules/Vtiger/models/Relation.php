@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 class Vtiger_Relation_Model extends Vtiger_Base_Model{
 
 	protected $parentModule = false;
@@ -271,6 +271,49 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
         $result = $db->pquery($query, array($sourceModuleTabId,$relation_ids));
     }
 	
+    public function updateRelationPresence($relationId, $status) {
+    	$adb = PearDatabase::getInstance();
+    	$presence = 0;
+    	if($status == 0)
+    		$presence = 1;
+    	$query = 'UPDATE vtiger_relatedlists SET `presence` = ? WHERE `relation_id` = ?;';
+    	$result = $adb->pquery($query, array($presence,$relationId));
+    }
+    
+    public function updateRelationSequence($modules) {
+    	$adb = PearDatabase::getInstance();
+    	foreach($modules as $module){
+    		$sequence = (int)$module['index'] + 1;
+	    	$query = 'UPDATE vtiger_relatedlists SET `sequence` = ? WHERE `relation_id` = ?;';
+	    	$result = $adb->pquery($query, array($sequence,$module['relationId']));
+    	}
+    }
+    
+    public function updateModuleRelatedFields($relationId,$fields) {
+    	$adb = PearDatabase::getInstance();
+    	$query = 'DELETE FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
+    	$adb->pquery($query, array($relationId));
+    	foreach($fields as $key => $field){
+    		$query = 'INSERT INTO `vtiger_relatedlists_fields` (`relation_id`, `fieldid`, `sequence`) VALUES (?, ?, ?);';
+    		$result = $adb->pquery($query, array($relationId,$field,$key));
+    	}
+    }
+    
+    public function getRelationFields($onlyFields = false) {
+    	$adb = PearDatabase::getInstance();
+    	$relationId = $this->getId();
+    	$query = 'SELECT * FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
+    	$result = $adb->pquery($query, array($relationId));
+    	if($onlyFields){
+    		$fields = array();
+    		for($i = 0; $i < $adb->num_rows($result); $i++){
+    			$fields[] = $adb->query_result_raw($result, $i, 'fieldid');
+    		}
+    		return $fields;
+    	}
+    	return $result->GetArray();
+    }
+    
 	public function isActive() {
 		return $this->get('presence') == 0 ? true : false;
 	}

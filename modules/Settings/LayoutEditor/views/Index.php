@@ -1,5 +1,4 @@
 <?php
-
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -7,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
-
 class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 
 	function __construct() {
@@ -71,21 +70,20 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View {
 	public function showRelatedListLayout(Vtiger_Request $request) {
 		$sourceModule = $request->get('sourceModule');
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
-
+	
 		if(empty($sourceModule)) {
 			//To get the first element
 			$moduleName = reset($supportedModulesList);
 			$sourceModule = Vtiger_Module_Model::getInstance($moduleName)->getName();
 		}
-                                
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
 		$relatedModuleModels = $moduleModel->getRelations();
-
+	
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-                $viewer->assign('SUPPORTED_MODULES',$supportedModulesList);
-                $viewer->assign('RELATED_MODULES',$relatedModuleModels);
+		$viewer->assign('SUPPORTED_MODULES',$supportedModulesList);
+		$viewer->assign('RELATED_MODULES',$relatedModuleModels);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('RelatedList.tpl',$qualifiedModule);
