@@ -105,4 +105,5 @@ $jsLanguageStrings = array(
 	'JS_SAVED_CHANGE_STATUS_0' => 'Wyłączono moduł powiązany',
 	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
 );
