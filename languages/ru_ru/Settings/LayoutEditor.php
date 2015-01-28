@@ -75,8 +75,8 @@ $languageStrings = array(
 	'LBL_GENERATED_TYPE' => 'Основное поле',
 	'LBL_FIELD_TYPE0' => 'Системное (Например: vtiger_account)',
 	'LBL_FIELD_TYPE1' => 'Пользовательское (Например: vtiger_accountcf)',
-	'LBL_TREE_TEMPLATE' => 'Tree',
-	'Tree' => 'Field of trees',
+	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
+	'Tree' => 'Каталог',
 );
 
 $jsLanguageStrings = array(

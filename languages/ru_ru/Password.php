@@ -20,7 +20,7 @@ $languageStrings = array(
 	'Lowercase letters a to z'	=>	'Строчные буквы от А до Z',
 	'Password should contain numbers'	=>	'Пароль должен содержать цифры',
 	'Password should contain special characters'	=>	'Пароль должен содержать специальные символы',
-	'LBL_ERROR'	=>	'Ошибка сохранения файла',
-	'LBL_SAVE_OK'	=>	'Данные успешно сохранены',
+	'LBL_ERROR'	=>	'Ошибка сохранения изменений',
+	'LBL_SAVE_OK'	=>	'Изменения успешно сохранены',
 	'characters'	=>	'Символы',
 );

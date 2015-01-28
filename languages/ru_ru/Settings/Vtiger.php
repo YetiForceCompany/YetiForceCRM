@@ -10,6 +10,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'Signed off'	=>	'Вышел',
+	'Failed login'	=>	'Ошибка',
+	'Signed in'	=>	'Вошел',
+	'Russian'	=>	'Русский',
 	'Vtiger'	=>	'Система',
 	'address' => 'Адрес',
 	'Allows you to Configure Cron Task' => 'Позволяет настроить задачи планировщика',
@@ -86,8 +90,8 @@ $languageStrings = array(
 	'LBL_LIST_WORKFLOWS_DESCRIPTION' => 'Создавайте и редактируйте обработчики системы',
 	'LBL_LIST_WORKFLOWS' => 'Обработчики',
 	'LBL_LOGGED_OUT_TIME' => 'Время выхода', 
-	'LBL_LOGIN_HISTORY_DESCRIPTION' => 'Отобразить Журнал регистрации пользователей в системе', //Duplicated key-value pair
-	'LBL_LOGIN_HISTORY_DETAILS' => 'Журнал регистрации в системе', //Duplicated key-value pair
+	'LBL_LOGIN_HISTORY_DESCRIPTION'	=>	'Журнал регистрирует события связанные со входом в систему',
+	'LBL_LOGIN_HISTORY_DETAILS'	=>	'Журнал регистрации',
 	'LBL_LOGIN_TIME' => 'Время входа',
 	'LBL_LOGO_RECOMMENDED_MESSAGE' => 'Рекомендуемый размер 170x60 пикселей( .jpeg , .jpg , .png , .gif , .pjpeg , .x-png ).',
 	'LBL_MAIL_MERGE_DESCRIPTION' => 'Управление шаблонами документов для объединения',
@@ -194,7 +198,7 @@ $languageStrings = array(
     'vatid'=>'VAT ID', 
 	'LBL_SECURITY_MANAGEMENT' => 'Безопасность',
 	'LBL_MAIL'	=>	'Настройка почты',
-	'LBL_PASSWORD_CONF' => 'Настройка паролей',
+	'LBL_PASSWORD_CONF'	=>	'Настройки пароля',
 	'LBL_PASSWORD_DESCRIPTION' => 'Модуль позволяет настраивать сложность пароля',
 	'LBL_LOGS_MANAGEMENT' => 'Журналы',
     'LBL_ARRANGE_RELATED_TABS' => 'Редактор связей',
@@ -224,7 +228,7 @@ $languageStrings = array(
 	'LBL_CREDITS_DESCRIPTION'	=> 'Благодарности',
 	'LBL_CUSTOMVIEW_DESCRIPTION'	=> 'Модуль позволяет редактировать системные и пользовательские фильтры.',
 	'LBL_SEARCH_SETUP_DESCRIPTION'	=> 'Этот модуль позволяет настраивать механизм поиска для текстовых полей. Механизмы работают независимо друг от друга – во время поиска вы можете получить много данных, результаты которых, являются ссылками на записи.',
-	'LBL_GLOBALPERMISSION_DESCRIPTION'	=> 'Здесь вы можете установить, какие профиля будут иметь доступ ко всем записям независимо от Ролей',
+	'LBL_GLOBALPERMISSION_DESCRIPTION'	=>	'Здесь вы можете установить, какие Профили будут иметь доступ ко всем записям, независимо от установленной Роли',
 	'LBL_LANGMANAGEMENT_DESCRIPTION'	=> 'Управление языками системы',
 	'LBL_DATAACCESS_DESCRIPTION'	=> '',
 	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION'	=> 'Модуль позволяет настраивать сложность пароля',
@@ -235,15 +239,15 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
 	'LBL_WIDGETS_MANAGEMENT' => 'Управление Виджетами',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => '',
-	'LBL_TREES_MANAGER' => 'Tree Manager',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
+	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
+	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',
 	'Sales Department'	=> 'Отдел продаж',
 	'Logistics Department'	=> 'Отдел снабжения',
 	'Project Management Department'	=> 'Менеджеры проектов',
-	'Help Desk Department'	=> 'Отдел поддержки',
+	'Help Desk Department'	=>	'Техническая поддержка',
 	'Human Resources Department'	=> 'Кадровый отдел',
 	"Secretary's Office"	=> "Секретариат",
 	"Organization"	=> 'Организация',
@@ -251,7 +255,7 @@ $languageStrings = array(
 	"Production Department"	=> 'Отдел продукции',
 	"Marketing Department"	=> 'Отдел маркетинга',
     
-	'OSSPassword Configuration'=>'Конфигурация пароля',
+	'OSSPassword Configuration'	=>	'Менеджер паролей',
 	'Document Control'	=>	'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
