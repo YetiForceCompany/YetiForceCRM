@@ -10,8 +10,9 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'OSSMail'	=>	'Личная почта',
-	'OSSMail_manual'	=>	'Личная почта',
+	'Roundcube config'	=>	'Настройка Roundcube',
+	'OSSMail'	=>	'Почта',
+	'OSSMail_manual'	=>	'Почта',
 	'Removed relationship'	=>	'Связь удалена',
 	'Add relationship'	=>	'Связь добавлена',
 	'Unread messages'	=>	'Непрочитанные сообщения',
@@ -64,7 +65,6 @@ $languageStrings = array(
 	'Mails List'	=>	'Последние письма',
 	'LBL_NOMAILSLIST'	=>	'Нет сообщений',
 );
-
 $jsLanguageStrings = array(
 	'Sale'	=>	'Продажа',
 	'Calendar'	=>	'Календарь',
@@ -149,7 +149,7 @@ $jsLanguageStrings = array(
 	'Related To Contacts'	=>	'Контакты',
 	'Related To Accounts'	=>	'Контрагенты',
 	'Related To ServiceContracts'	=>	'Сервисные контракты',
-	'Preview email in CRM'	=>	'Просмотр почты в CRM',
+	'Preview email in CRM'	=>	'Пред просмотр почты в системе',
 	'Reload action bar'	=>	'Перезагрузить',
 	'NoCrmRecord'	=>	'Сообщений не найдено. Проверьте, если действия разрешены.',
 	'NoFindEmailInRecord'	=>	'Запись не имеет адрес электронной почты',

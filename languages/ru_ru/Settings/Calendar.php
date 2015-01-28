@@ -12,8 +12,8 @@
 $languageStrings = array(
 	'Calendar'	=>	'Календарь',
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES'	=>	'Типы',
-	'LBL_ACTIVITY_TYPES_DESCRIPTION'	=>	'Управление типами календаря',
+	'LBL_ACTIVITY_TYPES'	=>	'Редактор типов Календаря',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION'	=>	'Управление и редактирование типов Календаря',
 	'LBL_ACTIVITY_NAME'	=>	'Название типа',
 	'LBL_MODULE'	=>	'Модуль',
 	'LBL_COLOR'	=>	'Цвет',
