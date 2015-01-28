@@ -41,8 +41,8 @@ $languageStrings = array(
 	'attentions'=>'Attentions',
 	'BLOCK_INFORMATION_TIME'=>'Zeitinformation',
 	'Total time [h]'=>'Gesamtzeit [h]',
-	'Potential'=>'Potenzial',
-	'Potential renewal'=>'Potenzielle Verlängerung',
+	'Potential'=>'Verkaufschance',
+	'Potential renewal'=>'Verkaufschance verlängern',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_ORDER_TIME'=>'Bestellzeit',
 );

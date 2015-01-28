@@ -21,7 +21,7 @@ $languageStrings = array(
 	//Field Labels
 	'Title' => 'Titel',
 	'Costs_no' => 'Nr',
-	'Potential' => 'Potential',
+	'Potential' => 'Verkaufschance',
 	'Parent ID' => 'übergeordnete Kosten',
 	'Project' => 'Projekt',
 	'HelpDesk' => 'HelpDesk',
@@ -42,10 +42,10 @@ $languageStrings = array(
 	'kol_count' => 'Konfiguration',
 	//settings
 	'SETTINGS' => 'Einstellungen',
-	'show_widgets_opportunities' => 'Zeige Gesamtkosten für Potentiale',
+	'show_widgets_opportunities' => 'Zeige Gesamtkosten für Verkaufschancen',
 	'show_widgets_helpdesk' => 'Zeige Gesamtkosten für HelpDesk',
 	'show_widgets_project' => 'Zeige Gesamtkosten für Projekte',
-	'restrict_opportunities' => 'Liste der Potentiale auf gewählte Organisationen einschränken.',
+	'restrict_opportunities' => 'Liste der Verkaufschancen auf gewählte Organisationen einschränken.',
 	'restrict_helpdesk' => 'Liste der Tickets auf gewählte Organisationen einschränken.',
 	'restrict_project' => 'Liste der Projekte auf gewählte Organisationen einschränken.',
 	'Alert_title' => 'Information',

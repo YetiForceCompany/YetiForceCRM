@@ -199,7 +199,7 @@ $languageStrings = array(
 	'LBL_CUSTOM_FIELD_MAPPING' => 'Benutzerdefinierte Feldzuordnung',
 	'LBL_CUSTOM_INFORMATION' => 'Kundenspezifische Informationen',
 	'LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST' => 'Filter existiert bereits',
-	'LBL_DASHBOARD' => 'Armaturenbrett',
+	'LBL_DASHBOARD' => 'Dashboard',
 	'LBL_DAY' => 'Tag',
 	'LBL_DAYS' => 'Tage', //Duplicated key-value pairs
 	'LBL_Dec' => 'Dez',
@@ -397,7 +397,7 @@ $languageStrings = array(
 	'LBL_PROFILE_PASSWORD' => 'Profil / Passwort',
 	'LBL_QTY' => 'Menge',
 	'LBL_QTY_IN_STOCK' => 'Bestand',
-	'LBL_QUICK_CREATE' => 'Schnell erstellen',
+	'LBL_QUICK_CREATE' => 'Schnellerfassung',
 	'LBL_READ_LICENSE' => 'Lizenz lesen',
 	'LBL_REASON_FOR_CHANGING_COMMENT' => 'Grund der Kommentaränderung',
 	'LBL_RECENTLY_MODIFIED' => 'Kürzlich geändert',
@@ -538,9 +538,9 @@ $languageStrings = array(
 	'Pipelined Amount' => 'Verkaufspipeline',
 	'Po Box' => 'Postfach',
 	'Postal Code' => 'Postleitzahl',
-	'Potential Name' => 'Verkaufsmöglichkeit Name',
-	'Potentials by Stage' => 'Verkaufsmöglichkeiten nach Phase',
-	'Potentials' => 'Verkaufsmöglichkeiten',
+	'Potential Name' => 'Verkaufschance',
+	'Potentials by Stage' => 'Verkaufschancen nach Phase',
+	'Potentials' => 'Verkaufschancen',
 	'POWEREDBY' => 'Powered by YetiForce (engine Vtiger)',
 	'Price' => 'Preis',
 	'PriceBooks' => 'Preislisten',
@@ -603,7 +603,7 @@ $languageStrings = array(
 	'Tax:' => 'Steuer:',
 	'Terms & Conditions' => 'Geschäftsbedingungen',
 	'Tickets by Status' => 'Tickets nach Status',
-	'Top Potentials' => 'Top Verkaufsmöglichkeiten',
+	'Top Potentials' => 'Top Verkaufschancen',
 	'Total Revenue' => 'Gesamtumsatz',
 	'Total' => 'Gesamtsumme',
 	'Trade Show' => 'Fachmesse',
@@ -781,11 +781,11 @@ $languageStrings = array(
 	'LBL_GENERATE_FROM_TEMPLATE'=>'Aus Vorlage generieren',
 	'Permission to perform the operation is denied'=>'Die Erlaubnis zum Ausführen des Vorgangs wird verweigert',
 	'LBL_NO_FOUND_VIEW' => 'Benutzerdefinierte Ansicht nicht gefunden',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufsmöglichkeit verbunden sind',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste von Datensätzen beschränkt sich auf die Produkte und Dienstleistungen, die mit der Verkaufschance verknüpft sind',
 	'LBL_UPDATES_HISTORY' => 'Updates',
-	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates history',
-	'LBL_TREES_MANAGER' => 'Tree Manager',
-	'LBL_SELECT_TREE_ITEM' => 'Select item:',
+	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Updates Historie',
+	'LBL_TREES_MANAGER' => 'Baum Manager',
+	'LBL_SELECT_TREE_ITEM' => 'Eintrag auswählen:',
 	'LBL_CONVERSION_RATE' => 'Umrechnungskurs',
 	
 	//breadcrumbs view name
@@ -797,8 +797,8 @@ $languageStrings = array(
 	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
 	
 	//Call popover
-	'LBL_BTN_CALL' => 'Call',
-	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
+	'LBL_BTN_CALL' => 'Anrufen',
+	'LBL_SELECT_USER_TO_CALL' => 'Auswählen, wen Sie anrufen möchten?',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',
@@ -953,6 +953,6 @@ $jsLanguageStrings = array(
 	'JS_CONTACT_NAME' => 'Kontakt Name',
 	'JS_PARENT_ID' => 'Zugehörig zu',
 	
-	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
-	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
+	'JS_MOBILE_PERFORM_CALL_OK' => 'Rufnummer wurde an Ihr Mobiltelefon übergeben',
+	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Fehler beim Versuch die Rufnummer zu übergeben',
 );
