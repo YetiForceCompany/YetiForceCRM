@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.1.41 RC';
+// migration to version '1.2.26 RC';
 class VT610_to_YT {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -79,6 +79,7 @@ class VT610_to_YT {
 		self::addClosedtimeField();
 		self::pobox();
 		self::updateRecords();
+		self::foldersToTree();
 		self::InactiveFields();
 		
 		$fieldsToDelete = array(
@@ -1628,6 +1629,37 @@ class VT610_to_YT {
 		$log->debug("Exiting VT610_to_YT::getFieldsId() method ...");
 		return $fieldsResult;
 	}
+	
+	public function foldersToTree(){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT::foldersToTree() method ...");
+		
+		$sql = 'INSERT INTO vtiger_trees_templates(name, module) VALUES (?,?)';
+		$params = array('System', getTabid('Documents'));
+		$adb->pquery($sql, $params);
+		$templateId = $adb->getLastInsertID();
+		
+		$sql = 'INSERT INTO vtiger_trees_templates_data(`templateid`, `name`, `tree`, `parenttrre`, `depth`, `label`) VALUES (?,?,?,?,?,?)';
+		$params = array($templateId, 'Default', 'T1', 'T1', 0, 'Default');
+		$adb->pquery($sql, $params);
+		
+		$result = $adb->query("SELECT * FROM `vtiger_attachmentsfolder` ORDER BY `sequence`;");
+		
+		$fieldsResult = array();
+		for($i=0;$i<$adb->num_rows($result);$i++){
+			$folderid = $adb->query_result($result, $i, 'folderid');
+			$name = $adb->query_result($result, $i, 'foldername');
+			if($folderid != 1){
+				$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label) VALUES (?,?,?,?,?,?)';
+				$params = array($templateId, $name, 'T'.$folderid, 'T'.$folderid, 0, $name);
+				$adb->pquery($sql, $params);
+			}
+			$query = "UPDATE `vtiger_notes` SET `folderid` = ? WHERE `folderid` = ? ; ";
+			$adb->pquery($query, array('T'.$folderid, $folderid));
+		}
+		$log->debug("Exiting VT610_to_YT::foldersToTree() method ...");
+	}
+	
 	public function updateRecords(){
 		global $log,$adb,$YetiForce_current_version;
 		$log->debug("Entering VT610_to_YT::updateRecords() method ...");
@@ -1658,6 +1690,7 @@ class VT610_to_YT {
 		$changes[] = array('where'=>array('columnname'=>array('product_id'), 'tablename'=>array('vtiger_troubletickets')), 'setColumn'=>array('displaytype','uitype'), 'setValue'=>array(10,10));
 		$changes[] = array('where'=>array('columnname'=>array('startdate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
 		$changes[] = array('where'=>array('columnname'=>array('targetenddate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
+		$changes[] = array('where'=>array('columnname'=>array('folderid'), 'tablename'=>array('vtiger_notes')), 'setColumn'=>array('uitype','defaultvalue','fieldparams'), 'setValue'=>array(302,'T1','1'));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -2588,7 +2621,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$columnList['Invoice'][] = array(21,5,'vtiger_crmentity:smownerid:assigned_user_id:Invoice_Assigned_To:V');
 		$columnList['Documents'][] = array(22,1,'vtiger_notes:title:notes_title:Notes_Title:V');
 		$columnList['Documents'][] = array(22,2,'vtiger_notes:filename:filename:Notes_File:V');
-		$columnList['Documents'][] = array(22,3,'vtiger_crmentity:modifiedtime:modifiedtime:Notes_Modified_Time:DT');
+		$columnList['Documents'][] = array(22,3,'vtiger_notes:folderid:folderid:Documents_Folder_Name:V');
 		$columnList['Documents'][] = array(22,4,'vtiger_crmentity:smownerid:assigned_user_id:Notes_Assigned_To:V');
 		$columnList['PriceBooks'][] = array(23,1,'vtiger_pricebook:bookname:bookname:PriceBooks_Price_Book_Name:V');
 		$columnList['PriceBooks'][] = array(23,2,'vtiger_pricebook:active:active:PriceBooks_Active:V');

@@ -892,6 +892,7 @@ ALTER TABLE `vtiger_leaddetails`
 	FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_notes` 
+	CHANGE `folderid` `folderid` varchar(255)  COLLATE utf8_general_ci NOT NULL after `notecontent` , 
 	ADD COLUMN `ossdc_status` varchar(255)  COLLATE utf8_general_ci NULL after `fileversion` ;
 	
 ALTER TABLE `vtiger_pbxmanager` 

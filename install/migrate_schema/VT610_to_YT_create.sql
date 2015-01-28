@@ -1102,7 +1102,7 @@ CREATE TABLE IF NOT EXISTS  `vtiger_module_dashboard_blocks`(
 	PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_callhistory`(
+CREATE TABLE IF NOT EXISTS `vtiger_callhistory`(
 	`callhistoryid` int(19) NOT NULL  , 
 	`callhistorytype` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`from_number` varchar(30) COLLATE utf8_general_ci NULL  , 
@@ -1126,9 +1126,35 @@ CREATE TABLE `vtiger_callhistory`(
 	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE `vtiger_callhistorycf`(
+CREATE TABLE IF NOT EXISTS `vtiger_callhistorycf`(
 	`callhistoryid` int(19) NOT NULL  , 
 	PRIMARY KEY (`callhistoryid`) , 
 	CONSTRAINT `vtiger_callhistorycf_ibfk_1` 
 	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+
+CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_fields` (
+  `relation_id` int(19) DEFAULT NULL,
+  `fieldid` int(19) DEFAULT NULL,
+  `sequence` int(10) DEFAULT NULL,
+  KEY `relation_id` (`relation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_trees_templates_data` (
+  `templateid` int(19) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tree` varchar(255) DEFAULT NULL,
+  `parenttrre` varchar(255) DEFAULT NULL,
+  `depth` int(10) DEFAULT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  KEY `id` (`templateid`),
+  KEY `parenttrre` (`parenttrre`,`templateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_trees_templates` (
+  `templateid` int(19) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `module` int(19) DEFAULT NULL,
+  PRIMARY KEY (`templateid`),
+  KEY `module` (`module`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
