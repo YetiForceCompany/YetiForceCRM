@@ -521,8 +521,8 @@ class ReportRun extends CRMEntity
 			if($selectedfields[1] == 'filelocationtype'){
 				$columnSQL = "case ".$selectedfields[0].".".$selectedfields[1]." when 'I' then 'Internal' when 'E' then 'External' else '-' end AS '".decode_html($selectedfields[2])."'";
 			} else if($selectedfields[1] == 'folderid'){
-				$columnSQL = "vtiger_attachmentsfolder.foldername AS '$selectedfields[2]'";
-				$this->queryPlanner->addTable("vtiger_attachmentsfolder");
+				$columnSQL = "`vtiger_trees_templates_data`.name AS '$selectedfields[2]'";
+				$this->queryPlanner->addTable("`vtiger_trees_templates_data`");
 			} elseif($selectedfields[1] == 'filestatus'){
 				$columnSQL = "case ".$selectedfields[0].".".$selectedfields[1]." when '1' then 'yes' when '0' then 'no' else '-' end AS '". decode_html($selectedfields[2]) ."'";
 			} elseif($selectedfields[1] == 'filesize'){
@@ -4533,10 +4533,10 @@ class ReportRun extends CRMEntity
 				} else {
 					$columnSql = implode('', $columnList);
 				}
-				if ($referenceModule == 'DocumentFolders' && $fieldInstance->getFieldName() == 'folderid') {
+				/*if ($referenceModule == 'DocumentFolders' && $fieldInstance->getFieldName() == 'folderid') {
 					$columnSql = 'vtiger_attachmentsfolder.foldername';
 					$this->queryPlanner->addTable("vtiger_attachmentsfolder");
-				}
+				}*/
 				if ($referenceModule == 'Currency' && $fieldInstance->getFieldName() == 'currency_id') {
 					$columnSql = "vtiger_currency_info$moduleName.currency_name";
 					$this->queryPlanner->addTable("vtiger_currency_info$moduleName");

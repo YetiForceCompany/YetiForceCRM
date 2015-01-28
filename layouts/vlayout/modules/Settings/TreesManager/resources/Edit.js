@@ -21,9 +21,8 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			if(newElement.val() == ''){
 				var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
 				newElement.validationEngine('showPrompt', message , 'error','bottomLeft',true);
-				return false;
+				return false;		
 			}
-			
 			thisInstance.jstreeLastID = thisInstance.jstreeLastID+1;
 			jstreeInstance.jstree("create",-1,false,{  
 				"data" : { 

@@ -161,7 +161,7 @@ function getListQuery($module, $where = '') {
 			break;
 		Case "Documents":
 			$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.modifiedtime,
-			vtiger_crmentity.smownerid,vtiger_attachmentsfolder.*,vtiger_notes.*
+			vtiger_crmentity.smownerid,`vtiger_trees_templates_data`.*,vtiger_notes.*
 			FROM vtiger_notes
 			INNER JOIN vtiger_crmentity
 				ON vtiger_crmentity.crmid = vtiger_notes.notesid
@@ -169,8 +169,8 @@ function getListQuery($module, $where = '') {
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_attachmentsfolder
-				ON vtiger_notes.folderid = vtiger_attachmentsfolder.folderid";
+			LEFT JOIN `vtiger_trees_templates_data`
+				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree";
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;

@@ -30,12 +30,6 @@ class Documents_ListView_Model extends Vtiger_ListView_Model {
 							'linklabel' => 'LBL_ADD_RECORD',
 							'linkurl' => $moduleModel->getCreateRecordUrl(),
 							'linkicon' => ''
-					),
-					array(
-							'linktype' => 'LISTVIEWBASIC',
-							'linklabel' => 'LBL_ADD_FOLDER',
-							'linkurl' => 'javascript:Documents_List_Js.triggerAddFolder("'.$moduleModel->getAddFolderUrl().'")',
-							'linkicon' => ''
 					)
 			);
 			foreach($basicLinks as $basicLink) {

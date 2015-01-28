@@ -421,9 +421,9 @@ Class ChartUtils {
 
 					if ($fieldname == 'currency_id' && in_array($module, $inventorymodules)) {
 						$tablename = 'vtiger_currency_info';
-					} elseif ($refenceModule == 'DocumentFolders' && $fieldname == 'folderid') {
+					/*} elseif ($refenceModule == 'DocumentFolders' && $fieldname == 'folderid') {
 						$tablename = 'vtiger_attachmentsfolder';
-						$colname = 'foldername';
+						$colname = 'foldername';*/
 					} else {
 						require_once "modules/$refenceModule/$refenceModule.php";
 						$focus = new $refenceModule();

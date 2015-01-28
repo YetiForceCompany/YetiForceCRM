@@ -879,13 +879,18 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 * @return <Array>
 	 */
 	function getDocumentFolders() {
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_attachmentsfolder', array());
-		$rows = $db->num_rows($result);
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery("SELECT `tree`,`name` FROM
+				`vtiger_trees_templates_data` 
+			INNER JOIN `vtiger_field` 
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
+			WHERE `vtiger_field`.`columnname` = ? 
+				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
+		$rows = $adb->num_rows($result);
 		$folders = array();
 		for($i=0; $i<$rows; $i++){
-			$folderId = $db->query_result($result, $i, 'folderid');
-			$folderName = $db->query_result($result, $i, 'foldername');
+			$folderId = $adb->query_result($result, $i, 'tree');
+			$folderName = $adb->query_result($result, $i, 'name');
 			$folders[$folderId] = $folderName;
 		}
 		return $folders;

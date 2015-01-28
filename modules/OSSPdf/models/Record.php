@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class OSSPdf_Record_Model extends Vtiger_Record_Model {
-    // funkcje
+    // function
 	function getFooterHeaderInfo($pdftype, $id, $template) {
             $this->id = $id;
             $db = PearDatabase::getInstance();
@@ -81,7 +81,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         }
 	
 	//////////////////////////////////////////////////////////////////////////
-	//// Uzupełnienie wartości pól z modułu głównego
+	//// Field value completing from main module
 	////
 	////
 	function replaceModuleFields( $content, $fields, $module ,$recordid) {
@@ -136,7 +136,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                 $field = $currfield->getDisplayValue();
             }
             ////////////////////
-            /// Dla pól tworzących relacje Trzeba pobrać odpowiednią nazwę zamiast ID rekordu powiązanego
+            /// For fields that are related it is required to download an appropriate name instead of related record’s ID
             if( in_array( $field_uitype, $uitypelist ) ) {
                 if( $field != 0 ) {
                     $singleid = getSalesEntityType( $field );
@@ -153,7 +153,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                 }				
             }
 
-            /// Dla pól użytownika
+            /// For user fields
             if( $field_uitype == 53 || $field_uitype == 52 ) {
                 $robocza = getUserName( $field );
                 if( $robocza == "" ) {
@@ -161,11 +161,11 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                 }
                 $field = $robocza;
             }
-            /// Dla pola z nazwą folderu
-            if( $field_uitype == 26 ) {
+            /// For field with folder name
+            /*if( $field_uitype == 26 ) {
                 $new_value = $db->query( "select foldername from vtiger_attachmentsfolder where folderid = '$field'", true );
                 $field = $db->query_result( $new_value, 0, "foldername" );
-            }
+            }*/
             if( $field_uitype == 27 ) {
                 if( $field == 'I' ) {
                     $field = getTranslatedString( 'Internal', $module );
@@ -174,13 +174,13 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     $field = getTranslatedString( 'External' , $module );
                 }
             }
-            /// Dla pola z językiem
+            /// For field with language
             if( $field_uitype == 32 ) {
                 $name = '%'.$field.'%';
                 $new_value = $db->query( "select name from vtiger_language where prefix like '$name'", true);
                 $field = $db->query_result( $new_value, 0, "name" );
             }
-            /// Dla pola z nazwą roli w organizacji
+            /// For field with role in organization
             if( $field_uitype == 98 ) {
                 $new_value = $db->query( "select rolename from vtiger_role where roleid = '$field'", true );
                 $field = $db->query_result( $new_value, 0, "rolename" );
@@ -189,7 +189,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                 $new_value = $db->query( "select currency_code from vtiger_currency_info where id = '$field'", true );
                 $field = $db->query_result( $new_value, 0, "currency_code" );
             }
-            /// Dla obrazka użytkownika
+            /// For user’s image
             if( $field_uitype == 105 ) {
                 if( $field != "" ) {
                     $sql = "SELECT CONCAT(vtiger_attachments.path,vtiger_users.imagename) AS sciezka FROM vtiger_attachments
@@ -203,7 +203,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     }
                 }
             }
-            /// Dla pól typu "checkbox"
+            /// For checkbox type fields
             if( $field_uitype == 56 ) {
                 if( $field == 1 ) {
                     $field = getTranslatedString('yes', "OSSPdf");
@@ -220,7 +220,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                 }
             }
 			
-            /// Dla pola z podatkiem vat w produktach
+            /// For fields with VAT for products
             if( $field_uitype == 83 ) {
                 $pobierz_tax = $db->query("select * from vtiger_producttaxrel where productid = '$recordid'", true);
                 for( $i=0; $i< $db->num_rows( $pobierz_tax ); $i++ )
@@ -239,7 +239,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     $field .= '<br/>';
                 }
             }
-            /// Dla List wyboru
+            /// For selection lists
             if( $field_uitype == 15 || $field_uitype == 16 || ( $field_uitype == 55 && $fieldname == 'salutationtype' )) {
                 if( $module == 'Activity' )  {
                     $field = getTranslatedString( $field, "Calendar");
@@ -411,10 +411,10 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                             $value = getUserName( $value );
                         }
                         /// dla pól z folderem
-                        if( $field_uitype == 26 ) {
+                        /*if( $field_uitype == 26 ) {
                             $new_value = $db->query( "select foldername from vtiger_attachmentsfolder where folderid = '$value'", true );
                             $value = $db->query_result( $new_value, 0, "foldername" );
-                        }
+                        }*/
                         /// Dla pól z roląużytkownika w organizacji
                         if( $field_uitype == 98 ) {
                             $new_value = $db->query( "select rolename from vtiger_role where roleid = '$value'", true );

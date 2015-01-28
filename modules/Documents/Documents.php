@@ -276,7 +276,7 @@ class Documents extends CRMEntity {
 				" FROM vtiger_notes
 				inner join vtiger_crmentity
 					on vtiger_crmentity.crmid=vtiger_notes.notesid
-				LEFT JOIN vtiger_attachmentsfolder on vtiger_notes.folderid=vtiger_attachmentsfolder.folderid
+				LEFT JOIN `vtiger_trees_templates_data` on vtiger_notes.folderid=`vtiger_trees_templates_data`.tree
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id " .
 				" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
 				;
@@ -289,27 +289,6 @@ class Documents extends CRMEntity {
 
 		$log->debug("Exiting create_export_query method ...");
 		        return $query;
-	}
-
-	function del_create_def_folder($query)
-	{
-		global $adb;
-		$dbQuery = $query." and vtiger_attachmentsfolderfolderid.folderid = 0";
-		$dbresult = $adb->pquery($dbQuery,array());
-		$noofnotes = $adb->num_rows($dbresult);
-		if($noofnotes > 0)
-		{
-            $folderQuery = "select folderid from vtiger_attachmentsfolder";
-            $folderresult = $adb->pquery($folderQuery,array());
-            $noofdeffolders = $adb->num_rows($folderresult);
-
-            if($noofdeffolders == 0)
-            {
-			    $insertQuery = "insert into vtiger_attachmentsfolder values (0,'Default','Contains all attachments for which a folder is not set',1,0)";
-			    $insertresult = $adb->pquery($insertQuery,array());
-            }
-		}
-
 	}
 
 	function insertintonotesrel($relid,$id)
@@ -333,8 +312,8 @@ class Documents extends CRMEntity {
 		$moduleindex = $this->tab_name_index[$moduletable];
 		$query = "from $moduletable
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex";
-		if ($queryplanner->requireTable("vtiger_attachmentsfolder")){
-		    $query .= " inner join vtiger_attachmentsfolder on vtiger_attachmentsfolder.folderid=$moduletable.folderid";
+		if ($queryplanner->requireTable("`vtiger_trees_templates_data`")){
+		    $query .= " inner join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=$moduletable.folderid";
 		}
 		if ($queryplanner->requireTable("vtiger_groups".$module)){
 		    $query .= " left join vtiger_groups as vtiger_groups".$module." on vtiger_groups".$module.".groupid = vtiger_crmentity.smownerid";
@@ -363,7 +342,7 @@ class Documents extends CRMEntity {
 		$matrix = $queryplanner->newDependencyMatrix();
 
 		$matrix->setDependency("vtiger_crmentityDocuments",array("vtiger_groupsDocuments","vtiger_usersDocuments","vtiger_lastModifiedByDocuments"));
-		$matrix->setDependency("vtiger_notes",array("vtiger_crmentityDocuments","vtiger_attachmentsfolder"));
+		$matrix->setDependency("vtiger_notes",array("vtiger_crmentityDocuments","`vtiger_trees_templates_data`"));
 
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';
@@ -374,8 +353,8 @@ class Documents extends CRMEntity {
 		if ($queryplanner->requireTable("vtiger_crmentityDocuments",$matrix)){
 		    $query .=" left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0";
 		}
-		if ($queryplanner->requireTable("vtiger_attachmentsfolder")){
-		    $query .=" left join vtiger_attachmentsfolder on vtiger_attachmentsfolder.folderid=vtiger_notes.folderid";
+		if ($queryplanner->requireTable("`vtiger_trees_templates_data`")){
+		    $query .=" left join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=vtiger_notes.folderid";
 		}
 		if ($queryplanner->requireTable("vtiger_groupsDocuments")){
 		    $query .=" left join vtiger_groups as vtiger_groupsDocuments on vtiger_groupsDocuments.groupid = vtiger_crmentityDocuments.smownerid";
@@ -483,9 +462,24 @@ class Documents extends CRMEntity {
 	 */
 	function isFolderPresent($folderid) {
 		global $adb;
-		$result = $adb->pquery("SELECT folderid FROM vtiger_attachmentsfolder WHERE folderid = ?", array($folderid));
+		$result = $adb->pquery("SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?", array($folderid));
 		if(!empty($result) && $adb->num_rows($result) > 0) return true;
 		return false;
+	}
+
+	/**
+	 * Get Folder Default
+	 */
+	function getFolderDefault() {
+		global $adb;
+		$result = $adb->pquery("SELECT `tree`,`name` FROM
+				`vtiger_trees_templates_data` 
+			INNER JOIN `vtiger_field` 
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
+			WHERE `vtiger_field`.`columnname` = ? 
+				AND `vtiger_field`.`tablename` = ?
+				AND `vtiger_trees_templates_data`.`name` = ?;", array('folderid', 'vtiger_notes', 'Default'));
+		return $adb->query_result($result, 0, 'tree');;
 	}
 
 	/**
@@ -500,7 +494,7 @@ class Documents extends CRMEntity {
 			$folderid = $adb->query_result($fresult, 0, 'folderid');
 			if(!$this->isFolderPresent($folderid)) {
 				// Re-link to default folder
-				$adb->pquery("UPDATE vtiger_notes set folderid = 1 WHERE notesid = ?", array($id));
+				$adb->pquery("UPDATE vtiger_notes set folderid = ? WHERE notesid = ?", array(self::getFolderDefault()));
 			}
 		}
 	}

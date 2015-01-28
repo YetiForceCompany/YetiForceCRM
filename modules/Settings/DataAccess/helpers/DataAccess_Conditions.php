@@ -117,7 +117,7 @@ class DataAccess_Conditions {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-    function getListValidDoc($moduleName, $record) {
+   /* function getListValidDoc($moduleName, $record) {
         $listDocAndConditions = $this->getListConditions($moduleName);
         $output = array();
 
@@ -168,7 +168,7 @@ class DataAccess_Conditions {
         }
 
         return $output;
-    }
+    }*/
 
     public function docIsAttachet($record, $folder, $docName) {
         $db = PearDatabase::getInstance();
