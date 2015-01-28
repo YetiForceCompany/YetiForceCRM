@@ -651,6 +651,8 @@ function getEntityId($module, $entityName) {
 
 function decode_html($str) {
 	global $default_charset;
+	if(empty($default_charset))
+		$default_charset='UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
 	if ($_REQUEST['action'] == 'Popup' || $_REQUEST['file'] == 'Popup')
 		return html_entity_decode($str);

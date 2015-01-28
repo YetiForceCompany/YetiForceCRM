@@ -79,7 +79,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 			}else{
 				$to_replase = '$jsLanguageStrings = array(';
 			}
-			$new_translation = "'$langkey'	=>	'$val',";
+			$new_translation = "'$langkey' => '$val',";
 			if(self::parse_data($to_replase,$fileContent)){
 				$fileContent = str_replace($to_replase,$to_replase.PHP_EOL.'	'.$new_translation,$fileContent);
 			}else{
@@ -111,7 +111,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 			$fileContentEdit = file($fileName);
 			foreach ($fileContentEdit as $k=>$row){
 				if (strstr($row, "'$langkey'") !== false || strstr($row, '"'.$langkey.'"') !== false){
-					$fileContentEdit[$k] = "	'$langkey'	=>	'$val',".PHP_EOL;
+					$fileContentEdit[$k] = "	'$langkey' => '$val',".PHP_EOL;
 				}
 			}
 			$fileContent = implode("", $fileContentEdit);

@@ -10,7 +10,6 @@
 $languageStrings = array(
 	'LBL_ADD_NEW_CURRENCY' => 'Add New Currency',
 	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_CONVERSION_RATE' => 'Conversion Rate',
 	'LBL_CURRENCY_CODE' => 'Currency Code',
 	'LBL_CURRENCY_NAME' => 'Currency Name',
 	'LBL_CURRENCY_STATUS_DESC' => 'Enable checkbox to make currency Active',

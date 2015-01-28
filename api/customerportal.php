@@ -28,7 +28,7 @@ require_once 'modules/Users/Users.php';
 
 /** Configure language for server response translation */
 global $default_language, $current_language;
-if(!isset($current_language)) $current_language = $default_language;
+if(empty($current_language)) $current_language = $default_language;
 
 $userid = getPortalUserid();
 $user = new Users();
@@ -909,7 +909,8 @@ function create_ticket($input_array)
 	*/
 function update_ticket_comment($input_array)
 {
-	global $adb,$mod_strings,$current_user;
+	global $adb,$mod_strings,$current_language; 
+	$mod_strings = return_module_language($current_language, 'HelpDesk');
 	$adb->println("Inside customer portal function update_ticket_comment");
 	$adb->println($input_array);
 
@@ -1127,13 +1128,13 @@ function send_mail_for_password($mailid)
 	$initialfrom = $adb->query_result($from_res,0,'user_name');
 	$from = $adb->query_result($from_res,0,'email1');
 
-	$contents = $mod_strings['LBL_LOGIN_DETAILS'];
-	$contents .= "<br><br>".$mod_strings['LBL_USERNAME']." ".$user_name;
-	$contents .= "<br>".$mod_strings['LBL_PASSWORD']." ".$password;
+	$contents = getTranslatedString('LBL_LOGIN_DETAILS');
+	$contents .= "<br><br>".getTranslatedString('LBL_USERNAME')." ".$user_name;
+	$contents .= "<br>".getTranslatedString('LBL_PASSWORD')." ".$password;
 
 	$mail = new PHPMailer();
 
-	$mail->Subject = $mod_strings['LBL_SUBJECT_PORTAL_LOGIN_DETAILS'];
+	$mail->Subject =  getTranslatedString('LBL_SUBJECT_PORTAL_LOGIN_DETAILS');
 	$mail->Body    = $contents;
 	$mail->IsSMTP();
 
@@ -1144,7 +1145,7 @@ function send_mail_for_password($mailid)
 	$smtp_auth = $adb->query_result($mailserverresult,0,'smtp_auth');
 
 	$mail->Host = $mail_server;
-	if($smtp_auth == 'true')
+	if($smtp_auth) 
 	$mail->SMTPAuth = 'true';
 	$mail->Username = $mail_server_username;
 	$mail->Password = $mail_server_password;
@@ -3332,7 +3333,7 @@ function getDefaultAssigneeId() {
 }
 
 /* Begin the HTTP listener service and exit. */
-if (!isset($HTTP_RAW_POST_DATA)){
+if (empty($HTTP_RAW_POST_DATA)){
 	$HTTP_RAW_POST_DATA = file_get_contents('php://input');
 }
 $server->service($HTTP_RAW_POST_DATA);

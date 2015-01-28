@@ -79,7 +79,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 						{/if}
 						{if isset($smarty.request.status)}
 							<div class="alert alert-success">
-								<p>{vtranslate('Mail was send to your inbox, please check your e-mail.',$MODULE)}</p>
+								<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
 							</div>
 						{/if}
 						{if isset($smarty.request.statusError)}

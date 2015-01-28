@@ -15,7 +15,7 @@
 	{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
+	<input type="hidden" name="timeFormatOptions" data-value='{$DAY_STARTS}' />
 	<table class="table table-bordered equalSplit detailview-table">
 		<thead>
 		<tr>

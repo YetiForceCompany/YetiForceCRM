@@ -125,7 +125,10 @@ $jsLanguageStrings = array(
 	'JS_EDIT_CALENDAR' => 'Edytuj kalendarz',
     'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
 	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Brak kalendarzy do dodania',
-    'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'Zadanie zostało poprawnie dodane do kalendarza',
+	'JS_NO_DELETE_PERMISSION' => 'Nie masz uprawnień do usuwania wpisów w kalendarzu.',
+	'JS_NO_EDIT_PERMISSION' => 'Nie masz uprawnień do modyfikowania wpisów w kalendarzu',
+	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'Zadanie zostało poprawnie dodane do kalendarza',
+	'JS_RECORD_DELETED' => 'Zdarzenie zostało usunięte',
 	'JS Start Date'=>'Czas rozpoczęcia',
 	'JS End Date'=>'Czas zakończenia',
 	'JS Satatus'=>'Status',
@@ -189,5 +192,4 @@ $jsLanguageStrings = array(
 	'LBL_WEEK' => 'Tydzień',
 	'Mobile Call' => 'Połączenie',
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
-	'JS_RECORD_DELETED' => 'Zdarzenie zostało usunięte',
 );

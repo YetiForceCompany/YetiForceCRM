@@ -10,7 +10,6 @@
 $languageStrings = array(
 	'LBL_ADD_NEW_CURRENCY' => 'Adicionar Nova Moeda',
 	'LBL_ADD_RECORD' => 'Adicionar Moeda',
-	'LBL_CONVERSION_RATE' => 'Taxa Câmbio',
 	'LBL_CURRENCY_CODE' => 'Código Moeda',
 	'LBL_CURRENCY_NAME' => 'Nome Moeda',
 	'LBL_CURRENCY_STATUS_DESC' => 'Habilitar caixa seleção para ativar moeda',

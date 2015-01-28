@@ -9,7 +9,7 @@
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
-	'ModuleManager'	=>	'Редактор модулей',
+	'ModuleManager'	=>	'Менеджер Модулей',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Установка модуля из файла',
 	'LBL_IMPORT_MODULE' => 'Установка модуля',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Магазин',
@@ -51,14 +51,14 @@ $languageStrings = array(
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
 	
-	'LBL_CREATE_MODULE' => 'Create module',
-	'LBL_CREATING_MODULE' => 'Creating new module',
-	'LBL_ENTER_MODULE_NAME' => 'Module name',
-	'LBL_ENTER_MODULE_LABEL' => 'Module label',
-	'LBL_ENTITY_FIELDNAME' => 'Entity field name',
-	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
-	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
-	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
+	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
+	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',
+	'LBL_ENTER_MODULE_NAME'	=>	'Системное имя Модуля',
+	'LBL_ENTER_MODULE_LABEL'	=>	'Название Модуля',
+	'LBL_ENTITY_FIELDNAME'	=>	'Системное имя Поля',
+	'LBL_ENTITY_FIELDLABEL'	=>	'Название Поля',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER'	=>	'Модуль с таким названием уже существует',
+	'LBL_INVALID_MODULE_NAME'	=>	'Неверное название Модуля',
 );
 $jsLanguageStrings = array(
   'JS_ON' => 'вкл',

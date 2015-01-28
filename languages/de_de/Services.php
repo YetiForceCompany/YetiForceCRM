@@ -23,7 +23,6 @@ $languageStrings = array(
 	'LBL_SERVICE_INFORMATION' => 'Dienstleistungsdetails',
 	
 	'LBL_MORE_CURRENCIES' => 'mehr Währungen', 
-	'LBL_CONVERSION_RATE' => 'Konvertierungskurs', 
 	'LBL_PRICES' => 'Dienstleistungspreise',
 	'LBL_PRICE' => 'Preis',
 	'LBL_RESET_PRICE' => 'Preis zurücksetzen',

@@ -44,14 +44,14 @@ $adv_filter_options = array("e"=>"equals",
 	//	       );
 
 $old_related_modules = Array('Accounts'=>Array('Potentials','Contacts','Products','Quotes','Invoice'),
-			 'Contacts'=>Array('Accounts','Potentials','Quotes','PurchaseOrder'),
+			 'Contacts'=>Array('Accounts','Potentials','Quotes','PurchaseOrder','Invoice'),
 			 'Potentials'=>Array('Accounts','Contacts','Quotes'),
 			 'Calendar'=>Array('Leads','Accounts','Contacts','Potentials'),
 			 'Products'=>Array('Accounts','Contacts'),
 			 'HelpDesk'=>Array('Products'),
 			 'Quotes'=>Array('Accounts','Contacts','Potentials'),
 			 'PurchaseOrder'=>Array('Contacts'),
-			 'Invoice'=>Array('Accounts'),
+			 'Invoice'=>Array('Accounts','Contacts'),
 			 'Campaigns'=>Array('Products'),
 			);
 

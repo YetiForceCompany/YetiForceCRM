@@ -10,7 +10,6 @@
 $languageStrings = array(
 	'LBL_ADD_NEW_CURRENCY' => 'Währung hinzufügen',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_CONVERSION_RATE' => 'Umrechnungskurs',
 	'LBL_CURRENCY_CODE' => 'Währungskürzel',
 	'LBL_CURRENCY_NAME' => 'Währungsname',
 	'LBL_CURRENCY_STATUS_DESC' => 'Haken, um Währung als im Programm aktive Währung zu setzen', 

@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 <form class="form-horizontal" name="step5" method="post" action="Install.php">
-	<input type=hidden name="mode" value="Step7" />
-	<input type=hidden name="auth_key" value="{$AUTH_KEY}" />
-	<input type=hidden name="lang" value="{$LANG}" />
+	<input type="hidden" name="mode" value="Step7" />
+	<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
+	<input type="hidden" name="lang" value="{$LANG}" />
 	<div class="row-fluid main-container">
 		<div class="inner-container">
 			<div class="row-fluid">

@@ -73,7 +73,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model {
 	 */
 	public function getTitle() {
 		$title = $this->get('title');
-		if(!isset($title)) {
+		if(empty($title)) {
 			$title = $this->get('linklabel');
 		}
 		return $title;

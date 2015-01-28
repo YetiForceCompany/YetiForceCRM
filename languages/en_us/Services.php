@@ -19,7 +19,6 @@ $languageStrings = array(
 	'LBL_SERVICE_INFORMATION' => 'Service Details',
 	
 	'LBL_MORE_CURRENCIES' => 'more currencies', 
-	'LBL_CONVERSION_RATE' => 'Conversion Rate', 
 	'LBL_PRICES' => 'Service Prices',
 	'LBL_PRICE' => 'Price',
 	'LBL_RESET_PRICE' => 'Reset Price',

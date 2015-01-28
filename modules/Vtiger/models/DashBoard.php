@@ -44,6 +44,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	public function getDashboards($action = 1) {
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		if($action == 'Header')
 			$action = 0;
@@ -72,9 +73,15 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		foreach ($widgets as $index => $widget) {
 			$label = $widget->get('linklabel');
 			$url = $widget->get('linkurl');
-			$redex = '/module=(.+?)&+/';
-			preg_match( $redex , $url , $match);
-			if( isPermitted($match[1],'Index') == 'no'){
+			$data = $widget->get('data');
+			$filterid = $widget->get('filterid');
+			$module = $this->getModuleNameFromLink($url, $label);
+
+			if($module == 'Home' && !empty($filterid) && !empty($data)) {
+				$filterData = Zend_Json::decode(htmlspecialchars_decode($data));
+				$module = $filterData['module'];
+			}
+			if( !$currentUserPrivilegeModel->hasModulePermission(getTabid($module)) ){
 				unset($widgets[$index]);
 			}		
 			if($label == 'Tag Cloud') {
@@ -86,6 +93,22 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		return $widgets;
 	}
 
+	/**
+	 * Function to get the module name of a widget using linkurl
+	 * @param <string> $linkUrl
+	 * @param <string> $linkLabel
+	 * @return <string> $module - Module Name
+	 */
+	public function getModuleNameFromLink($linkUrl, $linkLabel) {
+		$urlParts = parse_url($linkUrl);
+		parse_str($urlParts['query'], $params);
+		$module = $params['module'];
+		if($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
+			$module = 'Calendar';
+		}
+		return $module;
+	}
+	
 	/**
 	 * Function to get the default widgets(Deprecated)
 	 * @return <Array of Vtiger_Widget_Model>
@@ -143,6 +166,4 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 
 		return $instance->setModule($moduleModel);
 	}
-
-
 }

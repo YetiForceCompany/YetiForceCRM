@@ -18,7 +18,7 @@
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type=hidden id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
+			<input type="hidden" id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
 			<div class="well contentsBackground">
 				<div class="row-fluid padding1per">
 					<span class="span3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></span>
@@ -158,7 +158,7 @@
                         <div class='span2'>
                             <div style='padding-bottom:5px;'>{vtranslate('LBL_SELECTED_DATES', $MODULE)}</div>
                             <div>
-                                <input type=hidden id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
+                                <input type="hidden" id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
                                 {assign var=ANNUAL_DATES value=Zend_Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
                                 <select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
                                     {foreach item=DATES from=$ANNUAL_DATES}

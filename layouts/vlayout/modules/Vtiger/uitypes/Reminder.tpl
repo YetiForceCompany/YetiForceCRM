@@ -23,7 +23,7 @@
 
 <div>
 	<div style="float:left">
-		<input type=hidden name=set_reminder value=0 />
+		<input type="hidden" name=set_reminder value=0 />
 		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} value=1 />&nbsp;&nbsp;
 	</div>
 	<div style="float:left" class="{if $REMINDER_VALUES neq ''}show{else}hide{/if}">

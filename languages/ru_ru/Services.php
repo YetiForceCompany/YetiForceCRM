@@ -13,7 +13,6 @@ $languageStrings = array(
 	'Commission Rate'              => 'Комиссионные (%)'  , 
 	'LBL_ADD_RECORD'               => 'Добавить Услугу',
 	'LBL_ADD_TO_PRICEBOOKS'        => 'Добавить прайс лист'           ,
-	'LBL_CONVERSION_RATE' 			=> 'Обменный курс', 
 	'LBL_MORE_CURRENCIES'          => 'Больше валют'     , 
 	'LBL_PRICE'                    => 'Цена'                    , 
 	'LBL_PRICES'                   => 'Специальные цены'              , 

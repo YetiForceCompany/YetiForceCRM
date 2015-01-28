@@ -33,7 +33,6 @@ $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Adicionar Produto' ,
 	'LBL_ADD_TO_PRICEBOOKS'=> 'Adicionar na Lista de Preços' , //Duplicated key-value pairs
 	'Lb' => 'Lb', 
-	'LBL_CONVERSION_RATE' => 'Taxa de Câmbio',
 	'LBL_IMAGE_INFORMATION'=> 'Informação Imagem Produto', 
 	'LBL_MORE_CURRENCIES'=> 'outras moedas' , 
 	'LBL_PRICE'=> 'Preço', 

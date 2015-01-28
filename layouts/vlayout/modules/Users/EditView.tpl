@@ -16,7 +16,7 @@
 		<input type="hidden" name="action" value="Save" />
 		<input type="hidden" name="record" value="{$RECORD_ID}" />
 		<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}" />
-		<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
+		<input type="hidden" name="timeFormatOptions" data-value='{$DAY_STARTS}' />
 		{if $IS_RELATION_OPERATION }
 			<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />

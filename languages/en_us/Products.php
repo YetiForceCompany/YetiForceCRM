@@ -33,7 +33,6 @@ $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_TO_PRICEBOOKS' => 'Add to PriceBooks', //Duplicated key-value pairs
 	'Lb'=>'Lb',
-	'LBL_CONVERSION_RATE' => 'Conversion Rate',
 	'LBL_IMAGE_INFORMATION' => 'Product Image Information',
 	'LBL_MORE_CURRENCIES' => 'more currencies', 
 	'LBL_PRICE' => 'Price',
