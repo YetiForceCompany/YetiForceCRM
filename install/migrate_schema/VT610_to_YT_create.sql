@@ -1136,6 +1136,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_callhistorycf`(
 CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_fields` (
   `relation_id` int(19) DEFAULT NULL,
   `fieldid` int(19) DEFAULT NULL,
+  `fieldname` varchar(30) DEFAULT NULL,
   `sequence` int(10) DEFAULT NULL,
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

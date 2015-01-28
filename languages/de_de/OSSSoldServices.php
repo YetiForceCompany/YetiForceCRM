@@ -32,7 +32,7 @@ $languageStrings = array(
 'LBL_CUSTOM_INFORMATION' => 'System Information',
 'Where bought' => 'Wo gekauft',
 'Number' => 'Nummer',
-'Potential renewal'=>'Verkauf erneuern',
+'Potential renewal'=>'Verkaufschance erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
-'LBL_ORDER_TIME'=>'Order time',
+'LBL_ORDER_TIME'=>'Bestellzeit',
 );

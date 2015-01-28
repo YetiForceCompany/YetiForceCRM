@@ -18,7 +18,7 @@ $languageStrings = array(
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informationen',
-	'LBL_PRODUCT_INFORMATION' => 'Details of the calculation',
+	'LBL_PRODUCT_INFORMATION' => 'Kalkulationsdetails',
 	
 	//Field Labels
     'Title' => 'Titel',
@@ -39,7 +39,7 @@ $languageStrings = array(
 	'Total margin' => 'Gesamtdifferenz',
 	'Total margin Percentage' => 'Gesamtdifferenz in %',
 	'LBL_DATE' => 'Datum',
-	'Quotes' => 'Quotes',
+	'Quotes' => 'Angebote',
 	'CalculationStatus' => 'Status',
 	
 	//CalculationStatus
