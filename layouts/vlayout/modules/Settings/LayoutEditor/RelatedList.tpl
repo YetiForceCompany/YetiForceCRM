@@ -68,7 +68,7 @@
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
 													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
 													{if $FIELD_INSTANCE}
-														<option value="{$FIELD_INSTANCE->getId()}" selected>
+														<option value="{$FIELD_INSTANCE->getId()}" data-field-name="{$FIELD_INSTANCE->getFieldName()}" selected>
 															{vtranslate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
 												  		</option>
 											  		{/if}

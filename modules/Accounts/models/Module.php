@@ -77,7 +77,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule) {
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
 		if ($functionName === 'get_activities') {
 			$focus = CRMEntity::getInstance($this->getName());
 			$focus->id = $recordId;
@@ -114,7 +114,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 			// There could be more than one contact for an activity.
 			$query .= ' GROUP BY vtiger_activity.activityid';
 		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule);
+			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
 
 		return $query;

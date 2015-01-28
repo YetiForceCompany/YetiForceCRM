@@ -26,8 +26,12 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 	public function getEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
 		$parentModule = $this->getParentRecordModel()->getModule();
-		$relationModule = $this->getRelationModel()->getRelationModuleModel();
-		$relatedColumnFieldMapping = $relationModule->getConfigureRelatedListFields();
+		$relationModel = $this->getRelationModel();
+		$relationModule = $relationModel->getRelationModuleModel();
+		$relatedColumnFieldMapping = $relationModel->getRelationFields(true,true);
+		if(count($relatedColumnFieldMapping) <= 0){
+			$relatedColumnFieldMapping = $relationModule->getConfigureRelatedListFields();
+		}
 		if(count($relatedColumnFieldMapping) <= 0){
 			$relatedColumnFieldMapping = $relationModule->getRelatedListFields();
 		}

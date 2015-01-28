@@ -141,8 +141,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 	getSelectedFields : function(target) {
 		var selectedFields = [];
-		target.select2('data').map(function (obj) { 
-			selectedFields.push(obj.id);
+		target.select2('data').map(function (obj) {
+			selectedFields.push({
+				id: obj.id, 
+				name: target.find('option[value='+obj.id+']').data('field-name')
+			});
 		});
 		return selectedFields;
 	},
