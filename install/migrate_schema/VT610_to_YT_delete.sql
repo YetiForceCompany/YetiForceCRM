@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS `vtiger_pobillads`;
 DROP TABLE IF EXISTS `vtiger_poshipads`;
 DROP TABLE IF EXISTS `vtiger_quotesbillads`;
 DROP TABLE IF EXISTS `vtiger_quotesshipads`;
+DROP TABLE IF EXISTS `vtiger_attachmentsfolder`;
+DROP TABLE IF EXISTS `vtiger_attachmentsfolder_seq`;
 -- DROP TABLE IF EXISTS `vtiger_rating`;
 -- DROP TABLE IF EXISTS `vtiger_rating_seq`;
 DROP TABLE IF EXISTS `vtiger_shippingtaxinfo`;
