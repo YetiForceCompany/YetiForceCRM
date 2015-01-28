@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class Conditions {
 
-    function getListValidDoc($moduleName, $record) {
+   /* function getListValidDoc($moduleName, $record) {
         $listDocAndConditions = $this->getListConditions($moduleName);
 
         $output = array();
@@ -63,7 +63,7 @@ class Conditions {
         }
 
         return $output;
-    }
+    }*/
 
     public function checkConditionsForDoc($docId, $form) {
         

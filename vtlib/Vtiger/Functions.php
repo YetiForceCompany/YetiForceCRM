@@ -352,8 +352,8 @@ class Vtiger_Functions {
 
 				if ($module == 'Groups') {
 					$metainfo = array('tablename' => 'vtiger_groups','entityidfield' => 'groupid','fieldname' => 'groupname');
-				} else if ($module == 'DocumentFolders') { 
-					$metainfo = array('tablename' => 'vtiger_attachmentsfolder','entityidfield' => 'folderid','fieldname' => 'foldername'); 
+				/*} else if ($module == 'DocumentFolders') { 
+					$metainfo = array('tablename' => 'vtiger_attachmentsfolder','entityidfield' => 'folderid','fieldname' => 'foldername'); */
 				} else {
 					$metainfo = self::getEntityModuleInfo($module);
 				}

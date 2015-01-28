@@ -17,17 +17,13 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		editContainer.validationEngine();
 		var jstreeInstance = thisInstance.createTree();
 		$('.addNewElementBtn').click(function(e) {
-			var newElement = $('input.addNewElement');
-			if(newElement.val() == ''){
-				var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-				newElement.validationEngine('showPrompt', message , 'error','bottomLeft',true);
-				return false;
-			}
-			
 			thisInstance.jstreeLastID = thisInstance.jstreeLastID+1;
+			var newElement = $('input.addNewElement').val();
+			if(!newElement)
+				return;
 			jstreeInstance.jstree("create",-1,false,{  
 				"data" : { 
-					"title" : newElement.val()
+					"title" : newElement
 				},
 				"attr" : { id : thisInstance.jstreeLastID},
 			},false,true);

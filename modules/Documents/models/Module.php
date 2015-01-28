@@ -35,22 +35,6 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
-	 * Function returns list of folders
-	 * @return <Array> folder list
-	 */
-	public static function getAllFolders() {
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_attachmentsfolder ORDER BY sequence', array());
-
-		$folderList = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$folderList[] = Documents_Folder_Model::getInstanceByArray($row);
-		}
-		return $folderList;
-	}
-
-	/**
 	 * Function to get list view query for popup window
 	 * @param <String> $sourceModule Parent module
 	 * @param <String> $field parent fieldname
@@ -96,14 +80,6 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 		return array_keys($popupFileds); 
 	}
 
-	/**
-	 * Function to get the url for add folder from list view of the module
-	 * @return <string> - url
-	 */
-	public function getAddFolderUrl() {
-		return 'index.php?module='.$this->getName().'&view=AddFolder';
-	}
-	
 	/**
 	 * Function to get Alphabet Search Field 
 	 */
@@ -166,5 +142,27 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 
 		return $settingsLinks;
     }
+	
+	/**
+	 * Added function that returns the folders in a Document
+	 * @return <Array>
+	 */
+	function getAllFolders() {
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery("SELECT `tree`,`name` FROM
+				`vtiger_trees_templates_data` 
+			INNER JOIN `vtiger_field` 
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
+			WHERE `vtiger_field`.`columnname` = ? 
+				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
+		$rows = $adb->num_rows($result);
+		$folders = array();
+		for($i=0; $i<$rows; $i++){
+			$folderId = $adb->query_result($result, $i, 'tree');
+			$folderName = $adb->query_result($result, $i, 'name');
+			$folders[$folderId] = $folderName;
+		}
+		return $folders;
+	}
 }
 ?>

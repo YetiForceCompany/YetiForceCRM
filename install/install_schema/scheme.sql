@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -828,27 +829,6 @@ CREATE TABLE `vtiger_attachments` (
   PRIMARY KEY (`attachmentsid`),
   KEY `attachments_attachmentsid_idx` (`attachmentsid`),
   CONSTRAINT `fk_1_vtiger_attachments` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_attachmentsfolder` */
-
-DROP TABLE IF EXISTS `vtiger_attachmentsfolder`;
-
-CREATE TABLE `vtiger_attachmentsfolder` (
-  `folderid` int(19) NOT NULL AUTO_INCREMENT,
-  `foldername` varchar(200) NOT NULL,
-  `description` varchar(250) DEFAULT NULL,
-  `createdby` int(19) NOT NULL,
-  `sequence` int(19) DEFAULT NULL,
-  PRIMARY KEY (`folderid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_attachmentsfolder_seq` */
-
-DROP TABLE IF EXISTS `vtiger_attachmentsfolder_seq`;
-
-CREATE TABLE `vtiger_attachmentsfolder_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_audit_trial` */
@@ -3823,7 +3803,7 @@ CREATE TABLE `vtiger_notes` (
   `title` varchar(50) NOT NULL,
   `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
-  `folderid` int(19) NOT NULL DEFAULT '1',
+  `folderid` varchar(255) NOT NULL,
   `filetype` varchar(50) DEFAULT NULL,
   `filelocationtype` varchar(5) DEFAULT NULL,
   `filedownloadcount` int(19) DEFAULT NULL,
@@ -7350,7 +7330,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `module` int(19) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 

@@ -184,7 +184,12 @@ class Mobile_WS_Utils {
 	
 	static function documentFoldersInfo() {
 		global $adb;
-		$folders = $adb->pquery("SELECT folderid, foldername FROM vtiger_attachmentsfolder", array());
+		$folders = $adb->pquery("SELECT `tree`,`name` FROM
+				`vtiger_trees_templates_data` 
+			INNER JOIN `vtiger_field` 
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
+			WHERE `vtiger_field`.`columnname` = ? 
+				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
 		$folderOptions = array();
 		while( $folderrow = $adb->fetch_array($folders) ) {
 			$folderwsid = sprintf("%sx%s", self::getEntityModuleWSId('DocumentFolders'), $folderrow['folderid']);

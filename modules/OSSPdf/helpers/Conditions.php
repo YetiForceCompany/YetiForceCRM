@@ -143,7 +143,7 @@ class Conditions {
         }
         return $output;
     }
-    function getListValidDoc($moduleName, $record) {
+   /* function getListValidDoc($moduleName, $record) {
         $listDocAndConditions = self::getListConditions($moduleName);
 
         $output = array();
@@ -196,7 +196,7 @@ class Conditions {
         }
 
         return $output;
-    }
+    }*/
     public function checkConditionsForRecord($id, $view_id, $request = false) {
         $lisConditions = self::getConditionRelToRecord($id);     
         $responeListRequired = array();
