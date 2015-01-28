@@ -19,7 +19,6 @@ $languageStrings = array(
 	'LBL_SERVICE_INFORMATION' => 'Szczegóły usługi',
 	
 	'LBL_MORE_CURRENCIES' => 'więcej walut', 
-	'LBL_CONVERSION_RATE' => 'Współczynnik konwersji', 
 	'LBL_PRICES' => 'Cena usługi',
 	'LBL_PRICE' => 'Cena',
 	'LBL_RESET_PRICE' => 'Wyczyść cenę',

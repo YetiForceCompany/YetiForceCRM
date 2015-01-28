@@ -33,7 +33,6 @@ $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_ADD_TO_PRICEBOOKS' => 'Dodaj do cennika', //Duplicated key-value pairs
 	'Lb'=>'St',
-	'LBL_CONVERSION_RATE' => 'Przelicznik',
 	'LBL_IMAGE_INFORMATION' => 'Szczegóły galerii produktu',
 	'LBL_MORE_CURRENCIES' => 'więcej walut', 
 	'LBL_PRICE' => 'Cena',

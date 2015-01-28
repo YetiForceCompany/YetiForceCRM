@@ -392,7 +392,7 @@ $languageStrings = array(
 	'LBL_REASON_FOR_CHANGING_COMMENT' => 'Reason for changing comment',
 	'LBL_RECENTLY_MODIFIED' => 'Recently Modified',
 	'LBL_RECORD' => 'Record',
-	'LBL_RECORDS_LIST' => 'Records List', 
+	'LBL_RECORDS_LIST' => 'Records List',
 	'LBL_RECORD_DELETE' => 'The record you are trying to view has been deleted.',
 	'LBL_RECORD_NOT_FOUND' => 'Record you are trying to access is not found',
 	'LBL_RECORD_SUMMARY' => 'Module Summary', //Duplicated key-value pairs
@@ -782,6 +782,7 @@ $languageStrings = array(
 	'LBL_CONFREPORT' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
 	'LBL_TREES_MANAGER' => 'Tree Manager',
+	'LBL_CONVERSION_RATE' => 'Conversion Rate',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',

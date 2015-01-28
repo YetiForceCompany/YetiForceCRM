@@ -120,7 +120,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	 * Function to delete the reccords perminently in vitger CRM database
 	 */
 	public function emptyRecycleBin(){
-		global $db;
+		$db = PearDatabase::getInstance(); 
 		$getIdsQuery='SELECT crmid from vtiger_crmentity WHERE deleted=?';
 		$resultIds=$db->pquery($getIdsQuery,array(1));
 		$recordIds=array();
@@ -141,7 +141,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	 * @param type $reocrdIds
 	 */
 	public function deleteRecords($recordIds){
-		global $db;
+		$db = PearDatabase::getInstance(); 
 		//Delete the records in vtiger crmentity and relatedlists.
 		$query = 'DELETE FROM vtiger_crmentity WHERE deleted = ? and crmid in('.generateQuestionMarks($recordIds).')';
 		$db->pquery($query, array(1, $recordIds));
@@ -158,7 +158,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model {
 	 *@param type $recordIds
 	 */
 	public function deleteFiles($recordIds){
-		global $db;
+		$db = PearDatabase::getInstance(); 
 		$getAttachmentsIdQuery='SELECT * FROM vtiger_seattachmentsrel WHERE crmid in('.generateQuestionMarks($recordIds).')';
 		$result=$db->pquery($getAttachmentsIdQuery,array($recordIds));
 		$attachmentsIds=array();

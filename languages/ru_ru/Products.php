@@ -35,7 +35,6 @@ $languageStrings = array(
 	'Impressions'                  => 'Показ'                  , 
 	'LBL_ADD_RECORD'               => 'Добавить Товар' ,
 	'LBL_ADD_TO_PRICEBOOKS'        => 'Добавить',
-	'LBL_CONVERSION_RATE'          => 'Обменный курс'   ,
 	'LBL_IMAGE_INFORMATION'        => 'Изображение'     , 
 	'LBL_MORE_CURRENCIES'          => 'Больше валют'     , 
 	'LBL_PRICE'                    => 'Цена'                    , 

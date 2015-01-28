@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			<hr>
-			<input type=hidden name="mode" value="Step2" />
+			<input type="hidden" name="mode" value="Step2" />
 			<div class="row-fluid">
 				<div class="span4 welcome-image">
 					<img src="../layouts/vlayout/skins/images/wizard_screen.png" alt="Vtiger Logo"/>

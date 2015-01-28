@@ -147,7 +147,7 @@
                                 <div class='span2'>
                                     <div style='padding-bottom:5px;'>{vtranslate('LBL_SELECTED_DATES', $QUALIFIED_MODULE)}</div>
                                     <div>
-                                        <input type=hidden id=hiddenAnnualDates value='{$WORKFLOW_MODEL_OBJ->schannualdates}' />
+                                        <input type="hidden" id=hiddenAnnualDates value='{$WORKFLOW_MODEL_OBJ->schannualdates}' />
                                         <select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
                                             {foreach item=DATES from=$ANNUAL_DATES}
                                                 <option value="{$DATES}" selected>{$DATES}</option>

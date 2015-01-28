@@ -13,7 +13,7 @@
     {assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
     <div class="container-fluid">
         <form class="form-inline" id="CustomView" name="CustomView" method="post" action="index.php">
-            <input type=hidden name="record" id="record" value="{$RECORD_ID}" />
+            <input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
             <input type="hidden" name="module" value="{$MODULE}" />
             <input type="hidden" name="action" value="Save" />
             <input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>

@@ -14,8 +14,8 @@
 	<div class="inner-container">
 		<h2>{vtranslate('LBL_MIGRATION_HEADER', 'Install')}</h2>
 		<form class="form-horizontal" name="step1" method="post" action="Install.php">
-			<input type=hidden name="mode" value="mStep2" />
-			<input type=hidden name="lang" value="{$LANG}" />
+			<input type="hidden" name="mode" value="mStep2" />
+			<input type="hidden" name="lang" value="{$LANG}" />
 			<div class="row-fluid">
 			<div class="span12">
 				

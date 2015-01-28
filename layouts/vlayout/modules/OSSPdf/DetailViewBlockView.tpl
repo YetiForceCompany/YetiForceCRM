@@ -37,7 +37,7 @@ ul > li.blockHeader {
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 	{if $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 	{assign var=IS_HIDDEN value=$BLOCK_LIST[$BLOCK_LABEL_KEY]->isHidden()}
-	<input type=hidden name="timeFormatOptions" data-value='{$DAY_STARTS}' />
+	<input type="hidden" name="timeFormatOptions" data-value='{$DAY_STARTS}' />
 	
 	{if $BLOCK_LABEL_KEY eq 'HEADER'}
 

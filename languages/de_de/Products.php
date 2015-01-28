@@ -32,7 +32,6 @@ $languageStrings = array(
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_ADD_TO_PRICEBOOKS' => 'Zu Preislisten hinzufügen', //Duplicated key-value pairs
 	'Lb'=>'Pfund',
-	'LBL_CONVERSION_RATE' => 'Konvertierungsrate',
 	'LBL_IMAGE_INFORMATION' => 'Produkt Bild Information',
 	'LBL_MORE_CURRENCIES' => 'mehr Währungen', 
 	'LBL_PRICE' => 'Preis',

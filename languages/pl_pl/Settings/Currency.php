@@ -11,7 +11,6 @@
 $languageStrings = array(
 	'LBL_ADD_NEW_CURRENCY' => 'Dodaj nową walutę',
 	'LBL_ADD_RECORD' => 'Dodaj walutę',
-	'LBL_CONVERSION_RATE' => 'Przelicznik waluty',
 	'LBL_CURRENCY_CODE' => 'Kod waluty',
 	'LBL_CURRENCY_NAME' => 'Nazwa waluty',
 	'LBL_CURRENCY_STATUS_DESC' => 'Włącz walutę aby system przeliczył wartość',

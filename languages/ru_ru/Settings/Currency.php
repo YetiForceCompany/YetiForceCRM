@@ -12,7 +12,6 @@ $languageStrings = array(
 	'Currency'	=>	'Валюта',
 	'LBL_ADD_NEW_CURRENCY' => 'Добавить Валюту',
 	'LBL_ADD_RECORD' => 'Добавить Валюту',
-	'LBL_CONVERSION_RATE' => 'Обменный курс',
 	'LBL_CURRENCY_CODE' => 'Код Валюты',
 	'LBL_CURRENCY_NAME' => 'Валюта',
 	'LBL_CURRENCY_STATUS_DESC' => 'Установите флажок, чтобы Валюта была активной',

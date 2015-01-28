@@ -14,8 +14,8 @@
 {else} 
 <h4>Loading .... </h4>
 <form class="form-horizontal" name="login" id="login" method="post" action="../../../index.php?module=Users&action=Login&mode=reset">
-	<input type=hidden name="username" value="{$USERNAME}" >
-	<input type=hidden name="password" value="{$PASSWORD}" >
+	<input type="hidden" name="username" value="{$USERNAME}" >
+	<input type="hidden" name="password" value="{$PASSWORD}" >
 </form>
 <script type="text/javascript">
     function autoLogin () {

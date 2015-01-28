@@ -18,8 +18,7 @@ $languageStrings = array(
 	// Blocks
 	'LBL_SERVICE_INFORMATION'=> 'Detalhes do Serviço' ,
 
-	'LBL_MORE_CURRENCIES' => 'outras moedas' ,
-	'LBL_CONVERSION_RATE' => 'Taxa Câmbio', 
+	'LBL_MORE_CURRENCIES' => 'outras moedas' , 
 	'LBL_PRICES' => 'Preços Serviços',
 	'LBL_PRICE' => 'Preço', 
 	'LBL_RESET_PRICE'=> 'Redefinir Preço', 

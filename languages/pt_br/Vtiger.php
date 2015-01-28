@@ -779,6 +779,7 @@ $languageStrings = array(
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'A lista de registros está limitada aos Produtos e Serviços associados com a Oportunidade de venda',
 	'LBL_UPDATES_HISTORY' => 'Atualizações',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Histórico Atualizações',
+	'LBL_CONVERSION_RATE' => 'Taxa de Câmbio',
 
 	//Missing Fields in Menu
 	'Companies'=>'Empresas',
