@@ -1007,6 +1007,8 @@ if (!defined('_ADODB_LAYER')) {
 							$sql .= str_replace(',','.',$v); // locales fix so 1.1 does not get converted to 1,1
 						else if ($typ == 'boolean')
 							$sql .= $v ? $this->true : $this->false;
+						else if ($typ == 'array')
+							$sql .= "'".implode("','", $v)."'";
 						else if ($typ == 'object') {
 							if (method_exists($v, '__toString')) $sql .= $this->qstr($v->__toString());
 							else $sql .= $this->qstr((string) $v);
