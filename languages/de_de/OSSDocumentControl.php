@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $languageStrings = array(
 	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
