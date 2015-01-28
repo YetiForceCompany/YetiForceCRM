@@ -110,7 +110,7 @@ class LoggerOptionConverter {
         if ($value == 1)
             return true;
         $trimmedVal = strtolower(trim($value));
-        if ("true" == $trimmedVal or "yes" == $trimmedVal)
+        if ("true" == $trimmedVal || "yes" == $trimmedVal)
             return true;
         if ("false" == $trimmedVal)
             return false;
@@ -327,7 +327,7 @@ class LoggerOptionConverter {
                     // first try in System properties
 	                $replacement = LoggerOptionConverter::getSystemProperty($key, null);
 	                // then try props parameter
-	                if($replacement == null and $props !== null) {
+	                if($replacement == null && $props !== null) {
             	        $replacement = @$props[$key];
 	                }
 

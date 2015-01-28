@@ -222,7 +222,7 @@ class LoggerHierarchy {
             $this->ht[$name]->setHierarchy($this);
             $nodes = explode('.', $name);
             $firstNode = array_shift($nodes);
-            if ( $firstNode != $name and isset($this->ht[$firstNode])) {
+            if ( $firstNode != $name && isset($this->ht[$firstNode])) {
                 LoggerLog::debug("LoggerHierarchy::getLogger($name) parent is now [$firstNode]");            
                 $this->ht[$name]->parent =& $this->ht[$firstNode];
             } else {
@@ -233,7 +233,7 @@ class LoggerHierarchy {
                 // find parent node
                 foreach ($nodes as $node) {
                     $parentNode = "$firstNode.$node";
-                    if (isset($this->ht[$parentNode]) and $parentNode != $name) {
+                    if (isset($this->ht[$parentNode]) && $parentNode != $name) {
                         LoggerLog::debug("LoggerHierarchy::getLogger($name) parent is now [$parentNode]");                    
                         $this->ht[$name]->parent =& $this->ht[$parentNode];
                     }
@@ -244,7 +244,7 @@ class LoggerHierarchy {
             /*
             $children = array();
             foreach (array_keys($this->ht) as $nodeName) {
-                if ($nodeName != $name and substr($nodeName, 0, strlen($name)) == $name) {
+                if ($nodeName != $name && substr($nodeName, 0, strlen($name)) == $name) {
                     $children[] = $nodeName;    
                 }
             }
@@ -266,7 +266,7 @@ class LoggerHierarchy {
      */ 
     function &getRootLogger()
     {
-        if (!isset($this->root) or $this->root == null)
+        if (!isset($this->root) || $this->root == null)
             $this->root = new LoggerRoot();
         return $this->root;
     }

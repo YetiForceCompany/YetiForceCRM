@@ -82,9 +82,9 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
     function setTarget($value)
     {
         $v = trim($value);
-        if ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT or strtoupper($v) == 'STDOUT') {
+        if ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT || strtoupper($v) == 'STDOUT') {
             $this->target = LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT;
-        } elseif ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT or strtoupper($v) == 'STDERR') {
+        } elseif ($v == LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT || strtoupper($v) == 'STDERR') {
             $target = LOG4PHP_LOGGER_APPENDER_CONSOLE_STDOUT;
         } else {
             LoggerLog::debug(
@@ -105,7 +105,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
             
         $this->fp = @fopen($this->getTarget(), 'w');
     
-        if ($this->fp and $this->layout !== null)
+        if ($this->fp && $this->layout !== null)
             @fwrite($this->fp, $this->layout->getHeader());
 
         $this->closed = (bool)($this->fp === false);
@@ -118,7 +118,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
     {
         LoggerLog::debug("LoggerAppenderConsole::close()");
         
-        if ($this->fp and $this->layout !== null) {
+        if ($this->fp && $this->layout !== null) {
             @fwrite($this->fp, $this->layout->getFooter());
         }        
         @fclose($this->fp);
@@ -127,7 +127,7 @@ class LoggerAppenderConsole extends LoggerAppenderSkeleton {
 
     function append($event)
     {
-        if ($this->fp and $this->layout !== null) {
+        if ($this->fp && $this->layout !== null) {
     
             LoggerLog::debug("LoggerAppenderConsole::append()");
         

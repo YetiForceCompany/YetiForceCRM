@@ -116,7 +116,7 @@ class LoggerAppenderDb extends LoggerAppenderSkeleton {
         
             // test if log table exists
             $tableInfo = $this->db->tableInfo($this->table, $mode = null);
-            if (DB::isError($tableInfo) and $this->getCreateTable()) {
+            if (DB::isError($tableInfo) && $this->getCreateTable()) {
                 $query = "CREATE TABLE {$this->table} (timestamp varchar(32),logger varchar(32),level varchar(32),message varchar(64),thread varchar(32),file varchar(64),line varchar(4) );";
 
                 LoggerLog::debug("LoggerAppenderDb::activateOptions() creating table '{$this->table}'... using sql='$query'");

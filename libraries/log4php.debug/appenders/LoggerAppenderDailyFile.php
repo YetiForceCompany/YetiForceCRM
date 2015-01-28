@@ -85,9 +85,9 @@ class LoggerAppenderDailyFile extends LoggerAppenderFile {
         $numargs = func_num_args();
         $args    = func_get_args();
         
-        if ($numargs == 1 and is_string($args[0])) {
+        if ($numargs == 1 && is_string($args[0])) {
             parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())) );
-        } elseif ($numargs == 2 and is_string($args[0]) and is_bool($args[1])) {
+        } elseif ($numargs == 2 && is_string($args[0]) && is_bool($args[1])) {
             parent::setFile( sprintf((string)$args[0], date($this->getDatePattern())), $args[1] );
         }
     } 

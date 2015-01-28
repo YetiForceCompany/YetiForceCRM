@@ -105,7 +105,7 @@ class LoggerPropertySetter {
                     continue;
                 $value = LoggerOptionConverter::findAndSubst($key, $properties);
                 $key = substr($key, $len);
-                if ($key == 'layout' and is_a($this->obj, 'loggerappender')) {
+                if ($key == 'layout' && is_a($this->obj, 'loggerappender')) {
                     continue;
                 }
                 $this->setProperty($key, $value);

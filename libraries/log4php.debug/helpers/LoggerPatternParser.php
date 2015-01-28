@@ -144,7 +144,7 @@ class LoggerPatternParser {
      */
     function extractOption()
     {
-        if(($this->i < $this->patternLength) and ($this->pattern{$this->i} == '{')) {
+        if(($this->i < $this->patternLength) && ($this->pattern{$this->i} == '{')) {
             $end = strpos($this->pattern, '}' , $this->i);
             if ($end !== false) {
                 $r = substr($this->pattern, ($this->i + 1), ($end - $this->i - 1));
@@ -233,7 +233,7 @@ class LoggerPatternParser {
                             $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
 	                        break;
                     	default:
-                            if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
+                            if(ord($c) >= ord('0') && ord($c) <= ord('9')) {
                         	    $this->formattingInfo->min = ord($c) - ord('0');
                         	    $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE;
                             } else {
@@ -244,7 +244,7 @@ class LoggerPatternParser {
               case LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_MIN_STATE'");              
 	                $this->currentLiteral .= $c;
-                    if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
+                    if(ord($c) >= ord('0') && ord($c) <= ord('9')) {
                         $this->formattingInfo->min = ($this->formattingInfo->min * 10) + (ord(c) - ord('0'));
                 	} elseif ($c == '.') {
                         $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE;
@@ -255,7 +255,7 @@ class LoggerPatternParser {
               case LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_DOT_STATE'");              
                 	$this->currentLiteral .= $c;
-                    if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
+                    if(ord($c) >= ord('0') && ord($c) <= ord('9')) {
                         $this->formattingInfo->max = ord($c) - ord('0');
 	                    $this->state = LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE;
                     } else {
@@ -266,7 +266,7 @@ class LoggerPatternParser {
               case LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE:
                     // LoggerLog::debug("LoggerPatternParser::parse() state is 'LOG4PHP_LOGGER_PATTERN_PARSER_MAX_STATE'");              
                 	$this->currentLiteral .= $c;
-                    if(ord($c) >= ord('0') and ord($c) <= ord('9')) {
+                    if(ord($c) >= ord('0') && ord($c) <= ord('9')) {
                         $this->formattingInfo->max = ($this->formattingInfo->max * 10) + (ord($c) - ord('0'));
 	                } else {
                 	  $this->finalizeConverter($c);
@@ -373,7 +373,7 @@ class LoggerPatternParser {
             case 'u':
                 if($this->i < $this->patternLength) {
 	                $cNext = $this->pattern{$this->i};
-                    if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
+                    if(ord($cNext) >= ord('0') && ord($cNext) <= ord('9')) {
 	                    $pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
                         LoggerLog::debug("LoggerPatternParser::finalizeConverter() USER converter [{$cNext}].");
 	                    // formattingInfo.dump();

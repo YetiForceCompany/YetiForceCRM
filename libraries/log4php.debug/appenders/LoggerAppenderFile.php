@@ -91,7 +91,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
     
     function close()
     {
-        if ($this->fp and $this->layout !== null)
+        if ($this->fp && $this->layout !== null)
             @fwrite($this->fp, $this->layout->getFooter());
             
         $this->closeFile();
@@ -158,9 +158,9 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
         $numargs = func_num_args();
         $args    = func_get_args();
 
-        if ($numargs == 1 and is_string($args[0])) {
+        if ($numargs == 1 && is_string($args[0])) {
             $this->setFileName($args[0]);
-        } elseif ($numargs >=2 and is_string($args[0]) and is_bool($args[1])) {
+        } elseif ($numargs >=2 && is_string($args[0]) && is_bool($args[1])) {
             $this->setFile($args[0]);
             $this->setAppend($args[1]);
         }
@@ -173,7 +173,7 @@ class LoggerAppenderFile extends LoggerAppenderSkeleton {
 
     function append($event)
     {
-        if ($this->fp and $this->layout !== null) {
+        if ($this->fp && $this->layout !== null) {
 
             LoggerLog::debug("LoggerAppenderFile::append()");
         

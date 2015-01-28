@@ -131,7 +131,7 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
     {
         $from = $this->getFrom();
         $to   = $this->getTo();
-        if (empty($from) or empty($to))
+        if (empty($from) || empty($to))
             return;
     
         $smtpHost = $this->getSmtpHost();
@@ -144,7 +144,7 @@ class LoggerAppenderMailEvent extends LoggerAppenderSkeleton {
 
         $smtpPort = $this->getPort();
         $prevSmtpPort= ini_get('smtp_port');        
-        if ($smtpPort > 0 and $smtpPort < 65535) {
+        if ($smtpPort > 0 && $smtpPort < 65535) {
             ini_set('smtp_port', $smtpPort);
         } else {
             $smtpPort = $prevSmtpPort;

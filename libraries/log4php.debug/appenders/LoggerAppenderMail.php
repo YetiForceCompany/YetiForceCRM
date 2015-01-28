@@ -85,7 +85,7 @@ class LoggerAppenderMail extends LoggerAppenderSkeleton {
         $from       = $this->getFrom();
         $to         = $this->getTo();
 
-        if (!empty($this->body) and $from !== null and $to !== null and $this->layout !== null) {
+        if (!empty($this->body) && $from !== null && $to !== null && $this->layout !== null) {
 
             $subject    = $this->getSubject();            
 

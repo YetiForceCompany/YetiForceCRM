@@ -229,7 +229,7 @@ class LoggerAppenderSocket extends LoggerAppenderSkeleton {
     function setPort($port)
     {
         $port = LoggerOptionConverter::toInt($port, 0);
-        if ($port > 0 and $port < 65535)
+        if ($port > 0 && $port < 65535)
             $this->port = $port;    
     }
     

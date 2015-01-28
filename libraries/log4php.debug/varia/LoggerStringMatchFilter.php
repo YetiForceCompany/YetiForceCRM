@@ -97,7 +97,7 @@ class LoggerStringMatchFilter extends LoggerFilter {
     {
         $msg = $event->getRenderedMessage();
         
-        if($msg === null or  $this->stringToMatch === null)
+        if($msg === null ||  $this->stringToMatch === null)
             return LOG4PHP_LOGGER_FILTER_NEUTRAL;
         if( strpos($msg, $this->stringToMatch) !== false ) {
             return ($this->acceptOnMatch) ? LOG4PHP_LOGGER_FILTER_ACCEPT : LOG4PHP_LOGGER_FILTER_DENY ; 

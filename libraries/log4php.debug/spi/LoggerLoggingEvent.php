@@ -153,7 +153,7 @@ class LoggerLoggingEvent {
         }
         $this->level = $priority;
         $this->message = $message;
-        if ($timeStamp !== null and is_float($timeStamp)) {
+        if ($timeStamp !== null && is_float($timeStamp)) {
             $this->timeStamp = $timeStamp;
         } else {
             if (function_exists('microtime')) {
@@ -187,7 +187,7 @@ class LoggerLoggingEvent {
                 $hop = array_pop($trace);
                 while ($hop !== null) {
                     $className = @$hop['class'];
-                    if ( !empty($className) and ($className == 'logger' or get_parent_class($className) == 'logger') ) {
+                    if ( !empty($className) && ($className == 'logger' || get_parent_class($className) == 'logger') ) {
                         $locationInfo['line'] = $hop['line'];
                         $locationInfo['file'] = $hop['file'];                         
                         break;
@@ -196,10 +196,10 @@ class LoggerLoggingEvent {
                     $hop = array_pop($trace);
                 }
                 $locationInfo['class'] = isset($prevHop['class']) ? $prevHop['class'] : 'main';
-                if (isset($prevHop['function']) and
-                    $prevHop['function'] !== 'include' and
-                    $prevHop['function'] !== 'include_once' and
-                    $prevHop['function'] !== 'require' and
+                if (isset($prevHop['function']) &&
+                    $prevHop['function'] !== 'include' &&
+                    $prevHop['function'] !== 'include_once' &&
+                    $prevHop['function'] !== 'require' &&
                     $prevHop['function'] !== 'require_once') {                                        
     
                     $locationInfo['function'] = $prevHop['function'];
@@ -284,7 +284,7 @@ class LoggerLoggingEvent {
      */
     function getRenderedMessage()
     {
-        if($this->renderedMessage === null and $this->message !== null) {
+        if($this->renderedMessage === null && $this->message !== null) {
             if (is_string($this->message)) {
 	            $this->renderedMessage = $this->message;
             } else {

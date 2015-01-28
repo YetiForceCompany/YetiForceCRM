@@ -446,7 +446,7 @@ class LoggerPropertyConfigurator extends LoggerConfigurator {
     function parseCatsAndRenderers($props, &$hierarchy)
     {
         while(list($key,$value) = each($props)) {
-            if( strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0 or 
+            if( strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0 || 
                 strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_LOGGER_PREFIX) === 0) {
 	            if(strpos($key, LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX) === 0) {
                     $loggerName = substr($key, strlen(LOG4PHP_LOGGER_PROPERTY_CONFIGURATOR_CATEGORY_PREFIX));

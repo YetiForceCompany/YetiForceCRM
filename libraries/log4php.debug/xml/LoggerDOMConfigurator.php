@@ -265,7 +265,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
             case LOG4PHP_LOGGER_DOM_CONFIGURATOR_XMLNS.':APPENDER-REF':
             
             
-                if (isset($attribs['REF']) and !empty($attribs['REF'])) {
+                if (isset($attribs['REF']) && !empty($attribs['REF'])) {
                     $appenderName = $this->subst($attribs['REF']);
                     
                     LoggerLog::debug("LoggerDOMConfigurator::tagOpen() APPENDER-REF ref='$appenderName'");        
@@ -360,7 +360,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
                             }
                         }
                     }    
-                    if ($this->logger !== null and isset($attribs['ADDITIVITY'])) {
+                    if ($this->logger !== null && isset($attribs['ADDITIVITY'])) {
                         $additivity = LoggerOptionConverter::toBoolean($this->subst($attribs['ADDITIVITY']), true);     
                         $this->logger->setAdditivity($additivity);
                     }
@@ -474,7 +474,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
         
                 LoggerLog::debug("LoggerDOMConfigurator::tagOpen() RENDERER renderedClass='$renderedClass' renderingClass='$renderingClass'");
         
-                if (!empty($renderedClass) and !empty($renderingClass)) {
+                if (!empty($renderedClass) && !empty($renderingClass)) {
                     $renderer = LoggerObjectRenderer::factory($renderingClass);
                     if ($renderer === null) {
                         LoggerLog::warn("LoggerDOMConfigurator::tagOpen() RENDERER cannot instantiate '$renderingClass'");
@@ -521,7 +521,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
                 LoggerLog::debug("LoggerDOMConfigurator::tagClose() APPENDER");
                 
                 if ($this->appender !== null) {
-                    if ($this->appender->requiresLayout() and $this->appender->layout === null) {
+                    if ($this->appender->requiresLayout() && $this->appender->layout === null) {
                         $appenderName = $this->appender->getName();
                         LoggerLog::warn(
                             "LoggerDOMConfigurator::tagClose() APPENDER. ".
@@ -553,7 +553,7 @@ class LoggerDOMConfigurator extends LoggerConfigurator {
 
                 LoggerLog::debug("LoggerDOMConfigurator::tagClose() LAYOUT");
 
-                if ($this->appender !== null and $this->layout !== null and $this->appender->requiresLayout()) {
+                if ($this->appender !== null && $this->layout !== null && $this->appender->requiresLayout()) {
                     $this->layout->activateOptions();
                     $this->appender->setLayout($this->layout);
                     $this->layout = null;

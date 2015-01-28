@@ -124,7 +124,7 @@ class LoggerCategory {
                 $this->aai[$appenderName]->doAppend($event);
             }
         }
-        if ($this->parent != null and $this->getAdditivity()) {
+        if ($this->parent != null && $this->getAdditivity()) {
             $this->parent->callAppenders($event);
         }
     }
@@ -488,7 +488,7 @@ class LoggerCategory {
         if (is_a($appender, 'loggerappender')) {
             $appender->close();
             unset($this->aai[$appender->getName()]);
-        } elseif (is_string($appender) and isset($this->aai[$appender])) {
+        } elseif (is_string($appender) && isset($this->aai[$appender])) {
             $this->aai[$appender]->close();
             unset($this->aai[$appender]);
         }
