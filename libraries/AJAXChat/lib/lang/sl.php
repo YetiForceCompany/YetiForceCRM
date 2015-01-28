@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  * @package AJAX_Chat
  * @author Sebastian Tschan

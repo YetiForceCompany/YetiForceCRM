@@ -2716,7 +2716,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first
-	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
 	*
 	* See docs-adodb.htm#ex8 for an example of usage.
 	*
@@ -2743,7 +2743,7 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	/**
 	* Will select the supplied $page number from a recordset, given that it is paginated in pages of
 	* $nrows rows per page. It also saves two boolean values saying if the given page is the first
-	* and/or last one of the recordset. Added by Iván Oliva to provide recordset pagination.
+	* and/or last one of the recordset. Added by Ivï¿½n Oliva to provide recordset pagination.
 	*
 	* @param secs2cache	seconds to cache data, set to 0 to force query
 	* @param sql
@@ -2943,9 +2943,9 @@ http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/statements_1
 	var $_obj; 				/** Used by FetchObj */
 	var $_names;			/** Used by FetchObj */
 
-	var $_currentPage = -1;	/** Added by Iván Oliva to implement recordset pagination */
-	var $_atFirstPage = false;	/** Added by Iván Oliva to implement recordset pagination */
-	var $_atLastPage = false;	/** Added by Iván Oliva to implement recordset pagination */
+	var $_currentPage = -1;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
+	var $_atFirstPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
+	var $_atLastPage = false;	/** Added by Ivï¿½n Oliva to implement recordset pagination */
 	var $_lastPageNo = -1;
 	var $_maxRecordCount = 0;
 	var $datetime = false;
