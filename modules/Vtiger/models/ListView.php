@@ -398,10 +398,9 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
     /**
 	 * Static Function to get the Instance of Vtiger ListView model for a given module and custom view
 	 * @param <String> $value - Module Name
-	 * @param <Number> $viewId - Custom View Id
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstanceForPopup($value) {
+	public static function getInstanceForPopup($value, $sourceModule) {
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
 
@@ -411,8 +410,11 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
 		
+		if(!empty($sourceModule)){
+			$moduleModel->set('sourceModule', $sourceModule);
+		}
+		
 		$listFields = $moduleModel->getPopupViewFieldsList();
-        
         $listFields[] = 'id';
         $queryGenerator->setFields($listFields);
 

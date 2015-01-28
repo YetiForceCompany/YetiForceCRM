@@ -110,6 +110,10 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$pageNumber = '1';
 		}
 
+		if(empty($relatedParentModule) && empty($relatedParentId) && !empty($sourceModule) && !empty($sourceRecord)) {
+			$relatedParentModule = $sourceModule;
+			$relatedParentId = $sourceRecord;
+		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 
@@ -117,7 +121,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		
         $isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-        
         if($isRecordExists) {
             $relatedParentModule = '';
             $relatedParentId = '';
@@ -125,12 +128,11 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
             $relatedParentModule = '';
             $relatedParentId = '';
         }
-        
 		if(!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
 		}else{
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule, $sourceRecord);
 		}
 		if(empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
@@ -150,10 +152,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
-
 		if(!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$this->listViewHeaders = $listViewModel->getHeaders();
-			
 			$models = $listViewModel->getEntries($pagingModel);
 			$noOfEntries = count($models);
 			foreach ($models as $recordId => $recordModel) {
@@ -162,6 +162,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 				}
 				$models[$recordId] = $recordModel;
 			}
+			
 			$this->listViewEntries = $models;
             if(count($this->listViewEntries) > 0 ){
                 $parent_related_records = true;
@@ -175,7 +176,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
         if(!$parent_related_records && !empty($relatedParentModule) && !empty($relatedParentId)){
             $relatedParentModule = null;
             $relatedParentId = null;
-            $listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+            $listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
             
             if(!empty($orderBy)) {
                 $listViewModel->set('orderby', $orderBy);

@@ -1347,7 +1347,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule) {
+	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
 		$relatedModuleName = $relatedModule->getName();
 
 		$focus = CRMEntity::getInstance($this->getName());
@@ -1358,7 +1358,10 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
-		$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+		$relatedListFields = $relationModel->getRelationFields(true,true);
+		if(count($relatedListFields) == 0) {
+			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+		}
 		if(count($relatedListFields) > 0) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$queryGenerator = new QueryGenerator($relatedModuleName, $currentUser);
@@ -1503,11 +1506,17 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * Function to get popup view fields
 	 */
 	public function getPopupViewFieldsList(){
-		$summaryFieldsList = $this->getSummaryViewFieldsList();
-
-		if(count($summaryFieldsList) > 0){
-			 $popupFields = array_keys($summaryFieldsList);
+		$sourceModule = $this->get('sourceModule');	
+		if(!empty($sourceModule)){
+			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
+			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
+		}
+		if($relationModel){
+			$popupFields = $relationModel->getRelationFields(true);
 		}else{
+			$popupFields = array_keys($this->getSummaryViewFieldsList());
+		}
+		if(count($popupFields) == 0){
 			$popupFields = array_values($this->getRelatedListFields());
 		}
 		return $popupFields;

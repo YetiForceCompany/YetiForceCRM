@@ -127,7 +127,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 * @param Vtiger_Module_Model $relatedModule
 	 * @return <String>
 	 */
-	public function getRelationQuery($recordId, $functionName, $relatedModule) {
+	public function getRelationQuery($recordId, $functionName, $relatedModule,$relationModel = false) {
 		if ($functionName === 'get_activities') {
 			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
@@ -151,7 +151,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 				$query = appendFromClauseToQuery($query, $nonAdminQuery);
 			}
 		} else {
-			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule);
+			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
 
 		return $query;

@@ -180,9 +180,13 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 	public function getEntries($pagingModel) {
 		$db = PearDatabase::getInstance();
 		$parentModule = $this->getParentRecordModel()->getModule();
-		$relationModule = $this->getRelationModel()->getRelationModuleModel();
+		$relationModel = $this->getRelationModel();
+		$relationModule = $relationModel->getRelationModuleModel();
+		$relatedColumnFields = $relationModel->getRelationFields(true,true);
 		$relationModuleName = $relationModule->get('name');
-		$relatedColumnFields = $relationModule->getConfigureRelatedListFields();
+		if(count($relatedColumnFields) <= 0){
+			$relatedColumnFields = $relationModule->getConfigureRelatedListFields();
+		}
 		if(count($relatedColumnFields) <= 0){
 			$relatedColumnFields = $relationModule->getRelatedListFields();
 		}
@@ -191,7 +195,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 			//Adding visibility in the related list, showing records based on the visibility
 			$relatedColumnFields['visibility'] = 'visibility';
 		}
-		
 		if($relationModuleName == 'PriceBooks') {
 			//Adding fields in the related list
 			$relatedColumnFields['unit_price'] = 'unit_price';
@@ -211,7 +214,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 		$orderBy = $this->getForSql('orderby');
 		$sortOrder = $this->getForSql('sortorder');
 		if($orderBy) {
-
             $orderByFieldModuleModel = $relationModule->getFieldByColumn($orderBy);
             if($orderByFieldModuleModel && $orderByFieldModuleModel->isReferenceField()) {
                 //If reference field then we need to perform a join with crmentity with the related to field
@@ -236,7 +238,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
                 $query = "$query ORDER BY $qualifiedOrderBy $sortOrder";
 				}
 		}
-
 		$limitQuery = $query .' LIMIT '.$startIndex.','.$pageLimit;
 		$result = $db->pquery($limitQuery, array());
 		$relatedRecordList = array();
@@ -295,10 +296,16 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 	public function getHeaders() {
 		$relationModel = $this->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
-
-		$summaryFieldsList = $relatedModuleModel->getSummaryViewFieldsList();
+		$relationFields = $relationModel->getRelationFields(true);
 
 		$headerFields = array();
+		if(count($relationFields) > 0) {
+			foreach($relationFields as $fieldName) {
+				$headerFields[$fieldName] = $relatedModuleModel->getField($fieldName);
+			}
+			return $headerFields;
+		}
+		$summaryFieldsList = $relatedModuleModel->getSummaryViewFieldsList();
 		if(count($summaryFieldsList) > 0) {
 			foreach($summaryFieldsList as $fieldName => $fieldModel) {
 				$headerFields[$fieldName] = $fieldModel;

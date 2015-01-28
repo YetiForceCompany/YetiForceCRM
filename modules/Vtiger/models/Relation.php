@@ -112,8 +112,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 		$parentModuleName = $parentModuleModel->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel);
-
+		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this);
 		return $query;
 	}
 
@@ -294,12 +293,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
     	$query = 'DELETE FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
     	$adb->pquery($query, array($relationId));
     	foreach($fields as $key => $field){
-    		$query = 'INSERT INTO `vtiger_relatedlists_fields` (`relation_id`, `fieldid`, `sequence`) VALUES (?, ?, ?);';
-    		$result = $adb->pquery($query, array($relationId,$field,$key));
+    		$query = 'INSERT INTO `vtiger_relatedlists_fields` (`relation_id`, `fieldid`, `fieldname`, `sequence`) VALUES (?, ?, ?, ?);';
+    		$result = $adb->pquery($query, array($relationId, $field['id'], $field['name'], $key));
     	}
     }
     
-    public function getRelationFields($onlyFields = false) {
+    public function getRelationFields($onlyFields = false,$association = false) {
     	$adb = PearDatabase::getInstance();
     	$relationId = $this->getId();
     	$query = 'SELECT * FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
@@ -307,7 +306,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
     	if($onlyFields){
     		$fields = array();
     		for($i = 0; $i < $adb->num_rows($result); $i++){
-    			$fields[] = $adb->query_result_raw($result, $i, 'fieldid');
+    			$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
+    			if($association)
+    				$fields[$fieldname] = $fieldname;
+    			else 
+    				$fields[] = $fieldname;
     		}
     		return $fields;
     	}
