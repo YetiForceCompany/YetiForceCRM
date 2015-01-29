@@ -226,3 +226,6 @@ $breadcrumbs = true;
 
 //Separator for menu breadcrumbs default value = '>'
 $breadcrumbs_separator = '>';
+
+//Minimum cron frequency [min]
+$MINIMUM_CRON_FREQUENCY = 1;
