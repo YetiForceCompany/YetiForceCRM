@@ -1969,7 +1969,7 @@ function getMinimumCronFrequency() {
 	if(!empty($MINIMUM_CRON_FREQUENCY)) {
 		return $MINIMUM_CRON_FREQUENCY;
 		}
-	return 15;
+	return 1;
 }
 
 //Function returns Email related Modules
