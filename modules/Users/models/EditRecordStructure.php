@@ -59,6 +59,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model {
 						
 						if(!$recordId && $fieldModel->get('uitype') == 99) {
 							$fieldModel->set('editable', true);
+							$fieldModel->set('fieldvalue', '');
 							$values[$blockLabel][$fieldName] = $fieldModel;
 						} else if($fieldModel->get('uitype') != 99){
 							$values[$blockLabel][$fieldName] = $fieldModel;
