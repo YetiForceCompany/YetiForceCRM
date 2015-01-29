@@ -7329,6 +7329,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `templateid` int(19) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `module` int(19) DEFAULT NULL,
+  `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

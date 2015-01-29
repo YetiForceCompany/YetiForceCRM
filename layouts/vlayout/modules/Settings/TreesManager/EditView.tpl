@@ -17,6 +17,7 @@
 	<input type="hidden" name="action" value="Save"/>
 	<input type="hidden" name="record" value="{$RECORD_ID}" />
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
+	<input type="hidden" id="access" value="{$ACCESS}" />
 	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
 	<div class="widget_header row-fluid">
 		{if $MODE eq 'edit'}
@@ -28,14 +29,16 @@
 	<hr>
 	<div class="row-fluid">
 		<label class="span3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
-		<input type="text" class="fieldValue span7" name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
+		<div class="input-append span7">
+			<input type="text" class="fieldValue span7 " name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
+		</div>
 	</div>
 	<br>
 	<div class="row-fluid">
 		<label class="span3"><strong>{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}: </strong></label>
 		<div class="span8 fieldValue">
 			{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
-			<select class="select2" name="templatemodule" style="width: 300px;">
+			<select class="select2" name="templatemodule" {if !$ACCESS} disabled {/if} style="width: 300px;">
 				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 					<option {if $SOURCE_MODULE eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
 						{if $MODULE_MODEL->getName() eq 'Calendar'}
@@ -46,6 +49,9 @@
 					</option>
 				{/foreach}
 			</select>
+			{if !$ACCESS} 
+				<input type="text" class="fieldValue hide" name="templatemodule" value="{$SOURCE_MODULE}"/>
+			{/if}
 		</div>
 	</div>
 	<hr>

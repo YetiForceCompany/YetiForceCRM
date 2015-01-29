@@ -15,26 +15,28 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
-
+		$sourceModuleId = '';
+		$access = 1;
 		if(!empty($record)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($record);
-			if($request->get('module') != '')
-				$viewer->assign('SOURCE_MODULE', $request->get('module'));
+			$sourceModuleId = $recordModel->get('module');
 			$viewer->assign('MODE', 'edit');
+			$access = $recordModel->get('access');
 		} else {
 			$recordModel = new Settings_TreesManager_Record_Model();
 			$viewer->assign('MODE', '');
-			$viewer->assign('SOURCE_MODULE', $recordModel->get('module'));
 			$recordModel->set('lastId',0);
 		}
-
 		$tree = $recordModel->getTree();
+		//echo '<pre>', print_r($tree); echo '</pre>'; exit;
 		$viewer->assign('TREE', Zend_Json::encode($tree));
 		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SOURCE_MODULE', $source_module);
+		$viewer->assign('ACCESS', $access);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
