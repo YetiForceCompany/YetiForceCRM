@@ -518,6 +518,9 @@
 <label>Quotes</label>
 <sequence>4</sequence>
 <presence>0</presence>
+<actions>
+<action> </action>
+</actions>
 <relatedmodule>Quotes</relatedmodule>
 </relatedlist>
 </relatedlists>

@@ -1635,8 +1635,8 @@ class VT610_to_YT {
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::foldersToTree() method ...");
 		
-		$sql = 'INSERT INTO vtiger_trees_templates(name, module) VALUES (?,?)';
-		$params = array('System', getTabid('Documents'));
+		$sql = 'INSERT INTO vtiger_trees_templates(`name`, `module`, `access`) VALUES (?,?,?)';
+		$params = array('System', getTabid('Documents'), 0);
 		$adb->pquery($sql, $params);
 		$templateId = $adb->getLastInsertID();
 		
@@ -2847,6 +2847,22 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	public function relatedList(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::relatedList() method ...");
+		
+		$docelowy_Module = Vtiger_Module::getInstance('Contacts');
+		$moduleInstance = Vtiger_Module::getInstance('CallHistory');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('Accounts');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('Leads');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('Vendors');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('OSSEmployees');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('Potentials');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$docelowy_Module = Vtiger_Module::getInstance('HelpDesk');
+		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		
 		$addRelations = array();
 		$addRelations['Potentials'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD', 'name'=>'get_dependents_list');
