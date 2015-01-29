@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -18378,7 +18377,7 @@ insert  into `vtiger_tracking_unit_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_trees_templates` */
 
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`) values (1,'System',8);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) values (1,'System',8,0);
 
 /*Data for the table `vtiger_trees_templates_data` */
 

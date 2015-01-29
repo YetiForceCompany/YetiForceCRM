@@ -1,5 +1,6 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+<div class="listViewEntriesDiv contents-bottomscroll">
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
@@ -102,4 +103,5 @@
 			</tr>
 		{/foreach}
 	</table>
+</div>
 {/strip}
