@@ -9,6 +9,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_SELECT_MODULE_TO_ADD'	=>	'Выберите модуль',
+	'LBL_ADD_MODULE_INFO'	=>	'Выберите модуль из удаленных модулей, чтобы добавить его к списку',
+	'LBL_REMOVE_INFO'	=>	'Кликните на крестик, чтобы удалить модуль из списка',
+	'LBL_RELATED_LIST_INFO'	=>	'Перетащите модуль для сортировки списка',
 	'Calendar' => 'Календарь',
 	'Checkbox' => 'Метка',
 	'Currency'=>'Валюта',
@@ -24,7 +28,7 @@ $languageStrings = array(
 	'LBL_ADD_CUSTOM_FIELD' => 'Добавить пользовательское поле',
 	'LBL_ALWAYS_SHOW' => 'Всегда показывать',
 	'LBL_ARRANGE_RELATED_LIST' => 'Порядок списка связей',
-	'LBL_ARRANGE_RELATED_TABS' => 'Список связей',
+	'LBL_ARRANGE_RELATED_TABS'	=>	'Редактор связей',
 	'LBL_BLOCK_NAME' => 'Название блока',
 	'LBL_CLICK_HERE_TO_EDIT' => 'Редактировать',
 	'LBL_CREATE_CUSTOM_FIELD' => 'Создать Пользовательское Поле',
@@ -62,7 +66,7 @@ $languageStrings = array(
 	'Text'=>'Текст',
 	'Time'=>'Время',
 	'URL' => 'Ссылка',
-    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Редактировать связанные модуля',
+	'LBL_REL_MODULE_LAYOUT_EDITOR'	=>	'Редактор связей',
 	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Выберите модули',
