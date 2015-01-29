@@ -228,7 +228,7 @@ class rcube_html2text
         '-',
         '*',
         'Â£',
-        'EUR',                                  // Euro sign. ï¿½ ?
+        'EUR',                                  // Euro sign. € ?
         '|+|amp|+|',                            // Ampersand: see _converter()
         ' ',                                    // Runs of spaces, post-handling
     );

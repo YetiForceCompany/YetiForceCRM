@@ -2299,7 +2299,7 @@ static public $yy_action = array(
     if ($this->strip) {
         $this->_retvalue = new _smarty_text($this, preg_replace('![\t ]*[\r\n]+[\t ]*!', '', self::escape_start_tag($this->yystack[$this->yyidx + 0]->minor)));
     } else {
-        $this->_retvalue = new _smarty_text($this, self::escape_start_tag(ï¿½));
+        $this->_retvalue = new _smarty_text($this, self::escape_start_tag(ö));
     }
     }
 #line 2301 "smarty_internal_templateparser.php"

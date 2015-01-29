@@ -76,16 +76,16 @@ var ajaxChatLang = {
 	errorPrivateMessageNotAllowed: 'Viga: Privaat-sõnumid ei ole lubatud.',
 	errorInviteNotAllowed: 'Viga: Sul ei ole lubatud kutsuda kedagi siia kanalisse.',
 	errorUninviteNotAllowed: 'Viga: Sul ei ole lubatud kedagi sellest kanalist lahkuma paluda.',
-	errorNoOpenQuery: 'Viga: �htegi privaat-kanalit pole avatud.',
+	errorNoOpenQuery: 'Viga: �htegi privaat-kanalit pole avatud.',
 	errorKickNotAllowed: 'Viga: Sul ei ole lubatud välja visata %s.',
 	errorCommandNotAllowed: 'Viga: Korraldus pole lubatud: %s',
 	errorUnknownCommand: 'Viga: Tundmatu korraldus: %s',
 	errorMaxMessageRate: 'Viga: Sinu maksimum sõnumite hulk, minuti vältel, on ületatud.',
-	errorConnectionTimeout: 'Viga: �hendus aegus. Please proovi uuesti.',
-	errorConnectionStatus: 'Viga: �henduse olek: %s',
+	errorConnectionTimeout: 'Viga: �hendus aegus. Please proovi uuesti.',
+	errorConnectionStatus: 'Viga: �henduse olek: %s',
 	errorSoundIO: 'Viga: Helifaili ei õnnestunud laadida (Flash IO Viga).',
-	errorSocketIO: 'Viga: �hendus socket serveriga ebaõnnestus (Flash IO Viga).',
-	errorSocketSecurity: 'Viga: �hendus socket serveriga ebaõnnestus (Flash Turvalisuse Viga).',
+	errorSocketIO: 'Viga: �hendus socket serveriga ebaõnnestus (Flash IO Viga).',
+	errorSocketSecurity: 'Viga: �hendus socket serveriga ebaõnnestus (Flash Turvalisuse Viga).',
 	errorDOMSyntax: 'Viga: Vigane DOM Süntaks (DOM ID: %s).'
 	
 }

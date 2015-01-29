@@ -99,8 +99,8 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_CompileBase {
                             $replacement = '';
                         }
                         // replace {$smarty.block.child} tag
-                        $search = array("%({$_ldl}{$al}block[\s\S]*?{$name}[\s\S]*?{$_rdl})([\s\S]*?)({$_ldl}{$al}\\\$smarty\.block\.child{$_rdl})([\s\S]*?{$_ldl}{$al}/block{$_rdl})%","/ï¿½ï¿½ï¿½childï¿½ï¿½ï¿½/");
-                        $replace = array('\2ï¿½ï¿½ï¿½childï¿½ï¿½ï¿½', $replacement);
+                        $search = array("%({$_ldl}{$al}block[\s\S]*?{$name}[\s\S]*?{$_rdl})([\s\S]*?)({$_ldl}{$al}\\\$smarty\.block\.child{$_rdl})([\s\S]*?{$_ldl}{$al}/block{$_rdl})%","/§§§child§§§/");
+                        $replace = array('\2§§§child§§§', $replacement);
                         $block_content = preg_replace($search, $replace , $block_content);
                     }
                 }
