@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 class Vtiger_Popup_View extends Vtiger_Footer_View {
@@ -41,8 +42,10 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
-
-		$viewer->view('Popup.tpl', $moduleName);
+		if(vglobal('popupType') == 2)
+			$viewer->view('Popup2.tpl', $moduleName);
+		else
+			$viewer->view('Popup.tpl', $moduleName);
 	}
 
 	function postProcess(Vtiger_Request $request) {
@@ -61,6 +64,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
+			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'modules.Vtiger.resources.Popup',
 			"modules.$moduleName.resources.Popup",
 			'modules.Vtiger.resources.BaseList',
@@ -70,7 +76,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			'modules.Vtiger.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		);
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
@@ -116,6 +121,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
+		if(vglobal('popupAjax'))
+			$pagingModel->set('noLimit', true);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -132,7 +139,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
 		}else{
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule, $sourceRecord);
+			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		if(empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
@@ -152,6 +159,21 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
+        $searchParmams = $request->get('search_params');
+        if(empty($searchParmams)) {
+            $searchParmams = array();
+        }
+        $transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
+        $listViewModel->set('search_params',$transformedSearchParams);
+        //To make smarty to get the details easily accesible
+        foreach($searchParmams as $fieldListGroup){
+        	foreach($fieldListGroup as $fieldSearchInfo){
+        		$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+        		$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+        		$searchParmams[$fieldName] = $fieldSearchInfo;
+        	}
+        }
+        
 		if(!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$this->listViewHeaders = $listViewModel->getHeaders();
 			$models = $listViewModel->getEntries($pagingModel);
@@ -162,7 +184,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 				}
 				$models[$recordId] = $recordModel;
 			}
-			
 			$this->listViewEntries = $models;
             if(count($this->listViewEntries) > 0 ){
                 $parent_related_records = true;
@@ -177,7 +198,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
             $relatedParentModule = null;
             $relatedParentId = null;
             $listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
-            
+            $listViewModel->set('search_params',$transformedSearchParams);
             if(!empty($orderBy)) {
                 $listViewModel->set('orderby', $orderBy);
                 $listViewModel->set('sortorder', $sortOrder);
@@ -255,6 +276,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 	
 	/**
@@ -280,7 +302,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
 		}else{
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		
 		if(!empty($sourceModule)) {

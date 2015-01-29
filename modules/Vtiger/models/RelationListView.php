@@ -325,12 +325,16 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 	 */
 	public function getRelationQuery() {
 		$relationModel = $this->getRelationModel();
-
 		if(!empty($relationModel) && $relationModel->get('name') != NULL){
 			$recordModel = $this->getParentRecordModel();
-			$query = $relationModel->getQuery($recordModel);
+			$query = $relationModel->getQuery($recordModel, false, $this);
 			return $query;
 		}
+		$searchParams = $this->get('search_params');
+		if(empty($searchParams)) {
+			$searchParams = array();
+		}
+		
 		$relatedModuleModel = $this->getRelatedModuleModel(); 
         $relatedModuleName = $relatedModuleModel->getName(); 
 		
@@ -347,6 +351,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new QueryGenerator($relatedModuleName, $currentUserModel);
 		$queryGenerator->setFields($relatedModuleFields);
+		
+		if(count($searchParams) > 0) {
+			$queryGenerator->parseAdvFilterList($searchParams);
+		}
 		$joinQuery = ' INNER JOIN '.$parentModuleBaseTable.' ON '.$parentModuleBaseTable.'.'.$parentModuleDirectRelatedField." = ".$relatedModuleBaseTable.'.'.$relatedModuleEntityIdField;
 		
 		$query = $queryGenerator->getQuery();

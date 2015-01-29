@@ -1,12 +1,12 @@
 {*<!--
 /*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
@@ -21,12 +21,9 @@
     <input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
     <input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
     <input type="hidden" id="view" value="{$VIEW}"/>
-    <input type="hidden" id="popupType" value="1"/>
+    <input type="hidden" id="popupType" value="2"/>
+	<br/>
     <div class="popupContainer row-fluid">
-        <div class="logo span6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
-        <div class="span6"><b>{vtranslate($MODULE_NAME, $MODULE_NAME)}</b></div>
-    </div>
-    <div class="row-fluid">
 		<div class="span2">
 			{if $MULTI_SELECT}
 				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
@@ -35,26 +32,10 @@
 			{/if}
 		</div>
         <div class="span6">
+			<h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
             <form class="form-horizontal popupSearchContainer" onsubmit="return false;" method="POST">
-                <div class="control-group margin0px">
-                    <input class="span2" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" id="searchvalue"/>&nbsp;&nbsp;
-                    <span><strong>{vtranslate('LBL_IN')}</strong></span>&nbsp;
-                    <span>
-                        {assign var = defaultSearchField value = $RECORD_STRUCTURE_MODEL->getModule()->getDefaultSearchField()}
-                        <select style="width: 200px;" class="chzn-select" id="searchableColumnsList">
-                            {foreach key=block item=fields from=$RECORD_STRUCTURE}
-                                {foreach key=fieldName item=fieldObject from=$fields}
-                                    <optgroup>
-                                        <option value="{$fieldName}" {if $fieldName eq $defaultSearchField} selected {/if}>{vtranslate($fieldObject->get('label'),$MODULE_NAME)}</option>
-                                    </optgroup>
-                                {/foreach}
-                            {/foreach}
-                        </select>
-                    </span>&nbsp;&nbsp;
-                    <span id="popupSearchButton">
-                        <button class="btn"><i class="icon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></i></button>
-                    </span>
-                </div>
+				<input class="span2" type="hidden" id="searchfield"/>
+				<input class="span2" type="hidden" id="searchvalue"/>
             </form>
         </div>
 		<div class="span4">

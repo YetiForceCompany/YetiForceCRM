@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
 
 class Vtiger_PopupAjax_View extends Vtiger_Popup_View {
@@ -35,8 +36,10 @@ class Vtiger_PopupAjax_View extends Vtiger_Popup_View {
 		$moduleName = $request->getModule();
 
 		$this->initializeListViewContents($request, $viewer);
-
-		echo $viewer->view('PopupContents.tpl', $moduleName, true);
+		if(vglobal('popupType') == 2)
+			echo $viewer->view('Popup2Contents.tpl', $moduleName, true);
+		else
+			echo $viewer->view('PopupContents.tpl', $moduleName, true);
 	}
 
 }

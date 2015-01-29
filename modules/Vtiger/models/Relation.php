@@ -106,13 +106,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 		return explode(',', $actionString);
 	}
 
-	public function getQuery($parentRecord, $actions=false){
+	public function getQuery($parentRecord, $actions=false, $relationListView_Model = false){
 		$parentModuleModel = $this->getParentModuleModel();
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $parentModuleModel->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this);
+		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, false, $relationListView_Model);
+		if($relationListView_Model){
+			$searchParams = $relationListView_Model->get('search_params');
+			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+		}
 		return $query;
 	}
 
@@ -315,6 +319,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
     		return $fields;
     	}
     	return $result->GetArray();
+    }
+    
+    public function addSearchConditions($query, $searchParams, $related_module) {
+		if (! empty ( $searchParams )) {
+			$currentUserModel = Users_Record_Model::getCurrentUserModel ();
+			$queryGenerator = new QueryGenerator ( $related_module, $currentUserModel );
+			$queryGenerator->parseAdvFilterList ( $searchParams );
+			$where = $queryGenerator->getWhereClause ( true );
+			$query .= $where;
+		}
+    	return $query;
     }
     
 	public function isActive() {

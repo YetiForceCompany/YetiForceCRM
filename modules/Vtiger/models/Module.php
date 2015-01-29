@@ -1358,7 +1358,9 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
-		$relatedListFields = $relationModel->getRelationFields(true,true);
+		$relatedListFields = array();
+		if($relationModel)
+			$relatedListFields = $relationModel->getRelationFields(true,true);
 		if(count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
 		}

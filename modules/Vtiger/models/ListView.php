@@ -400,7 +400,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 	 * @param <String> $value - Module Name
 	 * @return Vtiger_ListView_Model instance
 	 */
-	public static function getInstanceForPopup($value, $sourceModule) {
+	public static function getInstanceForPopup($value, $sourceModule = false) {
 		$db = PearDatabase::getInstance();
 		$currentUser = vglobal('current_user');
 

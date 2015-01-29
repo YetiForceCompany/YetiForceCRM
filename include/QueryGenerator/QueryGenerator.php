@@ -641,14 +641,14 @@ class QueryGenerator {
 		return $sql;
 	}
 
-	public function getWhereClause() {
+	public function getWhereClause($onlyWhereQuery = false) {
 		global $current_user;
 		if(!empty($this->query) || !empty($this->whereClause)) {
 			return $this->whereClause;
 		}
 		$deletedQuery = $this->meta->getEntityDeletedQuery();
 		$sql = '';
-		if(!empty($deletedQuery)) {
+		if(!empty($deletedQuery) && !$onlyWhereQuery) {
 			$sql .= " WHERE $deletedQuery";
 		}
 		if($this->conditionInstanceCount > 0) {
@@ -885,10 +885,11 @@ class QueryGenerator {
 			$this->conditionalWhere = $groupSql;
 			$sql .= $groupSql;
 		}
-		$sql .= " AND $baseTable.$baseTableIndex > 0";
-		$instance = CRMEntity::getInstance($baseModule);
-		$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user);
-
+		if(!$onlyWhereQuery){
+			$sql .= " AND $baseTable.$baseTableIndex > 0";
+			$instance = CRMEntity::getInstance($baseModule);
+			$sql .= $instance->getUserAccessConditionsQuerySR($baseModule, $current_user);
+		}
 		$this->whereClause = $sql;
 		return $sql;
 	}

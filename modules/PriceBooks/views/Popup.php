@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
-
 class PriceBooks_Popup_View extends Vtiger_Popup_View {
 
 	/*
@@ -46,7 +46,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View {
 		$pagingModel->set('page', $pageNumber);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+		$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName,$sourceModule);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 		if(empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);

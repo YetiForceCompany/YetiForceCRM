@@ -226,3 +226,6 @@ $breadcrumbs = true;
 
 //Separator for menu breadcrumbs default value = '>'
 $breadcrumbs_separator = '>';
+
+//Pop-up window type with record list  1 - Normal , 2 - Expanded search
+$popupType = 1;

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Products_Relation_Model extends Vtiger_Relation_Model {
@@ -16,7 +17,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 	 * @param type $actions
 	 * @return <String>
 	 */
-	public function getQuery($recordModel, $actions=false){
+	public function getQuery($recordModel, $actions=false, $relationListView_Model = false){
 		$parentModuleModel = $this->getParentModuleModel();
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->get('name');
@@ -27,8 +28,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 		if(method_exists($parentModuleModel, $functionName)) {
 			$query = $parentModuleModel->$functionName($recordModel, $relatedModuleModel);
 		} else {
-			$result = $focus->$functionName($recordModel->getId(), $parentModuleModel->getId(),
-											$relatedModuleModel->getId(), $actions);
+			$result = $focus->$functionName($recordModel->getId(), $parentModuleModel->getId(), $relatedModuleModel->getId(), $actions);
 			$query = $result['query'];
 		}
 
@@ -53,7 +53,10 @@ class Products_Relation_Model extends Vtiger_Relation_Model {
 		}
 		if($selectColumnSql && $newQuery[1])
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
-
+		if($relationListView_Model){
+			$searchParams = $relationListView_Model->get('search_params');
+			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
+		}
 		return $query;
 	}
 	

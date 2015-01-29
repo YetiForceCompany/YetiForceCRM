@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class("Vtiger_Popup_Js",{
 
@@ -381,6 +382,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		params['related_parent_id'] = this.getRelatedParentRecord();
 		params['module'] = app.getModuleName();
 
+		params['search_params'] = JSON.stringify(this.getListSearchParams());
 		if(this.isMultiSelectMode()) {
 			params['multi_select'] = true;
 		}
@@ -460,12 +462,11 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var completeParams = this.getCompleteParams();
 		completeParams['page'] = 1;
 		return this.getPageRecords(completeParams).then(
-			function(data){
-				aDeferred.resolve(data);
-			},
-
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
+		function(data){
+		    aDeferred.resolve(data);
+		},
+		function(textStatus, errorThrown){
+			aDeferred.reject(textStatus, errorThrown);
 		});
 		return aDeferred.promise();
 	},
@@ -535,6 +536,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 			var element = jQuery(e.currentTarget);
 			thisInstance.sortHandler(element).then(function(data){
 				thisInstance.updatePagination();
+				var popupType = jQuery('#popupType').val();
+				if(popupType == 2){
+					thisInstance.registerListSearch();
+				}
 			});
 		});
 	},
@@ -606,11 +611,19 @@ jQuery.Class("Vtiger_Popup_Js",{
 		jQuery('#listViewNextPageButton').on('click',function(){
 			thisInstance.nextPageHandler().then(function(data){
 				thisInstance.updatePagination();
+				var popupType = jQuery('#popupType').val();
+				if(popupType == 2){
+					thisInstance.registerListSearch();
+				}
 			});
 		});
 		jQuery('#listViewPreviousPageButton').on('click',function(){
 			thisInstance.previousPageHandler().then(function(data){
 				thisInstance.updatePagination();
+				var popupType = jQuery('#popupType').val();
+				if(popupType == 2){
+					thisInstance.registerListSearch();
+				}
 			});
 		});
 		jQuery('#listViewPageJump').on('click',function(e){
@@ -678,6 +691,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 						function(data){
 							currentPageElement.val(newPageNumber);
 							thisInstance.updatePagination();
+							var popupType = jQuery('#popupType').val();
+							if(popupType == 2){
+								thisInstance.registerListSearch();
+							}
 							element.closest('.btn-group ').removeClass('open');
 						},
 						function(textStatus, errorThrown){
@@ -818,6 +835,102 @@ jQuery.Class("Vtiger_Popup_Js",{
 
 	},
 
+	registerListSearch : function() {
+		var popupPageContentsContainer = this.getPopupPageContainer();
+		var thisInstance = this;
+		popupPageContentsContainer.on('click','[data-trigger="listSearch"]',function(e) {
+			jQuery('#totalPageCount').text("");
+			thisInstance.searchHandler().then(function(data) {
+				jQuery('#pageNumber').val(1);
+				jQuery('#pageToJump').val(1);
+				thisInstance.updatePagination();
+				thisInstance.registerListViewSelectSearch();
+			});
+		})
+		popupPageContentsContainer.on('keypress','input.listSearchContributor', function(e) {
+			if (e.keyCode == 13) {
+				thisInstance.triggerListSearch();
+			}
+		});
+		thisInstance.registerListViewSelectSearch();
+		thisInstance.registerDateListSearch(popupPageContentsContainer);
+		thisInstance.registerTimeListSearch(popupPageContentsContainer);
+	},
+	
+	registerListViewSelectSearch : function() {
+		var thisInstance = this;
+		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
+		var select = popupPageContentsContainer.find('.listViewEntriesTable .select2noactive');
+		select.select2({closeOnSelect:true});
+		select.on("change", function(e) { 
+			thisInstance.triggerListSearch();
+		})
+	},
+	
+	triggerListSearch : function() {
+		var thisInstance = this;
+		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
+		popupPageContentsContainer.find('button[data-trigger="listSearch"]').trigger( "click" );
+	},
+	
+	registerTimeListSearch : function(container) {
+		app.registerEventForTimeFields(container,false);
+	},
+
+	registerDateListSearch : function(container) {
+		container.find('.dateField').each(function(index,element){
+			var dateElement = jQuery(element);
+			var customParams = {
+				calendars: 2,
+				mode: 'range',
+				className : 'rangeCalendar',
+				onChange: function(formated) {
+					dateElement.val(formated.join(','));
+	               }
+			}
+			app.registerEventForDatePickerFields(dateElement,false,customParams);
+		});
+    },
+		    
+	getListSearchParams : function(){
+		var popupPageContentsContainer = this.getPopupPageContainer();
+	     var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
+	     var searchParams = new Array();
+	     listViewTable.find('.listSearchContributor').each(function(index,domElement){
+	         var searchInfo = new Array();
+	         var searchContributorElement = jQuery(domElement);
+	         var fieldInfo = searchContributorElement.data('fieldinfo');
+	         var fieldName = searchContributorElement.attr('name');
+	         var searchValue = searchContributorElement.val();
+	
+	         if(typeof searchValue == "object") {
+	             if(searchValue == null) {
+	                searchValue = "";
+	             }else{
+	                 searchValue = searchValue.join(',');
+	             }
+	         }
+	         searchValue = searchValue.trim();
+	         if(searchValue.length <=0 ) {
+	             //continue
+	             return true;
+	         }
+	         var searchOperator = 'c';
+	         if(fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+	             searchOperator = 'bw';
+	         }else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
+	             || fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
+	             fieldInfo.type == "picklist"|| fieldInfo.type == "tree") {
+	             searchOperator = 'e';
+	         }
+	         searchInfo.push(fieldName);
+	         searchInfo.push(searchOperator);
+	         searchInfo.push(searchValue);
+	         searchParams.push(searchInfo);
+	     });
+	     return new Array(searchParams);
+	 },
+	
 	registerEvents: function(){
 		var pageNumber = jQuery('#pageNumber').val();
 		if(pageNumber == 1){
@@ -826,11 +939,17 @@ jQuery.Class("Vtiger_Popup_Js",{
 		this.registerEventForSelectAllInCurrentPage();
 		this.registerSelectButton();
 		this.registerEventForCheckboxChange();
-		this.registerEventForSearch();
-        this.registerEventForEnter();
 		this.registerEventForSort();
 		this.registerEventForListViewEntries();
-		//this.triggerDisplayTypeEvent();
+		var popupType = jQuery('#popupType').val();
+		if(popupType == 1){
+			this.registerEventForSearch();
+	     	this.registerEventForEnter();
+			//this.triggerDisplayTypeEvent();
+		}
+		if(popupType == 2){
+			this.registerListSearch();
+		}
 		var popupPageContainer = jQuery('#popupPageContainer');
 		if(popupPageContainer.length > 0){
 			this.registerEventForTotalRecordsCount();
