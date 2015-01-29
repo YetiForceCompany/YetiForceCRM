@@ -240,6 +240,8 @@ $languageStrings = array(
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
     'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Zarządzanie listami drzew',
+	'LBL_MODTRACKER_SETTINGS' => 'Historia zmian',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Zarządzanie historią zmian w modułach',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
