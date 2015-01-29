@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -14,8 +13,6 @@ MySQL - 5.5.24 : Database - yetiforce
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 /*Table structure for table `chat_bans` */
-
-DROP TABLE IF EXISTS `chat_bans`;
 
 CREATE TABLE `chat_bans` (
   `userID` int(11) NOT NULL,
@@ -29,8 +26,6 @@ CREATE TABLE `chat_bans` (
 
 /*Table structure for table `chat_invitations` */
 
-DROP TABLE IF EXISTS `chat_invitations`;
-
 CREATE TABLE `chat_invitations` (
   `userID` int(11) NOT NULL,
   `channel` int(11) NOT NULL,
@@ -40,8 +35,6 @@ CREATE TABLE `chat_invitations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `chat_messages` */
-
-DROP TABLE IF EXISTS `chat_messages`;
 
 CREATE TABLE `chat_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -59,8 +52,6 @@ CREATE TABLE `chat_messages` (
 
 /*Table structure for table `chat_online` */
 
-DROP TABLE IF EXISTS `chat_online`;
-
 CREATE TABLE `chat_online` (
   `userID` int(11) NOT NULL,
   `userName` varchar(64) NOT NULL,
@@ -74,8 +65,6 @@ CREATE TABLE `chat_online` (
 
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
-DROP TABLE IF EXISTS `com_vtiger_workflow_activatedonce`;
-
 CREATE TABLE `com_vtiger_workflow_activatedonce` (
   `workflow_id` int(11) NOT NULL,
   `entity_id` int(11) NOT NULL,
@@ -83,8 +72,6 @@ CREATE TABLE `com_vtiger_workflow_activatedonce` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflow_tasktypes` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflow_tasktypes`;
 
 CREATE TABLE `com_vtiger_workflow_tasktypes` (
   `id` int(11) NOT NULL,
@@ -99,15 +86,11 @@ CREATE TABLE `com_vtiger_workflow_tasktypes` (
 
 /*Table structure for table `com_vtiger_workflow_tasktypes_seq` */
 
-DROP TABLE IF EXISTS `com_vtiger_workflow_tasktypes_seq`;
-
 CREATE TABLE `com_vtiger_workflow_tasktypes_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflows`;
 
 CREATE TABLE `com_vtiger_workflows` (
   `workflow_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -130,15 +113,11 @@ CREATE TABLE `com_vtiger_workflows` (
 
 /*Table structure for table `com_vtiger_workflows_seq` */
 
-DROP TABLE IF EXISTS `com_vtiger_workflows_seq`;
-
 CREATE TABLE `com_vtiger_workflows_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtask_queue` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflowtask_queue`;
 
 CREATE TABLE `com_vtiger_workflowtask_queue` (
   `task_id` int(11) DEFAULT NULL,
@@ -148,8 +127,6 @@ CREATE TABLE `com_vtiger_workflowtask_queue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks`;
 
 CREATE TABLE `com_vtiger_workflowtasks` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -161,8 +138,6 @@ CREATE TABLE `com_vtiger_workflowtasks` (
 ) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_entitymethod`;
 
 CREATE TABLE `com_vtiger_workflowtasks_entitymethod` (
   `workflowtasks_entitymethod_id` int(11) NOT NULL,
@@ -176,23 +151,17 @@ CREATE TABLE `com_vtiger_workflowtasks_entitymethod` (
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod_seq` */
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_entitymethod_seq`;
-
 CREATE TABLE `com_vtiger_workflowtasks_entitymethod_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_seq` */
 
-DROP TABLE IF EXISTS `com_vtiger_workflowtasks_seq`;
-
 CREATE TABLE `com_vtiger_workflowtasks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtemplates` */
-
-DROP TABLE IF EXISTS `com_vtiger_workflowtemplates`;
 
 CREATE TABLE `com_vtiger_workflowtemplates` (
   `template_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -203,8 +172,6 @@ CREATE TABLE `com_vtiger_workflowtemplates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache` */
-
-DROP TABLE IF EXISTS `roundcube_cache`;
 
 CREATE TABLE `roundcube_cache` (
   `user_id` int(10) unsigned NOT NULL,
@@ -219,8 +186,6 @@ CREATE TABLE `roundcube_cache` (
 
 /*Table structure for table `roundcube_cache_index` */
 
-DROP TABLE IF EXISTS `roundcube_cache_index`;
-
 CREATE TABLE `roundcube_cache_index` (
   `user_id` int(10) unsigned NOT NULL,
   `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -233,8 +198,6 @@ CREATE TABLE `roundcube_cache_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache_messages` */
-
-DROP TABLE IF EXISTS `roundcube_cache_messages`;
 
 CREATE TABLE `roundcube_cache_messages` (
   `user_id` int(10) unsigned NOT NULL,
@@ -250,8 +213,6 @@ CREATE TABLE `roundcube_cache_messages` (
 
 /*Table structure for table `roundcube_cache_shared` */
 
-DROP TABLE IF EXISTS `roundcube_cache_shared`;
-
 CREATE TABLE `roundcube_cache_shared` (
   `cache_key` varchar(255) CHARACTER SET ascii NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -262,8 +223,6 @@ CREATE TABLE `roundcube_cache_shared` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache_thread` */
-
-DROP TABLE IF EXISTS `roundcube_cache_thread`;
 
 CREATE TABLE `roundcube_cache_thread` (
   `user_id` int(10) unsigned NOT NULL,
@@ -277,8 +236,6 @@ CREATE TABLE `roundcube_cache_thread` (
 
 /*Table structure for table `roundcube_contactgroupmembers` */
 
-DROP TABLE IF EXISTS `roundcube_contactgroupmembers`;
-
 CREATE TABLE `roundcube_contactgroupmembers` (
   `contactgroup_id` int(10) unsigned NOT NULL,
   `contact_id` int(10) unsigned NOT NULL,
@@ -290,8 +247,6 @@ CREATE TABLE `roundcube_contactgroupmembers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_contactgroups` */
-
-DROP TABLE IF EXISTS `roundcube_contactgroups`;
 
 CREATE TABLE `roundcube_contactgroups` (
   `contactgroup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -305,8 +260,6 @@ CREATE TABLE `roundcube_contactgroups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_contacts` */
-
-DROP TABLE IF EXISTS `roundcube_contacts`;
 
 CREATE TABLE `roundcube_contacts` (
   `contact_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -326,8 +279,6 @@ CREATE TABLE `roundcube_contacts` (
 
 /*Table structure for table `roundcube_dictionary` */
 
-DROP TABLE IF EXISTS `roundcube_dictionary`;
-
 CREATE TABLE `roundcube_dictionary` (
   `user_id` int(10) unsigned DEFAULT NULL,
   `language` varchar(5) NOT NULL,
@@ -337,8 +288,6 @@ CREATE TABLE `roundcube_dictionary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_identities` */
-
-DROP TABLE IF EXISTS `roundcube_identities`;
 
 CREATE TABLE `roundcube_identities` (
   `identity_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -361,8 +310,6 @@ CREATE TABLE `roundcube_identities` (
 
 /*Table structure for table `roundcube_searches` */
 
-DROP TABLE IF EXISTS `roundcube_searches`;
-
 CREATE TABLE `roundcube_searches` (
   `search_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
@@ -376,8 +323,6 @@ CREATE TABLE `roundcube_searches` (
 
 /*Table structure for table `roundcube_session` */
 
-DROP TABLE IF EXISTS `roundcube_session`;
-
 CREATE TABLE `roundcube_session` (
   `sess_id` varchar(128) NOT NULL,
   `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
@@ -390,8 +335,6 @@ CREATE TABLE `roundcube_session` (
 
 /*Table structure for table `roundcube_system` */
 
-DROP TABLE IF EXISTS `roundcube_system`;
-
 CREATE TABLE `roundcube_system` (
   `name` varchar(64) NOT NULL,
   `value` mediumtext,
@@ -399,8 +342,6 @@ CREATE TABLE `roundcube_system` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_users` */
-
-DROP TABLE IF EXISTS `roundcube_users`;
 
 CREATE TABLE `roundcube_users` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -418,8 +359,6 @@ CREATE TABLE `roundcube_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_account` */
-
-DROP TABLE IF EXISTS `vtiger_account`;
 
 CREATE TABLE `vtiger_account` (
   `accountid` int(19) NOT NULL DEFAULT '0',
@@ -458,8 +397,6 @@ CREATE TABLE `vtiger_account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_accountaddress` */
-
-DROP TABLE IF EXISTS `vtiger_accountaddress`;
 
 CREATE TABLE `vtiger_accountaddress` (
   `accountaddressid` int(19) NOT NULL,
@@ -502,8 +439,6 @@ CREATE TABLE `vtiger_accountaddress` (
 
 /*Table structure for table `vtiger_accountscf` */
 
-DROP TABLE IF EXISTS `vtiger_accountscf`;
-
 CREATE TABLE `vtiger_accountscf` (
   `accountid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`accountid`),
@@ -511,8 +446,6 @@ CREATE TABLE `vtiger_accountscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_accounttype` */
-
-DROP TABLE IF EXISTS `vtiger_accounttype`;
 
 CREATE TABLE `vtiger_accounttype` (
   `accounttypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -526,15 +459,11 @@ CREATE TABLE `vtiger_accounttype` (
 
 /*Table structure for table `vtiger_accounttype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_accounttype_seq`;
-
 CREATE TABLE `vtiger_accounttype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_actionmapping` */
-
-DROP TABLE IF EXISTS `vtiger_actionmapping`;
 
 CREATE TABLE `vtiger_actionmapping` (
   `actionid` int(19) NOT NULL,
@@ -544,8 +473,6 @@ CREATE TABLE `vtiger_actionmapping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activity` */
-
-DROP TABLE IF EXISTS `vtiger_activity`;
 
 CREATE TABLE `vtiger_activity` (
   `activityid` int(19) NOT NULL DEFAULT '0',
@@ -582,8 +509,6 @@ CREATE TABLE `vtiger_activity` (
 
 /*Table structure for table `vtiger_activity_reminder` */
 
-DROP TABLE IF EXISTS `vtiger_activity_reminder`;
-
 CREATE TABLE `vtiger_activity_reminder` (
   `activity_id` int(11) NOT NULL,
   `reminder_time` int(11) NOT NULL,
@@ -594,8 +519,6 @@ CREATE TABLE `vtiger_activity_reminder` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activity_reminder_popup` */
-
-DROP TABLE IF EXISTS `vtiger_activity_reminder_popup`;
 
 CREATE TABLE `vtiger_activity_reminder_popup` (
   `reminderid` int(19) NOT NULL AUTO_INCREMENT,
@@ -611,8 +534,6 @@ CREATE TABLE `vtiger_activity_reminder_popup` (
 
 /*Table structure for table `vtiger_activity_view` */
 
-DROP TABLE IF EXISTS `vtiger_activity_view`;
-
 CREATE TABLE `vtiger_activity_view` (
   `activity_viewid` int(19) NOT NULL AUTO_INCREMENT,
   `activity_view` varchar(200) NOT NULL,
@@ -623,15 +544,11 @@ CREATE TABLE `vtiger_activity_view` (
 
 /*Table structure for table `vtiger_activity_view_seq` */
 
-DROP TABLE IF EXISTS `vtiger_activity_view_seq`;
-
 CREATE TABLE `vtiger_activity_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activitycf` */
-
-DROP TABLE IF EXISTS `vtiger_activitycf`;
 
 CREATE TABLE `vtiger_activitycf` (
   `activityid` int(19) NOT NULL DEFAULT '0',
@@ -640,8 +557,6 @@ CREATE TABLE `vtiger_activitycf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activityproductrel` */
-
-DROP TABLE IF EXISTS `vtiger_activityproductrel`;
 
 CREATE TABLE `vtiger_activityproductrel` (
   `activityid` int(19) NOT NULL DEFAULT '0',
@@ -653,8 +568,6 @@ CREATE TABLE `vtiger_activityproductrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activitytype` */
-
-DROP TABLE IF EXISTS `vtiger_activitytype`;
 
 CREATE TABLE `vtiger_activitytype` (
   `activitytypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -668,15 +581,11 @@ CREATE TABLE `vtiger_activitytype` (
 
 /*Table structure for table `vtiger_activitytype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_activitytype_seq`;
-
 CREATE TABLE `vtiger_activitytype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_announcement` */
-
-DROP TABLE IF EXISTS `vtiger_announcement`;
 
 CREATE TABLE `vtiger_announcement` (
   `creatorid` int(19) NOT NULL,
@@ -689,8 +598,6 @@ CREATE TABLE `vtiger_announcement` (
 
 /*Table structure for table `vtiger_apiaddress` */
 
-DROP TABLE IF EXISTS `vtiger_apiaddress`;
-
 CREATE TABLE `vtiger_apiaddress` (
   `nominatim` int(1) DEFAULT '1',
   `key` varchar(255) DEFAULT NULL,
@@ -699,8 +606,6 @@ CREATE TABLE `vtiger_apiaddress` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assets` */
-
-DROP TABLE IF EXISTS `vtiger_assets`;
 
 CREATE TABLE `vtiger_assets` (
   `assetsid` int(11) NOT NULL,
@@ -732,8 +637,6 @@ CREATE TABLE `vtiger_assets` (
 
 /*Table structure for table `vtiger_assetscf` */
 
-DROP TABLE IF EXISTS `vtiger_assetscf`;
-
 CREATE TABLE `vtiger_assetscf` (
   `assetsid` int(19) NOT NULL,
   PRIMARY KEY (`assetsid`),
@@ -741,8 +644,6 @@ CREATE TABLE `vtiger_assetscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assetstatus` */
-
-DROP TABLE IF EXISTS `vtiger_assetstatus`;
 
 CREATE TABLE `vtiger_assetstatus` (
   `assetstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -755,15 +656,11 @@ CREATE TABLE `vtiger_assetstatus` (
 
 /*Table structure for table `vtiger_assetstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_assetstatus_seq`;
-
 CREATE TABLE `vtiger_assetstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_asterisk` */
-
-DROP TABLE IF EXISTS `vtiger_asterisk`;
 
 CREATE TABLE `vtiger_asterisk` (
   `server` varchar(30) DEFAULT NULL,
@@ -775,8 +672,6 @@ CREATE TABLE `vtiger_asterisk` (
 
 /*Table structure for table `vtiger_asteriskextensions` */
 
-DROP TABLE IF EXISTS `vtiger_asteriskextensions`;
-
 CREATE TABLE `vtiger_asteriskextensions` (
   `userid` int(11) DEFAULT NULL,
   `asterisk_extension` varchar(50) DEFAULT NULL,
@@ -784,8 +679,6 @@ CREATE TABLE `vtiger_asteriskextensions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_asteriskincomingcalls` */
-
-DROP TABLE IF EXISTS `vtiger_asteriskincomingcalls`;
 
 CREATE TABLE `vtiger_asteriskincomingcalls` (
   `from_number` varchar(50) DEFAULT NULL,
@@ -798,8 +691,6 @@ CREATE TABLE `vtiger_asteriskincomingcalls` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_asteriskincomingevents` */
-
-DROP TABLE IF EXISTS `vtiger_asteriskincomingevents`;
 
 CREATE TABLE `vtiger_asteriskincomingevents` (
   `uid` varchar(255) NOT NULL,
@@ -817,8 +708,6 @@ CREATE TABLE `vtiger_asteriskincomingevents` (
 
 /*Table structure for table `vtiger_attachments` */
 
-DROP TABLE IF EXISTS `vtiger_attachments`;
-
 CREATE TABLE `vtiger_attachments` (
   `attachmentsid` int(19) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -833,8 +722,6 @@ CREATE TABLE `vtiger_attachments` (
 
 /*Table structure for table `vtiger_audit_trial` */
 
-DROP TABLE IF EXISTS `vtiger_audit_trial`;
-
 CREATE TABLE `vtiger_audit_trial` (
   `auditid` int(19) NOT NULL,
   `userid` int(19) DEFAULT NULL,
@@ -847,8 +734,6 @@ CREATE TABLE `vtiger_audit_trial` (
 
 /*Table structure for table `vtiger_backup` */
 
-DROP TABLE IF EXISTS `vtiger_backup`;
-
 CREATE TABLE `vtiger_backup` (
   `backupid` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(50) NOT NULL,
@@ -860,8 +745,6 @@ CREATE TABLE `vtiger_backup` (
 
 /*Table structure for table `vtiger_backup_db_tmp` */
 
-DROP TABLE IF EXISTS `vtiger_backup_db_tmp`;
-
 CREATE TABLE `vtiger_backup_db_tmp` (
   `tmpbackupid` int(11) NOT NULL AUTO_INCREMENT,
   `table_name` varchar(100) NOT NULL,
@@ -870,8 +753,6 @@ CREATE TABLE `vtiger_backup_db_tmp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_backup_db_tmp_info` */
-
-DROP TABLE IF EXISTS `vtiger_backup_db_tmp_info`;
 
 CREATE TABLE `vtiger_backup_db_tmp_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -886,16 +767,12 @@ CREATE TABLE `vtiger_backup_db_tmp_info` (
 
 /*Table structure for table `vtiger_backup_dir` */
 
-DROP TABLE IF EXISTS `vtiger_backup_dir`;
-
 CREATE TABLE `vtiger_backup_dir` (
   `name` varchar(200) NOT NULL,
   `backup` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_backup_ftp` */
-
-DROP TABLE IF EXISTS `vtiger_backup_ftp`;
 
 CREATE TABLE `vtiger_backup_ftp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -907,8 +784,6 @@ CREATE TABLE `vtiger_backup_ftp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks` */
-
-DROP TABLE IF EXISTS `vtiger_blocks`;
 
 CREATE TABLE `vtiger_blocks` (
   `blockid` int(19) NOT NULL,
@@ -929,15 +804,11 @@ CREATE TABLE `vtiger_blocks` (
 
 /*Table structure for table `vtiger_blocks_seq` */
 
-DROP TABLE IF EXISTS `vtiger_blocks_seq`;
-
 CREATE TABLE `vtiger_blocks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_bruteforce` */
-
-DROP TABLE IF EXISTS `vtiger_bruteforce`;
 
 CREATE TABLE `vtiger_bruteforce` (
   `attempsnumber` int(11) NOT NULL COMMENT 'Number of attempts',
@@ -945,8 +816,6 @@ CREATE TABLE `vtiger_bruteforce` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculations` */
-
-DROP TABLE IF EXISTS `vtiger_calculations`;
 
 CREATE TABLE `vtiger_calculations` (
   `calculationsid` int(19) NOT NULL,
@@ -971,8 +840,6 @@ CREATE TABLE `vtiger_calculations` (
 
 /*Table structure for table `vtiger_calculationscf` */
 
-DROP TABLE IF EXISTS `vtiger_calculationscf`;
-
 CREATE TABLE `vtiger_calculationscf` (
   `calculationsid` int(19) NOT NULL,
   PRIMARY KEY (`calculationsid`),
@@ -980,8 +847,6 @@ CREATE TABLE `vtiger_calculationscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculationsproductrel` */
-
-DROP TABLE IF EXISTS `vtiger_calculationsproductrel`;
 
 CREATE TABLE `vtiger_calculationsproductrel` (
   `id` int(19) DEFAULT NULL,
@@ -1005,8 +870,6 @@ CREATE TABLE `vtiger_calculationsproductrel` (
 
 /*Table structure for table `vtiger_calculationsstatus` */
 
-DROP TABLE IF EXISTS `vtiger_calculationsstatus`;
-
 CREATE TABLE `vtiger_calculationsstatus` (
   `calculationsstatusid` int(11) NOT NULL AUTO_INCREMENT,
   `calculationsstatus` varchar(200) NOT NULL,
@@ -1018,15 +881,11 @@ CREATE TABLE `vtiger_calculationsstatus` (
 
 /*Table structure for table `vtiger_calculationsstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_calculationsstatus_seq`;
-
 CREATE TABLE `vtiger_calculationsstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendar_default_activitytypes` */
-
-DROP TABLE IF EXISTS `vtiger_calendar_default_activitytypes`;
 
 CREATE TABLE `vtiger_calendar_default_activitytypes` (
   `id` int(19) NOT NULL,
@@ -1039,15 +898,11 @@ CREATE TABLE `vtiger_calendar_default_activitytypes` (
 
 /*Table structure for table `vtiger_calendar_default_activitytypes_seq` */
 
-DROP TABLE IF EXISTS `vtiger_calendar_default_activitytypes_seq`;
-
 CREATE TABLE `vtiger_calendar_default_activitytypes_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendar_user_activitytypes` */
-
-DROP TABLE IF EXISTS `vtiger_calendar_user_activitytypes`;
 
 CREATE TABLE `vtiger_calendar_user_activitytypes` (
   `id` int(19) NOT NULL,
@@ -1060,15 +915,11 @@ CREATE TABLE `vtiger_calendar_user_activitytypes` (
 
 /*Table structure for table `vtiger_calendar_user_activitytypes_seq` */
 
-DROP TABLE IF EXISTS `vtiger_calendar_user_activitytypes_seq`;
-
 CREATE TABLE `vtiger_calendar_user_activitytypes_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendarsharedtype` */
-
-DROP TABLE IF EXISTS `vtiger_calendarsharedtype`;
 
 CREATE TABLE `vtiger_calendarsharedtype` (
   `calendarsharedtypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1080,15 +931,11 @@ CREATE TABLE `vtiger_calendarsharedtype` (
 
 /*Table structure for table `vtiger_calendarsharedtype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_calendarsharedtype_seq`;
-
 CREATE TABLE `vtiger_calendarsharedtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_callduration` */
-
-DROP TABLE IF EXISTS `vtiger_callduration`;
 
 CREATE TABLE `vtiger_callduration` (
   `calldurationid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1100,15 +947,11 @@ CREATE TABLE `vtiger_callduration` (
 
 /*Table structure for table `vtiger_callduration_seq` */
 
-DROP TABLE IF EXISTS `vtiger_callduration_seq`;
-
 CREATE TABLE `vtiger_callduration_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_callhistory` */
-
-DROP TABLE IF EXISTS `vtiger_callhistory`;
 
 CREATE TABLE `vtiger_callhistory` (
   `callhistoryid` int(19) NOT NULL,
@@ -1135,8 +978,6 @@ CREATE TABLE `vtiger_callhistory` (
 
 /*Table structure for table `vtiger_callhistorycf` */
 
-DROP TABLE IF EXISTS `vtiger_callhistorycf`;
-
 CREATE TABLE `vtiger_callhistorycf` (
   `callhistoryid` int(19) NOT NULL,
   PRIMARY KEY (`callhistoryid`),
@@ -1144,8 +985,6 @@ CREATE TABLE `vtiger_callhistorycf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_callhistorytype` */
-
-DROP TABLE IF EXISTS `vtiger_callhistorytype`;
 
 CREATE TABLE `vtiger_callhistorytype` (
   `callhistorytypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1157,15 +996,11 @@ CREATE TABLE `vtiger_callhistorytype` (
 
 /*Table structure for table `vtiger_callhistorytype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_callhistorytype_seq`;
-
 CREATE TABLE `vtiger_callhistorytype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaign` */
-
-DROP TABLE IF EXISTS `vtiger_campaign`;
 
 CREATE TABLE `vtiger_campaign` (
   `campaign_no` varchar(100) NOT NULL,
@@ -1197,8 +1032,6 @@ CREATE TABLE `vtiger_campaign` (
 
 /*Table structure for table `vtiger_campaignaccountrel` */
 
-DROP TABLE IF EXISTS `vtiger_campaignaccountrel`;
-
 CREATE TABLE `vtiger_campaignaccountrel` (
   `campaignid` int(19) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
@@ -1206,8 +1039,6 @@ CREATE TABLE `vtiger_campaignaccountrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaigncontrel` */
-
-DROP TABLE IF EXISTS `vtiger_campaigncontrel`;
 
 CREATE TABLE `vtiger_campaigncontrel` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
@@ -1220,8 +1051,6 @@ CREATE TABLE `vtiger_campaigncontrel` (
 
 /*Table structure for table `vtiger_campaignleadrel` */
 
-DROP TABLE IF EXISTS `vtiger_campaignleadrel`;
-
 CREATE TABLE `vtiger_campaignleadrel` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
   `leadid` int(19) NOT NULL DEFAULT '0',
@@ -1233,8 +1062,6 @@ CREATE TABLE `vtiger_campaignleadrel` (
 
 /*Table structure for table `vtiger_campaignrelstatus` */
 
-DROP TABLE IF EXISTS `vtiger_campaignrelstatus`;
-
 CREATE TABLE `vtiger_campaignrelstatus` (
   `campaignrelstatusid` int(19) DEFAULT NULL,
   `campaignrelstatus` varchar(256) DEFAULT NULL,
@@ -1244,15 +1071,11 @@ CREATE TABLE `vtiger_campaignrelstatus` (
 
 /*Table structure for table `vtiger_campaignrelstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_campaignrelstatus_seq`;
-
 CREATE TABLE `vtiger_campaignrelstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaignscf` */
-
-DROP TABLE IF EXISTS `vtiger_campaignscf`;
 
 CREATE TABLE `vtiger_campaignscf` (
   `campaignid` int(19) NOT NULL DEFAULT '0',
@@ -1261,8 +1084,6 @@ CREATE TABLE `vtiger_campaignscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaignstatus` */
-
-DROP TABLE IF EXISTS `vtiger_campaignstatus`;
 
 CREATE TABLE `vtiger_campaignstatus` (
   `campaignstatusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1276,15 +1097,11 @@ CREATE TABLE `vtiger_campaignstatus` (
 
 /*Table structure for table `vtiger_campaignstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_campaignstatus_seq`;
-
 CREATE TABLE `vtiger_campaignstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_campaigntype` */
-
-DROP TABLE IF EXISTS `vtiger_campaigntype`;
 
 CREATE TABLE `vtiger_campaigntype` (
   `campaigntypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1298,15 +1115,11 @@ CREATE TABLE `vtiger_campaigntype` (
 
 /*Table structure for table `vtiger_campaigntype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_campaigntype_seq`;
-
 CREATE TABLE `vtiger_campaigntype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_carrier` */
-
-DROP TABLE IF EXISTS `vtiger_carrier`;
 
 CREATE TABLE `vtiger_carrier` (
   `carrierid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1320,15 +1133,11 @@ CREATE TABLE `vtiger_carrier` (
 
 /*Table structure for table `vtiger_carrier_seq` */
 
-DROP TABLE IF EXISTS `vtiger_carrier_seq`;
-
 CREATE TABLE `vtiger_carrier_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cntactivityrel` */
-
-DROP TABLE IF EXISTS `vtiger_cntactivityrel`;
 
 CREATE TABLE `vtiger_cntactivityrel` (
   `contactid` int(19) NOT NULL DEFAULT '0',
@@ -1340,8 +1149,6 @@ CREATE TABLE `vtiger_cntactivityrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactaddress` */
-
-DROP TABLE IF EXISTS `vtiger_contactaddress`;
 
 CREATE TABLE `vtiger_contactaddress` (
   `contactaddressid` int(19) NOT NULL DEFAULT '0',
@@ -1372,8 +1179,6 @@ CREATE TABLE `vtiger_contactaddress` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactdetails` */
-
-DROP TABLE IF EXISTS `vtiger_contactdetails`;
 
 CREATE TABLE `vtiger_contactdetails` (
   `contactid` int(19) NOT NULL DEFAULT '0',
@@ -1406,8 +1211,6 @@ CREATE TABLE `vtiger_contactdetails` (
 
 /*Table structure for table `vtiger_contactsbookmails` */
 
-DROP TABLE IF EXISTS `vtiger_contactsbookmails`;
-
 CREATE TABLE `vtiger_contactsbookmails` (
   `contactid` int(19) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
@@ -1420,8 +1223,6 @@ CREATE TABLE `vtiger_contactsbookmails` (
 
 /*Table structure for table `vtiger_contactscf` */
 
-DROP TABLE IF EXISTS `vtiger_contactscf`;
-
 CREATE TABLE `vtiger_contactscf` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`contactid`),
@@ -1429,8 +1230,6 @@ CREATE TABLE `vtiger_contactscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactstatus` */
-
-DROP TABLE IF EXISTS `vtiger_contactstatus`;
 
 CREATE TABLE `vtiger_contactstatus` (
   `contactstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1443,15 +1242,11 @@ CREATE TABLE `vtiger_contactstatus` (
 
 /*Table structure for table `vtiger_contactstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_contactstatus_seq`;
-
 CREATE TABLE `vtiger_contactstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactsubdetails` */
-
-DROP TABLE IF EXISTS `vtiger_contactsubdetails`;
 
 CREATE TABLE `vtiger_contactsubdetails` (
   `contactsubscriptionid` int(19) NOT NULL DEFAULT '0',
@@ -1465,8 +1260,6 @@ CREATE TABLE `vtiger_contactsubdetails` (
 
 /*Table structure for table `vtiger_contpotentialrel` */
 
-DROP TABLE IF EXISTS `vtiger_contpotentialrel`;
-
 CREATE TABLE `vtiger_contpotentialrel` (
   `contactid` int(19) NOT NULL DEFAULT '0',
   `potentialid` int(19) NOT NULL DEFAULT '0',
@@ -1477,8 +1270,6 @@ CREATE TABLE `vtiger_contpotentialrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contract_priority` */
-
-DROP TABLE IF EXISTS `vtiger_contract_priority`;
 
 CREATE TABLE `vtiger_contract_priority` (
   `contract_priorityid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1491,15 +1282,11 @@ CREATE TABLE `vtiger_contract_priority` (
 
 /*Table structure for table `vtiger_contract_priority_seq` */
 
-DROP TABLE IF EXISTS `vtiger_contract_priority_seq`;
-
 CREATE TABLE `vtiger_contract_priority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contract_status` */
-
-DROP TABLE IF EXISTS `vtiger_contract_status`;
 
 CREATE TABLE `vtiger_contract_status` (
   `contract_statusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1512,15 +1299,11 @@ CREATE TABLE `vtiger_contract_status` (
 
 /*Table structure for table `vtiger_contract_status_seq` */
 
-DROP TABLE IF EXISTS `vtiger_contract_status_seq`;
-
 CREATE TABLE `vtiger_contract_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contract_type` */
-
-DROP TABLE IF EXISTS `vtiger_contract_type`;
 
 CREATE TABLE `vtiger_contract_type` (
   `contract_typeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -1533,15 +1316,11 @@ CREATE TABLE `vtiger_contract_type` (
 
 /*Table structure for table `vtiger_contract_type_seq` */
 
-DROP TABLE IF EXISTS `vtiger_contract_type_seq`;
-
 CREATE TABLE `vtiger_contract_type_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_convertleadmapping` */
-
-DROP TABLE IF EXISTS `vtiger_convertleadmapping`;
 
 CREATE TABLE `vtiger_convertleadmapping` (
   `cfmid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1554,8 +1333,6 @@ CREATE TABLE `vtiger_convertleadmapping` (
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity` */
-
-DROP TABLE IF EXISTS `vtiger_crmentity`;
 
 CREATE TABLE `vtiger_crmentity` (
   `crmid` int(19) NOT NULL,
@@ -1590,15 +1367,11 @@ CREATE TABLE `vtiger_crmentity` (
 
 /*Table structure for table `vtiger_crmentity_seq` */
 
-DROP TABLE IF EXISTS `vtiger_crmentity_seq`;
-
 CREATE TABLE `vtiger_crmentity_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */
-
-DROP TABLE IF EXISTS `vtiger_crmentityrel`;
 
 CREATE TABLE `vtiger_crmentityrel` (
   `crmid` int(11) NOT NULL,
@@ -1608,8 +1381,6 @@ CREATE TABLE `vtiger_crmentityrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cron_task` */
-
-DROP TABLE IF EXISTS `vtiger_cron_task`;
 
 CREATE TABLE `vtiger_cron_task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1629,8 +1400,6 @@ CREATE TABLE `vtiger_cron_task` (
 
 /*Table structure for table `vtiger_currencies` */
 
-DROP TABLE IF EXISTS `vtiger_currencies`;
-
 CREATE TABLE `vtiger_currencies` (
   `currencyid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_name` varchar(200) DEFAULT NULL,
@@ -1641,15 +1410,11 @@ CREATE TABLE `vtiger_currencies` (
 
 /*Table structure for table `vtiger_currencies_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currencies_seq`;
-
 CREATE TABLE `vtiger_currencies_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency` */
-
-DROP TABLE IF EXISTS `vtiger_currency`;
 
 CREATE TABLE `vtiger_currency` (
   `currencyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1662,8 +1427,6 @@ CREATE TABLE `vtiger_currency` (
 
 /*Table structure for table `vtiger_currency_decimal_separator` */
 
-DROP TABLE IF EXISTS `vtiger_currency_decimal_separator`;
-
 CREATE TABLE `vtiger_currency_decimal_separator` (
   `currency_decimal_separatorid` int(19) NOT NULL AUTO_INCREMENT,
   `currency_decimal_separator` varchar(2) NOT NULL,
@@ -1674,15 +1437,11 @@ CREATE TABLE `vtiger_currency_decimal_separator` (
 
 /*Table structure for table `vtiger_currency_decimal_separator_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currency_decimal_separator_seq`;
-
 CREATE TABLE `vtiger_currency_decimal_separator_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency_grouping_pattern` */
-
-DROP TABLE IF EXISTS `vtiger_currency_grouping_pattern`;
 
 CREATE TABLE `vtiger_currency_grouping_pattern` (
   `currency_grouping_patternid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1694,15 +1453,11 @@ CREATE TABLE `vtiger_currency_grouping_pattern` (
 
 /*Table structure for table `vtiger_currency_grouping_pattern_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_pattern_seq`;
-
 CREATE TABLE `vtiger_currency_grouping_pattern_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency_grouping_separator` */
-
-DROP TABLE IF EXISTS `vtiger_currency_grouping_separator`;
 
 CREATE TABLE `vtiger_currency_grouping_separator` (
   `currency_grouping_separatorid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1714,15 +1469,11 @@ CREATE TABLE `vtiger_currency_grouping_separator` (
 
 /*Table structure for table `vtiger_currency_grouping_separator_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currency_grouping_separator_seq`;
-
 CREATE TABLE `vtiger_currency_grouping_separator_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency_info` */
-
-DROP TABLE IF EXISTS `vtiger_currency_info`;
 
 CREATE TABLE `vtiger_currency_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1738,15 +1489,11 @@ CREATE TABLE `vtiger_currency_info` (
 
 /*Table structure for table `vtiger_currency_info_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currency_info_seq`;
-
 CREATE TABLE `vtiger_currency_info_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency_symbol_placement` */
-
-DROP TABLE IF EXISTS `vtiger_currency_symbol_placement`;
 
 CREATE TABLE `vtiger_currency_symbol_placement` (
   `currency_symbol_placementid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1758,15 +1505,11 @@ CREATE TABLE `vtiger_currency_symbol_placement` (
 
 /*Table structure for table `vtiger_currency_symbol_placement_seq` */
 
-DROP TABLE IF EXISTS `vtiger_currency_symbol_placement_seq`;
-
 CREATE TABLE `vtiger_currency_symbol_placement_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_customaction` */
-
-DROP TABLE IF EXISTS `vtiger_customaction`;
 
 CREATE TABLE `vtiger_customaction` (
   `cvid` int(19) NOT NULL,
@@ -1779,8 +1522,6 @@ CREATE TABLE `vtiger_customaction` (
 
 /*Table structure for table `vtiger_customerdetails` */
 
-DROP TABLE IF EXISTS `vtiger_customerdetails`;
-
 CREATE TABLE `vtiger_customerdetails` (
   `customerid` int(19) NOT NULL,
   `portal` varchar(3) DEFAULT NULL,
@@ -1792,8 +1533,6 @@ CREATE TABLE `vtiger_customerdetails` (
 
 /*Table structure for table `vtiger_customerportal_fields` */
 
-DROP TABLE IF EXISTS `vtiger_customerportal_fields`;
-
 CREATE TABLE `vtiger_customerportal_fields` (
   `tabid` int(19) NOT NULL,
   `fieldid` int(19) DEFAULT NULL,
@@ -1801,8 +1540,6 @@ CREATE TABLE `vtiger_customerportal_fields` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_customerportal_prefs` */
-
-DROP TABLE IF EXISTS `vtiger_customerportal_prefs`;
 
 CREATE TABLE `vtiger_customerportal_prefs` (
   `tabid` int(19) NOT NULL,
@@ -1813,8 +1550,6 @@ CREATE TABLE `vtiger_customerportal_prefs` (
 
 /*Table structure for table `vtiger_customerportal_tabs` */
 
-DROP TABLE IF EXISTS `vtiger_customerportal_tabs`;
-
 CREATE TABLE `vtiger_customerportal_tabs` (
   `tabid` int(19) NOT NULL,
   `visible` int(1) DEFAULT '1',
@@ -1823,8 +1558,6 @@ CREATE TABLE `vtiger_customerportal_tabs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_customview` */
-
-DROP TABLE IF EXISTS `vtiger_customview`;
 
 CREATE TABLE `vtiger_customview` (
   `cvid` int(19) NOT NULL,
@@ -1842,15 +1575,11 @@ CREATE TABLE `vtiger_customview` (
 
 /*Table structure for table `vtiger_customview_seq` */
 
-DROP TABLE IF EXISTS `vtiger_customview_seq`;
-
 CREATE TABLE `vtiger_customview_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
-
-DROP TABLE IF EXISTS `vtiger_cvadvfilter`;
 
 CREATE TABLE `vtiger_cvadvfilter` (
   `cvid` int(19) NOT NULL,
@@ -1867,8 +1596,6 @@ CREATE TABLE `vtiger_cvadvfilter` (
 
 /*Table structure for table `vtiger_cvadvfilter_grouping` */
 
-DROP TABLE IF EXISTS `vtiger_cvadvfilter_grouping`;
-
 CREATE TABLE `vtiger_cvadvfilter_grouping` (
   `groupid` int(11) NOT NULL,
   `cvid` int(19) NOT NULL,
@@ -1878,8 +1605,6 @@ CREATE TABLE `vtiger_cvadvfilter_grouping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvcolumnlist` */
-
-DROP TABLE IF EXISTS `vtiger_cvcolumnlist`;
 
 CREATE TABLE `vtiger_cvcolumnlist` (
   `cvid` int(19) NOT NULL,
@@ -1892,8 +1617,6 @@ CREATE TABLE `vtiger_cvcolumnlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvstdfilter` */
-
-DROP TABLE IF EXISTS `vtiger_cvstdfilter`;
 
 CREATE TABLE `vtiger_cvstdfilter` (
   `cvid` int(19) NOT NULL,
@@ -1908,8 +1631,6 @@ CREATE TABLE `vtiger_cvstdfilter` (
 
 /*Table structure for table `vtiger_dataaccess` */
 
-DROP TABLE IF EXISTS `vtiger_dataaccess`;
-
 CREATE TABLE `vtiger_dataaccess` (
   `dataaccessid` int(19) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(255) DEFAULT NULL,
@@ -1920,8 +1641,6 @@ CREATE TABLE `vtiger_dataaccess` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_dataaccess_cnd` */
-
-DROP TABLE IF EXISTS `vtiger_dataaccess_cnd`;
 
 CREATE TABLE `vtiger_dataaccess_cnd` (
   `dataaccess_cndid` int(19) NOT NULL AUTO_INCREMENT,
@@ -1936,8 +1655,6 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
 
 /*Table structure for table `vtiger_datashare_grp2grp` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_grp2grp`;
-
 CREATE TABLE `vtiger_datashare_grp2grp` (
   `shareid` int(19) NOT NULL,
   `share_groupid` int(19) DEFAULT NULL,
@@ -1950,8 +1667,6 @@ CREATE TABLE `vtiger_datashare_grp2grp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_grp2role` */
-
-DROP TABLE IF EXISTS `vtiger_datashare_grp2role`;
 
 CREATE TABLE `vtiger_datashare_grp2role` (
   `shareid` int(19) NOT NULL,
@@ -1966,8 +1681,6 @@ CREATE TABLE `vtiger_datashare_grp2role` (
 
 /*Table structure for table `vtiger_datashare_grp2rs` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_grp2rs`;
-
 CREATE TABLE `vtiger_datashare_grp2rs` (
   `shareid` int(19) NOT NULL,
   `share_groupid` int(19) DEFAULT NULL,
@@ -1981,8 +1694,6 @@ CREATE TABLE `vtiger_datashare_grp2rs` (
 
 /*Table structure for table `vtiger_datashare_module_rel` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_module_rel`;
-
 CREATE TABLE `vtiger_datashare_module_rel` (
   `shareid` int(19) NOT NULL,
   `tabid` int(19) NOT NULL,
@@ -1994,8 +1705,6 @@ CREATE TABLE `vtiger_datashare_module_rel` (
 
 /*Table structure for table `vtiger_datashare_relatedmodule_permission` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodule_permission`;
-
 CREATE TABLE `vtiger_datashare_relatedmodule_permission` (
   `shareid` int(19) NOT NULL,
   `datashare_relatedmodule_id` int(19) NOT NULL,
@@ -2005,8 +1714,6 @@ CREATE TABLE `vtiger_datashare_relatedmodule_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_relatedmodules` */
-
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodules`;
 
 CREATE TABLE `vtiger_datashare_relatedmodules` (
   `datashare_relatedmodule_id` int(19) NOT NULL,
@@ -2020,15 +1727,11 @@ CREATE TABLE `vtiger_datashare_relatedmodules` (
 
 /*Table structure for table `vtiger_datashare_relatedmodules_seq` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_relatedmodules_seq`;
-
 CREATE TABLE `vtiger_datashare_relatedmodules_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_role2group` */
-
-DROP TABLE IF EXISTS `vtiger_datashare_role2group`;
 
 CREATE TABLE `vtiger_datashare_role2group` (
   `shareid` int(19) NOT NULL,
@@ -2043,8 +1746,6 @@ CREATE TABLE `vtiger_datashare_role2group` (
 
 /*Table structure for table `vtiger_datashare_role2role` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_role2role`;
-
 CREATE TABLE `vtiger_datashare_role2role` (
   `shareid` int(19) NOT NULL,
   `share_roleid` varchar(255) DEFAULT NULL,
@@ -2057,8 +1758,6 @@ CREATE TABLE `vtiger_datashare_role2role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_role2rs` */
-
-DROP TABLE IF EXISTS `vtiger_datashare_role2rs`;
 
 CREATE TABLE `vtiger_datashare_role2rs` (
   `shareid` int(19) NOT NULL,
@@ -2073,8 +1772,6 @@ CREATE TABLE `vtiger_datashare_role2rs` (
 
 /*Table structure for table `vtiger_datashare_rs2grp` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_rs2grp`;
-
 CREATE TABLE `vtiger_datashare_rs2grp` (
   `shareid` int(19) NOT NULL,
   `share_roleandsubid` varchar(255) DEFAULT NULL,
@@ -2087,8 +1784,6 @@ CREATE TABLE `vtiger_datashare_rs2grp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_rs2role` */
-
-DROP TABLE IF EXISTS `vtiger_datashare_rs2role`;
 
 CREATE TABLE `vtiger_datashare_rs2role` (
   `shareid` int(19) NOT NULL,
@@ -2103,8 +1798,6 @@ CREATE TABLE `vtiger_datashare_rs2role` (
 
 /*Table structure for table `vtiger_datashare_rs2rs` */
 
-DROP TABLE IF EXISTS `vtiger_datashare_rs2rs`;
-
 CREATE TABLE `vtiger_datashare_rs2rs` (
   `shareid` int(19) NOT NULL,
   `share_roleandsubid` varchar(255) DEFAULT NULL,
@@ -2118,8 +1811,6 @@ CREATE TABLE `vtiger_datashare_rs2rs` (
 
 /*Table structure for table `vtiger_date_format` */
 
-DROP TABLE IF EXISTS `vtiger_date_format`;
-
 CREATE TABLE `vtiger_date_format` (
   `date_formatid` int(19) NOT NULL AUTO_INCREMENT,
   `date_format` varchar(200) NOT NULL,
@@ -2130,15 +1821,11 @@ CREATE TABLE `vtiger_date_format` (
 
 /*Table structure for table `vtiger_date_format_seq` */
 
-DROP TABLE IF EXISTS `vtiger_date_format_seq`;
-
 CREATE TABLE `vtiger_date_format_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_dayoftheweek` */
-
-DROP TABLE IF EXISTS `vtiger_dayoftheweek`;
 
 CREATE TABLE `vtiger_dayoftheweek` (
   `dayoftheweekid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2150,15 +1837,11 @@ CREATE TABLE `vtiger_dayoftheweek` (
 
 /*Table structure for table `vtiger_dayoftheweek_seq` */
 
-DROP TABLE IF EXISTS `vtiger_dayoftheweek_seq`;
-
 CREATE TABLE `vtiger_dayoftheweek_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_field` */
-
-DROP TABLE IF EXISTS `vtiger_def_org_field`;
 
 CREATE TABLE `vtiger_def_org_field` (
   `tabid` int(10) DEFAULT NULL,
@@ -2173,8 +1856,6 @@ CREATE TABLE `vtiger_def_org_field` (
 
 /*Table structure for table `vtiger_def_org_share` */
 
-DROP TABLE IF EXISTS `vtiger_def_org_share`;
-
 CREATE TABLE `vtiger_def_org_share` (
   `ruleid` int(11) NOT NULL AUTO_INCREMENT,
   `tabid` int(11) NOT NULL,
@@ -2187,15 +1868,11 @@ CREATE TABLE `vtiger_def_org_share` (
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
-DROP TABLE IF EXISTS `vtiger_def_org_share_seq`;
-
 CREATE TABLE `vtiger_def_org_share_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
-
-DROP TABLE IF EXISTS `vtiger_default_record_view`;
 
 CREATE TABLE `vtiger_default_record_view` (
   `default_record_viewid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2207,15 +1884,11 @@ CREATE TABLE `vtiger_default_record_view` (
 
 /*Table structure for table `vtiger_default_record_view_seq` */
 
-DROP TABLE IF EXISTS `vtiger_default_record_view_seq`;
-
 CREATE TABLE `vtiger_default_record_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_defaultactivitytype` */
-
-DROP TABLE IF EXISTS `vtiger_defaultactivitytype`;
 
 CREATE TABLE `vtiger_defaultactivitytype` (
   `defaultactivitytypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2228,15 +1901,11 @@ CREATE TABLE `vtiger_defaultactivitytype` (
 
 /*Table structure for table `vtiger_defaultactivitytype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_defaultactivitytype_seq`;
-
 CREATE TABLE `vtiger_defaultactivitytype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_defaultcv` */
-
-DROP TABLE IF EXISTS `vtiger_defaultcv`;
 
 CREATE TABLE `vtiger_defaultcv` (
   `tabid` int(19) NOT NULL,
@@ -2247,8 +1916,6 @@ CREATE TABLE `vtiger_defaultcv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_defaulteventstatus` */
-
-DROP TABLE IF EXISTS `vtiger_defaulteventstatus`;
 
 CREATE TABLE `vtiger_defaulteventstatus` (
   `defaulteventstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2261,15 +1928,11 @@ CREATE TABLE `vtiger_defaulteventstatus` (
 
 /*Table structure for table `vtiger_defaulteventstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_defaulteventstatus_seq`;
-
 CREATE TABLE `vtiger_defaulteventstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_duration_minutes` */
-
-DROP TABLE IF EXISTS `vtiger_duration_minutes`;
 
 CREATE TABLE `vtiger_duration_minutes` (
   `minutesid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2281,15 +1944,11 @@ CREATE TABLE `vtiger_duration_minutes` (
 
 /*Table structure for table `vtiger_duration_minutes_seq` */
 
-DROP TABLE IF EXISTS `vtiger_duration_minutes_seq`;
-
 CREATE TABLE `vtiger_duration_minutes_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_durationhrs` */
-
-DROP TABLE IF EXISTS `vtiger_durationhrs`;
 
 CREATE TABLE `vtiger_durationhrs` (
   `hrsid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2301,8 +1960,6 @@ CREATE TABLE `vtiger_durationhrs` (
 
 /*Table structure for table `vtiger_durationmins` */
 
-DROP TABLE IF EXISTS `vtiger_durationmins`;
-
 CREATE TABLE `vtiger_durationmins` (
   `minsid` int(19) NOT NULL AUTO_INCREMENT,
   `mins` varchar(50) DEFAULT NULL,
@@ -2313,8 +1970,6 @@ CREATE TABLE `vtiger_durationmins` (
 
 /*Table structure for table `vtiger_email_access` */
 
-DROP TABLE IF EXISTS `vtiger_email_access`;
-
 CREATE TABLE `vtiger_email_access` (
   `crmid` int(11) DEFAULT NULL,
   `mailid` int(11) DEFAULT NULL,
@@ -2324,8 +1979,6 @@ CREATE TABLE `vtiger_email_access` (
 
 /*Table structure for table `vtiger_email_track` */
 
-DROP TABLE IF EXISTS `vtiger_email_track`;
-
 CREATE TABLE `vtiger_email_track` (
   `crmid` int(11) DEFAULT NULL,
   `mailid` int(11) DEFAULT NULL,
@@ -2334,8 +1987,6 @@ CREATE TABLE `vtiger_email_track` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_emaildetails` */
-
-DROP TABLE IF EXISTS `vtiger_emaildetails`;
 
 CREATE TABLE `vtiger_emaildetails` (
   `emailid` int(19) NOT NULL,
@@ -2351,8 +2002,6 @@ CREATE TABLE `vtiger_emaildetails` (
 
 /*Table structure for table `vtiger_employee_education` */
 
-DROP TABLE IF EXISTS `vtiger_employee_education`;
-
 CREATE TABLE `vtiger_employee_education` (
   `employee_educationid` int(11) NOT NULL AUTO_INCREMENT,
   `employee_education` varchar(200) NOT NULL,
@@ -2364,15 +2013,11 @@ CREATE TABLE `vtiger_employee_education` (
 
 /*Table structure for table `vtiger_employee_education_seq` */
 
-DROP TABLE IF EXISTS `vtiger_employee_education_seq`;
-
 CREATE TABLE `vtiger_employee_education_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_employee_status` */
-
-DROP TABLE IF EXISTS `vtiger_employee_status`;
 
 CREATE TABLE `vtiger_employee_status` (
   `employee_statusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2385,15 +2030,11 @@ CREATE TABLE `vtiger_employee_status` (
 
 /*Table structure for table `vtiger_employee_status_seq` */
 
-DROP TABLE IF EXISTS `vtiger_employee_status_seq`;
-
 CREATE TABLE `vtiger_employee_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_end_hour` */
-
-DROP TABLE IF EXISTS `vtiger_end_hour`;
 
 CREATE TABLE `vtiger_end_hour` (
   `end_hourid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2405,15 +2046,11 @@ CREATE TABLE `vtiger_end_hour` (
 
 /*Table structure for table `vtiger_end_hour_seq` */
 
-DROP TABLE IF EXISTS `vtiger_end_hour_seq`;
-
 CREATE TABLE `vtiger_end_hour_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_entityname` */
-
-DROP TABLE IF EXISTS `vtiger_entityname`;
 
 CREATE TABLE `vtiger_entityname` (
   `tabid` int(19) NOT NULL DEFAULT '0',
@@ -2432,8 +2069,6 @@ CREATE TABLE `vtiger_entityname` (
 
 /*Table structure for table `vtiger_eventhandler_module` */
 
-DROP TABLE IF EXISTS `vtiger_eventhandler_module`;
-
 CREATE TABLE `vtiger_eventhandler_module` (
   `eventhandler_module_id` int(11) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(100) DEFAULT NULL,
@@ -2443,15 +2078,11 @@ CREATE TABLE `vtiger_eventhandler_module` (
 
 /*Table structure for table `vtiger_eventhandler_module_seq` */
 
-DROP TABLE IF EXISTS `vtiger_eventhandler_module_seq`;
-
 CREATE TABLE `vtiger_eventhandler_module_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers` */
-
-DROP TABLE IF EXISTS `vtiger_eventhandlers`;
 
 CREATE TABLE `vtiger_eventhandlers` (
   `eventhandler_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2467,15 +2098,11 @@ CREATE TABLE `vtiger_eventhandlers` (
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
-DROP TABLE IF EXISTS `vtiger_eventhandlers_seq`;
-
 CREATE TABLE `vtiger_eventhandlers_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
-
-DROP TABLE IF EXISTS `vtiger_eventstatus`;
 
 CREATE TABLE `vtiger_eventstatus` (
   `eventstatusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2488,15 +2115,11 @@ CREATE TABLE `vtiger_eventstatus` (
 
 /*Table structure for table `vtiger_eventstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_eventstatus_seq`;
-
 CREATE TABLE `vtiger_eventstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
-
-DROP TABLE IF EXISTS `vtiger_expectedresponse`;
 
 CREATE TABLE `vtiger_expectedresponse` (
   `expectedresponseid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2510,15 +2133,11 @@ CREATE TABLE `vtiger_expectedresponse` (
 
 /*Table structure for table `vtiger_expectedresponse_seq` */
 
-DROP TABLE IF EXISTS `vtiger_expectedresponse_seq`;
-
 CREATE TABLE `vtiger_expectedresponse_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_faq` */
-
-DROP TABLE IF EXISTS `vtiger_faq`;
 
 CREATE TABLE `vtiger_faq` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2535,8 +2154,6 @@ CREATE TABLE `vtiger_faq` (
 
 /*Table structure for table `vtiger_faqcategories` */
 
-DROP TABLE IF EXISTS `vtiger_faqcategories`;
-
 CREATE TABLE `vtiger_faqcategories` (
   `faqcategories_id` int(19) NOT NULL AUTO_INCREMENT,
   `faqcategories` varchar(200) DEFAULT NULL,
@@ -2548,15 +2165,11 @@ CREATE TABLE `vtiger_faqcategories` (
 
 /*Table structure for table `vtiger_faqcategories_seq` */
 
-DROP TABLE IF EXISTS `vtiger_faqcategories_seq`;
-
 CREATE TABLE `vtiger_faqcategories_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_faqcf` */
-
-DROP TABLE IF EXISTS `vtiger_faqcf`;
 
 CREATE TABLE `vtiger_faqcf` (
   `faqid` int(19) NOT NULL DEFAULT '0',
@@ -2565,8 +2178,6 @@ CREATE TABLE `vtiger_faqcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_faqcomments` */
-
-DROP TABLE IF EXISTS `vtiger_faqcomments`;
 
 CREATE TABLE `vtiger_faqcomments` (
   `commentid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2580,8 +2191,6 @@ CREATE TABLE `vtiger_faqcomments` (
 
 /*Table structure for table `vtiger_faqstatus` */
 
-DROP TABLE IF EXISTS `vtiger_faqstatus`;
-
 CREATE TABLE `vtiger_faqstatus` (
   `faqstatus_id` int(19) NOT NULL AUTO_INCREMENT,
   `faqstatus` varchar(200) DEFAULT NULL,
@@ -2593,15 +2202,11 @@ CREATE TABLE `vtiger_faqstatus` (
 
 /*Table structure for table `vtiger_faqstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_faqstatus_seq`;
-
 CREATE TABLE `vtiger_faqstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_feedback` */
-
-DROP TABLE IF EXISTS `vtiger_feedback`;
 
 CREATE TABLE `vtiger_feedback` (
   `userid` int(19) DEFAULT NULL,
@@ -2609,8 +2214,6 @@ CREATE TABLE `vtiger_feedback` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field` */
-
-DROP TABLE IF EXISTS `vtiger_field`;
 
 CREATE TABLE `vtiger_field` (
   `tabid` int(19) NOT NULL,
@@ -2647,15 +2250,11 @@ CREATE TABLE `vtiger_field` (
 
 /*Table structure for table `vtiger_field_seq` */
 
-DROP TABLE IF EXISTS `vtiger_field_seq`;
-
 CREATE TABLE `vtiger_field_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
-
-DROP TABLE IF EXISTS `vtiger_fieldmodulerel`;
 
 CREATE TABLE `vtiger_fieldmodulerel` (
   `fieldid` int(11) NOT NULL,
@@ -2667,8 +2266,6 @@ CREATE TABLE `vtiger_fieldmodulerel` (
 
 /*Table structure for table `vtiger_form_payment` */
 
-DROP TABLE IF EXISTS `vtiger_form_payment`;
-
 CREATE TABLE `vtiger_form_payment` (
   `form_paymentid` int(11) NOT NULL AUTO_INCREMENT,
   `form_payment` varchar(200) NOT NULL,
@@ -2679,15 +2276,11 @@ CREATE TABLE `vtiger_form_payment` (
 
 /*Table structure for table `vtiger_form_payment_seq` */
 
-DROP TABLE IF EXISTS `vtiger_form_payment_seq`;
-
 CREATE TABLE `vtiger_form_payment_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_freetagged_objects` */
-
-DROP TABLE IF EXISTS `vtiger_freetagged_objects`;
 
 CREATE TABLE `vtiger_freetagged_objects` (
   `tag_id` int(20) NOT NULL DEFAULT '0',
@@ -2703,8 +2296,6 @@ CREATE TABLE `vtiger_freetagged_objects` (
 
 /*Table structure for table `vtiger_freetags` */
 
-DROP TABLE IF EXISTS `vtiger_freetags`;
-
 CREATE TABLE `vtiger_freetags` (
   `id` int(19) NOT NULL,
   `tag` varchar(50) NOT NULL DEFAULT '',
@@ -2714,15 +2305,11 @@ CREATE TABLE `vtiger_freetags` (
 
 /*Table structure for table `vtiger_freetags_seq` */
 
-DROP TABLE IF EXISTS `vtiger_freetags_seq`;
-
 CREATE TABLE `vtiger_freetags_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_glacct` */
-
-DROP TABLE IF EXISTS `vtiger_glacct`;
 
 CREATE TABLE `vtiger_glacct` (
   `glacctid` int(19) NOT NULL AUTO_INCREMENT,
@@ -2736,15 +2323,11 @@ CREATE TABLE `vtiger_glacct` (
 
 /*Table structure for table `vtiger_glacct_seq` */
 
-DROP TABLE IF EXISTS `vtiger_glacct_seq`;
-
 CREATE TABLE `vtiger_glacct_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_group2grouprel` */
-
-DROP TABLE IF EXISTS `vtiger_group2grouprel`;
 
 CREATE TABLE `vtiger_group2grouprel` (
   `groupid` int(19) NOT NULL,
@@ -2754,8 +2337,6 @@ CREATE TABLE `vtiger_group2grouprel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_group2role` */
-
-DROP TABLE IF EXISTS `vtiger_group2role`;
 
 CREATE TABLE `vtiger_group2role` (
   `groupid` int(19) NOT NULL,
@@ -2767,8 +2348,6 @@ CREATE TABLE `vtiger_group2role` (
 
 /*Table structure for table `vtiger_group2rs` */
 
-DROP TABLE IF EXISTS `vtiger_group2rs`;
-
 CREATE TABLE `vtiger_group2rs` (
   `groupid` int(19) NOT NULL,
   `roleandsubid` varchar(255) NOT NULL,
@@ -2778,8 +2357,6 @@ CREATE TABLE `vtiger_group2rs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_groups` */
-
-DROP TABLE IF EXISTS `vtiger_groups`;
 
 CREATE TABLE `vtiger_groups` (
   `groupid` int(19) NOT NULL,
@@ -2791,8 +2368,6 @@ CREATE TABLE `vtiger_groups` (
 
 /*Table structure for table `vtiger_home_layout` */
 
-DROP TABLE IF EXISTS `vtiger_home_layout`;
-
 CREATE TABLE `vtiger_home_layout` (
   `userid` int(19) NOT NULL,
   `layout` int(19) NOT NULL DEFAULT '4',
@@ -2800,8 +2375,6 @@ CREATE TABLE `vtiger_home_layout` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_homedashbd` */
-
-DROP TABLE IF EXISTS `vtiger_homedashbd`;
 
 CREATE TABLE `vtiger_homedashbd` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
@@ -2814,8 +2387,6 @@ CREATE TABLE `vtiger_homedashbd` (
 
 /*Table structure for table `vtiger_homedefault` */
 
-DROP TABLE IF EXISTS `vtiger_homedefault`;
-
 CREATE TABLE `vtiger_homedefault` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
   `hometype` varchar(30) NOT NULL,
@@ -2827,8 +2398,6 @@ CREATE TABLE `vtiger_homedefault` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_homemodule` */
-
-DROP TABLE IF EXISTS `vtiger_homemodule`;
 
 CREATE TABLE `vtiger_homemodule` (
   `stuffid` int(19) NOT NULL,
@@ -2843,8 +2412,6 @@ CREATE TABLE `vtiger_homemodule` (
 
 /*Table structure for table `vtiger_homemoduleflds` */
 
-DROP TABLE IF EXISTS `vtiger_homemoduleflds`;
-
 CREATE TABLE `vtiger_homemoduleflds` (
   `stuffid` int(19) DEFAULT NULL,
   `fieldname` varchar(100) DEFAULT NULL,
@@ -2854,8 +2421,6 @@ CREATE TABLE `vtiger_homemoduleflds` (
 
 /*Table structure for table `vtiger_homereportchart` */
 
-DROP TABLE IF EXISTS `vtiger_homereportchart`;
-
 CREATE TABLE `vtiger_homereportchart` (
   `stuffid` int(11) NOT NULL,
   `reportid` int(19) DEFAULT NULL,
@@ -2864,8 +2429,6 @@ CREATE TABLE `vtiger_homereportchart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_homerss` */
-
-DROP TABLE IF EXISTS `vtiger_homerss`;
 
 CREATE TABLE `vtiger_homerss` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
@@ -2877,8 +2440,6 @@ CREATE TABLE `vtiger_homerss` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_homestuff` */
-
-DROP TABLE IF EXISTS `vtiger_homestuff`;
 
 CREATE TABLE `vtiger_homestuff` (
   `stuffid` int(19) NOT NULL DEFAULT '0',
@@ -2895,15 +2456,11 @@ CREATE TABLE `vtiger_homestuff` (
 
 /*Table structure for table `vtiger_homestuff_seq` */
 
-DROP TABLE IF EXISTS `vtiger_homestuff_seq`;
-
 CREATE TABLE `vtiger_homestuff_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_hour_format` */
-
-DROP TABLE IF EXISTS `vtiger_hour_format`;
 
 CREATE TABLE `vtiger_hour_format` (
   `hour_formatid` int(11) NOT NULL AUTO_INCREMENT,
@@ -2916,15 +2473,11 @@ CREATE TABLE `vtiger_hour_format` (
 
 /*Table structure for table `vtiger_hour_format_seq` */
 
-DROP TABLE IF EXISTS `vtiger_hour_format_seq`;
-
 CREATE TABLE `vtiger_hour_format_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_import_locks` */
-
-DROP TABLE IF EXISTS `vtiger_import_locks`;
 
 CREATE TABLE `vtiger_import_locks` (
   `vtiger_import_lock_id` int(11) NOT NULL,
@@ -2936,8 +2489,6 @@ CREATE TABLE `vtiger_import_locks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_import_maps` */
-
-DROP TABLE IF EXISTS `vtiger_import_maps`;
 
 CREATE TABLE `vtiger_import_maps` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -2956,8 +2507,6 @@ CREATE TABLE `vtiger_import_maps` (
 
 /*Table structure for table `vtiger_import_queue` */
 
-DROP TABLE IF EXISTS `vtiger_import_queue`;
-
 CREATE TABLE `vtiger_import_queue` (
   `importid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -2972,8 +2521,6 @@ CREATE TABLE `vtiger_import_queue` (
 
 /*Table structure for table `vtiger_industry` */
 
-DROP TABLE IF EXISTS `vtiger_industry`;
-
 CREATE TABLE `vtiger_industry` (
   `industryid` int(19) NOT NULL AUTO_INCREMENT,
   `industry` varchar(200) NOT NULL,
@@ -2986,15 +2533,11 @@ CREATE TABLE `vtiger_industry` (
 
 /*Table structure for table `vtiger_industry_seq` */
 
-DROP TABLE IF EXISTS `vtiger_industry_seq`;
-
 CREATE TABLE `vtiger_industry_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventory_tandc` */
-
-DROP TABLE IF EXISTS `vtiger_inventory_tandc`;
 
 CREATE TABLE `vtiger_inventory_tandc` (
   `id` int(19) NOT NULL,
@@ -3005,15 +2548,11 @@ CREATE TABLE `vtiger_inventory_tandc` (
 
 /*Table structure for table `vtiger_inventory_tandc_seq` */
 
-DROP TABLE IF EXISTS `vtiger_inventory_tandc_seq`;
-
 CREATE TABLE `vtiger_inventory_tandc_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventorynotification` */
-
-DROP TABLE IF EXISTS `vtiger_inventorynotification`;
 
 CREATE TABLE `vtiger_inventorynotification` (
   `notificationid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3027,15 +2566,11 @@ CREATE TABLE `vtiger_inventorynotification` (
 
 /*Table structure for table `vtiger_inventorynotification_seq` */
 
-DROP TABLE IF EXISTS `vtiger_inventorynotification_seq`;
-
 CREATE TABLE `vtiger_inventorynotification_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventoryproductrel` */
-
-DROP TABLE IF EXISTS `vtiger_inventoryproductrel`;
 
 CREATE TABLE `vtiger_inventoryproductrel` (
   `id` int(19) DEFAULT NULL,
@@ -3064,15 +2599,11 @@ CREATE TABLE `vtiger_inventoryproductrel` (
 
 /*Table structure for table `vtiger_inventoryproductrel_seq` */
 
-DROP TABLE IF EXISTS `vtiger_inventoryproductrel_seq`;
-
 CREATE TABLE `vtiger_inventoryproductrel_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventorysubproductrel` */
-
-DROP TABLE IF EXISTS `vtiger_inventorysubproductrel`;
 
 CREATE TABLE `vtiger_inventorysubproductrel` (
   `id` int(19) NOT NULL,
@@ -3081,8 +2612,6 @@ CREATE TABLE `vtiger_inventorysubproductrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_inventorytaxinfo` */
-
-DROP TABLE IF EXISTS `vtiger_inventorytaxinfo`;
 
 CREATE TABLE `vtiger_inventorytaxinfo` (
   `taxid` int(3) NOT NULL,
@@ -3096,15 +2625,11 @@ CREATE TABLE `vtiger_inventorytaxinfo` (
 
 /*Table structure for table `vtiger_inventorytaxinfo_seq` */
 
-DROP TABLE IF EXISTS `vtiger_inventorytaxinfo_seq`;
-
 CREATE TABLE `vtiger_inventorytaxinfo_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_invitees` */
-
-DROP TABLE IF EXISTS `vtiger_invitees`;
 
 CREATE TABLE `vtiger_invitees` (
   `activityid` int(19) NOT NULL,
@@ -3114,8 +2639,6 @@ CREATE TABLE `vtiger_invitees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_invoice` */
-
-DROP TABLE IF EXISTS `vtiger_invoice`;
 
 CREATE TABLE `vtiger_invoice` (
   `invoiceid` int(19) NOT NULL DEFAULT '0',
@@ -3162,8 +2685,6 @@ CREATE TABLE `vtiger_invoice` (
 
 /*Table structure for table `vtiger_invoice_recurring_info` */
 
-DROP TABLE IF EXISTS `vtiger_invoice_recurring_info`;
-
 CREATE TABLE `vtiger_invoice_recurring_info` (
   `salesorderid` int(11) NOT NULL DEFAULT '0',
   `recurring_frequency` varchar(200) DEFAULT NULL,
@@ -3176,8 +2697,6 @@ CREATE TABLE `vtiger_invoice_recurring_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_invoiceaddress` */
-
-DROP TABLE IF EXISTS `vtiger_invoiceaddress`;
 
 CREATE TABLE `vtiger_invoiceaddress` (
   `invoiceaddressid` int(19) NOT NULL,
@@ -3209,8 +2728,6 @@ CREATE TABLE `vtiger_invoiceaddress` (
 
 /*Table structure for table `vtiger_invoicecf` */
 
-DROP TABLE IF EXISTS `vtiger_invoicecf`;
-
 CREATE TABLE `vtiger_invoicecf` (
   `invoiceid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`invoiceid`),
@@ -3218,8 +2735,6 @@ CREATE TABLE `vtiger_invoicecf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_invoicestatus` */
-
-DROP TABLE IF EXISTS `vtiger_invoicestatus`;
 
 CREATE TABLE `vtiger_invoicestatus` (
   `invoicestatusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3233,15 +2748,11 @@ CREATE TABLE `vtiger_invoicestatus` (
 
 /*Table structure for table `vtiger_invoicestatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_invoicestatus_seq`;
-
 CREATE TABLE `vtiger_invoicestatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_invoicestatushistory` */
-
-DROP TABLE IF EXISTS `vtiger_invoicestatushistory`;
 
 CREATE TABLE `vtiger_invoicestatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3257,15 +2768,11 @@ CREATE TABLE `vtiger_invoicestatushistory` (
 
 /*Table structure for table `vtiger_invoicestatushistory_seq` */
 
-DROP TABLE IF EXISTS `vtiger_invoicestatushistory_seq`;
-
 CREATE TABLE `vtiger_invoicestatushistory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_language` */
-
-DROP TABLE IF EXISTS `vtiger_language`;
 
 CREATE TABLE `vtiger_language` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3281,15 +2788,11 @@ CREATE TABLE `vtiger_language` (
 
 /*Table structure for table `vtiger_language_seq` */
 
-DROP TABLE IF EXISTS `vtiger_language_seq`;
-
 CREATE TABLE `vtiger_language_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lead_view` */
-
-DROP TABLE IF EXISTS `vtiger_lead_view`;
 
 CREATE TABLE `vtiger_lead_view` (
   `lead_viewid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3301,15 +2804,11 @@ CREATE TABLE `vtiger_lead_view` (
 
 /*Table structure for table `vtiger_lead_view_seq` */
 
-DROP TABLE IF EXISTS `vtiger_lead_view_seq`;
-
 CREATE TABLE `vtiger_lead_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadaddress` */
-
-DROP TABLE IF EXISTS `vtiger_leadaddress`;
 
 CREATE TABLE `vtiger_leadaddress` (
   `leadaddressid` int(19) NOT NULL DEFAULT '0',
@@ -3332,8 +2831,6 @@ CREATE TABLE `vtiger_leadaddress` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leaddetails` */
-
-DROP TABLE IF EXISTS `vtiger_leaddetails`;
 
 CREATE TABLE `vtiger_leaddetails` (
   `leadid` int(19) NOT NULL,
@@ -3385,8 +2882,6 @@ CREATE TABLE `vtiger_leaddetails` (
 
 /*Table structure for table `vtiger_leadscf` */
 
-DROP TABLE IF EXISTS `vtiger_leadscf`;
-
 CREATE TABLE `vtiger_leadscf` (
   `leadid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`leadid`),
@@ -3394,8 +2889,6 @@ CREATE TABLE `vtiger_leadscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadsource` */
-
-DROP TABLE IF EXISTS `vtiger_leadsource`;
 
 CREATE TABLE `vtiger_leadsource` (
   `leadsourceid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3408,15 +2901,11 @@ CREATE TABLE `vtiger_leadsource` (
 
 /*Table structure for table `vtiger_leadsource_seq` */
 
-DROP TABLE IF EXISTS `vtiger_leadsource_seq`;
-
 CREATE TABLE `vtiger_leadsource_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadstage` */
-
-DROP TABLE IF EXISTS `vtiger_leadstage`;
 
 CREATE TABLE `vtiger_leadstage` (
   `leadstageid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3429,8 +2918,6 @@ CREATE TABLE `vtiger_leadstage` (
 
 /*Table structure for table `vtiger_leadstatus` */
 
-DROP TABLE IF EXISTS `vtiger_leadstatus`;
-
 CREATE TABLE `vtiger_leadstatus` (
   `leadstatusid` int(19) NOT NULL AUTO_INCREMENT,
   `leadstatus` varchar(200) NOT NULL,
@@ -3442,15 +2929,11 @@ CREATE TABLE `vtiger_leadstatus` (
 
 /*Table structure for table `vtiger_leadstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_leadstatus_seq`;
-
 CREATE TABLE `vtiger_leadstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_leadsubdetails` */
-
-DROP TABLE IF EXISTS `vtiger_leadsubdetails`;
 
 CREATE TABLE `vtiger_leadsubdetails` (
   `leadsubscriptionid` int(19) NOT NULL DEFAULT '0',
@@ -3463,8 +2946,6 @@ CREATE TABLE `vtiger_leadsubdetails` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_links` */
-
-DROP TABLE IF EXISTS `vtiger_links`;
 
 CREATE TABLE `vtiger_links` (
   `linkid` int(11) NOT NULL,
@@ -3485,15 +2966,11 @@ CREATE TABLE `vtiger_links` (
 
 /*Table structure for table `vtiger_links_seq` */
 
-DROP TABLE IF EXISTS `vtiger_links_seq`;
-
 CREATE TABLE `vtiger_links_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_loginhistory` */
-
-DROP TABLE IF EXISTS `vtiger_loginhistory`;
 
 CREATE TABLE `vtiger_loginhistory` (
   `login_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3509,8 +2986,6 @@ CREATE TABLE `vtiger_loginhistory` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mail_accounts` */
-
-DROP TABLE IF EXISTS `vtiger_mail_accounts`;
 
 CREATE TABLE `vtiger_mail_accounts` (
   `account_id` int(11) NOT NULL,
@@ -3535,8 +3010,6 @@ CREATE TABLE `vtiger_mail_accounts` (
 
 /*Table structure for table `vtiger_manufacturer` */
 
-DROP TABLE IF EXISTS `vtiger_manufacturer`;
-
 CREATE TABLE `vtiger_manufacturer` (
   `manufacturerid` int(19) NOT NULL AUTO_INCREMENT,
   `manufacturer` varchar(200) NOT NULL,
@@ -3549,23 +3022,17 @@ CREATE TABLE `vtiger_manufacturer` (
 
 /*Table structure for table `vtiger_manufacturer_seq` */
 
-DROP TABLE IF EXISTS `vtiger_manufacturer_seq`;
-
 CREATE TABLE `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_max_search_result` */
 
-DROP TABLE IF EXISTS `vtiger_max_search_result`;
-
 CREATE TABLE `vtiger_max_search_result` (
   `value` int(19) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mobile_alerts` */
-
-DROP TABLE IF EXISTS `vtiger_mobile_alerts`;
 
 CREATE TABLE `vtiger_mobile_alerts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3577,8 +3044,6 @@ CREATE TABLE `vtiger_mobile_alerts` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modcomments` */
-
-DROP TABLE IF EXISTS `vtiger_modcomments`;
 
 CREATE TABLE `vtiger_modcomments` (
   `modcommentsid` int(19) NOT NULL,
@@ -3599,8 +3064,6 @@ CREATE TABLE `vtiger_modcomments` (
 
 /*Table structure for table `vtiger_modcommentscf` */
 
-DROP TABLE IF EXISTS `vtiger_modcommentscf`;
-
 CREATE TABLE `vtiger_modcommentscf` (
   `modcommentsid` int(11) NOT NULL,
   PRIMARY KEY (`modcommentsid`),
@@ -3608,8 +3071,6 @@ CREATE TABLE `vtiger_modcommentscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modentity_num` */
-
-DROP TABLE IF EXISTS `vtiger_modentity_num`;
 
 CREATE TABLE `vtiger_modentity_num` (
   `num_id` int(19) NOT NULL,
@@ -3625,15 +3086,11 @@ CREATE TABLE `vtiger_modentity_num` (
 
 /*Table structure for table `vtiger_modentity_num_seq` */
 
-DROP TABLE IF EXISTS `vtiger_modentity_num_seq`;
-
 CREATE TABLE `vtiger_modentity_num_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
-
-DROP TABLE IF EXISTS `vtiger_modtracker_basic`;
 
 CREATE TABLE `vtiger_modtracker_basic` (
   `id` int(20) NOT NULL,
@@ -3651,15 +3108,11 @@ CREATE TABLE `vtiger_modtracker_basic` (
 
 /*Table structure for table `vtiger_modtracker_basic_seq` */
 
-DROP TABLE IF EXISTS `vtiger_modtracker_basic_seq`;
-
 CREATE TABLE `vtiger_modtracker_basic_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_detail` */
-
-DROP TABLE IF EXISTS `vtiger_modtracker_detail`;
 
 CREATE TABLE `vtiger_modtracker_detail` (
   `id` int(11) DEFAULT NULL,
@@ -3671,8 +3124,6 @@ CREATE TABLE `vtiger_modtracker_detail` (
 
 /*Table structure for table `vtiger_modtracker_relations` */
 
-DROP TABLE IF EXISTS `vtiger_modtracker_relations`;
-
 CREATE TABLE `vtiger_modtracker_relations` (
   `id` int(19) NOT NULL,
   `targetmodule` varchar(100) NOT NULL,
@@ -3683,8 +3134,6 @@ CREATE TABLE `vtiger_modtracker_relations` (
 
 /*Table structure for table `vtiger_modtracker_tabs` */
 
-DROP TABLE IF EXISTS `vtiger_modtracker_tabs`;
-
 CREATE TABLE `vtiger_modtracker_tabs` (
   `tabid` int(11) NOT NULL,
   `visible` int(11) DEFAULT '0',
@@ -3692,8 +3141,6 @@ CREATE TABLE `vtiger_modtracker_tabs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_module_dashboard` */
-
-DROP TABLE IF EXISTS `vtiger_module_dashboard`;
 
 CREATE TABLE `vtiger_module_dashboard` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
@@ -3712,8 +3159,6 @@ CREATE TABLE `vtiger_module_dashboard` (
 
 /*Table structure for table `vtiger_module_dashboard_blocks` */
 
-DROP TABLE IF EXISTS `vtiger_module_dashboard_blocks`;
-
 CREATE TABLE `vtiger_module_dashboard_blocks` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `authorized` varchar(10) NOT NULL,
@@ -3722,8 +3167,6 @@ CREATE TABLE `vtiger_module_dashboard_blocks` (
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_module_dashboard_widgets` */
-
-DROP TABLE IF EXISTS `vtiger_module_dashboard_widgets`;
 
 CREATE TABLE `vtiger_module_dashboard_widgets` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -3745,8 +3188,6 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
 
 /*Table structure for table `vtiger_name` */
 
-DROP TABLE IF EXISTS `vtiger_name`;
-
 CREATE TABLE `vtiger_name` (
   `nameid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -3757,15 +3198,11 @@ CREATE TABLE `vtiger_name` (
 
 /*Table structure for table `vtiger_name_seq` */
 
-DROP TABLE IF EXISTS `vtiger_name_seq`;
-
 CREATE TABLE `vtiger_name_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_no_of_currency_decimals` */
-
-DROP TABLE IF EXISTS `vtiger_no_of_currency_decimals`;
 
 CREATE TABLE `vtiger_no_of_currency_decimals` (
   `no_of_currency_decimalsid` int(11) NOT NULL AUTO_INCREMENT,
@@ -3777,15 +3214,11 @@ CREATE TABLE `vtiger_no_of_currency_decimals` (
 
 /*Table structure for table `vtiger_no_of_currency_decimals_seq` */
 
-DROP TABLE IF EXISTS `vtiger_no_of_currency_decimals_seq`;
-
 CREATE TABLE `vtiger_no_of_currency_decimals_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_notebook_contents` */
-
-DROP TABLE IF EXISTS `vtiger_notebook_contents`;
 
 CREATE TABLE `vtiger_notebook_contents` (
   `userid` int(19) NOT NULL,
@@ -3794,8 +3227,6 @@ CREATE TABLE `vtiger_notebook_contents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_notes` */
-
-DROP TABLE IF EXISTS `vtiger_notes`;
 
 CREATE TABLE `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
@@ -3819,8 +3250,6 @@ CREATE TABLE `vtiger_notes` (
 
 /*Table structure for table `vtiger_notescf` */
 
-DROP TABLE IF EXISTS `vtiger_notescf`;
-
 CREATE TABLE `vtiger_notescf` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`notesid`),
@@ -3828,8 +3257,6 @@ CREATE TABLE `vtiger_notescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_opportunity_type` */
-
-DROP TABLE IF EXISTS `vtiger_opportunity_type`;
 
 CREATE TABLE `vtiger_opportunity_type` (
   `opptypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3843,15 +3270,11 @@ CREATE TABLE `vtiger_opportunity_type` (
 
 /*Table structure for table `vtiger_opportunity_type_seq` */
 
-DROP TABLE IF EXISTS `vtiger_opportunity_type_seq`;
-
 CREATE TABLE `vtiger_opportunity_type_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_opportunitystage` */
-
-DROP TABLE IF EXISTS `vtiger_opportunitystage`;
 
 CREATE TABLE `vtiger_opportunitystage` (
   `potstageid` int(19) NOT NULL AUTO_INCREMENT,
@@ -3865,8 +3288,6 @@ CREATE TABLE `vtiger_opportunitystage` (
 
 /*Table structure for table `vtiger_oproductstatus` */
 
-DROP TABLE IF EXISTS `vtiger_oproductstatus`;
-
 CREATE TABLE `vtiger_oproductstatus` (
   `oproductstatusid` int(11) NOT NULL AUTO_INCREMENT,
   `oproductstatus` varchar(200) NOT NULL,
@@ -3878,15 +3299,11 @@ CREATE TABLE `vtiger_oproductstatus` (
 
 /*Table structure for table `vtiger_oproductstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_oproductstatus_seq`;
-
 CREATE TABLE `vtiger_oproductstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_org_share_action2tab` */
-
-DROP TABLE IF EXISTS `vtiger_org_share_action2tab`;
 
 CREATE TABLE `vtiger_org_share_action2tab` (
   `share_action_id` int(19) NOT NULL,
@@ -3898,8 +3315,6 @@ CREATE TABLE `vtiger_org_share_action2tab` (
 
 /*Table structure for table `vtiger_org_share_action_mapping` */
 
-DROP TABLE IF EXISTS `vtiger_org_share_action_mapping`;
-
 CREATE TABLE `vtiger_org_share_action_mapping` (
   `share_action_id` int(19) NOT NULL,
   `share_action_name` varchar(200) DEFAULT NULL,
@@ -3907,8 +3322,6 @@ CREATE TABLE `vtiger_org_share_action_mapping` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_organizationdetails` */
-
-DROP TABLE IF EXISTS `vtiger_organizationdetails`;
 
 CREATE TABLE `vtiger_organizationdetails` (
   `organization_id` int(11) NOT NULL,
@@ -3929,15 +3342,11 @@ CREATE TABLE `vtiger_organizationdetails` (
 
 /*Table structure for table `vtiger_organizationdetails_seq` */
 
-DROP TABLE IF EXISTS `vtiger_organizationdetails_seq`;
-
 CREATE TABLE `vtiger_organizationdetails_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_oss_project_templates` */
-
-DROP TABLE IF EXISTS `vtiger_oss_project_templates`;
 
 CREATE TABLE `vtiger_oss_project_templates` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -3950,8 +3359,6 @@ CREATE TABLE `vtiger_oss_project_templates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osscosts` */
-
-DROP TABLE IF EXISTS `vtiger_osscosts`;
 
 CREATE TABLE `vtiger_osscosts` (
   `osscostsid` int(19) NOT NULL,
@@ -3989,16 +3396,12 @@ CREATE TABLE `vtiger_osscosts` (
 
 /*Table structure for table `vtiger_osscosts_config` */
 
-DROP TABLE IF EXISTS `vtiger_osscosts_config`;
-
 CREATE TABLE `vtiger_osscosts_config` (
   `param` varchar(100) DEFAULT NULL,
   `value` varchar(100) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osscostscf` */
-
-DROP TABLE IF EXISTS `vtiger_osscostscf`;
 
 CREATE TABLE `vtiger_osscostscf` (
   `osscostsid` int(19) NOT NULL,
@@ -4007,8 +3410,6 @@ CREATE TABLE `vtiger_osscostscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossdc_status` */
-
-DROP TABLE IF EXISTS `vtiger_ossdc_status`;
 
 CREATE TABLE `vtiger_ossdc_status` (
   `ossdc_statusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4021,15 +3422,11 @@ CREATE TABLE `vtiger_ossdc_status` (
 
 /*Table structure for table `vtiger_ossdc_status_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ossdc_status_seq`;
-
 CREATE TABLE `vtiger_ossdc_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossdocumentcontrol` */
-
-DROP TABLE IF EXISTS `vtiger_ossdocumentcontrol`;
 
 CREATE TABLE `vtiger_ossdocumentcontrol` (
   `ossdocumentcontrolid` int(19) NOT NULL AUTO_INCREMENT,
@@ -4045,8 +3442,6 @@ CREATE TABLE `vtiger_ossdocumentcontrol` (
 
 /*Table structure for table `vtiger_ossdocumentcontrol_cnd` */
 
-DROP TABLE IF EXISTS `vtiger_ossdocumentcontrol_cnd`;
-
 CREATE TABLE `vtiger_ossdocumentcontrol_cnd` (
   `ossdocumentcontrol_cndid` int(19) NOT NULL AUTO_INCREMENT,
   `ossdocumentcontrolid` int(19) NOT NULL,
@@ -4059,8 +3454,6 @@ CREATE TABLE `vtiger_ossdocumentcontrol_cnd` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossemployees` */
-
-DROP TABLE IF EXISTS `vtiger_ossemployees`;
 
 CREATE TABLE `vtiger_ossemployees` (
   `ossemployeesid` int(19) NOT NULL DEFAULT '0',
@@ -4093,8 +3486,6 @@ CREATE TABLE `vtiger_ossemployees` (
 
 /*Table structure for table `vtiger_ossemployeescf` */
 
-DROP TABLE IF EXISTS `vtiger_ossemployeescf`;
-
 CREATE TABLE `vtiger_ossemployeescf` (
   `ossemployeesid` int(19) NOT NULL,
   PRIMARY KEY (`ossemployeesid`),
@@ -4102,8 +3493,6 @@ CREATE TABLE `vtiger_ossemployeescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osservicesstatus` */
-
-DROP TABLE IF EXISTS `vtiger_osservicesstatus`;
 
 CREATE TABLE `vtiger_osservicesstatus` (
   `osservicesstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4116,15 +3505,11 @@ CREATE TABLE `vtiger_osservicesstatus` (
 
 /*Table structure for table `vtiger_osservicesstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osservicesstatus_seq`;
-
 CREATE TABLE `vtiger_osservicesstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmails_logs` */
-
-DROP TABLE IF EXISTS `vtiger_ossmails_logs`;
 
 CREATE TABLE `vtiger_ossmails_logs` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -4141,8 +3526,6 @@ CREATE TABLE `vtiger_ossmails_logs` (
 
 /*Table structure for table `vtiger_ossmailscanner_config` */
 
-DROP TABLE IF EXISTS `vtiger_ossmailscanner_config`;
-
 CREATE TABLE `vtiger_ossmailscanner_config` (
   `conf_type` varchar(100) NOT NULL,
   `parameter` varchar(100) DEFAULT NULL,
@@ -4150,8 +3533,6 @@ CREATE TABLE `vtiger_ossmailscanner_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailscanner_folders_uid` */
-
-DROP TABLE IF EXISTS `vtiger_ossmailscanner_folders_uid`;
 
 CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
   `user_id` int(10) DEFAULT NULL,
@@ -4162,8 +3543,6 @@ CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
 
 /*Table structure for table `vtiger_ossmailscanner_log_cron` */
 
-DROP TABLE IF EXISTS `vtiger_ossmailscanner_log_cron`;
-
 CREATE TABLE `vtiger_ossmailscanner_log_cron` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -4173,8 +3552,6 @@ CREATE TABLE `vtiger_ossmailscanner_log_cron` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailtemplates` */
-
-DROP TABLE IF EXISTS `vtiger_ossmailtemplates`;
 
 CREATE TABLE `vtiger_ossmailtemplates` (
   `ossmailtemplatesid` int(11) DEFAULT NULL,
@@ -4189,8 +3566,6 @@ CREATE TABLE `vtiger_ossmailtemplates` (
 
 /*Table structure for table `vtiger_ossmailtemplatescf` */
 
-DROP TABLE IF EXISTS `vtiger_ossmailtemplatescf`;
-
 CREATE TABLE `vtiger_ossmailtemplatescf` (
   `ossmailtemplatesid` int(11) NOT NULL,
   PRIMARY KEY (`ossmailtemplatesid`),
@@ -4198,8 +3573,6 @@ CREATE TABLE `vtiger_ossmailtemplatescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailview` */
-
-DROP TABLE IF EXISTS `vtiger_ossmailview`;
 
 CREATE TABLE `vtiger_ossmailview` (
   `ossmailviewid` int(19) NOT NULL,
@@ -4231,8 +3604,6 @@ CREATE TABLE `vtiger_ossmailview` (
 
 /*Table structure for table `vtiger_ossmailview_files` */
 
-DROP TABLE IF EXISTS `vtiger_ossmailview_files`;
-
 CREATE TABLE `vtiger_ossmailview_files` (
   `ossmailviewid` int(19) NOT NULL,
   `documentsid` int(19) NOT NULL,
@@ -4243,8 +3614,6 @@ CREATE TABLE `vtiger_ossmailview_files` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailview_sendtype` */
-
-DROP TABLE IF EXISTS `vtiger_ossmailview_sendtype`;
 
 CREATE TABLE `vtiger_ossmailview_sendtype` (
   `ossmailview_sendtypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4257,15 +3626,11 @@ CREATE TABLE `vtiger_ossmailview_sendtype` (
 
 /*Table structure for table `vtiger_ossmailview_sendtype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ossmailview_sendtype_seq`;
-
 CREATE TABLE `vtiger_ossmailview_sendtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailviewcf` */
-
-DROP TABLE IF EXISTS `vtiger_ossmailviewcf`;
 
 CREATE TABLE `vtiger_ossmailviewcf` (
   `ossmailviewid` int(19) NOT NULL,
@@ -4274,8 +3639,6 @@ CREATE TABLE `vtiger_ossmailviewcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmenumanager` */
-
-DROP TABLE IF EXISTS `vtiger_ossmenumanager`;
 
 CREATE TABLE `vtiger_ossmenumanager` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -4298,8 +3661,6 @@ CREATE TABLE `vtiger_ossmenumanager` (
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
-DROP TABLE IF EXISTS `vtiger_ossoutsourcedservices`;
-
 CREATE TABLE `vtiger_ossoutsourcedservices` (
   `ossoutsourcedservicesid` int(19) NOT NULL DEFAULT '0',
   `ossoutsourcedservices_no` varchar(255) DEFAULT NULL,
@@ -4320,8 +3681,6 @@ CREATE TABLE `vtiger_ossoutsourcedservices` (
 
 /*Table structure for table `vtiger_ossoutsourcedservicescf` */
 
-DROP TABLE IF EXISTS `vtiger_ossoutsourcedservicescf`;
-
 CREATE TABLE `vtiger_ossoutsourcedservicescf` (
   `ossoutsourcedservicesid` int(11) NOT NULL,
   PRIMARY KEY (`ossoutsourcedservicesid`),
@@ -4329,8 +3688,6 @@ CREATE TABLE `vtiger_ossoutsourcedservicescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspasswords` */
-
-DROP TABLE IF EXISTS `vtiger_osspasswords`;
 
 CREATE TABLE `vtiger_osspasswords` (
   `osspasswordsid` int(11) NOT NULL,
@@ -4346,8 +3703,6 @@ CREATE TABLE `vtiger_osspasswords` (
 
 /*Table structure for table `vtiger_osspasswordscf` */
 
-DROP TABLE IF EXISTS `vtiger_osspasswordscf`;
-
 CREATE TABLE `vtiger_osspasswordscf` (
   `osspasswordsid` int(19) NOT NULL,
   PRIMARY KEY (`osspasswordsid`),
@@ -4355,8 +3710,6 @@ CREATE TABLE `vtiger_osspasswordscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf`;
 
 CREATE TABLE `vtiger_osspdf` (
   `osspdfid` int(11) NOT NULL DEFAULT '0',
@@ -4387,8 +3740,6 @@ CREATE TABLE `vtiger_osspdf` (
 
 /*Table structure for table `vtiger_osspdf_config` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_config`;
-
 CREATE TABLE `vtiger_osspdf_config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `conf_id` varchar(100) NOT NULL,
@@ -4401,8 +3752,6 @@ CREATE TABLE `vtiger_osspdf_config` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_constraints` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_constraints`;
 
 CREATE TABLE `vtiger_osspdf_constraints` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -4417,8 +3766,6 @@ CREATE TABLE `vtiger_osspdf_constraints` (
 
 /*Table structure for table `vtiger_osspdf_enable_footer` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_footer`;
-
 CREATE TABLE `vtiger_osspdf_enable_footer` (
   `osspdf_enable_footerid` int(11) NOT NULL AUTO_INCREMENT,
   `osspdf_enable_footer` varchar(200) NOT NULL,
@@ -4430,15 +3777,11 @@ CREATE TABLE `vtiger_osspdf_enable_footer` (
 
 /*Table structure for table `vtiger_osspdf_enable_footer_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_footer_seq`;
-
 CREATE TABLE `vtiger_osspdf_enable_footer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_enable_header` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_header`;
 
 CREATE TABLE `vtiger_osspdf_enable_header` (
   `osspdf_enable_headerid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4451,15 +3794,11 @@ CREATE TABLE `vtiger_osspdf_enable_header` (
 
 /*Table structure for table `vtiger_osspdf_enable_header_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_header_seq`;
-
 CREATE TABLE `vtiger_osspdf_enable_header_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_enable_numbering` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_numbering`;
 
 CREATE TABLE `vtiger_osspdf_enable_numbering` (
   `osspdf_enable_numberingid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4472,15 +3811,11 @@ CREATE TABLE `vtiger_osspdf_enable_numbering` (
 
 /*Table structure for table `vtiger_osspdf_enable_numbering_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_enable_numbering_seq`;
-
 CREATE TABLE `vtiger_osspdf_enable_numbering_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_pdf_format` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_pdf_format`;
 
 CREATE TABLE `vtiger_osspdf_pdf_format` (
   `osspdf_pdf_formatid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4493,15 +3828,11 @@ CREATE TABLE `vtiger_osspdf_pdf_format` (
 
 /*Table structure for table `vtiger_osspdf_pdf_format_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_pdf_format_seq`;
-
 CREATE TABLE `vtiger_osspdf_pdf_format_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_pdf_orientation` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_pdf_orientation`;
 
 CREATE TABLE `vtiger_osspdf_pdf_orientation` (
   `osspdf_pdf_orientationid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4514,15 +3845,11 @@ CREATE TABLE `vtiger_osspdf_pdf_orientation` (
 
 /*Table structure for table `vtiger_osspdf_pdf_orientation_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_pdf_orientation_seq`;
-
 CREATE TABLE `vtiger_osspdf_pdf_orientation_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf_view` */
-
-DROP TABLE IF EXISTS `vtiger_osspdf_view`;
 
 CREATE TABLE `vtiger_osspdf_view` (
   `osspdf_viewid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4535,15 +3862,11 @@ CREATE TABLE `vtiger_osspdf_view` (
 
 /*Table structure for table `vtiger_osspdf_view_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osspdf_view_seq`;
-
 CREATE TABLE `vtiger_osspdf_view_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdfcf` */
-
-DROP TABLE IF EXISTS `vtiger_osspdfcf`;
 
 CREATE TABLE `vtiger_osspdfcf` (
   `osspdfid` int(11) NOT NULL,
@@ -4552,8 +3875,6 @@ CREATE TABLE `vtiger_osspdfcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osssoldservices` */
-
-DROP TABLE IF EXISTS `vtiger_osssoldservices`;
 
 CREATE TABLE `vtiger_osssoldservices` (
   `osssoldservicesid` int(19) NOT NULL DEFAULT '0',
@@ -4581,8 +3902,6 @@ CREATE TABLE `vtiger_osssoldservices` (
 
 /*Table structure for table `vtiger_osssoldservicescf` */
 
-DROP TABLE IF EXISTS `vtiger_osssoldservicescf`;
-
 CREATE TABLE `vtiger_osssoldservicescf` (
   `osssoldservicesid` int(11) NOT NULL,
   PRIMARY KEY (`osssoldservicesid`),
@@ -4590,8 +3909,6 @@ CREATE TABLE `vtiger_osssoldservicescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osstimecontrol` */
-
-DROP TABLE IF EXISTS `vtiger_osstimecontrol`;
 
 CREATE TABLE `vtiger_osstimecontrol` (
   `osstimecontrolid` int(19) NOT NULL DEFAULT '0',
@@ -4645,8 +3962,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
 
 /*Table structure for table `vtiger_osstimecontrol_status` */
 
-DROP TABLE IF EXISTS `vtiger_osstimecontrol_status`;
-
 CREATE TABLE `vtiger_osstimecontrol_status` (
   `osstimecontrol_statusid` int(11) NOT NULL AUTO_INCREMENT,
   `osstimecontrol_status` varchar(200) NOT NULL,
@@ -4657,15 +3972,11 @@ CREATE TABLE `vtiger_osstimecontrol_status` (
 
 /*Table structure for table `vtiger_osstimecontrol_status_seq` */
 
-DROP TABLE IF EXISTS `vtiger_osstimecontrol_status_seq`;
-
 CREATE TABLE `vtiger_osstimecontrol_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osstimecontrolcf` */
-
-DROP TABLE IF EXISTS `vtiger_osstimecontrolcf`;
 
 CREATE TABLE `vtiger_osstimecontrolcf` (
   `osstimecontrolid` int(19) NOT NULL,
@@ -4674,8 +3985,6 @@ CREATE TABLE `vtiger_osstimecontrolcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_othereventduration` */
-
-DROP TABLE IF EXISTS `vtiger_othereventduration`;
 
 CREATE TABLE `vtiger_othereventduration` (
   `othereventdurationid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4687,15 +3996,11 @@ CREATE TABLE `vtiger_othereventduration` (
 
 /*Table structure for table `vtiger_othereventduration_seq` */
 
-DROP TABLE IF EXISTS `vtiger_othereventduration_seq`;
-
 CREATE TABLE `vtiger_othereventduration_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_outsourcedproducts` */
-
-DROP TABLE IF EXISTS `vtiger_outsourcedproducts`;
 
 CREATE TABLE `vtiger_outsourcedproducts` (
   `outsourcedproductsid` int(11) NOT NULL DEFAULT '0',
@@ -4718,8 +4023,6 @@ CREATE TABLE `vtiger_outsourcedproducts` (
 
 /*Table structure for table `vtiger_outsourcedproductscf` */
 
-DROP TABLE IF EXISTS `vtiger_outsourcedproductscf`;
-
 CREATE TABLE `vtiger_outsourcedproductscf` (
   `outsourcedproductsid` int(11) NOT NULL,
   PRIMARY KEY (`outsourcedproductsid`),
@@ -4728,16 +4031,12 @@ CREATE TABLE `vtiger_outsourcedproductscf` (
 
 /*Table structure for table `vtiger_password` */
 
-DROP TABLE IF EXISTS `vtiger_password`;
-
 CREATE TABLE `vtiger_password` (
   `type` varchar(20) NOT NULL,
   `val` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_passwords_config` */
-
-DROP TABLE IF EXISTS `vtiger_passwords_config`;
 
 CREATE TABLE `vtiger_passwords_config` (
   `pass_length_min` int(3) NOT NULL,
@@ -4747,8 +4046,6 @@ CREATE TABLE `vtiger_passwords_config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_payment` */
-
-DROP TABLE IF EXISTS `vtiger_payment`;
 
 CREATE TABLE `vtiger_payment` (
   `paymentid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4760,8 +4057,6 @@ CREATE TABLE `vtiger_payment` (
 
 /*Table structure for table `vtiger_payment_duration` */
 
-DROP TABLE IF EXISTS `vtiger_payment_duration`;
-
 CREATE TABLE `vtiger_payment_duration` (
   `payment_duration_id` int(11) DEFAULT NULL,
   `payment_duration` varchar(200) DEFAULT NULL,
@@ -4771,23 +4066,17 @@ CREATE TABLE `vtiger_payment_duration` (
 
 /*Table structure for table `vtiger_payment_duration_seq` */
 
-DROP TABLE IF EXISTS `vtiger_payment_duration_seq`;
-
 CREATE TABLE `vtiger_payment_duration_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_payment_seq` */
 
-DROP TABLE IF EXISTS `vtiger_payment_seq`;
-
 CREATE TABLE `vtiger_payment_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pbxmanager` */
-
-DROP TABLE IF EXISTS `vtiger_pbxmanager`;
 
 CREATE TABLE `vtiger_pbxmanager` (
   `pbxmanagerid` int(20) NOT NULL AUTO_INCREMENT,
@@ -4812,8 +4101,6 @@ CREATE TABLE `vtiger_pbxmanager` (
 
 /*Table structure for table `vtiger_pbxmanager_gateway` */
 
-DROP TABLE IF EXISTS `vtiger_pbxmanager_gateway`;
-
 CREATE TABLE `vtiger_pbxmanager_gateway` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gateway` varchar(20) DEFAULT NULL,
@@ -4822,8 +4109,6 @@ CREATE TABLE `vtiger_pbxmanager_gateway` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pbxmanager_phonelookup` */
-
-DROP TABLE IF EXISTS `vtiger_pbxmanager_phonelookup`;
 
 CREATE TABLE `vtiger_pbxmanager_phonelookup` (
   `crmid` int(20) DEFAULT NULL,
@@ -4838,8 +4123,6 @@ CREATE TABLE `vtiger_pbxmanager_phonelookup` (
 
 /*Table structure for table `vtiger_pbxmanagercf` */
 
-DROP TABLE IF EXISTS `vtiger_pbxmanagercf`;
-
 CREATE TABLE `vtiger_pbxmanagercf` (
   `pbxmanagerid` int(11) NOT NULL,
   PRIMARY KEY (`pbxmanagerid`),
@@ -4847,8 +4130,6 @@ CREATE TABLE `vtiger_pbxmanagercf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist` */
-
-DROP TABLE IF EXISTS `vtiger_picklist`;
 
 CREATE TABLE `vtiger_picklist` (
   `picklistid` int(11) NOT NULL AUTO_INCREMENT,
@@ -4858,8 +4139,6 @@ CREATE TABLE `vtiger_picklist` (
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
-
-DROP TABLE IF EXISTS `vtiger_picklist_dependency`;
 
 CREATE TABLE `vtiger_picklist_dependency` (
   `id` int(11) NOT NULL,
@@ -4874,15 +4153,11 @@ CREATE TABLE `vtiger_picklist_dependency` (
 
 /*Table structure for table `vtiger_picklist_dependency_seq` */
 
-DROP TABLE IF EXISTS `vtiger_picklist_dependency_seq`;
-
 CREATE TABLE `vtiger_picklist_dependency_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_seq` */
-
-DROP TABLE IF EXISTS `vtiger_picklist_seq`;
 
 CREATE TABLE `vtiger_picklist_seq` (
   `id` int(11) NOT NULL
@@ -4890,15 +4165,11 @@ CREATE TABLE `vtiger_picklist_seq` (
 
 /*Table structure for table `vtiger_picklistvalues_seq` */
 
-DROP TABLE IF EXISTS `vtiger_picklistvalues_seq`;
-
 CREATE TABLE `vtiger_picklistvalues_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_portal` */
-
-DROP TABLE IF EXISTS `vtiger_portal`;
 
 CREATE TABLE `vtiger_portal` (
   `portalid` int(19) NOT NULL,
@@ -4912,8 +4183,6 @@ CREATE TABLE `vtiger_portal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_portalinfo` */
-
-DROP TABLE IF EXISTS `vtiger_portalinfo`;
 
 CREATE TABLE `vtiger_portalinfo` (
   `id` int(11) NOT NULL,
@@ -4930,8 +4199,6 @@ CREATE TABLE `vtiger_portalinfo` (
 
 /*Table structure for table `vtiger_postatus` */
 
-DROP TABLE IF EXISTS `vtiger_postatus`;
-
 CREATE TABLE `vtiger_postatus` (
   `postatusid` int(19) NOT NULL AUTO_INCREMENT,
   `postatus` varchar(200) NOT NULL,
@@ -4944,15 +4211,11 @@ CREATE TABLE `vtiger_postatus` (
 
 /*Table structure for table `vtiger_postatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_postatus_seq`;
-
 CREATE TABLE `vtiger_postatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_postatushistory` */
-
-DROP TABLE IF EXISTS `vtiger_postatushistory`;
 
 CREATE TABLE `vtiger_postatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -4967,8 +4230,6 @@ CREATE TABLE `vtiger_postatushistory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_potential` */
-
-DROP TABLE IF EXISTS `vtiger_potential`;
 
 CREATE TABLE `vtiger_potential` (
   `potentialid` int(19) NOT NULL DEFAULT '0',
@@ -5022,8 +4283,6 @@ CREATE TABLE `vtiger_potential` (
 
 /*Table structure for table `vtiger_potentialscf` */
 
-DROP TABLE IF EXISTS `vtiger_potentialscf`;
-
 CREATE TABLE `vtiger_potentialscf` (
   `potentialid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`potentialid`),
@@ -5031,8 +4290,6 @@ CREATE TABLE `vtiger_potentialscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_potstagehistory` */
-
-DROP TABLE IF EXISTS `vtiger_potstagehistory`;
 
 CREATE TABLE `vtiger_potstagehistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -5050,8 +4307,6 @@ CREATE TABLE `vtiger_potstagehistory` (
 
 /*Table structure for table `vtiger_pricebook` */
 
-DROP TABLE IF EXISTS `vtiger_pricebook`;
-
 CREATE TABLE `vtiger_pricebook` (
   `pricebookid` int(19) NOT NULL DEFAULT '0',
   `pricebook_no` varchar(100) NOT NULL,
@@ -5064,8 +4319,6 @@ CREATE TABLE `vtiger_pricebook` (
 
 /*Table structure for table `vtiger_pricebookcf` */
 
-DROP TABLE IF EXISTS `vtiger_pricebookcf`;
-
 CREATE TABLE `vtiger_pricebookcf` (
   `pricebookid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pricebookid`),
@@ -5073,8 +4326,6 @@ CREATE TABLE `vtiger_pricebookcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pricebookproductrel` */
-
-DROP TABLE IF EXISTS `vtiger_pricebookproductrel`;
 
 CREATE TABLE `vtiger_pricebookproductrel` (
   `pricebookid` int(19) NOT NULL,
@@ -5089,8 +4340,6 @@ CREATE TABLE `vtiger_pricebookproductrel` (
 
 /*Table structure for table `vtiger_priority` */
 
-DROP TABLE IF EXISTS `vtiger_priority`;
-
 CREATE TABLE `vtiger_priority` (
   `priorityid` int(19) NOT NULL AUTO_INCREMENT,
   `priority` varchar(200) NOT NULL,
@@ -5101,8 +4350,6 @@ CREATE TABLE `vtiger_priority` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcategory` */
-
-DROP TABLE IF EXISTS `vtiger_productcategory`;
 
 CREATE TABLE `vtiger_productcategory` (
   `productcategoryid` int(19) NOT NULL AUTO_INCREMENT,
@@ -5116,15 +4363,11 @@ CREATE TABLE `vtiger_productcategory` (
 
 /*Table structure for table `vtiger_productcategory_seq` */
 
-DROP TABLE IF EXISTS `vtiger_productcategory_seq`;
-
 CREATE TABLE `vtiger_productcategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcf` */
-
-DROP TABLE IF EXISTS `vtiger_productcf`;
 
 CREATE TABLE `vtiger_productcf` (
   `productid` int(19) NOT NULL DEFAULT '0',
@@ -5133,8 +4376,6 @@ CREATE TABLE `vtiger_productcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcurrencyrel` */
-
-DROP TABLE IF EXISTS `vtiger_productcurrencyrel`;
 
 CREATE TABLE `vtiger_productcurrencyrel` (
   `productid` int(11) NOT NULL,
@@ -5145,8 +4386,6 @@ CREATE TABLE `vtiger_productcurrencyrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_products` */
-
-DROP TABLE IF EXISTS `vtiger_products`;
 
 CREATE TABLE `vtiger_products` (
   `productid` int(19) NOT NULL,
@@ -5188,8 +4427,6 @@ CREATE TABLE `vtiger_products` (
 
 /*Table structure for table `vtiger_producttaxrel` */
 
-DROP TABLE IF EXISTS `vtiger_producttaxrel`;
-
 CREATE TABLE `vtiger_producttaxrel` (
   `productid` int(11) NOT NULL,
   `taxid` int(3) NOT NULL,
@@ -5200,8 +4437,6 @@ CREATE TABLE `vtiger_producttaxrel` (
 
 /*Table structure for table `vtiger_profile` */
 
-DROP TABLE IF EXISTS `vtiger_profile`;
-
 CREATE TABLE `vtiger_profile` (
   `profileid` int(10) NOT NULL AUTO_INCREMENT,
   `profilename` varchar(50) NOT NULL,
@@ -5211,8 +4446,6 @@ CREATE TABLE `vtiger_profile` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile2field` */
-
-DROP TABLE IF EXISTS `vtiger_profile2field`;
 
 CREATE TABLE `vtiger_profile2field` (
   `profileid` int(11) NOT NULL,
@@ -5229,8 +4462,6 @@ CREATE TABLE `vtiger_profile2field` (
 
 /*Table structure for table `vtiger_profile2globalpermissions` */
 
-DROP TABLE IF EXISTS `vtiger_profile2globalpermissions`;
-
 CREATE TABLE `vtiger_profile2globalpermissions` (
   `profileid` int(19) NOT NULL,
   `globalactionid` int(19) NOT NULL,
@@ -5241,8 +4472,6 @@ CREATE TABLE `vtiger_profile2globalpermissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile2standardpermissions` */
-
-DROP TABLE IF EXISTS `vtiger_profile2standardpermissions`;
 
 CREATE TABLE `vtiger_profile2standardpermissions` (
   `profileid` int(11) NOT NULL,
@@ -5255,8 +4484,6 @@ CREATE TABLE `vtiger_profile2standardpermissions` (
 
 /*Table structure for table `vtiger_profile2tab` */
 
-DROP TABLE IF EXISTS `vtiger_profile2tab`;
-
 CREATE TABLE `vtiger_profile2tab` (
   `profileid` int(11) DEFAULT NULL,
   `tabid` int(10) DEFAULT NULL,
@@ -5266,8 +4493,6 @@ CREATE TABLE `vtiger_profile2tab` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_profile2utility` */
-
-DROP TABLE IF EXISTS `vtiger_profile2utility`;
 
 CREATE TABLE `vtiger_profile2utility` (
   `profileid` int(11) NOT NULL,
@@ -5281,15 +4506,11 @@ CREATE TABLE `vtiger_profile2utility` (
 
 /*Table structure for table `vtiger_profile_seq` */
 
-DROP TABLE IF EXISTS `vtiger_profile_seq`;
-
 CREATE TABLE `vtiger_profile_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_progress` */
-
-DROP TABLE IF EXISTS `vtiger_progress`;
 
 CREATE TABLE `vtiger_progress` (
   `progressid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5302,15 +4523,11 @@ CREATE TABLE `vtiger_progress` (
 
 /*Table structure for table `vtiger_progress_seq` */
 
-DROP TABLE IF EXISTS `vtiger_progress_seq`;
-
 CREATE TABLE `vtiger_progress_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_project` */
-
-DROP TABLE IF EXISTS `vtiger_project`;
 
 CREATE TABLE `vtiger_project` (
   `projectid` int(19) NOT NULL,
@@ -5339,8 +4556,6 @@ CREATE TABLE `vtiger_project` (
 
 /*Table structure for table `vtiger_projectcf` */
 
-DROP TABLE IF EXISTS `vtiger_projectcf`;
-
 CREATE TABLE `vtiger_projectcf` (
   `projectid` int(19) NOT NULL,
   PRIMARY KEY (`projectid`),
@@ -5348,8 +4563,6 @@ CREATE TABLE `vtiger_projectcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectmilestone` */
-
-DROP TABLE IF EXISTS `vtiger_projectmilestone`;
 
 CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestoneid` int(19) NOT NULL,
@@ -5365,8 +4578,6 @@ CREATE TABLE `vtiger_projectmilestone` (
 
 /*Table structure for table `vtiger_projectmilestonecf` */
 
-DROP TABLE IF EXISTS `vtiger_projectmilestonecf`;
-
 CREATE TABLE `vtiger_projectmilestonecf` (
   `projectmilestoneid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`projectmilestoneid`),
@@ -5374,8 +4585,6 @@ CREATE TABLE `vtiger_projectmilestonecf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectmilestonetype` */
-
-DROP TABLE IF EXISTS `vtiger_projectmilestonetype`;
 
 CREATE TABLE `vtiger_projectmilestonetype` (
   `projectmilestonetypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5388,15 +4597,11 @@ CREATE TABLE `vtiger_projectmilestonetype` (
 
 /*Table structure for table `vtiger_projectmilestonetype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projectmilestonetype_seq`;
-
 CREATE TABLE `vtiger_projectmilestonetype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectpriority` */
-
-DROP TABLE IF EXISTS `vtiger_projectpriority`;
 
 CREATE TABLE `vtiger_projectpriority` (
   `projectpriorityid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5409,15 +4614,11 @@ CREATE TABLE `vtiger_projectpriority` (
 
 /*Table structure for table `vtiger_projectpriority_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projectpriority_seq`;
-
 CREATE TABLE `vtiger_projectpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectstatus` */
-
-DROP TABLE IF EXISTS `vtiger_projectstatus`;
 
 CREATE TABLE `vtiger_projectstatus` (
   `projectstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5430,15 +4631,11 @@ CREATE TABLE `vtiger_projectstatus` (
 
 /*Table structure for table `vtiger_projectstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projectstatus_seq`;
-
 CREATE TABLE `vtiger_projectstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttask` */
-
-DROP TABLE IF EXISTS `vtiger_projecttask`;
 
 CREATE TABLE `vtiger_projecttask` (
   `projecttaskid` int(19) NOT NULL,
@@ -5465,8 +4662,6 @@ CREATE TABLE `vtiger_projecttask` (
 
 /*Table structure for table `vtiger_projecttaskcf` */
 
-DROP TABLE IF EXISTS `vtiger_projecttaskcf`;
-
 CREATE TABLE `vtiger_projecttaskcf` (
   `projecttaskid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`projecttaskid`),
@@ -5474,8 +4669,6 @@ CREATE TABLE `vtiger_projecttaskcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttaskpriority` */
-
-DROP TABLE IF EXISTS `vtiger_projecttaskpriority`;
 
 CREATE TABLE `vtiger_projecttaskpriority` (
   `projecttaskpriorityid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5488,15 +4681,11 @@ CREATE TABLE `vtiger_projecttaskpriority` (
 
 /*Table structure for table `vtiger_projecttaskpriority_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projecttaskpriority_seq`;
-
 CREATE TABLE `vtiger_projecttaskpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttaskprogress` */
-
-DROP TABLE IF EXISTS `vtiger_projecttaskprogress`;
 
 CREATE TABLE `vtiger_projecttaskprogress` (
   `projecttaskprogressid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5509,15 +4698,11 @@ CREATE TABLE `vtiger_projecttaskprogress` (
 
 /*Table structure for table `vtiger_projecttaskprogress_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projecttaskprogress_seq`;
-
 CREATE TABLE `vtiger_projecttaskprogress_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttaskstatus` */
-
-DROP TABLE IF EXISTS `vtiger_projecttaskstatus`;
 
 CREATE TABLE `vtiger_projecttaskstatus` (
   `projecttaskstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5530,15 +4715,11 @@ CREATE TABLE `vtiger_projecttaskstatus` (
 
 /*Table structure for table `vtiger_projecttaskstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projecttaskstatus_seq`;
-
 CREATE TABLE `vtiger_projecttaskstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttasktype` */
-
-DROP TABLE IF EXISTS `vtiger_projecttasktype`;
 
 CREATE TABLE `vtiger_projecttasktype` (
   `projecttasktypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5551,15 +4732,11 @@ CREATE TABLE `vtiger_projecttasktype` (
 
 /*Table structure for table `vtiger_projecttasktype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projecttasktype_seq`;
-
 CREATE TABLE `vtiger_projecttasktype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projecttype` */
-
-DROP TABLE IF EXISTS `vtiger_projecttype`;
 
 CREATE TABLE `vtiger_projecttype` (
   `projecttypeid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5572,15 +4749,11 @@ CREATE TABLE `vtiger_projecttype` (
 
 /*Table structure for table `vtiger_projecttype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_projecttype_seq`;
-
 CREATE TABLE `vtiger_projecttype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pscategory` */
-
-DROP TABLE IF EXISTS `vtiger_pscategory`;
 
 CREATE TABLE `vtiger_pscategory` (
   `pscategoryid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5593,15 +4766,11 @@ CREATE TABLE `vtiger_pscategory` (
 
 /*Table structure for table `vtiger_pscategory_seq` */
 
-DROP TABLE IF EXISTS `vtiger_pscategory_seq`;
-
 CREATE TABLE `vtiger_pscategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_pssubcategory` */
-
-DROP TABLE IF EXISTS `vtiger_pssubcategory`;
 
 CREATE TABLE `vtiger_pssubcategory` (
   `pssubcategoryid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5614,15 +4783,11 @@ CREATE TABLE `vtiger_pssubcategory` (
 
 /*Table structure for table `vtiger_pssubcategory_seq` */
 
-DROP TABLE IF EXISTS `vtiger_pssubcategory_seq`;
-
 CREATE TABLE `vtiger_pssubcategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_purchaseorder` */
-
-DROP TABLE IF EXISTS `vtiger_purchaseorder`;
 
 CREATE TABLE `vtiger_purchaseorder` (
   `purchaseorderid` int(19) NOT NULL DEFAULT '0',
@@ -5662,8 +4827,6 @@ CREATE TABLE `vtiger_purchaseorder` (
 
 /*Table structure for table `vtiger_purchaseorderaddress` */
 
-DROP TABLE IF EXISTS `vtiger_purchaseorderaddress`;
-
 CREATE TABLE `vtiger_purchaseorderaddress` (
   `purchaseorderaddressid` int(19) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
@@ -5694,8 +4857,6 @@ CREATE TABLE `vtiger_purchaseorderaddress` (
 
 /*Table structure for table `vtiger_purchaseordercf` */
 
-DROP TABLE IF EXISTS `vtiger_purchaseordercf`;
-
 CREATE TABLE `vtiger_purchaseordercf` (
   `purchaseorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`purchaseorderid`),
@@ -5703,8 +4864,6 @@ CREATE TABLE `vtiger_purchaseordercf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotes` */
-
-DROP TABLE IF EXISTS `vtiger_quotes`;
 
 CREATE TABLE `vtiger_quotes` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
@@ -5742,8 +4901,6 @@ CREATE TABLE `vtiger_quotes` (
 
 /*Table structure for table `vtiger_quotesaddress` */
 
-DROP TABLE IF EXISTS `vtiger_quotesaddress`;
-
 CREATE TABLE `vtiger_quotesaddress` (
   `quoteaddressid` int(19) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
@@ -5774,8 +4931,6 @@ CREATE TABLE `vtiger_quotesaddress` (
 
 /*Table structure for table `vtiger_quotescf` */
 
-DROP TABLE IF EXISTS `vtiger_quotescf`;
-
 CREATE TABLE `vtiger_quotescf` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`quoteid`),
@@ -5783,8 +4938,6 @@ CREATE TABLE `vtiger_quotescf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotestage` */
-
-DROP TABLE IF EXISTS `vtiger_quotestage`;
 
 CREATE TABLE `vtiger_quotestage` (
   `quotestageid` int(19) NOT NULL AUTO_INCREMENT,
@@ -5798,15 +4951,11 @@ CREATE TABLE `vtiger_quotestage` (
 
 /*Table structure for table `vtiger_quotestage_seq` */
 
-DROP TABLE IF EXISTS `vtiger_quotestage_seq`;
-
 CREATE TABLE `vtiger_quotestage_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotestagehistory` */
-
-DROP TABLE IF EXISTS `vtiger_quotestagehistory`;
 
 CREATE TABLE `vtiger_quotestagehistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -5822,8 +4971,6 @@ CREATE TABLE `vtiger_quotestagehistory` (
 
 /*Table structure for table `vtiger_recurring_frequency` */
 
-DROP TABLE IF EXISTS `vtiger_recurring_frequency`;
-
 CREATE TABLE `vtiger_recurring_frequency` (
   `recurring_frequency_id` int(11) DEFAULT NULL,
   `recurring_frequency` varchar(200) DEFAULT NULL,
@@ -5833,15 +4980,11 @@ CREATE TABLE `vtiger_recurring_frequency` (
 
 /*Table structure for table `vtiger_recurring_frequency_seq` */
 
-DROP TABLE IF EXISTS `vtiger_recurring_frequency_seq`;
-
 CREATE TABLE `vtiger_recurring_frequency_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_recurringevents` */
-
-DROP TABLE IF EXISTS `vtiger_recurringevents`;
 
 CREATE TABLE `vtiger_recurringevents` (
   `recurringid` int(19) NOT NULL AUTO_INCREMENT,
@@ -5858,8 +5001,6 @@ CREATE TABLE `vtiger_recurringevents` (
 
 /*Table structure for table `vtiger_recurringtype` */
 
-DROP TABLE IF EXISTS `vtiger_recurringtype`;
-
 CREATE TABLE `vtiger_recurringtype` (
   `recurringeventid` int(19) NOT NULL AUTO_INCREMENT,
   `recurringtype` varchar(200) NOT NULL,
@@ -5871,15 +5012,11 @@ CREATE TABLE `vtiger_recurringtype` (
 
 /*Table structure for table `vtiger_recurringtype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_recurringtype_seq`;
-
 CREATE TABLE `vtiger_recurringtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_rel_mod` */
-
-DROP TABLE IF EXISTS `vtiger_rel_mod`;
 
 CREATE TABLE `vtiger_rel_mod` (
   `rel_modid` int(11) NOT NULL AUTO_INCREMENT,
@@ -5892,15 +5029,11 @@ CREATE TABLE `vtiger_rel_mod` (
 
 /*Table structure for table `vtiger_rel_mod_seq` */
 
-DROP TABLE IF EXISTS `vtiger_rel_mod_seq`;
-
 CREATE TABLE `vtiger_rel_mod_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists` */
-
-DROP TABLE IF EXISTS `vtiger_relatedlists`;
 
 CREATE TABLE `vtiger_relatedlists` (
   `relation_id` int(19) NOT NULL,
@@ -5922,8 +5055,6 @@ CREATE TABLE `vtiger_relatedlists` (
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
-DROP TABLE IF EXISTS `vtiger_relatedlists_fields`;
-
 CREATE TABLE `vtiger_relatedlists_fields` (
   `relation_id` int(19) DEFAULT NULL,
   `fieldid` int(19) DEFAULT NULL,
@@ -5933,8 +5064,6 @@ CREATE TABLE `vtiger_relatedlists_fields` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_rb` */
-
-DROP TABLE IF EXISTS `vtiger_relatedlists_rb`;
 
 CREATE TABLE `vtiger_relatedlists_rb` (
   `entityid` int(19) DEFAULT NULL,
@@ -5947,15 +5076,11 @@ CREATE TABLE `vtiger_relatedlists_rb` (
 
 /*Table structure for table `vtiger_relatedlists_seq` */
 
-DROP TABLE IF EXISTS `vtiger_relatedlists_seq`;
-
 CREATE TABLE `vtiger_relatedlists_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relcriteria` */
-
-DROP TABLE IF EXISTS `vtiger_relcriteria`;
 
 CREATE TABLE `vtiger_relcriteria` (
   `queryid` int(19) NOT NULL,
@@ -5972,8 +5097,6 @@ CREATE TABLE `vtiger_relcriteria` (
 
 /*Table structure for table `vtiger_relcriteria_grouping` */
 
-DROP TABLE IF EXISTS `vtiger_relcriteria_grouping`;
-
 CREATE TABLE `vtiger_relcriteria_grouping` (
   `groupid` int(11) NOT NULL,
   `queryid` int(19) NOT NULL,
@@ -5986,8 +5109,6 @@ CREATE TABLE `vtiger_relcriteria_grouping` (
 
 /*Table structure for table `vtiger_reminder_interval` */
 
-DROP TABLE IF EXISTS `vtiger_reminder_interval`;
-
 CREATE TABLE `vtiger_reminder_interval` (
   `reminder_intervalid` int(19) NOT NULL AUTO_INCREMENT,
   `reminder_interval` varchar(200) NOT NULL,
@@ -5998,15 +5119,11 @@ CREATE TABLE `vtiger_reminder_interval` (
 
 /*Table structure for table `vtiger_reminder_interval_seq` */
 
-DROP TABLE IF EXISTS `vtiger_reminder_interval_seq`;
-
 CREATE TABLE `vtiger_reminder_interval_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_report` */
-
-DROP TABLE IF EXISTS `vtiger_report`;
 
 CREATE TABLE `vtiger_report` (
   `reportid` int(19) NOT NULL,
@@ -6028,8 +5145,6 @@ CREATE TABLE `vtiger_report` (
 
 /*Table structure for table `vtiger_reportdatefilter` */
 
-DROP TABLE IF EXISTS `vtiger_reportdatefilter`;
-
 CREATE TABLE `vtiger_reportdatefilter` (
   `datefilterid` int(19) NOT NULL,
   `datecolumnname` varchar(250) DEFAULT '',
@@ -6043,16 +5158,12 @@ CREATE TABLE `vtiger_reportdatefilter` (
 
 /*Table structure for table `vtiger_reportfilters` */
 
-DROP TABLE IF EXISTS `vtiger_reportfilters`;
-
 CREATE TABLE `vtiger_reportfilters` (
   `filterid` int(19) NOT NULL,
   `name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reportfolder` */
-
-DROP TABLE IF EXISTS `vtiger_reportfolder`;
 
 CREATE TABLE `vtiger_reportfolder` (
   `folderid` int(19) NOT NULL AUTO_INCREMENT,
@@ -6063,8 +5174,6 @@ CREATE TABLE `vtiger_reportfolder` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reportgroupbycolumn` */
-
-DROP TABLE IF EXISTS `vtiger_reportgroupbycolumn`;
 
 CREATE TABLE `vtiger_reportgroupbycolumn` (
   `reportid` int(19) DEFAULT NULL,
@@ -6077,8 +5186,6 @@ CREATE TABLE `vtiger_reportgroupbycolumn` (
 
 /*Table structure for table `vtiger_reportmodules` */
 
-DROP TABLE IF EXISTS `vtiger_reportmodules`;
-
 CREATE TABLE `vtiger_reportmodules` (
   `reportmodulesid` int(19) NOT NULL,
   `primarymodule` varchar(50) NOT NULL DEFAULT '',
@@ -6089,8 +5196,6 @@ CREATE TABLE `vtiger_reportmodules` (
 
 /*Table structure for table `vtiger_reportsharing` */
 
-DROP TABLE IF EXISTS `vtiger_reportsharing`;
-
 CREATE TABLE `vtiger_reportsharing` (
   `reportid` int(19) NOT NULL,
   `shareid` int(19) NOT NULL,
@@ -6098,8 +5203,6 @@ CREATE TABLE `vtiger_reportsharing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_reportsortcol` */
-
-DROP TABLE IF EXISTS `vtiger_reportsortcol`;
 
 CREATE TABLE `vtiger_reportsortcol` (
   `sortcolid` int(19) NOT NULL,
@@ -6113,8 +5216,6 @@ CREATE TABLE `vtiger_reportsortcol` (
 
 /*Table structure for table `vtiger_reportsummary` */
 
-DROP TABLE IF EXISTS `vtiger_reportsummary`;
-
 CREATE TABLE `vtiger_reportsummary` (
   `reportsummaryid` int(19) NOT NULL,
   `summarytype` int(19) NOT NULL,
@@ -6126,8 +5227,6 @@ CREATE TABLE `vtiger_reportsummary` (
 
 /*Table structure for table `vtiger_reporttype` */
 
-DROP TABLE IF EXISTS `vtiger_reporttype`;
-
 CREATE TABLE `vtiger_reporttype` (
   `reportid` int(10) NOT NULL,
   `data` text,
@@ -6135,8 +5234,6 @@ CREATE TABLE `vtiger_reporttype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_role` */
-
-DROP TABLE IF EXISTS `vtiger_role`;
 
 CREATE TABLE `vtiger_role` (
   `roleid` varchar(255) NOT NULL,
@@ -6152,8 +5249,6 @@ CREATE TABLE `vtiger_role` (
 
 /*Table structure for table `vtiger_role2picklist` */
 
-DROP TABLE IF EXISTS `vtiger_role2picklist`;
-
 CREATE TABLE `vtiger_role2picklist` (
   `roleid` varchar(255) NOT NULL,
   `picklistvalueid` int(11) NOT NULL,
@@ -6168,8 +5263,6 @@ CREATE TABLE `vtiger_role2picklist` (
 
 /*Table structure for table `vtiger_role2profile` */
 
-DROP TABLE IF EXISTS `vtiger_role2profile`;
-
 CREATE TABLE `vtiger_role2profile` (
   `roleid` varchar(255) NOT NULL,
   `profileid` int(11) NOT NULL,
@@ -6183,15 +5276,11 @@ CREATE TABLE `vtiger_role2profile` (
 
 /*Table structure for table `vtiger_role_seq` */
 
-DROP TABLE IF EXISTS `vtiger_role_seq`;
-
 CREATE TABLE `vtiger_role_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_rowheight` */
-
-DROP TABLE IF EXISTS `vtiger_rowheight`;
 
 CREATE TABLE `vtiger_rowheight` (
   `rowheightid` int(11) NOT NULL AUTO_INCREMENT,
@@ -6203,15 +5292,11 @@ CREATE TABLE `vtiger_rowheight` (
 
 /*Table structure for table `vtiger_rowheight_seq` */
 
-DROP TABLE IF EXISTS `vtiger_rowheight_seq`;
-
 CREATE TABLE `vtiger_rowheight_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_rss` */
-
-DROP TABLE IF EXISTS `vtiger_rss`;
 
 CREATE TABLE `vtiger_rss` (
   `rssid` int(19) NOT NULL,
@@ -6224,8 +5309,6 @@ CREATE TABLE `vtiger_rss` (
 
 /*Table structure for table `vtiger_sales_stage` */
 
-DROP TABLE IF EXISTS `vtiger_sales_stage`;
-
 CREATE TABLE `vtiger_sales_stage` (
   `sales_stage_id` int(19) NOT NULL AUTO_INCREMENT,
   `sales_stage` varchar(200) DEFAULT NULL,
@@ -6237,15 +5320,11 @@ CREATE TABLE `vtiger_sales_stage` (
 
 /*Table structure for table `vtiger_sales_stage_seq` */
 
-DROP TABLE IF EXISTS `vtiger_sales_stage_seq`;
-
 CREATE TABLE `vtiger_sales_stage_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salesmanactivityrel` */
-
-DROP TABLE IF EXISTS `vtiger_salesmanactivityrel`;
 
 CREATE TABLE `vtiger_salesmanactivityrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
@@ -6258,8 +5337,6 @@ CREATE TABLE `vtiger_salesmanactivityrel` (
 
 /*Table structure for table `vtiger_salesmanattachmentsrel` */
 
-DROP TABLE IF EXISTS `vtiger_salesmanattachmentsrel`;
-
 CREATE TABLE `vtiger_salesmanattachmentsrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
   `attachmentsid` int(19) NOT NULL DEFAULT '0',
@@ -6271,8 +5348,6 @@ CREATE TABLE `vtiger_salesmanattachmentsrel` (
 
 /*Table structure for table `vtiger_salesmanticketrel` */
 
-DROP TABLE IF EXISTS `vtiger_salesmanticketrel`;
-
 CREATE TABLE `vtiger_salesmanticketrel` (
   `smid` int(19) NOT NULL DEFAULT '0',
   `id` int(19) NOT NULL DEFAULT '0',
@@ -6283,8 +5358,6 @@ CREATE TABLE `vtiger_salesmanticketrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salesorder` */
-
-DROP TABLE IF EXISTS `vtiger_salesorder`;
 
 CREATE TABLE `vtiger_salesorder` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
@@ -6332,8 +5405,6 @@ CREATE TABLE `vtiger_salesorder` (
 
 /*Table structure for table `vtiger_salesorderaddress` */
 
-DROP TABLE IF EXISTS `vtiger_salesorderaddress`;
-
 CREATE TABLE `vtiger_salesorderaddress` (
   `salesorderaddressid` int(19) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
@@ -6364,8 +5435,6 @@ CREATE TABLE `vtiger_salesorderaddress` (
 
 /*Table structure for table `vtiger_salesordercf` */
 
-DROP TABLE IF EXISTS `vtiger_salesordercf`;
-
 CREATE TABLE `vtiger_salesordercf` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`salesorderid`),
@@ -6373,8 +5442,6 @@ CREATE TABLE `vtiger_salesordercf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salutationtype` */
-
-DROP TABLE IF EXISTS `vtiger_salutationtype`;
 
 CREATE TABLE `vtiger_salutationtype` (
   `salutationid` int(19) NOT NULL AUTO_INCREMENT,
@@ -6387,15 +5454,11 @@ CREATE TABLE `vtiger_salutationtype` (
 
 /*Table structure for table `vtiger_salutationtype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_salutationtype_seq`;
-
 CREATE TABLE `vtiger_salutationtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_scheduled_reports` */
-
-DROP TABLE IF EXISTS `vtiger_scheduled_reports`;
 
 CREATE TABLE `vtiger_scheduled_reports` (
   `reportid` int(11) NOT NULL,
@@ -6408,8 +5471,6 @@ CREATE TABLE `vtiger_scheduled_reports` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_schedulereports` */
-
-DROP TABLE IF EXISTS `vtiger_schedulereports`;
 
 CREATE TABLE `vtiger_schedulereports` (
   `reportid` int(10) DEFAULT NULL,
@@ -6428,8 +5489,6 @@ CREATE TABLE `vtiger_schedulereports` (
 
 /*Table structure for table `vtiger_seactivityrel` */
 
-DROP TABLE IF EXISTS `vtiger_seactivityrel`;
-
 CREATE TABLE `vtiger_seactivityrel` (
   `crmid` int(19) NOT NULL,
   `activityid` int(19) NOT NULL,
@@ -6441,15 +5500,11 @@ CREATE TABLE `vtiger_seactivityrel` (
 
 /*Table structure for table `vtiger_seactivityrel_seq` */
 
-DROP TABLE IF EXISTS `vtiger_seactivityrel_seq`;
-
 CREATE TABLE `vtiger_seactivityrel_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_seattachmentsrel` */
-
-DROP TABLE IF EXISTS `vtiger_seattachmentsrel`;
 
 CREATE TABLE `vtiger_seattachmentsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
@@ -6462,8 +5517,6 @@ CREATE TABLE `vtiger_seattachmentsrel` (
 
 /*Table structure for table `vtiger_selectcolumn` */
 
-DROP TABLE IF EXISTS `vtiger_selectcolumn`;
-
 CREATE TABLE `vtiger_selectcolumn` (
   `queryid` int(19) NOT NULL,
   `columnindex` int(11) NOT NULL DEFAULT '0',
@@ -6475,8 +5528,6 @@ CREATE TABLE `vtiger_selectcolumn` (
 
 /*Table structure for table `vtiger_selectquery` */
 
-DROP TABLE IF EXISTS `vtiger_selectquery`;
-
 CREATE TABLE `vtiger_selectquery` (
   `queryid` int(19) NOT NULL,
   `startindex` int(19) DEFAULT '0',
@@ -6487,15 +5538,11 @@ CREATE TABLE `vtiger_selectquery` (
 
 /*Table structure for table `vtiger_selectquery_seq` */
 
-DROP TABLE IF EXISTS `vtiger_selectquery_seq`;
-
 CREATE TABLE `vtiger_selectquery_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_senotesrel` */
-
-DROP TABLE IF EXISTS `vtiger_senotesrel`;
 
 CREATE TABLE `vtiger_senotesrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
@@ -6508,8 +5555,6 @@ CREATE TABLE `vtiger_senotesrel` (
 
 /*Table structure for table `vtiger_seproductsrel` */
 
-DROP TABLE IF EXISTS `vtiger_seproductsrel`;
-
 CREATE TABLE `vtiger_seproductsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
   `productid` int(19) NOT NULL DEFAULT '0',
@@ -6521,8 +5566,6 @@ CREATE TABLE `vtiger_seproductsrel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_service` */
-
-DROP TABLE IF EXISTS `vtiger_service`;
 
 CREATE TABLE `vtiger_service` (
   `serviceid` int(11) NOT NULL,
@@ -6548,8 +5591,6 @@ CREATE TABLE `vtiger_service` (
 
 /*Table structure for table `vtiger_service_usageunit` */
 
-DROP TABLE IF EXISTS `vtiger_service_usageunit`;
-
 CREATE TABLE `vtiger_service_usageunit` (
   `service_usageunitid` int(11) NOT NULL AUTO_INCREMENT,
   `service_usageunit` varchar(200) NOT NULL,
@@ -6561,15 +5602,11 @@ CREATE TABLE `vtiger_service_usageunit` (
 
 /*Table structure for table `vtiger_service_usageunit_seq` */
 
-DROP TABLE IF EXISTS `vtiger_service_usageunit_seq`;
-
 CREATE TABLE `vtiger_service_usageunit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_servicecategory` */
-
-DROP TABLE IF EXISTS `vtiger_servicecategory`;
 
 CREATE TABLE `vtiger_servicecategory` (
   `servicecategoryid` int(11) NOT NULL AUTO_INCREMENT,
@@ -6582,15 +5619,11 @@ CREATE TABLE `vtiger_servicecategory` (
 
 /*Table structure for table `vtiger_servicecategory_seq` */
 
-DROP TABLE IF EXISTS `vtiger_servicecategory_seq`;
-
 CREATE TABLE `vtiger_servicecategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_servicecf` */
-
-DROP TABLE IF EXISTS `vtiger_servicecf`;
 
 CREATE TABLE `vtiger_servicecf` (
   `serviceid` int(19) NOT NULL DEFAULT '0',
@@ -6599,8 +5632,6 @@ CREATE TABLE `vtiger_servicecf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_servicecontracts` */
-
-DROP TABLE IF EXISTS `vtiger_servicecontracts`;
 
 CREATE TABLE `vtiger_servicecontracts` (
   `servicecontractsid` int(19) NOT NULL,
@@ -6630,8 +5661,6 @@ CREATE TABLE `vtiger_servicecontracts` (
 
 /*Table structure for table `vtiger_servicecontractscf` */
 
-DROP TABLE IF EXISTS `vtiger_servicecontractscf`;
-
 CREATE TABLE `vtiger_servicecontractscf` (
   `servicecontractsid` int(19) NOT NULL,
   PRIMARY KEY (`servicecontractsid`),
@@ -6639,8 +5668,6 @@ CREATE TABLE `vtiger_servicecontractscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_seticketsrel` */
-
-DROP TABLE IF EXISTS `vtiger_seticketsrel`;
 
 CREATE TABLE `vtiger_seticketsrel` (
   `crmid` int(19) NOT NULL DEFAULT '0',
@@ -6653,8 +5680,6 @@ CREATE TABLE `vtiger_seticketsrel` (
 
 /*Table structure for table `vtiger_settings_blocks` */
 
-DROP TABLE IF EXISTS `vtiger_settings_blocks`;
-
 CREATE TABLE `vtiger_settings_blocks` (
   `blockid` int(19) NOT NULL,
   `label` varchar(250) DEFAULT NULL,
@@ -6664,15 +5689,11 @@ CREATE TABLE `vtiger_settings_blocks` (
 
 /*Table structure for table `vtiger_settings_blocks_seq` */
 
-DROP TABLE IF EXISTS `vtiger_settings_blocks_seq`;
-
 CREATE TABLE `vtiger_settings_blocks_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_settings_field` */
-
-DROP TABLE IF EXISTS `vtiger_settings_field`;
 
 CREATE TABLE `vtiger_settings_field` (
   `fieldid` int(19) NOT NULL,
@@ -6691,15 +5712,11 @@ CREATE TABLE `vtiger_settings_field` (
 
 /*Table structure for table `vtiger_settings_field_seq` */
 
-DROP TABLE IF EXISTS `vtiger_settings_field_seq`;
-
 CREATE TABLE `vtiger_settings_field_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
-
-DROP TABLE IF EXISTS `vtiger_sharedcalendar`;
 
 CREATE TABLE `vtiger_sharedcalendar` (
   `userid` int(19) NOT NULL,
@@ -6709,8 +5726,6 @@ CREATE TABLE `vtiger_sharedcalendar` (
 
 /*Table structure for table `vtiger_shareduserinfo` */
 
-DROP TABLE IF EXISTS `vtiger_shareduserinfo`;
-
 CREATE TABLE `vtiger_shareduserinfo` (
   `userid` int(19) NOT NULL DEFAULT '0',
   `shareduserid` int(19) NOT NULL DEFAULT '0',
@@ -6719,8 +5734,6 @@ CREATE TABLE `vtiger_shareduserinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_shorturls` */
-
-DROP TABLE IF EXISTS `vtiger_shorturls`;
 
 CREATE TABLE `vtiger_shorturls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -6736,8 +5749,6 @@ CREATE TABLE `vtiger_shorturls` (
 
 /*Table structure for table `vtiger_smsnotifier` */
 
-DROP TABLE IF EXISTS `vtiger_smsnotifier`;
-
 CREATE TABLE `vtiger_smsnotifier` (
   `smsnotifierid` int(19) NOT NULL,
   `message` text,
@@ -6747,8 +5758,6 @@ CREATE TABLE `vtiger_smsnotifier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifier_servers` */
-
-DROP TABLE IF EXISTS `vtiger_smsnotifier_servers`;
 
 CREATE TABLE `vtiger_smsnotifier_servers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -6761,8 +5770,6 @@ CREATE TABLE `vtiger_smsnotifier_servers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifier_status` */
-
-DROP TABLE IF EXISTS `vtiger_smsnotifier_status`;
 
 CREATE TABLE `vtiger_smsnotifier_status` (
   `smsnotifierid` int(11) DEFAULT NULL,
@@ -6777,8 +5784,6 @@ CREATE TABLE `vtiger_smsnotifier_status` (
 
 /*Table structure for table `vtiger_smsnotifiercf` */
 
-DROP TABLE IF EXISTS `vtiger_smsnotifiercf`;
-
 CREATE TABLE `vtiger_smsnotifiercf` (
   `smsnotifierid` int(19) NOT NULL,
   PRIMARY KEY (`smsnotifierid`),
@@ -6786,8 +5791,6 @@ CREATE TABLE `vtiger_smsnotifiercf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_soapservice` */
-
-DROP TABLE IF EXISTS `vtiger_soapservice`;
 
 CREATE TABLE `vtiger_soapservice` (
   `id` int(19) DEFAULT NULL,
@@ -6798,8 +5801,6 @@ CREATE TABLE `vtiger_soapservice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sostatus` */
-
-DROP TABLE IF EXISTS `vtiger_sostatus`;
 
 CREATE TABLE `vtiger_sostatus` (
   `sostatusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -6813,15 +5814,11 @@ CREATE TABLE `vtiger_sostatus` (
 
 /*Table structure for table `vtiger_sostatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_sostatus_seq`;
-
 CREATE TABLE `vtiger_sostatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sostatushistory` */
-
-DROP TABLE IF EXISTS `vtiger_sostatushistory`;
 
 CREATE TABLE `vtiger_sostatushistory` (
   `historyid` int(19) NOT NULL AUTO_INCREMENT,
@@ -6837,8 +5834,6 @@ CREATE TABLE `vtiger_sostatushistory` (
 
 /*Table structure for table `vtiger_sqltimelog` */
 
-DROP TABLE IF EXISTS `vtiger_sqltimelog`;
-
 CREATE TABLE `vtiger_sqltimelog` (
   `id` int(11) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
@@ -6849,8 +5844,6 @@ CREATE TABLE `vtiger_sqltimelog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ssservicesstatus` */
-
-DROP TABLE IF EXISTS `vtiger_ssservicesstatus`;
 
 CREATE TABLE `vtiger_ssservicesstatus` (
   `ssservicesstatusid` int(11) NOT NULL AUTO_INCREMENT,
@@ -6863,15 +5856,11 @@ CREATE TABLE `vtiger_ssservicesstatus` (
 
 /*Table structure for table `vtiger_ssservicesstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ssservicesstatus_seq`;
-
 CREATE TABLE `vtiger_ssservicesstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_start_hour` */
-
-DROP TABLE IF EXISTS `vtiger_start_hour`;
 
 CREATE TABLE `vtiger_start_hour` (
   `start_hourid` int(11) NOT NULL AUTO_INCREMENT,
@@ -6884,15 +5873,11 @@ CREATE TABLE `vtiger_start_hour` (
 
 /*Table structure for table `vtiger_start_hour_seq` */
 
-DROP TABLE IF EXISTS `vtiger_start_hour_seq`;
-
 CREATE TABLE `vtiger_start_hour_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_status` */
-
-DROP TABLE IF EXISTS `vtiger_status`;
 
 CREATE TABLE `vtiger_status` (
   `statusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -6904,15 +5889,11 @@ CREATE TABLE `vtiger_status` (
 
 /*Table structure for table `vtiger_status_seq` */
 
-DROP TABLE IF EXISTS `vtiger_status_seq`;
-
 CREATE TABLE `vtiger_status_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_subindustry` */
-
-DROP TABLE IF EXISTS `vtiger_subindustry`;
 
 CREATE TABLE `vtiger_subindustry` (
   `subindustryid` int(11) NOT NULL AUTO_INCREMENT,
@@ -6924,15 +5905,11 @@ CREATE TABLE `vtiger_subindustry` (
 
 /*Table structure for table `vtiger_subindustry_seq` */
 
-DROP TABLE IF EXISTS `vtiger_subindustry_seq`;
-
 CREATE TABLE `vtiger_subindustry_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_systems` */
-
-DROP TABLE IF EXISTS `vtiger_systems`;
 
 CREATE TABLE `vtiger_systems` (
   `id` int(19) NOT NULL,
@@ -6948,8 +5925,6 @@ CREATE TABLE `vtiger_systems` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tab` */
-
-DROP TABLE IF EXISTS `vtiger_tab`;
 
 CREATE TABLE `vtiger_tab` (
   `tabid` int(19) NOT NULL DEFAULT '0',
@@ -6975,8 +5950,6 @@ CREATE TABLE `vtiger_tab` (
 
 /*Table structure for table `vtiger_tab_info` */
 
-DROP TABLE IF EXISTS `vtiger_tab_info`;
-
 CREATE TABLE `vtiger_tab_info` (
   `tabid` int(19) DEFAULT NULL,
   `prefname` varchar(256) DEFAULT NULL,
@@ -6986,8 +5959,6 @@ CREATE TABLE `vtiger_tab_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_taskpriority` */
-
-DROP TABLE IF EXISTS `vtiger_taskpriority`;
 
 CREATE TABLE `vtiger_taskpriority` (
   `taskpriorityid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7000,15 +5971,11 @@ CREATE TABLE `vtiger_taskpriority` (
 
 /*Table structure for table `vtiger_taskpriority_seq` */
 
-DROP TABLE IF EXISTS `vtiger_taskpriority_seq`;
-
 CREATE TABLE `vtiger_taskpriority_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_taskstatus` */
-
-DROP TABLE IF EXISTS `vtiger_taskstatus`;
 
 CREATE TABLE `vtiger_taskstatus` (
   `taskstatusid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7021,15 +5988,11 @@ CREATE TABLE `vtiger_taskstatus` (
 
 /*Table structure for table `vtiger_taskstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_taskstatus_seq`;
-
 CREATE TABLE `vtiger_taskstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_taxclass` */
-
-DROP TABLE IF EXISTS `vtiger_taxclass`;
 
 CREATE TABLE `vtiger_taxclass` (
   `taxclassid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7042,15 +6005,11 @@ CREATE TABLE `vtiger_taxclass` (
 
 /*Table structure for table `vtiger_taxclass_seq` */
 
-DROP TABLE IF EXISTS `vtiger_taxclass_seq`;
-
 CREATE TABLE `vtiger_taxclass_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketcategories` */
-
-DROP TABLE IF EXISTS `vtiger_ticketcategories`;
 
 CREATE TABLE `vtiger_ticketcategories` (
   `ticketcategories_id` int(19) NOT NULL AUTO_INCREMENT,
@@ -7063,15 +6022,11 @@ CREATE TABLE `vtiger_ticketcategories` (
 
 /*Table structure for table `vtiger_ticketcategories_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ticketcategories_seq`;
-
 CREATE TABLE `vtiger_ticketcategories_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketcf` */
-
-DROP TABLE IF EXISTS `vtiger_ticketcf`;
 
 CREATE TABLE `vtiger_ticketcf` (
   `ticketid` int(19) NOT NULL DEFAULT '0',
@@ -7081,8 +6036,6 @@ CREATE TABLE `vtiger_ticketcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketcomments` */
-
-DROP TABLE IF EXISTS `vtiger_ticketcomments`;
 
 CREATE TABLE `vtiger_ticketcomments` (
   `commentid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7098,8 +6051,6 @@ CREATE TABLE `vtiger_ticketcomments` (
 
 /*Table structure for table `vtiger_ticketpriorities` */
 
-DROP TABLE IF EXISTS `vtiger_ticketpriorities`;
-
 CREATE TABLE `vtiger_ticketpriorities` (
   `ticketpriorities_id` int(19) NOT NULL AUTO_INCREMENT,
   `ticketpriorities` varchar(200) DEFAULT NULL,
@@ -7111,15 +6062,11 @@ CREATE TABLE `vtiger_ticketpriorities` (
 
 /*Table structure for table `vtiger_ticketpriorities_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ticketpriorities_seq`;
-
 CREATE TABLE `vtiger_ticketpriorities_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketseverities` */
-
-DROP TABLE IF EXISTS `vtiger_ticketseverities`;
 
 CREATE TABLE `vtiger_ticketseverities` (
   `ticketseverities_id` int(19) NOT NULL AUTO_INCREMENT,
@@ -7132,15 +6079,11 @@ CREATE TABLE `vtiger_ticketseverities` (
 
 /*Table structure for table `vtiger_ticketseverities_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ticketseverities_seq`;
-
 CREATE TABLE `vtiger_ticketseverities_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ticketstatus` */
-
-DROP TABLE IF EXISTS `vtiger_ticketstatus`;
 
 CREATE TABLE `vtiger_ticketstatus` (
   `ticketstatus_id` int(19) NOT NULL AUTO_INCREMENT,
@@ -7153,15 +6096,11 @@ CREATE TABLE `vtiger_ticketstatus` (
 
 /*Table structure for table `vtiger_ticketstatus_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ticketstatus_seq`;
-
 CREATE TABLE `vtiger_ticketstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_time_zone` */
-
-DROP TABLE IF EXISTS `vtiger_time_zone`;
 
 CREATE TABLE `vtiger_time_zone` (
   `time_zoneid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7173,15 +6112,11 @@ CREATE TABLE `vtiger_time_zone` (
 
 /*Table structure for table `vtiger_time_zone_seq` */
 
-DROP TABLE IF EXISTS `vtiger_time_zone_seq`;
-
 CREATE TABLE `vtiger_time_zone_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tmp_read_group_rel_sharing_per` */
-
-DROP TABLE IF EXISTS `vtiger_tmp_read_group_rel_sharing_per`;
 
 CREATE TABLE `vtiger_tmp_read_group_rel_sharing_per` (
   `userid` int(11) NOT NULL,
@@ -7195,8 +6130,6 @@ CREATE TABLE `vtiger_tmp_read_group_rel_sharing_per` (
 
 /*Table structure for table `vtiger_tmp_read_group_sharing_per` */
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_group_sharing_per`;
-
 CREATE TABLE `vtiger_tmp_read_group_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -7207,8 +6140,6 @@ CREATE TABLE `vtiger_tmp_read_group_sharing_per` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tmp_read_user_rel_sharing_per` */
-
-DROP TABLE IF EXISTS `vtiger_tmp_read_user_rel_sharing_per`;
 
 CREATE TABLE `vtiger_tmp_read_user_rel_sharing_per` (
   `userid` int(11) NOT NULL,
@@ -7222,8 +6153,6 @@ CREATE TABLE `vtiger_tmp_read_user_rel_sharing_per` (
 
 /*Table structure for table `vtiger_tmp_read_user_sharing_per` */
 
-DROP TABLE IF EXISTS `vtiger_tmp_read_user_sharing_per`;
-
 CREATE TABLE `vtiger_tmp_read_user_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -7234,8 +6163,6 @@ CREATE TABLE `vtiger_tmp_read_user_sharing_per` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tmp_write_group_rel_sharing_per` */
-
-DROP TABLE IF EXISTS `vtiger_tmp_write_group_rel_sharing_per`;
 
 CREATE TABLE `vtiger_tmp_write_group_rel_sharing_per` (
   `userid` int(11) NOT NULL,
@@ -7249,8 +6176,6 @@ CREATE TABLE `vtiger_tmp_write_group_rel_sharing_per` (
 
 /*Table structure for table `vtiger_tmp_write_group_sharing_per` */
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_group_sharing_per`;
-
 CREATE TABLE `vtiger_tmp_write_group_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -7261,8 +6186,6 @@ CREATE TABLE `vtiger_tmp_write_group_sharing_per` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tmp_write_user_rel_sharing_per` */
-
-DROP TABLE IF EXISTS `vtiger_tmp_write_user_rel_sharing_per`;
 
 CREATE TABLE `vtiger_tmp_write_user_rel_sharing_per` (
   `userid` int(11) NOT NULL,
@@ -7276,8 +6199,6 @@ CREATE TABLE `vtiger_tmp_write_user_rel_sharing_per` (
 
 /*Table structure for table `vtiger_tmp_write_user_sharing_per` */
 
-DROP TABLE IF EXISTS `vtiger_tmp_write_user_sharing_per`;
-
 CREATE TABLE `vtiger_tmp_write_user_sharing_per` (
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
@@ -7288,8 +6209,6 @@ CREATE TABLE `vtiger_tmp_write_user_sharing_per` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_tracker` */
-
-DROP TABLE IF EXISTS `vtiger_tracker`;
 
 CREATE TABLE `vtiger_tracker` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -7302,8 +6221,6 @@ CREATE TABLE `vtiger_tracker` (
 
 /*Table structure for table `vtiger_tracking_unit` */
 
-DROP TABLE IF EXISTS `vtiger_tracking_unit`;
-
 CREATE TABLE `vtiger_tracking_unit` (
   `tracking_unitid` int(11) NOT NULL AUTO_INCREMENT,
   `tracking_unit` varchar(200) NOT NULL,
@@ -7315,15 +6232,11 @@ CREATE TABLE `vtiger_tracking_unit` (
 
 /*Table structure for table `vtiger_tracking_unit_seq` */
 
-DROP TABLE IF EXISTS `vtiger_tracking_unit_seq`;
-
 CREATE TABLE `vtiger_tracking_unit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates` */
-
-DROP TABLE IF EXISTS `vtiger_trees_templates`;
 
 CREATE TABLE `vtiger_trees_templates` (
   `templateid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7335,8 +6248,6 @@ CREATE TABLE `vtiger_trees_templates` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
-
-DROP TABLE IF EXISTS `vtiger_trees_templates_data`;
 
 CREATE TABLE `vtiger_trees_templates_data` (
   `templateid` int(19) NOT NULL,
@@ -7350,8 +6261,6 @@ CREATE TABLE `vtiger_trees_templates_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
-
-DROP TABLE IF EXISTS `vtiger_troubletickets`;
 
 CREATE TABLE `vtiger_troubletickets` (
   `ticketid` int(19) NOT NULL,
@@ -7388,8 +6297,6 @@ CREATE TABLE `vtiger_troubletickets` (
 
 /*Table structure for table `vtiger_usageunit` */
 
-DROP TABLE IF EXISTS `vtiger_usageunit`;
-
 CREATE TABLE `vtiger_usageunit` (
   `usageunitid` int(19) NOT NULL AUTO_INCREMENT,
   `usageunit` varchar(200) NOT NULL,
@@ -7402,15 +6309,11 @@ CREATE TABLE `vtiger_usageunit` (
 
 /*Table structure for table `vtiger_usageunit_seq` */
 
-DROP TABLE IF EXISTS `vtiger_usageunit_seq`;
-
 CREATE TABLE `vtiger_usageunit_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_user2mergefields` */
-
-DROP TABLE IF EXISTS `vtiger_user2mergefields`;
 
 CREATE TABLE `vtiger_user2mergefields` (
   `userid` int(11) DEFAULT NULL,
@@ -7422,8 +6325,6 @@ CREATE TABLE `vtiger_user2mergefields` (
 
 /*Table structure for table `vtiger_user2role` */
 
-DROP TABLE IF EXISTS `vtiger_user2role`;
-
 CREATE TABLE `vtiger_user2role` (
   `userid` int(11) NOT NULL,
   `roleid` varchar(255) NOT NULL,
@@ -7433,8 +6334,6 @@ CREATE TABLE `vtiger_user2role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_user_module_preferences` */
-
-DROP TABLE IF EXISTS `vtiger_user_module_preferences`;
 
 CREATE TABLE `vtiger_user_module_preferences` (
   `userid` int(19) NOT NULL,
@@ -7446,8 +6345,6 @@ CREATE TABLE `vtiger_user_module_preferences` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users` */
-
-DROP TABLE IF EXISTS `vtiger_users`;
 
 CREATE TABLE `vtiger_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -7516,8 +6413,6 @@ CREATE TABLE `vtiger_users` (
 
 /*Table structure for table `vtiger_users2group` */
 
-DROP TABLE IF EXISTS `vtiger_users2group`;
-
 CREATE TABLE `vtiger_users2group` (
   `groupid` int(19) NOT NULL,
   `userid` int(19) NOT NULL,
@@ -7528,8 +6423,6 @@ CREATE TABLE `vtiger_users2group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users_last_import` */
-
-DROP TABLE IF EXISTS `vtiger_users_last_import`;
 
 CREATE TABLE `vtiger_users_last_import` (
   `id` int(36) NOT NULL AUTO_INCREMENT,
@@ -7543,15 +6436,11 @@ CREATE TABLE `vtiger_users_last_import` (
 
 /*Table structure for table `vtiger_users_seq` */
 
-DROP TABLE IF EXISTS `vtiger_users_seq`;
-
 CREATE TABLE `vtiger_users_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_userscf` */
-
-DROP TABLE IF EXISTS `vtiger_userscf`;
 
 CREATE TABLE `vtiger_userscf` (
   `usersid` int(11) NOT NULL,
@@ -7560,8 +6449,6 @@ CREATE TABLE `vtiger_userscf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_vendor` */
-
-DROP TABLE IF EXISTS `vtiger_vendor`;
 
 CREATE TABLE `vtiger_vendor` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
@@ -7582,8 +6469,6 @@ CREATE TABLE `vtiger_vendor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_vendoraddress` */
-
-DROP TABLE IF EXISTS `vtiger_vendoraddress`;
 
 CREATE TABLE `vtiger_vendoraddress` (
   `vendorid` int(19) NOT NULL,
@@ -7620,8 +6505,6 @@ CREATE TABLE `vtiger_vendoraddress` (
 
 /*Table structure for table `vtiger_vendorcf` */
 
-DROP TABLE IF EXISTS `vtiger_vendorcf`;
-
 CREATE TABLE `vtiger_vendorcf` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vendorid`),
@@ -7629,8 +6512,6 @@ CREATE TABLE `vtiger_vendorcf` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_vendorcontactrel` */
-
-DROP TABLE IF EXISTS `vtiger_vendorcontactrel`;
 
 CREATE TABLE `vtiger_vendorcontactrel` (
   `vendorid` int(19) NOT NULL DEFAULT '0',
@@ -7643,8 +6524,6 @@ CREATE TABLE `vtiger_vendorcontactrel` (
 
 /*Table structure for table `vtiger_verification` */
 
-DROP TABLE IF EXISTS `vtiger_verification`;
-
 CREATE TABLE `vtiger_verification` (
   `verificationid` int(11) NOT NULL AUTO_INCREMENT,
   `verification` varchar(200) NOT NULL,
@@ -7656,15 +6535,11 @@ CREATE TABLE `vtiger_verification` (
 
 /*Table structure for table `vtiger_verification_seq` */
 
-DROP TABLE IF EXISTS `vtiger_verification_seq`;
-
 CREATE TABLE `vtiger_verification_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_version` */
-
-DROP TABLE IF EXISTS `vtiger_version`;
 
 CREATE TABLE `vtiger_version` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -7675,15 +6550,11 @@ CREATE TABLE `vtiger_version` (
 
 /*Table structure for table `vtiger_version_seq` */
 
-DROP TABLE IF EXISTS `vtiger_version_seq`;
-
 CREATE TABLE `vtiger_version_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_visibility` */
-
-DROP TABLE IF EXISTS `vtiger_visibility`;
 
 CREATE TABLE `vtiger_visibility` (
   `visibilityid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7696,15 +6567,11 @@ CREATE TABLE `vtiger_visibility` (
 
 /*Table structure for table `vtiger_visibility_seq` */
 
-DROP TABLE IF EXISTS `vtiger_visibility_seq`;
-
 CREATE TABLE `vtiger_visibility_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_webforms` */
-
-DROP TABLE IF EXISTS `vtiger_webforms`;
 
 CREATE TABLE `vtiger_webforms` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -7727,8 +6594,6 @@ CREATE TABLE `vtiger_webforms` (
 
 /*Table structure for table `vtiger_webforms_field` */
 
-DROP TABLE IF EXISTS `vtiger_webforms_field`;
-
 CREATE TABLE `vtiger_webforms_field` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `webformid` int(19) NOT NULL,
@@ -7748,8 +6613,6 @@ CREATE TABLE `vtiger_webforms_field` (
 
 /*Table structure for table `vtiger_widgets` */
 
-DROP TABLE IF EXISTS `vtiger_widgets`;
-
 CREATE TABLE `vtiger_widgets` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `tabid` int(19) DEFAULT NULL,
@@ -7765,8 +6628,6 @@ CREATE TABLE `vtiger_widgets` (
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_wordtemplates` */
-
-DROP TABLE IF EXISTS `vtiger_wordtemplates`;
 
 CREATE TABLE `vtiger_wordtemplates` (
   `templateid` int(19) NOT NULL,
@@ -7784,8 +6645,6 @@ CREATE TABLE `vtiger_wordtemplates` (
 
 /*Table structure for table `vtiger_ws_entity` */
 
-DROP TABLE IF EXISTS `vtiger_ws_entity`;
-
 CREATE TABLE `vtiger_ws_entity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
@@ -7796,8 +6655,6 @@ CREATE TABLE `vtiger_ws_entity` (
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
-
-DROP TABLE IF EXISTS `vtiger_ws_entity_fieldtype`;
 
 CREATE TABLE `vtiger_ws_entity_fieldtype` (
   `fieldtypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7810,15 +6667,11 @@ CREATE TABLE `vtiger_ws_entity_fieldtype` (
 
 /*Table structure for table `vtiger_ws_entity_fieldtype_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_fieldtype_seq`;
-
 CREATE TABLE `vtiger_ws_entity_fieldtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_name` */
-
-DROP TABLE IF EXISTS `vtiger_ws_entity_name`;
 
 CREATE TABLE `vtiger_ws_entity_name` (
   `entity_id` int(11) NOT NULL,
@@ -7830,8 +6683,6 @@ CREATE TABLE `vtiger_ws_entity_name` (
 
 /*Table structure for table `vtiger_ws_entity_referencetype` */
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_referencetype`;
-
 CREATE TABLE `vtiger_ws_entity_referencetype` (
   `fieldtypeid` int(19) NOT NULL,
   `type` varchar(25) NOT NULL,
@@ -7841,15 +6692,11 @@ CREATE TABLE `vtiger_ws_entity_referencetype` (
 
 /*Table structure for table `vtiger_ws_entity_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ws_entity_seq`;
-
 CREATE TABLE `vtiger_ws_entity_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_tables` */
-
-DROP TABLE IF EXISTS `vtiger_ws_entity_tables`;
 
 CREATE TABLE `vtiger_ws_entity_tables` (
   `webservice_entity_id` int(11) NOT NULL,
@@ -7860,8 +6707,6 @@ CREATE TABLE `vtiger_ws_entity_tables` (
 
 /*Table structure for table `vtiger_ws_fieldinfo` */
 
-DROP TABLE IF EXISTS `vtiger_ws_fieldinfo`;
-
 CREATE TABLE `vtiger_ws_fieldinfo` (
   `id` varchar(64) NOT NULL,
   `property_name` varchar(32) DEFAULT NULL,
@@ -7870,8 +6715,6 @@ CREATE TABLE `vtiger_ws_fieldinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_fieldtype` */
-
-DROP TABLE IF EXISTS `vtiger_ws_fieldtype`;
 
 CREATE TABLE `vtiger_ws_fieldtype` (
   `fieldtypeid` int(19) NOT NULL AUTO_INCREMENT,
@@ -7882,8 +6725,6 @@ CREATE TABLE `vtiger_ws_fieldtype` (
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation` */
-
-DROP TABLE IF EXISTS `vtiger_ws_operation`;
 
 CREATE TABLE `vtiger_ws_operation` (
   `operationid` int(11) NOT NULL AUTO_INCREMENT,
@@ -7897,8 +6738,6 @@ CREATE TABLE `vtiger_ws_operation` (
 
 /*Table structure for table `vtiger_ws_operation_parameters` */
 
-DROP TABLE IF EXISTS `vtiger_ws_operation_parameters`;
-
 CREATE TABLE `vtiger_ws_operation_parameters` (
   `operationid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -7909,15 +6748,11 @@ CREATE TABLE `vtiger_ws_operation_parameters` (
 
 /*Table structure for table `vtiger_ws_operation_seq` */
 
-DROP TABLE IF EXISTS `vtiger_ws_operation_seq`;
-
 CREATE TABLE `vtiger_ws_operation_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_referencetype` */
-
-DROP TABLE IF EXISTS `vtiger_ws_referencetype`;
 
 CREATE TABLE `vtiger_ws_referencetype` (
   `fieldtypeid` int(19) NOT NULL,
@@ -7927,8 +6762,6 @@ CREATE TABLE `vtiger_ws_referencetype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_userauthtoken` */
-
-DROP TABLE IF EXISTS `vtiger_ws_userauthtoken`;
 
 CREATE TABLE `vtiger_ws_userauthtoken` (
   `userid` int(19) NOT NULL,
@@ -7940,8 +6773,6 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
 
 /*Table structure for table `vtiger_wsapp` */
 
-DROP TABLE IF EXISTS `vtiger_wsapp`;
-
 CREATE TABLE `vtiger_wsapp` (
   `appid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -7952,8 +6783,6 @@ CREATE TABLE `vtiger_wsapp` (
 
 /*Table structure for table `vtiger_wsapp_handlerdetails` */
 
-DROP TABLE IF EXISTS `vtiger_wsapp_handlerdetails`;
-
 CREATE TABLE `vtiger_wsapp_handlerdetails` (
   `type` varchar(200) NOT NULL,
   `handlerclass` varchar(100) DEFAULT NULL,
@@ -7961,8 +6790,6 @@ CREATE TABLE `vtiger_wsapp_handlerdetails` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_wsapp_queuerecords` */
-
-DROP TABLE IF EXISTS `vtiger_wsapp_queuerecords`;
 
 CREATE TABLE `vtiger_wsapp_queuerecords` (
   `syncserverid` int(19) DEFAULT NULL,
@@ -7972,8 +6799,6 @@ CREATE TABLE `vtiger_wsapp_queuerecords` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_wsapp_recordmapping` */
-
-DROP TABLE IF EXISTS `vtiger_wsapp_recordmapping`;
 
 CREATE TABLE `vtiger_wsapp_recordmapping` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -7988,8 +6813,6 @@ CREATE TABLE `vtiger_wsapp_recordmapping` (
 
 /*Table structure for table `vtiger_wsapp_sync_state` */
 
-DROP TABLE IF EXISTS `vtiger_wsapp_sync_state`;
-
 CREATE TABLE `vtiger_wsapp_sync_state` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
@@ -7999,8 +6822,6 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */
-
-DROP TABLE IF EXISTS `yetiforce_mobile_keys`;
 
 CREATE TABLE `yetiforce_mobile_keys` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -8014,8 +6835,6 @@ CREATE TABLE `yetiforce_mobile_keys` (
 
 /*Table structure for table `yetiforce_mobile_pushcall` */
 
-DROP TABLE IF EXISTS `yetiforce_mobile_pushcall`;
-
 CREATE TABLE `yetiforce_mobile_pushcall` (
   `user` int(19) NOT NULL,
   `number` varchar(20) DEFAULT NULL,
@@ -8023,8 +6842,6 @@ CREATE TABLE `yetiforce_mobile_pushcall` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_updates` */
-
-DROP TABLE IF EXISTS `yetiforce_updates`;
 
 CREATE TABLE `yetiforce_updates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -13172,6 +13172,13 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (284,43,9,'get_activities',1,'Activities',0,'ADD');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (285,34,9,'get_activities',1,'Activities',0,'ADD');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (286,70,20,'get_related_list',4,'Quotes',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (287,4,74,'get_dependents_list',26,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (288,6,74,'get_dependents_list',26,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (289,7,74,'get_dependents_list',19,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (290,18,74,'get_dependents_list',7,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (291,61,74,'get_dependents_list',3,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (292,2,74,'get_dependents_list',24,'CallHistory',0,'');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (293,13,74,'get_dependents_list',14,'CallHistory',0,'');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -13179,7 +13186,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (286);
+insert  into `vtiger_relatedlists_seq`(`id`) values (293);
 
 /*Data for the table `vtiger_relcriteria` */
 
