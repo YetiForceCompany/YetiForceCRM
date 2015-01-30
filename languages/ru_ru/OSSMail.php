@@ -149,9 +149,9 @@ $jsLanguageStrings = array(
 	'Related To Contacts'	=>	'Контакты',
 	'Related To Accounts'	=>	'Контрагенты',
 	'Related To ServiceContracts'	=>	'Сервисные контракты',
-	'Preview email in CRM'	=>	'Пред просмотр почты в системе',
+	'Preview email in CRM'	=>	'Предпросмотр Почты в системе',
 	'Reload action bar'	=>	'Перезагрузить',
-	'NoCrmRecord'	=>	'Сообщений не найдено. Проверьте, если действия разрешены.',
-	'NoFindEmailInRecord'	=>	'Запись не имеет адрес электронной почты',
+	'NoCrmRecord'	=>	'Сообщений не найдено. Проверьте, уровень доступа.',
+	'NoFindEmailInRecord'	=>	'Запись не имеет адреса электронной почты',
 	'AddFindEmailInRecord'	=>	'Скачать письмо',
 );

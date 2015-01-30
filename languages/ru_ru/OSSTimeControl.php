@@ -67,7 +67,7 @@ $languageStrings = array(
 		
 	/*  subject  */
 	'Telephone contact'	=>	'Установление контакта',
-	'Email contact'	=>	'Обсуждение',
+	'Email contact'	=>	'Отправить Почту',
 	'Data verification'	=>	'Проверка данных',
 	'Information completing'	=>	'Обработка информации',
 	'Company presentation'	=>	'Презентация компании',

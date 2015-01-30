@@ -257,8 +257,6 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Создавайте и управляйте Виджетами в зависимости от Ваших задач',
 	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
-	'LBL_MODTRACKER_SETTINGS' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

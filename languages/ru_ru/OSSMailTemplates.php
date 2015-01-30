@@ -10,11 +10,11 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'OSSMailTemplates'	=>	'Шаблоны E-Mail',
-	'Blank'	=>	'Шаблоны E-Mail',
-	'SINGLE_OSSMailTemplates'	=>	'Шаблоны E-Mail',
+	'OSSMailTemplates'	=>	'Шаблоны Почты',
+	'Blank'	=>	'Шаблоны Почты',
+	'SINGLE_OSSMailTemplates'	=>	'Шаблоны Почты',
 	'LBL_ADD_RECORD'	=>	'Добавить Шаблон',
-	'LBL_RECORDS_LIST'	=>	'Шаблоны E-Mail',
+	'LBL_RECORDS_LIST'	=>	'Шаблоны Почты',
 	'Name'	=>	'Название',
 	'Module'	=>	'Модуль',
 	'RELATED_MODULE_FIELD'	=>	'Поля связанных модулей',
@@ -22,11 +22,11 @@ $languageStrings = array(
 	'MODULE_FIELD'	=>	'Поля модуля',
 	'LBL_OSSMAILTEMPLATES_INFORMATION'	=>	'Основная информация',
 	'LBL_CONTENT_INFORMATION'	=>	'Содержание письма',
-	'Subject'	=>	'Тема сообщения',
+	'Subject'	=>	'Тема письма',
 	'Content'	=>	'Содержание',
 	'Yes'	=>	'Да',
 	'No'	=>	'Нет',
-	'MAIL_TPL_LIST'	=>	'Выберите Шаблон E-Mail',
+	'MAIL_TPL_LIST'	=>	'Выберите Шаблон Почты',
 	'LBL_COPY_TO_CLIPBOARD_TITLE'	=>	'Копировать в буфер обмена',
 	
 	/// special_functions

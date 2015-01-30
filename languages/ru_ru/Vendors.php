@@ -19,11 +19,11 @@ $languageStrings = array(
 	'306-Internet Sales'           => '306-Продажи-Интернет', 
 	'307-Service-Hardware Labor'   => '307-Сервис-Работа', 
 	'308-Sales-Books'              => '308-Продажи-Книги',
-	'Email' 						=> 'E-mail',
+	'Email'	=>	'Почта',
 	'GL Account'                   => 'Счет в главной книге', 
 	'LBL_ADD_RECORD'               => 'Добавить Поставщика'                  , 
 	'LBL_RECORDS_LIST'             => 'Список Поставщиков'                , 
-	'LBL_SEND_MAIL_PDF'            => 'Отправить PDF по Email:',
+	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_VENDORS_ADD_EVENT' 		=> 'Добавить Событие',
 	'LBL_VENDORS_ADD_TASK'   		=> 'Добавить Задачу',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Адресная информация', 
@@ -34,7 +34,7 @@ $languageStrings = array(
 	'Vendor No'                    => 'Поставщик №'      , 
 	'Vendors'                      => 'Поставщики'        , 
 	'Website'                      => 'Веб-сайт'             , 
-    'LBL_EXPORT_TO_PDF'            => 'Экспорт в PDF:'       , 
+	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
     'LBL_to'                       => 'из',
 );
 
