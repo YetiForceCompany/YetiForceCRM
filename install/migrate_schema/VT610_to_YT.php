@@ -382,6 +382,7 @@ class VT610_to_YT {
 		$settings_field[] = array('LBL_STUDIO','LBL_MDULES_COLOR_EDITOR','','LBL_MDULES_COLOR_EDITOR_DESCRIPTION','index.php?parent=Settings&module=MenuEditor&view=Colors','13','0','0');
 		$settings_field[] = array('LBL_INTEGRATION','LBL_MOBILE_KEYS',NULL,'LBL_MOBILE_KEYS_DESCRIPTION','index.php?parent=Settings&module=MobileApps&view=MobileKeys','5','0','0');
 		$settings_field[] = array('LBL_STUDIO','LBL_TREES_MANAGER',NULL,'LBL_TREES_MANAGER_DESCRIPTION','index.php?module=TreesManager&parent=Settings&view=List','15','0','0');
+		$settings_field[] = array('LBL_STUDIO','LBL_MODTRACKER_SETTINGS',NULL,'LBL_MODTRACKER_SETTINGS_DESCRIPTION','index.php?module=ModTracker&parent=Settings&view=List','16','0','0');
 
 		foreach ($settings_field AS $field){
 			try {
