@@ -780,6 +780,12 @@ $languageStrings = array(
 	'LBL_UPDATES_HISTORY' => 'Atualizações',
 	'LBL_UPDATES_HISTORY_DESCRIPTION' => 'Histórico Atualizações',
 	'LBL_CONVERSION_RATE' => 'Taxa de Câmbio',
+        'LBL_TIME_RANGE' => 'Time range',
+	'LBL_NUMBER_OF_DAYS' => 'Number of days',
+	'LBL_NUMBER_OF_WORKING_DAYS' => 'Number of working days',
+	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
+	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
+	'Employees Time Control' => 'Employees Time Control',
 
 	//Missing Fields in Menu
 	'Companies'=>'Empresas',

@@ -1032,6 +1032,12 @@ $languageStrings = array(
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
+        'LBL_TIME_RANGE' => 'Time range',
+	'LBL_NUMBER_OF_DAYS' => 'Number of days',
+	'LBL_NUMBER_OF_WORKING_DAYS' => 'Number of working days',
+	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
+	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
+	'Employees Time Control' => 'Employees Time Control',
 );
 $jsLanguageStrings = array(
 	'AM'                           => 'AM'                          , 
