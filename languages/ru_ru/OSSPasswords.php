@@ -47,19 +47,9 @@ $languageStrings = array(
 	'Password not entered'	=>	'Введите пароль',
 	'OSSPassword Configuration'	=>	'Настройка паролей',
 	'Configure OSSPasswords'	=>	'Настройка паролей',
-	'OSSPasswords module has been successfully deleted. '	=>	'Модуль Пароли успешно удален',
 	'Return to Home Page'	=>	'Вернуться на главную',
-	'LBL_DeletePassModule'	=>	'Удаление модуля',
-	'Uninstall OSSPasswords module'	=>	'Удалить модуль Пароли',
-	'LBL_DeleteModule'	=>	'Удаление модуля Пароли',
-	'Uninstall'	=>	'Удалить',
 	'Access denied!'	=>	'Доступ закрыт!',
-	'TroubleTicketDescription'	=>	'По следующему адресу вы найдете сайт, где вы сможете добавлять заявки на решение проблем, предложения по улучшению этого модуля или просто прочитать документацию по модулю.',
-	'LBL_TroubleUrl'	=>	'Сайт',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',	
-	'LBL_UrlLinkInfo'	=>	'Требуется регистрация',
-	'LBL_OurWebsite'	=>	'Наш сайт',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',    
+ 
 	'Related to'	=>	'Связан с',
 	'Settings were successfuly saved.'	=>	'Изменения успешно сохранены',
 	'LBL_REGISTER_CHANGES'	=>	'Регистрация изменений в Журнале',
@@ -116,17 +106,6 @@ $languageStrings = array(
 	'LBL_CopyToClipboardTitle'	=>	'Копировать пароль в буфер обмена',
 	'LBL_NotifPassCopied'	=>	'Пароль скопирован в буфер обмена',
 	'LBL_NotifPassTitle'	=>	'Пароль',
-	
-	// help
-	'LBL_Helpforthemodule'	=>	'Помощь по модулю: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License'	=>	'Лицензия: ',
-	'LBL_Company'	=>	'Компания разработчик: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information'	=>	'Информация о модуле:',
 );
 
 $jsLanguageStrings = array(
