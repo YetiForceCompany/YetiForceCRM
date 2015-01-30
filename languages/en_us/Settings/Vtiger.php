@@ -237,9 +237,11 @@ $languageStrings = array(
 	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
-	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys',
-	'LBL_TREES_MANAGER' => 'Tree Manager',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
+	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage keys of mobile application',
+	'LBL_TREES_MANAGER' => 'Manage templates of trees',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Manage lists of trees',
+	'LBL_MODTRACKER_SETTINGS' => 'Change history',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',
