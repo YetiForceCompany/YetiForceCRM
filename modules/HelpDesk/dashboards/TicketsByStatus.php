@@ -28,8 +28,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		
 		$createdTime = $request->get('createdtime');
+		$owner = $request->get('owner');
+		if($owner == 'all')
+			$owner = '';
 		
 		//Date conversion from user to database format
 		if(!empty($createdTime)) {
@@ -38,11 +40,11 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getTicketsByStatus($request->get('owner'), $dates);
+		$data = $moduleModel->getTicketsByStatus($owner, $dates);
 
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
-            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$request->get('owner'),$dates);
+            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$owner,$dates);
         }
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 

@@ -28,7 +28,10 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-
+		$owner = $request->get('owner');
+		if($owner == 'all')
+			$owner = '';
+		
 		$createdTime = $request->get('createdtime');
 		
 		//Date conversion from user to database format
@@ -38,10 +41,10 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getLeadsByIndustry($request->get('smownerid'),$dates);
+		$data = $moduleModel->getLeadsByIndustry($owner,$dates);
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
-            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][1],$request->get('smownerid'),$dates);
+            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][1],$owner,$dates);
         }
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

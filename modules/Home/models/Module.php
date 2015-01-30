@@ -163,7 +163,8 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		}
 
 		$accessibleUsers = $currentUser->getAccessibleUsers();
-		if($user != 'all' && $user != '' && array_key_exists( $user, $accessibleUsers ) ) {
+		$accessibleGroups = $currentUser->getAccessibleGroups();
+		if($user != 'all' && $user != '' && (array_key_exists( $user, $accessibleUsers ) || array_key_exists( $user, $accessibleGroups))) {
 			$query .= " AND vtiger_crmentity.smownerid = ?";
 			$params[] = $user;
 		}	
@@ -288,7 +289,8 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$params[] = $currentDate; 
 		
 		$accessibleUsers = $currentUser->getAccessibleUsers();
-		if($user != 'all' && $user != '' && array_key_exists( $user, $accessibleUsers ) ) {
+		$accessibleGroups = $currentUser->getAccessibleGroups();
+		if($user != 'all' && $user != '' && (array_key_exists( $user, $accessibleUsers ) || array_key_exists( $user, $accessibleGroups))) {
 			$query .= " AND vtiger_crmentity.smownerid = ?";
 			$params[] = $user;
 		}	
