@@ -913,6 +913,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		
 		if($result){
 			$this->deleteDirFile($dirName.'/files');
+			$this->deleteDirFile($dirName.'/init.php');
 		}
 	}
 	

@@ -13,7 +13,7 @@
 	<input type="hidden" id="conversion_available_status" value="{Vtiger_Util_Helper::toSafeHTML($CONVERSION_AVAILABLE_STATUS)}">
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
-		<span class="span2 spanModuleIcon moduleIcon{$MODULE_NAME}">
+		<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
 				<img src="{vimage_path($IMAGE)}" class="summaryImg" />
 			</span>
