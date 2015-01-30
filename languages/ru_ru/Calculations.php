@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_PRODUCT_INFORMATION'	=>	'Информация о продукте',
 	'LBL_GENERATE_QUOTES'	=>	'Создать Предложение',
 	'CalculationStatus'	=>	'Статус',
 	// Basic Strings

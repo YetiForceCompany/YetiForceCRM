@@ -63,7 +63,7 @@ $languageStrings = array(
 	'LBL_PRODUCT_INFORMATION'	=>	'Информация',
 	'To approval'	=>	'Ожидается утверждение',
 	'Accepted'	=>	'Утверждено',
-	'Brutto'	=>	'Брутто',
+	'Brutto'	=>	'Сумма с НДС',
 		
 	/*  subject  */
 	'Telephone contact'	=>	'Установление контакта',
