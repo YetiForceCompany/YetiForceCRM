@@ -783,6 +783,12 @@ $languageStrings = array(
 	'LBL_CONFREPORT_DESCRIPTION' => 'Show recommended and current server configuration',
 	'LBL_TREES_MANAGER' => 'Tree Manager',
 	'LBL_CONVERSION_RATE' => 'Conversion Rate',
+        'LBL_TIME_RANGE' => 'Time range',
+	'LBL_NUMBER_OF_DAYS' => 'Number of days',
+	'LBL_NUMBER_OF_WORKING_DAYS' => 'Number of working days',
+	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
+	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
+	'Employees Time Control' => 'Employees Time Control',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',

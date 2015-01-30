@@ -787,6 +787,12 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER' => 'Baum Manager',
 	'LBL_SELECT_TREE_ITEM' => 'Eintrag auswählen:',
 	'LBL_CONVERSION_RATE' => 'Umrechnungskurs',
+        'LBL_TIME_RANGE' => 'Time range',
+	'LBL_NUMBER_OF_DAYS' => 'Number of days',
+	'LBL_NUMBER_OF_WORKING_DAYS' => 'Number of working days',
+	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
+	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
+	'Employees Time Control' => 'Employees Time Control',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',
