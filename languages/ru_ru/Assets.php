@@ -38,5 +38,5 @@ $languageStrings = array(
 	'Warranty proceeding'	=>	'Гарантированный исход',
 	'attentions'	=>	'Внимание',
 	'description'	=>	'Описание',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_ORDER_TIME'	=>	'Время Заказа',
 );
