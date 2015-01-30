@@ -17,16 +17,16 @@ $languageStrings = array(
 	'Enabled' => 'Статус',
 	'Module' => 'Модуль',
 	'Return Url' => 'Возвращаемый URL',
-	'Post Url' => 'URL POST-запроса',
+	'Post Url'	=>	'Ссылка POST-запроса',
     'Captcha Enabled' => 'Captcha',
-	'SINGLE_Webforms' => 'Вебформа',
+	'SINGLE_Webforms'	=>	'Веб-Форма',
 
 	//Actions
-	'LBL_SHOW_FORM' => 'Показать Вебформу',
-	'LBL_DUPLICATES_EXIST' => 'Вебформа уже существует',
+	'LBL_SHOW_FORM'	=>	'Показать Веб-Форму',
+	'LBL_DUPLICATES_EXIST'	=>	'Веб-Форма уже существует',
 
 	//Blocks
-	'LBL_WEBFORM_INFORMATION' => 'Информация Вебформы',
+	'LBL_WEBFORM_INFORMATION'	=>	'Информация Веб-Формы',
 	'LBL_FIELD_INFORMATION' => 'Информация о поле',
 	'LBL_FIELD_NAME' => 'Название поля',
 	'LBL_OVERRIDE_VALUE' => 'Перезаписать значение',

@@ -9,7 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
-	'AutoCreated'                  => 'АвтоСоздан'        , 
+	'AutoCreated'	=>	'Автосоздание',
 	'Cancel'                       => 'Отменить'            ,
 	'Cash'	=>	'Наличные',
 	'Created'	=>	'Черновик',
@@ -22,7 +22,7 @@ $languageStrings = array(
 	'LBL_ACTION'	=>	'Действие',
 	'LBL_ADD_RECORD'               => 'Добавить Счет'                 ,
 	'LBL_BALANCE'                  => 'Баланс'                     ,
-	'LBL_EXPORT_TO_PDF'            => 'Экспорт в PDF:'       , 
+	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_INVOICE_INFORMATION'      => 'Информация Счета', 
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM'	=>	') были удалены из системы. Попробуйте заменить - другим Товаром / Услугой.',
 	'LBL_NOT_A_BUNDLE'	=>	'Не комплект',
