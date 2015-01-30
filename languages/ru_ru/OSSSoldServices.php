@@ -18,7 +18,7 @@ $languageStrings = array(
 	'Invoice number'	=>	'Счет',
 	'Number'	=>	'№',
 	'Assigned To'	=>	'Ответственный',
-	'LBL_RODZAJUMOWY' => 'Type of Agreement',
+	'LBL_RODZAJUMOWY'	=>	'Тип соглашения',
 	'LBL_ssservicesstatus'	=>	'Статус',
 	'Individual Agreement'	=>	'Индивидуальное соглашение',
 	'In service'	=>	'Поддержка',
@@ -35,6 +35,6 @@ $languageStrings = array(
 	'Number'	=>	'№',
 	'Potential renewal'	=>	'Обновить продажи',
 	'LBL_GENERATE_EXTENSION'	=>	'Создать сделку',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_ORDER_TIME'	=>	'Время Заказа',
 );
 ?>

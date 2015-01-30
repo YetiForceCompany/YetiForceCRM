@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'OSSPasswords'	=>	'Пароли',
 	'Pdf'	=>	'Шаблоны PDF',
 	'General Configuration'	=>	'Настройка конфигурации',
 	'Konfiguracja modułu'	=>	'Настройка конфигурации',
@@ -697,7 +698,6 @@ $languageStrings = array(
 	'LBL_VIEW_DETAIL' => 'Просмотр',
 	'LBL_VIEW_DETAILS' => 'Просмотр',
 	'LBL_VIEW_EDIT' => 'Редактировать',
-	'LBL_VIEW_LIST' => 'Список',
 	'LBL_VIEW_NAME' => 'Имя',
 	'LBL_VIEW_NAME'=> 'Название фильтра' , 
 	'LBL_VIEW_SHAREDCALENDAR' => 'Общий клендарь',
@@ -1025,8 +1025,8 @@ $languageStrings = array(
 	'yyyy-mm-dd' => 'гггг-мм-дд',
 	
 	//Call popover
-	'LBL_BTN_CALL' => 'Call',
-	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
+	'LBL_BTN_CALL'	=>	'Позвонить',
+	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
 );
 $jsLanguageStrings = array(
 	'AM'                           => 'AM'                          , 

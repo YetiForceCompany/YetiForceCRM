@@ -68,15 +68,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
 		}
 		
-		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') > -1)
+		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') !== false)
 			$directiveValues['safe_mode']['current'] = 'On';
-		if (ini_get('display_errors') != '1' || stripos(ini_get('display_errors'), 'Off') > -1)
+		if (ini_get('display_errors') != '1' || stripos(ini_get('display_errors'), 'Off') !== false)
 			$directiveValues['display_errors']['current'] = 'Off';
-		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') > -1)
+		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['current'] = 'Off';
-		if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') > -1)
+		if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') !== false)
 			$directiveValues['register_globals']['current'] = 'On';
-		if (ini_get(('output_buffering') < '4096' && ini_get('output_buffering') != '0') || stripos(ini_get('output_buffering'), 'Off') > -1)
+		if (ini_get(('output_buffering') < '4096' && ini_get('output_buffering') != '0') || stripos(ini_get('output_buffering'), 'Off') !== false)
 			$directiveValues['output_buffering']['current'] = 'Off';
 		if (ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['current'] = ini_get('max_execution_time');
@@ -86,21 +86,21 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['post_max_size']['current'] = ini_get('post_max_size');
 		if ( (int) ini_get('upload_max_filesize') < 10)
 			$directiveValues['upload_max_filesize']['current'] = ini_get('upload_max_filesize');
-		if (ini_get('magic_quotes_gpc') == '1' || stripos(ini_get('magic_quotes_gpc'), 'On') > -1)
+		if (ini_get('magic_quotes_gpc') == '1' || stripos(ini_get('magic_quotes_gpc'), 'On') !== false)
 			$directiveValues['magic_quotes_gpc']['current'] = ini_get('magic_quotes_gpc');
-		if (ini_get('magic_quotes_runtime') == '1' || stripos(ini_get('magic_quotes_runtime'), 'On') > -1)
+		if (ini_get('magic_quotes_runtime') == '1' || stripos(ini_get('magic_quotes_runtime'), 'On') !== false)
 			$directiveValues['magic_quotes_runtime']['current'] = ini_get('magic_quotes_runtime');
-		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') > -1)
+		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false)
 			$directiveValues['zlib.output_compression']['current'] = 'On';			
-		if (ini_get('zend.ze1_compatibility_mode') == '1' || stripos(ini_get('zend.ze1_compatibility_mode'), 'On') > -1)
+		if (ini_get('zend.ze1_compatibility_mode') == '1' || stripos(ini_get('zend.ze1_compatibility_mode'), 'On') !== false)
 			$directiveValues['zend.ze1_compatibility_mode']['current'] = ini_get('zend.ze1_compatibility_mode');			
-		if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') > -1)
+		if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
 			$directiveValues['suhosin.session.encrypt']['current'] = ini_get('suhosin.session.encrypt');
-		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') > -1)
+		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
 			$directiveValues['session.auto_start']['current'] = ini_get('session.auto_start');
-		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') > -1)
+		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false)
 			$directiveValues['mbstring.func_overload']['current'] = ini_get('mbstring.func_overload');
-		if (ini_get('magic_quotes_sybase') == '1' || stripos(ini_get('magic_quotes_sybase'), 'On') > -1)
+		if (ini_get('magic_quotes_sybase') == '1' || stripos(ini_get('magic_quotes_sybase'), 'On') !== false)
 			$directiveValues['magic_quotes_sybase']['current'] = ini_get('magic_quotes_sybase');
 		if (ini_get('session.gc_maxlifetime') < 21600)
 			$directiveValues['session.gc_maxlifetime']['current'] = ini_get('session.gc_maxlifetime');
@@ -132,11 +132,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
 		}
 
-		if (ini_get('error_reporting') != $errorReportingValue || ini_get('error_reporting') != 22519)
+		if (ini_get('error_reporting') != $errorReportingValue && ini_get('error_reporting') != 22519)
 			$directiveValues['error_reporting']['current'] = 'NOT RECOMMENDED';
-		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') > -1)
+		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
 			$directiveValues['log_errors']['current'] = 'On';
-		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') > -1)
+		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
 			$directiveValues['short_open_tag']['current'] = 'Off';
 
 		return $directiveValues;
