@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_VIEW_PREFERENCEEDIT'	=>	'Изменение настроек пользователя',
+	'LBL_VIEW_PREFERENCEDETAIL'	=>	'Настройки пользователя',
 	'Not Held'	=>	'Не проведено',
 	'Held'	=>	'Проведено',
 	'Planned'	=>	'Запланировано',
@@ -236,7 +238,7 @@ $languageStrings = array(
 	'Monday' => 'Понедельник',
 	'Number Of Currency Decimals'  => 'Количество знаков после разделителя' , 
 	'Office Phone'                 => 'Тел.'                     , 
-	'Other Email' => "Другой E-mail",
+	'Other Email'	=>	'Доп. Почта',
 	'Other Event Duration'         => 'Длительность других Событий (мин)' , 
 	'Outgoing mail server was not configured.' => 'Сервер исходящей почты не настроен.',
 	'Pacific/Auckland'             => '(UTC+12:00) Новая Зеландия/Окленд'        , 

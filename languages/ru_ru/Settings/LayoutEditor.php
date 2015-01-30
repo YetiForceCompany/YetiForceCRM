@@ -67,8 +67,6 @@ $languageStrings = array(
 	'Time'=>'Время',
 	'URL' => 'Ссылка',
 	'LBL_REL_MODULE_LAYOUT_EDITOR'	=>	'Редактор связей',
-	'LBL_VISIBLE' => 'Visible',
-	'LBL_HIDDEN' => 'Hidden',
 	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Выберите модули',
@@ -105,9 +103,4 @@ $jsLanguageStrings = array(
 	'JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE' => 'Сохраните изменения, чтобы обновить последовательность полей',
 	'JS_SELECTED_FIELDS_REACTIVATED' => 'Выбранные поля снова активны',
 	'JS_SPECIAL_CHARACTERS' => 'Специальные символы, такие как',
-	'JS_SAVED_CHANGE_STATUS_1' => 'Related module has been enabled',
-	'JS_SAVED_CHANGE_STATUS_0' => 'Related module has been disabled',
-	'JS_UPDATE_SEQUENCE' => 'New sequence of related modules has been saved',
-	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Field list has been updated',
-	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
 );

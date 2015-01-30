@@ -7,9 +7,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 jQuery.Class('Vtiger_Widget_Js',{
-
 	widgetPostLoadEvent : 'Vtiget.Dashboard.PostLoad',
 	widgetPostRefereshEvent : 'Vtiger.Dashboard.PostRefresh',
 
@@ -456,7 +454,6 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js',{},{
 
 
 Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
-
 	generateChartData : function() {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
@@ -473,22 +470,22 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 				yMaxValue = parseInt(row[0]);
 			}
 		}
-        // yMaxValue Should be 25% more than Maximum Value
+		// yMaxValue Should be 25% more than Maximum Value
 		yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
 		return {'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels};
 	},
     
      postLoadWidget: function() {
 		this._super();
-        var thisInstance = this;
-
+		var thisInstance = this;
+	
 		this.getContainer().on('jqplotDataClick', function(ev, gridpos, datapos, neighbor, plot) {
-            var jData = thisInstance.getContainer().find('.widgetData').val();
+	       var jData = thisInstance.getContainer().find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var linkUrl = data[datapos]['links'];
 			if(linkUrl) window.location.href = linkUrl;
 		});
-
+	
 		this.getContainer().on("jqplotDataHighlight", function(evt, seriesIndex, pointIndex, neighbor) {
 			$('.jqplot-event-canvas').css( 'cursor', 'pointer' );
 		});
@@ -499,8 +496,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 
 	loadChart : function() {
 		var data = this.generateChartData();
-
-                this.getPlotContainer(false).jqplot(data['chartData'] , {
+		this.getPlotContainer(false).jqplot(data['chartData'] , {
 			title: data['title'],
 			animate: !$.jqplot.use_excanvas,
 			seriesDefaults:{
@@ -512,14 +508,14 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 				},
 				pointLabels: {show: true,edgeTolerance: -15}
 			},
-			 axes: {
+			axes: {
 				xaxis: {
-					  tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-					  renderer: jQuery.jqplot.CategoryAxisRenderer,
-					  ticks: data['labels'],
-					  tickOptions: {
+					tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+					renderer: jQuery.jqplot.CategoryAxisRenderer,
+					ticks: data['labels'],
+					tickOptions: {
 						angle: -45
-					  }
+					}
 				},
 				yaxis: {
 					min:0,
@@ -531,13 +527,13 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 				}
 			},
 			legend: {
-                show		: (data['data_labels']) ? true:false,
-                location	: 'e',
-                placement	: 'outside',
+				show		: (data['data_labels']) ? true:false,
+				location	: 'e',
+				placement	: 'outside',
 				showLabels	: (data['data_labels']) ? true:false,
 				showSwatch	: (data['data_labels']) ? true:false,
 				labels		: data['data_labels']
-            }
+			}
 		});
 //		this.getPlotContainer(false).on('jqPlotDataClick', function(){
 //			console.log('here');

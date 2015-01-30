@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
 class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 
 	/**
@@ -172,5 +171,5 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 			$return = '<span title="'.vtranslate('Average daily working time', 'OSSEmployees').'">'.$text.'</span>';
 		}
 		return $return; 
-    }	
+    }
 }
