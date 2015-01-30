@@ -26,7 +26,7 @@ $languageStrings = array(
 	'LBL_DESCRIPTION'              => 'Описание'            , 
 	'LBL_DOCUMENTS_MOVED_SUCCESSFULLY' => 'Документы перемещены удачно',
 	'LBL_DOWNLOAD_FILE'            => 'Загрузить файл' , 
-	'LBL_EMAIL_FILE_AS_ATTACHMENT' => 'Email file as attachment',
+	'LBL_EMAIL_FILE_AS_ATTACHMENT'	=>	'Отправить Документ по Почте',
 	'LBL_EXTERNAL'                 => 'Внешний'              , 
 	'LBL_FILE_AVAILABLE'           => 'Документ доступен для загрузки',
 	'LBL_FILE_INFORMATION'         => 'Информация Файла', 
@@ -48,7 +48,7 @@ $languageStrings = array(
 	'Title'                        => 'Оглавление'        , 
 	'Version'                      => 'Версия'                , 
 	'ossdc_status'	=>	'Статус',
-    'LBL_EMAIL_FILE_AS_ATTACHMENT' => 'Отправить Документ по E-Mail',
+	'LBL_EMAIL_FILE_AS_ATTACHMENT'	=>	'Отправить Документ по Почте',
 );
 $jsLanguageStrings = array(
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Вы уверены, что хотите переместить файлы в',
