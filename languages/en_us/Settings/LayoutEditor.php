@@ -60,14 +60,14 @@ $languageStrings = array(
 	'TextArea' => 'Text Area',
 	'Text'=>'Text',
 	'Time'=>'Time',
-	'URL' => 'URL',
+	'URL' => 'Website',
     'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Edit related modules',
 	'LBL_VISIBLE' => 'Visible',
 	'LBL_HIDDEN' => 'Hidden',
 	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Select modules',
-	'LBL_FIELD_NAME' => 'System name',
+	'LBL_FIELD_NAME' => 'Field name',
 	'LBL_FIELD_TYPE' => 'Table',
 	'Related1M' => 'Related fielde 1:M',
 	'Editor' => 'WYSIWYG Editor',
