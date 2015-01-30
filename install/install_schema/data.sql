@@ -4819,11 +4819,13 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (204,3,'DASHBOARDWIDGET','Delegated (overdue) project tasks','index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks',NULL,NULL,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (205,7,'DASHBOARDWIDGET','Leads by Status Converted','index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted',NULL,8,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (206,3,'DASHBOARDWIDGET','Leads by Status Converted','index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted',NULL,24,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (207,2,'DASHBOARDWIDGET','KPI','index.php?module=Potentials&view=ShowWidget&name=Kpi',NULL,11,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (207,2,'DASHBOARDWIDGET','KPI','index.php?module=Potentials&view=ShowWidget&name=Kpi','',11,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (208,2,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl','',12,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (209,61,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl','',1,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (207);
+insert  into `vtiger_links_seq`(`id`) values (209);
 
 /*Data for the table `vtiger_loginhistory` */
 

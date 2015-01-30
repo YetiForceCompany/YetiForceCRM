@@ -857,6 +857,12 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
 	'LBL_SELECT_TREE_ITEM' => 'Wybierz element:',
 	'LBL_CONVERSION_RATE' => 'Przelicznik',
+	'LBL_TIME_RANGE' => 'Przedział czasu',
+	'LBL_NUMBER_OF_DAYS' => 'Ilość dni',
+	'LBL_NUMBER_OF_WORKING_DAYS' => 'Ilość dni roboczych',
+	'LBL_NUMBER_OF_DAYS_WORKED' => 'Ilość dni przepracowanych',
+	'LBL_AVERAGE_WORKING_TIME' => 'Średnia czasu pracy',
+	'Employees Time Control' => 'Czas pracy użytkownika',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',

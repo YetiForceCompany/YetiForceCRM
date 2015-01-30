@@ -20,4 +20,53 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		return $listQuery." AND vtiger_ossemployees.employee_status = 'Employee'";
 	}
+	
+	public function getWidgetTimeControl($user, $time) {
+		if(!$time){
+			return array();
+		}
+		$db = PearDatabase::getInstance();
+		$param = array('OSSTimeControl', $user, $time['start'], $time['end'] );
+		$sql = "SELECT SUM(sum_time) AS daytime, due_date FROM vtiger_osstimecontrol
+					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
+					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid = ? ";
+		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) GROUP BY due_date";
+		$result = $db->pquery( $sql, $param );
+		$data = array();
+		$countDays = 0;
+		$average = 0;
+		for($i=0;$i<$db->num_rows( $result );$i++){
+			$due_date = $db->query_result_raw($result, $i, 'due_date');
+			$daytime = $db->query_result_raw($result, $i, 'daytime');
+			$due_date = DateTimeField::convertToUserFormat($due_date);
+			
+			$data[] = array($daytime, $due_date);
+			$countDays++;
+			$average = $average + $daytime;
+		}
+		if($average > 0)
+			$average = $average/$countDays;
+		return array('data' => $data, 'countDays' => $countDays, 'average' => number_format($average, 2, '.', ' '));
+	}
+	
+	function getWorkingDays($startDate, $endDate){
+		$begin = strtotime($startDate);
+		$end   = strtotime($endDate);
+		if ($begin > $end) {
+			return 0;
+		} else {
+			$no_days  = 0;
+			$weekends = 0;
+			while ($begin <= $end) {
+				$no_days++; // no of days in the given interval
+				$what_day = date("N", $begin);
+				if ($what_day > 5) { // 6 and 7 are weekend days
+					$weekends++;
+				};
+				$begin += 86400; // +1 day
+			};
+			$working_days = $no_days - $weekends;
+			return $working_days;
+		}
+	}
 }
