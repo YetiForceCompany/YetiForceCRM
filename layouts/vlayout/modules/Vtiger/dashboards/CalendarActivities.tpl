@@ -19,21 +19,7 @@
 				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
 			</th>
 			<th class="span5">
-				<div>
-					<select class="widgetFilter" name="type" style='width:100px;margin-bottom:0px'>
-						<option value="{$CURRENTUSERID}">{vtranslate('LBL_MINE')}</option>
-						<option value="all">{vtranslate('LBL_ALL')}</option>
-						{if $ALL_ACTIVEUSER_LIST}
-							<optgroup label="{vtranslate('LBL_USERS')}">
-								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-									{if $OWNER_ID neq $CURRENTUSERID}
-										<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
-									{/if}
-								{/foreach}
-							</optgroup>
-						{/if}
-					</select>
-				</div>
+				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
 			<th class="widgeticons" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}

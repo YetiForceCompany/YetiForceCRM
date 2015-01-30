@@ -28,6 +28,9 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
+		$owner = $request->get('owner');
+		if($owner == 'all')
+			$owner = '';
 		
 		$createdTime = $request->get('createdtime');
 		
@@ -38,10 +41,10 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getLeadsByStatus($request->get('smownerid'),$dates);
+		$data = $moduleModel->getLeadsByStatus($owner,$dates);
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
-            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$request->get('smownerid'),$dates);
+            $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$owner,$dates);
         }
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

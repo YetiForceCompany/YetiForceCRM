@@ -33,19 +33,7 @@
 				</span>
 			</span>
 			<span class="span4">
-				{assign var=CURRENT_USER_ID value=$CURRENTUSER->getId()}
-				<select class="widgetFilter" name="owner">
-					<option value="">{vtranslate('LBL_ALL', $MODULE_NAME)}</option>
-					{foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
-					<option value="{$USER_ID}">
-						{if $USER_ID eq $CURRENTUSER->getId()}
-							{vtranslate('LBL_MINE',$MODULE_NAME)}
-						{else}
-							{$USER_NAME}
-						{/if}
-					</option>
-					{/foreach}
-				</select>
+				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</span>
 		</div>
 	</div>
