@@ -36,10 +36,7 @@ class Vtiger_PopupAjax_View extends Vtiger_Popup_View {
 		$moduleName = $request->getModule();
 
 		$this->initializeListViewContents($request, $viewer);
-		if(vglobal('popupType') == 2)
-			echo $viewer->view('Popup2Contents.tpl', $moduleName, true);
-		else
-			echo $viewer->view('PopupContents.tpl', $moduleName, true);
+		echo $viewer->view('PopupContents.tpl', $moduleName, true);
 	}
 
 }
