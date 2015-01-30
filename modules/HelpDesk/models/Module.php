@@ -37,26 +37,6 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	}
 
 	/**
-	 * Function to get Settings links for admin user
-	 * @return Array
-	 */
-	public function getSettingLinks() {
-		$settingsLinks = parent::getSettingLinks();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-		if ($currentUserModel->isAdminUser()) {
-			$settingsLinks[] = array(
-				'linktype' => 'LISTVIEWSETTING',
-				'linklabel' => 'LBL_EDIT_MAILSCANNER',
-				'linkurl' =>'index.php?parent=Settings&module=MailConverter&view=List',
-				'linkicon' => ''
-			);
-		}
-		return $settingsLinks;
-	}
-
-
-	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
 	 * @return <Array>
