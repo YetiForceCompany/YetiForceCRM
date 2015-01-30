@@ -217,8 +217,17 @@ function load_action(inframe, params) {
         load_all_widgets();
     });
     $(inframe.find('#moreheaderstoggle .oss-close-bar')).click(function() {
-		inframe.find('.oss-header').hide();
-		inframe.find('#messagecontent').css('top','95px');
+		var header = inframe.find('#message-oss-header');
+		console.log(header.data('show') == true);
+		if(header.data('show') == true){
+			header.show().data('show',false);
+			inframe.find('#messagecontent').css('top','195px');
+			inframe.find('#moreheaderstoggle .oss-close-bar').html('<img src="' + window.images_path + 'upArrowSmall.png">');
+		}else{
+			header.hide().data('show',true);
+			inframe.find('#messagecontent').css('top','115px');
+			inframe.find('#moreheaderstoggle .oss-close-bar').html('<img src="' + window.images_path + 'downArrowSmall.png">');
+		}
     });
     $(inframe.find('#moreheaderstoggle .oss-email-link')).click(function() {
         if (params['crmid']) {
@@ -301,6 +310,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
     var HelpDesk_text = '';
     var HelpDesk_icon = '';
     var images_path = crm_path + 'layouts/vlayout/skins/images/';
+	window.images_path = images_path;
     var Projekty_thead_td = '';
     var Projekty_tbody_td = '';
     var tab_html = {};
@@ -434,7 +444,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
             '<table class=""><thead><tr>' + html_1 + '</tr></thead><tbody><tr class="text-body" >' + html_2 + '</tr></tbody></table>'
             );
     inframe.find('#moreheaderstoggle').html(
-            '<a title="' + app.vtranslate('Preview email in CRM') + '" href="#" class="oss-email-link btn small-icon"><img src="' + images_path + 'Emails.png" ></a><a title="' + app.vtranslate('Reload action bar') + '" href="#" class="oss-reload-bar btn small-icon"><img src="' + crm_path + '/layouts/vlayout/modules/OSSMail/icons/Reload.png" ></a><a title="X" href="#" class="oss-close-bar btn small-icon">X</a>'
+            '<a title="' + app.vtranslate('Preview email in CRM') + '" href="#" class="oss-email-link btn small-icon"><img src="' + images_path + 'Emails.png" ></a><a title="' + app.vtranslate('Reload action bar') + '" href="#" class="oss-reload-bar btn small-icon"><img src="' + crm_path + '/layouts/vlayout/modules/OSSMail/icons/Reload.png" ></a><a title="X" href="#" class="oss-close-bar btn small-icon"><img src="' + images_path + 'upArrowSmall.png"></a>'
             );
     inframe.find('#messagecontent').css('top', (inframe.find('.oss-header').outerHeight() + inframe.find('#messageheader').outerHeight() + 1) + 'px');
 }
