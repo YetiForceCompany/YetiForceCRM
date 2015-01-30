@@ -1,12 +1,13 @@
 <?php
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 
 Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View {
 
@@ -26,7 +27,6 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View {
 		$user = $request->get('owner');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = $moduleModel->getCalendarActivities('overdue', $pagingModel, $user);
-
 		
 		$viewer = $this->getViewer($request);
 
