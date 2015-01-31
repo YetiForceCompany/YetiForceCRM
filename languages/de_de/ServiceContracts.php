@@ -9,13 +9,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = array(
+	'LBL_SUMMARY' => ' Zusammenfassung der Arbeitszeit',
 	'Services'	=>	'Dienstleistungen',
 	'In Progress'	=>	'In Arbeit',
 	// Basic Strings
 	'ServiceContracts' => 'Serviceverträge',
 	'Service Contracts' => 'Serviceverträge',
 	'SINGLE_ServiceContracts' => 'Servicevertrag',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Servicevertrag hinzufügen',
 	'LBL_RECORDS_LIST' => 'Servicevertragsliste',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Servicevertragsdetails',

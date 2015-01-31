@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_GENERATE_QUOTES' => 'Angebote generieren',
 	'Accepted'=>'akzeptiert',
 	'Inventory Manager'=>'Bestandsmanager',
 	'LBL_ADD_RECORD' => 'Neues Angebot',

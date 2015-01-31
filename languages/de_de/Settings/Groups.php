@@ -10,7 +10,7 @@
 $languageStrings = array(
 	'Roles' => 'Rollen',
 	'Users' => 'Benutzer',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Gruppe hinzufügen',
 	'LBL_ADD_USERS_ROLES' => 'Hinzufügen von Benutzern, Rollen, ...',
 	'LBL_DUPLICATES_EXIST' => 'Gruppen Name existiert bereits',
 	'LBL_GROUP_MEMBERS' => 'Gruppen Mitglieder',

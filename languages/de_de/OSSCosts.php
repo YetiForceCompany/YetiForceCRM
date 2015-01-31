@@ -11,7 +11,7 @@ $languageStrings = array(
 	// Basic Strings
 	'OSSCosts'        => 'Kosten',
 	'SINGLE_OSSCosts' => 'Kosten',
-	'LBL_ADD_RECORD' => 'Neue Kostenerfassung',
+	'LBL_ADD_RECORD' => 'Kosten hinzufügen',
 	'LBL_RECORDS_LIST' => 'Kosten',
 
 	// Blocks

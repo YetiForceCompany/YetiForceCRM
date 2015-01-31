@@ -10,7 +10,7 @@
 $languageStrings = array(
 	'LBL_ATTACHED'	=>	'Angehängt',
 	'Date & Time Sent'             => 'Sendedatum'                   , 
-	'Emails'                       => 'Emails'                      , 
+	'Emails' => 'E-Mails',
 	'LBL_ADD_BCC'                  => 'Bcc hinzufügen'                     , 
 	'LBL_ADD_CC'                   => 'Cc hinzufügen'                      , 
 	'LBL_ATTACHMENT'               => 'Anhang'                      , 

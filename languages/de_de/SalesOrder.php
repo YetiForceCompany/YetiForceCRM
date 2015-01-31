@@ -8,6 +8,10 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Cancel' => 'Abgebrochen',
+	'Derecognized' => 'Entfernt',
+	'Invoice entered' => 'Rechnung eingegeben',
+	'Created' => 'Entwurf',
 	'AutoCreated'=>'Automatisch erstellt',
 	'Credit Invoice'=>'Kredit Rechnung',
 	'Customer No' => 'Kundennummer',
@@ -15,7 +19,7 @@ $languageStrings = array(
 	'End Period' => 'Ende Zeitraum',
 	'Frequency' => 'Frequenz',
 	'Invoice Status' => 'Rechnungsstatus',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Kundenauftrag hinzufügen',
 	'LBL_EXPORT_TO_PDF' => 'Export als PDF',
 	'LBL_RECORDS_LIST' => 'Kundeauftragsliste',
 	'LBL_SEND_MAIL_PDF' => 'Sende E-Mail mit PDF',

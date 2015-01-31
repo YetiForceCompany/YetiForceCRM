@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Action_Desc_test' => 'Funktionstestbeschreibung',
+	'Action_test' => 'Funktionstest',
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',

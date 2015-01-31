@@ -50,7 +50,7 @@ $languageStrings = array(
 	'Brak statusu'			 => 'fehlender Status',
 	'Sprawdzono'			 => 'geprüft', 
 	'Default' => 'Default',
-	'LBL_SELECT_Documents' => 'Select the document',
+	'LBL_SELECT_Documents' => 'Dokument auswählen',
 );
 $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED'	=>	'sind nicht erlaubt',
