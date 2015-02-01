@@ -48,7 +48,7 @@ $languageStrings = array(
 	'--None--'                     => '--keine--'                    , 
 	'No Of Employees'              => 'Anzahl Mitarbeiter'          , 
 	'Not Contacted'                => 'Nicht kontaktiert'           , 
-	'Phone' 			           => 'Primäre Telefonr.',
+	'Phone' => 'Primäre Telefonummer',
 	'Pre Qualified'                => 'vorqualifiziert'             , 
 	'Prof.'                        => 'Sehr geehrter Herr Prof.'    , 
 	'Qualified'                    => 'qualifiziert'                , 
@@ -80,7 +80,7 @@ $languageStrings = array(
 	'Total tasks'=>'Anzahl von Aufgaben',
 	'Total time worked'=>'Gesamter Aufwand',
 	'Total contacts'=>'Anzahl von Kontakten',
-	'Attention' => 'Notizen',    
+	'Attention' => 'Kommentare',
 	"Attorney General's Office" => "Generalstaatsanwaltschaft",
 	'Orders accepted' => 'Aufträge angenommen',
 );

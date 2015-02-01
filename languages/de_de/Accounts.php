@@ -42,7 +42,7 @@ $languageStrings = array(
 	'Ticker Symbol' => 'Börsensymbol',
 	'Website' => 'Webseite',
 	//OpenSaaS
-	'LBL_CREATING_NEW' => 'Neu',
+	'LBL_CREATING_NEW' => 'Erstelle neue',
 	'Fax' => 'Fax',
 
 	'Calculations all'=>'Alle Kalkulationen',

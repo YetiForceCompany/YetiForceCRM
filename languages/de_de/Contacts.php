@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
-	'LBL_LANGUAGE_NOTIFICATIONS'	=>	'Sprach-Benachrichtigung',
+	'LBL_LANGUAGE_NOTIFICATIONS' => 'Sprache',
 	'Email'	=>	'Primäre E-Mail',
 	'Member Of' => 'Mitglied von',
 	'Birthdate'                    => 'Geburtsdatum'                , 
@@ -24,12 +24,12 @@ $languageStrings = array(
 	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Kundenportal'                , 
 	'LBL_IMAGE_INFORMATION'        => 'Bild vom Kontakt'            , 
 	'LBL_RECORDS_LIST'             => 'Kontaktliste'               , 
-	'Office Phone'                 => 'Tel. direkt'                 , 
+	'Office Phone' => 'Primäre Telefonnummer',
 	'Portal User'                  => 'Portal Nutzer'               , 
 	'Reference'                    => 'Referenz'                    , 
 	'Reports To'                   => 'Vorgesetzter'                , 
 	'Secondary Email'		 => 'Weitere EMail',
-	'SINGLE_Contacts'              => 'Person'                      , 
+	'SINGLE_Contacts' => 'Kontakt',
 	'Support End Date'             => 'Support-Enddatum'          ,
 	'Support Start Date'           => 'Support-Startdatum'          ,
 	'Title'                        => 'Funktion'                    , 
