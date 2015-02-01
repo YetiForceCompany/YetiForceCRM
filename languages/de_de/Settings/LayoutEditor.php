@@ -110,3 +110,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Liste der Felder wurde aktualisiert',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
 );
+

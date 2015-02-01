@@ -151,3 +151,4 @@ $jsLanguageStrings = array(
 	'LBL_STATUS_CONFIRMATION' => 'Sind Sie sicher, dass Sie den Status aller Aufgaben ändern möchten?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Ändere Status für Aufgaben...',
 );
+
