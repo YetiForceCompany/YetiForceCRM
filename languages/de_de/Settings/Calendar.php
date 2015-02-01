@@ -10,18 +10,18 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	//ActivityTypes
-	'LBL_ACTIVITY_TYPES' => 'Activity types',
-	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
-	'LBL_ACTIVITY_NAME' => 'Activity types name',
-	'LBL_MODULE' => 'Module',
-	'LBL_COLOR' => 'Color',
+	'LBL_ACTIVITY_TYPES' => 'Aktivitätstypen',
+	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
+	'LBL_ACTIVITY_NAME' => 'Aktivitätsname',
+	'LBL_MODULE' => 'Modul',
+	'LBL_COLOR' => 'Farbe',
 	'LBL_TOOLS' => 'Tools',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_SAVE_ACTIVE_TYPE' => 'Saved change',
-	'LBL_UPDATE_COLOR' => 'Change Color',
-	'LBL_EDIT_COLOR' => 'Edit color',
-	'LBL_SELECT_COLOR' => 'Select color:',
-	'LBL_SAVE_COLOR' => 'Color saved',
+	'LBL_ACTIVE' => 'Aktiv',
+	'LBL_SAVE_ACTIVE_TYPE' => 'Änderungen gesichert',
+	'LBL_UPDATE_COLOR' => 'Farbe ändern',
+	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
+	'LBL_SELECT_COLOR' => 'Farbe wählen:',
+	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 );
 $jsLanguageStrings = array(
 

@@ -11,17 +11,17 @@
 $languageStrings = array(
 	//Yetiforce
 	'LBL_PARAMETER' => 'Parameter',
-	'LBL_VALUE' => 'Current configuration',
-	'LBL_RECOMMENDED' => 'Recommended configuration',
-	'LBL_FILES_PERMISSIONS' => 'Files permissions',
+	'LBL_VALUE' => 'Aktuelle Konfiguration',
+	'LBL_RECOMMENDED' => 'Empfohlene Konfiguration',
+	'LBL_FILES_PERMISSIONS' => 'Dateiberechtigungen',
 	'LBL_FILE' => 'Name',
-	'LBL_PATH' => 'Path',
-	'LBL_PERMISSION' => 'Permission',
-	'LBL_TRUE_PERMISSION' => 'Allowed',
-	'LBL_FAILED_PERMISSION' => 'Not allowed',
-	'LBL_CONFIGURATION' => 'Server configuration',
-	'LBL_CONFREPORT_DESCRIPTION' => 'Allows you to verify that the main server settings are compatible with the recommended parameters.',
-	'On' => 'On',
-	'Off' => 'Off',
-	'NOT RECOMMENDED' => 'Not Recommended'
+	'LBL_PATH' => 'Pfad',
+	'LBL_PERMISSION' => 'Berechtigung',
+	'LBL_TRUE_PERMISSION' => 'Erlaubt',
+	'LBL_FAILED_PERMISSION' => 'Nicht erlaubt',
+	'LBL_CONFIGURATION' => 'Server Konfiguration',
+	'LBL_CONFREPORT_DESCRIPTION' => 'Gestattet die Überprüfung der Serverkonfiguration gegen die empfohlene Konfiguration.',
+	'On' => 'Ein',
+	'Off' => 'Aus',
+	'NOT RECOMMENDED' => 'Nicht empfohlen'
 );

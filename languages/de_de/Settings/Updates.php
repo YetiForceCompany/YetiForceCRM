@@ -9,13 +9,13 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_YES' => 'Yes',
-	'LBL_NO' => 'No',	
-	'LBL_TIME' => 'Date',
-	'LBL_USER' => 'Username',
-	'LBL_FROM_VERSION'=>'From version',
-	'LBL_TO_VERSION'=>'To version',
+	'LBL_YES' => 'Ja',
+	'LBL_NO' => 'Nein',	
+	'LBL_TIME' => 'Zeit',
+	'LBL_USER' => 'Benutzername',
+	'LBL_FROM_VERSION'=>'Von Version',
+	'LBL_TO_VERSION'=>'Nach Version',
 	'LBL_RESULT'=>'Status',
 	'LBL_UPDATES' => 'Updates',
-	'LBL_UPDATES_DESCRIPTION' => 'Updates history',
+	'LBL_UPDATES_DESCRIPTION' => 'Updates Historie',
 );
