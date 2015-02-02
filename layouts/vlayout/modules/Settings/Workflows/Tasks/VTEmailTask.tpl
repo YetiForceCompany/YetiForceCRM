@@ -72,7 +72,7 @@
 			<div class="row-fluid padding-bottom1per">
 				<span class="span7 row-fluid">
 					<span class="span2">{vtranslate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
-					<input data-validation-engine='validate[required]' name="subject" class="span9 fields" type="text" name="subject" value="{$TASK_OBJECT->subject}" id="subject" spellcheck="true"/>
+					<input data-validation-engine='validate[required]' name="subject" class="span9 fields" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true"/>
 				</span>
 				<span class="span5">
 					<select style="min-width: 300px" class="task-fields chzn-select" data-placeholder={vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}>
