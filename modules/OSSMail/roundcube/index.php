@@ -138,8 +138,8 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 		if($pass == ''){
 			$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
 		}
-		$sql = "UPDATE ".$RCMAIL->db->table_name('users')." SET password = ? WHERE username = ?";
-		call_user_func_array(array($RCMAIL->db, 'query'),array_merge(array($sql), array($pass,$auth['user']) ));
+		$sql = "UPDATE ".$RCMAIL->db->table_name('users')." SET password = ? WHERE user_id = ?";
+		call_user_func_array(array($RCMAIL->db, 'query'),array_merge(array($sql), array($pass,$RCMAIL->get_user_id()) ));
 		$RCMAIL->db->affected_rows();
 		////// OpenSaaS Sp. z o.o. ///
 		
