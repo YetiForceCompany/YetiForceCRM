@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -3152,6 +3153,7 @@ CREATE TABLE `vtiger_module_dashboard` (
   `size` varchar(50) DEFAULT NULL,
   `limit` int(10) DEFAULT NULL,
   `isdefault` int(1) NOT NULL DEFAULT '0',
+  `owners` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_ibfk_1` (`blockid`),
   CONSTRAINT `vtiger_module_dashboard_ibfk_1` FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE
@@ -3178,6 +3180,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `data` text,
   `size` varchar(50) DEFAULT NULL,
   `limit` int(10) DEFAULT NULL,
+  `owners` varchar(100) DEFAULT NULL,
   `position` varchar(50) DEFAULT NULL,
   `isdefault` int(1) DEFAULT '0',
   `active` int(1) DEFAULT '0',
