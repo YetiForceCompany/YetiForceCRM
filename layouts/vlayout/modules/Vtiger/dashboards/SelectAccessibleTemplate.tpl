@@ -10,14 +10,19 @@
  *************************************************************************************************************************************/
 -->*}
 
-
+{assign var=ACCESS_OPTIONS value=Zend_Json::decode(html_entity_decode($WIDGET->get('owners')))}
+{if !is_array($ACCESS_OPTIONS.available)}
+	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
+{/if}
 	<div>
 		<select class="widgetFilter" id="owner" name="owner" style='width:100px;margin-bottom:0px'>
-			{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS )}
-				<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
+			{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('mine', $ACCESS_OPTIONS.available)}
+				<option value="{$CURRENTUSER->getId()}" {if $ACCESS_OPTIONS.default eq 'mine'} selected {/if}>{vtranslate('LBL_MINE')}</option>
 			{/if}
-			<option value="all">{vtranslate('LBL_ALL')}</option>
-			{if !empty($ACCESSIBLE_USERS)}
+			{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('all', $ACCESS_OPTIONS.available)}
+				<option value="all" {if $ACCESS_OPTIONS.default eq 'all'} selected {/if}>{vtranslate('LBL_ALL')}</option>
+			{/if}
+			{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS.available)}
 				<optgroup label="{vtranslate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
 						{if $OWNER_ID neq {$CURRENTUSER->getId()}}
@@ -26,7 +31,7 @@
 					{/foreach}
 				</optgroup>
 			{/if}
-			{if !empty($ACCESSIBLE_GROUPS)}
+			{if !empty($ACCESSIBLE_GROUPS) && in_array('groups', $ACCESS_OPTIONS.available)}
 				<optgroup label="{vtranslate('LBL_GROUPS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_GROUPS}
 						<option value="{$OWNER_ID}">{$OWNER_NAME}</option>

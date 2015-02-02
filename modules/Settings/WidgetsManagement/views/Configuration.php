@@ -13,6 +13,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 	public function process(Vtiger_Request $request) {
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Configuration_View::process() method ...");
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$sourceModule = $request->get('sourceModule');
 		$dashboardModules = Settings_WidgetsManagement_Module_Model::getSelectableDashboard();
 
@@ -32,12 +33,20 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$authorization = Settings_Roles_Record_Model::getAll();
 		$bloks = Settings_WidgetsManagement_Module_Model::getBlocksId();
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
+		$filterSelect = Settings_WidgetsManagement_Module_Model::getFilterSelect();
+		$filterSelectDefault = Settings_WidgetsManagement_Module_Model::getFilterSelectDefault();
+		$widgetsWithFilterUsers = Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers();
+
+		$viewer->assign('FILTER_SELECT', $filterSelect);
+		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
+		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
 		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule]);
 		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
+		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('SIZE', $size);
 		$viewer->assign('DEFAULTVALUES', $defaultValues);

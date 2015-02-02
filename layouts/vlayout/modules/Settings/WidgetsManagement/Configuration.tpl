@@ -56,6 +56,7 @@ padding: 20px 20px 20px 20px;
 		</div>
 		
 		<div id="moduleBlocks">
+			<input type="hidden" name="filter_users" value='{Zend_Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
 			{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 				{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 				<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">
@@ -163,6 +164,38 @@ padding: 20px 20px 20px 20px;
 																</div>
 																{/if}
 															</div>
+															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
+																<div class="row-fluid " style="padding: 0px; border-top:1px solid #dddddd ">
+																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
+																	<div class="row-fluid" style="padding: 5px; ">
+																		<span class="span5">
+																			<select class="widgetFilter span2" id="owner" name="default_owner">
+																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
+																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																				{/foreach}
+																			</select>
+																		</span>
+																		<label class="span7 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>	
+																	{if !is_array($WIDGET_OWNERS.available)}
+																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
+																	{/if}
+																	<div class="row-fluid" style="padding: 5px; ">
+																		<span class="span8">
+																			<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
+																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																				{/foreach}
+																			</select>
+																		</span>
+																		<label class="span4 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>	
+																</div>
+															{/if}
 															<div class="modal-footer" style="padding: 0px;">
 																<span class="pull-right">
 																	<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
@@ -191,7 +224,7 @@ padding: 20px 20px 20px 20px;
 									<li>
 										<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 											<div class="row-fluid padding1per">
-												<div class="span10 " style="word-wrap: break-word;">
+												<div class="span10 " style="">
 													<span class="fieldLabel marginLeft20">{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 													
 												</div>
@@ -199,7 +232,7 @@ padding: 20px 20px 20px 20px;
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 														<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
 													</a>
-													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
+													<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
 															<div class="modal-header contentsBackground">
 																<strong>{vtranslate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
@@ -250,6 +283,38 @@ padding: 20px 20px 20px 20px;
 																</div>
 																{/if}
 															</div>
+															{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
+																<div class="row-fluid " style="padding: 0px; border-top:1px solid #dddddd ">
+																	{assign var=WIDGET_OWNERS value=Zend_Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
+																	<div class="row-fluid" style="padding: 5px; ">
+																		<span class="span5">
+																			<select class="widgetFilter span2" id="owner" name="default_owner">
+																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
+																					<option value="{$OWNER_ID}" {if $WIDGET_OWNERS.default eq $OWNER_ID} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																				{/foreach}
+																			</select>
+																		</span>
+																		<label class="span7 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>	
+																	{if !is_array($WIDGET_OWNERS.available)}
+																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
+																	{/if}
+																	<div class="row-fluid" style="padding: 5px; ">
+																		<span class="span8">
+																			<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
+																					<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $WIDGET_OWNERS.available)} selected {/if} >{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+																				{/foreach}
+																			</select>
+																		</span>
+																		<label class="span4 marginTop5 pull-left" >
+																			&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+																		</label>
+																	</div>	
+																</div>
+															{/if}
 															<div class="modal-footer" style="padding: 0px;">
 																<span class="pull-right">
 																	<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
@@ -395,6 +460,34 @@ padding: 20px 20px 20px 20px;
 							<input type="checkbox" name="isdefault" >
 						</div>
 					</div>
+					<div class="control-group widgetFilter hide">
+						<span class="control-label">
+							{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
+						</span>
+						<div class="controls">
+							<span class="row-fluid">
+								<select class="span4" id="owner" disabled name="default_owner">
+									{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
+										<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+									{/foreach}
+								</select>
+							</span>
+						</div>	
+					</div>	
+					<div class="control-group widgetFilter hide">
+						<span class="control-label">
+							{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
+						</span>
+						<div class="controls">
+							<span class="row-fluid">
+								<select class="span9 owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+									{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
+										<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+									{/foreach}
+								</select>
+							</span>
+						</div>	
+					</div>
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
 			</form>
@@ -455,6 +548,32 @@ padding: 20px 20px 20px 20px;
 											&nbsp;{vtranslate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
+								</div>
+								<div class="row-fluid widgetFilterAll hide" style="padding: 0px; border-top:1px solid #dddddd ">
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span5">
+											<select class="widgetFilter span2" id="owner" name="default_owner">
+												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
+													<option value="{$OWNER_ID}">{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+												{/foreach}
+											</select>
+										</span>
+										<label class="span7 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
+										</label>
+									</div>	
+									<div class="row-fluid" style="padding: 5px; ">
+										<span class="span8">
+											<select class="widgetFilter span3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
+													<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
+												{/foreach}
+											</select>
+										</span>
+										<label class="span4 marginTop5 pull-left" >
+											&nbsp;{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}&nbsp;
+										</label>
+									</div>	
 								</div>
 								<div class="modal-footer">
 									<span class="pull-right">
