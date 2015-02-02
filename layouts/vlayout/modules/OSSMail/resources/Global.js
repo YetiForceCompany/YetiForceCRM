@@ -218,14 +218,15 @@ function load_action(inframe, params) {
     });
     $(inframe.find('#moreheaderstoggle .oss-close-bar')).click(function() {
 		var header = inframe.find('#message-oss-header');
-		console.log(header.data('show') == true);
+		var messageheader = inframe.find('#messageheader');
+		var height = messageheader.height()
 		if(header.data('show') == true){
 			header.show().data('show',false);
-			inframe.find('#messagecontent').css('top','195px');
+			inframe.find('#messagecontent').css('top',(height + 80)+'px');
 			inframe.find('#moreheaderstoggle .oss-close-bar').html('<img src="' + window.images_path + 'upArrowSmall.png">');
 		}else{
 			header.hide().data('show',true);
-			inframe.find('#messagecontent').css('top','115px');
+			inframe.find('#messagecontent').css('top',(height)+'px');
 			inframe.find('#moreheaderstoggle .oss-close-bar').html('<img src="' + window.images_path + 'downArrowSmall.png">');
 		}
     });
