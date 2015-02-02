@@ -16,7 +16,7 @@ $languageStrings = array(
 'LBL_INFORMATION' => 'Informationsblock',
 
 //fields
-'Assigned To' => 'Zgewiesen an',
+	'Assigned To' => 'Zugewiesen an',
 'LBL_osservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',
 'In service' => 'Wird unterstützt',

@@ -10,7 +10,7 @@
 $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Projekt Meilenstein',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Meilenstein hinzufügen',
 	'LBL_RECORDS_LIST' => 'Projekt Meilenstein Liste',
 
 	// Blocks

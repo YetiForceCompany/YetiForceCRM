@@ -8,6 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'dd-mm-yyyy' => 'tt-mm-jjjj',
+	'mm-dd-yyyy' => 'mm-tt-jjjj',
+	'yyyy-mm-dd' => 'jjjj-mm--tt',
+	'LBL_SELECT_USERS' => 'Wählen Sie Benutzer',
+	'Share calendar users' => 'Kalendernutzer teilen',
 	'LBL_BASIC_EXPORT'	=>	'Exportiere Grunddaten',
 	'no'	=>	'Nein',
 	'yes'	=>	'Ja',
@@ -34,7 +39,7 @@ $languageStrings = array(
 	'Language' => 'Sprache',
 	'LBL_ABOUT_ME'		=>	'Über mich',
 	'LBL_ACTIVE_USERS' => 'Aktive Benutzer',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Benutzer hinzufügen',
 	'LBL_ADDRESS_INFORMATION' => 'Benutzeradresse',
 	'LBL_ALL_FIELDS_BELOW_ARE_REQUIRED'		=>	'(Alle nachfolgenden Felder werden benötigt)',
 	'LBL_ALMOST_THERE'	=>	'Fast geschafft!',

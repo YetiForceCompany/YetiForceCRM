@@ -9,16 +9,16 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
-	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
+	'LBL_MDULES_COLOR_EDITOR' => 'Modulfarben',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Verwaltung von Modulfarben',
 	'LBL_MODULE' => 'Module',
-	'LBL_COLOR' => 'Color',
+	'LBL_COLOR' => 'Farben',
 	'LBL_TOOLS' => 'Tools',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_UPDATE_COLOR' => 'Change color',
-	'LBL_EDIT_COLOR' => 'Edit color',
-	'LBL_SELECT_COLOR' => 'Select color:',
-	'LBL_SAVE_COLOR' => 'Saved color',
+	'LBL_ACTIVE' => 'Aktiv',
+	'LBL_UPDATE_COLOR' => 'Farbe ändern',
+	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
+	'LBL_SELECT_COLOR' => 'Farbe wählen:',
+	'LBL_SAVE_COLOR' => 'Farbe sichern',
 );
 $jsLanguageStrings = array(
 

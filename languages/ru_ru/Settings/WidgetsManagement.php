@@ -37,5 +37,5 @@ $jsLanguageStrings = array(
 	'JS_CUSTOM_FIELD_DELETED'	=>	'Виджет успешно добавлен',
 	'JS_CUSTOM_BLOCK_DELETED'	=>	'Блок Виджетов успешно удален',
 	'JS_FIELD_EMPTY'	=>	'Поле не может быть пустым',
-	'JS_FILTERS_AVAILABLE' => 'Filtry dostępne',
+	'JS_FILTERS_AVAILABLE' => 'Filters available',
 );

@@ -9,7 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
-	'AutoCreated'	=>	'Автосоздание',
+	'AutoCreated'	=>	'Авто создание',
 	'Cancel'                       => 'Отменить'            ,
 	'Cash'	=>	'Наличные',
 	'Created'	=>	'Черновик',
@@ -29,7 +29,7 @@ $languageStrings = array(
 	'LBL_RECEIVED'                 => 'Получено'                    ,
 	'LBL_RECORDS_LIST'             => 'Список Счетов'   ,
 	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
-	'LBL_SUB_PRODUCTS'	=>	'Субпродукт',
+	'LBL_SUB_PRODUCTS'	=>	'Субпродукты',
 	'LBL_THIS'	=>	'Товар / Услуга (',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM'	=>	'Товар / Услуга были удалены из системы. Удалите их из записей.',
 	'Paid'                         => 'Оплачен'              , 

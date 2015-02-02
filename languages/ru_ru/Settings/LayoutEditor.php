@@ -41,7 +41,7 @@ $languageStrings = array(
 	'LBL_INVALIDCHARACTER' => 'Введен недопустимый символ',
 	'LBL_ENTER_PICKLIST_VALUES' => 'Введите значения списка...',
 	'LBL_FIELDS_AND_LAYOUT_EDITOR' => 'Редактор полей и размещения',
-	'LBL_INACTIVE_FIELDS' => 'Неактивные поля', //Duplicated key-value pairs
+	'LBL_INACTIVE_FIELDS' => 'Неактивные поля',
 	'LBL_LABEL_NAME' => 'Имя поля',
 	'LBL_LENGTH' => 'Длина: ',
 	'LBL_MANDATORY_FIELD' => 'Обязательное поле',
@@ -67,6 +67,8 @@ $languageStrings = array(
 	'Time'=>'Время',
 	'URL' => 'Ссылка',
 	'LBL_REL_MODULE_LAYOUT_EDITOR'	=>	'Редактор связей',
+	'LBL_VISIBLE' => 'Видимый',
+	'LBL_HIDDEN' => 'Скрытый',
 	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Выберите модули',
@@ -103,4 +105,9 @@ $jsLanguageStrings = array(
 	'JS_SAVE_THE_CHANGES_TO_UPDATE_FIELD_SEQUENCE' => 'Сохраните изменения, чтобы обновить последовательность полей',
 	'JS_SELECTED_FIELDS_REACTIVATED' => 'Выбранные поля снова активны',
 	'JS_SPECIAL_CHARACTERS' => 'Специальные символы, такие как',
+	'JS_SAVED_CHANGE_STATUS_1' => 'Модуль включен',
+	'JS_SAVED_CHANGE_STATUS_0' => 'Модуль отключен',
+	'JS_UPDATE_SEQUENCE' => 'Последовательность сохранена',
+	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Список полей обновлен',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
 );

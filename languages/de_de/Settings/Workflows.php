@@ -96,7 +96,7 @@ $languageStrings = array(
 	'Execution Condition' => 'Ausführungsbedingung',
 	'Module' => 'Modul',
 	'Summary' => 'Zusammenfassung',
-	'Workflows' => 'Arbeitsabläufe',
+	'Workflows' => 'Workflows',
 	'UpdateInventoryProducts On Every Save'	=> 'Produktbestandsaktualisierung bei jedem speichern',
 	'Workflow for Events when Send Notification is True'	=> 'Workflow für Ereignisse, wenn Benachrichtigung gesendet wurde',
 	'Workflow for Calendar Todos when Send Notification is True'	=> 'Workflow für Kalendereinträge, wenn Benachrichtigung gesendet wurde',
@@ -117,16 +117,16 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
-	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
-	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
-	'LBL_ALL_TASKS' => 'All Tasks', 
-	'LBL_ACTIVE_TASKS' => 'Active Tasks', 
+	'LBL_ACTIVATION_TASKS' => 'Aktiviere Aufgaben',
+	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',
+	'LBL_ALL_TASKS' => 'Alle Aufgaben',
+	'LBL_ACTIVE_TASKS' => 'Aktive Aufgaben',
 	
 	//workflow task
-	'EmailTempleteList' => 'Select a template email to be sent',
-	'Do you send all attachments' => 'Send all attachments?',
-	'Select e-mail address' => 'Select e-mail address',
-	'Send a copy to email' => 'Send a copy to email',
+	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
+	'Do you send all attachments' => 'Alle Anhänge senden?',
+	'Select e-mail address' => 'E-Mail-Adresse auswählen',
+	'Send a copy to email' => 'Senden einer Kopie an E-Mail-Adresse',
 	
 	//workflow task types
 	'Send Mail' => 'E-Mail senden',
@@ -139,15 +139,16 @@ $languageStrings = array(
 	'Email Template Task' => 'E-Mail-Vorlage senden',
 	'Send Pdf' => 'PDF senden',
 	'Update Closed Time' => 'Abschluss-Zeit aktualisieren',
-	'Send Notification' => 'Invitees - Send Notification',
-	'Create Address Book' => 'Create Address Book',
+	'Send Notification' => ' Einladung senden',
+	'Create Address Book' => 'E-Mail-Adressbuch egnerieren',
 );
 
 $jsLanguageStrings = array(
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',
-	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status geändert Erfolgreich',
+	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status erfolgreich geändert',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Aufgabe erfolgreich gelöscht',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow erfolgreich gespeichert',
-	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
-	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
+	'LBL_STATUS_CONFIRMATION' => 'Sind Sie sicher, dass Sie den Status aller Aufgaben ändern möchten?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Ändere Status für Aufgaben...',
 );
+

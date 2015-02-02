@@ -1,6 +1,7 @@
 <?php
 
 $languageStrings = array(
+	'Uninstall OSSProjectTemplates module' => 'Deinstallieren OSSProjectTemplates',
     'OSSProjectTemplates' => 'Projekt-Vorlagen',
     'SINGLE_MODULE_NAME' => 'Projekt-Vorlage',
     'LBL_NEW_TPL' => 'Neue Vorlage',

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -51,6 +51,21 @@
 						{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE)}">{/if}</a>
 				</th>
 				{/foreach}
+			{if $POPUPTYPE == 2}
+				<th class="{$WIDTHTYPE}"></th>
+			</tr>
+			<tr>
+				{if $MULTI_SELECT}
+					<th class="{$WIDTHTYPE}"></th>
+				{/if}
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+				<th class="{$WIDTHTYPE}">
+					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+					{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+				</th>
+				{/foreach}
+				<th class="{$WIDTHTYPE}"><button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button></th>
+			{/if}
 			</tr>
 		</thead>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
@@ -80,6 +95,9 @@
 				{/if}
 			</td>
 			{/foreach}
+			{if $POPUPTYPE == 2}
+				<td class="{$WIDTHTYPE}"></td>
+			{/if}
 		</tr>
 		{/foreach}
 	</table>

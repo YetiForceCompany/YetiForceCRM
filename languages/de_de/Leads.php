@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -8,6 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Products' => 'Produkte',
+	'No approval for email' => 'Keine Genehmigung für EMail',
+	'No approval for phone calls' => 'Keine Genehmigung für Anrufe',
 	'Attempted to Contact'         => 'Kontaktierung versucht'      , 
 	'CANNOT_CONVERT'               => 'Umwandlung nicht möglich'   , 
 	'Cold'                         => 'kalt'                        , 
@@ -23,7 +26,7 @@ $languageStrings = array(
 	'Junk Lead'                    => 'wertloser Lead'              , 
 	'Building number' 		       => 'Gebäudenummer',
 	'Local number' 			       => 'Raumnummer',
-	'LBL_ADD_RECORD'               => 'Neuer Lead'                    , 
+	'LBL_ADD_RECORD' => 'Lead hinzufügen',
 	'LBL_CONVERT_LEAD'             => 'Lead umwandeln:'             , 
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Modul deaktiviert'            , 
 	'LBL_CONVERT_LEAD_ERROR'       => 'Sie müssen entweder Organisation oder Kontakt auswählen, um den Lead zu konvertieren', 
@@ -45,7 +48,7 @@ $languageStrings = array(
 	'--None--'                     => '--keine--'                    , 
 	'No Of Employees'              => 'Anzahl Mitarbeiter'          , 
 	'Not Contacted'                => 'Nicht kontaktiert'           , 
-	'Phone' 			           => 'Primäre Telefonr.',
+	'Phone' => 'Primäre Telefonummer',
 	'Pre Qualified'                => 'vorqualifiziert'             , 
 	'Prof.'                        => 'Sehr geehrter Herr Prof.'    , 
 	'Qualified'                    => 'qualifiziert'                , 
@@ -77,9 +80,9 @@ $languageStrings = array(
 	'Total tasks'=>'Anzahl von Aufgaben',
 	'Total time worked'=>'Gesamter Aufwand',
 	'Total contacts'=>'Anzahl von Kontakten',
-	'Attention' => 'Notizen',    
+	'Attention' => 'Kommentare',
 	"Attorney General's Office" => "Generalstaatsanwaltschaft",
-	'Orders accepted'=>'Orders accepted',
+	'Orders accepted' => 'Aufträge angenommen',
 );
 
 $jsLanguageStrings = array(

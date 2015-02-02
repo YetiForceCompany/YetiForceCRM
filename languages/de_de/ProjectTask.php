@@ -10,8 +10,8 @@
 $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Projektaufgabe',
-	'Project Task' => 'Project Tasks',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'Project Task' => 'Projektaufgaben',
+	'LBL_ADD_RECORD' => 'Projektaufgabe hinzufügen',
 	'LBL_RECORDS_LIST' => 'Projekt Aufgabenliste',
 	'Worked Hours' => 'Zeit gearbeitet',
 	'Start Date'=>'Startdatum',
@@ -19,7 +19,7 @@ $languageStrings = array(
 	'End Date'=>'Enddatum',
 	'Related to'=>'Verbunden mit',
 	'Project Task Number'=>'Projekt Aufgabennummer',
-	'description'=>'  Beschreibung',
+	'description' => 'Beschreibung',
 	'Total time [h]'=>'Gesamtzeit [h]',
 	'Project Task No'=>'Projekt Aufgabennr.',	
 	'Project Task Name'=>'Projekt Aufgabenname',
@@ -32,7 +32,7 @@ $languageStrings = array(
 	'normal'=>'normal',
 	'high'=>'hoch',
     
-	'In Progress' => 'In Progress',
+	'In Progress' => 'In Bearbeitung',
 	'Open'=>'Offen',
 	'Completed' => 'Abgeschlossen',
 	'Deferred' => 'Aufgeschoben',

@@ -20,7 +20,7 @@ $languageStrings = array(
 
 	'Email' => 'Primäre Email',
 	'GL Account' => 'Sachkonto',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Lieferant hinzufügen',
 	'LBL_RECORDS_LIST' => 'Lieferanten Liste',
 	'LBL_VENDOR_INFORMATION' => 'Lieferanten Details',
 	'Phone' => 'Primäre Telefonnummer',

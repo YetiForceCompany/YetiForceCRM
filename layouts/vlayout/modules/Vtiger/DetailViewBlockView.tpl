@@ -102,6 +102,14 @@
                                 <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
                              {else}
                                  <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
+                                 
+                                {if $FIELD_MODEL->get('name') eq 'date_start' && $MODULE eq 'Calendar'}
+                                    <input type="hidden" class="fieldname" value='time_start' data-prev-value='' />
+                             {/if}
+                                
+                                {if $FIELD_MODEL->get('name') eq 'due_date' && $MODULE eq 'Calendar'}
+                                    <input type="hidden" class="fieldname" value='time_end' data-prev-value='' />
+                                {/if}
                              {/if}
 						 </span>
 					 {/if}
