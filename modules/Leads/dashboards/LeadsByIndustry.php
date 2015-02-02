@@ -1,12 +1,13 @@
 <?php
-/*+***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * Contributor(s): YetiForce.com
+ ************************************************************************************/
 
 class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
     
@@ -57,7 +58,9 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 
 		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
+		$accessibleGroups = $currentUser->getAccessibleUsersForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
+		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 
 		$content = $request->get('content');
 		if(!empty($content)) {
