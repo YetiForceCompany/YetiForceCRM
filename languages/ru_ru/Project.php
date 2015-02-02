@@ -50,7 +50,6 @@ $languageStrings = array(
 	'Total time [Project]' => 'Всего времени [Проекты]',
 	'Total time [Sum]' => 'Всего времени [Суммарно]',
 	'Total time [Tickets]' => 'Всего времени [Заявки]',
-	'administrative' => 'Административное',
 	'archived' => 'В архиве',
 	'completed' => 'Завершен',
 	'delivered' => 'Внедрен',
@@ -61,8 +60,10 @@ $languageStrings = array(
 	'low' => 'Низкий',
 	'normal' => 'Нормальный',
 	'on hold' => 'В ожидании',
-	'operative' => 'Оперативное',
-	'other' => 'Другое',
 	'prospecting' => 'Обсуждение',    
 	'waiting for feedback' => 'Ожидание отзывов',
+	//PickList
+	'PLL_INTERNAL' => 'Административное',
+	'PLL_EXTERNAL' => 'Оперативное',
+	'PLL_COMMON' => 'Другое',
 );
