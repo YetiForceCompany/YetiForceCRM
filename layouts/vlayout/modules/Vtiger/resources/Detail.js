@@ -259,11 +259,16 @@ jQuery.Class("Vtiger_Detail_Js",{
 			'dataType': 'html',
 			'data' : urlParams
 		};
-		contentContainer.progressIndicator({});
+		
+		if('showRelatedProductsServices' !== app.getUrlVar('mode')){
+		    contentContainer.progressIndicator({});
+		}
+		
 		AppConnector.request(params).then(
 			function(data){
-				contentContainer.progressIndicator({'mode': 'hide'});
-				contentContainer.html(data);
+		    if('showRelatedProductsServices' !== app.getUrlVar('mode')){
+			contentContainer.progressIndicator({'mode': 'hide'});
+		    }				contentContainer.html(data);
 				app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 				contentContainer.trigger(thisInstance.widgetPostLoad,{'widgetName' : relatedModuleName})
                 aDeferred.resolve(params);
