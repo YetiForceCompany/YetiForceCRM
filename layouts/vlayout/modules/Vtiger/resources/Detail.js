@@ -226,6 +226,14 @@ jQuery.Class("Vtiger_Detail_Js",{
 		'Contacts' : 'contact_id',
 		'Leads' : 'parent_id',
 		'Potentials' : 'potential',
+		'HelpDesk' : 'parent_id',
+		'Campaigns' : 'parent_id',
+		'Projects' : 'parent_id',
+		'ServiceContracts' : 'parent_id',
+		'Invoice' : 'parent_id',
+		'PurchaseOrder' : 'parent_id',
+		'SalesOrder' : 'parent_id',
+		'Quotes' : 'parent_id',
 	},
 
 	//constructor
@@ -1103,12 +1111,10 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			var customParams = {};
-			if(module == ''){
-				var relField = 'contact_id';
-			}else{
-				var relField = 'parent_id';
+			if(module != '' && typeof thisInstance.referenceFieldNames[module] != 'undefined'){
+				var relField = thisInstance.referenceFieldNames[module];
+				customParams[relField] = recordId;
 			}
-			customParams[relField] = recordId;
 
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function(data){
