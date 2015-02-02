@@ -19,9 +19,12 @@
 		<div class="span{$SPANSIZE}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)}</strong></div>
 		{/foreach}
 	</div>
-
-	{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($USER)}
-
+	
+	{if $USER eq false}
+		{assign var="MINILIST_WIDGET_RECORDS" value=array()}
+	{else}
+		{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($USER)}
+	{/if}
 	{foreach item=RECORD from=$MINILIST_WIDGET_RECORDS}
 	<div class="row-fluid" style="padding:5px">
 		{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}

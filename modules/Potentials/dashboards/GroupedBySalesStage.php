@@ -54,9 +54,14 @@ class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
 		$moduleName = $request->getModule();
 
 		$linkId = $request->get('linkid');
-		$owner = $request->get('owner');
 		$dates = $request->get('expectedclosedate');
 
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+		else
+			$owner = $request->get('owner');
+		
 		//Date conversion from user to database format
 		if(!empty($dates)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($dates['start']);
@@ -64,13 +69,13 @@ class Potentials_GroupedBySalesStage_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getPotentialsCountBySalesStage($owner, $dates);
+		$data = ($owner === false)?array():$moduleModel->getPotentialsCountBySalesStage($owner, $dates);
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
             $data[$i][] = $listViewUrl.$this->getSearchParams($data[$i][0],$owner,$dates);
         }
         
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

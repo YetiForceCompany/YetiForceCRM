@@ -29,7 +29,12 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$owner = $request->get('owner');
+		
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+		else
+			$owner = $request->get('owner');
 		if($owner == 'all')
 			$owner = '';
 		
@@ -42,14 +47,11 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getLeadsByIndustry($owner,$dates);
+		$data = ($owner === false)?array():$moduleModel->getLeadsByIndustry($owner,$dates);
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
             $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][1],$owner,$dates);
         }
-
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-
 		//Include special script and css needed for this widget
 
 		$viewer->assign('WIDGET', $widget);
@@ -58,7 +60,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 
 		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
-		$accessibleGroups = $currentUser->getAccessibleUsersForModule('Leads');
+		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 

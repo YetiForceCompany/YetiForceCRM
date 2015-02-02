@@ -10,6 +10,17 @@
  
 jQuery.Class('Settings_WidgetsManagement_Js', {
 }, {
+	
+	widgetWithFilterUsers : [],
+	
+	setWidgetWithFilterUsers : function(){
+		var thisInstance = this;
+		var element = jQuery('[name="filter_users"]').val();
+		if(element)
+			thisInstance.widgetWithFilterUsers = JSON.parse(element);
+		else
+			thisInstance.widgetWithFilterUsers = [];
+	},
 	/**
 	* Function to create the array of block roles list
 	*/
@@ -55,7 +66,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var block = form.find('[name="authorized"]');
 				
 				params.onValidationComplete = function(form, valid){
-
 					if(valid) {
 						if(block.val()){
 						paramsForm = form.serializeFormData();
@@ -164,17 +174,32 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var blockId = continer.data('block-id');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
 			var allFieldsInBlock = thisInstance.getAllFieldsInBlock(continer);
-			addFieldContainer.find('select.widgets option').each(function(){
+			var selectWidgets = addFieldContainer.find('select.widgets');
+			selectWidgets.find('option').each(function(){
 				if(jQuery.inArray(jQuery(this).val(),allFieldsInBlock) != -1){
 					jQuery(this).remove();
 				}
 			});
+			if(jQuery.inArray(selectWidgets.find(':first-child').data('name'),thisInstance.widgetWithFilterUsers) != -1){
+				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled');
+			}
+			
 			addFieldContainer.removeClass('hide');
 			
 			var callBackFunction = function(data) {
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
-
+				var elementsToFilter = data.find('.widgetFilter');
+				data.find('select.widgets').on('change', function(){
+					if(jQuery.inArray(jQuery(this).find(':selected').data('name'),thisInstance.widgetWithFilterUsers) != -1){
+						elementsToFilter.removeClass('hide').find('select').select2('destroy').removeAttr('disabled');
+						app.showSelect2ElementView(elementsToFilter.find('select'));
+					}else{
+						elementsToFilter.addClass('hide').find('select').select2('destroy').attr('disabled', 'disabled');
+						app.showSelect2ElementView(elementsToFilter.find('select'));
+					}
+				});
+				
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
 				var widgets = form.find('[name="widgets"]');
@@ -196,6 +221,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							paramsForm['width'] = form.find('[name="width"]').val();
 							if(form.find('[name="isdefault"]').prop("checked"))
 								paramsForm['isdefault'] = 1;
+							if(paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined'){
+								var result = app.vtranslate('JS_FIELD_EMPTY');
+								form.find('select[name="owners_all"]').prev('div').validationEngine('showPrompt', result, 'error','bottomLeft',true);
+								saveButton.removeAttr('disabled');
+								e.preventDefault();
+								return false;
+							}
 							thisInstance.save(paramsForm, 'save').then(
 								function(data) {
 									var result = data['result'];
@@ -253,6 +285,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		fieldContainer.find('.fieldLabel').html(result['label']);
 		if(!result['status'])
 			fieldContainer.find('input[name="limit"]').closest('div').remove();
+		if(typeof result['default_owner'] != 'undefined')
+			fieldContainer.find('.widgetFilterAll').removeClass('hide');
 		
 		var block = relatedBlock.find('.blockFieldsList');
 		var sortable1 = block.find('ul[name=sortable1]');
@@ -289,6 +323,22 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			form.find('select[name="height"]').find('option').removeAttr('selected');
 			form.find('select[name="height"]').find('option[value="'+result['height']+'"]').attr('selected','selected');
 		}
+		if(result['default_owner']) {
+			form.find('select[name="default_owner"]').find('option').removeAttr('selected');
+			form.find('select[name="default_owner"]').find('option[value="'+result['default_owner']+'"]').attr('selected','selected');
+		}
+		if(result['owners_all']) {
+			form.find('select[name="owners_all"]').find('option').removeAttr('selected');
+			var selectedvalue = result['owners_all'];
+			if(typeof (selectedvalue) != 'string'){
+				for (var i = 0; i < selectedvalue.length; i++) {
+					var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
+					form.find('select[name="owners_all"]').find('option[value="'+encodedSelectedValue+'"]').attr('selected','selected');
+				}
+			} else {
+				form.find('select[name="owners_all"]').find('option[value="'+selectedvalue+'"]').attr('selected','selected');
+			}
+		}
 	},
 	
 	registerEditFieldDetailsClick : function() {
@@ -314,14 +364,30 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var id = form.find('.saveFieldDetails').data('field-id');
 					paramsForm['action'] = 'saveDetails';
 					paramsForm['id'] = id;
-					
+					if(paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined'){
+						var params = {};
+							params['type'] = 'error';
+							params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE')+': '+app.vtranslate('JS_FIELD_EMPTY');
+							Settings_Vtiger_Index_Js.showMessage(params);
+						e.preventDefault();
+						return false;
+					}
 					thisInstance.save(paramsForm, 'save');
 					thisInstance.registerSaveFieldDetailsEvent(form);
 				}
 				return false;
 			}
 			dropDownMenu.find('form').validationEngine(params);
-
+			
+			//handled registration of chosen for select element
+			var selectElements = basicDropDown.find('select[name="owners_all"]');
+			if(selectElements.length > 0) {
+				users = dropDownMenu.find('select[name="owners_all"]');
+				users.addClass('chzn-select');
+				app.changeSelectElementView(users);
+			}
+			
+			
 			thisInstance.avoidDropDownClick(dropDownContainer);
 
 			dropDownMenu.on('change', ':checkbox', function(e) {
@@ -379,9 +445,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var dropDownMenu = form.closest('.dropdown-menu');
 		app.destroyChosenElement(form);
 		form.find('select').each(function(){
-			var value = jQuery(this).val();
+			var selectedvalue = jQuery(this).val();
 			jQuery(this).find('option').removeAttr('selected');
-			jQuery(this).find('[value="'+value+'"]').attr('selected','selected');
+			if(typeof(jQuery(this).attr('multiple')) == 'undefined'){
+				var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
+				jQuery(this).find('[value="'+encodedSelectedValue+'"]').attr('selected','selected');
+			} else {
+				for (var i = 0; i < selectedvalue.length; i++) {
+					var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
+					jQuery(this).find('[value="'+encodedSelectedValue+'"]').attr('selected','selected');
+				}
+			}
 		});
 		var basicContents = form.closest('.editFieldsWidget').find('.basicFieldOperations');
 			basicContents.html(form);
@@ -555,6 +629,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['isdefault'] = 0;
 			paramsForm['height'] = 3;
 			paramsForm['width'] = 4;
+			paramsForm['owners_all'] = ["mine","all","users","groups"];
+			paramsForm['default_owner'] = 'mine';
 
 			thisInstance.save(paramsForm, 'save').then(
 				function(data) {
@@ -749,6 +825,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		thisInstance.registerDeleteCustomFieldEvent();
 		thisInstance.registerDeleteCustomBlockEvent();
 		thisInstance.registerModulesChangeEvent();
+		thisInstance.setWidgetWithFilterUsers();
 	}
 
 });
