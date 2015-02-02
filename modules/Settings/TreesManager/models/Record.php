@@ -128,7 +128,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$params = array($templateId);
 		$result = $adb->pquery($sql, $params);
 		for($i = 0; $i < $adb->num_rows($result); $i++){
-			$row = $adb->query_result_rowdata($result, $i);
+			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
 			$depth = (int)$row['depth']; 
 			$data[$row['tree']] = array( 'data' => $row['name'], 'attr' =>  array('id' => $treeID ) );
