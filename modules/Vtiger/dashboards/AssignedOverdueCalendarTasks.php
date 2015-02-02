@@ -21,13 +21,16 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$linkId = $request->get('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+		else
+			$owner = $request->get('owner');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int)$widget->get('limit'));
 
-		$user = $request->get('owner');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$calendarActivities = $moduleModel->getCalendarActivities('assigned_over', $pagingModel, $user);			
+		$calendarActivities = ($owner === false)?array():$moduleModel->getCalendarActivities('assigned_over', $pagingModel, $owner);			
 		
 
 		$viewer->assign('WIDGET', $widget);

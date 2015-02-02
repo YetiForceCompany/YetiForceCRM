@@ -110,7 +110,18 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View 
 			
 			foreach($fieldNames as $fieldName){
 				if($fieldName == 'field_value_mapping' || $fieldName == 'content') {
-					$taskObject->$fieldName = $request->getRaw($fieldName);
+					$values = Zend_Json::decode($request->getRaw($fieldName));
+					
+					if ($values) {
+						foreach ($values as $index => $value){
+							$values[$index]['value'] = htmlspecialchars($value['value']);
+						}
+						
+						$taskObject->$fieldName = Zend_Json::encode($values);
+					} else {
+						$taskObject->$fieldName = $request->getRaw($fieldName);
+					}
+					
 				} else {
 					$taskObject->$fieldName = $request->get($fieldName);
 				}

@@ -19,6 +19,69 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithLimit() method ...");
 		return $widgetWithLimit;
 	}
+	public function getDefaultUserId($widgetModel, $module = false){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$user = '';
+		
+		if($module){
+			$accessibleUsers = $currentUser->getAccessibleUsersForModule($module);
+			$accessibleGroups = $currentUser->getAccessibleGroupForModule($module);
+		}else {
+			$accessibleUsers = $currentUser->getAccessibleUsers();
+			$accessibleGroups = $currentUser->getAccessibleGroups();
+		}
+		$owners = Zend_Json::decode(html_entity_decode($widgetModel->get('owners')));
+		$defaultSelected = $owners['default'];
+		
+		if(!is_array($owners['available']))
+			$owners['available'] = array($owners['available']);
+		
+		if($defaultSelected == 'mine' && in_array($defaultSelected, $owners['available']))
+			$user =  $currentUser->getId();
+		elseif($defaultSelected == 'all' && in_array($defaultSelected, $owners['available']))
+			$user = $defaultSelected;
+		elseif(in_array('users', $owners['available'])){
+			if(key($accessibleUsers) == $currentUser->getId())
+				next($accessibleUsers);
+			$user = key($accessibleUsers);
+		}
+		elseif(in_array('groups', $owners['available'])){
+			$user = key($accessibleGroups);
+		}
+		if(empty($user))
+			$user = false;
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
+		return $user;
+	}
+	public function getFilterSelect(){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
+		
+		$filterSelect = array('LBL_MINE'=>'mine','LBL_ALL'=>'all','LBL_USERS'=>'users','LBL_GROUPS'=>'groups');
+		
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...");
+		return $filterSelect;
+	}
+	public function getFilterSelectDefault(){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
+		
+		$filterSelectDefault = array('LBL_MINE'=>'mine','LBL_ALL'=>'all');
+		
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
+		return $filterSelectDefault;
+	}
+	public function getWidgetsWithFilterUsers(){
+		global $log;
+		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
+		
+		$widgetsWithFilterUsers = array('Leads by Status Converted','Graf','Tickets by Status','Leads by Industry','Leads by Source','Leads by Status','Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos');
+		
+		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
+		return $widgetsWithFilterUsers;
+	}
 	public function getSize(){
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
@@ -47,7 +110,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$sql = 'SELECT * FROM vtiger_links WHERE linktype = ?';
 		$params = array('DASHBOARDWIDGET');
 		
-
 		$result = $db->pquery($sql, $params);
 
 		$widgets = array();
@@ -82,31 +144,28 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::saveDetails(".$data.", ".$moduleName.") method ...");
 		$adb = PearDatabase::getInstance();
 		$tabId = getTabid($moduleName);
-		try{
-			$query='SELECT * FROM `vtiger_module_dashboard` WHERE `id` = ? LIMIT 1; ';
-			$params = array($data['id']);
-
-			$result = $adb->pquery($query, $params);
-		} catch (Exception $e) {
-			return array('success'=>false,'message'=>$e->getMessage());
-		}
-		if( $adb->num_rows( $result ) > 0){
+		$query='SELECT * FROM `vtiger_module_dashboard` WHERE `id` = ? LIMIT 1; ';
+		$params = array($data['id']);
+		$result = $adb->pquery($query, $params);
+		if($adb->num_rows( $result ) > 0){
 			try{
 				if($data['isdefault'])
 					$active = 1;
 				$size = Zend_Json::encode(array('width'=>$data['width'], 'height'=>$data['height']));
-				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ? WHERE `id` = ? ;';
-				$params = array($data['isdefault'], $size, $data['limit'], $data['id']);
+				$owners = Zend_Json::encode(array('default'=>$data['default_owner'], 'available'=>$data['owners_all']));
+				$query = 'UPDATE `vtiger_module_dashboard` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ? WHERE `id` = ? ;';
+				$params = array($data['isdefault'], $size, $data['limit'], $owners, $data['id']);
 				$adb->pquery($query, $params);
 				
-				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ? ';
-				$params = array($data['isdefault'], $size, $data['limit']);
+				$query = 'UPDATE `vtiger_module_dashboard_widgets` SET `isdefault` = ?, `size` = ?, `limit` = ?, `owners` = ? ';
+				$params = array($data['isdefault'], $size, $data['limit'], $owners);
 				if($active){
 					$query .= ', `active` = ? ';
 					$params[] = $active;
 				}
 				$query .= ' WHERE `templateid` = ? ;';
 				$params[] = $data['id'];
+				
 				$adb->pquery($query, $params);
 				
 			} catch (Exception $e) {
@@ -142,16 +201,15 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		
 		if($status && !$data['limit'])
 			$data['limit'] = 10;
-		$query='INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `isdefault`) VALUES(?,?,?,?,?,?,?,?);';
+		$query='INSERT INTO vtiger_module_dashboard(`linkid`, `blockid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`,`isdefault`) VALUES(?,?,?,?,?,?,?,?,?);';
 		if($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
 		$size = Zend_Json::encode(array('width'=>$data['width'], 'height'=>$data['height']));
-		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $data['isdefault']);
+		$owners = Zend_Json::encode(array('default'=>$data['default_owner'], 'available'=>$data['owners_all']));
+		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault']);
 		$adb->pquery($query,$params,true);
 		$widgetId = $adb->getLastInsertID(); 
-		
-		
-		
+
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
 		return array('success'=>true, 'id'=>$widgetId, 'status'=>$status);
 	}
@@ -243,6 +301,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				  mdw.size,
 				  mdw.limit,
 				  mdw.isdefault,
+				  mdw.owners,
 				  `vtiger_links`.*,
 				  `mdb`.`authorized`
 				FROM

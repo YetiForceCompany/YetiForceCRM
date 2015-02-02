@@ -26,11 +26,16 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
+		
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		$owner = $request->get('owner');
+		
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+		else
+			$owner = $request->get('owner');
 		if($owner == 'all')
 			$owner = '';
 		
@@ -41,13 +46,13 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 		}
 		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getLeadsBySource($owner,$dates);
+		$data = ($owner === false)?array():$moduleModel->getLeadsBySource($owner,$dates);
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
             $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][1],$owner,$dates);
         }
 
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		
 
 		//Include special script and css needed for this widget
 
@@ -57,7 +62,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 
 		$accessibleUsers = $currentUser->getAccessibleUsersForModule('Leads');
-		$accessibleGroups = $currentUser->getAccessibleUsersForModule('Leads');
+		$accessibleGroups = $currentUser->getAccessibleGroupForModule('Leads');
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$content = $request->get('content');

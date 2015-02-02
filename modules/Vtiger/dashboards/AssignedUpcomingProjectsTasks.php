@@ -21,14 +21,17 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$linkId = $request->get('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
+		else
+			$owner = $request->get('owner');
 		
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int)$widget->get('limit'));
 
-		$user = $request->get('owner');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$projectsTasks = $moduleModel->getAssignedProjectsTasks('overdue', $pagingModel, $user);			
+		$projectsTasks = ($owner === false)?array():$moduleModel->getAssignedProjectsTasks('overdue', $pagingModel, $owner);			
 		
 
 		$viewer->assign('WIDGET', $widget);

@@ -30,7 +30,11 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
 		$createdTime = $request->get('createdtime');
-		$owner = $request->get('owner');
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
+		else
+			$owner = $request->get('owner');
 		if($owner == 'all')
 			$owner = '';
 		
@@ -41,13 +45,12 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = $moduleModel->getTicketsByStatus($owner, $dates);
+		$data = ($owner === false)?array():$moduleModel->getTicketsByStatus($owner, $dates);
 
         $listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
             $data[$i]["links"] = $listViewUrl.$this->getSearchParams($data[$i][2],$owner,$dates);
         }
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 
 		//Include special script and css needed for this widget
 
@@ -57,7 +60,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('CURRENTUSER', $currentUser);
 
 		$accessibleUsers = $currentUser->getAccessibleUsersForModule($moduleName);
-		$accessibleGroups = $currentUser->getAccessibleUsersForModule($moduleName);
+		$accessibleGroups = $currentUser->getAccessibleGroupForModule($moduleName);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 

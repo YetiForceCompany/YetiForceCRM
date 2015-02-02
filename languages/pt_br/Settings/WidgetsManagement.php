@@ -28,6 +28,9 @@ $languageStrings = array(
 	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
 	'LBL_WIDGET' => 'Widgets',
 	'LBL_NUMBER_OF_RECORDS_DISPLAYED' => 'Displayed records number',
+	'LBL_DEFAULT_FILTER' => 'Default filter',
+	'LBL_FILTERS_AVAILABLE' => 'Filters available',
+	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select atleast one option',
 );
 $jsLanguageStrings = array(
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',
@@ -35,4 +38,5 @@ $jsLanguageStrings = array(
 	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Block has been deleted successfully',
 	'JS_FIELD_EMPTY' => 'The field can not be empty',
+	'JS_FILTERS_AVAILABLE' => 'Filters available',
 );

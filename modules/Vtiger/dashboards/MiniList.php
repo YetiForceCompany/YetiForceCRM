@@ -21,16 +21,19 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View {
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-		$user = $request->get('owner');
 		
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
+		if (!$request->has('owner')) 
+			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
+		else
+			$owner = $request->get('owner');
 
 		$minilistWidgetModel = new Vtiger_MiniList_Model();
 		$minilistWidgetModel->setWidgetModel($widget);
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER', $user);
+		$viewer->assign('USER', $owner);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('MINILIST_WIDGET_MODEL', $minilistWidgetModel);
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
