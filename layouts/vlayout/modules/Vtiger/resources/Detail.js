@@ -913,8 +913,10 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var detailViewValue = jQuery('.value',currentTdElement);
 			var editElement = jQuery('.edit',currentTdElement);
 			var actionElement = jQuery('.summaryViewEdit', currentTdElement);
-			var fieldnameElement = jQuery('.fieldname', editElement);
-			var fieldName = fieldnameElement.val();
+			var fieldElement = jQuery('.fieldname', editElement);
+                        
+       jQuery(fieldElement).each(function(index, element){
+            var fieldName = jQuery(element).val();
 			var fieldElement = jQuery('[name="'+ fieldName +'"]', editElement);
 
 			if(fieldElement.attr('disabled') == 'disabled'){
@@ -943,7 +945,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 				currentTdElement.removeAttr('tabindex');
 
-				var previousValue = fieldnameElement.data('prevValue');
+                var previousValue = element.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
 				var ajaxEditNewValue = formData[fieldName];
@@ -1022,7 +1024,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 						actionElement.show();
                         detailViewValue.html(postSaveRecordDetails[fieldName].display_value);
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent,{'old':previousValue,'new':fieldValue});
-                        fieldnameElement.data('prevValue', ajaxEditNewValue);
+                        element.data('prevValue', ajaxEditNewValue);
                         fieldElement.data('selectedValue', ajaxEditNewValue); 
                         //After saving source field value, If Target field value need to change by user, show the edit view of target field. 
                         if(thisInstance.targetPicklistChange) { 
@@ -1053,6 +1055,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			jQuery(document).on('click','*', saveHandler);
+        })
 	},
 
 

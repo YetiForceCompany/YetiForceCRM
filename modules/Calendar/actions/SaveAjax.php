@@ -32,6 +32,19 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
                 //Conveting the date format in to Y-m-d . since full calendar expects in the same format
                 $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
                 $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+            } else if ('time_start' == $fieldName) {
+            	$dateStart = $recordModel->get('date_start');
+          	    $dateTimeFieldInstance = new DateTimeField($dateStart . ' ' . $fieldValue);
+
+				$fieldValue = $dateStart . ' ' . $fieldValue;
+
+                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+                $dateTimeComponents = explode(' ',$userDateTimeString);
+                $dateComponent = $dateTimeComponents[0];
+                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
+                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+                $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+
 			} else if($fieldName == 'due_date') {
 				$timeEnd = $recordModel->get('time_end');
                 $dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
@@ -44,6 +57,19 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
                 //Conveting the date format in to Y-m-d . since full calendar expects in the same format
                 $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
                 $result[$fieldName]['calendar_display_value']   =  $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			} else if ('time_end' == $fieldName) {
+            	$dateDue = $recordModel->get('due_date');
+          	    $dateTimeFieldInstance = new DateTimeField($dateDue . ' ' . $fieldValue);
+
+				$fieldValue = $dateDue . ' ' . $fieldValue;
+
+                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+                $dateTimeComponents = explode(' ',$userDateTimeString);
+                $dateComponent = $dateTimeComponents[0];
+                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
+                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+                $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+
 			}
 			$result[$fieldName]['value'] = $fieldValue;
             $result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue));
