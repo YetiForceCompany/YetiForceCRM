@@ -70,7 +70,7 @@
 	</div>
 	<br>
 	<div class="pull-right">
-		<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+		<a class="btn btn-success saveTree"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></a>
 		<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 	</div>
 	<div class="clearfix"></div>

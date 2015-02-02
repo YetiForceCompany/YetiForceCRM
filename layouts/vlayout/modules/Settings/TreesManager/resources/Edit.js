@@ -32,10 +32,17 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			},false,true);
 			$('input.addNewElement').val('');
 		});
-		editContainer.submit(function( event ) {
-			var data = [];
+		$('.saveTree').click(function(e) {
 			var json = jstreeInstance.jstree("get_json");
-			$('#treeValues').val( JSON.stringify(json) ) 
+			$('#treeValues').val( JSON.stringify(json) );
+			editContainer.submit();
+		});
+		$('.addNewElement').keydown(function(event){
+			if(event.keyCode == 13) {
+				$('.addNewElementBtn').trigger( "click" );
+				event.preventDefault();
+				return false;
+			}
 		});
 	},
 	createTree : function() {
