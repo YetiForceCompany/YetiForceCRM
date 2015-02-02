@@ -913,6 +913,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		
 		if($result){
 			$this->deleteDirFile($dirName.'/files');
+			$this->deleteDirFile($dirName.'/init.php');
 		}
 	}
 	
@@ -925,7 +926,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			while(false !== ( $file = readdir($dir)) ) { 
 				if (( $file != '.' ) && ( $file != '..' )) { 
 					if ( is_dir($src . '/' . $file) ) { 
-						$this->cleanUpdate($src . '/' . $file); 
+						$this->deleteDirFile($src . '/' . $file); 
 						rmdir($root_directory.$src . '/' . $file);
 					} else {
 						unlink($root_directory.$src . '/' . $file);

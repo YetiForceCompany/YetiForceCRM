@@ -9,12 +9,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'ModTracker' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
+	'ModTracker' => 'Änderungshistorie',
+	'LBL_MODTRACKER_SETTINGS' => 'Änderungshistorie',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalten der Änderungshistorie in den Modulen',
 	'LBL_MODULE' => 'Module',
-	'LBL_ACTIVE' => 'Track changes',
+	'LBL_ACTIVE' => 'Änderungen verfolgen',
 	'LBL_TOOLS' => 'Tools',
-	'LBL_TRACK_CHANGES_ENABLED' => 'Track changes enabled',
-	'LBL_TRACK_CHANGES_DISABLE' => 'Track changes disabled',
+	'LBL_TRACK_CHANGES_ENABLED' => 'Änderungen verfolgen aktiviert',
+	'LBL_TRACK_CHANGES_DISABLE' => 'Änderungen verfolgen deaktiviert',
 );

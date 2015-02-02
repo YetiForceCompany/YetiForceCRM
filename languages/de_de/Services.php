@@ -8,6 +8,14 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'CRM Applications' => 'CRM Anwendungen',
+	'Software' => 'Software',
+	'Hardware' => 'Hardware',
+	'Total time [Tickets]' => 'Gesamt Zeit [Tickets]',
+	'Total time [Sum]' => 'Gesamtzeit [Summe]',
+	'Total time [Project Task]' => 'Gesamtzeit [Projekt Aufgabe]',
+	'Total time [Project]' => 'Gesamtzeit [Projekt]',
+	'LBL_SUMMARY' => ' Zusammenfassung der Arbeitszeit',
 	'Training'	=>	'Training',
 	'Customization'	=>	'Anpassung',
 	'Migration'	=>	'Migration',

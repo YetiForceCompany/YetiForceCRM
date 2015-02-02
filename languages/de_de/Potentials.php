@@ -8,6 +8,10 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Potential Name' => 'Name',
+	'LBL_GENERATING_COMMENT' => 'Chance aus der folgenden generiert:',
+	'LBL_GENERATED_OPPORTUNITIES_INFO' => '%s Verkaufschancen generiert ',
+	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Generieren von Verkaufschancen ist abgeschlossen.',
 	'Amount' => 'Höhe',
 	'Campaign Source' => 'Kampagnen Quelle',
 	'Existing Business'=>'Bestehendes Geschäft',
@@ -49,9 +53,9 @@ $languageStrings = array(
 	'Order and contract'=>'Auftrag und Vertrag',
 	'Documentation verification'=>'Unterlagen Prüfung',
 	'Closed Lost'=>'Verkauf verloren',
-	'Closed Waiting for processing'=>'Verkauf abgeschlossen â Warte auf Bearbeitung',
-	'Closed Order/contract processing'=>'Verkauf abgeschlossen â Auftrag/Vertrag in Bearbeitung',
-	'Closed Presale activities'=>'Verkauf abgeschlossen â Vorverkaufsaktivitäten',
+	'Closed Waiting for processing' => 'Verkauf abgeschlossen - Warte auf Bearbeitung',
+	'Closed Order/contract processing' => 'Verkauf abgeschlossen - Auftrag/Vertrag in Bearbeitung',
+	'Closed Presale activities' => 'Verkauf abgeschlossen - Vorverkaufsaktivitäten',
 	'Closed Won'=>'Verkauf abgeschlossen',
 
 	//
@@ -65,11 +69,11 @@ $languageStrings = array(
 	'Orders accepted'=>'Angenomene Aufträge',
 	
     //YetiForce
-	'Total time [Calculation]'=>'Gesamtzeit<br />[Calculation]',
-	'Total time [Potential]' => 'Gesamtzeit<br/>[Potential]',
-	'Total time [Sales Order]' => '  Gesamtzeit<br />[Orders]',
-	'Total time [Quotes]' => ' Gesamtzeit<br />[Quotes]',
-	'Total time [Sum]' => 'Gesamt <br />[Grand total]',
+	'Total time [Calculation]' => 'Gesamtzeit<br />[Kalkulation]',
+	'Total time [Potential]' => 'Gesamtzeit<br />[Chance]',
+	'Total time [Sales Order]' => '  Gesamtzeit<br />[Aufträge]',
+	'Total time [Quotes]' => ' Gesamtzeit<br />[Angebote]',
+	'Total time [Sum]' => 'Gesamt <br />[Gesamtsumme]',
 	'Total time [h]'=>'Gesamtzeit [h]',
 	'LBL_FINANSIAL_SUMMARY' => 'Finanzübersicht',
    'Perception Analysis' => 'Erkenntnis Auswertung',

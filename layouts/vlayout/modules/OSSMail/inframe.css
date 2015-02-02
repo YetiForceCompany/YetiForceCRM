@@ -55,6 +55,10 @@ color: #ecf6ff;cursor: pointer;font-weight: 800;
 width: 20px;
 height: 20px;
 }
+.oss-header  #moreheaderstoggle  a.small-icon.oss-close-bar img{
+width: 11px;
+height: 11px;
+}
 #message-oss-header  table a.small-icon{
 	color: #000;
 	margin: 0 2px;
@@ -79,6 +83,7 @@ height: 20px;
 	background-repeat: no-repeat;*/
 	border-right: 0px;
 	background: #70a8cb;
+	z-index: 9;
 }
 #message-oss-header .pull-right{
 	float: right;

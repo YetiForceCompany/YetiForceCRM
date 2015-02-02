@@ -21,7 +21,7 @@ $languageStrings = array(
 	'Integrator'=>'Integrierer',
 	'Investor'=>'Investor',
 	'LBL_ACCOUNT_INFORMATION' => 'Organisation',
-	'LBL_ADD_RECORD' => 'Organisation anlegen',
+	'LBL_ADD_RECORD' => 'Organisation hinzufügen',
 	'LBL_COPY_BILLING_ADDRESS' => 'Rechnungsadresse übernehmen',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Lieferadresse übernehmen',
 	'LBL_DUPLICATES_EXIST' => 'Organisation besteht bereits',
@@ -42,7 +42,7 @@ $languageStrings = array(
 	'Ticker Symbol' => 'Börsensymbol',
 	'Website' => 'Webseite',
 	//OpenSaaS
-	'LBL_CREATING_NEW' => 'Neu',
+	'LBL_CREATING_NEW' => 'Erstelle neue',
 	'Fax' => 'Fax',
 
 	'Calculations all'=>'Alle Kalkulationen',

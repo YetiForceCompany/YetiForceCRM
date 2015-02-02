@@ -9,7 +9,7 @@ $languageStrings = array(
 	'Privileges'	=> 'Berechtigungen',
 	'Delete'	=> 'Löschen',
 	'Delete CustomView'	=> 'Benutzerdefinierte Ansicht wurde gelöscht',
-	'Saving CustomView'	=> 'View has been saved',
+	'Saving CustomView' => 'Benutzerdefinierte Ansicht wurde gespeichert',
 	'Actions'	=> 'Aktionen',
 	'Edit'	=> 'Bearbeiten',
 );

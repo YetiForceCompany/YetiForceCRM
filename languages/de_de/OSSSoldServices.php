@@ -9,6 +9,9 @@
  ************************************************************************************/
 
 $languageStrings = array(
+	'Services' => 'Service Name',
+	'Potential' => 'Quelle Verkaufschance',
+	'Invoice' => 'Rechnungsnummer',
 'OSSSoldServices' => 'Verkaufte Dienstleistungen',
 'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
 'LBL_INFORMATION' => 'Informationsblock',

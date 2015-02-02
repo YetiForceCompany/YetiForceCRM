@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST' => 'Liste der Datensätze',
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
 	// Basic Strings

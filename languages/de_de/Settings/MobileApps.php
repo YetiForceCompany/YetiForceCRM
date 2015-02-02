@@ -9,29 +9,29 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
- 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
- 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys.',
- 	'LBL_USERNAME' => 'User',
- 	'LBL_SERVICE' => 'Application',
+ 	'LBL_MOBILE_KEYS' => 'Mobile Applikation Keys',
+ 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Erzeugen und Verwalten von Mobile Applikation Keys.',
+ 	'LBL_USERNAME' => 'Benutzer',
+ 	'LBL_SERVICE' => 'Applikation',
  	'LBL_KEY' => 'Key',
-	'LBL_WHO_CAN_DIAL' => 'Who can dial a number',
+	'LBL_WHO_CAN_DIAL' => 'Wer kann eine Nummer anrufen',
  	'LBL_TOOLS' => 'Tools',
- 	'LBL_DELETE_KEY' => 'Delete key',
- 	'LBL_ADD_KEY' => 'Add key',
- 	'LBL_SELECT_USER' => 'Select user:',
- 	'LBL_SELECT_SERVICE' => 'Select application',
- 	'LBL_SUCCESS_SAVE_KEY' => 'New key saved',
- 	'LBL_ERROR_SAVE_KEY' => 'Error saving key',
- 	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
- 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
-	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved successfully',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Mobile application is not active',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile application has not been activated yet, please enable "mobile" in api/config.php file',
+ 	'LBL_DELETE_KEY' => 'Key löschen',
+ 	'LBL_ADD_KEY' => 'Key hinzufügen',
+ 	'LBL_SELECT_USER' => 'Wähle Benutzer:',
+ 	'LBL_SELECT_SERVICE' => 'Wähle Applikation',
+ 	'LBL_SUCCESS_SAVE_KEY' => 'Neuer Key gesichert',
+ 	'LBL_ERROR_SAVE_KEY' => 'Fehler beim speichern des Keys',
+ 	'LBL_DUPLICATE_USER_SERVICES' => 'Key für diese Applikation existiert bereits.',
+ 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key wurde gelöscht',
+	'LBL_SUCCESS_SAVE_CHANGES' => 'Änderungen wurden erfolgreich gesichert',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Mobile Applikation ist nicht Aktiv',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile Applikation wurde bisher nicht aktiviert, bitte aktivieren Sie "mobile" in api/config.php ',
 
  	// Mobile services
- 	'LBL_MOBILE_HISTORYCALL' => 'Mobile call history',
- 	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
+ 	'LBL_MOBILE_HISTORYCALL' => 'Mobile Anrufhistorie',
+ 	'LBL_MOBILE_PUSHCALL' => 'Automatische Rufnummerwahl',
 );
 $jsLanguageStrings = array(
-	'Adding a Key' => 'Add key',
+	'Adding a Key' => 'Key hinzufügen',
 );

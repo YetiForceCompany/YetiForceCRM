@@ -35,3 +35,4 @@ $languageStrings = array(
     'SINGLE_PBXManager' => 'Anruf Mitschneiden' ,
 
 );
+

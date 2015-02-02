@@ -15,7 +15,7 @@ $languageStrings = array(
 	'LANGNAME' => 'Deutsch',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Keine Verbindung zum Datenbankserver hergestellt',
 	'ERR_DB_NOT_FOUND' => 'Diese Datenbank wurde nicht gefunden. Ändern Sie die Datenbankeinstellungen',
-	'ERR_INVALID_MYSQL_PARAMETERS' => ' Ungültige MySQL Verbindungsparameter festgelegt',
+	'ERR_INVALID_MYSQL_PARAMETERS' => 'Ungültige MySQL Verbindungsparameter festgelegt',
 	'ERR_INVALID_MYSQL_VERSION' => 'MySQL-Version wird nicht unterstützt, bitte verbinden mit MySQL 5.1.x oder höher',
 	'ERR_UNABLE_CREATE_DATABASE' => 'Konnte keine Datenbank erstellen',
 	'LBL_ADMIN_INFORMATION'=>'Admin Benutzerinformation',
@@ -72,7 +72,7 @@ $languageStrings = array(
 	'LBL_LICENSE' => 'Lizenz',
 	'LBL_CURL'=>'cURL Support',
 	'LBL_INDUSTRY_OPTION' => 'Bitte wählen Sie eine entsprechende Branche.',
-	'LBL_ERROR_LOGIN'=>'Authorization error, the data entered is incorrect.',
+	'LBL_ERROR_LOGIN' => 'Berechtigungsfehler, Login Daten falsch',
 	
 	//Migration
 	'LBL_MIGRATION'=>'Migration',
@@ -91,11 +91,11 @@ $languageStrings = array(
 	'LBL_MIGRATION_SYSTEM'=>'Migration in Arbeit...',
 	'LBL_END_MIGRATION'=>'Ende',
 	'LBL_ACCEPT'=>'Ich akzeptiere die Änderungen',
-	'LBL_MIGRATION_ERROR'=>'Error occurred during your attempt to migrate',
-	'LBL_ERROR_NO_CONFIG'=>'Incorrect system local address',
-	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Incorrect login or password',
+	'LBL_MIGRATION_ERROR' => 'Während der Migration ist ein Fehler aufgetreten',
+	'LBL_ERROR_NO_CONFIG' => 'Ungültige lokale Systemadresse',
+	'LBL_WRONG_USERNAME_OR_PASSWORD' => 'Falscher Benutzername oder Passwort',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warnung!</strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:	MailManager, EmailTemplates, Workflows. <br> Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen',
-	'LBL_MIGRATION_IN_PROGRESS'=>'Migration in progress',
+	'LBL_MIGRATION_IN_PROGRESS' => 'Migration in Bearbeitung',
 );
 
 $jsLanguageStrings = array(

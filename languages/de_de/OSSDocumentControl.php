@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 $languageStrings = array(
 	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
@@ -56,7 +56,7 @@ $languageStrings = array(
     'LIST_DOCUMENTS' => 'Liste Dokumenten',
     'DOC_REQ' => 'Benötigtes Dokument',
     'FOLDER' => 'Verzeichnis',
-    'ADD_DOCUMENT' => 'Neues Dokument',
+	'ADD_DOCUMENT' => 'Dokument hinzufügen',
     'ATTACHED' => 'angehängt',
     
     'NOT_ALLOW_TO_SAVE' => 'Sie können den Datensatz nicht sichern, da die benötigten Dokumente nicht angehängt wurden',

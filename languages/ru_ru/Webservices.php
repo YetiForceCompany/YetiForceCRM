@@ -11,7 +11,7 @@
  ************************************************************************************/
 
 $languageStrings = array(
-	'Webservices'	=>	'Сервисы',
+	'Webservices'	=>	'Сервис',
 	'LBL_CHANGE_PASSWORD_FAILURE' => 'Не удалось изменить пароль',
 	'LBL_DATABASE_QUERY_ERROR' => 'Ошибка базы данных',
 	'LBL_INVALID_OLD_PASSWORD' => 'Неверно указан старый пароль.',

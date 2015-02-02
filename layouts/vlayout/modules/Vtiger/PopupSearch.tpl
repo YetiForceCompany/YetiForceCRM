@@ -21,12 +21,14 @@
     <input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
     <input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
     <input type="hidden" id="view" value="{$VIEW}"/>
-    <input type="hidden" id="popupType" value="1"/>
+    <input type="hidden" id="popupType" value="{$POPUPTYPE}"/>
     <div class="popupContainer row-fluid">
+	{if $POPUPTYPE == 1}
         <div class="logo span6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
         <div class="span6"><b>{vtranslate($MODULE_NAME, $MODULE_NAME)}</b></div>
     </div>
     <div class="row-fluid">
+	{/if}
 		<div class="span2">
 			{if $MULTI_SELECT}
 				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
@@ -35,7 +37,11 @@
 			{/if}
 		</div>
         <div class="span6">
+			{if $POPUPTYPE == 2}
+				<h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
+			{/if}
             <form class="form-horizontal popupSearchContainer" onsubmit="return false;" method="POST">
+			{if $POPUPTYPE == 1}
                 <div class="control-group margin0px">
                     <input class="span2" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" id="searchvalue"/>&nbsp;&nbsp;
                     <span><strong>{vtranslate('LBL_IN')}</strong></span>&nbsp;
@@ -55,6 +61,10 @@
                         <button class="btn"><i class="icon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></i></button>
                     </span>
                 </div>
+			{else if $POPUPTYPE == 2}
+				<input class="span2" type="hidden" id="searchfield"/>
+				<input class="span2" type="hidden" id="searchvalue"/>
+			{/if}
             </form>
         </div>
 		<div class="span4">

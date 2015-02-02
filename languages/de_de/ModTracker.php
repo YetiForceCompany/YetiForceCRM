@@ -11,4 +11,3 @@
 $languageStrings = array(
 	'SINGLE_ModTracker' => 'ModTracker Datensatz',
 );
-

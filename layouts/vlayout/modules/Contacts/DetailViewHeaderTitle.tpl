@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span class="span2 spanModuleIcon moduleIcon{$MODULE_NAME}">
+	<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
 		<span class="moduleIcon">
 	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}

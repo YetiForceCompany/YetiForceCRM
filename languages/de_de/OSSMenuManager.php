@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = array(
     'My Home Page' => 'Mein Schreibtisch',
-    'Analytics' => 'Analytik',
+	'Analytics' => 'Berichte',
     'Inventory' => 'Bestand',
     'Marketing' => 'Marketing',
     'Sales' => 'Vertrieb',
@@ -38,8 +38,8 @@ $languageStrings = array(
     'lbl_create' => 'Neues Kürzel hinzufügfen',
     'LBL_NORECORDS' => 'Lack shortcut',
     'delete' => 'Eintrag löschen',
-    'edit' => 'Edit the entry',
-    'ACCEPT' => 'Accept',
+	'edit' => 'Eintrag bearbeiten',
+	'ACCEPT' => 'Akzeptieren',
     'Cancel' => 'Abrechen',
     'lbl_edit' => 'Info bearbeiten',
     'LBL_UP' => 'Hoch',
