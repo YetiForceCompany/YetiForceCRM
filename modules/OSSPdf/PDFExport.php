@@ -103,15 +103,18 @@ function file_exist_fn($filename, $exist) {
 
 function find_report_tags(&$content, $offset, &$pdf, $module, $id) {
 
-    $start = (int) strpos($content, '#REP_NR#', $offset);
-    if ($start != 0) {
-        $koniec = (int) strpos($content, '#REP_NR_END#', $start);
-        $czy = (int) strpos($content, '#ONLY#', $koniec + 12);
+    $start = mb_strpos($content, '#REP_NR#', $offset);
+	
+	if (false !== $start) {
+		
+        $end = (int) mb_strpos($content, '#REP_NR_END#', $start);
+        $if = (int) mb_strpos($content, '#ONLY#', $end + 12);
 
-        $reportid = substr($content, $start + 8, $koniec - $start - 8);
-        $dl = (int) ($koniec - $start - 8);
-        if ($czy != 0) {
-            if (( $koniec + 12 ) == $czy) {
+        $reportid = mb_substr($content, $start + 8, $end - $start - 8);
+		
+		$dl = (int) ($end - $start - 8);
+        if ($if != 0) {
+            if (( $end + 12 ) == $if) {
                 $only = 1;
             } else {
                 $only = 0;
