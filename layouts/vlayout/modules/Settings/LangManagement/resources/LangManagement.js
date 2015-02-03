@@ -36,7 +36,6 @@ var Settings_Index_Js = {
 		if(document.showDiff == true){
 			url += '&sd=1';
 		}
-		//console.log(document.showDiff);
 		$.get("index.php?module=LangManagement&parent=Settings&view=Edit"+url, function (data) {
 			$('#edit_lang').html(data);
 			Settings_Index_Js.initEditLang();
@@ -129,11 +128,27 @@ var Settings_Index_Js = {
 			placement: 'left',
 			content: '<div class="popover_block"><button class="btn btn-danger deleteItem">'+app.vtranslate('Delete')+'</button>   <button class="btn btn-success pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
 		}
+		var makeSureOptions = {
+			title : app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
+			trigger : 'manual',
+			placement: 'left',
+			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">'+app.vtranslate('LBL_YES')+'</button>   <button class="btn btn-success pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
+		}
 		element.find('#deleteItemC').click(function(e) {
 			$(e.currentTarget).popover(options).popover('show');
 			$('.popover_block .deleteItem').click(function() {
 				Settings_Index_Js.DeleteLang(element,e);
 				$(e.currentTarget).popover('hide');
+			});
+			$('.popover_block .cancel').click(function() {
+				$(e.currentTarget).popover('hide');
+			});
+		});
+		element.find('#setAsDefault').click(function(e) {
+			$(e.currentTarget).popover(makeSureOptions).popover('show');
+			$('.popover_block .setDefaultItem').click(function() {
+				$(e.currentTarget).popover('hide');
+				Settings_Index_Js.setAsDefaultLang(element,e);
 			});
 			$('.popover_block .cancel').click(function() {
 				$(e.currentTarget).popover('hide');
@@ -195,7 +210,18 @@ var Settings_Index_Js = {
 		Settings_Index_Js.registerSaveEvent('delete',{'prefix':closestTrElement.data('prefix')});
 		closestTrElement.hide();
 	},
+	setAsDefaultLang: function(closestTrElement,e) {
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('setAsDefault',{'prefix':closestTrElement.data('prefix')});
+		$(e.currentTarget).closest('td').find('#deleteItemC').remove();
+		$(e.currentTarget).remove();
+		var prefix = SaveEvent.result['prefixOld'];
+		var tbodyElement = closestTrElement.closest('tbody');
+		OldTrDefaultLang = tbodyElement.find('tr[data-prefix="'+prefix+'"]')
+		OldTrDefaultLang.find('td:last').prepend('<button class="btn btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">'+app.vtranslate('Delete')+'</button> <button class="btn btn-primary marginLeftZero" data-toggle="confirmation" id="setAsDefault">'+app.vtranslate('JS_DEFAULT')+'</button>');
+		Settings_Index_Js.initEvant(OldTrDefaultLang);
+	},
 	registerSaveEvent: function(mode, data) {
+		var response = '';
 		var resp = '';
 		var params = {}
 		params.data = {
@@ -207,9 +233,10 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
+		
         AppConnector.request(params).then(
 			function(data) {
-				var response = data['result'];
+				response = data['result'];
 				var params = {
 					text: response['message'],
 					animation: 'show'
@@ -224,7 +251,7 @@ var Settings_Index_Js = {
 
 			}
         );
-		return {resp:resp,params:params.data.params};
+		return {resp:resp,params:params.data.params,result:response};
 	},
 
 	registerEvents : function() {

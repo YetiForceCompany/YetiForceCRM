@@ -284,4 +284,34 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 		} 
 		closedir($dir); 
 	} 
+	function setAsDefault($lang) { 
+		global $log;
+		$log->debug("Entering Settings_LangManagement_Module_Model::setAsDefault(".$lang.") method ...");
+		$db = PearDatabase::getInstance();
+		$prefix = $lang['prefix'];
+		$fileName = 'config/config.inc.php';
+		$completeData = file_get_contents($fileName);
+		$updatedFields = "default_language";
+		$patternString = "\$%s = '%s';";
+		$pattern = '/\$' . $updatedFields . '[\s]+=([^;]+);/';
+		$replacement = sprintf($patternString, $updatedFields, ltrim($prefix, '0'));
+		$fileContent = preg_replace($pattern, $replacement, $completeData);
+		$filePointer = fopen($fileName, 'w');
+		fwrite($filePointer, $fileContent);
+		fclose($filePointer);
+		$result = $db->pquery('SELECT * FROM `vtiger_language` WHERE `isdefault` = 1');
+		if($db->num_rows($result) == 1){
+			$prefixOld = $db->query_result($result, 0, 'prefix');
+			$db->query('UPDATE `vtiger_language` SET `isdefault` = 0 where `isdefault` = 1');
+		}
+		$query = 'UPDATE `vtiger_language` SET `isdefault` = ? WHERE `prefix` = ?';
+		$params = array(1, $prefix);
+		$status = $db->pquery($query, $params);
+		if($status)
+			$status = true;
+		else
+			$status = false;
+		$log->debug("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
+		return array('success'=>$status, 'prefixOld'=>$prefixOld);
+	} 
 }

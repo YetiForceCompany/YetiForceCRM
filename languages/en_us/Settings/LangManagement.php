@@ -46,9 +46,12 @@ $languageStrings = array(
 	'LBL_KeyExists'	=> 'This language variable already exists',
 	'Export'	=> 'Export',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Show missing translations',
+	'LBL_DEFAULT'	=> 'Default',
 );
 $jsLanguageStrings = array(
 	'LBL_AreYouSure'	=> 'Are you sure you want to delete this language?',
+	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
+	'JS_DEFAULT'	=> 'Default',
 	'Delete'	=> 'Delete',
 	'Cancel'	=> 'Cancel',
 	'LBL_Loader'	=> 'Downloading',
