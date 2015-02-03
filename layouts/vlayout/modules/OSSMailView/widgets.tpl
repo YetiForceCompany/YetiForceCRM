@@ -43,7 +43,7 @@
 			{vtranslate('To', 'OSSMailView')}: {$row['to']}
 		</div>
 		<div class="span12 defaultMarginP mailBody" style="display: none;">
-			{Vtiger_Functions::removeHtmlTags('style',$row['body'])}
+			{Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), $row['body'])} 
 		</div>
 	</div><hr/>
 	{/foreach}

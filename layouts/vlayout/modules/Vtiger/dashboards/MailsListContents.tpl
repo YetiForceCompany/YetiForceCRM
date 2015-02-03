@@ -18,8 +18,7 @@
 			<span class="pull-left" style="margin-left:2%;">{vtranslate('From', 'OSSMailView')}: {$item['fromaddress']}</span>
 		</div>
 		<div class="span12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
-			{assign var="BODY" value=Vtiger_Functions::removeHtmlTags('style',$item['body'])}
-			{Vtiger_Functions::getHtmlOrPlainText($BODY)}
+			{Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), $item['body'])}
 		</div>
 	</div>
 	<hr/>
