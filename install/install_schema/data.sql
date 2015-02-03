@@ -12873,9 +12873,9 @@ insert  into `vtiger_projecttasktype_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_projecttype` */
 
-insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'administrative',1,270,2);
-insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'operative',1,271,3);
-insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'other',1,272,4);
+insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_INTERNAL',1,270,2);
+insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_EXTERNAL',1,271,3);
+insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_COMMON',1,272,4);
 
 /*Data for the table `vtiger_projecttype_seq` */
 

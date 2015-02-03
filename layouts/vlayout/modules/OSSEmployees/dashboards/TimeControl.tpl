@@ -10,7 +10,27 @@
  ********************************************************************************/
 -->*}
 <script type="text/javascript">
-	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{},{});
+	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{},{
+		generateChartData : function() {
+			var container = this.getContainer();
+			var jData = container.find('.widgetData').val();
+			var data = JSON.parse(jData);
+			var chartData = [];
+			var xLabels = new Array();
+			var yMaxValue = 0;
+			for(var index in data) {
+				var row = data[index];
+				xLabels.push(app.getDecodedValue(row[1]))
+				chartData.push(row[0]);
+				if(parseInt(row[0]) > yMaxValue){
+					yMaxValue = parseInt(row[0]);
+				}
+			}
+			// yMaxValue Should be 25% more than Maximum Value
+			yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
+			return {literal}{'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels}{/literal};
+		}
+	});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
