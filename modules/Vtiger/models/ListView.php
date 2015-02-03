@@ -410,11 +410,11 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 
 		$queryGenerator = new QueryGenerator($moduleModel->get('name'), $currentUser);
 		
-		if(!empty($sourceModule)){
+		if(!$sourceModule && !empty($sourceModule)){
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
 		
-		$listFields = $moduleModel->getPopupViewFieldsList();
+		$listFields = $moduleModel->getPopupViewFieldsList($sourceModule);
         $listFields[] = 'id';
         $queryGenerator->setFields($listFields);
 

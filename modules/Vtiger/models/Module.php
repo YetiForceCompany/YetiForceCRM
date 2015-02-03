@@ -1507,8 +1507,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	/**
 	 * Function to get popup view fields
 	 */
-	public function getPopupViewFieldsList(){
-		$sourceModule = $this->get('sourceModule');	
+	public function getPopupViewFieldsList( $sourceModule = false){	
 		if(!empty($sourceModule)){
 			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);

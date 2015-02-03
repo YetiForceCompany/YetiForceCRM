@@ -89,7 +89,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
 		}else{
-			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName,$sourceModule);
 		}
 		if(empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
@@ -138,7 +138,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
         if(!$parent_related_records && !empty($relatedParentModule) && !empty($relatedParentId)){
             $relatedParentModule = null;
             $relatedParentId = null;
-            $listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName);
+            $listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName,$sourceModule);
             
             if(!empty($orderBy)) {
                 $listViewModel->set('orderby', $orderBy);
