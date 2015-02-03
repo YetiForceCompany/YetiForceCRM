@@ -24,6 +24,10 @@ class Install_InitSchema_Model {
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$adb->pquery("UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?", array(	$currencyName,$currencyCode,$currencySymbol));
 		$adb->pquery("UPDATE vtiger_version SET `current_version` = ? ;",array(1, $YetiForce_current_version));
+
+		// recalculate all sharing rules for users
+		vimport('~~/include/utils/UserInfoUtil.php');
+		RecalculateSharingRules();
 	}
 	
 	function initializeDatabase($location, $filesName = array()){

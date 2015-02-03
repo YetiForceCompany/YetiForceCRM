@@ -17,6 +17,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');
 		$this->exposeMethod('delete');
+		$this->exposeMethod('setAsDefault');
 	}
 	public function AddTranslation(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -86,6 +87,17 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		if($saveResp) {
 			$response->setResult(array('success' => true,'message'=>  vtranslate('LBL_DeleteDataOK',$request->getModule(false))));
+		}else{
+			$response->setResult(array('success' => false));
+		}
+		$response->emit();
+	}
+	public function setAsDefault(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
+		$response = new Vtiger_Response();
+		if($saveResp['success']) {
+			$response->setResult(array('success' => true,'message'=>  vtranslate('LBL_SaveDataOK',$request->getModule(false)), 'prefixOld'=>$saveResp['prefixOld']));
 		}else{
 			$response->setResult(array('success' => false));
 		}

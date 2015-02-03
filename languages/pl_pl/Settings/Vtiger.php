@@ -207,7 +207,7 @@ $languageStrings = array(
 	/* modules */
 	'OSSCosts'=>'Koszty',
 	'CustomView'	=> 'Widoki',
-	'Widgets'	=> 'Widżety',
+	'Widgets'	=> 'Widgety podsumowania rekordu',
 	
 	/* settings menu */
 	'Menu Manager' => 'Menu',

@@ -131,6 +131,9 @@ copy_companydata();
 jQuery('#reportid').change(function(){
 copy_reportid();
 });
+jQuery('#ifchosen').change(function(){
+copy_reportid();
+});
 
 
 

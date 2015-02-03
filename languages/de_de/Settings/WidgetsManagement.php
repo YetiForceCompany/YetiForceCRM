@@ -22,7 +22,7 @@ $languageStrings = array(
 	'LBL_INVALID_DATA' => 'Invalid data',
 
 	'WidgetsManagement' => 'Widget management',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widget management',
+	'LBL_WIDGETS_MANAGEMENT' => 'Module widgets',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
 	'LBL_MANDATORY_WIDGET' => 'Mandatory widget',
 	'LBL_WIDGET' => 'Widgets',

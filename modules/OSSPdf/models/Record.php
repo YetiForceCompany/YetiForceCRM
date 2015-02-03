@@ -604,8 +604,6 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         $db = PearDatabase::getInstance();
         require_once("modules/Reports/ReportRun.php");
         require_once( 'include/utils/utils.php' );
-		setCurrentLanguage();
-		include("modules/OSSPdf/language/".$current_language.".lang.php");
         $oReportRun = new ReportRun($reportid);
         $sql = $this->OSSGetSQLforReport( $oReportRun, $ifonly, $module, $recordid,  $reportid, '' );
 	
