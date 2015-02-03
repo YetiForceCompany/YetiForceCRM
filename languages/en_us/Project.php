@@ -49,6 +49,11 @@ $languageStrings = array(
 	'LBL_STATUS' => 'Status',
 	'LBL_TICKET_PRIORITY' => 'Priority',
 	'LBL_MORE' => 'more',
+
+	//PickList
+	'PLL_INTERNAL' => 'internal',
+	'PLL_EXTERNAL' => 'external',
+	'PLL_COMMON' => 'common',
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Download File',

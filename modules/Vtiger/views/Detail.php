@@ -24,6 +24,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$this->exposeMethod('showAllComments');
 		$this->exposeMethod('getActivities');
 		$this->exposeMethod('showRelatedProductsServices');
+		$this->exposeMethod('showRelatedRecords');
 	}
 
 	function checkPermission(Vtiger_Request $request) {

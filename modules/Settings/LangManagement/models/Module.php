@@ -56,7 +56,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 	public function AddTranslation($params) {
 		$lang = $params['lang'];
 		$mod = $params['mod'];
-		$langkey = $params['langkey'];
+		$langkey = addslashes($params['langkey']);
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator,"/",$mod);
 		$fileName = "languages/$lang/$mod.php";
