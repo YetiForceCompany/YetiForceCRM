@@ -112,10 +112,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 			$pageNumber = '1';
 		}
 
-		if(empty($relatedParentModule) && empty($relatedParentId) && !empty($sourceModule) && !empty($sourceRecord)) {
-			$relatedParentModule = $sourceModule;
-			$relatedParentId = $sourceRecord;
-		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if(vglobal('popupAjax'))
