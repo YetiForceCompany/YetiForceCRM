@@ -33,6 +33,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 			$('input.addNewElement').val('');
 		});
 		$('.saveTree').click(function(e) {
+			jstreeInstance.jstree('deselect_all',true)
 			var json = jstreeInstance.jstree("get_json");
 			$('#treeValues').val( JSON.stringify(json) );
 			editContainer.submit();

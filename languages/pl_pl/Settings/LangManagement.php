@@ -46,6 +46,7 @@ $languageStrings = array(
 	'LBL_TranslationType'	=> 'Typ tłumaczenia',
 	'LBL_KeyExists'	=> 'Taka zmienna językowa już istnieje',
 	'Export'	=> 'Eksportuj',
+	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Pokaż brakujące tłumaczenia',
 	'LBL_DEFAULT'	=> 'Domyślny',
 );
 $jsLanguageStrings = array(

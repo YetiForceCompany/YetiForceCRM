@@ -19,7 +19,7 @@ class Vtiger_Functions {
 		return (isset($user->is_admin) && $user->is_admin == 'on');
 	}
 
-	static function currentUserJSDateFormat($localformat) {
+	static function currentUserJSDateFormat($localformat) { 
 		global $current_user;
 		switch ($current_user->date_format){
 			case 'dd-mm-yyyy':	$dt_popup_fmt = "%d-%m-%Y";	break;
@@ -954,10 +954,40 @@ class Vtiger_Functions {
 		}
 	}
 	
-	static function removeHtmlTags($tag, $html) {
-		return preg_replace("/<$tag\\b[^>]*>(.*?)<\\/$tag>/s", "", $html);
+	static function removeHtmlTags(array $tag, $html) {
+		$crmUrl = vglobal($key);
+		$doc = new DOMDocument();
+		
+		$previous_value = libxml_use_internal_errors(TRUE);
+		$doc->loadHTML($html);
+		libxml_clear_errors();
+		libxml_use_internal_errors($previous_value);
+		
+		for ($i = 0; $i < count($tag); $i++) {
+			$nodeList = $doc->getElementsByTagName($tag[$i]);
+			
+			if ('img' === $tag[$i]) {
+				foreach ($nodeList as $nodeKey => $singleNode) {
+					$htmlNode = $singleNode->ownerDocument->saveHTML($singleNode);
+					$imgDom = new DOMDocument();
+					$imgDom->loadHTML($htmlNode);
+					$xpath = new DOMXPath($imgDom);
+					$src = $xpath->evaluate("string(//img/@src)");
+					
+					if (0 !== strpos('index.php', $src) || FALSE === strpos($crmUrl, $src)) {
+						$singleNode->parentNode->removeChild($singleNode);
 	}
+				}
+			} else {
+				foreach ($nodeList as $nodeKey => $singleNode) {
+					$singleNode->parentNode->removeChild($singleNode);
+				}
+			}
+		}
 	
+		return $doc->saveHTML();
+	}
+
 	static function getHtmlOrPlainText($content) {
 		if(substr($content, 0,1) == '<'){
 			$content = decode_html($content);
