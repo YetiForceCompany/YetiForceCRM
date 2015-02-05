@@ -39,7 +39,7 @@ class VTCreateEntityTask extends VTTask {
 		}
 
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
-			require_once('data/CRMEntity.php');
+			require_once('include/CRMEntity.php');
 
 			$newEntity = CRMEntity::getInstance($entityType);
 			$newEntity->mode = '';

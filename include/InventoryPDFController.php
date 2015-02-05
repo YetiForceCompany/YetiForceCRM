@@ -16,7 +16,7 @@ include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer.php';
 include_once 'vtlib/Vtiger/PDF/inventory/ContentViewer2.php';
 include_once 'vtlib/Vtiger/PDF/viewers/PagerViewer.php';
 include_once 'vtlib/Vtiger/PDF/PDFGenerator.php';
-include_once 'data/CRMEntity.php';
+include_once 'include/CRMEntity.php';
 
 class Vtiger_InventoryPDFController {
 

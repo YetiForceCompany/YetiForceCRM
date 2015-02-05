@@ -9,7 +9,7 @@ require_once('include/Zend/Json.php');
 require_once('modules/Calendar/iCalLastImport.php');
 
 require_once('include/utils/utils.php');
-require_once('data/CRMEntity.php');
+require_once('include/CRMEntity.php');
 
 global $import_dir,$current_user,$mod_strings,$app_strings,$currentModule;
 

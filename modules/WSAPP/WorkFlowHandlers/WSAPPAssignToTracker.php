@@ -9,7 +9,7 @@
  *************************************************************************************/
 require_once 'include/Webservices/Utils.php';
 require_once 'include/events/VTEntityData.inc';
-require_once 'data/VTEntityDelta.php';
+require_once 'include/events/VTEntityDelta.php';
 require_once 'include/Webservices/DataTransform.php';
 require_once 'modules/WSAPP/SyncServer.php';
 

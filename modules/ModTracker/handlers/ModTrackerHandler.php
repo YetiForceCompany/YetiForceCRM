@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 require_once dirname(__FILE__) .'/../ModTracker.php';
-require_once 'data/VTEntityDelta.php';
+require_once 'include/events/VTEntityDelta.php';
 
 class ModTrackerHandler extends VTEventHandler {
 

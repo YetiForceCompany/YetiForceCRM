@@ -9,7 +9,7 @@
 *
  ********************************************************************************/
 require_once('include/database/PearDatabase.php');
-require_once('data/CRMEntity.php');
+require_once('include/CRMEntity.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 global $calpath;

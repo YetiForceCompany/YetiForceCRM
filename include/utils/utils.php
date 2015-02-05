@@ -30,7 +30,7 @@ require_once('include/FormValidationUtil.php');
 require_once('include/events/SqlResultIterator.inc');
 require_once('include/fields/DateTimeField.php');
 require_once('include/fields/CurrencyField.php');
-require_once('data/CRMEntity.php');
+require_once('include/CRMEntity.php');
 require_once 'vtlib/Vtiger/Language.php';
 require_once("include/ListView/ListViewSession.php");
 

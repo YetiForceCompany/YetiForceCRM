@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-include_once 'data/CRMEntity.php';
+include_once 'include/CRMEntity.php';
 require_once 'vtlib/Vtiger/Link.php';
 include_once 'vtlib/Vtiger/Module.php';
 include_once('vtlib/Vtiger/Menu.php');

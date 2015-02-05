@@ -9,8 +9,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-require_once('data/CRMEntity.php');
-require_once('data/Tracker.php');
+require_once('include/CRMEntity.php');
+require_once('include/Tracker.php');
 
 class OSSMail {
     function vtlib_handler($moduleName, $eventType) {

@@ -8,7 +8,7 @@
  * All Rights Reserved.
 *
  ********************************************************************************/
-require_once("data/Tracker.php");
+require_once("include/Tracker.php");
 require_once('include/logging.php');
 require_once('include/utils/utils.php');
 require_once('modules/Reports/Reports.php');

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-require_once 'data/VTEntityDelta.php';
+require_once 'include/events/VTEntityDelta.php';
 
 require_once( 'modules/Users/Users.php' );
 require_once( 'modules/Users/models/Record.php' );

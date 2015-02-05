@@ -48,7 +48,7 @@
        */
 function getKeyMetrics($maxval,$calCnt)
 {
-	require_once("data/Tracker.php");
+	require_once("include/Tracker.php");
 	require_once('modules/CustomView/CustomView.php');
 	require_once('include/logging.php');
 	require_once('include/ListView/ListView.php');

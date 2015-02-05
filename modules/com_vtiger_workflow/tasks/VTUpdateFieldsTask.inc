@@ -39,7 +39,7 @@ class VTUpdateFieldsTask extends VTTask {
 		}
 
 		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
-			require_once('data/CRMEntity.php');
+			require_once('include/CRMEntity.php');
 			$focus = CRMEntity::getInstance($moduleName);
 			$focus->id = $recordId;
 			$focus->mode = 'edit';

@@ -31,10 +31,10 @@
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once 'data/CRMEntity.php';
+require_once 'include/CRMEntity.php';
 require_once('modules/Calendar/Activity.php');
 require_once('modules/Contacts/Contacts.php');
-require_once('data/Tracker.php');
+require_once('include/Tracker.php');
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Webservices/Utils.php';
 require_once('modules/Users/UserTimeZonesArray.php');

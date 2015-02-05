@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-require_once 'data/VTEntityDelta.php';
+require_once 'include/events/VTEntityDelta.php';
 require_once 'includes/runtime/Cache.php';
 
 class VTWorkflowEntity{

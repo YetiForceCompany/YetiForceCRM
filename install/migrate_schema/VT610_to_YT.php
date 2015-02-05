@@ -443,8 +443,8 @@ class VT610_to_YT {
 		$removeClass = array('none'=>'RecurringInvoiceHandler','none1'=>'HelpDeskHandler','ModTracker'=>'ModTrackerHandler','none2'=>'PBXManagerHandler','none3'=>'PBXManagerBatchHandler','ServiceContracts'=>'ServiceContractsHandler','Invoice'=>'InvoiceHandler','PurchaseOrder'=>'PurchaseOrderHandler','none4'=>'ModCommentsHandler','Home'=>'Vtiger_RecordLabelUpdater_Handler','none5'=>'SECURE');
 
 		$addHandler = array();
-		$addHandler[] = array('vtiger.entity.beforeunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
-		$addHandler[] = array('vtiger.entity.afterunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
+		$addHandler[] = array('vtiger.entity.beforeunlink','include/events/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
+		$addHandler[] = array('vtiger.entity.afterunlink','include/events/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
 		$addHandler[] = array('vtiger.entity.aftersave.final','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');
 		$addHandler[] = array('vtiger.entity.beforedelete','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');
 		$addHandler[] = array('vtiger.entity.afterrestore','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');

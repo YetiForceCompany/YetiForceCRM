@@ -12,7 +12,7 @@
 Class OSSTimeControl_Record_Model extends Vtiger_Record_Model {
 	const recalculateStatus = 'Accepted';
 	public function recalculateTimeOldValues($record_id, $data) {
-		require_once 'data/VTEntityDelta.php';
+		require_once 'include/events/VTEntityDelta.php';
 		$relatedField = array('accountid','contactid','ticketid','projectid','projecttaskid','potentialid','servicecontractsid','quoteid','assetsid','salesorderid','calculationsid');
 		$vtEntityDelta = new VTEntityDelta();
 		$delta = $vtEntityDelta->getEntityDelta('OSSTimeControl', $record_id, true);
