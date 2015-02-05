@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************/
 
 	/**
@@ -38,7 +39,7 @@
                                     $obj->moduleName = $setype; 
                             } 
 			
-			require_once('data/CRMEntity.php');
+			require_once('include/CRMEntity.php');
 			$focus = CRMEntity::getInstance($setype);
 						
 			$focus->retrieve_entity_info($entityId, $setype);
@@ -60,7 +61,7 @@
 
 			$obj->moduleName = 'Users';
 
-			require_once('data/CRMEntity.php');
+			require_once('include/CRMEntity.php');
 			$focus = CRMEntity::getInstance($obj->moduleName);
 
 			$focus->retrieve_entity_info($userId, $obj->moduleName);

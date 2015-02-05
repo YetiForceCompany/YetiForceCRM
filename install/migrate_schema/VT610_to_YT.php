@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
 include_once('vtlib/Vtiger/Access.php');
 include_once('vtlib/Vtiger/Block.php');
@@ -443,8 +444,8 @@ class VT610_to_YT {
 		$removeClass = array('none'=>'RecurringInvoiceHandler','none1'=>'HelpDeskHandler','ModTracker'=>'ModTrackerHandler','none2'=>'PBXManagerHandler','none3'=>'PBXManagerBatchHandler','ServiceContracts'=>'ServiceContractsHandler','Invoice'=>'InvoiceHandler','PurchaseOrder'=>'PurchaseOrderHandler','none4'=>'ModCommentsHandler','Home'=>'Vtiger_RecordLabelUpdater_Handler','none5'=>'SECURE');
 
 		$addHandler = array();
-		$addHandler[] = array('vtiger.entity.beforeunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
-		$addHandler[] = array('vtiger.entity.afterunlink','data/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
+		$addHandler[] = array('vtiger.entity.beforeunlink','include/events/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
+		$addHandler[] = array('vtiger.entity.afterunlink','include/events/VTEntityDelta.php','VTEntityDelta',NULL,'1','[]');
 		$addHandler[] = array('vtiger.entity.aftersave.final','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');
 		$addHandler[] = array('vtiger.entity.beforedelete','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');
 		$addHandler[] = array('vtiger.entity.afterrestore','modules/ModTracker/handlers/ModTrackerHandler.php','ModTrackerHandler','','1','[]');

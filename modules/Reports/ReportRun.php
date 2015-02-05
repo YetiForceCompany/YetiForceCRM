@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  ********************************************************************************/
 global $calpath;
 global $app_strings,$mod_strings;
@@ -15,7 +16,7 @@ global $log;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
 require_once('include/database/PearDatabase.php');
-require_once('data/CRMEntity.php');
+require_once('include/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
 require_once("vtlib/Vtiger/Module.php");

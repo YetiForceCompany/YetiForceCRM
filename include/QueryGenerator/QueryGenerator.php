@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  *********************************************************************************/
 
-require_once 'data/CRMEntity.php';
+require_once 'include/CRMEntity.php';
 require_once 'modules/CustomView/CustomView.php';
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/RelatedModuleMeta.php';

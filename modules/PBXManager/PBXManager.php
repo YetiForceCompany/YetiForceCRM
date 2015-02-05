@@ -6,9 +6,9 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************/
-
-include_once 'data/CRMEntity.php';
+include_once 'include/CRMEntity.php';
 require_once 'vtlib/Vtiger/Link.php';
 include_once 'vtlib/Vtiger/Module.php';
 include_once('vtlib/Vtiger/Menu.php');
@@ -16,12 +16,10 @@ require 'include/events/include.inc';
 require_once 'include/utils/utils.php';
 
 class PBXManager extends CRMEntity {
-    
     protected $incominglinkLabel = 'Incoming Calls';
     protected $tabId = 0;
     protected $headerScriptLinkType = 'HEADERSCRIPT';
     protected $dependentModules = array('Contacts', 'Leads','Accounts');
-
 
     var $db;
     var $table_name = 'vtiger_pbxmanager';

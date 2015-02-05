@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************/
-
 /**
  * Vtiger Tracker Record Model Class
  */
@@ -47,7 +47,7 @@ class Vtiger_TrackRecord_Model extends Vtiger_Record_Model {
 	 * @return <Array> - List of Vtiger_TrackRecord_Model instances
 	 */
 	public static function getAll($limit=null) {
-		require_once('data/Tracker.php');
+		require_once('include/Tracker.php');
 		$tracFocus = new Tracker();
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$list = $tracFocus->get_recently_viewed($userModel->getId());

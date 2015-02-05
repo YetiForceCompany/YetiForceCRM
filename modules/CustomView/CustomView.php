@@ -8,11 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-
-require_once('data/CRMEntity.php');
+require_once('include/CRMEntity.php');
 require_once('include/utils/utils.php');
 require_once 'include/Webservices/Utils.php';
-
 global $adv_filter_options;
 
 $adv_filter_options = array("e" => 'equals',
