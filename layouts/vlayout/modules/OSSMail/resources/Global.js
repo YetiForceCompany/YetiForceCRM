@@ -124,6 +124,9 @@ function load_action(inframe, params) {
         var url = $(this).attr('href');
         window.location.href = url;
     });
+    $(inframe.find('#message-oss-header .oss-add-Vendors')).click(function() {
+	loadQuickCreateForm('Vendors', params, inframe);
+    });
     $(inframe.find('#message-oss-header .oss-add-Accounts')).click(function() {
         loadQuickCreateForm('Accounts', params, inframe);
     });
@@ -345,6 +348,13 @@ function load_oss_bar(inframe, crmid, config, related_records) {
                 Marketing_text += '<div>' + load_icons('Leads', row['crmid'], module_permissions, images_path) + '</div>';
             }
         }
+        if (related_records['Vendors']) {
+             for (var i = 0; i < related_records['Vendors']['rows'].length; i++) {
+                 var row = {};
+                 row = related_records['Vendors']['rows'][i];
+                 Marketing_text += '<div class="oss-border-top"><a href="' + crm_path + 'index.php?module=' + row['module'] + '&view=Detail&record=' + row['crmid'] + '" title="' + row['label'] + '" class="btn link">' + row['label'] + '</a><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Vendors') + '" class="oss-add-Vendors btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Vendors') + '"></a><a data-crmid="' + row['crmid'] + '" data-module="' + row['module'] + '" href="#" title="' + app.vtranslate('Related To Vendors') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Vendors') + '"></a><a data-crmid="' + row['crmid'] + '" data-module="' + row['module'] + '" href="#" title="' + app.vtranslate('Remove relation') + '" class="oss-remove-relation btn small-icon"><img src="' + images_path + 'no.png" alt="' + app.vtranslate('Remove relation') + '"></a></span></div>';
+             }
+        }
         if (Marketing_text == '') {
             show_Marketing = true;
         }
@@ -408,10 +418,9 @@ function load_oss_bar(inframe, crmid, config, related_records) {
     }
     if (show_Marketing) {
         Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Leads') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Leads') + '" class="oss-add-Leads btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Leads') + '"></a><a data-module="Leads" href="#" title="' + app.vtranslate('Related To Leads') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Leads') + '"></a></span></div>';
-
         Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Contacts') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Contacts') + '" class="oss-add-Contacts btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Contacts') + '"></a><a data-module="Contacts" href="#" title="' + app.vtranslate('Related To Contacts') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Contacts') + '"></a></span></div>';
-
         Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Accounts') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Accounts') + '" class="oss-add-Accounts btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Accounts') + '"></a><a data-module="Accounts" href="#" title="' + app.vtranslate('Related To Accounts') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Accounts') + '"></a></span></div>';
+        Marketing_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to Vendors') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Vendors') + '" class="oss-add-Vendors btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Vendors') + '"></a><a data-module="Vendors" href="#" title="' + app.vtranslate('Related To Vendors') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Vendors') + '"></a></span></div>';
     }
     if (show_Sprzedaz) {
         Sprzedaz_text += '<span class="vtop inline-block">' + app.vtranslate('Add or related to Potentials') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add Potentials') + '" class="oss-add-Potentials btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add Potentials') + '"></a><a data-module="Potentials" href="#" title="' + app.vtranslate('Related To Potentials') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To Potentials') + '"></a></span>';
@@ -425,7 +434,7 @@ function load_oss_bar(inframe, crmid, config, related_records) {
     if (show_ServiceContracts) {
         HelpDesk_text += '<div><span class="vtop inline-block">' + app.vtranslate('Add or related to ServiceContracts') + '</span><span class="pull-right"><a href="#" title="' + app.vtranslate('Add ServiceContracts') + '" class="oss-add-ServiceContracts btn small-icon"><img src="' + images_path + 'btnColorAdd.png" alt="' + app.vtranslate('Add ServiceContracts') + '"></a><a data-module="ServiceContracts" href="#" title="' + app.vtranslate('Related To ServiceContracts') + '" class="oss-Related btn small-icon"><img src="' + images_path + 'search.png" alt="' + app.vtranslate('Related To ServiceContracts') + '"></a></span></div>';
     }
-    if (module_permissions['Accounts'] || module_permissions['Contacts'] || module_permissions['Leads']) {
+    if (module_permissions['Accounts'] || module_permissions['Contacts'] || module_permissions['Leads'] || module_permissions['Vendors']) {
         html_1 += '<td>' + app.vtranslate('Marketing') + '</td>';
         html_2 += '<td class="Marketing">' + Marketing_text + '</td>';
     }

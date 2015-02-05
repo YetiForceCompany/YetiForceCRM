@@ -9,6 +9,6 @@
  * Contributor(s): YetiForce.com
  ********************************************************************************/
 // -ve timestamp before release, +ve timestamp after release.
-$patch_version = '20150204';  
-$YetiForce_current_version = '1.2.77 RC';
+$patch_version = '20150205';  
+$YetiForce_current_version = '1.2.78 RC';
 $_SESSION['yetiforce_version'] = $YetiForce_current_version;
