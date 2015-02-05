@@ -100,6 +100,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
 			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
+			'~libraries/jquery/inputmask/jquery.inputmask.js',
             'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",

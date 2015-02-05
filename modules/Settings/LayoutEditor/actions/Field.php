@@ -52,7 +52,9 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action {
 			$dateInstance = new Vtiger_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		}
-
+		if($request->get('fieldMask') != '') {
+			$fieldInstance->set('fieldparams', $request->get('fieldMask'));
+		}
 		if(is_array($defaultValue)) {
 			$defaultValue = implode(' |##| ',$defaultValue);
 		}

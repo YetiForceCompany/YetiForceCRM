@@ -781,6 +781,10 @@ jQuery.Class("Vtiger_Edit_Js",{
 			}
 		}
 	},
+	registerMaskFields : function(container) {
+		var thisInstance = this;
+		container.find(":input").inputmask();
+	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
@@ -801,6 +805,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerRecordPreSaveEventEvent(container);
 		this.registerEventForCopyAddress();
 		this.registerReferenceSelectionEvent(container);
+		this.registerMaskFields(container);
 	},
 
 	/**

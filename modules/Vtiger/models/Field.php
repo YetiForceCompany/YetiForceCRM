@@ -1141,7 +1141,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
     public function __update() {
         $db = PearDatabase::getInstance();
 		$this->get('generatedtype') == 1 ? $generatedtype = 1 : $generatedtype = 2;
-        $query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=? WHERE fieldid=?';
+        $query = 'UPDATE vtiger_field SET typeofdata=?, presence=?, quickcreate=?, masseditable=?, defaultvalue=?, summaryfield=?, displaytype=?, helpinfo=?, generatedtype=?, fieldparams=? WHERE fieldid=?';
         $params = array(
 			$this->get('typeofdata'), 
 			$this->get('presence'), 
@@ -1152,6 +1152,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			$this->get('displaytype'), 
 			$this->get('helpinfo'), 
 			$generatedtype,
+        	$this->get('fieldparams'),
 			$this->get('id')
 		);
 		$db->pquery($query,$params);
