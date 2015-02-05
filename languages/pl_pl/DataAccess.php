@@ -42,7 +42,7 @@ $languageStrings = array(
 	'Select module' => 'Wybierz moduł',
 	//
 	'Action_blockEditView' => 'Blokada edycji rekordu',
-	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pewłna edycja)',
+	'Action_Desc_blockEditView' => 'Akcja umożliwiająca zablokowanie edycji rekordu (szybka i pełna edycja)',
 	//
 	'Action_check_taskdate' => 'Sprawdź planowane daty zakończenia zadania projektowego',
 	'Action_Desc_check_taskdate' => 'Walidacja planowanej daty zakończenia zadania projektowego',
