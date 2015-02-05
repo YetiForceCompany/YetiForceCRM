@@ -42,7 +42,7 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 			if(typeof customParams != 'undefined'){
 				params = jQuery.extend(params,customParams);
 			}
-			console.log(params);
+
 			data.find('.calendarColorPicker').ColorPicker(params);
 			
 			//save the user calendar with color
@@ -58,12 +58,13 @@ jQuery.Class('Settings_Menu_Editor_Js', {}, {
 					'color': selectedColor.val(),
 					'id':closestTrElement.data('id'),
 				});
-				console.log(selectedColor.val());
+
 				closestTrElement.find('.moduleColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
+				app.hideModalWindow();
 				progress.progressIndicator({'mode': 'hide'});
 			});
-		}
+		};
 		app.showModalWindow(clonedContainer,function(data) {
 			if(typeof callBackFunction == 'function') {
 				callBackFunction(data);

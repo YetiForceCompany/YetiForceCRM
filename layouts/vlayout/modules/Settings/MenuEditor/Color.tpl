@@ -45,6 +45,7 @@
 						</tbody>
 					</table>
 				</div>
+				<div>&nbsp;</div>
 			</div>
 			<div class="clearfix"></div>
 			<div class="modal editColorContainer hide">
@@ -65,6 +66,6 @@
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</div>
-		</div>	
+		</div>
 	</div>
 {/strip}
