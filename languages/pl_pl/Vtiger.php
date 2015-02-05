@@ -871,6 +871,10 @@ $languageStrings = array(
 	'LBL_VIEW_LIST' => 'Lista',
 	'LBL_VIEW_CALENDAR' => 'Kalendarz graficzny',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Kalendarz wspólny',
+	'LBL_VIEW_COMPOSE' => 'Tworzenie e-maila',
+	'LBL_VIEW_PREFERENCEDETAIL' => 'Moje ustawienia',
+	'LBL_VIEW_PREFERENCEEDIT' => 'Edycja ustawień',
+
 	
 	//Call popover
 	'LBL_BTN_CALL' => 'Zadzwoń',
