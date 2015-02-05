@@ -99,15 +99,15 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		//check last element
 		if(jstreeInstanceClone.find('li').length == 1){
 			Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'),type : 'error'})
-			aDeferred.reject();
-			return false;
+			aDeferred.resolve();
+			return aDeferred.promise();
 		}
 		//check childNodes exists
 		var childNodes = thisInstance.jstreeInstance.jstree('get_json', node);
 		if(typeof childNodes['0']['children'] != 'undefined'){
 			Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),type : 'error'})
-			aDeferred.reject();
-			return false;
+			aDeferred.resolve();
+			return aDeferred.promise();
 		}
 		
 		
