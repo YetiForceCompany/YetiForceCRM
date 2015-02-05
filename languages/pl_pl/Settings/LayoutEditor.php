@@ -84,6 +84,7 @@ $languageStrings = array(
 	'LBL_GENERATED_TYPE' => 'Systemowe',
 	'LBL_TREE_TEMPLATE' => 'Drzewo',
 	'Tree' => 'Pole drzewa',
+	'LBL_FIELD_MASK' => 'Maska',
 );
 
 $jsLanguageStrings = array(
