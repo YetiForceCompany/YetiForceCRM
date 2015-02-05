@@ -1078,6 +1078,7 @@ ALTER TABLE `vtiger_module_dashboard_widgets`
 	CHANGE `data` `data` text  COLLATE utf8_general_ci NULL after `title` , 
 	ADD COLUMN `size` varchar(50)  COLLATE utf8_general_ci NULL after `data` , 
 	ADD COLUMN `limit` int(10)   NULL after `size` , 
+	ADD COLUMN `owners` varchar(100) DEFAULT NULL after `limit` ,
 	CHANGE `position` `position` varchar(50)  COLLATE utf8_general_ci NULL after `limit` , 
 	ADD COLUMN `isdefault` int(1)   NULL DEFAULT 0 after `position` , 
 	ADD COLUMN `active` int(1)   NULL DEFAULT 0 after `isdefault` , 

@@ -25,7 +25,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.2.29 RC';
+// migration to version '1.2.73 RC';
 class VT610_to_YT {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -1516,7 +1516,8 @@ class VT610_to_YT {
 		$addPicklists['Leads'][] = array('name'=>'leadstatus','uitype'=>'15','add_values'=>array('LBL_TO_REALIZE','LBL_REQUIRES_VERIFICATION','LBL_PRELIMINARY_ANALYSIS_OF','LBL_ADVANCED_ANALYSIS','LBL_INITIAL_ACQUISITION','LBL_CONTACTS_IN_THE_FUTURE','LBL_LEAD_UNTAPPED','LBL_LEAD_ACQUIRED'),'remove_values'=>array('Attempted to Contact','Cold','Contact in Future','Contacted','Hot','Junk Lead','Lost Lead','Not Contacted','Pre Qualified','Qualified','Warm'));
 		$addPicklists['Leads'][] = array('name'=>'salutationtype','uitype'=>'15','add_values'=>array(),'remove_values'=>array('--None--'));
 		$addPicklists['Leads'][] = array('name'=>'industry','uitype'=>'15','add_values'=>array('Administration','Construction Industry','Power Industry','Trade','Hotels and Restaurants','Health Care','Industry / Manufacturing','Uniformed Services','Transport & Logistics','Technologies'),'remove_values'=>array('--None--','Apparel','Banking','Biotechnology','Chemicals','Communications','Construction','Consulting','Electronics','Energy','Engineering','Entertainment','Environmental','Food & Beverage','Government','Healthcare','Hospitality','Insurance','Machinery','Manufacturing','Media','Not For Profit','Recreation','Retail','Shipping','Technology','Telecommunications','Transportation','Utilities','Other'));
-
+		$addPicklists['Project'][] = array('name'=>'projecttype','uitype'=>'15','add_values'=>array('PLL_INTERNAL','PLL_EXTERNAL','PLL_COMMON'),'remove_values'=>array('administrative','operative','other'));
+		
 		$roleRecordList = Settings_Roles_Record_Model::getAll();
 		$rolesSelected = array();
 		foreach($roleRecordList as $roleRecord) {
@@ -1742,6 +1743,8 @@ class VT610_to_YT {
 		
 		$instanceModule = Vtiger_Module::getInstance('Potentials');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
+		$instanceModule = Vtiger_Module::getInstance('Home');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl');
 		
 		if($adb->num_rows($result) == 0){
 			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Products',NULL,1);");
@@ -2858,8 +2861,8 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$docelowy_Module = Vtiger_Module::getInstance('Vendors');
 		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('OSSEmployees');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		//$docelowy_Module = Vtiger_Module::getInstance('OSSEmployees');
+		//$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$docelowy_Module = Vtiger_Module::getInstance('Potentials');
 		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$docelowy_Module = Vtiger_Module::getInstance('HelpDesk');

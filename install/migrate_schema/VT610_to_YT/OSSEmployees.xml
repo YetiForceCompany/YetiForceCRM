@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2014-12-03 14:32:18</exporttime>
+<exporttime>2015-02-05 05:58:29</exporttime>
 <name>OSSEmployees</name>
 <label>OSSEmployees</label>
 <parent>Human resources</parent>
@@ -290,6 +290,27 @@
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[0]]></helpinfo>
 <masseditable>0</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>closedtime</fieldname>
+<uitype>70</uitype>
+<columnname>closedtime</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Closed Time</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>13</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[0]]></helpinfo>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -603,6 +624,53 @@
 </field>
 </fields>
 </block>
+<block>
+<label>LBL_SHARING_INFORMATION</label>
+<fields>
+<field>
+<fieldname>inheritsharing</fieldname>
+<uitype>56</uitype>
+<columnname>inheritsharing</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Copy permissions automatically</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[0]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>shownerid</fieldname>
+<uitype>120</uitype>
+<columnname>shownerid</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Share with users</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[0]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+</fields>
+</block>
 </blocks>
 <customviews>
 <customview>
@@ -688,8 +756,28 @@
 </actions>
 <relatedmodule>OSSTimeControl</relatedmodule>
 </relatedlist>
+<relatedlist>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+<relatedmodule>CallHistory</relatedmodule>
+</relatedlist>
 </relatedlists>
 <customlinks>
+<customlink>
+<linktype>DASHBOARDWIDGET</linktype>
+<linklabel>Employees Time Control</linklabel>
+<linkurl><![CDATA[index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl]]></linkurl>
+<linkicon><![CDATA[]]></linkicon>
+<sequence>1</sequence>
+<handler_path><![CDATA[]]></handler_path>
+<handler_class><![CDATA[]]></handler_class>
+<handler><![CDATA[]]></handler>
+</customlink>
 <customlink>
 <linktype>DETAILVIEWBASIC</linktype>
 <linklabel>LBL_SHOW_EMPLOYEES_HIERARCHY</linklabel>
