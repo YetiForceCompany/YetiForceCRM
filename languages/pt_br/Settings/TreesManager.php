@@ -20,6 +20,7 @@ $languageStrings = array(
 	'LBL_ADD_ITEM_TREE' => 'Add new item',
 	'LBL_ADD_TO_TREES' => 'Add',
 	'LBL_SAVE' => 'Save',
+	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Change tree item to:',
 );
 $jsLanguageStrings = array(
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Tree template deleted successfully',
@@ -30,4 +31,8 @@ $jsLanguageStrings = array(
 	'JS_JSTREE_CUT' => 'Cut',
 	'JS_JSTREE_COPY' => 'Copy',
 	'JS_JSTREE_PASTE' => 'Paste',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
+	'JS_NO_ITEM_SELECTED' => 'No item has been selected',
+	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'You cannot delete all items',
+	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'You cannot delete parent item',
 );
