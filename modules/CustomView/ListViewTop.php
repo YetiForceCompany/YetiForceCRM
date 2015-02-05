@@ -10,42 +10,42 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Contributor(s): YetiForce.com.
  ********************************************************************************/
 /*********************************************************************************
  * $Header$
  * Description:  TODO: To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
- * Contributor(s): ______________________________________..
+ * Contributor(s): YetiForce.com.
  ********************************************************************************/
 
-      /** to get the details of a KeyMetrics on Home page 
-        * @returns  $customviewlist Array in the following format
-	* $values = Array('Title'=>Array(0=>'image name',
-	*				 1=>'Key Metrics',
-	*			 	 2=>'home_metrics'
-	*			 	),
-	*		  'Header'=>Array(0=>'Metrics',
-	*	  			  1=>'Count'
-	*			  	),
-	*		  'Entries'=>Array($cvid=>Array(
-	*			  			0=>$customview name,
-	*						1=>$no of records for the view
-	*					       ),
-	*				   $cvid=>Array(
-        *                                               0=>$customview name,
-        *                                               1=>$no of records for the view
-        *                                              ),
-	*					|
-	*					|
-        *				   $cvid=>Array(
-        *                                               0=>$customview name,
-        *                                               1=>$no of records for the view
-        *                                              )	
-	*				  )
-	*
-       */
+/** to get the details of a KeyMetrics on Home page 
+* @returns  $customviewlist Array in the following format
+* $values = Array('Title'=>Array(0=>'image name',
+*				 1=>'Key Metrics',
+*			 	 2=>'home_metrics'
+*			 	),
+*		  'Header'=>Array(0=>'Metrics',
+*	  			  1=>'Count'
+*			  	),
+*		  'Entries'=>Array($cvid=>Array(
+*			  			0=>$customview name,
+*						1=>$no of records for the view
+*					       ),
+*				   $cvid=>Array(
+*                                               0=>$customview name,
+*                                               1=>$no of records for the view
+*                                              ),
+*					|
+*					|
+*				   $cvid=>Array(
+*                                               0=>$customview name,
+*                                               1=>$no of records for the view
+*                                              )	
+*				  )
+*
+*/
 function getKeyMetrics($maxval,$calCnt)
 {
 	require_once("include/Tracker.php");

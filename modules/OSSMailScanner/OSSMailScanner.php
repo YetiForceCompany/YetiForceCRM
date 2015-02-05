@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
 require_once('include/CRMEntity.php');
 require_once('include/Tracker.php');

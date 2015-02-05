@@ -7,6 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  *************************************************************************************************************************************/
 include_once('vtlib/Vtiger/Access.php');
 include_once('vtlib/Vtiger/Block.php');

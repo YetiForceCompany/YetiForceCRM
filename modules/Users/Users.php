@@ -10,24 +10,21 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Contributor(s): YetiForce.com.
  ********************************************************************************/
-
 /*********************************************
  * With modifications by
  * Daniel Jabbour
  * iWebPress Incorporated, www.iwebpress.com
  * djabbour - a t - iwebpress - d o t - com
  ********************************************/
-
 /*********************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Users/Users.php,v 1.10 2005/04/19 14:40:48 ray Exp $
  * Description: TODO:  To be written.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
- * Contributor(s): ______________________________________..
+ * Contributor(s): YetiForce.com.
  ********************************************************************************/
-
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 require_once('include/utils/UserInfoUtil.php');
