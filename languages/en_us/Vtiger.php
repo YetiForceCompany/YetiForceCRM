@@ -798,6 +798,9 @@ $languageStrings = array(
 	'LBL_VIEW_CALENDAR' => 'Graphical calendar',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Shared calendar',
 	'LBL_SELECT_TREE_ITEM' => 'Select item:',
+	'LBL_VIEW_COMPOSE' => 'Create e-mail',
+	'LBL_VIEW_PREFERENCEDETAIL' => 'My settings',
+	'LBL_VIEW_PREFERENCEEDIT' => 'Edit settings',
 	
 	//Call popover
 	'LBL_BTN_CALL' => 'Call',

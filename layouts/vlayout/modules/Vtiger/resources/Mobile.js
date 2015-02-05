@@ -13,7 +13,7 @@ jQuery.Class("Vtiger_Mobile_Js",{
         if (this.self != false) {
             return this.self;
         }
-        this.self = new Vtiger_Header_Js();
+        this.self = new Vtiger_Mobile_Js();
         return this.self;
     },
 	registerOutboundCall : function( phoneNumber, record ) {
@@ -60,10 +60,12 @@ jQuery.Class("Vtiger_Mobile_Js",{
 			}
         );
 	},
+	
+},{
 	registerEvents: function() {
 		var thisInstance = this;
 	},
-},{});
+});
 jQuery(document).ready(function() {
     Vtiger_Mobile_Js.getInstance().registerEvents();
 });
