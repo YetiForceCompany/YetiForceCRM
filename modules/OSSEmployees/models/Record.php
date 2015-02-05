@@ -31,10 +31,10 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 		}
 		return $hierarchy;
 	}
-	
+
 	public function getHolidaysEntitlement($recordId, $year, $list = false ) {
-        $adb = PearDatabase::getInstance();     
-        $sql = "SELECT * FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
+		$adb = PearDatabase::getInstance();	 
+		$sql = "SELECT * FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		if(!$list)
 			$sql .= "AND year = $year;";  
 		$parametry=array();
@@ -48,11 +48,11 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 			return $years;
 		}
 		return $result->fields['days']; 
-    }
-	
+	}
+
 	public function yearExist($recordId, $year) {
-        $adb = PearDatabase::getInstance();     
-        $sql = "SELECT year FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
+		$adb = PearDatabase::getInstance();	 
+		$sql = "SELECT year FROM vtiger_ossholidaysentitlement WHERE ossemployeesid= $recordId ";
 		$parametry=array();
 		$result = $adb->pquery( $sql, $parametry, true );
 			$num = $adb->num_rows( $result );
@@ -63,21 +63,20 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 		if($adb->query_result( $result, 0, 'year' ))
 			return $adb->query_result( $result, 0, 'year' ); 
 		return $year;
-    }
-	
+	}
+
 	public function getHoliday($recordId, $year) {
-        $adb = PearDatabase::getInstance();     
-        $sql = "SELECT * FROM vtiger_ossholidays WHERE ossemployeesid= $recordId;";  
+		$adb = PearDatabase::getInstance();	 
+		$sql = "SELECT * FROM vtiger_ossholidays WHERE ossemployeesid= $recordId;";  
 		$parametry=array();
 		$result = $adb->pquery( $sql, $parametry, true );
 		$allWorkDay = 0;
 		$num = $adb->num_rows( $result );
-	    for ( $i=0; $i<$num; $i++ ) {
+		for ( $i=0; $i<$num; $i++ ) {
 			$start = $adb->query_result( $result, $i, 'start_date' );
 			$end = $adb->query_result( $result, $i, 'end_date' );
 			$workDay = $adb->query_result( $result, $i, 'working_days' );
-		//	var_dump(substr($start, 0, 4));
-			
+
 			if(substr($start, 0, 4) == $year && substr($end, 0, 4) == $year)
 				$allWorkDay += $workDay;
 			elseif(substr($start, 0, 4) == $year)
@@ -86,9 +85,9 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 				$allWorkDay += $this->workDays( $year . '-01-01', $end );
 		}
 		return $allWorkDay; 
-    }
-	function workDays($firstDate, $secondDate) { 
+	}
 
+	function workDays($firstDate, $secondDate) {
 		$firstDate=strtotime($firstDate);  
 		$secondDate=strtotime($secondDate);  
  
@@ -118,9 +117,10 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
  
 		return $count;  
 	} 
+
 	public function checkUser($userId,$return_id = false) {
-        $adb = PearDatabase::getInstance();     
-        $sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? AND setype = ? AND deleted = ?;";  
+		$adb = PearDatabase::getInstance();	 
+		$sql = "SELECT * FROM vtiger_crmentity WHERE smownerid = ? AND setype = ? AND deleted = ?;";  
 		$result = $adb->pquery( $sql, array($userId, 'OSSEmployees', 0 ), true );
 		$num = $adb->num_rows( $result );
 		if($return_id){
@@ -132,7 +132,8 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 				return false;
 			return true; 
 		}
-    }
+	}
+
 	public function getWorkTime() {
 		global $current_user;
 		$employeeID = self::checkUser( $current_user->id , true );
@@ -140,8 +141,8 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 			return '';
 		}
 		$moduleModel = Vtiger_Record_Model::getInstanceById($employeeID, 'OSSEmployees');
-        $adb = PearDatabase::getInstance();     
-        $sql = "SELECT * FROM vtiger_osstimecontrol
+		$adb = PearDatabase::getInstance();	 
+		$sql = "SELECT * FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid = ? "; 
 		$sql .= "AND (vtiger_osstimecontrol.date_start = DATE(NOW()) OR vtiger_osstimecontrol.due_date = DATE(NOW()))";
@@ -164,12 +165,12 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 		}
 
 		if($sum_time != 0 && $sum_time != ''){
-			$text = vtranslate('LBL_DAYWORKSUM', 'OSSEmployees').': '.number_format($sum_time, 2, '.', ' ');
+			$text = vtranslate('LBL_DAYWORKSUM', 'OSSEmployees').': '.number_format($sum_time, 2, $current_user->column_fields['currency_decimal_separator'], $current_user->column_fields['currency_grouping_separator']);
 			if( $moduleModel->get('dayworktime') != '' ){
 				$text .= ' '.vtranslate('LBL_FROM').' '.$moduleModel->get('dayworktime');
 			}
 			$return = '<span title="'.vtranslate('Average daily working time', 'OSSEmployees').'">'.$text.'</span>';
 		}
 		return $return; 
-    }
+	}
 }
