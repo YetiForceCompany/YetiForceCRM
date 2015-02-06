@@ -17,9 +17,13 @@
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
                 <input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
             {/if}
-			{if $APIADDRESS}
-                <input type="hidden" name="apiAddress" value='{$APIADDRESS.key}' data-url="{$APIADDRESS.source}" data-lenght="{$APIADDRESS.min_lenght}"/>
-            {/if}
+			
+			{foreach from=$APIADDRESS item=item key=key}
+				{if $item['nominatim']}
+					<input type="hidden" name="apiAddress" value='{$item['key']}' data-api-name="{$item['api_name']}" data-url="{$item['source']}" data-lenght="{$item['min_lenght']}"/>
+				{/if}
+			{/foreach}
+			
             {if !empty($MAPPING_RELATED_FIELD)}
                 <input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
             {/if}
@@ -75,6 +79,9 @@
 							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							&nbsp;&nbsp;
 							{vtranslate($BLOCK_LABEL, $MODULE)}
+							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+								<input value="" type="text" class="api_address_autocomplete pull-right input" />
+							{/if}
 						</div>
 						<div class="span8">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}

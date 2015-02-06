@@ -18,6 +18,11 @@ $languageStrings = array(
 	'LBL_ENTER_KEY_APPLICATION' => 'Wprowadź klucz aplikacji',
 	'LBL_MIN_LOOKUP_LENGHT' => 'Minimalna liczba znaków, którą należy wpisać przed rozpoczęciem wyszukiwania',
 	'LBL_SAVE_NOTIFY_OK' => 'Zapisano zmiany.',
+	'LBL_CHOOSE_API' => 'Wybierz API',
+	'LBL_USE_GOOGLE_GEOCODER' => 'Użyj Google Geocoding',
+	'google_map_api' => 'Google Geocoding',
+	'opencage_data' => 'OpenCage Geocoder',
+
 );
 $jsLanguageStrings = array(
     'Invalid API key' => 'Nieprawidłowy klucz aplikacji',

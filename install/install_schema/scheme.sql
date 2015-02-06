@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.03 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.5.38 : Database - yfcrm
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -603,7 +602,8 @@ CREATE TABLE `vtiger_apiaddress` (
   `nominatim` int(1) DEFAULT '1',
   `key` varchar(255) DEFAULT NULL,
   `source` varchar(128) DEFAULT NULL,
-  `min_lenght` int(2) DEFAULT '3'
+  `min_lenght` int(2) DEFAULT '3',
+  `api_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assets` */

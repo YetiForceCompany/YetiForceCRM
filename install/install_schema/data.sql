@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.5.24-log : Database - yetiforce_10
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -307,7 +308,8 @@ insert  into `vtiger_activitytype_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_apiaddress` */
 
-insert  into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`) values (0,'0','https://api.opencagedata.com/geocode/v1/',3);
+insert  into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`,`api_name`) values (0,'','https://maps.googleapis.com/maps/api/geocode/json',3,'google_map_api');
+insert  into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`,`api_name`) values (0,'','https://api.opencagedata.com/geocode/v1/',3,'opencage_data');
 
 /*Data for the table `vtiger_assets` */
 

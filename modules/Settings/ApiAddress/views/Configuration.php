@@ -16,10 +16,9 @@ class Settings_ApiAddress_Configuration_View extends Settings_Vtiger_Index_View 
     }
 
 	public function process(Vtiger_Request $request) {
-        $moduleName = $request->getModule();
         $viewer = $this->getViewer($request);
-		$config = Settings_ApiAddress_Module_Model::getConfig(true);
-		$viewer->assign('CONFIG', $config);
+				
+		$viewer->assign('CONFIG', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
         $viewer->assign('MODULENAME', $request->getModule(false));
 		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
     }
