@@ -28,7 +28,11 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 			rmdir($dirPath);
 		}
 
-		Settings_BruteForce_Module_Model::checkBlocked();
+		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();
+		if($checkBlocked){
+			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=2');
+			exit;
+		}
 		
 		$user = CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
