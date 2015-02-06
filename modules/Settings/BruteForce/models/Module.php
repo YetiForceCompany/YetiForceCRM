@@ -87,8 +87,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 		$result = $db->pquery($query, array ($ip, $now) );
 
 		if($db->query_result_raw($result, 0, 'cn') >= $attempsNumber){
-			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=2');
-			exit;
-		}      
+			return true;
+		}
+		return false;
 	}	
 }

@@ -41,7 +41,7 @@
 							<select id="fieldsList" multiple="multiple" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $MODULE)}" class="row-fluid select2" style="width:100%">
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-										{assign var="FIELD_INFO" value=json_encode($FIELD_MODEL->getFieldInfo(), 4)}
+										{assign var="FIELD_INFO" value=json_encode($FIELD_MODEL->getFieldInfo())}
 											<option value="{$FIELD_MODEL->get('name')}" data-field-info='{$FIELD_INFO}' data-mandatory="{($FIELD_MODEL->isMandatory(true) eq 1) ? "true":"false"}"
 											{if (array_key_exists($FIELD_MODEL->get('name'), $SELECTED_FIELD_MODELS_LIST)) or ($FIELD_MODEL->isMandatory(true))}selected{/if}>
 												{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
