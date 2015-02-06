@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.03 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -3669,7 +3670,6 @@ CREATE TABLE `vtiger_ossoutsourcedservices` (
   `productname` varchar(100) DEFAULT '',
   `osservicesstatus` varchar(50) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT NULL,
-  `pssubcategory` varchar(255) DEFAULT NULL,
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
@@ -3884,7 +3884,6 @@ CREATE TABLE `vtiger_osssoldservices` (
   `productname` varchar(255) DEFAULT '',
   `ssservicesstatus` varchar(255) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT '',
-  `pssubcategory` varchar(255) DEFAULT '',
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
@@ -4012,7 +4011,6 @@ CREATE TABLE `vtiger_outsourcedproducts` (
   `dateinservice` date DEFAULT NULL,
   `oproductstatus` varchar(255) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT '',
-  `pssubcategory` varchar(255) DEFAULT '',
   `wherebought` varchar(255) DEFAULT '',
   `prodcount` varchar(255) DEFAULT '',
   `contact` int(19) DEFAULT NULL,
@@ -4422,7 +4420,6 @@ CREATE TABLE `vtiger_products` (
   `vendor_id` int(11) DEFAULT NULL,
   `imagename` text,
   `currency_id` int(19) NOT NULL DEFAULT '1',
-  `pssubcategory` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4769,23 +4766,6 @@ CREATE TABLE `vtiger_pscategory` (
 /*Table structure for table `vtiger_pscategory_seq` */
 
 CREATE TABLE `vtiger_pscategory_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pssubcategory` */
-
-CREATE TABLE `vtiger_pssubcategory` (
-  `pssubcategoryid` int(11) NOT NULL AUTO_INCREMENT,
-  `pssubcategory` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`pssubcategoryid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pssubcategory_seq` */
-
-CREATE TABLE `vtiger_pssubcategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5586,7 +5566,6 @@ CREATE TABLE `vtiger_service` (
   `taxclass` varchar(200) DEFAULT NULL,
   `currency_id` int(19) NOT NULL DEFAULT '1',
   `commissionrate` decimal(7,3) DEFAULT NULL,
-  `pssubcategory` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`serviceid`),
   CONSTRAINT `fk_1_vtiger_service` FOREIGN KEY (`serviceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6247,7 +6226,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
