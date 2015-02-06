@@ -50,6 +50,7 @@ $languageStrings = array(
    'Print' => 'Drucken',
 	'DuplicateRecord'  => 'Dupliziere',
 	'EditableComments' => 'Kommentar bearbeiten',
+	'TagCloud' => 'Tags cloud',
 );
 
 $jsLanguageStrings = array(

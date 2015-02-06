@@ -101,21 +101,6 @@
             <br>
 			{/foreach}
 
-			{* tag cloud starts *}
-			<table class="table table-bordered marginLeftZero">
-				<tr class="listViewActionsDiv">
-					<th colspan="4">{vtranslate('LBL_TAG_CLOUD_DISPLAY', $MODULE)}</th>
-				</tr>
-				<tr>
-					<td class="fieldLabel {$WIDTHTYPE}">{vtranslate('LBL_TAG_CLOUD', $MODULE)}</td>
-					<td class="fieldValue {$WIDTHTYPE}">
-						<label><input type="checkbox" name="tagcloudview" {if $TAG_CLOUD} checked {/if} /></label>
-					</td><td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-				</tr>
-			</table>
-                        <br>
-			{* tag cloud ends *}
-
 			<div class='pull-right'>
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 				<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>

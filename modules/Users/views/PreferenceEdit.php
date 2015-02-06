@@ -110,7 +110,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		$viewer = $this->getViewer($request);
 		$viewer->assign("DAY_STARTS", Zend_Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
-		$viewer->assign('TAG_CLOUD', $recordModel->getTagCloudStatus());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		parent::process($request);

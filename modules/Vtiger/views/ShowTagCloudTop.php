@@ -30,11 +30,12 @@ class Vtiger_ShowTagCloudTop_View extends Vtiger_IndexAjax_View {
 
 			$tags = Vtiger_Tag_Model::getAll($currentUser->id, $module, $record);
 			$viewer = $this->getViewer($request);
+			$tagCloudPermitted = Users_Privileges_Model::isPermitted($module, 'TagCloud', $record);
 			
 			$viewer->assign('MAX_TAG_LENGTH', $maxTagLength);
 			global $MAX_TAG;
 			$viewer->assign('MAX_TAG', $MAX_TAG);
-			$viewer->assign('SHOW_TAG', $currentUser->getTagCloudStatus());			
+			$viewer->assign('SHOW_TAG', $tagCloudPermitted);
 			$viewer->assign('TAGS', $tags);
 			$viewer->assign('MODULE',$module);
 			echo $viewer->view('ShowTagCloudTop.tpl', $module, true);

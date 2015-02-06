@@ -121,8 +121,6 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	 */
 	public function save() {
 		parent::save();
-
-		$this->saveTagCloud();
 	}
 
 
@@ -513,27 +511,6 @@ class Users_Record_Model extends Vtiger_Record_Model {
 		return $picklistDependencyData;
 	}
 
-	/**
-	 * Function returns if tag cloud is enabled or not
-	 */
-	function getTagCloudStatus() {
-		$db = PearDatabase::getInstance();
-		$query = "SELECT visible FROM vtiger_homestuff WHERE userid=? AND stufftype='Tag Cloud'";
-		$visibility = $db->query_result($db->pquery($query, array($this->getId())), 0, 'visible');
-		if($visibility == 0) {
-			return true;
-		} 
-		return false; 
-	}
-
-	/**
-	 * Function saves tag cloud
-	 */
-	function saveTagCloud() {
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_homestuff SET visible = ? WHERE userid=? AND stufftype='Tag Cloud'",
-				array($this->get('tagcloud'), $this->getId()));
-	}
 
 	/**
 	 * Function to get user groups

@@ -51,6 +51,7 @@ $languageStrings = array(
 	'CreateCustomFilter'  => 'Criação filtros customizados',
 	'DuplicateRecord'  => 'Duplicando',
 	'EditableComments'  => 'Edit comments',
+	'TagCloud' => 'Tags cloud',
 );
 
 $jsLanguageStrings = array(
