@@ -129,6 +129,8 @@ Class SalesOrder_Edit_View extends Inventory_Edit_View {
 
 		$serviceModuleModel = Vtiger_Module_Model::getInstance('Services');
 		$viewer->assign('SERVICE_ACTIVE', $serviceModuleModel->isActive());
+		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig(false));
+
 
 		$viewer->view('EditView.tpl', 'SalesOrder');
 	}

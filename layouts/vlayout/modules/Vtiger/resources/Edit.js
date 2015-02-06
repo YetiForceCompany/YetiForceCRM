@@ -38,7 +38,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var parentModule = app.getParentModuleName();
 		if(parentModule == 'Settings'){
 			var moduleClassName = parentModule+"_"+moduleName+"_Edit_Js";
-			if(typeof window[moduleClassName] == 'undefined'){
+			if(typeof window[moduleClassName] == 'undefined'){ 
 				moduleClassName = moduleName+"_Edit_Js";
 			}
 			var fallbackClassName = parentModule+"_Vtiger_Edit_Js";
@@ -69,6 +69,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 
 },{
 
+	addressDataOG : [],
+	addressDataGM : [],
+	
 	formElement : false,
 
 	getForm : function() {
@@ -1092,49 +1095,163 @@ jQuery.Class("Vtiger_Edit_Js",{
 		});
 
 	},
+	
+	getDataFromOG : function(request, apiData){
+	    var thisInstance = this;
+
+	    if (apiData["opencage_data"]) {
+		return  jQuery.ajax({
+		    url: apiData["opencage_data"].geoCodeURL,
+		    data: {
+			format: "json",
+			q: request.term,
+			pretty: '1',
+			key: apiData["opencage_data"].geoCodeKey
+		    },
+		    success: function (data, textStatus, jqXHR) {
+			if (data.results.length) {
+			    thisInstance.addressDataOG = jQuery.map(data.results, function (item) {
+				return {
+				    label: item.formatted + ' - OpenCage Geocoder',
+				    value: item.components.road,
+				    components: item.components
+				}
+			    });
+			}
+		    }
+		})
+	    }
+	    
+	    return [];
+	},
+	
+	getDataFromGM : function(request, apiData){
+	    var thisInstance = this;
+	    
+	    if (apiData["google_map_api"]) {
+		return jQuery.ajax({
+		    url: apiData["google_map_api"].geoCodeURL,
+		    data: {
+			address: request.term,
+			key: apiData["google_map_api"].geoCodeKey
+		    },
+		    success: function (addressData) {
+			var result = addressData.results[0].geometry.location;
+
+			jQuery.ajax({
+			    url: apiData["google_map_api"].geoCodeURL,
+			    data: {
+				latlng: result.lat + "," + result.lng,
+				key: apiData["google_map_api"].geoCodeKey
+			    },
+			    success: function (data, textStatus, jqXHR) {
+				thisInstance.addressDataGM = jQuery.map(data.results, function (item) {
+				    return {
+					label: item.formatted_address + ' - Google Geocoding',
+					value: item.formatted_address,
+					components: thisInstance.mappingAddressDataFromGoogle(item.address_components)
+				    }
+				})
+			    }
+			})
+		    }
+		})
+	    }
+	    
+	    return [];
+	},
+	
+	mappingAddressDataFromGoogle : function(address) {
+	    
+	    var data = {}
+	    	    
+	    for(var key in address){
+		var types = address[key]['types'];
+		
+		if ('route' === types[0]) {
+		    data.road = address[key]['long_name'];
+		}
+		
+		if ('street_number' === types[0]) {
+		    var numbers = address[key]['long_name'];
+		    if (numbers.indexOf('/' > -1)) {
+			var tab = numbers.split('/');
+			
+			data.house_number = tab[0];
+			data.local_number = tab[1];
+			
+		    } else{
+			data.house_number = address[key]['long_name'];
+		    }
+		}
+		
+		if ('country' === types[0] && 'political' === types[1]) {
+		    data.country = address[key]['long_name'];
+		}
+		
+		if ('administrative_area_level_1' === types[0] && 'political' === types[1]) {
+		    data.state = address[key]['long_name'];
+		}
+		
+		if ('administrative_area_level_2' === types[0] && 'political' === types[1]) {
+		    data.powiat = address[key]['long_name'];
+		}
+		
+		if ('sublocality_level_1' === types[0] && 'sublocality' === types[1] && 'political' === types[2]) {
+		    data.region_city = address[key]['long_name'];
+		}
+		
+		if ('postal_code' === types[0]) {
+		    data.postcode = address[key]['long_name'];
+		}
+		
+		if ('locality' === types[0] && 'political' === types[1]) {
+		    data.city = address[key]['long_name'];
+		}
+		
+	    }
+	    
+	    return data;
+	},
+	
 	registerApiAddress : function() {
 		var thisInstance = this;
 		var apiElement = jQuery('[name="apiAddress"]');
-		var geoCodeURL = apiElement.data('url');
-		var geoCodeKey = apiElement.val();
-		var minLookupLenght = apiElement.data('lenght');
+		var apiData = [];
+		
+		jQuery(apiElement).each(function(index, item){
+		   var apiName = jQuery(item).data('api-name');
+		   var info = {
+		       geoCodeURL : jQuery(item).data('url'),
+		       geoCodeKey : jQuery(item).val(),
+		       minLookupLenght : jQuery(item).data('lenght')
+		   }
+		   
+		   apiData[apiName] = info;
+		});
+		
+		if(!apiData){
+		    return false;
+		}
+		
+		jQuery('.api_address_autocomplete').autocomplete({
+			source: function ( request, response) {
+			    jQuery.when(
+				thisInstance.getDataFromOG(request, apiData),
+				thisInstance.getDataFromGM(request, apiData)
 
-		if( typeof geoCodeURL == 'undefined' || geoCodeKey == '')
-			return false;
-		$('[name^="addresslevel8"]').autocomplete({
-			source: function ( request, response ) {
-				$.ajax({
-					url: geoCodeURL,
-						data: {
-						format: "json",
-						q: request.term,
-						pretty: '1',
-						key: geoCodeKey
-					},
-					success: function ( data ) {
-						if(data.status.code != 200)
-							response ( [{label: app.vtranslate('An error has occurred. No results.'),value: '' }]);
-						else {
-							response ( $.map( data.results, function( item ) {
-								return {
-									label: item.formatted,
-									value: item.components.road,
-									components: item.components
-								}
-							}));
-						}
-					},
-					error: function(error) {
-						if(error.status.code != 200)
-							response ( [{label: app.vtranslate('An error has occurred. No results.'),value: '' }]);
-					}
-				})
+			    ).then(function(og, gm){
+				response(thisInstance.addressDataOG.concat(thisInstance.addressDataGM));
+				
+			}).fail(function(e){
+			        response ( [{label: app.vtranslate('An error has occurred. No results.'),value: '' }]);
+			    });
 			},
-			minLength: minLookupLenght,
+//			minLength: minLookupLenght,
 			select: function( event, ui ) {
-				for( key in ui.item.components ){
-					var addressType = thisInstance.addressFieldsMappingFromApi[key];
-					jQuery(this).closest('tbody').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
+				for(var key in ui.item.components ){
+				    var addressType = thisInstance.addressFieldsMappingFromApi[key];
+				    jQuery(this).parents('table').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
 				}
 			}
 	   });

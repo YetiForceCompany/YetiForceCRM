@@ -84,10 +84,6 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 			if( !$currentUserPrivilegeModel->hasModulePermission(getTabid($module)) ){
 				unset($widgets[$index]);
 			}		
-			if($label == 'Tag Cloud') {
-				$isTagCloudExists = getTagCloudView($currentUser->getId());
-				if($isTagCloudExists === 'false')  unset($widgets[$index]);
-			}
 		}
 
 		return $widgets;

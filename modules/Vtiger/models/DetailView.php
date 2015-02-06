@@ -250,18 +250,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 			}
 		}
 
-		/*if($currentUser->getTagCloudStatus()) {
-			$tagWidget = array(
-				'linktype' => 'DETAILVIEWSIDEBARWIDGET',
-				'linklabel' => 'LBL_TAG_CLOUD',
-				'linkurl' => 'module='.$this->getModule()->getName().'&view=ShowTagCloud&mode=showTags',
-				'linkicon' => '',
-			);
-			$linkModel = Vtiger_Link_Model::getInstanceFromValues($tagWidget);
-			if($listLinks['DETAILVIEWSIDEBARWIDGET']) array_push($listLinks['DETAILVIEWSIDEBARWIDGET'], $linkModel);
-			else $listLinks['DETAILVIEWSIDEBARWIDGET'][] = $linkModel;
-		}*/
-
 		if($listLinks['DETAILVIEWSIDEBARWIDGET']) {
 			foreach($listLinks['DETAILVIEWSIDEBARWIDGET'] as $link) {
 				$link->linkurl = $link->linkurl.'&record='.$this->getRecord()->getId().'&source_module='.$this->getModule()->getName();
