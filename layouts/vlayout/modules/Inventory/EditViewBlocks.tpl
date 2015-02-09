@@ -19,7 +19,7 @@
 		{/if}
 		{foreach from=$APIADDRESS item=item key=key}
 			{if $item['nominatim']}
-				<input type="hidden" name="apiAddress" value='{$item['key']}' data-api-name="{$item['api_name']}" data-url="{$item['source']}" data-lenght="{$item['min_lenght']}"/>
+				<input type="hidden" name="apiAddress" value='{$item['key']}' data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
 			{/if}
 		{/foreach}
 		

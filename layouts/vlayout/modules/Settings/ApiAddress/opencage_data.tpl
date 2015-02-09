@@ -14,18 +14,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td >
-			<div style="max-width:250px;">
-				{vtranslate('LBL_MIN_LOOKUP_LENGHT', $MODULENAME)}: 
-			</div>
-		</td>
-		<td>
-			<div style="text-align:center" >
-				<input name="min_lenght" type="text" class="api" value="{$API_INFO.min_lenght}" style="width:20px; margin:0 auto;">
-			</div>
-		</td>
-	</tr>
-	<tr>
 		<td>
 			<button type="button" class="btn btn-danger delete" id="delete">{vtranslate('LBL_REMOVE_CONNECTION', $MODULENAME)}</button>
 		</td>

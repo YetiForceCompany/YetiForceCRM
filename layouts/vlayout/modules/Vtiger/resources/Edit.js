@@ -1218,36 +1218,36 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var thisInstance = this;
 		var apiElement = jQuery('[name="apiAddress"]');
 		var apiData = [];
-		
+				
 		jQuery(apiElement).each(function(index, item){
 		   var apiName = jQuery(item).data('api-name');
 		   var info = {
 		       geoCodeURL : jQuery(item).data('url'),
-		       geoCodeKey : jQuery(item).val(),
-		       minLookupLenght : jQuery(item).data('lenght')
+		       geoCodeKey : jQuery(item).val()
 		   }
 		   
 		   apiData[apiName] = info;
+		   apiData["minLookupLenght"] = jQuery(item).data('lenght');
 		});
-		
+				
 		if(!apiData){
 		    return false;
 		}
-		
+	    
 		jQuery('.api_address_autocomplete').autocomplete({
 			source: function ( request, response) {
 			    jQuery.when(
-				thisInstance.getDataFromOG(request, apiData),
-				thisInstance.getDataFromGM(request, apiData)
+				    thisInstance.getDataFromOG(request, apiData),
+				    thisInstance.getDataFromGM(request, apiData)
 
-			    ).then(function(og, gm){
+				    ).then(function (og, gm) {
 				response(thisInstance.addressDataOG.concat(thisInstance.addressDataGM));
-				
-			}).fail(function(e){
-			        response ( [{label: app.vtranslate('An error has occurred. No results.'),value: '' }]);
+
+			    }).fail(function (e) {
+				response([{label: app.vtranslate('An error has occurred. No results.'), value: ''}]);
 			    });
 			},
-//			minLength: minLookupLenght,
+			minLength: apiData.minLookupLenght,
 			select: function( event, ui ) {
 				for(var key in ui.item.components ){
 				    var addressType = thisInstance.addressFieldsMappingFromApi[key];

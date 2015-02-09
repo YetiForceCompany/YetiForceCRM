@@ -30,10 +30,12 @@ function ApiAddress() {
 			
 			jQuery(this).parents('table:first').find('.api').each(function(){
 				var name = jQuery(this).attr('name');
-				if( jQuery(this).attr('type') == 'checkbox' )
-					elements[name] = jQuery(this).prop('checked') ? 1 : 0;
-				else
-					elements[name] = jQuery(this).val();
+				
+				if( jQuery(this).attr('type') == 'checkbox' ){
+				    elements[name] = jQuery(this).prop('checked') ? 1 : 0;
+				} else {
+				    elements[name] = jQuery(this).val();
+				}
 			});
 			
 			elements['api_name'] = jQuery(this).parents('table').data('api-name');
