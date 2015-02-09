@@ -138,11 +138,16 @@ function ApiAddress() {
 		var thisInstance = this;
 		var status = true;
 		for(var i in elements ){
-		    if( i == 'min_lenght'){
-			status = thisInstance.registerValidatemin_lenght(elements[i]);
+		    if( i == 'min_lenght' || i == 'result_num'){
+			if(!thisInstance.registerValidatemin_lenght(elements[i])){
+			    return false;
+			}
 		    }
+		    
 		    if( i == 'key'){
-			status = thisInstance.registerValidatekey(elements.key, elements.api_name);
+			if(!thisInstance.registerValidatekey(elements.key, elements.api_name)){
+			    return false;
+			}
 		    }
 		}
 		return status;

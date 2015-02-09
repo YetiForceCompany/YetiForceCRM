@@ -314,6 +314,7 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (4,'source','h
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (5,'key','','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (6,'source','https://api.opencagedata.com/geocode/v1/','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (7,'nominatim','0','opencage_data');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num','10','global');
 
 /*Data for the table `vtiger_assets` */
 

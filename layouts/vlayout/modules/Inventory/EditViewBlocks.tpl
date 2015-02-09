@@ -17,10 +17,11 @@
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 			<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 		{/if}
+		
 		{foreach from=$APIADDRESS item=item key=key}
-			{if $item['nominatim']}
-				<input type="hidden" name="apiAddress" value='{$item['key']}' data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
-			{/if}
+				{if $item['nominatim']}
+					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-lenght="{$APIADDRESS['global']['min_lenght']}"/>
+				{/if}
 		{/foreach}
 		
 		{if !empty($MAPPING_RELATED_FIELD)}

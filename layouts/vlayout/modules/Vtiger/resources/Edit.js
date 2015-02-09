@@ -1228,6 +1228,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		   
 		   apiData[apiName] = info;
 		   apiData["minLookupLenght"] = jQuery(item).data('lenght');
+		   apiData["max_num"] = jQuery(item).data('max-num');
 		});
 				
 		if(!apiData){
@@ -1241,7 +1242,10 @@ jQuery.Class("Vtiger_Edit_Js",{
 				    thisInstance.getDataFromGM(request, apiData)
 
 				    ).then(function (og, gm) {
-				response(thisInstance.addressDataOG.concat(thisInstance.addressDataGM));
+				    
+				    var result = thisInstance.addressDataOG.concat(thisInstance.addressDataGM);
+				    
+				    response(result.slice(0, apiData['max_num']));
 
 			    }).fail(function (e) {
 				response([{label: app.vtranslate('An error has occurred. No results.'), value: ''}]);

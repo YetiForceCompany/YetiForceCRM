@@ -49,19 +49,18 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 
 		$db = PearDatabase::getInstance();
 
-		$sqlVar = array();
 		
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
 		
 		if (count($elements)) {
 			foreach ($elements as $key => $value) {
-				
+				$sqlVar = array();
+
 				$sqlVar[] = $value;
 				$sqlVar[] = $apiName;
 				$sqlVar[] = $key;
 				
-//				var_dump($key, $value);
 				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? AND `name` = ?";
 				
 				$result = $db->pquery($sql, $sqlVar, true);

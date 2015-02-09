@@ -19,7 +19,7 @@
     <hr>
 	<div class="main_content" style="padding:30px">
 		<form>
-			<table cellpadding="10">
+			<table cellpadding="10" data-api-name="global">
 				<tr>
 					<td>{vtranslate('LBL_GLOBAL_CONFIG', $MODULENAME)} </td>
 				</tr>
@@ -33,6 +33,23 @@
 						<div style="text-align:center" >
 							<input name="min_lenght" type="text" class="api" value="{$CONFIG['global']['min_lenght']}" style="width:20px; margin:0 auto;">
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div style="max-width:250px;">
+							{vtranslate('LBL_NUMBER_SEARCH_RESULTS', $MODULENAME)}: 
+						</div>
+					</td>
+					<td>
+						<div style="text-align:center" >
+							<input name="result_num" type="text" class="api" value="{$CONFIG['global']['result_num']}" style="width:20px; margin:0 auto;">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button type="button" class="btn btn-success save">{vtranslate('LBL_SAVE_GLOBAL_SETTINGS', $MODULENAME)}</button>
 					</td>
 				</tr>
 				<tr>
