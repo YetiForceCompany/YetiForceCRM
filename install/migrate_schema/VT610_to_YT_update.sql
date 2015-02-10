@@ -513,7 +513,6 @@ ALTER TABLE `vtiger_ws_referencetype`
 ALTER TABLE `vtiger_service` 
 	ADD COLUMN `pscategory` varchar(200)  COLLATE utf8_general_ci NULL after `servicename` , 
 	CHANGE `qty_per_unit` `qty_per_unit` decimal(11,2)   NULL DEFAULT 0.00 after `pscategory` , 
-	ADD COLUMN `pssubcategory` varchar(255)  COLLATE utf8_general_ci NULL after `commissionrate` , 
 	DROP COLUMN `servicecategory` ;
 ALTER TABLE `vtiger_service` 
 	DROP FOREIGN KEY `fk_1_vtiger_service`  ;
@@ -904,8 +903,7 @@ ALTER TABLE `vtiger_pbxmanager`
 ALTER TABLE `vtiger_products` 
 	CHANGE `productid` `productid` int(19)   NOT NULL first , 
 	ADD COLUMN `pscategory` varchar(200)  COLLATE utf8_general_ci NULL after `productcode` , 
-	CHANGE `manufacturer` `manufacturer` varchar(200)  COLLATE utf8_general_ci NULL after `pscategory` , 
-	ADD COLUMN `pssubcategory` varchar(255)  COLLATE utf8_general_ci NULL after `currency_id` ; 
+	CHANGE `manufacturer` `manufacturer` varchar(200)  COLLATE utf8_general_ci NULL after `pscategory`; 
 	
 ALTER TABLE `vtiger_project` 
 	CHANGE `projectid` `projectid` int(19)   NOT NULL first , 
