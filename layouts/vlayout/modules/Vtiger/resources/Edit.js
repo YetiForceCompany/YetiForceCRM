@@ -1136,24 +1136,27 @@ jQuery.Class("Vtiger_Edit_Js",{
 			key: apiData["google_map_api"].geoCodeKey
 		    },
 		    success: function (addressData) {
-			var result = addressData.results[0].geometry.location;
+			
+			if (0 < addressData.results.length) {
+			    var result = addressData.results[0].geometry.location;
 
-			jQuery.ajax({
-			    url: apiData["google_map_api"].geoCodeURL,
-			    data: {
-				latlng: result.lat + "," + result.lng,
-				key: apiData["google_map_api"].geoCodeKey
-			    },
-			    success: function (data, textStatus, jqXHR) {
-				thisInstance.addressDataGM = jQuery.map(data.results, function (item) {
-				    return {
-					label: item.formatted_address + ' - Google Geocoding',
-					value: item.formatted_address,
-					components: thisInstance.mappingAddressDataFromGoogle(item.address_components)
-				    }
-				})
-			    }
-			})
+			    jQuery.ajax({
+				url: apiData["google_map_api"].geoCodeURL,
+				data: {
+				    latlng: result.lat + "," + result.lng,
+				    key: apiData["google_map_api"].geoCodeKey
+				},
+				success: function (data, textStatus, jqXHR) {
+				    thisInstance.addressDataGM = jQuery.map(data.results, function (item) {
+					return {
+					    label: item.formatted_address + ' - Google Geocoding',
+					    value: item.formatted_address,
+					    components: thisInstance.mappingAddressDataFromGoogle(item.address_components)
+					}
+				    })
+				}
+			    })
+			}
 		    }
 		})
 	    }
