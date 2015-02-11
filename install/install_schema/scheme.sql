@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.5.38 : Database - yfcrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -1355,6 +1355,7 @@ CREATE TABLE `vtiger_crmentity` (
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
   `inheritsharing` tinyint(1) DEFAULT '0',
+  `was_read` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
@@ -2247,7 +2248,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1523 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1557 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
