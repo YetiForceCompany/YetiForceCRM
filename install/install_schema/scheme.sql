@@ -599,11 +599,11 @@ CREATE TABLE `vtiger_announcement` (
 /*Table structure for table `vtiger_apiaddress` */
 
 CREATE TABLE `vtiger_apiaddress` (
-  `nominatim` int(1) DEFAULT '1',
-  `key` varchar(255) DEFAULT NULL,
-  `source` varchar(128) DEFAULT NULL,
-  `min_lenght` int(2) DEFAULT '3',
-  `api_name` varchar(255) NOT NULL
+  `id` int(19) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `val` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_assets` */

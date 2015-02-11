@@ -26,7 +26,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.2.73 RC';
+// migration to version '1.2.95 RC';
 class VT610_to_YT {
 	var $name = 'Vtiger CRM 6.1.0';
 	var $version = '6.1.0';
@@ -81,6 +81,7 @@ class VT610_to_YT {
 		self::pobox();
 		self::updateRecords();
 		self::foldersToTree();
+		self::changeFieldOnTree();
 		self::InactiveFields();
 		
 		$fieldsToDelete = array(
@@ -91,7 +92,7 @@ class VT610_to_YT {
 		'Quotes'=>array('s_h_percent',"s_h_amount",'adjustment','inventorymanager'),
 		'SalesOrder'=>array('s_h_percent',"s_h_amount",'adjustment'),
 		'Accounts'=>array('bill_street',"bill_city","bill_state","bill_code","bill_country","bill_pobox","ship_street","ship_city","ship_state","ship_code","ship_country","ship_pobox"),
-		'Vendors'=>array('country',"city","street","postalcode","state","pobox")
+		'Vendors'=>array('country',"city","street","postalcode","state","pobox"),
 		);
 		self::deleteFields($fieldsToDelete);
 		self::leadMapping();
@@ -470,6 +471,7 @@ class VT610_to_YT {
 		$addHandler[] = array('vtiger.entity.afterdelete','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler',NULL,'1','[]');
 		$addHandler[] = array('vtiger.entity.aftersave','modules/Vtiger/handlers/RecordLabelUpdater.php','Vtiger_RecordLabelUpdater_Handler','','1','[]');
 		
+		$adb->query('UPDATE vtiger_eventhandlers SET handler_path = "include/events/VTEntityDelta.php" WHERE handler_path = "data/VTEntityDelta.php";');
 		try {
 			$em = new VTEventsManager($adb);
 			foreach($removeClass as $moduleName=>$handlerClass){
@@ -840,8 +842,7 @@ class VT610_to_YT {
 
 		$tab = 14;
 		$Products = array(
-		array("14","911","pssubcategory","vtiger_products","1","15","pssubcategory","Sub Category","1","2","","100","23","31","1","V~O","2","6","BAS","1","0","0","varchar(255)","LBL_PRODUCT_INFORMATION",array("Dell","Symantec","Eset","Kaspersky","Sophos")),
-		array("14","178","pscategory","vtiger_products","1","15","pscategory","Product Category","1","2","","100","6","31","1","V~O","2","5","BAS","1","0","1","varchar(200)","LBL_PRODUCT_INFORMATION",array("Hardware","Software","CRM Applications","Antivirus","Backup")),
+		array("14","178","pscategory","vtiger_products","1","302","pscategory","Product Category","1","2","","100","6","31","1","V~O","2","5","BAS","1","0","1","varchar(200)","LBL_PRODUCT_INFORMATION"),
 		array("14","1392","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","24","31","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_PRODUCT_INFORMATION")
 		);
 
@@ -857,8 +858,7 @@ class VT610_to_YT {
 
 		$tab = 35;
 		$Services = array(
-		array("35","910","pssubcategory","vtiger_service","1","15","pssubcategory","Sub Category","1","2","","100","18","91","1","V~O","2","5","BAS","1","0","0","varchar(255)","LBL_SERVICE_INFORMATION"),
-		array("35","574","pscategory","vtiger_service","1","15","pscategory","Service Category","1","2","","100","7","91","1","V~O","2","3","BAS","1","0","1","varchar(200)","LBL_SERVICE_INFORMATION"),
+		array("35","574","pscategory","vtiger_service","1","302","pscategory","Service Category","1","2","","100","7","91","1","V~O","2","3","BAS","1","0","1","varchar(200)","LBL_SERVICE_INFORMATION"),
 		array("35","1394","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","19","91","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_SERVICE_INFORMATION"),
 		array('35','743','smcreatorid','vtiger_crmentity','1','52','created_user_id','Created By','1','2','','100','17','91','2','V~O','3','4','BAS','0','0','0',"int(19)","LBL_SERVICE_INFORMATION")
 		);
@@ -1918,8 +1918,6 @@ class VT610_to_YT {
 		//include('config/config.inc.php');
 		global $dbconfig;
 		$assigned_user_id = $this->adminId;
-		$log->debug("Entering VT610_to_YT::addRecords88(".$dbconfig['db_type'].' '.$dbconfig['db_hostname'].' '.$dbconfig['db_name'].' '.$dbconfig['db_username'].") method ...");
-		$log->debug("Entering VT610_to_YT::addRecords44(".$assigned_user_id.") method ...");
 		$user = new Users();
 		$current_user = $user->retrieveCurrentUserInfoFromFile( $assigned_user_id );
 		$moduleName = 'OSSMailTemplates';
@@ -2634,7 +2632,6 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$columnList['PriceBooks'][] = array(23,3,'vtiger_pricebook:currency_id:currency_id:PriceBooks_Currency:I');
 		$columnList['Products'][] = array(24,0,'vtiger_products:productname:productname:Products_Product_Name:V');
 		$columnList['Products'][] = array(24,1,'vtiger_products:pscategory:pscategory:Products_Product_Category:V');
-		$columnList['Products'][] = array(24,2,'vtiger_products:pssubcategory:pssubcategory:Products_Sub_Category:V');
 		$columnList['Products'][] = array(24,3,'vtiger_products:unit_price:unit_price:Products_Unit_Price:N');
 		$columnList['Products'][] = array(24,4,'vtiger_products:qtyinstock:qtyinstock:Products_Qty_In_Stock:NN');
 		$columnList['Products'][] = array(24,5,'vtiger_products:discontinued:discontinued:Products_Product_Active:C');
@@ -2677,7 +2674,6 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$columnList['Services'][] = array(40,2,'vtiger_service:sales_start_date:sales_start_date:Services_Sales_Start_Date:D');
 		$columnList['Services'][] = array(40,3,'vtiger_service:sales_end_date:sales_end_date:Services_Sales_End_Date:D');
 		$columnList['Services'][] = array(40,4,'vtiger_service:pscategory:pscategory:Services_Service_Category:V');
-		$columnList['Services'][] = array(40,5,'vtiger_service:pssubcategory:pssubcategory:Services_Sub_Category:V');
 		$columnList['Services'][] = array(40,6,'vtiger_service:discontinued:discontinued:Services_Service_Active:V');
 		$columnList['Assets'][] = array(41,0,'vtiger_assets:assetname:assetname:Assets_Asset_Name:V');
 		$columnList['Assets'][] = array(41,1,'vtiger_assets:product:product:Assets_Product_Name:V');
@@ -2853,21 +2849,21 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::relatedList() method ...");
 		
-		$docelowy_Module = Vtiger_Module::getInstance('Contacts');
+		$targetModule = Vtiger_Module::getInstance('Contacts');
 		$moduleInstance = Vtiger_Module::getInstance('CallHistory');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('Leads');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('Vendors');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		//$docelowy_Module = Vtiger_Module::getInstance('OSSEmployees');
-		//$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		$docelowy_Module = Vtiger_Module::getInstance('HelpDesk');
-		$docelowy_Module->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('Accounts');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('Leads');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('Vendors');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		//$targetModule = Vtiger_Module::getInstance('OSSEmployees');
+		//$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('Potentials');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('HelpDesk');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		
 		$addRelations = array();
 		$addRelations['Potentials'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD', 'name'=>'get_dependents_list');
@@ -2926,7 +2922,73 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		}
 		$log->debug("Exiting VT610_to_YT::transferLogo() method ...");
 	}
-	
+	/////////////
+	public function changeFieldOnTree(){
+		global $log,$adb;
+			$log->debug("Entering VT610_to_YT::changeFieldOnTree() method ...");
+		$tab = array('vtiger_products'=>'pscategory',
+					'vtiger_service'=>'pscategory',	
+					'vtiger_ossoutsourcedservices'=>'pscategory',	
+					'vtiger_osssoldservices'=>'pscategory',	
+					'vtiger_outsourcedproducts'=>'pscategory'	
+					);
+		$templateNames = array('pscategory'=>'Category');
+		foreach($tab as $tablename=>$columnname){
+			$result = $adb->pquery("SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `tablename` = ?;", array($columnname, $tablename));
+			if($adb->num_rows($result) == 1){
+				$fieldparams = $adb->query_result_raw($result, 0, 'fieldparams');
+				$moduleId = $adb->query_result_raw($result, 0, 'tabid');
+				if(!$fieldparams){
+					$stem = array("Hardware","Software","CRM Applications","Antivirus","Backup");
+					$k=1;
+					$tree = array();
+					foreach($stem AS $storey){
+						$tree[] = array('data'=>$storey, 'attr'=>array('id'=>$k));
+						$k = $k+1;
+					}
+					$templateId = self::createTree($moduleId, $templateNames[$columnname], $tree);
+					if($templateId){
+						self::updateRecordsTree($tablename, $columnname, $tree);
+						$adb->pquery("UPDATE `vtiger_field` SET `fieldparams` = ? WHERE `columnname` = ? AND `tablename` = ?;", array($templateId, $columnname, $tablename));
+					}
+				}
+			}
+		}
+	}
+	public function updateRecordsTree($tablename, $columnName, $tree ){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT::updateRecordsTree(".$tablename.", ".$columnName.", ".$tree.") method ...");
+		foreach($tree AS $treeElement){
+			$query = 'UPDATE '.$tablename.' SET '.$columnName.' = ? WHERE '.$columnName.' = ?';
+			$params = array('T'.$treeElement['attr']['id'], $treeElement['data']);
+			$adb->pquery($query, $params);
+			if($treeElement['children']){
+				$this->updateRecordsTree( $tablename, $columnName, $treeElement['children']);
+			}
+		}
+		$log->debug("Exiting VT610_to_YT::updateRecordsTree() method ...");
+	}
+	public function createTree($moduleId, $nameTemplate, $tree){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT::createTree(".$moduleId.", ".$nameTemplate.", ".$tree.") method ...");
+		vimport('~~modules/Settings/TreesManager/models/Record.php');
+		
+		$sql = 'INSERT INTO vtiger_trees_templates(`name`, `module`, `access`) VALUES (?,?,?)';
+		$params = array($nameTemplate, $moduleId, 0);
+		$adb->pquery($sql, $params);
+		$templateId = $adb->getLastInsertID();
+		
+		$recordModel = new Settings_TreesManager_Record_Model();
+		$recordModel->set('name', $nameTemplate);
+		$recordModel->set('module', $moduleId);
+		$recordModel->set('tree', $tree);
+		$recordModel->set('templateid', $templateId);
+		$recordModel->save();
+
+		$log->debug("Exiting VT610_to_YT::createTree() method ...");
+		return $templateId;
+	}
+	////////////
 	public function removeModules(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::removeModules() method ...");

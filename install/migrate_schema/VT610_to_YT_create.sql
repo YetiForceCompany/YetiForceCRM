@@ -183,7 +183,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
   `productname` varchar(100) DEFAULT '',
   `osservicesstatus` varchar(50) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT NULL,
-  `pssubcategory` varchar(255) DEFAULT NULL,
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
@@ -281,7 +280,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   `productname` varchar(255) DEFAULT '',
   `ssservicesstatus` varchar(255) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT '',
-  `pssubcategory` varchar(255) DEFAULT '',
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
@@ -368,7 +366,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproducts`(
 	`dateinservice` date NULL  , 
 	`oproductstatus` varchar(255) COLLATE utf8_general_ci NULL  , 
 	`pscategory` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
-	`pssubcategory` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
 	`wherebought` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
 	`prodcount` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
 	`contact` int(19) NULL  , 
@@ -827,10 +824,11 @@ CREATE TABLE IF NOT EXISTS `roundcube_system` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_apiaddress` (
-  `nominatim` int(1) DEFAULT '1',
-  `key` varchar(255) DEFAULT NULL,
-  `source` varchar(128) DEFAULT NULL,
-  `min_lenght` int(2) DEFAULT '3'
+  `id` int(19) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `val` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_bruteforce` (
@@ -1015,7 +1013,14 @@ CREATE TABLE IF NOT EXISTS `vtiger_contactsbookmails` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 insert into `vtiger_bruteforce` (`attempsnumber`, `timelock`) values('10','15');
-insert into `vtiger_apiaddress`(`nominatim`,`key`,`source`,`min_lenght`) values (0,'0','https://api.opencagedata.com/geocode/v1/',3);
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (1,'min_lenght','3','global');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (2,'key','','google_map_api');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (3,'nominatim','0','google_map_api');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (4,'source','https://maps.googleapis.com/maps/api/geocode/json','google_map_api');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (5,'key','','opencage_data');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (6,'source','https://api.opencagedata.com/geocode/v1/','opencage_data');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (7,'nominatim','0','opencage_data');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num','10','global');
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (1,'HelpDesk','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (2,'Calendar','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
 insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (3,'ProjectTask','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');

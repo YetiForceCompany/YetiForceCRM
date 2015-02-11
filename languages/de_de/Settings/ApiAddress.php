@@ -22,6 +22,9 @@ $languageStrings = array(
 	'LBL_USE_GOOGLE_GEOCODER' => 'Use Google Geocoding',
 	'google_map_api' => 'Google Geocoding',
 	'opencage_data' => 'OpenCage Geocoder',
+	'LBL_GLOBAL_CONFIG' => 'Global configuration',
+	'LBL_SAVE_GLOBAL_SETTINGS' => 'Save the global settings',
+	'LBL_NUMBER_SEARCH_RESULTS' => 'Number of search results',
 );
 $jsLanguageStrings = array(
 	'Invalid API key'	=>	'Fehlerhafter API Schlüssel',

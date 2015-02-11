@@ -12,55 +12,62 @@
 
 class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model {
 
-	public function getConfig($panel = false) {
+	public function getConfig($type = NULL) {
 		$log = vglobal('log');
 
 		$db = PearDatabase::getInstance();
-		$log->debug("Entering Settings_ApiAddress_Module_Model::getConfig(" . $panel . ") method ...");
+		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
 
-		$sql = "SELECT * FROM `vtiger_apiaddress`;";
-		$result = $db->query($sql, true);
-
+		$sql = "SELECT * FROM `vtiger_apiaddress` ";
+		$params = array();
+		
+		if ($type) {
+			$params[] = $type;
+			"WHERE `type` = ?;";
+		}
+		
+		$result = $db->pquery($sql, $params, true);
+		
 		$rawData = array();
-
-		for ($i = 0; $i <= count($db->num_rows($result)); $i++) {
-			$rawData[$i] = $db->query_result_rowdata($result, $i);
+		
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$element = $db->query_result_rowdata($result, $i);
+			
+			$rawData[$element['type']][$element['name']] = $element['val'];
 		}
 
-		$log->debug("Exiting Settings_ApiAddress_Module_Model::getConfig() method ...");
+		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . "(" . $type . ") method ...");
 
 		return $rawData;
 	}
 
 	public function setConfig(array $elements) {
-
+		
 		$log = vglobal('log');
 
-		$log->debug("Entering Settings_ApiAddress_Module_Model::setConfig() method ...");
+		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . " method ...");
 
 		$db = PearDatabase::getInstance();
 
+		
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
-
-		$keys = array_keys($elements);
-		$values = array_values($elements);
-
-		$updateFld = array();
-
+		
 		if (count($elements)) {
-			foreach ($keys as $key => $value) {
-				$updateFld[] = '`' . $value . '` = ? ';
+			foreach ($elements as $key => $value) {
+				$sqlVar = array();
+
+				$sqlVar[] = $value;
+				$sqlVar[] = $apiName;
+				$sqlVar[] = $key;
+				
+				$sql = "UPDATE `vtiger_apiaddress` SET `val` = ? WHERE `type` = ? AND `name` = ?";
+				
+				$result = $db->pquery($sql, $sqlVar, true);
 			}
 		}
 
-		$sql = "UPDATE `vtiger_apiaddress` SET " . implode(',', $updateFld) . ' WHERE api_name = ?';
-
-		$values[] = $apiName;
-
-		$result = $db->pquery($sql, $values, true);
-
-		$log->debug("Exiting Settings_ApiAddress_Module_Model::setConfig() method ...");
+		$log->debug("Exiting " . __CLASS__ . "::" . __METHOD__ . " method ...");
 
 		return $result;
 	}

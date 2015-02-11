@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2014-12-03 14:27:30</exporttime>
+<exporttime>2015-02-10 09:35:25</exporttime>
 <name>OSSSoldServices</name>
 <label>OSSSoldServices</label>
 <parent>Databases</parent>
@@ -76,7 +76,7 @@
 </field>
 <field>
 <fieldname>pscategory</fieldname>
-<uitype>15</uitype>
+<uitype>302</uitype>
 <columnname>pscategory</columnname>
 <tablename>vtiger_osssoldservices</tablename>
 <generatedtype>2</generatedtype>
@@ -94,31 +94,6 @@
 <helpinfo><![CDATA[0]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
-<picklistvalues>
-</picklistvalues>
-</field>
-<field>
-<fieldname>pssubcategory</fieldname>
-<uitype>15</uitype>
-<columnname>pssubcategory</columnname>
-<tablename>vtiger_osssoldservices</tablename>
-<generatedtype>2</generatedtype>
-<fieldlabel>Sub Category</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>6</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>2</quickcreate>
-<quickcreatesequence>7</quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<picklistvalues>
-</picklistvalues>
 </field>
 <field>
 <fieldname>datesold</fieldname>
