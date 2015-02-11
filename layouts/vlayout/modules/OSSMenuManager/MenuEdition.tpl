@@ -11,7 +11,7 @@
 -->*}
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-<h3 id="myModalLabel">Edycja {vtranslate($MENU_RECORD.label, 'OSSMenuManager')}</h3>
+<h3 id="myModalLabel">{vtranslate('LBL_EDIT', 'OSSMenuManager')} {vtranslate($MENU_RECORD.label, 'OSSMenuManager')}</h3>
 </div>
 <div class="modal-body" style="width: auto;">
 	<div class="modal-Fields" style="padding-right:30px;">
