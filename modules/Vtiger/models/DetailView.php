@@ -285,10 +285,10 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 	public static function getInstance($moduleName,$recordId) {
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
-
+		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-
+		$recordModel->trackView();
 		return $instance->setModule($moduleModel)->setRecord($recordModel);
 	}
 }
