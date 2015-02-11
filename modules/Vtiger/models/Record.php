@@ -442,4 +442,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 		}
         return $summaryBlocks;
 	}
+	 public function trackView() {
+	    global $log;
+	    $db = PearDatabase::getInstance();
+	    $id = $this->getId();
+	    $log->debug("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
+	    if ($id != '') {
+	       $updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
+	       $updateParams = array(date('Y-m-d H:i:s'), $this->getId());
+	       $db->pquery($updateQuery, $updateParams);
+	    }
+	 }
+
 }
