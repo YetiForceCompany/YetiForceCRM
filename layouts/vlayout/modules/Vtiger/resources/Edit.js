@@ -1112,7 +1112,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 			if (data.results.length) {
 			    thisInstance.addressDataOG = jQuery.map(data.results, function (item) {
 				return {
-				    label: item.formatted + ' - OpenCage Geocoder',
+				    label: item.formatted,
+				    source: 'opencage_geocoder',
+				    source_label: 'OpenCage Geocoder',
 				    value: item.components.road,
 				    components: item.components
 				}
@@ -1149,7 +1151,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 				success: function (data, textStatus, jqXHR) {
 				    thisInstance.addressDataGM = jQuery.map(data.results, function (item) {
 					return {
-					    label: item.formatted_address + ' - Google Geocoding',
+					    label: item.formatted_address,
+					    source: 'google_geocoding',
+					    source_label: 'Google Geocoding',
 					    value: item.formatted_address,
 					    components: thisInstance.mappingAddressDataFromGoogle(item.address_components)
 					}
@@ -1261,7 +1265,13 @@ jQuery.Class("Vtiger_Edit_Js",{
 				    jQuery(this).parents('table').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
 				}
 			}
-	   });
+	   }).data("autocomplete")._renderItem = function (ul, item) {
+		return jQuery("<li>")
+		    .data("item.autocomplete", item)
+		    .append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/' 
+		    + item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
+		    .appendTo(ul);
+	   };
 	},
 	addressFieldsMappingFromApi : {
 		'house_number':'buildingnumber',
