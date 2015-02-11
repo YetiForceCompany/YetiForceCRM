@@ -1,5 +1,5 @@
 {if $API_INFO["key"] }
-	<table cellpadding="10" data-api-name="{$API_INFO.api_name}">
+	<table cellpadding="10" data-api-name="{$API_NAME}">
 	<tr>
 		<td colspan="2"><hr /></td>
 	</tr>
@@ -23,7 +23,7 @@
 	</tr>
 	</table>
 {else}
-	<table data-api-name="{$API_INFO.api_name}">
+	<table data-api-name="{$API_NAME}">
 	<tr>
 		<td>
 			<div class="">

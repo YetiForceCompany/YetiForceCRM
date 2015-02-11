@@ -70,7 +70,7 @@
 								&nbsp;&nbsp;
 								{vtranslate($BLOCK_LABEL, $MODULE)}
 								{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-									<input value="" type="text" class="api_address_autocomplete pull-right input" />
+									<input value="" type="text" class="api_address_autocomplete pull-right input" style="width: 50%;" />
 								{/if}
 							</div>
 							<div class="span8">
