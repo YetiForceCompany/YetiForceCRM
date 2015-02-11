@@ -14,9 +14,10 @@ include_once('vtlib/Vtiger/PackageImport.php');
  * @package vtlib
  */
 class Vtiger_PackageUpdate extends Vtiger_PackageImport {
-
     var $_migrationinfo = false;
-
+    var $listFields = Array();
+    var $listBlocks = Array();
+    
     /**
      * Constructor
      */
@@ -134,7 +135,6 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
     function update_Module($moduleInstance) {
         $tabname = $this->_modulexml->name;
         $tablabel= $this->_modulexml->label;
-        $parenttab=$this->_modulexml->parent;
         $tabversion=$this->_modulexml->version;
 
         $isextension= false;
@@ -145,6 +145,9 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
         }
 
         Vtiger_Module::fireEvent($moduleInstance->name, Vtiger_Module::EVENT_MODULE_PREUPDATE);
+        $moduleInstance->label= $tablabel;
+        $moduleInstance->save();
+        
         $this->handle_Migration($this->_modulexml, $moduleInstance);
         $this->update_Tables($this->_modulexml);
         $this->update_Blocks($this->_modulexml, $moduleInstance);
@@ -232,6 +235,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
         if(empty($modulenode->blocks) || empty($modulenode->blocks->block)) return;
 
         foreach($modulenode->blocks->block as $blocknode) {
+        	$this->listBlocks[] = strval($blocknode->label);
             $blockInstance = Vtiger_Block::getInstance((string)$blocknode->label, $moduleInstance);
             if(!$blockInstance) {
                 $blockInstance = $this->import_Block($modulenode, $moduleInstance, $blocknode);
@@ -241,6 +245,13 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
 
             $this->update_Fields($blocknode, $blockInstance, $moduleInstance);
         }
+        // Deleting removed blocks
+        $listBlockBeforeUpdate = Vtiger_Block::getAllForModule($moduleInstance);
+        foreach($listBlockBeforeUpdate as $blockInstance) {
+        	if (!(in_array($blockInstance->label,$this->listBlocks))) {
+        		$blockInstance->delete();
+        	}
+        }
     }
 
     /**
@@ -248,7 +259,22 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      * @access private
      */
     function update_Block($modulenode, $moduleInstance, $blocknode, $blockInstance) {
-        // TODO Handle block property update
+    	$blockInstance->label = strval($blocknode->label);
+    	if(isset($blocknode->sequence) && isset($blocknode->display_status)) {
+    		$blockInstance->sequence = strval($blocknode->sequence);
+    		$blockInstance->showtitle = strval($blocknode->show_title);
+    		$blockInstance->visible = strval($blocknode->visible);
+    		$blockInstance->increateview = strval($blocknode->create_view);
+    		$blockInstance->ineditview = strval($blocknode->edit_view);
+    		$blockInstance->indetailview = strval($blocknode->detail_view);
+    		$blockInstance->display_status = strval($blocknode->display_status);
+    		$blockInstance->iscustom = strval($blocknode->iscustom);
+    		$blockInstance->islist = strval($blocknode->islist);
+    	} else {
+    		$blockInstance->display_status = NULL;
+    	}
+    	$blockInstance->save();
+    	return $blockInstance;
     }
 
     /**
@@ -259,6 +285,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
         if(empty($blocknode->fields) || empty($blocknode->fields->field)) return;
 
         foreach($blocknode->fields->field as $fieldnode) {
+        	$this->listFields[] = strval($fieldnode->fieldname);
             $fieldInstance = Vtiger_Field::getInstance((string)$fieldnode->fieldname, $moduleInstance);
             if(!$fieldInstance) {
                 $fieldInstance = $this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
@@ -267,6 +294,13 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
             }
             $this->__AddModuleFieldToCache($moduleInstance, $fieldInstance->name, $fieldInstance);
         }
+        // Deleting removed fields
+        $listFieldBeforeUpdate = Vtiger_Field::getAllForModule($moduleInstance);
+        foreach($listFieldBeforeUpdate as $fieldInstance) {
+        	if (!(in_array($fieldInstance->name,$this->listFields))) {
+        		$fieldInstance->delete();
+        	}
+        } 
     }
 
     /**
@@ -274,11 +308,74 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      * @access private
      */
     function update_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance) {
-        // TODO Handle field property update
-
-        if(!empty($fieldnode->helpinfo)) $fieldInstance->setHelpInfo($fieldnode->helpinfo);
+		
+		// strval used because in $fieldnode there is a SimpleXMLElement object 
+    	$fieldInstance->name         = strval($fieldnode->fieldname);
+    	$fieldInstance->label        = strval($fieldnode->fieldlabel);
+    	$fieldInstance->table        = strval($fieldnode->tablename);
+    	$fieldInstance->column       = strval($fieldnode->columnname);
+    	$fieldInstance->uitype       = strval($fieldnode->uitype);
+    	$fieldInstance->generatedtype= strval($fieldnode->generatedtype);
+    	$fieldInstance->readonly     = strval($fieldnode->readonly);
+    	$fieldInstance->presence     = strval($fieldnode->presence);
+    	$fieldInstance->defaultvalue = strval($fieldnode->defaultvalue);
+    	$fieldInstance->maximumlength= strval($fieldnode->maximumlength);
+    	$fieldInstance->sequence     = strval($fieldnode->sequence);
+    	$fieldInstance->quickcreate  = strval($fieldnode->quickcreate);
+    	$fieldInstance->quicksequence= strval($fieldnode->quickcreatesequence);
+    	$fieldInstance->typeofdata   = strval($fieldnode->typeofdata);
+    	$fieldInstance->displaytype  = strval($fieldnode->displaytype);
+    	$fieldInstance->info_type    = strval($fieldnode->info_type);
+    	$fieldInstance->fieldparams    = strval($fieldnode->fieldparams);
+    	
+    	if(!empty($fieldnode->fieldparams))
+    		$fieldInstance->fieldparams    = strval($fieldnode->fieldparams);
+    	
+        // Check if new parameters are defined
+		if(isset($fieldnode->columntype)) {
+			$fieldInstance->columntype   = strval($fieldnode->columntype);
+		} else {
+			$fieldInstance->columntype = NULL;
+		}
+    	
+    	if(!empty($fieldnode->helpinfo)) $fieldInstance->setHelpInfo($fieldnode->helpinfo);
         if(!empty($fieldnode->masseditable)) $fieldInstance->setMassEditable($fieldnode->masseditable);
         if(!empty($fieldnode->summaryfield)) $fieldInstance->setSummaryField($fieldnode->summaryfield); 
+    	
+    	$fieldInstance->block = $blockInstance;
+    	$fieldInstance->save();
+    	
+    	// Set the field as entity identifier if marked.
+     	if(!empty($fieldnode->entityidentifier)) {
+     		if(isset($fieldnode->entityidentifier->fieldname) && !empty($fieldnode->entityidentifier->fieldname)) {
+				$moduleInstance->entityfieldname = strval($fieldnode->entityidentifier->fieldname);
+			} else {
+				$moduleInstance->entityfieldname = $fieldInstance->name;
+			}
+			$moduleInstance->entityidfield = strval($fieldnode->entityidentifier->entityidfield);
+			$moduleInstance->entityidcolumn= strval($fieldnode->entityidentifier->entityidcolumn);
+			$moduleInstance->setEntityIdentifier($fieldInstance);
+     	}
+    	
+    	// Check picklist values associated with field if any.
+    	if(!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
+    		$picklistvalues = Array();
+    		foreach($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
+    			$picklistvalues[] = $picklistvaluenode;
+    		}
+    		$fieldInstance->setPicklistValues( $picklistvalues );
+    	}
+    	
+    	// Check related modules associated with this field
+    	if(!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
+    		$relatedmodules = Array();
+    		//TODO:Delete old related modules
+    		foreach($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
+    			$relatedmodules[] = $relatedmodulenode;
+    		}
+    		$fieldInstance->setRelatedModules($relatedmodules);
+    	}
+    	return $fieldInstance;
     }
 
     /**
@@ -323,7 +420,13 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      */
     function update_Events($modulenode, $moduleInstance) {
         if(empty($modulenode->events) || empty($modulenode->events->event))	return;
-
+        
+        global $adb;
+        
+        // Deleting events before importing them
+        $adb->query("DELETE FROM vtiger_eventhandlers WHERE handler_class  IN (SELECT handler_class FROM vtiger_eventhandler_module  WHERE module_name = '".$moduleInstance->name."')");
+        $adb->query("DELETE FROM vtiger_eventhandler_module  WHERE module_name = '".$moduleInstance->name."'");
+                
         if(Vtiger_Event::hasSupport()) {
             foreach($modulenode->events->event as $eventnode) {
                 $this->update_Event($modulenode, $moduleInstance, $eventnode);
@@ -336,7 +439,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      * @access private
      */
     function update_Event($modulenode, $moduleInstance, $eventnode) {
-        //Vtiger_Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
+        Vtiger_Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
         // TODO Handle event property update
     }
 

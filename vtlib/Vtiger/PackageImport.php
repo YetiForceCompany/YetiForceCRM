@@ -88,7 +88,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	}
 
 	/**
-	 * Are we trying to import layout package?
+	 * Are we trying to import language package?
 	 */
 	function isLanguageType($zipfile =null) {
 		if(!empty($zipfile)) {
@@ -526,6 +526,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 
 		if($type != 'update'){
 			$moduleInstance->save();
+			$moduleInstance->initWebservice();
 			$this->import_Tables($this->_modulexml);
 			$this->import_Blocks($this->_modulexml, $moduleInstance);
 			$this->import_CustomViews($this->_modulexml, $moduleInstance);
@@ -536,7 +537,6 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			$this->import_CustomLinks($this->_modulexml, $moduleInstance);
 			$this->import_CronTasks($this->_modulexml);
 			Vtiger_Module::fireEvent($moduleInstance->name,	Vtiger_Module::EVENT_MODULE_POSTINSTALL);
-			$moduleInstance->initWebservice();
 		}else{
 			$this->import_update($this->_modulexml);
 		}
@@ -623,6 +623,20 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 
 		$blockInstance = new Vtiger_Block();
 		$blockInstance->label = $blocklabel;
+		if(isset($blocknode->sequence) && isset($blocknode->display_status)) {
+			$blockInstance->sequence = strval($blocknode->sequence);
+			if ($blockInstance->sequence = "") $blockInstance->sequence = NULL;
+			$blockInstance->showtitle = strval($blocknode->show_title);
+			$blockInstance->visible = strval($blocknode->visible);
+			$blockInstance->increateview = strval($blocknode->create_view);
+			$blockInstance->ineditview = strval($blocknode->edit_view);
+			$blockInstance->indetailview = strval($blocknode->detail_view);
+			$blockInstance->display_status = strval($blocknode->display_status);
+			$blockInstance->iscustom = strval($blocknode->iscustom);
+			$blockInstance->islist = strval($blocknode->islist);
+		} else {
+			$blockInstance->display_status = NULL;
+		}
 		$moduleInstance->addBlock($blockInstance);
 		return $blockInstance;
 	}
@@ -662,6 +676,9 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$fieldInstance->displaytype  = $fieldnode->displaytype;
 		$fieldInstance->info_type    = $fieldnode->info_type;
 
+		if(!empty($fieldnode->fieldparams))
+			$fieldInstance->fieldparams = $fieldnode->fieldparams;
+		
 		if(!empty($fieldnode->helpinfo))
 			$fieldInstance->helpinfo = $fieldnode->helpinfo;
 
@@ -669,7 +686,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			$fieldInstance->masseditable = $fieldnode->masseditable;
 
 		if(isset($fieldnode->columntype) && !empty($fieldnode->columntype))
-			$fieldInstance->columntype = $fieldnode->columntype;
+			$fieldInstance->columntype = strval($fieldnode->columntype);
 
 		$blockInstance->addField($fieldInstance);
 

@@ -117,7 +117,8 @@ class Vtiger_PackageExport {
 		$this->__finishExport();
 
 		// Export as Zip
-		if($zipfilename == '') $zipfilename = "$module-" . date('YmdHis') . ".zip";
+		// if($zipfilename == '') $zipfilename = "$module-" . date('YmdHis') . ".zip";
+		$zipfilename = $moduleInstance->name."_".date('Y-m-d-Hi')."_".$moduleInstance->version.".zip";
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
 		$zip = new Vtiger_Zip($zipfilename);
@@ -147,6 +148,12 @@ class Vtiger_PackageExport {
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
 
+		//Copy image file
+		if(file_exists("layouts/vlayout/skins/images/$module.png"))
+		{
+			$zip->copyFileFromDisk("layouts/vlayout/skins/images", "", "$module.png");
+		}
+		
 		$zip->save();
 
 		if($todir) {
@@ -355,9 +362,28 @@ class Vtiger_PackageExport {
 		for($index = 0; $index < $resultrows; ++$index) {
 			$blockid    = $adb->query_result($sqlresult, $index, 'blockid');
 			$blocklabel = $adb->query_result($sqlresult, $index, 'blocklabel');
-
+			$block_sequence  = $adb->query_result($sqlresult, $index,'sequence');
+			$block_show_title  = $adb->query_result($sqlresult, $index,'show_title');
+			$block_visible  = $adb->query_result($sqlresult, $index,'visible');
+			$block_create_view  = $adb->query_result($sqlresult, $index,'create_view');
+			$block_edit_view  = $adb->query_result($sqlresult, $index,'edit_view');
+			$block_detail_view  = $adb->query_result($sqlresult, $index,'detail_view');
+			$block_display_status  = $adb->query_result($sqlresult, $index,'display_status');
+			$block_iscustom  = $adb->query_result($sqlresult, $index,'iscustom');
+			$block_islist = $adb->query_result($sqlresult, $index,'islist');
+				
 			$this->openNode('block');
 			$this->outputNode($blocklabel, 'label');
+			$this->outputNode($block_sequence ,'sequence');
+			$this->outputNode($block_show_title ,'show_title');
+			$this->outputNode($block_visible ,'visible');
+			$this->outputNode($block_create_view ,'create_view');
+			$this->outputNode($block_edit_view ,'edit_view');
+			$this->outputNode($block_detail_view ,'detail_view');
+			$this->outputNode($block_display_status ,'display_status');
+			$this->outputNode($block_iscustom ,'iscustom');
+			$this->outputNode($block_islist,'islist');
+	
 			// Export fields associated with the block
 			$this->export_Fields($moduleInstance, $blockid);
 			$this->closeNode('block');
@@ -389,9 +415,14 @@ class Vtiger_PackageExport {
 			$uitype = $fieldresultrow['uitype'];
 			$fieldid = $fieldresultrow['fieldid'];
 
+			$info_schema = $adb->pquery( "SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() AND table_name = ? AND column_name = ?",
+					Array($fieldresultrow['tablename'],$fieldresultrow['columnname']));
+			$info_schemarow = $adb->fetch_row($info_schema);
+			
 			$this->outputNode($fieldname, 'fieldname');
 			$this->outputNode($uitype,    'uitype');
 			$this->outputNode($fieldresultrow['columnname'],'columnname');
+			$this->outputNode($info_schemarow['column_type'],'columntype');
 			$this->outputNode($fieldresultrow['tablename'],     'tablename');
 			$this->outputNode($fieldresultrow['generatedtype'], 'generatedtype');
 			$this->outputNode($fieldresultrow['fieldlabel'],    'fieldlabel');
@@ -405,6 +436,7 @@ class Vtiger_PackageExport {
 			$this->outputNode($fieldresultrow['quickcreatesequence'],   'quickcreatesequence');
 			$this->outputNode($fieldresultrow['displaytype'],   'displaytype');
 			$this->outputNode($fieldresultrow['info_type'],     'info_type');
+			$this->outputNode($fieldresultrow['fieldparams'],   'fieldparams');
 			$this->outputNode('<![CDATA['.$fieldresultrow['helpinfo'].']]>', 'helpinfo');
 			if(isset($fieldresultrow['masseditable'])) {
 				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
