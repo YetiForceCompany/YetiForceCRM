@@ -26,6 +26,8 @@ $languageStrings = array(
 	'Assets' => 'Produkty sprzedane',
 	'OSSTimeControl' => 'Czas pracy',
 	'Assigned To' => 'Właściciel rekordu',
+	'Was read' => 'Uaktualniono',
+	'BTN_READ_RECORD' => 'Za pomocą tego przycisku oznaczysz, że zapoznałeś się ze wszystkimi zmianami na rekordzie',	
 	'Billing Address' => 'Adres główny: ulica',
 	'Billing City' => 'Adres główny: miasto',
 	'Billing Code' => 'Adres główny: kod pocztowy',
@@ -217,6 +219,7 @@ $languageStrings = array(
 	'LBL_DUE' => 'za',
 	'LBL_DUPLICATE' => 'Duplikat',
 	'LBL_EDIT' => 'Edycja',
+	'BTN_RECORD_EDIT' => 'Przejdź do widoku pełnej edycji rekordu',
 	'LBL_EDITING' => 'Edytowanie',
 	'LBL_EDIT_FIELDS' => 'Pola i bloki',
 	'LBL_ARRANGE_RELATED_TABS' => 'Moduły powiązane',
@@ -1037,4 +1040,5 @@ $jsLanguageStrings = array(
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer telefonu został wysłany do telefonu',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
+	'JS_SET_READ_RECORD' => 'Zapoznałeś się ze wszystkimi zmianami w rekordzie.',
 );
