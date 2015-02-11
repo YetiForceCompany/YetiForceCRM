@@ -1241,8 +1241,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 		if(!apiData){
 		    return false;
 		}
-	    
-		jQuery('.api_address_autocomplete').autocomplete({
+		
+		jQuery('.api_address_autocomplete').each(function(){
+		    jQuery(this).autocomplete({
 			source: function ( request, response) {
 			    jQuery.when(
 				    thisInstance.getDataFromOG(request, apiData),
@@ -1265,13 +1266,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 				    jQuery(this).parents('table').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
 				}
 			}
-	   }).data("autocomplete")._renderItem = function (ul, item) {
-		return jQuery("<li>")
-		    .data("item.autocomplete", item)
-		    .append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/' 
-		    + item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
-		    .appendTo(ul);
-	   };
+		    }).data("autocomplete")._renderItem = function (ul, item) {
+			 return jQuery("<li>")
+			     .data("item.autocomplete", item)
+			     .append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/' 
+			     + item.source + '.png" title="' + item.source_label + '" alt="' + item.source_label + '">' + item.label + "</a>")
+			     .appendTo(ul);
+		    };
+		});
 	},
 	addressFieldsMappingFromApi : {
 		'house_number':'buildingnumber',
