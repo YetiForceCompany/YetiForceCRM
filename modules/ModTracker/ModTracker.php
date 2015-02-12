@@ -108,6 +108,7 @@ class ModTracker {
 			$moduleInstance=Vtiger_Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
+		$adb->pquery("UPDATE vtiger_field SET presence = 1 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));
 	}
 
 	/**
@@ -128,6 +129,7 @@ class ModTracker {
 			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')",'','',
 									array('path'=>'modules/ModTracker/ModTracker.php','class'=>'ModTracker','method'=>'isViewPermitted'));
 		}
+		$adb->pquery("UPDATE vtiger_field SET presence = 2 WHERE tabid = ? AND fieldname = ?", array($tabid, 'was_read'));	
 	}
 
 	/**
@@ -375,6 +377,10 @@ class ModTracker {
 
         $adb->pquery('INSERT INTO vtiger_modtracker_relations(id, targetmodule, targetid, changedon)
             VALUES(?,?,?,?)', array($id, $targetModule, $targetId, $currentTime));
+	 $isMyRecord = $adb->pquery('SELECT crmid FROM vtiger_crmentity WHERE smownerid <> ? AND crmid = ?', array($current_user->id, $sourceId));
+	 
+	 if($adb->num_rows($isMyRecord) > 0)
+	    $adb->pquery("UPDATE vtiger_crmentity SET was_read = 0 WHERE crmid = ?;", array($sourceId));
     }
     
     static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId) {

@@ -2060,7 +2060,32 @@ jQuery.Class("Vtiger_Detail_Js",{
 	getCustomFieldNameValueMap : function(fieldNameValueMap){
 		return fieldNameValueMap;
 	},
-	
+        
+	registerSetReadRecord : function(detailContentsHolder){
+            var thisInstance = this;
+            detailContentsHolder.on('click', '.setReadRecord', function(e){
+                var currentElement = jQuery(e.currentTarget);
+                currentElement.hide();
+                jQuery('#Accounts_detailView_fieldValue_was_read').find('.value').text(app.vtranslate('LBL_YES'));
+		var params = {
+                    'module': app.getModuleName(),
+                    'action' : 'SaveAjax',
+                    'record': thisInstance.getRecordId(),
+                    'field' : 'was_read',
+                    'value' : 'on',
+		}
+                AppConnector.request(params).then(function (data) {	
+                    var params = {
+                        text: app.vtranslate('JS_SET_READ_RECORD'),
+                        title : app.vtranslate('System'),
+                        type: 'info',
+                        animation: 'show'
+                    };
+                    Vtiger_Helper_Js.showPnotify(params);
+                });
+            });
+	},
+        
 	registerFastEditingFiels : function(){
 		var thisInstance = this;
 		var fastEditingFiels = jQuery('.summaryWidgetFastEditing select');
@@ -2148,7 +2173,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields
 		app.registerEventForTimeFields(detailContentsHolder);
-		
+		this.registerSetReadRecord(detailViewContainer);
 		//register all the events for summary view container
 		this.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerEventForPicklistDependencySetup(thisInstance.getForm());

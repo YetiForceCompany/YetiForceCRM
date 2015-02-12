@@ -1356,7 +1356,7 @@ CREATE TABLE `vtiger_crmentity` (
   `label` varchar(255) DEFAULT NULL,
   `searchlabel` varchar(255) DEFAULT NULL,
   `inheritsharing` tinyint(1) DEFAULT '0',
-  `was_read` tinyint(1) DEFAULT NULL,
+  `was_read` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),

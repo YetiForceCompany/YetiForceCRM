@@ -26,14 +26,17 @@
 							<div class="btn-toolbar">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
-								<button class="btn {$DETAIL_VIEW_BASIC_LINK->getClassName()} {if $DETAIL_VIEW_BASIC_LINK->linkclass neq ''}{$DETAIL_VIEW_BASIC_LINK->linkclass}{/if}" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
-									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
+								<button {if $DETAIL_VIEW_BASIC_LINK->linktitle neq ''}title="{vtranslate($DETAIL_VIEW_BASIC_LINK->linktitle, $MODULE_NAME)}" {/if} class="btn {$DETAIL_VIEW_BASIC_LINK->getClassName()}" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
+									{assign var="LABEL" value=$DETAIL_VIEW_BASIC_LINK->getLabel()}
+                                                                        {if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
 										onclick="window.open('{$DETAIL_VIEW_BASIC_LINK->getUrl()}','{if $DETAIL_VIEW_BASIC_LINK->linktarget}{$DETAIL_VIEW_BASIC_LINK->linktarget}{else}_self{/if}')"
 									{else}
 										onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
 									{/if}>
-									{if $DETAIL_VIEW_BASIC_LINK->linkicon neq ''}<i class="{$DETAIL_VIEW_BASIC_LINK->linkicon}"></i>&nbsp;&nbsp;{/if}
-									<strong>{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
+									{if $DETAIL_VIEW_BASIC_LINK->linkicon neq ''}<i class="{$DETAIL_VIEW_BASIC_LINK->linkicon}"></i>{if $LABEL neq ''}&nbsp;&nbsp;{/if}{/if}
+                                                                        {if $LABEL neq ''}
+                                                                            <strong>{vtranslate($LABEL, $MODULE_NAME)}</strong>
+                                                                        {/if}
 								</button>
 							</span>
 							{/foreach}
