@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_ideas</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_ideas` (
+  `ideasid` int(19) NOT NULL DEFAULT '0',
+  `ideas_no` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `ideasstatus` varchar(255) DEFAULT '',
+  `extent_description` text,
+  PRIMARY KEY (`ideasid`),
+  CONSTRAINT `fk_1_vtiger_ideas` FOREIGN KEY (`ideasid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_ideascf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_ideascf` (
+  `ideasid` int(19) NOT NULL,
+  PRIMARY KEY (`ideasid`),
+  CONSTRAINT `fk_1_vtiger_ideascf` FOREIGN KEY (`ideasid`) REFERENCES `vtiger_ideas` (`ideasid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>
