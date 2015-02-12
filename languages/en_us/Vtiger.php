@@ -24,6 +24,8 @@ $languageStrings = array(
 	'APPTITLE' => 'vtiger CRM',
 	'Assets' => 'Assets',
 	'Assigned To' => 'Assigned To',
+	'Was read' => 'Updated',
+	'BTN_READ_RECORD' => 'By clicking on this button you mark that you read all changes performed on this record.',
 	'Billing Address' => 'Billing Address',
 	'Billing City' => 'Billing City',
 	'Billing Code' => 'Billing Postal Code',
@@ -212,6 +214,7 @@ $languageStrings = array(
 	'LBL_DUE' => 'due in',
 	'LBL_DUPLICATE' => 'Duplicate',
 	'LBL_EDIT' => 'Edit',
+    'BTN_RECORD_EDIT' => 'Go to full edit view.',
 	'LBL_EDITING' => 'Editing',
 	'LBL_EDIT_FIELDS' => 'Edit Fields',
 	'LBL_ARRANGE_RELATED_TABS' => 'Arrange Related Tabs',
@@ -962,4 +965,5 @@ $jsLanguageStrings = array(
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
+	'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
 );
