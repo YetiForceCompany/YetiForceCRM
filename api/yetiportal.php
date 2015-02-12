@@ -848,8 +848,8 @@ function create_ticket($input_array)
 	$product_id = (int) $input_array['product_id'];
 	$module = $input_array['module'];
 	//$assigned_to = $input_array['assigned_to'];
-	$servicecontractid = $input_array['serviceid'];
-	$projectid = $input_array['projectid'];
+	$servicecontractid = (int) $input_array['serviceid'];
+	$projectid = (int) $input_array['projectid'];
 
 	if(!validateSession($id,$sessionid))
 		return null;
@@ -865,7 +865,10 @@ function create_ticket($input_array)
 
 	$ticket->column_fields[contact_id]=$parent_id;
 	$ticket->column_fields[product_id]=$product_id;
-
+	if($servicecontractid != 0)
+		$ticket->column_fields[servicecontractsid]=$servicecontractid;
+	if($projectid != 0)
+		$ticket->column_fields[projectid]=$projectid;
 	$defaultAssignee = getDefaultAssigneeId();
 
 	$ticket->column_fields['assigned_user_id']=$defaultAssignee;
@@ -884,14 +887,6 @@ function create_ticket($input_array)
 	{
 		$record_save = 1;
 		$record_array[0]['new_ticket']['ticketid'] = $adb->query_result($ticketresult,0,'ticketid');
-	}
-	if($servicecontractid != ''){
-		$res = $adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)",
-		array($servicecontractid, 'ServiceContracts', $ticket->id, 'HelpDesk'));
-	}
-	if($projectid != '') {
-		$res = $adb->pquery("insert into vtiger_crmentityrel values(?,?,?,?)",
-		array($projectid, 'Project', $ticket->id, 'HelpDesk'));
 	}
 	if($record_save == 1)
 	{
