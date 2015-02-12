@@ -172,6 +172,18 @@ var app = {
 		return selectElement;
 	},
 
+	showPopoverElementView : function(selectElement, params) {
+		if(typeof params == 'undefined') {
+			params = {trigger: 'hover', delay: { show: 1000, hide: 100 }};
+		}
+		var data = selectElement.data();
+		if(data != null) {
+			params = jQuery.extend(data,params);
+		}
+		selectElement.popover(params);
+		return selectElement;
+	},
+        
 	/**
 	 * Function to check the maximum selection size of multiselect and update the results
 	 * @params <object> multiSelectElement
@@ -959,7 +971,7 @@ jQuery(document).ready(function(){
 
 	//register all select2 Elements
 	app.showSelect2ElementView(jQuery('body').find('select.select2'));
-
+	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.setContentsHeight();
 	
 	//Updating row height
