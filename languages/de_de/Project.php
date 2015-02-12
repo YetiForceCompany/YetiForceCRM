@@ -26,7 +26,7 @@ $languageStrings = array(
 	'Actual End Date' => 'Aktuelles Enddatum',
 	'Project No' => 'Projekt Nummer',
 	'Target Budget' => 'Ziel Budget',
-	'Project Url' => 'Projekt Url',
+	'Project Url' => 'Projekt URL',
 	'Progress' => 'Fortschritt',
    'LBL_MILESTONES_LIST'          => 'Meilenstein Liste', 
    'LBL_TASKS_HIGH'               => 'Hohe Priorität', 
@@ -53,9 +53,9 @@ $languageStrings = array(
 	'LBL_MORE' => 'weiter',
 
 	//PickList
-	'PLL_INTERNAL' => 'internal',
-	'PLL_EXTERNAL' => 'external',
-	'PLL_COMMON' => 'common',
+	'PLL_INTERNAL' => 'intern',
+	'PLL_EXTERNAL' => 'extern',
+	'PLL_COMMON' => 'allgemein',
 	
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Datei herunterladen',
@@ -76,7 +76,7 @@ $languageStrings = array(
 	'initiated'=>'Initiiert',
 	'in progress'=>'In Arbeit',
 	'waiting for feedback'=>'Warte auf Rückmeldung',
-	'on hold'=>'On Hold',
+	'on hold'=>'In Wartestellung',
 	'completed'=>'Fertig',
 	'delivered'=>'Ausgeliefert',
 	'archived'=>'Archiviert',

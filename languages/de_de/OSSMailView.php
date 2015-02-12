@@ -94,12 +94,12 @@ $languageStrings = array(
 	
 	//dashboards
 	'Graf' => 'Unternehmens-E-Mails nach Typ',
-	'Today' => 'Today',
-	'Yesterday' => 'Yesterday',
-	'Current week' => 'Current week',
-	'Previous week' => 'Previous week',	
-	'Current month' => 'Current month',
-	'Previous month' => 'Previous month',
+	'Today' => 'Heute',
+	'Yesterday' => 'Gestern',
+	'Current week' => 'Aktuelle Woche',
+	'Previous week' => 'Letzte Woche',	
+	'Current month' => 'Aktueller Monat',
+	'Previous month' => 'Letzter Monat',
 );
 $jsLanguageStrings = array(
 	'From' => 'Von',

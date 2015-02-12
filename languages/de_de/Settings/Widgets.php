@@ -9,8 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Widgets'	=> 'Widgets',
-	'LBL_MODULE_DESC' => 'Widgets Modul Verwaltung',
+	'Widgets'	=> 'Widget Modulverwaltung',
+	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget'	=> 'Widget hinzufügen',
 	'Type widget'	=> 'Typ',
     'LBL_WIDGET_TYPE' => 'Widget Typ',
