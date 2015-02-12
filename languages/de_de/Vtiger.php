@@ -100,6 +100,8 @@ $languageStrings = array(
 	'APPTITLE' => 'Yetiforce CRM',
 	'Assets' => 'Anlagen',
 	'Assigned To' => 'Zuständig',
+	'Was read' => 'Updated',
+	'BTN_READ_RECORD' => 'By clicking on this button you mark that you read all changes performed on this record.',
 	'Billing Address' => 'Rechnungsadresse',
 	'Billing City' => 'Ort',
 	'Billing Code' => 'PLZ',
@@ -288,6 +290,7 @@ $languageStrings = array(
 	'LBL_DUE' => 'fällig in',
 	'LBL_DUPLICATE' => 'Duplikat',
 	'LBL_EDIT' => 'Bearbeiten',
+	'BTN_RECORD_EDIT' => 'Go to full edit view.',
 	'LBL_EDITING' => 'Bearbeitung',
 	'LBL_EDIT_FIELDS' => 'Felder bearbeiten',
 	'LBL_ARRANGE_RELATED_TABS' => 'Ordnen Sie zugehörige Tabs',
@@ -1031,4 +1034,5 @@ $jsLanguageStrings = array(
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Rufnummer wurde an Ihr Mobiltelefon übergeben',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Fehler beim Versuch die Rufnummer zu übergeben',
+	'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
 );

@@ -656,11 +656,21 @@ ALTER TABLE `vtiger_contpotentialrel`
 ALTER TABLE `vtiger_crmentity` 
 	ADD COLUMN `shownerid` set('1')  COLLATE utf8_general_ci NULL after `smownerid` , 
 	CHANGE `modifiedby` `modifiedby` int(19)   NOT NULL DEFAULT 0 after `shownerid` , 
+	CHANGE `setype` `setype` varchar(30)  COLLATE utf8_general_ci NOT NULL after `modifiedby` , 
+	CHANGE `description` `description` text  COLLATE utf8_general_ci NULL after `setype` , 
 	ADD COLUMN `attention` text  COLLATE utf8_general_ci NULL after `description` , 
 	CHANGE `createdtime` `createdtime` datetime   NOT NULL after `attention` , 
+	CHANGE `modifiedtime` `modifiedtime` datetime   NOT NULL after `createdtime` , 
+	CHANGE `viewedtime` `viewedtime` datetime   NULL after `modifiedtime` , 
+	ADD COLUMN `closedtime` datetime   NULL after `viewedtime` , 
+	CHANGE `status` `status` varchar(50)  COLLATE utf8_general_ci NULL after `closedtime` , 
+	CHANGE `version` `version` int(19)   NOT NULL DEFAULT 0 after `status` , 
 	CHANGE `presence` `presence` tinyint(1)   NULL DEFAULT 1 after `version` , 
 	CHANGE `deleted` `deleted` tinyint(1)   NOT NULL DEFAULT 0 after `presence` , 
+	CHANGE `label` `label` varchar(255)  COLLATE utf8_general_ci NULL after `deleted` , 
 	ADD COLUMN `searchlabel` varchar(255)  COLLATE utf8_general_ci NULL after `label` , 
+	ADD COLUMN `inheritsharing` tinyint(1)   NULL DEFAULT 0 after `searchlabel` , 
+	ADD COLUMN `was_read` tinyint(1)   NULL after `inheritsharing` , 
 	ADD KEY `crmid`(`crmid`,`deleted`) , 
 	ADD KEY `searchlabel`(`setype`,`label`) , 
 	ADD KEY `setype`(`setype`,`deleted`,`searchlabel`) ;
@@ -1064,9 +1074,6 @@ ALTER TABLE `vtiger_account`
 ALTER TABLE `vtiger_account`
 	ADD CONSTRAINT `fk_1_vtiger_account` 
 	FOREIGN KEY (`accountid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
-	
-ALTER TABLE `vtiger_crmentity` 
-	ADD COLUMN `inheritsharing` tinyint(1)   NULL DEFAULT 0 after `searchlabel` ;
 	
 ALTER TABLE `vtiger_module_dashboard_widgets` 
 	CHANGE `linkid` `linkid` int(19)   NOT NULL after `id` , 

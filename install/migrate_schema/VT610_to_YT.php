@@ -79,6 +79,7 @@ class VT610_to_YT {
 		self::addSharingToModules();
 		self::addClosedtimeField();
 		self::pobox();
+		self::wasRead();
 		self::updateRecords();
 		self::foldersToTree();
 		self::changeFieldOnTree();
@@ -239,9 +240,10 @@ class VT610_to_YT {
 		$menu_manager[] = array(325,305,69,'AddressLevel1',12,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0);
 		$menu_manager[] = array(327,305,0,'*separator*',22,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
 		$menu_manager[] = array(328,305,74,'CallHistory',21,1,0,'index.php?module=CallHistory&view=List',0,'  ','','16x16','',0);
+		$menu_manager[] = array(329,0,0,'Group Card',8,1,0,'',0,'  ','','16x16','en_us*Group Card#pl_pl*Karta grupowa',0);
 
 
-		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database');
+		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database','Group Card');
 		
 		$sql = "SELECT `profileid` FROM `vtiger_profile` WHERE 1;";
         $result = $adb->query( $sql, true );
@@ -1760,7 +1762,6 @@ class VT610_to_YT {
 	public function addClosedtimeField(){
 		global $log,$adb;
 		$log->debug("Entering VT610_to_YT::addClosedtimeField() method ...");
-		$adb->query('ALTER TABLE `vtiger_crmentity` ADD COLUMN `closedtime` DATETIME NULL AFTER `viewedtime`;');
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
 		$params = array(1, $restrictedModules);
@@ -1821,6 +1822,35 @@ class VT610_to_YT {
 			$blockInstance->addField($fieldInstance);
 		}
 		$log->debug("Exiting VT610_to_YT::pobox() method ...");
+	}
+	
+	public function wasRead(){
+		global $log,$adb;
+		$log->debug("Entering VT610_to_YT::wasRead() method ...");
+		$sql = "SELECT tabid,name FROM `vtiger_tab` WHERE `isentitytype` = '1' AND name not in ('SMSNotifier','ModComments','PBXManager','Events','Emails','');";
+		$result = $adb->query($sql,true);
+		$Num = $adb->num_rows($result);
+		for($i = 0; $i < $Num; $i++){
+			$name = $adb->query_result($result, $i, 'name');
+			$tabid = $adb->query_result($result, $i, 'tabid');
+			$row = $adb->query_result_rowdata($result, $i); 
+			$result2 = $adb->pquery('SELECT * FROM vtiger_field WHERE tabid = ? AND block <> ? ORDER BY block, sequence ASC',array($tabid,0));
+			$block = $adb->query_result_raw($result2, 0, 'block');
+
+			$moduleInstance = Vtiger_Module::getInstance($name);
+			$blockInstance = Vtiger_Block::getInstance($block,$moduleInstance);
+			$fieldInstance = new Vtiger_Field(); 
+			$fieldInstance->name = 'was_read'; 
+			$fieldInstance->table = 'vtiger_crmentity'; 
+			$fieldInstance->label = 'Was read'; 
+			$fieldInstance->column = 'was_read'; 
+			$fieldInstance->columntype = 'tinyint(1)'; 
+			$fieldInstance->uitype = 56;
+			$fieldInstance->typeofdata = 'C~O'; 
+			$blockInstance->addField($fieldInstance); 
+
+		}
+		$log->debug("Exiting VT610_to_YT::wasRead() method ...");
 	}
 	
 	public function fieldsModuleRel(){
@@ -2779,6 +2809,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$entityName[] = array(70,'Calculations','vtiger_calculations','name','calculationsid','calculationsid','calculations_no,name',1,0);
 		$entityName[] = array(71,'OSSCosts','vtiger_osscosts','name','osscostsid','osscostsid','name',1,0);
 		$entityName[] = array(74,'CallHistory','vtiger_callhistory','to_number','callhistoryid','callhistoryid','to_number',1,0);
+		$entityName[] = array(75,'Ideas','vtiger_ideas','subject','ideasid','ideasid','subject',1,0);
 		
 		foreach($entityName as $name){
 			$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]), true);
