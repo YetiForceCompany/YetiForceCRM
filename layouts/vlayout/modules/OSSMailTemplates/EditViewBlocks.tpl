@@ -125,8 +125,8 @@
                             {/if}
                         {/foreach}
                         {if $smarty.foreach.blockfields.last and $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
-                        <td><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
-                        <td class="fieldLabel {$WIDTHTYPE}">
+                        <td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
+                        <td class="fieldValue {$WIDTHTYPE}">
                             <select class="chzn-select" style="width: 190px;" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}">
                             </select>
                             <button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
@@ -141,8 +141,8 @@
                 </tr>
                 {if $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
                     <tr>
-                        <td><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
-                        <td class="fieldLabel {$WIDTHTYPE}">
+                        <td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
+                        <td class="fieldValue {$WIDTHTYPE}">
                             <select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}">
                             </select>
                             <button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
@@ -152,8 +152,8 @@
                                 <i class="icon-arrow-down"></i>
                             </button>
                         </td>
-                        <td><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
-                        <td class="fieldLabel {$WIDTHTYPE}">
+                        <td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
+                        <td class="fieldValue {$WIDTHTYPE}">
                             <select class="chzn-select" name="oss_special_function_list" style="width: 190px;">
                             </select>
                             <button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
