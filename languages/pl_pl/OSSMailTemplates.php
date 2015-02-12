@@ -51,6 +51,8 @@ $languageStrings = array(
 	'LogoImage' => 'Logo',
 	'LBL_VALUE' => 'Wartość',
 	'LBL_LABEL' => 'Etykieta',
+	'ContactsPortalPass' => 'Hasło portalu klienta',
+	'LinkToForgotPassword' => 'Adres URL resetowania hasła',
 );
 $jsLanguageStrings = array(
     'JS_NOTIF_PASS_COPIED' => 'Skopiowano do schowka',

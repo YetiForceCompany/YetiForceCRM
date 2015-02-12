@@ -202,7 +202,7 @@ $server->register(
 $server->register(
 	'send_mail_for_password',
 	array('email'=>'xsd:string'),
-	array('return'=>'xsd:string'),
+	array('return'=>'tns:common_array'),
 	$NAMESPACE);
 
 $server->register(
@@ -1102,79 +1102,47 @@ function update_login_details($input_array)
 	$log->debug("Exiting customer portal function update_login_details");
 }
 
-/**	function used to send mail to the customer when he forgot the password and want to retrieve the password
- *	@param string $mailid - email address of the customer
- *	return message about the mail sending whether entered mail id is correct or not or is there any problem in mail sending
+/** function used to send mail to the customer when he forgot the password and want to retrieve the password
+ * 	@param string $mailid - email address of the customer
+ * 	return message about the mail sending whether entered mail id is correct or not or is there any problem in mail sending
  */
-function send_mail_for_password($mailid)
-{
-	global $adb,$mod_strings,$log;
+function send_mail_for_password($mailid) {
+	global $adb, $mod_strings, $log;
 	$log->debug("Entering customer portal function send_mail_for_password");
 	$adb->println("Inside the function send_mail_for_password($mailid).");
 
-	$sql = "select * from vtiger_portalinfo  where user_name = ? ";
+	$sql = "select * from vtiger_portalinfo where user_name = ?;";
 	$res = $adb->pquery($sql, array($mailid));
-	$user_name = $adb->query_result($res,0,'user_name');
-	$password = $adb->query_result($res,0,'user_password');
-	$isactive = $adb->query_result($res,0,'isactive');
+	if ($adb->num_rows($res) > 0) {
+		$user_name = $adb->query_result($res, 0, 'user_name');
+		$password = $adb->query_result($res, 0, 'user_password');
+		$isactive = $adb->query_result($res, 0, 'isactive');
+		$record = $adb->query_result($res, 0, 'id');
 
-	$fromquery = "select vtiger_users.user_name, vtiger_users.email1 from vtiger_users inner join vtiger_crmentity on vtiger_users.id = vtiger_crmentity.smownerid inner join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_crmentity.crmid where vtiger_contactdetails.email =?";
-	$from_res = $adb->pquery($fromquery, array($mailid));
-	$initialfrom = $adb->query_result($from_res,0,'user_name');
-	$from = $adb->query_result($from_res,0,'email1');
-
-	$contents = $mod_strings['LBL_LOGIN_DETAILS'];
-	$contents .= "<br><br>".$mod_strings['LBL_USERNAME']." ".$user_name;
-	$contents .= "<br>".$mod_strings['LBL_PASSWORD']." ".$password;
-
-	$mail = new PHPMailer();
-
-	$mail->Subject = $mod_strings['LBL_SUBJECT_PORTAL_LOGIN_DETAILS'];
-	$mail->Body    = $contents;
-	$mail->IsSMTP();
-
-	$mailserverresult = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
-	$mail_server = $adb->query_result($mailserverresult,0,'server');
-	$mail_server_username = $adb->query_result($mailserverresult,0,'server_username');
-	$mail_server_password = $adb->query_result($mailserverresult,0,'server_password');
-	$smtp_auth = $adb->query_result($mailserverresult,0,'smtp_auth');
-
-	$mail->Host = $mail_server;
-	if($smtp_auth == 'true')
-	$mail->SMTPAuth = 'true';
-	$mail->Username = $mail_server_username;
-	$mail->Password = $mail_server_password;
-	$mail->From = $from;
-	$mail->FromName = $initialfrom;
-
-	$mail->AddAddress($user_name);
-	$mail->AddReplyTo($current_user->name);
-	$mail->WordWrap = 50;
-
-	$mail->IsHTML(true);
-
-	$mail->AltBody = $mod_strings['LBL_ALTBODY'];
-	if($mailid == '')
-	{
-		$ret_msg = "false@@@<b>".$mod_strings['LBL_GIVE_MAILID']."</b>";
+		$data = array(
+			'id' => '104',
+			'to_email' => $mailid,
+			'module' => 'Contacts',
+			'record' => $record,
+			'user_name' => $user_name,
+			'password' => $password,
+		);
+		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 	}
-	elseif($user_name == '' && $password == '')
-	{
-		$ret_msg = "false@@@<b>".$mod_strings['LBL_CHECK_MAILID']."</b>";
+	$succes = false;
+	if ($mailid == '') {
+		$masage = 'LBL_NO_MAIL_ADDRESS';
+	} elseif ($adb->num_rows($res) == 0) {
+		$masage = 'LBL_EMAIL_ADDRESS_NOT_FOUND';
+	} elseif ($isactive == 0) {
+		$masage = 'LBL_LOGIN_REVOKED';
+	} elseif (!$recordModel->sendMailFromTemplate($data)) {
+		$masage = 'LBL_MAIL_COULDNOT_SENT';
+	} else {
+		$succes = true;
+		$masage = 'LBL_PASSWORD_HAS_BEEN_SENT';
 	}
-	elseif($isactive == 0)
-	{
-		$ret_msg = "false@@@<b>".$mod_strings['LBL_LOGIN_REVOKED']."</b>";
-	}
-	elseif(!$mail->Send())
-	{
-		$ret_msg = "false@@@<b>".$mod_strings['LBL_MAIL_COULDNOT_SENT']."</b>";
-	}
-	else
-	{
-		$ret_msg = "true@@@<b>".$mod_strings['LBL_MAIL_SENT']."</b>";
-	}
-
+	$ret_msg = array('succes' => $succes, 'masage' => $masage);
 	$adb->println("Exit from send_mail_for_password. $ret_msg");
 	$log->debug("Exiting customer portal function send_mail_for_password");
 	return $ret_msg;

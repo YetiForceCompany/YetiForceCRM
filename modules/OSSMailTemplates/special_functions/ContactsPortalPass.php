@@ -12,7 +12,9 @@ class ContactsPortalPass {
     private $moduleList = array('Contacts');
     
     function process($data){
-		if($data['record'] != ''){
+		if($data['password'] && $data['password'] != '')
+			return $data['password'];
+		if($data['record'] && $data['record'] != ''){
 			$adb = PearDatabase::getInstance();
 			$sql = "SELECT user_password FROM vtiger_portalinfo WHERE id=?";
 			$result = $adb->pquery($sql, array( $data['record'] ));
