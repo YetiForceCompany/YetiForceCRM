@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Approved',
 	'AutoCreated'=>'Approval required',
 	'Created'=>'Draft',
 	'Cancel' => 'Cancel',

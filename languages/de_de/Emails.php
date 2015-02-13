@@ -8,6 +8,9 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Parent ID' => 'Parent ID',
+	'Owner' => 'Owner',
+	'Access Count' => 'Access Count',
 	'LBL_ATTACHED'	=>	'Angehängt',
 	'Date & Time Sent'             => 'Sendedatum'                   , 
 	'Emails' => 'E-Mails',

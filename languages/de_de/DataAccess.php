@@ -9,8 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Action_Desc_test' => 'Funktionstestbeschreibung',
-	'Action_test' => 'Funktionstest',
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',
@@ -70,4 +68,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Diese Werkzeug färbt die Datensätze zeilenweise ein, die entsprechenden Bedingungen erfüllen. So sind Datensätze mit einer höheren Priorität leichter zu unterscheiden.',
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
+);
+$jsLanguageStrings = array(
+	'DataAccess' => 'Data Access',
 );

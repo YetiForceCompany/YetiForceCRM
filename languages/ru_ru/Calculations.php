@@ -10,6 +10,11 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_PURCHASE' => 'Себестоимость',
+	'LBL_MARGIN' => 'Прибыль',
+	'LBL_MARGINP' => 'Прибыль %',
+	'Quotes' => 'Предложения',
+	'Tatal margin' => 'Всего прибыли',
 	'LBL_PRODUCT_INFORMATION'	=>	'Информация о продукте',
 	'LBL_GENERATE_QUOTES'	=>	'Создать Предложение',
 	'CalculationStatus'	=>	'Статус',
@@ -34,7 +39,7 @@ $languageStrings = array(
 	'LBL_GRAND_TOTAL'	=>	'Общий итог',
 	'LBL_Purchase'	=>	'Себестоимость',
 	'LBL_Margin'	=>	'Прибыль',
-    'LBL_RBH' => 'MH',
+	'LBL_RBH' => 'Чел./Час.',
 	'LBL_MarginP'	=>	'Прибыль',
 	'ProductComments'	=>	'Комментарий',
 	'Total Purchase'	=>	'Себестоимость',

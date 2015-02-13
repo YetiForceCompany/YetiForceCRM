@@ -9,6 +9,15 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 19/02/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'csv' => 'CSV',
+	'UTF-8' => 'UTF-8',
+	'vcf' => 'VCard',
+	'semicolon' => 'semicolon',
+	'comma' => 'comma',
+	'ISO-8859-1' => 'ISO-8859-1',
+	'Merge' => 'Merge',
+	'Overwrite' => 'Overwrite',
+	'Skip' => 'Skip',
 	'ERR_FAILED_TO_LOCK_MODULE'=> 'Falha ao bloquear o módulo para importação. Tente novamente mais tarde',
 	'ERR_IMPORT_INTERRUPTED' => 'A importação atual foi interrompida. Por favor, tente novamente mais tarde',
 	'ERR_UNIMPORTED_RECORDS_EXIST' => 'Não é possível importar mais dados neste lote. Por favor, comece uma nova importação.',

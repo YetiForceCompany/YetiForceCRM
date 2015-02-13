@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Reviewed' => 'Reviewed',
+	'Created' => 'Created',
+	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
 	'Accepted'=>'Accepted',
 	'Inventory Manager'=>'Inventory Manager',
 	'LBL_ADD_RECORD' => 'Add record',

@@ -9,6 +9,10 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Unit Code' => 'Unit Code',
+	'Mf. Country Code' => 'Mf. Country Code',
+	'Manuf. Country' => 'Manuf. Country',
+	'Customs ID' => 'Customs ID',
 	'300-Sales-Software' => '300-Vendas-Software' , 
 	'301-Sales-Hardware' => '301-Vendas-Hardware' , 
 	'302-Rental-Income'=> '302-Aluguel-Renda' , 

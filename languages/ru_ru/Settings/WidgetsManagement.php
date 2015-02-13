@@ -22,7 +22,7 @@ $languageStrings = array(
 	'LBL_INVALID_DATA'	=>	'Неверные данные',
 
 	'WidgetsManagement'	=>	'Менеджер Виджетов',
-	'LBL_WIDGETS_MANAGEMENT'	=>	'Module widgets',
+	'LBL_WIDGETS_MANAGEMENT' => 'Менеджер Виджетов',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION'	=>	' Менеджер управления Виджетами',
 	'LBL_MANDATORY_WIDGET'	=>	'Обязательный Виджет',
 	'LBL_WIDGET' => 'Виджеты',

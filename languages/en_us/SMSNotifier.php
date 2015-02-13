@@ -9,6 +9,12 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'providertype' => 'Provider',
+	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
+	'LBL_SEREVER_CONFIG' => 'New Configuration',
+	'username' => 'User Name',
+	'password' => 'Password',
+	'isactive' => 'Active',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'Send SMS to the selected numbers',
 	'LBL_STEP_1' => 'Step 1',

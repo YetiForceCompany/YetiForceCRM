@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'Big Problem'=>'Duży problem',
 	'Closed'=>'Zamknięty',

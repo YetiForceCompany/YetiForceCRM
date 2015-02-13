@@ -9,6 +9,10 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Unit Code' => 'Unit Code',
+	'Mf. Country Code' => 'Mf. Country Code',
+	'Manuf. Country' => 'Manuf. Country',
+	'Customs ID' => 'Customs ID',
 	'300-Sales-Software'=>'300-Sprzedaż-Oprogramowanie',
 	'301-Sales-Hardware'=>'301-Sprzedaż-Sprzęt',
 	'302-Rental-Income'=>'302-Dzierżawa-Przychód',

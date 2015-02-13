@@ -56,8 +56,6 @@ $languageStrings = array(
 	'Action_Desc_unique_modules_value' => 'Sprawdz czy wprowadzona wartość pola jest unikatowa w modułach',
 	'Check the value in the module' => 'Sprawdz wartość w module',
 	//
-	'Action_test' => 'Testowa funkcja',
-	'Action_Desc_test' => 'Opis funkcji @@@',
 	//
 	'Action_validate_mandatory' => 'Sprawdź pola obowiązkowe',
 	'Action_Desc_validate_mandatory' => 'Sprawdza czy wszystkie pola obowiązkowe są wypełnione przy szybkiej edycji',
@@ -71,4 +69,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Narzędzie daje możliwość koloryzacji wierszy spełniających odpowiednie warunki. Dzięki temu można wyróżnić rekordy o wyższych priorytetach.',
 	'LBL_BACKGROUND_COLOR' => 'Kolor tła wiersza',
 	'LBL_TEXT_COLOR' => 'Kolor tekstu',
+);
+$jsLanguageStrings = array(
+	'DataAccess' => 'Data Access',
 );

@@ -9,9 +9,9 @@
    * VERSION YetiForceCRM: 1.1.0 RC
  * *******************************************************************************+ */
 $languageStrings = array(
-	'Mail Scanner'	=>	'Сканер почты',
-    'OSSMailScanner' => 'Сканер почты',
-    'OSSMailScanner_manual' => 'Сканер почты',
+	'Mail Scanner' => 'Настройка почты',
+	'OSSMailScanner' => 'Настройка почты',
+	'OSSMailScanner_manual' => 'Настройка почты',
 );
 
 $jsLanguageStrings = array(
