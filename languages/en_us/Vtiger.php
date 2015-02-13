@@ -811,6 +811,9 @@ $languageStrings = array(
 	
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
+	'LBL_NAME' => 'Record name',
+	'LBL_MODULE_NAME' => 'Module name',
+	'LBL_NO_MOD_RECORDS' => 'No modified records',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',

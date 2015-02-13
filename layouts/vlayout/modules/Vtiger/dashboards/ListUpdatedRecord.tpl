@@ -18,10 +18,11 @@
 			</th>
 			<th class="span2">
 				<div>
-					<select class="widgetFilter" id="historyType" name="type" style='width:100px;margin-bottom:0px'>
+					<select class="widgetFilter" id="listUpdatedRecordLimit" name="number" style='width:100px;margin-bottom:0px'>
 						<option value="all" >{vtranslate('LBL_ALL')}</option>
-						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
-						<option value="updates" >{vtranslate('LBL_UPDATES')}</option>
+						<option value="10" >10</option>
+						<option value="25" >25</option>
+						<option value="50" >50</option>
 					</select>
 				</div>
 			</th>
@@ -36,5 +37,5 @@
 	</table>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>

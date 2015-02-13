@@ -8,7 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View {
+vimport('modules.Vtiger.helpers.ListUpdatedRecord');
+
+class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View {
 
 	public function process(Vtiger_Request $request) {
 
@@ -16,7 +18,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer = $this->getViewer($request);
 
 		$moduleName = $request->getModule();
-		$type = $request->get('type');
+		$number = $request->get('number');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
@@ -28,23 +30,21 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View {
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', $limit);
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$history = $moduleModel->getHistory($pagingModel, $type);
+		$columnList = array('LBL_NAME' => 'label', 'LBL_MODULE_NAME' => 'setype', 'Last Modified By' => 'modifiedtime', 'LBL_OWNER' => 'smownerid');
 		
-		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments'); 
-
+		$recordList = ListUpdatedRecord::getListRecord(NULL, $columnList);
+		
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('HISTORIES', $history);
+		$viewer->assign('LIST', $recordList);
 		$viewer->assign('PAGE', $page);
-		$viewer->assign('NEXTPAGE', (count($history) < $limit)? 0 : $page+1);
-		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel); 
+		$viewer->assign('NEXTPAGE', (count($recordList) < $limit)? 0 : $page+1);
 		
 		$content = $request->get('content');
 		if(!empty($content)) {
-			$viewer->view('dashboards/HistoryContents.tpl', $moduleName);
+			$viewer->view('dashboards/ListUpdatedRecordContents.tpl', $moduleName);
 		} else {
-			$viewer->view('dashboards/History.tpl', $moduleName);
+			$viewer->view('dashboards/ListUpdatedRecord.tpl', $moduleName);
 		}
 	}
 }
