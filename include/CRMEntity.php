@@ -22,14 +22,11 @@
 
 include_once('config/config.php');
 require_once('include/logging.php');
-if(!class_exists('Tracker')){
-	require_once('include/Tracker.php');
-}
+require_once('include/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
 
-if(!class_exists('CRMEntity')){
 class CRMEntity {
 
 	var $ownedby;
@@ -2733,6 +2730,4 @@ class CRMEntity {
                 " ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
         return $query;
     }
-}
-
 }
