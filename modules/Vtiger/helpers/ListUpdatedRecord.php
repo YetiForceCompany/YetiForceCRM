@@ -33,7 +33,7 @@ class ListUpdatedRecord {
 		if (!in_array('smownerid', $columnList)) {
 			$columnList[] = 'smownerid';
 		}
-		
+				
 		for ($i = 0; $i < count($moduleList); $i++) {
 			
 			$getRecordListSql = "SELECT " . implode(',', $columnList) . ", CONCAT(vtiger_users.first_name, ' ', vtiger_users.last_name) as smownerid FROM vtiger_crmentity "
@@ -47,11 +47,13 @@ class ListUpdatedRecord {
 				
 				$singelRecord = array();
 
-				for ($j = 0; $j < count($columnList); $j++) {
-					$singelRecord[$columnList[$j]] = $db->query_result($getRecordListResult, $k, $columnList[$j]);
+				foreach ($columnList as $col) {
+					$singelRecord[$col] = $db->query_result($getRecordListResult, $k, $col);
 				}
 				
-				$recordList[] = $singelRecord;
+				if (!empty($singelRecord)) {
+					$recordList[] = $singelRecord;
+				}
 			}
 		}
 		

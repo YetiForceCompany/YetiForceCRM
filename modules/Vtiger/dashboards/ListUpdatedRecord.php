@@ -34,6 +34,7 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View {
 		
 		$recordList = ListUpdatedRecord::getListRecord(NULL, $columnList);
 		
+		$viewer->assign('COLUMN_LIST', $columnList);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIST', $recordList);

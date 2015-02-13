@@ -18,7 +18,6 @@
 			<th>{vtranslate($col_key, 'Vtiger')}</th>
 		{/foreach}
 		</tr>
-	</table>
 	{foreach key=$index item=record from=$LIST}
 		
 		<tr>
@@ -28,6 +27,8 @@
 		</tr>
 
 	{/foreach}
+		</table>
+
 {else}
 	<span class="noDataMsg">
 		{vtranslate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
