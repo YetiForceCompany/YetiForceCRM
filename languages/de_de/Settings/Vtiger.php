@@ -199,7 +199,7 @@ $languageStrings = array(
 	'LangManagement' => 'Spracheneditor',
 	'LBL_CUSTOMIZE_TRANSLATIONS' => 'Übersetzungen',
 	'CustomView'	=> 'Benutzerdefinierte Ansichten',
-    'Widgets' => 'Module summary widgets',
+    'Widgets' => 'Widget Modulverwaltung',
     'Search Setup'=>'Suche Konfiguration',
 	'License' => 'Lizenz',
     'Project Templates' => 'Projekt Vorlagen',
@@ -232,16 +232,16 @@ $languageStrings = array(
 	'LBL_DOCUMENT_CONTROL_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_VIEW_DESCRIPTION'	=> ' ',
 	'LBL_MAIL_LOGS_DESCRIPTION'	=> ' ',
-	'LBL_WIDGETS_MANAGEMENT' => 'Widgets Management',
+	'LBL_WIDGETS_MANAGEMENT' => 'Widget Rollenzuordnung',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_MDULES_COLOR_EDITOR' => 'Module colors',
-	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Management of module colors',
-	'LBL_MOBILE_KEYS' => 'Mobile application keys',
-	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys',
-	'LBL_TREES_MANAGER' => 'Tree Manager',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',
-	'LBL_MODTRACKER_SETTINGS' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
+	'LBL_MDULES_COLOR_EDITOR' => 'Modul Farben',
+	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Verwaltung von Modul Farben',
+	'LBL_MOBILE_KEYS' => 'Mobile Application Keys',
+	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Erzeugen und Verwaltenvon mobilen Application Keys',
+	'LBL_TREES_MANAGER' => 'Baumstrukturen',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwaltung Baumstrukturen',
+	'LBL_MODTRACKER_SETTINGS' => 'Änderungshistorie',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalte Änderungshistorie von Modulen',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
@@ -259,7 +259,7 @@ $languageStrings = array(
 	'OSSPassword Configuration'=>'Passwort Konfiguration',
 	'Document Control'=>'Dokumentenkontrolle',
 	'Time control' => 'Zeitkontrolle',
-	"Credits"	=> 'Ehre',
+	"Credits"	=> 'Referenzen',
 	
 );
 

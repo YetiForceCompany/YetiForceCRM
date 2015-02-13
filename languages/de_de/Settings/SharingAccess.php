@@ -25,15 +25,15 @@ $languageStrings = array(
 	'Read Only' => 'Lesen',
 	'Read Write' => 'Lesen/Schreiben',
 	'SINGLE_Groups' => 'Gruppe',
-	'SINGLE_RoleAndSubordinates' => 'Rolle und Nachgeordnete',
+	'SINGLE_RoleAndSubordinates' => 'Rolle und Untergeordnete',
 	'SINGLE_Roles' => 'Rolle',
 	'Private' => 'Privat',
 	'Public: Read Only' => 'Öffentlich: Nur Lesen',
 	'Public: Read, Create/Edit, Delete' => 'Öffentlich: Lesen, Erstellen / Bearbeiten, Löschen',
 	'Public: Read, Create/Edit' => 'Öffentlich: Lesen, Erstellen / Bearbeiten',
-	'RoleAndSubordinates' => 'Role And Subordinates',
-	'Roles' => 'Roles',
-	'Groups' => 'Groups',
+	'RoleAndSubordinates' => 'Rolle und Untergeordnete',
+	'Roles' => 'Rollen',
+	'Groups' => 'Gruppen',
 );
 
 $jsLanguageStrings = array(

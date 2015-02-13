@@ -96,7 +96,7 @@ $jsLanguageStrings = array(
     'Add Leads' => 'Leads hinzufügen',
     'Add Events' => 'Ereignis hinzufügen',
     'Add Task' => 'Aufgabe hinzufügen',
-	'Add Vendors' => 'Add Vendor',
+	'Add Vendors' => 'Lieferant hinzufügen',
     'Add Potentials' => 'Verkaufschance hinzufügen',
     'Add ProjectTask' => 'Projekt-Aufgabe hinzufügen',
     'Add ProjectMilestone' => 'Projekt-Meilenstein hinzufügen',
@@ -132,7 +132,6 @@ $jsLanguageStrings = array(
     'MPotentials' => 'MVerkaufschancen',
     'MProject' => 'MProjekt',
 	
-
 	'Add Accounts' => 'Konten hinzufügen',
 	'Add ModComments' => 'Kommentar hinzufügen',
 	'Add Products' => 'Produkte hinzufügen',
@@ -152,8 +151,8 @@ $jsLanguageStrings = array(
 	'Add or related to Accounts' => 'Hinzufügen oder im Zusammenhang mit Konten', 
 	'Add or related to Contacts' => 'Hinzufügen oder im Zusammenhang mit Kontakten', 
 	'Add or related to ServiceContracts' => 'Hinzufügen oder im Zusammenhang mit Dienstlesitungsverträgen', 
-	'Add or related to Vendors' => 'Add or related to Vendor', 
-	'Related To Vendors' => 'Related To Vendors',
+	'Add or related to Vendors' => 'Hinzufügen oder im Zusammenhang mit Lieferant', 
+	'Related To Vendors' => 'Bezogen auf Lieferant',
 	'Related To Campaigns' => 'Bezogen auf Kampagnen',
 	'Related To Leads' => 'Bezogen auf Leads',
 	'Related To Contacts' => 'Bezogen auf Kontakte',

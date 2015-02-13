@@ -9,21 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'Ideas' => 'Ideas',
-	'SINGLE_Ideas' => 'Idea',
+	'Ideas' => 'Ideen',
+	'SINGLE_Ideas' => 'Idee',
 	
 	//Bloks
-	'LBL_IDEAS_INFORMATION' => 'Basic Information',
+	'LBL_IDEAS_INFORMATION' => 'Basis Information',
 	
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
+	'LBL_SUBJECT' => 'Betreff',
 	'LBL_STATUS' => 'Status',
-	'Description' => 'Basic description',
-	'LBL_EXTENT_DESCRIPTION' => 'Detailed description',
-	'Attention' => 'Comments',
-	'LBL_NO' => 'Number',
+	'Description' => 'Basis Beschreibung',
+	'LBL_EXTENT_DESCRIPTION' => 'Ausführliche Beschreibung',
+	'Attention' => 'Kommentare',
+	'LBL_NO' => 'Nummer',
 	
 	//pick list values
-	'Draft' => 'Draft',
-	'Proposition' => 'Proposition',
+	'Draft' => 'Entwurf',
+	'Proposition' => 'Vorschlag',
 );

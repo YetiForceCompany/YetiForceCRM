@@ -10,7 +10,7 @@
 $languageStrings = array(
 	'Not Held'	=>	'Nicht stattgefunden',
 	'Held'	=>	'Stattgefunden',
-	'Activity Type'=>'Aktivitätstyp',
+	'Activity Type'=>'Aktivitätsart',
 	'Call' => 'Anruf',
 	'Completed' => 'abgeschlossen',
 	'Deferred' => 'verschoben',
@@ -54,7 +54,7 @@ $languageStrings = array(
 	'LBL_OTHER_EVENTS' => 'Andere Ereignisse',
 	'LBL_RECORDS_LIST' => 'Kalenderliste', //Duplicated key-value pair
 	'LBL_RESULT' => 'Ergebnis',
-	'LBL_SELECT_ACTIVITY_TYPE' => 'Aktivitätstyp wählen',
+	'LBL_SELECT_ACTIVITY_TYPE' => 'Aktivitätsart wählen',
 	'LBL_SELECT_CALENDAR_COLOR' => 'Wähle Kalenderfarbe',
 	'LBL_SELECT_USER_CALENDAR' => 'Wähle Anwenderkalender',
 	'LBL_SELECT_USERS' => 'Wähle Anwender',

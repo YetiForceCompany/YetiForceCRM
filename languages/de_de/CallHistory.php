@@ -39,10 +39,10 @@ $languageStrings = Array(
 	'LBL_SOURCE' => 'Quelle des Anrufes',
 	
 	//pick list values
-	'Outgoing missed' => 'Outgoing missed',
-	'Outgoing received' => 'Outgoing received',
-	'Incoming' => 'Incoming received',
-	'Missed' => 'Incoming missed',
-	'Voicemail' => 'Incoming voicemail',
-	'Call history'	=>	'Call History',
+	'Outgoing missed' => 'Ausgehend nicht erreicht',
+	'Outgoing received' => 'Ausgehend erreicht',
+	'Incoming' => 'Eingehend erreicht',
+	'Missed' => 'Eingehend nicht erreicht',
+	'Voicemail' => 'Eingehende Voicemail',
+	'Call history'	=>	'Anruferhistorie',
 );

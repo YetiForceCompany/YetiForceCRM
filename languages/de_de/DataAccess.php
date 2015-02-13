@@ -35,7 +35,7 @@ $languageStrings = array(
 	'Subject tasks' => 'Aufgabenthema',
 	'Message if the task does not exist' => 'Nachricht, wenn die Aufgabe nicht existiert',
 	//
-	'Action_check_alltask' => 'Check all tasks',
+	'Action_check_alltask' => 'Alle Aufgaben prüfen',
 	'Action_Desc_check_alltask' => 'Diese Aktion überprüft, ob alle Aufgaben mit dem gleichen Status zusammengehören. Eintrag ist gesperrt, wenn sie miteinander verbunden sind.',
 	'Message if the task exist' => 'Nachricht, wenn die Aufgabe existiert',
 	//
