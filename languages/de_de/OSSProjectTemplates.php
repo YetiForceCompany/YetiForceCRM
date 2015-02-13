@@ -1,7 +1,6 @@
 <?php
 
 $languageStrings = array(
-	'Uninstall OSSProjectTemplates module' => 'Deinstallieren OSSProjectTemplates',
     'OSSProjectTemplates' => 'Projekt-Vorlagen',
     'SINGLE_MODULE_NAME' => 'Projekt-Vorlage',
     'LBL_NEW_TPL' => 'Neue Vorlage',
@@ -40,39 +39,13 @@ $languageStrings = array(
     'REMOVE_TPL' => 'Vorlage entfernen',
     'EDIT_TPL' => 'Vorlage bearbeiten',
     
-    'Delete_panel' => 'Das Konfigurationsfenster ist für die Deinstallation des Moduls konzipiert. Modulname: ',
-    'MSG_DEL_WARN1' => 'WARNUNG!',
-    'MSG_DEL_WARN2' => 'Wenn Sie das Modul deinstallieren, verlieren Sie alle Daten im CRM die zu diesem Modul gehören. Möglicherweise finden sie noch zugehörige Dateien in: ',
-    'MSG_DEL_PATH1' => ' Smarty/templates/modules/module_name',
-    'MSG_DEL_PATH2' => ' modules/module_name',
-    'MSG_DEL_WARN3' => ' und im Verzeichnis folder:',
-    'MSG_DEL_WARN4' => 'Wenn Sie das Modul in der Zukunft neu installieren möchten, müssen Sie diese Ordner löschen.',
-    'MSG_DEL_WARN5' => 'Wenn Sie irgendein Problem haben, erreichen Sie uns über unsere E-Mail oder über ein Trouble Ticket auf der Webseite www.opensaas.pl',
-    'MSG_DEL_WARN6' => 'Ihr Team von OpenSaaS Sp. z o.o.',
     
-    'HelpDescription' => 'Auf der folgenden Webseite, können Sie Trouble-Tickets und Verbesserungsvorschläge veröffentlichen können oder Modul-Dokumentation nachlesen.',
     
-    'LBL_TroubleUrl' => 'Modul Webseite',
-    'LBL_OurWebsite' => 'Unsere Webseite',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',
-    'LBL_UrlLinkInfo' => 'Sie müssen sich registrieren',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
-    'LBL_Manual' => 'Dokumentation (PL)',
     'OSSProjectTemplates_manual' => 'OSS ProjeKt-Vorlagen',
-    'LBL_ManualLink' => '#',
     'NO_TPL' => 'Keine Vorlagen',
     
     'ONLY_WORK_DAY' => 'Nur Arbeitstage',
     'TPL_VISIBILITY' => 'Welche Gruppen können die Vorlage nutzen',
 		// help
-	'LBL_Helpforthemodule' => 'Hilfe für das Modul: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'Lizenz Information: ',
-	'LBL_Company' => 'Firmen Information: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Modul Information:' ,
 
     );

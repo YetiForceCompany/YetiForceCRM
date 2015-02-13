@@ -9,21 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'TreesManager' => 'Baum Manager',
-	'LBL_TREES_MANAGER' => 'Baum Manager',
-	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwalten von Baumvorlagen',
-	'LBL_NO_RECORDS_FOUND' => 'Keine Baumvorlagen',
-	'LBL_EDIT_TEMPLATE_TREES' => 'Baumvorlagen ändern',
-	'LBL_CREATING_TEMPLATE_TREES' => 'Baumvorlage hinzufügen',
+	'TreesManager' => 'Baumstruktur Verwaltung',
+	'LBL_TREES_MANAGER' => 'Baumstruktur Verwaltung',
+	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwalten von Vorlagen für Baumstrukturen',
+	'LBL_NO_RECORDS_FOUND' => 'Keine Vorlagen gefunden',
+	'LBL_EDIT_TEMPLATE_TREES' => 'Vorlagen ändern',
+	'LBL_CREATING_TEMPLATE_TREES' => 'Vorlage hinzufügen',
 	'LBL_NAME' => 'Vorlagenname',
 	'LBL_MODULE' => 'Modul',
 	'LBL_ADD_ITEM_TREE' => 'Neuen Eintrag hinzufügen',
 	'LBL_ADD_TO_TREES' => 'Hinzufügen',
 	'LBL_SAVE' => 'Speichern',
-	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Change tree item to:',
+	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
 );
 $jsLanguageStrings = array(
-	'JS_TREE_DELETED_SUCCESSFULLY' => 'Baum Vorlage erfolgreich gelöscht',
+	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',
 	'JS_JSTREE_CREATE' => 'Hinzufügen',
 	'JS_JSTREE_RENAME' => 'Name ändern',
 	'JS_JSTREE_REMOVE' => 'Löschen',
@@ -31,8 +31,8 @@ $jsLanguageStrings = array(
 	'JS_JSTREE_CUT' => 'Ausschneiden',
 	'JS_JSTREE_COPY' => 'Kopieren',
 	'JS_JSTREE_PASTE' => 'Hinzufügen',
-	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
-	'JS_NO_ITEM_SELECTED' => 'No item has been selected',
-	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'You cannot delete all items',
-	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'You cannot delete parent item',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
+	'JS_NO_ITEM_SELECTED' => 'Kein Eintrag gewählt',
+	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Es können nicht alle Einträge gelöscht werden',
+	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Der Haupteintrag kann nicht gelöscht werden',
 );

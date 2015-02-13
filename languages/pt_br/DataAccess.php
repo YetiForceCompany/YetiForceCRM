@@ -70,3 +70,7 @@ $languageStrings = array(
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
 );
+
+$jsLanguageStrings = array(
+	'DataAccess' => 'Data Access',
+);

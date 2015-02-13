@@ -959,7 +959,7 @@ class Vtiger_Functions {
 		$doc = new DOMDocument();
 		
 		$previous_value = libxml_use_internal_errors(TRUE);
-		$doc->loadHTML($html);
+		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previous_value);
 		

@@ -11,7 +11,7 @@
 $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Zadanie projektu',
-	'Project Task' => 'Zadania projektu',
+	'Project Task' => 'Zdania projektu',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'Start Date'=>'Data rozpoczęcia',

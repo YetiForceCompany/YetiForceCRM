@@ -10,6 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Reviewed' => 'Рассмотренно',
+	'Created' => 'Создано',
+	'LBL_GENERATE_QUOTES' => 'Создать Предложение',
 	'Accepted'=>'Принято',
 	'Inventory Manager'=>'Ответственный за склад',
 	'LBL_ADD_RECORD' => 'Добавить Предложение',

@@ -9,8 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Action_Desc_test' => 'Funktionstestbeschreibung',
-	'Action_test' => 'Funktionstest',
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
 	'Message' => 'Nachricht',
@@ -35,7 +33,7 @@ $languageStrings = array(
 	'Subject tasks' => 'Aufgabenthema',
 	'Message if the task does not exist' => 'Nachricht, wenn die Aufgabe nicht existiert',
 	//
-	'Action_check_alltask' => 'Check all tasks',
+	'Action_check_alltask' => 'Alle Aufgaben prüfen',
 	'Action_Desc_check_alltask' => 'Diese Aktion überprüft, ob alle Aufgaben mit dem gleichen Status zusammengehören. Eintrag ist gesperrt, wenn sie miteinander verbunden sind.',
 	'Message if the task exist' => 'Nachricht, wenn die Aufgabe existiert',
 	//
@@ -70,4 +68,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Diese Werkzeug färbt die Datensätze zeilenweise ein, die entsprechenden Bedingungen erfüllen. So sind Datensätze mit einer höheren Priorität leichter zu unterscheiden.',
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
+);
+$jsLanguageStrings = array(
+	'DataAccess' => 'Data Access',
 );

@@ -9,6 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_MarginP' => 'Margin Percent',
+	'LBL_Margin' => 'Margin',
+	'LBL_Purchase' => 'Purchase',
+	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
+	'Tatal margin' => 'Tatal margin',
 	// Basic Strings
 	'Calculations'        => 'Kalkulacje',
 	'SINGLE_Calculations' => 'Kalkulacja',

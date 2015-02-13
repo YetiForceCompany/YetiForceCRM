@@ -10,6 +10,11 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Принято',
+	'Cancel' => 'Отменено',
+	'Derecognized' => 'Удалено',
+	'Invoice entered' => 'Выставлен счет',
+	'Created' => 'Создано',
 	'SINGLE_SalesOrder'            => 'Заказ', 
 	'AutoCreated'                  => 'Автоматическое создание'        , 
 	'Cash' => 'Наличные',

@@ -55,8 +55,6 @@ $languageStrings = array(
 	//Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Zu Preisliste hinzufügen',
     
-    
-    
 	'Hours' => 'Stunden',
 	'Days' => 'Tage',
 	'Incidents' => 'Vorfälle',

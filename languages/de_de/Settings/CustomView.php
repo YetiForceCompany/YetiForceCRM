@@ -15,5 +15,5 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'Saving changes'	=> 'Speichern von Änderungen...',
-	'Update labels'	=> 'Update',
+	'Update labels'	=> 'Aktualisierung',
 );
