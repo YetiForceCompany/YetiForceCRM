@@ -238,9 +238,13 @@ display: none;
                                                 </div>
                                             </span>
                                             {if $FIELD_MODEL->getFieldDataType() eq "string"}
-												<span>
+												<span style="padding-left: 5px;">
 													{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-													<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+													<span style="margin-left: 26px;display: block;">
+													<span class="input-append">
+														<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+														<span class="add-on"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+													</span></span>
 												</span>
 											{/if}
 											<hr />
