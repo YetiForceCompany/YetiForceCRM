@@ -9,6 +9,13 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'providertype' => 'Provider',
+	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
+	'LBL_SEREVER_CONFIG' => 'New Configuration',
+	'username' => 'User Name',
+	'password' => 'Password',
+	'isactive' => 'Active',
+	'SINGLE_SMSNotifier' => 'SMS Notifier',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'Wyślij smsa do zaznaczonych numerów',
 	'LBL_STEP_1' => 'Krok 1',

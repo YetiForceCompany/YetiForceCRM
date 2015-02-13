@@ -9,6 +9,9 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 20/06/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Parent ID' => 'Parent ID',
+	'Owner' => 'Owner',
+	'Access Count' => 'Access Count',
 	'Date & Time Sent' => 'Data Envio',
 	'Emails' => 'Emails',
 	'LBL_ADD_BCC'=> 'Adicionar Bcc' ,

@@ -9,6 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 19/02/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Completed' => 'Completed',
 	'Active'=>'Ativo',
 	'Actual Cost'=> 'Custo Atual', 
 	'Actual Response Count'=> 'Quantidade Resposta Atual', 

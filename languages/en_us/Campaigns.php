@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Complete' => 'Complete',
 	'Actual Cost' => 'Actual Cost',
 	'Actual Response Count' => 'Actual Response Count',
 	'Actual ROI' => 'Actual ROI',

@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Approved',
+	'Cancel' => 'Cancel',
+	'Derecognized' => 'Derecognized',
+	'Invoice entered' => 'Invoice entered',
+	'Created' => 'Created',
 	'AutoCreated'=>'Auto Created',
 	'Credit Invoice'=>'Credit Invoice',
 	'Customer No' => 'Customer No',

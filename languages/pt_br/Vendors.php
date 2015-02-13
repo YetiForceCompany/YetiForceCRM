@@ -9,6 +9,12 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_to' => 'to',
+	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
+	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
+	'LBL_VENDORS_ADD_TASK' => 'Add Task',
+	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
+	'LBL_SEND_MAIL_PDF' => 'Send Mail PDF',
 	'300-Sales-Software' => '300-Vendas-Software' , 
 	'301-Sales-Hardware' => '301-Vendas-Hardware' , 
 	'302-Rental-Income'=> '302-Locação-Renda' , 

@@ -10,6 +10,11 @@
  * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 13/10/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_MarginP' => 'Margin Percent',
+	'LBL_Margin' => 'Margin',
+	'LBL_Purchase' => 'Purchase',
+	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
+	'Total margin' => 'Total margin',
 	// Basic Strings
 	'Calculations'        => 'Cálculos',
 	'SINGLE_Calculations' => 'Cálculo',

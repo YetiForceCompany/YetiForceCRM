@@ -48,39 +48,13 @@ $languageStrings = array(
     'REMOVE_TPL' => 'Remove template',
     'EDIT_TPL' => 'Edit template',
     
-    'Delete_panel' => 'This configuration panel is designed for module uninstallation. Module name: ',
-        'MSG_DEL_WARN1' => 'WARNING!',
-    'MSG_DEL_WARN2' => 'After You will uninstall the module You will loose all data in CRM regarding this module. However there can be still files left in: ',
-    'MSG_DEL_PATH1' => ' Smarty/templates/modules/module_name',
-    'MSG_DEL_PATH2' => ' modules/module_name',
-    'MSG_DEL_WARN3' => ' and in folder:',
-    'MSG_DEL_WARN4' => 'If You want to reinstall this module in the future, You will need to delete those folders.',
-    'MSG_DEL_WARN5' => 'If You have any problem You can contact us via our mail or through Trouble Ticket posted on www.opensaas.pl',
-    'MSG_DEL_WARN6' => 'Respectfully, team OpenSaaS Sp. z o.o.',
     
-    'HelpDescription' => 'Here is the webpage on which You are able to post Trouble Tickets, proposals of improvement or just read modules documentation.',
     
-     'LBL_TroubleUrl' => 'Modules website',
-    'LBL_OurWebsite' => 'Our website',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',
-    'LBL_UrlLinkInfo' => 'you need to register an account',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
-    'LBL_Manual' => 'Documentation (PL)',
     'OSSProjectTemplates_manual' => 'OSS Project Templates',
-    'LBL_ManualLink' => '#',
     'NO_TPL' => 'No templates',
     
     'ONLY_WORK_DAY' => 'Only business days',
     'TPL_VISIBILITY' => 'What groups can use the template',
 		// help
-	'LBL_Helpforthemodule' => 'Help for the module: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'License Information: ',
-	'LBL_Company' => 'The Company information: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Modules information:' ,
 
     );

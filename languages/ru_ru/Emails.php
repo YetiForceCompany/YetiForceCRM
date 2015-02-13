@@ -40,7 +40,7 @@ $languageStrings = array(
 	'LBL_SUBJECT'                  => 'Тема:'                   , 
 	'LBL_TO'                       => 'Кому:'                   , 
 	'Owner'                        => 'Ответственный',
-	'Parent ID'                    => 'Связан с',
+	'Parent ID' => 'Связан с',
 	'SINGLE_Emails'                => 'Почта'                  , 
 	'Time Start'                   => 'Время начала',
 );

@@ -10,6 +10,7 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST' => 'Records List',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Produtos Terceirizados',
 	'SINGLE_OutsourcedProducts' => 'Produto Terceirizado',

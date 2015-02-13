@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 
 $languageStrings = array(
+	'Invoice number' => 'Invoice No.',
 	'OSSSoldServices' => 'Usługi sprzedane',
 	'SINGLE_OSSSoldServices' => 'Usługa sprzedana',
 	'LBL_INFORMATION' => 'Blok informacji',

@@ -8,6 +8,12 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'csv' => 'CSV',
+	'UTF-8' => 'UTF-8',
+	'vcf' => 'VCard',
+	'semicolon' => 'semicolon',
+	'comma' => 'comma',
+	'ISO-8859-1' => 'ISO-8859-1',
 	'LBL_IMPORT_STEP_1'            => 'Schritt 1'                   , 
 	'LBL_IMPORT_STEP_1_DESCRIPTION' => 'Datei auswählen'                , 
 	'LBL_IMPORT_SUPPORTED_FILE_TYPES' => 'Unterstützte Dateitypen: .CSV, .VCF', 

@@ -10,6 +10,9 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Services' => 'Services',
+	'Potential' => 'Potential',
+	'Invoice' => 'Invoice',
 'OSSSoldServices' => 'Sold Services',
 'SINGLE_OSSSoldServices' => 'Sold Service',
 'LBL_INFORMATION' => 'Information Block',

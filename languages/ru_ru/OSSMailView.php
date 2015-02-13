@@ -10,9 +10,16 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Previous month' => 'В прошлом месяце',
+	'Current month' => 'В этом месяце',
+	'Previous week' => 'На прошлой неделе',
+	'Current week' => 'На этой неделе',
+	'Yesterday' => 'Вчера',
+	'Today' => 'Сегодня',
+	'LBL_INTERNAL' => 'Внутренний',
 	// Basic Strings
-	'OSSMailView'	=>	'Просмотр почты',
-	'SINGLE_OSSMailView'	=>	'Просмотр почты',
+	'OSSMailView' => 'Просмотр Почты',
+	'SINGLE_OSSMailView' => 'Просмотр Почты',
 	'LBL_ADD_RECORD'	=>	'Написать Письмо',
 	'LBL_RECORDS_LIST'	=>	'Список Писем',
 	// Blocks

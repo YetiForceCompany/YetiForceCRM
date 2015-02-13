@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Approved',
 	'AutoCreated'=>'Wymaga weryfikacji',
 	'Created' => 'Wersja robocza',
 	'Invoice entered' => 'Zaksięgowana',

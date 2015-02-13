@@ -10,6 +10,10 @@
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Services' => 'Services',
+	'Potential' => 'Potential',
+	'Invoice' => 'Invoice',
+	'LBL_ORDER_TIME' => 'Order time',
 'OSSSoldServices' => 'Serviços Vendidos',
 'SINGLE_OSSSoldServices' => 'Serviço Vendido',
 'LBL_INFORMATION' => 'Bloco Informação',

@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Complete' => 'Complete',
 	'Actual Cost' => 'Aktualny koszt kampanii',
 	'Actual Response Count' => 'Aktualna ilość odpowiedzi',
 	'Actual ROI' => 'Aktualny zwrot z inwestycji',

@@ -9,6 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Parent ID' => 'Parent ID',
+	'Owner' => 'Owner',
+	'Access Count' => 'Access Count',
 	'Date & Time Sent' => 'Data wysłania',
 	'Emails' => 'Maile',
 	'LBL_ADD_BCC' => 'Dodaj do UDW',
