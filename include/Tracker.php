@@ -20,7 +20,6 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  ********************************************************************************/
-
 include_once('config/config.php');
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
@@ -31,8 +30,6 @@ require_once('include/database/PearDatabase.php');
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
 */
-if(!class_exists('Tracker')){
-
 class Tracker {
     var $log;
     var $db;
@@ -236,6 +233,4 @@ $log->info("in  track view method ".$current_module);
             $count--;
         }
     }
-
-}
 }

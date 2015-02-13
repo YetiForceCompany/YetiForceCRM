@@ -11,6 +11,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST' => 'Список',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
 	'SINGLE_OutsourcedProducts' => 'Аутсорсинг Товаров',

@@ -9,6 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Принято',
 	'AutoCreated'	=>	'Авто создание',
 	'Cancel'                       => 'Отменить'            ,
 	'Cash'	=>	'Наличные',
@@ -40,8 +41,6 @@ $languageStrings = array(
 	'Sent'                         => 'Отправлен'          , 
 	'Transfer'	=>	'Безнал',
 	'Invoice entered'	=>	'Заказан',
-    'LBL_INVOICE_ADD_ACT' => 'Создать Акт',
-    'LBL_INVOICE_ADD_CONSIGNMENT'  => 'Создать Реализацию',
 	'Potential'	=>	'Сделка',
 );
 

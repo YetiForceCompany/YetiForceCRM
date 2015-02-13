@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Brutto' => 'Gross',
 	'SINGLE_OSSTimeControl' => 'Czas pracy',
 	'OSSTimeControl' => 'Czas pracy',
 	'LBL_MAIN_INFORMATION' => 'Informacje podstawowe',

@@ -232,3 +232,6 @@ $popupType = 1;
 
 //Minimum cron frequency [min]
 $MINIMUM_CRON_FREQUENCY = 1;
+
+//Update the current session id with a newly generated one after login
+$session_regenerate_id = false;

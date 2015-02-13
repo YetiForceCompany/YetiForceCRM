@@ -9,6 +9,12 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 21/12/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'isactive' => 'Active',
+	'password' => 'Password',
+	'username' => 'User Name',
+	'LBL_SEREVER_CONFIG' => 'New Configuration',
+	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
+	'providertype' => 'Provider',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'Enviar SMS para os números selecionados',
 	'LBL_STEP_1' => 'Passo 1',

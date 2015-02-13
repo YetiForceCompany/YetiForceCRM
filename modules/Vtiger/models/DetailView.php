@@ -67,23 +67,23 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 		$detailViewLink = array();
 		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
 		if(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $recordPermissionToEditView) {
-			if($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id')){
-			   $detailViewLinks[] = array(
-					   'linktype' => 'DETAILVIEWBASIC',
-					   'linklabel' => '',
-					   'linkurl' => '',
-					   'linkicon' => 'icon-ok icon-white',
-					   'linkclass' => 'btn-success setReadRecord',
-					   'linktitle' => 'BTN_READ_RECORD',
-			   );
-			}
-			$detailViewLinks[] = array(
+			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id')) {
+				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
-					'linkurl' => $recordModel->getEditViewUrl(),
-					'linkicon' => 'icon-pencil',
-					'linkclass' => 'btn',
-					'linktitle' => 'BTN_RECORD_EDIT',
+					'linkurl' => '',
+					'linkicon' => 'icon-ok icon-white',
+					'linkclass' => 'btn-success setReadRecord',
+					'linkhint' => 'BTN_READ_RECORD',
+				);
+			}
+			$detailViewLinks[] = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => '',
+				'linkurl' => $recordModel->getEditViewUrl(),
+				'linkicon' => 'icon-pencil',
+				'linkclass' => 'btn',
+				'linkhint' => 'BTN_RECORD_EDIT',
 			);
 			foreach ($detailViewLinks as $detailViewLink) {
 				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);

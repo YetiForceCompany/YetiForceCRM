@@ -9,6 +9,15 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'csv' => 'CSV',
+	'UTF-8' => 'UTF-8',
+	'vcf' => 'VCard',
+	'semicolon' => 'semicolon',
+	'comma' => 'comma',
+	'ISO-8859-1' => 'ISO-8859-1',
+	'Merge' => 'Merge',
+	'Overwrite' => 'Overwrite',
+	'Skip' => 'Skip',
 	'LBL_IMPORT_STEP_1' => 'Step 1',
 	'LBL_IMPORT_STEP_1_DESCRIPTION' => 'Select File',
 	'LBL_IMPORT_SUPPORTED_FILE_TYPES' => '	Supported File Type(s): .CSV, .VCF',

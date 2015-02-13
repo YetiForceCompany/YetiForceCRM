@@ -9,6 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
 	'Accepted'=>'Aceita',
 	'Inventory Manager'=>'Almoxarife',
 	'LBL_ADD_RECORD' => 'Adicionar registro',

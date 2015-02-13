@@ -39,8 +39,8 @@ $languageStrings = array(
 	'LogoImage'	=>	'Логотип',
 	'LBL_VALUE'	=>	'Значение',
 	'LBL_LABEL'	=>	'Поле',
-	'ContactsPortalPass' => 'Customer Portal Password',
-	'LinkToForgotPassword' => 'Link to reset your password',
+	'ContactsPortalPass' => 'Пароль для доступа к Порталу',
+	'LinkToForgotPassword' => 'Восстановить пароль',
 );
 $jsLanguageStrings = array(
 	'JS_NOTIF_PASS_COPIED'	=>	'Скопировано в буфер обмена',

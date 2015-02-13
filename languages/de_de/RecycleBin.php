@@ -19,6 +19,9 @@ $languageStrings = Array(
 );
 
 $jsLanguageStrings = array(
+	'JS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
+	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
+	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Are you sure you want to restore the records?',
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Sind Sie sicher, dass Sie alle gelöschten Datensätze aus Ihrer Datenbank dauerhaft entfernen möchten?',
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Sind Sie sicher, dass Sie die Datensätze wiederherstellen möchten?',
 	'JS_RESTORING_RECORDS' => 'Datensätze werden wiederhergestellt',

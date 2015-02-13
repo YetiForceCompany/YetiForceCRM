@@ -272,9 +272,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var allValues = sourceFieldElement.data('allvalues');
 				var reponseDataList = new Array();
 				for(var id in allValues){
-					var responseData = allValues[id];
-					if (allValues[id].toLowerCase().indexOf(searchValue) >= 0)
-						reponseDataList.push({"label":allValues[id],"value":allValues[id],"id":id});
+					var name = allValues[id][0];
+					if (name.toLowerCase().indexOf(searchValue) >= 0){
+						var parent = allValues[id][1];
+						var label = '('+ allValues[parent][0] + ') '+name;
+						reponseDataList.push({"label":label,"value":name,"id":id});
+					}
 				}
 				if(reponseDataList.length <= 0) {
 					jQuery(inputElement).val('');

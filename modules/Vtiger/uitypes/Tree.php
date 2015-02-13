@@ -57,9 +57,18 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
 		$template = $this->get('field')->getFieldParams();
 		$adb = PearDatabase::getInstance();
 		$values = array();
-		$result = $adb->pquery('SELECT tree,name FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
 		for($i = 0; $i < $adb->num_rows($result); $i++){
-			$values[$adb->query_result_raw($result, $i, 'tree')] = vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName());
+			$tree = $adb->query_result_raw($result, $i, 'tree');
+			$parent = '';
+			if($adb->query_result_raw($result, $i, 'depth') > 0){
+				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+				$cut = strlen('::'.$tree);
+				$parenttrre = substr($parenttrre, 0, - $cut);
+				$pieces = explode('::', $parenttrre);
+				$parent = end($pieces);
+			}
+			$values[$adb->query_result_raw($result, $i, 'tree')] = array(vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName()),$parent);
 		}
 		return $values;
 	}

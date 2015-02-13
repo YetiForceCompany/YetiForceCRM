@@ -9,5 +9,6 @@
  *************************************************************************************/
 
 $languageStrings = array(
+	'ModTracker' => 'ModTracker',
 	'SINGLE_ModTracker' => 'ModTracker Datensatz',
 );

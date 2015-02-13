@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Approved',
 	'Cancel' => 'Abgebrochen',
 	'Derecognized' => 'Entfernt',
 	'Invoice entered' => 'Rechnung eingegeben',

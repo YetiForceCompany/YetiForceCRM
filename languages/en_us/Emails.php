@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Parent ID' => 'Parent ID',
+	'Owner' => 'Owner',
+	'Access Count' => 'Access Count',
 	'Date & Time Sent' => 'Date Sent',
 	'Emails' => 'Emails',
 	'LBL_ADD_BCC' => 'Add Bcc',

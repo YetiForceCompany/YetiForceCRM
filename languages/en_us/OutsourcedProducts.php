@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECORDS_LIST' => 'Records List',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Outsourced Products',
 	'SINGLE_OutsourcedProducts' => 'Outsourced Product',

@@ -22,14 +22,11 @@
 
 include_once('config/config.php');
 require_once('include/logging.php');
-if(!class_exists('Tracker')){
-	require_once('include/Tracker.php');
-}
+require_once('include/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
 
-if(!class_exists('CRMEntity')){
 class CRMEntity {
 
 	var $ownedby;
@@ -257,7 +254,7 @@ class CRMEntity {
 					$columname[] = $adb->query_result($perm_result, $i, "columnname");
 				}
 				if (is_array($columname) && in_array("description", $columname)) {
-					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,attention=?,description=?, modifiedtime=?,was_read=? where crmid=?";
+					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=? where crmid=?";
 					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
 				} else {
 					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?, modifiedtime=? where crmid=?";
@@ -2733,6 +2730,4 @@ class CRMEntity {
                 " ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
         return $query;
     }
-}
-
 }
