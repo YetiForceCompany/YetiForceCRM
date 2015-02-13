@@ -31,6 +31,7 @@ $languageStrings = array(
 	// Mobile services
 	'LBL_MOBILE_HISTORYCALL' => 'Historia wykonanych połączeń',
 	'LBL_MOBILE_PUSHCALL' => 'Wykonywanie popłaczeń',
+	'LBL_MOBILE_CALLLISTENER' => 'Nasłuchiwanie połączeń',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Dodawanie klucza',
