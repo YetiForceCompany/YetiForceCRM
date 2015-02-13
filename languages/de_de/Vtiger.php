@@ -877,6 +877,9 @@ $languageStrings = array(
 	//Call popover
 	'LBL_BTN_CALL' => 'Anrufen',
 	'LBL_SELECT_USER_TO_CALL' => 'Auswählen, wen Sie anrufen möchten?',
+	
+	//Widget
+	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',

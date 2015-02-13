@@ -1043,6 +1043,9 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Количество отработанных дней',
 	'LBL_AVERAGE_WORKING_TIME' => 'Средняя продолжительность рабочего времени',
 	'Employees Time Control' => 'Учет времени Сотрудников',
+	
+	//Widget
+	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
 );
 $jsLanguageStrings = array(
 	'AM'                           => 'AM'                          , 
