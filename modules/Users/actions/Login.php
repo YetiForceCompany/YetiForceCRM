@@ -39,6 +39,8 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 		$moduleModel = Users_Module_Model::getInstance('Users');
 		
 		if ($user->doLogin($password)) {
+			if(vglobal('session_regenerate_id'))
+				session_regenerate_id(true); // to overcome session id reuse.
 			$userid = $user->retrieve_user_id($username);
 			Vtiger_Session::set('AUTHUSERID', $userid);
 
