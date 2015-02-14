@@ -376,6 +376,7 @@ class Vtiger_Soap_YetiPortal {
 	static function updateSessionId($key, $value) {
 		self::$_sessionid[$key] = $value;
 	}
+	static $_session = array();
 
 	/** Store available module information */
 	static $_modules = false;
@@ -864,6 +865,7 @@ function create_ticket($input_array)
 	$ticket->column_fields[ticketstatus]='Open';
 
 	$ticket->column_fields[contact_id]=$parent_id;
+	$ticket->column_fields[parent_id]=$parent_id;
 	$ticket->column_fields[product_id]=$product_id;
 	if($servicecontractid != 0)
 		$ticket->column_fields[servicecontractsid]=$servicecontractid;
@@ -1472,18 +1474,19 @@ function unsetServerSessionId($id)
 	$log->debug("Exiting customer portal function unsetServerSessionId");
 	return;
 }
-static $_session = array();
+
 function getServerSession($id){
 	global $adb;
 	$id = (int) $id;
-	$session = self::$_session[$id];
-	if($session === false) {
+	$session = Vtiger_Soap_YetiPortal::$_session[$id];
+	if(!$session) {
 		$query = "select * from vtiger_soapservice where type='customer' and id=?";
 		$result = $adb->pquery($query, array($id));
 		if($adb->num_rows($result) > 0) {
-			self::$_session[$id] = $adb->query_result_rowdata($result, 0);
-			if(!self::$_session[$id]['lang'])
-				self::$_session[$id]['lang'] = vglobal('default_language');
+			Vtiger_Soap_YetiPortal::$_session[$id] = $adb->query_result_rowdata($result, 0);
+			if(!Vtiger_Soap_YetiPortal::$_session[$id]['lang'])
+				Vtiger_Soap_YetiPortal::$_session[$id]['lang'] = vglobal('default_language');
+			$session = Vtiger_Soap_YetiPortal::$_session[$id];
 		}
 	}
 	return $session;
@@ -3365,12 +3368,11 @@ function getRelatedServiceContracts($crmid){
  **      return array
  **/
 
-function get_summary_widgets($id,$type,$language)
+function get_summary_widgets($id,$type)
 {
 	global $adb,$log;
 	$log->debug("Entering customer portal function get_summary_widgets");
 	$session = getServerSession($id);
-
 	$output = $allowed_contacts_and_accounts = array();
 	$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 				" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
