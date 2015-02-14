@@ -216,9 +216,6 @@ class Install_Index_view extends Vtiger_View_Controller {
     }
 
 	public function Step7(Vtiger_Request $request) {
-		// Set favourable error reporting
-		version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-
 		$moduleName = $request->getModule();
 		$webuiInstance = new Vtiger_WebUI();
 		$isInstalled = $webuiInstance->isInstalled();
