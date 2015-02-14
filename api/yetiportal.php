@@ -351,7 +351,7 @@ $server->register(
 /**
  * Helper class to provide functionality like caching etc...
  */
-class Vtiger_Soap_CustomerPortal {
+class Vtiger_Soap_YetiPortal {
 
 	/** Preference value caching */
 	static $_prefs_cache = array();
@@ -1442,7 +1442,7 @@ function getServerSessionId($id)
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function
 	$id = (int) $id;
 
-	$sessionid = Vtiger_Soap_CustomerPortal::lookupSessionId($id);
+	$sessionid = Vtiger_Soap_YetiPortal::lookupSessionId($id);
 	if($sessionid === false) {
 		$query = "select * from vtiger_soapservice where type='customer' and id=?";
 		$result = $adb->pquery($query, array($id));
@@ -1450,7 +1450,7 @@ function getServerSessionId($id)
 			$sessionid = $adb->query_result($result,0,'sessionid');
 			$current_language = $adb->query_result($result,0,'lang');
 			vglobal('default_language', $current_language);
-			Vtiger_Soap_CustomerPortal::updateSessionId($id, $sessionid);
+			Vtiger_Soap_YetiPortal::updateSessionId($id, $sessionid);
 		}
 	}
 	return $sessionid;
@@ -1466,13 +1466,28 @@ function unsetServerSessionId($id)
 	$adb->println("Inside the function unsetServerSessionId");
 
 	$id = (int) $id;
-	Vtiger_Soap_CustomerPortal::updateSessionId($id, false);
+	Vtiger_Soap_YetiPortal::updateSessionId($id, false);
 
 	$adb->pquery("delete from vtiger_soapservice where type='customer' and id=?", array($id));
 	$log->debug("Exiting customer portal function unsetServerSessionId");
 	return;
 }
-
+static $_session = array();
+function getServerSession($id){
+	global $adb;
+	$id = (int) $id;
+	$session = self::$_session[$id];
+	if($session === false) {
+		$query = "select * from vtiger_soapservice where type='customer' and id=?";
+		$result = $adb->pquery($query, array($id));
+		if($adb->num_rows($result) > 0) {
+			self::$_session[$id] = $adb->query_result_rowdata($result, 0);
+			if(!self::$_session[$id]['lang'])
+				self::$_session[$id]['lang'] = vglobal('default_language');
+		}
+	}
+	return $session;
+}
 
 /**	function used to get the Account name
  *	@param int $id - Account id
@@ -3273,7 +3288,7 @@ function get_modules($id)
 	$log->debug("Entering customer portal Function get_modules");
 	getServerSessionId($id);
 	// Check if information is available in cache?
-	$modules = Vtiger_Soap_CustomerPortal::lookupAllowedModules();
+	$modules = Vtiger_Soap_YetiPortal::lookupAllowedModules();
 	if($modules === false) {
 		$modules = array();
 
@@ -3288,7 +3303,7 @@ function get_modules($id)
 			}
 			ksort($modules); // Order via SQL might cost us, so handling it ourselves in this case
 		}
-		Vtiger_Soap_CustomerPortal::updateAllowedModules($modules);
+		Vtiger_Soap_YetiPortal::updateAllowedModules($modules);
 	}
 	$log->debug("Exiting customerportal function get_modules");
 	return $modules;
@@ -3350,10 +3365,12 @@ function getRelatedServiceContracts($crmid){
  **      return array
  **/
 
-function get_summary_widgets($id,$type)
+function get_summary_widgets($id,$type,$language)
 {
 	global $adb,$log;
 	$log->debug("Entering customer portal function get_summary_widgets");
+	$session = getServerSession($id);
+
 	$output = $allowed_contacts_and_accounts = array();
 	$contactquery = "SELECT contactid, parentid FROM vtiger_contactdetails " .
 				" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid" .
@@ -3418,7 +3435,7 @@ function get_summary_widgets($id,$type)
 		$result = $adb->pquery($sql , array($allowed_contacts_and_accounts));
 		for($i=0; $i<$adb->num_rows($result); $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
-			$row['statusvalue'] = Vtiger_Language_Handler::getTranslatedString( $row['statusvalue'], 'HelpDesk',vglobal('default_language') );
+			$row['statusvalue'] = Vtiger_Language_Handler::getTranslatedString( $row['statusvalue'], 'HelpDesk', $session['lang'] );
 			$output['TicketsByStatus'][$i] = $row;
 		}
 	}
@@ -3463,14 +3480,14 @@ function getPortalUserid() {
 	$log->debug("Entering customer portal function getPortalUserid");
 
 	// Look the value from cache first
-	$userid = Vtiger_Soap_CustomerPortal::lookupPrefValue('userid');
+	$userid = Vtiger_Soap_YetiPortal::lookupPrefValue('userid');
 	if($userid === false) {
 		$res = $adb->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'userid' AND tabid = 0", array());
 		$norows = $adb->num_rows($res);
 		if($norows > 0) {
 			$userid = $adb->query_result($res,0,'prefvalue');
 			// Update the cache information now.
-			Vtiger_Soap_CustomerPortal::updatePrefValue('userid', $userid);
+			Vtiger_Soap_YetiPortal::updatePrefValue('userid', $userid);
 		}
 	}
 	return $userid;
@@ -3512,14 +3529,14 @@ function getDefaultAssigneeId() {
 	$adb->println("Entering customer portal function getPortalUserid");
 
 	// Look the value from cache first
-	$defaultassignee = Vtiger_Soap_CustomerPortal::lookupPrefValue('defaultassignee');
+	$defaultassignee = Vtiger_Soap_YetiPortal::lookupPrefValue('defaultassignee');
 	if($defaultassignee === false) {
 		$res = $adb->pquery("SELECT prefvalue FROM vtiger_customerportal_prefs WHERE prefkey = 'defaultassignee' AND tabid = 0", array());
 		$norows = $adb->num_rows($res);
 		if($norows > 0) {
 			$defaultassignee = $adb->query_result($res,0,'prefvalue');
 			// Update the cache information now.
-			Vtiger_Soap_CustomerPortal::updatePrefValue('defaultassignee', $defaultassignee);
+			Vtiger_Soap_YetiPortal::updatePrefValue('defaultassignee', $defaultassignee);
 		}
 	}
 	return $defaultassignee;
