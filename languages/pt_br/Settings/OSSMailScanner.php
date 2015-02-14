@@ -3,6 +3,9 @@
  *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
  ********************************************************************************+*/
 $languageStrings = array(
+	'OSSMailScanner_manual' => 'Mail Scanner',
+	'OSSMailScanner' => 'Mail Scanner',
+	'Mail Scanner' => 'Mail Scanner',
     
 );
 

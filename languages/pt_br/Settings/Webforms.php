@@ -8,6 +8,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 26/04/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
+	'Webforms' => 'Webforms',
 	'SINGLE_Settings:Webforms' => 'Webform',
 	//Basic Field Names
 	'WebForm Name' => 'Nome Webform',

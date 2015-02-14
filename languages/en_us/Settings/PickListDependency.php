@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
+	'Selected Values' => 'Selected Values',
 	'LBL_ADD_RECORD' => 'Add record',
 	'PickListDependency' => 'PickList Dependency',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Only mapped picklist values of the Source field will be shown below (except for first time)',

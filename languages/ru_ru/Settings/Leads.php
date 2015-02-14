@@ -9,6 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_OPPURTUNITIES' => 'Сделки',
 	'Leads'	=>	'Обращения',
 	'checkBox' => 'Флажок',
 	'currency' => 'Валюта',
@@ -40,6 +41,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'JS_None' => 'Нет',
 	'JS_CANT_MAP' => 'Не удается сопоставить поля',
 	'JS_checkBox' => 'Флажок',
 	'JS_currency' => 'Валюта',

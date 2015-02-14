@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'ConfReport' => 'Server Konfiguration',
 	//Yetiforce
 	'LBL_PARAMETER' => 'Parameter',
 	'LBL_VALUE' => 'Aktuelle Konfiguration',

@@ -10,6 +10,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Tipos Atividades',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Gerencimaneto Tipos de Atividades.',

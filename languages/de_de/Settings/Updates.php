@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Updates' => 'Updates',
 	'LBL_YES' => 'Ja',
 	'LBL_NO' => 'Nein',	
 	'LBL_TIME' => 'Zeit',

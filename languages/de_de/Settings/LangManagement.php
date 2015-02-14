@@ -8,6 +8,9 @@
  *  Website				: www.opensaas.pl
  ********************************************************************************+*/
 $languageStrings = array(
+	'No data available in table' => 'No data available in table',
+	'Translations' => 'Translations',
+	'Language editor' => 'Language editor',
 	'LangManagement' => 'Sprachen Management',
 	'LBL_Module_desc' => 'Dieses Tool hilft Übersetzungen innerhalb des Systems zu ändern und zu verwalten.',
 	'LBL_TAB_LIST' => 'Verfügbare Sprachen',
@@ -49,6 +52,8 @@ $languageStrings = array(
 	'LBL_DEFAULT'	=> 'Standard',
 );
 $jsLanguageStrings = array(
+	'Translations' => 'Translations',
+	'Language editor' => 'Language editor',
 	'LBL_AreYouSure'	=> 'Sind Sie sicher, dass Sie diese Sprache löschen möchten?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Sie Sie sicher, dass Sie die Standardsprache ändern möchten?',
 	'JS_DEFAULT'	=> 'Standard',

@@ -10,6 +10,8 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
+	'ModuleManager' => 'Module Manager',
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
 	'LBL_DECLINE' => 'Odrzuć',
 	'LBL_EXISTS'=>'Istnieje',
@@ -56,4 +58,13 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Etykieta pola głównego',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Moduł o takiej nazwie już istnieje',
 	'LBL_INVALID_MODULE_NAME' => 'Błędna nazwa modułu',
+);
+$jsLanguageStrings = array(
+	'JS_UPDATED_MODULE' => 'Update Successfull',
+	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
+	'JS_IMPORTED_MODULE' => 'Install Successfull',
+	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
+	'JS_FOR_INSTALLATION' => 'for installation',
+	'JS_CLICK_HERE' => 'Click Here',
+	'JS_ON' => 'On',
 );

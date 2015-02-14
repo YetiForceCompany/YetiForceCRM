@@ -9,6 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = array(
+	'PBXManager' => 'PBX Manager',
     'LBL_SELECT_ONE' => 'Auswählen',
     'LBL_PBXMANAGER' =>'Telefonanlagen Manager',
     'LBL_PBXMANAGER_CONFIG' => 'Asterisk Server Details',

@@ -1,5 +1,6 @@
 <?php
 $languageStrings = array(
+	'Access to record' => 'Zugang zu den Daten',
 	'GlobalPermission' => 'Zugang zu den Daten',
 	'LBL_Module_desc' => 'Hier definieren Sie, welche Profile Zugriff auf alle Datensätze haben, unabhängig von ihrer Rolle',
 	'LBL_PROFILE_NAME' => 'Profilname',

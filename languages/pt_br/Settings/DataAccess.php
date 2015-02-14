@@ -9,6 +9,7 @@
 *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_DATAACCESS' => 'Validação de acesso',
 	'LBL_DATAACCES' => 'Validação de acesso',
 	'DataAccess' => 'Validação de acesso',
 	'LBL_NEW_TPL' => 'Adicionar nova condição',

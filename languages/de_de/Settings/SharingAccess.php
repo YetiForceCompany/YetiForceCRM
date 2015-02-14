@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Sharing Rules' => 'Freigaberegeln',
+	'SharingAccess' => 'Freigaberegeln',
 	'Accounts' => 'Organisationen & Kontakte',
 	'LBL_ADD_CUSTOM_RULE' => 'Erstelle benutzerdefinierte Regel',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Benutzerdefinierte Regel hinzufügen zu',
