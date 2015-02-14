@@ -1553,7 +1553,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			dropDownMenu.find('form').validationEngine(params);
 			var defaultValueUiContainer = basicDropDown.find('.defaultValueUi');
 
-
+			var popoverTooltipElements = fieldRow.find('.popoverTooltip');
+			if(popoverTooltipElements.length > 0) {
+				app.showPopoverElementView(popoverTooltipElements);
+			}
 			//handled registration of chosen for select element
 			var selectElements = defaultValueUiContainer.find('select');
 			if(selectElements.length > 0) {

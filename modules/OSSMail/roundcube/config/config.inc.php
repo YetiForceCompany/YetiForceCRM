@@ -44,7 +44,7 @@ $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");
 $config['ip_check'] = false;///
-$config['enable_spellcheck'] = true;//
+$config['enable_spellcheck'] = true;
 $config['identities_level'] = '0';
 $config['auto_create_user'] = true;
 $config['mail_pagesize'] = 25;
@@ -62,3 +62,4 @@ $config['time_format'] = 'H:i';
 $config['show_images'] = '0';
 $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
+$config['smtp_log'] = true;
