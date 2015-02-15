@@ -5699,13 +5699,30 @@ insert  into `vtiger_payment`(`paymentid`,`payment`,`sortorderid`,`presence`) va
 
 /*Data for the table `vtiger_payment_duration` */
 
-insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (1,'Net 30 days',0,1);
-insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (2,'Net 45 days',1,1);
-insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (3,'Net 60 days',2,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (1,'payment:+0 days',0,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (2,'payment:+1 days',1,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (3,'payment:+7 days',2,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (4,'payment:+14 days',3,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (5,'payment:+21 days',4,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (6,'payment:+30 days',5,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (7,'payment:+60 days',6,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (8,'payment:+90 days',7,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (9,'payment:+180 days',8,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (10,'payment:+360 days',9,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (11,'payment:+1 month',10,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (12,'payment:+3 months',11,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (13,'payment:+6 months',12,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (14,'payment:+1 year',13,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (15,'payment:monday next week',14,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (16,'payment:friday next week',15,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (17,'payment:first day of next month',16,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (18,'payment:last day of next month',17,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (19,'payment:first day of +3 months',18,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (20,'payment:last day of +3 months',19,1);
 
 /*Data for the table `vtiger_payment_duration_seq` */
 
-insert  into `vtiger_payment_duration_seq`(`id`) values (3);
+insert  into `vtiger_payment_duration_seq`(`id`) values (20);
 
 /*Data for the table `vtiger_payment_seq` */
 
@@ -13255,15 +13272,29 @@ insert  into `vtiger_quotestage_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_recurring_frequency` */
 
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (2,'Daily',1,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (3,'Weekly',2,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (4,'Monthly',3,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (5,'Quarterly',4,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (6,'Yearly',5,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (2,'+1 day',1,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (3,'+7 day',2,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (4,'+14 day',3,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (5,'+21 day',4,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (6,'+30 day',5,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (7,'+60 day',6,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (8,'+90 day',7,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (9,'+180 day',8,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (10,'+360 day',9,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (11,'+1 month',10,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (12,'+3 months',11,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (13,'+6 months',12,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (14,'+1 year',13,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (15,'monday next week',14,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (16,'friday next week',15,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (17,'first day of next month',16,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (18,'last day of next month',17,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (19,'first day of +3 months',18,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (20,'last day of +3 months',19,1);
 
 /*Data for the table `vtiger_recurring_frequency_seq` */
 
-insert  into `vtiger_recurring_frequency_seq`(`id`) values (6);
+insert  into `vtiger_recurring_frequency_seq`(`id`) values (20);
 
 /*Data for the table `vtiger_recurringevents` */
 
