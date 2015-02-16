@@ -989,7 +989,10 @@ function close_current_ticket($input_array)
  */
 function authenticate_user($username,$password,$version,$portalLang,$login = 'true')
 {
-	global $adb,$log,$current_language;
+	$adb = vglobal('adb');
+	$log = vglobal('log');
+	$currentLanguage = vglobal('current_language');
+	
 	$adb->println("Inside customer portal function authenticate_user($username, $password, $login).");
 	include('config/version.php');
 	if(version_compare($version,$YetiForce_current_version,'>=') == 0){
@@ -1022,8 +1025,9 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$list[0]['last_login_time'] = $adb->query_result($result,0,'last_login_time');
 	$list[0]['support_start_date'] = $adb->query_result($result,0,'support_start_date');
 	$list[0]['support_end_date'] = $adb->query_result($result,0,'support_end_date');
-	$current_language = $portalLang;
-	vglobal('default_language', $current_language);
+	$list[0]['encode_password'] = vglobal('encode_customer_portal_passwords');
+	$currentLanguage = $portalLang;
+	vglobal('default_language', $currentLanguage);
 
 	//During login process we will pass the value true. Other times (change password) we will pass false
 	if($login != 'false')
