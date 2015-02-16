@@ -89,6 +89,7 @@ $languageStrings = array(
 	'LBL_FIELD_TYPE1' => 'Пользовательское (Например: vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
+	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 );
 
 $jsLanguageStrings = array(

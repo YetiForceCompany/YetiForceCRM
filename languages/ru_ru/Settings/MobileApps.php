@@ -33,6 +33,7 @@ $languageStrings = array(
  	// Mobile services
 	'LBL_MOBILE_HISTORYCALL'	=>	'Журнал Вызовов',
 	'LBL_MOBILE_PUSHCALL'	=>	'Автоматический набор номера',
+	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
 );
 $jsLanguageStrings = array(
 	'Adding a Key'	=>	'Добавить ключ',
