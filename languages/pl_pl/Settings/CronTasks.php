@@ -9,6 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
+	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
+	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
+	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
 	'Cron Job' => 'Zadania wyzwalacza',
 	'CronTasks' => 'Harmonogram',
 	'Frequency' => 'Częstotliwość',
@@ -30,6 +35,11 @@ $languageStrings = array(
 
 
 $jsLanguageStrings = array(
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
+	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
+	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
+	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
 	'FREQUENCY_NUMBER' => 'Częstotliwość jest musi być liczbą całkowitą',
 	'FREQUENCY_REQUIRED' => 'Pole częstotliwość jest wymagane',
 	'PATH_REQUIRED' => 'Pole ścieżka jest wymagane',

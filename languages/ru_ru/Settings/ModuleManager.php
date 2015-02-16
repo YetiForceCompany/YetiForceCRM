@@ -9,6 +9,7 @@
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Ошибка загрузки файла',
 	'ModuleManager'	=>	'Менеджер Модулей',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Установка модуля из файла',
 	'LBL_IMPORT_MODULE' => 'Установка модуля',
@@ -42,7 +43,6 @@ $languageStrings = array(
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' предусмотрено для установки модуля! Попробуйте еще раз.',
 	'LBL_IMPORTED_MODULE' => ' был успешно установлен.',
 	'LBL_IMPORTING_MODULE' => 'Установка модуля',
-	'LBL_EXTENSION_STORE' => 'Магазин',
 	'LBL_DELETE_EXIST_DIRECTORY' => 'Пожалуйста, удалите существующую папку модуля для продолжения установки.',
 	'LBL_UPDATE_MODULE_FROM_FILE' => 'Обновить модуль из файла',
 	'LBL_UPDATED_MODULE' => ' был успешно обновлен.',
@@ -62,9 +62,6 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
   'JS_ON' => 'вкл',
-  'JS_PLEASE_INSTALL_EXTENSION_LOADER_TO_INSTALL_THIS_EXTENSION_FROM_BELOW_LINK' => 'Пожалуйста установите загрузчик расширений для установки по ссылке ниже',
-  'JS_EXTENSION_STORE_IS_NOT_SUPPOTED_WOULD_YOU_LIKE_TO_INSTALL' => 'Расширение не поддерживается, хотите установить?',
-  'JS_PHP_EXTENSION_LOADER_NOT_INSTALLED' => 'PHP загрузчик расширений не установлен ',
   'JS_CLICK_HERE' => 'Нажмите здесь ',
   'JS_FOR_INSTALLATION' => 'для установки',
   'JS_IMPORT_SUCCESSFULL' => 'Установка прошла успешно',

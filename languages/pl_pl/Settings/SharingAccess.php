@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Sharing Rules' => 'Współdzielone zasady dostępu',
+	'SharingAccess' => 'Współdzielone zasady dostępu',
 	'Accounts' => 'Kontrahenci i Kontakty',
 	'LBL_ADD_CUSTOM_RULE' => 'Dodaj',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Dodaj przykładową rolę do',

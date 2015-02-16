@@ -9,8 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_ADD_RECORD'	=>	'Добавить Шаблон',
-	'New node'	=>	'Новый элемент',
+	'LBL_ADD_RECORD' => 'Добавить Каталог',
 	'TreesManager'	=>	'Менеджер Каталогов',
 	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
@@ -22,7 +21,7 @@ $languageStrings = array(
 	'LBL_ADD_ITEM_TREE'	=>	'Добавить элемент',
 	'LBL_ADD_TO_TREES'	=>	'Добавить',
 	'LBL_SAVE'	=>	'Сохранить',
-	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Change tree item to:',
+	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Изменить Каталог:',
 );
 $jsLanguageStrings = array(
 	'JS_TREE_DELETED_SUCCESSFULLY'	=>	'Шаблон Каталога успешно удален',
@@ -33,8 +32,8 @@ $jsLanguageStrings = array(
 	'JS_JSTREE_CUT'	=>	'Вырезать',
 	'JS_JSTREE_COPY'	=>	'Копировать',
 	'JS_JSTREE_PASTE'	=>	'Вставить',
-	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
-	'JS_NO_ITEM_SELECTED' => 'No item has been selected',
-	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'You cannot delete all items',
-	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'You cannot delete parent item',
+	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
+	'JS_NO_ITEM_SELECTED' => 'Ничего не выбрано',
+	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Вы не можете удалить все',
+	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Вы не можете удалять родителя',
 );

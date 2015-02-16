@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'ConfReport' => 'Server configuration',
 	'LBL_CONFIGURATION' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Allows you to verify that the main server settings are compatible with the recommended parameters.',
 	'LBL_PARAMETER' => 'Parameter',

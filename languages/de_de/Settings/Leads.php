@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Leads' => 'Leads',
+	'LBL_OPPURTUNITIES' => 'Opportunities',
 	'checkBox' => 'Kontrollkästchen',
 	'currency' => 'Währung',
 	'date' => 'Datum',

@@ -11,6 +11,7 @@
  *************************************************************************************************************************************/
  
 $languageStrings = array(
+	'LBL_SAVE' => 'Save',
 	'ApiAddress' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'O módulo permite pesquisar/autocompletar o endereço durante a criação/edição dos dados no Sistema.',

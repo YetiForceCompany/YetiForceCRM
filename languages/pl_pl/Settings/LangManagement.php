@@ -9,6 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'No data available in table' => 'No data available in table',
+	'Translations' => 'Translations',
+	'Language editor' => 'Language editor',
 	'LangManagement'	=> 'Zarządzanie językami',
 	'LBL_Module_desc'	=> 'Narzędzie służy do modyfikacji i zarządzania tłumaczeniami językowymi w całym systemie.',
 	'LBL_TAB_LIST'	=> 'Dostępne języki',
@@ -50,6 +53,7 @@ $languageStrings = array(
 	'LBL_DEFAULT'	=> 'Domyślny',
 );
 $jsLanguageStrings = array(
+	'Translations' => 'Translations',
 	'LBL_AreYouSure'	=> 'Czy na perwno chcesz usunąć język?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na perwno chcesz zmienić język domyślny?',
 	'JS_DEFAULT'	=> 'Domyślny',

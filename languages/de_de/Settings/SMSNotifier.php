@@ -8,6 +8,15 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Enter new data' => 'Enter new data',
+	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Account Number',
+	'LBL_SMS_SENDER' => 'Sender',
+	'LBL_SMSPM_AUTH_HASH' => 'Authentification Hash',
+	'LBL_SMS_TIME' => 'Time (min)',
+	'No' => 'No',
+	'Yes' => 'Yes',
+	'User Name' => 'User Name',
+	'Provider' => 'Provider',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'SMSNotifier' => 'SMS Anbieter Konfiguration',
 	'LBL_ADD_CONFIGURATION' => 'Neue Konfiguration',
@@ -22,6 +31,10 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Account Number',
+	'LBL_SMSPM_AUTH_HASH' => 'Authentification Hash',
+	'LBL_SMS_TIME' => 'Time (min)',
+	'LBL_SMS_SENDER' => 'Sender',
 	'LBL_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie diese SMS Anbieter Konfiguration löschen möchten',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'SMS Anbieter erfolgreich gelöscht',
 	'JS_CONFIGURATION_SAVED' => 'SMS Anbieter Konfiguration gespeichert',

@@ -9,6 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_VIEW_PRVILIGE' => 'Просматривать',
 	'LBL_ADD_RECORD' => 'Добавить Профиль',
 	'LBL_CHOOSE_PROFILES' => 'Выбрать профили',
 	'LBL_CREATE_PROFILE' => 'Создать Профиль',

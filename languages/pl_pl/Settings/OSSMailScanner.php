@@ -9,6 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'OSSMailScanner_manual' => 'Mail Scanner',
+	'OSSMailScanner' => 'Mail Scanner',
+	'Mail Scanner' => 'Mail Scanner',
     
 );
 

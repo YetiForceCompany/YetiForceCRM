@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_VIEW_PRVILIGE' => 'Przeglądanie',
 	'LBL_ADD_RECORD' => 'Dodaj profil',
 	'LBL_CHOOSE_PROFILES' => 'Wybierz profil',
 	'LBL_CREATE_PROFILE' => 'Utwórz profil',

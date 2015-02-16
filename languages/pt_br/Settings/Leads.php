@@ -8,6 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
+	'Leads' => 'Leads',
+	'LBL_OPPORTUNITIES' => 'Opportunities',
 	'checkBox' => 'Caixa Seleção',
 	'currency' => 'Moeda',
 	'date' => 'Data',

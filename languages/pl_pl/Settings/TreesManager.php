@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_ADD_RECORD' => 'Dodaj',
     'TreesManager' => 'Zarządzanie szablonami drzew',
     'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Zarządzanie szablonami drzew',

@@ -28,7 +28,7 @@ $languageStrings = array(
 	'LBL_PATH_TO_FILE' => 'Путь к файлу',
 	'Recommended frequency for MailScanner is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Workflow is 15 mins' => 'Рекомендованная частота 15 минут',
-	'Recommended frequency for RecurringInvoice is 12 hours' => 'Рекомендованная частота 15 минут',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Рекомендованная частота 12 часов',
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
 );
@@ -41,7 +41,7 @@ $jsLanguageStrings = array(
 	'NAME_REQUIRED' => 'Необходимо заполнить поле Название',
 	'Recommended frequency for MailScanner is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Workflow is 15 mins' => 'Рекомендованная частота 15 минут',
-	'Recommended frequency for RecurringInvoice is 12 hours' => 'Рекомендованная частота 15 минут',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Рекомендованная частота 12 часов',
 	'Recommended frequency for SendReminder is 15 mins' => 'Рекомендованная частота 15 минут',
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Рекомендованная частота 15 минут',
 );
