@@ -813,6 +813,12 @@ $languageStrings = array(
 	//Call popover
 	'LBL_BTN_CALL' => 'Call',
 	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
+	
+	//Widget
+	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
+	'LBL_NAME' => 'Record name',
+	'LBL_MODULE_NAME' => 'Module name',
+	'LBL_NO_MOD_RECORDS' => 'No modified records',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',
