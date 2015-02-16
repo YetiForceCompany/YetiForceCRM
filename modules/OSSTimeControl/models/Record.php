@@ -317,4 +317,16 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model {
 		}
 		return true;
 	}
+	
+	public function getDuplicateRecordUrl() {
+		$module = $this->getModule();
+		$date = new DateTime();
+		$currDate = DateTimeField::convertToUserFormat($date->format('Y-m-d'));
+		
+		$time = $date->format('H:i');
+				
+		return 'index.php?module='.$this->getModuleName().'&view='.$module->getEditViewName().'&record='.$this->getId().'&isDuplicate=true&date_start=' 
+				.  $currDate . '&due_date=' . $currDate . '&time_start=' . $time . '&time_end=' . $time;
+
+	}
 }
