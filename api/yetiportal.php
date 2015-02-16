@@ -1002,7 +1002,9 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$username = $adb->sql_escape_string($username);
 	$password = $adb->sql_escape_string($password);
 
-	$password = CustomerPortalPassword::encryptPassword($password, $username);
+	if (vglobal('encode_customer_portal_passwords')) {
+		$password = CustomerPortalPassword::encryptPassword($password, $username);
+	}
 	
 	$currentDate = date("Y-m-d");
 	$sql = "select id, user_name, user_password,last_login_time, support_start_date, support_end_date
@@ -1068,7 +1070,9 @@ function change_password($input_array)
 	$list = authenticate_user($userName,$old_password,$version ,'false');
 	if(!empty($list[0]['id'])){
 		
-		$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
+		if (vglobal('encode_customer_portal_passwords')) {
+			$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
+		}
 		
 		$sql = "update vtiger_portalinfo set user_password=? where id=? and user_name=?";
 		$result = $adb->pquery($sql, array($newPassword, $id, $userName));
