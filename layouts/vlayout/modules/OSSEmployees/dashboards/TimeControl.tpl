@@ -9,8 +9,39 @@
  * All Rights Reserved.
  ********************************************************************************/
 -->*}
+<style type="text/css">
+	.filterContainerTimeControl{
+		margin-top: 5px;
+		padding: 0 !important
+	}
+	.dashboardWidgetContentTimeControl{
+		padding: 0 !important
+	}
+	.widgetFilter{
+		margin-bottom: 0 !important;
+	}
+	.iconMiddle { vertical-align: middle; }
+</style>
 <script type="text/javascript">
-	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{},{
+	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{
+		fillDateRange : function(){
+			var thisInstance = this;
+			var dateRange = $('.dateRange').val();
+			if(dateRange.length <= 0) {
+				var dateFormat = jQuery('#userDateFormat').val();
+				var today = new Date();
+				var weekAgo = new Date();
+				weekAgo.setDate( weekAgo.getDate()-7 );
+				var dateRange = app.getDateInVtigerFormat(dateFormat, weekAgo) +','+ app.getDateInVtigerFormat(dateFormat, today);
+
+				$('.dateRange').val(dateRange);
+			}
+		},
+
+		registerEvents: function() {
+			this.fillDateRange();
+		}
+	},{
 		generateChartData : function() {
 			var container = this.getContainer();
 			var jData = container.find('.widgetData').val();
@@ -29,7 +60,12 @@
 			// yMaxValue Should be 25% more than Maximum Value
 			yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
 			return {literal}{'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels}{/literal};
-		}
+		},
+	});
+
+	jQuery(document).ready(function () {
+		Vtiger_Timecontrol_Widget_Js.registerEvents();
+		jQuery('select').select2();
 	});
 </script>
 <div class="dashboardWidgetHeader">
@@ -50,11 +86,8 @@
 				</td>
 				<td class="widgeticons span5" align="right">
 					<div class="box pull-right">
-						<a class="btn" href="javascript:jQuery('#menubar_quickCreate_OSSTimeControl').trigger('click');">
+						<a class="btn" onclick="jQuery('#menubar_quickCreate_OSSTimeControl').trigger('click'); return false;">
 							<i class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
-						</a>
-						<a class="btn" name="dfilter">
-							<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
 						</a>
 						<a class="btn" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
 							<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
@@ -69,31 +102,32 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="row-fluid filterContainer hide" style="position:absolute;z-index:100001">
-		<div class="row-fluid">
+	<div class="row-fluid filterContainerTimeControl">
+		<div class="row-fluid span6">
 			<span class="span4">
 				<span class="pull-right">
-					{vtranslate('LBL_TIME_RANGE', $MODULE_NAME)}
+					<i class="icon-calendar iconMiddle"></i>
 				</span>
 			</span>
 			<span class="span8">
-				<input type="text" name="time" class="dateRange widgetFilter" />
+				<input type="text" name="time" class="dateRange widgetFilter" style="width:90%;" />
 			</span>
 		</div>
-		<div class="row-fluid">
-			<span class="span4">
+		<div class="row-fluid span6">
+			<span class="span1">
 				<span class="pull-right">
-					{vtranslate('LBL_USER', $MODULE_NAME)}
+					<i class="icon-user iconMiddle"></i>
 				</span>
 			</span>
 			<span class="span8">
 				{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-				<select class="widgetFilter" name="user">
+				{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
+				<select class="widgetFilter" name="user" style="width:90%;" >
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-			                    <option value="{$OWNER_ID}">
-									{$OWNER_NAME}
-			                    </option>
+							<option {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
+								{$OWNER_NAME}
+							</option>
 						{/foreach}
 					</optgroup>
 				</select>
@@ -101,6 +135,6 @@
 		</div>
 	</div>
 </div>
-<div class="dashboardWidgetContent">
+<div class="dashboardWidgetContent dashboardWidgetContentTimeControl">
 	{include file="dashboards/TimeControlContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>

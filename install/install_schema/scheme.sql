@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4225,12 +4226,13 @@ CREATE TABLE `vtiger_portal` (
 CREATE TABLE `vtiger_portalinfo` (
   `id` int(11) NOT NULL,
   `user_name` varchar(50) DEFAULT NULL,
-  `user_password` varchar(30) DEFAULT NULL,
+  `user_password` varchar(200) DEFAULT NULL,
   `type` varchar(5) DEFAULT NULL,
   `last_login_time` datetime DEFAULT NULL,
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
   `isactive` int(1) DEFAULT NULL,
+  `crypt_type` varchar(20) DEFAULT NULL
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

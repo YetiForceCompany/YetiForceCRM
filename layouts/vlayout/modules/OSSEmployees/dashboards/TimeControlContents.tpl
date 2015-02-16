@@ -13,7 +13,7 @@
 {strip}
 {if count($DATA) gt 0 }
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
-	<div class="widgetChartContainer" style="height:70%;width:98%"></div>
+	<div class="widgetChartContainer" style="height:65%;width:98%"></div>
 	<div class="widgetDescContainer" style="margin-left: 10px;margin-top: 10px">
 		<h5>{vtranslate('LBL_TIME_RANGE', $MODULE_NAME)}: {$DTIME['start']} - {$DTIME['end']}</h5>
 		<h5>{vtranslate('LBL_NUMBER_OF_DAYS', $MODULE_NAME)}: {$SELECTEDDAYS}</h5>

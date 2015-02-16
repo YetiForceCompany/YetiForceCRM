@@ -605,8 +605,8 @@ display: none;
 										<label class="checkbox" style="padding-left: 5px;">
 										{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
 										<select style="margin-left: 10px;" name="displaytype" class="span1">
-											{foreach item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
-												<option value="{$DISPLAY_TYPE_VALUE}" {if $DISPLAY_TYPE_VALUE == '1'} selected {/if}>{$DISPLAY_TYPE_VALUE}>{$DISPLAY_TYPE_VALUE}</option>
+											{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
+												<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</select>
 										</label>

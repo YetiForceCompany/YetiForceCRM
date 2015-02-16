@@ -12,12 +12,24 @@ class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 
 	public function process(Vtiger_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('user');
 		$time = $request->get('time');
+		if ( $time == NULL ) {
+			$time['start'] = date('Y-m-d', strtotime("-1 week"));
+			$time['end'] = date("Y-m-d");
+		}
+		else {
+			// date parameters passed, convert them to YYYY-mm-dd
+			$time['start'] = Vtiger_Functions::currentUserDisplayDate( $time['start'] );
+			$time['end'] = Vtiger_Functions::currentUserDisplayDate( $time['end'] );
+		}
 
+		if($user == NULL)
+			$user = $loggedUserId;
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		
@@ -36,6 +48,7 @@ class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
+		$viewer->assign('LOGGEDUSERID', $loggedUserId);
 		$content = $request->get('content');
 		if(!empty($content)) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
