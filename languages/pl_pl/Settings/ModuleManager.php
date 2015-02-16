@@ -10,14 +10,14 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
-	'ModuleManager' => 'Module Manager',
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Błąd podczas wgrywania plików',
+	'ModuleManager' => 'Zarządzanie Modułami',
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
 	'LBL_DECLINE' => 'Odrzuć',
 	'LBL_EXISTS'=>'Istnieje',
 	'LBL_FAILED' => 'Niepowodzenie',
 	'LBL_FINISH' => 'Zakończ',
-	'LBL_IMPORTED_MODULE' => ' moduł został zaimportowany poprawnie.',
+	'LBL_IMPORTED_MODULE' => 'Moduł został zaimportowany poprawnie.',
 	'LBL_IMPORTING_MODULE' => 'Importowanie modułu',
 	'LBL_IMPORT_MODULE' => 'Dodaj moduł ze strony Vtiger',
 	'LBL_IMPORT_ZIP' => 'Dodaj moduł z pliku',
@@ -60,11 +60,11 @@ $languageStrings = array(
 	'LBL_INVALID_MODULE_NAME' => 'Błędna nazwa modułu',
 );
 $jsLanguageStrings = array(
-	'JS_UPDATED_MODULE' => 'Update Successfull',
-	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
-	'JS_IMPORTED_MODULE' => 'Install Successfull',
-	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
-	'JS_FOR_INSTALLATION' => 'for installation',
-	'JS_CLICK_HERE' => 'Click Here',
-	'JS_ON' => 'On',
+	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',
+	'JS_UPDATE_SUCCESSFULL' => 'Aktualizacja przebiegła pomyślnie.',
+	'JS_IMPORTED_MODULE' => 'Instalacja przebiegła pomyślnie',
+	'JS_IMPORT_SUCCESSFULL' => 'Instalacja przebiegła pomyślnie',
+	'JS_FOR_INSTALLATION' => 'dla instalacji',
+	'JS_CLICK_HERE' => 'Kliknij tutaj',
+	'JS_ON' => 'Na',
 );

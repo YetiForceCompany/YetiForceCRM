@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
  
 $languageStrings = array(
-	'LBL_SAVE' => 'Save',
+	'LBL_SAVE' => 'Zapisz',
 	'ApiAddress' => 'Wyszukiwarka adresów',
 	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
 	'LBL_API_ADDRESS_DESCRIPTION' => 'Moduł umożliwiający wyszukiwanie/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.',
