@@ -10,6 +10,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 09/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'QuickCreateEditor' => 'Quick Create Editor',
     'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Este módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_SEQUENCE' => 'Sequência de Campos',

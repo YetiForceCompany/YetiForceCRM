@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_FIELD_MASK' => 'Field Mask',
 	'Calendar' => 'Kalender',
 	'Checkbox' => 'Kontrollkästchen',
 	'Currency'=>'Währung',

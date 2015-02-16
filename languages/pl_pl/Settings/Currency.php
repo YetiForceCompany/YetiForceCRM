@@ -9,6 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Conversion Rate' => 'Conversion Rate',
+	'Currency' => 'Currency',
+	'Symbol' => 'Symbol',
+	'Currency Code' => 'Currency Code',
+	'Currency Name' => 'Currency Name',
 	'LBL_ADD_NEW_CURRENCY' => 'Dodaj nową walutę',
 	'LBL_ADD_RECORD' => 'Dodaj walutę',
 	'LBL_CURRENCY_CODE' => 'Kod waluty',

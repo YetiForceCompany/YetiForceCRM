@@ -8,6 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_SELECT_MODULE_TO_ADD' => 'Select item to add module',
+	'LBL_REMOVE_INFO' => 'Click on the Close button to remove the module from the list',
+	'LBL_RELATED_LIST_INFO' => 'Arrange modules per click and drag',
+	'LBL_ADD_MODULE_INFO' => 'Select the remote module, that is to return to the list',
+	'LBL_FIELD_MASK' => 'Field Mask',
 	'Calendar' => 'To Do',
 	'Checkbox' => 'Checkbox',
 	'Currency'=>'Currency',

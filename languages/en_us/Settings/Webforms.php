@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Webforms' => 'Webforms',
 	'SINGLE_Settings:Webforms' => 'Webform',
 	//Basic Field Names
 	'WebForm Name' => 'Webform Name',

@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
  
 $languageStrings = array(
+	'LBL_SAVE' => 'Save',
 	'ApiAddress'	=>	'Adressen Suche',
 	'LBL_API_ADDRESS'	=>	'Adressen Suche',
 	'LBL_API_ADDRESS_DESCRIPTION'	=>	'Module erlaubt während der Erstellung/Bearbeitung von Daten, die Suche/das Autovervollständigen einer Adresse im System.',

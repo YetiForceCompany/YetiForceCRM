@@ -1,5 +1,6 @@
 <?php
 $languageStrings = array(
+	'Users' => 'Users',
     'USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 );
 

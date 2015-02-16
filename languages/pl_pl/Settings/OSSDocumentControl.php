@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Document Control' => 'Document Control',
+	'OSSDocumentControl' => 'Document Control',
     'LBL_ENTER_BASIC_INFO' => 'Podaj podstawowe informacje',
     'LBL_STEP_1' => 'Krok 1',
     'NEXT' => 'Dalej',
@@ -16,6 +18,8 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'Document Control' => 'Document Control',
+	'OSSDocumentControl' => 'Document Control',
     'DES_REQUIRED' => 'Opis dokumentu jest wymagany',
     'DES_NAME_REQUIRED' => 'Nazwa dokumentu jest wymagana',
 );

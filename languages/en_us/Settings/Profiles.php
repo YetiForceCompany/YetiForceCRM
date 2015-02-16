@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_VIEW_PRVILIGE' => 'View',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_CHOOSE_PROFILES' => 'Choose Profiles',
 	'LBL_CREATE_PROFILE' => 'Create Profile',

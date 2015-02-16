@@ -8,6 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Sharing Rules' => 'Regras de Compartilhamento',
+	'SharingAccess' => 'Regras de Compartilhamento',
 	'Accounts' => 'Organizações & Contatos',
 	'LBL_ADD_CUSTOM_RULE' => 'Adicionar Regra Customizada',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Adicionar Regra Customizada para',

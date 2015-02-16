@@ -10,6 +10,7 @@
  ************************************************************************************/
 
 $languageStrings = array(
+	'Payments' => 'Payments',
     'LBL_RIGHT_CLICK_COPY' => 'Clique com lado direito do mouse e copie',
 );
 

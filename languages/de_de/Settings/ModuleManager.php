@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
+	'ModuleManager' => 'Module Manager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Modul aus Datei importieren',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Vtiger Erweiterungs-Shop',
@@ -57,4 +59,13 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Zugehöriges Feldlabel',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Der Modulname existiert bereits, bitte anderen Namen wählen',
 	'LBL_INVALID_MODULE_NAME' => 'Fehlerhafter Modulname',
+);
+$jsLanguageStrings = array(
+	'JS_UPDATED_MODULE' => 'Update Successfull',
+	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
+	'JS_IMPORTED_MODULE' => 'Install Successfull',
+	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
+	'JS_FOR_INSTALLATION' => 'for installation',
+	'JS_CLICK_HERE' => 'Click Here',
+	'JS_ON' => 'On',
 );

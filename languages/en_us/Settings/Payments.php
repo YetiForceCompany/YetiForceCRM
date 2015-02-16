@@ -10,6 +10,7 @@
  ************************************************************************************/
 
 $languageStrings = array(
+	'Payments' => 'Payments',
     'LBL_RIGHT_CLICK_COPY' => 'Right click and copy',
 );
 
