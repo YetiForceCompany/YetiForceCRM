@@ -19,6 +19,7 @@ require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
 require_once('modules/Emails/mail.php');
 require_once 'modules/Users/Users.php';
+require_once 'modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php';
 
 ini_set('error_log',$root_directory.'logs/yetiportal.log');
 
@@ -998,7 +999,9 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$username = $adb->sql_escape_string($username);
 	$password = $adb->sql_escape_string($password);
 
-	$current_date = date("Y-m-d");
+	$password = CustomerPortalPassword::encryptPassword($password, $username);
+	
+	$currentDate = date("Y-m-d");
 	$sql = "select id, user_name, user_password,last_login_time, support_start_date, support_end_date
 				from vtiger_portalinfo
 					inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
@@ -1006,7 +1009,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 				where vtiger_crmentity.deleted=0 and user_name=? and user_password = ?
 					and isactive=1 and vtiger_customerdetails.portal=1
 					and vtiger_customerdetails.support_start_date <= ? and vtiger_customerdetails.support_end_date >= ?";
-	$result = $adb->pquery($sql, array($username, $password, $current_date, $current_date));
+	$result = $adb->pquery($sql, array($username, $password, $currentDate, $currentDate));
 
 	$num_rows = $adb->num_rows($result);
 	if($num_rows > 1)			return array('err1' => "LBL_MORE_THAN_ONE_USER");	//More than one user
@@ -1050,18 +1053,21 @@ function change_password($input_array)
 
 	$id = (int) $input_array['id'];
 	$sessionid = $input_array['sessionid'];
-	$username = $input_array['username'];
+	$userName = $input_array['username'];
 	$old_password = $input_array['old_password'];
-	$new_password = $input_array['new_password'];
+	$newPassword = $input_array['new_password'];
 	$version = $input_array['version'];
 
 	if(!validateSession($id,$sessionid))
 		return null;
 
-	$list = authenticate_user($username,$old_password,$version ,'false');
+	$list = authenticate_user($userName,$old_password,$version ,'false');
 	if(!empty($list[0]['id'])){
+		
+		$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
+		
 		$sql = "update vtiger_portalinfo set user_password=? where id=? and user_name=?";
-		$result = $adb->pquery($sql, array($new_password, $id, $username));
+		$result = $adb->pquery($sql, array($newPassword, $id, $userName));
 		$list = array('LBL_PASSWORD_CHANGED');
 	}	
 	$log->debug("Exiting customer portal function change_password");

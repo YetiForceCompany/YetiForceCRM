@@ -235,3 +235,6 @@ $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
 $session_regenerate_id = false;
+
+//Would you like to encode passwords for Customer Portal
+$encode_customer_portal_passwords = FALSE;

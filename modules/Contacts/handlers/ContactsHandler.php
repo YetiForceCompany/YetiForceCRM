@@ -9,11 +9,14 @@
  *************************************************************************************/
 
 function Contacts_createPortalLoginDetails($entityData){
+	vimport('modules.Settings.CustomerPortal.helpers.CustomerPortalPassword');
+	$encodePass = vglobal('encode_customer_portal_passwords');
+	
 	$adb = PearDatabase::getInstance();
-	$moduleName = $entityData->getModuleName();
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
+	
 
 	$email = $entityData->get('email');
 
@@ -39,10 +42,19 @@ function Contacts_createPortalLoginDetails($entityData){
 				$update = false;
 			}
 		}
+		
 		if($insert == true){
 			$password = makeRandomPassword();
-			$sql = "INSERT INTO vtiger_portalinfo(id,user_name,user_password,type,isactive) VALUES(?,?,?,?,?)";
-			$params = array($entityId, $email, $password, 'C', 1);
+			
+			if ($encodePass) {
+				$password = CustomerPortalPassword::encryptPassword($password, $email);
+				$params = array($entityId, $email, $password, 'C', 1, CustomerPortalPassword::getCryptType());
+				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`, `crypt_type`) VALUES(" . generateQuestionMarks($params) . ")";
+			} else {
+				$params = array($entityId, $email, $password, 'C', 1);
+				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`) VALUES(" . generateQuestionMarks($params) . ")";
+			}
+			
 			$adb->pquery($sql, $params);
 		}
 	} else {
