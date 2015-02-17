@@ -4232,7 +4232,7 @@ CREATE TABLE `vtiger_portalinfo` (
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
   `isactive` int(1) DEFAULT NULL,
-  `crypt_type` varchar(20) DEFAULT NULL
+  `crypt_type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
