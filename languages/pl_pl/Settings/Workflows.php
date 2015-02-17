@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_MESSAGE' => 'Message',
+	'LBL_DUE_DATE' => 'Due Date',
 	'ADD_CONDITIONS' => 'Dodaj warunek',
 	'ADD_TASKS' => 'Dodaj zadania',
 	'Calendar' => 'Do wykonania',

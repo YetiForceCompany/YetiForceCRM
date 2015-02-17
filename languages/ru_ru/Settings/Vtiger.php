@@ -10,6 +10,11 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Журнал изменений',
+	'LBL_MODTRACKER_SETTINGS' => 'Журнал изменений',
+	'OSSCosts' => 'Расходы',
+	'GlobalPermission' => 'Права доступа',
+	'Mail' => 'Почтовый клиент',
 	'LBL_PBXMANAGER_DESCRIPTION'	=>	'Изменений и настройка Менеджера PBX',
 	'LBL_SCHEDULER_DESCRIPTION'	=>	'Изменение и управление Планировщиком',
 	'LBL_OSSMAIL_DESCRIPTION'	=>	'Почта пользователей',

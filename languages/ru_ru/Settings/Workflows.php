@@ -9,6 +9,10 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Send a copy to email' => 'Отправить копию ',
+	'Select e-mail address' => 'Выберите адрес электронной почты',
+	'Do you send all attachments' => 'Отправить все вложения?',
+	'EmailTempleteList' => 'Выберите шаблон электронной почты для отправки',
 	'ADD_CONDITIONS' => 'Фильтры',
 	'ADD_TASKS' => 'Задачи',
 	'Calendar' => 'Календарь',

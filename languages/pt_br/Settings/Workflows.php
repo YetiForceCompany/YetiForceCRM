@@ -8,6 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 06/01/2015 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_MESSAGE' => 'Message',
+	'LBL_DUE_DATE' => 'Due Date',
 	'ADD_CONDITIONS' => 'Adicionar Condições',
 	'ADD_TASKS' => 'Adicionar Tarefas',
 	'Calendar' => 'Tarefa',
