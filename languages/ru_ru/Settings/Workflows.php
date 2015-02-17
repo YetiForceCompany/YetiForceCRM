@@ -120,6 +120,7 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Этап продаж - Подготовка расчетов',
 	'Sales stage - Preparing quote'	=> 'Этап продаж - Подготовка коммерческого предложения',
 	'Sales stage - Awaiting decision'	=> 'Этап продаж - Ожидание решения',
+	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
 	'LBL_ACTIVATION_TASKS' => 'Активировать Задачу', 
 	'LBL_DEACTIVATION_TASKS' => 'Деактивировать Задачу', 
 	'LBL_ALL_TASKS' => 'Все Задачи', 
