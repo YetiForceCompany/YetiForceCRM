@@ -54,6 +54,8 @@
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
+			{if $BLOCKS_HIDE}
 			<table class="table table-bordered blockContainer showInlineTable">
 				<thead>
 					<tr>
@@ -138,5 +140,6 @@
 			</tbody>
 			</table>
 			<br>
+			{/if}
 		{/foreach}
 {/strip}
