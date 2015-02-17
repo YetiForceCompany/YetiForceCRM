@@ -9,6 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br.
  * *********************************************************************************** */
 $languageStrings = array(
+	'PBXManager' => 'PBX Manager',
     'LBL_SELECT_ONE' => 'Selecionar',
     'LBL_PBXMANAGER' =>'Gestor PBX',
     'LBL_PBXMANAGER_CONFIG' => 'Detalhes do Servidor Asterisk',

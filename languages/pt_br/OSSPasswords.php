@@ -45,19 +45,8 @@ $languageStrings = array(
     'Password not entered' => 'Senha incorreta',
     'OSSPassword Configuration' => 'Configuração Senhas',
     'Configure OSSPasswords' => 'Configurar Senhas',
-    'OSSPasswords module has been successfully deleted. ' => 'O módulo OSSPasswords foi removido com sucesso. ',
     'Return to Home Page' => 'Retorne para a página inicial',
-    'LBL_DeletePassModule' => 'Desinstalar',
-    'Uninstall OSSPasswords module' => 'Desinstalar módulo OSSPasswords.',
-    'LBL_DeleteModule' => 'Desinstalar módulo',
-    'Uninstall' => 'Desinstalar',
     'Access denied!' => 'Acesso negado!',
-    'TroubleTicketDescription'=>'No endereço a seguir você encontrará o site onde será capaz de abrir Chamado, propor melhorias para este módulo ou apenas ler a documentação do módulo.',
-    'LBL_TroubleUrl' => 'Endereço do site',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',	
-    'LBL_UrlLinkInfo' => 'precisa criar uma Conta',
-    'LBL_OurWebsite' => 'Nosso site',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',    
     'Related to' => 'Relacionado a',
     'Settings were successfuly saved.' => 'As configurações foram salvas com sucesso.',
     'LBL_REGISTER_CHANGES' => 'Registro das mudanças no rastreador de modulo',
@@ -116,15 +105,6 @@ $languageStrings = array(
     'LBL_NotifPassTitle' => 'Senha',
 	
 	// help
-	'LBL_Helpforthemodule' => 'Ajuda para o módulo: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'Informação da Licença: ',
-	'LBL_Company' => 'Informa da Empresa: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Informação dos Módulos:' ,
 );
 
 $jsLanguageStrings = array(

@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_OSSPASSWORD_INFORMATION' => 'Info',
 	// Basic Strings
 	'OSSPasswords'        => 'Passwords',
 	'SINGLE_OSSPasswords' => 'Password',
@@ -19,7 +20,6 @@ $languageStrings = array(
     'LBL_HELP' => 'Help',
 
 	// Blocks
-	'LBL_OSSPASSWORD_INFORMATION' => 'Information',
 
 	//Field Labels
     'OSSPassword No' => 'Password No',
@@ -45,19 +45,8 @@ $languageStrings = array(
     'Password not entered' => 'Password not entered',
     'OSSPassword Configuration' => 'Passwords Configuration',
     'Configure OSSPasswords' => 'Configure Passwords',
-    'OSSPasswords module has been successfully deleted. ' => 'OSSPasswords module has been successfully deleted. ',
     'Return to Home Page' => 'Return to Home Page',
-    'LBL_DeletePassModule' => 'Uninstall',
-    'Uninstall OSSPasswords module' => 'Uninstall OSSPasswords module',
-    'LBL_DeleteModule' => 'Uninstall Module',
-    'Uninstall' => 'Uninstall',
     'Access denied!' => 'Access denied!',
-    'TroubleTicketDescription'=>'At the following address you will find website where you will be able to post Trouble Tickets, proposals to improve this module or just read documentation of the module.',
-    'LBL_TroubleUrl' => 'Website adress',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',	
-    'LBL_UrlLinkInfo' => 'account registration needed',
-    'LBL_OurWebsite' => 'Our website',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',    
     'Related to' => 'Related to',
     'Settings were successfuly saved.' => 'Settings were successfuly saved.',
     'LBL_REGISTER_CHANGES' => 'Registration of changes in modtracker',
@@ -116,15 +105,6 @@ $languageStrings = array(
     'LBL_NotifPassTitle' => 'Pasword',
 	
 	// help
-	'LBL_Helpforthemodule' => 'Help for the module: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'License information: ',
-	'LBL_Company' => 'The Company information: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Modules information:' ,
 );
 
 $jsLanguageStrings = array(

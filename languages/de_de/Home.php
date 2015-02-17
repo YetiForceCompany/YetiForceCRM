@@ -8,6 +8,8 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Tag Cloud' => 'Tag Cloud',
+	'Key Metrics' => 'Key Metrics',
 	'ALVT' => 'Top Organisationen',
 	'CVLVT' => 'Schlüsselmetrik',
 	'GRT' => 'Meine Gruppenzuordnung',

@@ -53,6 +53,7 @@ $languageStrings = array(
 	'LBL_DEFAULT'	=> 'Domyślny',
 );
 $jsLanguageStrings = array(
+	'Language editor' => 'Language editor',
 	'Translations' => 'Tłumaczenia',
 	'LBL_AreYouSure'	=> 'Czy na perwno chcesz usunąć język?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na perwno chcesz zmienić język domyślny?',

@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'PBXManager' => 'PBX Manager',
     'LBL_SELECT_ONE' => 'Wybierz',
     'LBL_PBXMANAGER' =>'PBXManager',
     'LBL_PBXMANAGER_CONFIG' => 'Szczegóły serwera Asterisk',

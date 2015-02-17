@@ -9,6 +9,22 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Call' => 'Call',
+	'Meeting' => 'Meeting',
+	'Held' => 'Held',
+	'Not Held' => 'Not Held',
+	'Planned' => 'Planned',
+	'Reminder Interval' => 'Reminder Interval',
+	'Secondary Phone' => 'Secondary Phone',
+	'Secondary Email' => 'Secondary Email',
+	'Other Email' => 'Other Email',
+	'yyyy/mm/dd' => 'yyyy/mm/dd',
+	'mm/dd/yyyy' => 'mm/dd/yyyy',
+	'dd/mm/yyyy' => 'dd/mm/yyyy',
+	'yyyy.mm.dd' => 'yyyy.mm.dd',
+	'mm.dd.yyyy' => 'mm.dd.yyyy',
+	'dd.mm.yyyy' => 'dd.mm.yyyy',
+	'Last Name' => 'Last Name',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',
 	'Asterisk Configuration'  =>  'Konfiguracja Asterisk',

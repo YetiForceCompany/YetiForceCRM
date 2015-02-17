@@ -9,6 +9,24 @@
  * Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 31/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Reminder Interval' => 'Reminder Interval',
+	'LBL_HIDE_COMPLETED_EVENTS' => 'Hide Comlete Events',
+	'LBL_FIELD_MAPPING' => 'Field Mapping',
+	'Due Date' => 'Due Date',
+	'Due Date & Time' => 'Due Date & Time',
+	'Description' => 'Description',
+	'5 Minutes' => '5 Minutes',
+	'45 Minutes' => '45 Minutes',
+	'30 Minutes' => '30 Minutes',
+	'15 Minutes' => '15 Minutes',
+	'1 Minute' => '1 Minute',
+	'1 Hour' => '1 Hour',
+	'1 Day' => '1 Day',
+	'Yearly' => 'Yearly',
+	'Weekly' => 'Weekly',
+	'Monthly' => 'Monthly',
+	'Mobile Call' => 'Mobile Call',
+	'Daily' => 'Daily',
 	'Activity Type'=> 'Tipo Atividade', 
 	'Call' => 'Chamada' , 
 	'Completed'=> 'Concluído', 
@@ -127,6 +145,12 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'LBL_SYNC_BUTTON' => 'Syncronized',
+	'LBL_SYNCRONIZING' => 'Sinchronizing',
+	'LBL_NOT_SYNCRONIZED' => 'Not Syncronized',
+	'LBL_FIELD_MAPPING' => 'Field Mapping',
+	'JS_NO_EDIT_PERMISSION' => 'You do not have permission to modify calendar entries.',
+	'JS_NO_DELETE_PERMISSION' => 'You do not have permission to delete calendar entries.',
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'A visualização da Agenda foi adicionada com sucesso',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'A cor da Agenda foi atualizada com sucesso',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Você tem certeza que deseja apagar esta visualização da Agenda?',

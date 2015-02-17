@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'ProjectTask' => 'Project Task',
+	'ProjectMilestone' => 'Project Milestone',
+	'HelpDesk' => 'Help Desk',
+	'LBL_PROJECTS_LIST' => 'Projects List',
+	'LBL_SUMMARY' => 'Summary',
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
 	'LBL_ADD_RECORD' => 'Add record',

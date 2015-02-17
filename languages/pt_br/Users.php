@@ -9,6 +9,17 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'yyyy/mm/dd' => 'yyyy/mm/dd',
+	'mm/dd/yyyy' => 'mm/dd/yyyy',
+	'dd/mm/yyyy' => 'dd/mm/yyyy',
+	'yyyy.mm.dd' => 'yyyy.mm.dd',
+	'mm.dd.yyyy' => 'mm.dd.yyyy',
+	'dd.mm.yyyy' => 'dd.mm.yyyy',
+	'dd-mm-yyyy' => 'dd-mm-yyyy',
+	'mm-dd-yyyy' => 'mm-dd-yyyy',
+	'yyyy-mm-dd' => 'yyyy-mm-dd',
+	'LBL_SELECT_USERS' => 'Select Users',
+	'Share calendar users' => 'Share calendar users',
 	'Users' => 'Usuários',
 	'Admin'=> 'Admin' , 
 	'Asterisk Configuration' => 'Configuração Asterisk' , 

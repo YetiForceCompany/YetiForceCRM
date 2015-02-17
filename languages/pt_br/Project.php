@@ -9,6 +9,11 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'ProjectTask' => 'Project Task',
+	'ProjectMilestone' => 'Project Milestone',
+	'HelpDesk' => 'Help Desk',
+	'LBL_PROJECTS_LIST' => 'Projects List',
+	'LBL_SUMMARY' => 'Summary',
 	// Basic Strings
 	'SINGLE_Project' => 'Projeto',
 	'LBL_ADD_RECORD' => 'Adicionar registro',

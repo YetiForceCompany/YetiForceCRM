@@ -9,6 +9,30 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Reminder Interval' => 'Reminder Interval',
+	'LBL_HIDE_COMPLETED_EVENTS' => 'Hide Comlete Events',
+	'LBL_FIELD_MAPPING' => 'Field Mapping',
+	'Due Date' => 'Due Date',
+	'Due Date & Time' => 'Due Date & Time',
+	'Description' => 'Description',
+	'5 Minutes' => '5 Minutes',
+	'45 Minutes' => '45 Minutes',
+	'30 Minutes' => '30 Minutes',
+	'15 Minutes' => '15 Minutes',
+	'1 Minute' => '1 Minute',
+	'1 Hour' => '1 Hour',
+	'1 Day' => '1 Day',
+	'Yearly' => 'Yearly',
+	'Weekly' => 'Weekly',
+	'Monthly' => 'Monthly',
+	'Mobile Call' => 'Mobile Call',
+	'Daily' => 'Daily',
+	'Default Activity View' => 'Default Activity View',
+	'Time Zone' => 'Time Zone',
+	'Calendar Hour Format' => 'Calendar Hour Format',
+	'Date Format' => 'Date Format',
+	'Day starts at' => 'Day starts at',
+	'Starting Day of the week' => 'Starting Day of the week',
 	'Activity Type'=>'Activity Type',
 	'Call' => 'Call',
 	'Completed' => 'Completed',
@@ -119,6 +143,10 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'LBL_SYNC_BUTTON' => 'Syncronized',
+	'LBL_SYNCRONIZING' => 'Sinchronizing',
+	'LBL_NOT_SYNCRONIZED' => 'Not Syncronized',
+	'LBL_FIELD_MAPPING' => 'Field Mapping',
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Calendar View added successfully',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Calendar view color updated successfully',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this Calendar view ?',

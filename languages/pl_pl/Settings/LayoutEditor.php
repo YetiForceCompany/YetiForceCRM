@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'LBL_SELECT_MODULE_TO_ADD' => 'Select item to add module',
 	'LBL_REMOVE_INFO' => 'Click on the Close button to remove the module from the list',
 	'LBL_RELATED_LIST_INFO' => 'Arrange modules per click and drag',

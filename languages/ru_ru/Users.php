@@ -10,6 +10,20 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Secondary Phone' => 'Доп. Телефон',
+	'Secondary Email' => 'Доп. Почта',
+	'yyyy/mm/dd' => 'гггг/мм/дд',
+	'mm/dd/yyyy' => 'мм/дд/гггг',
+	'dd/mm/yyyy' => 'дд/мм/гггг',
+	'yyyy.mm.dd' => 'гггг.мм.дд',
+	'mm.dd.yyyy' => 'мм.дд.гггг',
+	'dd.mm.yyyy' => 'дд.мм.гггг',
+	'dd-mm-yyyy' => 'дд-мм-гггг',
+	'mm-dd-yyyy' => 'мм-дд-гггг',
+	'yyyy-mm-dd' => 'гггг-мм-дд',
+	'LBL_SELECT_USERS' => 'Выберите пользователей',
+	'Share calendar users' => 'Поделиться Календарем',
+	'Mail has been sent to your inbox, please check your e-mail.' => 'Письмо было отправлено на Ваш почтовый ящик, пожалуйста, проверьте свою электронную почту.',
 	'LBL_VIEW_PREFERENCEEDIT'	=>	'Изменение настроек пользователя',
 	'LBL_VIEW_PREFERENCEDETAIL'	=>	'Настройки пользователя',
 	'Not Held'	=>	'Не проведено',

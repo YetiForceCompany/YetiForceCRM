@@ -8,6 +8,15 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Call' => 'Call',
+	'Meeting' => 'Meeting',
+	'Held' => 'Held',
+	'Not Held' => 'Not Held',
+	'Planned' => 'Planned',
+	'Reminder Interval' => 'Reminder Interval',
+	'Secondary Phone' => 'Secondary Phone',
+	'Secondary Email' => 'Secondary Email',
+	'Other Email' => 'Other Email',
 	'dd-mm-yyyy' => 'tt-mm-jjjj',
 	'mm-dd-yyyy' => 'mm-tt-jjjj',
 	'yyyy-mm-dd' => 'jjjj-mm-tt',
