@@ -9,6 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'ProjectTask' => 'Project Task',
+	'ProjectMilestone' => 'Project Milestone',
+	'HelpDesk' => 'Help Desk',
 	// Basic Strings
 	'SINGLE_Project' => 'Projekty',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',

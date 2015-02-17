@@ -9,6 +9,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 26/04/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Tag Cloud' => 'Tag Cloud',
+	'Key Metrics' => 'Key Metrics',
 	'ALVT' => 'Principais Organizações',
 	'CVLVT' => 'Métricas Chave',
 	'GRT' => 'Meus Grupos',

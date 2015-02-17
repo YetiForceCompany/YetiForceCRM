@@ -9,6 +9,19 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Time Of Call' => 'Time Of Call',
+	'Source UUID' => 'Source UUID',
+	'PBXManager' => 'PBX Manager',
+	'PBXManager ID' => 'PBXManager ID',
+	'Office Phone' => 'Office Phone',
+	'LBL_CALL_INFORMATION' => 'Call Information',
+	'Gateway' => 'Gateway',
+	'End Time' => 'End Time',
+	'Direction' => 'Direction',
+	'Customer Type' => 'Customer Type',
+	'Call To' => 'Call To',
+	'Call From' => 'Call From',
+	'Asterisk' => 'Asterisk',
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Call Details',

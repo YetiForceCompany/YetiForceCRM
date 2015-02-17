@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_SUMMARY' => 'Итог работы',
+	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'Actual End Date'              => 'Фактическая дата завершения'             , 
 	'Add Project Task'	=>	'Проектная Задача',
 	'HelpDesk'                     => 'Заявка',

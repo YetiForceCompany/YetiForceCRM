@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Tag Cloud' => 'Tag Cloud',
+	'Key Metrics' => 'Key Metrics',
 	'ALVT' => 'Top Organizations',
 	'CVLVT' => 'Key Metrics',
 	'GRT' => 'My Group Allocation',

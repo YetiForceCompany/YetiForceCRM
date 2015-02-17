@@ -10,6 +10,8 @@
  *************************************************************************************************************************************/
 
 $languageStrings = array(
+	'LBL_ATTEMPTS' => 'Attempts',
+	'BackUp' => 'Back Up',
     'LBL_BACKUP_DESCRIPTION' => 'Create file\'s backup.',
     'LBL_SAVE_BACKUP' => 'Save backup',
     'LBL_GENERATE_BACKUP' => 'Generate Backup',

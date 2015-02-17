@@ -8,6 +8,15 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Selected Users' => 'Выбранные пользователи',
+	'Private' => 'Личное',
+	'Start Time' => 'Время начала',
+	'Saturday' => 'Суббота',
+	'Friday' => 'Пятница',
+	'Wednesday' => 'Среда',
+	'Tuesday' => 'Вторник',
+	'Monday' => 'Понедельник',
+	'Sunday' => 'Воскресенье',
 	'Activity Type'                => 'Тип действия'     , 
 	'Call'                         => 'Звонок'                , 
 	'Completed'                    => 'Завершено'          , 
@@ -127,6 +136,8 @@ $languageStrings = array(
     'Time Zone'                    => 'Часовой пояс',
     'Visibility'                   => 'Видимость',);
 $jsLanguageStrings = array(
+	'JS_NO_EDIT_PERMISSION' => 'Вы не имеете разрешения на изменение записей календаря.',
+	'JS_NO_DELETE_PERMISSION' => 'Вы не имеете разрешения на удаление записей календаря.',
 	'JS Activity Type'	=>	'Тип деятельности',
 	'JS Call'	=>	'Звонок',
 	'JS Completed'	=>	'Завершено',

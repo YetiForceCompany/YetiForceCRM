@@ -8,6 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'ProjectTask' => 'Project Task',
+	'ProjectMilestone' => 'Project Milestone',
+	'HelpDesk' => 'Help Desk',
 	'LBL_PROJECTS_LIST' => 'Projektliste',
 	'LBL_SUMMARY' => 'Zusammenfassung der Arbeitszeit',
 	'Add Project Task'	=>	'Projekt Aufgabe hinzufügen',

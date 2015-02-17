@@ -10,6 +10,8 @@
  * *********************************************************************************** */
 
 $languageStrings = array(
+	'LBL_ATTEMPTS' => 'Attempts',
+	'BackUp' => 'Back Up',
     'LBL_BACKUP_DESCRIPTION' => 'Tworzy kopie zapasową plików.',
     'LBL_SAVE_BACKUP' => 'Zapisz backup',
     'LBL_GENERATE_BACKUP' => 'Generuj Backup',

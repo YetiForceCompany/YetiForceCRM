@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Tag Cloud' => 'Tag Cloud',
+	'Key Metrics' => 'Key Metrics',
 	'ALVT' => 'Najlepszi kontrahenci',
 	'CVLVT' => 'Tablica',
 	'GRT' => 'Przydzielone do mojej grupy',
