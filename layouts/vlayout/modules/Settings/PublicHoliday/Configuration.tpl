@@ -82,7 +82,7 @@ padding: 5px;
 									<div class="row-fluid paddingAll5">
 										<div style="word-wrap: break-word;" class="span10 ">
 											<span class="fieldLabel marginLeft20 span2">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
-											<span class="fieldLabel marginLeft20 span2">{$HOLIDAY['day']}</span>
+											<span class="fieldLabel marginLeft20 span2">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
 											<span class="marginLeft20 span6">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
 										</div>
 										<span class="btn-group pull-right marginRight20 actions">
