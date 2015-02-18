@@ -423,19 +423,25 @@ class ListViewController {
 				} elseif ($uitype == 302) {
 					$template = $field->getFieldParams();
 					$result2 = $this->db->pquery("SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $value));
-					$tree = $this->db->query_result_raw($result2, 0, 'tree');
-					$parent = '';
-					if ($this->db->query_result_raw($result2, 0, 'depth') > 0) {
-						$parenttrre = $this->db->query_result_raw($result2, 0, 'parenttrre');
-						$cut = strlen('::' . $tree);
-						$parenttrre = substr($parenttrre, 0, - $cut);
-						$pieces = explode('::', $parenttrre);
-						$parent = end($pieces);
-						$result3 = $this->db->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
-						$parentName = $this->db->query_result_raw($result3, 0, 'name');
-						$parent = '(' . vtranslate($parentName, $module) . ') ';
+					if ($this->db->num_rows($result2) > 0){
+						$tree = $this->db->query_result_raw($result2, 0, 'tree');
+						$parent = '';
+						if ($this->db->query_result_raw($result2, 0, 'depth') > 0) {
+							$parenttrre = $this->db->query_result_raw($result2, 0, 'parenttrre');
+							$cut = strlen('::' . $tree);
+							$parenttrre = substr($parenttrre, 0, - $cut);
+							$pieces = explode('::', $parenttrre);
+							$parent = end($pieces);
+							$result3 = $this->db->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
+							$parentName = $this->db->query_result_raw($result3, 0, 'name');
+							$parent = '(' . vtranslate($parentName, $module) . ') ';
+						}
+						$value = $parent . vtranslate($this->db->query_result($result2, 0, "name"), $module);
+					}else{
+						global $log;
+						$log->error("getListViewRecords: No found template tree id=".$template);
+						$value = '';
 					}
-					$value = $parent . vtranslate($this->db->query_result($result2, 0, "name"), $module);
 				} else {
 					$value = textlength_check($value);
 				}
