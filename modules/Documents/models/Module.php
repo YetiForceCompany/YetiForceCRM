@@ -66,9 +66,11 @@ class Documents_Module_Model extends Vtiger_Module_Model {
 			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
+		$popupFields = array();
 		if($relationModel){
 			$popupFields = $relationModel->getRelationFields(true);
-		}else{
+		}
+		if(count($popupFields) == 0){
 			$popupFileds = $this->getSummaryViewFieldsList();
 			foreach ($popupFileds as $fieldName => $fieldModel) { 
 				if ($fieldName === 'folderid' || $fieldName === 'modifiedtime') { 
