@@ -13,7 +13,7 @@ $languageStrings = Array(
 	'SINGLE_RequirementCards' => 'Requirement Card',
 	
 	//Bloks
-	'LBL_INFORMATION' => 'Custom Information',
+	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Custom Information',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
 	
 	//Fields
