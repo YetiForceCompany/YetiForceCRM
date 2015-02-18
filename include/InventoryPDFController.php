@@ -260,7 +260,7 @@ class Vtiger_InventoryPDFController {
                         if(!empty($resultrow['vatid']))         $additionalCompanyInfo[]= "\n".getTranslatedString("VAT ID: ", $this->moduleName). $resultrow['vatid']; 
 
 			$modelColumnLeft = array(
-					'logo' => "test/logo/".$resultrow['logoname'],
+					'logo' => "storage/Logo/".$resultrow['logoname'],
 					'summary' => decode_html($resultrow['organizationname']),
 					'content' => decode_html($this->joinValues($addressValues, ' '). $this->joinValues($additionalCompanyInfo, ' '))
 			);

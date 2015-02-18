@@ -235,7 +235,7 @@ class Vtiger_Deprecated {
 	static function clearSmartyCompiledFiles($path = null) {
 		global $root_directory;
 		if ($path == null) {
-			$path = $root_directory . 'test/templates_c/';
+			$path = $root_directory . 'cache/templates_c/';
 		}
 		if(file_exists($path) && is_dir($path)){
 			$mydir = @opendir($path);
@@ -262,7 +262,7 @@ class Vtiger_Deprecated {
 	static function getSmartyCompiledTemplateFile($template_file, $path = null) {
 		global $root_directory;
 		if ($path == null) {
-			$path = $root_directory . 'test/templates_c/';
+			$path = $root_directory . 'cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
