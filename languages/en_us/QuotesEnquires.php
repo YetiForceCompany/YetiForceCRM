@@ -9,30 +9,23 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'RequirementCards' => 'Requirement Cards',
-	'SINGLE_RequirementCards' => 'Requirement Card',
+	'Quotesenquires' => 'Quotes enquires',
+	'SINGLE_Quotesenquires' => 'Quotes enquires',
+
+	//BLOCKS
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
+	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
 	
-	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	
-	//Fields
+	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
-	'LBL_STAGE' => 'Stage',
-	'Description' => 'Basic description',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
-	'Attention' => 'Comments',
+	'LBL_POTENTIAL' => 'Potential',
 	'LBL_NUMBER' => 'Number',
-	'Quotes Enquires' => 'Quotes enquires',
-	
-	//pick list values
-	'Created' => 'Created',
-	'Verification process' => 'Verification process',
-	'Internal consultation required' => 'Internal consultation required',
-	'External consultation required' => 'External consultation required',
-	'Waiting for answer' => 'Waiting for answer',
-	'Information completing' => 'Information completing',
-	'Declined' => 'Declined',
-	'Closed' => 'Closed',
-	'Requirements not met' => 'Requirements not met',
+	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
+	'LBL_WAS_READ' => 'Updated',
+	'Description' => 'Description',
+	'Attention' => 'Attentions',
+	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+
+	//PICKLIST VALUES
+	'Incomplete information' => 'Incomplete information',
 );

@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1877,7 +1878,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2259,7 +2260,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1586 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1600 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3709,7 +3710,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -4970,6 +4971,27 @@ CREATE TABLE `vtiger_quotescf` (
   CONSTRAINT `fk_1_vtiger_quotescf` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_quotesenquires` */
+
+CREATE TABLE `vtiger_quotesenquires` (
+  `quotesenquiresid` int(19) NOT NULL DEFAULT '0',
+  `subject` varchar(255) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `quotesenquires_no` varchar(255) DEFAULT '',
+  `rejection_reason` varchar(255) DEFAULT '',
+  PRIMARY KEY (`quotesenquiresid`),
+  KEY `potentialid` (`potentialid`),
+  CONSTRAINT `fk_1_vtiger_quotesenquires` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquirescf` */
+
+CREATE TABLE `vtiger_quotesenquirescf` (
+  `quotesenquiresid` int(19) NOT NULL,
+  PRIMARY KEY (`quotesenquiresid`),
+  CONSTRAINT `fk_1_vtiger_quotesenquirescf` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_quotestage` */
 
 CREATE TABLE `vtiger_quotestage` (
@@ -5058,7 +5080,7 @@ CREATE TABLE `vtiger_rejection_reason` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`rejection_reasonid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_rejection_reason_seq` */
 
@@ -5292,8 +5314,10 @@ CREATE TABLE `vtiger_requirementcards` (
   `potentialid` int(19) DEFAULT NULL,
   `requirementcards_status` varchar(255) DEFAULT '',
   `rejection_reason` varchar(255) DEFAULT '',
+  `quotesenquiresid` int(19) DEFAULT NULL,
   PRIMARY KEY (`requirementcardsid`),
   KEY `potentialid` (`potentialid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
   CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6740,7 +6764,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 

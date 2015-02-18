@@ -23,6 +23,7 @@ $languageStrings = Array(
 	'LBL_REJECTION_REASON' => 'Rejection reason',
 	'Attention' => 'Comments',
 	'LBL_NUMBER' => 'Number',
+	'Quotes Enquires' => 'Quotes enquires',
 	
 	//pick list values
 	'Created' => 'Created',

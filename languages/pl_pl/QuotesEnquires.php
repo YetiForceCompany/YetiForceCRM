@@ -9,31 +9,23 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'RequirementCards' => 'Karty wymagań',
-	'SINGLE_RequirementCards' => 'Karta wymagań',
+	'QuotesEnquires' => 'Zapytania ofertowe',
+	'SINGLE_QuotesEnquires' => 'Zapytania ofertowe',
 	
-	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Informacje ogólne',
-	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
+	//BLOCKS
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informacje podstawowe',
+	'LBL_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 	
-	//Fields
+	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
-	'LBL_STAGE' => 'Etap',
-	'Description' => 'Opis podstawowy',
-	'LBL_REJECTION_REASON' => 'Przyczyna odrzucenia',
-	'Attention' => 'Uwagi',
+	'LBL_POTENTIAL' => 'Szansa sprzedaży',
 	'LBL_NUMBER' => 'Numer',
-	'Quotes Enquires' => 'Zapytania ofertowe',
-	
-	//pick list values
-	'Created' => 'Utworzone',
-	'Verification process' => 'W trakcie weryfikacji',
-	'Internal consultation required' => 'Wymaga konsultacji wewnętrznej',
-	'External consultation required' => 'Wymaga konsultacji zewnętrznej',
-	'Waiting for answer' => 'Oczekuje na odpowiedź',
-	'Information completing' => 'Uzupełnianie informacji',
-	'Declined' => 'Odrzucone',
-	'Closed' => 'Zamknięte',
-	'Requirements not met' => 'Niespełnienie wymagań',
-);
+	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
+	'LBL_WAS_READ' => 'Uaktualniono',
+	'Description' => 'Opis',
+	'Attention' => 'Uwagi',
+	'LBL_REJECTION_REASON' => 'Przyczyna odrzucenia',
 
+	//PICKLIST VALUES
+	'Incomplete information' => 'Niepełne informacje',
+);
