@@ -236,7 +236,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 	openTreePopUp : function(e){
 		var thisInstance = this;
 		var parentElem = jQuery(e.target).closest('td');
+		var form = jQuery(e.target).closest('form');
 		var params = {};
+		var moduleName = jQuery('input[name="module"]',form).val();
 		var sourceFieldElement = jQuery('input[class="sourceField"]',parentElem);
 		var sourceFieldDisplay = sourceFieldElement.attr('name')+"_display"; 
 		var fieldDisplayElement = jQuery('input[name="'+sourceFieldDisplay+'"]',parentElem);
@@ -245,7 +247,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		if(sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-		urlOrParams = 'module='+app.getModuleName()+'&view=TreePopup&template='+sourceFieldElement.data('treetemplate')+'&src_field='+sourceFieldElement.attr('name')+'&src_record='+sourceRecordId;
+		urlOrParams = 'module='+moduleName+'&view=TreePopup&template='+sourceFieldElement.data('treetemplate')+'&src_field='+sourceFieldElement.attr('name')+'&src_record='+sourceRecordId;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams,function(data){
 			var responseData = JSON.parse(data);
@@ -275,7 +277,10 @@ jQuery.Class("Vtiger_Edit_Js",{
 					var name = allValues[id][0];
 					if (name.toLowerCase().indexOf(searchValue) >= 0){
 						var parent = allValues[id][1];
-						var label = '('+ allValues[parent][0] + ') '+name;
+						var label = '';
+						if(parent != '')
+							var label = '('+ allValues[parent][0] + ') ';
+						label = label+name;
 						reponseDataList.push({"label":label,"value":name,"id":id});
 					}
 				}
