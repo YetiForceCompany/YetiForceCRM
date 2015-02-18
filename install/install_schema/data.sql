@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -79,10 +79,13 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (54,'HelpDesk','Update Closed Time','[{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Rejected\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (55,'Contacts','Generate mail address book','[]',3,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (56,'ModComments','New comment added to ticket from portal','[{\"fieldname\":\"(related_to : (HelpDesk) ticket_title)\",\"operation\":\"is not empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"customer\",\"operation\":\"is not empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (57,'ModComments','New comment added to ticket - contact person','[{\"fieldname\":\"customer\",\"operation\":\"is empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(related_to : (HelpDesk) contact_id)\",\"operation\":\"is not empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (58,'ModComments','New comment added to ticket - account','[{\"fieldname\":\"customer\",\"operation\":\"is empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(related_to : (Accounts) accountname)\",\"operation\":\"is not empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(related_to : (Contacts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (59,'ModComments','New comment added to ticket - contact','[{\"fieldname\":\"customer\",\"operation\":\"is empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(related_to : (Contacts) lastname)\",\"operation\":\"is not empty\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(related_to : (Contacts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Data for the table `com_vtiger_workflows_seq` */
 
-insert  into `com_vtiger_workflows_seq`(`id`) values (56);
+insert  into `com_vtiger_workflows_seq`(`id`) values (59);
 
 /*Data for the table `com_vtiger_workflowtask_queue` */
 
@@ -172,6 +175,9 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (122,13,'Send invitations','O:22:\"VTSendNotificationTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"13\";s:7:\"summary\";s:16:\"Send invitations\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"45\";s:2:\"id\";i:122;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (123,55,'Generate mail address book','O:17:\"VTAddressBookTask\":7:{s:18:\"executeImmediately\";b:0;s:10:\"workflowId\";s:2:\"55\";s:7:\"summary\";s:26:\"Generate mail address book\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:4:\"test\";s:0:\"\";s:2:\"id\";i:123;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (124,56,'Send e-mail to user','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"56\";s:7:\"summary\";s:19:\"Send e-mail to user\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:3:\"105\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:28:\"created_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:124;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (125,57,'Send e-mail to contact person','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"57\";s:7:\"summary\";s:29:\"Send e-mail to contact person\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:23:\"customer=Contacts=email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:125;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (126,58,'Send e-mail to account','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"58\";s:7:\"summary\";s:22:\"Send e-mail to account\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:26:\"related_to=Accounts=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:126;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (127,59,'Send e-mail to contact','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"59\";s:7:\"summary\";s:22:\"Send e-mail to contact\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:25:\"related_to=Contacts=email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:127;}');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -188,7 +194,7 @@ insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (19);
 
 /*Data for the table `com_vtiger_workflowtasks_seq` */
 
-insert  into `com_vtiger_workflowtasks_seq`(`id`) values (124);
+insert  into `com_vtiger_workflowtasks_seq`(`id`) values (127);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
 
@@ -838,11 +844,12 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (100,1,1,NULL,1,'OSSPdf',NULL,NULL,'2014-09-29 10:07:35','2014-09-29 10:07:35',NULL,NULL,NULL,0,1,0,'Calculation PDF','Calculation PDF',0,NULL);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (103,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-01-24 11:33:24','2015-01-24 11:33:24','2015-02-12 08:37:31',NULL,NULL,0,1,0,'Test','Test',0,NULL);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (104,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-12 09:08:42','2015-02-12 09:26:02','2015-02-12 09:26:03',NULL,NULL,0,1,0,'Customer Portal - ForgotPassword','Customer Portal - ForgotPassword',0,0);
-insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (105,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-17 10:11:08','2015-02-17 10:11:08','2015-02-17 10:11:09',NULL,NULL,0,1,0,'New comment added to ticket from portal','New comment added to ticket from portal',0,0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (105,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-17 10:11:08','2015-02-17 10:11:08','2015-02-18 08:35:02',NULL,NULL,0,1,0,'New comment added to ticket from portal','New comment added to ticket from portal',0,0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (106,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-18 08:35:26','2015-02-18 08:35:26','2015-02-18 08:35:27',NULL,NULL,0,1,0,'New comment added to ticket','New comment added to ticket',0,0);
 
 /*Data for the table `vtiger_crmentity_seq` */
 
-insert  into `vtiger_crmentity_seq`(`id`) values (105);
+insert  into `vtiger_crmentity_seq`(`id`) values (106);
 
 /*Data for the table `vtiger_crmentityrel` */
 
@@ -1041,7 +1048,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -4708,9 +4715,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5396,6 +5403,7 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_l
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (103,'ForgotPassword','Users','Request: ForgotPassword','Dear user,<br /><br />\\r\\nYou recently requested a password reset for your YetiForce CRM.<br />\\r\\nTo create a new password, click on the link #s#LinkToForgotPassword#sEnd#.<br /><br />\\r\\nThis request was made on #s#CurrentDateTime#sEnd# and will expire in next 24 hours.<br /><br />\\r\\nRegards,<br />\\r\\nYetiForce CRM Support Team.');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (104,'Customer Portal - ForgotPassword','Contacts','Request: ForgotPassword','Dear #a#67#aEnd# #a#67#aEnd#,<br /><br />\r\nYou recently requested a reminder of your access data for the YetiForce Portal.<br /><br />\r\nYou can login by entering the following data:<br /><br />\r\nYour username: #a#80#aEnd#<br />\r\nYour password: #s#ContactsPortalPass#sEnd#<br /><br /><br />\r\nRegards,<br />\r\nYetiForce CRM Support Team.');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (105,'New comment added to ticket from portal','ModComments','New comment added to ticket from portal','Dear User,<br />\r\nA new comment has been added to the ticket.<br />\r\n#b#597#bEnd# #a#597#aEnd#<br /><br />\r\n ');
+insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (106,'New comment added to ticket','ModComments','New comment added to ticket','<span class=\"value\">Dear User,<br />\r\nA new comment has been added to the ticket.<br />\r\n#b#597#bEnd# #a#597#aEnd#</span>');
 
 /*Data for the table `vtiger_ossmailtemplatescf` */
 
@@ -5417,6 +5425,7 @@ insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (95);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (103);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (104);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (105);
+insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (106);
 
 /*Data for the table `vtiger_ossmailview` */
 
