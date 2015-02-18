@@ -50,6 +50,7 @@
                 </span>
             </div>
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
+			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{if $BLOCKS_HIDE}
