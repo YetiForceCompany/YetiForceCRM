@@ -13,8 +13,7 @@ Class DataAccess_validate_mandatory{
 	
     public function process( $moduleName,$ID,$record_form,$config ) {
 		$save_record = true;
-
-		if($record_form['view'] == 'quick_edit' && $moduleName != 'Calendar'){
+		if($record_form['view'] == 'quick_edit' && $moduleName != 'Calendar'  && $moduleName != 'Events'){
 			$records = Vtiger_Record_Model::getInstanceById($ID, $moduleName);
 
 			$recordModel = Users_Record_Model::getCleanInstance($moduleName);
