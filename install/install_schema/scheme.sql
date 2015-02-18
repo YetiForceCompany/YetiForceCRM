@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.1.53-community-log : Database - yetiforcecrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -801,6 +801,17 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_blocks_hide` */
+
+CREATE TABLE `vtiger_blocks_hide` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `blockid` int(19) DEFAULT NULL,
+  `conditions` text,
+  `enabled` tinyint(1) DEFAULT NULL,
+  `view` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_seq` */

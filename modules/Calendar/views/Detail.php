@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 class Calendar_Detail_View extends Vtiger_Detail_View {
 
 	function preProcess(Vtiger_Request $request, $display=true) {
@@ -131,6 +130,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View {
 
 		
 		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());

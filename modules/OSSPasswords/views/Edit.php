@@ -86,7 +86,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
+		$viewer->assign('RECORD_MODEL', $recordModel);
 		$isRelationOperation = $request->get('relationOperation');
 
 		//if it is relation edit

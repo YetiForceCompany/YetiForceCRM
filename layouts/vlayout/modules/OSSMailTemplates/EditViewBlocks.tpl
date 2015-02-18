@@ -9,7 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-
 {strip}
     <div class='container-fluid editViewContainer'>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -52,6 +51,8 @@
             </div>
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
+			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
+			{if $BLOCKS_HIDE}
             <table class="table table-bordered blockContainer showInlineTable">
                 <tr>
                     <th class="blockHeader" colspan="4">{vtranslate($BLOCK_LABEL, $MODULE)}</th>
@@ -164,5 +165,6 @@
                 {/if}
             </table>
             <br>
+			{/if}
         {/foreach}
     {/strip}

@@ -78,6 +78,7 @@ class OSSPdf_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('OPTIONAL_CONDITIONS', $Condition['optional_conditions']);
 		$viewer->assign('FIELD_LIST', Conditions::getListBaseModuleField($baseModule));
 		$viewer->assign('BASE_MODULE', $baseModule);
+		$viewer->assign('RECORD', $recordModel);
 		///Conditions
         $viewer->assign('DEFAULT_FIELDS', $field_list);
         $viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);

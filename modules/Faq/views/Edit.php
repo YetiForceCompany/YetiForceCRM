@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 class Faq_Edit_View extends Vtiger_Edit_View {
 
 	public function process(Vtiger_Request $request) {
@@ -60,6 +59,7 @@ class Faq_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.1.53-community-log : Database - yetiforcecrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -571,6 +571,8 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (237,75,'LBL_SHARING_INFORMATION',2,0,0,0,0,0,1,0);
 insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_title`,`visible`,`create_view`,`edit_view`,`detail_view`,`display_status`,`iscustom`) values (238,75,'LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0);
 
+/*Data for the table `vtiger_blocks_hide` */
+
 /*Data for the table `vtiger_blocks_seq` */
 
 insert  into `vtiger_blocks_seq`(`id`) values (238);
@@ -1039,7 +1041,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -4706,9 +4708,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -18235,11 +18237,12 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (69,5,'LBL_MOBILE_KEYS',NULL,'LBL_MOBILE_KEYS_DESCRIPTION','index.php?parent=Settings&module=MobileApps&view=MobileKeys',5,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (70,2,'LBL_TREES_MANAGER',NULL,'LBL_TREES_MANAGER_DESCRIPTION','index.php?module=TreesManager&parent=Settings&view=List',15,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (71,2,'LBL_MODTRACKER_SETTINGS',NULL,'LBL_MODTRACKER_SETTINGS_DESCRIPTION','index.php?module=ModTracker&parent=Settings&view=List',16,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (72,4,'Public Holidays',NULL,'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION','index.php?module=PublicHoliday&view=ConfigurePass&parent=Settings',25,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (72,2,'LBL_HIDEBLOCKS',NULL,'LBL_HIDEBLOCKS_DESCRIPTION','index.php?module=HideBlocks&parent=Settings&view=List',17,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (73,4,'Public Holidays',NULL,'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION','index.php?module=PublicHoliday&view=ConfigurePass&parent=Settings',25,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (72);
+insert  into `vtiger_settings_field_seq`(`id`) values (73);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

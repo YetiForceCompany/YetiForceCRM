@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 /*
  * Workflow Record Model Class
  */
@@ -255,8 +255,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Functions transforms workflow filter to advanced filter
 	 * @return <Array>
 	 */
-	function transformToAdvancedFilterCondition() {
-		$conditions = $this->get('conditions');
+	function transformToAdvancedFilterCondition($conditions = false) {
+		if(!$conditions)
+			$conditions = $this->get('conditions');
 		$transformedConditions = array();
 
 		if(!empty($conditions)) {
