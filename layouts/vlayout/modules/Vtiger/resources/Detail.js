@@ -274,6 +274,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				contentContainer.html(data);
 				app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 				contentContainer.trigger(thisInstance.widgetPostLoad,{'widgetName' : relatedModuleName})
+				app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
                 aDeferred.resolve(params);
 			},
 			function(){
@@ -1328,6 +1329,17 @@ jQuery.Class("Vtiger_Detail_Js",{
 		summaryViewContainer.on(thisInstance.fieldUpdatedEvent, '.recordDetails', function(e, params){
 			var updatesWidget = summaryViewContainer.find("[data-name='LBL_UPDATES']");
 			thisInstance.loadWidget(updatesWidget);
+		});
+
+		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
+			var currentTarget = jQuery(e.currentTarget);
+			var currentDiv = currentTarget.closest('.activityStatus');
+			var editElement = currentDiv.find('.edit');
+			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
+			var editStatusElement = currentDiv.find('.editStatus');
+			editStatusElement.trigger( "click" );
+			fieldElement.val( currentTarget.data('status') ).trigger("liszt:updated");
+			editStatusElement.trigger( "clickoutside" );
 		});
 
 		/*

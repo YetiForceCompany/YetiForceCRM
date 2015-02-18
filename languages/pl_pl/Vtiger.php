@@ -866,6 +866,7 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Ilość dni przepracowanych',
 	'LBL_AVERAGE_WORKING_TIME' => 'Średnia czasu pracy',
 	'Employees Time Control' => 'Czas pracy użytkownika',
+	'LBL_MARK_AS_DONE' => 'Oznacz jako wykonane',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',
