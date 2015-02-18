@@ -1156,6 +1156,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			$this->get('id')
 		);
 		$db->pquery($query,$params);
+		if($this->isMandatory())
+			$db->pquery('UPDATE vtiger_blocks_hide SET `enabled` = ? WHERE `blockid` = ?;',array(0, $this->getBlockId()));
     }
 
     public function updateTypeofDataFromMandatory($mandatoryValue='O') {
