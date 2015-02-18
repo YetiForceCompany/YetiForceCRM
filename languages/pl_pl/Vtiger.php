@@ -702,6 +702,7 @@ $languageStrings = array(
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',
 	'Comments' => 'Komentarze',
+	'RequirementCards' => 'Karty wymagań',
 	
 	/* industry */
 	'Administration'=>'Administracja',

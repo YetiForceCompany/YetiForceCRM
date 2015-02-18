@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce12
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -2259,7 +2259,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1585 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1586 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4923,6 +4923,7 @@ CREATE TABLE `vtiger_quotes` (
   `total_margin` decimal(13,2) DEFAULT NULL,
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `form_payment` varchar(255) DEFAULT '',
+  `requirementcards_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`quoteid`),
   KEY `quote_quotestage_idx` (`quotestage`),
   KEY `quotes_potentialid_idx` (`potentialid`),
@@ -5289,10 +5290,10 @@ CREATE TABLE `vtiger_requirementcards` (
   `requirementcards_no` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
-  `quotesid` int(19) DEFAULT NULL,
   `requirementcards_status` varchar(255) DEFAULT '',
   `rejection_reason` varchar(255) DEFAULT '',
   PRIMARY KEY (`requirementcardsid`),
+  KEY `potentialid` (`potentialid`),
   CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
