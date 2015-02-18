@@ -242,6 +242,8 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwaltung Baumstrukturen',
 	'LBL_MODTRACKER_SETTINGS' => 'Änderungshistorie',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalte Änderungshistorie von Modulen',
+	'LBL_HIDEBLOCKS' => 'Hide blocks',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
