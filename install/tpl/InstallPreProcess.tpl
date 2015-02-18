@@ -14,7 +14,7 @@
 	<div class="row-fluid">
 		<div class="span6">
 			<div class="logo">
-				<img src="../test/logo/logo_yetiforce.png" style="height: 70px;" />
+				<img src="../storage/Logo/logo_yetiforce.png" style="height: 70px;" />
 			</div>
 		</div>
 		<div class="span6">

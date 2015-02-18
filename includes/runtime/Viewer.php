@@ -46,12 +46,12 @@ class Vtiger_Viewer extends SmartyBC {
 		if(!empty($media)) {
 			self::$currentLayout = $media;
 			$templatesDir = $THISDIR . '/../../layouts/'.$media;
-			$compileDir = $THISDIR . '/../../test/templates_c/'.$media;
+			$compileDir = $THISDIR . '/../../cache/templates_c/'.$media;
 		}
 		if(empty($templatesDir) || !file_exists($templatesDir)) {
 			self::$currentLayout = self::getDefaultLayoutName();
 			$templatesDir = $THISDIR . '/../../layouts/'.self::getDefaultLayoutName();
-			$compileDir = $THISDIR . '/../../test/templates_c/'.self::getDefaultLayoutName();
+			$compileDir = $THISDIR . '/../../cache/templates_c/'.self::getDefaultLayoutName();
 		}
 
 		if (!file_exists($compileDir)) {

@@ -32,7 +32,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 				</div>
 			</div>		
 			<div class="logo">
-				<img title="{$CompanyDetails['companyname']}" src="test/logo/{$CompanyDetails['logoname']}">
+				<img title="{$CompanyDetails['companyname']}" src="storage/Logo/{$CompanyDetails['logoname']}">
 			</div>
 			<div class="forgotPassword hide">
 				<h4>{vtranslate('Recover password',$MODULE)}:</h4>

@@ -97,7 +97,7 @@ $tmp_dir = '_VT_TMPDIR_';
 $import_dir = 'cache/import/';
 
 // upload_dir default 
-$upload_dir = 'test/upload/';
+$upload_dir = 'cache/upload/';
 
 // disable send files using KCFinder
 $upload_disabled = false;
