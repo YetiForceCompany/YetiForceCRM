@@ -4820,6 +4820,15 @@ CREATE TABLE `vtiger_pscategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_publicholiday` */
+
+CREATE TABLE `vtiger_publicholiday`(
+  `publicholidayid` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
+  `holidaydate` DATE NOT NULL COMMENT 'date of holiday',
+  `holidayname` VARCHAR(255) NOT NULL COMMENT 'name of holiday',
+  PRIMARY KEY (`publicholidayid`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
 /*Table structure for table `vtiger_purchaseorder` */
 
 CREATE TABLE `vtiger_purchaseorder` (

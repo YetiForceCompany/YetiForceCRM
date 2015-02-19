@@ -5824,8 +5824,8 @@ insert  into `vtiger_payment`(`paymentid`,`payment`,`sortorderid`,`presence`) va
 
 /*Data for the table `vtiger_payment_duration` */
 
-insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (1,'payment:+0 days',0,1);
-insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (2,'payment:+1 days',1,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (1,'payment:+0 day',0,1);
+insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (2,'payment:+1 day',1,1);
 insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (3,'payment:+7 days',2,1);
 insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (4,'payment:+14 days',3,1);
 insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,`sortorderid`,`presence`) values (5,'payment:+21 days',4,1);
@@ -13592,14 +13592,14 @@ insert  into `vtiger_quotestage_seq`(`id`) values (5);
 /*Data for the table `vtiger_recurring_frequency` */
 
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (2,'+1 day',1,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (3,'+7 day',2,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (4,'+14 day',3,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (5,'+21 day',4,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (6,'+30 day',5,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (7,'+60 day',6,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (8,'+90 day',7,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (9,'+180 day',8,1);
-insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (10,'+360 day',9,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (3,'+7 days',2,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (4,'+14 days',3,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (5,'+21 days',4,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (6,'+30 days',5,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (7,'+60 days',6,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (8,'+90 days',7,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (9,'+180 days',8,1);
+insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (10,'+360 days',9,1);
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (11,'+1 month',10,1);
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (12,'+3 months',11,1);
 insert  into `vtiger_recurring_frequency`(`recurring_frequency_id`,`recurring_frequency`,`sortorderid`,`presence`) values (13,'+6 months',12,1);
