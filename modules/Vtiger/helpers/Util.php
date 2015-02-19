@@ -425,8 +425,8 @@ class Vtiger_Util_Helper {
 	 * @return <String> date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null) {
-        require_once 'includes/runtime/LanguageHandler.php';
-		require_once 'includes/runtime/Globals.php';
+        require_once 'include/runtime/LanguageHandler.php';
+		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
 		} else {
@@ -448,8 +448,8 @@ class Vtiger_Util_Helper {
 	 * @return <String> time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null) {
-        require_once 'includes/runtime/LanguageHandler.php';
-		require_once 'includes/runtime/Globals.php';
+        require_once 'include/runtime/LanguageHandler.php';
+		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
 		} else {

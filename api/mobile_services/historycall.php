@@ -45,7 +45,7 @@ class HistoryCall{
 	
 	function addCallLogs($data){
 		global $log,$adb,$current_user;
-		include_once 'includes/main/WebUI.php';
+		include_once 'include/main/WebUI.php';
 		$log->info("Start HistoryCall::addCallLogs | user id: ".$this->userID);
 		$resultData = array('status' => 2);
 		$user = new Users();

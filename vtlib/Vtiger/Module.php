@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 include_once('vtlib/Vtiger/ModuleBasic.php');
 /**
  * Provides API to work with vtiger CRM Modules

@@ -8,21 +8,21 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-vimport ('includes.exceptions.AppException');
+vimport ('include.exceptions.AppException');
 
-vimport ('includes.http.Request');
-vimport ('includes.http.Response');
-vimport ('includes.http.Session');
+vimport ('include.http.Request');
+vimport ('include.http.Response');
+vimport ('include.http.Session');
 
-vimport ('includes.runtime.Globals');
-vimport ('includes.runtime.Controller');
-vimport ('includes.runtime.Viewer');
-vimport ('includes.runtime.Theme');
-vimport ('includes.runtime.BaseModel');
-vimport ('includes.runtime.JavaScript');
+vimport ('include.runtime.Globals');
+vimport ('include.runtime.Controller');
+vimport ('include.runtime.Viewer');
+vimport ('include.runtime.Theme');
+vimport ('include.runtime.BaseModel');
+vimport ('include.runtime.JavaScript');
 
-vimport ('includes.runtime.LanguageHandler');
-vimport ('includes.runtime.Cache');
+vimport ('include.runtime.LanguageHandler');
+vimport ('include.runtime.Cache');
 
 abstract class Vtiger_EntryPoint {
 

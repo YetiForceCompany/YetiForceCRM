@@ -12,8 +12,8 @@
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 
-require_once 'includes/Loader.php';
-vimport ('includes.runtime.EntryPoint');
+require_once 'include/Loader.php';
+vimport ('include.runtime.EntryPoint');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint {
 
@@ -158,7 +158,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			}
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
-            
             if ($handler) {
                 vglobal('currentModule', $module);
                 

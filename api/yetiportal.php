@@ -14,14 +14,14 @@
  */
 require_once 'config/config.php';
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
 require_once('modules/Emails/mail.php');
 require_once 'modules/Users/Users.php';
 require_once 'modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php';
 
-ini_set('error_log',$root_directory.'logs/yetiportal.log');
+ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
 
 /** Configure language for server response translation */
 global $default_language, $current_language;

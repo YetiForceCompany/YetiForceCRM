@@ -18,7 +18,7 @@ if (file_exists('config_override.php')) {
 }
 
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');

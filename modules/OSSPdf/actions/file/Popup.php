@@ -19,7 +19,7 @@ include_once('vtlib/Vtiger/Utils.php');
 include_once('include/utils/utils.php');
 include_once('ShowModuleIdField.php');
 
-vimport('includes/runtime/Viewer.php');
+vimport('include/runtime/Viewer.php');
 
 function Popup($request) {
     $db = PearDatabase::getInstance();
