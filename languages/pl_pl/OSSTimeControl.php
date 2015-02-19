@@ -84,6 +84,11 @@ $languageStrings = array(
 	'Office work'=>'Prace biurowe',
 	'Administrative work'=>'Prace administracyjne',
 	'Accounting work'=>'Prace księgowe',
+	
+	//PickList
+	'PLL_WORKING_TIME' => 'Czas pracy',
+	'PLL_BREAK_TIME' => 'Przerwa w pracy',
+	'PLL_HOLIDAY' => 'Urlop',
 );
 $jsLanguageStrings = array(
     'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
