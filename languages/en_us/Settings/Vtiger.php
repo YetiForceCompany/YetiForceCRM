@@ -184,6 +184,8 @@ $languageStrings = array(
 	'VTLIB_LBL_MODULE_MANAGER' => 'Module Manager',
 	'Webforms' => 'Webforms',
 	'website' => 'Website',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
 	
 	
 	//YetiForce
@@ -286,4 +288,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'No logo selected',
 	'LBL_PREFIX_IN_USE' => 'Prefix in use',
 	'LBL_WRONG_IMAGE_TYPE' => 'not supported Image type',
+	'JS_COLUMN_ADDED' => 'Field added',
+	'JS_COLUMN_EXIST' => 'Error while adding field',
 );
