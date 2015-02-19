@@ -9,7 +9,7 @@
  ************************************************************************************/
 	require_once("VTJsonCondition.inc");
 	require_once 'include/utils/ConfigReader.php';
-	require_once 'includes/runtime/Cache.php';
+	require_once 'include/runtime/Cache.php';
 
 	class VTWorkflowManager{
 

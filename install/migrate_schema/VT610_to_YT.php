@@ -19,7 +19,7 @@ include_once('vtlib/Vtiger/Link.php');
 include_once('vtlib/Vtiger/Event.php');
 include_once('vtlib/Vtiger/Webservice.php');
 include_once('vtlib/Vtiger/Version.php');
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 require_once 'modules/com_vtiger_workflow/include.inc';
 require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
 require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
@@ -1420,7 +1420,7 @@ class VT610_to_YT {
 	public function deleteFields($fieldsToDelete){
 		global $log;
 		$log->debug("Entering VT610_to_YT::deleteFields() method ...");
-		require_once('includes/main/WebUI.php');
+		require_once('include/main/WebUI.php');
 		$adb = PearDatabase::getInstance();
 		foreach($fieldsToDelete AS $fld_module=>$columnnames){
 			$moduleId = getTabid($fld_module);

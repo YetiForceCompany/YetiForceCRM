@@ -244,6 +244,8 @@ $languageStrings = array(
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalte Änderungshistorie von Modulen',
 	'LBL_HIDEBLOCKS' => 'Hide blocks',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
+	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

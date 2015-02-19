@@ -1,5 +1,5 @@
 <?php
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
 global $adb, $log;

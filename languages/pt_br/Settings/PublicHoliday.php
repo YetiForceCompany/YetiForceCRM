@@ -29,7 +29,6 @@ $languageStrings = array(
 	'LBL_EDIT_DATE_OK'														=> 'Successfully changed the public holiday',
 	'LBL_EDIT_DATE_ERROR'													=> 'Failed to modify public holiday',
 	'LBL_FILL_FORM_ERROR'													=> 'You must fill all fields in the form',
-	'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION'							=> '',
 	'Monday'																=> 'Monday',
 	'Tuesday'																=> 'Tuesday',
 	'Wednesday'																=> 'Wednesday',

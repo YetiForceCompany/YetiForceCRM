@@ -9,7 +9,7 @@
 
 // Suppress errors.
 error_reporting(0);
-ini_set('session.save_path','../../session');
+ini_set('session.save_path','../../cache/session');
 session_start();
 // Path to the chat directory:
 define('AJAX_CHAT_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
