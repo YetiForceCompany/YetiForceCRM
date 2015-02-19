@@ -26,7 +26,7 @@ class Vtiger_Viewer extends SmartyBC {
 	 */
 	protected function log($message, $delimiter="\n") {
 		static $file = null;
-		if ($file == null) $file = dirname(__FILE__) . '/../../logs/viewer-debug.log';
+		if ($file == null) $file = dirname(__FILE__) . '/../../cache/logs/viewer-debug.log';
 		if (self::$debugViewer) {
 			file_put_contents($file, $message.$delimiter, FILE_APPEND);
 		}

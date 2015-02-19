@@ -24,7 +24,7 @@ include_once dirname(__FILE__) . '/api/Response.php';
 include_once dirname(__FILE__) . '/api/Session.php';
 
 include_once dirname(__FILE__) . '/api/ws/Controller.php';
-require_once 'includes/main/WebUI.php';
+require_once 'include/main/WebUI.php';
 
 class Mobile_API_Controller {
 

@@ -204,7 +204,7 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'logs/php_error_log.log');
+ini_set('error_log',$root_directory.'cache/logs/php_error_log.log');
 
 // Enable sharing of records?
 $shared_owners = true;

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  ************************************************************************************/
 require_once 'include/events/VTEntityDelta.php';
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 
 class VTWorkflowEntity{
 	function __construct($user, $id){

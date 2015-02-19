@@ -14,7 +14,7 @@
  */
 require_once 'config/config.php';
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 require_once('libraries/nusoap/nusoap.php');
 
 $log = &LoggerManager::getLogger('firefoxlog');
