@@ -3283,7 +3283,7 @@ CREATE TABLE `vtiger_notebook_contents` (
 CREATE TABLE `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   `note_no` varchar(100) NOT NULL,
-  `title` varchar(50) NOT NULL,
+  `title` varchar(200) NOT NULL,
   `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
   `folderid` varchar(255) NOT NULL,
