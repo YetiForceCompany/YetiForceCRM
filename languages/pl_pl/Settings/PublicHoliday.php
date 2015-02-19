@@ -29,7 +29,6 @@ $languageStrings = array(
 	'LBL_EDIT_DATE_OK'														=> 'Pomyślnie zmodyfikowano święto',
 	'LBL_EDIT_DATE_ERROR'													=> 'Nie udało się zmodyfikować święta',
 	'LBL_FILL_FORM_ERROR'													=> 'Nie wypełniono wszystkich obowiązkowych pól',
-	'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION'							=> '',
 	'Monday'																=> 'Poniedziałek',
 	'Tuesday'																=> 'Wtorek',
 	'Wednesday'																=> 'Środa',
