@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Activity types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
