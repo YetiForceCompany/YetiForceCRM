@@ -16,7 +16,13 @@
 				<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}</h3>
 				{if $DESCRIPTION}<span style="font-size:12px;color: black;"> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</span>{/if}
 			</div>
-			<div class="span4">
+			<div class="span3">
+				<button id="addCustomField" class="btn  pull-right" type="button">
+					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+				</button>
+			</div>
+			<div class="span1">
+			
 			<button id="updateCompanyDetails" class="btn pull-right">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
@@ -102,4 +108,17 @@
 		{/foreach}
 		{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 	</form>
+
+	<form class="form-horizontal hide" id="addCustomFieldForm" method="post" action="index.php">
+		<input type="hidden" name="module" value="Vtiger" />
+		<input type="hidden" name="parent" value="Settings" />
+		<input type="hidden" name="action" value="SaveCompanyField" />
+		<div class="control-group">
+			<div class="control-label">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
+			<div class="controls">
+				<input type="text" name="field name" id="fieldName" />
+			</div>
+		</div>
+		{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+	</form>	
 {/strip}
