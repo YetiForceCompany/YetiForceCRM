@@ -1034,6 +1034,7 @@ $languageStrings = array(
 	'LBL_VIEW_COMPOSE' => 'Create e-mail',
 	'LBL_VIEW_PREFERENCEDETAIL' => 'My settings',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Edit settings',
+	'Credits' => 'Credits',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

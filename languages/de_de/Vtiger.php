@@ -815,6 +815,7 @@ $languageStrings = array(
 	'Information Technology'=>'Informationstechnologie',
 	'Telecommunication'=>'Telekommunikation',
 	'Media'=>'Medien',
+	'Credits' => 'Credits',
 	
 	
     'COPY_ADRESS_FROM'=>'Adresse kopieren von:', 
