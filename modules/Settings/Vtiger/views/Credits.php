@@ -10,7 +10,7 @@
  * Contributor(s): ______________________________________.
  *************************************************************************************************************************************/
 
-class Settings_Vtiger_Credits_View extends Vtiger_Index_View {
+class Settings_Vtiger_Credits_View extends Settings_Vtiger_Index_View{
 
 	public function process(Vtiger_Request $request) {
 		$qualifiedModuleName = $request->getModule(false);
