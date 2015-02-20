@@ -291,6 +291,9 @@ $languageStrings = array(
 	"Production Department"	=> 'Production Department',
 	"Marketing Department"	=> 'Marketing Department',
 	"LBL_BASIC_EXPORT"	=> 'Exports basic data',
+
+	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
+	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
 );
 
 $jsLanguageStrings = array(
