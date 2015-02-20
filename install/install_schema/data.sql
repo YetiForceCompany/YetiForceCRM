@@ -179,6 +179,7 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (125,57,'Send e-mail to contact person','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"57\";s:7:\"summary\";s:29:\"Send e-mail to contact person\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:23:\"customer=Contacts=email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:125;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (126,58,'Send e-mail to account','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"58\";s:7:\"summary\";s:22:\"Send e-mail to account\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:26:\"related_to=Accounts=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:126;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (127,59,'Send e-mail to contact','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"59\";s:7:\"summary\";s:22:\"Send e-mail to contact\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:8:\"template\";s:3:\"106\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:25:\"related_to=Contacts=email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:127;}');
+insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (128,53,'Mark portal users password as sent.','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"53\";s:7:\"summary\";s:35:\"Mark portal users password as sent.\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:16:\"MarkPasswordSent\";s:2:\"id\";i:128;}');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -188,6 +189,7 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (8,'ModComments','CustomerCommentFromPortal','modules/ModComments/handlers/ModCommentsHandler.php','CustomerCommentFromPortal');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (9,'ModComments','TicketOwnerComments','modules/ModComments/handlers/ModCommentsHandler.php','TicketOwnerComments');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (10,'PurchaseOrder','UpdateInventory','modules/Inventory/handlers/InventoryHandler.php','handleInventoryProductRel');
+insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (11,'Contacts','MarkPasswordSent','modules/Contacts/handlers/ContactsHandler.php','Contacts_markPasswordSent');
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod_seq` */
 
@@ -195,7 +197,7 @@ insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (19);
 
 /*Data for the table `com_vtiger_workflowtasks_seq` */
 
-insert  into `com_vtiger_workflowtasks_seq`(`id`) values (127);
+insert  into `com_vtiger_workflowtasks_seq`(`id`) values (128);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
 

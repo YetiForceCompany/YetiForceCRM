@@ -1123,7 +1123,8 @@ function update_login_details($input_array)
  * 	return message about the mail sending whether entered mail id is correct or not or is there any problem in mail sending
  */
 function send_mail_for_password($mailid) {
-	global $adb, $mod_strings, $log;
+	global $adb, $log;
+	vimport('modules.Settings.CustomerPortal.helpers.CustomerPortalPassword');
 	$log->debug("Entering customer portal function send_mail_for_password");
 	$adb->println("Inside the function send_mail_for_password($mailid).");
 
@@ -1131,9 +1132,16 @@ function send_mail_for_password($mailid) {
 	$res = $adb->pquery($sql, array($mailid));
 	if ($adb->num_rows($res) > 0) {
 		$user_name = $adb->query_result($res, 0, 'user_name');
-		$password = $adb->query_result($res, 0, 'user_password');
 		$isactive = $adb->query_result($res, 0, 'isactive');
 		$record = $adb->query_result($res, 0, 'id');
+
+		// generate new temp password for portal user
+		$password = makeRandomPassword();
+		$truePassword = $password;
+		$password = CustomerPortalPassword::encryptPassword($password, $user_name);
+		$params = array( $password, CustomerPortalPassword::getCryptType(), $record );
+		$sql = 'UPDATE vtiger_portalinfo SET `user_password` = ?, `crypt_type` = ? WHERE `id` = ? LIMIT 1;';
+		$adb->pquery( $sql, $params );
 
 		$data = array(
 			'id' => '104',
@@ -1141,7 +1149,7 @@ function send_mail_for_password($mailid) {
 			'module' => 'Contacts',
 			'record' => $record,
 			'user_name' => $user_name,
-			'password' => $password,
+			'password' => $truePassword,
 		);
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 	}

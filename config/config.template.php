@@ -237,4 +237,4 @@ $MINIMUM_CRON_FREQUENCY = 1;
 $session_regenerate_id = false;
 
 //Would you like to encode passwords for Customer Portal
-$encode_customer_portal_passwords = FALSE;
+$encode_customer_portal_passwords = true;

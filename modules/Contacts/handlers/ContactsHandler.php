@@ -16,7 +16,6 @@ function Contacts_createPortalLoginDetails($entityData){
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
-	
 
 	$email = $entityData->get('email');
 
@@ -45,14 +44,15 @@ function Contacts_createPortalLoginDetails($entityData){
 		
 		if($insert == true){
 			$password = makeRandomPassword();
-			
+			$truePassword = $password;
+
 			if ($encodePass) {
 				$password = CustomerPortalPassword::encryptPassword($password, $email);
-				$params = array($entityId, $email, $password, 'C', 1, CustomerPortalPassword::getCryptType());
-				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`, `crypt_type`) VALUES(" . generateQuestionMarks($params) . ")";
+				$params = array($entityId, $email, $password, 'C', 1, CustomerPortalPassword::getCryptType(), $truePassword);
+				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`, `crypt_type`, `password_sent`) VALUES(" . generateQuestionMarks($params) . ")";
 			} else {
-				$params = array($entityId, $email, $password, 'C', 1);
-				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`) VALUES(" . generateQuestionMarks($params) . ")";
+				$params = array($entityId, $email, $password, 'C', 1, $truePassword);
+				$sql = "INSERT INTO vtiger_portalinfo(`id`, `user_name`, `user_password`, `type`, `isactive`, `password_sent`) VALUES(" . generateQuestionMarks($params) . ")";
 			}
 			
 			$adb->pquery($sql, $params);
@@ -61,4 +61,15 @@ function Contacts_createPortalLoginDetails($entityData){
 		$sql = "UPDATE vtiger_portalinfo SET user_name=?,isactive=0 WHERE id=?";
 		$adb->pquery($sql, array($email, $entityId));
 	}
+}
+
+function Contacts_markPasswordSent($entityData){
+	$db = PearDatabase::getInstance();
+	$wsId = $entityData->getId();
+	$parts = explode('x', $wsId);
+	$entityId = $parts[1];
+
+	$sql = 'UPDATE `vtiger_portalinfo` SET `password_sent` = 1 WHERE `id` = ? LIMIT 1;';
+	$params = array( $entityId );
+	$db->pquery( $sql, $params );
 }
