@@ -420,28 +420,6 @@ class ListViewController {
 					}
 				} elseif ( in_array($uitype,array(7,9,90)) ) {
 					$value = "<span align='right'>".textlength_check($value)."</div>";
-				} elseif ($uitype == 302) {
-					$template = $field->getFieldParams();
-					$result2 = $this->db->pquery("SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $value));
-					if ($this->db->num_rows($result2) > 0){
-						$tree = $this->db->query_result_raw($result2, 0, 'tree');
-						$parent = '';
-						if ($this->db->query_result_raw($result2, 0, 'depth') > 0) {
-							$parenttrre = $this->db->query_result_raw($result2, 0, 'parenttrre');
-							$cut = strlen('::' . $tree);
-							$parenttrre = substr($parenttrre, 0, - $cut);
-							$pieces = explode('::', $parenttrre);
-							$parent = end($pieces);
-							$result3 = $this->db->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
-							$parentName = $this->db->query_result_raw($result3, 0, 'name');
-							$parent = '(' . vtranslate($parentName, $module) . ') ';
-						}
-						$value = $parent . vtranslate($this->db->query_result($result2, 0, "name"), $module);
-					}else{
-						global $log;
-						$log->error("getListViewRecords: No found template tree id=".$template);
-						$value = '';
-					}
 				} else {
 					$value = textlength_check($value);
 				}
