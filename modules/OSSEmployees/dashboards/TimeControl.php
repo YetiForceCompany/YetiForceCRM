@@ -10,6 +10,17 @@
  *************************************************************************************************************************************/
 class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 
+	function getSearchParams($assignedto = '',$date) {	
+		$conditions = array();
+		$listSearchParams = array();
+		if($assignedto != '') array_push($conditions,array('assigned_user_id','e',getUserFullName($assignedto)));
+		if(!empty($date)){
+			array_push($conditions,array('due_date','bw',$date.','.$date.''));
+		}
+		$listSearchParams[] = $conditions;
+		return '&search_params='. json_encode($listSearchParams);
+	}
+
 	public function process(Vtiger_Request $request) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
@@ -36,6 +47,12 @@ class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$data = $moduleModel->getWidgetTimeControl($user, $time);
 		$workDays = $moduleModel->getWorkingDays($time['start'], $time['end']);
 		$selectedDays = (strtotime($time['end']) - strtotime($time['start'])) / (60*60*24) + 1;
+
+		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
+		for($i = 0;$i<count($data['data']);$i++){
+			$data['data'][$i]["links"] = $listViewUrl.$this->getSearchParams($user,$data['data'][$i][1]);
+		}
+
 		
 		$viewer->assign('SELECTEDDAYS', $selectedDays);
 		$viewer->assign('WORKDAYS', $workDays);	
