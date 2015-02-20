@@ -210,6 +210,8 @@ $languageStrings = array(
 	'VTLIB_LBL_MODULE_MANAGER' => 'Менеджер модулей',
 	'Webforms' => 'Веб-Формы',
 	'website' => 'Сайт',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
 	
 	
 	//YetiForce
@@ -302,4 +304,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'Не выбран логотип',
 	'LBL_PREFIX_IN_USE' => 'префикс уже используется',
 	'LBL_WRONG_IMAGE_TYPE' => 'Не поддерживаемый формат изображения',
+	'JS_COLUMN_ADDED' => 'Field added',
+	'JS_COLUMN_EXIST' => 'Error while adding field',
 );
