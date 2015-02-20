@@ -408,7 +408,6 @@ $languageStrings = Array(
     'LBL_AND' => 'and',
     'LBL_OR' => 'or',
     'LBL_NONE' => 'NONE',
-    'LBL_APPROVE' => 'Approve',
     'LBL_DENY' => 'Deny',
     'LBL_EQUALS' => 'equals',
     'LBL_EQUAL_TO' => 'equals',
@@ -481,7 +480,6 @@ $jsLanguageStrings = array(
     'LBL_AND' => 'and',
     'LBL_OR' => 'or',
     'LBL_NONE' => 'NONE',
-    'LBL_APPROVE' => 'Approve',
     'LBL_DENY' => 'Deny',
     'LBL_EQUALS' => 'equals',
     'LBL_EQUAL_TO' => 'equals',
@@ -539,4 +537,12 @@ $jsLanguageStrings = array(
     'Current date (yyyy-mm-dd)' => 'Current data (yyyy-mm-dd)',
         //
 );
-?>
+
+$languageStrings = array(
+	'LBL_AND' => 'and',
+	'LBL_OR' => 'or',
+	'LBL_NONE' => 'None',
+	'Content' => 'Content',
+	'Field' => 'Field',
+	'Label' => 'Label',
+);

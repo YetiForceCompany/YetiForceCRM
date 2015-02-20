@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = Array(
 	'QuotesEnquires' => 'Zapytania ofertowe',
-	'SINGLE_QuotesEnquires' => 'Zapytania ofertowe',
+	'SINGLE_QuotesEnquires' => 'Zapytanie ofertowe',
 	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informacje podstawowe',

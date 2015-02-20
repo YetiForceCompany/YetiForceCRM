@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'dd-mm-yyyy' => 'dd-mm-rrrr',
+	'mm-dd-yyyy' => 'mm-dd-rrrr',
+	'yyyy-mm-dd' => 'rrrr-mm-dd',
+	'LBL_SELECT_USERS' => 'Select Users',
+	'Share calendar users' => 'Share calendar users',
 	'Users' => 'Users',
 	'Admin' => 'Admin',
 	'Asterisk Configuration'  =>  'Asterisk Configuration',

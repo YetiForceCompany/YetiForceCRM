@@ -68,7 +68,6 @@ $languageStrings = array(
 	/* YetiForce */
 	'Approval for phone calls'=>'Zgoda na kontakt telefoniczny',
 	'Approval for email'=>'Zgoda na kontakt mailowy',
-	'Products' => 'Produkty2',
 	'Contact Information' => 'Informacje kontaktowe',
 	'LBL_REGISTRATION_INFO'=>'Informacje rejestrowe',
 	'LBL_REQUIRES_VERIFICATION' => 'Weryfikacja danych',

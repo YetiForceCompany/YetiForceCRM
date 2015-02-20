@@ -9,8 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
 
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
@@ -28,4 +26,8 @@ $languageStrings = Array(
 
 	//PICKLIST VALUES
 	'Incomplete information' => 'Incomplete information',
+);
+$languageStrings = array(
+	'SINGLE_QuotesEnquires' => 'Quote Enquires',
+	'QuotesEnquires' => 'Quotes Enquires',
 );

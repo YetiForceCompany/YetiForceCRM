@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Orders accepted' => 'Orders accepted',
 	'Attempted to Contact'=>'Attempted to Contact',
 	'CANNOT_CONVERT' => 'Cannot Convert',
 	'Cold'=>'Cold',
@@ -54,7 +55,6 @@ $languageStrings = array(
 	'SINGLE_Leads' => 'Lead',
 	'Warm'=>'Warm',
 	'Website' => 'Website',
-	'Werification data'=>'Data verification',
 
 	/* YetiForce Lead Status */
 	'LBL_TO_REALIZE'=>'For processing',
@@ -67,8 +67,6 @@ $languageStrings = array(
 	'LBL_LEAD_ACQUIRED'=>'Lead obtained',
 	
 	/* YetiForce */
-	'No approval for phone calls'=>'No approval for phone calls',
-	'No approval for email'=>'No approval for email',
 	'Contact Information' => 'Contact Information',
 	'LBL_REGISTRATION_INFO'=>'Registration Details',
     'LBL_REQUIRES_VERIFICATION' => 'Data verification',
