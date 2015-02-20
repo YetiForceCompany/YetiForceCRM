@@ -17,6 +17,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$this->exposeMethod('userExists');
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
+		$this->exposeMethod('editPasswords');
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -117,7 +118,42 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		}
 		$response->emit();
 	}
-	
+
+	/**
+	 * Mass edit users passwords
+	 * @param Vtiger_Request $request
+	 * @throws WebServiceException
+	 */
+	public function editPasswords(Vtiger_Request $request) {
+		$module = $request->getModule();
+		$userModel = vglobal('current_user');
+		$newPassword = $request->get('new_password');
+		$oldPassword = $request->get('old_password');
+		$userIds = $request->get('userids');
+
+		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
+
+		if ( !$checkPassword ) {
+			foreach( $userIds as $userId ) {
+				$wsUserId = vtws_getWebserviceEntityId($module, $userId);
+				$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
+			}
+		}
+
+		$response = new Vtiger_Response();
+		if ( $checkPassword ) {
+			$response->setError($checkPassword,$checkPassword);
+		}
+		else if ( $wsStatus['message'] ) {
+			$response->setResult($wsStatus);
+		}
+		else {
+			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
+		}
+
+		$response->emit();
+	}
+
 	/*
 	 * To restore a user
 	 * @param Vtiger_Request Object
