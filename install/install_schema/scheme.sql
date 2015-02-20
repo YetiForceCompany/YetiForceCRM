@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2260,7 +2259,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1600 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1601 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3284,7 +3283,7 @@ CREATE TABLE `vtiger_notebook_contents` (
 CREATE TABLE `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   `note_no` varchar(100) NOT NULL,
-  `title` varchar(50) NOT NULL,
+  `title` varchar(200) NOT NULL,
   `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
   `folderid` varchar(255) NOT NULL,
@@ -3971,7 +3970,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `due_date` date DEFAULT NULL,
   `time_end` varchar(50) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `payment` varchar(128) DEFAULT NULL,
   `accountid` int(19) DEFAULT '0',
   `contactid` int(19) DEFAULT '0',
   `ticketid` int(19) DEFAULT '0',
@@ -3985,6 +3983,7 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `deleted` int(1) DEFAULT '0',
   `calculationsid` int(19) DEFAULT '0',
   `leadid` int(19) DEFAULT '0',
+  `timecontrol_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
   KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
@@ -4095,16 +4094,6 @@ CREATE TABLE `vtiger_passwords_config` (
   `register_changes` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_payment` */
-
-CREATE TABLE `vtiger_payment` (
-  `paymentid` int(11) NOT NULL AUTO_INCREMENT,
-  `payment` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`paymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_payment_duration` */
 
 CREATE TABLE `vtiger_payment_duration` (
@@ -4117,12 +4106,6 @@ CREATE TABLE `vtiger_payment_duration` (
 /*Table structure for table `vtiger_payment_duration_seq` */
 
 CREATE TABLE `vtiger_payment_duration_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_payment_seq` */
-
-CREATE TABLE `vtiger_payment_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4822,12 +4805,12 @@ CREATE TABLE `vtiger_pscategory_seq` (
 
 /*Table structure for table `vtiger_publicholiday` */
 
-CREATE TABLE `vtiger_publicholiday`(
-  `publicholidayid` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
-  `holidaydate` DATE NOT NULL COMMENT 'date of holiday',
-  `holidayname` VARCHAR(255) NOT NULL COMMENT 'name of holiday',
+CREATE TABLE `vtiger_publicholiday` (
+  `publicholidayid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
+  `holidaydate` date NOT NULL COMMENT 'date of holiday',
+  `holidayname` varchar(255) NOT NULL COMMENT 'name of holiday',
   PRIMARY KEY (`publicholidayid`)
-) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_purchaseorder` */
 
@@ -6234,6 +6217,22 @@ CREATE TABLE `vtiger_time_zone` (
 /*Table structure for table `vtiger_time_zone_seq` */
 
 CREATE TABLE `vtiger_time_zone_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_timecontrol_type` */
+
+CREATE TABLE `vtiger_timecontrol_type` (
+  `timecontrol_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `timecontrol_type` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`timecontrol_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_timecontrol_type_seq` */
+
+CREATE TABLE `vtiger_timecontrol_type_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

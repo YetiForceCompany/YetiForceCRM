@@ -155,6 +155,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View {
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
+            "libraries.jquery.ckeditor.ckeditor",
+            "libraries.jquery.ckeditor.adapters.jquery",
+            'modules.Vtiger.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.$moduleName",
