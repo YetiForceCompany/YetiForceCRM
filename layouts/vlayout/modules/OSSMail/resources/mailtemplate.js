@@ -88,7 +88,7 @@ $('#vtmodulemenulink').ready(function() {
             },
             success: function(data) {
                 var old_subject = jQuery('[name="_subject"]').val();
-                var html = jQuery("<div/>").html(data.result['content']).text();
+                var html = jQuery("<div/>").html(data.result['content']).html();
                 jQuery('[name="_subject"]').val(old_subject + data.result['subject']);
                 if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
                     var old_body = tinyMCE.activeEditor.getContent();
