@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Webforms' => 'Formularze WWW',
 	'SINGLE_Settings:Webforms' => 'Formularz WWW',
 	//Basic Field Names
 	'WebForm Name' => 'Nazwa formularza',

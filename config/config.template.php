@@ -97,7 +97,7 @@ $tmp_dir = '_VT_TMPDIR_';
 $import_dir = 'cache/import/';
 
 // upload_dir default 
-$upload_dir = 'test/upload/';
+$upload_dir = 'cache/upload/';
 
 // disable send files using KCFinder
 $upload_disabled = false;
@@ -204,7 +204,7 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'logs/php_error_log.log');
+ini_set('error_log',$root_directory.'cache/logs/php_error_log.log');
 
 // Enable sharing of records?
 $shared_owners = true;
@@ -235,3 +235,6 @@ $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
 $session_regenerate_id = false;
+
+//Would you like to encode passwords for Customer Portal
+$encode_customer_portal_passwords = true;

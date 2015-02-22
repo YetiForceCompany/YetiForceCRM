@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Leads' => 'Leady',
+	'LBL_OPPURTUNITIES' => 'Szanse sprzedaży',
 	'checkBox' => 'Pole zaznaczenia',
 	'currency' => 'Pole walutowe',
 	'date' => 'Pole daty',

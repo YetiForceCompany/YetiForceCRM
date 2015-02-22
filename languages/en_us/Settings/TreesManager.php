@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_ADD_RECORD' => 'Add',
 	'TreesManager' => 'Tree Manager',
 	'LBL_TREES_MANAGER' => 'Tree Manager',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Tree Template Manager',

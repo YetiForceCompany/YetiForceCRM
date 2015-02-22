@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 class Vtiger_Detail_View extends Vtiger_Index_View {
 	protected $record = false;
 
@@ -233,6 +233,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
         $moduleModel = $recordModel->getModule();
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
         $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());

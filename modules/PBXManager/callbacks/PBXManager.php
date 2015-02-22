@@ -10,8 +10,8 @@
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'include/Webservices/Relation.php';
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
-vimport('includes.http.Request');
+include_once 'include/main/WebUI.php';
+vimport('include.http.Request');
 
 class PBXManager_PBXManager_Callbacks {
     

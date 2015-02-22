@@ -8,6 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
+	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
+	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
+	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
 	'Cron Job' => 'Cron Job',
 	'CronTasks' => 'Scheduler',
 	'Frequency' => 'Frequency',
@@ -29,6 +34,11 @@ $languageStrings = array(
 
 
 $jsLanguageStrings = array(
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
+	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
+	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
+	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
 	'FREQUENCY_NUMBER' => 'The frequency must by an integer',
 	'FREQUENCY_REQUIRED' => 'The field frequency is required',
 	'PATH_REQUIRED' => 'Path field is required',

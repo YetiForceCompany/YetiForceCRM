@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'dd-mm-yyyy' => 'dd-mm-rrrr',
+	'mm-dd-yyyy' => 'mm-dd-rrrr',
+	'yyyy-mm-dd' => 'rrrr-mm-dd',
+	'LBL_SELECT_USERS' => 'Select Users',
+	'Share calendar users' => 'Share calendar users',
 	'Users' => 'Users',
 	'Admin' => 'Admin',
 	'Asterisk Configuration'  =>  'Asterisk Configuration',
@@ -291,6 +296,9 @@ $languageStrings = array(
 	"Production Department"	=> 'Production Department',
 	"Marketing Department"	=> 'Marketing Department',
 	"LBL_BASIC_EXPORT"	=> 'Exports basic data',
+
+	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
+	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
 );
 
 $jsLanguageStrings = array(

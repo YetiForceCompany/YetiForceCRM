@@ -13,7 +13,7 @@ include_once('include/database/PearDatabase.php');
 include_once('vtlib/Vtiger/Utils.php');
 include_once('include/utils/utils.php');
 
-vimport ('includes/runtime/Viewer.php');
+vimport ('include/runtime/Viewer.php');
 
 function ShowModuleIdField($selected_module, $tab_only = false) {
     

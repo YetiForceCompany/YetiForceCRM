@@ -221,19 +221,35 @@ jQuery.Class("Vtiger_Detail_Js",{
 	//Event that will triggered before saving the ajax edit of fields
 	fieldPreSave : 'Vtiger.Field.PreSave',
 
-	referenceFieldNames : {
-		'Accounts' : 'parent_id',
-		'Contacts' : 'contact_id',
-		'Leads' : 'parent_id',
-		'Potentials' : 'potential',
-		'HelpDesk' : 'parent_id',
-		'Campaigns' : 'parent_id',
-		'Projects' : 'parent_id',
-		'ServiceContracts' : 'parent_id',
-		'Invoice' : 'parent_id',
-		'PurchaseOrder' : 'parent_id',
-		'SalesOrder' : 'parent_id',
-		'Quotes' : 'parent_id',
+	referenceFieldNames: {
+		'Calendar': {
+			'Accounts': 'parent_id',
+			'Campaigns': 'parent_id',
+			'HelpDesk': 'parent_id',
+			'Leads': 'parent_id',
+			'Potentials': 'parent_id',
+			'Projects': 'parent_id',
+			'ServiceContracts': 'parent_id',
+			'Invoice': 'parent_id',
+			'Quotes': 'parent_id',
+			'PurchaseOrder': 'parent_id',
+			'SalesOrder': 'parent_id'
+		},
+		'OutsourcedProducts': {
+			'Potentials': 'potential'
+		},
+		'Assets': {
+			'Potentials': 'potential'
+		},
+		'OutsourcedProducts' : {
+			'Potentials': 'potential'
+		},
+		'OSSOutsourcedServices': {
+			'Potentials': 'potential'
+		},
+		'OSSSoldServices': {
+			'Potentials': 'potential'
+		},
 	},
 
 	//constructor
@@ -274,6 +290,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				contentContainer.html(data);
 				app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 				contentContainer.trigger(thisInstance.widgetPostLoad,{'widgetName' : relatedModuleName})
+				app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
                 aDeferred.resolve(params);
 			},
 			function(){
@@ -1106,8 +1123,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			var customParams = {};
-			if(module != '' && typeof thisInstance.referenceFieldNames[module] != 'undefined'){
-				var relField = thisInstance.referenceFieldNames[module];
+			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
+				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
 
@@ -1330,6 +1347,17 @@ jQuery.Class("Vtiger_Detail_Js",{
 			thisInstance.loadWidget(updatesWidget);
 		});
 
+		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
+			var currentTarget = jQuery(e.currentTarget);
+			var currentDiv = currentTarget.closest('.activityStatus');
+			var editElement = currentDiv.find('.edit');
+			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
+			var editStatusElement = currentDiv.find('.editStatus');
+			editStatusElement.trigger( "click" );
+			fieldElement.val( currentTarget.data('status') ).trigger("liszt:updated");
+			editStatusElement.trigger( "clickoutside" );
+		});
+
 		/*
 		 * Register the event to edit the status for for related activities
 		 */
@@ -1502,10 +1530,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
 			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
-			var fieldName = thisInstance.referenceFieldNames[module];
-
 			var customParams = {};
-			customParams[fieldName] = recordId;
+			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
+				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
+				customParams[fieldName] = recordId;
+			}
 
 			if(quickCreateNode.length <= 0) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))

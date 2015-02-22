@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Last Name' => 'Nazwisko',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',
 	'Asterisk Configuration'  =>  'Konfiguracja Asterisk',
@@ -271,7 +272,9 @@ $languageStrings = array(
 	'seletedusers' => 'Wybrani użytkownicy',
 	'Share calendar users' => 'Udostępnij użytkownikom',
 	'LBL_SELECT_USERS' => 'Wybierz użytkowników',
-	
+	'LBL_MASS_PASSWORD_EDITING' => 'Masowa edycja haseł użytkowników',
+	'LBL_MASS_PWD_EDIT' => 'Masowa edycja haseł',
+
 	'yyyy-mm-dd' => 'rrrr-mm-dd',
 	'mm-dd-yyyy' => 'mm-dd-rrrr',
 	'dd-mm-yyyy' => 'dd-mm-rrrr',	

@@ -127,6 +127,15 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 			);
 		}
 
+		if ( $linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && is_admin($currentUserModel) ) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_PWD_EDIT',
+				'linkurl' => 'javascript:Settings_Users_List_Js.triggerEditPasswords("index.php?module=Users&view=EditAjax&mode=editPasswords", "'.$linkParams['MODULE'].'")',
+				'linkicon' => ''
+			);
+		}
+
 		foreach($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}

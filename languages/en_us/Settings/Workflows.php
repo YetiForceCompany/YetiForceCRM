@@ -117,6 +117,7 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Sales stage - Preparing calculations',
 	'Sales stage - Preparing quote'	=> 'Sales stage - Preparing quote',
 	'Sales stage - Awaiting decision'	=> 'Sales stage - Awaiting decision',
+	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
 	'ON_SCHEDULE' => 'Define a schedule for execution',
 	'LBL_RUN_WORKFLOW' => 'Execution frequency:',
 	'LBL_HOURLY' => 'Hourly',

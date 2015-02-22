@@ -9,6 +9,9 @@
  *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014 *
  ********************************************************************************+*/
 $languageStrings = array(
+	'No data available in table' => 'No data available in table',
+	'Translations' => 'Translations',
+	'Language editor' => 'Language editor',
 	'LangManagement'	=> 'Gestor de Idiomas',
 	'LBL_Module_desc'	=> 'Esta ferramenta auxilia no processo de gestão e modificação da tradução do Idioma no Sistema.',
 	'LBL_TAB_LIST'	=> 'Idiomas disponíveis',
@@ -50,6 +53,8 @@ $languageStrings = array(
 	'LBL_DEFAULT'	=> 'Default',
 );
 $jsLanguageStrings = array(
+	'Translations' => 'Translations',
+	'Language editor' => 'Language editor',
 	'LBL_AreYouSure'	=> 'Tem certeza que deseja apagar este Idioma?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
 	'JS_DEFAULT'	=> 'Default',

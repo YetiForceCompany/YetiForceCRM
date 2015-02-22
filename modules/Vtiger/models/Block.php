@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 require_once 'vtlib/Vtiger/Block.php';
 
@@ -65,6 +66,34 @@ class Vtiger_Block_Model extends Vtiger_Block {
         $db->pquery($query, $params);
     }
 
+    public function isHideBlock($record,$view){
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE enabled = ? AND blockid = ? AND view LIKE '%$view%';", array(1,$this->get('id')));
+        $num_rows = $db->num_rows($result);
+		$hideBlocks = array();
+        for($i=0; $i<$num_rows; $i++) {
+            $row = $db->raw_query_result_rowdata($result, $i);
+            $hideBlocks[] = $row;
+        }
+		if(count($hideBlocks) == 0)
+			return true;
+		
+		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
+		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
+		require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
+		$conditionStrategy = new VTJsonCondition();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$util = new VTWorkflowUtils();
+		$entityCache = new VTEntityCache($currentUser);
+		$wsId = vtws_getWebserviceEntityId($record->getModuleName(),$record->getId());
+
+		$showBlock = false;
+		foreach($hideBlocks as $hideBlock) {
+			$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $entityCache, $wsId);
+		}
+        return !$showBlock;
+    }
+	
 	/**
      * Function which indicates whether the block is shown or hidden
      * @return : <boolean>

@@ -15,8 +15,8 @@ include_once 'vtlib/Vtiger/Cron.php';
 require_once 'config/config.php';
 require_once('modules/Emails/mail.php');
 // Extended inclusions
-require_once 'includes/Loader.php';
-vimport ('includes.runtime.EntryPoint');
+require_once 'include/Loader.php';
+vimport ('include.runtime.EntryPoint');
 
 $version = explode('.', phpversion());
 $php = ($version[0] * 10000 + $version[1] * 100 + $version[2]);

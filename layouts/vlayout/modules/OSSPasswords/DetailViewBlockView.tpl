@@ -13,8 +13,9 @@
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 	{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
 	{if $BLOCK eq null or $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
+	{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 	{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
-	<input type="hidden" name="timeFormatOptions" data-value='{$DAY_STARTS}' />
+	{if $BLOCKS_HIDE}
 	<table class="table table-bordered equalSplit detailview-table">
 		<thead>
 		<tr>
@@ -112,6 +113,7 @@
 		</tr>
 		</tbody>
 	</table>
+	{/if}
 	{/foreach}    
     
     <div class="contentHeader row-fluid">

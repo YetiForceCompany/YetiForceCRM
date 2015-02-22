@@ -10,6 +10,9 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'OSSCosts' => 'Koszty',
+	'GlobalPermission' => 'Uprawnienia globalne',
+	'LBL_SEND_EMAIL' => 'Wyślij maila',
 	'--None--' => '--Brak--',
 	'Account Name' => 'Nazwa kontrahenta',
 	'Accounts' => 'Kontrahenci',
@@ -184,7 +187,6 @@ $languageStrings = array(
 	'LBL_CREATE_VIEW' => 'Utwórz nowy filtr',
 	'LBL_CREATING_NEW' => 'Nowy',
 	'LBL_SYSTEM_SETTINGS' => 'Konfiguracja systemu',
-	'LBL_CRM_SETTINGS' => 'Konfiguracja systemu',
 	'LBL_CURRENCY' => 'Waluta',
 	'LBL_CURRENT_FQ' => 'Obecny kwartał',
 	'LBL_CURRENT_FY' => 'Obecny rok',
@@ -224,7 +226,6 @@ $languageStrings = array(
 	'LBL_EDIT_FIELDS' => 'Pola i bloki',
 	'LBL_ARRANGE_RELATED_TABS' => 'Moduły powiązane',
 	'LBL_PICKLIST_DEPENDENCY' => 'Zależności słownikowe',
-	'LBL_EDIT_MAILSCANNER' => 'Skaner poczty',
 	'LBL_EDIT_PICKLIST_VALUES' => 'Zarządzaj słownikami',
 	'LBL_EDIT_REASON' => 'Powód zmiany',
 	'LBL_EDIT_WORKFLOWS' => 'Zarządzaj obiegiem informacji',
@@ -440,7 +441,6 @@ $languageStrings = array(
 	'LBL_SELECT_STATUS' => 'Wybierz status',
 	'LBL_SELECT_TO_LOAD_LIST' => 'Zaznacz, żeby załadować do listy',
 	'LBL_SEND' => 'Wyślij',
-	'LBL_SEND_EMAIL' => 'Mail',
 	'LBL_SEND_SMS' => 'SMS',
 	'LBL_Sep' => 'Wrz',
 	'LBL_SETTINGS' => 'Funkcjonalności',
@@ -616,6 +616,7 @@ $languageStrings = array(
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',
 	'Delegated (overdue) project tasks' => 'Zlecone (nieterminowe) zadania projektu',
+	'Credits' => 'Współtwórcy',
 	
 	'Upcoming Tasks' => 'Zadania',
 	'UPS' => 'UPS',
@@ -653,7 +654,6 @@ $languageStrings = array(
     'Progress' => 'Postęp',
     'Project Milestone Name' => 'Nazwa etapu projektu',
     'Milestone Date' => 'Data etapu',
-	'VTE_CHANGELOG'=> 'Historia zmian', //OpenSaaS VTE
 	'WEBLOADTIME'=> 'Czas ładowania strony', //OpenSaaS VTE
 	'LBL_FOOTER_CONTENT' => 'Copyright 2014 YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
 	'LBL_RELATED_ASSETS' => 'Produkty sprzedane',
@@ -702,6 +702,7 @@ $languageStrings = array(
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',
 	'Comments' => 'Komentarze',
+	'RequirementCards' => 'Karty wymagań',
 	
 	/* industry */
 	'Administration'=>'Administracja',
@@ -866,6 +867,7 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Ilość dni przepracowanych',
 	'LBL_AVERAGE_WORKING_TIME' => 'Średnia czasu pracy',
 	'Employees Time Control' => 'Czas pracy użytkownika',
+	'LBL_MARK_AS_DONE' => 'Oznacz jako wykonane',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',
@@ -882,9 +884,16 @@ $languageStrings = array(
 	//Call popover
 	'LBL_BTN_CALL' => 'Zadzwoń',
 	'LBL_SELECT_USER_TO_CALL' => 'Wybierz do kogo chcesz zadzwonić',
+	
+	//Widget
+	'LIST_OF_LAST_UPDATED_RECORD' => 'Lista ostatnio zaktualizowanych rekordów',
+	'LBL_NAME' => 'Nazwa rekordu',
+	'LBL_MODULE_NAME' => 'Nazwa modułu',
+	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
 );
 
 $jsLanguageStrings = array(
+	'Generate default PDF' => 'Generuj domyślny PDF',
 	'JS_SAVE_LOADER_INFO' => 'Trwa zapisywanie danych...',
 	'JS_SAVE_NOTIFY_OK' => 'Zapisano zmiany.',
 	'JS_OF' => 'z',

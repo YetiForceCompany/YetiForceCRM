@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -109,7 +110,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `nexttrigger_time` datetime DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows_seq` */
 
@@ -135,7 +136,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -801,6 +802,17 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_blocks_hide` */
+
+CREATE TABLE `vtiger_blocks_hide` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `blockid` int(19) DEFAULT NULL,
+  `conditions` text,
+  `enabled` tinyint(1) DEFAULT NULL,
+  `view` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_seq` */
@@ -1866,7 +1878,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2248,7 +2260,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1570 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1601 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3022,7 +3034,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mail_accounts` */
 
@@ -3272,7 +3284,7 @@ CREATE TABLE `vtiger_notebook_contents` (
 CREATE TABLE `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   `note_no` varchar(100) NOT NULL,
-  `title` varchar(50) NOT NULL,
+  `title` varchar(200) NOT NULL,
   `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
   `folderid` varchar(255) NOT NULL,
@@ -3698,7 +3710,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -3959,7 +3971,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `due_date` date DEFAULT NULL,
   `time_end` varchar(50) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `payment` varchar(128) DEFAULT NULL,
   `accountid` int(19) DEFAULT '0',
   `contactid` int(19) DEFAULT '0',
   `ticketid` int(19) DEFAULT '0',
@@ -3973,6 +3984,7 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `deleted` int(1) DEFAULT '0',
   `calculationsid` int(19) DEFAULT '0',
   `leadid` int(19) DEFAULT '0',
+  `timecontrol_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
   KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
@@ -4083,16 +4095,6 @@ CREATE TABLE `vtiger_passwords_config` (
   `register_changes` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_payment` */
-
-CREATE TABLE `vtiger_payment` (
-  `paymentid` int(11) NOT NULL AUTO_INCREMENT,
-  `payment` varchar(200) NOT NULL,
-  `sortorderid` int(11) DEFAULT NULL,
-  `presence` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`paymentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_payment_duration` */
 
 CREATE TABLE `vtiger_payment_duration` (
@@ -4105,12 +4107,6 @@ CREATE TABLE `vtiger_payment_duration` (
 /*Table structure for table `vtiger_payment_duration_seq` */
 
 CREATE TABLE `vtiger_payment_duration_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_payment_seq` */
-
-CREATE TABLE `vtiger_payment_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4174,7 +4170,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -4225,12 +4221,14 @@ CREATE TABLE `vtiger_portal` (
 CREATE TABLE `vtiger_portalinfo` (
   `id` int(11) NOT NULL,
   `user_name` varchar(50) DEFAULT NULL,
-  `user_password` varchar(30) DEFAULT NULL,
+  `user_password` varchar(200) DEFAULT NULL,
   `type` varchar(5) DEFAULT NULL,
   `last_login_time` datetime DEFAULT NULL,
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
   `isactive` int(1) DEFAULT NULL,
+  `crypt_type` varchar(20) DEFAULT NULL,
+  `password_sent` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4807,6 +4805,15 @@ CREATE TABLE `vtiger_pscategory_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_publicholiday` */
+
+CREATE TABLE `vtiger_publicholiday` (
+  `publicholidayid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
+  `holidaydate` date NOT NULL COMMENT 'date of holiday',
+  `holidayname` varchar(255) NOT NULL COMMENT 'name of holiday',
+  PRIMARY KEY (`publicholidayid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_purchaseorder` */
 
 CREATE TABLE `vtiger_purchaseorder` (
@@ -4911,6 +4918,7 @@ CREATE TABLE `vtiger_quotes` (
   `total_margin` decimal(13,2) DEFAULT NULL,
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `form_payment` varchar(255) DEFAULT '',
+  `requirementcards_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`quoteid`),
   KEY `quote_quotestage_idx` (`quotestage`),
   KEY `quotes_potentialid_idx` (`potentialid`),
@@ -4955,6 +4963,27 @@ CREATE TABLE `vtiger_quotescf` (
   `quoteid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`quoteid`),
   CONSTRAINT `fk_1_vtiger_quotescf` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires` */
+
+CREATE TABLE `vtiger_quotesenquires` (
+  `quotesenquiresid` int(19) NOT NULL DEFAULT '0',
+  `subject` varchar(255) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `quotesenquires_no` varchar(255) DEFAULT '',
+  `rejection_reason` varchar(255) DEFAULT '',
+  PRIMARY KEY (`quotesenquiresid`),
+  KEY `potentialid` (`potentialid`),
+  CONSTRAINT `fk_1_vtiger_quotesenquires` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquirescf` */
+
+CREATE TABLE `vtiger_quotesenquirescf` (
+  `quotesenquiresid` int(19) NOT NULL,
+  PRIMARY KEY (`quotesenquiresid`),
+  CONSTRAINT `fk_1_vtiger_quotesenquirescf` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotestage` */
@@ -5033,6 +5062,23 @@ CREATE TABLE `vtiger_recurringtype` (
 /*Table structure for table `vtiger_recurringtype_seq` */
 
 CREATE TABLE `vtiger_recurringtype_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_rejection_reason` */
+
+CREATE TABLE `vtiger_rejection_reason` (
+  `rejection_reasonid` int(11) NOT NULL AUTO_INCREMENT,
+  `rejection_reason` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`rejection_reasonid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_rejection_reason_seq` */
+
+CREATE TABLE `vtiger_rejection_reason_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5251,6 +5297,47 @@ CREATE TABLE `vtiger_reporttype` (
   `reportid` int(10) NOT NULL,
   `data` text,
   PRIMARY KEY (`reportid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards` */
+
+CREATE TABLE `vtiger_requirementcards` (
+  `requirementcardsid` int(19) NOT NULL DEFAULT '0',
+  `requirementcards_no` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `requirementcards_status` varchar(255) DEFAULT '',
+  `rejection_reason` varchar(255) DEFAULT '',
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`requirementcardsid`),
+  KEY `potentialid` (`potentialid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
+  CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_status` */
+
+CREATE TABLE `vtiger_requirementcards_status` (
+  `requirementcards_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `requirementcards_status` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`requirementcards_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_status_seq` */
+
+CREATE TABLE `vtiger_requirementcards_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcardscf` */
+
+CREATE TABLE `vtiger_requirementcardscf` (
+  `requirementcardsid` int(19) NOT NULL,
+  PRIMARY KEY (`requirementcardsid`),
+  CONSTRAINT `fk_1_vtiger_requirementcardscf` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_requirementcards` (`requirementcardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_role` */
@@ -6135,6 +6222,22 @@ CREATE TABLE `vtiger_time_zone_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_timecontrol_type` */
+
+CREATE TABLE `vtiger_timecontrol_type` (
+  `timecontrol_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `timecontrol_type` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`timecontrol_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_timecontrol_type_seq` */
+
+CREATE TABLE `vtiger_timecontrol_type_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_tmp_read_group_rel_sharing_per` */
 
 CREATE TABLE `vtiger_tmp_read_group_rel_sharing_per` (
@@ -6671,7 +6774,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 

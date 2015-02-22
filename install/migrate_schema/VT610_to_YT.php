@@ -19,7 +19,7 @@ include_once('vtlib/Vtiger/Link.php');
 include_once('vtlib/Vtiger/Event.php');
 include_once('vtlib/Vtiger/Webservice.php');
 include_once('vtlib/Vtiger/Version.php');
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 require_once 'modules/com_vtiger_workflow/include.inc';
 require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
 require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
@@ -1420,7 +1420,7 @@ class VT610_to_YT {
 	public function deleteFields($fieldsToDelete){
 		global $log;
 		$log->debug("Entering VT610_to_YT::deleteFields() method ...");
-		require_once('includes/main/WebUI.php');
+		require_once('include/main/WebUI.php');
 		$adb = PearDatabase::getInstance();
 		foreach($fieldsToDelete AS $fld_module=>$columnnames){
 			$moduleId = getTabid($fld_module);
@@ -2377,7 +2377,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 <table width="537px">
 	<tbody>
 		<tr>
-			<td colspan="6" rowspan="2"><img src="#special_function#siteUrl#end_special_function#test/logo/logo_yetiforce.png" style="width: 200px;" width="200" /></td>
+			<td colspan="6" rowspan="2"><img src="#special_function#siteUrl#end_special_function#storage/Logo/logo_yetiforce.png" style="width: 200px;" width="200" /></td>
 			<td colspan="4"><span style="font-size:6px;">#company_organizationname# #company_address# #company_code# #company_city#. VAT:#company_vatid#</span></td>
 		</tr>
 		<tr>
@@ -2957,7 +2957,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$source = $this->source;
 			if(!$root_directory)
 				$root_directory = getcwd();
-			copy($source.'test/logo/'.$logoName, $root_directory.'/test/logo/'.$logoName);
+			copy($source.'storage/Logo/'.$logoName, $root_directory.'/storage/Logo/'.$logoName);
 		}
 		$log->debug("Exiting VT610_to_YT::transferLogo() method ...");
 	}

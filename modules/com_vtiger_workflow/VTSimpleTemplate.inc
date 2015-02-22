@@ -276,21 +276,21 @@ class VTSimpleTemplate{
 			case 'time'			:	$fieldValue = Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat($fieldValue, $ownerObject);
 									break;
 
-            case 'picklist'     :   require_once 'includes/runtime/LanguageHandler.php';
-                                    require_once 'includes/runtime/Globals.php';
+            case 'picklist'     :   require_once 'include/runtime/LanguageHandler.php';
+                                    require_once 'include/runtime/Globals.php';
                                     $fieldValue = vtranslate($fieldValue,$moduleName,$ownerObject->column_fields['language']);
                                     break;
 
-            case 'multipicklist' :  require_once 'includes/runtime/LanguageHandler.php';
-                                    require_once 'includes/runtime/Globals.php';
+            case 'multipicklist' :  require_once 'include/runtime/LanguageHandler.php';
+                                    require_once 'include/runtime/Globals.php';
                                     $fieldValueParts = explode(';',$fieldValue);
                                     foreach($fieldValueParts as $index=>$fieldValue) {
                                         $fieldValueParts[$index] = vtranslate($fieldValue,$moduleName,$ownerObject->column_fields['language']);
                                     }
                                     $fieldValue = implode(';', $fieldValueParts);
                                     break;
-            case 'boolean'       :  require_once 'includes/runtime/LanguageHandler.php';
-                                    require_once 'includes/runtime/Globals.php';
+            case 'boolean'       :  require_once 'include/runtime/LanguageHandler.php';
+                                    require_once 'include/runtime/Globals.php';
                                     if($fieldValue == 1){
                                         $fieldValue = vtranslate('LBL_YES',$moduleName);
                                     }else {

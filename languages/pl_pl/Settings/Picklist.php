@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Picklist' => 'Pole słownikowe',
 	'Calendar' => 'Do wykonania',
 	'LBL_ADD_ITEM_TO' => 'Dodaj wartość do',
 	'LBL_ADD_VALUE' => 'Dodaj wartość',

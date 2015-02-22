@@ -8,6 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 19/02/2013 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
+	'Conversion Rate' => 'Conversion Rate',
+	'Currency' => 'Currency',
 	'LBL_ADD_NEW_CURRENCY' => 'Adicionar Nova Moeda',
 	'LBL_ADD_RECORD' => 'Adicionar Moeda',
 	'LBL_CURRENCY_CODE' => 'Código Moeda',
@@ -159,6 +161,6 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_CURRENCY_DELETED_SUEESSFULLY' => 'Moeda Apagada com Sucesso',
+	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency Deleted Successfully',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Detalhes da Moeda Salvo',
 );

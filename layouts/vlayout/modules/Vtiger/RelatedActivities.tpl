@@ -56,6 +56,7 @@
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
 								</span>
+								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Completed" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
 							</div>
 						{else}
 							{assign var=MODULE_NAME value="Events"}
@@ -75,6 +76,7 @@
 											 <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 										 {/if}
 									</span>
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Held" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
 								</div>
 							{/if}
 						{/if}
@@ -107,7 +109,7 @@
 						{else}
 							{assign var=STATUS value=$RECORD->get('eventstatus')}
 						{/if}
-						<span class="pull-right popoverblock" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
+						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
 						data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
 						{if count($RECORD->get('selectedusers')) > 0}
 							<br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
@@ -118,7 +120,7 @@
 							<i class="icon-info-sign"></i>
 						</span>
 						{if $RECORD->get('location') neq '' }
-							<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverblock" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
+							<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
 								<i class="icon-map-marker"></i>&nbsp
 							</a>
 						{/if}
@@ -140,15 +142,3 @@
 		</div>
 	{/if}
 {/strip}
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	$('.activityEntries').find('.popoverblock').hover(
-		function () {
-			$(this).popover('show');
-		}, 
-		function () {
-			$(this).popover('hide');
-		}
-	);
-});
-</script>

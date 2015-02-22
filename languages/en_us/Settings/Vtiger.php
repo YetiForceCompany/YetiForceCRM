@@ -184,6 +184,8 @@ $languageStrings = array(
 	'VTLIB_LBL_MODULE_MANAGER' => 'Module Manager',
 	'Webforms' => 'Webforms',
 	'website' => 'Website',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
 	
 	
 	//YetiForce
@@ -242,6 +244,10 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Manage lists of trees',
 	'LBL_MODTRACKER_SETTINGS' => 'Change history',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
+	'LBL_HIDEBLOCKS' => 'Hide blocks',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
+	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',
@@ -282,4 +288,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'No logo selected',
 	'LBL_PREFIX_IN_USE' => 'Prefix in use',
 	'LBL_WRONG_IMAGE_TYPE' => 'not supported Image type',
+	'JS_COLUMN_ADDED' => 'Field added',
+	'JS_COLUMN_EXIST' => 'Error while adding field',
 );

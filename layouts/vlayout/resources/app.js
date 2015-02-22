@@ -173,12 +173,15 @@ var app = {
 	},
 
 	showPopoverElementView : function(selectElement, params) {
-		if(typeof params == 'undefined') {
-			params = {trigger: 'hover', delay: { show: 1000, hide: 100 }};
+		if (typeof params == 'undefined') {
+			params = {trigger: 'hover', placement: 'top', delay: {show: 1000, hide: 100}};
+		}
+		if (selectElement.hasClass('delay0')) {
+			params.delay = {show: 0, hide: 0}
 		}
 		var data = selectElement.data();
-		if(data != null) {
-			params = jQuery.extend(data,params);
+		if (data != null) {
+			params = jQuery.extend(data, params);
 		}
 		selectElement.popover(params);
 		return selectElement;

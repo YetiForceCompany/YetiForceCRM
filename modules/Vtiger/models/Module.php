@@ -1512,9 +1512,11 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
+		$popupFields = array();
 		if($relationModel){
 			$popupFields = $relationModel->getRelationFields(true);
-		}else{
+		}
+		if(count($popupFields) == 0){
 			$popupFields = array_keys($this->getSummaryViewFieldsList());
 		}
 		if(count($popupFields) == 0){

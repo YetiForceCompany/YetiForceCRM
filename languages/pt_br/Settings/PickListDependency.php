@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
+	'Selected Values' => 'Selected Values',
 	'LBL_ADD_RECORD' => 'Adicionar Dependência Lista de Opções',
 	'PickListDependency' => 'Dependência Lista Opções',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Somente valores do campo Fonte, da Lista de Opções mapeada serão exibidos a seguir (exceto na primeira vez)',

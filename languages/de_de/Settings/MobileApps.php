@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'MobileApps' => 'Mobile Apps',
+	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
  	'LBL_MOBILE_KEYS' => 'Mobile Applikation Keys',
  	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Erzeugen und Verwalten von Mobile Applikation Keys.',
  	'LBL_USERNAME' => 'Benutzer',
@@ -31,6 +33,7 @@ $languageStrings = array(
  	// Mobile services
  	'LBL_MOBILE_HISTORYCALL' => 'Mobile Anrufhistorie',
  	'LBL_MOBILE_PUSHCALL' => 'Automatische Rufnummerwahl',
+	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Key hinzufügen',

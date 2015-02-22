@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Users' => 'Użytkownicy',
     'USER_MAIL_EXIST' => 'Użytkowik o padanym adresie email już istnieje',
 );
 

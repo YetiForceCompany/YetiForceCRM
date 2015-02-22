@@ -14,13 +14,14 @@
  */
 require_once 'config/config.php';
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
 require_once('modules/Emails/mail.php');
 require_once 'modules/Users/Users.php';
+require_once 'modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php';
 
-ini_set('error_log',$root_directory.'logs/yetiportal.log');
+ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
 
 /** Configure language for server response translation */
 global $default_language, $current_language;
@@ -189,12 +190,6 @@ $server->register(
 
 $server->register(
         'close_current_ticket',
-	array('fieldname'=>'tns:common_array'),
-	array('return'=>'xsd:string'),
-	$NAMESPACE);
-
-$server->register(
-	'update_login_details',
 	array('fieldname'=>'tns:common_array'),
 	array('return'=>'xsd:string'),
 	$NAMESPACE);
@@ -988,7 +983,10 @@ function close_current_ticket($input_array)
  */
 function authenticate_user($username,$password,$version,$portalLang,$login = 'true')
 {
-	global $adb,$log,$current_language;
+	$adb = vglobal('adb');
+	$log = vglobal('log');
+	$currentLanguage = vglobal('current_language');
+	
 	$adb->println("Inside customer portal function authenticate_user($username, $password, $login).");
 	include('config/version.php');
 	if(version_compare($version,$YetiForce_current_version,'>=') == 0){
@@ -998,7 +996,11 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$username = $adb->sql_escape_string($username);
 	$password = $adb->sql_escape_string($password);
 
-	$current_date = date("Y-m-d");
+	if (vglobal('encode_customer_portal_passwords')) {
+		$password = CustomerPortalPassword::encryptPassword($password, $username);
+	}
+	
+	$currentDate = date("Y-m-d");
 	$sql = "select id, user_name, user_password,last_login_time, support_start_date, support_end_date
 				from vtiger_portalinfo
 					inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
@@ -1006,7 +1008,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 				where vtiger_crmentity.deleted=0 and user_name=? and user_password = ?
 					and isactive=1 and vtiger_customerdetails.portal=1
 					and vtiger_customerdetails.support_start_date <= ? and vtiger_customerdetails.support_end_date >= ?";
-	$result = $adb->pquery($sql, array($username, $password, $current_date, $current_date));
+	$result = $adb->pquery($sql, array($username, $password, $currentDate, $currentDate));
 
 	$num_rows = $adb->num_rows($result);
 	if($num_rows > 1)			return array('err1' => "LBL_MORE_THAN_ONE_USER");	//More than one user
@@ -1019,8 +1021,9 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$list[0]['last_login_time'] = $adb->query_result($result,0,'last_login_time');
 	$list[0]['support_start_date'] = $adb->query_result($result,0,'support_start_date');
 	$list[0]['support_end_date'] = $adb->query_result($result,0,'support_end_date');
-	$current_language = $portalLang;
-	vglobal('default_language', $current_language);
+	$list[0]['encode_password'] = vglobal('encode_customer_portal_passwords');
+	$currentLanguage = $portalLang;
+	vglobal('default_language', $currentLanguage);
 
 	//During login process we will pass the value true. Other times (change password) we will pass false
 	if($login != 'false')
@@ -1031,6 +1034,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 		$result = $adb->pquery($sql, array($customerid,'customer' ,$sessionid,$portalLang));
 		$list[0]['sessionid'] = $sessionid;
 	}
+	update_login_details($customerid,$sessionid,'login');
 	return $list;
 }
 
@@ -1050,18 +1054,23 @@ function change_password($input_array)
 
 	$id = (int) $input_array['id'];
 	$sessionid = $input_array['sessionid'];
-	$username = $input_array['username'];
+	$userName = $input_array['username'];
 	$old_password = $input_array['old_password'];
-	$new_password = $input_array['new_password'];
+	$newPassword = $input_array['new_password'];
 	$version = $input_array['version'];
 
 	if(!validateSession($id,$sessionid))
 		return null;
 
-	$list = authenticate_user($username,$old_password,$version ,'false');
+	$list = authenticate_user($userName,$old_password,$version ,'false');
 	if(!empty($list[0]['id'])){
+		
+		if (vglobal('encode_customer_portal_passwords')) {
+			$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
+		}
+		
 		$sql = "update vtiger_portalinfo set user_password=? where id=? and user_name=?";
-		$result = $adb->pquery($sql, array($new_password, $id, $username));
+		$result = $adb->pquery($sql, array($newPassword, $id, $userName));
 		$list = array('LBL_PASSWORD_CHANGED');
 	}	
 	$log->debug("Exiting customer portal function change_password");
@@ -1075,29 +1084,17 @@ function change_password($input_array)
 	string $flag - login/logout, based on this flag, login or logout time will be updated for the customer
 	*	return string $list - empty value
 	*/
-function update_login_details($input_array)
-{
-	global $adb,$log;
+   function update_login_details($id, $sessionid, $flag) {
+	global $adb, $log;
 	$log->debug("Entering customer portal function update_login_details");
 	$adb->println("INPUT ARRAY for the function update_login_details");
-	$adb->println($input_array);
 
-	$id = $input_array['id'];
-	$sessionid = $input_array['sessionid'];
-	$flag = $input_array['flag'];
+	$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
 
-	if(!validateSession($id,$sessionid))
-		return null;
-
-	$current_time = $adb->formatDate(date('YmdHis'), true);
-
-	if($flag == 'login')
-	{
+	if ($flag == 'login') {
 		$sql = "update vtiger_portalinfo set login_time=? where id=?";
 		$result = $adb->pquery($sql, array($current_time, $id));
-	}
-	elseif($flag == 'logout')
-	{
+	} elseif ($flag == 'logout') {
 		$sql = "update vtiger_portalinfo set logout_time=?, last_login_time=login_time where id=?";
 		$result = $adb->pquery($sql, array($current_time, $id));
 	}
@@ -1109,7 +1106,8 @@ function update_login_details($input_array)
  * 	return message about the mail sending whether entered mail id is correct or not or is there any problem in mail sending
  */
 function send_mail_for_password($mailid) {
-	global $adb, $mod_strings, $log;
+	global $adb, $log;
+	vimport('modules.Settings.CustomerPortal.helpers.CustomerPortalPassword');
 	$log->debug("Entering customer portal function send_mail_for_password");
 	$adb->println("Inside the function send_mail_for_password($mailid).");
 
@@ -1117,9 +1115,16 @@ function send_mail_for_password($mailid) {
 	$res = $adb->pquery($sql, array($mailid));
 	if ($adb->num_rows($res) > 0) {
 		$user_name = $adb->query_result($res, 0, 'user_name');
-		$password = $adb->query_result($res, 0, 'user_password');
 		$isactive = $adb->query_result($res, 0, 'isactive');
 		$record = $adb->query_result($res, 0, 'id');
+
+		// generate new temp password for portal user
+		$password = makeRandomPassword();
+		$truePassword = $password;
+		$password = CustomerPortalPassword::encryptPassword($password, $user_name);
+		$params = array( $password, CustomerPortalPassword::getCryptType(), $record );
+		$sql = 'UPDATE vtiger_portalinfo SET `user_password` = ?, `crypt_type` = ? WHERE `id` = ? LIMIT 1;';
+		$adb->pquery( $sql, $params );
 
 		$data = array(
 			'id' => '104',
@@ -1127,7 +1132,7 @@ function send_mail_for_password($mailid) {
 			'module' => 'Contacts',
 			'record' => $record,
 			'user_name' => $user_name,
-			'password' => $password,
+			'password' => $truePassword,
 		);
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 	}
@@ -2011,7 +2016,7 @@ function get_pdf($id,$block,$customerid,$sessionid)
 	$_REQUEST['record']= $id;
 	$_REQUEST['savemode']= 'file';
 	$sequenceNo = getModuleSequenceNumber($block, $id);
-	$filenamewithpath='test/product/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
+	$filenamewithpath='storage/Products/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
 	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
 	unlink($filenamewithpath);
 

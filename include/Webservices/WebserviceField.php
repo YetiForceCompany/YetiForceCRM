@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ******************************************************************************/
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 class WebserviceField{
 	private $fieldId;
 	private $uitype;
@@ -26,6 +26,7 @@ class WebserviceField{
 	private $massEditable;
 	private $tabid;
 	private $presence;
+	private $fieldparams;
 	/**
 	 *
 	 * @var PearDatabase
@@ -71,7 +72,7 @@ class WebserviceField{
 		$this->defaultValuePresent = false;
 		$this->referenceList = null;
 		$this->explicitDefaultValue = false;
-
+		$this->fieldparams = $row['fieldparams'];
 		$this->readOnly = (isset($row['readonly']))? $row['readonly'] : 0;
 
 		if(array_key_exists('defaultvalue', $row)) {
@@ -167,6 +168,10 @@ class WebserviceField{
 		return $this->uitype;
 	}
 
+	public function getFieldParams() {
+		return $this->fieldparams;
+	}
+	
 	public function isReadOnly() {
 		if($this->readOnly == 1) return true;
 		return false;

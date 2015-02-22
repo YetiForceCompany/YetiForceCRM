@@ -186,6 +186,8 @@ $languageStrings = array(
 	'Webforms' => 'Formularze www',
 	'website' => 'Strona WWW',
     'vatid'=>'NIP', 
+	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
+	'LBL_FIELD_NAME' => 'Nazwa pola',
 
 	//YetiForce
 	'LBL_LOGS_MANAGEMENT' => 'Logi',
@@ -242,6 +244,10 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Zarządzanie listami drzew',
 	'LBL_MODTRACKER_SETTINGS' => 'Historia zmian',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Zarządzanie historią zmian w modułach',
+	'LBL_HIDEBLOCKS' => 'Ukrywanie bloków',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
+	'LBL_PUBLIC_HOLIDAY' => 'Publiczne święta',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -282,4 +288,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'Żadne logo nie zostało zaznaczone',
 	'LBL_PREFIX_IN_USE' => 'Prefiks w użyciu',
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
+	'JS_COLUMN_ADDED' => 'Pole dodane',
+	'JS_COLUMN_EXIST' => 'Bład przy dodaniu pola',
 );

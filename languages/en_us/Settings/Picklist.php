@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Picklist' => 'Picklist',
 	'Calendar' => 'To Do',
 	'LBL_ADD_ITEM_TO' => 'Add Item to',
 	'LBL_ADD_VALUE' => 'Add Value',

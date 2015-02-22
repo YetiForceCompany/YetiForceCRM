@@ -614,6 +614,7 @@ $languageStrings = array(
 	'Web Site' => 'Web Site',
 	'Website: ' => 'Website: ',
 	'Word of mouth'=> 'Boca a Boca' ,
+	'Credits' => 'Credits',
 
 	'WEBLOADTIME'=> 'Tempo carregamento da página', //OpenSaaS VTE
 	'LBL_FOOTER_CONTENT' => 'Copyright 2014 YetiForce.com Todos os Direitos Reservados. %s<br/>O desenvolvimento do software YetiForce foi possível graças ao %s chamado Vtiger CRM e outros programas de código aberto.',
@@ -813,6 +814,12 @@ $languageStrings = array(
 	//Call popover
 	'LBL_BTN_CALL' => 'Call',
 	'LBL_SELECT_USER_TO_CALL' => 'Select to where you want to call',
+	
+	//Widget
+	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
+	'LBL_NAME' => 'Record name',
+	'LBL_MODULE_NAME' => 'Module name',
+	'LBL_NO_MOD_RECORDS' => 'No modified records',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',

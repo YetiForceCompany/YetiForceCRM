@@ -145,7 +145,7 @@ class Settings_Workflows_EditTaskRecordStructure_Model extends Settings_Workflow
 				}
 
 				$commentFieldModelsList = array();
-				if ($moduleModel->isCommentEnabled()) {
+				if ($moduleModel->isCommentEnabled() && $FieldDataType == false) {
 					$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()). ' ' .vtranslate('LBL_COMMENTS', $moduleModel->getName());
 
 					$commentFieldModelsList = Settings_Workflows_Field_Model::getCommentFieldsListForTasks($moduleModel);

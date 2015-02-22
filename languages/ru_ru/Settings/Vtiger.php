@@ -91,6 +91,8 @@ $languageStrings = array(
 	'LBL_GROUP_DESCRIPTION' => 'Управление разными типами команд, базирующихся на ролях, пользователях и профилях',
 	'LBL_HELPDESK_SUPPORT_EMAILID' => 'Адрес электронной почты службы поддержки',
 	'LBL_HELPDESK_SUPPORT_NAME' => 'Наименование службы поддержки',
+	'LBL_HIDEBLOCKS' => 'Hide blocks',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
 	'LBL_IMAGE_CORRUPTED' => 'Обнаружен вирус или файл некорректен',
 	'LBL_INACTIVE' => 'Неактивен',
 	'LBL_INTEGRATION' => 'Интеграция',
@@ -208,6 +210,8 @@ $languageStrings = array(
 	'VTLIB_LBL_MODULE_MANAGER' => 'Менеджер модулей',
 	'Webforms' => 'Веб-Формы',
 	'website' => 'Сайт',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
 	
 	
 	//YetiForce
@@ -257,6 +261,8 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Создавайте и управляйте Виджетами в зависимости от Ваших задач',
 	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
+	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',
@@ -298,4 +304,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'Не выбран логотип',
 	'LBL_PREFIX_IN_USE' => 'префикс уже используется',
 	'LBL_WRONG_IMAGE_TYPE' => 'Не поддерживаемый формат изображения',
+	'JS_COLUMN_ADDED' => 'Field added',
+	'JS_COLUMN_EXIST' => 'Error while adding field',
 );

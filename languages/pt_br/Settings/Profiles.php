@@ -8,6 +8,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_VIEW_PRIVILEGE' => 'Visualizar',
 	'LBL_ADD_RECORD' => 'Adicionar Perfil',
 	'LBL_CHOOSE_PROFILES' => 'Escolher Perfis',
 	'LBL_CREATE_PROFILE' => 'Criar Perfil',

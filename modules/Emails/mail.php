@@ -33,7 +33,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	global $root_directory;
 	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
-	$uploaddir = $root_directory ."/test/upload/";
+	$uploaddir = $root_directory ."/cache/upload/";
 
 	$adb->println("To id => '".$to_email."'\nSubject ==>'".$subject."'\nContents ==> '".$contents."'");
 
@@ -194,7 +194,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 	global $adb;
 	$adb->println("Inside the function setMailerProperties");
 	$CompanyDetails = getCompanyDetails();
-	$logourl = 'test/logo/'.$CompanyDetails['logoname'];
+	$logourl = 'storage/Logo/'.$CompanyDetails['logoname'];
 	if($logo == 1){
 		$image = getimagesize($logourl); 
 		$mail->AddEmbeddedImage($logourl, 'logo', $CompanyDetails['logoname'],"base64",$image['mime']);
@@ -343,7 +343,7 @@ function addAttachment($mail,$filename,$record)
 	//This is the file which has been selected in Email EditView
         if(is_file($filename) && $filename != '')
         {
-                $mail->AddAttachment($root_directory."test/upload/".$filename);
+                $mail->AddAttachment($root_directory."cache/upload/".$filename);
         }
 }
 
@@ -373,7 +373,7 @@ function addAllAttachments($mail,$record)
 		$filepath = $adb->query_result($res,$i,'path');
 		$filewithpath = $root_directory.$filepath.$fileid."_".$filename;
 
-		//if the file is exist in test/upload directory then we will add directly
+		//if the file is exist in cache/upload directory then we will add directly
 		//else get the contents of the file and write it as a file and then attach (this will occur when we unlink the file)
 		if(is_file($filewithpath))
 		{

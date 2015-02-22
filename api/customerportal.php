@@ -18,7 +18,7 @@ if (file_exists('config_override.php')) {
 }
 
 include_once 'vtlib/Vtiger/Module.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
@@ -1979,7 +1979,7 @@ function get_pdf($id,$block,$customerid,$sessionid)
 	$_REQUEST['record']= $id;
 	$_REQUEST['savemode']= 'file';
 	$sequenceNo = getModuleSequenceNumber($block, $id);
-	$filenamewithpath='test/product/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
+	$filenamewithpath='storage/Products/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
 	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
 	unlink($filenamewithpath);
 

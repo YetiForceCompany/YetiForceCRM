@@ -10,6 +10,7 @@
  * Contributor: Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - Brazilian Portuguese Translation - 08-12-2014
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Access to record' => 'Acesso aos registros',
 	'GlobalPermission' => 'Acesso aos registros',
 	'LBL_Module_desc' => 'Aqui você poderá definir quais Perfis terão acesso a todos os registros independente das funções.',
 	'LBL_PROFILE_NAME' => 'Nome do Perfil',

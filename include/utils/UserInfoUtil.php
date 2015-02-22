@@ -15,7 +15,7 @@ require_once('include/utils/utils.php');
 require_once('include/utils/GetUserGroups.php');
 include_once('config/config.php');
 require_once("include/events/include.inc");
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 global $log;
 
 /** To retreive the mail server info resultset for the specified user

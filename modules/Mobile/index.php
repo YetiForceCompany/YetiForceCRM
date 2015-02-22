@@ -14,7 +14,7 @@ chdir (dirname(__FILE__) . '/../../');
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
 require_once 'config/config.php';
-require_once 'includes/main/WebUI.php';
+require_once 'include/main/WebUI.php';
 include_once dirname(__FILE__) . '/api/Request.php';
 include_once dirname(__FILE__) . '/api/Response.php';
 include_once dirname(__FILE__) . '/api/Session.php';

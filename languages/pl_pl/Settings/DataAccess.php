@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_DATAACCES' => 'Walidacja dostępu',
 	'LBL_DATAACCESS' => 'Walidacja dostępu',
 	'DataAccess' => 'Walidacja dostępu',
 	'LBL_NEW_TPL' => 'Dodaj nowy warunek',

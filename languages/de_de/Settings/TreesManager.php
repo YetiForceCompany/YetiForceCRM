@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_ADD_RECORD' => 'Hinzufügen',
 	'TreesManager' => 'Baumstruktur Verwaltung',
 	'LBL_TREES_MANAGER' => 'Baumstruktur Verwaltung',
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwalten von Vorlagen für Baumstrukturen',

@@ -8,6 +8,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/09/2014 - www.ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
+	'ModuleManager' => 'Module Manager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importar o Módulo a partir do Arquivo',
 	'LBL_IMPORT_MODULE' => 'Importar Módulo',
 	'LBL_VTIGER_EXTENSION_STORE' => 'Loja de Extensões do Vtiger',
@@ -56,4 +58,13 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
 	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
+);
+$jsLanguageStrings = array(
+	'JS_UPDATED_MODULE' => 'Update Successfull',
+	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
+	'JS_IMPORTED_MODULE' => 'Install Successfull',
+	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
+	'JS_FOR_INSTALLATION' => 'for installation',
+	'JS_CLICK_HERE' => 'Click Here',
+	'JS_ON' => 'On',
 );

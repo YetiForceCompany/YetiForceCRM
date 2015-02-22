@@ -8,6 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
+	'Selected Values' => 'Selected Values',
 	'Target Field'	=>	'Feld Ziel',
 	'Source Field'	=>	'Feld Quelle',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',

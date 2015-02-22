@@ -9,7 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-
 <style>
 ul > li.blockHeader {
   padding:5px; 
@@ -37,10 +36,7 @@ ul > li.blockHeader {
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 	{if $FIELD_MODEL_LIST|@count lte 0}{continue}{/if}
 	{assign var=IS_HIDDEN value=$BLOCK_LIST[$BLOCK_LABEL_KEY]->isHidden()}
-	<input type="hidden" name="timeFormatOptions" data-value='{$DAY_STARTS}' />
-	
 	{if $BLOCK_LABEL_KEY eq 'HEADER'}
-
 		<div class="">
 			<ul id="tabs" class="nav" style="list-style-type: none;border-radius: 10px;">
 				<li class="{$BLOCK_LABEL_KEY} blockHeader font" style=" margin:0px 10px 0px 10px;" >
