@@ -467,6 +467,8 @@ class CRMEntity {
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
+				} elseif ($uitype == 14) {
+					$fldvalue = Vtiger_Time_UIType::getDBTimeFromUserValue($this->column_fields[$fieldname]);
 				} elseif ($uitype == 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
