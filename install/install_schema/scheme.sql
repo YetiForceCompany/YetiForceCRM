@@ -6386,6 +6386,7 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `parenttrre` varchar(255) DEFAULT NULL,
   `depth` int(10) DEFAULT NULL,
   `label` varchar(255) DEFAULT NULL,
+  `state` varchar(10) DEFAULT NULL,
   KEY `id` (`templateid`),
   KEY `parenttrre` (`parenttrre`,`templateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

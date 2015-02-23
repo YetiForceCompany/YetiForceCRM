@@ -1534,6 +1534,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
 				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[fieldName] = recordId;
+				customParams['sourceModule'] = module;
+				customParams['sourceRecord'] = recordId;
 			}
 
 			if(quickCreateNode.length <= 0) {
