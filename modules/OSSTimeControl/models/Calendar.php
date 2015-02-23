@@ -37,11 +37,21 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 		$result = array();
 		for($i = 0; $i < $db->num_rows($queryResult); $i++){
 			$record = $db->raw_query_result_rowdata($queryResult, $i);
+			$calendarColor = '';
+			switch ($record['timecontrol_type']) {
+				case "PLL_BREAK_TIME":
+					$calendarColor = 'calendarColor_break_time';
+					break;
+				case "PLL_HOLIDAY":
+					$calendarColor = 'calendarColor_holiday';
+					break;
+			}
+
 			$item = array();
 			$crmid = $record['osstimecontrolid'];
 			$item['id'] = $crmid;
 			$item['title'] = vtranslate($record['name'],$module);
-            $item['status'] = $record['osstimecontrol_status'];
+            //$item['status'] = $record['osstimecontrol_status'];
 			$item['url']   = 'index.php?module=OSSTimeControl&view=Detail&record='.$crmid;
 			//dodanie powiazan albo z kontaktow albo z powiazanych
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
@@ -59,11 +69,11 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] =  $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-			$item['className'] = 'className';
+			$item['className'] = ' userColor_'.$record['smownerid'].' '.$calendarColor;
 			//$item['allDay'] = false;
-			$item['color'] = '#FF2A2A';
-			$item['textColor'] = '#000';
-            $item['module'] = 'OSSTimeControl';
+			//$item['color'] = '#FF2A2A';
+			//$item['textColor'] = '#000';
+            //$item['module'] = 'OSSTimeControl';
 			$result[] = $item;
 		}
 		return $result;

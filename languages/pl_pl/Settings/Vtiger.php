@@ -248,6 +248,8 @@ $languageStrings = array(
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
 	'LBL_PUBLIC_HOLIDAY' => 'Publiczne święta',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -896,6 +895,15 @@ CREATE TABLE `vtiger_calculationsstatus` (
 
 CREATE TABLE `vtiger_calculationsstatus_seq` (
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_calendar_config` */
+
+CREATE TABLE `vtiger_calendar_config` (
+  `type` varchar(10) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `label` varchar(20) DEFAULT NULL,
+  `value` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendar_default_activitytypes` */

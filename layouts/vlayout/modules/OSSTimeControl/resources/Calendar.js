@@ -105,7 +105,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date  = view.end.format();
-		console.log();
 		var user = '';
 		if(jQuery('#calendarUserList').length == 0){
 			user = jQuery('#current_user_id').val();
@@ -117,7 +116,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			action: 'Calendar',
 			start: start_date,
 			end: end_date,
-			user: user,
+			user: user
 		}
 		AppConnector.request(params).then(function(events){
 			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);

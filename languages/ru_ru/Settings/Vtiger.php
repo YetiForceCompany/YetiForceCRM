@@ -263,6 +263,8 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER_DESCRIPTION'	=>	'В Менеджере Каталогов, можно создавать шаблоны Каталогов или редактировать существующие Каталоги',
 	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => '__No_Translated__',
+	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

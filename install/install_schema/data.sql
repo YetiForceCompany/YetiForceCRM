@@ -616,6 +616,11 @@ insert  into `vtiger_calculationsstatus`(`calculationsstatusid`,`calculationssta
 
 insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 
+/*Data for the table `vtiger_calendar_config` */
+
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break_time','LBL_BREAK_TIME','#ffd000');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','LBL_HOLIDAY','#00d4f5');
+
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 
 insert  into `vtiger_calendar_default_activitytypes`(`id`,`module`,`fieldname`,`defaultcolor`,`active`) values (1,'Events','Events','#17309A',1);
@@ -18687,6 +18692,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (71,2,'LBL_MODTRACKER_SETTINGS',NULL,'LBL_MODTRACKER_SETTINGS_DESCRIPTION','index.php?module=ModTracker&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (72,2,'LBL_HIDEBLOCKS',NULL,'LBL_HIDEBLOCKS_DESCRIPTION','index.php?module=HideBlocks&parent=Settings&view=List',17,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (73,4,'LBL_PUBLIC_HOLIDAY',NULL,'LBL_PUBLIC_HOLIDAY_DESCRIPTION','index.php?module=PublicHoliday&view=Configuration&parent=Settings',25,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (74,2,'LBL_CALENDAR_CONFIG',NULL,'LBL_CALENDAR_CONFIG_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=UserColors',18,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
