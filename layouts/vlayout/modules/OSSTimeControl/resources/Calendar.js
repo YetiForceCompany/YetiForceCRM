@@ -70,6 +70,18 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			eventLimit: true,
 			selectable: true,
 			selectHelper: true,
+			select: function(start, end) {
+				thisInstance.dayClick(start.format(),end.format());
+				this.getCalendarView().fullCalendar('unselect');
+			},
+			eventDrop: function ( event, delta, revertFunc, jsEvent, ui, view) {
+				thisInstance.updateEvent(event, delta, revertFunc, jsEvent, ui, view);
+			},
+			eventResize: function (event, delta, revertFunc) {
+				console.log(event);
+				console.log(delta);
+				console.log(revertFunc);
+			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -91,14 +103,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE'),
-			select: function(start, end) {
-				thisInstance.dayClick(start.format(),end.format());
-				this.getCalendarView().fullCalendar('unselect');
-			},
-			eventDrop: function (event, delta, revertFunc) {
-				//thisInstance.updateEvent(event);
-			},
+			eventLimitText: app.vtranslate('JS_MORE')
 		});
     },
 	loadCalendarData : function() {
@@ -218,9 +223,36 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		);
 		return aDeferred.promise();
 	},
-	
-	updateEvent : function(event){
-		 console.log(event);
+	updateEvent: function (event, delta, revertFunc, jsEvent, ui, view) {
+		console.log(event);
+		console.log(delta);
+		/*
+		if (event.module != 'Calendar' && event.module != 'Events') {
+			revertFunc();
+			return;
+		}
+		if ((allDay && event.activitytype != 'Task') || (!allDay && event.activitytype === 'Task')) {
+			revertFunc();
+			return;
+		}
+		var params = {
+			module: 'Calendar',
+			action: 'DragDropAjax',
+			mode: 'updateDeltaOnDrop',
+			id: event.id,
+			activitytype: event.activitytype,
+			dayDelta: dayDelta,
+			minuteDelta: minuteDelta,
+			view: view.name
+		}
+		AppConnector.request(params).then(function (data) {
+			var response = JSON.parse(data);
+			if (!response['result'].ispermitted) {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				revertFunc();
+			}
+		});
+		*/
 	},
 	getCalendarView : function(){
 		if(this.calendarView == false) {
