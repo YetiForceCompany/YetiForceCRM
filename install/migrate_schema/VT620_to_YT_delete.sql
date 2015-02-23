@@ -32,6 +32,9 @@ DROP TABLE IF EXISTS `vtiger_sobillads`;
 DROP TABLE IF EXISTS `vtiger_soshipads`;
 DROP TABLE IF EXISTS `vtiger_accountbillads`;
 DROP TABLE IF EXISTS `vtiger_accountshipads`;
+DROP TABLE IF EXISTS `vtiger_google_oauth2`;
+DROP TABLE IF EXISTS `vtiger_google_sync_fieldmapping`;
+DROP TABLE IF EXISTS `vtiger_google_sync_settings`;
 
 	
 -- DELETE FROM vtiger_settings_field WHERE =?';
