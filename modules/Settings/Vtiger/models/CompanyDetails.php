@@ -163,5 +163,64 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 				self::$settings = $adb->database->GetRow("SELECT * FROM vtiger_organizationdetails"); 
 		} 
 		return self::$settings[$fieldname]; 
-	} 
+	}
+
+	public static function addNewField(Vtiger_Request $request) {
+		global $log;
+		global $adb;	
+		$newField = self::newFieldValidation($request->get('field_name'));
+	
+		if($newField != FALSE){	
+			$query = "SELECT * 
+					FROM information_schema.COLUMNS 
+					WHERE 
+						TABLE_SCHEMA = ? 
+					AND TABLE_NAME = 'vtiger_organizationdetails' 
+					AND COLUMN_NAME = ?";
+		
+			$params = array($adb->dbName, $newField);
+			$result = $adb->pquery($query, $params);	
+			$rowsNum = $adb->getRowCount($result);			
+					
+			if($rowsNum > 0){
+				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
+				$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=0';
+			}else{
+				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD $newField VARCHAR(255)";
+				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
+				$rowsNum = $adb->getRowCount($alterFieldResult);
+				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);	
+				$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=1';
+				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - add column $newField in table vtiger_organizationdetails");
+			}	
+			
+		}else{
+			$reloadUrl = 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails&AddField=0';
+			$log->info("Settings_Vtiger_SaveCompanyField_Action::process - field not valid");
+		}
+		header('Location: ' . $reloadUrl);
+	}
+		
+	public function newFieldValidation($field){
+		$field = trim($field);
+		$field = mysql_escape_string($field);
+		$lenght = strlen($field);
+		$field = str_replace(" ","_", $field);	
+		$field = strtolower($field);
+		if('' == $field)
+			$result = 'not valid';
+
+		if (preg_match('/[^a-z_A-Z]+/', $field, $matches))
+			$result = 'not valid';		
+		
+		if($lenght > 25)
+			$result = 'not valid';	
+	
+		if($result == 'not valid')
+			return FALSE;
+		else
+			return $field;
+  	} 
 }
+
+

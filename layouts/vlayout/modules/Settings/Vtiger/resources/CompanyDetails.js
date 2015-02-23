@@ -16,22 +16,17 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 			jQuery('#updateCompanyDetails').addClass('hide');
 			jQuery('#addCustomFieldForm').addClass('hide');
 			jQuery('#addCustomField').addClass('hide');
-	
 		});
 	},
 
 	registerAddFieldEvent : function(){
 		jQuery('#addCustomField').on('click',function(e){
-			jQuery('#addCustomField').addClass('hide');
-			jQuery('#CompanyDetailsContainer').addClass('hide');
-			jQuery('#updateCompanyDetailsForm').addClass('hide');
-			jQuery('#addCustomFieldForm').removeClass('hide');
-			jQuery('#updateCompanyDetails').addClass('hide');
-			jQuery('#addCustomField').addClass('hide');
+			var modalData = $( ".addCustomFieldModal" ).html();
+			app.showModalWindow(modalData);
+		
 		});
-
 	},
-	
+
 	registerSaveCompanyDetailsEvent : function() {
 		var thisInstance = this;
 		jQuery('#updateCompanyDetailsForm').on('submit',function(e) {
@@ -105,7 +100,6 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 	},
 	
 	registerEvents: function() {
-		this.registerAddFieldEvent();
 		this.registerUpdateDetailsClickEvent();
 		this.registerSaveCompanyDetailsEvent();
 		this.registerCancelClickEvent();
@@ -118,4 +112,5 @@ jQuery(document).ready(function(e){
 	var instance = new Settings_Vtiger_CompanyDetails_Js();
 	instance.registerEvents();
 	instance.isFieldAdded();
+	instance.registerAddFieldEvent();
 })
