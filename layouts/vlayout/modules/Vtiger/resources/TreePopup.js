@@ -78,8 +78,6 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 					"icons" : true
 				},
 				"plugins" : [ "themes", "json_data", "ui","hotkeys" ]
-			}).bind("loaded.jstree", function (event, data) {
-				$(this).jstree("open_all");	
 			}).bind("select_node.jstree", function (event, data) {
 				thisInstance.registerSelect(data.rslt.obj);
 			});

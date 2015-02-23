@@ -98,13 +98,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$label = $tree['data'];
 		$id = $tree['attr']['id'];
+		$state = $tree['state'];
 		$treeID = 'T'.$id;
 		if($parenttrre != '')
 			$parenttrre = $parenttrre.'::';
 		$parenttrre = $parenttrre.$treeID;
 
-		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label) VALUES (?,?,?,?,?,?)';
-		$params = array($this->getId(), $tree['data'], $treeID, $parenttrre, $depth, $label);
+		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
+		$params = array($this->getId(), $tree['data'], $treeID, $parenttrre, $depth, $label, $state);
 		$adb->pquery($sql, $params);
 		if(!empty($tree['children'])){
 			foreach ($tree['children'] as $tree) {
@@ -133,7 +134,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
 			$depth = (int)$row['depth']; 
-			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $this->get('module')) , 'attr' =>  array('id' => $treeID ) );
+			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $this->get('module')) , 'attr' =>  array('id' => $treeID ), 'state' => $row['state'] );
 			if($depth != 0)
 				$parent[$depth][] = $row;
 			if( $depth > $maxDepth)
@@ -164,7 +165,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$templateId = $this->getId();
 		$mode = 'edit';
-
 		if(empty($templateId)) {
 			$sql = 'INSERT INTO vtiger_trees_templates(name, module) VALUES (?,?)';
 			$params = array($this->get('name'), $this->get('module'));

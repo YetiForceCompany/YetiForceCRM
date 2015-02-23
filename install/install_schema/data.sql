@@ -19190,32 +19190,32 @@ insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`) val
 
 /*Data for the table `vtiger_trees_templates_data` */
 
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (1,'Default','T1','T1',0,'Default');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (2,'Hardware','T1','T1',0,'Hardware');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (2,'Software','T2','T2',0,'Software');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (2,'CRM Applications','T3','T3',0,'CRM Applications');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (2,'Antivirus','T4','T4',0,'Antivirus');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (2,'Backup','T5','T5',0,'Backup');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (3,'Hardware','T1','T1',0,'Hardware');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (3,'Software','T2','T2',0,'Software');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (3,'CRM Applications','T3','T3',0,'CRM Applications');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (3,'Antivirus','T4','T4',0,'Antivirus');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (3,'Backup','T5','T5',0,'Backup');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (4,'Hardware','T1','T1',0,'Hardware');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (4,'Software','T2','T2',0,'Software');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (4,'CRM Applications','T3','T3',0,'CRM Applications');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (4,'Antivirus','T4','T4',0,'Antivirus');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (4,'Backup','T5','T5',0,'Backup');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (5,'Hardware','T1','T1',0,'Hardware');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (5,'Software','T2','T2',0,'Software');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (5,'CRM Applications','T3','T3',0,'CRM Applications');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (5,'Antivirus','T4','T4',0,'Antivirus');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (5,'Backup','T5','T5',0,'Backup');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (6,'Hardware','T1','T1',0,'Hardware');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (6,'Software','T2','T2',0,'Software');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (6,'CRM Applications','T3','T3',0,'CRM Applications');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (6,'Antivirus','T4','T4',0,'Antivirus');
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`) values (6,'Backup','T5','T5',0,'Backup');
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (1,'Default','T1','T1',0,'Default',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (2,'Hardware','T1','T1',0,'Hardware',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (2,'Software','T2','T2',0,'Software',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (2,'CRM Applications','T3','T3',0,'CRM Applications',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (2,'Antivirus','T4','T4',0,'Antivirus',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (2,'Backup','T5','T5',0,'Backup',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (3,'Hardware','T1','T1',0,'Hardware',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (3,'Software','T2','T2',0,'Software',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (3,'CRM Applications','T3','T3',0,'CRM Applications',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (3,'Antivirus','T4','T4',0,'Antivirus',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (3,'Backup','T5','T5',0,'Backup',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (4,'Hardware','T1','T1',0,'Hardware',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (4,'Software','T2','T2',0,'Software',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (4,'CRM Applications','T3','T3',0,'CRM Applications',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (4,'Antivirus','T4','T4',0,'Antivirus',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (4,'Backup','T5','T5',0,'Backup',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (5,'Hardware','T1','T1',0,'Hardware',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (5,'Software','T2','T2',0,'Software',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (5,'CRM Applications','T3','T3',0,'CRM Applications',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (5,'Antivirus','T4','T4',0,'Antivirus',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (5,'Backup','T5','T5',0,'Backup',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'Hardware','T1','T1',0,'Hardware',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'Software','T2','T2',0,'Software',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'CRM Applications','T3','T3',0,'CRM Applications',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'Antivirus','T4','T4',0,'Antivirus',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'Backup','T5','T5',0,'Backup',NULL);
 
 /*Data for the table `vtiger_troubletickets` */
 

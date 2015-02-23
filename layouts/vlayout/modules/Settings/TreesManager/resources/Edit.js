@@ -85,8 +85,6 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 					}
 				},
 				"plugins" : [ "themes", "json_data" , "dnd", "ui", "hotkeys", "crrm","contextmenu" ]
-			}).bind("loaded.jstree", function (event, data) {
-				$(this).jstree("open_all");
 			});
 		}
 		return this.jstreeInstance;
