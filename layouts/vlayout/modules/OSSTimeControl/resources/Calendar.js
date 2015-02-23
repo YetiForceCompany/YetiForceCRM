@@ -68,6 +68,8 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
 			eventLimit: true,
+			selectable: true,
+			selectHelper: true,
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -90,8 +92,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE'),
-			dayClick : function(date, allDay, jsEvent, view){
-				thisInstance.dayClick(date.format(), allDay, jsEvent, view);
+			select: function(start, end) {
+				thisInstance.dayClick(start.format(),end.format());
+				this.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function (event, delta, revertFunc) {
 				//thisInstance.updateEvent(event);
@@ -123,17 +126,17 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			progressInstance.hide();
 		});
 	},
-	dayClick: function (date, allDay, jsEvent, view) {
+	dayClick: function (start, end) {
 		var thisInstance = this;
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
-			var startDateInstance = Date.parse(date);
+			var startDateInstance = Date.parse(start);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
 			var startTimeString = startDateInstance.toString('hh:mm tt');
-			var endDateInstance = Date.parse(date);
+			var endDateInstance = Date.parse(end);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			var endTimeString = endDateInstance.toString('hh:mm tt');
 
@@ -148,6 +151,34 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			}});
 			jQuery('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 		});
+	},
+	addCalendarEvent : function(calendarDetails) {
+		var isAllowed = this.isAllowedToAddTimeControl();
+		if(isAllowed == false) return;
+		var calendarColor = '';
+		if(calendarDetails.timecontrol_type.value == 'PLL_BREAK_TIME')
+			calendarColor = 'calendarColor_break_time';
+		else if(calendarDetails.timecontrol_type.value == 'PLL_HOLIDAY')
+			calendarColor = 'calendarColor_holiday';
+
+		var eventObject = {};
+		eventObject.id = calendarDetails._recordId;
+		eventObject.title = calendarDetails.name.display_value;
+		var startDate = Date.parse(calendarDetails.date_start.display_value+'T'+calendarDetails.time_start.display_value);
+		eventObject.start = startDate.toString();
+		var endDate = Date.parse(calendarDetails.due_date.display_value+'T'+calendarDetails.time_end.display_value);
+		var assignedUserId = calendarDetails.assigned_user_id.value;
+		eventObject.end = endDate.toString();
+		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record='+calendarDetails._recordId;
+		eventObject.className = 'userColor_'+calendarDetails.assigned_user_id.value+' '+calendarColor;
+		this.getCalendarView().fullCalendar('renderEvent',eventObject);
+	},
+	isAllowedToAddTimeControl : function () {
+		if(jQuery('#menubar_quickCreate_OSSTimeControl').length > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	},
 	getCalendarCreateView : function() {
 		var thisInstance = this;
