@@ -10,6 +10,9 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'OSSCosts' => 'Koszty',
+	'GlobalPermission' => 'Uprawnienia globalne',
+	'LBL_SEND_EMAIL' => 'Wyślij maila',
 	'--None--' => '--Brak--',
 	'Account Name' => 'Nazwa kontrahenta',
 	'Accounts' => 'Kontrahenci',
@@ -184,7 +187,6 @@ $languageStrings = array(
 	'LBL_CREATE_VIEW' => 'Utwórz nowy filtr',
 	'LBL_CREATING_NEW' => 'Nowy',
 	'LBL_SYSTEM_SETTINGS' => 'Konfiguracja systemu',
-	'LBL_CRM_SETTINGS' => 'Konfiguracja systemu',
 	'LBL_CURRENCY' => 'Waluta',
 	'LBL_CURRENT_FQ' => 'Obecny kwartał',
 	'LBL_CURRENT_FY' => 'Obecny rok',
@@ -224,7 +226,6 @@ $languageStrings = array(
 	'LBL_EDIT_FIELDS' => 'Pola i bloki',
 	'LBL_ARRANGE_RELATED_TABS' => 'Moduły powiązane',
 	'LBL_PICKLIST_DEPENDENCY' => 'Zależności słownikowe',
-	'LBL_EDIT_MAILSCANNER' => 'Skaner poczty',
 	'LBL_EDIT_PICKLIST_VALUES' => 'Zarządzaj słownikami',
 	'LBL_EDIT_REASON' => 'Powód zmiany',
 	'LBL_EDIT_WORKFLOWS' => 'Zarządzaj obiegiem informacji',
@@ -440,7 +441,6 @@ $languageStrings = array(
 	'LBL_SELECT_STATUS' => 'Wybierz status',
 	'LBL_SELECT_TO_LOAD_LIST' => 'Zaznacz, żeby załadować do listy',
 	'LBL_SEND' => 'Wyślij',
-	'LBL_SEND_EMAIL' => 'Mail',
 	'LBL_SEND_SMS' => 'SMS',
 	'LBL_Sep' => 'Wrz',
 	'LBL_SETTINGS' => 'Funkcjonalności',
@@ -654,7 +654,6 @@ $languageStrings = array(
     'Progress' => 'Postęp',
     'Project Milestone Name' => 'Nazwa etapu projektu',
     'Milestone Date' => 'Data etapu',
-	'VTE_CHANGELOG'=> 'Historia zmian', //OpenSaaS VTE
 	'WEBLOADTIME'=> 'Czas ładowania strony', //OpenSaaS VTE
 	'LBL_FOOTER_CONTENT' => 'Copyright 2014 YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
 	'LBL_RELATED_ASSETS' => 'Produkty sprzedane',
@@ -894,6 +893,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'Generate default PDF' => 'Generuj domyślny PDF',
 	'JS_SAVE_LOADER_INFO' => 'Trwa zapisywanie danych...',
 	'JS_SAVE_NOTIFY_OK' => 'Zapisano zmiany.',
 	'JS_OF' => 'z',

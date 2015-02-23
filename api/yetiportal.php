@@ -195,12 +195,6 @@ $server->register(
 	$NAMESPACE);
 
 $server->register(
-	'update_login_details',
-	array('fieldname'=>'tns:common_array'),
-	array('return'=>'xsd:string'),
-	$NAMESPACE);
-
-$server->register(
 	'send_mail_for_password',
 	array('email'=>'xsd:string'),
 	array('return'=>'tns:common_array'),
@@ -1040,6 +1034,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 		$result = $adb->pquery($sql, array($customerid,'customer' ,$sessionid,$portalLang));
 		$list[0]['sessionid'] = $sessionid;
 	}
+	update_login_details($customerid,$sessionid,'login');
 	return $list;
 }
 
@@ -1089,29 +1084,17 @@ function change_password($input_array)
 	string $flag - login/logout, based on this flag, login or logout time will be updated for the customer
 	*	return string $list - empty value
 	*/
-function update_login_details($input_array)
-{
-	global $adb,$log;
+   function update_login_details($id, $sessionid, $flag) {
+	global $adb, $log;
 	$log->debug("Entering customer portal function update_login_details");
 	$adb->println("INPUT ARRAY for the function update_login_details");
-	$adb->println($input_array);
 
-	$id = $input_array['id'];
-	$sessionid = $input_array['sessionid'];
-	$flag = $input_array['flag'];
+	$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
 
-	if(!validateSession($id,$sessionid))
-		return null;
-
-	$current_time = $adb->formatDate(date('YmdHis'), true);
-
-	if($flag == 'login')
-	{
+	if ($flag == 'login') {
 		$sql = "update vtiger_portalinfo set login_time=? where id=?";
 		$result = $adb->pquery($sql, array($current_time, $id));
-	}
-	elseif($flag == 'logout')
-	{
+	} elseif ($flag == 'logout') {
 		$sql = "update vtiger_portalinfo set logout_time=?, last_login_time=login_time where id=?";
 		$result = $adb->pquery($sql, array($current_time, $id));
 	}

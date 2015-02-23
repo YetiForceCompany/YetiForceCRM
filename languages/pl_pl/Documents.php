@@ -50,6 +50,9 @@ $languageStrings = array(
 	'Title' => 'Tytuł',
 	'Version' => 'Wersja',
 	'ossdc_status' => 'Status',
+	'Lack of status' => 'Brak statusu',
+	'Checked' => 'Sprawdzono',
+	'None' => 'Brak',
 	'Default' => 'Domyślny',
 	'LBL_SELECT_Documents' => 'Wybierz dokument',
 );

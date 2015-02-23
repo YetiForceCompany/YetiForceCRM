@@ -9,6 +9,10 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'Potential Name' => 'Name',
+	'LBL_GENERATING_COMMENT' => 'Opportunity generated from the following:',
+	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Generated %s sales opportunities.',
+	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Generating sales opportunities has been completed.',
 	'Amount' => 'Amount',
 	'Campaign Source' => 'Campaign Source',
 	'Existing Business'=>'Existing Business',

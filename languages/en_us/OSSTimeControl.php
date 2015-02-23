@@ -10,6 +10,9 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'PLL_HOLIDAY' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 	'SINGLE_OSSTimeControl' => 'Time Control',
 	'OSSTimeControl' => 'Time Control',
 	'LBL_MAIN_INFORMATION' => 'Basic Information',
