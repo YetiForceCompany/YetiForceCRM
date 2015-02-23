@@ -34,16 +34,18 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model {
 		foreach($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
-		$quickWidgets = array();
-		$quickWidgets[] = array(
-			'linktype' => 'SIDEBARWIDGET',
-			'linklabel' => 'LBL_USERS',
-			'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
-			'linkicon' => ''
-		);
 
-		foreach($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+		if ($linkParams['ACTION'] == 'Calendar') {
+			$quickWidgets = array();
+			$quickWidgets[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
+				'linkicon' => ''
+			);
+			foreach($quickWidgets as $quickWidget) {
+				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+			}
 		}
 		
 		return $links;
