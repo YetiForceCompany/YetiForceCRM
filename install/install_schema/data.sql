@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -616,6 +615,11 @@ insert  into `vtiger_calculationsstatus`(`calculationsstatusid`,`calculationssta
 /*Data for the table `vtiger_calculationsstatus_seq` */
 
 insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
+
+/*Data for the table `vtiger_calendar_config` */
+
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break_time','LBL_BREAK_TIME','#ffd000');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','LBL_HOLIDAY','#00d4f5');
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 
@@ -3840,8 +3844,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,782,'osstimecontrol_status','vtiger_osstimecontrol',2,'16','osstimecontrol_status','LBL_STATUS',1,2,'To approval',100,3,128,1,'V~M',2,7,'BAS',2,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,783,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,9,128,1,'V~M',1,4,'BAS',1,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,784,'date_start','vtiger_osstimecontrol',1,'6','date_start','Start Date',1,0,'',100,5,128,1,'D~M',0,11,'BAS',1,0,1,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,785,'time_start','vtiger_osstimecontrol',1,'2','time_start','Time Start',1,0,'',100,7,128,1,'T~M',1,9,'BAS',1,0,1,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,786,'time_end','vtiger_osstimecontrol',1,'2','time_end','End Time',1,0,'',100,8,128,1,'T~M~OTH~GE~time_start~Time Start',1,10,'BAS',1,0,1,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,785,'time_start','vtiger_osstimecontrol',1,'14','time_start','Time Start',1,0,'',100,7,128,1,'T~M',1,9,'BAS',1,0,1,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,786,'time_end','vtiger_osstimecontrol',1,'14','time_end','End Time',1,0,'',100,8,128,1,'T~M~OTH~GE~time_start~Time Start',1,10,'BAS',1,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,787,'due_date','vtiger_osstimecontrol',1,'23','due_date','End Date',1,0,'',100,6,128,1,'D~M~OTH~GE~date_start~Start Date',1,12,'BAS',1,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,788,'sum_time','vtiger_osstimecontrol',1,'7','sum_time','LBL_TOTAL_TIME',1,2,'',100,10,128,1,'NN~O',1,NULL,'BAS',1,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,791,'createdtime','vtiger_crmentity',1,'70','createdtime','Created Time',1,0,'',100,13,128,2,'DT~O',3,2,'BAS',0,0,0,'');
@@ -18688,6 +18692,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (71,2,'LBL_MODTRACKER_SETTINGS',NULL,'LBL_MODTRACKER_SETTINGS_DESCRIPTION','index.php?module=ModTracker&parent=Settings&view=List',16,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (72,2,'LBL_HIDEBLOCKS',NULL,'LBL_HIDEBLOCKS_DESCRIPTION','index.php?module=HideBlocks&parent=Settings&view=List',17,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (73,4,'LBL_PUBLIC_HOLIDAY',NULL,'LBL_PUBLIC_HOLIDAY_DESCRIPTION','index.php?module=PublicHoliday&view=Configuration&parent=Settings',25,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (74,2,'LBL_CALENDAR_CONFIG',NULL,'LBL_CALENDAR_CONFIG_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=UserColors',18,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 

@@ -23,6 +23,13 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'Kolory użytkowników',
+	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',
+	'LBL_CALENDAR_TYPE' => 'Typ wydarzeń',
+	'LBL_BREAK_TIME' => 'Przewa w pracy',
+	'LBL_HOLIDAY' => 'Urlop',
 );
 $jsLanguageStrings = array(
 

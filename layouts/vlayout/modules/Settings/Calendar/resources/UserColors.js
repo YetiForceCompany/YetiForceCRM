@@ -7,24 +7,16 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-var Settings_ActivityTypes_Js = {
+var Settings_UserColors_Js = {
 	initEvants: function() {
-		$('.ActivityTypes .updateColor').click(Settings_ActivityTypes_Js.updateColor);
-		$('.ActivityTypes .activeType').click(Settings_ActivityTypes_Js.updateActiveType);
-	},
-	updateActiveType: function(e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		Settings_ActivityTypes_Js.registerSaveEvent('UpdateModuleActiveType',{
-			'active': target.is(':checked'),
-			'viewtypesid':closestTrElement.data('viewtypesid'),
-		});
+		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		var editColorModal = jQuery('.ActivityTypes .editColorContainer');
+		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
+		var metod = target.data('metod');
 		
 		var callBackFunction = function(data) {
 			data.find('.editColorContainer').removeClass('hide');
@@ -51,9 +43,9 @@ var Settings_ActivityTypes_Js = {
 						'enabled' : true
 					}
 				});
-				Settings_ActivityTypes_Js.registerSaveEvent('UpdateModuleColor',{
+				Settings_UserColors_Js.registerSaveEvent(metod,{
 					'color': selectedColor.val(),
-					'viewtypesid':closestTrElement.data('viewtypesid'),
+					'id':closestTrElement.data('id'),
 				});
 				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
@@ -93,9 +85,9 @@ var Settings_ActivityTypes_Js = {
 	},
 	
 	registerEvents : function() {
-		Settings_ActivityTypes_Js.initEvants();
+		Settings_UserColors_Js.initEvants();
 	}
 }
 $(document).ready(function(){
-	Settings_ActivityTypes_Js.registerEvents();
+	Settings_UserColors_Js.registerEvents();
 })
