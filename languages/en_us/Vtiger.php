@@ -64,7 +64,7 @@ $languageStrings = array(
 	'LBL_SHARING_FOR' => 'for the module',
 	'LBL_NO_RECORDS_IN_WIDGET' => 'No data to display',
 	'industry' => 'Industry',
-	'LBL_NO_FOUND_RECORDS' => 'Not find any records in the module:',
+	'LBL_NO_FOUND_RECORDS' => 'No records found in the module:',
 	'Email Templates' => 'Email Templates',
 	'Support End Date' => 'Support End Date',
 	'EmailTemplate' => 'Email Template',
@@ -879,7 +879,7 @@ $languageStrings = array(
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
 );
 $jsLanguageStrings = array(
-	'JS_SAVE_NOTIFY_OK' => 'Saved changes.',
+	'JS_SAVE_NOTIFY_OK' => 'Changes have been saved',
 	'JS_SAVE_LOADER_INFO' => 'Saving data...',
 	'JS_OF' => 'of',
 	'AM' => 'AM',
