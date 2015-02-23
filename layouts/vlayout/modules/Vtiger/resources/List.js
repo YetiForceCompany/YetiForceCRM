@@ -742,7 +742,7 @@ jQuery.Class("Vtiger_List_Js",{
 			for(var fieldName in massEditFieldList){
                 var fieldInfo = massEditFieldList[fieldName];
                 var fieldElement = form.find('[name="'+fieldInfo.name+'"]');
-                if(fieldInfo.type == "reference") {
+                if(fieldInfo.type == "reference" || fieldInfo.type == "tree" ) {
                     //get the element which will be shown which has "_display" appended to actual field name
                     fieldElement = form.find('[name="'+fieldInfo.name+'_display"]');
                 }else if(fieldInfo.type == "multipicklist" || fieldInfo.type == "sharedOwner") {
