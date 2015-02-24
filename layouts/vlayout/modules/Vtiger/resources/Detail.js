@@ -1349,6 +1349,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
 			var currentTarget = jQuery(e.currentTarget);
+			currentTarget.popover('hide');
 			var currentDiv = currentTarget.closest('.activityStatus');
 			var editElement = currentDiv.find('.edit');
 			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
@@ -1424,6 +1425,13 @@ jQuery.Class("Vtiger_Detail_Js",{
 							currentTarget.show();
 							detailViewElement.html(ajaxEditNewLable);
 							fieldnameElement.data('prevValue', ajaxEditNewValue);
+							if('Held' == ajaxEditNewValue){
+								var recordWidget = currentTarget.closest('.activityEntries');
+								var hrElement = recordWidget.next('hr');
+								recordWidget.find('popoverTooltip').popover('hide');
+								recordWidget.remove();
+								hrElement.remove();
+							}
 						}
 					);
 				}

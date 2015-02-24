@@ -686,6 +686,7 @@ $languageStrings = array(
 	'OSSMailView' => 'Emails',
 	'OSSEmployees' => 'Empregados',
 	'Calculations' => 'Cálculos',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 
 	/* industry */
 	'Administration'=>'Administração',

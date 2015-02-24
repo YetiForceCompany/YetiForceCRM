@@ -759,6 +759,7 @@ $languageStrings = array(
 	'OSSMailView' => 'E-Mails',
 	'OSSEmployees' => 'Mitarbeiter',
 	'Calculations' => 'Kalkulationen',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 
 	/* industry */
 	'Administration'=>'Verwaltung',

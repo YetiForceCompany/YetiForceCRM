@@ -23,13 +23,13 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Edit color',
 	'LBL_SELECT_COLOR' => 'Select color:',
 	'LBL_SAVE_COLOR' => 'Color saved',
-	'LBL_CALENDAR_CONFIG' => '__No_Translated__',
+	'LBL_CALENDAR_CONFIG' => 'Calendar configuration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
-	'LBL_USER_COLORS' => '__No_Translated__',
-	'LBL_CALENDAR_COLORS' => '__No_Translated__',
-	'LBL_CALENDAR_TYPE' => '__No_Translated__',
-	'LBL_BREAK_TIME' => '__No_Translated__',
-	'LBL_HOLIDAY' => '__No_Translated__',
+	'LBL_USER_COLORS' => 'User colors',
+	'LBL_CALENDAR_COLORS' => 'Calendar colors',
+	'LBL_CALENDAR_TYPE' => 'Calendar type',
+	'LBL_BREAK_TIME' => 'Break time',
+	'LBL_HOLIDAY' => 'Holiday',
 );
 $jsLanguageStrings = array(
 
