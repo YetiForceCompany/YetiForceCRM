@@ -28,4 +28,7 @@ $languageStrings = Array(
 
 	//PICKLIST VALUES
 	'Incomplete information' => 'Niepełne informacje',
+	'SINGLE_Quotesenquires' => 'Quotes enquires',
+	'Quotesenquires' => 'Quotes enquires',
+	'Requirements not met' => 'Requirements not met',
 );

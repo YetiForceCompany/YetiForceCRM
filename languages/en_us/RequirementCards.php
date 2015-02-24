@@ -35,4 +35,5 @@ $languageStrings = Array(
 	'Declined' => 'Declined',
 	'Closed' => 'Closed',
 	'Requirements not met' => 'Requirements not met',
+	'Incomplete information' => 'Incomplete information',
 );

@@ -35,5 +35,5 @@ $languageStrings = Array(
 	'Declined' => 'Odrzucone',
 	'Closed' => 'Zamknięte',
 	'Requirements not met' => 'Niespełnienie wymagań',
+	'Incomplete information' => 'Incomplete information',
 );
-
