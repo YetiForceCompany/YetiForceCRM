@@ -19,15 +19,26 @@ $languageStrings = Array(
 	'LBL_POTENTIAL' => 'Potential',
 	'LBL_NUMBER' => 'Number',
 	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'LBL_WAS_READ' => 'Updated',
 	'Description' => 'Description',
 	'Attention' => 'Attentions',
 	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
 
 	//PICKLIST VALUES
 	'Incomplete information' => 'Incomplete information',
-);
-$languageStrings = array(
+	'SINGLE_Quotesenquires' => 'Quotes enquires',
+	'Quotesenquires' => 'Quotes enquires',
+	'Incomplete information' => 'Incomplete information',
+	'Attention' => 'Comments',
+	'Description' => 'Description',
+	'LBL_REJECTION_REASON' => 'Rejection reason',
+	'LBL_CLOSED_TIME' => 'Closed Time',
+	'LBL_NUMBER' => 'Number',
+	'LBL_POTENTIAL' => 'Potential',
+	'LBL_SUBJECT' => 'Subject',
+	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
 	'SINGLE_QuotesEnquires' => 'Quote Enquires',
 	'QuotesEnquires' => 'Quotes Enquires',
+	'Requirements not met' => 'Requirements not met',
+	'LBL_WAS_READ' => 'Updated',
 );

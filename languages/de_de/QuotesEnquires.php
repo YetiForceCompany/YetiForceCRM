@@ -21,11 +21,14 @@ $languageStrings = Array(
 	'LBL_POTENTIAL' => 'Potential',
 	'LBL_NUMBER' => 'Number',
 	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'LBL_WAS_READ' => 'Updated',
 	'Description' => 'Description',
 	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+	'LBL_REJECTION_REASON' => 'Rejection reason',
 
 	//PICKLIST VALUES
 	'Incomplete information' => 'Incomplete information',
+	'QuotesEnquires' => 'Quotes Enquires',
+	'SINGLE_QuotesEnquires' => 'Quote Enquires',
+	'Requirements not met' => 'Requirements not met',
+	'LBL_WAS_READ' => 'Updated',
 );
