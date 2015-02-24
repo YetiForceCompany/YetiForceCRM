@@ -520,8 +520,12 @@ class Vtiger_Util_Helper {
                    $fieldName = $fieldSearchInfo[0];
                    $operator = $fieldSearchInfo[1];
                    $fieldValue = $fieldSearchInfo[2];
+                   $specialOption = $fieldSearchInfo[3];
                    $fieldInfo = $moduleModel->getField($fieldName);
 
+				   if($fieldInfo->getFieldDataType() == "tree" && $specialOption){
+					   $fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue,$fieldName,$moduleModel);
+				   }
                    //Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
  		            //Database format
 

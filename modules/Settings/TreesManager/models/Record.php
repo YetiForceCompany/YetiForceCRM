@@ -221,6 +221,30 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb->pquery('DELETE FROM vtiger_trees_templates_data WHERE `templateid` = ?', array($templateId));
 	}
 
+	public function getChildren($fieldValue,$fieldName,$moduleModel) {
+		$adb = PearDatabase::getInstance();
+		$query='SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? AND `columnname` = ? AND presence in (0,2)';
+		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
+		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
+		$values = explode(',',$fieldValue);
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$tree = $adb->query_result_raw($result, $i, 'tree');
+			$parent = '';
+			if($adb->query_result_raw($result, $i, 'depth') > 0){
+				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+				$cut = strlen('::'.$tree);
+				$parenttrre = substr($parenttrre, 0, - $cut);
+				$pieces = explode('::', $parenttrre);
+				$parent = end($pieces);
+			}
+			if($parent && in_array($parent, $values) && !in_array($tree, $values)){
+				$values[] = $tree;
+			}
+		}
+		return implode(',',$values);
+	}
+
 	/**
 	 * Function to get the instance of Roles record model from query result
 	 * @param <Object> $result

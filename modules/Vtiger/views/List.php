@@ -163,6 +163,7 @@ class Vtiger_List_View extends Vtiger_Index_View {
             $searchParmams = array();
         }
         $transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
+		
         $listViewModel->set('search_params',$transformedSearchParams);
 
 
@@ -171,10 +172,10 @@ class Vtiger_List_View extends Vtiger_Index_View {
             foreach($fieldListGroup as $fieldSearchInfo){
                 $fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
                 $fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+                $fieldSearchInfo['specialOption'] = $fieldSearchInfo[3];
                 $searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-
 
 		if(!$this->listViewHeaders){
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
