@@ -37,6 +37,7 @@ $languageStrings = array(
 	'Paid' => 'Płatne',
 	'Free' => 'Bezpłatne',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
+	'LBL_TIMECONTROL_TYPE' => 'Rodzaje czasu pracy',
 
 	// Settings
 	'SETTINGS' => 'Konfiguracja',

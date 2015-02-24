@@ -1,5 +1,6 @@
 .imageHolder.bigLoading{
-	width: 300px;
+	width: 200px;
+	margin: auto;
 }
 .imageHolder.smallLoading{
 	width: 100px;

@@ -38,6 +38,7 @@ $languageStrings = array(
 	'Paid'	=>	'Оплачен',
 	'Free'	=>	'Бесплатно',
 	'LBL_CALENDAR_VIEW' => 'Calendar',
+	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
 
 	// Settings
 	'SETTINGS'	=>	'Настройки',

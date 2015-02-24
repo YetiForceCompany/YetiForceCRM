@@ -37,7 +37,8 @@ $languageStrings = array(
 	'Paid' => 'Pago',
 	'Free' => 'Gratuíto',
 	'LBL_CALENDAR_VIEW' => 'Calendar',
-
+	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
+	
 	// Settings
 	'SETTINGS' => 'Configurações',
 	'LBL_HELP_SETTINGS' => 'Ajuda',

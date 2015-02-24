@@ -14,6 +14,7 @@
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
 
 	<div class="calendarUserList row-fluid" style="margin-left:10px;">
+		<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
 		<select class="span10 chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
 			<optgroup label="{vtranslate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -25,6 +26,13 @@
 					<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
 				{/foreach}
 			</optgroup>
+		</select>
+		<br /><br />
+		<h4>{vtranslate('LBL_TIMECONTROL_TYPE',$MODULE)}:</h4>
+		<select class="span10 chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
+			{foreach item=ITEM from=OSSTimeControl_Calendar_Model::getCalendarTypes()}
+				<option value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
+			{/foreach}
 		</select>
 		<div style="margin-top: 5px;">
 			<button class="btn refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
