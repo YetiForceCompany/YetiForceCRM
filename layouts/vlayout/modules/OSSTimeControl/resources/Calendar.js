@@ -71,16 +71,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			selectable: true,
 			selectHelper: true,
 			select: function(start, end) {
-				thisInstance.dayClick(start.format(),end.format());
+				thisInstance.selectDays(start.format(),end.format());
 				this.getCalendarView().fullCalendar('unselect');
 			},
-			eventDrop: function ( event, delta, revertFunc, jsEvent, ui, view) {
-				thisInstance.updateEvent(event, delta, revertFunc, jsEvent, ui, view);
+			eventDrop: function ( event, delta, revertFunc) {
+				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventResize: function (event, delta, revertFunc) {
-				console.log(event);
-				console.log(delta);
-				console.log(revertFunc);
+				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -122,6 +120,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var params = {
 			module: 'OSSTimeControl',
 			action: 'Calendar',
+			mode: 'getEvent',
 			start: start_date,
 			end: end_date,
 			user: user
@@ -131,7 +130,32 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			progressInstance.hide();
 		});
 	},
-	dayClick: function (start, end) {
+	updateEvent: function (event, delta, revertFunc) {
+		console.log(event.end.format());
+		console.log(event.start.format());
+		var progressInstance = jQuery.progressIndicator();
+		var params = {
+			module: 'OSSTimeControl',
+			action: 'Calendar',
+			mode: 'updateEvent',
+			id: event.id,
+			start: event.start.format(),
+			end: event.end.format()
+		}
+		AppConnector.request(params).then(function (response) {
+			if (!response['result']) {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+				revertFunc();
+			}
+			progressInstance.hide();
+		},
+		function(error){
+			progressInstance.hide();
+			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
+			revertFunc();
+		});
+	},
+	selectDays: function (start, end) {
 		var thisInstance = this;
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
@@ -222,37 +246,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			}
 		);
 		return aDeferred.promise();
-	},
-	updateEvent: function (event, delta, revertFunc, jsEvent, ui, view) {
-		console.log(event);
-		console.log(delta);
-		/*
-		if (event.module != 'Calendar' && event.module != 'Events') {
-			revertFunc();
-			return;
-		}
-		if ((allDay && event.activitytype != 'Task') || (!allDay && event.activitytype === 'Task')) {
-			revertFunc();
-			return;
-		}
-		var params = {
-			module: 'Calendar',
-			action: 'DragDropAjax',
-			mode: 'updateDeltaOnDrop',
-			id: event.id,
-			activitytype: event.activitytype,
-			dayDelta: dayDelta,
-			minuteDelta: minuteDelta,
-			view: view.name
-		}
-		AppConnector.request(params).then(function (data) {
-			var response = JSON.parse(data);
-			if (!response['result'].ispermitted) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));
-				revertFunc();
-			}
-		});
-		*/
 	},
 	getCalendarView : function(){
 		if(this.calendarView == false) {
