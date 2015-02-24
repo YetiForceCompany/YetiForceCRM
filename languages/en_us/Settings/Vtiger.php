@@ -268,6 +268,9 @@ $languageStrings = array(
 	'Document Control'=>'Document Control',
 	'Time control' => 'Time control',
 	"Credits"	=> 'Credits',
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 );
 
 $jsLanguageStrings = array(

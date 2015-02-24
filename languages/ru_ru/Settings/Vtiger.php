@@ -283,6 +283,9 @@ $languageStrings = array(
 	'Document Control'	=>	'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 );
 
 $jsLanguageStrings = array(

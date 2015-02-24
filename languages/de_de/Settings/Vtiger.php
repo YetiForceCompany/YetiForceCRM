@@ -269,7 +269,9 @@ $languageStrings = array(
 	'Document Control'=>'Dokumentenkontrolle',
 	'Time control' => 'Zeitkontrolle',
 	"Credits"	=> 'Referenzen',
-	
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 );
 
 $jsLanguageStrings = array(

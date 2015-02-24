@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -18618,6 +18619,7 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (2,'L
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (3,'LBL_COMPANY',5);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (4,'LBL_OTHER_SETTINGS',20);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (5,'LBL_INTEGRATION',6);
+insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (6,'LBL_PROCESSES',9);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (7,'LBL_SECURITY_MANAGEMENT',2);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (8,'LBL_MAIL',8);
 insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (9,'LBL_About_YetiForce',21);
@@ -18625,7 +18627,7 @@ insert  into `vtiger_settings_blocks`(`blockid`,`label`,`sequence`) values (10,'
 
 /*Data for the table `vtiger_settings_blocks_seq` */
 
-insert  into `vtiger_settings_blocks_seq`(`id`) values (9);
+insert  into `vtiger_settings_blocks_seq`(`id`) values (10);
 
 /*Data for the table `vtiger_settings_field` */
 
@@ -18693,10 +18695,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (72,2,'LBL_HIDEBLOCKS',NULL,'LBL_HIDEBLOCKS_DESCRIPTION','index.php?module=HideBlocks&parent=Settings&view=List',17,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (73,4,'LBL_PUBLIC_HOLIDAY',NULL,'LBL_PUBLIC_HOLIDAY_DESCRIPTION','index.php?module=PublicHoliday&view=Configuration&parent=Settings',25,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (74,2,'LBL_CALENDAR_CONFIG',NULL,'LBL_CALENDAR_CONFIG_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=UserColors',18,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (75,6,'LBL_SALES_PROCESSES',NULL,'LBL_SALES_PROCESSES_DESCRIPTION','index.php?module=SalesProcesses&view=Configuration&parent=Settings',1,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (73);
+insert  into `vtiger_settings_field_seq`(`id`) values (75);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
