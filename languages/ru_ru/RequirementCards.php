@@ -9,30 +9,31 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'RequirementCards' => 'Requirement Cards',
-	'SINGLE_RequirementCards' => 'Requirement Card',
+	'RequirementCards' => 'Карточка Заявки',
+	'SINGLE_RequirementCards' => 'Карточка Заявки',
 	
 	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Базовая информация',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
 	
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_STAGE' => 'Stage',
-	'Description' => 'Basic description',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
-	'Attention' => 'Comments',
-	'LBL_NUMBER' => 'Number',
-	'Quotes Enquires' => 'Quotes enquires',
+	'LBL_SUBJECT' => 'Тема',
+	'LBL_STAGE' => 'Состояние',
+	'Description' => 'Основное описание',
+	'LBL_REJECTION_REASON' => 'Причина отказа',
+	'Attention' => 'Комментарии',
+	'LBL_NUMBER' => 'Номер',
+	'Quotes Enquires' => 'Запрошенное Предложение',
 	
 	//pick list values
-	'Created' => 'Created',
-	'Verification process' => 'Verification process',
-	'Internal consultation required' => 'Internal consultation required',
-	'External consultation required' => 'External consultation required',
-	'Waiting for answer' => 'Waiting for answer',
-	'Information completing' => 'Information completing',
-	'Declined' => 'Declined',
-	'Closed' => 'Closed',
-	'Requirements not met' => 'Requirements not met',
+	'Created' => 'Создано',
+	'Verification process' => 'Проверка данных',
+	'Internal consultation required' => 'Консультация по телефону',
+	'External consultation required' => 'Консультация на объекте',
+	'Waiting for answer' => 'В ожидании ответа',
+	'Information completing' => 'Обработка информации',
+	'Declined' => 'Отклонено',
+	'Closed' => 'Закрыто',
+	'Requirements not met' => 'Требования не выполнены',
+	'Incomplete information' => 'Не достаточно информации',
 );

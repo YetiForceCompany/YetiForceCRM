@@ -9,23 +9,26 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
+	'Quotesenquires' => 'Запрос Предложения',
+	'SINGLE_Quotesenquires' => 'Запрос Предложения',
 
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Базовая информация',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'LBL_WAS_READ' => 'Updated',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+	'LBL_SUBJECT' => 'Тема',
+	'LBL_POTENTIAL' => 'Сделка',
+	'LBL_NUMBER' => 'Номер',
+	'LBL_CLOSED_TIME' => 'Время закрытия',
+	'LBL_WAS_READ' => 'Обновлено',
+	'Description' => 'Описание',
+	'Attention' => 'Комментарии',
+	'LBL_REJECTION_REASON' => 'Причина отказа',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
+	'Incomplete information' => 'Не достаточно информации',
+	'QuotesEnquires' => 'Запрос Предложения',
+	'SINGLE_QuotesEnquires' => 'Запрос Предложения',
+	'Requirements not met' => 'Требования не выполнены',
 );
