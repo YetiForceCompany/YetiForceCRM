@@ -9,12 +9,17 @@
  *************************************************************************************************************************************/
 jQuery.Class("OSSTimeControl_Calendar_Js",{
 	registerUserListWidget : function(){
+		var thisInstance = new OSSTimeControl_Calendar_Js();
 		jQuery('#OSSTimeControl_sideBar_LBL_USERS').css('overflow','visible');
-		app.changeSelectElementView(jQuery('.calendarUserList').find('select'));
+		
+		app.changeSelectElementView(jQuery('#OSSTimeControl_sideBar_LBL_USERS'));
+		//this.registerUserColor();
 		$(".calendarUserList .refreshCalendar").click(function () {
-			var thisInstance = new OSSTimeControl_Calendar_Js();
 			thisInstance.loadCalendarData();
 		});
+	},
+	registerUserColor : function(){
+		
 	},
 },{
 	calendarView : false,
@@ -104,7 +109,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
     },
-	loadCalendarData : function() {
+	loadCalendarData : function(allEvents) {
 		var progressInstance = jQuery.progressIndicator();
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
@@ -117,18 +122,27 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		}else{
 			user = jQuery('#calendarUserList').val();
 		}
-		var params = {
-			module: 'OSSTimeControl',
-			action: 'Calendar',
-			mode: 'getEvent',
-			start: start_date,
-			end: end_date,
-			user: user
+		if (jQuery('#timecontrolTypes').length > 0) {
+			var types = jQuery('#timecontrolTypes').val();	
 		}
-		AppConnector.request(params).then(function(events){
-			thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
+		if(allEvents == true || types != null){
+			var params = {
+				module: 'OSSTimeControl',
+				action: 'Calendar',
+				mode: 'getEvent',
+				start: start_date,
+				end: end_date,
+				user: user,
+				types: types
+			}
+			AppConnector.request(params).then(function(events){
+				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
+				progressInstance.hide();
+			});
+		}else{
+			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			progressInstance.hide();
-		});
+		}
 	},
 	updateEvent: function (event, delta, revertFunc) {
 		console.log(event.end.format());
@@ -261,7 +275,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 	},
 	registerEvents : function() {
 		this.registerCalendar();
-		this.loadCalendarData();
+		this.loadCalendarData(true);
 		this.registerChangeView();
 	}
 });

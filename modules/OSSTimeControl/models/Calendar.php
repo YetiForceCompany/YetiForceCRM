@@ -20,6 +20,9 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 			$params[] = $this->get('start');
 			$params[] = $this->get('end');
 		}
+		if($this->get('types')){
+			$query.= " AND vtiger_osstimecontrol.timecontrol_type IN ('".implode("','", $this->get('types'))."')";
+		}
 		if($this->get('user')){
 			if(is_array($this->get('user'))){
 				$query.= ' AND vtiger_crmentity.smownerid IN ('.implode(",", $this->get('user')).')';
@@ -88,5 +91,14 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
             $instance = new self();
         }
 		return $instance;
+	}
+	
+	public static function getCalendarTypes() {
+		$calendarConfig = Array(
+			'PLL_WORKING_TIME',
+			'PLL_BREAK_TIME',
+			'PLL_HOLIDAY'
+		);
+		return $calendarConfig;
 	}
 }

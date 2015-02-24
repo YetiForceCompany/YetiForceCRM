@@ -39,6 +39,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller {
 
 		$record = OSSTimeControl_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
+		$record->set('types', $request->get('types'));
 		if ($request->get('start') && $request->get('end')) {
 			$record->set('start', $request->get('start'));
 			$record->set('end', $request->get('end'));
