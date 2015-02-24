@@ -19,16 +19,14 @@
 		<link REL="SHORTCUT ICON" HREF="layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="robots" content="noindex">
 		<link rel="stylesheet" href="libraries/jquery/chosen/chosen.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" />
-
 		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
-
 		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" />
-
 		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
