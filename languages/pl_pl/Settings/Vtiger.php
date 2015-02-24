@@ -271,6 +271,7 @@ $languageStrings = array(
 	'LBL_PROCESSES' => 'Procesy',
 	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 );
 
 $jsLanguageStrings = array(
