@@ -9,21 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'Ideas' => 'Ideas',
-	'SINGLE_Ideas' => 'Idea',
+	'Ideas' => 'Идеи',
+	'SINGLE_Ideas' => 'Идеи',
 	
 	//Bloks
-	'LBL_IDEAS_INFORMATION' => 'Basic Information',
+	'LBL_IDEAS_INFORMATION' => 'Базовая информация',
 	
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_STATUS' => 'Status',
-	'Description' => 'Basic description',
-	'LBL_EXTENT_DESCRIPTION' => 'Detailed description',
-	'Attention' => 'Comments',
-	'LBL_NO' => 'Number',
+	'LBL_SUBJECT' => 'Тема',
+	'LBL_STATUS' => 'Статус',
+	'Description' => 'Краткое описание',
+	'LBL_EXTENT_DESCRIPTION' => 'Полное описание',
+	'Attention' => 'Комментирии',
+	'LBL_NO' => 'Номер',
 	
 	//pick list values
-	'Draft' => 'Draft',
-	'Proposition' => 'Proposition',
+	'Draft' => 'Черновик',
+	'Proposition' => 'Предложение',
 );
