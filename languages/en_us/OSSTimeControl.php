@@ -40,6 +40,7 @@ $languageStrings = array(
 	'Paid' => 'Paid',
 	'Free' => 'Free',
 	'LBL_CALENDAR_VIEW' => 'Calendar',
+	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
 
 	// Settings
 	'SETTINGS' => 'Settings',
