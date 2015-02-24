@@ -50,4 +50,11 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model {
 		
 		return $links;
 	}
+	/**
+	 * Function to get the Default View Component Name
+	 * @return string
+	 */
+	public function getDefaultViewName() {
+		return 'Calendar';
+	}
 }
