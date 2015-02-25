@@ -265,6 +265,7 @@ $languageStrings = array(
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Редактор праздничных дней',
 	'LBL_USER_COLORS' => 'Цвета Пользователей',
 	'LBL_USER_COLORS_DESCRIPTION' => 'Редактор цветов Пользователей',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',
@@ -283,6 +284,10 @@ $languageStrings = array(
 	'Document Control'	=>	'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
 );
 
 $jsLanguageStrings = array(

@@ -17,6 +17,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 	const RESTORE = 3;
 	const LINK = 4;
 	const UNLINK = 5;
+	const CONVERTTOACCOUNT = 6;
 
 	/**
 	 * Function to get the history of updates on a record
@@ -60,6 +61,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
 			return true;
 		}
 		return false;
+	}
+
+	function isConvertToAccount(){
+		return $this->checkStatus(self::CONVERTTOACCOUNT);
 	}
 
 	function isCreate() {
@@ -138,4 +143,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model {
         $result = $db->pquery("SELECT COUNT(*) AS count FROM vtiger_modtracker_basic WHERE crmid = ?", array($recordId));
         return $db->query_result($result, 0, 'count');
 	}
+
+	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user) {
+		global $adb;
+		$currentTime = date('Y-m-d H:i:s');
+
+		$id = $adb->getUniqueId('vtiger_modtracker_basic');
+		$adb->pquery('INSERT INTO vtiger_modtracker_basic(id, crmid, module, whodid, changedon, status) VALUES(?,?,?,?,?,?)',
+				array($id , $sourceId, $sourceModule, $current_user, $currentTime, 6));
+
+	}
+
 }

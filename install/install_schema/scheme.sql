@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -843,6 +843,8 @@ CREATE TABLE `vtiger_calculations` (
   `total_margin` decimal(13,2) DEFAULT NULL,
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `currency_id` int(19) unsigned NOT NULL,
+  `conversion_rate` decimal(10,3) unsigned NOT NULL,
   PRIMARY KEY (`calculationsid`),
   KEY `calculations_parentid_idx` (`parentid`),
   KEY `calculations_relatedid_idx` (`relatedid`),
@@ -1352,6 +1354,12 @@ CREATE TABLE `vtiger_convertleadmapping` (
   `editable` int(19) DEFAULT '1',
   PRIMARY KEY (`cfmid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_converttoaccount_settings` */
+
+CREATE TABLE `vtiger_converttoaccount_settings` (
+  `state` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentity` */
 
@@ -2268,7 +2276,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1601 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1603 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -2741,6 +2749,14 @@ CREATE TABLE `vtiger_invoice` (
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_2_vtiger_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_salesprocesses_settings` */
+
+CREATE TABLE `vtiger_salesprocesses_settings`(
+  `id` INT(11) NOT NULL,
+  `products_rel_potentials` BOOL NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `vtiger_invoice_recurring_info` */
 

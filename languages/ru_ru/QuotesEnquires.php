@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = array(
 	'Quotesenquires' => 'Запрос Предложения',
 	'SINGLE_Quotesenquires' => 'Запрос Предложения',
 

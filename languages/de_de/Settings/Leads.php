@@ -37,6 +37,8 @@ $languageStrings = array(
 	'text' => 'Text',
 	'time' => 'Zeit',
 	'url' => 'Url',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
 );
 
 $jsLanguageStrings = array(
@@ -63,4 +65,6 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
+	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
+	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
 );

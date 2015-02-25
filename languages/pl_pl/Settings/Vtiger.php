@@ -250,6 +250,7 @@ $languageStrings = array(
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -268,6 +269,10 @@ $languageStrings = array(
 	'Document Control'=>'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
 	"Credits"	=> 'Współtwórcy',
+	'LBL_PROCESSES' => 'Procesy',
+	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 );
 
 $jsLanguageStrings = array(
