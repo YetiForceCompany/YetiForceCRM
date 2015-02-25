@@ -18546,6 +18546,10 @@ insert  into `vtiger_sales_stage_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_salesordercf` */
 
+/*Data for the table `vtiger_salesprocesses_settings` */
+
+insert  into `vtiger_salesprocesses_settings` (`id`,`products_rel_potentials`) VALUES ('1','1');
+
 /*Data for the table `vtiger_salutationtype` */
 
 insert  into `vtiger_salutationtype`(`salutationid`,`salutationtype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Mr.',1,161,1);

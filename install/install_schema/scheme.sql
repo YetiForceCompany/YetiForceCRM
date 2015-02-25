@@ -2745,6 +2745,14 @@ CREATE TABLE `vtiger_invoice` (
   CONSTRAINT `fk_2_vtiger_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_salesprocesses_settings` */
+
+CREATE TABLE `vtiger_salesprocesses_settings`(
+  `id` INT(11) NOT NULL,
+  `products_rel_potentials` BOOL NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
+
 /*Table structure for table `vtiger_invoice_recurring_info` */
 
 CREATE TABLE `vtiger_invoice_recurring_info` (
