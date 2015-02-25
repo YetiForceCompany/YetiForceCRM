@@ -16,26 +16,18 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @param <String> $dateTo - ending date
 	 * @return - array of holidays success, false on failure
 	 */
-	public static function getHolidays( $dateStart='', $dateTo='' ) {
+	public static function getHolidays( $date ) {
 		global $log;
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(".$dateStart.", ".$dateTo.") method ...");
+		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(".print_r($date,true).") method ...");
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname` FROM `vtiger_publicholiday` WHERE YEAR(`holidaydate`)'; 
+		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname` FROM `vtiger_publicholiday`'; 
 		$params = array();
 
-		if ( !empty($dateStart) && !empty($dateTo) ) {
-			$sql .= ' BETWEEN ? AND ?';
-			$params[] = $dateStart;
-			$params[] = $dateTo;
-		}
-		else if ( !empty($dateStart) ) {
-			$sql .= ' >= ?';
-			$params[] = $dateStart;
-		}
-		else if ( !empty($dateTo) ) {
-			$sql .= ' <= ?';
-			$params[] = $dateTo;
+		if ( is_array($date) ) {
+			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
+			$params[] = $date[0];
+			$params[] = $date[1];
 		}
 		$sql .= ' ORDER BY `holidaydate` ASC;';
 
