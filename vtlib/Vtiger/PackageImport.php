@@ -950,7 +950,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					}
 				} 
 			} 
-			closedir($dir); 
+			closedir($dir);
+			rmdir($root_directory.$src);
 		} else{
 			unlink($src);
 		}
