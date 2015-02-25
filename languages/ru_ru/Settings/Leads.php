@@ -38,6 +38,8 @@ $languageStrings = array(
 	'text' => 'Текст',
 	'time' => 'Время',
 	'url' => 'Ссылка',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
 );
 
 $jsLanguageStrings = array(
@@ -64,4 +66,6 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Ссылка',
 	'JS_WITH' => 'с',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Сохранено',
+	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
+	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
 );
