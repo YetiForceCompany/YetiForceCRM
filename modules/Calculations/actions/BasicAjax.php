@@ -18,7 +18,6 @@ class Calculations_BasicAjax_Action extends Vtiger_BasicAjax_Action {
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
 		$potentialId  = $request->get('potentialid');
-var_dump($searchValue, $searchModule, $potentialId);
 		$parentRecordId = $request->get('parent_id');
 		$parentModuleName = $request->get('parent_module');
 		$relatedModule = $request->get('module');

@@ -13,7 +13,7 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
 	'LBL_SAVE_CONFIG_OK'													=> 'Successfully saved sales processes settings.',
 	'LBL_SAVE_CONFIG_ERROR'													=> 'Failed to save sales processes settings.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Quotes, Sales Orders and Invoices.',
+	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
 );
 $jsLanguageStrings = array(
 
