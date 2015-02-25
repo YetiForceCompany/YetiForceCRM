@@ -202,47 +202,50 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	/**
 	 * Function to change the end time based on default call duration
 	 */
-	registerTimeStartChangeEvent : function(container) {
-		container.on('changeTime','input[name="time_start"]',function(e) {
+	registerTimeStartChangeEvent: function (container) {
+		container.on('changeTime', 'input[name="time_start"]', function (e) {
 			var strtTimeElement = jQuery(e.currentTarget);
 			var endTimeElement = container.find('[name="time_end"]');
 			var dateStartElement = container.find('[name="date_start"]');
-            var endDateElement = container.find('[name="due_date"]');
-			
-            if(endDateElement.data('userChangedTime') == true) {
-                return;
-            }
-            if(jQuery('[name="userChangedEndDateTime"]').val() == '1') {
-                return;
-            }
-			
-			var startDate = dateStartElement.val();
-			var strtTime = strtTimeElement.val();
-			
-			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
-			if(result != true){
+			var endDateElement = container.find('[name="due_date"]');
+
+			if (endDateElement.data('userChangedTime') == true) {
 				return;
 			}
-			var dateTime = startDate+' '+strtTime;
+			if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
+				return;
+			}
+
+			var startDate = dateStartElement.val();
+			var strtTime = strtTimeElement.val();
+
+			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
+			if (result != true) {
+				return;
+			}
+			var dateTime = startDate + ' ' + strtTime;
 			var dateFormat = container.find('[name="date_start"]').data('dateFormat');
 			var timeFormat = endTimeElement.data('format');
-			var date = Vtiger_Helper_Js.getDateInstance(dateTime,dateFormat);
-
+			var date = Vtiger_Helper_Js.getDateInstance(dateTime, dateFormat);
 			var endDateInstance = Date.parse(date);
-			if(container.find('[name="activitytype"]').val() == 'Call'){
+
+			if (container.find('[name="activitytype"]').val() == 'Call') {
 				var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
 				endDateInstance.addMinutes(defaulCallDuration);
 			} else {
 				var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
 				endDateInstance.addMinutes(defaultOtherEventDuration);
 			}
-			var endDateString = app.getDateInVtigerFormat(dateFormat,endDateInstance);
+			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			if(timeFormat == 24){
 				var defaultTimeFormat = 'HH:mm';
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
 			}
 			var endTimeString = endDateInstance.toString(defaultTimeFormat);
+			var selectedEndTimeString = container.find('[name="selectedTimeStart"]');
+			if(selectedEndTimeString.length > 0)
+				endTimeString = selectedEndTimeString.val();
 
 			endDateElement.val(endDateString);
 			endTimeElement.val(endTimeString);

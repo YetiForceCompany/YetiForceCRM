@@ -81,7 +81,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 			}
 			$new_translation = "'$langkey' => '$val',";
 			if(self::parse_data($to_replase,$fileContent)){
-				$fileContent = str_replace($to_replase,$to_replase.PHP_EOL.'	'.$new_translation,$fileContent);
+				$fileContent = str_ireplace($to_replase,$to_replase.PHP_EOL.'	'.$new_translation,$fileContent);
 			}else{
 				if(self::parse_data('?>',$fileContent)){
 					$fileContent = str_replace('?>','',$fileContent);
@@ -249,7 +249,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 	// Dodatkowe funkcje
 	public function parse_data($a,$b) {
 		$resp = false;
-		if ($b != '' && strstr($b,$a) !== false ) {
+		if ($b != '' &&  stristr($b,$a) !== false ) {
 			$resp = true;
 		}
 		return $resp;

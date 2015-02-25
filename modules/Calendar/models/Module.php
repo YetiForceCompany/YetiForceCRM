@@ -115,12 +115,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 				'linkurl' => $this->getCalendarViewUrl(),
 				'linkicon' => '',
 			),
+			/*
 			array(
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_SHARED_CALENDAR',
 				'linkurl' => $this->getSharedCalendarViewUrl(),
 				'linkicon' => '',
-			),
+			),*/
 			array(
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
@@ -138,7 +139,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			$quickWidgets[] = array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_ACTIVITY_TYPES',
-				'linkurl' => 'module='.$this->get('name').'&view=ViewTypes&mode=getViewTypes',
+				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
 				'linkicon' => ''
 			);
 		}
@@ -541,5 +542,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			 return $orderBy;
 		 }
 		 return parent::getOrderBySql($orderBy);
+	}
+	
+	public static function getCalendarTypes(){
+		$calendarConfig = Array(
+			'Task',
+			'Meeting'
+		);
+		return $calendarConfig;
 	}
 }

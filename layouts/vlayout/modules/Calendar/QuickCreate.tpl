@@ -102,25 +102,6 @@
 								<input type="hidden" name="contact_id" value="{$smarty.request.contact_id}" />
 							{/if}
 						</table>
-                                                <table class="massEditTable table table-bordered">
-                                                    <tr>
-                                                            <td id="prev_events">
-                                                                <table class="table">
-                                                                    <tr><th>{vtranslate('TASK_PREV', $MODULE)}</th></tr>
-                                                                </table>
-                                                            </td>
-                                                            <td id="cur_events">
-                                                                <table class="table">
-                                                                    <tr><th>{vtranslate('TASK_CUR', $MODULE)}</th></tr>
-                                                                </table>
-                                                            </td>
-                                                            <td id="next_events">
-                                                                <table class="table">
-                                                                    <tr><th>{vtranslate('TASK_NEXT', $MODULE)}</th></tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                </table>
 					</div>
 				</div>
 				<div class="modal-footer quickCreateActions">
