@@ -10,23 +10,29 @@
 jQuery.Class("OSSTimeControl_Calendar_Js",{
 	registerUserListWidget : function(){
 		var thisInstance = new OSSTimeControl_Calendar_Js();
-		jQuery('#OSSTimeControl_sideBar_LBL_USERS').css('overflow','visible');
-		
-		app.changeSelectElementView(jQuery('#OSSTimeControl_sideBar_LBL_USERS'));
+		var widgetContainer = $('#OSSTimeControl_sideBar_LBL_USERS');
+		widgetContainer.hover(
+			function () {
+				$(this).css('overflow','visible');
+			}, function () {
+				$(this).css('overflow','hidden');
+			}
+		);
+		app.changeSelectElementView(widgetContainer);
 		//this.registerUserColor();
-		$(".calendarUserList .refreshCalendar").click(function () {
+		widgetContainer.find(".refreshCalendar").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
 	registerUserColor : function(){
-		
+
 	},
 },{
 	calendarView : false,
 	calendarCreateView : false,
+	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	registerCalendar: function () {
 		var thisInstance = this;
-		var weekDaysArray = {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6};
 		//User preferred default view
 		var userDefaultActivityView = jQuery('#activity_view').val();
 		if (userDefaultActivityView == 'Today') {
@@ -47,16 +53,13 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 
 		//Default first day of the week
 		var defaultFirstDay = jQuery('#start_day').val();
-		var convertedFirstDay = weekDaysArray[defaultFirstDay];
+		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
 
 		//Default first hour of the day
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
 
-		//Date format in agenda view must respect user preference
-		var dateFormat = jQuery('#date_format').val();
-		//Converting to fullcalendar accepting date format
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,agendaWeek,agendaDay',
@@ -72,12 +75,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
+			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			selectable: true,
 			selectHelper: true,
+			allDaySlot: false,
 			select: function(start, end) {
 				thisInstance.selectDays(start.format(),end.format());
-				this.getCalendarView().fullCalendar('unselect');
+				thisInstance.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function ( event, delta, revertFunc) {
 				thisInstance.updateEvent(event, delta, revertFunc);
@@ -116,11 +121,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date  = view.end.format();
-		var user = '';
+
 		if(jQuery('#calendarUserList').length == 0){
-			user = jQuery('#current_user_id').val();
+			var user = jQuery('#current_user_id').val();
 		}else{
-			user = jQuery('#calendarUserList').val();
+			var user = jQuery('#calendarUserList').val();
 		}
 		if (jQuery('#timecontrolTypes').length > 0) {
 			var types = jQuery('#timecontrolTypes').val();	
@@ -145,16 +150,16 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		}
 	},
 	updateEvent: function (event, delta, revertFunc) {
-		console.log(event.end.format());
-		console.log(event.start.format());
 		var progressInstance = jQuery.progressIndicator();
+		var start = event.start.format();
+		var end = event.end.format();
 		var params = {
 			module: 'OSSTimeControl',
 			action: 'Calendar',
 			mode: 'updateEvent',
 			id: event.id,
-			start: event.start.format(),
-			end: event.end.format()
+			start: start,
+			end: end
 		}
 		AppConnector.request(params).then(function (response) {
 			if (!response['result']) {
@@ -176,12 +181,18 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 				return;
 			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
+			var timeFormat = data.find('[name="time_start"]').data('format');
+			if(timeFormat == 24){
+				var defaultTimeFormat = 'HH:mm';
+			} else {
+				defaultTimeFormat = 'hh:mm tt';
+			}
 			var startDateInstance = Date.parse(start);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
-			var startTimeString = startDateInstance.toString('hh:mm tt');
+			var startTimeString = startDateInstance.toString(defaultTimeFormat);
 			var endDateInstance = Date.parse(end);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
-			var endTimeString = endDateInstance.toString('hh:mm tt');
+			var endTimeString = endDateInstance.toString(defaultTimeFormat);
 
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);
@@ -203,7 +214,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			calendarColor = 'calendarColor_break_time';
 		else if(calendarDetails.timecontrol_type.value == 'PLL_HOLIDAY')
 			calendarColor = 'calendarColor_holiday';
-
+console.log(calendarDetails);
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.name.display_value;
@@ -269,7 +280,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 	},
 	registerChangeView : function(){
 		var thisInstance = this;
-		$("#calendarview button.fc-button").click(function () {
+		thisInstance.getCalendarView().find("button.fc-button").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
