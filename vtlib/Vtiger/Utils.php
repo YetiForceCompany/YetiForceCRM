@@ -70,8 +70,10 @@ class Vtiger_Utils {
 		$relativeFilePath = str_replace($rootdirpath, '', $realfilepath);
 		$filePathParts = explode('/', $relativeFilePath);
 
-                if(stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			if($dieOnFail) {
+		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
+			if ($dieOnFail) {
+				global $log;
+				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				die("Sorry! Attempt to access restricted file.");
 			}
 			return false;
@@ -103,8 +105,10 @@ class Vtiger_Utils {
 		$realfilepath = str_replace('\\', '/', $realfilepath);
 		$rootdirpath  = str_replace('\\', '/', $rootdirpath);
 
-		if(stripos($realfilepath, $rootdirpath) !== 0) {
-			if($dieOnFail) {
+		if (stripos($realfilepath, $rootdirpath) !== 0) {
+			if ($dieOnFail) {
+				global $log;
+				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				die("Sorry! Attempt to access restricted file.");
 			}
 			return false;
