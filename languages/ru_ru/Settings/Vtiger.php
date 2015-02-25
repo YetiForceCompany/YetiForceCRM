@@ -265,6 +265,7 @@ $languageStrings = array(
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'User colors',
 	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

@@ -79,6 +79,10 @@
 							<li>
 	
 							</li>
+						{else if $RECENT_ACTIVITY->isConvertToAccount()}
+							<li>
+								<strong>{vtranslate('LBL_CONVERTED_FROM_LEAD', $MODULE_NAME)}</strong> 
+							</li>
 						{/if}
 					{/if}
 				{/foreach}

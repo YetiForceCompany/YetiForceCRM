@@ -8,27 +8,30 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
-	
-	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+class Settings_Leads_ConvertToAccountSave_Action extends Settings_Vtiger_Index_Action {
 
-	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
+	public function __construct() {
+		$this->exposeMethod('save');
+	}
 
-	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
-	'QuotesEnquires' => 'Quotes Enquires',
-	'SINGLE_QuotesEnquires' => 'Quote Enquires',
-	'Requirements not met' => 'Requirements not met',
-	'LBL_WAS_READ' => 'Updated',
-);
+	/**
+	 * Save date
+	 * @param <String> state
+	 * @return true if saved, false otherwise
+	 */
+	public function save(Vtiger_Request $request) {
+
+		global $log;
+		$result = Settings_Leads_ConvertToAccount_Model::save($request->get('state'));
+		$log->debug('Settings_Leads_ConvertToAccountSave_Action::save - started');
+		if($result)
+			$result = array('success' => TRUE);
+		else
+			$result = array('success' => FALSE);
+
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+}

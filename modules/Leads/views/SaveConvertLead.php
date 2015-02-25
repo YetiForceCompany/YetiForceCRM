@@ -80,6 +80,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller {
 		}
 
 		if(!empty($accountId)) {
+			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} elseif (!empty($contactId)) {
 			header("Location: index.php?view=Detail&module=Contacts&record=$contactId");

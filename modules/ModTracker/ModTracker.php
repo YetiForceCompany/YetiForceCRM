@@ -23,7 +23,8 @@ class ModTracker {
     public static $RESTORED = '3';
     public static $LINK = '4';
     public static $UNLINK = '5';
-    
+	public static $CONVERTTOACCOUNT = '6';
+
 	/* Entry point will invoke this function no need to act on */
 	function track_view($user_id, $current_module,$id='') {}
 	

@@ -1,4 +1,4 @@
-<?php
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -8,27 +8,27 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
-	
-	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+-->*}
 
-	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
+{strip}
+	<div class="container-fluid settingsIndexPage">
+		<div class="widget_header row-fluid">
+			<h3>{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</h3>
+		</div>
+		<hr>
+		<form  method="post" action="index.php">
+			<div class="control-group span5" >
+				<label class="span3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label>
+				<input class="span1" type="checkbox" name="conversiontoaccount"  {if $STATE} checked {/if} />
+			</div>
 
-	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
-	'QuotesEnquires' => 'Quotes Enquires',
-	'SINGLE_QuotesEnquires' => 'Quote Enquires',
-	'Requirements not met' => 'Requirements not met',
-	'LBL_WAS_READ' => 'Updated',
-);
+			<span class="alert alert-info pull-right span7">
+				{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
+			</span>
+		</form>
+		<span class="span12">
+			<button style="margin-left: 20px;" id="saveConversionState" class="btn btn-success">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
+		</span>
+		
+	</div>
+{/strip}

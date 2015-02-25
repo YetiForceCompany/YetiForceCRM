@@ -65,6 +65,7 @@ $languageStrings = array(
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
     'Prosepect Accounts'           => 'Проспект счета',
+	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
 );
 $jsLanguageStrings = array(
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
