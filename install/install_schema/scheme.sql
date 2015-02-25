@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -843,6 +844,8 @@ CREATE TABLE `vtiger_calculations` (
   `total_margin` decimal(13,2) DEFAULT NULL,
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `date` date DEFAULT NULL,
+  `currency_id` int(19) unsigned NOT NULL,
+  `conversion_rate` decimal(10,3) unsigned NOT NULL,
   PRIMARY KEY (`calculationsid`),
   KEY `calculations_parentid_idx` (`parentid`),
   KEY `calculations_relatedid_idx` (`relatedid`),
@@ -2268,7 +2271,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1601 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1603 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
