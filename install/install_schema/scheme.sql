@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.1.53-community-log : Database - yetiforcecrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.5.24 : Database - yetiforce
 *********************************************************************
 */
 
@@ -495,6 +495,7 @@ CREATE TABLE `vtiger_activity` (
   `recurringtype` varchar(200) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `smownerid` int(19) DEFAULT NULL,
+  `allday` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -2276,7 +2277,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1603 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1605 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -2749,14 +2750,6 @@ CREATE TABLE `vtiger_invoice` (
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_2_vtiger_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_salesprocesses_settings` */
-
-CREATE TABLE `vtiger_salesprocesses_settings`(
-  `id` INT(11) NOT NULL,
-  `products_rel_potentials` BOOL NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id`)
-) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `vtiger_invoice_recurring_info` */
 
@@ -5570,6 +5563,14 @@ CREATE TABLE `vtiger_salesordercf` (
   `salesorderid` int(19) NOT NULL DEFAULT '0',
   PRIMARY KEY (`salesorderid`),
   CONSTRAINT `fk_1_vtiger_salesordercf` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_salesprocesses_settings` */
+
+CREATE TABLE `vtiger_salesprocesses_settings` (
+  `id` int(11) NOT NULL,
+  `products_rel_potentials` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salutationtype` */

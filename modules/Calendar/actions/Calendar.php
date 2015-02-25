@@ -48,10 +48,13 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
         if(isPermitted($moduleName, $actionname, $recordId) === 'no'){
             $succes = false;
         }else{
-			$date_start = date('Y-m-d', strtotime($request->get('start')) );
-			$time_start = date('H:i:s', strtotime($request->get('start')) );
-			$due_date = date('Y-m-d', strtotime($request->get('end')) );
-			$time_end = date('H:i:s', strtotime($request->get('end')) );
+			$start = DateTimeField::convertToDBTimeZone($request->get('start'));
+			$end = DateTimeField::convertToDBTimeZone($request->get('end'));
+			$date_start = $start->format('Y-m-d');
+			$time_start = $start->format('H:i:s');
+			$due_date = $end->format('Y-m-d');
+			$time_end = $end->format('H:i:s');
+
 			$succes = false;
 			if (!empty($recordId)) {
 				try {
@@ -59,10 +62,13 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
 					$recordModel->set('id', $recordId);
 					$recordModel->set('mode', 'edit');
 					$recordModel->set('date_start', $date_start);
-					$recordModel->set('time_start', $time_start);
 					$recordModel->set('due_date', $due_date);
-					if($recordModel->get('activitytype') != 'Task'){
+					if($request->get('allDay')=='true'){
+						$recordModel->set('allday', 1);
+					}else{
+						$recordModel->set('time_start', $time_start);
 						$recordModel->set('time_end', $time_end);
+						$recordModel->set('allday', 0);
 					}
 					$recordModel->save();
 					$succes = true;

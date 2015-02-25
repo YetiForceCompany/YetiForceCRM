@@ -263,8 +263,10 @@ function getListQuery($module, $where = '') {
 			             ON vtiger_recurringevents.activityid=vtiger_activity.activityid";
 			}
 			//end
-
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
+			$instance = CRMEntity::getInstance($module);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
+			if($securityParameter != '')
+				$query.= ' AND '.$securityParameter;
 			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' " . $where;
 			break;
 		Case "Emails":
