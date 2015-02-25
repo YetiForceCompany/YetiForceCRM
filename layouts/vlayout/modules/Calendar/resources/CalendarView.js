@@ -165,7 +165,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}else{
 			var endDate = Date.parse(start);
 			endDate.addMinutes('60');
-			var end = endDate.toString('yyyy-mm-dd HH:mm');
+			var end = endDate.toString('yyyy-mm-ddTHH:mm');
 		}
 		var params = {
 			module: 'Calendar',

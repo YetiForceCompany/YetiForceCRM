@@ -79,4 +79,5 @@ $languageStrings = array(
 	'Yearly'                       => 'jährlich'                        , 
 	'Mobile Call'			 => 'per Mobilfunk',
 	'LBL_NO_DESCRIPTION'		 => 'Keine Beschreibung',
+	'All day' => '__No_Translated__',
 );

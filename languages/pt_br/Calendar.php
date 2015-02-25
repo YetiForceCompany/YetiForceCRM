@@ -89,6 +89,7 @@ $languageStrings = array(
 	'Task' => 'Tarefa',
 	'Held' => 'Realizado', 
 	'Not Held' => 'Não Realizado',
+	'All day' => '__No_Translated__',
 	
     'Sunday' => 'Sunday',
 	'Monday' => 'Monday',

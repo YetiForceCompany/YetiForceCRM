@@ -77,6 +77,7 @@ $languageStrings = array(
 	'Weekly'=>'Tygodni',
 	'Yearly'=>'Lat',
 	'LBL_NO_DESCRIPTION'=>'Brak opisu',
+	'All day' => 'Całodniowe',
 	//Priority picklist values 
 	'High' => 'Wysoki', 
 	'Medium' => 'Średni', 

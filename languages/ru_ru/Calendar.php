@@ -125,7 +125,9 @@ $languageStrings = array(
     'Thursday'                     => 'Четверг',
     'Time Start'                   => 'Время начала',
     'Time Zone'                    => 'Часовой пояс',
-    'Visibility'                   => 'Видимость',);
+    'Visibility'                   => 'Видимость',
+	'All day' => '__No_Translated__',
+);
 $jsLanguageStrings = array(
 	'JS Activity Type'	=>	'Тип деятельности',
 	'JS Call'	=>	'Звонок',
