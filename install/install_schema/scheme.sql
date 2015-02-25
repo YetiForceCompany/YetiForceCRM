@@ -495,7 +495,7 @@ CREATE TABLE `vtiger_activity` (
   `recurringtype` varchar(200) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `smownerid` int(19) DEFAULT NULL,
-  `allday` int(19) DEFAULT NULL,
+  `allday` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
