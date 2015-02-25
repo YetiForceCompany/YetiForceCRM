@@ -79,10 +79,15 @@ Vtiger_Edit_Js("Users_Edit_Js",{
 	
 	changeStartHourValuesEvent : function(form){
 		var thisInstance = this;
-		form.on('change','select[name="hour_format"]',function(e){
+		form.on('change','select[name="hour_format"]',function(e) {
 			var hourFormatVal = jQuery(e.currentTarget).val();
-			var startHourElement = jQuery('select[name="start_hour"]',form);
+			var startHourElement = jQuery('select[name="start_hour"]', form);
 			var conditionSelected = startHourElement.val();
+
+			if (typeof thisInstance.hourFormatConditionMapping == 'undefined') {
+				return false;
+			}
+
 			var list = thisInstance.hourFormatConditionMapping['hour_format'][hourFormatVal]['start_hour'];
 			var options = '';
 			for(var key in list) {
