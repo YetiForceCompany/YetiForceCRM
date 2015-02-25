@@ -1486,7 +1486,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 				if(typeof selectedItemData.type != 'undefined' && selectedItemData.type=="no results"){
 					return false;
 				}
-				console.log(selectedItemData);
+
 				var element = jQuery(this);
 				element.attr('disabled','disabled');
 				var tdElement = element.closest('td');
@@ -1639,7 +1639,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		this._super(container);
 	},
     
-    registerEvents: function(){console.log('start');
+    registerEvents: function(){
 		this._super();
 		this.registerAddingNewProductsAndServices();
 		this.lineItemActions();

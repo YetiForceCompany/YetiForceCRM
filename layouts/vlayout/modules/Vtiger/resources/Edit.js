@@ -355,7 +355,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			params.action = 'BasicAjax';
 		}
 
-		if ( params.search_module == 'Products' || params.search_module == 'Services' ) { console.log('bingo');
+		if ( params.search_module == 'Products' || params.search_module == 'Services' ) {
 			params.potentialid = jQuery('[name="potentialid"]').val();
 		}
 
@@ -397,8 +397,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var inputElement = jQuery(this.element[0]);
 				var searchValue = request.term;
 				var params = thisInstance.getReferenceSearchParams(inputElement);
-				var searchModule = tdElement.find('.lineItemPopup').data('moduleName');
-				params.search_module = searchModule
 				params.search_value = searchValue;
 				thisInstance.searchModuleNames(params).then(function(data){
 					var reponseDataList = new Array();
