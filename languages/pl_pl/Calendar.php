@@ -88,6 +88,7 @@ $languageStrings = array(
 	'Subject' => 'Temat',
 	'Tasks' => 'Zadania',
 	'Task' => 'Zadanie',
+	'All day' => 'Całodniowe',
 	//OpenSaaS
     'Sunday' => 'Niedziela',
 	'Monday' => 'Poniedziałek',
