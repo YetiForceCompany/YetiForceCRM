@@ -1639,7 +1639,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		this._super(container);
 	},
     
-    registerEvents: function(){
+    registerEvents: function(){console.log('start');
 		this._super();
 		this.registerAddingNewProductsAndServices();
 		this.lineItemActions();
