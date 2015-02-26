@@ -214,7 +214,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			calendarColor = 'calendarColor_break_time';
 		else if(calendarDetails.timecontrol_type.value == 'PLL_HOLIDAY')
 			calendarColor = 'calendarColor_holiday';
-console.log(calendarDetails);
+
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.name.display_value;
