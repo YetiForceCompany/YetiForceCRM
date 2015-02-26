@@ -50,27 +50,13 @@ padding: 5px;
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
 					<div class="row-fluid layoutBlockHeader">
-						<div class="blockLabel span5 padding10 paddingAll10">
+						<div class="span12" style="padding: 10px 0;">
 							<span class="marginLeft20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
-						</div>
-						<div class="span3 padding10 paddingAll10" style="float:right !important;">
-							<span class="span2">
-								<select class="pull-right" name="yearFrom">
-									{for $i = $CURRENT_YEAR-10 to $CURRENT_YEAR}
-									<option value="{$i}" {if $i eq $THREE_YEARS_BACK} selected {/if}>{$i}</option>
-									{/for}
-								</select>
-								<span style="margin-top:5px;" class="pull-right">{vtranslate('LBL_YEAR_FROM', $QUALIFIED_MODULE)}:&nbsp;&nbsp;</span>
-							</span>
-							<span class="span2">
-								<select class="pull-right" name="yearTo">
-									{for $i = $CURRENT_YEAR-10 to $CURRENT_YEAR+10}
-									<option value="{$i}" {if $i eq $CURRENT_YEAR} selected {/if}>{$i}</option>
-									{/for}
-								</select>
-								<span style="margin-top:5px;" class="pull-right">{vtranslate('LBL_YEAR_TO', $QUALIFIED_MODULE)}:&nbsp;&nbsp;</span>
+							<span class="pull-right commonActionsButtonContainer">
+								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
+								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
 							</span>
 						</div>
 					</div>

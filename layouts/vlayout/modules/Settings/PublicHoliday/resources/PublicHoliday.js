@@ -51,12 +51,9 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 				params['async'] = false;
 				AppConnector.request(params).then( function(data) {
 					jQuery('.contentsDiv').html(data);
-					thisInstance.registerSelect2Elements();
-					thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-					thisInstance.registerAddDate();
+					thisInstance.registerEvents();
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 				});
-				
 				
 				params = {};
 				params['text'] = data.result.message;
@@ -67,17 +64,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			}
 		);
 	},
-
-	
-
-	/**
-	 * Function that deletes holiday from list
-	 */
-	registerSelect2Elements : function() {
-		jQuery('select[name="yearFrom"]').select2();
-		jQuery('select[name="yearTo"]').select2();
-	},
-
 	/**
 	 * Function to register click event for add custom block button
 	 */
@@ -92,7 +78,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 
 				var form = data.find('.addDateWindowForm');
 				jQuery('[name="holidayId"]').val('');
-
 				jQuery('[name="saveButton"]').on('click', function() {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position' : 'html',
@@ -115,11 +100,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 								params['parent'] = app.getParentModuleName();
 								AppConnector.request(params).then( function(data) {
 									jQuery('.contentsDiv').html(data);
-									thisInstance.registerSelect2Elements();
-									thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-									thisInstance.registerAddDate();
-									thisInstance.registerEditDate();
-									thisInstance.registerYearChange();
+									thisInstance.registerEvents();
 									progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 								});
 							}
@@ -148,11 +129,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					params['parent'] = app.getParentModuleName();
 					AppConnector.request(params).then( function(data) {
 						jQuery('.contentsDiv').html(data);
-						thisInstance.registerSelect2Elements();
-						thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-						thisInstance.registerAddDate();
-						thisInstance.registerEditDate();
-						thisInstance.registerYearChange();
+						thisInstance.registerEvents();
 						progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					});
 				});
@@ -170,11 +147,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					params['parent'] = app.getParentModuleName();
 					AppConnector.request(params).then( function(data) {
 						jQuery('.contentsDiv').html(data);
-						thisInstance.registerSelect2Elements();
-						thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-						thisInstance.registerAddDate();
-						thisInstance.registerEditDate();
-						thisInstance.registerYearChange();
+						thisInstance.registerEvents();
 						progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					});
 				});
@@ -231,11 +204,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 								params['parent'] = app.getParentModuleName();
 								AppConnector.request(params).then( function(data) {
 									jQuery('.contentsDiv').html(data);
-									thisInstance.registerSelect2Elements();
-									thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-									thisInstance.registerAddDate();
-									thisInstance.registerEditDate();
-									thisInstance.registerYearChange();
+									thisInstance.registerEvents();
 									progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 								});
 							}
@@ -265,11 +234,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					params['parent'] = app.getParentModuleName();
 					AppConnector.request(params).then( function(data) {
 						jQuery('.contentsDiv').html(data);
-						thisInstance.registerSelect2Elements();
-						thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-						thisInstance.registerAddDate();
-						thisInstance.registerEditDate();
-						thisInstance.registerYearChange();
+						thisInstance.registerEvents();
 						progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					});
 				});
@@ -287,11 +252,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					params['parent'] = app.getParentModuleName();
 					AppConnector.request(params).then( function(data) {
 						jQuery('.contentsDiv').html(data);
-						thisInstance.registerSelect2Elements();
-						thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-						thisInstance.registerAddDate();
-						thisInstance.registerEditDate();
-						thisInstance.registerYearChange();
+						thisInstance.registerEvents();
 						progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					});
 				});
@@ -336,11 +297,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			params['parent'] = app.getParentModuleName();
 			AppConnector.request(params).then( function(data) {
 				jQuery('.contentsDiv').html(data);
-				thisInstance.registerSelect2Elements();
-				thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-				thisInstance.registerAddDate();
-				thisInstance.registerEditDate();
-				thisInstance.registerYearChange();
+				thisInstance.registerEvents();
 				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 			});
 		}
@@ -360,55 +317,35 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		return true;
 	},
 	
-	registerYearChange : function() {
+	registerChangeDate : function() {
 		var thisInstance = this;
-		jQuery('[name="yearFrom"]').change( function() {
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
-				}
-			});
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['view'] = 'Configuration';
-			params['parent'] = app.getParentModuleName();
-			params['yearFrom'] = jQuery(this).val();
-			params['yearTo'] = jQuery('[name="yearTo"]').val();
-			AppConnector.request(params).then( function(data) {
-				jQuery('.contentsDiv').html(data);
-				thisInstance.registerSelect2Elements();
-				thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-				thisInstance.registerAddDate();
-				thisInstance.registerEditDate();
-				thisInstance.registerYearChange();
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			});
-		});
+		var dateFilter = jQuery('.dateFilter');
 		
-		jQuery('[name="yearTo"]').change( function() {
-			var progressIndicatorElement = jQuery.progressIndicator({
-				'position' : 'html',
-				'blockInfo' : {
-					'enabled' : true
-				}
-			});
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['view'] = 'Configuration';
-			params['parent'] = app.getParentModuleName();
-			params['yearFrom'] = jQuery('[name="yearFrom"]').val();
-			params['yearTo'] = jQuery(this).val();
-			AppConnector.request(params).then( function(data) {
-				jQuery('.contentsDiv').html(data);
-				thisInstance.registerSelect2Elements();
-				thisInstance.registerDeleteHoliday(jQuery('#moduleBlocks'));
-				thisInstance.registerAddDate();
-				thisInstance.registerEditDate();
-				thisInstance.registerYearChange();
-				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
-			});
-		});
+		var customParams = {
+			calendars: 3,
+			mode: 'range',
+			className: 'rangeCalendar',
+			onChange: function(formated) {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					'position' : 'html',
+					'blockInfo' : {
+						'enabled' : true
+					}
+				});
+				var params = {};
+				params['module'] = app.getModuleName();
+				params['view'] = 'Configuration';
+				params['parent'] = app.getParentModuleName();
+				params['date'] = formated;
+				AppConnector.request(params).then( function(data) {
+					jQuery('.contentsDiv').html(data);
+					thisInstance.registerEvents();
+					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				});
+				console.log(formated);
+			}
+		}
+		app.registerEventForDatePickerFields(dateFilter, false, customParams);
 	},
 
 	/**
@@ -419,10 +356,9 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 		var container = jQuery('#moduleBlocks');
 
 		thisInstance.registerDeleteHoliday( container );
-		thisInstance.registerSelect2Elements();
 		thisInstance.registerAddDate();
 		thisInstance.registerEditDate();
-		thisInstance.registerYearChange();
+		thisInstance.registerChangeDate();
 	}
 });
 
