@@ -9,11 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_to' => 'to',
-	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
-	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
-	'LBL_VENDORS_ADD_TASK' => 'Add Task',
-	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
+	'LBL_to' => 'do',
+	'LBL_EXPORT_TO_PDF' => 'Eksportuj do PDF',
+	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informacje adresowe',
+	'LBL_VENDORS_ADD_TASK' => 'Dodaj zadanie',
+	'LBL_VENDORS_ADD_EVENT' => 'Dodajtermin',
 	'LBL_SEND_MAIL_PDF' => 'Send Mail PDF',
 	'300-Sales-Software'=>'300-Sprzedaż-Oprogramowanie',
 	'301-Sales-Hardware'=>'301-Sprzedaż-Sprzęt',
