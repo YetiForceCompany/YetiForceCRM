@@ -25,12 +25,25 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return <Object>
 	 */
-	public function getDisplayValue($value) {
+	public function getDisplayValue($tree) {
 		$template = $this->get('field')->getFieldParams();
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', array($template,$value));
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?', array($template,$tree));
+		$parentName = '';
+		$module = $this->get('field')->getModuleName();
 		if($adb->num_rows($result)) {
-			return vtranslate($adb->query_result($result, 0, 'name'), $this->get('field')->getModuleName());
+			if($adb->query_result_raw($result, 0, 'depth') > 0){
+				$parenttrre = $adb->query_result_raw($result, 0, 'parenttrre');
+				$cut = strlen('::'.$tree);
+				$parenttrre = substr($parenttrre, 0, - $cut);
+				$pieces = explode('::', $parenttrre);
+				$parent = end($pieces);
+				$result2 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
+				$parentName = $adb->query_result_raw($result2, 0, 'name');
+				
+				$parentName = '(' . vtranslate($parentName, $module) . ') ';
+			}
+			return $parentName.vtranslate($adb->query_result($result, 0, 'name'), $module);
 		}
 		return false;
 	}
@@ -61,14 +74,18 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType {
 		for($i = 0; $i < $adb->num_rows($result); $i++){
 			$tree = $adb->query_result_raw($result, $i, 'tree');
 			$parent = '';
+			$parentName = '';
 			if($adb->query_result_raw($result, $i, 'depth') > 0){
 				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
 				$cut = strlen('::'.$tree);
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
 				$parent = end($pieces);
+				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? AND tree = ?", array($template, $parent));
+				$parentName = $adb->query_result_raw($result3, 0, 'name');
+				$parentName = '(' . vtranslate($parentName, $module) . ') ';
 			}
-			$values[$adb->query_result_raw($result, $i, 'tree')] = array(vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName()),$parent);
+			$values[$adb->query_result_raw($result, $i, 'tree')] = array($parentName.vtranslate($adb->query_result_raw($result, $i, 'name'), $this->get('field')->getModuleName()),$parent);
 		}
 		return $values;
 	}
