@@ -44,6 +44,8 @@ jQuery.Class('Settings_BruteForce_Js', {
 		jQuery('#saveConfig').click(function() {
 			var attempsNumber = jQuery('[name="attempsnumber"]').val();
 			var timeLock = jQuery('[name="timelock"]').val();
+			var active = $("[name='active']").is(':checked');
+			var selectedUsers = $("[name='selectedUsers']").val();
 
 			if (!attempsNumber.length && !timeLock) {
 				var params = {
@@ -61,6 +63,8 @@ jQuery.Class('Settings_BruteForce_Js', {
 				parent: app.getParentModuleName(),
 				number: attempsNumber,
 				timelock: timeLock,
+				active: active,
+				selectedUsers: selectedUsers
 			};
 			params.async = false;
 			params.dataType = 'json';

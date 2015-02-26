@@ -14,13 +14,16 @@ class Settings_BruteForce_SaveConfig_Action extends Settings_Vtiger_Basic_Action
 		$adb = PearDatabase::getInstance();
 		$number = $request->get('number');
         $timelock = $request->get('timelock');
-
-        $sql = "UPDATE vtiger_bruteforce SET attempsnumber = ?, timelock = ?;";
-        $params = array($number,  $timelock);
-		$result = $adb->pquery( $sql , $params, true);
+		$active = $request->get('active');
+		$selectedUsers = $request->get('selectedUsers');
+		$updateResult = Settings_BruteForce_Module_Model::updateConfig($number, $timelock, $active);
+		
+		if($selectedUsers != NULL){
+			$updateUsersForNotificationsResult = Settings_BruteForce_Module_Model::updateUsersForNotifications($selectedUsers);
+		}
         $moduleName = $request->getModule();
         
-        if ($adb->getAffectedRowCount($result) == 0) {
+        if ($updateResult == 0) {
             $return = array( 'success' => false, 'message' => vtranslate('LBL_FAIL', $moduleName) );
         } else {
             $return = array( 'success' => true, 'message' => vtranslate('LBL_SAVE_SUCCESS', $moduleName) );

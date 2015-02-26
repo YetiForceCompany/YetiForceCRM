@@ -16,11 +16,17 @@ class Settings_BruteForce_Show_View extends Settings_Vtiger_Index_View{
 
 		$viewer = $this->getViewer ($request);
 		$qualifiedModuleName = $request->getModule(false);
-        
+		$adminUsers = Settings_BruteForce_Module_Model::getAdminUsers();
+		$usersForNotifications = Settings_BruteForce_Module_Model::getUsersForNotifications();
+ 
         $viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('ATTEMPS_NUMBER', $settings[0]);
+		$viewer->assign('BRUTEFORCEACTIVE', $settings['active']);
 		$viewer->assign('BLOCK_TIME', $settings[1]);
         $viewer->assign('BLOCKED', $blockedIP);
+		$viewer->assign('ADMINUSERS', $adminUsers);
+		$viewer->assign('USERFORNOTIFICATIONS', $usersForNotifications);
 		$viewer->view('Show.tpl', $qualifiedModuleName);
+
 	}
 }
