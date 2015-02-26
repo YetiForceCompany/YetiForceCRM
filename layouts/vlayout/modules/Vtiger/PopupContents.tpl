@@ -91,7 +91,13 @@
 				{else if $LISTVIEW_HEADERNAME eq 'listprice'}
 					{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
 				{else}
-					{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+					{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+                        {decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+                    {else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+                        {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+					{else}
+						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+                    {/if}
 				{/if}
 			</td>
 			{/foreach}
