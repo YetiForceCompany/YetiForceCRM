@@ -62,6 +62,7 @@ $languageStrings = array(
 	'Approval for email'=>'Permission to send emails',
 	'Approval for phone calls'=>'Permission to call',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'Payment balance' => 'Payment balance',
 );
 
 $jsLanguageStrings = array(

@@ -82,4 +82,5 @@ $languageStrings = array(
 	'Potential Name' => 'Nazwa',
 	'LBL_FINANSIAL_SUMMARY' => 'Podsumowanie finansowe',
 	'Average profit sales order' => 'Średnia marża',
+	'Payment balance' => 'Saldo płatności',
 );

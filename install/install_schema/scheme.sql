@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -109,7 +110,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `nexttrigger_time` datetime DEFAULT NULL,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows_seq` */
 
@@ -135,7 +136,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -388,6 +389,7 @@ CREATE TABLE `vtiger_account` (
   `sum_invoices` decimal(25,8) DEFAULT '0.00000000',
   `balance` decimal(25,8) DEFAULT NULL,
   `average_profit_so` decimal(5,2) DEFAULT NULL,
+  `payment_balance` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -1904,7 +1906,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2286,7 +2288,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1605 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1634 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -2751,6 +2753,7 @@ CREATE TABLE `vtiger_invoice` (
   `total_marginp` decimal(13,2) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `form_payment` varchar(255) DEFAULT '',
+  `payment_balance` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`invoiceid`),
   KEY `invoice_purchaseorderid_idx` (`invoiceid`),
   KEY `fk_2_vtiger_invoice` (`salesorderid`),
@@ -3736,7 +3739,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -3785,6 +3788,92 @@ CREATE TABLE `vtiger_osspasswordscf` (
   `osspasswordsid` int(19) NOT NULL,
   PRIMARY KEY (`osspasswordsid`),
   CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsin` */
+
+CREATE TABLE `vtiger_paymentsin` (
+  `paymentsinid` int(11) NOT NULL DEFAULT '0',
+  `paymentsvalue` decimal(25,3) DEFAULT NULL,
+  `paymentsno` varchar(32) DEFAULT NULL,
+  `paymentsname` varchar(128) DEFAULT NULL,
+  `paymentstitle` text,
+  `paymentscurrency` varchar(32) DEFAULT NULL,
+  `bank_account` varchar(128) DEFAULT NULL,
+  `paymentsin_status` varchar(128) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `salesid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`paymentsinid`),
+  CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsin_status` */
+
+CREATE TABLE `vtiger_paymentsin_status` (
+  `paymentsin_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `paymentsin_status` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`paymentsin_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsin_status_seq` */
+
+CREATE TABLE `vtiger_paymentsin_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsincf` */
+
+CREATE TABLE `vtiger_paymentsincf` (
+  `paymentsinid` int(11) NOT NULL,
+  PRIMARY KEY (`paymentsinid`),
+  CONSTRAINT `fk_1_vtiger_paymentsincf` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_paymentsin` (`paymentsinid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsout` */
+
+CREATE TABLE `vtiger_paymentsout` (
+  `paymentsoutid` int(11) NOT NULL DEFAULT '0',
+  `paymentsvalue` decimal(25,3) DEFAULT NULL,
+  `paymentsno` varchar(32) DEFAULT NULL,
+  `paymentsname` varchar(128) DEFAULT NULL,
+  `paymentstitle` varchar(128) DEFAULT NULL,
+  `paymentscurrency` varchar(32) DEFAULT NULL,
+  `bank_account` varchar(128) DEFAULT NULL,
+  `paymentsout_status` varchar(128) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `salesid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`paymentsoutid`),
+  CONSTRAINT `fk_1_vtiger_paymentsout` FOREIGN KEY (`paymentsoutid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsout_status` */
+
+CREATE TABLE `vtiger_paymentsout_status` (
+  `paymentsout_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `paymentsout_status` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`paymentsout_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsout_status_seq` */
+
+CREATE TABLE `vtiger_paymentsout_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_paymentsoutcf` */
+
+CREATE TABLE `vtiger_paymentsoutcf` (
+  `paymentsoutid` int(11) NOT NULL,
+  PRIMARY KEY (`paymentsoutid`),
+  CONSTRAINT `fk_1_vtiger_paymentsoutcf` FOREIGN KEY (`paymentsoutid`) REFERENCES `vtiger_paymentsout` (`paymentsoutid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osspdf` */
@@ -4196,7 +4285,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -4330,6 +4419,7 @@ CREATE TABLE `vtiger_potential` (
   `sum_invoices` decimal(25,8) DEFAULT '0.00000000',
   `sum_calculations` decimal(25,8) DEFAULT '0.00000000',
   `average_profit_so` decimal(5,2) DEFAULT NULL,
+  `payment_balance` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`potentialid`),
   KEY `potential_relatedto_idx` (`related_to`),
   KEY `potentail_sales_stage_idx` (`sales_stage`),
@@ -6809,7 +6899,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 

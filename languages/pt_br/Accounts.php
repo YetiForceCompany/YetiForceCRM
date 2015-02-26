@@ -67,6 +67,7 @@ $languageStrings = array(
 	'Service Contracts'=>'Contratos',
 	'Projects'=>'Projetos',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'Payment balance' => 'Payment balance',
 );
 
 $jsLanguageStrings = array(

@@ -61,11 +61,11 @@ $languageStrings = array(
 	'industry'                     => 'Отрасль'              , 
 	'LBL_ADVANCED_BLOCK'	=>	'Дополнительная информация',
 	'LBL_CONTACT_INFO'	=>	'Контактная информация',
-    'LBL_DUPLICATES_EXIST'         => 'Такой клиент уже существует.',
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
     'Prosepect Accounts'           => 'Проспект счета',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'Payment balance' => 'Payment balance',
 );
 $jsLanguageStrings = array(
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
