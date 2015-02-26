@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_osspaymentsin</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_osspaymentsin` (
+  `osspaymentsinid` int(11) NOT NULL DEFAULT '0',
+  `paymentsvalue` decimal(25,3) DEFAULT NULL,
+  `paymentsno` varchar(32) DEFAULT NULL,
+  `paymentsname` varchar(128) DEFAULT NULL,
+  `paymentstitle` text DEFAULT NULL,
+  `paymentscurrency` varchar(32) DEFAULT NULL,
+  `bank_account` varchar(128) DEFAULT NULL,
+  `osspaymentsin_status` varchar(128) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `salesid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`osspaymentsinid`),
+  CONSTRAINT `fk_1_vtiger_osspaymentsin` FOREIGN KEY (`osspaymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_osspaymentsincf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_osspaymentsincf` (
+  `osspaymentsinid` int(11) NOT NULL,
+  PRIMARY KEY (`osspaymentsinid`),
+  CONSTRAINT `fk_1_vtiger_osspaymentsincf` FOREIGN KEY (`osspaymentsinid`) REFERENCES `vtiger_osspaymentsin` (`osspaymentsinid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

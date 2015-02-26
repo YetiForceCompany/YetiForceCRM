@@ -42,6 +42,7 @@ $languageStrings = array(
 	'Transfer'	=>	'Безнал',
 	'Invoice entered'	=>	'Заказан',
 	'Potential'	=>	'Сделка',
+	'Payment balance' => 'Payment balance',
 );
 
 $jsLanguageStrings = array(
