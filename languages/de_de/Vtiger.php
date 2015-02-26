@@ -885,8 +885,6 @@ $languageStrings = array(
 	'LBL_NAME' => 'Record name',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
-	'OSSPaymentsIn' => 'Payments In',
-	'OSSPaymentsOut' => 'Payments Out',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',

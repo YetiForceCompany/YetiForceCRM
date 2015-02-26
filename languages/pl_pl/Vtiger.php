@@ -891,8 +891,6 @@ $languageStrings = array(
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
-	'OSSPaymentsIn' => 'Wpłaty',
-	'OSSPaymentsOut' => 'Wypłaty',
 );
 
 $jsLanguageStrings = array(

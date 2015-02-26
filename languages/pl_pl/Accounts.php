@@ -63,7 +63,6 @@ $languageStrings = array(
 	'Balance' => 'Saldo księgowe',
 	'Average profit sales order' => 'Średnia marża',
 	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
-	'Payment balance' => 'Saldo płatności',
 );
 
 $jsLanguageStrings = array(

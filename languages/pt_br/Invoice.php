@@ -43,7 +43,6 @@ $languageStrings = array(
 	'Cash' => 'Dinheiro',
 	//Missing Invoice Status Item. In Portuguese the word "Approved" has in masculine [Aprovado] and feminine [Aprovada]. For Invoice, this word is feminine.
 	'Approved' => 'Aprovada',
-	'Payment balance' => 'Payment balance',
 );
 
 $jsLanguageStrings = array(
