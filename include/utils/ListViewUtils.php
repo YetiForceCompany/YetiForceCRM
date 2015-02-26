@@ -264,10 +264,11 @@ function getListQuery($module, $where = '') {
 			}
 			//end
 			$instance = CRMEntity::getInstance($module);
+			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
 			if($securityParameter != '')
-				$query.= ' AND '.$securityParameter;
-			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' " . $where;
+				$query.= ' '.$securityParameter;
+			$query.= ' '.$where;
 			break;
 		Case "Emails":
 			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
