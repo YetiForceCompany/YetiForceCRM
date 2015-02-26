@@ -230,7 +230,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.name.display_value;
+		eventObject.title = calendarDetails.subject.display_value;
 		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
 		var endDate = Date.parse(calendarDetails.due_date.display_value + 'T' + calendarDetails.time_end.display_value);
@@ -250,10 +250,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	isAllowedToAddCalendarEvent: function (calendarDetails) {
 		var activityType = calendarDetails.activitytype.value;
-		console.log(activityType);
-		if(activityType == 'Calendar'  && jQuery('[data-calendar-feed="Calendar"]').is(':checked')) {
-			return true;
-		} else if(jQuery('[data-calendar-feed="Events"]').is(':checked')){
+		if(jQuery('#menubar_quickCreate_Calendar').length > 0) {
 			return true;
 		} else {
 			return false;
