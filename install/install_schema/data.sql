@@ -622,6 +622,7 @@ insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break_time','LBL_BREAK_TIME','#ffd000');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','LBL_HOLIDAY','#00d4f5');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 
