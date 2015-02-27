@@ -938,10 +938,10 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var detailViewValue = jQuery('.value',currentTdElement);
 			var editElement = jQuery('.edit',currentTdElement);
 			var actionElement = jQuery('.summaryViewEdit', currentTdElement);
-			var fieldElement = jQuery('.fieldname', editElement);
-                        
+			var fieldElement = jQuery('.fieldname', editElement);   
        jQuery(fieldElement).each(function(index, element){
             var fieldName = jQuery(element).val();
+			var elementTarget =  jQuery(element);
 			var fieldElement = jQuery('[name="'+ fieldName +'"]', editElement);
 
 			if(fieldElement.attr('disabled') == 'disabled'){
@@ -967,10 +967,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if((element.closest('td').is(currentTdElement))){
 					return;
 				}
-
 				currentTdElement.removeAttr('tabindex');
-
-                var previousValue = element.data('prevValue');
+                var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
 				var ajaxEditNewValue = formData[fieldName];
@@ -992,8 +990,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if(errorExists) {
 					return;
 				}
-
-
 				fieldElement.validationEngine('hide');
                 //Before saving ajax edit values we need to check if the value is changed then only we have to save
                 if(previousValue == ajaxEditNewValue) {
@@ -1049,7 +1045,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 						actionElement.show();
                         detailViewValue.html(postSaveRecordDetails[fieldName].display_value);
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent,{'old':previousValue,'new':fieldValue});
-                        element.data('prevValue', ajaxEditNewValue);
+                        elementTarget.data('prevValue', ajaxEditNewValue);
                         fieldElement.data('selectedValue', ajaxEditNewValue); 
                         //After saving source field value, If Target field value need to change by user, show the edit view of target field. 
                         if(thisInstance.targetPicklistChange) { 
@@ -1425,7 +1421,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 							currentTarget.show();
 							detailViewElement.html(ajaxEditNewLable);
 							fieldnameElement.data('prevValue', ajaxEditNewValue);
-							if('Held' == ajaxEditNewValue){
+							if('Held' == ajaxEditNewValue || 'Completed' == ajaxEditNewValue){
 								var recordWidget = currentTarget.closest('.activityEntries');
 								var hrElement = recordWidget.next('hr');
 								recordWidget.find('popoverTooltip').popover('hide');

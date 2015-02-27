@@ -55,5 +55,5 @@ $jsLanguageStrings = array(
 	'JS_SEQUENCE_UPDATED_SUCCESSFULLY' => 'Sequence updated successfully',
 	'JS_SPECIAL_CHARACTERS' => 'Special Characters like',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Value assigned successfully',
-	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'You cannot delete all the values',
+	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'You cannot delete all values',
 );	

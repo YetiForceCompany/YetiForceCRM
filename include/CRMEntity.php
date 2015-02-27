@@ -239,12 +239,13 @@ class CRMEntity {
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
+			$inheritsharing = ($this->column_fields['inheritsharing'] == 'on') ? true : false;
 			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = getTabid($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=? where crmid=?";
-				$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true),$was_read, $this->id);
+				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=?, inheritsharing=? where crmid=?";
+				$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true),$was_read,$inheritsharing, $this->id);
 			} else {
 				$profileList = getCurrentUserProfileList();
 				$perm_qry = "SELECT columnname FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid = vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid WHERE vtiger_field.tabid = ? AND vtiger_profile2field.visible = 0 AND vtiger_profile2field.readonly = 0 AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ") AND vtiger_def_org_field.visible = 0 and vtiger_field.tablename='vtiger_crmentity' and vtiger_field.presence in (0,2);";
@@ -254,8 +255,8 @@ class CRMEntity {
 					$columname[] = $adb->query_result($perm_result, $i, "columnname");
 				}
 				if (is_array($columname) && in_array("description", $columname)) {
-					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=? where crmid=?";
-					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read, $this->id);
+					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?, attention=?, modifiedtime=?,was_read=?, inheritsharing=? where crmid=?";
+					$params = array($ownerid, $current_user->id, $description_val, $attention_val, $adb->formatDate($date_var, true), $was_read,$inheritsharing, $this->id);
 				} else {
 					$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?, modifiedtime=? where crmid=?";
 					$params = array($ownerid, $current_user->id, $adb->formatDate($date_var, true), $this->id);
@@ -276,7 +277,7 @@ class CRMEntity {
 			// Customization
 			$created_date_var = $adb->formatDate($date_var, true);
 			$modified_date_var = $adb->formatDate($date_var, true);
-
+			$inheritsharing = ($this->column_fields['inheritsharing'] == 'on') ? true : false;
 			// Preserve the timestamp
 			if (self::isBulkSaveMode()) {
 				if (!empty($this->column_fields['createdtime']))
@@ -287,8 +288,8 @@ class CRMEntity {
 
 			$description_val = from_html($this->column_fields['description'], ($insertion_mode == 'edit') ? true : false);
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
-			$sql = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,attention,modifiedby,createdtime,modifiedtime) values(?,?,?,?,?,?,?,?,?)";
-			$params = array($current_id, $current_user->id, $ownerid, $module, $description_val, $attention_val, $current_user->id, $created_date_var, $modified_date_var);
+			$sql = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,attention,modifiedby,createdtime,modifiedtime,inheritsharing) values(?,?,?,?,?,?,?,?,?,?)";
+			$params = array($current_id, $current_user->id, $ownerid, $module, $description_val, $attention_val, $current_user->id, $created_date_var, $modified_date_var,$inheritsharing);
 			$adb->pquery($sql, $params);
             
             $this->column_fields['createdtime'] = $created_date_var;

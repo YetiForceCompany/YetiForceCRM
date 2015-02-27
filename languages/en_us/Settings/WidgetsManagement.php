@@ -29,7 +29,7 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_RECORDS_DISPLAYED' => 'Displayed records number',
 	'LBL_DEFAULT_FILTER' => 'Default filter',
 	'LBL_FILTERS_AVAILABLE' => 'Filters available',
-	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select atleast one option',
+	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select at least one option',
 );
 $jsLanguageStrings = array(
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',

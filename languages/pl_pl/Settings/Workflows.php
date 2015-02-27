@@ -128,7 +128,7 @@ $languageStrings = array(
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
 	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
 	'Select e-mail address' => 'Wybierz adres mail',
-	'Send a copy to email' => 'Kopia na adres na adres',
+	'Send a copy to email' => 'Kopia na adres',
 	
 	//workflow task types
 	'Send Mail' => 'Wyślij maila',
