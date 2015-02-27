@@ -636,6 +636,7 @@ insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break_time','LBL_BREAK_TIME','#ffd000');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','LBL_HOLIDAY','#00d4f5');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */
 
@@ -5755,34 +5756,6 @@ insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`
 
 /*Data for the table `vtiger_osspasswordscf` */
 
-/*Data for the table `vtiger_paymentsin` */
-
-/*Data for the table `vtiger_paymentsin_status` */
-
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,576,1);
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,577,2);
-insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,578,3);
-
-/*Data for the table `vtiger_paymentsin_status_seq` */
-
-insert  into `vtiger_paymentsin_status_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_paymentsincf` */
-
-/*Data for the table `vtiger_paymentsout` */
-
-/*Data for the table `vtiger_paymentsout_status` */
-
-insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,579,1);
-insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,580,2);
-insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,581,3);
-
-/*Data for the table `vtiger_paymentsout_status_seq` */
-
-insert  into `vtiger_paymentsout_status_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_paymentsoutcf` */
-
 /*Data for the table `vtiger_osspdf` */
 
 insert  into `vtiger_osspdf`(`osspdfid`,`oss_mod_no`,`title`,`moduleid`,`osspdf_pdf_format`,`osspdf_pdf_orientation`,`content`,`constraints`,`filename`,`left_margin`,`right_margin`,`top_margin`,`bottom_margin`,`osspdf_enable_footer`,`osspdf_enable_header`,`header_content`,`footer_content`,`osspdf_enable_numbering`,`height_header`,`height_footer`,`selected`,`osspdf_view`) values (96,'1','Quotes PDF','20','A4','Portrait','<title></title>\r\n<title></title>\r\n<table align=\"left\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 100%;\">\r\n	<tbody>\r\n		<tr>\r\n			<td><span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\"><strong>#company_organizationname#</strong><br />\r\n			#company_address#<br />\r\n			#company_code# #company_city#<br />\r\n			#company_country#<br />\r\n			tel.: #company_phone#<br />\r\n			fax: #company_fax#<br />\r\n			WWW: <a href=\"#company_website#\"> #company_website#</a><br />\r\n			VAT: #company_vatid#</span></span></td>\r\n			<td>&nbsp;</td>\r\n			<td>\r\n			<div style=\"text-align: right;\"><span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\">#company_city#, #special_function#CurrentDate#end_special_function#</span></span></div>\r\n			</td>\r\n		</tr>\r\n		<tr>\r\n			<td>&nbsp;</td>\r\n			<td>&nbsp;</td>\r\n			<td><span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\">#Contacts_firstname# #Contacts_lastname#<br />\r\n			tel: #Contacts_phone#<br />\r\n			email: #Contacts_email#<br />\r\n			<br />\r\n			<strong>#Accounts_accountname#</strong><br />\r\n			#addresslevel8a# #buildingnumbera# #localnumbera#<br />\r\n			#addresslevel7a# #addresslevel5a#<br />\r\n			#Accounts_label_vat_id#: #Accounts_vat_id#</span></span></td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n\r\n<p style=\"text-align: center;\"><br />\r\n<span style=\"font-size:14px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\"><strong>Offer #quote_no#</strong></span></span></p>\r\n<span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\">#description#</span></span><br />\r\n<span>#special_function#replaceProductTable#end_special_function#</span><br />\r\n<br />\r\n<span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\"><strong>#label_attention#: </strong>#attention#<br />\r\n<strong>#label_currency_id#: </strong>#currency_id#<br />\r\n<strong>#label_validtill#: </strong>#validtill#<br />\r\n<strong>#label_shipping#: </strong>#shipping#<br />\r\n<strong>#label_form_payment#: </strong>#form_payment#<br />\r\n<strong>#label_terms_conditions#:</strong>#terms_conditions#</span></span><br />\r\n<br />\r\n<span style=\"font-size:9px;\"><span style=\"font-family: tahoma,geneva,sans-serif;\">#Users_first_name# #Users_last_name#<br />\r\nemail: <a href=\"mailto:#Users_email1#\">#Users_email1#</a><br />\r\n<br />\r\n<strong>#company_organizationname#</strong><br />\r\ntel.: #company_phone#<br />\r\nfax: #company_fax#<br />\r\nWWW: <a href=\"#company_website#\"> #company_website#</a></span></span>',NULL,'',10,10,10,10,'No','No','','','No',1,1,'1','Lista |##| Podgląd');
@@ -6003,6 +5976,34 @@ insert  into `vtiger_payment_duration`(`payment_duration_id`,`payment_duration`,
 
 insert  into `vtiger_payment_duration_seq`(`id`) values (20);
 
+/*Data for the table `vtiger_paymentsin` */
+
+/*Data for the table `vtiger_paymentsin_status` */
+
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,576,1);
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,577,2);
+insert  into `vtiger_paymentsin_status`(`paymentsin_statusid`,`paymentsin_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,578,3);
+
+/*Data for the table `vtiger_paymentsin_status_seq` */
+
+insert  into `vtiger_paymentsin_status_seq`(`id`) values (3);
+
+/*Data for the table `vtiger_paymentsincf` */
+
+/*Data for the table `vtiger_paymentsout` */
+
+/*Data for the table `vtiger_paymentsout_status` */
+
+insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Created',1,579,1);
+insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Denied',1,580,2);
+insert  into `vtiger_paymentsout_status`(`paymentsout_statusid`,`paymentsout_status`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Paid',1,581,3);
+
+/*Data for the table `vtiger_paymentsout_status_seq` */
+
+insert  into `vtiger_paymentsout_status_seq`(`id`) values (3);
+
+/*Data for the table `vtiger_paymentsoutcf` */
+
 /*Data for the table `vtiger_pbxmanager` */
 
 /*Data for the table `vtiger_pbxmanager_gateway` */
@@ -6045,14 +6046,14 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (64,'oproductstatus')
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (59,'ossdc_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (60,'osservicesstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (57,'ossmailview_sendtype');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (74,'paymentsin_status');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (75,'paymentsout_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (53,'osspdf_enable_footer');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (54,'osspdf_enable_header');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (55,'osspdf_enable_numbering');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (51,'osspdf_pdf_format');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (52,'osspdf_pdf_orientation');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (56,'osspdf_view');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (74,'paymentsin_status');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (75,'paymentsout_status');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (17,'postatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (45,'progress');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (38,'projectmilestonetype');
