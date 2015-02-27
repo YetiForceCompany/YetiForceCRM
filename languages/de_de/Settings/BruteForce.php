@@ -12,7 +12,7 @@ $languageStrings = array(
     'BruteForce'  => 'Brute Force',
     'Number of attempts' => 'Anzahl von Versuchen',
     'Time lock' => 'Zeitsperre (Minuten)',
-    'Settings' => 'Einstellungen des Anmeldungseinschränkung',
+    'Settings' => 'Settings',
     'Blocked IP' => 'Gesperrte IP-Adresse',
     'BruteForce settings' => 'Brute Force Einstellungen',
     'Save' => 'Speichern',
@@ -27,6 +27,8 @@ $languageStrings = array(
     'Users' => 'Benutzer',
     'Browsers' => 'Browser',
     'Unblock' => 'Entsperren',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
     
 );
 

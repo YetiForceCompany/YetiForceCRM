@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.5.24 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -825,7 +825,16 @@ CREATE TABLE `vtiger_blocks_seq` (
 
 CREATE TABLE `vtiger_bruteforce` (
   `attempsnumber` int(11) NOT NULL COMMENT 'Number of attempts',
-  `timelock` int(11) DEFAULT NULL COMMENT 'Time lock'
+  `timelock` int(11) DEFAULT NULL COMMENT 'Time lock',
+  `active` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_bruteforce_users` */
+
+CREATE TABLE `vtiger_bruteforce_users` (
+  `id` int(19) NOT NULL,
+  KEY `fk_1_vtiger_bruteforce_users` (`id`),
+  CONSTRAINT `fk_1_vtiger_bruteforce_users` FOREIGN KEY (`id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculations` */

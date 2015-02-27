@@ -90,5 +90,80 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 			return true;
 		}
 		return false;
+	}
+
+	public static function getAdminUsers(){
+		global $adb;
+		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
+		$result = $adb->query($query);
+		$numRows = $adb->num_rows($result);
+		for ($i=0; $i < $numRows; $i++) {
+			$userId = $adb->query_result_raw($result, $i, 'id');
+			$userName = $adb->query_result_raw($result, $i, 'user_name');
+			$output[$userId] = $userName;
+		}
+	
+		return $output;
+	}
+
+	public static function updateConfig($number, $timelock, $active){
+		global $adb;
+		
+		if('true' == $active){
+			$active = TRUE;
+		}else{
+			$active = FALSE;
+		}
+		
+		$query = "UPDATE vtiger_bruteforce SET attempsnumber = ?, timelock = ?, active = ?;";
+		$params = array($number, $timelock, $active);
+		$result = $adb->pquery($query, $params);	
+
+		return $result;
+	}
+
+	public static function updateUsersForNotifications($selectedUsers){
+		global $adb;
+		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
+		$adb->query($deleteQuery);
+		$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
+		foreach ($selectedUsers as $userId) {
+			$adb->pquery($insertQuery, array($userId));
+		}
+		
+		return TRUE;
+	}
+
+	public static function getUsersForNotifications(){
+		global $adb;
+		$result = $adb->query("SELECT * FROM vtiger_bruteforce_users", true);
+		$numRows = $adb->num_rows($result);
+		for($i = 0; $i < $numRows; $i++){
+			$id = $adb->query_result($result, $i, 'id');
+			$output[$id] = $id;
+		}
+				
+		return $output;
+	}
+
+	public static function sendNotificationEmail(){
+		$usersId = self::getUsersForNotifications();
+		foreach ($usersId as $id) {		
+			$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users'); 
+			$userEmail = $recordModel->get('email1'); 
+			$emails[] = $userEmail;
+		}
+		$emailsList = implode(',', $emails);
+		$data = array(
+				'id' => 107,
+				'to_email' => $emailsList,
+				'module' => 'Contacts',
+		);
+		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+		$mail_status = $recordModel->sendMailFromTemplate($data);
+		 
+		if($mail_status != 1) {
+			throw new Exception('Error occurred while sending mail');
+		} 
 	}	
 }

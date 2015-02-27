@@ -13,7 +13,7 @@ $languageStrings = array(
 	'BruteForce'	=>	'Защита от подбора пароля',
 	'Number of attempts'	=>	'Количество неудачных попыток входа',
 	'Time lock'	=>	'Время блокировки в минутах',
-	'Settings'	=>	'Настройки ограничения входа',
+	'Settings'	=>	'Settings',
 	'Blocked IP'	=>	'Заблокированные IP адреса',
 	'BruteForce settings'	=>	'Настройка защиты от подбора пароля',
 	'Save'	=>	'Сохранить',
@@ -28,6 +28,8 @@ $languageStrings = array(
 	'Users'	=>	'Пользователь',
 	'Browsers'	=>	'Браузер',
 	'Unblock'	=>	'Разблокирован',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
     
 );
 

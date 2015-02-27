@@ -42,6 +42,20 @@
 				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Time lock', $MODULE)}</label></td>
 				<td style="border-left: none;"><input type="text" name="timelock" id="min_length" value="{$BLOCK_TIME}" /></td>
 			</tr>
+			<tr>
+				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_USERS_FOR_NOTIFICATIONS', $MODULE)}</label></td>
+				<td style="border-left: none;">
+					<select class="chzn-select" id="" name="selectedUsers" multiple>
+						{foreach key=KEY  item=USER from=$ADMINUSERS}
+							<option value="{$KEY}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			<tr style="height:46px;">
+				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_BRUTEFORCE_ACTIVE', $MODULE)}</label></td>
+				<td style="border-left: none;"><input type="checkbox" name="active" {if $BRUTEFORCEACTIVE} checked {/if} /></td>
+			</tr>
 		</tbody>
 		</table>
 		<div class="pull-right" style="margin: 10px;">
