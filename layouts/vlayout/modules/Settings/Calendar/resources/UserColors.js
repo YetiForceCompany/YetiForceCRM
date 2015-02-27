@@ -10,6 +10,7 @@
 var Settings_UserColors_Js = {
 	initEvants: function() {
 		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
+		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
@@ -57,6 +58,27 @@ var Settings_UserColors_Js = {
 				callBackFunction(data);
 			}
 		}, {'width':'1000px'});
+	},
+	
+	updateEvent: function(e) {
+		var progress = $.progressIndicator({
+			'message' : app.vtranslate('Update labels'),
+			'blockInfo' : {
+				'enabled' : true
+			}
+		});
+		var target = $(e.currentTarget);
+		var metod = target.data('metod');
+		if(target.prop('checked')){
+			value = 1;
+		}else
+			value = 0;
+		params = {};
+		params.color = value;
+		params.id = target.attr('id');
+		params = jQuery.extend({}, params);
+		Settings_UserColors_Js.registerSaveEvent(metod,params);
+		progress.progressIndicator({'mode': 'hide'});
 	},
 	
 	registerSaveEvent: function(mode, data) {

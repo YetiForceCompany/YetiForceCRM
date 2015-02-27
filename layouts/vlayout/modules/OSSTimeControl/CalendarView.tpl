@@ -10,11 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+{assign var=UPDATE_EVENT value=Settings_Calendar_Module_Model::getCalendarConfig('reminder')}
 <input type="hidden" id="currentView" value="{$smarty.request.view}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
 <input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}" />
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
+<input type="hidden" id="update_event" value="{$UPDATE_EVENT['0']['value']}" />
 <style>
 {foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
 	.calendarColor_{$ITEM.name}{ border: 1px solid {$ITEM.value}; background-color: {$ITEM.value}; }

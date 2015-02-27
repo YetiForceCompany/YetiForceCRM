@@ -57,7 +57,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => vtranslate('LBL_SAVE_CHANGES', $request->getModule(false))
 		));
 		$response->emit();
 	}
