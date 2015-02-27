@@ -16,8 +16,8 @@ $jsLanguageStrings = array(
     'stop_user' => 'User that stopped scanning',
     'Manually stopped' => 'Stopped manually',
     'OK' => 'ok',
-    'In progress' => 'W realization',
-    'whether_remove_an_identity' => 'Whether to remove an identity',
+    'In progress' => 'In progress',
+    'whether_remove_an_identity' => 'Remove an identity?',
     'removed_identity' => 'Identity deleted',
 );
 

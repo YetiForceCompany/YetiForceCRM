@@ -35,7 +35,7 @@ $languageStrings = array(
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'I accept the license agreement.',
 	'LBL_EXISTS'=>'Exists',
 	'LBL_PROCEED_WITH_IMPORT' => 'Do you want to proceed with the import?',
-	'LBL_VERSION_NOT_SUPPORTED' => 'Module version is not compatible with vtiger version',
+	'LBL_VERSION_NOT_SUPPORTED' => 'Module version is not compatible with YetiForce version',
 	'LBL_FINISH' => 'Finish',
 	'LBL_IMPORT_ZIP' => 'Install From File',
 	'LBL_IMPORT_MODULE' => 'Install From Vtiger',
@@ -57,7 +57,7 @@ $languageStrings = array(
 	'LBL_ENTER_MODULE_LABEL' => 'Module label',
 	'LBL_ENTITY_FIELDNAME' => 'Entity field name',
 	'LBL_ENTITY_FIELDLABEL' => 'Entity field label',
-	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This madule name already exists, try another',
+	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'This module name already exists, try another',
 	'LBL_INVALID_MODULE_NAME' => 'Invalid module name',
 );
 $jsLanguageStrings = array(

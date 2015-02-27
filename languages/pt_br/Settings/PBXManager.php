@@ -16,11 +16,11 @@ $languageStrings = array(
     'LBL_INFO_WEBAPP_URL' => 'Configure a URL do seu Asterisk no formato', 
     'LBL_FORMAT_WEBAPP_URL' => '(Protocolo)://(asterisk_ip):(Porta)',
     'LBL_FORMAT_INFO_WEBAPP_URL' => 'ex:http://0.0.0.0:5000',
-    'LBL_INFO_CONTEXT' => 'Contexto Específico do Vtiger configurado no seu servidro Asterisk (extensions.conf)',
-    'LBL_PBXMANAGER_INFO' => 'Configure os Detalhes do Servidor Asterisk acima, somente depois de instalar o Conector do Vtiger em seu Servidor Asterisk.',
+    'LBL_INFO_CONTEXT' => 'Contexto Específico do YetiForce configurado no seu servidro Asterisk (extensions.conf)',
+    'LBL_PBXMANAGER_INFO' => 'Configure os Detalhes do Servidor Asterisk acima, somente depois de instalar o Conector do YetiForce em seu Servidor Asterisk.',
     
     'webappurl'=>'URL do Vtiger Asterisk',
-    'vtigersecretkey'=>'Chave Secreta Vtiger',
+    'vtigersecretkey'=>'Chave Secreta YetiForce',
     'outboundcontext' => 'Contexto Outbound',
     'outboundtrunk' => 'Tronco Outbound',
     
