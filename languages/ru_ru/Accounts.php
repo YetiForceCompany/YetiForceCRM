@@ -72,4 +72,5 @@ $jsLanguageStrings = array(
 	'LBL_DELETE_CONFIRMATION'      => 'Удаление записи повлечет за собой удаление связанных записей модулей Сделки и Предложения. Вы уверены, что хотите удалить данную запись?', // TODO: Review
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Удаление записей повлечет за собой удаление связанных записей модулей Сделки и Предложения. Вы уверены, что хотите удалить данные записи?', // TODO: Review
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Вы уверены, что хотите удалить запись?',
+	'This name already exists' => 'This name already exists',
 );

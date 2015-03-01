@@ -70,4 +70,5 @@ $jsLanguageStrings = array(
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Organization will remove its related Opportunities & Quotes. Are you sure you want to delete this Organization?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Organization(s) will remove its related Opportunities & Quotes. Are you sure you want to delete the selected records?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
+	'This name already exists' => 'This name already exists',
 );
