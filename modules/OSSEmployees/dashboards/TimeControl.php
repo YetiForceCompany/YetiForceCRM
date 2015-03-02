@@ -44,16 +44,28 @@ class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		
-		$data = $moduleModel->getWidgetTimeControl($user, $time);
+
+		$holidayTime = $request->get('holidayTime');
+		if('' == $holidayTime)
+			$holidayTime = TRUE;
+		$breakTime = $request->get('breakTime');
+		if('' == $breakTime)
+			$breakTime = TRUE;
+		$workTime = $request->get('workTime');
+		if('' == $workTime)
+			$workTime = TRUE;
+
+		$data = $moduleModel->getWidgetTimeControl($user, $time, $holidayTime, $breakTime, $workTime);
 		$workDays = $moduleModel->getWorkingDays($time['start'], $time['end']);
 		$selectedDays = (strtotime($time['end']) - strtotime($time['start'])) / (60*60*24) + 1;
-
+	
 		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
-		for($i = 0;$i<count($data['data']);$i++){
-			$data['data'][$i]["links"] = $listViewUrl.$this->getSearchParams($user,$data['data'][$i][1]);
+		for($i = 0;$i<count($data['data']['days']);$i++){
+			$data['data'][$i]['links'] = $listViewUrl.$this->getSearchParams($user,$data['data']['days'][$i]);
 		}
-
 		
+		$viewer->assign('CHARTEXIST', $data['chartExist']);
+		$viewer->assign('TIMETYPESCOLORS', $data['colors']);
 		$viewer->assign('SELECTEDDAYS', $selectedDays);
 		$viewer->assign('WORKDAYS', $workDays);	
 		$viewer->assign('AVERAGE', $data['average']);

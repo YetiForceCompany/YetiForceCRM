@@ -163,9 +163,15 @@ jQuery.Class('Vtiger_Widget_Js',{
 					params.data[name].start = dateRangeValComponents[0];
 					params.data[name].end = dateRangeValComponents[1];
 				}else{
+					var filterType = widgetFilter.attr('type');
 					var filterName = widgetFilter.attr('name');
-					var filterValue = widgetFilter.val();
-					params.data[filterName] = filterValue;
+					if('checkbox' == filterType){
+						var filterValue = widgetFilter.is(':checked');
+						params.data[filterName] = filterValue;
+					}else{
+						var filterValue = widgetFilter.val();
+						params.data[filterName] = filterValue;
+					}
 				}
 			});
 		}

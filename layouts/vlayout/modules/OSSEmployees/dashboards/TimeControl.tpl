@@ -47,19 +47,60 @@
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var chartData = [];
-			var xLabels = new Array();
-			var yMaxValue = 0;
-			for(var index in data) {
-				var row = data[index];
-				xLabels.push(app.getDecodedValue(row[1]))
-				chartData.push(row[0]);
-				if(parseInt(row[0]) > yMaxValue){
-					yMaxValue = parseInt(row[0]);
+			if(undefined != data['LBL_WORKING_TIME'])
+				chartData.push(data['LBL_WORKING_TIME']);
+			if(undefined != data['LBL_BREAK_TIME'])
+				chartData.push(data['LBL_BREAK_TIME']);
+			if(undefined != data['LBL_HOLIDAY'])
+				chartData.push(data['LBL_HOLIDAY']);
+	
+			return {literal}{'chartData':chartData, 'yMaxValue':data['yMaxValue'], 'labels':data['days']}{/literal};
+		},
+
+		loadChart : function() {
+			var data = this.generateChartData();
+			this.getPlotContainer(false).jqplot(data['chartData'] , {
+				title: data['title'],
+			    stackSeries: true,
+				animate: !$.jqplot.use_excanvas,
+				{literal}
+				seriesDefaults:{
+					renderer:jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection : 'vertical'
+					},
+					pointLabels: {show: true,edgeTolerance: -15}
+				},
+				{/literal}
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							angle: -45
+						}
+					},
+					yaxis: {
+						min:0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad : 1.2
+					}
+				},
+				legend: {
+					show		: (data['data_labels']) ? true:false,
+					location	: 'e',
+					placement	: 'outside',
+					showLabels	: (data['data_labels']) ? true:false,
+					showSwatch	: (data['data_labels']) ? true:false,
+					labels		: data['data_labels']
 				}
-			}
-			// yMaxValue Should be 25% more than Maximum Value
-			yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
-			return {literal}{'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels}{/literal};
+			});
 		},
 	});
 
@@ -131,6 +172,20 @@
 						{/foreach}
 					</optgroup>
 				</select>
+			</span>
+		</div>
+		<div class="row-fluid">
+			<span class="span4" style="text-align:center;">
+				<label>{vtranslate('LBL_HOLIDAY', $MODULE_NAME)}</label>
+				<input type="checkbox" checked name="holidayTime" class="holidayTime widgetFilter" />
+			</span>
+			<span class="span4" style="text-align:center;">
+				<label>{vtranslate('LBL_TOTAL_TIME', $MODULE_NAME)}</label>
+				<input type="checkbox" checked name="breakTime" class="breakTime widgetFilter" />
+			</span>
+			<span class="span4" style="text-align:center;">
+				<label>{vtranslate('LBL_BREAK_TIME', $MODULE_NAME)}</label>
+				<input type="checkbox" checked name="workTime" class="workTime widgetFilter" />
 			</span>
 		</div>
 	</div>
