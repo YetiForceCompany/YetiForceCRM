@@ -73,7 +73,8 @@ class Products_ListView_Model extends Vtiger_ListView_Model {
 
 		$listQuery = $this->getQuery();
 		$potential_id = $this->get('potential_id');
-		if( vglobal('inventory_popup_limited_from_potentials') && $potential_id){
+		if( Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit()){
+			if ( $potential_id == '' ) $potential_id = -1;
 			$newListQuery = '';
 			$explodedListQuery = explode('INNER JOIN',$listQuery);
 			foreach ($explodedListQuery as $key => $value) {
