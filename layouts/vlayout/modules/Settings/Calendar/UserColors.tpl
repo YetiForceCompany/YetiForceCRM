@@ -21,6 +21,7 @@
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                 <li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USER_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li><a data-toggle="tab" href="#calendarConfig"><strong>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
             </ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
@@ -64,6 +65,18 @@
 									<td>
 										<button class="btn marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane paddingTop20" id="calendarConfig">
+					<table class="table table-bordered table-condensed listViewEntriesTable">
+						<tbody>
+							{foreach from=$MODULE_MODEL->getCalendarConfig('reminder') item=item key=key}
+								<tr data-id="{$item.name}" data-color="{$item.value}">
+									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
+									<td><input type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/></td>
 								</tr>
 							{/foreach}
 						</tbody>

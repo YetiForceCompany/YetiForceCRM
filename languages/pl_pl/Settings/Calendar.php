@@ -30,6 +30,8 @@ $languageStrings = array(
 	'LBL_CALENDAR_TYPE' => 'Typ wydarzeń',
 	'LBL_BREAK_TIME' => 'Przewa w pracy',
 	'LBL_HOLIDAY' => 'Urlop',
+	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
+	'LBL_UPDATE_EVENT' => 'Aktualizować termin w kalendarzu przy przekładaniu',
 );
 $jsLanguageStrings = array(
 

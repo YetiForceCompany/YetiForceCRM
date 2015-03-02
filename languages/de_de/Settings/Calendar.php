@@ -30,6 +30,7 @@ $languageStrings = array(
 	'LBL_CALENDAR_TYPE' => 'Calendar type',
 	'LBL_BREAK_TIME' => 'Break time',
 	'LBL_HOLIDAY' => 'Holiday',
+	'LBL_SAVE_CHANGES' => 'Saved changes',
 );
 $jsLanguageStrings = array(
 
