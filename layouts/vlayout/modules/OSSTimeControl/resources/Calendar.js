@@ -58,9 +58,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var defaultFirstHour = jQuery('#start_hour').val();
 		var explodedTime = defaultFirstHour.split(':');
 		defaultFirstHour = explodedTime['0'];
-		
-		//Update event
-		var reminder = jQuery('#update_event').val();
+
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
 				left: 'month,agendaWeek,agendaDay',
@@ -86,14 +84,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 				thisInstance.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function ( event, delta, revertFunc) {
-				if(reminder != 0){
-					thisInstance.updateEvent(event, delta, revertFunc);
-				}
+				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventResize: function (event, delta, revertFunc) {
-				if(reminder != 0){
-					thisInstance.updateEvent(event, delta, revertFunc);
-				}
+				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
