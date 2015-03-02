@@ -70,6 +70,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Данная опция позволяет выделить записи цветом, по определенным условиям.',
 	'LBL_BACKGROUND_COLOR' => 'Цвет фона',
 	'LBL_TEXT_COLOR' => 'Цвет текста',
+	'This name already exists' => 'This name already exists',
 );
 
 $jsLanguageStrings = array(

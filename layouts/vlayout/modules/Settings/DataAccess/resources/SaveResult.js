@@ -84,11 +84,6 @@ function SaveResult() {
 			params.hide = info.hide;
 		}
 		
-		if( params.title.indexOf('This name already exists') >= 0){
-			var translateText = app.vtranslate('This name already exists');	
-			params.title = params.title.replace('This name already exists', translateText); 
- 		}
-
 		Vtiger_Helper_Js.showPnotify(params);
 	}
 	this.showQuickCreate = function(moduleName,orgExecuteTaskStatus) {

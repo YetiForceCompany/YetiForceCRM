@@ -69,6 +69,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Esta ferramenta permite colorir linhas que satisfaçam as condições correspondentes. Graças a esta funcionalidade, os registros com prioridade mais elevada podem ser diferenciados.',
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
+	'This name already exists' => 'This name already exists',
 );
 
 $jsLanguageStrings = array(
