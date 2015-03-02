@@ -109,7 +109,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
-		if( Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() ) {
+		if(Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule( $sourceModule ) ) {
 			if ( $potentialId == '' ) $potentialId = -1;
 			$listViewModel->set('potential_id', $potentialId);
 			$viewer->assign('INVENTORY_LIMITED_FROM_POTENTIALS', true);

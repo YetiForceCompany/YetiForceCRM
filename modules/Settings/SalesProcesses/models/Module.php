@@ -80,4 +80,13 @@ class Settings_SalesProcesses_Module_Model extends Settings_Vtiger_Module_Model 
 			return false;
 		}
 	}
+
+	/**
+	 * Checks if limit can be applied to this module
+	 * @return - true or false
+	 */
+	public static function isLimitForModule( $moduleName ) {
+		$validModules = array( 'Quotes', 'Calculations', 'SalesOrder', 'Invoice' );
+		return in_array( $moduleName, $validModules );
+	}
 }
