@@ -41,7 +41,6 @@ $languageStrings = array(
 	'Form of payment' 		       => 'Zahlweise',
 	'Transfer' 			           => 'Überweisung',
 	'Cash' 				           => 'Bar',
-	'Payment balance'              => 'Payment balance',
 );
 $jsLanguageStrings = array(
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED'	=>	'Entfernen Sie Posten, die gelöscht wurden',

@@ -79,5 +79,5 @@ $languageStrings = array(
 	'Total price [Quotes]' => 'Valor total Cotações',
 	'Total price [Sales Order]' => 'Valor total Pedidos',
 	'Total price [Invoice]' => 'Valor total Faturas',
-	'Payment balance' => 'Payment balance',
+	
 );

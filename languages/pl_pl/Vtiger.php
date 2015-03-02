@@ -610,8 +610,8 @@ $languageStrings = array(
 	'Total' => 'Netto',
 	'Trade Show' => 'Targi / Szkolenia',
 	'Type' => 'Rodzaj',
-	'Upcoming Activities' => 'Sprawy bieżące',
-	'Activity History' => 'Wykonane zdarzenia',
+	'Upcoming Activities' => 'Przyszłe wydarzenia',
+	'Activity History' => 'Wykonane wydarzenia',
 	'Delagated Events/To Dos' => 'Zlecone terminy/zadania',
 	'Delegated (overdue) Events/ToDos' => 'Zlecone (nieterminowe) terminy/zadania',
 	'Delegated project tasks' => 'Zlecone zadania projektu',
@@ -891,8 +891,6 @@ $languageStrings = array(
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
-	'PaymentsIn' => 'Wpłaty',
-	'PaymentsOut' => 'Wypłaty',
 );
 
 $jsLanguageStrings = array(

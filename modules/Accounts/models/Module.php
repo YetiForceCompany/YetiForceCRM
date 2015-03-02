@@ -78,7 +78,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 	 * @return <String>
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule, $relationModel = false) {
-		if ($functionName === 'get_activities') {
+		if ($functionName === 'get_activities' || $functionName === 'get_history') {
 			$focus = CRMEntity::getInstance($this->getName());
 			$focus->id = $recordId;
 			$entityIds = $focus->getRelatedContactsIds();
@@ -96,14 +96,18 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'
-								AND (vtiger_seactivityrel.crmid = ".$recordId;
+						WHERE vtiger_crmentity.deleted = 0 AND (vtiger_seactivityrel.crmid = ".$recordId;
 			if($entityIds) {
 				$query .= " OR vtiger_cntactivityrel.contactid IN (".$entityIds."))";
 			} else {
 				$query .= ")";
 			}
-
+			if($functionName === 'get_activities') {
+				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
+				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+			} else {
+				$query .= " AND (vtiger_activity.status = 'Completed' OR vtiger_activity.status = 'Deferred' OR (vtiger_activity.eventstatus = 'Held' AND vtiger_activity.eventstatus != ''))";
+			}
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
 			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);

@@ -87,7 +87,6 @@ $languageStrings = array(
 	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Создание сделки завершено',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
 	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',
-	'Payment balance' => 'Payment balance',
 );
 
 $jsLanguageStrings = array(
