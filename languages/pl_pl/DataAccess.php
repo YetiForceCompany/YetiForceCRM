@@ -69,6 +69,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Narzędzie daje możliwość koloryzacji wierszy spełniających odpowiednie warunki. Dzięki temu można wyróżnić rekordy o wyższych priorytetach.',
 	'LBL_BACKGROUND_COLOR' => 'Kolor tła wiersza',
 	'LBL_TEXT_COLOR' => 'Kolor tekstu',
+	'This name already exists' => 'Nazwa jest już zajęta',
 );
 $jsLanguageStrings = array(
 	'DataAccess' => 'Data Access',
