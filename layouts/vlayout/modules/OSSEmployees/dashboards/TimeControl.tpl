@@ -180,11 +180,11 @@
 				<input type="checkbox" checked name="holidayTime" class="holidayTime widgetFilter" />
 			</span>
 			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('LBL_TOTAL_TIME', $MODULE_NAME)}</label>
+				<label>{vtranslate('LBL_BREAK_TIME', $MODULE_NAME)}</label>
 				<input type="checkbox" checked name="breakTime" class="breakTime widgetFilter" />
 			</span>
 			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('LBL_BREAK_TIME', $MODULE_NAME)}</label>
+				<label>{vtranslate('LBL_TOTAL_TIME', $MODULE_NAME)}</label>
 				<input type="checkbox" checked name="workTime" class="workTime widgetFilter" />
 			</span>
 		</div>
