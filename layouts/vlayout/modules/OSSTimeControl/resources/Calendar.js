@@ -174,7 +174,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 	},
 	selectDays: function (start, end) {
 		var thisInstance = this;
-		this.getCalendarCreateView().then(function (data) {
+		thisInstance.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
@@ -191,6 +191,25 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			var endDateInstance = Date.parse(end);
 			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			var endTimeString = endDateInstance.toString(defaultTimeFormat);
+					
+			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			if('month' == view.name){	
+				var diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24)); 
+				if(diffDays >1){
+					var defaultFirstHour = jQuery('#start_hour').val();
+					var explodedTime = defaultFirstHour.split(':');
+					startTimeString = explodedTime['0'];
+
+					var defaultLastHour = jQuery('#end_hour').val();
+					var explodedTime = defaultLastHour.split(':');
+					endTimeString = explodedTime['0'];
+				}else{
+					var now = new Date(); 	
+					var startTimeString = now.toString(defaultTimeFormat);
+					now.setMinutes(now.getMinutes() + 15);
+					var endTimeString = now.toString(defaultTimeFormat);
+				}
+			}
 
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);
