@@ -5506,10 +5506,6 @@ insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`p
 
 insert  into `vtiger_manufacturer_seq`(`id`) values (4);
 
-/*Data for the table `vtiger_max_search_result` */
-
-insert  into `vtiger_max_search_result`(`value`) values (100);
-
 /*Data for the table `vtiger_mobile_alerts` */
 
 insert  into `vtiger_mobile_alerts`(`id`,`handler_path`,`handler_class`,`sequence`,`deleted`) values (1,'modules/Mobile/api/ws/models/alerts/IdleTicketsOfMine.php','Mobile_WS_AlertModel_IdleTicketsOfMine',NULL,0);
@@ -14568,18 +14564,6 @@ insert  into `vtiger_projecttype`(`projecttypeid`,`projecttype`,`presence`,`pick
 /*Data for the table `vtiger_projecttype_seq` */
 
 insert  into `vtiger_projecttype_seq`(`id`) values (4);
-
-/*Data for the table `vtiger_pscategory` */
-
-insert  into `vtiger_pscategory`(`pscategoryid`,`pscategory`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Hardware',1,406,1);
-insert  into `vtiger_pscategory`(`pscategoryid`,`pscategory`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Software',1,407,2);
-insert  into `vtiger_pscategory`(`pscategoryid`,`pscategory`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'CRM Applications',1,408,3);
-insert  into `vtiger_pscategory`(`pscategoryid`,`pscategory`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Antivirus',1,409,4);
-insert  into `vtiger_pscategory`(`pscategoryid`,`pscategory`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Backup',1,410,5);
-
-/*Data for the table `vtiger_pscategory_seq` */
-
-insert  into `vtiger_pscategory_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_publicholiday` */
 

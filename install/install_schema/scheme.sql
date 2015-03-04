@@ -3342,12 +3342,6 @@ CREATE TABLE `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_max_search_result` */
-
-CREATE TABLE `vtiger_max_search_result` (
-  `value` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_mobile_alerts` */
 
 CREATE TABLE `vtiger_mobile_alerts` (
@@ -5140,23 +5134,6 @@ CREATE TABLE `vtiger_projecttype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_pscategory` */
-
-CREATE TABLE `vtiger_pscategory` (
-  `pscategoryid` int(11) NOT NULL AUTO_INCREMENT,
-  `pscategory` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`pscategoryid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_pscategory_seq` */
-
-CREATE TABLE `vtiger_pscategory_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_publicholiday` */
 
 CREATE TABLE `vtiger_publicholiday` (
@@ -5276,6 +5253,7 @@ CREATE TABLE `vtiger_quotes` (
   KEY `quotes_potentialid_idx` (`potentialid`),
   KEY `quotes_contactid_idx` (`contactid`),
   KEY `accountid` (`accountid`),
+  KEY `requirementcards_id` (`requirementcards_id`),
   CONSTRAINT `vtiger_quotes_ibfk_1` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
