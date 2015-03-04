@@ -28,8 +28,8 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'Kolory użytkowników',
 	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',
 	'LBL_CALENDAR_TYPE' => 'Typ wydarzeń',
-	'LBL_BREAK_TIME' => 'Przewa w pracy',
-	'LBL_HOLIDAY' => 'Urlop',
+	'PLL_BREAK_TIME' => 'Przewa w pracy',
+	'PLL_HOLIDAY_TIME' => 'Urlop',
 	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
 	'LBL_UPDATE_EVENT' => 'Aktualizować termin w kalendarzu przy przekładaniu',
 );

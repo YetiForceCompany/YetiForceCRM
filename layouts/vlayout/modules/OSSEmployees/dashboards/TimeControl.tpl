@@ -47,12 +47,12 @@
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var chartData = [];
-			if(undefined != data['LBL_WORKING_TIME'])
-				chartData.push(data['LBL_WORKING_TIME']);
-			if(undefined != data['LBL_BREAK_TIME'])
-				chartData.push(data['LBL_BREAK_TIME']);
-			if(undefined != data['LBL_HOLIDAY'])
-				chartData.push(data['LBL_HOLIDAY']);
+			if(undefined != data['PLL_WORKING_TIME'])
+				chartData.push(data['PLL_WORKING_TIME']);
+			if(undefined != data['PLL_BREAK_TIME'])
+				chartData.push(data['PLL_BREAK_TIME']);
+			if(undefined != data['PLL_HOLIDAY_TIME'])
+				chartData.push(data['PLL_HOLIDAY_TIME']);
 	
 			return {literal}{'chartData':chartData, 'yMaxValue':data['yMaxValue'], 'labels':data['days']}{/literal};
 		},
@@ -176,11 +176,11 @@
 		</div>
 		<div class="row-fluid">
 			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('LBL_HOLIDAY', $MODULE_NAME)}</label>
+				<label>{vtranslate('PLL_HOLIDAY_TIME', $MODULE_NAME)}</label>
 				<input type="checkbox" checked name="holidayTime" class="holidayTime widgetFilter" />
 			</span>
 			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('LBL_BREAK_TIME', $MODULE_NAME)}</label>
+				<label>{vtranslate('PLL_BREAK_TIME', $MODULE_NAME)}</label>
 				<input type="checkbox" checked name="breakTime" class="breakTime widgetFilter" />
 			</span>
 			<span class="span4" style="text-align:center;">

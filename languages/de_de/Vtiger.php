@@ -886,9 +886,9 @@ $languageStrings = array(
 	'LBL_NAME' => 'Record name',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
-	'LBL_HOLIDAY' => 'Holiday',
-	'LBL_BREAK_TIME' => 'Break from work',
-	'LBL_WORKING_TIME' => 'Working time',
+	'PLL_HOLIDAY_TIME' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 );
 $jsLanguageStrings = array(
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',

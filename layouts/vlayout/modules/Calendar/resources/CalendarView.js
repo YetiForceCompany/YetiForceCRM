@@ -29,11 +29,25 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				$(this).css('overflow','hidden');
 			}
 		);
-		app.changeSelectElementView(widgetContainer);
+		this.registerColorField(widgetContainer.find('#calendarUserList'),'userCol');
+		this.registerColorField(widgetContainer.find('#calendarTypes'),'listCol');
 		widgetContainer.find(".refreshCalendar").click(function () {
 			thisInstance.loadCalendarData();
 		});
-	}
+	},
+	registerColorField : function(field, fieldClass){
+		var params = {};
+		params.dropdownCss = {'z-index' : 0};
+		params.formatSelection = function(object,container){
+			var selectedId = object.id;
+			var selectedOptionTag = field.find('option[value="'+selectedId+'"]');
+			container.addClass(fieldClass+'_'+selectedId);
+			var element = '<div>'+selectedOptionTag.text()+'</div>';
+			console.log(selectedId);
+			return element;
+		}
+		app.changeSelectElementView(field, 'select2',params);
+	},
 }, {
 	calendarView: false,
 	calendarCreateView: false,
@@ -245,7 +259,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventObject.status = calendarDetails.eventstatus.value;
 			eventObject.allDay = false;
 		}
-		eventObject.className = 'userColor_' + calendarDetails.assigned_user_id.value;
+		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	isAllowedToAddCalendarEvent: function (calendarDetails) {
