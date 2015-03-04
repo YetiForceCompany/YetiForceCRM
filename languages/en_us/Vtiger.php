@@ -748,6 +748,7 @@ $languageStrings = array(
 	'OSSTimeControl' => 'Time Control',
 	'OSSMailView' => 'Emails',
 	'OSSEmployees' => 'Employees',
+	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'Calculations' => 'Calculations',
 
 	/* industry */

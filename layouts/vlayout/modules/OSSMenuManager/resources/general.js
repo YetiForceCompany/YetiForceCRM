@@ -112,11 +112,14 @@ function saveBlocks() {
 		var expectedBlockSequence = (index+1);
 		newSequence[blockId] = expectedBlockSequence;
 	});
-	var params = { 
+	var params = {};
+	params.data = {
 		'module' : "OSSMenuManager",
 		'action' : "SaveBlocks",
 		'newSequence' : newSequence
-	}
+	};
+	params.async = false;
+	params.dataType = 'json';
 	AppConnector.request(params).then(
 		function(data) {
 			var params = {

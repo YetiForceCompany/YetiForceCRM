@@ -786,6 +786,7 @@ $languageStrings = array(
 	'Calculations' => 'Kalkulacje',
 	'OSSMailView' => 'Maile',
 	'OSSEmployees' => 'Pracownicy',
+	'HolidaysEntitlement' => 'Roczny wymiar urlopu',
 	'OSSPdf' => 'Lista szablonów PDF',
 	'OSSMailTemplates' => 'Lista szablonów mailowych',
 	'Faq' => 'Instrukcje',
