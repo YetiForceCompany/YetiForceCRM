@@ -777,6 +777,7 @@ $languageStrings = array(
 	'Notify Owner' => 'Уведомить ответственного',
 	'OSSCosts' => 'Затраты',
 	'OSSEmployees' => 'Сотрудники',
+	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'OSSMailTemplates' => 'Шаблоны электронной почты',
 	'OSSMailView'	=>	'Почта',
 	'OSSOutsourcedServices' => 'Аутсорсинг Услуг',

@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.12-log : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce12
 *********************************************************************
 */
 
@@ -2412,12 +2412,29 @@ CREATE TABLE `vtiger_groups` (
 CREATE TABLE `vtiger_holidaysentitlement` (
   `holidaysentitlementid` int(19) NOT NULL DEFAULT '0',
   `holidaysentitlement_no` varchar(255) DEFAULT NULL,
-  `year` varchar(50) DEFAULT NULL,
+  `holidaysentitlement_year` varchar(50) DEFAULT NULL,
   `days` int(3) DEFAULT '0',
   `ossemployeesid` int(19) DEFAULT NULL,
   PRIMARY KEY (`holidaysentitlementid`),
   KEY `ossemployeesid` (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_holidaysentitlement` FOREIGN KEY (`holidaysentitlementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_holidaysentitlement_year` */
+
+CREATE TABLE `vtiger_holidaysentitlement_year` (
+  `holidaysentitlement_yearid` int(11) NOT NULL AUTO_INCREMENT,
+  `holidaysentitlement_year` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`holidaysentitlement_yearid`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_holidaysentitlement_year_seq` */
+
+CREATE TABLE `vtiger_holidaysentitlement_year_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_holidaysentitlementcf` */
@@ -3256,7 +3273,7 @@ CREATE TABLE `vtiger_module_dashboard` (
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_ibfk_1` (`blockid`),
   CONSTRAINT `vtiger_module_dashboard_ibfk_1` FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_module_dashboard_blocks` */
 
@@ -3265,7 +3282,7 @@ CREATE TABLE `vtiger_module_dashboard_blocks` (
   `authorized` varchar(10) NOT NULL,
   `tabid` int(19) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_module_dashboard_widgets` */
 
@@ -3286,7 +3303,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_name` */
 
@@ -3397,7 +3414,7 @@ CREATE TABLE `vtiger_oproductstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`oproductstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_oproductstatus_seq` */
 
@@ -3603,7 +3620,7 @@ CREATE TABLE `vtiger_osservicesstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`osservicesstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_osservicesstatus_seq` */
 
@@ -3759,7 +3776,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -7086,23 +7103,6 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `stateencodedvalues` varchar(300) NOT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_year` */
-
-CREATE TABLE `vtiger_year` (
-  `yearid` int(11) NOT NULL AUTO_INCREMENT,
-  `year` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`yearid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_year_seq` */
-
-CREATE TABLE `vtiger_year_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */

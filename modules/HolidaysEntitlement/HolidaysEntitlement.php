@@ -80,9 +80,9 @@ class HolidaysEntitlement extends Vtiger_CRMEntity {
 
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('ossemployeesid','assigned_user_id','year','days');
+	var $mandatory_fields = Array('ossemployeesid','assigned_user_id','holidaysentitlement_year','days');
 
-	var $default_order_by = 'year';
+	var $default_order_by = 'holidaysentitlement_year';
 	var $default_sort_order='ASC';
 
 	/**
