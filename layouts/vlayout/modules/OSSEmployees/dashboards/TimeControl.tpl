@@ -47,8 +47,8 @@
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var chartData = [];
-			if(undefined != data['LBL_WORKING_TIME'])
-				chartData.push(data['LBL_WORKING_TIME']);
+			if(undefined != data['PLL_WORKING_TIME'])
+				chartData.push(data['PLL_WORKING_TIME']);
 			if(undefined != data['PLL_BREAK_TIME'])
 				chartData.push(data['PLL_BREAK_TIME']);
 			if(undefined != data['PLL_HOLIDAY_TIME'])

@@ -893,7 +893,7 @@ $languageStrings = array(
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
-	'LBL_WORKING_TIME' => 'Czas pracy',
+	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_HOLIDAY_TIME' => 'Urlop',
 );
 
