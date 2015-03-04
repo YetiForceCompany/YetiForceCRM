@@ -891,9 +891,9 @@ $languageStrings = array(
 	'LBL_NAME' => 'Nazwa rekordu',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
 	'LBL_NO_MOD_RECORDS' => 'Brak zmodyfikowanych rekordów',
-	'LBL_BREAK_TIME' => 'Przerwa w pracy',
+	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'LBL_WORKING_TIME' => 'Czas pracy',
-	'LBL_HOLIDAY' => 'Urlop',
+	'PLL_HOLIDAY_TIME' => 'Urlop',
 );
 
 $jsLanguageStrings = array(

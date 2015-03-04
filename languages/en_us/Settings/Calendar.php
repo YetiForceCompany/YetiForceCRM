@@ -28,8 +28,8 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'User colors',
 	'LBL_CALENDAR_COLORS' => 'Calendar colors',
 	'LBL_CALENDAR_TYPE' => 'Calendar type',
-	'LBL_BREAK_TIME' => 'Break time',
-	'LBL_HOLIDAY' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break time',
+	'PLL_HOLIDAY_TIME' => 'Holiday',
 	'LBL_SAVE_CHANGES' => 'Saved changes',
 );
 $jsLanguageStrings = array(

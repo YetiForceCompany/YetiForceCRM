@@ -43,29 +43,26 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['subject'];
-            //$item['status'] = $record['osstimecontrol_status'];
 			$item['url']   = 'index.php?module='.$module.'&view=Detail&record='.$crmid;
-			//dodanie powiazan albo z kontaktow albo z powiazanych
+			
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ',$userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ',$userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-			$item['end'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 			
+			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			$item['end'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 			$item['allDay'] = $record['allday']==1?true:false;
-			$item['className'] = ' userColor_'.$record['smownerid'];
-			//$item['color'] = '#FF2A2A';
-			//$item['textColor'] = '#000';
-            //$item['module'] = 'OSSTimeControl';
+			$item['className'] = ' userCol_'.$record['smownerid'].' calCol_'.$activitytype;
 			$result[] = $item;
 		}
 		return $result;

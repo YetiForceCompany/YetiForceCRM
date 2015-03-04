@@ -636,8 +636,11 @@ insert  into `vtiger_calculationsstatus_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_calendar_config` */
 
-insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break_time','LBL_BREAK_TIME','#ffd000');
-insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','LBL_HOLIDAY','#00d4f5');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break','PLL_BREAK_TIME','#ffd000');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','holiday','PLL_HOLIDAY_TIME','#00d4f5');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','work','PLL_WORKING_TIME','#FFD500');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Task','Task','#00d4f5');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Meeting','Meeting','#FFD500');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
 
 /*Data for the table `vtiger_calendar_default_activitytypes` */

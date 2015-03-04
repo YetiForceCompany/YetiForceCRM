@@ -100,14 +100,14 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		}
 		
 		if('true' == $workTimeSelected)
-			$chartData['LBL_WORKING_TIME'] = $workingTime;
+			$chartData['PLL_WORKING_TIME'] = $workingTime;
 		if('true' == $breakTimeSelected)
-			$chartData['LBL_BREAK_TIME'] = $breakTime;
+			$chartData['PLL_BREAK_TIME'] = $breakTime;
 		if('true' == $holidayTimeSelected)
-			$chartData['LBL_HOLIDAY'] = $holiday;
+			$chartData['PLL_HOLIDAY_TIME'] = $holiday;
 		
 		$chartExist = FALSE;
-		if(count($chartData['LBL_HOLIDAY']) || count($chartData['LBL_BREAK_TIME']) || count($chartData['LBL_WORKING_TIME']))
+		if(count($chartData['PLL_HOLIDAY_TIME']) || count($chartData['PLL_BREAK_TIME']) || count($chartData['PLL_WORKING_TIME']))
 			$chartExist = TRUE;
 	
 		if(NULL != $chartData)
@@ -117,14 +117,14 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		$max = 0;
 		for($i = 0; $i < $numDays; $i++){
 			$sum = 0;
-			if($chartData['LBL_BREAK_TIME'][$i])
-				$sum += $chartData['LBL_BREAK_TIME'][$i];
+			if($chartData['PLL_BREAK_TIME'][$i])
+				$sum += $chartData['PLL_BREAK_TIME'][$i];
 
-			if($chartData['LBL_HOLIDAY'][$i])
-				$sum += $chartData['LBL_HOLIDAY'][$i];
+			if($chartData['PLL_HOLIDAY_TIME'][$i])
+				$sum += $chartData['PLL_HOLIDAY_TIME'][$i];
 
-			if($chartData['LBL_WORKING_TIME'][$i])
-				$sum += $chartData['LBL_WORKING_TIME'][$i];
+			if($chartData['PLL_WORKING_TIME'][$i])
+				$sum += $chartData['PLL_WORKING_TIME'][$i];
 					
 			if($sum > $max){
 				$max = $sum;

@@ -18,13 +18,24 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 				$(this).css('overflow','hidden');
 			}
 		);
-		app.changeSelectElementView(widgetContainer);
-		//this.registerUserColor();
+		this.registerColorField(widgetContainer.find('#calendarUserList'),'userCol');
+		this.registerColorField(widgetContainer.find('#timecontrolTypes'),'listCol');
 		widgetContainer.find(".refreshCalendar").click(function () {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerUserColor : function(){
+	registerColorField : function(field, fieldClass){
+		var params = {};
+		params.dropdownCss = {'z-index' : 0};
+		params.formatSelection = function(object,container){
+			var selectedId = object.id;
+			var selectedOptionTag = field.find('option[value="'+selectedId+'"]');
+			container.addClass(fieldClass+'_'+selectedId);
+			var element = '<div>'+selectedOptionTag.text()+'</div>';
+			console.log(selectedId);
+			return element;
+		}
+		app.changeSelectElementView(field, 'select2',params);
 	},
 },{
 	calendarView : false,
@@ -226,11 +237,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 	addCalendarEvent : function(calendarDetails) {
 		var isAllowed = this.isAllowedToAddTimeControl();
 		if(isAllowed == false) return;
-		var calendarColor = '';
-		if(calendarDetails.timecontrol_type.value == 'PLL_BREAK_TIME')
-			calendarColor = 'calendarColor_break_time';
-		else if(calendarDetails.timecontrol_type.value == 'PLL_HOLIDAY')
-			calendarColor = 'calendarColor_holiday';
 
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
@@ -241,7 +247,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record='+calendarDetails._recordId;
-		eventObject.className = 'userColor_'+calendarDetails.assigned_user_id.value+' '+calendarColor;
+		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.timecontrol_type.value;
 		this.getCalendarView().fullCalendar('renderEvent',eventObject);
 	},
 	isAllowedToAddTimeControl : function () {
