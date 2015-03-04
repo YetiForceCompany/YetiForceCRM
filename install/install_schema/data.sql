@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.12-log : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce12
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -4835,17 +4834,17 @@ insert  into `vtiger_groups`(`groupid`,`groupname`,`description`) values (4,'Sup
 
 /*Data for the table `vtiger_holidaysentitlement_year` */
 
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'2020',1,576,1);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'2019',1,577,2);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'2018',1,578,3);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'2017',1,579,4);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'2016',1,580,5);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'2015',1,581,6);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'2014',1,582,7);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'2013',1,583,8);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'2012',1,584,9);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'2011',1,585,10);
-insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'2010',1,586,11);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'2020',1,576,1);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'2019',1,577,2);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'2018',1,578,3);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'2017',1,579,4);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'2016',1,580,5);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'2015',1,581,6);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'2014',1,582,7);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'2013',1,583,8);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'2012',1,584,9);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'2011',1,585,10);
+insert  into `vtiger_holidaysentitlement_year`(`holidaysentitlement_yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'2010',1,586,11);
 
 /*Data for the table `vtiger_holidaysentitlement_year_seq` */
 
@@ -6097,6 +6096,7 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (7,'expectedresponse'
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (8,'faqcategories');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (9,'faqstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (10,'glacct');
+insert  into `vtiger_picklist`(`picklistid`,`name`) values (74,'holidaysentitlement_year');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (47,'hour_format');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (71,'ideasstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (11,'industry');
@@ -6148,7 +6148,6 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (29,'ticketstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (31,'tracking_unit');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (30,'usageunit');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (68,'verification');
-insert  into `vtiger_picklist`(`picklistid`,`name`) values (74,'year');
 
 /*Data for the table `vtiger_picklist_dependency` */
 

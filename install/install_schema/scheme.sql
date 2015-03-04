@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.12-log : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce12
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2424,12 +2423,12 @@ CREATE TABLE `vtiger_holidaysentitlement` (
 /*Table structure for table `vtiger_holidaysentitlement_year` */
 
 CREATE TABLE `vtiger_holidaysentitlement_year` (
-  `yearid` int(11) NOT NULL AUTO_INCREMENT,
+  `holidaysentitlement_yearid` int(11) NOT NULL AUTO_INCREMENT,
   `holidaysentitlement_year` varchar(200) NOT NULL,
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`yearid`)
+  PRIMARY KEY (`holidaysentitlement_yearid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_holidaysentitlement_year_seq` */
