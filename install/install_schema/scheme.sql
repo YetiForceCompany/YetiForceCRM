@@ -1,8 +1,9 @@
 /*
 SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce12
+MySQL - 5.5.24-log : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1905,7 +1906,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2287,7 +2288,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1645 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1689 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3062,6 +3063,139 @@ CREATE TABLE `vtiger_leadsubdetails` (
   CONSTRAINT `fk_1_vtiger_leadsubdetails` FOREIGN KEY (`leadsubscriptionid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_lettersin` */
+
+CREATE TABLE `vtiger_lettersin` (
+  `lettersinid` int(19) NOT NULL DEFAULT '0',
+  `number` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `contactid` int(19) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `helpdeskid` int(19) DEFAULT NULL,
+  `projectid` int(19) DEFAULT NULL,
+  `campaignid` int(19) DEFAULT NULL,
+  `person_receiving` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
+  `date_adoption` date DEFAULT NULL,
+  `lin_type_ship` varchar(255) DEFAULT '',
+  `lin_type_doc` text,
+  `lin_status` varchar(255) DEFAULT '',
+  `deadline_reply` date DEFAULT NULL,
+  `cocument_no` varchar(100) DEFAULT '',
+  `no_internal` varchar(100) DEFAULT '',
+  `lin_dimensions` varchar(255) DEFAULT '',
+  PRIMARY KEY (`lettersinid`),
+  CONSTRAINT `fk_1_vtiger_lettersin` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lettersincf` */
+
+CREATE TABLE `vtiger_lettersincf` (
+  `lettersinid` int(11) NOT NULL,
+  PRIMARY KEY (`lettersinid`),
+  CONSTRAINT `fk_1_vtiger_lettersincf` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_lettersin` (`lettersinid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lettersout` */
+
+CREATE TABLE `vtiger_lettersout` (
+  `lettersoutid` int(19) NOT NULL DEFAULT '0',
+  `number` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `contactid` int(19) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `helpdeskid` int(19) DEFAULT NULL,
+  `projectid` int(19) DEFAULT NULL,
+  `campaignid` int(19) DEFAULT NULL,
+  `person_receiving` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
+  `date_adoption` date DEFAULT NULL,
+  `lout_type_ship` varchar(255) DEFAULT '',
+  `lout_type_doc` text,
+  `lout_status` varchar(255) DEFAULT '',
+  `deadline_reply` date DEFAULT NULL,
+  `cocument_no` varchar(100) DEFAULT '',
+  `no_internal` varchar(100) DEFAULT '',
+  `lout_dimensions` varchar(255) DEFAULT '',
+  PRIMARY KEY (`lettersoutid`),
+  CONSTRAINT `fk_1_vtiger_lettersout` FOREIGN KEY (`lettersoutid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lettersoutcf` */
+
+CREATE TABLE `vtiger_lettersoutcf` (
+  `lettersoutid` int(11) NOT NULL,
+  PRIMARY KEY (`lettersoutid`),
+  CONSTRAINT `fk_1_vtiger_lettersoutcf` FOREIGN KEY (`lettersoutid`) REFERENCES `vtiger_lettersout` (`lettersoutid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_dimensions` */
+
+CREATE TABLE `vtiger_lin_dimensions` (
+  `lin_dimensionsid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_dimensions` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lin_dimensionsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_dimensions_seq` */
+
+CREATE TABLE `vtiger_lin_dimensions_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_status` */
+
+CREATE TABLE `vtiger_lin_status` (
+  `lin_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lin_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_status_seq` */
+
+CREATE TABLE `vtiger_lin_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type_doc` */
+
+CREATE TABLE `vtiger_lin_type_doc` (
+  `lin_type_docid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_type_doc` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`lin_type_docid`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type_doc_seq` */
+
+CREATE TABLE `vtiger_lin_type_doc_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type_ship` */
+
+CREATE TABLE `vtiger_lin_type_ship` (
+  `lin_type_shipid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_type_ship` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lin_type_shipid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type_ship_seq` */
+
+CREATE TABLE `vtiger_lin_type_ship_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_links` */
 
 CREATE TABLE `vtiger_links` (
@@ -3100,6 +3234,71 @@ CREATE TABLE `vtiger_loginhistory` (
   `unblock` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`login_id`),
   KEY `user_name` (`user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_dimensions` */
+
+CREATE TABLE `vtiger_lout_dimensions` (
+  `lout_dimensionsid` int(11) NOT NULL AUTO_INCREMENT,
+  `lout_dimensions` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lout_dimensionsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_dimensions_seq` */
+
+CREATE TABLE `vtiger_lout_dimensions_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_status` */
+
+CREATE TABLE `vtiger_lout_status` (
+  `lout_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `lout_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lout_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_status_seq` */
+
+CREATE TABLE `vtiger_lout_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_type_doc` */
+
+CREATE TABLE `vtiger_lout_type_doc` (
+  `lout_type_docid` int(11) NOT NULL AUTO_INCREMENT,
+  `lout_type_doc` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`lout_type_docid`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_type_doc_seq` */
+
+CREATE TABLE `vtiger_lout_type_doc_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_type_ship` */
+
+CREATE TABLE `vtiger_lout_type_ship` (
+  `lout_type_shipid` int(11) NOT NULL AUTO_INCREMENT,
+  `lout_type_ship` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`lout_type_shipid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lout_type_ship_seq` */
+
+CREATE TABLE `vtiger_lout_type_ship_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mail_accounts` */
@@ -3776,7 +3975,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -4322,7 +4521,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -6936,7 +7135,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 
