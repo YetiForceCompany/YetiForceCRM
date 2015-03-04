@@ -685,6 +685,7 @@ $languageStrings = array(
 	'OSSTimeControl' => 'Controle de Tempo',
 	'OSSMailView' => 'Emails',
 	'OSSEmployees' => 'Empregados',
+	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'Calculations' => 'Cálculos',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 

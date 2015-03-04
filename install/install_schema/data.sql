@@ -1086,7 +1086,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -1437,7 +1437,7 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (71
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (71,4,'vtiger_quotesenquires:quotesenquires_no:quotesenquires_no:QuotesEnquires_LBL_NUMBER:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (71,5,'vtiger_crmentity:closedtime:closedtime:QuotesEnquires_Closed_Time:DT');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,0,'vtiger_holidaysentitlement:ossemployeesid:ossemployeesid:HolidaysEntitlement_LBL_EMPLOYEE:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,1,'vtiger_holidaysentitlement:year:year:HolidaysEntitlement_LBL_YEAR:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,1,'vtiger_holidaysentitlement:holidaysentitlement_year:holidaysentitlement_year:HolidaysEntitlement_LBL_YEAR:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,2,'vtiger_holidaysentitlement:days:days:HolidaysEntitlement_LBL_DAYS:I');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,3,'vtiger_crmentity:smownerid:assigned_user_id:HolidaysEntitlement_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (72,4,'vtiger_crmentity:createdtime:createdtime:HolidaysEntitlement_Created_Time:DT');
@@ -3196,7 +3196,7 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (75,'Ideas','vtiger_ideas','subject','ideasid','ideasid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (76,'RequirementCards','vtiger_requirementcards','subject','requirementcardsid','requirementcardsid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (77,'QuotesEnquires','vtiger_quotesenquires','subject','quotesenquiresid','quotesenquiresid','subject',1,0);
-insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (78,'HolidaysEntitlement','vtiger_holidaysentitlement','year,ossemployeesid','holidaysentitlementid','holidaysentitlementid','year,ossemployeesid',1,0);
+insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (78,'HolidaysEntitlement','vtiger_holidaysentitlement','holidaysentitlement_year','holidaysentitlementid','holidaysentitlementid','holidaysentitlement_year,ossemployeesid',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (79,'PaymentsIn','vtiger_paymentsin','paymentsname','paymentsinid','paymentsinid','paymentsinid',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (80,'PaymentsOut','vtiger_paymentsout','paymentsname','paymentsoutid','paymentsoutid','paymentsoutid',1,0);
 
@@ -4584,7 +4584,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (70,1602,'conversion_rate','vtiger_calculations',1,'1','conversion_rate','Conversion Rate',1,2,'1',100,12,182,3,'N~O',3,NULL,'BAS',1,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (9,1603,'allday','vtiger_activity',1,'56','allday','All day',1,2,'',100,26,19,1,'C~O',1,NULL,'BAS',1,0,0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (16,1604,'allday','vtiger_activity',1,'56','allday','All day',1,2,'',100,24,39,1,'C~O',1,NULL,'BAS',1,0,0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (78,1605,'year','vtiger_holidaysentitlement',2,'15','year','LBL_YEAR',1,2,'',100,1,247,1,'V~M',1,NULL,'BAS',1,0,1,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (78,1605,'holidaysentitlement_year','vtiger_holidaysentitlement',2,'15','holidaysentitlement_year','LBL_YEAR',1,2,'',100,1,247,1,'V~M',1,NULL,'BAS',1,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (78,1606,'days','vtiger_holidaysentitlement',1,'1','days','LBL_DAYS',1,2,'',100,2,247,1,'I~M',1,NULL,'BAS',0,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (78,1607,'ossemployeesid','vtiger_holidaysentitlement',2,'10','ossemployeesid','LBL_EMPLOYEE',1,2,'',100,3,247,1,'V~M',1,NULL,'BAS',0,0,1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (78,1608,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,1,248,1,'V~M',1,NULL,'BAS',1,0,0,'');
@@ -4833,6 +4833,24 @@ insert  into `vtiger_groups`(`groupid`,`groupname`,`description`) values (4,'Sup
 
 /*Data for the table `vtiger_holidaysentitlement` */
 
+/*Data for the table `vtiger_holidaysentitlement_year` */
+
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'2020',1,576,1);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'2019',1,577,2);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'2018',1,578,3);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'2017',1,579,4);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'2016',1,580,5);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'2015',1,581,6);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'2014',1,582,7);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'2013',1,583,8);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'2012',1,584,9);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'2011',1,585,10);
+insert  into `vtiger_holidaysentitlement_year`(`yearid`,`holidaysentitlement_year`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'2010',1,586,11);
+
+/*Data for the table `vtiger_holidaysentitlement_year_seq` */
+
+insert  into `vtiger_holidaysentitlement_year_seq`(`id`) values (11);
+
 /*Data for the table `vtiger_holidaysentitlementcf` */
 
 /*Data for the table `vtiger_home_layout` */
@@ -4961,9 +4979,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5741,8 +5759,8 @@ insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (247,301,2,'Potentials',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (248,301,20,'Quotes',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (249,301,22,'SalesOrder',5,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (250,334,23,'Invoice',999,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (251,301,19,'PriceBooks',9,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (250,334,23,'Invoice',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sales invoices#pl_pl*Faktury sprzedażowe',1);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (251,301,19,'PriceBooks',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (253,304,13,'HelpDesk',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (254,304,15,'Faq',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (255,304,34,'ServiceContracts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
@@ -5780,18 +5798,18 @@ insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (311,292,61,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (312,305,60,'OSSPasswords',20,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (323,301,70,'Calculations',3,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (324,334,71,'OSSCosts',1000,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (324,334,71,'OSSCosts',2,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (325,305,69,'AddressLevel1',12,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (327,305,0,'*separator*',22,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (328,305,74,'CallHistory',21,1,0,'index.php?module=CallHistory&view=List',0,'  ','','16x16','',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (329,0,0,'Teamwork',9,1,0,'',0,'  ','','16x16','en_us*Teamwork#pl_pl*Praca grupowa',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (330,329,75,'Ideas',1,1,0,'index.php?module=Ideas&view=List',0,'  ','','16x16','',0);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (331,301,76,'RequirementCards',11,1,0,'index.php?module=RequirementCards&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Requirement Cards#pl_pl*Karty wymagań',0);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (332,301,77,'QuotesEnquires',10,1,0,'index.php?module=QuotesEnquires&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Quotes enquires#pl_pl*Zapytania ofertowe',0);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (331,301,76,'RequirementCards',9,1,0,'index.php?module=RequirementCards&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Requirement Cards#pl_pl*Karty wymagań',0);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (332,301,77,'QuotesEnquires',8,1,0,'index.php?module=QuotesEnquires&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Quotes enquires#pl_pl*Zapytania ofertowe',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (333,292,78,'HolidaysEntitlement',3,1,0,'index.php?module=HolidaysEntitlement&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Annual holiday entitlement#pl_pl*Roczny wymiar urlopu',0);
 insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (334,0,0,'Bookkeeping',6,1,0,'',0,'  ','','16x16','en_us*Bookkeeping#pl_pl*Księgowość#de_de*Bookkeeping#pt_br*Bookkeeping#ru_ru*Bookkeeping',0);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (335,334,79,'PaymentsIn',1001,1,0,'index.php?module=PaymentsIn&view=List',0,'  ','','16x16','',0);
-insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (336,334,6,'Accounts',1002,1,0,'index.php?module=Accounts&view=List',0,'  ','Wypłaty','16x16','',0);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (335,334,79,'PaymentsIn',3,1,0,'index.php?module=PaymentsIn&view=List',0,'  ','','16x16','en_us*Payments in#pl_pl*Wpłaty',0);
+insert  into `vtiger_ossmenumanager`(`id`,`parent_id`,`tabid`,`label`,`sequence`,`visible`,`type`,`url`,`new_window`,`permission`,`locationicon`,`sizeicon`,`langfield`,`paintedicon`) values (336,334,80,'PaymentsOut',4,1,0,'index.php?module=PaymentsOut&view=List',0,'  ','','16x16','pl_pl*Wypłaty',0);
 
 /*Data for the table `vtiger_ossoutsourcedservices` */
 
@@ -20367,24 +20385,6 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 /*Data for the table `vtiger_wsapp_recordmapping` */
 
 /*Data for the table `vtiger_wsapp_sync_state` */
-
-/*Data for the table `vtiger_year` */
-
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'2020',1,576,1);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'2019',1,577,2);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'2018',1,578,3);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'2017',1,579,4);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'2016',1,580,5);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'2015',1,581,6);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'2014',1,582,7);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'2013',1,583,8);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'2012',1,584,9);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'2011',1,585,10);
-insert  into `vtiger_year`(`yearid`,`year`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'2010',1,586,11);
-
-/*Data for the table `vtiger_year_seq` */
-
-insert  into `vtiger_year_seq`(`id`) values (11);
 
 /*Data for the table `yetiforce_mobile_keys` */
 
