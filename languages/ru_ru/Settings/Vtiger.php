@@ -10,6 +10,13 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Управление настройками Календаря',
+	'LBL_CALENDAR_CONFIG' => 'Настройки Календаря',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Управление модулем История изменений',
+	'LBL_MODTRACKER_SETTINGS' => 'История изменений',
+	'OSSCosts' => 'Расходы',
+	'GlobalPermission' => 'Права доступа',
+	'Mail' => 'Почта',
 	'LBL_PBXMANAGER_DESCRIPTION'	=>	'Изменений и настройка Менеджера PBX',
 	'LBL_SCHEDULER_DESCRIPTION'	=>	'Изменение и управление Планировщиком',
 	'LBL_OSSMAIL_DESCRIPTION'	=>	'Почта пользователей',
@@ -135,8 +142,6 @@ $languageStrings = array(
 	'LBL_MODULE_MANAGER' => 'Менеджер модулей',
 	'LBL_MODULES' => 'Модули',
 	'LBL_NOTIFICATIONS' => 'Уведомления',
-	'LBL_OPTIONS1'=>'Отправлять сообщения через ваш сервер<br>- Укажите настройки учетной записи SMTP (Имя сервера, Пользователь, Пароль).',
-	'LBL_OPTIONS2'=>'Добавьте сервер od1.vtiger.com в список доверенных отправителей вашего домена.<br> - Если вы предпочитаете оставить сервер vtiger в качестве исходящего сервера, мы рекомендуем добавить в запись SPF вашего домена сервер vtiger в качестве допустимого отправителя вашего домена. За дополнительной информацией о настройке записей SPF, пожалуйста, пишите на od-support@vtiger.com .',
 	'LBL_OTHER_SETTINGS' => 'Другие настройки',
 	'LBL_OUTGOING_SERVER_DESC' => 'Настроить Сервер исходящей почты',
 	'LBL_OUTGOING_SERVER_FROM_FIELD'=>'Внимание: Если поле "Почта отправителя" пустое, будет установлен адрес электронной почты из настроек пользователя',
@@ -265,7 +270,7 @@ $languageStrings = array(
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Редактор праздничных дней',
 	'LBL_USER_COLORS' => 'Цвета Пользователей',
 	'LBL_USER_COLORS_DESCRIPTION' => 'Редактор цветов Пользователей',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',
@@ -284,10 +289,10 @@ $languageStrings = array(
 	'Document Control'	=>	'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
-	'LBL_PROCESSES' => 'Processes',
-	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_PROCESSES' => 'Процесс',
+	'LBL_SALES_PROCESSES' => 'Процесс продаж',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
-	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
+	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
 );
 
 $jsLanguageStrings = array(
