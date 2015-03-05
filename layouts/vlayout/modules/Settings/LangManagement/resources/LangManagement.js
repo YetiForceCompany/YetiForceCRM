@@ -208,7 +208,7 @@ var Settings_Index_Js = {
 		});
 		Settings_Index_Js.registerSaveEvent('SaveTranslation',{
 			'lang':target.data('lang'),
-			'mod':$(".LangManagement #mods_list").data('target')?$(".LangManagement #mods_list").data('target'):$(".LangManagement #mods_list").val(),
+			'mod':jQuery(".LangManagement "+position+" #mods_list").data('target')?jQuery(".LangManagement "+position+" #mods_list").data('target'):jQuery(".LangManagement "+position+" #mods_list").val(),
 			'type':target.data('type'),
 			'langkey':closestTrElement.data('langkey'),
 			'val':target.val(),
