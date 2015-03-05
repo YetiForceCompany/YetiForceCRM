@@ -43,7 +43,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			var selectedOptionTag = field.find('option[value="'+selectedId+'"]');
 			container.addClass(fieldClass+'_'+selectedId);
 			var element = '<div>'+selectedOptionTag.text()+'</div>';
-			console.log(selectedId);
 			return element;
 		}
 		app.changeSelectElementView(field, 'select2',params);
