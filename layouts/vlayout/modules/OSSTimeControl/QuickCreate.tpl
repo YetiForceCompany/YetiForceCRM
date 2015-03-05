@@ -136,7 +136,7 @@ setTimeout(function(){
 			
 			if(sumHours > 24){
 				var params = {
-					text: app.vtranslate('LBL_HOURS_SHOULD_BE_SMALLER_THAN'),
+					text: app.vtranslate('JS_HOURS_SHOULD_BE_SMALLER_THAN'),
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
@@ -146,7 +146,7 @@ setTimeout(function(){
 
 			if(differenceDays == 'Error'){
 				var params = {
-					text: app.vtranslate('LBL_DATE_SHOULD_BE_GREATER_THAN'),
+					text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(params);

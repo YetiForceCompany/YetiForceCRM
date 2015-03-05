@@ -89,8 +89,8 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
-	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	
 	//Calendar
 	'JS_ALL_DAY' => 'All-Day',

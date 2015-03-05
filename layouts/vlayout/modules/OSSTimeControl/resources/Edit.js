@@ -91,7 +91,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js",{},{
 			var sumeTime2 = thisInstance.differenceDays();
 			if(sumeTime2 == 'Error'){
 				var parametry = {
-					text: app.vtranslate('LBL_DATE_SHOULD_BE_GREATER_THAN'),
+					text: app.vtranslate('JS_DATE_SHOULD_BE_GREATER_THAN'),
 					type: 'error'
 				};
 				Vtiger_Helper_Js.showPnotify(parametry);

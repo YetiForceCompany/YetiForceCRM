@@ -24,8 +24,3 @@ $languageStrings = array(
 	'QLTQ' => 'Top Quotes',
 	'UA' => 'Upcoming Activities',
 );
-
-$jsLanguageStrings = array(
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
-	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
-);

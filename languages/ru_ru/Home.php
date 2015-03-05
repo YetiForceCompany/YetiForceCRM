@@ -23,8 +23,3 @@ $languageStrings = array(
     'Home'                         => 'Главная',
     'OLTPO'                        => 'Последние Закупки',
 );
-
-$jsLanguageStrings = array(
-	'LBL_DATE_SHOULD_BE_GREATER_THAN'	=>	'Дата окончания не может быть меньше или равна Дате начала',
-	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
-);

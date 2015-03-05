@@ -827,6 +827,8 @@ $languageStrings = array(
 	'PLL_WORKING_TIME' => 'Working time',
 );
 $jsLanguageStrings = array(
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',
 	'JS_OF' => 'de',
 	'AM' => 'AM',

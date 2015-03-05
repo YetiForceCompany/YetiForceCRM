@@ -24,8 +24,3 @@ $languageStrings = array(
 	'QLTQ' => 'Principais Cotações',
 	'UA' => 'Atividades Programadas',
 );
-
-$jsLanguageStrings = array(
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
-	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
-);
