@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_UPDATE_EVENT' => 'Обновление даты',
 	'LBL_SAVE_ACTIVE_TYPE' => 'Сохранение изменений',
 	'LBL_ACTIVE' => 'Активный',
 	'Calendar'	=>	'Календарь',
@@ -24,14 +25,14 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR'	=>	'Редактировать цвет',
 	'LBL_SELECT_COLOR'	=>	'Выберите цвет:',
 	'LBL_SAVE_COLOR'	=>	'Сохранить цвет',
-	'LBL_CALENDAR_CONFIG' => 'Calendar configuration',
-	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
-	'LBL_USER_COLORS' => 'User colors',
-	'LBL_CALENDAR_COLORS' => 'Calendar colors',
-	'LBL_CALENDAR_TYPE' => 'Calendar type',
-	'LBL_BREAK_TIME' => 'Break time',
-	'LBL_HOLIDAY' => 'Holiday',
-	'LBL_SAVE_CHANGES' => 'Saved changes',
+	'LBL_CALENDAR_CONFIG' => 'Настройки Календаря',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Менеджер Календаря, позволяет настраивать календарь по своему вкусу',
+	'LBL_USER_COLORS' => 'Цвет Пользователя',
+	'LBL_CALENDAR_COLORS' => 'Цвета Календаря',
+	'LBL_CALENDAR_TYPE' => 'Тип Календаря',
+	'LBL_BREAK_TIME' => 'Обед',
+	'LBL_HOLIDAY' => 'Праздник',
+	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
 );
 $jsLanguageStrings = array(
 

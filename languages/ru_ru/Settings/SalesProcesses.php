@@ -9,11 +9,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SALES_PROCESSES'													=> 'Sales processes',
-	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
-	'LBL_SAVE_CONFIG_OK'													=> 'Successfully saved sales processes settings.',
-	'LBL_SAVE_CONFIG_ERROR'													=> 'Failed to save sales processes settings.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
+	'SalesProcesses' => 'Процесс продаж',
+	'LBL_SALES_PROCESSES' => 'Процесс продаж',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => ' Управление процессами продаж',
+	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
+	'LBL_SAVE_CONFIG_ERROR' => 'Изменения не сохранены',
+	'LBL_PRODUCTS_REL_DESCRIPTION' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
 );
 $jsLanguageStrings = array(
 

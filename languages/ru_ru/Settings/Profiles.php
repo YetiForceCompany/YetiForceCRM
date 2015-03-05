@@ -53,7 +53,7 @@ $languageStrings = array(
 	'CreateCustomFilter'  => 'Создавать фильтры',
 	'DuplicateRecord'  => 'Дублировать записи',
 	'EditableComments'  => 'Редактировать комментарии',
-	'TagCloud' => 'Tags cloud',
+	'TagCloud' => 'Теги',
 );
 
 $jsLanguageStrings = array(
