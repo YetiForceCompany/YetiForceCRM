@@ -219,6 +219,9 @@ var Settings_Index_Js = {
 	},
 	deleteTranslation: function(e,position) {
 		var target = $(e.currentTarget);
+		if(typeof e.currentTarget == 'undefined'){
+			target = e;
+		}
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('LBL_Loader'),
@@ -229,7 +232,7 @@ var Settings_Index_Js = {
 		});
 		Settings_Index_Js.registerSaveEvent('DeleteTranslation',{
 			'lang':$(".LangManagement #langs_list").val(),
-			'mod':$(".LangManagement #mods_list").data('target')?$(".LangManagement #mods_list").data('target'):$(".LangManagement #mods_list").val(),
+			'mod':$(".LangManagement "+position+" #mods_list").data('target')?$(".LangManagement "+position+" #mods_list").data('target'):$(".LangManagement "+position+" #mods_list").val(),
 			'langkey':closestTrElement.data('langkey'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
