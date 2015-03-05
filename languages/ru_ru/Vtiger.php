@@ -1118,6 +1118,9 @@ $languageStrings = array(
 	'LBL_WORKING_TIME' => 'Рабочее время',
 );
 $jsLanguageStrings = array(
+	'JS_SAVE_NOTIFY_OK' => 'Сохраненные изменения',
+	'JS_RECORDS_TRANSFERRED SUCCESSFULLY' => 'Права записей успешно переданы',
+	'LBL_TREES_MANAGER' => 'Каталог',
 	'AM'                           => 'AM'                          , 
 	'FIELD_MAPPING'                => 'Соответствие полей',
 	'Generate default PDF'=>'Создать шаблон PDF',
@@ -1314,5 +1317,5 @@ $jsLanguageStrings = array(
     'User to be deleted' => 'Удаляемый пользователь',
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Номер телефона отправлен на Ваш телефон',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Ошибка, при попытке отправить номер телефона',
-    'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
+	'JS_SET_READ_RECORD' => 'Вы читаете все изменения, выполненные на этой записи',
 );
