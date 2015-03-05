@@ -43,33 +43,6 @@ class PreparedQMark2SqlValue {
     }
 }
 
-/**
- * Performance perference API
- */
-@include_once('config/performance.php'); // Ignore warning if not present
-class PerformancePrefs {
-	/**
-	 * Get performance parameter configured value or default one
-	 */
-	static function get($key, $defvalue=false) {
-		global $PERFORMANCE_CONFIG;
-		if(isset($PERFORMANCE_CONFIG)){
-			if(isset($PERFORMANCE_CONFIG[$key])) {
-				return $PERFORMANCE_CONFIG[$key];
-			}
-		}
-		return $defvalue;
-	}
-	/** Get boolean value */
-	static function getBoolean($key, $defvalue=false) {
-		return self::get($key, $defvalue);
-	}
-	/** Get Integer value */
-	static function getInteger($key, $defvalue=false) {
-		return intval(self::get($key, $defvalue));
-	}
-}
-
 class PearDatabase{
     var $database = null;
     var $dieOnError = true;

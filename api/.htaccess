@@ -17,9 +17,9 @@ allow from 127.0.0.1
 		ExpiresActive Off
 	</IfModule>
 	<IfModule mod_php5.c>
-	php_value output_buffering 0
-	php_value always_populate_raw_post_data 0
-	php_value magic_quotes_gpc 0
-	php_value mbstring.func_overload 0
+		php_value output_buffering off
+		php_value always_populate_raw_post_data off
+		php_value magic_quotes_gpc off
+		php_value mbstring.func_overload off
 	</IfModule>
 </Files>
