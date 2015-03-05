@@ -60,6 +60,6 @@ $languageStrings = array(
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM'	=>	') были удалены из системы. Попробуйте заменить на другой Товар или Услугу.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM'	=>	'Нет Товара / Услуги',
 	'LBL_THIS'	=>	'Товар или Услуга (',
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+	'Conversion Rate' => 'Обменный курс',
+	'Currency' => 'Валюта',
 );

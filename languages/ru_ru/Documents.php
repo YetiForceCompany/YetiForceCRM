@@ -8,8 +8,12 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'None' => 'Нет',
+	'Default' => 'По умолчанию',
+	'LBL_SELECT_Documents' => 'Выберите документ',
+	'Checked' => 'Проверено',
+	'Lack of status' => 'Статус отсутствует',
 	'Active'                       => 'Активен'              , 
-	'Brak statusu'	=>	'Статус отсутствует',
 	'Document No'                  => 'Документ №'        , 
 	'Documents'                    => 'Документы'          , 
 	'Download Count'               => 'Счетчик загрузок', 
@@ -52,7 +56,6 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Вы уверены, что хотите переместить файлы в',
-	'JS_EXCEEDS_MAX_UPLOAD_SIZE'   => 'Превышен максимальный размер загрузки',
 	'JS_FOLDER'                    => 'папка'                      ,
 	'JS_FOLDER_IS_NOT_EMPTY'	=>	'Папка не пуста',
 	'JS_MOVE_DOCUMENTS'            => 'Перемещение документов'              ,
