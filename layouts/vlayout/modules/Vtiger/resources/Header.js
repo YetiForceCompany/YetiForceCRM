@@ -197,6 +197,18 @@ jQuery.Class("Vtiger_Header_Js", {
             className: 'globalCalendar'
         });
     },
+	registerHelpInfo : function(container){
+		if(typeof container == 'undefined')
+			container = jQuery('form[name="QuickCreate"]');
+		container.find('.HelpInfoPopover').hover(
+			function () {
+				$(this).popover('show');
+			}, 
+			function () {
+				$(this).popover('show');
+			}
+		);
+	},
     handleQuickCreateData: function(data, params) {
         if (typeof params == 'undefined') {
             params = {};
@@ -204,6 +216,7 @@ jQuery.Class("Vtiger_Header_Js", {
         var thisInstance = this;
         app.showModalWindow(data, function(data) {
             var quickCreateForm = data.find('form[name="QuickCreate"]');
+			thisInstance.registerHelpInfo(quickCreateForm);
             var moduleName = quickCreateForm.find('[name="module"]').val();
             var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
             editViewInstance.registerBasicEvents(quickCreateForm);

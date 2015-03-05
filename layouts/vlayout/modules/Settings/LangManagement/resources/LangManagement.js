@@ -10,7 +10,8 @@
 var Settings_Index_Js = {
 	initEvants: function() {
 		$('.LangManagement .add_lang').click(Settings_Index_Js.ShowLangMondal);
-		$('.LangManagement .edit_lang a').click(Settings_Index_Js.LoadEditLang);
+		$('.LangManagement .edit_lang a').click(function(e){jQuery('#edit_lang').html('');document.showDiff=false; Settings_Index_Js.LoadEditLang(this)});
+		$('.LangManagement .editHelpIcon a').click(function(e){ jQuery('#editHelpIcon').html('');document.showDiff=false; Settings_Index_Js.LoadEditLang(this)});
 		$('#AddNewLangMondal .btn-primary').click(Settings_Index_Js.AddLangMondal);
 		$('#AddNewTranslationMondal .btn-primary').click(Settings_Index_Js.AddTranslationMondal);
 		$('#lang_list tr').each(function(index,element){
@@ -18,42 +19,60 @@ var Settings_Index_Js = {
 			Settings_Index_Js.initEvant(element);
 		})
 	},
-	LoadEditLang : function() {
+	LoadEditLang : function(e) {
+		element = jQuery(e);
+		position = element.attr('href');
+		var tpl = element.data('mode');
+		if(typeof position == 'undefined'){
+			position = '#'+element.attr('id');
+		}
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('LBL_Loader'),
-			'position' : '#edit_lang',
+			'position' : position,
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
 		var url = '';
-		if($(".LangManagement #langs_list").val() != undefined){
-			url += '&lang='+$(".LangManagement #langs_list").val();
+		if($(".LangManagement "+position+" #langs_list").val() != undefined){
+			url += '&lang='+$(".LangManagement "+position+" #langs_list").val();
 		}
 		if($(".LangManagement #mods_list").val() != undefined){
-			url += '&mod='+$(".LangManagement #mods_list").val();
+			url += '&mod='+$(".LangManagement "+position+" #mods_list").val();
 		}
 		if(document.showDiff == true){
 			url += '&sd=1';
 		}
+		if(typeof tpl != 'undefined'){
+			url += '&tpl='+tpl;
+		}
 		$.get("index.php?module=LangManagement&parent=Settings&view=Edit"+url, function (data) {
-			$('#edit_lang').html(data);
-			Settings_Index_Js.initEditLang();
+			jQuery(position).html(data);
+			Settings_Index_Js.initEditLang(tpl,position);
 			progress.progressIndicator({'mode': 'hide'});
 		});
 	},
-	initEditLang: function() {
-		app.showSelect2ElementView($(".LangManagement select.chzn-select"));
-		$(".LangManagement #langs_list").select2().on("change", function(e) {
-			Settings_Index_Js.LoadEditLang();
+	initEditLang: function(tpl,position) {
+		var thisInstance = this;
+		app.showSelect2ElementView($(".LangManagement .active select.chzn-select"));
+		$(".LangManagement .active #langs_list").select2().on("change", function(e) {
+			e = jQuery(this).closest('.active');
+			Settings_Index_Js.LoadEditLang(e);
         });
-		$(".LangManagement #mods_list").select2().on("change", function(e) {
-			Settings_Index_Js.LoadEditLang();
+		thisInstance.registerHoverCkEditor();
+		thisInstance.registerHelpInfo();
+		
+		$(".LangManagement .active #helpInfoView").on('change',function(e){Settings_Index_Js.saveView(e,position)})
+		$(".LangManagement .active #mods_list").select2().on("change", function(e) {
+			e = jQuery(this).closest('.active');
+			Settings_Index_Js.LoadEditLang(e);
         });
-		$('#edit_lang .translation').change(Settings_Index_Js.changeTranslation);
-		$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
-		$('#edit_lang .delete_translation').click(Settings_Index_Js.deleteTranslation);
-		$('#edit_lang .show_differences').click(Settings_Index_Js.ShowDifferences);
+		if(tpl != 'editHelpIcon'){
+			$('#edit_lang .translation').change(function(e){Settings_Index_Js.changeTranslation(e,position)});
+			$('#edit_lang .add_translation').click(Settings_Index_Js.ShowTranslationMondal);
+			$('#edit_lang .delete_translation').click(function(e){Settings_Index_Js.deleteTranslation(e,position)});
+		}
+		$('.LangManagement '+position+' .show_differences').click(Settings_Index_Js.ShowDifferences);
 		$.extend( $.fn.dataTable.defaults, {
 			"searching": true,
 			"ordering": false,
@@ -68,32 +87,128 @@ var Settings_Index_Js = {
 				"sEmptyTable":    app.vtranslate('No data available in table'),
 			}
 		} );
-		$('#edit_lang .listViewEntriesTable').dataTable();
+		$(''+position+' .listViewEntriesTable').dataTable();
+	},
+	registerHoverCkEditor : function(){
+		var thisInstance = this;
+		jQuery('tr td button.editButton').on('click',function(e){
+			elementTd = jQuery(this).closest('td');
+			thisInstance.registerEventForCkEditor(this);
+			thisInstance.addClickOutSideEvent(elementTd);
+		});
+	},
+	addClickOutSideEvent : function(element) {
+		var thisInstance = this;
+		element.one('clickoutside',function(){
+			thisInstance.destroyEventForCkEditor(element);
+		});
+	},
+	registerHelpInfo : function(){
+		var form = jQuery('.LangManagement');
+		form.find('.HelpInfoPopover').popover()
+	},
+	/**
+	 * Function to register event for ckeditor
+	 */
+	registerEventForCkEditor : function(e){
+		var thisInstance = this;
+		var element = jQuery(e);
+		var elementTd = element.closest('td');
+		var textarea = elementTd.find('textarea.ckEditorSource');
+		element.addClass('hide');
+		textarea.removeClass('hide');
+		thisInstance.loadCkEditorElement( textarea );
+	},
+	/**
+	 * Function to destroy ckeditor element
+	 */
+	destroyEventForCkEditor : function(element){
+		var thisInstance = this;
+		var textarea = element.find('textarea.ckEditorSource');
+		var elementId = textarea.attr('id');
+		if(typeof elementId != 'undefined' && textarea.css('display') == 'none'){
+			ckeditor = CKEDITOR.instances[elementId];
+			var target = ckeditor.getData();
+			if(textarea.val() != target){
+				textarea.val(target);
+				if(target){
+					Settings_Index_Js.changeTranslation(textarea,'#editHelpIcon');
+					element.find('.HelpInfoPopover').attr('data-content',target);
+				}else{
+					Settings_Index_Js.deleteTranslation(textarea,'#editHelpIcon');
+					textarea.addClass('empty_value');
+					element.find('.HelpInfoPopover').attr('data-content','');
+				}
+			}
+			ckeditor.destroy();
+			textarea.addClass('hide');
+			element.find('button.editButton').removeClass('hide');
+		}
+	},
+	loadCkEditorElement : function( noteContentElement ){
+		var thisInstance = this;
+		var customConfig = {};
+		if( noteContentElement.css('display') != 'none'){
+			customConfig = {
+				disableNativeSpellChecker: true,
+				scayt_autoStartup: false,
+				removePlugins: 'scayt',
+				height: '5em',
+				toolbar: null, 
+				toolbarGroups: [                 
+					{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+					{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+					{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] }
+				]}
+			var ckEditorInstance = new Vtiger_CkEditor_Js();
+			ckEditorInstance.loadCkEditor(noteContentElement,customConfig);
+		}
+	},
+	saveView: function(e, position) {
+		var target = $(e.currentTarget);
+		if(typeof e.currentTarget == 'undefined')
+			target = jQuery(e);
+		var closestTrElement = target.closest('tr');
+		var progress = $.progressIndicator({
+			'message' : app.vtranslate('LBL_Loader'),
+			'position' : position,
+			'blockInfo' : {
+				'enabled' : true
+			}
+		});
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('saveView',{
+			'fieldid':target.data('fieldid'),
+			'mod':$(".LangManagement #mods_list").data('target')?$(".LangManagement #mods_list").data('target'):$(".LangManagement #mods_list").val(),
+			'value':target.val(),
+		});
+		progress.progressIndicator({'mode': 'hide'});
 	},
 	ShowDifferences: function(e) {
 		var target = $(e.currentTarget);
 		if ($(this).is(':checked')) {
 			document.showDiff = true;
-			console.log('true');
 		}else{
 			document.showDiff = false;
-			console.log('false');
 		}
-		Settings_Index_Js.LoadEditLang();
+		e = $(this).closest('.active');
+		Settings_Index_Js.LoadEditLang(e);
 	},
-	changeTranslation: function(e) {
+	changeTranslation: function(e, position) {
+
 		var target = $(e.currentTarget);
+		if(typeof e.currentTarget == 'undefined')
+			target = jQuery(e);
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('LBL_Loader'),
-			'position' : '#edit_lang',
+			'position' : position,
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('SaveTranslation',{
 			'lang':target.data('lang'),
-			'mod':$(".LangManagement #mods_list").val(),
+			'mod':jQuery(".LangManagement "+position+" #mods_list").data('target')?jQuery(".LangManagement "+position+" #mods_list").data('target'):jQuery(".LangManagement "+position+" #mods_list").val(),
 			'type':target.data('type'),
 			'langkey':closestTrElement.data('langkey'),
 			'val':target.val(),
@@ -102,23 +217,24 @@ var Settings_Index_Js = {
 		target.removeClass( "empty_value" );
 		progress.progressIndicator({'mode': 'hide'});
 	},
-	deleteTranslation: function(e) {
+	deleteTranslation: function(e,position) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('LBL_Loader'),
-			'position' : '#edit_lang',
+			'position' : position,
 			'blockInfo' : {
 				'enabled' : true
 			}
 		});
 		Settings_Index_Js.registerSaveEvent('DeleteTranslation',{
 			'lang':$(".LangManagement #langs_list").val(),
-			'mod':$(".LangManagement #mods_list").val(),
+			'mod':$(".LangManagement #mods_list").data('target')?$(".LangManagement #mods_list").data('target'):$(".LangManagement #mods_list").val(),
 			'langkey':closestTrElement.data('langkey'),
 		});
 		progress.progressIndicator({'mode': 'hide'});
-		Settings_Index_Js.LoadEditLang();
+		e = target.closest('.active');
+		Settings_Index_Js.LoadEditLang(e);
 	},
 	initEvant: function(element) {
 		element.find('input[type=checkbox]').change(Settings_Index_Js.CheckboxChange);
@@ -195,6 +311,7 @@ var Settings_Index_Js = {
 		}
 	},
 	AddTranslationMondal: function(e) {
+		var target = $(e.currentTarget);
 		var SaveEvent = Settings_Index_Js.registerSaveEvent('AddTranslation',{
 			'mod': $(".LangManagement #mods_list").val(),
 			'form_data': $("#AddTranslationForm").serializeFormData()
@@ -203,7 +320,7 @@ var Settings_Index_Js = {
 			$('#AddNewTranslationMondal').modal('hide');
 			$("#AddNewTranslationMondal input[name='variable']").val('');
 		}
-		Settings_Index_Js.LoadEditLang();
+		Settings_Index_Js.LoadEditLang(jQuery('#edit_lang'));
 		e.preventDefault();
 	},
 	DeleteLang: function(closestTrElement,e) {
@@ -233,7 +350,6 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		
         AppConnector.request(params).then(
 			function(data) {
 				response = data['result'];

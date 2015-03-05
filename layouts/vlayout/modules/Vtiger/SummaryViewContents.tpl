@@ -16,7 +16,13 @@
 	{foreach item=FIELD_MODEL key=FIELD_NAME from=$SUMMARY_RECORD_STRUCTURE['SUMMARY_FIELDS']}
 		{if $FIELD_MODEL->get('name') neq 'modifiedtime' && $FIELD_MODEL->get('name') neq 'createdtime'}
 			<tr class="summaryViewEntries">
-				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%"><label class="muted">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}</label></td>
+				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%">
+				<label class="muted pull-left">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}</label>
+				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+					{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+					{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+						<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-left" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="icon-info-sign"></i></a>
+					{/if}
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
                     <div class="row-fluid">
                         <span class="value" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>

@@ -2175,10 +2175,21 @@ jQuery.Class("Vtiger_Detail_Js",{
 			jQuery('.detailViewInfo .related li.active').trigger( "click" );
 		});
 	},
-	
+	registerHelpInfo : function(){
+		var form = this.getForm();
+		form.find('.HelpInfoPopover').hover(
+			function () {
+				$(this).popover('show');
+			}, 
+			function () {
+				$(this).popover('show');
+			}
+		);
+	},
 	registerEvents : function(){
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();
+		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();		
 		thisInstance.registerAjaxEditEvent();
 		this.registerRelatedRowClickEvent();

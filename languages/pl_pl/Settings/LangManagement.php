@@ -51,6 +51,12 @@ $languageStrings = array(
 	'Export'	=> 'Eksportuj',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Pokaż brakujące tłumaczenia',
 	'LBL_DEFAULT'	=> 'Domyślny',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'	=> 'Nie można dokonać zmian',
+	'LBL_DETAIL'	=> 'Podgląd',
+	'LBL_QUICKCREATE'	=> 'Szybkie tworzenie',
+	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',
+	'LBL_SHOW_IN'	=> 'Pokaż w',
+	'LBL_EDIT_HELP_ICON'	=> 'Ikony pomocy',
 );
 $jsLanguageStrings = array(
 	'Translations' => 'Tłumaczenia',
@@ -63,4 +69,5 @@ $jsLanguageStrings = array(
 	'No matching records found'	=> 'Nie znaleziono tłumaczenia',
 	'Search'	=> 'Szukaj:',
 	'No data available in table'	=> 'Brak tłumaczeń',
+	'JS_NOTRANSLATION'	=> '--Brak tłumaczenia--',
 );

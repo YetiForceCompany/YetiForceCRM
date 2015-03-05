@@ -50,12 +50,12 @@ $languageStrings = array(
 	'LBL_KeyExists'	=>	'Такая языковая переменная уже существует',
 	'Export'	=>	'Экспорт',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=>	'Показать недостающие переводы',
-	'LBL_DEFAULT'	=> 'Default',
+	'LBL_DEFAULT' => 'По умолчанию',
 );
 $jsLanguageStrings = array(
 	'Language editor'	=>	'Редактор языков',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
-	'JS_DEFAULT'	=> 'Default',
+	'JS_DEFAULT' => 'По умолчанию',
 	'Translations'	=>	'Редактор языков',
 	'No data available in table'	=>	'Не найдено ни одной записи',
 	'LBL_AreYouSure'	=>	'Вы уверены, что хотите удалить этот язык?',

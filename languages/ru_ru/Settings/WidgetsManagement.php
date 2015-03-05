@@ -27,9 +27,9 @@ $languageStrings = array(
 	'LBL_MANDATORY_WIDGET'	=>	'Обязательный Виджет',
 	'LBL_WIDGET' => 'Виджеты',
 	'LBL_NUMBER_OF_RECORDS_DISPLAYED'	=>	'Отображаемое количество записей',
-	'LBL_DEFAULT_FILTER' => 'Default filter',
-	'LBL_FILTERS_AVAILABLE' => 'Filters available',
-	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select atleast one option',
+	'LBL_DEFAULT_FILTER' => 'Фильтр по умолчанию',
+	'LBL_FILTERS_AVAILABLE' => 'Доступные фильтры',
+	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Необходимо выбрать, как минимум 1 пункт',
 );
 $jsLanguageStrings = array(
 	'JS_BLOCK_ADDED'	=>	'Блок Виджетов успешно добавлен',
@@ -37,5 +37,5 @@ $jsLanguageStrings = array(
 	'JS_CUSTOM_FIELD_DELETED'	=>	'Виджет успешно добавлен',
 	'JS_CUSTOM_BLOCK_DELETED'	=>	'Блок Виджетов успешно удален',
 	'JS_FIELD_EMPTY'	=>	'Поле не может быть пустым',
-	'JS_FILTERS_AVAILABLE' => 'Filters available',
+	'JS_FILTERS_AVAILABLE' => 'Доступные фильтры',
 );

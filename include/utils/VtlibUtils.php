@@ -233,6 +233,7 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable) {
 /**
  * Get help information set for the module fields.
  */
+ /*
 function vtlib_getFieldHelpInfo($module) {
 	global $adb;
 	$fieldhelpinfo = Array();
@@ -249,7 +250,7 @@ function vtlib_getFieldHelpInfo($module) {
 	}
 	return $fieldhelpinfo;
 }
-
+*/
 /**
  * Setup mandatory (requried) module variable values in the module class.
  */
