@@ -9,15 +9,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'HolidaysEntitlement' => 'Annual holiday entitlement',
-	'SINGLE_HolidaysEntitlement' => 'Annual holiday entitlement',
+	'HolidaysEntitlement' => 'Ежегодные отпуска',
+	'SINGLE_HolidaysEntitlement' => 'Ежегодный отпуск',
 	
 	//Bloks
-	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Базовая информация',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
 	
 	//Fields
-	'LBL_YEAR' => 'Year',
-	'LBL_DAYS' => 'Number of holidays',
-	'LBL_EMPLOYEE' => 'Employee',
+	'LBL_YEAR' => 'Год',
+	'LBL_DAYS' => 'Количество выходных и праздничных дней',
+	'LBL_EMPLOYEE' => 'Сотрудники',
 );

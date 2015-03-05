@@ -76,7 +76,7 @@ $languageStrings = array(
 	'Yearly'	=>	'Ежегодно',
     'Medium'                       => 'Средний',    
     'Mobile Call'                  => 'Звонок с мобильного',
-	'All day' => '__No_Translated__',
+	'All day' => 'Весь день',
 );
 
 $jsLanguageStrings = array(

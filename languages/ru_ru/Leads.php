@@ -9,6 +9,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Products' => 'Товар',
+	'Orders accepted' => 'Принимаем заказы',
 	'Township'	=>	'Поселок',
 	'--None--'                     => '--нет--'                  , 
 	'Approval for email'	=>	'Разрешено писать',

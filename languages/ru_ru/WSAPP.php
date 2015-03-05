@@ -10,12 +10,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $mod_strings = Array (
-'WSAPP' => 'WSAPP',
 
 );
 
 
 
 $languageStrings = array(
-	'WSAPP'	=>	'WSAPP',
 );
