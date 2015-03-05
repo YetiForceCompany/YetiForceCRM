@@ -52,6 +52,7 @@ $languageStrings = array(
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Pokaż brakujące tłumaczenia',
 	'LBL_DEFAULT'	=> 'Domyślny',
 	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'	=> 'Nie można dokonać zmian',
+	'LBL_EDIT'	=> 'Tworzenie i edycja',
 	'LBL_DETAIL'	=> 'Podgląd',
 	'LBL_QUICKCREATE'	=> 'Szybkie tworzenie',
 	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',

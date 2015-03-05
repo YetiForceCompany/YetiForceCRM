@@ -51,6 +51,13 @@ $languageStrings = array(
 	'Export'	=>	'Экспорт',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=>	'Показать недостающие переводы',
 	'LBL_DEFAULT' => 'По умолчанию',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Cannot make changes',
+	'LBL_EDIT'	=> 'Create & Edit',
+	'LBL_DETAIL' => 'Detail view & Summary view',
+	'LBL_QUICKCREATE' => 'Quick create',
+	'LBL_SHOW_EMPTY_VALUES' => 'Show empty values',
+	'LBL_SHOW_IN'	=> 'Show in',
+	'LBL_EDIT_HELP_ICON'	=> 'Help icons',
 );
 $jsLanguageStrings = array(
 	'Language editor'	=>	'Редактор языков',
