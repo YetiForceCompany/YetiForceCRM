@@ -66,6 +66,7 @@ $languageStrings = array(
 	'LBL_NOMAILSLIST'	=>	'Нет сообщений',
 );
 $jsLanguageStrings = array(
+	'Project' => 'Проект',
 	'Sale'	=>	'Продажа',
 	'Calendar'	=>	'Календарь',
 	'Service'	=>	'Услуги',
@@ -118,7 +119,7 @@ $jsLanguageStrings = array(
 	'Add Leads'	=>	'Добавить Обращение',
 	'Add Events'	=>	'Добавить Событие',
 	'Add Task'	=>	'Добавить Задачу',
-	    'Add Vendors' => 'Add Vendor',
+	'Add Vendors' => 'Добавить Поставщика',
 	'Add Potentials'	=>	'Добавить Сделку',
 	'Add ProjectTask'	=>	'Добавить Проектную задачу',
 	'Add ProjectMilestone'	=>	'Добавить Контрольную точку',

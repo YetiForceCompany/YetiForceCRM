@@ -10,9 +10,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_SUMMARY' => 'Всего рабочего времени',
+	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'Actual End Date'              => 'Фактическая дата завершения'             , 
 	'Add Project Task'	=>	'Проектная Задача',
-	'HelpDesk'                     => 'Заявка',
 	'LBL_ADD_RECORD'               => 'Добавить Проект'                 , 
 	'LBL_CHARTS'                   => 'Диаграммы'                      , 
 	'LBL_DOWNLOAD_FILE'            => 'Скачать файл'               , 
@@ -39,8 +40,6 @@ $languageStrings = array(
 	'Project Name'                 => 'Наименование проекта', 
 	'Project No'                   => '№'              , 
 	'Project Url'                  => 'Ссылка на Проект'                 , 
-	'ProjectMilestone'             => 'Контрольная точка',
-	'ProjectTask'                  => 'Проектная задача',
 	'Related to' => 'Связан с',
 	'SINGLE_Project'               => 'Проект'                  , 
 	'Start Date'                   => 'Дата начала'       , 

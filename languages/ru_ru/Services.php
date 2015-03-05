@@ -10,10 +10,17 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Total time [Project]' => 'Общее время (Проекты)',
+	'Total time [Project Task]' => 'Общее время (Проектные задачи)',
+	'Total time [Sum]' => 'Общее время',
+	'Total time [Tickets]' => 'Общее время (Заявки)',
+	'LBL_SUMMARY' => 'Всего рабочего времени',
+	'Hardware' => 'Оборудование',
+	'Software' => 'Программное обечпечение',
+	'CRM Applications' => 'Системные приложения',
 	'Commission Rate'              => 'Комиссионные (%)'  , 
 	'LBL_ADD_RECORD'               => 'Добавить Услугу',
 	'LBL_ADD_TO_PRICEBOOKS'        => 'Добавить прайс лист'           ,
-	'LBL_CONVERSION_RATE' 			=> 'Обменный курс', 
 	'LBL_MORE_CURRENCIES'          => 'Больше валют'     , 
 	'LBL_PRICE'                    => 'Цена'                    , 
 	'LBL_PRICES'                   => 'Специальные цены'              , 
@@ -44,5 +51,4 @@ $languageStrings = array(
     'Migration'                    => 'Миграция',
     'Support'                      => 'Поддержка',
     'Training'                     => 'Тренинг',
-    'Unit Code'                    => 'Код единицы измерения',
 );
