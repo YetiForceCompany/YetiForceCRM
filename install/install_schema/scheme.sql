@@ -2278,7 +2278,7 @@ CREATE TABLE `vtiger_field` (
   `quickcreatesequence` int(19) DEFAULT NULL,
   `info_type` varchar(20) DEFAULT NULL,
   `masseditable` int(10) NOT NULL DEFAULT '1',
-  `helpinfo` tinyint(1) DEFAULT '0',
+  `helpinfo` varchar(30) DEFAULT '',
   `summaryfield` int(10) NOT NULL DEFAULT '0',
   `fieldparams` varchar(255) DEFAULT '',
   PRIMARY KEY (`fieldid`),
