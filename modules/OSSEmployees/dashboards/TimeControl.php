@@ -44,36 +44,27 @@ class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		
+		$selectedTimeTypes =  $request->get('timeTypes');
+		if('' == $selectedTimeTypes){
+			$selectedTimeTypes = 'all';
+		}
 
-		$holidayTime = $request->get('holidayTime');
-		if('' == $holidayTime)
-			$holidayTime = TRUE;
-		$breakTime = $request->get('breakTime');
-		if('' == $breakTime)
-			$breakTime = TRUE;
-		$workTime = $request->get('workTime');
-		if('' == $workTime)
-			$workTime = TRUE;
-
-		$data = $moduleModel->getWidgetTimeControl($user, $time, $holidayTime, $breakTime, $workTime);
-		$workDays = $moduleModel->getWorkingDays($time['start'], $time['end']);
-		$selectedDays = (strtotime($time['end']) - strtotime($time['start'])) / (60*60*24) + 1;
-	
+		$data = $moduleModel->getWidgetTimeControl($user, $time, $selectedTimeTypes);
 		$listViewUrl = 'index.php?module=OSSTimeControl&view=List';
 		for($i = 0;$i<count($data['data']['days']);$i++){
 			$data['data'][$i]['links'] = $listViewUrl.$this->getSearchParams($user,$data['data']['days'][$i]);
 		}
+
+		$timeTypesPossibility = array('PLL_HOLIDAY_TIME' => 'holidayTime', 'PLL_BREAK_TIME' => 'breakTime', 'PLL_WORKING_TIME' => 'workTime');
 		
+		$viewer->assign('SELECTEDTIMETYPES', $selectedTimeTypes);
+		$viewer->assign('TIMETYPEPOSSIBILITY', $timeTypesPossibility);
 		$viewer->assign('CHARTEXIST', $data['chartExist']);
 		$viewer->assign('TIMETYPESCOLORS', $data['colors']);
-		$viewer->assign('SELECTEDDAYS', $selectedDays);
 		$viewer->assign('WORKDAYS', $workDays);	
-		$viewer->assign('AVERAGE', $data['average']);
-		$viewer->assign('COUNTDAYS', $data['countDays']);
 		$viewer->assign('USERID', $user );
 		$viewer->assign('DTIME', $time );
 		$viewer->assign('DATA', $data['data']);
-		
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);

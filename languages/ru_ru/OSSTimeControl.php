@@ -94,6 +94,7 @@ $languageStrings = array(
 $jsLanguageStrings = array(
 	'MSG_ERROR_NUMBER'	=>	'Допустимые символы: [0-9]',
 	'LBL_DATE_SHOULD_BE_GREATER_THAN'	=>	'Дата окончания не может быть меньше или равна Дате начала',
+	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	
 	//Calendar
 	'JS_ALL_DAY' => 'Все дни',

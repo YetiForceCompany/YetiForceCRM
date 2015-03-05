@@ -46,7 +46,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		return $listQuery." AND vtiger_ossemployees.employee_status = 'Employee'";
 	}
 	
-	public function getWidgetTimeControl($user, $time, $holidayTimeSelected, $breakTimeSelected, $workTimeSelected) {
+	public function getWidgetTimeControl($user, $time, $selectedTimeTypes) {
 		if(!$time){
 			return array();
 		}
@@ -55,63 +55,59 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		$sql = "SELECT sum_time AS daytime, due_date, timecontrol_type FROM vtiger_osstimecontrol
 					INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
 					WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.smownerid = ? ";
-		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) ORDER BY due_date ";
+		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) AND vtiger_osstimecontrol.deleted = 0 ORDER BY due_date ";
 		$result = $db->pquery( $sql, $param );
 		$data = array();
-		$countDays = 0;
-		$average = 0;
+
 		for($i=0;$i<$db->num_rows( $result );$i++){
 			$due_date = $db->query_result_raw($result, $i, 'due_date');
 			$daytime = $db->query_result_raw($result, $i, 'daytime');
 			$timecontrol_type = $db->query_result_raw($result, $i, 'timecontrol_type');
-			$due_date = DateTimeField::convertToUserFormat($due_date);
-			
+			$due_date = DateTimeField::convertToUserFormat($due_date);			
 			$data[$due_date][$timecontrol_type] += $daytime;
-			$countDays++;
-			$average = $average + $daytime;
 		}
-
-		if($average > 0)
-			$average = $average/$countDays;		
 		
 		foreach ($data as $key => $value) {
 			if(!$value['PLL_BREAK_TIME']){
-				$data[$key]['PLL_BREAK_TIME'] = 0;
+				$breakTime[] = 0;
 			}else{
-				$data[$key]['PLL_BREAK_TIME'] = $value['PLL_BREAK_TIME'];
+				$breakTime[] = $value['PLL_BREAK_TIME'];
 			}
 			if(!$value['PLL_WORKING_TIME']){
-				$data[$key]['PLL_WORKING_TIME'] = 0;
+				$workingTime[] = 0;
 			}else{
-				$data[$key]['PLL_WORKING_TIME'] = $value['PLL_WORKING_TIME'];
+				$workingTime[] = $value['PLL_WORKING_TIME'];
 			}
 			if(!$value['PLL_HOLIDAY']){
-				$data[$key]['PLL_HOLIDAY'] = 0;
+				$holiday[] = 0;
 			}else{
-				$data[$key]['PLL_HOLIDAY'] = $value['PLL_HOLIDAY'];
+				$holiday[] = $value['PLL_HOLIDAY'];
 			}
-		}
-	
-		foreach ($data as $key => $value) {
-			$breakTime[] = $value['PLL_BREAK_TIME'];
-			$holiday[] = $value['PLL_HOLIDAY'];
-			$workingTime[] = $value['PLL_WORKING_TIME'];
 			$days[] = $key; 
 		}
-		
-		if('true' == $workTimeSelected)
-			$chartData['PLL_WORKING_TIME'] = $workingTime;
-		if('true' == $breakTimeSelected)
-			$chartData['PLL_BREAK_TIME'] = $breakTime;
-		if('true' == $holidayTimeSelected)
-			$chartData['PLL_HOLIDAY_TIME'] = $holiday;
-		
-		$chartExist = FALSE;
-		if(count($chartData['PLL_HOLIDAY_TIME']) || count($chartData['PLL_BREAK_TIME']) || count($chartData['PLL_WORKING_TIME']))
+					
+		if('all' == $selectedTimeTypes){
 			$chartExist = TRUE;
-	
-		if(NULL != $chartData)
+			$chartData['PLL_WORKING_TIME'] = $workingTime;
+			$chartData['PLL_BREAK_TIME'] = $breakTime;
+			$chartData['PLL_HOLIDAY_TIME'] = $holiday;
 			$colors = $this->getBarChartColors($chartData);
+		}elseif('null' == $selectedTimeTypes){
+			$chartExist = FALSE;
+		}
+		else{
+			$chartExist = TRUE;
+			
+			foreach ($selectedTimeTypes as $key => $value) {
+				if('breakTime' == $value)
+					$chartData['PLL_BREAK_TIME'] = $breakTime;
+				if('holidayTime' == $value)
+					$chartData['PLL_HOLIDAY_TIME'] = $holiday;
+				if('workTime' == $value)
+					$chartData['PLL_WORKING_TIME'] = $workingTime;
+			}
+			$colors = $this->getBarChartColors($chartData);
+		}	
 			
 		$numDays = count($days);
 		$max = 0;
@@ -135,7 +131,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		$chartData['days'] = $days;
 		$chartData['yMaxValue'] = $yMaxValue; 
 
-		return array('data' => $chartData, 'colors' => $colors, 'chartExist' => $chartExist, 'countDays' => $countDays, 'average' => number_format($average, 2, '.', ' '));
+		return array('data' => $chartData, 'colors' => $colors, 'chartExist' => $chartExist);
 	}
 	
 	function getWorkingDays($startDate, $endDate){

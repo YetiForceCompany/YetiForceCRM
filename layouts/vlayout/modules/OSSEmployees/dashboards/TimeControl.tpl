@@ -11,8 +11,8 @@
 -->*}
 <style type="text/css">
 	.filterContainerTimeControl{
-		margin-top: 5px;
-		padding: 0 !important
+		margin: 5px 0 0 17px;
+		padding: 0 !important;
 	}
 	.dashboardWidgetContentTimeControl{
 		padding: 0 !important
@@ -20,7 +20,19 @@
 	.widgetFilter{
 		margin-bottom: 0 !important;
 	}
-	.iconMiddle { vertical-align: middle; }
+	.iconMiddle {
+		margin-top: 7px;
+		vertical-align: middle;
+	}
+	.legend-colors {
+		text-align:center;
+	}
+	.legend-colors ul {
+		display:inline-table;
+	}
+	.legend-colors ul li {
+		display:inline;
+	}
 </style>
 <script type="text/javascript">
 	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{
@@ -144,23 +156,23 @@
 		</tbody>
 	</table>
 	<div class="row-fluid filterContainerTimeControl">
-		<div class="row-fluid span6">
-			<span class="span4">
-				<span class="pull-right">
+		<div class="row-fluid span3">
+			<span class="span1">
+				<span>
 					<i class="icon-calendar iconMiddle"></i>
 				</span>
 			</span>
-			<span class="span8">
-				<input type="text" name="time" class="dateRange widgetFilter" style="width:90%;" />
+			<span>
+				<input type="text" name="time" class="dateRange widgetFilter" style="width:80%;" />
 			</span>
 		</div>
-		<div class="row-fluid span6">
+		<div class="row-fluid span3">
 			<span class="span1">
-				<span class="pull-right">
+				<span>
 					<i class="icon-user iconMiddle"></i>
 				</span>
 			</span>
-			<span class="span8">
+			<span>
 				{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 				{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
 				<select class="widgetFilter" name="user" style="width:90%;" >
@@ -174,19 +186,21 @@
 				</select>
 			</span>
 		</div>
-		<div class="row-fluid">
-			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('PLL_HOLIDAY_TIME', $MODULE_NAME)}</label>
-				<input type="checkbox" checked name="holidayTime" class="holidayTime widgetFilter" />
+		<div class="row-fluid span4">
+			<span class="span1">
+				<i class="icon-time iconMiddle"></i>
 			</span>
-			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('PLL_BREAK_TIME', $MODULE_NAME)}</label>
-				<input type="checkbox" checked name="breakTime" class="breakTime widgetFilter" />
-			</span>
-			<span class="span4" style="text-align:center;">
-				<label>{vtranslate('LBL_TOTAL_TIME', $MODULE_NAME)}</label>
-				<input type="checkbox" checked name="workTime" class="workTime widgetFilter" />
-			</span>
+			<select name="timeTypes" class="select2 widgetFilter" multiple style="width:90%;">
+				{foreach key=KEY item=ITEM from=$TIMETYPEPOSSIBILITY}
+					{if $SELECTEDTIMETYPES eq 'all'}
+						<option selected value="{$ITEM}">
+					{else}
+						<option  value="{$ITEM}">
+					{/if}
+						{vtranslate($KEY, $MODULE_NAME)}
+					</option>
+				{/foreach}
+			</select> 
 		</div>
 	</div>
 </div>
