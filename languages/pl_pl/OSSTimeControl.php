@@ -95,6 +95,8 @@ $languageStrings = array(
 $jsLanguageStrings = array(
     'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
 	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
+	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
+
 	
 	//Calendar
 	'JS_ALL_DAY' => 'Całodniowe',

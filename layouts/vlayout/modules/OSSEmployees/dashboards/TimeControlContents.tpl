@@ -13,24 +13,16 @@
 {strip}
 {if $CHARTEXIST}
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
-	<div class="widgetChartContainer" style="height:55%;width:98%"></div>
-	<div class="widgetDescContainer" style="margin-left: 10px;margin-top: 10px">
-		<div class="pull-left">
-			<h5>{vtranslate('LBL_TIME_RANGE', $MODULE_NAME)}: {$DTIME['start']} - {$DTIME['end']}</h5>
-			<h5>{vtranslate('LBL_NUMBER_OF_DAYS', $MODULE_NAME)}: {$SELECTEDDAYS}</h5>
-			<h5>{vtranslate('LBL_NUMBER_OF_WORKING_DAYS', $MODULE_NAME)}: {$WORKDAYS}</h5>
-			<h5>{vtranslate('LBL_NUMBER_OF_DAYS_WORKED', $MODULE_NAME)}: {$COUNTDAYS}</h5>
-			<h5>{vtranslate('LBL_AVERAGE_WORKING_TIME', $MODULE_NAME)}: {$AVERAGE}</h5>
-		</div>
-		
-		<div class="pull-right" style="margin-right: 10px;">
-			{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
-				<div>
-					<div style="width:10px; height:10px; background-color:{$COLOR}"></div>
-					<h5>{vtranslate($TIMETYPE, $MODULE_NAME)} </h5>
-				</div>
-			{/foreach}
-		</div>
+	<div class="widgetChartContainer" style="height:75%;width:98%"></div>
+	<div class="legend-colors">
+		<ul>
+		{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
+			<li style="float:left; margin-right:15px;">
+				<div style="margin-right:5px; margin-top:5px; float:left; width:10px; height:10px; background-color:{$COLOR}"></div>
+				<h5  style="float:left;">{vtranslate($TIMETYPE, $MODULE_NAME)} </h5>
+			</li>
+		{/foreach}
+	</ul>
 	</div>
 {else}
 	<span class="noDataMsg">

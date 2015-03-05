@@ -1907,6 +1907,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 					app.registerEventForTimeFields(detailContentsHolder);
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
 					element.progressIndicator({'mode': 'hide'});
+					thisInstance.registerHelpInfo();
 					if(typeof callBack == 'function'){
 						callBack(data);
 					}

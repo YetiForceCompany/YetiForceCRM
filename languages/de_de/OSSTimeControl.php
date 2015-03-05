@@ -73,6 +73,7 @@ $languageStrings = array(
 $jsLanguageStrings = array(
 	'LBL_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
 	'MSG_ERROR_NUMBER'	=>	'Erlaubte Zeichen: [0-9]',
+	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	
 	//Calendar
 	'JS_ALL_DAY' => 'All-Day',
