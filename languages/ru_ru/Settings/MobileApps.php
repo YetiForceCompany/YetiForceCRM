@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MOBILE_CALLLISTENER' => 'Прослушивание соединений',
+	'LBL_MOBILE_CALLLISTENER' => 'Журнал звонков',
 	'MobileApps'	=>	'Мобильные приложения',
 	'LBL_MOBILE_KEYS'	=>	'Мобильные приложения',
 	'LBL_MOBILE_KEYS_DESCRIPTION'	=>	'Создание и управление ключами мобильных приложений',
@@ -33,7 +33,7 @@ $languageStrings = array(
  	// Mobile services
 	'LBL_MOBILE_HISTORYCALL'	=>	'Журнал Вызовов',
 	'LBL_MOBILE_PUSHCALL'	=>	'Автоматический набор номера',
-	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
+	'LBL_MOBILE_CALLLISTENER' => 'Журнал звонков',
 );
 $jsLanguageStrings = array(
 	'Adding a Key'	=>	'Добавить ключ',
