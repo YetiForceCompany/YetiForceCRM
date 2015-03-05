@@ -50,6 +50,12 @@ $languageStrings = array(
 	'Export'	=> 'Exportieren',
 	'LBL_SHOW_MISSING_TRANSLATIONS' => 'Zeige nicht übersetzte Variablen',
 	'LBL_DEFAULT'	=> 'Standard',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Cannot make changes',
+	'LBL_DETAIL' => 'Detail view',
+	'LBL_QUICKCREATE' => 'Quick create',
+	'LBL_SHOW_EMPTY_VALUES' => 'Show empty values',
+	'LBL_SHOW_IN'	=> 'Show in',
+	'LBL_EDIT_HELP_ICON'	=> 'Help icons',
 );
 $jsLanguageStrings = array(
 	'Translations' => 'Translations',

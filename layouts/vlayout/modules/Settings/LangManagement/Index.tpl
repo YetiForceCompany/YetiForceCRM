@@ -25,8 +25,13 @@
 					</a>
 				</li>
                 <li class="edit_lang">
-					<a data-toggle="tab" href="#edit_lang">
+					<a data-toggle="tab" href="#edit_lang" data-mode="editLang">
 						<strong>{vtranslate('LBL_TAB_EDITLANG', $QUALIFIED_MODULE)}</strong>
+					</a>
+				</li>
+				<li class="editHelpIcon">
+					<a data-toggle="tab" href="#editHelpIcon" data-mode="editHelpIcon">
+						<strong>{vtranslate('LBL_EDIT_HELP_ICON', $QUALIFIED_MODULE)}</strong>
 					</a>
 				</li>
 				<!--
@@ -41,7 +46,8 @@
 				<div class="tab-pane active" id="lang_list">
 					{include file='LangList.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</div>
-				<div class="tab-pane" id="edit_lang"></div>
+				<div class="tab-pane" id="edit_lang" data-mode="editLang"></div>
+				<div class="tab-pane" id="editHelpIcon" data-mode="editHelpIcon"></div>
 				<!--
 				<div class="tab-pane" id="lang_stats">
 					{include file='Stats.tpl'|@vtemplate_path:$QUALIFIED_MODULE}

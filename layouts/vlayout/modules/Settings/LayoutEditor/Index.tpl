@@ -263,13 +263,6 @@ display: none;
 											</span>
 											<span>
 												<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-												{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-												<input type="checkbox" name="helpinfo" value="1"
-                                                {if $FIELD_MODEL->get('helpinfo') eq 1} checked {/if} />
-												</label>
-											</span>
-											<span>
-												<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 												{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
 												<input type="checkbox" name="generatedtype" value="1"
                                                 {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
@@ -460,13 +453,6 @@ display: none;
 			</span>
 			<span>
 				<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-				{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-				<input type="checkbox" name="helpinfo" value="1"
-				{if $FIELD_MODEL->get('helpinfo') eq 1} checked {/if} />
-				</label>
-			</span>
-			<span>
-				<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 				{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
 				<input type="checkbox" name="generatedtype" value="1"
 				{if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
@@ -611,12 +597,6 @@ display: none;
 												<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</select>
-										</label>
-									</span>
-									<span>
-										<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-										{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-										<input type="checkbox" name="helpinfo" value="1" />
 										</label>
 									</span>
 									<span>

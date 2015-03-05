@@ -240,6 +240,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+		$viewer->assign('VIEW', $request->get('view'));
 		
 		return $viewer->view('DetailViewFullContents.tpl',$moduleName,true);
 	}
@@ -259,7 +260,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('RECORD', $recordModel);
         $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
