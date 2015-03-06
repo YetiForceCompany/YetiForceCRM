@@ -306,6 +306,12 @@ $languageStrings = array(
 
 	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
 	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
+	'Meeting' => 'Встреча',
+	'Call' => 'Звонок',
+	'Mobile Call' => 'Звонок с мобильного',
+	'Planned' => 'Запланировано',
+	'Held' => 'Проведено',
+	'Not Held' => 'Не проведено',
 );
 
 $jsLanguageStrings = array(

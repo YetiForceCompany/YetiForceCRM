@@ -288,6 +288,12 @@ $languageStrings = array(
 	'Last 2 Days' => 'Letzte 2 Tage',
 	'Last Week' => 'Letzte Woche',
 	" "	=> 'Keine',
+	'Meeting' => 'Besprechung',
+	'Call' => 'Anruf',
+	'Mobile Call' => 'Mobiler Anruf',
+	'Planned' => 'Geplant',
+	'Held' => 'Stattgefunden',
+	'Not Held' => 'Nicht stattgefunden',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

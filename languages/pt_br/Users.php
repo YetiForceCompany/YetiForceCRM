@@ -277,6 +277,12 @@ $languageStrings = array(
 	'Inactive'=> 'Inativo',
 	'yes'=> 'Sim',
 	'no'=> 'Não',
+	'Meeting' => 'Reunião',
+	'Call' => 'Chamada',
+	'Mobile Call' => 'Ligar para Celular',
+	'Planned' => 'Planejado',
+	'Held' => 'Realizado',
+	'Not Held' => 'Não Realizado',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho Administrativo',
