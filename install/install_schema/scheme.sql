@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -2288,7 +2287,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1689 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1695 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6960,6 +6959,12 @@ CREATE TABLE `vtiger_vendoraddress` (
   `poboxa` varchar(50) DEFAULT NULL,
   `poboxb` varchar(50) DEFAULT NULL,
   `poboxc` varchar(50) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `buildingnumberc` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `localnumberc` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   CONSTRAINT `vtiger_vendoraddress_ibfk_1` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -582,6 +582,8 @@ jQuery.Class("Vtiger_Edit_Js",{
 		var formElement = this.getForm();
 		var account_id = false;
 		var contact_id = false;
+		var lead_id = false;
+		var vendor_id = false;
 		jQuery( "#EditView table td" ).each(function( index ) {
 			var referenceModulesList = false;
 			var relatedField = $( this ).find('[name="popupReferenceModule"]').val();
@@ -591,6 +593,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 			if(relatedField == 'Contacts'){
 				contact_id = $( this ).find('.sourceField').attr("name");
 			}
+			if(relatedField == 'Leads'){
+				lead_id = $( this ).find('.sourceField').attr("name");
+			}
+			if(relatedField == 'Vendors'){
+				vendor_id = $( this ).find('.sourceField').attr("name");
+			}
 			referenceModulesList = $( this ).find('.referenceModulesList');
 			if(referenceModulesList.length > 0 ){
 				$.each( referenceModulesList.find('option'), function( key, data ) {
@@ -599,6 +607,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 					}
 					if(data.value == 'Contacts'){
 						contact_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
+					}
+					if(data.value == 'Leads'){
+						lead_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
+					}
+					if(data.value == 'Vendors'){
+						vendor_id = jQuery( "#EditView table td" ).eq(index+1).find('.sourceField').attr("name");
 					}
 				});
 			}
@@ -649,7 +663,53 @@ jQuery.Class("Vtiger_Edit_Js",{
 				}
 			})
 		}
-		if(contact_id == false && account_id == false) {
+		if(lead_id == false){
+			jQuery( ".copyAddressFromLead").addClass('hide');
+		}else{
+			jQuery('.copyAddressFromLead').on('click',function(e){
+				var element = jQuery(this);
+				var block = element.closest('table');
+				var from = element.data('label');
+				var to = block.data('label');
+				var recordRelativeAccountId = jQuery('[name="'+lead_id+'"]').val();
+				if(recordRelativeAccountId == "" || recordRelativeAccountId == "0"){
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS'));
+				} else {
+					var recordRelativeAccountName = jQuery('#'+lead_id+'_display').val();
+					var data = {
+						'record' : recordRelativeAccountId,
+						'selectedName' : recordRelativeAccountName,
+						'source_module': "Leads"
+					}
+					thisInstance.copyAddressDetails(from,to,data,element.closest('table'));
+					element.attr('checked','checked');
+				}
+			})
+		}
+		if(vendor_id == false){
+			jQuery( ".copyAddressFromVendor").addClass('hide');
+		}else{
+			jQuery('.copyAddressFromVendor').on('click',function(e){
+				var element = jQuery(this);
+				var block = element.closest('table');
+				var from = element.data('label');
+				var to = block.data('label');
+				var recordRelativeAccountId = jQuery('[name="'+lead_id+'"]').val();
+				if(recordRelativeAccountId == "" || recordRelativeAccountId == "0"){
+					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'));
+				} else {
+					var recordRelativeAccountName = jQuery('#'+lead_id+'_display').val();
+					var data = {
+						'record' : recordRelativeAccountId,
+						'selectedName' : recordRelativeAccountName,
+						'source_module': "Vendors"
+					}
+					thisInstance.copyAddressDetails(from,to,data,element.closest('table'));
+					element.attr('checked','checked');
+				}
+			})
+		}
+		if(contact_id == false && account_id == false && lead_id == false && vendor_id == false) {
 		    jQuery( ".copyAddressLabel").addClass('hide');
 		}
 		jQuery('.copyAddressFromMain').on('click',function(e){

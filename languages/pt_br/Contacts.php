@@ -57,6 +57,8 @@ $languageStrings = array(
 	'Service Contracts'=>'Contratos',
 	'Projects'=>'Projetos',
 	'Purchase Order'=>'Pedido Compras',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Fornecedor',
 
 	//Activity Types
 	'End of support for contact' => 'Fim Suporte',

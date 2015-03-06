@@ -54,6 +54,8 @@ $languageStrings = array(
 	//Activity Types
 	'End of support for contact' => 'End of support for contact',
 	'Birthdays of contacts' => 'Birthdays of contacts',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Vendor',
 );
 
 $jsLanguageStrings = array(

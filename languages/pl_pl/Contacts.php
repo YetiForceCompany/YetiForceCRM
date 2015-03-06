@@ -52,6 +52,8 @@ $languageStrings = array(
 	
 	'Do Not Call' => 'Nie dzwonić',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Język powiadomień',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Dostawca',
 
 	//Activity Types
 	'End of support for contact' => 'Koniec wsparcia kontaktu',
