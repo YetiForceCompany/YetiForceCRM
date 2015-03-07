@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
 $languageStrings = array(
+	'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION' => 'Изменяйте и редактируйте Прздники',
+	'Public Holidays' => 'Праздники',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Управление настройками Календаря',
 	'LBL_CALENDAR_CONFIG' => 'Настройки Календаря',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Управление модулем История изменений',
@@ -232,7 +234,7 @@ $languageStrings = array(
 	'LangManagement'	=>	'Редактор языков',
 	'LBL_CUSTOMIZE_TRANSLATIONS'	=>	'Менеджер языков',
 	'CustomView'	=> 'Редактор фильтров',
-    'Widgets' => 'Module summary widgets',
+	'Widgets' => 'Виджеты',
     'Search Setup'=>'Редактор поиска',
 	'License' => 'Лицензия',
     'Project Templates' => 'Шаблоны проектов',

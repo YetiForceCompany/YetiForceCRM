@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Api Address' => 'Адреса',
 	'VTE_CHANGELOG' => 'История',
 	'LBL_SELECT_TREE_ITEM' => 'Выберите пункт:',
 	'LBL_CONVERSION_RATE' => 'Валюта',
@@ -164,8 +165,8 @@ $languageStrings = array(
 	'Backup' => 'Резервное копирование',
 	'Balance' => 'Баланс',
 	'Banking'=> 'Банкинг',
-	'Was read' => 'Updated',
-	'BTN_READ_RECORD' => 'By clicking on this button you mark that you read all changes performed on this record.',
+	'Was read' => 'Обновлено',
+	'BTN_READ_RECORD' => 'При нажатии на кнопку, вы соглашаетесь со всеми внесенными изменениями.',
 	'Billing Address'=> 'Юридический адрес',
 	'Billing City' => 'Ю/А Город', 
 	'Billing Code' => 'Ю/А Индекс', 
@@ -1094,8 +1095,8 @@ $languageStrings = array(
 	'yes' => 'Да',
 	'yyyy-mm-dd' => 'гггг-мм-дд',
 	'LBL_VIEW_COMPOSE' => 'Create e-mail',
-	'LBL_VIEW_PREFERENCEDETAIL' => 'My settings',
-	'LBL_VIEW_PREFERENCEEDIT' => 'Edit settings',
+	'LBL_VIEW_PREFERENCEDETAIL' => 'Мои настройки',
+	'LBL_VIEW_PREFERENCEEDIT' => 'Изменить настройки',
 	'Credits' => 'Credits',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
@@ -1106,7 +1107,7 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Количество отработанных дней',
 	'LBL_AVERAGE_WORKING_TIME' => 'Средняя продолжительность рабочего времени',
 	'Employees Time Control' => 'Учет времени Сотрудников',
-	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Поиск филиалов',
 	
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Последнее обновление записи',

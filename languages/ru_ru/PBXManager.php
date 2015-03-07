@@ -10,6 +10,11 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'End Time' => 'Время окончания',
+	'Direction' => 'Направление',
+	'Gateway' => 'Шлюз',
+	'Customer Type' => 'Тип клиента',
+	'Source UUID' => 'Исходный UUID',
 	'Bill Duration' => 'Время разговора (сек)',
 	'Call Status' => 'Статус звонка',
 	'Customer Number' => 'Телефон клиента',
