@@ -9,19 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
-	public $defaultName = 'YetiForceCRM';
-	
 	public function getAllKeys() {
-		global $adb;
-		
-		$result = $adb->query( 'SELECT dav_users.*, dav_principals.email, dav_principals.displayname, vtiger_users.status, vtiger_users.id AS userid, vtiger_users.user_name FROM dav_users INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid LEFT JOIN dav_principals ON dav_principals.userid = dav_users.userid' );
-        $rows = $adb->num_rows($result);
-		$keys = Array();
-        for($i=0; $i<$rows; $i++){
-			$row = $adb->raw_query_result_rowdata($result, $i);
-			$keys[ $row['id'] ] = $row;
-        }
-		return $keys;
+		return API_DAV_Model::getAllUser();
 	}
 	
 	public function addKey($params){
@@ -45,7 +34,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 			array('principals/'.$userModel->get('user_name'), $userModel->get('email1'), $displayname, $userID));
 		
 		$result = $adb->pquery('INSERT INTO dav_addressbooks (`principaluri`,`displayname`,`uri`,`description`) VALUES (?, ?, ?, ?);', 
-			array('principals/'.$userModel->get('user_name'), $this->defaultName, $this->defaultName, ''));
+			array('principals/'.$userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, API_CardDAV_Model::ADDRESSBOOK_NAME, ''));
 		return $key;
 	}
 	
