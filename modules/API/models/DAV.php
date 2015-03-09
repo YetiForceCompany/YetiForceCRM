@@ -27,7 +27,7 @@ class API_DAV_Model {
 				$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync for user '.$user->getName());
 				$cardDav = new API_CardDAV_Model($user,$dav->log);
 				$cardDav->getAddressBookId();
-				//$cardDav->cardDavCrm2Dav();
+				$cardDav->cardDavCrm2Dav();
 				$cardDav->cardDavDav2Crm();
 				$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
 			}else{
