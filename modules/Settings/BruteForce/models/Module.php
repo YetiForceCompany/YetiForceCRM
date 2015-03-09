@@ -126,9 +126,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 		global $adb;
 		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
 		$adb->query($deleteQuery);
-		$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
-		foreach ($selectedUsers as $userId) {
-			$adb->pquery($insertQuery, array($userId));
+		if('null' != $selectedUsers){
+			$insertQuery = "INSERT INTO `vtiger_bruteforce_users` (id) VALUES(?)";
+			foreach ($selectedUsers as $userId) {
+				$adb->pquery($insertQuery, array($userId));
+			}
 		}
 		
 		return TRUE;
