@@ -2716,7 +2716,6 @@ th.htColHeader,
   border-bottom: 20px solid #ECECEC;
   border-left: 20px solid transparent;
   display: inline-block;
-  cursor: pointer;
   box-shadow: 0 1px #ddd;
   margin-right: 5px;
 }
@@ -2728,18 +2727,6 @@ th.htColHeader,
   font-weight: bold;
   color: #666;
   text-decoration: none;
-}
-.crumbs li:hover {
-  height: 0;
-  border-top: 20px solid #00a75a;
-  border-bottom: 20px solid #00a75a;
-  box-shadow: 0 1px #00a75a;
-}
-.crumbs li:hover a {
-  color: #ffffff;
-}
-.crumbs li:hover:after {
-  border-left: 18px solid #00a75a !important;
 }
 .crumbs li.active {
   height: 0;

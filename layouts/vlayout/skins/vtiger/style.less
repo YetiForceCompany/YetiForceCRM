@@ -2556,7 +2556,6 @@ button{
 	border-bottom:20px solid #ECECEC;
 	border-left:20px solid transparent;
 	display: inline-block;
-	cursor: pointer;
 	box-shadow: 0 1px #ddd;
 	margin-right: 5px;
 }
@@ -2569,20 +2568,6 @@ button{
 	font-weight: bold;
 	color: #666;
 	text-decoration: none;
-}
-
-.crumbs li:hover{
-	height:0;
-	border-top:20px solid lighten(@baseThemeColor,5%);
-	border-bottom:20px solid lighten(@baseThemeColor,5%);
-	box-shadow: 0 1px lighten(@baseThemeColor,5%);
-	a{
-		color: @white;
-	}
-}
-
-.crumbs li:hover:after {
-	border-left:20px solid lighten(@baseThemeColor,5%) !important;
 }
 
 .crumbs li.active{
