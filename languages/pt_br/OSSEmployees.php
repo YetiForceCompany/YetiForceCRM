@@ -63,4 +63,5 @@ $languageStrings = array(
 'Brak danych' => 'Sem dados',
 
 'LBL_DAYWORKSUM' => 'Tempo de trabalho',
+'LBL_NUMBER' => 'Número',
 );
