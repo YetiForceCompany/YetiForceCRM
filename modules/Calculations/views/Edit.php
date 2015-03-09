@@ -93,7 +93,7 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 						$relatedRecordModel = Vtiger_Record_Model::getInstanceById($fieldValue, $fieldValueModule);
 						foreach($mappingModule as $fieldDest=>$fieldSource) {
 							$fieldDestModel = $fieldList[$fieldDest];
-							$fieldDestValue = $relatedRecordModel->get($fieldSource);
+							$fieldDestValue = $relatedRecordModel->get($fieldSource[0]);
 							$recordModel->set($fieldDest, $fieldDestModel->getDBInsertValue($fieldDestValue));
 						}
 					}
