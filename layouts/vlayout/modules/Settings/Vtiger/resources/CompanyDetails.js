@@ -13,10 +13,20 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 		jQuery('#updateCompanyDetails').on('click',function(e){
 			jQuery('#CompanyDetailsContainer').addClass('hide');
 			jQuery('#updateCompanyDetailsForm').removeClass('hide');
-            jQuery('#updateCompanyDetails').addClass('hide');
+			jQuery('#updateCompanyDetails').addClass('hide');
+			jQuery('#addCustomFieldForm').addClass('hide');
+			jQuery('#addCustomField').addClass('hide');
 		});
 	},
-	
+
+	registerAddFieldEvent : function(){
+		jQuery('#addCustomField').on('click',function(e){
+			var modalData = $( ".addCustomFieldModal" ).html();
+			app.showModalWindow(modalData);
+		
+		});
+	},
+
 	registerSaveCompanyDetailsEvent : function() {
 		var thisInstance = this;
 		jQuery('#updateCompanyDetailsForm').on('submit',function(e) {
@@ -30,9 +40,12 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 	
 	registerCancelClickEvent : function () {
 		jQuery('.cancelLink').on('click',function() {
+			jQuery('#addCustomField').removeClass('hide');
 			jQuery('#CompanyDetailsContainer').removeClass('hide');
 			jQuery('#updateCompanyDetailsForm').addClass('hide');
             jQuery('#updateCompanyDetails').removeClass('hide');
+			jQuery('#addCustomFieldForm').removeClass('hide');
+			jQuery('#addCustomFieldForm').addClass('hide');
 		});
 	},
 	
@@ -66,6 +79,25 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 	
 		}
 	},
+
+	isFieldAdded : function(){
+		var isParamExist = this.getParameterByName('AddField');
+		if(0 == isParamExist && isParamExist != ''){
+			var param = {text:app.vtranslate('JS_COLUMN_EXIST')};
+			Vtiger_Helper_Js.showPnotify(param);
+		}
+		if(1 == isParamExist){
+			var param = {text:app.vtranslate('JS_COLUMN_ADDED')};
+			Vtiger_Helper_Js.showMessage(param);
+		}
+	},
+
+	getParameterByName : function(name){
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	},
 	
 	registerEvents: function() {
 		this.registerUpdateDetailsClickEvent();
@@ -79,4 +111,6 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 jQuery(document).ready(function(e){
 	var instance = new Settings_Vtiger_CompanyDetails_Js();
 	instance.registerEvents();
+	instance.isFieldAdded();
+	instance.registerAddFieldEvent();
 })

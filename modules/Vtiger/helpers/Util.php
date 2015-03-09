@@ -425,8 +425,8 @@ class Vtiger_Util_Helper {
 	 * @return <String> date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null) {
-        require_once 'includes/runtime/LanguageHandler.php';
-		require_once 'includes/runtime/Globals.php';
+        require_once 'include/runtime/LanguageHandler.php';
+		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
 		} else {
@@ -448,8 +448,8 @@ class Vtiger_Util_Helper {
 	 * @return <String> time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null) {
-        require_once 'includes/runtime/LanguageHandler.php';
-		require_once 'includes/runtime/Globals.php';
+        require_once 'include/runtime/LanguageHandler.php';
+		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
 		} else {
@@ -520,8 +520,12 @@ class Vtiger_Util_Helper {
                    $fieldName = $fieldSearchInfo[0];
                    $operator = $fieldSearchInfo[1];
                    $fieldValue = $fieldSearchInfo[2];
+                   $specialOption = $fieldSearchInfo[3];
                    $fieldInfo = $moduleModel->getField($fieldName);
 
+				   if($fieldInfo->getFieldDataType() == "tree" && $specialOption){
+					   $fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue,$fieldName,$moduleModel);
+				   }
                    //Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
  		            //Database format
 

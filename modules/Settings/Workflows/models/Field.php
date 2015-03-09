@@ -71,7 +71,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model {
 			'date' => array('is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
 							'days ago', 'days later', 'is not empty'),
 			'boolean' => array('is', 'is not', 'has changed'),
-			'reference' => array('has changed'),
+			'reference' => array('has changed', 'is empty', 'is not empty'),
 			'owner' => array('has changed','is','is not'),
 			'recurrence' => array('is', 'is not', 'has changed'),
 			'comment' => array('is added'),

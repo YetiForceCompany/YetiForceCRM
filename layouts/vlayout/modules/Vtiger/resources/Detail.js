@@ -221,19 +221,42 @@ jQuery.Class("Vtiger_Detail_Js",{
 	//Event that will triggered before saving the ajax edit of fields
 	fieldPreSave : 'Vtiger.Field.PreSave',
 
-	referenceFieldNames : {
-		'Accounts' : 'parent_id',
-		'Contacts' : 'contact_id',
-		'Leads' : 'parent_id',
-		'Potentials' : 'potential',
-		'HelpDesk' : 'parent_id',
-		'Campaigns' : 'parent_id',
-		'Projects' : 'parent_id',
-		'ServiceContracts' : 'parent_id',
-		'Invoice' : 'parent_id',
-		'PurchaseOrder' : 'parent_id',
-		'SalesOrder' : 'parent_id',
-		'Quotes' : 'parent_id',
+	referenceFieldNames: {
+		'Calendar': {
+			'Accounts': 'parent_id',
+			'Campaigns': 'parent_id',
+			'HelpDesk': 'parent_id',
+			'Leads': 'parent_id',
+			'Potentials': 'parent_id',
+			'Projects': 'parent_id',
+			'ServiceContracts': 'parent_id',
+			'Invoice': 'parent_id',
+			'Quotes': 'parent_id',
+			'PurchaseOrder': 'parent_id',
+			'SalesOrder': 'parent_id'
+		},
+		'OutsourcedProducts': {
+			'Potentials': 'potential',
+                        'Leads': 'parent_id',
+                        'Accounts': 'parent_id',
+                        'Contacts': 'parent_id'
+		},
+		'Assets': {
+			'Potentials': 'potential',
+                        'Accounts': 'parent_id',
+                        'Contacts': 'parent_id'
+		},
+		'OSSOutsourcedServices': {
+			'Potentials': 'potential',
+                        'Leads': 'parent_id',
+                        'Accounts': 'parent_id',
+                        'Contacts': 'parent_id'
+		},
+		'OSSSoldServices': {
+			'Potentials': 'potential',
+                        'Accounts': 'parent_id',
+                        'Contacts': 'parent_id'
+		},
 	},
 
 	//constructor
@@ -274,6 +297,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				contentContainer.html(data);
 				app.registerEventForTextAreaFields(jQuery(".commentcontent"))
 				contentContainer.trigger(thisInstance.widgetPostLoad,{'widgetName' : relatedModuleName})
+				app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
                 aDeferred.resolve(params);
 			},
 			function(){
@@ -921,10 +945,10 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var detailViewValue = jQuery('.value',currentTdElement);
 			var editElement = jQuery('.edit',currentTdElement);
 			var actionElement = jQuery('.summaryViewEdit', currentTdElement);
-			var fieldElement = jQuery('.fieldname', editElement);
-                        
+			var fieldElement = jQuery('.fieldname', editElement);   
        jQuery(fieldElement).each(function(index, element){
             var fieldName = jQuery(element).val();
+			var elementTarget =  jQuery(element);
 			var fieldElement = jQuery('[name="'+ fieldName +'"]', editElement);
 
 			if(fieldElement.attr('disabled') == 'disabled'){
@@ -950,10 +974,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if((element.closest('td').is(currentTdElement))){
 					return;
 				}
-
 				currentTdElement.removeAttr('tabindex');
-
-                var previousValue = element.data('prevValue');
+                var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
 				var formData = formElement.serializeFormData();
 				var ajaxEditNewValue = formData[fieldName];
@@ -975,8 +997,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if(errorExists) {
 					return;
 				}
-
-
 				fieldElement.validationEngine('hide');
                 //Before saving ajax edit values we need to check if the value is changed then only we have to save
                 if(previousValue == ajaxEditNewValue) {
@@ -1032,7 +1052,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 						actionElement.show();
                         detailViewValue.html(postSaveRecordDetails[fieldName].display_value);
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent,{'old':previousValue,'new':fieldValue});
-                        element.data('prevValue', ajaxEditNewValue);
+                        elementTarget.data('prevValue', ajaxEditNewValue);
                         fieldElement.data('selectedValue', ajaxEditNewValue); 
                         //After saving source field value, If Target field value need to change by user, show the edit view of target field. 
                         if(thisInstance.targetPicklistChange) { 
@@ -1106,8 +1126,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			var customParams = {};
-			if(module != '' && typeof thisInstance.referenceFieldNames[module] != 'undefined'){
-				var relField = thisInstance.referenceFieldNames[module];
+			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
+				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
 
@@ -1330,6 +1350,18 @@ jQuery.Class("Vtiger_Detail_Js",{
 			thisInstance.loadWidget(updatesWidget);
 		});
 
+		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
+			var currentTarget = jQuery(e.currentTarget);
+			currentTarget.popover('hide');
+			var currentDiv = currentTarget.closest('.activityStatus');
+			var editElement = currentDiv.find('.edit');
+			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
+			var editStatusElement = currentDiv.find('.editStatus');
+			editStatusElement.trigger( "click" );
+			fieldElement.val( currentTarget.data('status') ).trigger("liszt:updated");
+			editStatusElement.trigger( "clickoutside" );
+		});
+
 		/*
 		 * Register the event to edit the status for for related activities
 		 */
@@ -1396,6 +1428,13 @@ jQuery.Class("Vtiger_Detail_Js",{
 							currentTarget.show();
 							detailViewElement.html(ajaxEditNewLable);
 							fieldnameElement.data('prevValue', ajaxEditNewValue);
+							if('Held' == ajaxEditNewValue || 'Completed' == ajaxEditNewValue){
+								var recordWidget = currentTarget.closest('.activityEntries');
+								var hrElement = recordWidget.next('hr');
+								recordWidget.find('popoverTooltip').popover('hide');
+								recordWidget.remove();
+								hrElement.remove();
+							}
 						}
 					);
 				}
@@ -1502,10 +1541,13 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
 			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
-			var fieldName = thisInstance.referenceFieldNames[module];
-
 			var customParams = {};
-			customParams[fieldName] = recordId;
+			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
+				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
+				customParams[fieldName] = recordId;
+				customParams['sourceModule'] = module;
+				customParams['sourceRecord'] = recordId;
+			}
 
 			if(quickCreateNode.length <= 0) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
@@ -1872,6 +1914,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 					app.registerEventForTimeFields(detailContentsHolder);
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
 					element.progressIndicator({'mode': 'hide'});
+					thisInstance.registerHelpInfo();
 					if(typeof callBack == 'function'){
 						callBack(data);
 					}
@@ -2140,10 +2183,21 @@ jQuery.Class("Vtiger_Detail_Js",{
 			jQuery('.detailViewInfo .related li.active').trigger( "click" );
 		});
 	},
-	
+	registerHelpInfo : function(){
+		var form = this.getForm();
+		form.find('.HelpInfoPopover').hover(
+			function () {
+				$(this).popover('show');
+			}, 
+			function () {
+				$(this).popover('show');
+			}
+		);
+	},
 	registerEvents : function(){
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();
+		this.registerHelpInfo();
 		thisInstance.registerSendSmsSubmitEvent();		
 		thisInstance.registerAjaxEditEvent();
 		this.registerRelatedRowClickEvent();

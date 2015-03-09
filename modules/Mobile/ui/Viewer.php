@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-include_once 'includes/runtime/Viewer.php';
+include_once 'include/runtime/Viewer.php';
 
 class Mobile_UI_Viewer extends Vtiger_Viewer{
 

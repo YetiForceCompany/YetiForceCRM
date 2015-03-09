@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Last Name' => 'Nazwisko',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',
 	'Asterisk Configuration'  =>  'Konfiguracja Asterisk',
@@ -52,7 +53,7 @@ $languageStrings = array(
 	'LBL_DELETE_USER' => 'Użytkownik do usunięcia',
 	'LBL_DEPARTMENT'		=> 'Dział',
 	'LBL_EMAIL_SEND' => 'Wysłaliśmy Ci email potrzebny do zresetowania hasła.',
-	'LBL_GET_MORE' => 'Wykorzystaj lepiej Vtiger',
+	'LBL_GET_MORE' => 'Wykorzystaj lepiej YetiForce',
 	'LBL_GET_STARTED'	=> 'Pierwsze kroki',
 	'LBL_HIDDEN' => 'Ukryte',
 	'LBL_HIDE' => 'Ukryj',
@@ -69,7 +70,7 @@ $languageStrings = array(
 	'LBL_MY_PREFERENCES'  =>  'Moje ustawienia',
 	'LBL_NEW_PASSWORD' => 'Nowe hasło',
 	'LBL_OLD_PASSWORD' => 'Stare hasło',
-	'LBL_OPERATING_CURRENCY'	=> 'Waluta bazowa nie można później modyfikować. Wybierz walutę operacyjny',
+	'LBL_OPERATING_CURRENCY'	=> 'Waluta bazowa nie można później modyfikować. Wybierz walutę operacyjną',
 	'LBL_PHONE'	=> 'Telefon',
 	'LBL_PROFILE_TO_BE_DELETED' => 'Profil do usunięcia',
 	'LBL_RESTORE' => 'Przywróć',
@@ -271,7 +272,15 @@ $languageStrings = array(
 	'seletedusers' => 'Wybrani użytkownicy',
 	'Share calendar users' => 'Udostępnij użytkownikom',
 	'LBL_SELECT_USERS' => 'Wybierz użytkowników',
-	
+	'LBL_MASS_PASSWORD_EDITING' => 'Masowa edycja haseł użytkowników',
+	'LBL_MASS_PWD_EDIT' => 'Masowa edycja haseł',
+	'Meeting' => 'Spotkanie',
+	'Call' => 'Telefon',
+	'Mobile Call' => 'Połączenie',
+	'Planned' => 'Planowane',
+	'Held' => 'Odbyte',
+	'Not Held' => 'Nieodbyte',
+
 	'yyyy-mm-dd' => 'rrrr-mm-dd',
 	'mm-dd-yyyy' => 'mm-dd-rrrr',
 	'dd-mm-yyyy' => 'dd-mm-rrrr',	

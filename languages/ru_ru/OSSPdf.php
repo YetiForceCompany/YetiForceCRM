@@ -10,6 +10,8 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_NAME_OF_MATERIAL_THE_PRODUCT_PACKAGING' => 'Материал упаковки',
+	'Content' => 'Содержание',
 	'siteUrl'	=>	'Ссылка',
 	'Field'	=>	'Поле',
 	'Label'	=>	'Метка',
@@ -400,6 +402,12 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'Current date (yyyy/mm/dd)' => 'Текущая дата (гггг/мм/дд)',
+	'Current date (mm/dd/yyyy)' => 'Текущая дата (мм/дд/гггг)',
+	'Current date (dd/mm/yyyy)' => 'Текущая дата (дд/мм/гггг)',
+	'Current date (yyyy.mm.dd)' => 'Текущая дата (гггг.мм.дд)',
+	'Current date (mm.dd.yyyy)' => 'Текущая дата (мм.дд.гггг)',
+	'Current date (dd.mm.yyyy)' => 'Текущая дата (дд.мм.гггг)',
 	'List'	=>	'Список',
 
 	'LBL_NotifPassCopied'	=>	'Скопировано в буфер обмена',

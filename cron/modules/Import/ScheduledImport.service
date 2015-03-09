@@ -12,10 +12,10 @@
 $previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
 $VTIGER_BULK_SAVE_MODE = true;
 
-require_once  'includes/Loader.php';
-require_once 'includes/runtime/Controller.php';
-require_once 'includes/runtime/BaseModel.php';
-require_once 'includes/runtime/Globals.php';
+require_once  'include/Loader.php';
+require_once 'include/runtime/Controller.php';
+require_once 'include/runtime/BaseModel.php';
+require_once 'include/runtime/Globals.php';
 Import_Data_Action::runScheduledImport();
 
 $VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;

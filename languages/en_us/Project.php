@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_PROJECTS_LIST' => 'List of projects',
+	'LBL_SUMMARY' => 'Working time summary',
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
 	'LBL_ADD_RECORD' => 'Add record',

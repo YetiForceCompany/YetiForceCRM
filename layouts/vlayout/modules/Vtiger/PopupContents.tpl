@@ -80,7 +80,11 @@
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 			<td class="listViewEntryValue {$WIDTHTYPE}">
 				{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-					<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+					<a>{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+                        {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+					{else}
+						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+					{/if}</a>
 				{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
 					{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
 					{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
@@ -91,7 +95,13 @@
 				{else if $LISTVIEW_HEADERNAME eq 'listprice'}
 					{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
 				{else}
-					{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+					{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+                        {decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+                    {else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+                        {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+					{else}
+						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+                    {/if}
 				{/if}
 			</td>
 			{/foreach}

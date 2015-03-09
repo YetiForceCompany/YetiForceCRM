@@ -9,8 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Reviewed' => 'Reviewed',
-	'Created' => 'Created',
+	'Reviewed' => 'Oczekuje na decyzję',
+	'Created' => 'Utworzona',
 	'Accepted'=>'Zaakceptowana',
 	'Inventory Manager'=>'Zarządzanie Stanem',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',

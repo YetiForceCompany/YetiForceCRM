@@ -15,7 +15,7 @@ var Settings_ActivityTypes_Js = {
 	updateActiveType: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
-		Settings_ActivityTypes_Js.registerSaveEvent('UpdateActiveType',{
+		Settings_ActivityTypes_Js.registerSaveEvent('UpdateModuleActiveType',{
 			'active': target.is(':checked'),
 			'viewtypesid':closestTrElement.data('viewtypesid'),
 		});
@@ -51,7 +51,7 @@ var Settings_ActivityTypes_Js = {
 						'enabled' : true
 					}
 				});
-				Settings_ActivityTypes_Js.registerSaveEvent('UpdateColor',{
+				Settings_ActivityTypes_Js.registerSaveEvent('UpdateModuleColor',{
 					'color': selectedColor.val(),
 					'viewtypesid':closestTrElement.data('viewtypesid'),
 				});

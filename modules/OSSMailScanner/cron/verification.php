@@ -8,6 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-require_once 'includes/main/WebUI.php';
+require_once 'include/main/WebUI.php';
 $recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 $recordModel->verificationCron();

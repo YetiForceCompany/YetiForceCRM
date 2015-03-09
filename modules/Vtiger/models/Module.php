@@ -1512,9 +1512,11 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
+		$popupFields = array();
 		if($relationModel){
 			$popupFields = $relationModel->getRelationFields(true);
-		}else{
+		}
+		if(count($popupFields) == 0){
 			$popupFields = array_keys($this->getSummaryViewFieldsList());
 		}
 		if(count($popupFields) == 0){
@@ -1574,6 +1576,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$mapping = array();
 			// [target module][Source module] = ( target field => (source module field, source field) )
 			$mapping['OSSTimeControl']['HelpDesk'] = array( 'contactid' => array('Contacts','contact_id'), 'accountid' => array('Accounts','parent_id') );
+			$mapping['OutsourcedProducts']['Potentials'] = array( 'parent_id' => array('Accounts','related_to') );
 			
 			if(!$mapping[$moduleName][$sourceModule])
 				return $data;

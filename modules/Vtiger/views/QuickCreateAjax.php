@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
@@ -60,6 +61,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('VIEW', $request->get('view'));
 		
 		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
         

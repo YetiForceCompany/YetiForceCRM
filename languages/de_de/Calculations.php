@@ -58,7 +58,9 @@ $languageStrings = array(
 	'LBL_IN_PREPARATION' => 'In Vorbereitung',
 	'LBL_OBJECTIONS_ARE_RAISED' => 'Umfang geändert',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') wurde aus dem System entfernt. Versuchen Sie es mit einem anderen Produkt/Dienstleistung zu ersetzen.',
-        'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
-        'LBL_THIS' => 'Produkt/Dienstleistung (',
+    'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
+    'LBL_THIS' => 'Produkt/Dienstleistung (',
+	'Conversion Rate' => 'Conversion Rate',
+	'Currency' => 'Currency',
 );
 

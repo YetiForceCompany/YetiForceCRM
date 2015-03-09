@@ -938,6 +938,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		global $root_directory;
 		if(!file_exists( $src ) )
 			return;
+		@chmod($root_directory.$src, 0777);
 		if(is_dir($src)){
 			$dir = opendir($src); 
 			while(false !== ( $file = readdir($dir)) ) { 
@@ -950,7 +951,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					}
 				} 
 			} 
-			closedir($dir); 
+			closedir($dir);
+			rmdir($root_directory.$src);
 		} else{
 			unlink($src);
 		}

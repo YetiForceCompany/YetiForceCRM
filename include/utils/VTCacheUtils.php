@@ -11,7 +11,7 @@
 /**
  * Class to handle Caching Mechanism and re-use information.
  */
-require_once 'includes/runtime/Cache.php';
+require_once 'include/runtime/Cache.php';
 class VTCacheUtils {
 
 	/** Tab information caching */

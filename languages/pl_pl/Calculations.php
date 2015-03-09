@@ -59,4 +59,6 @@ $languageStrings = array(
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Brak produktu / usługi',
 	'LBL_THIS' => 'Produkt/usługa (',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') został/a usunięta, spróbuj zastąpić ją innym produktem/usługą.',
+	'Conversion Rate' => 'Współczynnik konwersji',
+	'Currency' => 'Waluta',
 );

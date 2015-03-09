@@ -29,7 +29,9 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 		}
 
 		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();
-		if($checkBlocked){
+		$bruteForceSettings = Settings_BruteForce_Module_Model::getBruteForceSettings();
+		if($checkBlocked && $bruteForceSettings['active']){
+			Settings_BruteForce_Module_Model::sendNotificationEmail();
 			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=2');
 			exit;
 		}
@@ -55,8 +57,8 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 			//Enabled session variable for KCFINDER 
 			$_SESSION['KCFINDER'] = array(); 
 			$_SESSION['KCFINDER']['disabled'] = false; 
-			$_SESSION['KCFINDER']['uploadURL'] = "test/upload"; 
-			$_SESSION['KCFINDER']['uploadDir'] = "../../test/upload";
+			$_SESSION['KCFINDER']['uploadURL'] = "cache/upload"; 
+			$_SESSION['KCFINDER']['uploadDir'] = "../../cache/upload";
 			$deniedExts = implode(" ", vglobal('upload_badext'));
 			$_SESSION['KCFINDER']['deniedExts'] = $deniedExts;
 			// End

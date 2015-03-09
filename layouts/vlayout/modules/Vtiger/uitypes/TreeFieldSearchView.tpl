@@ -16,7 +16,7 @@
     <div class="row-fluid">
         <select class="select2noactive listSearchContributor span9" multiple name="{$FIELD_MODEL->get('name')}" style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=LABEL key=KEY from=$ALL_VALUES}
-                <option value="{$KEY}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL}</option>
+                <option value="{$KEY}"  data-parent="{$LABEL[1]}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL[0]}</option>
         {/foreach}
     </select>
     </div>

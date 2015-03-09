@@ -20,7 +20,6 @@ Class DataAccess_unique_value{
 		$save_record = true;
 		$type = 'info';
 		$info = false;
-		
 		if($ID != 0 && $ID != '' && !array_key_exists($config['what1'],$record_form)){
 			$Record_Model = Vtiger_Record_Model::getInstanceById($ID, $ModuleName);
 			$value1 = $Record_Model->get($config['what1']);
@@ -54,16 +53,27 @@ Class DataAccess_unique_value{
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array( $value1 );
 				$sql_ext = '';
+				$spacialCondition = '';
+				$sqlSpecial = '';
 				if($ModuleNameID == $where[2] && $ID != 0 && $ID != ''){
 					$sql_param[] = $ID;
 					$sql_ext = 'AND '.$index.' <> ?';
 				}
-				$result = $db->pquery( "SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true );
+				if($DestModuleName == 'Leads'){
+					$spacialCondition = ' AND `converted` = 0';
+					if('vtiger_crmentity' == $where[0]){
+						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
+					}
+				}
+				$result = $db->pquery( "SELECT $index FROM {$where[0]} $sqlSpecial WHERE {$where[1]} = ? $sql_ext $spacialCondition;", $sql_param, true );
 				for($i = 0; $i < $db->num_rows($result); $i++){
-					$save_record1 = false;
 					$id = $db->query_result_raw($result, $i, $index);
-					$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
-					$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
+					if(Vtiger_Functions::getCRMRecordType($id) == $DestModuleName){
+						$save_record1 = false;
+						$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
+						$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
+					}
+					
 				}
 			}
 		}
@@ -76,16 +86,26 @@ Class DataAccess_unique_value{
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array( $value1 );
 				$sql_ext = '';
+				$spacialCondition = '';
+				$sqlSpecial = '';
 				if($ModuleNameID == $where[2] && $ID != 0 && $ID != ''){
 					$sql_param[] = $ID;
 					$sql_ext = 'AND '.$index.' <> ?';
 				}
+				if($DestModuleName == 'Leads'){
+					$spacialCondition = ' AND `converted` = 0';
+					if('vtiger_crmentity' == $where[0]){
+						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
+					}
+				}
 				$result = $db->pquery( "SELECT $index FROM {$where[0]} WHERE {$where[1]} = ? $sql_ext;", $sql_param, true );
 				for($i = 0; $i < $db->num_rows($result); $i++){
-					$save_record2 = false;
 					$id = $db->query_result_raw($result, $i, $index);
-					$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
-					$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
+					if(Vtiger_Functions::getCRMRecordType($id) == $DestModuleName){
+						$save_record2 = false;
+						$result = $db->pquery( "SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?", array( $id ) ,true);
+						$fieldlabel .= '<a target="_blank" href="index.php?module='.$DestModuleName.'&view=Detail&record='.$id.'">&bull; '.Vtiger_Functions::getCRMRecordLabel($id).'</a> ('.Vtiger_Functions::getOwnerRecordLabel( $db->query_result($result, 0, 'smownerid') ).'),';
+					}
 				}
 			}
 		}

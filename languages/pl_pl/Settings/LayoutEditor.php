@@ -9,10 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SELECT_MODULE_TO_ADD' => 'Select item to add module',
-	'LBL_REMOVE_INFO' => 'Click on the Close button to remove the module from the list',
-	'LBL_RELATED_LIST_INFO' => 'Arrange modules per click and drag',
-	'LBL_ADD_MODULE_INFO' => 'Select the remote module, that is to return to the list',
 	'Calendar' => 'Do wykonania',
 	'Checkbox' => 'Pole zaznaczenia',
 	'Currency'=>'Pole walutowe',
@@ -89,6 +85,7 @@ $languageStrings = array(
 	'LBL_TREE_TEMPLATE' => 'Drzewo',
 	'Tree' => 'Pole drzewa',
 	'LBL_FIELD_MASK' => 'Maska',
+	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 );
 
 $jsLanguageStrings = array(

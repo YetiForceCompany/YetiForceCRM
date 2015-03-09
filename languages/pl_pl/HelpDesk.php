@@ -9,13 +9,13 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
+	'LBL_SETUP_WEBFORMS' => 'Ustawienia formularzy internetowych',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'Big Problem'=>'Duży problem',
 	'Closed'=>'Zamknięty',
-	'created' => 'utworzony',
+	'created' => 'Utworzony',
 	'Critical'=>'Krytyczny',
-	'customer_portal' => 'w "Portalu Kontrahenta" w VTiger.',
+	'customer_portal' => 'w "Portalu Klienta" w YetiForce.',
 	'Days' => 'Dni',
 	'Dear'=> 'Drogi użytkowniku',
 	'Feature'=>'Przyszłościowy',
@@ -73,7 +73,7 @@ $languageStrings = array(
 	'SINGLE_HelpDesk' => 'Zgłoszenie',
 	'Small Problem'=>'Mały problem',
 	'Solution' => 'Rozwiązanie',
-	'Support_team' => 'Zespół Wsparcia VTiger',
+	'Support_team' => 'Zespół Wsparcia YetiForce',
 	'Thanks' => 'Dziękujemy',
 	'The comments are' => 'Komentarze to:',
 	'Ticket ID'=>'Numer zgłoszenia',

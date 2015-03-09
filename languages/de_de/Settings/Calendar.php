@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Aktivitätstypen',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
@@ -22,6 +23,14 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
 	'LBL_SELECT_COLOR' => 'Farbe wählen:',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
+	'LBL_CALENDAR_CONFIG' => 'Calendar Configuration',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'User colors',
+	'LBL_CALENDAR_COLORS' => 'Calendar colors',
+	'LBL_CALENDAR_TYPE' => 'Calendar type',
+	'PLL_BREAK_TIME' => 'Break time',
+	'PLL_HOLIDAY_TIME' => 'Holiday',
+	'LBL_SAVE_CHANGES' => 'Saved changes',
 );
 $jsLanguageStrings = array(
 

@@ -88,6 +88,7 @@ $languageStrings = array(
 	'Subject' => 'Betreff',
 	'Tasks' => 'Aufgaben',
 	'Task' => 'Aufgabe',
+	'All day' => '__No_Translated__',
 
 	'Sunday' => 'Sonntag',
 	'Monday' => 'Montag',

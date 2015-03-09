@@ -57,8 +57,6 @@ for( $i=0; $i< $noOfSalesOrder; $i++ ) {
 
 	$currentRecurringDate	= $lastRecurringDate;
 	$originalDate			= $lastRecurringDate;
-	
-	$origMonth = ltrim( $origMonth, '0' );
 
 	if ( strtotime($currentRecurringDate) > strtotime($endPeriod) ) {
 		continue;
@@ -94,7 +92,7 @@ for( $i=0; $i< $noOfSalesOrder; $i++ ) {
 function createInvoice( $salesOrderId ) {
 	global $current_user;
 	require_once('include/utils/utils.php');
-	require_once('includes/runtime/Globals.php');
+	require_once('include/runtime/Globals.php');
 	require_once('modules/SalesOrder/SalesOrder.php');
 	require_once('modules/Invoice/Invoice.php');
 	require_once('modules/Users/Users.php');
@@ -236,6 +234,109 @@ function checkAndFixInvoiceDate( $nextRecurringDate, $recurringFrequency, $origi
 		// last day of +3 months
 		else if ( $recurringFrequency == 'last day of +3 months' ) {
 			$nextRecurringDate->modify( 'last friday' );
+		}
+	}
+
+	// check if it is not Public Holiday
+	$publicHoliday = Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') );
+	if ( $publicHoliday ) {
+		// + days
+		if ( strpos($recurringFrequency, '+') === 0 && strpos($recurringFrequency, 'day') !== false ) {
+			do {
+				$nextRecurringDate->modify( '+1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+		}
+		// + month
+		else if ( strpos($recurringFrequency, '+') === 0 && strpos($recurringFrequency, 'month') !== false ) {
+			$nextBusinessDayTemp = clone $nextRecurringDate;
+			do {
+				$nextRecurringDate->modify( '+1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+
+			// if it went beyond current month
+			if ( $nextBusinessDayTemp->format('n') != $nextRecurringDate->format('n') ) {
+				$nextRecurringDate = clone $nextBusinessDayTemp;
+
+				do {
+					$nextRecurringDate->modify( '-1 day' );
+				}
+				while(
+					$nextRecurringDate->format('l') == 'Sunday' ||
+					$nextRecurringDate->format('l') == 'Saturday' ||
+					Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+			}
+		}
+		// + year
+		else if ( strpos($recurringFrequency, '+') === 0 && strpos($recurringFrequency, 'year') !== false ) {
+			$nextBusinessDayTemp = clone $nextRecurringDate;
+			do {
+				$nextRecurringDate->modify( '+1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+
+			// if it went beyond current month
+			if ( $nextBusinessDayTemp->format('y') != $nextRecurringDate->format('y') ) {
+				$nextRecurringDate = clone $nextBusinessDayTemp;
+
+				do {
+					$nextRecurringDate->modify( '-1 day' );
+				}
+				while(
+					$nextRecurringDate->format('l') == 'Sunday' ||
+					$nextRecurringDate->format('l') == 'Saturday' ||
+					Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+			}
+		}
+		// first day of next month
+		else if ( $recurringFrequency == 'first day of next month' ) {
+			do {
+				$nextRecurringDate->modify( '+1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+		}
+		// last day of next month
+		else if ( $recurringFrequency == 'last day of next month' ) {
+			do {
+				$nextRecurringDate->modify( '-1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+		}
+		// first day of +3 months
+		else if ( $recurringFrequency == 'first day of +3 months' ) {
+			do {
+				$nextRecurringDate->modify( '+1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
+		}
+		// last day of +3 months
+		else if ( $recurringFrequency == 'last day of +3 months' ) {
+			do {
+				$nextRecurringDate->modify( '-1 day' );
+			}
+			while(
+				$nextRecurringDate->format('l') == 'Sunday' ||
+				$nextRecurringDate->format('l') == 'Saturday' ||
+				Settings_PublicHoliday_Module_Model::checkIfHoliday( $nextRecurringDate->format('Y-m-d') ) );
 		}
 	}
 

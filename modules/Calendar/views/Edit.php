@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 Class Calendar_Edit_View extends Vtiger_Edit_View {
 
 	function __construct() {
@@ -124,7 +123,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-
+		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));

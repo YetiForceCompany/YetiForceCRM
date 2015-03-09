@@ -25,14 +25,12 @@ class Install_Utils_Model {
 		'User Privileges Directory' => './user_privileges/',
 		'Modules Directory' => './modules/',
 		'Cron Modules Directory' => './cron/modules/',
-		'Vtlib Test Directory' => './test/vtlib/',
-		'Vtlib Test HTML Directory' => './test/vtlib/HTML',
-		'Mail Merge Template Directory' => './test/wordtemplatedownload/',
-		'Product Image Directory' => './test/product/',
-		'User Image Directory' => './test/user/',
-		'Contact Image Directory' => './test/contact/',
-		'Logo Directory' => './test/logo/',
-		'Logs Directory' => './logs/',
+		'Vtlib Test Directory' => './cache/vtlib/',
+		'Vtlib Test HTML Directory' => './cache/vtlib/HTML',
+		'Product Image Directory' => './storage/Products/',
+		'User Image Directory' => './storage/Users/',
+		'Contact Image Directory' => './storage/Contacts/',
+		'Logo Directory' => './storage/Logo/',
 	);
 
 	/**
@@ -318,7 +316,7 @@ class Install_Utils_Model {
 	 * @return <Array>
 	 */
 	public static function getCurrencyList() {
-		require_once 'modules/Utilities/Currencies.php';
+		require_once 'install/models/Currencies.php';
 		return $currencies;
 	}
 

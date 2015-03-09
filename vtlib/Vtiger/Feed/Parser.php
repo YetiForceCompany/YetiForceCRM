@@ -14,7 +14,7 @@ require_once('vtlib/thirdparty/parser/feed/simplepie.inc');
  * @package vtlib
  */
 class Vtiger_Feed_Parser extends SimplePie {
-	var $vt_cachelocation = 'test/vtlib/feedcache';
+	var $vt_cachelocation = 'cache/vtlib/feedcache';
 	var $vt_fetchdone = false;
 
 	/**

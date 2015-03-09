@@ -10,6 +10,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Related To' => 'Контрагент',
+	'Potential Name' => 'Название',
 	'--None--' => '--Нет--', 
 	'Accepted for processing'=>'Приняты в обработку',
 	'Advanced business analysis'=>'Расширенный анализ',
@@ -30,20 +32,14 @@ $languageStrings = array(
 	'Forecast Amount'=> 'Прогнозируемая сумма',
 	'Forecast' => 'Прогноз продаж', 
 	'Funnel' => 'Воронка продаж', 
-	'Id. Decision Makers'=> 'Поиск принимающих решение', 
 	'LBL_ADD_RECORD' => 'Добавить Сделку' , 
 	'LBL_CHARTS'=>'Диаграммы',
 	'LBL_EXPECTED_CLOSE_DATE_ON' => 'Ожидаемая дата закрытия', 
-	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_FINANSIAL_SUMMARY' => 'Финансовый отчет',
 	'LBL_OPPORTUNITY_INFORMATION'=> 'Информация' , 
 	'LBL_RECORDS_LIST' => 'Список сделок', 
 	'LBL_RELATED_CONTACTS' => 'Контакты', 
 	'LBL_RELATED_PRODUCTS' => 'Продукты', 
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
-	'LBL_SETUP_WEBFORMS' => 'Установка Веб-Форм',
-	'Needs Analysis' => 'Нуждается в анализе', 
-	'Negotiation or Review'=> 'Переговоры или отзыв',
 	'Negotiation/Review' => 'Ознакомление', 
 	'Negotiations'=>'Переговоры',
 	'New Business' => 'Новый бизнес' , 
@@ -64,10 +60,7 @@ $languageStrings = array(
 	'Preparation of calculations'=>'Расчет',
 	'Preparation of offers'=>'Подготовка предложений',
 	'Probability'=> 'Вероятность (%)', 
-	'Proposal or Price Quote'=> 'Ценовое предложение',
 	'Proposal/Price Quote' => 'Коммерческое предложение/цены', 
-	'Prospecting'=> 'Переговоры', 
-	'Qualification'=> 'Оценка', 
 	'SINGLE_Potentials'=> 'Сделка', 
 	'Sales Stage'=> 'Стадия', 
 	'Top Potentials' => 'Последние Сделки' , 
@@ -82,14 +75,10 @@ $languageStrings = array(
 	'Total time [Sales Order]' => 'Всего времени<br />[Заказы]',
 	'Total time [Sum]' => 'Итого <br />[Общий итог]',
 	'Total time [h]'=>'Всего времени [ч]',
-	'Unit Price' => 'Цена за единицу',
-	'Value Proposition'=> 'Предложение',
 	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Создание сделки завершено',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
 	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',
 );
 
 $jsLanguageStrings = array(
-	'Prospecting' => 'Переговоры',
-	'Qualification' => 'Оценка',
 );

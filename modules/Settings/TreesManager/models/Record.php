@@ -98,13 +98,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$label = $tree['data'];
 		$id = $tree['attr']['id'];
+		$state = $tree['state'];
 		$treeID = 'T'.$id;
 		if($parenttrre != '')
 			$parenttrre = $parenttrre.'::';
 		$parenttrre = $parenttrre.$treeID;
 
-		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label) VALUES (?,?,?,?,?,?)';
-		$params = array($this->getId(), $tree['data'], $treeID, $parenttrre, $depth, $label);
+		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
+		$params = array($this->getId(), $tree['data'], $treeID, $parenttrre, $depth, $label, $state);
 		$adb->pquery($sql, $params);
 		if(!empty($tree['children'])){
 			foreach ($tree['children'] as $tree) {
@@ -133,7 +134,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
 			$depth = (int)$row['depth']; 
-			$data[$row['tree']] = array( 'data' => $row['name'], 'attr' =>  array('id' => $treeID ) );
+			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $this->get('module')) , 'attr' =>  array('id' => $treeID ), 'state' => $row['state'] );
 			if($depth != 0)
 				$parent[$depth][] = $row;
 			if( $depth > $maxDepth)
@@ -164,7 +165,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$templateId = $this->getId();
 		$mode = 'edit';
-
 		if(empty($templateId)) {
 			$sql = 'INSERT INTO vtiger_trees_templates(name, module) VALUES (?,?)';
 			$params = array($this->get('name'), $this->get('module'));
@@ -219,6 +219,30 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$templateId = $this->getId();
 		$adb->pquery('DELETE FROM vtiger_trees_templates WHERE `templateid` = ?', array($templateId));
 		$adb->pquery('DELETE FROM vtiger_trees_templates_data WHERE `templateid` = ?', array($templateId));
+	}
+
+	public function getChildren($fieldValue,$fieldName,$moduleModel) {
+		$adb = PearDatabase::getInstance();
+		$query='SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? AND `columnname` = ? AND presence in (0,2)';
+		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
+		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
+		$values = explode(',',$fieldValue);
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$tree = $adb->query_result_raw($result, $i, 'tree');
+			$parent = '';
+			if($adb->query_result_raw($result, $i, 'depth') > 0){
+				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+				$cut = strlen('::'.$tree);
+				$parenttrre = substr($parenttrre, 0, - $cut);
+				$pieces = explode('::', $parenttrre);
+				$parent = end($pieces);
+			}
+			if($parent && in_array($parent, $values) && !in_array($tree, $values)){
+				$values[] = $tree;
+			}
+		}
+		return implode(',',$values);
 	}
 
 	/**

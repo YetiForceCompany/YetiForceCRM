@@ -13,8 +13,8 @@
 include_once 'include/Webservices/Relation.php';
 
 include_once 'vtlib/Vtiger/Module.php';
-include_once dirname(__FILE__) . '/includes/Loader.php';
+include_once dirname(__FILE__) . '/include/Loader.php';
 
-vimport ('includes.runtime.EntryPoint');
+vimport ('include.runtime.EntryPoint');
 
 Vtiger_ShortURL_Helper::handle(vtlib_purify($_REQUEST['id']));

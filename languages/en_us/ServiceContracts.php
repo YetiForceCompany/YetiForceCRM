@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_SUMMARY' => 'Working time summary',
 	// Basic Strings
 	'ServiceContracts' => 'Service Contracts',
 	'Service Contracts' => 'Service Contracts',

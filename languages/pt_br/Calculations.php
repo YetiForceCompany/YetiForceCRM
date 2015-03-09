@@ -60,4 +60,6 @@ $languageStrings = array(
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') foi removida do Sistema. Tente substituí-la com Produto/Serviço diferente.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produto/Serviço foi removido do Sistema. Remove-lo do registro.',
 	'LBL_THIS' => 'Produto/Serviço (',
+	'Conversion Rate' => 'Conversion Rate',
+	'Currency' => 'Currency',
 );

@@ -10,7 +10,7 @@
 $languageStrings = array(
 	'Sharing Rules' => 'Sharing Rules',
 	'SharingAccess' => 'Sharing Rules',
-	'Accounts' => 'Organizations & Contacts',
+	'Accounts' => 'Organizations and Contacts',
 	'LBL_ADD_CUSTOM_RULE' => 'Add Custom Rule',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Add Custom Rule to',
 	'LBL_ADVANCED_SHARING_RULES' => 'Advanced Sharing Rules',

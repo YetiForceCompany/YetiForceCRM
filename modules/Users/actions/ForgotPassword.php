@@ -11,13 +11,13 @@
 chdir(dirname(__FILE__) . "/../../../");
 include_once "include/utils/VtlibUtils.php";
 include_once "include/utils/CommonUtils.php";
-include_once "includes/Loader.php";
-include_once 'includes/runtime/BaseModel.php';
-include_once 'includes/runtime/Viewer.php';
-include_once "includes/http/Request.php";
+include_once "include/Loader.php";
+include_once 'include/runtime/BaseModel.php';
+include_once 'include/runtime/Viewer.php';
+include_once "include/http/Request.php";
 include_once "include/Webservices/Custom/ChangePassword.php";
 include_once "include/Webservices/Utils.php";
-include_once "includes/runtime/EntryPoint.php";
+include_once "include/runtime/EntryPoint.php";
 include_once 'modules/Vtiger/helpers/ShortURL.php';
 
 class Users_ForgotPassword_Action {

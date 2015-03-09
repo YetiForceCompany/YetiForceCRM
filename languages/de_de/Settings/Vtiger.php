@@ -184,6 +184,9 @@ $languageStrings = array(
 	'VTLIB_LBL_MODULE_MANAGER' => 'Modulmanager',
 	'Webforms' => 'Webformulare',
 	'website' => 'Webseite',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
+
 	
 	
 	//YetiForce
@@ -242,6 +245,13 @@ $languageStrings = array(
 	'LBL_TREES_MANAGER_DESCRIPTION' => 'Verwaltung Baumstrukturen',
 	'LBL_MODTRACKER_SETTINGS' => 'Änderungshistorie',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalte Änderungshistorie von Modulen',
+	'LBL_HIDEBLOCKS' => 'Hide blocks',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
+	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'User colors',
+	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
@@ -260,7 +270,10 @@ $languageStrings = array(
 	'Document Control'=>'Dokumentenkontrolle',
 	'Time control' => 'Zeitkontrolle',
 	"Credits"	=> 'Referenzen',
-	
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
 );
 
 $jsLanguageStrings = array(
@@ -283,4 +296,6 @@ $jsLanguageStrings = array(
 	'LBL_NO_LOGO_SELECTED' => 'Kein Logo ausgewählt',
 	'LBL_PREFIX_IN_USE' => 'Präfix im Einsatz',
 	'LBL_WRONG_IMAGE_TYPE' => 'Nicht unterstütztes Bildformat',
+	'JS_COLUMN_ADDED' => 'Field added',
+	'JS_COLUMN_EXIST' => 'Error while adding field',
 );

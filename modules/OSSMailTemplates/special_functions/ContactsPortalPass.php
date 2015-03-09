@@ -16,9 +16,10 @@ class ContactsPortalPass {
 			return $data['password'];
 		if($data['record'] && $data['record'] != ''){
 			$adb = PearDatabase::getInstance();
-			$sql = "SELECT user_password FROM vtiger_portalinfo WHERE id=?";
+			$sql = "SELECT `password_sent` FROM `vtiger_portalinfo` WHERE `id` = ? LIMIT 1;";
 			$result = $adb->pquery($sql, array( $data['record'] ));
-			$password = $adb->query_result($result,0,'user_password');
+			// return in email unencrypted password
+			$password = $adb->query_result($result,0,'password_sent');
 			return $password;
 		}
     }

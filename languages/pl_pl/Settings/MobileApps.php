@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'MobileApps' => 'Mobile Apps',
+	'MobileApps' => 'Aplikacje mobilne',
 	'LBL_MOBILE_KEYS' => 'Klucze aplikacji mobilnych',
 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji mobilnych',
 	'LBL_USERNAME' => 'Użytkownik',

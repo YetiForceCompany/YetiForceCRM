@@ -12,7 +12,7 @@
 chdir(dirname(__FILE__) . '/../..');
 include_once 'vtlib/Vtiger/Module.php';
 include_once 'vtlib/Vtiger/Package.php';
-include_once 'includes/main/WebUI.php';
+include_once 'include/main/WebUI.php';
 
 include_once 'include/Webservices/Utils.php';
 
@@ -340,7 +340,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 
 	protected function create($layoutInformation) {
 		$files = array();
-		$this->findFiles( 'includes', '.php$', $files);
+		$this->findFiles( 'include', '.php$', $files);
 		$this->findFiles( 'modules', '.php$', $files);
 
 		$layoutdir =  'layouts/' . $layoutInformation['name'] . '/';

@@ -97,7 +97,7 @@ $tmp_dir = '_VT_TMPDIR_';
 $import_dir = 'cache/import/';
 
 // upload_dir default 
-$upload_dir = 'test/upload/';
+$upload_dir = 'cache/upload/';
 
 // disable send files using KCFinder
 $upload_disabled = false;
@@ -204,7 +204,7 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'logs/php_error_log.log');
+ini_set('error_log',$root_directory.'cache/logs/php_error_log.log');
 
 // Enable sharing of records?
 $shared_owners = true;
@@ -217,9 +217,6 @@ $href_max_length = 35;
 
 // Maximum number of displayed search results
 $max_number_search_result = 100;
-
-// List of products in the inventory module popup limited to products / services selected in Potentials
-$inventory_popup_limited_from_potentials = true;
 
 //Should menu breadcrumbs be visible? true = show, false = hide
 $breadcrumbs = true;
@@ -235,3 +232,6 @@ $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
 $session_regenerate_id = false;
+
+//Would you like to encode passwords for Customer Portal
+$encode_customer_portal_passwords = true;

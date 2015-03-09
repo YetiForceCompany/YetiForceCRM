@@ -86,8 +86,8 @@ class OSSTimeControl extends Vtiger_CRMEntity {
     // Callback function list during Importing
     var $special_functions = Array('set_import_assigned_user');
 
-    var $default_order_by = 'createdtime';
-    var $default_sort_order='ASC';
+    var $default_order_by = 'date_start,time_start';
+    var $default_sort_order='DESC';
     // Used when enabling/disabling the mandatory fields for the module.
     // Refers to vtiger_field.fieldname values.
     var $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
@@ -150,7 +150,23 @@ class OSSTimeControl extends Vtiger_CRMEntity {
         } else if($event_type == 'module.postupdate') {
 		
         }
-	
     }
+	function retrieve_entity_info($record, $module) {
+		parent::retrieve_entity_info($record, $module);
+		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'].' '.$this->column_fields['time_start']);
+		$this->column_fields['date_start'] = $start->format('Y-m-d');
+		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'].' '.$this->column_fields['time_end']);
+		$this->column_fields['due_date'] = $end->format('Y-m-d');
+	}
+	function saveentity($module_name, $fileid = ''){
+		$date_start = $this->column_fields['date_start'];
+		$due_date = $this->column_fields['due_date'];
+		$start = DateTimeField::convertToDBTimeZone($this->column_fields['date_start'].' '.$this->column_fields['time_start']);
+		$this->column_fields['date_start'] = $start->format(DateTimeField::getPHPDateFormat());
+		$end = DateTimeField::convertToDBTimeZone($this->column_fields['due_date'].' '.$this->column_fields['time_end']);
+		$this->column_fields['due_date'] = $end->format(DateTimeField::getPHPDateFormat());
+		parent::saveentity($module_name, $fileid = '');
+		$this->column_fields['date_start'] = $date_start;
+		$this->column_fields['due_date'] = $due_date;
+	}
 }
-?>

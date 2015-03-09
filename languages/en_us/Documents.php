@@ -48,8 +48,9 @@ $languageStrings = array(
 	'Title' => 'Title',
 	'Version' => 'Version',
 	'ossdc_status' => 'Status',
-	'Brak statusu' => 'Lack of status',
-	'Sprawdzono' => 'Checked', 
+	'Lack of status' => 'No status',
+	'Checked' => 'Checked',
+	'None' => 'None',
 	'Default' => 'Default',
 	'LBL_SELECT_Documents' => 'Select the document',
 );

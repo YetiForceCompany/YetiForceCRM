@@ -9,7 +9,6 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-
 {strip}
     <div class='container-fluid editViewContainer'>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -68,7 +67,9 @@
             {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
             {if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
+			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+			{if $BLOCKS_HIDE}
             <table class="table table-bordered blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">
                 <thead>
                     <tr>
@@ -114,8 +115,10 @@
                                 {assign var=COUNTER value=$COUNTER+1}
                             {/if}
                             <td class="fieldLabel {$WIDTHTYPE}">
-							{if $FIELD_MODEL->get('helpinfo') neq 0}
-								<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo')}" data-original-title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"><i class="icon-info-sign"></i></a>
+							{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+							{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+							{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+								<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="icon-info-sign"></i></a>
 							{/if}
                             {if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
                             {if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
@@ -175,5 +178,6 @@
 </tbody>
 </table>
 <br>
+{/if}
 {/foreach}
 {/strip}

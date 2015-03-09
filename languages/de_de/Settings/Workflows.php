@@ -117,6 +117,7 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
+	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
 	'LBL_ACTIVATION_TASKS' => 'Aktiviere Aufgaben',
 	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',
 	'LBL_ALL_TASKS' => 'Alle Aufgaben',

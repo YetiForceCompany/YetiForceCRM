@@ -102,6 +102,7 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Proces sprzedażowy - Przygotowywanie kalkulacji',
 	'Sales stage - Preparing quote'	=> 'Proces sprzedażowy - Przygotowywanie oferty',
 	'Sales stage - Awaiting decision'	=> 'Proces sprzedażowy - Oczekiwanie na decyzje',
+	'New comment added to ticket from portal' => 'Dodano nowy komentarz do zgłoszenia z portalu',
 	'ON_SCHEDULE' => 'Ustal harmonogram wykonywania',
 	'LBL_RUN_WORKFLOW' => 'Częstotliwość wykonywania:',
 	'LBL_HOURLY' => 'Raz na godzinę',
@@ -127,7 +128,7 @@ $languageStrings = array(
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
 	'Do you send all attachments' => 'Czy wysłać wszystkie załączniki ?',
 	'Select e-mail address' => 'Wybierz adres mail',
-	'Send a copy to email' => 'Kopia na adres na adres',
+	'Send a copy to email' => 'Kopia na adres',
 	
 	//workflow task types
 	'Send Mail' => 'Wyślij maila',

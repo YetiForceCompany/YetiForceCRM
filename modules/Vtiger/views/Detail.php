@@ -6,8 +6,8 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
-
 class Vtiger_Detail_View extends Vtiger_Index_View {
 	protected $record = false;
 
@@ -233,6 +233,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
         $moduleModel = $recordModel->getModule();
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
         $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
@@ -258,7 +259,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('RECORD', $recordModel);
         $viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
@@ -298,6 +299,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('VIEW', $request->get('view'));
 
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();

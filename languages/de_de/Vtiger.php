@@ -564,7 +564,7 @@ $languageStrings = array(
 	'LBL_VIEW_DETAILS' => 'Detailansicht',
 	'LBL_VIEW_NAME' => 'Namen anzeigen',
 	'LBL_VIEW_THREAD' => 'Thema anzeigen',
-	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'vtiger CRM Open Source',
+	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'YetiForce CRM Open Source',
 	'LBL_WEBFORMS' => 'WebFormulare',
 	'LBL_Wed' => 'Mi',
 	'LBL_YEAR' => 'Jahr',
@@ -758,7 +758,9 @@ $languageStrings = array(
 	'OSSTimeControl' => 'Zeiterfassung',
 	'OSSMailView' => 'E-Mails',
 	'OSSEmployees' => 'Mitarbeiter',
+	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'Calculations' => 'Kalkulationen',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 
 	/* industry */
 	'Administration'=>'Verwaltung',
@@ -815,6 +817,7 @@ $languageStrings = array(
 	'Information Technology'=>'Informationstechnologie',
 	'Telecommunication'=>'Telekommunikation',
 	'Media'=>'Medien',
+	'Credits' => 'Credits',
 	
 	
     'COPY_ADRESS_FROM'=>'Adresse kopieren von:', 
@@ -883,8 +886,13 @@ $languageStrings = array(
 	'LBL_NAME' => 'Record name',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
+	'PLL_HOLIDAY_TIME' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 );
 $jsLanguageStrings = array(
+	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',
 	'JS_OF' => 'von',

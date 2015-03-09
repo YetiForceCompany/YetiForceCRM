@@ -93,7 +93,7 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 						$relatedRecordModel = Vtiger_Record_Model::getInstanceById($fieldValue, $fieldValueModule);
 						foreach($mappingModule as $fieldDest=>$fieldSource) {
 							$fieldDestModel = $fieldList[$fieldDest];
-							$fieldDestValue = $relatedRecordModel->get($fieldSource);
+							$fieldDestValue = $relatedRecordModel->get($fieldSource[0]);
 							$recordModel->set($fieldDest, $fieldDestModel->getDBInsertValue($fieldDestValue));
 						}
 					}
@@ -154,7 +154,7 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 	 */
 	function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
-
+//echo '<pre>'; //print_r($headerScriptInstances);
 		$moduleName = $request->getModule();
 		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
 		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
@@ -165,9 +165,11 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 		$jsFileNames = array(
 				'modules.Inventory.resources.Edit',
 				'modules.Inventory.resources.Popup',
+				'layouts.vlayout.modules.Calculations.resources.Edit',
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
+		//print_r($headerScriptInstances);exit;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

@@ -125,15 +125,4 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model {
         $db->pquery($query, array($tabIdList));
 		$log->debug("Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...");
     }
-	public function setMaxSearchResult($countMax) {
-		global $log;
-		$log->debug("Entering Settings_Search_Module_Model::setMaxSearchResult(".$countMax.") method ...");
-		$tabIdList = array();
-        $db = PearDatabase::getInstance();
-
-        $query = 'UPDATE vtiger_max_search_result SET value = ?';
-
-        $db->pquery($query, array($countMax));
-		$log->debug("Exiting Settings_Search_Module_Model::setMaxSearchResult() method ...");
-    }
 }

@@ -19,7 +19,7 @@ include_once('vtlib/Vtiger/Utils.php');
 include_once('include/utils/utils.php');
 include_once('ShowModuleIdField.php');
 
-vimport('includes/runtime/Viewer.php');
+vimport('include/runtime/Viewer.php');
 
 function Popup($request) {
     $db = PearDatabase::getInstance();
@@ -146,7 +146,7 @@ function Popup($request) {
         $logo = $db->query_result($pobierz, 0, "logoname");
         $company = array(
             'company_organizationname' => vtranslate('LBL_ORGANIZATION_NAME', 'OSSPdf'),
-            $site_URL . '/test/logo/' . $logo => vtranslate('LBL_ORGANIZATION_LOGO', 'OSSPdf'),
+            $site_URL . '/storage/Logo/' . $logo => vtranslate('LBL_ORGANIZATION_LOGO', 'OSSPdf'),
             'company_address' => vtranslate('LBL_ORGANIZATION_ADDRESS', 'OSSPdf'),
             'company_city' => vtranslate('LBL_ORGANIZATION_CITY', 'OSSPdf'),
             'company_state' => vtranslate('LBL_ORGANIZATION_STATE', 'OSSPdf'),

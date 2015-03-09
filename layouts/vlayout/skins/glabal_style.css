@@ -1,5 +1,6 @@
 .imageHolder.bigLoading{
-	width: 300px;
+	width: 200px;
+	margin: auto;
 }
 .imageHolder.smallLoading{
 	width: 100px;
@@ -62,4 +63,10 @@
 .mainBlockTableContent{
 	padding:5px;
 	min-height: 27px
+}
+.quickWidgetContainer li.select2-search-choice a.select2-search-choice-close{
+  width: 13px;
+}
+.marginBottom5px {
+  margin-bottom: 5px;
 }

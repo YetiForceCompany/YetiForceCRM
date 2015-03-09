@@ -95,15 +95,26 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model {
 	 * Funtion that returns fields that will be showed in the record selection popup
 	 * @return <Array of fields>
 	 */
-	public function getPopupViewFieldsList() {
-		$popupFileds = $this->getSummaryViewFieldsList();
-		$reqPopUpFields = array('Currency' => 'currency_id'); 
-		foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName,$this); 
-			if ($fieldModel->getPermissions('readwrite')) { 
-				$popupFileds[$fieldName] = $fieldModel; 
-			}
+	public function getPopupViewFieldsList($sourceModule = false) {
+		if(!empty($sourceModule)){
+			$parentRecordModel = Vtiger_Module_Model::getInstance($sourceModule);
+			$relationModel = Vtiger_Relation_Model::getInstance($parentRecordModel, $this);
 		}
-		return array_keys($popupFileds);
+		$popupFields = array();
+		if($relationModel){
+			$popupFields = $relationModel->getRelationFields(true);
+		}
+		if(count($popupFields) == 0){
+			$popupFileds = $this->getSummaryViewFieldsList();
+			$reqPopUpFields = array('Currency' => 'currency_id'); 
+			foreach ($reqPopUpFields as $fieldLabel => $fieldName) {
+				$fieldModel = Vtiger_Field_Model::getInstance($fieldName,$this); 
+				if ($fieldModel->getPermissions('readwrite')) { 
+					$popupFileds[$fieldName] = $fieldModel; 
+				}
+			}
+			$popupFields = array_keys($popupFileds);
+		}
+		return $popupFields;
 	}
 }

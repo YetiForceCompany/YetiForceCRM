@@ -8,6 +8,11 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'End Time' => 'Время окончания',
+	'Duration Minutes' => 'Продолжительность в минутах',
+	'No Time' => 'Без времени',
+	'Duration' => 'Продолжительность',
+	'Time Start' => 'Время начала',
 	'Activity Type'                => 'Тип действия'     , 
 	'Busy'	=>	'Занят',
 	'Call'                         => 'Звонок'                , 
@@ -76,6 +81,7 @@ $languageStrings = array(
 	'Yearly'	=>	'Ежегодно',
     'Medium'                       => 'Средний',    
     'Mobile Call'                  => 'Звонок с мобильного',
+	'All day' => 'Весь день',
 );
 
 $jsLanguageStrings = array(

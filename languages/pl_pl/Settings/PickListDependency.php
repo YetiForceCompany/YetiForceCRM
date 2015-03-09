@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Selected Values' => 'Selected Values',
+	'Selected Values' => 'Wybrano wartości',
 	'LBL_ADD_RECORD' => 'Dodaj zależność między słownikami',
 	'PickListDependency' => 'Zależności słownikowe',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Tylko odwzorowane wartości dla słownika źródłowego pojawią się poniżej (z wyjątkiem pierwszego razu)',

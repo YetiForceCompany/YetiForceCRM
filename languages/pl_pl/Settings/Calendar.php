@@ -9,6 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Filtry kalendarza',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.',
@@ -22,6 +23,15 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'Kolory użytkowników',
+	'LBL_CALENDAR_COLORS' => 'Kolory kalendarza',
+	'LBL_CALENDAR_TYPE' => 'Typ wydarzeń',
+	'PLL_BREAK_TIME' => 'Przerwa w pracy',
+	'PLL_HOLIDAY_TIME' => 'Urlop',
+	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
+	'LBL_UPDATE_EVENT' => 'Aktualizować termin w kalendarzu przy przekładaniu',
 );
 $jsLanguageStrings = array(
 

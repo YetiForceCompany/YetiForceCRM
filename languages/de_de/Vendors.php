@@ -35,6 +35,8 @@ $languageStrings = array(
 	'Vendor No' => 'Lieferanten Nummer',
 	'Vendors' => 'Lieferanten',
 	'Website' => 'Webseite',
+	'LBL_BUILDING_NUMBER' => 'Hausnummer',
+	'LBL_LOCAL_NUMBER' => 'Büronummer',
 );
 
 $jsLanguageStrings = array(

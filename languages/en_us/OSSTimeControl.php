@@ -10,6 +10,9 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'PLL_HOLIDAY' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 	'SINGLE_OSSTimeControl' => 'Time Control',
 	'OSSTimeControl' => 'Time Control',
 	'LBL_MAIN_INFORMATION' => 'Basic Information',
@@ -36,6 +39,8 @@ $languageStrings = array(
 	'According to the Contract' => 'According to the Contract',
 	'Paid' => 'Paid',
 	'Free' => 'Free',
+	'LBL_CALENDAR_VIEW' => 'Calendar',
+	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
 
 	// Settings
 	'SETTINGS' => 'Settings',
@@ -87,6 +92,52 @@ $languageStrings = array(
 );
 $jsLanguageStrings = array(
 	'MSG_ERROR_NUMBER' => 'Allowed Characters: [0-9]',
-	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
+	
+	//Calendar
+	'JS_ALL_DAY' => 'All-Day',
+	'JS_APR' => 'Apr',
+	'JS_APRIL' => 'April',
+	'JS_AUG' => 'Aug',
+	'JS_AUGUST' => 'August',
+	'JS_DAY' => 'Day',
+	'JS_DEC' => 'Dec',
+	'JS_DECEMBER' => 'December',
+	'JS_FEB' => 'Feb',
+	'JS_FEBRUARY' => 'February',
+	'JS_FRIDAY' => 'Friday',
+	'JS_FRI' => 'Fri',
+	'JS_JAN' => 'Jan',
+	'JS_JANUARY' => 'January',
+	'JS_JUL' => 'Jul',
+	'JS_JULY' => 'July',
+	'JS_JUNE' => 'June',
+	'JS_JUN' => 'Jun',
+	'JS_MARCH' => 'March',
+	'JS_MAR' => 'Mar',
+	'JS_MAY' => 'May',
+	'JS_MAY' => 'May',
+	'JS_MONDAY' => 'Monday',
+	'JS_MON' => 'Mon',
+	'JS_MONTH' => 'Month',
+	'JS_NOVEMBER' => 'November',
+	'JS_NOV' => 'Nov',
+	'JS_OCTOBER' => 'October',
+	'JS_OCT' => 'Oct',
+	'JS_SAT' => 'Sat',
+	'JS_SATURDAY' => 'Saturday',
+	'JS_SEP' => 'Sep',
+	'JS_SEPTEMBER' => 'September',
+	'JS_SUNDAY' => 'Sunday',
+	'JS_SUN' => 'Sun',
+	'JS_THURSDAY' => 'Thursday',
+	'JS_THU' => 'Thu',
+	'JS_TODAY' => 'Today',
+	'JS_TUESDAY' => 'Tuesday',
+	'JS_TUE' => 'Tue',
+	'JS_WEDNESDAY' => 'Wednesday',
+	'JS_WED' => 'Wed',
+	'JS_WEEK' => 'Week',
+	'JS_MORE' => 'More',
 );
-?>

@@ -19,60 +19,59 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$result = array();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue =  Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
-            $result[$fieldName] = array();
+			$result[$fieldName] = array();
 			if($fieldName == 'date_start') {
 				$timeStart = $recordModel->get('time_start');
-                $dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
+				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
 
-				$fieldValue = $fieldValue.' '.$timeStart;
-
-                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
-                $dateTimeComponents = explode(' ',$userDateTimeString);
-                $dateComponent = $dateTimeComponents[0];
-                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
-                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-                $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-            } else if ('time_start' == $fieldName) {
-            	$dateStart = $recordModel->get('date_start');
-          	    $dateTimeFieldInstance = new DateTimeField($dateStart . ' ' . $fieldValue);
-
-				$fieldValue = $dateStart . ' ' . $fieldValue;
-
-                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
-                $dateTimeComponents = explode(' ',$userDateTimeString);
-                $dateComponent = $dateTimeComponents[0];
-                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
-                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-                $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-
-			} else if($fieldName == 'due_date') {
-				$timeEnd = $recordModel->get('time_end');
-                $dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
-
-				$fieldValue = $fieldValue.' '.$timeEnd;
-
-                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
-                $dateTimeComponents = explode(' ',$userDateTimeString);
-                $dateComponent = $dateTimeComponents[0];
-                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
-                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-                $result[$fieldName]['calendar_display_value']   =  $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-			} else if ('time_end' == $fieldName) {
-            	$dateDue = $recordModel->get('due_date');
-          	    $dateTimeFieldInstance = new DateTimeField($dateDue . ' ' . $fieldValue);
-
-				$fieldValue = $dateDue . ' ' . $fieldValue;
-
-                $userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
-                $dateTimeComponents = explode(' ',$userDateTimeString);
-                $dateComponent = $dateTimeComponents[0];
-                //Conveting the date format in to Y-m-d . since full calendar expects in the same format
-                $dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
-                $result[$fieldName]['calendar_display_value'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-
+				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+				$dateTimeComponents = explode(' ',$userDateTimeString);
+				$dateComponent = $dateTimeComponents[0];
+				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
+				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+				$result[$fieldName]['value'] = $fieldValue;
+				$result[$fieldName]['display_value'] =$dataBaseDateFormatedString;
 			}
-			$result[$fieldName]['value'] = $fieldValue;
-            $result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue));
+			else if($fieldName == 'due_date') {
+				$timeEnd = $recordModel->get('time_end');
+				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeEnd);
+
+				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+				$dateTimeComponents = explode(' ',$userDateTimeString);
+				$dateComponent = $dateTimeComponents[0];
+				//Conveting the date format in to Y-m-d . since full calendar expects in the same format
+				$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $user->get('date_format'));
+
+				$result[$fieldName]['value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = $dataBaseDateFormatedString;
+			}
+			else if($fieldName == 'time_end') {
+				$dueDate = $recordModel->get('due_date');
+				$dateTimeFieldInstance = new DateTimeField($dueDate . ' ' . $fieldValue);
+
+				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+				$dateTimeComponents = explode(' ',$userDateTimeString);
+	
+				$result[$fieldName]['value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
+			}
+			else if($fieldName == 'time_start') {
+				$startDate = $recordModel->get('date_start');
+				$dateTimeFieldInstance = new DateTimeField($startDate . ' ' . $fieldValue);
+
+				$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue();
+				$dateTimeComponents = explode(' ',$userDateTimeString);
+
+				$result[$fieldName]['value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
+			}
+			else if ( 'time_start' != $fieldName && 'time_end' != $fieldName && 'duration_hours' != $fieldName) {
+				$result[$fieldName]['value'] = $fieldValue;
+				$result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue));
+			}
+			else {
+				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldValue;
+			}
 		}
 
 		$result['_recordLabel'] = $recordModel->getName();
