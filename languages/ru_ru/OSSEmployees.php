@@ -63,7 +63,6 @@ $languageStrings = array(
 	'Brak danych'	=>	'Нет данных',
 
 	'LBL_DAYWORKSUM'	=>	'Время работы',
-	'LBL_NUMBER' => 'Номер',
 );
 
 $jsLanguageStrings = array(
