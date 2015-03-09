@@ -17,25 +17,21 @@ class API_DAV_Model {
 
 	public $log = '';
 	
-	public function runCron($log) {
+	public function runCronCardDAV($log) {
 		$dav = new self();
 		$dav->log = $log;
-		$dav->runCardDAVSync();
-	}
-	
-	public function runCardDAVSync() {
 		$crmUsers = Users_Record_Model::getAll();
-		$davUsers = $this->getAllUser(1);
+		$davUsers = $dav->getAllUser(1);
 		foreach($crmUsers as $key => $user) {
 			if (array_key_exists($key,$davUsers)){
-				$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync for user '.$user->getName());
-				$cardDav = new API_CardDAV_Model($user,$this->log);
+				$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync for user '.$user->getName());
+				$cardDav = new API_CardDAV_Model($user,$dav->log);
 				$cardDav->getAddressBookId();
 				//$cardDav->cardDavCrm2Dav();
 				$cardDav->cardDavDav2Crm();
-				$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
+				$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
 			}else{
-				$this->log->warn( __CLASS__ . '::' . __METHOD__ . ' | User is inactive '.$user->getName());
+				$dav->log->warn( __CLASS__ . '::' . __METHOD__ . ' | User is inactive '.$user->getName());
 				// User is inactive
 			}
 		}
