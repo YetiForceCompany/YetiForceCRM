@@ -769,7 +769,7 @@ $languageStrings = array(
 	'Attention' => 'Uwagi',
 	'LBL_SHARING_INFORMATION' => 'Informacje współdzielenia',
 	'Copy permissions automatically' => 'Dziedziczenie współdzielenia',
-	'Share with users' => 'Współdzielenie:',
+	'Share with users' => 'Współdzielenie',
 	
 	'LBL_TOTAL_TIME' =>'Czas pracy',
 	'LBL_EMPLOYEE' =>'Pracownik',
