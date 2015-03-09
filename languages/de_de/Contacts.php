@@ -52,6 +52,8 @@ $languageStrings = array(
 	'Approval for email'=>'Erlaubnis für Mailkontakt',
 	'LBL_SHARING_INFORMATION' => 'Freigaben',
 	'LBL_ADDRESS_MAILING_INFORMATION' => 'Adresse für Mailingzwecke',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Lieferant',
 	
 	//Activity Types
 	'End of support for contact' => 'Ende der Wartung für den Kontakt',

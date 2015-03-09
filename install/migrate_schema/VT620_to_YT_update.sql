@@ -35,9 +35,6 @@ ALTER TABLE `vtiger_contactaddress`
 	ADD COLUMN `localnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumbera` , 
 	ADD COLUMN `buildingnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `localnumbera` , 
 	ADD COLUMN `localnumberb` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumberb` ; 
-	
-ALTER TABLE `vtiger_field` 
-	ADD COLUMN `fieldparams` varchar(255) COLLATE utf8_general_ci NULL after `summaryfield` ;
 
 ALTER TABLE `vtiger_contactscf`
 	ADD CONSTRAINT `fk_1_vtiger_contactscf` 
@@ -133,10 +130,14 @@ ALTER TABLE `vtiger_modtracker_basic`
 	ADD KEY `crmid`(`crmid`,`changedon`) , 
 	ADD KEY `id`(`id`,`module`,`changedon`) ;
 	
+ALTER TABLE `vtiger_notes` 
+	CHANGE `title` `title` varchar(200)  COLLATE utf8_general_ci NOT NULL after `note_no` , 
+	CHANGE `folderid` `folderid` varchar(255)  COLLATE utf8_general_ci NOT NULL after `notecontent` , 
+	ADD COLUMN `ossdc_status` varchar(255)  COLLATE utf8_general_ci NULL after `fileversion` ;
 ALTER TABLE `vtiger_notes`
 	ADD CONSTRAINT `fk_1_vtiger_notes` 
 	FOREIGN KEY (`notesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
-	
+
 ALTER TABLE `vtiger_notescf`
 	ADD CONSTRAINT `vtiger_notescf_ibfk_1` 
 	FOREIGN KEY (`notesid`) REFERENCES `vtiger_notes` (`notesid`) ON DELETE CASCADE ;
@@ -180,6 +181,10 @@ ALTER TABLE `vtiger_potential`
 	ADD COLUMN `sum_invoices` decimal(25,8)   NULL DEFAULT 0.00000000 after `sum_salesorders` , 
 	ADD COLUMN `sum_calculations` decimal(25,8)   NULL DEFAULT 0.00000000 after `sum_invoices` , 
 	ADD COLUMN `average_profit_so` decimal(5,2)   NULL after `sum_calculations` , 
+	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `average_profit_so` , 
+	DROP COLUMN `probability` , 
+	DROP COLUMN `nextstep` , 
+	DROP COLUMN `amount` , 
 	ADD KEY `campaignid`(`campaignid`) , 
 	DROP KEY `potentail_sales_stage_amount_idx`, ADD KEY `potentail_sales_stage_amount_idx`(`sales_stage`) , 
 	ADD KEY `productid`(`productid`) , 
@@ -547,6 +552,7 @@ ALTER TABLE `vtiger_accountscf`
 ALTER TABLE `vtiger_activity` 
 	ADD COLUMN `deleted` tinyint(1)   NULL DEFAULT 0 after `recurringtype` , 
 	ADD COLUMN `smownerid` int(19)   NULL after `deleted` , 
+	ADD COLUMN `allday` tinyint(1)   NULL after `smownerid` , 
 	ADD KEY `activitytype`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`eventstatus`,`deleted`,`smownerid`) , 
 	ADD KEY `activitytype_2`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`) ;
 ALTER TABLE `vtiger_activity`
@@ -670,7 +676,7 @@ ALTER TABLE `vtiger_crmentity`
 	CHANGE `label` `label` varchar(255)  COLLATE utf8_general_ci NULL after `deleted` , 
 	ADD COLUMN `searchlabel` varchar(255)  COLLATE utf8_general_ci NULL after `label` , 
 	ADD COLUMN `inheritsharing` tinyint(1)   NULL DEFAULT 0 after `searchlabel` , 
-	ADD COLUMN `was_read` tinyint(1)   NULL after `inheritsharing` , 
+	ADD COLUMN `was_read` tinyint(1)  NULL DEFAULT 0 after `inheritsharing` , 
 	ADD KEY `crmid`(`crmid`,`deleted`) , 
 	ADD KEY `searchlabel`(`setype`,`label`) , 
 	ADD KEY `setype`(`setype`,`deleted`,`searchlabel`) ;
@@ -767,9 +773,9 @@ ALTER TABLE `vtiger_faqcomments`
 	ADD CONSTRAINT `fk_1_vtiger_faqcomments` 
 	FOREIGN KEY (`faqid`) REFERENCES `vtiger_faq` (`id`) ON DELETE CASCADE ;
 
-	
 ALTER TABLE `vtiger_field` 
-	CHANGE `helpinfo` `helpinfo` tinyint(1)   NULL DEFAULT 0 after `masseditable` , 
+	CHANGE `helpinfo` `helpinfo` varchar(30) NULL DEFAULT '' after `masseditable` , 
+	ADD COLUMN `fieldparams` varchar(255) NULL DEFAULT '' after `summaryfield` , 
 	ADD KEY `tabid`(`tabid`,`tablename`) ;
 ALTER TABLE `vtiger_field`
 	ADD CONSTRAINT `fk_1_vtiger_field` 
@@ -847,12 +853,32 @@ ALTER TABLE `vtiger_invitees`
 	
 ALTER TABLE `vtiger_invoice` 
 	CHANGE `salescommission` `salescommission` decimal(25,3)   NULL after `type` , 
+	CHANGE `exciseduty` `exciseduty` decimal(25,3)   NULL after `salescommission` , 
+	CHANGE `subtotal` `subtotal` decimal(25,8)   NULL after `exciseduty` , 
+	CHANGE `total` `total` decimal(25,8)   NULL after `subtotal` , 
+	CHANGE `taxtype` `taxtype` varchar(25)  COLLATE utf8_general_ci NULL after `total` , 
+	CHANGE `discount_percent` `discount_percent` decimal(25,3)   NULL after `taxtype` , 
+	CHANGE `discount_amount` `discount_amount` decimal(25,8)   NULL after `discount_percent` , 
 	CHANGE `shipping` `shipping` varchar(100)  COLLATE utf8_general_ci NULL after `discount_amount` , 
+	CHANGE `accountid` `accountid` int(19)   NULL after `shipping` , 
+	CHANGE `terms_conditions` `terms_conditions` text  COLLATE utf8_general_ci NULL after `accountid` , 
+	CHANGE `purchaseorder` `purchaseorder` varchar(200)  COLLATE utf8_general_ci NULL after `terms_conditions` , 
+	CHANGE `invoicestatus` `invoicestatus` varchar(200)  COLLATE utf8_general_ci NULL after `purchaseorder` , 
+	CHANGE `invoice_no` `invoice_no` varchar(100)  COLLATE utf8_general_ci NULL after `invoicestatus` , 
+	CHANGE `currency_id` `currency_id` int(19)   NOT NULL DEFAULT 1 after `invoice_no` , 
+	CHANGE `conversion_rate` `conversion_rate` decimal(10,3)   NOT NULL DEFAULT 1.000 after `currency_id` , 
+	CHANGE `pre_tax_total` `pre_tax_total` decimal(25,8)   NULL after `conversion_rate` , 
+	CHANGE `received` `received` decimal(25,8)   NULL after `pre_tax_total` , 
+	CHANGE `balance` `balance` decimal(25,8)   NULL after `received` , 
 	ADD COLUMN `total_purchase` decimal(13,2)   NULL after `balance` , 
 	ADD COLUMN `total_margin` decimal(13,2)   NULL after `total_purchase` , 
 	ADD COLUMN `total_marginp` decimal(13,2)   NULL after `total_margin` , 
 	ADD COLUMN `potentialid` int(19)   NULL after `total_marginp` , 
 	ADD COLUMN `form_payment` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `potentialid` , 
+	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `form_payment` , 
+	DROP COLUMN `s_h_amount` , 
+	DROP COLUMN `adjustment` , 
+	DROP COLUMN `s_h_percent` , 
 	ADD KEY `accountid`(`accountid`) , 
 	ADD KEY `contactid`(`contactid`) , 
 	ADD KEY `fk_2_vtiger_invoice`(`salesorderid`) , 
@@ -899,10 +925,6 @@ ALTER TABLE `vtiger_leaddetails`
 ALTER TABLE `vtiger_leaddetails`
 	ADD CONSTRAINT `fk_1_vtiger_leaddetails` 
 	FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
-	
-ALTER TABLE `vtiger_notes` 
-	CHANGE `folderid` `folderid` varchar(255)  COLLATE utf8_general_ci NOT NULL after `notecontent` , 
-	ADD COLUMN `ossdc_status` varchar(255)  COLLATE utf8_general_ci NULL after `fileversion` ;
 	
 ALTER TABLE `vtiger_pbxmanager` 
 	CHANGE `sourceuuid` `sourceuuid` int(19)   NULL after `recordingurl` ;
@@ -1069,6 +1091,10 @@ ALTER TABLE `vtiger_account`
 	ADD COLUMN `sum_invoices` decimal(25,8)   NULL DEFAULT 0.00000000 after `sum_salesorders` , 
 	ADD COLUMN `balance` decimal(25,8)   NULL after `sum_invoices` , 
 	ADD COLUMN `average_profit_so` decimal(5,2)   NULL after `balance` , 
+	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `average_profit_so` , 
+	DROP COLUMN `tickersymbol` , 
+	DROP COLUMN `notify_owner` , 
+	DROP COLUMN `rating` , 
 	ADD KEY `sum_invoices`(`sum_invoices`) , 
 	ADD KEY `sum_salesorders`(`sum_salesorders`) ;
 ALTER TABLE `vtiger_account`
@@ -1100,3 +1126,73 @@ ALTER TABLE `vtiger_tab`
 	ADD COLUMN `color` VARCHAR(30) NULL AFTER `trial`, 
 	ADD COLUMN `coloractive` TINYINT(1) DEFAULT 0 NULL AFTER `color`;
 	
+
+	
+	
+	
+ALTER TABLE `vtiger_portalinfo` 
+	CHANGE `user_password` `user_password` varchar(200)  COLLATE utf8_general_ci NULL after `user_name` , 
+	ADD COLUMN `crypt_type` varchar(20)  COLLATE utf8_general_ci NULL after `isactive` , 
+	ADD COLUMN `password_sent` varchar(255)  COLLATE utf8_general_ci NOT NULL after `crypt_type` ;
+ALTER TABLE `vtiger_portalinfo`
+	ADD CONSTRAINT `fk_1_vtiger_portalinfo` 
+	FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_assets` 
+	DROP FOREIGN KEY `fk_1_vtiger_assets`  ;
+
+ALTER TABLE `vtiger_contactdetails` 
+	DROP FOREIGN KEY `fk_1_vtiger_contactdetails`  ;
+
+ALTER TABLE `vtiger_contactsubdetails` 
+	DROP FOREIGN KEY `fk_1_vtiger_contactsubdetails`  ;
+
+ALTER TABLE `vtiger_leadaddress` 
+	DROP FOREIGN KEY `fk_1_vtiger_leadaddress`  ;
+
+ALTER TABLE `vtiger_products` 
+	DROP FOREIGN KEY `fk_1_vtiger_products`  ;
+
+ALTER TABLE `vtiger_troubletickets` 
+	DROP FOREIGN KEY `fk_1_vtiger_troubletickets`  ;
+
+ALTER TABLE `vtiger_invoiceaddress` 
+	DROP FOREIGN KEY `vtiger_invoiceaddress_ibfk_1`  ;
+ALTER TABLE `vtiger_invoiceaddress`
+	ADD CONSTRAINT `vtiger_invoiceaddress_ibfk_1` 
+	FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+/* Alter table in target */
+ALTER TABLE `vtiger_purchaseorderaddress` 
+	DROP FOREIGN KEY `vtiger_purchaseorderaddress_ibfk_1`  ;
+ALTER TABLE `vtiger_purchaseorderaddress`
+	ADD CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` 
+	FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+
+/* Alter table in target */
+ALTER TABLE `vtiger_senotesrel` 
+	DROP FOREIGN KEY `fk1_crmid`  ;
+ALTER TABLE `vtiger_assets` 
+	ADD CONSTRAINT `fk_1_vtiger_assets` 
+	FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_contactdetails` 
+	ADD CONSTRAINT `fk_1_vtiger_contactdetails` 
+	FOREIGN KEY (`contactid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_contactsubdetails` 
+	ADD CONSTRAINT `fk_1_vtiger_contactsubdetails` 
+	FOREIGN KEY (`contactsubscriptionid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_leadaddress` 
+	ADD CONSTRAINT `fk_1_vtiger_leadaddress` 
+	FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_products` 
+	ADD CONSTRAINT `fk_1_vtiger_products` 
+	FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_troubletickets` 
+	ADD CONSTRAINT `fk_1_vtiger_troubletickets` 
+	FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;

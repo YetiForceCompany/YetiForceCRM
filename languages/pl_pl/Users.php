@@ -274,6 +274,12 @@ $languageStrings = array(
 	'LBL_SELECT_USERS' => 'Wybierz użytkowników',
 	'LBL_MASS_PASSWORD_EDITING' => 'Masowa edycja haseł użytkowników',
 	'LBL_MASS_PWD_EDIT' => 'Masowa edycja haseł',
+	'Meeting' => 'Spotkanie',
+	'Call' => 'Telefon',
+	'Mobile Call' => 'Połączenie',
+	'Planned' => 'Planowane',
+	'Held' => 'Odbyte',
+	'Not Held' => 'Nieodbyte',
 
 	'yyyy-mm-dd' => 'rrrr-mm-dd',
 	'mm-dd-yyyy' => 'mm-dd-rrrr',

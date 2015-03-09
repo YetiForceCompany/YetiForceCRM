@@ -898,6 +898,8 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
 	'Generate default PDF' => 'Generuj domyślny PDF',
 	'JS_SAVE_LOADER_INFO' => 'Trwa zapisywanie danych...',
 	'JS_SAVE_NOTIFY_OK' => 'Zapisano zmiany.',

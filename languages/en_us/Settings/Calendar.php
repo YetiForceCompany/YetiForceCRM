@@ -28,7 +28,7 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'User colors',
 	'LBL_CALENDAR_COLORS' => 'Calendar colors',
 	'LBL_CALENDAR_TYPE' => 'Calendar type',
-	'PLL_BREAK_TIME' => 'Break time',
+	'PLL_BREAK_TIME' => 'Break from work',
 	'PLL_HOLIDAY_TIME' => 'Holiday',
 	'LBL_SAVE_CHANGES' => 'Saved changes',
 );

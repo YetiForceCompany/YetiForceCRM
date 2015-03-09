@@ -53,6 +53,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
@@ -61,7 +62,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			
-			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+
 			$item['end'] =  $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
 			$item['className'] = ' userCol_'.$record['smownerid'].' calCol_'.$record['timecontrol_type'];
 			$result[] = $item;

@@ -282,6 +282,12 @@ $languageStrings = array(
 	'Inactive'=> 'Inactive',
 	'yes'=> 'Yes',
 	'no'=> 'No',
+	'Meeting' => 'Meeting',
+	'Call' => 'Call',
+	'Mobile Call' => 'Mobile Call',
+	'Planned' => 'Planned',
+	'Held' => 'Odbyte',
+	'Not Held' => 'Not Held',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',

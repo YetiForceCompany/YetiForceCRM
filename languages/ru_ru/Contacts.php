@@ -48,6 +48,8 @@ $languageStrings = array(
 	'Approval for phone calls'		=>'Можно звонить',
 	'Approval for email'			=>'Можно писать',
 	'Active' 						=> 'Активный',
+	'SINGLE_Leads' => 'Обращение',
+	'SINGLE_Vendors' => 'Поставщик',
 );
 $jsLanguageStrings = array(
 );
