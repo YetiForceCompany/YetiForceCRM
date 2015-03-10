@@ -47,8 +47,7 @@ $languageStrings = Array(
 	'PLL_POSSIBILITY_TO_PREPAY' => 'Возможность досрочного погашения',
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Возможность регулировки условий',
 	'PLL_NEW_ORGANIZATION_ORDER' => 'Новый порядок в Организации',
-);
-$languageStrings = array(
+
 	'Incomplete information' => 'Не достаточно информации',
 	'Requirements not met' => 'Требования не выполнены',
 	'Closed' => 'Закрыто',
