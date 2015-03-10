@@ -5417,7 +5417,7 @@ CREATE TABLE `vtiger_quotestage` (
   `sortorderid` int(11) DEFAULT NULL,
   PRIMARY KEY (`quotestageid`),
   UNIQUE KEY `quotestage_quotestage_idx` (`quotestage`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotestage_seq` */
 

@@ -10,10 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
-	'Reviewed' => 'Рассмотренно',
-	'Created' => 'Создано',
 	'LBL_GENERATE_QUOTES' => 'Создать Предложение',
-	'Accepted'=>'Принято',
 	'Inventory Manager'=>'Ответственный за склад',
 	'LBL_ADD_RECORD' => 'Добавить Предложение',
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
@@ -22,7 +19,6 @@ $languageStrings = array(
 	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'Quote No'=>'Предложение №',
 	'Quote Stage'=>'Стадия',
-	'Rejected'=>'Отклонено',
 	'SINGLE_Quotes' => 'Предложение',
 	'Valid Till'=>'Действительно до',
     'Shipping' => 'Перевозчик',
@@ -33,6 +29,16 @@ $languageStrings = array(
 	'Form of payment' => 'Форма оплаты',
 	'Transfer' => 'Безнал',
 	'Cash' => 'Наличные',
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
+	'PLL_IN_PREPARATION' => 'In preparation',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_DECLINED' => 'Declined',
+	'PLL_ACCEPTED' => 'Accepted',
 );
 
 $jsLanguageStrings = array(
