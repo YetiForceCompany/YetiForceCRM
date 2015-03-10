@@ -156,8 +156,8 @@
 		</tbody>
 	</table>
 	<div class="row-fluid filterContainerTimeControl">
-		<div class="row-fluid span3">
-			<span class="span1">
+		<div class="row-fluid span4">
+			<span class="span1" style="margin-right:5px;">
 				<span>
 					<i class="icon-calendar iconMiddle"></i>
 				</span>
@@ -166,8 +166,8 @@
 				<input type="text" name="time" class="dateRange widgetFilter" style="width:80%;" />
 			</span>
 		</div>
-		<div class="row-fluid span3">
-			<span class="span1">
+		<div class="row-fluid span4">
+			<span class="span1" style="margin-right:5px;">
 				<span>
 					<i class="icon-user iconMiddle"></i>
 				</span>
@@ -186,22 +186,7 @@
 				</select>
 			</span>
 		</div>
-		<div class="row-fluid span4">
-			<span class="span1">
-				<i class="icon-time iconMiddle"></i>
-			</span>
-			<select name="timeTypes" class="select2 widgetFilter" multiple style="width:90%;">
-				{foreach key=KEY item=ITEM from=$TIMETYPEPOSSIBILITY}
-					{if $SELECTEDTIMETYPES eq 'all'}
-						<option selected value="{$ITEM}">
-					{else}
-						<option  value="{$ITEM}">
-					{/if}
-						{vtranslate($KEY, $MODULE_NAME)}
-					</option>
-				{/foreach}
-			</select> 
-		</div>
+		
 	</div>
 </div>
 <div class="dashboardWidgetContent dashboardWidgetContentTimeControl">
