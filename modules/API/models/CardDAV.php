@@ -16,8 +16,8 @@ class API_CardDAV_Model {
 	public $user = false;
 	public $addressBookId = false;
 	public $mailFields = [
-		'Contacts' => ['email'=>'INTERNET,WORK','secondary_email'=>'INTERNET,HOME'],
-		'OSSEmployees' => ['business_mail'=>'INTERNET,WORK','private_mail'=>'INTERNET,HOME'],
+		'Contacts' => ['email'=>'WORK','secondary_email'=>'HOME'],
+		'OSSEmployees' => ['business_mail'=>'WORK','private_mail'=>'HOME'],
 	];
 	public $telFields = [
 		'Contacts' => ['phone'=>'WORK','mobile'=>'CELL'],
@@ -103,10 +103,14 @@ class API_CardDAV_Model {
 		}
 		$vcard->add('FN', $name);
 		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$vcard->add('TEL', $record[$key], ['type' => explode(',', $val)]);
+			if($record[$key] != ''){
+				$vcard->add('TEL', $record[$key], ['type' => explode(',', $val)]);
+			}
 		}
 		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
+			if($record[$key] != ''){
+				$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
+			}
 		}
 
 		$cardUri = $record['crmid'].'.vcf';
@@ -154,10 +158,14 @@ class API_CardDAV_Model {
 		}
 		$vcard->FN = $name;
 		foreach ($this->telFields[$moduleName] as $key => $val) {
-			$vcard->add('TEL', $record[$key], ['type' => explode(',', $val)]);
+			if($record[$key] != ''){
+				$vcard->add('TEL', $record[$key], ['type' => explode(',', $val)]);
+			}
 		}
 		foreach ($this->mailFields[$moduleName] as $key => $val) {
-			$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
+			if($record[$key] != ''){
+				$vcard->add('EMAIL', $record[$key], ['type' => explode(',', $val)]);
+			}
 		}
 		
         $cardData = Sabre\DAV\StringUtil::ensureUTF8($vcard->serialize());
@@ -357,7 +365,8 @@ class API_CardDAV_Model {
 		}
 		foreach ($vcard->TEL as $t) {
 			foreach ($t->parameters() as $k => $p) {
-				if($p->getValue() == $type && $t->getValue() != ''){
+				$vcardType = strtoupper($p->getValue());
+				if($vcardType == strtoupper($type) && $t->getValue() != ''){
 					$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: '.$t->getValue());
 					return $t->getValue();
 				}
@@ -374,7 +383,9 @@ class API_CardDAV_Model {
 		}
 		foreach ($vcard->EMAIL as $e) {
 			foreach ($e->parameters() as $k => $p) {
-				if($p->getValue() == $type && $e->getValue() != ''){
+				$vcardType = $p->getValue();
+				$vcardType =  strtoupper(trim(str_replace('INTERNET', '', $vcardType),','));
+				if($vcardType == strtoupper($type) && $vcardType != ''){
 					$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: '.$e->getValue());
 					return $e->getValue();
 				}
@@ -392,6 +403,11 @@ class API_CardDAV_Model {
      * @return void
      */
     protected function addChange($objectUri, $operation) {
+		$stmt = $this->pdo->prepare('DELETE FROM dav_addressbookchanges WHERE uri = ? AND addressbookid = ?;');
+		$stmt->execute([
+			$objectUri,
+			$this->addressBookId
+		]);
         $stmt = $this->pdo->prepare('INSERT INTO dav_addressbookchanges  (uri, synctoken, addressbookid, operation) SELECT ?, synctoken, ?, ? FROM dav_addressbooks WHERE id = ?');
         $stmt->execute([
             $objectUri,
@@ -403,6 +419,5 @@ class API_CardDAV_Model {
         $stmt->execute([
             $this->addressBookId
         ]);
-
     }
 }
