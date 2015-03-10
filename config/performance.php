@@ -11,7 +11,42 @@
 $PERFORMANCE_CONFIG = Array(
 	// Enable log4php debugging only if requried 
 	'LOG4PHP_DEBUG' => false,
+	
+	// display PHP errors,
+	'DISPLAY_PHP_ERRORS' => true,
+	
+	// ************  LOGGING/DEBUGGING  ************
+	// --- ROUNDCUBE ---
+	// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
+	'ROUNDCUBE_DEBUG_LEVEL' => 1,
+	
+	// Activate this option if logs should be written to per-user directories.
+	// Data will only be logged if a directry <log_dir>/<username>/ exists and is writable.
+	'ROUNDCUBE_PER_USER_LOGGING' => false,
 
+	// Log sent messages to <log_dir>/sendmail or to syslog
+	'ROUNDCUBE_SMTP_LOG' => true,
+
+	// Log successful/failed logins to <log_dir>/userlogins or to syslog
+	'ROUNDCUBE_LOG_LOGINS' => false,
+
+	// Log session authentication errors to <log_dir>/session or to syslog
+	'ROUNDCUBE_LOG_SESSION' => false,
+
+	// Log SQL queries to <log_dir>/sql or to syslog
+	'ROUNDCUBE_SQL_DEBUG' => false,
+
+	// Log IMAP conversation to <log_dir>/imap or to syslog
+	'ROUNDCUBE_IMAP_DEBUG' => false,
+
+	// Log LDAP conversation to <log_dir>/ldap or to syslog
+	'ROUNDCUBE_LDAP_DEBUG' => false,
+
+	// Log SMTP conversation to <log_dir>/smtp or to syslog
+	'ROUNDCUBE_SMTP_DEBUG' => false,
+	
+	// ************************
+	
 	// Should the caller information be captured in SQL Logging?
 	// It adds little overhead for performance but will be useful to debug
 	'SQL_LOG_INCLUDE_CALLER' => false,
@@ -20,25 +55,40 @@ $PERFORMANCE_CONFIG = Array(
 	// This avoids executing the SET NAMES SQL for each query!
 	'DB_DEFAULT_CHARSET_UTF8' => true,
 
-	// Compute record change indication for each record shown on listview
-	'LISTVIEW_RECORD_CHANGE_INDICATOR' => false,
-
 	// Turn-off default sorting in ListView, could eat up time as data grows
 	'LISTVIEW_DEFAULT_SORTING' => false,
 	
 	// Compute list view record count while loading listview everytime.
 	// Recommended value false
 	'LISTVIEW_COMPUTE_PAGE_COUNT' => false,
-
-	// Control DetailView Record Navigation
-	'DETAILVIEW_RECORD_NAVIGATION' => true,
-
-	// To control the Email Notifications being sent to the Owner
-	'NOTIFY_OWNER_EMAILS' => true,		//By default it is set to true, if it is set to false, then notifications will not be sent
-	// reduce number of ajax requests on home page, reduce this value if home page widget dont
-	// show value.
-	'HOME_PAGE_WIDGET_GROUP_SIZE' => 12,
-	//take backup legacy style, whenever an admin user logs out.
-	'LOGOUT_BACKUP' => true,
 );
-?>
+if($PERFORMANCE_CONFIG['DISPLAY_PHP_ERRORS']){
+	ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+}else{
+	ini_set('display_errors','off');version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+}
+/**
+ * Performance perference API
+ */
+class PerformancePrefs {
+	/**
+	 * Get performance parameter configured value or default one
+	 */
+	static function get($key, $defvalue=false) {
+		global $PERFORMANCE_CONFIG;
+		if(isset($PERFORMANCE_CONFIG)){
+			if(isset($PERFORMANCE_CONFIG[$key])) {
+				return $PERFORMANCE_CONFIG[$key];
+			}
+		}
+		return $defvalue;
+	}
+	/** Get boolean value */
+	static function getBoolean($key, $defvalue=false) {
+		return self::get($key, $defvalue);
+	}
+	/** Get Integer value */
+	static function getInteger($key, $defvalue=false) {
+		return intval(self::get($key, $defvalue));
+	}
+}
