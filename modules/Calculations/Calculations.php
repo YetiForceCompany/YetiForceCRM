@@ -66,7 +66,7 @@ class Calculations extends CRMEntity {
 			'name'=>'subject',
 			'potentialid'=>'potential_id',
 			'relatedid'=>'account_id',
-			'record'=>'calculation1',
+			'requirementcardsid'=>'requirementcards_id',
 		),
 	);
 

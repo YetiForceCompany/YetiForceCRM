@@ -703,6 +703,7 @@ $languageStrings = array(
 	'Parent ID' => 'Powiązany z',
 	'Comments' => 'Komentarze',
 	'RequirementCards' => 'Karty wymagań',
+	'QuotesEnquires' => 'Zapytania ofertowe',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Przeszukaj gałęzie',
 	
 	/* industry */

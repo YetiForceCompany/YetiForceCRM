@@ -57,6 +57,7 @@ $languageStrings = array(
 	'Signed in' => 'Вход',
 	'OSSPdf' => 'Список шаблонов PDF',
 	'RequirementCards' => 'Бланк Заявки',
+	'QuotesEnquires' => 'Quotes enquires',
 	'LBL_SHARING_FOR' => 'Модуль',
 	'LBL_NO_RECORDS_IN_WIDGET' => 'Нет данных для отображения',
 	'LBL_NO_FOUND_RECORDS' => 'Мы не нашли никаких записей в модуле:',
