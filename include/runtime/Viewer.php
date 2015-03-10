@@ -6,12 +6,10 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  ************************************************************************************/
-
 vimport ('~/libraries/Smarty/libs/SmartyBC.class.php');
-
 class Vtiger_Viewer extends SmartyBC {
-
 	const DEFAULTLAYOUT = 'vlayout';
 	const DEFAULTTHEME  = 'softed';
 	static $currentLayout;
@@ -60,6 +58,8 @@ class Vtiger_Viewer extends SmartyBC {
 		$this->setTemplateDir(array($templatesDir));
 		$this->setCompileDir($compileDir);		
 
+		self::$debugViewer = SysDebug::get('DEBUG_VIEWER');
+		
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
 		// We need to use {$variable nofilter} to overcome double escaping

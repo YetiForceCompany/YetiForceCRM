@@ -14,8 +14,8 @@
 
 $Start_time = microtime(true);
 include_once 'include/Webservices/Relation.php';
-include_once 'vtlib/Vtiger/Module.php';
 include_once 'include/main/WebUI.php';
+include_once 'vtlib/Vtiger/Module.php';
 ini_set('session.save_path','cache/session');
 
 $webUI = new Vtiger_WebUI();

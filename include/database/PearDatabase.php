@@ -10,9 +10,8 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
-
 require_once 'include/logging.php';
 include_once 'libraries/adodb/adodb.inc.php';
 require_once 'libraries/adodb/adodb-xmlschema.inc.php';
@@ -45,7 +44,7 @@ class PreparedQMark2SqlValue {
 
 class PearDatabase{
     var $database = null;
-    var $dieOnError = true;
+    var $dieOnError = false;
     var $dbType = null;
     var $dbHostName = null;
     var $dbName = null;
@@ -803,24 +802,23 @@ class PearDatabase{
 	/**
 	 * Constructor
 	 */
-    function PearDatabase($dbtype='',$host='',$dbname='',$username='',$passwd='') {
+    function PearDatabase($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '') {
 		global $currentModule;
-		$this->log = LoggerManager::getLogger('PearDatabase_'. $currentModule);
-		$this->resetSettings($dbtype,$host,$dbname,$username,$passwd);
+		$this->log = LoggerManager::getLogger('PearDatabase_' . $currentModule);
+		$this->resetSettings($dbtype, $host, $dbname, $username, $passwd);
 
 		// Initialize performance parameters
 		$this->isdb_default_utf8_charset = PerformancePrefs::getBoolean('DB_DEFAULT_CHARSET_UTF8');
 		// END
 
-	if(!isset($this->dbType))
-	{
-	    $this->println("ADODB Connect : DBType not specified");
-	    return;
+		if (!isset($this->dbType)) {
+			$this->println("ADODB Connect : DBType not specified");
+			return;
+		}
+		$this->setDieOnError(SysDebug::get('SQL_DIE_ON_ERROR'));
 	}
 
-    }
-
-    function resetSettings($dbtype,$host,$dbname,$username,$passwd){
+	function resetSettings($dbtype,$host,$dbname,$username,$passwd){
 		global $dbconfig, $dbconfigoption;
 
 		if($host == '') {
@@ -1059,6 +1057,8 @@ class PearDatabase{
 if(empty($adb)) {
 	$adb = new PearDatabase();
 	$adb->connect();
+	if (SysDebug::get('DISPLAY_SQL_QUERY')) {
+		$adb->setDebug(true);
+	}
 }
 //$adb->database->setFetchMode(ADODB_FETCH_BOTH);
-?>
