@@ -5,3 +5,21 @@ allow from 127.0.0.1
     Order Allow,Deny
     Allow from all
 </Files>
+<Files dav.php>
+    Order Allow,Deny
+    Allow from all
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+		RewriteRule (.*) dav.php [L]
+	</IfModule>
+	<IfModule mod_expires.c>
+		ExpiresActive Off
+	</IfModule>
+	<IfModule mod_php5.c>
+		php_value output_buffering off
+		php_value always_populate_raw_post_data off
+		php_value magic_quotes_gpc off
+		php_value mbstring.func_overload off
+	</IfModule>
+</Files>
