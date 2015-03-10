@@ -193,6 +193,8 @@ jQuery.Class('Vtiger_Widget_Js',{
 			function(data){
 				refreshContainer.progressIndicator({'mode': 'hide'});
 				contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+				if( 'TimeControl' == params.data['name'])
+					app.showSelect2ElementView(jQuery('body').find('select.select2'));
 			},
 			function(){
 				refreshContainer.progressIndicator({'mode': 'hide'});

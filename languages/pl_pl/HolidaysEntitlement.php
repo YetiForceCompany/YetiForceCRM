@@ -20,5 +20,6 @@ $languageStrings = Array(
 	'LBL_YEAR' => 'Rok',
 	'LBL_DAYS' => 'Dni urlopu',
 	'LBL_EMPLOYEE' => 'Pracownik',
+	'LBL_NUMBER' => 'Numer',
 
 );

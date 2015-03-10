@@ -768,8 +768,8 @@ $languageStrings = array(
 	'LBL_WIDGETS_MANAGMENT'=>'Widgety',
 	'Attention' => 'Uwagi',
 	'LBL_SHARING_INFORMATION' => 'Informacje współdzielenia',
-	'Copy permissions automatically' => 'Dziedziczenie współdzielenia',
-	'Share with users' => 'Współdzielenie:',
+	'Copy permissions automatically' => 'Dziedziczenie',
+	'Share with users' => 'Osoby współdzielące',
 	
 	'LBL_TOTAL_TIME' =>'Czas pracy',
 	'LBL_EMPLOYEE' =>'Pracownik',

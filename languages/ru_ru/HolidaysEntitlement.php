@@ -20,4 +20,5 @@ $languageStrings = Array(
 	'LBL_YEAR' => 'Год',
 	'LBL_DAYS' => 'Количество выходных и праздничных дней',
 	'LBL_EMPLOYEE' => 'Сотрудники',
+	'LBL_NUMBER' => 'Номер',
 );

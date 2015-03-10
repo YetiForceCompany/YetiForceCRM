@@ -28,13 +28,13 @@
 			<td class="span5">
 				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 			</td>
-			<td class="span2">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</td>
 			<td class="refresh span1" align="right">
 				<span style="position:relative;"></span>
 			</td>
-			<td class="widgeticons span4" align="right">
+			<td class="span2">
+				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			</td>
+			<td class="widgeticons span1" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
 			</td>
 		</tr>

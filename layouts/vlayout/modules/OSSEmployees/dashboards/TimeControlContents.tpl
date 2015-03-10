@@ -13,7 +13,7 @@
 {strip}
 {if $CHARTEXIST}
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
-	<div class="widgetChartContainer" style="height:75%;width:98%"></div>
+	<div class="widgetChartContainer" style="height:65%;width:98%"></div>
 	<div class="legend-colors">
 		<ul>
 		{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
@@ -29,4 +29,23 @@
 		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
 	</span>
 {/if}
+<div class="row-fluid span4" style="margin-top:10px;">
+			
+			<span class="span1" style="width:3%;">
+				<i class="icon-time iconMiddle"></i>
+			</span>
+			<select name="timeTypes" class="select2 widgetFilter" multiple style="width:50%;">
+				{foreach key=KEY item=ITEM from=$TIMETYPEPOSSIBILITY}
+					{if $SELECTEDTIMETYPES eq 'all'}
+						<option selected value="{$ITEM}">
+					{elseif in_array($ITEM, $SELECTEDTIMETYPES)}
+						<option selected value="{$ITEM}">
+					{else}
+						<option  value="{$ITEM}">
+					{/if}
+						{vtranslate($KEY, $MODULE_NAME)}
+					</option>
+				{/foreach}
+			</select> 
+</div>
 {/strip}

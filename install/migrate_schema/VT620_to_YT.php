@@ -26,7 +26,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.2.105 RC';
+// migration to version '1.3.125 RC';
 class VT620_to_YT {
 	var $name = 'Vtiger CRM 6.2.0';
 	var $version = '6.2.0';
@@ -1079,8 +1079,14 @@ $settings_field[] = array(76,'LBL_PROCESSES','LBL_CONVERSION_TO_ACCOUNT',NULL,'L
 		array("18","973","vat_id","vtiger_vendor","1","1","vat_id","Vat ID","1","2","","100","15","42","1","V~O","1", "","BAS","1","0","0","varchar(30)","LBL_VENDOR_INFORMATION"),
 		array("18","974","registration_number_1","vtiger_vendor","1","1","registration_number_1","Registration number 1","1","2","","100","16","42","1","V~O","1", "","BAS","1","0","0","varchar(30)","LBL_VENDOR_INFORMATION"),
 		array("18","975","registration_number_2","vtiger_vendor","1","1","registration_number_2","Registration number 2","1","2","","100","17","42","1","V~O","1", "","BAS","1","0","0","varchar(30)","LBL_VENDOR_INFORMATION"),
-		array("18","1333","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","45","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION")
-
+		array("18","1333","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","45","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array(18,1689,'buildingnumbera','vtiger_vendoraddress',1,'1','buildingnumbera','LBL_BUILDING_NUMBER',1,2,'',100,10,44,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_INFORMATION",array(),array()),
+		array(18,1690,'buildingnumberb','vtiger_vendoraddress',1,'1','buildingnumberb','LBL_BUILDING_NUMBER',1,2,'',100,10,43,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_MAILING_INFORMATION",array(),array()),
+		array(18,1691,'buildingnumberc','vtiger_vendoraddress',1,'1','buildingnumberc','LBL_BUILDING_NUMBER',1,2,'',100,10,179,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_DELIVERY_INFORMATION",array(),array()),
+		array(18,1692,'localnumbera','vtiger_vendoraddress',1,'1','localnumbera','LBL_LOCAL_NUMBER',1,2,'',100,11,44,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_INFORMATION",array(),array()),
+		array(18,1693,'localnumberb','vtiger_vendoraddress',1,'1','localnumberb','LBL_LOCAL_NUMBER',1,2,'',100,11,43,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_MAILING_INFORMATION",array(),array()),
+		array(18,1694,'localnumberc','vtiger_vendoraddress',1,'1','localnumberc','LBL_LOCAL_NUMBER',1,2,'',100,11,179,1,'V~O',1,NULL,'BAS',1,'',0,"varchar(100)","LBL_ADDRESS_DELIVERY_INFORMATION",array(),array())
+	
 		);
 
 		$tab = 20;
@@ -2831,7 +2837,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$addRelations['Potentials'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Contacts'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Accounts'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
-		$addRelations['Quotes'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
+		$addRelations['Quotes'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_related_list');
 		$addRelations['Leads'][] = array('related_tabid'=>'Contacts', 'label'=>'Contacts', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['ServiceContracts'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');
 		$addRelations['Project'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');

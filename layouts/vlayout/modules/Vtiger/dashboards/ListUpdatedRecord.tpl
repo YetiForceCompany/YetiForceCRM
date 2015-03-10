@@ -13,8 +13,12 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<th class="span4">
+			<th class="span5">
 				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
+			</th>
+			
+			<th class="refresh span1" align="right">
+				<span style="position:relative;"></span>
 			</th>
 			<th class="span2">
 				<div>
@@ -26,10 +30,7 @@
 					</select>
 				</div>
 			</th>
-			<th class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</th>
-			<th class="widgeticons span5" align="right">
+			<th class="widgeticons span1" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
 		</tr>
