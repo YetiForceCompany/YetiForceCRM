@@ -13,13 +13,13 @@ $GEBUG_CONFIG = Array(
 	'LOG4PHP_DEBUG' => false,
 	
 	// display PHP errors,
-	'DISPLAY_PHP_ERRORS' => true,
+	'DISPLAY_PHP_ERRORS' => false,
 	
 	// display sql query in the browser when you call
 	'DISPLAY_SQL_QUERY' => false,
 
 	//
-	'SQL_DIE_ON_ERROR' => true,
+	'SQL_DIE_ON_ERROR' => false,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
@@ -38,7 +38,7 @@ $GEBUG_CONFIG = Array(
 	'ROUNDCUBE_PER_USER_LOGGING' => false,
 
 	// Log sent messages to <log_dir>/sendmail or to syslog
-	'ROUNDCUBE_SMTP_LOG' => true,
+	'ROUNDCUBE_SMTP_LOG' => false,
 
 	// Log successful/failed logins to <log_dir>/userlogins or to syslog
 	'ROUNDCUBE_LOG_LOGINS' => false,

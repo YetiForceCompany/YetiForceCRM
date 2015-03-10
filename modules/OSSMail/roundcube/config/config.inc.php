@@ -66,3 +66,4 @@ $config['sql_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SQL_DEBUG'];
 $config['imap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_IMAP_DEBUG'];
 $config['ldap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
 $config['smtp_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
+$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
