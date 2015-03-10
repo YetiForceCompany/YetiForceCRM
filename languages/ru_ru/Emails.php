@@ -8,6 +8,12 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Attachment' => 'Вложения',
+	'Activtiy Type' => 'Тип',
+	'To' => 'Кому',
+	'Email Flag' => 'Привелегии',
+	'Sales Enity Module' => 'Модуль продаж',
+	'From' => 'От',
 	'Access Count'                 => 'Число просмотров',
 	'Date & Time Sent'             => 'Отправлено'        ,
 	'Emails'	=>	'Сообщения Почты',

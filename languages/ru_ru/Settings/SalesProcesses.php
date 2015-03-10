@@ -11,7 +11,7 @@
 $languageStrings = array(
 	'SalesProcesses' => 'Процесс продаж',
 	'LBL_SALES_PROCESSES' => 'Процесс продаж',
-	'LBL_SALES_PROCESSES_DESCRIPTION' => ' Управление процессами продаж',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Управление процессами продаж',
 	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
 	'LBL_SAVE_CONFIG_ERROR' => 'Изменения не сохранены',
 	'LBL_PRODUCTS_REL_DESCRIPTION' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',

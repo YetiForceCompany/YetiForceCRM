@@ -60,7 +60,7 @@ $languageStrings = array(
 	'LBL_CONTACT_INFO'	=>	'Контактная информация',
     'LBL_DUPLICATES_EXIST'         => 'Такой клиент уже существует.',
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
-	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
 );
 $jsLanguageStrings = array(
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
