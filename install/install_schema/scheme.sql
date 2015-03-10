@@ -2287,7 +2287,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1699 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1702 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4514,7 +4514,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -5674,10 +5674,48 @@ CREATE TABLE `vtiger_requirementcards` (
   `potentialid` int(19) DEFAULT NULL,
   `requirementcards_status` varchar(255) DEFAULT '',
   `quotesenquiresid` int(19) DEFAULT NULL,
+  `accountid` int(19) DEFAULT NULL,
+  `requirementcards_cons` text,
+  `requirementcards_pros` text,
   PRIMARY KEY (`requirementcardsid`),
   KEY `potentialid` (`potentialid`),
   KEY `quotesenquiresid` (`quotesenquiresid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_cons` */
+
+CREATE TABLE `vtiger_requirementcards_cons` (
+  `requirementcards_consid` int(11) NOT NULL AUTO_INCREMENT,
+  `requirementcards_cons` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`requirementcards_consid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_cons_seq` */
+
+CREATE TABLE `vtiger_requirementcards_cons_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_pros` */
+
+CREATE TABLE `vtiger_requirementcards_pros` (
+  `requirementcards_prosid` int(11) NOT NULL AUTO_INCREMENT,
+  `requirementcards_pros` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`requirementcards_prosid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_requirementcards_pros_seq` */
+
+CREATE TABLE `vtiger_requirementcards_pros_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_requirementcards_status` */
