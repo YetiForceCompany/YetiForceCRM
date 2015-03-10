@@ -844,7 +844,6 @@ CREATE TABLE `vtiger_calculations` (
   `calculationsid` int(19) NOT NULL,
   `calculations_no` varchar(30) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
-  `parentid` int(19) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `comments` text,
@@ -856,11 +855,50 @@ CREATE TABLE `vtiger_calculations` (
   `date` date DEFAULT NULL,
   `currency_id` int(19) unsigned NOT NULL,
   `conversion_rate` decimal(10,3) unsigned NOT NULL,
+  `requirementcardsid` int(19) DEFAULT NULL,
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  `calculations_cons` text,
+  `calculations_pros` text,
   PRIMARY KEY (`calculationsid`),
-  KEY `calculations_parentid_idx` (`parentid`),
   KEY `calculations_relatedid_idx` (`relatedid`),
   KEY `osscosts_potentialid_idx` (`potentialid`),
+  KEY `requirementcardsid` (`requirementcardsid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
   CONSTRAINT `fk_1_vtiger_calculations` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_calculations_cons` */
+
+CREATE TABLE `vtiger_calculations_cons` (
+  `calculations_consid` int(11) NOT NULL AUTO_INCREMENT,
+  `calculations_cons` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`calculations_consid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_calculations_cons_seq` */
+
+CREATE TABLE `vtiger_calculations_cons_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_calculations_pros` */
+
+CREATE TABLE `vtiger_calculations_pros` (
+  `calculations_prosid` int(11) NOT NULL AUTO_INCREMENT,
+  `calculations_pros` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`calculations_prosid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_calculations_pros_seq` */
+
+CREATE TABLE `vtiger_calculations_pros_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculationscf` */
@@ -902,7 +940,7 @@ CREATE TABLE `vtiger_calculationsstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`calculationsstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculationsstatus_seq` */
 
@@ -2287,7 +2325,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1702 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1706 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4514,7 +4552,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
