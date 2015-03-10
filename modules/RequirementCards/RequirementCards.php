@@ -85,6 +85,14 @@ class RequirementCards extends Vtiger_CRMEntity {
 	var $default_order_by = 'subject';
 	var $default_sort_order='ASC';
 
+	var $fieldsToGenerate = Array(
+		'Calculations'=>Array(
+			'subject'=>'name',
+			'potentialid'=>'potentialid',
+			'accountid'=>'relatedid',
+		),
+	);
+	
 	/**
 	* Invoked when special actions are performed on the module.
 	* @param String Module name

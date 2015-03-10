@@ -17,7 +17,7 @@ $languageStrings = array(
 	'Tatal margin' => 'Всего прибыли',
 	'LBL_PRODUCT_INFORMATION'	=>	'Информация о продукте',
 	'LBL_GENERATE_QUOTES'	=>	'Создать Предложение',
-	'CalculationStatus'	=>	'Статус',
+	'CalculationStatus'	=>	'Stage',
 	// Basic Strings
 	'Calculations'	=>	'Расчеты',
 	'SINGLE_Calculations'	=>	'Расчет',
@@ -30,9 +30,7 @@ $languageStrings = array(
 	//Field Labels
 	'Title'	=>	'Название',
 	'Number'	=>	'Номер',
-	'Parent ID'	=>	'Родительский расчет',
 	'Related to'	=>	'Контрагент',
-	'LBL_SHOW_HIERARCHY'	=>	'Иерархия',
 	'Potential'	=>	'Сделка',
 	'Comments'	=>	'Комментарии',
 	'LBL_TOTAL'	=>	'Всего',
@@ -47,15 +45,25 @@ $languageStrings = array(
 	'Total margin Percentage'	=>	'Процент прибыли',
 	'LBL_DATE'	=>	'Дата',
 	
-	//CalculationStatus
-	'Draft'	=>	'Проект',
-	'Waiting for valuation'	=>	'Ожидание цены',
-	'Waiting for acceptance'	=>	'Ожидание проверки',
-	'Accepted'	=>	'Утверждено',
-	'Rejected'	=>	'Отменено',
+	//pick list values
+	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
+	'PLL_VERIFICATION_PROCESS' => 'Verification process',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_VENDORS_QUOTE' => 'Waiting for vendor\'s quote',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
+	'PLL_IN_PREPARATION' => 'In preparation',
+	'LBL_DECLINED' => 'Declined',
+	'LBL_ACCEPTED' => 'Accepted',
+	'PLL_DIFFICULT_REALIZATION' => 'Difficult realization',
+	'PLL_DIFFICULT_ORDER' => 'Difficult order',
+	'PLL_DIFFICULT_SHIPMENT' => 'Difficult shipment',
+	'PLL_OUTSOURCED_PARTNER' => 'Outsourced partner',
+	'PLL_HIGH_MARGIN' => 'High margin',
+	'PLL_EASY_REALIZATION' => 'Easy realization',
+	'PLL_LONGTERM_REALIZATION' => 'Long-term realization',
 	
 	//YetiForce
-	'LBL_IN_PREPARATION'	=>	'В ходе подготовки',
 	'LBL_OBJECTIONS_ARE_RAISED'	=>	'Возражение',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM'	=>	') были удалены из системы. Попробуйте заменить на другой Товар или Услугу.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM'	=>	'Нет Товара / Услуги',

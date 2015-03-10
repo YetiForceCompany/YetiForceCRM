@@ -9,25 +9,18 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-class Calculations_DetailView_Model extends Inventory_DetailView_Model {
+class RequirementCards_DetailView_Model extends Vtiger_DetailView_Model {
 	public function getDetailViewLinks($linkParams) {
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getmoduleName();
-        foreach ($linkModelList as $kaytab => $linktab) {
-			foreach ($linktab as $kay => $link) {
-				if($link->linklabel == 'LBL_EXPORT_TO_PDF' || $link->linklabel == 'LBL_SEND_MAIL_PDF'){
-					unset($linkModelList[$kaytab][$kay]);
-				}
-			}
-        }
-		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
-		if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
+		$targetModuleModel = Vtiger_Module_Model::getInstance('Calculations');
+		if($currentUserModel->hasModuleActionPermission($targetModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
-				'linkurl' => "index.php?module=".$quotesModuleModel->getName()."&view=".$quotesModuleModel->getEditViewName()."&calculation_id=".$recordModel->getId(),
+				'linklabel' => vtranslate('LBL_GENERATE_CALCULATIONS', 'RequirementCards'),
+				'linkurl' => "index.php?module=".$targetModuleModel->getName()."&view=".$targetModuleModel->getEditViewName()."&reference_id=".$recordModel->getId(),
 				'linkicon' => 'icon-repeat icon-white',
 				'linkclass' => 'btn-success',
 			);

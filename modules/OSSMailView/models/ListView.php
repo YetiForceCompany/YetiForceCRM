@@ -26,6 +26,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model {
 	public function getListViewMassActions($linkParams) {
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
+		$massActionLinks = array();
 		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
