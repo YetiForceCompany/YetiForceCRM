@@ -8,7 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-include_once 'config/performance.php';
 include_once 'include/main/WebUI.php';
 
 $db = PearDatabase::getInstance();
