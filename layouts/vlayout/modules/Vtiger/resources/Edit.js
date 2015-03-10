@@ -1410,7 +1410,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	getMappingRelatedField : function(sourceField, sourceFieldModule, container){
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
 		var mappingRelatedModule = JSON.parse(mappingRelatedField);
-		if(!mappingRelatedField)
+		if(typeof mappingRelatedModule[sourceField] != 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] != 'undefined')
 			return mappingRelatedModule[sourceField][sourceFieldModule];
 		return [];
 	}

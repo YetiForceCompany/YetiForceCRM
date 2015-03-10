@@ -44,6 +44,8 @@ $languageStrings = array(
 	'LBL_DATE' => 'Datum',
 	'Quotes' => 'Angebote',
 	'CalculationStatus' => 'Stage',
+	'LBL_CONS' => 'Disadvantages',
+	'LBL_PROS' => 'Advantages',
 	
 	//pick list values
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',

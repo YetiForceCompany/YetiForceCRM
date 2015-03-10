@@ -85,6 +85,7 @@ class QuotesEnquires extends Vtiger_CRMEntity {
 			'subject'=>'subject',
 			'potentialid'=>'potentialid',
 			'id'=>'quotesenquiresid',
+			'accountid'=>'accountid',
 		),
 	);
 
