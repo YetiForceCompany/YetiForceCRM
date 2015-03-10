@@ -318,13 +318,9 @@ class API_CardDAV_Model {
 				$this->createCard($module,$record);
 				$create++;
 			}else{
-				$crmLMT = strtotime($record['modifiedtime']);
-				$cardLMT = $card['lastmodified'];
-				if($crmLMT > $cardLMT){
-					// Updating
-					$this->updateCard($module,$record, $card);
-					$updates++;
-				}
+				// Updating
+				$this->updateCard($module,$record, $card);
+				$updates++;
 			}
 		}
 		$this->log->info("syncCrmRecord $module | create: $create | deletes: $deletes | updates: $updates");
@@ -337,6 +333,7 @@ class API_CardDAV_Model {
 		}
 		foreach ($vcard->TEL as $t) {
 			foreach ($t->parameters() as $k => $p) {
+				$vcardType = $p->getValue();
 				$vcardType =  strtoupper(trim(str_replace('VOICE', '', $vcardType),','));
 				if($vcardType == strtoupper($type) && $t->getValue() != ''){
 					$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: '.$t->getValue());
