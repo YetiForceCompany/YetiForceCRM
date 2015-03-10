@@ -60,6 +60,7 @@ $languageStrings = array(
 	'LBL_EDIT_HELP_ICON' => 'Иконка справки',
 );
 $jsLanguageStrings = array(
+	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',
 	'Language editor'	=>	'Редактор языков',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT' => 'Вы уверены, что хотите изменить язык, установленный по умолчанию?',
 	'JS_DEFAULT' => 'По умолчанию',

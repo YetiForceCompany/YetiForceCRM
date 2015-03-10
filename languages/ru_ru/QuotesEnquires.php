@@ -9,6 +9,27 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_RECOMMENDABLE' => 'Рекоммендовано',
+	'LBL_EASE_OF_COMMUNICATION' => 'Легкое общение',
+	'LBL_COMPETENT_TEAM' => 'Компетентная команда',
+	'LBL_DETAILED_DESCRIPTION' => 'Подробное описание',
+	'LBL_SOLID_PAYMENT' => 'Надежный плательщик',
+	'LBL_RELIABLE_CONTRACTOR' => 'Надежный контрагент',
+	'LBL_HIGH_MARGIN' => 'Высокая прибыль',
+	'LBL_LACK_OF_TIME' => 'Нехватка времени',
+	'LBL_LACK_OF_COMPETENCE' => 'Недостаточная компетентность',
+	'LBL_NO_DETAILS' => 'Нет информации',
+	'LBL_UNRELIABLE_PAYMENT' => 'Ненадежный плательщик',
+	'LBL_UNRELIABLE_CONTRACTOR' => 'Ненадежный контрагент',
+	'LBL_LOW_MARGIN' => 'Низкая прибыль',
+	'LBL_ACCEPTED' => 'Принято',
+	'LBL_DECLINED' => 'Отклонено',
+	'LBL_VERIFICATION' => 'Проверка',
+	'LBL_NOT_STARTED' => 'Не начато',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Создание карты запроса',
+	'LBL_PROS' => 'Преимущества',
+	'LBL_CONS' => 'Недостатки',
+	'LBL_STAGE' => 'Этап',
 	'Quotesenquires' => 'Запрос Предложения',
 	'SINGLE_Quotesenquires' => 'Запрос Предложения',
 
