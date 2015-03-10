@@ -1547,6 +1547,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
     public function getMappingRelatedField( $moduleName, $field = false) {
         $data = array();
 		// Selected field = ( target field => source field )
+		$data['QuotesEnquires']['potentialid'] = array( 'Potentials' => array('accountid'=>array('related_to')) );
 		$data['Calculations']['potentialid'] = array( 'Potentials' => array('relatedid'=>array('related_to')) );
 		$data['Potentials']['contact_id'] = array( 'Contacts' => array('related_to'=>array('parent_id')) );
 		$data['ProjectTask']['projectmilestoneid'] = array( 'ProjectMilestone' => array('projectid'=>array('projectid')) );

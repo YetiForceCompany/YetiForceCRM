@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.1.53-community-log : Database - yetiforcecrm
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce12
 *********************************************************************
 */
 
@@ -2287,7 +2287,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1695 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1699 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4514,7 +4514,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -5301,10 +5301,64 @@ CREATE TABLE `vtiger_quotesenquires` (
   `subject` varchar(255) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `quotesenquires_no` varchar(255) DEFAULT '',
-  `rejection_reason` varchar(255) DEFAULT '',
+  `quotesenquires_stage` varchar(255) DEFAULT NULL,
+  `quotesenquires_cons` text,
+  `quotesenquires_pros` text,
+  `accountid` int(19) DEFAULT NULL,
   PRIMARY KEY (`quotesenquiresid`),
   KEY `potentialid` (`potentialid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_quotesenquires` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_cons` */
+
+CREATE TABLE `vtiger_quotesenquires_cons` (
+  `quotesenquires_consid` int(11) NOT NULL AUTO_INCREMENT,
+  `quotesenquires_cons` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`quotesenquires_consid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_cons_seq` */
+
+CREATE TABLE `vtiger_quotesenquires_cons_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_pros` */
+
+CREATE TABLE `vtiger_quotesenquires_pros` (
+  `quotesenquires_prosid` int(11) NOT NULL AUTO_INCREMENT,
+  `quotesenquires_pros` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`quotesenquires_prosid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_pros_seq` */
+
+CREATE TABLE `vtiger_quotesenquires_pros_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_stage` */
+
+CREATE TABLE `vtiger_quotesenquires_stage` (
+  `quotesenquires_stageid` int(11) NOT NULL AUTO_INCREMENT,
+  `quotesenquires_stage` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`quotesenquires_stageid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_quotesenquires_stage_seq` */
+
+CREATE TABLE `vtiger_quotesenquires_stage_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_quotesenquirescf` */
@@ -5391,23 +5445,6 @@ CREATE TABLE `vtiger_recurringtype` (
 /*Table structure for table `vtiger_recurringtype_seq` */
 
 CREATE TABLE `vtiger_recurringtype_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_rejection_reason` */
-
-CREATE TABLE `vtiger_rejection_reason` (
-  `rejection_reasonid` int(11) NOT NULL AUTO_INCREMENT,
-  `rejection_reason` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`rejection_reasonid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_rejection_reason_seq` */
-
-CREATE TABLE `vtiger_rejection_reason_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5636,7 +5673,6 @@ CREATE TABLE `vtiger_requirementcards` (
   `subject` varchar(255) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `requirementcards_status` varchar(255) DEFAULT '',
-  `rejection_reason` varchar(255) DEFAULT '',
   `quotesenquiresid` int(19) DEFAULT NULL,
   PRIMARY KEY (`requirementcardsid`),
   KEY `potentialid` (`potentialid`),
