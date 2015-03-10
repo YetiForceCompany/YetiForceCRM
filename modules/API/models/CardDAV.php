@@ -56,18 +56,28 @@ class API_CardDAV_Model {
 		for ($i = 0; $i < $db->num_rows($result); $i++) {
 			$card = $db->raw_query_result_rowdata($result, $i);
 			if (!$card['crmid']){
+				//Creating
 				$this->createRecord('Contacts',$card);
 				$create++;
-			}elseif(!isRecordExists($card['crmid'])){
+			}elseif(!isRecordExists($card['crmid']) || !Users_Privileges_Model::isPermitted($card['setype'], 'DetailView', $card['crmid'])){
+				// Deleting
 				$this->deletedCard($card);
 				$deletes++;
 			}else{
 				$crmLMT = strtotime($card['modifiedtime']);
 				$cardLMT = $card['lastmodified'];
-				if($crmLMT < $cardLMT){
+				if($crmLMT < $cardLMT){ 
+					// Updating
 					$recordModel = Vtiger_Record_Model::getInstanceById($card['crmid']);
 					$this->updateRecord($recordModel, $card);
 					$updates++;
+				}else{ 
+					// No changes
+					$stmt = $this->pdo->prepare('UPDATE dav_cards SET status = ? WHERE id = ?;');
+					$stmt->execute([
+						API_DAV_Model::SYNC_COMPLETED,
+						$card['id']
+					]);
 				}
 			}
 		}
@@ -174,6 +184,10 @@ class API_CardDAV_Model {
 	public function deletedCard($card) {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start Card ID:'.$card['id']);
 		$this->addChange($card['crmid'].'.vcf', 3);
+		$stmt = $this->pdo->prepare('DELETE FROM dav_cards WHERE id = ?;');
+		$stmt->execute([
+			$card['id']
+		]);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 	
@@ -194,8 +208,15 @@ class API_CardDAV_Model {
 
 		$rekord = Vtiger_Record_Model::getCleanInstance($module);
 		$rekord->set('assigned_user_id', $this->user->get('id'));
-		$rekord->set('firstname', $head[1]);
-		$rekord->set('lastname', $head[0]);
+		if($module == 'Contacts'){
+			$rekord->set('firstname', $head[1]);
+			$rekord->set('lastname', $head[0]);
+		}
+		if($module == 'OSSEmployees'){
+			$rekord->set('name', $head[1]);
+			$rekord->set('last_name', $head[0]);
+		}
+
 		if ($leadId != '') {
 			$rekord->set('parent_id', $leadId);
 		}
@@ -227,9 +248,14 @@ class API_CardDAV_Model {
 		$head = $vcard->N->getParts();
 		$module = $rekord->getModuleName();
 		$rekord->set('mode', 'edit');
-		$rekord->set('assigned_user_id', $this->user->get('id'));
-		$rekord->set('firstname', $head[1]);
-		$rekord->set('lastname', $head[0]);
+		if($module == 'Contacts'){
+			$rekord->set('firstname', $head[1]);
+			$rekord->set('lastname', $head[0]);
+		}
+		if($module == 'OSSEmployees'){
+			$rekord->set('name', $head[1]);
+			$rekord->set('last_name', $head[0]);
+		}
 		if ($leadId != '') {
 			$rekord->set('parent_id', $leadId);
 		}
@@ -266,6 +292,7 @@ class API_CardDAV_Model {
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $this->user);
 		if ($securityParameter != '')
 			$query.= ' ' . $securityParameter;
+		
 		$result = $db->query($query);
 		return $result;
 	}
@@ -295,7 +322,7 @@ class API_CardDAV_Model {
 	}
 	public function getDavCardsToSync() {
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
+		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
 		$result = $db->pquery($query,[$this->addressBookId]);
 		return $result;
 	}
@@ -307,12 +334,14 @@ class API_CardDAV_Model {
 			$record = $db->raw_query_result_rowdata($result, $i);
 			$card = $this->getCardDetail($record['crmid']);
 			if ($card == false){
+				//Creating
 				$this->createCard($module,$record);
 				$create++;
 			}else{
 				$crmLMT = strtotime($record['modifiedtime']);
 				$cardLMT = $card['lastmodified'];
 				if($crmLMT > $cardLMT){
+					// Updating
 					$this->updateCard($module,$record, $card);
 					$updates++;
 				}
@@ -321,27 +350,37 @@ class API_CardDAV_Model {
 		$this->log->info("syncCrmRecord $module | create: $create | deletes: $deletes | updates: $updates");
 	}
 	public function getCardTel($vcard,$type) {
-		if(!isset($vcard->TEL));
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start | Type:'.$type);
+		if(!isset($vcard->TEL)){
+			$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 			return '';
+		}
 		foreach ($vcard->TEL as $t) {
 			foreach ($t->parameters() as $k => $p) {
 				if($p->getValue() == $type && $t->getValue() != ''){
+					$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: '.$t->getValue());
 					return $t->getValue();
 				}
 			}
 		}
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 		return '';
 	}
 	public function getCardMail($vcard,$type) {
-		if(!isset($vcard->EMAIL));
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start | Type:'.$type);
+		if(!isset($vcard->EMAIL)){
+			$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 			return '';
+		}
 		foreach ($vcard->EMAIL as $e) {
 			foreach ($e->parameters() as $k => $p) {
 				if($p->getValue() == $type && $e->getValue() != ''){
+					$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: '.$e->getValue());
 					return $e->getValue();
 				}
 			}
 		}
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End | return: ""');
 		return '';
 	}
     /**
