@@ -14,7 +14,7 @@ if(!$no_include_config){
 	if (file_exists('config/config_override.php')) {
 		include_once 'config/config_override.php';
 	}
-	@include_once('config/performance.php');
+	@include_once('config/debug.php');
 	chdir ($currentPath);
 	ini_set('include_path',$include_path);
 }
@@ -57,14 +57,13 @@ $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
 $config['smtp_log'] = true;
 
-
-
-$config['debug_level'] = $PERFORMANCE_CONFIG['ROUNDCUBE_DEBUG_LEVEL'];
-$config['per_user_logging'] = $PERFORMANCE_CONFIG['ROUNDCUBE_PER_USER_LOGGING'];
-$config['smtp_log'] = $PERFORMANCE_CONFIG['ROUNDCUBE_SMTP_LOG'];
-$config['log_logins'] = $PERFORMANCE_CONFIG['ROUNDCUBE_LOG_LOGINS'];
-$config['log_session'] = $PERFORMANCE_CONFIG['ROUNDCUBE_LOG_SESSION'];
-$config['sql_debug'] = $PERFORMANCE_CONFIG['ROUNDCUBE_SQL_DEBUG'];
-$config['imap_debug'] = $PERFORMANCE_CONFIG['ROUNDCUBE_IMAP_DEBUG'];
-$config['ldap_debug'] = $PERFORMANCE_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
-$config['smtp_debug'] = $PERFORMANCE_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
+$config['debug_level'] = $GEBUG_CONFIG['ROUNDCUBE_DEBUG_LEVEL'];
+$config['per_user_logging'] = $GEBUG_CONFIG['ROUNDCUBE_PER_USER_LOGGING'];
+$config['smtp_log'] = $GEBUG_CONFIG['ROUNDCUBE_SMTP_LOG'];
+$config['log_logins'] = $GEBUG_CONFIG['ROUNDCUBE_LOG_LOGINS'];
+$config['log_session'] = $GEBUG_CONFIG['ROUNDCUBE_LOG_SESSION'];
+$config['sql_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SQL_DEBUG'];
+$config['imap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_IMAP_DEBUG'];
+$config['ldap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
+$config['smtp_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
+$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';

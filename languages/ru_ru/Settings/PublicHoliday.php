@@ -11,7 +11,7 @@
 $languageStrings = array(
 	'PublicHoliday' => 'Праздники',
 	'LBL_PUBLIC_HOLIDAY' => 'Праздники',
-	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' Управление праздничными днями',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Управление праздничными днями',
 	'LBL_ADD_HOLIDAY' => 'Добавить Праздник',
 	'LBL_HOLIDAY_LIST' => 'Список Праздников',
 	'LBL_YEAR_FROM' => 'От',

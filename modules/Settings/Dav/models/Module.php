@@ -21,7 +21,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		if ($rows != 0) {
 			return 1;
 		}
-		$keyLength = 4;
+		$keyLength = 10;
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
 		$userModel = Users_Record_Model::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);

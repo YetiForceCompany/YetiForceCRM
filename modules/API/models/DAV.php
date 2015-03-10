@@ -9,12 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class API_DAV_Model {
-	// DAV sync status
-	const SYNC_REDY = 0;
-	const SYNC_INPROGRESS = 1;
-	const SYNC_COMPLETED = 2;
-	const SYNC_ERROR = 3;
-
 	public $log = '';
 	
 	public function runCronCardDAV($log) {

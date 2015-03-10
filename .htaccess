@@ -3,12 +3,27 @@
 </ifModule>
 ########################
 <IfModule mod_rewrite.c>
-	#RewriteEngine On
+	RewriteEngine On
+	RewriteRule ^favicon\.(gif|ico|png|jpe?g)$ layouts/vlayout/skins/images/favicon.ico [L,NC]
+
 	#RewriteCond %{HTTPS} off
 	#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
-	#RewriteEngine on 
 	#RewriteCond %{HTTP:Authorization} ^(.*)
 	#RewriteCond %{HTTP:Authorization} !^$
 	#RewriteRule (.*) test.php [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 </ifModule>
+<IfModule mod_php5.c>
+	php_flag log_errors On
+	php_value memory_limit 512M
+	php_flag magic_quotes_gpc Off
+	php_flag output_buffering On
+	php_value suhosin.request.max_vars 5000
+	php_value suhosin.post.max_vars 5000
+	php_value max_execution_time 600
+	php_value max_input_time 600
+
+	php_value session.gc_maxlifetime 1800
+	php_value session.gc_divisor 100
+	php_value session.gc_probability 1
+</IfModule>
 ########################
