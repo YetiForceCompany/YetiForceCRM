@@ -251,6 +251,8 @@ $languageStrings = array(
 	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
+	'LBL_DAV_KEYS' => 'Klucze aplikacji DAV',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji DAV',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
