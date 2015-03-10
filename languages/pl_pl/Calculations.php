@@ -45,7 +45,6 @@ $languageStrings = array(
 	'LBL_DATE' => 'Termin',
 	'LBL_CONS' => 'Wady',
 	'LBL_PROS' => 'Zalety',
-	'QuotesEnquires' => 'Zapytanie ofertowe',
 	
 	//pick list values
 	'PLL_WAITING_FOR_VERIFICATION' => 'Oczekuje na weryfikacje',
