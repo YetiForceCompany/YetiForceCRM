@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce12
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -169,6 +169,86 @@ CREATE TABLE `com_vtiger_workflowtemplates` (
   `title` varchar(400) DEFAULT NULL,
   `template` text,
   PRIMARY KEY (`template_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_addressbookchanges` */
+
+CREATE TABLE `dav_addressbookchanges` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uri` varchar(200) NOT NULL,
+  `synctoken` int(11) unsigned NOT NULL,
+  `addressbookid` int(11) unsigned NOT NULL,
+  `operation` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `addressbookid_synctoken` (`addressbookid`,`synctoken`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_addressbooks` */
+
+CREATE TABLE `dav_addressbooks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `principaluri` varchar(255) DEFAULT NULL,
+  `displayname` varchar(255) DEFAULT NULL,
+  `uri` varchar(200) DEFAULT NULL,
+  `description` text,
+  `synctoken` int(11) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `principaluri` (`principaluri`(100),`uri`(100)),
+  KEY `principaluri_2` (`principaluri`),
+  CONSTRAINT `dav_addressbooks_ibfk_1` FOREIGN KEY (`principaluri`) REFERENCES `dav_principals` (`uri`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_cards` */
+
+CREATE TABLE `dav_cards` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `addressbookid` int(11) unsigned NOT NULL,
+  `carddata` mediumblob,
+  `uri` varchar(200) DEFAULT NULL,
+  `lastmodified` int(11) unsigned DEFAULT NULL,
+  `etag` varbinary(32) DEFAULT NULL,
+  `size` int(11) unsigned NOT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  `crmid` int(19) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `addressbookid` (`addressbookid`,`crmid`),
+  CONSTRAINT `dav_cards_ibfk_1` FOREIGN KEY (`addressbookid`) REFERENCES `dav_addressbooks` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_groupmembers` */
+
+CREATE TABLE `dav_groupmembers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `principal_id` int(10) unsigned NOT NULL,
+  `member_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `principal_id` (`principal_id`,`member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_principals` */
+
+CREATE TABLE `dav_principals` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uri` varchar(200) NOT NULL,
+  `email` varchar(80) DEFAULT NULL,
+  `displayname` varchar(80) DEFAULT NULL,
+  `vcardurl` varchar(255) DEFAULT NULL,
+  `userid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uri` (`uri`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `dav_users` */
+
+CREATE TABLE `dav_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `digesta1` varchar(32) DEFAULT NULL,
+  `userid` int(19) unsigned DEFAULT NULL,
+  `key` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `roundcube_cache` */

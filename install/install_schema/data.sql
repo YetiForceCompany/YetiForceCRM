@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce12
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -208,6 +208,18 @@ insert  into `com_vtiger_workflowtasks_entitymethod_seq`(`id`) values (14);
 insert  into `com_vtiger_workflowtasks_seq`(`id`) values (131);
 
 /*Data for the table `com_vtiger_workflowtemplates` */
+
+/*Data for the table `dav_addressbookchanges` */
+
+/*Data for the table `dav_addressbooks` */
+
+/*Data for the table `dav_cards` */
+
+/*Data for the table `dav_groupmembers` */
+
+/*Data for the table `dav_principals` */
+
+/*Data for the table `dav_users` */
 
 /*Data for the table `roundcube_cache` */
 
