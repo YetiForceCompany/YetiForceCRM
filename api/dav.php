@@ -12,7 +12,7 @@ $currentPath = dirname(__FILE__);
 $crmPath =  $currentPath . '/../';
 chdir ($crmPath);
 
-require_once 'api/config.php';
+require_once 'config/api.php';
 if(!in_array('dav',$enabledServices)){
 	die('Dav - Service is not active');
 }

@@ -28,7 +28,7 @@ $languageStrings = array(
 	'LBL_KEY_HAS_BEEN_REMOVED'	=>	'Ключ успешно удален',
 	'LBL_SUCCESS_SAVE_CHANGES'	=>	'Изменения успешно сохранены',
 	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE'	=>	'Мобильные приложения отключены',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC'	=>	'Для включения поддержки мобильных приложений, раскомментируйте строку \"mobile\" в файле api/config.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC'	=>	'Для включения поддержки мобильных приложений, раскомментируйте строку \"mobile\" в файле config/api.php',
 
  	// Mobile services
 	'LBL_MOBILE_HISTORYCALL'	=>	'Журнал Вызовов',

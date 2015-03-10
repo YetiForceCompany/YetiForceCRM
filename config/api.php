@@ -18,5 +18,5 @@ $enabledServices = array(
 	//'firefox',
 	//'wordplugin',
 	//'thunderbird',
-	'dav',
+	//'dav',
 );
