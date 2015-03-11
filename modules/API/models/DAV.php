@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class API_DAV_Model {
 	public $log = '';
-	public $davUsers = [];
+	public $davUsers = array();
 	public function runCronCardDAV($log) {
 		$dav = new self();
 		$dav->log = $log;
