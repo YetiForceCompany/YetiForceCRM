@@ -15,14 +15,14 @@
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
 	<div class="widgetChartContainer" style="height:65%;width:98%"></div>
 	<div class="legend-colors">
-		<ul>
+		<ol>
 		{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
 			<li style="float:left; margin-right:15px;">
 				<div style="margin-right:5px; margin-top:5px; float:left; width:10px; height:10px; background-color:{$COLOR}"></div>
 				<h5  style="float:left;">{vtranslate($TIMETYPE, $MODULE_NAME)} </h5>
 			</li>
 		{/foreach}
-	</ul>
+	</ol>
 	</div>
 {else}
 	<span class="noDataMsg">
