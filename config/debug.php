@@ -12,50 +12,53 @@ $GEBUG_CONFIG = Array(
 	// enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => false,
 	
-	// display PHP errors,
+	// show php errors (display_errors),
 	'DISPLAY_PHP_ERRORS' => false,
 	
-	// display sql query in the browser when you call
+	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => false,
 
-	//
+	// stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => false,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
 	
-	// display debug popup 
+	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
 	
+	// sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
+	'DAV_DEBUG_EXCEPTIONS' => false,
+	
 	/*+***************************************************************
-	 *	ROUNDCUBE
+	 *	ROUNDCUBE 
 	 ****************************************************************/
 	// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
 	'ROUNDCUBE_DEBUG_LEVEL' => 1,
 	
 	// Activate this option if logs should be written to per-user directories.
-	// Data will only be logged if a directry <log_dir>/<username>/ exists and is writable.
+	// Data will only be logged if a directry cache/logs/<username>/ exists and is writable.
 	'ROUNDCUBE_PER_USER_LOGGING' => false,
 
-	// Log sent messages to <log_dir>/sendmail or to syslog
+	// Log sent messages to cache/logs/sendmail or to syslog
 	'ROUNDCUBE_SMTP_LOG' => false,
 
-	// Log successful/failed logins to <log_dir>/userlogins or to syslog
+	// Log successful/failed logins to cache/logs/userlogins or to syslog
 	'ROUNDCUBE_LOG_LOGINS' => false,
 
-	// Log session authentication errors to <log_dir>/session or to syslog
+	// Log session authentication errors to cache/logs/session or to syslog
 	'ROUNDCUBE_LOG_SESSION' => false,
 
-	// Log SQL queries to <log_dir>/sql or to syslog
+	// Log SQL queries to cache/logs/sql or to syslog
 	'ROUNDCUBE_SQL_DEBUG' => false,
 
-	// Log IMAP conversation to <log_dir>/imap or to syslog
+	// Log IMAP conversation to cache/logs/imap or to syslog
 	'ROUNDCUBE_IMAP_DEBUG' => false,
 
-	// Log LDAP conversation to <log_dir>/ldap or to syslog
+	// Log LDAP conversation to cache/logs/ldap or to syslog
 	'ROUNDCUBE_LDAP_DEBUG' => false,
 
-	// Log SMTP conversation to <log_dir>/smtp or to syslog
+	// Log SMTP conversation to cache/logs/smtp or to syslog
 	'ROUNDCUBE_SMTP_DEBUG' => false,
 );
 if($GEBUG_CONFIG['DISPLAY_PHP_ERRORS']){

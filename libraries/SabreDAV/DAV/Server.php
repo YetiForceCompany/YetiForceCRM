@@ -146,7 +146,7 @@ class Server extends EventEmitter {
      *
      * @var bool
      */
-    public $debugExceptions = true;
+    public $debugExceptions = false;
 
     /**
      * This property allows you to automatically add the 'resourcetype' value

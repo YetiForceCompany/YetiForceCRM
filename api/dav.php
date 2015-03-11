@@ -16,6 +16,7 @@ require_once 'config/api.php';
 if(!in_array('dav',$enabledServices)){
 	die('Dav - Service is not active');
 }
+require_once 'config/debug.php';
 require_once 'config/config.php';
 ini_set('error_log',$root_directory.'cache/logs/dav.log');
 
@@ -52,6 +53,7 @@ $nodes = [
 $server = new Yeti\DAV_Server($nodes);
 $server->setBaseUri($baseUri);
 
+$server->debugExceptions = SysDebug::get('DAV_DEBUG_EXCEPTIONS');
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend,'YetiDAV'));
 $server->addPlugin(new Sabre\DAV\Browser\Plugin());
