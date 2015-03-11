@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.5.24-log : Database - yetiforce12
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -14735,12 +14734,12 @@ insert  into `vtiger_projecttype_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_quotesenquires_cons` */
 
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'LBL_LOW_MARGIN',1,623,1);
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'LBL_UNRELIABLE_CONTRACTOR',1,624,2);
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'LBL_UNRELIABLE_PAYMENT',1,625,3);
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'LBL_NO_DETAILS',1,626,4);
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'LBL_LACK_OF_COMPETENCE',1,627,5);
-insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'LBL_LACK_OF_TIME',1,628,6);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_LOW_MARGIN',1,623,1);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_UNRELIABLE_CONTRACTOR',1,624,2);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_UNRELIABLE_PAYMENT',1,625,3);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_NO_DETAILS',1,626,4);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_LACK_OF_COMPETENCE',1,627,5);
+insert  into `vtiger_quotesenquires_cons`(`quotesenquires_consid`,`quotesenquires_cons`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_LACK_OF_TIME',1,628,6);
 
 /*Data for the table `vtiger_quotesenquires_cons_seq` */
 
@@ -14748,13 +14747,13 @@ insert  into `vtiger_quotesenquires_cons_seq`(`id`) values (6);
 
 /*Data for the table `vtiger_quotesenquires_pros` */
 
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'LBL_HIGH_MARGIN',1,629,1);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'LBL_RELIABLE_CONTRACTOR',1,630,2);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'LBL_SOLID_PAYMENT',1,631,3);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'LBL_DETAILED_DESCRIPTION',1,632,4);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'LBL_COMPETENT_TEAM',1,633,5);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'LBL_EASE_OF_COMMUNICATION',1,634,6);
-insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'LBL_RECOMMENDABLE',1,635,7);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_HIGH_MARGIN',1,629,1);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_RELIABLE_CONTRACTOR',1,630,2);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_SOLID_PAYMENT',1,631,3);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_DETAILED_DESCRIPTION',1,632,4);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_COMPETENT_TEAM',1,633,5);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'PLL_EASE_OF_COMMUNICATION',1,634,6);
+insert  into `vtiger_quotesenquires_pros`(`quotesenquires_prosid`,`quotesenquires_pros`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'PLL_RECOMMENDABLE',1,635,7);
 
 /*Data for the table `vtiger_quotesenquires_pros_seq` */
 
@@ -14762,10 +14761,10 @@ insert  into `vtiger_quotesenquires_pros_seq`(`id`) values (7);
 
 /*Data for the table `vtiger_quotesenquires_stage` */
 
-insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (1,'LBL_NOT_STARTED',1,1);
-insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (2,'LBL_VERIFICATION',2,1);
-insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (3,'LBL_DECLINED',3,1);
-insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (4,'LBL_ACCEPTED',4,1);
+insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (1,'PLL_NOT_STARTED',1,1);
+insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (2,'PLL_VERIFICATION',2,1);
+insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (3,'PLL_DECLINED',3,1);
+insert  into `vtiger_quotesenquires_stage`(`quotesenquires_stageid`,`quotesenquires_stage`,`sortorderid`,`presence`) values (4,'PLL_ACCEPTED',4,1);
 
 /*Data for the table `vtiger_quotesenquires_stage_seq` */
 
