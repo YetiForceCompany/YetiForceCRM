@@ -28,9 +28,18 @@ $languageStrings = array(
 	'LBL_ATTEMPTS'	=>	'Попыток создания',
 	'LBL_ATTEMPTS'	=>	'Попыток создания',
 	'LBL_FTP_SAVE_CONFIG'	=>	'Сохранить конфигурацию',
-	'LBL_FTP_SERVER_NAME'	=>	'Хост:',
-	'LBL_FTP_LOGIN'	=>	'Логин',
-	'LBL_FTP_PASSWORD'	=>	'Пароль',
-	'LBL_FTP_CONNECTION'	=>	'Состояние',
+	'LBL_HOST'	=>	'Хост:',
+	'LBL_LOGIN'	=>	'Логин',
+	'LBL_PASSWORD'	=>	'Пароль',
+	'LBL_CONNECTION_STATUS'	=>	'Состояние',
 	'LBL_SEND_TO_FTP'	=>	'Отправить по FTP',
+	'LBL_ACTIVE' => 'Active',
+	'LBL_PATH' => 'Save path',
+	'LBL_PATH_INFO' => 'If path field is empty, backup will be saved in the main folder',
+);
+
+$jsLanguageStrings = array(
+	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
+	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
+	'JS_SAVE_CHANGES' => 'Saved changes',
 );
