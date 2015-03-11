@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce12
+MySQL - 5.5.24-log : Database - yetiforce
 *********************************************************************
 */
 
@@ -4903,7 +4903,6 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (237,'Invoice','Calendar',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (238,'Contacts','Calendar',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1049,'HelpDesk','ServiceContracts',NULL,NULL);
-insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1235,'Calculations','Calculations',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1236,'Calculations','Accounts',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1237,'Calculations','Potentials',NULL,NULL);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (1250,'OSSCosts','OSSCosts',NULL,NULL);
