@@ -27,10 +27,10 @@
 	.legend-colors {
 		text-align:center;
 	}
-	.legend-colors ul {
+	.legend-colors ol {
 		display:inline-table;
 	}
-	.legend-colors ul li {
+	.legend-colors ol li {
 		display:inline;
 	}
 </style>
@@ -54,6 +54,19 @@
 			this.fillDateRange();
 		}
 	},{
+		positionNoDataMsg : function() {
+			var container = this.getContainer();
+			app.showSelect2ElementView(container.find('select'), {
+				closeOnSelect: true
+			});
+			var widgetContentsContainer = container.find('.dashboardWidgetContent');
+			var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
+			noDataMsgHolder.position({
+							'my' : 'center center',
+							'at' : 'center center',
+							'of' : widgetContentsContainer
+			})
+		},
 		generateChartData : function() {
 			var container = this.getContainer();
 			var jData = container.find('.widgetData').val();
@@ -70,6 +83,9 @@
 		},
 
 		loadChart : function() {
+			app.showSelect2ElementView(this.getContainer().find('select'), {
+				closeOnSelect: true
+			});
 			var data = this.generateChartData();
 			this.getPlotContainer(false).jqplot(data['chartData'] , {
 				title: data['title'],
@@ -118,7 +134,9 @@
 
 	jQuery(document).ready(function () {
 		Vtiger_Timecontrol_Widget_Js.registerEvents();
-		jQuery('select').select2();
+		app.showSelect2ElementView(jQuery('select'), {
+			closeOnSelect: true
+		});
 	});
 </script>
 <div class="dashboardWidgetHeader">

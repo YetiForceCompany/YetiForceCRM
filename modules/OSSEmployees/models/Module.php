@@ -58,7 +58,8 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 		$sql .= "AND (vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?) AND vtiger_osstimecontrol.deleted = 0 ORDER BY due_date ";
 		$result = $db->pquery( $sql, $param );
 		$data = array();
-
+		$days = array();
+		$chartExist = FALSE;
 		for($i=0;$i<$db->num_rows( $result );$i++){
 			$due_date = $db->query_result_raw($result, $i, 'due_date');
 			$daytime = $db->query_result_raw($result, $i, 'daytime');
@@ -66,50 +67,35 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 			$due_date = DateTimeField::convertToUserFormat($due_date);			
 			$data[$due_date][$timecontrol_type] += $daytime;
 		}
-		
+		if(!is_array($selectedTimeTypes)){
+			$selectedTimeTypes = array($selectedTimeTypes);
+		} 
 		foreach ($data as $key => $value) {
-			if(!$value['PLL_BREAK_TIME']){
-				$breakTime[] = 0;
-			}else{
-				$breakTime[] = $value['PLL_BREAK_TIME'];
+			if($value['PLL_BREAK_TIME'] && (in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
+				$chartData['PLL_BREAK_TIME'][] = $value['PLL_BREAK_TIME'];
+				$chartExist = TRUE;
+			}elseif(in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
+				$chartData['PLL_BREAK_TIME'][] = 0;
 			}
-			if(!$value['PLL_WORKING_TIME']){
-				$workingTime[] = 0;
-			}else{
-				$workingTime[] = $value['PLL_WORKING_TIME'];
+			if($value['PLL_WORKING_TIME'] && (in_array('workTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
+				$chartData['PLL_WORKING_TIME'][] = $value['PLL_WORKING_TIME'];
+				$chartExist = TRUE;
+			}elseif(in_array('workTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
+				$chartData['PLL_WORKING_TIME'][] = 0;
 			}
-			if(!$value['PLL_HOLIDAY']){
-				$holiday[] = 0;
-			}else{
-				$holiday[] = $value['PLL_HOLIDAY'];
+			if($value['PLL_HOLIDAY'] && (in_array('holidayTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
+				$chartData['PLL_HOLIDAY_TIME'][] = $value['PLL_HOLIDAY'];
+				$chartExist = TRUE;
+			}elseif(in_array('holidayTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
+				$chartData['PLL_HOLIDAY_TIME'][] = 0;
 			}
 			$days[] = $key; 
-		}
-					
-		if('all' == $selectedTimeTypes){
-			$chartExist = TRUE;
-			$chartData['PLL_WORKING_TIME'] = $workingTime;
-			$chartData['PLL_BREAK_TIME'] = $breakTime;
-			$chartData['PLL_HOLIDAY_TIME'] = $holiday;
-			$colors = $this->getBarChartColors($chartData);
-		}elseif('null' == $selectedTimeTypes){
-			$chartExist = FALSE;
-		}
-		else{
-			$chartExist = TRUE;
-			
-			foreach ($selectedTimeTypes as $key => $value) {
-				if('breakTime' == $value)
-					$chartData['PLL_BREAK_TIME'] = $breakTime;
-				if('holidayTime' == $value)
-					$chartData['PLL_HOLIDAY_TIME'] = $holiday;
-				if('workTime' == $value)
-					$chartData['PLL_WORKING_TIME'] = $workingTime;
-			}
-			$colors = $this->getBarChartColors($chartData);
 		}	
 			
 		$numDays = count($days);
+		if($chartData){
+			$colors = $this->getBarChartColors($chartData);
+		}
 		$max = 0;
 		for($i = 0; $i < $numDays; $i++){
 			$sum = 0;
