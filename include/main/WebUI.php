@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-include_once 'config/performance.php';
-include_once 'config/debug.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';

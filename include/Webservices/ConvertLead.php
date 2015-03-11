@@ -8,7 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ******************************************************************************** */
-
+require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 require_once 'include/Webservices/Retrieve.php';
 require_once 'include/Webservices/Create.php';
 require_once 'include/Webservices/Delete.php';

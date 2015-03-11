@@ -15,7 +15,9 @@ header('Cache-Control: private', false);
 
 //Opensource fix for tracking email access count
 chdir(dirname(__FILE__). '/../../../');
-
+require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 require_once 'include/Loader.php';
 require_once 'include/utils/utils.php';
 
