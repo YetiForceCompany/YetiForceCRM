@@ -15,6 +15,9 @@ class API_CardDAV_Model {
 	public $log = false;
 	public $user = false;
 	public $addressBookId = false;
+	public $davUsers = [];
+	protected $crmRecords = [];
+	
 	public $mailFields = [
 		'Contacts' => ['email'=>'WORK','secondary_email'=>'HOME'],
 		'OSSEmployees' => ['business_mail'=>'WORK','private_mail'=>'HOME'],
@@ -24,14 +27,10 @@ class API_CardDAV_Model {
 		'OSSEmployees' => ['business_phone'=>'WORK','private_phone'=>'CELL'],
 	];
 	
-	function __construct($user,$log) {
+	function __construct() {
 		$dbconfig = vglobal('dbconfig');
 		$this->pdo = new PDO('mysql:host='.$dbconfig['db_server'].';dbname='.$dbconfig['db_name'].';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$this->user = $user;
-		$this->log = $log;
-		global $current_user;
-		$current_user = $user;
 		// Autoloader
 		require_once 'libraries/SabreDAV/autoload.php';
 	}
@@ -42,8 +41,46 @@ class API_CardDAV_Model {
 		$this->syncCrmRecord('OSSEmployees');
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
+	public function syncCrmRecord($module) {
+		$db = PearDatabase::getInstance();
+		$create = $deletes = $updates = 0;
+		$result = $this->getCrmRecordsToSync($module);
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$record = $db->raw_query_result_rowdata($result, $i);
+			foreach ($this->davUsers as $key => $user) {
+				$this->addressBookId = $user->get('addressbooksid');
+				global $current_user;
+				$current_user = $user;
+				if (Users_Privileges_Model::isPermitted($module, 'DetailView', $record['crmid'])) {
+					$card = $this->getCardDetail($record['crmid']);
+					if ($card == false) {
+						//Creating
+						$this->createCard($module, $record);
+						$create++;
+					} else {
+						// Updating
+						$this->updateCard($module, $record, $card);
+						$updates++;
+					}
+				}
+			}
+			$this->markComplete($module, $record['crmid']);
+		}
+		$this->log->info("syncCrmRecord $module | create: $create | deletes: $deletes | updates: $updates");
+	}
 
-	public function cardDavDav2Crm() {
+	public function cardDav2Crm() {
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start');
+		foreach ($this->davUsers as $key => $user) {
+			$this->addressBookId = $user->get('addressbooksid');
+			$this->user = $user;
+			global $current_user;
+			$current_user = $user;
+			$this->syncAddressBooks();
+		}
+		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
+	}
+	public function syncAddressBooks() {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start');
 		$db = PearDatabase::getInstance();
 		$result = $this->getDavCardsToSync();
@@ -116,7 +153,6 @@ class API_CardDAV_Model {
 			$record['crmid'],
 		]);
 		$this->addChange($cardUri, 1);
-		$this->markComplete($moduleName, $record['crmid']);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
@@ -164,7 +200,6 @@ class API_CardDAV_Model {
 			$card['id']
 		]);
 		$this->addChange($record['crmid'].'.vcf', 2);
-		$this->markComplete($moduleName, $record['crmid']);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 	public function deletedCard($card) {
@@ -271,27 +306,14 @@ class API_CardDAV_Model {
 			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email '
 				. 'FROM vtiger_contactdetails '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1';
+				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1;';
 		elseif($module == 'OSSEmployees')
 			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail '
 				. 'FROM vtiger_ossemployees '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid '
-				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_ossemployees.ossemployeesid > 0 AND vtiger_ossemployees.dav_status = 1';
-
-		$instance = CRMEntity::getInstance($module);
-		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $this->user);
-		if ($securityParameter != '')
-			$query.= ' ' . $securityParameter;
-		
+				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_ossemployees.ossemployeesid > 0 AND vtiger_ossemployees.dav_status = 1;';
 		$result = $db->query($query);
 		return $result;
-	}
-
-	public function getAddressBookId() {
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT dav_addressbooks.id FROM dav_addressbooks INNER JOIN dav_principals ON dav_principals.uri = dav_addressbooks.principaluri WHERE dav_principals.userid = ? AND dav_addressbooks.uri = ?;";
-		$result = $db->pquery($sql, [$this->user->getId(), self::ADDRESSBOOK_NAME]);
-		$this->addressBookId = $db->query_result_raw($result, 0, 'id');
 	}
 
 	public function getCardDetail($crmid) {
@@ -305,25 +327,6 @@ class API_CardDAV_Model {
 		$query = 'SELECT dav_cards.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype FROM dav_cards LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_cards.crmid WHERE addressbookid = ?';
 		$result = $db->pquery($query,[$this->addressBookId]);
 		return $result;
-	}
-	public function syncCrmRecord($module) {
-		$db = PearDatabase::getInstance();
-		$create = $deletes = $updates = 0;
-		$result = $this->getCrmRecordsToSync($module);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$record = $db->raw_query_result_rowdata($result, $i);
-			$card = $this->getCardDetail($record['crmid']);
-			if ($card == false){
-				//Creating
-				$this->createCard($module,$record);
-				$create++;
-			}else{
-				// Updating
-				$this->updateCard($module,$record, $card);
-				$updates++;
-			}
-		}
-		$this->log->info("syncCrmRecord $module | create: $create | deletes: $deletes | updates: $updates");
 	}
 	public function getCardTel($vcard,$type) {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start | Type:'.$type);

@@ -2,8 +2,7 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -209,7 +208,6 @@ CREATE TABLE `dav_cards` (
   `lastmodified` int(11) unsigned DEFAULT NULL,
   `etag` varbinary(32) DEFAULT NULL,
   `size` int(11) unsigned NOT NULL,
-  `status` tinyint(1) DEFAULT '0',
   `crmid` int(19) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `addressbookid` (`addressbookid`,`crmid`),
