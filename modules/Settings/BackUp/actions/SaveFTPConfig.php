@@ -14,25 +14,36 @@ class Settings_BackUp_SaveFTPConfig_Action extends Settings_Vtiger_Basic_Action 
     public function process(Vtiger_Request $request) {
         global $adb;
         global $log;
-        $ftpServerName = $request->get('ftpservername');
-        $ftpLogin = $request->get('ftplogin');
-        $ftpPassword = $request->get('ftppassword');
-        //$moduleName = $request->getModule();       
+		$log->debug('Settings_BackUp_SaveFTPConfig_Action: process started');
+		$ftpServerName = mysql_real_escape_string($request->get('ftpservername'));
+		$ftpLogin = mysql_real_escape_string($request->get('ftplogin'));
+		$ftpPassword = mysql_real_escape_string($request->get('ftppassword'));
+		$ftpPort = mysql_real_escape_string($request->get('ftpport'));
+		$ftpPath = mysql_real_escape_string($request->get('ftppath'));
+		$ftpActive = $request->get('ftpactive');
+		if('true' == $ftpActive)
+			$ftpActive = TRUE;
+		else
+			$ftpActive = FALSE;
+	
+		if('' != $ftpPort)
+			$ftpConnect = @ftp_connect($ftpServerName, $ftpPort);
+		else
+		 	$ftpConnect = @ftp_connect($ftpServerName);
 
-        $ftpConnect = ftp_connect($ftpServerName);
-        $loginResult = ftp_login($ftpConnect, $ftpLogin, $ftpPassword);   
-
-        if ($loginResult == false) {
-            $log->info('FTP connection has failed!');
-            $result = array('success' => true, 'fptConnection' => false);
-             Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, FALSE);
-        } else {
-            
-            $log->info('FTP connection has success!');
-            $result = array('success' => true, 'fptConnection' => true);
-            Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, TRUE);
-        }
-
+		if(!$ftpConnect){
+			$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_HOST_NOT_CORRECT');
+		}else{
+			$loginResult = @ftp_login($ftpConnect, $ftpLogin, $ftpPassword); 
+			if(FALSE == $loginResult) {
+				$log->debug('FTP connection has failed!');
+				$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_CONNECTION_FAIL');
+			} else {
+				$log->debug('FTP connection has success!');
+				$result = array('success' => true, 'fptConnection' => true, 'message' => 'JS_SAVE_CHANGES');
+				Settings_BackUp_Module_Model::saveFTPSettings($ftpServerName, $ftpLogin, $ftpPassword, TRUE, $ftpPort, $ftpActive, $ftpPath);
+			}
+		} 
         $response = new Vtiger_Response();
         $response->setResult($result);
         $response->emit();

@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -862,6 +863,9 @@ CREATE TABLE `vtiger_backup_ftp` (
   `login` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `port` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `path` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

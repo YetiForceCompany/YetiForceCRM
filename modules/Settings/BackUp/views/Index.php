@@ -11,36 +11,36 @@
 
 class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 
-    public function process(Vtiger_Request $request) {
+	public function process(Vtiger_Request $request) {
 
-        $viewer = $this->getViewer($request);
-        $ftpSettings = Settings_BackUp_Module_Model::getFTPSettings();
-        if ($ftpSettings != false) {
-            $viewer->assign('FTP_SERVER_NAME', $ftpSettings[1]);
-            $viewer->assign('FTP_LOGIN', $ftpSettings[2]);
-            $viewer->assign('FTP_PASSWORD', $ftpSettings[3]);
-            $viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings[4]);
-        }
+		$viewer = $this->getViewer($request);
+		$ftpSettings = Settings_BackUp_Module_Model::getFTPSettings();
+		if ($ftpSettings != false) {
+			$viewer->assign('FTP_HOST', $ftpSettings[1]);
+			$viewer->assign('FTP_LOGIN', $ftpSettings[2]);
+			$password = Settings_BackUp_Module_Model::encrypt_decrypt('decrypt', $ftpSettings[3]);
+			$viewer->assign('FTP_PASSWORD', $password);
+			$viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings[4]);
+			$viewer->assign('FTP_PORT', $ftpSettings[5]);
+			$viewer->assign('FTP_ACTIVE', $ftpSettings[6]);
+		}
 
-        $backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
-        $moduleName = $request->getModule();
-        $qualifiedModuleName = $request->getModule(false);
-        $pagination = Settings_BackUp_Pagination_Action::process($request);
-        $pagination = json_decode($pagination, true);
+		$backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
+		$pagination = Settings_BackUp_Pagination_Action::process($request);
+		$pagination = json_decode($pagination, true);
+		$viewer->assign('PREV_PAGE', $pagination['prevPage']);
+		$viewer->assign('NEXT_PAGE', $pagination['nextPage']);
+		$viewer->assign('OFFSET', $pagination['offset']);
+		$viewer->assign('ALL_PAGES', $pagination['allPages']);
+		$viewer->assign('PAGE', $pagination['page']);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('BACKUP_EXIST', $backUpInfo['status']);
+		$viewer->assign('BACKUPS', $pagination['backups']);
+		$viewer->assign('QUALIFiED_MODULE_NAME', $qualifiedModuleName);
 
-        $viewer->assign('PREV_PAGE', $pagination['prevPage']);
-        $viewer->assign('NEXT_PAGE', $pagination['nextPage']);
-        $viewer->assign('OFFSET', $pagination['offset']);
-        $viewer->assign('ALL_PAGES', $pagination['allPages']);
-        $viewer->assign('PAGE', $pagination['page']);
-        $viewer->assign('MODULE', $moduleName);
-        $viewer->assign('BACKUP_EXIST', $backUpInfo['status']);
-        $viewer->assign('BACKUPS', $pagination['backups']);
-        $viewer->assign('FTP_SERVER_NAME', $ftpSettings[1]);
-        $viewer->assign('FTP_LOGIN', $ftpSettings[2]);
-        $viewer->assign('FTP_PASSWORD', $ftpSettings[3]);
-        $viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings[4]);
-        $viewer->view('Index.tpl', $qualifiedModuleName);
-    }
+		$viewer->view('Index.tpl', $qualifiedModuleName);
+	}
 
 }
