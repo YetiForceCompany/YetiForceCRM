@@ -180,10 +180,16 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
         return $output;
     }
 
-    public function saveFTPSettings($host, $login, $password, $status) {
-        global $adb;
-        $adb->pquery("INSERT INTO vtiger_backup_ftp (host,login,password, status) VALUES(?,?,?,?)", array($host, $login, $password, $status));
-    }
+	public function saveFTPSettings($host, $login, $password, $status, $port, $active, $path) {
+		global $adb;
+		$ftpExist = self::getFTPSettings();
+		$password = self::encrypt_decrypt('encrypt', $password);
+		if($ftpExist[0])
+			$adb->pquery("UPDATE vtiger_backup_ftp SET host=?, login=?, password=?, status=?, port=?, active=?, path=? WHERE id=?", array($host, $login, $password, $status, $port, $active, $path, $ftpExist[0]));
+		else
+			$adb->pquery("INSERT INTO vtiger_backup_ftp (host, login, password, status, port, active, path) VALUES(?,?,?,?,?,?,?)", array($host, $login, $password, $status, $port, $active, $path));
+
+	}
 	
     public function createBackUpSQLStatement($tablesName, $fileName) {
         global $adb;
@@ -414,4 +420,52 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		}
 		self::setTablesPrepare(true, $backUpId);
 	}
+
+	public function sendBackupToFTP($backUpPath, $backupFile){
+		global $log;
+		$ftp = self::getFTPSettings();
+		
+		if(TRUE == $ftp['active'] && TRUE == $ftp['status']){
+			$log->debug('Start sending backup to ftp');
+			$password = self::encrypt_decrypt('decrypt', $ftp['password']);
+			
+			if($ftp['port'])
+				$connection = ftp_connect($ftp['host'], $ftp['port']);
+			else
+				$connection = ftp_connect($ftp['host']); 
+
+			ftp_login($connection, $ftp['login'], $password);
+			ftp_pasv($connection, true);
+
+			if($ftp['path']){
+				@ftp_mkdir($connection, $ftp['path']);
+				$fileTo = $ftp['path'] .'/'. $backupFile;
+			}else{
+				$fileTo = $backupFile;
+			}			
+			$log->debug('Sending backup to ftp');
+			$upload = ftp_put($connection, $fileTo, $backUpPath.'/'.$backupFile, FTP_BINARY);
+			ftp_close($connection);
+		}
+	}
+
+	public function encrypt_decrypt($action, $string) {
+	$output = false;
+
+	$encrypt_method = "AES-256-CBC";
+	$secret_key = 'This is my secret key';
+	$secret_iv = 'This is my secret iv';
+	$key = hash('sha256', $secret_key);
+	$iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+	if( $action == 'encrypt' ) {
+		$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+		$output = base64_encode($output);
+	}
+	else if( $action == 'decrypt' ){
+		$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+	}
+
+	return $output;
+}
 }

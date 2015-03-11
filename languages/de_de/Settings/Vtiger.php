@@ -252,8 +252,8 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'User colors',
 	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
-	'LBL_DAV_KEYS' => '__No_Translated__',
-	'LBL_DAV_KEYS_DESCRIPTION' => '__No_Translated__',
+	'LBL_DAV_KEYS' => 'DAV keys',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

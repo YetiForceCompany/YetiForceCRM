@@ -196,70 +196,122 @@ var Settings_BackUp_Js = {
             jQuery('.backup-list').append('<tr><td><label class="marginRight5px" >' + this.created_at + '</label></td><td><label class="marginRight5px" >' + this.file_name + '</label></td></tr>')
         });
 
-    },
-    registerSendBackUpFileOnFtp: function () {
-        var params = {};
-        params.data = {
-            module: 'BackUp',
-            action: 'SendBackUpOnFtp',
-            parent: app.getParentModuleName()
-        };
-        params.async = false;
-        params.dataType = 'json';
-        AppConnector.request(params).then(function (data) {
-            var response = data['result'];
-        });
-    },
-    registerSaveFTPConfigEvent: function () {
-        jQuery('#saveConfig').on('click', function (e) {
-            var ftpHost = jQuery('[name="ftpservername"]').val();
-            var ftpLogin = jQuery('[name="ftplogin"]').val();
-            var ftpPassword = jQuery('[name="ftppassword"]').val();
-            var params = {};
-            params.data = {
-                module: 'BackUp',
-                action: 'SaveFTPConfig',
-                ftpservername: ftpHost,
-                ftplogin: ftpLogin,
-                ftppassword: ftpPassword,
-                parent: app.getParentModuleName()
-            };
-            params.dataType = 'json';
-            AppConnector.request(params).then(function (data) {
-                var response = data['result'];
-                if (response.fptConnection == true) {
-                    $('#connection-status').css('background-color', '#5bb75b');
-                } else {
-                    $('#connection-status').css('background-color', 'red');
-                }
-            });
-            e.preventDefault();
-            return;
-        });
-    },
-    registerEvents: function () {
-        Settings_BackUp_Js.registerSaveFTPConfigEvent();
-        Settings_BackUp_Js.registerCreateBackUpEvent();
-        Settings_BackUp_Js.registerCreateFileBackUpAction();
-        Settings_BackUp_Js.registerSetPaginationNavigation();
-        Settings_BackUp_Js.registerNextPagePaginationEvent();
-        Settings_BackUp_Js.registerResumeBackUpEvent();
-        Settings_BackUp_Js.registerPrevPagePaginationEvent();
+	},
+	registerSendBackUpFileOnFtp: function () {
+		var params = {};
+		params.data = {
+			module: 'BackUp',
+			action: 'SendBackUpOnFtp',
+			parent: app.getParentModuleName()
+		};
+		params.async = false;
+		params.dataType = 'json';
+		AppConnector.request(params).then(function (data) {
+			var response = data['result'];
+		});
+	},
+	registerSaveFTPConfigEvent: function () {
+		jQuery('#saveConfig').on('click', function (e) {
+			var isValid = Settings_BackUp_Js.validFTPSettings();
+			if(false == isValid)
+				return false;
+			
+			var ftpHost = jQuery('[name="ftphost"]').val();
+			var ftpLogin = jQuery('[name="ftplogin"]').val();
+			var ftpPassword = jQuery('[name="ftppassword"]').val();
+			var ftpPort =  jQuery('[name="ftpport"]').val();
+			var ftpPath =  jQuery('[name="ftppath"]').val();
+			var ftpActive = jQuery('[name="active"]').is(':checked');
+			var params = {};
+			params.data = {
+				module: 'BackUp',
+				action: 'SaveFTPConfig',
+				ftpservername: ftpHost,
+				ftplogin: ftpLogin,
+				ftppassword: ftpPassword,
+				ftpport: ftpPort,
+				ftppath: ftpPath,
+				ftpactive: ftpActive,
+				parent: app.getParentModuleName()
+			};
+			params.dataType = 'json';
+			AppConnector.request(params).then(function (data) {
+				var response = data['result'];
+				if (response.fptConnection == true) {
+					$('#connection-status').css('background-color', '#5bb75b');
+					var params = {
+						text: app.vtranslate(response.message),
+						animation: 'show',
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params); 
+				} else {
+					$('#connection-status').css('background-color', 'red');
+					var params = {
+						text: app.vtranslate(response.message),
+						animation: 'show',
+						type: 'error'
+					};
+			Vtiger_Helper_Js.showPnotify(params); 
+				}
+			});
+			e.preventDefault();
+			return;
+		});
+	},
+	validFTPSettings: function(){
+		var ftpHost = jQuery('[name="ftphost"]').val();
+		var ftpLogin = jQuery('[name="ftplogin"]').val();
+		var ftpPassword = jQuery('[name="ftppassword"]').val();
+		var ftpPort =  jQuery('[name="ftpport"]').val();
 
-        $("#backup_tab_btn_1").click(function () {
-            $("#backup_tab_btn_2").attr('class', '');
-            $("#backup_tab_btn_1").attr('class', 'active');
-            $("#backup_tab_2").hide();
-            $("#backup_tab_1").show();
-        });
-        $("#backup_tab_btn_2").click(function () {
-            $("#backup_tab_btn_1").attr('class', '');
-            $("#backup_tab_btn_2").attr('class', 'active');
-            $("#backup_tab_1").hide();
-            $("#backup_tab_2").show();
-        });
-    }
+		result = true;
+		if(0 == ftpHost.length || 0 == ftpLogin.length || 0 == ftpPassword.length){
+			var params = {
+					text: app.vtranslate('JS_MANDATORY_FIELDS_EMPTY'),
+					animation: 'show',
+					type: 'error'
+				};
+			Vtiger_Helper_Js.showPnotify(params);  
+			result = false;
+		}		
+		
+		if(isNaN(ftpPort)){
+			var params = {
+					text: app.vtranslate('JS_PORT_ONLY_NUMBERS'),
+					animation: 'show',
+					type: 'error'
+				};
+			Vtiger_Helper_Js.showPnotify(params);  
+			result = false;
+
+		}
+		return result
+
+	},
+	registerEvents: function () {
+		Settings_BackUp_Js.registerSaveFTPConfigEvent();
+		Settings_BackUp_Js.registerCreateBackUpEvent();
+		Settings_BackUp_Js.registerCreateFileBackUpAction();
+		Settings_BackUp_Js.registerSetPaginationNavigation();
+		Settings_BackUp_Js.registerNextPagePaginationEvent();
+		Settings_BackUp_Js.registerResumeBackUpEvent();
+		Settings_BackUp_Js.registerPrevPagePaginationEvent();
+
+		$("#backup_tab_btn_1").click(function () {
+			$("#backup_tab_btn_2").attr('class', '');
+			$("#backup_tab_btn_1").attr('class', 'active');
+			$("#backup_tab_2").hide();
+			$("#backup_tab_1").show();
+		});
+		$("#backup_tab_btn_2").click(function () {
+			$("#backup_tab_btn_1").attr('class', '');
+			$("#backup_tab_btn_2").attr('class', 'active');
+			$("#backup_tab_1").hide();
+			$("#backup_tab_2").show();
+		});
+	}
 };
 jQuery(document).ready(function () {
-    Settings_BackUp_Js.registerEvents();
+	Settings_BackUp_Js.registerEvents();
 });
