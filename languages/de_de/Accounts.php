@@ -61,7 +61,7 @@ $languageStrings = array(
 	'Average profit sales order' => 'Durchschnittlicher Gewinn (%)',
 	'Approval for email'=>'Berechtigung für E-Mails',
 	'Approval for phone calls'=>'Berechtigung für Anrufe',
-	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'LBL_CONVERTED_FROM_LEAD' => 'Aus Leas konvertiert',
 );
 
 $jsLanguageStrings = array(

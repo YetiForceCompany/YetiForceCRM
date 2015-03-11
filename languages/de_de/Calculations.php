@@ -10,11 +10,11 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_MarginP' => 'Margin Percent',
-	'LBL_Margin' => 'Margin',
-	'LBL_Purchase' => 'Purchase',
-	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
-	'Tatal margin' => 'Tatal margin',
+	'LBL_MarginP' => 'Seitenrand Prozent',
+	'LBL_Margin' => 'Seitenrand',
+	'LBL_Purchase' => 'Einkauf',
+	'LBL_GENERATE_QUOTES' => 'Angebot generieren',
+	'Tatal margin' => 'Seitenrand Gesamt',
 	// Basic Strings
 	'Calculations' => 'Kalkulationen',
 	'SINGLE_Calculations' => 'Kalkulation',
@@ -60,7 +60,7 @@ $languageStrings = array(
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') wurde aus dem System entfernt. Versuchen Sie es mit einem anderen Produkt/Dienstleistung zu ersetzen.',
     'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
     'LBL_THIS' => 'Produkt/Dienstleistung (',
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+	'Conversion Rate' => 'Umrechnungskurs',
+	'Currency' => 'Währung',
 );
 

@@ -6,7 +6,7 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. 
  *************************************************************************************************************************************/
 // Action translation
 $languageStrings = array(
