@@ -135,6 +135,9 @@ $languageStrings = array(
     'Time Zone'                    => 'Часовой пояс',
     'Visibility'                   => 'Видимость',
 	'All day' => 'Все дни',
+	'LBL_STATE' => '__No_Translated__',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
 );
 $jsLanguageStrings = array(
 	'JS_MORE' => 'Еще',

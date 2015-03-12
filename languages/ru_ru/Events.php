@@ -82,6 +82,9 @@ $languageStrings = array(
     'Medium'                       => 'Средний',    
     'Mobile Call'                  => 'Звонок с мобильного',
 	'All day' => 'Весь день',
+	'LBL_STATE' => '__No_Translated__',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
 );
 
 $jsLanguageStrings = array(

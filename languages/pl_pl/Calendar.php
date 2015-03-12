@@ -98,6 +98,9 @@ $languageStrings = array(
 	'Thursday' => 'Czwartek',
 	'Friday' => 'Piątek',
 	'Saturday' => 'Sobota',
+	'LBL_STATE' => 'Stan',
+	'PLL_OPAQUE' => 'Zajęty',
+	'PLL_TRANSPARENT' => 'Dostepny',
 
     'Private' => 'Prywatne',
     'Selected Users' => 'Wybrani użytkownicy',
