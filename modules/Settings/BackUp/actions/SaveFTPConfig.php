@@ -26,10 +26,13 @@ class Settings_BackUp_SaveFTPConfig_Action extends Settings_Vtiger_Basic_Action 
 		else
 			$ftpActive = FALSE;
 	
-		if('' != $ftpPort)
+		if('' != $ftpPort){
 			$ftpConnect = @ftp_connect($ftpServerName, $ftpPort);
-		else
-		 	$ftpConnect = @ftp_connect($ftpServerName);
+		}
+		else{
+			$ftpConnect = @ftp_connect($ftpServerName);
+			$ftpPort = NULL;
+		}
 
 		if(!$ftpConnect){
 			$result = array('success' => true, 'fptConnection' => false, 'message' => 'JS_HOST_NOT_CORRECT');

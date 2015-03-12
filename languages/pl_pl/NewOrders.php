@@ -8,14 +8,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Users' => 'Użytkownicy',
-    'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
+$languageStrings = Array(
+	'NewOrders' => 'Zarządzenia',
+
+	//BLOCKS
+	'LBL_NEWORDERS_INFORMATION' => 'Podstawowe informacje',
+
+	//FIELDS
+	'LBL_SUBJECT' => 'Temat',
 );
-
-$jsLanguageStrings = array(
-    'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
-);
-
-

@@ -23,8 +23,9 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings[4]);
 			$viewer->assign('FTP_PORT', $ftpSettings[5]);
 			$viewer->assign('FTP_ACTIVE', $ftpSettings[6]);
+			$viewer->assign('FTP_PATH', $ftpSettings[7]);
 		}
-
+		$adminUsers = Users_Module_Model::getAdminUsers();
 		$backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -38,8 +39,8 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('BACKUP_EXIST', $backUpInfo['status']);
 		$viewer->assign('BACKUPS', $pagination['backups']);
-		$viewer->assign('QUALIFiED_MODULE_NAME', $qualifiedModuleName);
-
+		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+		$viewer->assign('ADMIN_USERS', $adminUsers);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

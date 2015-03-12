@@ -1,4 +1,4 @@
-<?php
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -8,14 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'Users' => 'Użytkownicy',
-    'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
-);
-
-$jsLanguageStrings = array(
-    'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
-);
-
-
+-->*}
+{strip}
+	{include file='SummaryViewWidgets.tpl'|vtemplate_path:$MODULE_NAME}
+{/strip}

@@ -33,10 +33,14 @@ $languageStrings = array(
 	'LBL_ACTIVE' => 'Active',
 	'LBL_PATH' => 'Save path',
 	'LBL_PATH_INFO' => 'If path field is empty, backup will be saved in the main folder',
+	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail notifications',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
 );
 
 $jsLanguageStrings = array(
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
 	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
-	'JS_SAVE_CHANGES' => 'Saved changes',
+	'JS_SAVE_CHANGES' => 'Änderungen wurden gespeichert',
+	'JS_HOST_NOT_CORRECT' => 'Incorrect host address',
+	'JS_CONNECTION_FAIL' => 'Failed login attempt',
 );
