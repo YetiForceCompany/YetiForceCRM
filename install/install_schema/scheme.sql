@@ -659,6 +659,7 @@ CREATE TABLE `vtiger_activity` (
   `smownerid` int(19) DEFAULT NULL,
   `allday` tinyint(1) DEFAULT NULL,
   `dav_status` tinyint(1) DEFAULT '1',
+  `state` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -2491,7 +2492,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1714 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1716 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6619,6 +6620,22 @@ CREATE TABLE `vtiger_start_hour` (
 /*Table structure for table `vtiger_start_hour_seq` */
 
 CREATE TABLE `vtiger_start_hour_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_state` */
+
+CREATE TABLE `vtiger_state` (
+  `stateid` int(11) NOT NULL AUTO_INCREMENT,
+  `state` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`stateid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_state_seq` */
+
+CREATE TABLE `vtiger_state_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

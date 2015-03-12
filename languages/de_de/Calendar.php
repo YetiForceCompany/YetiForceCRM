@@ -89,6 +89,9 @@ $languageStrings = array(
 	'Tasks' => 'Aufgaben',
 	'Task' => 'Aufgabe',
 	'All day' => '__No_Translated__',
+	'LBL_STATE' => '__No_Translated__',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
 
 	'Sunday' => 'Sonntag',
 	'Monday' => 'Montag',
