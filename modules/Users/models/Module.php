@@ -236,4 +236,16 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	   return $languages_list;
    }
 
+	public static function getAdminUsers(){
+		global $adb;
+		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
+		$result = $adb->query($query);
+		$numRows = $adb->num_rows($result);
+		for ($i=0; $i < $numRows; $i++) {
+			$output[] = $adb->query_result_rowdata($result, $i);
+		}
+	
+		return $output;
+	}
+
 }

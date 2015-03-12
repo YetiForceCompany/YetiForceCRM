@@ -261,7 +261,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 			$content = ' ';
 		}
 		@file_put_contents(self::$tempDir."/$fileName.sql", $content, FILE_APPEND);
-    }
+	}
 	
     public function newBackUp() {
         global $log;
@@ -446,26 +446,80 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 			$log->debug('Sending backup to ftp');
 			$upload = ftp_put($connection, $fileTo, $backUpPath.'/'.$backupFile, FTP_BINARY);
 			ftp_close($connection);
+			$log->debug('Closing connection after send backup to ftp');
 		}
 	}
 
 	public function encrypt_decrypt($action, $string) {
-	$output = false;
+		$output = false;
 
-	$encrypt_method = "AES-256-CBC";
-	$secret_key = 'This is my secret key';
-	$secret_iv = 'This is my secret iv';
-	$key = hash('sha256', $secret_key);
-	$iv = substr(hash('sha256', $secret_iv), 0, 16);
+		$encrypt_method = "AES-256-CBC";
+		$secret_key = 'This is my secret key';
+		$secret_iv = 'This is my secret iv';
+		$key = hash('sha256', $secret_key);
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-	if( $action == 'encrypt' ) {
-		$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-		$output = base64_encode($output);
+		if( $action == 'encrypt' ) {
+			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+			$output = base64_encode($output);
+		}
+		else if( $action == 'decrypt' ){
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+
+		return $output;
 	}
-	else if( $action == 'decrypt' ){
-		$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+
+	public static function updateUsersForNotifications($selectedUsers){
+		global $adb;
+		$deleteQuery = "DELETE FROM `vtiger_backup_users`";
+		$adb->query($deleteQuery);
+		if('null' != $selectedUsers){
+			$insertQuery = "INSERT INTO `vtiger_backup_users` (id) VALUES(?)";
+			foreach ($selectedUsers as $userId) {
+				$adb->pquery($insertQuery, array($userId));
+			}
+		}
+		
+		return TRUE;
 	}
 
-	return $output;
-}
+	public static function getUsersForNotifications(){
+		global $adb;
+		$result = $adb->query("SELECT * FROM vtiger_backup_users", true);
+		$numRows = $adb->num_rows($result);
+		for($i = 0; $i < $numRows; $i++){
+			$id = $adb->query_result($result, $i, 'id');
+			$output[$id] = $id;
+		}
+
+		return $output;
+	}
+
+	public static function sendNotificationEmail(){
+		global $log;
+		$usersId = self::getUsersForNotifications();
+		if($usersId){
+			foreach ($usersId as $id) {     
+				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users'); 
+				$userEmail = $recordModel->get('email1'); 
+				$emails[] = $userEmail;
+			}
+			$emailsList = implode(',', $emails);
+			$data = array(
+				'id' => 108,
+				'to_email' => $emailsList,
+				'module' => 'Contacts',
+			);
+			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+			$mail_status = $recordModel->sendMailFromTemplate($data);
+		 
+			if($mail_status != 1) {
+				$log->debug('Settings_BackUp_Module_Model Error occurred while sending mail');
+				throw new Exception('Error occurred while sending mail');
+			} 
+		}else{
+			$log->debug('Settings_BackUp_Module_Model Users notificastions list - empty');
+		}
+	}
 }

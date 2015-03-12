@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.24-log : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.1.53-community-log : Database - yetiforcecrm
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -927,10 +926,11 @@ insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`m
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (105,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-17 10:11:08','2015-02-17 10:11:08','2015-02-18 08:35:02',NULL,NULL,0,1,0,'New comment added to ticket from portal','New comment added to ticket from portal',0,0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (106,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-18 08:35:26','2015-02-18 08:35:26','2015-02-18 08:35:27',NULL,NULL,0,1,0,'New comment added to ticket','New comment added to ticket',0,0);
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (107,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-02-26 09:59:53','2015-02-26 09:59:53','2015-02-26 09:59:53',NULL,NULL,0,1,0,'Security risk has been detected - Brute Force','Security risk has been detected - Brute Force',0,0);
+insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (108,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2015-03-12 07:44:12','2015-03-12 07:44:12','2015-03-12 07:44:13',NULL,NULL,0,1,0,'Backup has been made','Backup has been made',0,0);
 
 /*Data for the table `vtiger_crmentity_seq` */
 
-insert  into `vtiger_crmentity_seq`(`id`) values (107);
+insert  into `vtiger_crmentity_seq`(`id`) values (108);
 
 /*Data for the table `vtiger_crmentityrel` */
 
@@ -1130,7 +1130,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5187,9 +5187,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -6058,6 +6058,7 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_l
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (105,'New comment added to ticket from portal','ModComments','New comment added to ticket from portal','Dear User,<br />\r\nA new comment has been added to the ticket.<br />\r\n#b#597#bEnd# #a#597#aEnd#<br /><br />\r\n ');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (106,'New comment added to ticket','ModComments','New comment added to ticket','<span class=\"value\">Dear User,<br />\r\nA new comment has been added to the ticket.<br />\r\n#b#597#bEnd# #a#597#aEnd#</span>');
 insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (107,'Security risk has been detected - Brute Force','Contacts','Security risk has been detected','<span class=\"value\">Dear user,<br />\r\nFailed login attempts have been detected. </span>');
+insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_list`,`subject`,`content`) values (108,'Backup has been made','Contacts','Backup has been made notification','Dear User,<br />\r\nBackup has been made.');
 
 /*Data for the table `vtiger_ossmailtemplatescf` */
 
@@ -6081,6 +6082,7 @@ insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (104);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (105);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (106);
 insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (107);
+insert  into `vtiger_ossmailtemplatescf`(`ossmailtemplatesid`) values (108);
 
 /*Data for the table `vtiger_ossmailview` */
 

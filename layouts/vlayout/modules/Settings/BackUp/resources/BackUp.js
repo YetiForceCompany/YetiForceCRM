@@ -237,7 +237,7 @@ var Settings_BackUp_Js = {
 			params.dataType = 'json';
 			AppConnector.request(params).then(function (data) {
 				var response = data['result'];
-				if (response.fptConnection == true) {
+				if(response.fptConnection == true) {
 					$('#connection-status').css('background-color', '#5bb75b');
 					var params = {
 						text: app.vtranslate(response.message),
@@ -245,14 +245,14 @@ var Settings_BackUp_Js = {
 						type: 'info'
 					};
 					Vtiger_Helper_Js.showPnotify(params); 
-				} else {
+				}else {
 					$('#connection-status').css('background-color', 'red');
 					var params = {
 						text: app.vtranslate(response.message),
 						animation: 'show',
 						type: 'error'
 					};
-			Vtiger_Helper_Js.showPnotify(params); 
+					Vtiger_Helper_Js.showPnotify(params); 
 				}
 			});
 			e.preventDefault();
@@ -289,7 +289,43 @@ var Settings_BackUp_Js = {
 		return result
 
 	},
+	saveUserForNotifications: function(){
+		jQuery('#saveUsersForNotifications').on('click', function (e) {
+			var selectedUsers = $("[name='selectedUsers']").val();
+			var params = {};
+			params.data = {
+					module: 'BackUp',
+					action: 'SaveUserForNotifications',
+					selectedUsers: selectedUsers,
+					parent: app.getParentModuleName()
+				
+			};
+			AppConnector.request(params).then(function (data) {
+				var response = data['result'];
+				if(true == response.success){
+					var params = {
+						text: app.vtranslate(response.message),
+						animation: 'show',
+						type: 'info'
+					};
+					Vtiger_Helper_Js.showPnotify(params); 
+				}else{
+					var params = {
+						text: app.vtranslate(response.message),
+						animation: 'show',
+						type: 'error'
+					};
+					Vtiger_Helper_Js.showPnotify(params); 
+				}
+			});
+			e.preventDefault();
+			return; 
+		
+		}); 
+
+	},
 	registerEvents: function () {
+		Settings_BackUp_Js.saveUserForNotifications();
 		Settings_BackUp_Js.registerSaveFTPConfigEvent();
 		Settings_BackUp_Js.registerCreateBackUpEvent();
 		Settings_BackUp_Js.registerCreateFileBackUpAction();
@@ -300,15 +336,27 @@ var Settings_BackUp_Js = {
 
 		$("#backup_tab_btn_1").click(function () {
 			$("#backup_tab_btn_2").attr('class', '');
+			$("#backup_tab_btn_3").attr('class', '');
 			$("#backup_tab_btn_1").attr('class', 'active');
 			$("#backup_tab_2").hide();
+			$("#backup_tab_3").hide();
 			$("#backup_tab_1").show();
 		});
 		$("#backup_tab_btn_2").click(function () {
 			$("#backup_tab_btn_1").attr('class', '');
+			$("#backup_tab_btn_3").attr('class', '');
 			$("#backup_tab_btn_2").attr('class', 'active');
 			$("#backup_tab_1").hide();
+			$("#backup_tab_3").hide();
 			$("#backup_tab_2").show();
+		});
+		$("#backup_tab_btn_3").click(function () {
+			$("#backup_tab_btn_1").attr('class', '');
+			$("#backup_tab_btn_2").attr('class', '');
+			$("#backup_tab_btn_3").attr('class', 'active');
+			$("#backup_tab_1").hide();
+			$("#backup_tab_2").hide();
+			$("#backup_tab_3").show();
 		});
 	}
 };
