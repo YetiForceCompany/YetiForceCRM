@@ -50,7 +50,9 @@ class API_CalDAV_Model {
 				$vcalendar = $this->getCalendarDetail();
 				if ($vcalendar == false) { // Creating
 					$this->createCalendar();
-				} else { // Updating
+				//} elseif($this->record['deleted'] == 1){
+					
+				} elseif(strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 					$this->updateCalendar($vcalendar);
 				}
 			}
@@ -78,8 +80,16 @@ class API_CalDAV_Model {
 		$cal->add($vcalendar->createProperty('CREATED',new \DateTime($record['createdtime'])));
 		$cal->add($vcalendar->createProperty('LAST-MODIFIED',new \DateTime($record['modifiedtime'])));
 		$cal->add($vcalendar->createProperty('SUMMARY',$record['subject']));
-		$cal->add($DTSTART);
-		$cal->add($DTEND);
+		$cal->add($vcalendar->createProperty('DTSTART',$DTSTART));
+		if($calType == 'VEVENT'){
+			$cal->add($vcalendar->createProperty('DTEND',$DTEND));
+		}else{
+			$cal->add($vcalendar->createProperty('DUE',$DTEND));
+		}
+		$cal->add($vcalendar->createProperty('CLASS',$record['visibility']=='Private'?'PRIVATE':'PUBLIC'));
+		$cal->add($vcalendar->createProperty('PRIORITY',$this->getPriority($record['priority'], FALSE)));
+		$cal->add($vcalendar->createProperty('TRANSP',$this->getState($record['state'], FALSE)));
+
 		if(!empty($record['location']))
 			$cal->add($vcalendar->createProperty('LOCATION',$record['location']));
 		if(!empty($record['description']))
@@ -104,7 +114,7 @@ class API_CalDAV_Model {
             $extraData['uid'],
 			$record['crmid']
         ]);
-		$this->addChange($cardUri, 1);
+		$this->addChange($calUri, 1);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 
@@ -129,10 +139,17 @@ class API_CalDAV_Model {
 			if($component->name = $calType){
 				$component->__set('LAST-MODIFIED', $vcalendar->createProperty('LAST-MODIFIED',new DateTime($record['modifiedtime'])));
 				$component->DTSTART = $DTSTART;
-				$component->DTEND = $DTEND;
+				if($calType == 'VEVENT'){
+					$component->DTEND = $DTEND;
+				}else{
+					$component->DUE = $DTEND;
+				}
 				$component->SUMMARY = $record['subject'];
 				$component->LOCATION = $record['location'];
 				$component->DESCRIPTION = $record['description'];
+				$component->CLASS = $record['visibility']=='Private'?'PRIVATE':'PUBLIC';
+				$component->PRIORITY = $this->getPriority($record['priority'], FALSE);
+				$component->TRANSP = $this->getState($record['state'], FALSE);
 			}
 		}
 		$calendarData = $vcalendar->serialize();
@@ -216,6 +233,7 @@ class API_CalDAV_Model {
 				}
 				$rekord->set( 'taskpriority', $this->getPriority($component) );
 				$rekord->set( 'visibility', $this->getVisibility($component) );
+				$rekord->set( 'state', $this->getState($component) );
 				$rekord->save();
 				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
 				$stmt->execute([
@@ -256,6 +274,7 @@ class API_CalDAV_Model {
 				}
 				$rekord->set( 'taskpriority', $this->getPriority($component) );
 				$rekord->set( 'visibility', $this->getVisibility($component) );
+				$rekord->set( 'state', $this->getState($component) );
 				$rekord->save();
 				$stmt = $this->pdo->prepare('UPDATE dav_calendarobjects SET crmid = ? WHERE id = ?;');
 				$stmt->execute([
@@ -272,17 +291,44 @@ class API_CalDAV_Model {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 	public function getEventDates($component) {
-		$allday = false;
+		$allday = 0;
 		$DTSTART = Sabre\VObject\DateTimeParser::parse($component->DTSTART);
-		$DTEND = Sabre\VObject\DateTimeParser::parse($component->DTEND);
-		if($component->DTSTART->hasTime() && $component->DTEND->hasTime()){
-			$allday = true;
+		if($component->name == 'VEVENT'){
+			$DTEND = Sabre\VObject\DateTimeParser::parse($component->DTEND);
+		}else{
+			$DTEND = Sabre\VObject\DateTimeParser::parse($component->DUE);
+		}
+		if(!$component->DTSTART->hasTime() && !$component->DTEND->hasTime()){
+			$allday = 1;
 		}
 		$date_start = $DTSTART->format('Y-m-d');
 		$due_date = $DTEND->format('Y-m-d');
 		$time_start = $DTSTART->format('H:i:s');
 		$time_end = $DTEND->format('H:i:s');
 		return ['allday' => $allday, 'date_start' => $date_start, 'due_date' => $due_date, 'time_start' => $time_start, 'time_end' => $time_end];
+	}
+	public function getState($component, $cal = true) {
+		$state = '';
+		if($cal){
+			switch ($component->TRANSP) {
+				case 'OPAQUE':
+					$state = 'PLL_OPAQUE';
+					break;
+				case 'TRANSPARENT':
+					$state = 'PLL_TRANSPARENT';
+					break;
+			}
+		}else{
+			switch ($component) {
+				case 'PLL_OPAQUE':
+					$state = 'OPAQUE';
+					break;
+				case 'PLL_TRANSPARENT':
+					$state = 'TRANSPARENT';
+					break;
+			}
+		}
+		return $state;
 	}
 	public function getVisibility($component) {
 		$visibility = 'Private';
@@ -296,15 +342,27 @@ class API_CalDAV_Model {
 		}
 		return $visibility;
 	}
-	public function getPriority($component) {
-		$priority = 'Medium';
-		switch ($component->PRIORITY) {
-			case 1:
-				$priority = 'High';
-				break;
-			case 9:
-				$priority = 'Low';
-				break;
+	public function getPriority($component, $cal = true) {
+		if($cal){
+			$priority = 'Medium';
+			switch ($component->PRIORITY) {
+				case 1:
+					$priority = 'High';
+					break;
+				case 9:
+					$priority = 'Low';
+					break;
+			}
+		}else{
+			$priority = 5;
+			switch ($component) {
+				case 'High':
+					$priority = 1;
+					break;
+				case 'Low':
+					$priority = 9;
+					break;
+			}
 		}
 		return $priority;
 	}
@@ -332,7 +390,7 @@ class API_CalDAV_Model {
 	}
 	public function getCrmRecordsToSync() {
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
+		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
 				. 'FROM vtiger_activity '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
 				. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activityid > 0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
@@ -361,13 +419,11 @@ class API_CalDAV_Model {
      * @return void
      */
     protected function addChange($objectUri, $operation) {
-		/*
-		$stmt = $this->pdo->prepare('DELETE FROM dav_calendarchanges WHERE uri = ? AND addressbookid = ?;');
+		$stmt = $this->pdo->prepare('DELETE FROM dav_calendarchanges WHERE uri = ? AND calendarid = ?;');
 		$stmt->execute([
 			$objectUri,
-			$this->addressBookId
+			$this->calendarId
 		]);
-		*/
         $stmt = $this->pdo->prepare('INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?');
         $stmt->execute([
             $objectUri,
@@ -393,8 +449,11 @@ class API_CalDAV_Model {
 		}
 		$accessibleGroups = $this->user->getAccessibleGroups();
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT visibility FROM vtiger_activity WHERE activityid = ?';
-		$result = $db->pquery($query,[$cal['crmid']]);
+		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
+		$result = $db->pquery($query,[$cal['crmid'],0]);
+		if($db->num_rows($result) == 0){
+			return true;
+		}
 		$visibility = $db->query_result_raw($result, 0, 'visibility');
 		if($cal['smownerid'] != $this->user->get('id') && (!array_key_exists( $cal['smownerid'], $accessibleGroups)) && $visibility != 'Public'){
 			return true;
