@@ -16,23 +16,7 @@ class API_CalDAV_Handler extends VTEventHandler {
 			$moduleName = $entityData->getModuleName();
 			$isNew = $entityData->isNew();
 			if (!$isNew && in_array($moduleName, ['Events','Calendar'])) {
-				$updateRecord = true;
-				/*
-                $vtEntityDelta = new VTEntityDelta();
-                $delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-                $delta = array_change_key_case($delta,CASE_LOWER);
-				$fields = array('firstname','lastname','email','secondary_email','phone','mobile');
-				foreach ($fields as $val) {
-					if(isset($delta[$val])){
-						$updateRecord = true;
-						break;
-					}
-				}
-				 * 
-				 */
-				if($updateRecord){
-					$adb->pquery('UPDATE vtiger_activity SET dav_status = ? WHERE activityid = ?', array(1,$recordId));
-				}
+				$adb->pquery('UPDATE vtiger_activity SET dav_status = ? WHERE activityid = ?', array(1,$recordId));
 			}
 		}
 	}

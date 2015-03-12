@@ -8,8 +8,6 @@
  * All Rights Reserved.
  ************************************************************************************/
 include_once('config/config.php');
-require_once 'config/debug.php';
-require_once 'config/performance.php';
 include_once('include/utils/utils.php');
 
 /**
