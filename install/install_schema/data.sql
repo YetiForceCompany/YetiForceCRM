@@ -3397,7 +3397,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (32,'vtiger.entity.afterunlink','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler',NULL,1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (33,'vtiger.entity.afterdelete','modules/OSSTimeControl/handlers/TimeControl.php','TimeControlHandler',NULL,1,'[]');
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (34,'vtiger.entity.aftersave.final','modules/API/handlers/CardDAV.php','API_CardDAV_Handler','',1,'[]');
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (35,'vtiger.entity.aftersave.final','modules/API/handlers/CalDAV.php','API_CalDAV_Model',NULL,1,'[]');
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_path`,`handler_class`,`cond`,`is_active`,`dependent_on`) values (35,'vtiger.entity.aftersave.final','modules/API/handlers/CalDAV.php','API_CalDAV_Handler',NULL,1,'[]');
 
 /*Data for the table `vtiger_eventhandlers_seq` */
 
