@@ -11,7 +11,7 @@
 include_once 'include/main/WebUI.php';
 
 $db = PearDatabase::getInstance();
-$log = &LoggerManager::getLogger('CardDAV');
-$log->debug("Start cron CardDAV");
-API_DAV_Model::runCronCardDav($log);
-$log->debug("End cron CardDAV");
+$log = &LoggerManager::getLogger('CalDAV');
+$log->debug("Start cron CalDAV");
+API_DAV_Model::runCronCalDav($log);
+$log->debug("End cron CalDAV");

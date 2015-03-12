@@ -10,8 +10,8 @@
  *************************************************************************************************************************************/
 class API_DAV_Model {
 	public $log = '';
-	public $davUsers = array();
-	public function runCronCardDAV($log) {
+	public $davUsers = [];
+	public function runCronCardDav($log) {
 		$dav = new self();
 		$dav->log = $log;
 		$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CardDAV Sync ');
@@ -34,16 +34,49 @@ class API_DAV_Model {
 		$cardDav->cardDav2Crm();
 		$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End CardDAV Sync ');
 	}
-	
+	public function runCronCalDav($log) {
+		$dav = new self();
+		$dav->log = $log;
+		$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CalDAV Sync ');
+		$crmUsers = Users_Record_Model::getAll();
+		$davUsers = $dav->getAllUser(2);
+		foreach($crmUsers as $key => $user) {
+			if (array_key_exists($key,$davUsers)){
+				$user->set('david',$davUsers[$key]['david']);
+				$user->set('calendarsid',$davUsers[$key]['calendarsid']);
+				$dav->davUsers[$key] = $user;
+				$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | User is active '.$user->getName());
+			}else{ // User is inactive
+				$dav->log->warn( __CLASS__ . '::' . __METHOD__ . ' | User is inactive '.$user->getName());
+			}
+		}
+		$cardDav = new API_CalDAV_Model();
+		$cardDav->log = $dav->log;
+		$cardDav->davUsers = $dav->davUsers;
+		$cardDav->calDavCrm2Dav();
+		$cardDav->calDav2Crm();
+		$dav->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End CalDAV Sync ');
+	}
 	public function getAllUser($type = 0) {
 		$db = PearDatabase::getInstance();
 		if($type == 0){
-			$sql = 'SELECT dav_users.*, dav_principals.email, dav_principals.displayname, vtiger_users.status, vtiger_users.id AS userid, vtiger_users.user_name FROM dav_users INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid LEFT JOIN dav_principals ON dav_principals.userid = dav_users.userid';
+			$sql = 'SELECT dav_users.*,dav_addressbooks.id AS addressbooksid, dav_calendars.id AS calendarsid, dav_principals.email, dav_principals.displayname, vtiger_users.status, vtiger_users.id AS userid, vtiger_users.user_name '
+					. 'FROM dav_users '
+					. 'INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid '
+					. 'INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid '
+					. 'LEFT JOIN dav_addressbooks ON dav_addressbooks.principaluri = dav_principals.uri '
+					. 'LEFT JOIN dav_calendars ON dav_calendars.principaluri = dav_principals.uri;';
 		}elseif($type == 1){
 			$sql = "SELECT dav_users.id AS david, dav_users.userid AS userid, dav_addressbooks.id AS addressbooksid FROM dav_users"
 					. " INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid"
 					. " INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid"
 					. " INNER JOIN dav_addressbooks ON dav_addressbooks.principaluri = dav_principals.uri"
+					. " WHERE vtiger_users.status = 'Active';";
+		}elseif($type == 2){
+			$sql = "SELECT dav_users.id AS david, dav_users.userid AS userid, dav_calendars.id AS calendarsid FROM dav_users"
+					. " INNER JOIN vtiger_users ON vtiger_users.id = dav_users.userid"
+					. " INNER JOIN dav_principals ON dav_principals.userid = dav_users.userid"
+					. " INNER JOIN dav_calendars ON dav_calendars.principaluri = dav_principals.uri"
 					. " WHERE vtiger_users.status = 'Active';";
 		}
 		$result = $db->query($sql);

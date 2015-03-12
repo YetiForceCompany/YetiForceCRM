@@ -9,7 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class API_CardDAV_Model {
-	const ADDRESSBOOK_NAME = 'YetiForceCRM';
+	const ADDRESSBOOK_NAME = 'YFAddressBook';
+	const PRODID = 'YetiForceCRM';
 	
 	public $pdo = false;
 	public $log = false;
@@ -113,7 +114,7 @@ class API_CardDAV_Model {
 	public function createCard($moduleName,$record) {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:'.$record['crmid']);
 		$vcard = new Sabre\VObject\Component\VCard();
-		$vcard->PRODID = 'YetiForceCRM';
+		$vcard->PRODID = self::PRODID;
 		if($moduleName == 'Contacts'){
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [ $record['lastname'], $record['firstname']];
@@ -141,7 +142,7 @@ class API_CardDAV_Model {
 		$cardUri = $record['crmid'].'.vcf';
         $cardData = Sabre\DAV\StringUtil::ensureUTF8($vcard->serialize());
 		$etag = md5($cardData);
-		$modifiedtime = time();
+		$modifiedtime = strtotime($record['modifiedtime']);
 		$stmt = $this->pdo->prepare('INSERT INTO dav_cards (carddata, uri, lastmodified, addressbookid, size, etag, crmid) VALUES (?, ?, ?, ?, ?, ?, ?)');
 		$stmt->execute([
 			$cardData,
@@ -159,7 +160,7 @@ class API_CardDAV_Model {
 	public function updateCard($moduleName, $record, $card) {
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | Start CRM ID:'.$record['crmid']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
-		$vcard->PRODID = 'YetiForceCRM';
+		$vcard->PRODID = self::PRODID;
 		unset($vcard->TEL);
 		unset($vcard->EMAIL);
 		unset($vcard->REV);
@@ -189,7 +190,7 @@ class API_CardDAV_Model {
 		
         $cardData = Sabre\DAV\StringUtil::ensureUTF8($vcard->serialize());
 		$etag = md5($cardData);
-		$modifiedtime = time();
+		$modifiedtime = strtotime($record['modifiedtime']);
 		$stmt = $this->pdo->prepare('UPDATE dav_cards SET carddata = ?, lastmodified = ?, size = ?, etag = ?, crmid = ? WHERE id = ?;');
 		$stmt->execute([
 			$cardData,
@@ -199,7 +200,7 @@ class API_CardDAV_Model {
 			$record['crmid'],
 			$card['id']
 		]);
-		$this->addChange($record['crmid'].'.vcf', 2);
+		$this->addChange($card['uri'], 2);
 		$this->log->debug( __CLASS__ . '::' . __METHOD__ . ' | End');
 	}
 	public function deletedCard($card) {
@@ -303,12 +304,12 @@ class API_CardDAV_Model {
 	public function getCrmRecordsToSync($module) {
 		$db = PearDatabase::getInstance();
 		if($module == 'Contacts')
-			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email '
+			$query = 'SELECT crmid, parentid, firstname, lastname, phone, mobile, email, secondary_email, vtiger_crmentity.modifiedtime '
 				. 'FROM vtiger_contactdetails '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid '
 				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_contactdetails.contactid > 0 AND vtiger_contactdetails.dav_status = 1;';
 		elseif($module == 'OSSEmployees')
-			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail '
+			$query = 'SELECT crmid, name, last_name, business_phone, private_phone, business_mail, private_mail, vtiger_crmentity.modifiedtime '
 				. 'FROM vtiger_ossemployees '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid '
 				. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_ossemployees.ossemployeesid > 0 AND vtiger_ossemployees.dav_status = 1;';

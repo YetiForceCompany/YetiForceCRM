@@ -27,6 +27,7 @@ $languageStrings = array(
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved',
 	'LBL_ACTIVE_USER' => 'User status',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
+	'LBL_SELECT_TYPE' => 'Type',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Add key',
