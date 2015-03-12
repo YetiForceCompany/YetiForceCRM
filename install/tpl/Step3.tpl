@@ -37,7 +37,13 @@
 							<tr><th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th><th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th><th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th></tr>
 							{foreach key=CONFIG_NAME item=INFO from=$SYSTEM_PREINSTALL_PARAMS}
 								<tr><td>{vtranslate($CONFIG_NAME, 'Install')}</td><td>{if $INFO.1 eq 1} {vtranslate('LBL_TRUE', 'Install')} {else} {$INFO.1} {/if}</td>
-									<td {if $INFO.2 eq false} class="no" > {vtranslate('LBL_NO', 'Install')} {else if ($INFO.2 eq true and $INFO.1 === true)} > {vtranslate('LBL_YES', 'Install')} {else} > {$INFO.0} {/if}</td></tr>
+									<td {if $INFO.2 eq false} class="no" >
+										{if $INFO.0 !== true && $INFO.0 !== false}{$INFO.0}{else}{vtranslate('LBL_NO', 'Install')}{/if}
+									{else if ($INFO.2 eq true and $INFO.1 === true)} > 
+									{if $INFO.0 !== true}{$INFO.0}{else}{vtranslate('LBL_YES', 'Install')}{/if}
+									{else} > {$INFO.0} {/if}
+										
+									</td></tr>
 							{/foreach}
 						</table>
 						<br>

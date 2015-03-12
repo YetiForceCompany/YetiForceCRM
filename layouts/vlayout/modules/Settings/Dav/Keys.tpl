@@ -30,10 +30,11 @@
 						<thead>
 							<tr class="blockHeader">
 								<th><strong>{vtranslate('LBL_LOGIN',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_KEY',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_DISPLAY_NAME',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_EMAIL',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_ACTIVE_USER',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_KEY',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_SELECT_TYPE',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
@@ -41,10 +42,13 @@
 							{foreach from=$MODULE_MODEL->getAllKeys() item=item key=key}
 								<tr data-user="{$item.userid}" data-name="{$item.user_name}">
 									<td>{$item.user_name}</td>
+									<td>{$item.key}</td>
 									<td>{$item.displayname}</td>
 									<td>{$item.email}</td>
 									<td>{vtranslate($item.status,'Users')}</td>
-									<td>{$item.key}</td>
+									<td>{if $item.addressbooksid}CardDav{/if}
+										{if $item.addressbooksid && $item.calendarsid}, {/if}
+										{if $item.calendarsid}CalDav{/if}</td>
 									<td>
 										<button class="btn btn-danger deleteKey">{vtranslate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 									</td>
@@ -72,6 +76,16 @@
 								</select>
 							</div>
 						</div>
+						<div class="control-group">
+							<label class="control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
+							<div class="controls">
+								<select multiple="" class="select span4 type" name="type">
+								{foreach from=$MODULE_MODEL->getTypes() item=item}
+									<option selected="" value="{$item}">{$item}</option>
+								{/foreach}
+								</select>
+							</div>
+						</div>	
 					</form>
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

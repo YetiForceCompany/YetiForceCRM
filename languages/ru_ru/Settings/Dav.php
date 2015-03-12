@@ -28,6 +28,7 @@ $languageStrings = array(
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Изменения успешно сохранены',
 	'LBL_ACTIVE_USER' => 'Статус пользователя',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Ключ был удален',
+	'LBL_SELECT_TYPE' => 'Type',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Добавление ключа',

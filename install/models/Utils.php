@@ -104,7 +104,7 @@ class Install_Utils_Model {
 				$directiveValues['suhosin.post.max_value_length'] = ini_get('suhosin.post.max_value_length');
 		}
 		$errorReportingValue = E_WARNING & ~E_NOTICE;
-		if(version_compare(PHP_VERSION, '5.5.0') >= 0){
+		if(version_compare(PHP_VERSION, '5.4.0') >= 0){
 			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
 		}
 		else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
@@ -157,7 +157,7 @@ class Install_Utils_Model {
 	 * @return type
 	 */
 	function getRecommendedDirectives(){
-		if(version_compare(PHP_VERSION, '5.5.0') >= 0){
+		if(version_compare(PHP_VERSION, '5.4.0') >= 0){
 			self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		}
 	    else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
@@ -173,10 +173,10 @@ class Install_Utils_Model {
 	function getSystemPreInstallParameters() {
 		$preInstallConfig = array();
 		// Name => array( System Value, Recommended value, supported or not(true/false) );
-		$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), '5.5.0', (version_compare(phpversion(), '5.5.0', '<=')));
+		$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), ' 5.4.0', (version_compare(phpversion(), '5.4.0', '>')));
 		$preInstallConfig['LBL_IMAP_SUPPORT']	= array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
 		$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
-		if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.5.0') {
+		if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.4.0') {
 			$preInstallConfig['LBL_MYSQLI_CONNECT_SUPPORT'] = array(extension_loaded('mysqli'), true, extension_loaded('mysqli'));
 		}
 		$preInstallConfig['LBL_OPEN_SSL'] = array(extension_loaded('openssl'), true, extension_loaded('openssl'));

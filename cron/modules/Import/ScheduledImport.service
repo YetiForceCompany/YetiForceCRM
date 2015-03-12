@@ -11,7 +11,8 @@
 
 $previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
 $VTIGER_BULK_SAVE_MODE = true;
-
+require_once 'config/performance.php';
+require_once 'config/debug.php';
 require_once  'include/Loader.php';
 require_once 'include/runtime/Controller.php';
 require_once 'include/runtime/BaseModel.php';

@@ -19,7 +19,6 @@ if(!in_array('dav',$enabledServices)){
 require_once 'config/debug.php';
 require_once 'config/config.php';
 ini_set('error_log',$root_directory.'cache/logs/dav.log');
-
 $baseUri = $_SERVER['SCRIPT_NAME'];
 
 /* Database */
@@ -36,31 +35,35 @@ set_error_handler("exception_error_handler");
 require_once 'libraries/SabreDAV/autoload.php';
 
 // Backends 
-//$authBackend      = new Yeti\DAV\Auth\Backend\PDO($pdo);
 $authBackend      = new Yeti\DAV_Auth_Backend_PDO($pdo);
 $principalBackend = new Yeti\DAVACL_PrincipalBackend_PDO($pdo);
 $carddavBackend   = new Yeti\CardDAV_Backend_PDO($pdo);
-//$caldavBackend    = new Sabre\CalDAV\Backend\PDO($pdo);
+$caldavBackend    = new Yeti\CalDAV_Backend_PDO($pdo);
 
 // Setting up the directory tree //
 $nodes = [
     new Sabre\DAVACL\PrincipalCollection($principalBackend),
-//    new Sabre\CalDAV\CalendarRoot($authBackend, $caldavBackend),
     new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend),
+	new Sabre\CalDAV\Principal\Collection($principalBackend),
+	new Sabre\CalDAV\CalendarRoot($principalBackend, $caldavBackend),
 ];
 
 // The object tree needs in turn to be passed to the server class
 $server = new Yeti\DAV_Server($nodes);
 $server->setBaseUri($baseUri);
-
 $server->debugExceptions = SysDebug::get('DAV_DEBUG_EXCEPTIONS');
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend,'YetiDAV'));
-$server->addPlugin(new Sabre\DAV\Browser\Plugin());
-//$server->addPlugin(new Sabre\CalDAV\Plugin());
-$server->addPlugin(new Sabre\CardDAV\Plugin());
+$server->addPlugin(new Sabre\DAV\Browser\Plugin()); //To remove
 $server->addPlugin(new Sabre\DAVACL\Plugin());
 $server->addPlugin(new Sabre\DAV\Sync\Plugin());
+
+//CardDav integration
+$server->addPlugin(new Sabre\CardDAV\Plugin());
+//CalDav integration
+$server->addPlugin(new Sabre\CalDAV\Plugin());
+$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
+$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
 
 // And off we go!
 $server->exec();

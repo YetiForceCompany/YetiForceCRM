@@ -15,6 +15,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 	
 	public function addKey($params){
 		global $adb;
+		$type = (gettype($params['type']) == 'array')?$params['type']:[$params['type']]; 
 		$userID = $params['user'];
 		$result = $adb->pquery("SELECT id FROM dav_users WHERE userid = ?;", array($userID), true);
 		$rows = $adb->num_rows($result);
@@ -33,8 +34,15 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		$result = $adb->pquery('INSERT INTO dav_principals (`uri`,`email`,`displayname`,`userid`) VALUES (?, ?, ?, ?);', 
 			array('principals/'.$userModel->get('user_name'), $userModel->get('email1'), $displayname, $userID));
 		
-		$result = $adb->pquery('INSERT INTO dav_addressbooks (`principaluri`,`displayname`,`uri`,`description`) VALUES (?, ?, ?, ?);', 
-			array('principals/'.$userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, API_CardDAV_Model::ADDRESSBOOK_NAME, ''));
+		
+		if( in_array('CardDav', $type)){
+			$result = $adb->pquery('INSERT INTO dav_addressbooks (`principaluri`,`displayname`,`uri`,`description`) VALUES (?, ?, ?, ?);', 
+				array('principals/'.$userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, API_CardDAV_Model::ADDRESSBOOK_NAME, ''));
+		}
+		if( in_array('CalDav', $type)){
+			$result = $adb->pquery('INSERT INTO dav_calendars (`principaluri`,`displayname`,`uri`,`components`) VALUES (?, ?, ?, ?);', 
+				array('principals/'.$userModel->get('user_name'), API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::COMPONENTS));
+		}
 		return $key;
 	}
 	
@@ -42,5 +50,9 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		global $adb;
 		$adb->pquery('DELETE FROM dav_users WHERE userid = ?;', array( $params['user'] ));
 		$adb->pquery('DELETE FROM dav_principals WHERE userid = ?;', array( $params['user']  ));
+	}
+	
+	public function getTypes(){
+		return ['CalDav','CardDav'];
 	}
 }
