@@ -9,10 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
-	'Reviewed' => 'Reviewed',
-	'Created' => 'Created',
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
-	'Accepted'=>'Accepted',
 	'Inventory Manager'=>'Inventory Manager',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
@@ -21,7 +18,6 @@ $languageStrings = array(
 	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'Quote No'=>'Quote Number',
 	'Quote Stage'=>'Quote Stage',
-	'Rejected'=>'Rejected',
 	'SINGLE_Quotes' => 'Quote',
 	'Valid Till'=>'Valid Until',
     'Shipping' => 'Shipping',
@@ -32,6 +28,16 @@ $languageStrings = array(
 	'Form of payment' => 'Form of payment',
 	'Transfer' => 'Transfer',
 	'Cash' => 'Cash',
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
+	'PLL_IN_PREPARATION' => 'In preparation',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_DECLINED' => 'Declined',
+	'PLL_ACCEPTED' => 'Accepted',
 );
 
 $jsLanguageStrings = array(

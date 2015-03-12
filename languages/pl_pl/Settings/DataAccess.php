@@ -70,6 +70,14 @@ $languageStrings = array(
 	'more than hours before' => 'więcej niż godzin przed',
 	'more than hours later' => 'więcej niż godzin po',
 	'has changed' => 'uległ zmianie',
+	'Adding time period to status change' => 'Dodanie okresu czasu do zmiany statusu',
+	'Check if there are any tasks that are not closed' => 'Sprawdź czy są niezakończone zadania',
+	'Date validation' => 'Walidacja daty',
+	'Check parent task' => 'Sprawdź zadanie nadrzędne',
+	'Check if there are any tasks that are not closed' => 'Sprawdź czy są niezakończone zadania',
+	'Check for duplicate names' => 'Sprawdź czy są zduplikowane nazwy',
+	'Check whether all mandatory fields in quick edit are filled in' => 'Sprawdź czy wszystkie pola obowiązkowe w widoku szybkiej edycji są wypełnione',
+	'Lock edit on the status' => 'Zablokuj edycję statusu',
 );
 
 $jsLanguageStrings = array(

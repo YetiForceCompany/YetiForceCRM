@@ -19,7 +19,7 @@
 			<th class="span6">
 				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
 			</th>
-			<th class="span5">
+			<th class="span3">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
 			<th class="widgeticons" align="right">

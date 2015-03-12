@@ -47,6 +47,11 @@ jQuery.Class('Settings_BruteForce_Js', {
 			var active = $("[name='active']").is(':checked');
 			var selectedUsers = $("[name='selectedUsers']").val();
 
+			validation = instance.fieldsValidation(attempsNumber, timeLock);
+			if(false == validation){
+				return false;
+			}
+
 			if (!attempsNumber.length && !timeLock) {
 				var params = {
 					text: app.vtranslate('Complete the fields'),
@@ -100,6 +105,31 @@ jQuery.Class('Settings_BruteForce_Js', {
 			instance.runAppConnector(params);          
 			return false;
 		});
+	},
+
+	fieldsValidation : function(attempsNumber, timeLock){
+		var result = true;
+		if((2 >= attempsNumber || attempsNumber >= 100) || isNaN(attempsNumber)){
+			var params = {
+				text: app.vtranslate('JS_WRONG_ATTEMPS_NUMBER'),
+				animation: 'show',
+				type: 'warning'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+			result = false;
+		}
+		if(isNaN(timeLock)){
+			var params = {
+				text: app.vtranslate('JS_WRONG_TIME_LOCK_FORMAT'),
+				animation: 'show',
+				type: 'warning'
+			};
+			Vtiger_Helper_Js.showPnotify(params);
+			result = false;
+
+		}
+
+		return result;
 	}
 });
 jQuery(document).ready(function(){

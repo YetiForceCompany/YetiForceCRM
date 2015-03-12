@@ -25,10 +25,7 @@
 					</select>
 				</div>
 			</th>
-			<th class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</th>
-			<th class="widgeticons span5" align="right">
+			<th class="widgeticons span1" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
 		</tr>

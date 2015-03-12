@@ -2395,7 +2395,7 @@ class CRMEntity {
 		return $query;
 	}
 	function getUserAccessConditionsQuerySR($module, $current_user = false) {
-		if($user == false)
+		if($current_user == false)
 			global $current_user;
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');

@@ -22,18 +22,6 @@ class Calculations_DetailView_Model extends Inventory_DetailView_Model {
 				}
 			}
         }
-		$parentid = Vtiger_Field_Model::getInstance('parentid',Vtiger_Module_Model::getInstance($moduleName));
-		if( $parentid->isActiveField() ){
-			$linkURL = 'index.php?module=Calculations&view=Hierarchy&record='.$recordModel->getId();
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SHOW_HIERARCHY',
-				'linkurl' => 'javascript:Calculations_Detail_Js.triggerHierarchy("'.$linkURL.'");',
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		
 		$quotesModuleModel = Vtiger_Module_Model::getInstance('Quotes');
 		if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(

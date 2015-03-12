@@ -273,6 +273,8 @@ $languageStrings = array(
 	'LBL_USER_COLORS' => 'Цвета Пользователей',
 	'LBL_USER_COLORS_DESCRIPTION' => 'Редактор цветов Пользователей',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
+	'LBL_DAV_KEYS' => 'Синхронизация контактов',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка синхронизации контактов',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

@@ -10,11 +10,11 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'Users' => 'Użytkownicy',
-    'USER_MAIL_EXIST' => 'Użytkowik o padanym adresie email już istnieje',
+    'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 );
 
 $jsLanguageStrings = array(
-    'JS_USER_MAIL_EXIST' => 'Użytkowik o padanym adresie email już istnieje',
+    'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 );
 

@@ -2,14 +2,6 @@
 /*
 Disable SSL for IMAP/SMTP
 If your IMAP/SMTP servers are on the same host or are connected via a secure network, not using SSL connections improves performance. So don't use "ssl://" or "tls://" urls for 'default_host' and 'smtp_server' config options.
-
-
-Debug:
-$config['debug_level'] = 1;
-$config['imap_debug'] = true;
-$config['smtp_debug'] = true;
-$config['log_logins'] = true;
-
 */
 if(!$no_include_config){
 	$include_path = ini_get('include_path');
@@ -22,6 +14,7 @@ if(!$no_include_config){
 	if (file_exists('config/config_override.php')) {
 		include_once 'config/config_override.php';
 	}
+	@include_once('config/debug.php');
 	chdir ($currentPath);
 	ini_set('include_path',$include_path);
 }
@@ -63,3 +56,14 @@ $config['show_images'] = '0';
 $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
 $config['smtp_log'] = true;
+
+$config['debug_level'] = $GEBUG_CONFIG['ROUNDCUBE_DEBUG_LEVEL'];
+$config['per_user_logging'] = $GEBUG_CONFIG['ROUNDCUBE_PER_USER_LOGGING'];
+$config['smtp_log'] = $GEBUG_CONFIG['ROUNDCUBE_SMTP_LOG'];
+$config['log_logins'] = $GEBUG_CONFIG['ROUNDCUBE_LOG_LOGINS'];
+$config['log_session'] = $GEBUG_CONFIG['ROUNDCUBE_LOG_SESSION'];
+$config['sql_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SQL_DEBUG'];
+$config['imap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_IMAP_DEBUG'];
+$config['ldap_debug'] = $GEBUG_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
+$config['smtp_debug'] = $GEBUG_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
+$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';

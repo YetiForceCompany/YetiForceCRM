@@ -36,11 +36,11 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
 		$params = array(1, $restrictedModules);
 		$result = $adb->pquery($sql, $params);
-		$Modules = array();
+		$modules = array();
 		while ($row = $adb->fetch_array($result)) {
-			$Modules[$row['tabid']] = $row;
+			$modules[$row['tabid']] = $row;
 		}
-		return $Modules;
+		return $modules;
 	}
 	public function getSize() {
 		return array(1,2,3);
@@ -51,14 +51,14 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 		foreach($ffs as $ff){
 			$action = str_replace('.php', "", $ff);
 			if($ff != '.' && $ff != '..' && !is_dir($dir.'/'.$ff) && $action != 'Basic'){
-				$FolderFiles[$action] = $action;
+				$folderFiles[$action] = $action;
 			}
 		}
-		return $FolderFiles;
+		return $folderFiles;
 	}
 	public function getColumns() {
-		$Columns = array(1,2,3,4,5,6);
-		return $Columns;
+		$columns = array(1,2,3,4,5,6);
+		return $columns;
 	}
 	public function getRelatedModule( $tabid ) {
         $adb = PearDatabase::getInstance();

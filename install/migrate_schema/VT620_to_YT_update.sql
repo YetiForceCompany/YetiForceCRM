@@ -182,9 +182,6 @@ ALTER TABLE `vtiger_potential`
 	ADD COLUMN `sum_calculations` decimal(25,8)   NULL DEFAULT 0.00000000 after `sum_invoices` , 
 	ADD COLUMN `average_profit_so` decimal(5,2)   NULL after `sum_calculations` , 
 	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `average_profit_so` , 
-	DROP COLUMN `probability` , 
-	DROP COLUMN `nextstep` , 
-	DROP COLUMN `amount` , 
 	ADD KEY `campaignid`(`campaignid`) , 
 	DROP KEY `potentail_sales_stage_amount_idx`, ADD KEY `potentail_sales_stage_amount_idx`(`sales_stage`) , 
 	ADD KEY `productid`(`productid`) , 
@@ -517,8 +514,7 @@ ALTER TABLE `vtiger_ws_referencetype`
 
 ALTER TABLE `vtiger_service` 
 	ADD COLUMN `pscategory` varchar(200)  COLLATE utf8_general_ci NULL after `servicename` , 
-	CHANGE `qty_per_unit` `qty_per_unit` decimal(11,2)   NULL DEFAULT 0.00 after `pscategory` , 
-	DROP COLUMN `servicecategory` ;
+	CHANGE `qty_per_unit` `qty_per_unit` decimal(11,2)   NULL DEFAULT 0.00 after `pscategory` ;
 ALTER TABLE `vtiger_service` 
 	DROP FOREIGN KEY `fk_1_vtiger_service`  ;
 ALTER TABLE `vtiger_service` 
@@ -876,9 +872,6 @@ ALTER TABLE `vtiger_invoice`
 	ADD COLUMN `potentialid` int(19)   NULL after `total_marginp` , 
 	ADD COLUMN `form_payment` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `potentialid` , 
 	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `form_payment` , 
-	DROP COLUMN `s_h_amount` , 
-	DROP COLUMN `adjustment` , 
-	DROP COLUMN `s_h_percent` , 
 	ADD KEY `accountid`(`accountid`) , 
 	ADD KEY `contactid`(`contactid`) , 
 	ADD KEY `fk_2_vtiger_invoice`(`salesorderid`) , 
@@ -967,7 +960,6 @@ ALTER TABLE `vtiger_projecttask`
 	ADD COLUMN `parentid` int(19)   NULL after `sum_time` , 
 	ADD COLUMN `projectmilestoneid` int(19)   NULL after `parentid` , 
 	ADD COLUMN `targetenddate` date   NULL after `projectmilestoneid` , 
-	DROP COLUMN `projecttaskhours` , 
 	ADD KEY `parentid`(`parentid`) , 
 	ADD KEY `projectid`(`projectid`) , 
 	ADD KEY `projectmilestoneid`(`projectmilestoneid`) ;
@@ -1092,9 +1084,6 @@ ALTER TABLE `vtiger_account`
 	ADD COLUMN `balance` decimal(25,8)   NULL after `sum_invoices` , 
 	ADD COLUMN `average_profit_so` decimal(5,2)   NULL after `balance` , 
 	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `average_profit_so` , 
-	DROP COLUMN `tickersymbol` , 
-	DROP COLUMN `notify_owner` , 
-	DROP COLUMN `rating` , 
 	ADD KEY `sum_invoices`(`sum_invoices`) , 
 	ADD KEY `sum_salesorders`(`sum_salesorders`) ;
 ALTER TABLE `vtiger_account`
@@ -1134,9 +1123,7 @@ ALTER TABLE `vtiger_portalinfo`
 	CHANGE `user_password` `user_password` varchar(200)  COLLATE utf8_general_ci NULL after `user_name` , 
 	ADD COLUMN `crypt_type` varchar(20)  COLLATE utf8_general_ci NULL after `isactive` , 
 	ADD COLUMN `password_sent` varchar(255)  COLLATE utf8_general_ci NOT NULL after `crypt_type` ;
-ALTER TABLE `vtiger_portalinfo`
-	ADD CONSTRAINT `fk_1_vtiger_portalinfo` 
-	FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE ;
+
 
 ALTER TABLE `vtiger_assets` 
 	DROP FOREIGN KEY `fk_1_vtiger_assets`  ;

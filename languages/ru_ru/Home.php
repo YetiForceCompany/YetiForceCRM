@@ -23,3 +23,7 @@ $languageStrings = array(
     'Home'                         => 'Главная',
     'OLTPO'                        => 'Последние Закупки',
 );
+
+$jsLanguageStrings = array(
+	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Время работы не может превышать 24 часа',
+);

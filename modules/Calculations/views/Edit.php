@@ -31,19 +31,26 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 			$relatedProducts = $recordModel->getProducts();
 			$viewer->assign('RECORD_ID', $record);
 			$viewer->assign('MODE', 'edit');
-		} elseif ($request->get('salesorder_id') || $request->get('quote_id')) {
+		} elseif ($request->get('salesorder_id') || $request->get('quote_id') || $request->get('reference_id')) {
 			if ($request->get('salesorder_id')) {
 				$referenceId = $request->get('salesorder_id');
-			} else {
+			} else if($request->get('quote_id')) {
 				$referenceId = $request->get('quote_id');
+			} else {
+				$referenceId = $request->get('reference_id');
 			}
-
-			$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
-			$currencyInfo = $parentRecordModel->getCurrencyInfo();
-			$taxes = $parentRecordModel->getProductTaxes();
-			$relatedProducts = $parentRecordModel->getProducts();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$recordModel->setRecordFieldValues($parentRecordModel);
+			if(Vtiger_Functions::getCRMRecordType($referenceId) == 'RequirementCards'){
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
+				$recordModel->setRecordFieldValues($parentRecordModel);
+				$recordModel->set('requirementcardsid', $referenceId);
+			} else {
+				$parentRecordModel = Inventory_Record_Model::getInstanceById($referenceId);
+				$currencyInfo = $parentRecordModel->getCurrencyInfo();
+				$taxes = $parentRecordModel->getProductTaxes();
+				$relatedProducts = $parentRecordModel->getProducts();
+				$recordModel->setRecordFieldValues($parentRecordModel);
+			}
 		} else {
 			$taxes = Inventory_Module_Model::getAllProductTaxes();
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);

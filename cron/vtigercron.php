@@ -11,8 +11,10 @@ chdir (dirname(__FILE__) . '/../');
 /**
  * Start the cron services configured.
  */
-include_once 'vtlib/Vtiger/Cron.php';
 require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
+include_once 'vtlib/Vtiger/Cron.php';
 require_once('modules/Emails/mail.php');
 // Extended inclusions
 require_once 'include/Loader.php';

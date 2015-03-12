@@ -1258,26 +1258,24 @@ function get_ticket_attachments($input_array)
 	if(!validateSession($id,$sessionid))
 	return array( array('error' => "#INVALIDATE SESSION#"));
 
-	$query = "select vtiger_troubletickets.ticketid, vtiger_attachments.*,vtiger_notes.filename,vtiger_notes.filelocationtype from vtiger_troubletickets " .
-		"left join vtiger_senotesrel on vtiger_senotesrel.crmid=vtiger_troubletickets.ticketid " .
-		"left join vtiger_notes on vtiger_notes.notesid=vtiger_senotesrel.notesid " .
-		"inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_notes.notesid " .
-		"left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_notes.notesid " .
-		"left join vtiger_attachments on vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid " .
-		"and vtiger_crmentity.deleted = 0 where vtiger_troubletickets.ticketid =?";
-
+	$query = 'select vtiger_troubletickets.ticketid, vtiger_attachments.*,vtiger_notes.filename,vtiger_notes.filelocationtype from vtiger_troubletickets 
+	left join vtiger_senotesrel on vtiger_senotesrel.crmid=vtiger_troubletickets.ticketid 
+	left join vtiger_notes on vtiger_notes.notesid=vtiger_senotesrel.notesid 
+	inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_notes.notesid 
+	left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_notes.notesid 
+	left join vtiger_attachments on vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid 
+	WHERE vtiger_troubletickets.ticketid = ? AND vtiger_crmentity.deleted = 0;';
 	$res = $adb->pquery($query, array($ticketid));
 	$noofrows = $adb->num_rows($res);
 	$output = array();
 	for($i=0;$i<$noofrows;$i++)
 	{
-		$filename = $adb->query_result($res,$i,'filename');
-		$filepath = $adb->query_result($res,$i,'path');
-
-		$fileid = $adb->query_result($res,$i,'attachmentsid');
+		$filename = $adb->query_result_raw($res,$i,'filename');
+		$filepath = $adb->query_result_raw($res,$i,'path');
+		$fileid = $adb->query_result_raw($res,$i,'attachmentsid');
 		$filesize = filesize($filepath.$fileid."_".$filename);
-		$filetype = $adb->query_result($res,$i,'type');
-		$filelocationtype = $adb->query_result($res,$i,'filelocationtype');
+		$filetype = $adb->query_result_raw($res,$i,'type');
+		$filelocationtype = $adb->query_result_raw($res,$i,'filelocationtype');
 		//Now we will not pass the file content to CP, when the customer click on the link we will retrieve
 		//$filecontents = base64_encode(file_get_contents($filepath.$fileid."_".$filename));//fread(fopen($filepath.$filename, "r"), $filesize));
 

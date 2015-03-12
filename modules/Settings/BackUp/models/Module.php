@@ -180,10 +180,16 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
         return $output;
     }
 
-    public function saveFTPSettings($host, $login, $password, $status) {
-        global $adb;
-        $adb->pquery("INSERT INTO vtiger_backup_ftp (host,login,password, status) VALUES(?,?,?,?)", array($host, $login, $password, $status));
-    }
+	public function saveFTPSettings($host, $login, $password, $status, $port, $active, $path) {
+		global $adb;
+		$ftpExist = self::getFTPSettings();
+		$password = self::encrypt_decrypt('encrypt', $password);
+		if($ftpExist[0])
+			$adb->pquery("UPDATE vtiger_backup_ftp SET host=?, login=?, password=?, status=?, port=?, active=?, path=? WHERE id=?", array($host, $login, $password, $status, $port, $active, $path, $ftpExist[0]));
+		else
+			$adb->pquery("INSERT INTO vtiger_backup_ftp (host, login, password, status, port, active, path) VALUES(?,?,?,?,?,?,?)", array($host, $login, $password, $status, $port, $active, $path));
+
+	}
 	
     public function createBackUpSQLStatement($tablesName, $fileName) {
         global $adb;
@@ -255,7 +261,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 			$content = ' ';
 		}
 		@file_put_contents(self::$tempDir."/$fileName.sql", $content, FILE_APPEND);
-    }
+	}
 	
     public function newBackUp() {
         global $log;
@@ -413,5 +419,107 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 		self::setTablesPrepare(true, $backUpId);
+	}
+
+	public function sendBackupToFTP($backUpPath, $backupFile){
+		global $log;
+		$ftp = self::getFTPSettings();
+		
+		if(TRUE == $ftp['active'] && TRUE == $ftp['status']){
+			$log->debug('Start sending backup to ftp');
+			$password = self::encrypt_decrypt('decrypt', $ftp['password']);
+			
+			if($ftp['port'])
+				$connection = ftp_connect($ftp['host'], $ftp['port']);
+			else
+				$connection = ftp_connect($ftp['host']); 
+
+			ftp_login($connection, $ftp['login'], $password);
+			ftp_pasv($connection, true);
+
+			if($ftp['path']){
+				@ftp_mkdir($connection, $ftp['path']);
+				$fileTo = $ftp['path'] .'/'. $backupFile;
+			}else{
+				$fileTo = $backupFile;
+			}			
+			$log->debug('Sending backup to ftp');
+			$upload = ftp_put($connection, $fileTo, $backUpPath.'/'.$backupFile, FTP_BINARY);
+			ftp_close($connection);
+			$log->debug('Closing connection after send backup to ftp');
+		}
+	}
+
+	public function encrypt_decrypt($action, $string) {
+		$output = false;
+
+		$encrypt_method = "AES-256-CBC";
+		$secret_key = 'This is my secret key';
+		$secret_iv = 'This is my secret iv';
+		$key = hash('sha256', $secret_key);
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+		if( $action == 'encrypt' ) {
+			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+			$output = base64_encode($output);
+		}
+		else if( $action == 'decrypt' ){
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+
+		return $output;
+	}
+
+	public static function updateUsersForNotifications($selectedUsers){
+		global $adb;
+		$deleteQuery = "DELETE FROM `vtiger_backup_users`";
+		$adb->query($deleteQuery);
+		if('null' != $selectedUsers){
+			$insertQuery = "INSERT INTO `vtiger_backup_users` (id) VALUES(?)";
+			foreach ($selectedUsers as $userId) {
+				$adb->pquery($insertQuery, array($userId));
+			}
+		}
+		
+		return TRUE;
+	}
+
+	public static function getUsersForNotifications(){
+		global $adb;
+		$result = $adb->query("SELECT * FROM vtiger_backup_users", true);
+		$numRows = $adb->num_rows($result);
+		for($i = 0; $i < $numRows; $i++){
+			$id = $adb->query_result($result, $i, 'id');
+			$output[$id] = $id;
+		}
+
+		return $output;
+	}
+
+	public static function sendNotificationEmail(){
+		global $log;
+		$usersId = self::getUsersForNotifications();
+		if($usersId){
+			foreach ($usersId as $id) {     
+				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users'); 
+				$userEmail = $recordModel->get('email1'); 
+				$emails[] = $userEmail;
+			}
+			$emailsList = implode(',', $emails);
+			$data = array(
+				'id' => 108,
+				'to_email' => $emailsList,
+				'module' => 'Contacts',
+			);
+			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+			$mail_status = $recordModel->sendMailFromTemplate($data);
+		 
+			if($mail_status != 1) {
+				$log->debug('Settings_BackUp_Module_Model Error occurred while sending mail');
+				throw new Exception('Error occurred while sending mail');
+			} 
+		}else{
+			$log->debug('Settings_BackUp_Module_Model Users notificastions list - empty');
+		}
 	}
 }

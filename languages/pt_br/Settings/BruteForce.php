@@ -40,5 +40,7 @@ $jsLanguageStrings = array(
     'LBL_FAIL' => 'As alterações não foram salvas', 
     'LBL_UNBLOCK_FAIL' => 'O endereço de IP não foi desbloeado',
     'LBL_UNBLOCK_SUCCESS' => 'O endereço de IP foi desbloqueado',   
+	'JS_WRONG_ATTEMPS_NUMBER' => 'You have entered an incorrect format for a number of attempts, correct it.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'You have entered an incorrect format for a time lock, correct it.'    
     
 );

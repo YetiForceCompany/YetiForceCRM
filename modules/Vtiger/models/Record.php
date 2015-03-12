@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 /**
@@ -453,5 +454,33 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 	       $db->pquery($updateQuery, $updateParams);
 	    }
 	 }
+         
+        /**
+	 * Function to set record module field values
+	 * @param parent record model
+	 */
+	function setRecordFieldValues($parentRecordModel) {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+
+		$fieldsList = array_keys($this->getModule()->getFields());
+		$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
+
+		$commonFields = array_intersect($fieldsList, $parentFieldsList);	
+		foreach ($commonFields as $fieldName) {
+			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
+				$this->set($fieldName, $parentRecordModel->get($fieldName));
+			}
+		}
+		$fieldsToGenerate = $this->getListFieldsToGenerate($parentRecordModel->getModuleName(), $this->getModuleName());
+		foreach ($fieldsToGenerate as $key => $fieldName) {
+			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $key) == 0) {
+				$this->set($fieldName, $parentRecordModel->get($key));
+			}
+		}
+	}
+	function getListFieldsToGenerate($parentModuleName,$moduleName) {
+		$module = CRMEntity::getInstance($parentModuleName);
+		return $module->fieldsToGenerate[$moduleName]?$module->fieldsToGenerate[$moduleName]:array();
+	}
 
 }

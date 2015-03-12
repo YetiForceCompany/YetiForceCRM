@@ -10,7 +10,6 @@
  ************************************************************************************/
 $languageStrings = array(
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
-	'Accepted'=>'Aceita',
 	'Inventory Manager'=>'Almoxarife',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_EXPORT_TO_PDF' => 'Exporta para PDF',
@@ -19,7 +18,6 @@ $languageStrings = array(
 	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'Quote No'=>'No. Cotação',
 	'Quote Stage'=>'Estágio da Cotação',
-	'Rejected'=>'Rejeitada',
 	'SINGLE_Quotes' => 'Cotação',
 	'Valid Till'=>'Válida Até',
     'Shipping' => 'Entrega',
@@ -30,10 +28,16 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
-	//Missing Quote Stage Item
-	'Created'=>'Criada',
-	'Reviewed'=>'Revisada',
 
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
+	'PLL_IN_PREPARATION' => 'In preparation',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_DECLINED' => 'Declined',
+	'PLL_ACCEPTED' => 'Accepted',
 );
 
 $jsLanguageStrings = array(

@@ -8,10 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'Reviewed' => 'Reviewed',
-	'Created' => 'Created',
 	'LBL_GENERATE_QUOTES' => 'Angebote generieren',
-	'Accepted'=>'akzeptiert',
 	'Inventory Manager'=>'Bestandsmanager',
 	'LBL_ADD_RECORD' => 'Neues Angebot',
 	'LBL_EXPORT_TO_PDF' => 'Export als PDF',
@@ -20,7 +17,6 @@ $languageStrings = array(
 	'LBL_SEND_MAIL_PDF' => 'Mail mit PDF senden',
 	'Quote No'=>'Angebotsnr.',
 	'Quote Stage'=>'Angebotsstufe',
-	'Rejected'=>'abgelehnt',
 	'SINGLE_Quotes' => 'Angebot',
 	'Valid Till'=>'Ablauf Bindefrist',
    'Shipping' => 'Auslieferung',
@@ -31,6 +27,16 @@ $languageStrings = array(
 	'Form of payment' => 'Zahlungsart',
 	'Transfer' => 'Überweisung',
 	'Cash' => 'Bar',
+	
+	//picklist values
+	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
+	'PLL_IN_PREPARATION' => 'In preparation',
+	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
+	'PLL_DECLINED' => 'Declined',
+	'PLL_ACCEPTED' => 'Accepted',
 );
 
 $jsLanguageStrings = array(

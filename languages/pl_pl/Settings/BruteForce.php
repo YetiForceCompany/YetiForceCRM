@@ -38,4 +38,6 @@ $jsLanguageStrings = array(
     'LBL_FAIL' => 'Nie można było zapisać zmian', 
     'LBL_UNBLOCK_FAIL' => 'Nie udało się odblokować adresu IP',
     'LBL_UNBLOCK_SUCCESS' => 'Odblokowano adres IP',       
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Wprowadziłeś niepoprawny format dla liczby prób, popraw go.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Wprowadziłeś niepoprawny format dla czasu blokady, popraw go.'
 );

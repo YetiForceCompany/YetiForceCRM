@@ -865,6 +865,8 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Anzahl von geleisteten Tagen',
 	'LBL_AVERAGE_WORKING_TIME' => 'Durchschnittliche Arbeitszeit',
 	'Employees Time Control' => 'Zeiterfassung Mitarbeiter',
+	'RequirementCards' => 'Requirement Cards',
+	'QuotesEnquires' => 'Quotes enquires',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Hinzufügen',

@@ -792,6 +792,8 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
 	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
 	'Employees Time Control' => 'Employees Time Control',
+	'RequirementCards' => 'Requirement Cards',
+	'QuotesEnquires' => 'Quotes enquires',
 
 	//Missing Fields in Menu
 	'Companies'=>'Empresas',

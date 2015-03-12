@@ -435,6 +435,7 @@ display: none;
 					<span class="input-append">
 						<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
 						<span class="add-on"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+					</span>
 				</div>
 			{/if}
 			<hr />

@@ -13,7 +13,7 @@
 					<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), 'OSSMail')}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), 'OSSMail')}</b></div>
 				</td>
 				<td class="span5">
-					<div>
+					<div style="float:right;">
 						<select class="mailUserList" id="mailUserList" name="type" style='width:200px;margin-bottom:0px'>
 							{if count($ACCOUNTSLIST) eq 0}
 								<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
@@ -25,7 +25,7 @@
 						</select>
 					</div>
 				</td>
-				<td class="widgeticons span2" align="right">
+				<td class="widgeticons span1" align="right">
 					<div class="box pull-right">
 						{if !$WIDGET->isDefault()}
 							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">

@@ -59,36 +59,6 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 	}
 
 	/**
-	 * Function to set record module field values
-	 * @param parent record model
-	 * @return <Model> returns Vtiger_Record_Model
-	 */
-	function setRecordFieldValues($parentRecordModel) {
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$fieldsList = array_keys($this->getModule()->getFields());
-		$parentFieldsList = array_keys($parentRecordModel->getModule()->getFields());
-
-		$commonFields = array_intersect($fieldsList, $parentFieldsList);	
-		foreach ($commonFields as $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $fieldName) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($fieldName));
-			}
-		}
-		$fieldsToGenerate = $this->getListFieldsToGenerate($parentRecordModel->getModuleName(), $this->getModuleName());
-		foreach ($fieldsToGenerate as $key => $fieldName) {
-			if (getFieldVisibilityPermission($parentRecordModel->getModuleName(), $currentUser->getId(), $key) == 0) {
-				$this->set($fieldName, $parentRecordModel->get($key));
-			}
-		}
-		return $recordModel;
-	}
-	function getListFieldsToGenerate($parentModuleName,$ModuleName) {
-		$module = CRMEntity::getInstance($parentModuleName);
-		return $module->fieldsToGenerate[$ModuleName]?$module->fieldsToGenerate[$ModuleName]:array();
-	}
-
-	/**
 	 * Function to get inventoy terms and conditions
 	 * @return <String>
 	 */

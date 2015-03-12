@@ -40,5 +40,7 @@ $jsLanguageStrings = array(
 	'LBL_FAIL'	=>	'Изменения не сохранены',
 	'LBL_UNBLOCK_FAIL'	=>	'IP адрес не разблокирован',
 	'LBL_UNBLOCK_SUCCESS'	=>	'IP адрес разблокирован',
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Неправильный формат количества попыток',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Неправильный формат времени блокировки',
     
 );

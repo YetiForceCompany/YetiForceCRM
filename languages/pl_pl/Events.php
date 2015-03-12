@@ -18,6 +18,7 @@ $languageStrings = array(
 	'Daily'=>'Dni',
 	'Events' => 'Terminy',
 	'Held' => 'Odbyte',
+	'Status' => 'Etap',
 	'INVITATION'=>' Zaproszenia ',
 	'LBL_ADD_RECORD' => 'Dodaj termin',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',

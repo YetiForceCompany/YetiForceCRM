@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'PLL_WORKING_TIME' => 'Время работы',
+	'PLL_HOLIDAY_TIME' => 'Отпуск',
+	'PLL_BREAK_TIME' => 'Обед',
 	'Api Address' => 'Адреса',
 	'VTE_CHANGELOG' => 'История',
 	'LBL_SELECT_TREE_ITEM' => 'Выберите пункт:',
@@ -57,6 +60,7 @@ $languageStrings = array(
 	'Signed in' => 'Вход',
 	'OSSPdf' => 'Список шаблонов PDF',
 	'RequirementCards' => 'Бланк Заявки',
+	'QuotesEnquires' => 'Quotes enquires',
 	'LBL_SHARING_FOR' => 'Модуль',
 	'LBL_NO_RECORDS_IN_WIDGET' => 'Нет данных для отображения',
 	'LBL_NO_FOUND_RECORDS' => 'Мы не нашли никаких записей в модуле:',
@@ -1119,6 +1123,8 @@ $languageStrings = array(
 	'LBL_WORKING_TIME' => 'Рабочее время',
 );
 $jsLanguageStrings = array(
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Время работы не может превышать 24 часа',
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания не может быть меньше, чем дата начала',
 	'JS_SAVE_NOTIFY_OK' => 'Сохраненные изменения',
 	'JS_RECORDS_TRANSFERRED SUCCESSFULLY' => 'Права записей успешно переданы',
 	'LBL_TREES_MANAGER' => 'Каталог',
