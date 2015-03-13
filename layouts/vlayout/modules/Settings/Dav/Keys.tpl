@@ -34,7 +34,9 @@
 								<th><strong>{vtranslate('LBL_DISPLAY_NAME',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_EMAIL',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_ACTIVE_USER',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_SELECT_TYPE',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('CardDAV',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('CalDAV',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('WebDAV',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
@@ -46,9 +48,9 @@
 									<td>{$item.displayname}</td>
 									<td>{$item.email}</td>
 									<td>{vtranslate($item.status,'Users')}</td>
-									<td>{if $item.addressbooksid}CardDav{/if}
-										{if $item.addressbooksid && $item.calendarsid}, {/if}
-										{if $item.calendarsid}CalDav{/if}</td>
+									<td>{if $item.addressbooksid}{vtranslate('LBL_YES')}{else}{vtranslate('LBL_NO')}{/if}</td>
+									<td>{if $item.calendarsid}{vtranslate('LBL_YES')}{else}{vtranslate('LBL_NO')}{/if}</td>
+									<td>{vtranslate('LBL_YES')}</td>
 									<td>
 										<button class="btn btn-danger deleteKey">{vtranslate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 									</td>

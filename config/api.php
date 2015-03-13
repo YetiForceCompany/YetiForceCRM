@@ -20,3 +20,9 @@ $enabledServices = array(
 	//'thunderbird',
 	//'dav',
 );
+/*+********   DAV   **********/
+$enableBrowser = true;
+$enableCardDAV = true;
+$enableCalDAV = true;
+$enableWebDAV = true;
+/*+***************************/

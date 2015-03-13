@@ -53,6 +53,6 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 	
 	public function getTypes(){
-		return ['CalDav','CardDav'];
+		return ['CalDav','CardDav','WebDav'];
 	}
 }
