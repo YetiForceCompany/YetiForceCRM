@@ -216,15 +216,15 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				return;
 			}
 
-			var startDate = dateStartElement.val();
-			var strtTime = strtTimeElement.val();
+			var endDate = endDateElement.val();
+			var endTime = endTimeElement.val();
 
 			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
 			if (result != true) {
 				return;
 			}
-			var dateTime = startDate + ' ' + strtTime;
-			var dateFormat = container.find('[name="date_start"]').data('dateFormat');
+			var dateTime = endDate + ' ' + endTime;
+			var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 			var timeFormat = endTimeElement.data('format');
 			var date = Vtiger_Helper_Js.getDateInstance(dateTime, dateFormat);
 			var endDateInstance = Date.parse(date);
