@@ -434,6 +434,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 
 	registerBasicEvents : function(container) {
 		this._super(container);
+		this.toggleTimesInputs(container)
 		this.registerActivityTypeChangeEvent(container);
 		this.registerTimeStartChangeEvent(container);
         this.registerEndDateTimeChangeLogger(container);
@@ -441,22 +442,16 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
         container.find('[name="activitytype"]').trigger('change');
 	},
 
-	toggleTimesInputs: function(){
-		$(':checkbox').change(function() {
+	toggleTimesInputs: function(container){		
+		container.find(':checkbox').change(function() {
 			var checkboxName =  $(this).attr('name');
 			if('allday' == checkboxName){
 				var checkboxIsChecked = $(this).is(':checked');
-				if ($('#quickCreate').length){
+				if (!container.find('#quickCreate').length){
 					if(checkboxIsChecked){
-						$('.active .time').hide();
+						container.find('.time').hide();
 					}else{
-						$('.active .time').show();
-					}
-				}else{
-					if(checkboxIsChecked){
-						$('.time').hide();
-					}else{
-						$('.time').show();
+						container.find('.time').show();
 					}
 				}
 			}
@@ -468,7 +463,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		if(!statusToProceed){
 			return;
 		}
-		this.toggleTimesInputs();
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
@@ -480,9 +474,3 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	}
 });
 
-setTimeout(function(){ 
-	jQuery(document).ready(function () {
-		var currencyInstance = new Calendar_Edit_Js();
-		currencyInstance.toggleTimesInputs();
-	})
-}, 1000);
