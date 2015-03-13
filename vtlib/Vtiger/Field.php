@@ -25,6 +25,19 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		global $adb;
 		return $adb->getUniqueID('vtiger_picklist');
 	}
+	/**
+	 * Get picklist values from table
+	 */
+	function getPicklistValues() {
+		global $adb;
+		$picklist_table = 'vtiger_'.$this->name;
+		$picklistValues = array();
+		$picklistResult = $adb->query("SELECT ".$this->name." FROM ".$picklist_table);
+		for($i=0; $i<$adb->num_rows( $picklistResult ); $i++){
+			$picklistValues[] = $adb->query_result($picklistResult, $i, $this->name);
+		}
+		return $picklistValues;
+	}
 
 	/**
 	 * Set values for picklist field (for all the roles)
@@ -76,8 +89,12 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		// END
 
 		// Add value to picklist now
+		$picklistValues = $this->getPicklistValues();
 		$sortid = 0; // TODO To be set per role
 		foreach($values as $value) {
+			if(in_array($value, $picklistValues)){
+				continue;
+			}
 			$new_picklistvalueid = getUniquePicklistID();
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			$new_id = $adb->getUniqueID($picklist_table);
@@ -120,8 +137,13 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		}
 
 		// Add value to picklist now
+		
+		$picklistValues = $this->getPicklistValues();
 		$sortid = 1;
 		foreach($values as $value) {
+			if(in_array($value, $picklistValues)){
+				continue;
+			}
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			$new_id = $adb->getUniqueId($picklist_table);
 			$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, sortorderid, presence) VALUES(?,?,?,?)",
