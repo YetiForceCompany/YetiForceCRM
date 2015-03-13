@@ -15,7 +15,7 @@ class API_CalDAV_Handler extends VTEventHandler {
 			$recordId = $entityData->getId();
 			$moduleName = $entityData->getModuleName();
 			$isNew = $entityData->isNew();
-			if (!$isNew && in_array($moduleName, ['Events','Calendar'])) {
+			if (!$isNew && in_array($moduleName, array('Events','Calendar'))) {
 				$adb->pquery('UPDATE vtiger_activity SET dav_status = ? WHERE activityid = ?', array(1,$recordId));
 			}
 		}
