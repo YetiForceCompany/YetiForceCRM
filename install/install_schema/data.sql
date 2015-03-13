@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.6.12 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -21041,8 +21042,6 @@ insert  into `vtiger_start_hour_seq`(`id`) values (24);
 
 insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (1,'PLL_OPAQUE',1,1);
 insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (2,'PLL_TRANSPARENT',2,1);
-insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (3,'PLL_OPAQUE',1,1);
-insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (4,'PLL_TRANSPARENT',2,1);
 
 /*Data for the table `vtiger_state_seq` */
 
