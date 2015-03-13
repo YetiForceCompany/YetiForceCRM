@@ -21045,7 +21045,7 @@ insert  into `vtiger_state`(`stateid`,`state`,`sortorderid`,`presence`) values (
 
 /*Data for the table `vtiger_state_seq` */
 
-insert  into `vtiger_state_seq`(`id`) values (4);
+insert  into `vtiger_state_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_status` */
 
