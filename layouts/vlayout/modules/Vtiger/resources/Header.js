@@ -226,6 +226,7 @@ jQuery.Class("Vtiger_Header_Js", {
                 params.callbackPostShown(quickCreateForm);
             }
             thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
+			thisInstance.toggleTimesInputs(quickCreateForm);
             app.registerEventForDatePickerFields(quickCreateForm);
             var quickCreateContent = quickCreateForm.find('.quickCreateContent');
             var quickCreateContentHeight = quickCreateContent.height();
@@ -245,6 +246,20 @@ jQuery.Class("Vtiger_Header_Js", {
 	    });
         });
     },
+	toggleTimesInputs: function(form){    	
+		form.find(':checkbox').change(function() {
+			var checkboxName = $(this).attr('name');
+			if('allday' == checkboxName){
+				var checkboxIsChecked = $(this).is(':checked');
+				if(checkboxIsChecked){
+					form.find('.active .time').hide();
+				}else{
+					form.find('.active .time').show();
+				}
+			}
+		});
+	},
+
     registerQuickCreatePostLoadEvents: function(form, params) {
         var thisInstance = this;
         var submitSuccessCallbackFunction = params.callbackFunction;
