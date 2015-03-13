@@ -20,11 +20,13 @@
 							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
+					{if vglobal('systemMode') != 'demo'}
 					<span class="btn-group">
 						<button class="btn" type="button" onclick='window.location.href="{$IMPORT_USER_MODULE_URL}"'>
 							<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
+					{/if}
 				</span>
 			</div>
 		</div>

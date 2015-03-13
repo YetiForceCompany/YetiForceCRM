@@ -37,33 +37,50 @@ require_once 'libraries/SabreDAV/autoload.php';
 // Backends 
 $authBackend      = new Yeti\DAV_Auth_Backend_PDO($pdo);
 $principalBackend = new Yeti\DAVACL_PrincipalBackend_PDO($pdo);
-$carddavBackend   = new Yeti\CardDAV_Backend_PDO($pdo);
-$caldavBackend    = new Yeti\CalDAV_Backend_PDO($pdo);
-
-// Setting up the directory tree //
-$nodes = [
-    new Sabre\DAVACL\PrincipalCollection($principalBackend),
-    new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend),
-	new Sabre\CalDAV\Principal\Collection($principalBackend),
-	new Sabre\CalDAV\CalendarRoot($principalBackend, $caldavBackend),
-];
-
+$nodes = [ new Sabre\DAVACL\PrincipalCollection($principalBackend) ];
+if($enableCalDAV){
+	$caldavBackend = new Yeti\CalDAV_Backend_PDO($pdo);
+	$nodes[] = new Sabre\CalDAV\Principal\Collection($principalBackend);
+	$nodes[] = new Sabre\CalDAV\CalendarRoot($principalBackend, $caldavBackend);
+}
+if($enableCardDAV){
+	$carddavBackend = new Yeti\CardDAV_Backend_PDO($pdo);
+	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
+}
+if($enableWebDAV){
+	$nodes[] = new Sabre\DAV\FS\Directory($davStorageDir);
+}
 // The object tree needs in turn to be passed to the server class
 $server = new Yeti\DAV_Server($nodes);
 $server->setBaseUri($baseUri);
 $server->debugExceptions = SysDebug::get('DAV_DEBUG_EXCEPTIONS');
+
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend,'YetiDAV'));
-$server->addPlugin(new Sabre\DAV\Browser\Plugin()); //To remove
 $server->addPlugin(new Sabre\DAVACL\Plugin());
 $server->addPlugin(new Sabre\DAV\Sync\Plugin());
 
-//CardDav integration
-$server->addPlugin(new Sabre\CardDAV\Plugin());
-//CalDav integration
-$server->addPlugin(new Sabre\CalDAV\Plugin());
-$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
-$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
-
+if($enableBrowser){
+	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
+}
+if($enableCardDAV){//CardDav integration
+	$server->addPlugin(new Sabre\CardDAV\Plugin());
+}
+if($enableCalDAV){//CalDAV integration
+	$server->addPlugin(new Sabre\CalDAV\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
+	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
+}
+if($enableWebDAV){//WebDAV integration
+	// Support for LOCK and UNLOCK
+	$lockBackend = new Sabre\DAV\Locks\Backend\File($upload_dir . '/locksdb');
+	$lockPlugin = new Sabre\DAV\Locks\Plugin($lockBackend);
+	$server->addPlugin($lockPlugin);
+	// Automatically guess (some) contenttypes, based on extesion
+	$server->addPlugin(new Sabre\DAV\Browser\GuessContentType());
+	// Temporary file filter
+	$tempFF = new Sabre\DAV\TemporaryFileFilterPlugin($upload_dir);
+	$server->addPlugin($tempFF);
+}
 // And off we go!
 $server->exec();

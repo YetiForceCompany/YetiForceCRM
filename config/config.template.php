@@ -231,3 +231,8 @@ $session_regenerate_id = false;
 
 //Would you like to encode passwords for Customer Portal
 $encode_customer_portal_passwords = true;
+
+$davStorageDir = 'storage/WebDAV/';
+
+// prod and demo
+$systemMode = 'demo';

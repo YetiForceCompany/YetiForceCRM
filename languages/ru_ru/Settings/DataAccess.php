@@ -71,18 +71,18 @@ $languageStrings = array(
 	'more than hours before'	=>	'более часа до',
 	'more than hours later'	=>	'более часа после',
 	'has changed'	=>	'изменено',
-	'Adding time period to status change' => 'Adding time period to status change',
-	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
-	'Date validation' => 'Date validation',
-	'Check parent task' => 'Check parent task',
-	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
-	'Check for duplicate names' => 'Check for duplicate names',
-	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
-	'Lock edit on the status' => 'Lock edit on the status',
+	'Adding time period to status change' => 'Добавление периода времени обновления статуса',
+	'Check if there are any tasks that are not closed' => 'Проверка, есть ли какие-либо задачи, которые не выполнены',
+	'Date validation' => 'Проверка данных',
+	'Check parent task' => 'Проверка родительской задачи',
+	'Check if there are any tasks that are not closed' => 'Проверка, есть ли какие-либо задачи, которые не выполнены',
+	'Check for duplicate names' => 'Проверка на наличие дубликатов',
+	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
+	'Lock edit on the status' => 'Блокировка изменения статуса',
 );
 
 $jsLanguageStrings = array(
-	'DES_REQUIRED'	=>	'Обязательное поле',
+	'DES_REQUIRED' => 'Требуется описание',
 
 	//comparators
 	'starts with'	=>	'начинается с',

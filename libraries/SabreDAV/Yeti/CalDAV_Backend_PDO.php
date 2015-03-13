@@ -33,4 +33,21 @@ class CalDAV_Backend_PDO extends CalDAV\Backend\PDO {
         $this->schedulingObjectTableName = $schedulingObjectTableName;
         $this->calendarSubscriptionsTableName = $calendarSubscriptionsTableName;
     }
+    /**
+     * Deletes an existing calendar object.
+     *
+     * The object uri is only the basename, or filename and not a full path.
+     *
+     * @param string $calendarId
+     * @param string $objectUri
+     * @return void
+     */
+    function deleteCalendarObject($calendarId,$objectUri) {
+        $stmt = $this->pdo->prepare('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid IN (SELECT crmid FROM '.$this->calendarObjectTableName.' WHERE calendarid = ? AND uri = ?);');
+        $stmt->execute([1, $calendarId, $objectUri]);
+		
+        $stmt = $this->pdo->prepare('DELETE FROM '.$this->calendarObjectTableName.' WHERE calendarid = ? AND uri = ?');
+        $stmt->execute([$calendarId, $objectUri]);
+        $this->addChange($calendarId, $objectUri, 3);
+    }
 }

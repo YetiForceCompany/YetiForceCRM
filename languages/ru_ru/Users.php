@@ -304,8 +304,8 @@ $languageStrings = array(
 	'wide' => 'Широкая',
 	'yes'=> 'Да',
 
-	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
-	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
+	'LBL_MASS_PASSWORD_EDITING' => 'Изменить пароли пользователей',
+	'LBL_MASS_PWD_EDIT' => 'Изменить пароли',
 	'Meeting' => 'Встреча',
 	'Call' => 'Звонок',
 	'Mobile Call' => 'Звонок с мобильного',
