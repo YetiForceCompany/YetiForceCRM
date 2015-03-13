@@ -54,8 +54,8 @@ $languageStrings = array(
 	'Total margin'	=>	'Сумма прибыли',
 	'Total margin Percentage'	=>	'Процент прибыли',
 	'LBL_DATE'	=>	'Дата',
-	'LBL_CONS' => 'Disadvantages',
-	'LBL_PROS' => 'Advantages',
+	'LBL_CONS' => 'Недостатки',
+	'LBL_PROS' => 'Преимущества',
 	
 	//pick list values
 	'PLL_WAITING_FOR_VERIFICATION' => 'В ожидании проверки',
