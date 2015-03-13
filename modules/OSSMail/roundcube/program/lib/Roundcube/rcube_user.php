@@ -51,6 +51,14 @@ class rcube_user
      */
     private $identities = array();
 
+    /**
+     * Internal emails cache
+     *
+     * @var array
+     */
+    private $emails;
+
+
     const SEARCH_ADDRESSBOOK = 1;
     const SEARCH_MAIL = 2;
 
@@ -67,7 +75,8 @@ class rcube_user
 
         if ($id && !$sql_arr) {
             $sql_result = $this->db->query(
-                "SELECT * FROM ".$this->db->table_name('users')." WHERE user_id = ?", $id);
+                "SELECT * FROM " . $this->db->table_name('users', true)
+                . " WHERE `user_id` = ?", $id);
             $sql_arr = $this->db->fetch_assoc($sql_result);
         }
 
@@ -77,7 +86,6 @@ class rcube_user
             $this->language = $sql_arr['language'];
         }
     }
-
 
     /**
      * Build a user name string (as e-mail address)
@@ -117,7 +125,6 @@ class rcube_user
         return false;
     }
 
-
     /**
      * Get the preferences saved for this user
      *
@@ -152,7 +159,6 @@ class rcube_user
 
         return $prefs;
     }
-
 
     /**
      * Write the given user prefs to the user's record
@@ -189,10 +195,9 @@ class rcube_user
         $save_prefs = serialize($save_prefs);
 
         $this->db->query(
-            "UPDATE ".$this->db->table_name('users').
-            " SET preferences = ?".
-                ", language = ?".
-            " WHERE user_id = ?",
+            "UPDATE ".$this->db->table_name('users', true).
+            " SET `preferences` = ?, `language` = ?".
+            " WHERE `user_id` = ?",
             $save_prefs,
             $_SESSION['language'],
             $this->ID);
@@ -233,6 +238,33 @@ class rcube_user
     }
 
     /**
+     * Return a list of all user emails (from identities)
+     *
+     * @param bool Return only default identity
+     *
+     * @return array List of emails (identity_id, name, email)
+     */
+    function list_emails($default = false)
+    {
+        if ($this->emails === null) {
+            $this->emails = array();
+
+            $sql_result = $this->db->query(
+                "SELECT `identity_id`, `name`, `email`"
+                ." FROM " . $this->db->table_name('identities', true)
+                ." WHERE `user_id` = ? AND `del` <> 1"
+                ." ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
+                $this->ID);
+
+            while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
+                $this->emails[] = $sql_arr;
+            }
+        }
+
+        return $default ? $this->emails[0] : $this->emails;
+    }
+
+    /**
      * Get default identity of this user
      *
      * @param  int   $id Identity ID. If empty, the default identity is returned
@@ -243,13 +275,12 @@ class rcube_user
         $id = (int)$id;
         // cache identities for better performance
         if (!array_key_exists($id, $this->identities)) {
-            $result = $this->list_identities($id ? 'AND identity_id = ' . $id : '');
+            $result = $this->list_identities($id ? "AND `identity_id` = $id" : '');
             $this->identities[$id] = $result[0];
         }
 
         return $this->identities[$id];
     }
-
 
     /**
      * Return a list of all identities linked with this user
@@ -264,10 +295,10 @@ class rcube_user
         $result = array();
 
         $sql_result = $this->db->query(
-            "SELECT * FROM ".$this->db->table_name('identities').
-            " WHERE del <> 1 AND user_id = ?".
+            "SELECT * FROM ".$this->db->table_name('identities', true).
+            " WHERE `del` <> 1 AND `user_id` = ?".
             ($sql_add ? " ".$sql_add : "").
-            " ORDER BY ".$this->db->quote_identifier('standard')." DESC, name ASC, identity_id ASC",
+            " ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
             $this->ID);
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
@@ -285,7 +316,6 @@ class rcube_user
 
         return $result;
     }
-
 
     /**
      * Update a specific identity record
@@ -308,20 +338,21 @@ class rcube_user
         $query_params[] = $iid;
         $query_params[] = $this->ID;
 
-        $sql = "UPDATE ".$this->db->table_name('identities').
-            " SET changed = ".$this->db->now().", ".join(', ', $query_cols).
-            " WHERE identity_id = ?".
-                " AND user_id = ?".
-                " AND del <> 1";
+        $sql = "UPDATE ".$this->db->table_name('identities', true).
+            " SET `changed` = ".$this->db->now().", ".join(', ', $query_cols).
+            " WHERE `identity_id` = ?".
+                " AND `user_id` = ?".
+                " AND `del` <> 1";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $query_params));
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Create a new identity record linked with this user
@@ -341,21 +372,22 @@ class rcube_user
             $insert_cols[]   = $this->db->quote_identifier($col);
             $insert_values[] = $value;
         }
-        $insert_cols[]   = 'user_id';
+        $insert_cols[]   = $this->db->quote_identifier('user_id');
         $insert_values[] = $this->ID;
 
-        $sql = "INSERT INTO ".$this->db->table_name('identities').
-            " (changed, ".join(', ', $insert_cols).")".
+        $sql = "INSERT INTO ".$this->db->table_name('identities', true).
+            " (`changed`, ".join(', ', $insert_cols).")".
             " VALUES (".$this->db->now().", ".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
 
         call_user_func_array(array($this->db, 'query'),
             array_merge(array($sql), $insert_values));
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->insert_id('identities');
     }
-
 
     /**
      * Mark the given identity as deleted
@@ -369,8 +401,8 @@ class rcube_user
             return false;
 
         $sql_result = $this->db->query(
-            "SELECT count(*) AS ident_count FROM ".$this->db->table_name('identities').
-            " WHERE user_id = ? AND del <> 1",
+            "SELECT count(*) AS ident_count FROM ".$this->db->table_name('identities', true).
+            " WHERE `user_id` = ? AND `del` <> 1",
             $this->ID);
 
         $sql_arr = $this->db->fetch_assoc($sql_result);
@@ -380,18 +412,19 @@ class rcube_user
             return -1;
 
         $this->db->query(
-            "UPDATE ".$this->db->table_name('identities').
-            " SET del = 1, changed = ".$this->db->now().
-            " WHERE user_id = ?".
-                " AND identity_id = ?",
+            "UPDATE ".$this->db->table_name('identities', true).
+            " SET `del` = 1, `changed` = ".$this->db->now().
+            " WHERE `user_id` = ?".
+                " AND `identity_id` = ?",
             $this->ID,
             $iid);
 
+        // clear the cache
         $this->identities = array();
+        $this->emails     = null;
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Make this identity the default one for this user
@@ -402,18 +435,15 @@ class rcube_user
     {
         if ($this->ID && $iid) {
             $this->db->query(
-                "UPDATE ".$this->db->table_name('identities').
-                " SET ".$this->db->quote_identifier('standard')." = '0'".
-                " WHERE user_id = ?".
-                    " AND identity_id <> ?".
-                    " AND del <> 1",
+                "UPDATE ".$this->db->table_name('identities', true).
+                " SET `standard` = '0'".
+                " WHERE `user_id` = ? AND `identity_id` <> ?",
                 $this->ID,
                 $iid);
 
             unset($this->identities[0]);
         }
     }
-
 
     /**
      * Update user's last_login timestamp
@@ -422,13 +452,12 @@ class rcube_user
     {
         if ($this->ID) {
             $this->db->query(
-                "UPDATE ".$this->db->table_name('users').
-                " SET last_login = ".$this->db->now().
-                " WHERE user_id = ?",
+                "UPDATE ".$this->db->table_name('users', true).
+                " SET `last_login` = ".$this->db->now().
+                " WHERE `user_id` = ?",
                 $this->ID);
         }
     }
-
 
     /**
      * Clear the saved object state
@@ -438,7 +467,6 @@ class rcube_user
         $this->ID = null;
         $this->data = null;
     }
-
 
     /**
      * Find a user record matching the given name and host
@@ -453,17 +481,17 @@ class rcube_user
         $config = rcube::get_instance()->config;
 
         // query for matching user name
-        $sql_result = $dbh->query("SELECT * FROM " . $dbh->table_name('users')
-            ." WHERE mail_host = ? AND username = ?", $host, $user);
+        $sql_result = $dbh->query("SELECT * FROM " . $dbh->table_name('users', true)
+            ." WHERE `mail_host` = ? AND `username` = ?", $host, $user);
 
         $sql_arr = $dbh->fetch_assoc($sql_result);
 
         // username not found, try aliases from identities
         if (empty($sql_arr) && $config->get('user_aliases') && strpos($user, '@')) {
             $sql_result = $dbh->limitquery("SELECT u.*"
-                ." FROM " . $dbh->table_name('users') . " u"
-                ." JOIN " . $dbh->table_name('identities') . " i ON (i.user_id = u.user_id)"
-                ." WHERE email = ? AND del <> 1", 0, 1, $user);
+                ." FROM " . $dbh->table_name('users', true) . " u"
+                ." JOIN " . $dbh->table_name('identities', true) . " i ON (i.`user_id` = u.`user_id`)"
+                ." WHERE `email` = ? AND `del` <> 1", 0, 1, $user);
 
             $sql_arr = $dbh->fetch_assoc($sql_result);
         }
@@ -474,7 +502,6 @@ class rcube_user
         else
             return false;
     }
-
 
     /**
      * Create a new user record and return a rcube_user instance
@@ -510,8 +537,8 @@ class rcube_user
         }
 
         $dbh->query(
-            "INSERT INTO ".$dbh->table_name('users').
-            " (created, last_login, username, mail_host, language)".
+            "INSERT INTO ".$dbh->table_name('users', true).
+            " (`created`, `last_login`, `username`, `mail_host`, `language`)".
             " VALUES (".$dbh->now().", ".$dbh->now().", ?, ?, ?)",
             $data['user'],
             $data['host'],
@@ -589,7 +616,6 @@ class rcube_user
         return $user_id ? $user_instance : false;
     }
 
-
     /**
      * Resolve username using a virtuser plugins
      *
@@ -604,7 +630,6 @@ class rcube_user
 
         return $plugin['user'];
     }
-
 
     /**
      * Resolve e-mail address from virtuser plugins
@@ -624,7 +649,6 @@ class rcube_user
         return empty($plugin['email']) ? NULL : $plugin['email'];
     }
 
-
     /**
      * Return a list of saved searches linked with this user
      *
@@ -643,11 +667,10 @@ class rcube_user
         $result = array();
 
         $sql_result = $this->db->query(
-            "SELECT search_id AS id, ".$this->db->quote_identifier('name')
-            ." FROM ".$this->db->table_name('searches')
-            ." WHERE user_id = ?"
-                ." AND ".$this->db->quote_identifier('type')." = ?"
-            ." ORDER BY ".$this->db->quote_identifier('name'),
+            "SELECT `search_id` AS id, `name`"
+            ." FROM ".$this->db->table_name('searches', true)
+            ." WHERE `user_id` = ? AND `type` = ?"
+            ." ORDER BY `name`",
             (int) $this->ID, (int) $type);
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
@@ -657,7 +680,6 @@ class rcube_user
 
         return $result;
     }
-
 
     /**
      * Return saved search data.
@@ -675,12 +697,10 @@ class rcube_user
         }
 
         $sql_result = $this->db->query(
-            "SELECT ".$this->db->quote_identifier('name')
-                .", ".$this->db->quote_identifier('data')
-                .", ".$this->db->quote_identifier('type')
-            ." FROM ".$this->db->table_name('searches')
-            ." WHERE user_id = ?"
-                ." AND search_id = ?",
+            "SELECT `name`, `data`, `type`"
+            . " FROM ".$this->db->table_name('searches', true)
+            . " WHERE `user_id` = ?"
+                ." AND `search_id` = ?",
             (int) $this->ID, (int) $id);
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
@@ -695,7 +715,6 @@ class rcube_user
         return null;
     }
 
-
     /**
      * Deletes given saved search record
      *
@@ -709,14 +728,13 @@ class rcube_user
             return false;
 
         $this->db->query(
-            "DELETE FROM ".$this->db->table_name('searches')
-            ." WHERE user_id = ?"
-                ." AND search_id = ?",
+            "DELETE FROM ".$this->db->table_name('searches', true)
+            ." WHERE `user_id` = ?"
+                ." AND `search_id` = ?",
             (int) $this->ID, $sid);
 
         return $this->db->affected_rows();
     }
-
 
     /**
      * Create a new saved search record linked with this user
@@ -739,7 +757,7 @@ class rcube_user
         $insert_cols[]   = $this->db->quote_identifier('data');
         $insert_values[] = serialize($data['data']);
 
-        $sql = "INSERT INTO ".$this->db->table_name('searches')
+        $sql = "INSERT INTO ".$this->db->table_name('searches', true)
             ." (".join(', ', $insert_cols).")"
             ." VALUES (".join(', ', array_pad(array(), sizeof($insert_values), '?')).")";
 
@@ -748,5 +766,4 @@ class rcube_user
 
         return $this->db->insert_id('searches');
     }
-
 }

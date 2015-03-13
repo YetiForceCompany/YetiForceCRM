@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(dirname(__FILE__) . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -45,6 +45,8 @@ if (!file_exists($opts['dir'])) {
 $RC = rcube::get_instance();
 $DB = rcube_db::factory($RC->config->get('db_dsnw'));
 
+$DB->set_debug((bool)$RC->config->get('sql_debug'));
+
 // Connect to database
 $DB->db_connect('w');
 if (!$DB->is_connected()) {
@@ -53,9 +55,9 @@ if (!$DB->is_connected()) {
 
 // Read DB schema version from database (if 'system' table exists)
 if (in_array($DB->table_name('system'), (array)$DB->list_tables())) {
-    $DB->query("SELECT " . $DB->quote_identifier('value')
-        ." FROM " . $DB->quote_identifier($DB->table_name('system'))
-        ." WHERE " . $DB->quote_identifier('name') ." = ?",
+    $DB->query("SELECT `value`"
+        ." FROM " . $DB->table_name('system', true)
+        ." WHERE `name` = ?",
         $opts['package'] . '-version');
 
     $row     = $DB->fetch_array();
@@ -114,7 +116,7 @@ if (empty($version)) {
     $version = 2012080700;
 }
 
-$dir = $opts['dir'] . DIRECTORY_SEPARATOR . $DB->db_provider;
+$dir = $opts['dir'] . '/' . $DB->db_provider;
 if (!file_exists($dir)) {
     rcube::raise_error("DDL Upgrade files for " . $DB->db_provider . " driver not found.", false, true);
 }
@@ -131,7 +133,7 @@ sort($result, SORT_NUMERIC);
 
 foreach ($result as $v) {
     echo "Updating database schema ($v)... ";
-    $error = update_db_schema($opts['package'], $v, $dir . DIRECTORY_SEPARATOR . "$v.sql");
+    $error = update_db_schema($opts['package'], $v, "$dir/$v.sql");
 
     if ($error) {
         echo "[FAILED]\n";
@@ -157,17 +159,16 @@ function update_db_schema($package, $version, $file)
         return;
     }
 
-    $system_table = $DB->quote_identifier($DB->table_name('system'));
+    $system_table = $DB->table_name('system', true);
 
     $DB->query("UPDATE " . $system_table
-        ." SET " . $DB->quote_identifier('value') . " = ?"
-        ." WHERE " . $DB->quote_identifier('name') . " = ?",
+        ." SET `value` = ?"
+        ." WHERE `name` = ?",
         $version, $package . '-version');
 
     if (!$DB->is_error() && !$DB->affected_rows()) {
         $DB->query("INSERT INTO " . $system_table
-            ." (" . $DB->quote_identifier('name') . ", " . $DB->quote_identifier('value') . ")"
-            ." VALUES (?, ?)",
+            ." (`name`, `value`) VALUES (?, ?)",
             $package . '-version', $version);
     }
 
