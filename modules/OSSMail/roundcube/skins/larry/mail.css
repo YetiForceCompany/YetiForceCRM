@@ -1070,7 +1070,7 @@ div.message-partheaders .headers-table td.header {
 #composeview-right {
 	position: absolute;
 	top: 0;
-	left: 212px;
+	left: 0;	/***  YetiForce Sp. z o.o. ***/
 	right: 0;
 	bottom: 0;
 }

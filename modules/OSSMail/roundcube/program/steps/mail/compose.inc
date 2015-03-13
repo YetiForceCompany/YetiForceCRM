@@ -525,6 +525,42 @@ function rcmail_process_compose_params(&$COMPOSE)
             }
         }
     }
+	// <--------   YetiForce Sp. z o.o.   -------->
+    if ($_REQUEST['pdf_path']) {
+        // we have structured data
+        $attach = $_REQUEST['pdf_path'];
+        if (is_array($attach)) {
+            $attachment = $attach;
+        }
+        // only a file path is given
+        else {
+            $newPath = $_SERVER['SCRIPT_FILENAME'];
+            $newPath = explode(DIRECTORY_SEPARATOR, $newPath);
+
+            for ($i = 0; $i < 4 ; $i++) {
+                array_pop($newPath);
+            }
+            
+            $attachName = explode(DIRECTORY_SEPARATOR, $attach);
+
+            $filename = implode(DIRECTORY_SEPARATOR, $newPath) . DIRECTORY_SEPARATOR . $attach;
+            $attachment = array(
+                'group' => $COMPOSE_ID,
+                'name' => $attachName[count($attachName) - 1],
+                'mimetype' => rcube_mime::file_content_type($attach, $filename),
+                'path' => $filename,
+            );
+        }
+        // save attachment if valid
+        if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
+            $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
+        }
+        if ($attachment['status'] && !$attachment['abort']) {
+            unset($attachment['data'], $attachment['status'], $attachment['abort']);
+            $COMPOSE['attachments'][$attachment['id']] = $attachment;
+        }
+    }
+	// <--------   YetiForce Sp. z o.o.   -------->
 }
 
 function rcmail_compose_headers($attrib)

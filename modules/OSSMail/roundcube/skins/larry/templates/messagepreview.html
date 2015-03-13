@@ -5,7 +5,15 @@
 <roundcube:include file="/includes/links.html" />
 </head>
 <body class="iframe fullheight">
-
+<div class="oss-header">
+	<span id="moreheaderstoggle" class="moreheaderstoggle"></span>
+	<div style="display: none;" id="message-oss-parameters">
+		<div id="message-oss-parameters-uid"></div>
+		<div id="message-oss-parameters-folder"></div>
+		<div id="message-oss-parameters-username"><roundcube:object name="username" /></div>
+	</div>
+	<div id="message-oss-header"></div>
+</div>
 <div id="messageheader" class="previewheader">
 
 <!-- record navigation -->
@@ -75,6 +83,7 @@
 </div>
 
 <roundcube:include file="/includes/footer.html" />
-
+<script type="text/javascript" src="../RoundCube.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../layouts/vlayout/modules/OSSMail/inframe.css" />
 </body>
 </html>
