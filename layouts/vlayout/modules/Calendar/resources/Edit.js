@@ -440,19 +440,49 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
         //Required to set the end time based on the default ActivityType selected
         container.find('[name="activitytype"]').trigger('change');
 	},
+
+	toggleTimesInputs: function(){
+		$(':checkbox').change(function() {
+			var checkboxName =  $(this).attr('name');
+			if('allday' == checkboxName){
+				var checkboxIsChecked = $(this).is(':checked');
+				if ($('#quickCreate').length){
+					if(checkboxIsChecked){
+						$('.active .time').hide();
+					}else{
+						$('.active .time').show();
+					}
+				}else{
+					if(checkboxIsChecked){
+						$('.time').hide();
+					}else{
+						$('.time').show();
+					}
+				}
+			}
+		});
+	},
 	
 	registerEvents : function(){
 		var statusToProceed = this.proceedRegisterEvents();
 		if(!statusToProceed){
 			return;
 		}
-	 	this.registerReminderFieldCheckBox();
+		this.toggleTimesInputs();
+		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
-        this.registerRelatedContactSpecificEvents();
+		this.registerRelatedContactSpecificEvents();
 		this._super();
 	}
 });
+
+setTimeout(function(){ 
+	jQuery(document).ready(function () {
+		var currencyInstance = new Calendar_Edit_Js();
+		currencyInstance.toggleTimesInputs();
+	})
+}, 1000);
