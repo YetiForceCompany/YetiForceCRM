@@ -10,7 +10,6 @@
  *************************************************************************************************************************************/
 
 $languageStrings = array(
-	'LBL_PORT' => 'Порт:',
 	'BackUp'	=>	'Резервное копирование',
 	'LBL_BACKUP_DESCRIPTION'	=>	'Создание резервных копий системы',
 	'LBL_SAVE_BACKUP'	=>	'Сохранить резервную копию',
@@ -29,22 +28,9 @@ $languageStrings = array(
 	'LBL_ATTEMPTS'	=>	'Попыток создания',
 	'LBL_ATTEMPTS'	=>	'Попыток создания',
 	'LBL_FTP_SAVE_CONFIG'	=>	'Сохранить конфигурацию',
-	'LBL_HOST'	=>	'Хост:',
-	'LBL_LOGIN'	=>	'Логин',
-	'LBL_PASSWORD'	=>	'Пароль',
-	'LBL_CONNECTION_STATUS'	=>	'Состояние',
+	'LBL_FTP_SERVER_NAME'	=>	'Хост:',
+	'LBL_FTP_LOGIN'	=>	'Логин',
+	'LBL_FTP_PASSWORD'	=>	'Пароль',
+	'LBL_FTP_CONNECTION'	=>	'Состояние',
 	'LBL_SEND_TO_FTP'	=>	'Отправить по FTP',
-	'LBL_ACTIVE' => 'Активен',
-	'LBL_PATH' => 'Путь для сохранения:',
-	'LBL_PATH_INFO' => 'Если поле (Путь для сохранения) пустое, резервная копия будет сохраняться в корневую папку системы',
-	'LBL_EMAIL_NOTIFICATIONS' => 'Уведомление по Почте',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
-);
-
-$jsLanguageStrings = array(
-	'JS_MANDATORY_FIELDS_EMPTY' => 'Необходимо заполнить Обязательные поля',
-	'JS_PORT_ONLY_NUMBERS' => 'Поле Порт, может содержать только цифры',
-	'JS_SAVE_CHANGES' => 'Изменения успешно сохранены',
-	'JS_HOST_NOT_CORRECT' => 'Некорректный адрес Хоста',
-	'JS_CONNECTION_FAIL' => 'Неудачная попытка соединения',
 );

@@ -8,6 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Status' => 'Этап',
 	'End Time' => 'Время окончания',
 	'Duration Minutes' => 'Продолжительность в минутах',
 	'No Time' => 'Без времени',
@@ -82,9 +83,9 @@ $languageStrings = array(
     'Medium'                       => 'Средний',    
     'Mobile Call'                  => 'Звонок с мобильного',
 	'All day' => 'Весь день',
-	'LBL_STATE' => '__No_Translated__',
-	'PLL_OPAQUE' => '__No_Translated__',
-	'PLL_TRANSPARENT' => '__No_Translated__',
+	'LBL_STATE' => 'Состояние',
+	'PLL_OPAQUE' => 'Занят',
+	'PLL_TRANSPARENT' => 'Доступен',
 );
 
 $jsLanguageStrings = array(

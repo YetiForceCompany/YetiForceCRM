@@ -295,7 +295,7 @@ $languageStrings = array(
 	"Credits"	=> 'Благодарности',
 	'LBL_PROCESSES' => 'Процесс',
 	'LBL_SALES_PROCESSES' => 'Процесс продаж',
-	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Настройка процесса продаж',
 	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
 );
 
