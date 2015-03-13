@@ -72,14 +72,14 @@ if ($RCMAIL->action == 'save-response' && isset($_POST['_name']) && !$RESPONSE_R
 
 $OUTPUT->set_env('readonly', !empty($RESPONSE_RECORD['static']));
 $OUTPUT->add_handler('responseform', 'rcube_response_form');
-$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'savenewresponse' : 'editresponse'));
+$OUTPUT->set_pagetitle($RCMAIL->gettext($RCMAIL->action == 'add-response' ? 'addresponse' : 'editresponse'));
 
 $OUTPUT->send('responseedit');
 
 
 function rcube_response_form($attrib)
 {
-    global $RCMAIL, $OUTPUT, $RESPONSE_RECORD;
+    global $RCMAIL, $RESPONSE_RECORD;
 
     // Set form tags and hidden fields
     $disabled = !empty($RESPONSE_RECORD['static']);
@@ -91,7 +91,6 @@ function rcube_response_form($attrib)
     $out = "$form_start\n";
 
     $table = new html_table(array('cols' => 2));
-    $label = $RCMAIL->gettext('responsename');
 
     $table->add('title', html::label('ffname', rcube::Q($RCMAIL->gettext('responsename'))));
     $table->add(null, rcube_output::get_edit_field('name', $RESPONSE_RECORD['name'],
