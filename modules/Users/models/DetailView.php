@@ -31,26 +31,29 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model {
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => ''
-				),
-				array(
+				)
+			);
+			if(vglobal('systemMode') != 'demo'){
+				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
 					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&recordId=$recordId','Users')",
 					'linkicon' => ''
-				)
-			);
-
+				);
+			}
 			foreach ($detailViewLinks as $detailViewLink) {
 				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
-			
-			$detailViewPreferenceLinks = array(
-				array(
+			$detailViewPreferenceLinks = array();
+			if(vglobal('systemMode') != 'demo'){
+				$detailViewPreferenceLinks[] = array(
 					'linktype' => 'DETAILVIEWPREFERENCE',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
 					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&recordId=$recordId','Users')",
 					'linkicon' => ''
-				),
+				);
+			}
+			$detailViewPreferenceLinks = array(
 				array(
 					'linktype' => 'DETAILVIEWPREFERENCE',
 					'linklabel' => 'LBL_EDIT',

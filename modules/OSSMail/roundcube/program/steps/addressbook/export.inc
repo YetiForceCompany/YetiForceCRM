@@ -103,7 +103,9 @@ header('Content-Type: text/x-vcard; charset='.RCUBE_CHARSET);
 header('Content-Disposition: attachment; filename="contacts.vcf"');
 
 while ($result && ($row = $result->next())) {
-    prepare_for_export($row, $CONTACTS);
+    if ($CONTACTS) {
+        prepare_for_export($row, $CONTACTS);
+    }
 
     // fix folding and end-of-line chars
     $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
@@ -131,8 +133,13 @@ function prepare_for_export(&$record, $source = null)
 
         foreach ($record as $key => $values) {
             list($field, $section) = explode(':', $key);
-            foreach ((array)$values as $value) {
-                if (is_array($value) || @strlen($value)) {
+            // avoid casting DateTime objects to array
+            // (same as in rcube_contacts::convert_save_data())
+            if (is_object($values) && is_a($values, 'DateTime')) {
+                $values = array(0 => $values);
+            }
+            foreach ($values as $value) {
+                if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
                     $vcard->set($field, $value, strtoupper($section));
                 }
             }

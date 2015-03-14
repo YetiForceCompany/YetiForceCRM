@@ -8,6 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
+	'Status' => 'Этап',
 	'Start Time' => 'Время начала',
 	'Selected Users' => 'Выберите пользователей',
 	'Private' => 'Личный',
@@ -69,11 +70,13 @@ $languageStrings = array(
 	'Not Held'                     => 'Не проведено' ,
 	'Not Started'                  => 'Не начато'           , 
 	'Pending Input'                => 'В ожидании'         , 
-	'Planned'                      => 'Запланировано'  , 
+	'Cancelled' => 'Отменено',
 	'SINGLE_Calendar'              => 'Календарь'          , 
 	'SINGLE_Events'	=>	'Событие',
 	'Send Notification'            => 'Отправить уведомление', 
-	'Start Date & Time'            => 'Дата и время начала', 
+	'Start Date & Time'            => 'Дата и время начала',
+	'Start Date &amp; Time' => 'Дата и время начала', 
+	'End Date &amp; Time' => 'Дата и время окончания', 
 	'Subject'                      => 'Тема'                    , 
 	'TASK_CUR'	=>	'Запланировано на сегодня',
 	'TASK_NEXT'	=>	'Запланировано на завтра',
@@ -135,9 +138,9 @@ $languageStrings = array(
     'Time Zone'                    => 'Часовой пояс',
     'Visibility'                   => 'Видимость',
 	'All day' => 'Все дни',
-	'LBL_STATE' => '__No_Translated__',
-	'PLL_OPAQUE' => '__No_Translated__',
-	'PLL_TRANSPARENT' => '__No_Translated__',
+	'LBL_STATE' => 'Состояние',
+	'PLL_OPAQUE' => 'Занят',
+	'PLL_TRANSPARENT' => 'Свободен',
 );
 $jsLanguageStrings = array(
 	'JS_MORE' => 'Еще',
@@ -197,7 +200,7 @@ $jsLanguageStrings = array(
 	'JS Not Held'	=>	'Не проведено',
 	'JS Not Started'	=>	'Не начато',
 	'JS Pending Input'	=>	'В ожидании',
-	'JS Planned'	=>	'Запланировано',
+	'Cancelled' => 'Отменено',
 	'JS Satatus'	=>	'Статус',
 	'JS Start Date'	=>	'Дата начала',
 	'JS Task'	=>	'Задача',

@@ -54,6 +54,8 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
+							if($fieldName == 'time_zone' && empty($defaultValue))
+								$defaultValue = vglobal('default_timezone');
 							if(!empty($defaultValue) && !$recordId)
 								$fieldModel->set('fieldvalue', $defaultValue);
 						}

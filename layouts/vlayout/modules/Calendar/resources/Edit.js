@@ -216,15 +216,15 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				return;
 			}
 
-			var startDate = dateStartElement.val();
-			var strtTime = strtTimeElement.val();
+			var endDate = endDateElement.val();
+			var endTime = endTimeElement.val();
 
 			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
 			if (result != true) {
 				return;
 			}
-			var dateTime = startDate + ' ' + strtTime;
-			var dateFormat = container.find('[name="date_start"]').data('dateFormat');
+			var dateTime = endDate + ' ' + endTime;
+			var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 			var timeFormat = endTimeElement.data('format');
 			var date = Vtiger_Helper_Js.getDateInstance(dateTime, dateFormat);
 			var endDateInstance = Date.parse(date);
@@ -434,11 +434,28 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 
 	registerBasicEvents : function(container) {
 		this._super(container);
+		this.toggleTimesInputs(container)
 		this.registerActivityTypeChangeEvent(container);
 		this.registerTimeStartChangeEvent(container);
         this.registerEndDateTimeChangeLogger(container);
         //Required to set the end time based on the default ActivityType selected
         container.find('[name="activitytype"]').trigger('change');
+	},
+
+	toggleTimesInputs: function(container){		
+		container.find(':checkbox').change(function() {
+			var checkboxName =  $(this).attr('name');
+			if('allday' == checkboxName){
+				var checkboxIsChecked = $(this).is(':checked');
+				if (!container.find('#quickCreate').length){
+					if(checkboxIsChecked){
+						container.find('.time').hide();
+					}else{
+						container.find('.time').show();
+					}
+				}
+			}
+		});
 	},
 	
 	registerEvents : function(){
@@ -446,13 +463,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		if(!statusToProceed){
 			return;
 		}
-	 	this.registerReminderFieldCheckBox();
+		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
-        this.registerRelatedContactSpecificEvents();
+		this.registerRelatedContactSpecificEvents();
 		this._super();
 	}
 });
+

@@ -130,7 +130,7 @@ else if (strlen($part_id)) {
         $extensions = rcube_mime::get_mime_extensions($mimetype);
 
         if ($plugin['body']) {
-            $part->body = $plugin['body'];
+            $body = $plugin['body'];
         }
 
         // compare file mimetype with the stated content-type headers and file extension to avoid malicious operations
@@ -142,34 +142,29 @@ else if (strlen($part_id)) {
 
             // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
             if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
-                if ($part->body)  // part body is already loaded
-                    $body = $part->body;
-                else if ($part->size && $part->size < 1024*1024)   // load the entire part if it's small enough
-                    $body = $part->body = $MESSAGE->get_part_content($part->mime_id);
-                else  // fetch the first 2K of the message part
-                    $body = $MESSAGE->get_part_content($part->mime_id, null, true, 2048);
+                $tmp_body = $body ?: $MESSAGE->get_part_body($part->mime_id, false, 2048);
 
                 // detect message part mimetype
-                $real_mimetype = rcube_mime::file_content_type($body, $part->filename, $mimetype, true, true);
+                $real_mimetype = rcube_mime::file_content_type($tmp_body, $part->filename, $mimetype, true, true);
                 list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
 
                 // accept text/plain with any extension
                 if ($real_mimetype == 'text/plain' && $real_mimetype == $mimetype) {
-                    $file_extension = 'txt';
-                }
-
-                // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
-                    $real_mimetype = $mimetype;
-                }
-
-                // get valid file extensions
-                $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
-
-                // ignore filename extension if mimeclass matches (#1489029)
-                if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
                     $valid_extension = true;
+                }
+                // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
+                else if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
+                    $real_mimetype   = $mimetype;
+                    $valid_extension = true;
+                }
+                // ignore filename extension if mimeclass matches (#1489029)
+                else if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
+                    $valid_extension = true;
+                }
+                else {
+                    // get valid file extensions
+                    $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
+                    $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
                 }
 
                 // fix mimetype for images wrongly declared as octet-stream
@@ -188,10 +183,12 @@ else if (strlen($part_id)) {
                 // send blocked.gif for expected images
                 if (empty($_REQUEST['_mimewarning']) && strpos($mimetype, 'image/') === 0) {
                     // Do not cache. Failure might be the result of a misconfiguration, thus real content should be returned once fixed. 
+                    $content = $RCMAIL->get_resource_content('blocked.gif');
                     $OUTPUT->nocacheing_headers();
                     header("Content-Type: image/gif");
                     header("Content-Transfer-Encoding: binary");
-                    readfile(INSTALL_PATH . 'program/resources/blocked.gif');
+                    header("Content-Length: " . strlen($content));
+                    echo $content;
                 }
                 else {  // html warning with a button to load the file anyway
                     $OUTPUT = new rcmail_html_page();
@@ -221,7 +218,7 @@ else if (strlen($part_id)) {
         // TIFF to JPEG conversion, if needed
         $tiff_support = !empty($_SESSION['browser_caps']) && !empty($_SESSION['browser_caps']['tif']);
         if (!empty($_REQUEST['_embed']) && !$tiff_support
-            && $RCMAIL->config->get('im_convert_path')
+            && rcube_image::is_convertable('image/tiff')
             && rcmail_part_image_type($part) == 'image/tiff'
         ) {
             $tiff2jpeg = true;
@@ -247,19 +244,19 @@ else if (strlen($part_id)) {
             if (!rcube_utils::mem_check($part->size * 10)) {
                 $out = '<body>' . $RCMAIL->gettext('messagetoobig'). ' '
                     . html::a('?_task=mail&_action=get&_download=1&_uid='.$MESSAGE->uid.'&_part='.$part->mime_id
-                        .'&_mbox='. urlencode($RCMAIL->storage->get_folder()), $RCMAIL->gettext('download')) . '</body></html>';
+                        .'&_mbox='. urlencode($MESSAGE->folder), $RCMAIL->gettext('download')) . '</body></html>';
             }
             else {
                 // get part body if not available
-                if (!$part->body) {
-                    $part->body = $MESSAGE->get_part_content($part->mime_id);
+                if (!isset($body)) {
+                    $body = $MESSAGE->get_part_body($part->mime_id, true);
                 }
 
                 // show images?
                 rcmail_check_safe($MESSAGE);
 
                 // render HTML body
-                $out = rcmail_print_body($part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
+                $out = rcmail_print_body($body, $part, array('safe' => $MESSAGE->is_safe, 'inline_html' => false));
 
                 // insert remote objects warning into HTML body
                 if ($REMOTE_OBJECTS) {
@@ -280,7 +277,7 @@ else if (strlen($part_id)) {
             }
 
             // check connection status
-            if ($part->size && empty($part->body)) {
+            if ($part->size && empty($body)) {
                 check_storage_status();
             }
 
@@ -293,9 +290,7 @@ else if (strlen($part_id)) {
 
             $filename = rcmail_attachment_name($part);
 
-            if ($browser->ie && $browser->ver < 7)
-                $filename = rawurlencode(abbreviate_string($filename, 55));
-            else if ($browser->ie)
+            if ($browser->ie)
                 $filename = rawurlencode($filename);
             else
                 $filename = addcslashes($filename, '"');
@@ -322,12 +317,12 @@ else if (strlen($part_id)) {
                 $file_path = tempnam($temp_dir, 'rcmAttmnt');
 
                 // write content to temp file
-                if ($part->body) {
-                    $saved = file_put_contents($file_path, $part->body);
+                if ($body) {
+                    $saved = file_put_contents($file_path, $body);
                 }
                 else if ($part->size) {
                     $fd    = fopen($file_path, 'w');
-                    $saved = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $fd);
+                    $saved = $MESSAGE->get_part_body($part->mime_id, false, 0, $fd);
                     fclose($fd);
                 }
 
@@ -343,22 +338,22 @@ else if (strlen($part_id)) {
             }
             // do content filtering to avoid XSS through fake images
             else if (!empty($_REQUEST['_embed']) && $browser->ie && $browser->ver <= 8) {
-                if ($part->body) {
-                    echo preg_match('/<(script|iframe|object)/i', $part->body) ? '' : $part->body;
+                if ($body) {
+                    echo preg_match('/<(script|iframe|object)/i', $body) ? '' : $body;
                     $sent = true;
                 }
                 else if ($part->size) {
                     $stdout = fopen('php://output', 'w');
                     stream_filter_register('rcube_content', 'rcube_content_filter') or die('Failed to register content filter');
                     stream_filter_append($stdout, 'rcube_content');
-                    $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, false, $stdout);
+                    $sent = $MESSAGE->get_part_body($part->mime_id, true, 0, $stdout);
                 }
             }
             // send part as-it-is
             else {
-                if ($part->body) {
-                    header("Content-Length: " . strlen($part->body));
-                    echo $part->body;
+                if ($body && empty($plugin['download'])) {
+                    header("Content-Length: " . strlen($body));
+                    echo $body;
                     $sent = true;
                 }
                 else if ($part->size) {
@@ -366,8 +361,7 @@ else if (strlen($part_id)) {
                         header("Content-Length: $size");
                     }
 
-                    // 8th argument disables re-formatting of text/* parts (#1489267)
-                    $sent = $RCMAIL->storage->get_message_part($MESSAGE->uid, $part->mime_id, $part, true, null, false, 0, false);
+                    $sent = $MESSAGE->get_part_body($part->mime_id, false, 0, -1);
                 }
             }
 
