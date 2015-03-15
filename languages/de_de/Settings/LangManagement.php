@@ -8,7 +8,7 @@
  *  Website				: www.opensaas.pl
  ********************************************************************************+*/
 $languageStrings = array(
-	'No data available in table' => 'No data available in table',
+	'No data available in table' => 'Keine Daten in Tabelle verfügbar',
 	'Translations' => 'Translations',
 	'Language editor' => 'Language editor',
 	'LangManagement' => 'Sprachen Management',
@@ -50,17 +50,17 @@ $languageStrings = array(
 	'Export'	=> 'Exportieren',
 	'LBL_SHOW_MISSING_TRANSLATIONS' => 'Zeige nicht übersetzte Variablen',
 	'LBL_DEFAULT'	=> 'Standard',
-	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Cannot make changes',
-	'LBL_EDIT'	=> 'Create & Edit',
-	'LBL_DETAIL' => 'Detail view & Summary view',
-	'LBL_QUICKCREATE' => 'Quick create',
-	'LBL_SHOW_EMPTY_VALUES' => 'Show empty values',
-	'LBL_SHOW_IN'	=> 'Show in',
-	'LBL_EDIT_HELP_ICON'	=> 'Help icons',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Keine Änderungen zulässig',
+	'LBL_EDIT'	=> 'Anlegen & Bearbeiten',
+	'LBL_DETAIL' => 'Detailsicht & Kompaktsicht',
+	'LBL_QUICKCREATE' => 'Schnellanlegen',
+	'LBL_SHOW_EMPTY_VALUES' => 'Zeige leere Werte',
+	'LBL_SHOW_IN'	=> 'Zeige in',
+	'LBL_EDIT_HELP_ICON'	=> 'Hilfe Icons',
 );
 $jsLanguageStrings = array(
 	'Translations' => 'Translations',
-	'Language editor' => 'Language editor',
+	'Language editor' => 'Spracheneditor',
 	'LBL_AreYouSure'	=> 'Sind Sie sicher, dass Sie diese Sprache löschen möchten?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Sie Sie sicher, dass Sie die Standardsprache ändern möchten?',
 	'JS_DEFAULT'	=> 'Standard',

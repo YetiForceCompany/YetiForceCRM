@@ -1,7 +1,7 @@
 <?php
 
 $languageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
+	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
 	'OSSProjectTemplates_manual'	=>	'OSS Projekt Vorlagen',
     'LBL_NEW_TPL' => 'Neues Dokument',
 	 'OSSDocumentControl' => 'Dokumentenkontrolle',
@@ -38,5 +38,5 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
+	'LBL_VIEW_EDIT2' => 'Konditionen hinzufügen',
 );

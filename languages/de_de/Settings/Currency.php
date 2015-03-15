@@ -8,11 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+	'Conversion Rate' => 'Umrechnungskurs',
+	'Currency' => 'Währung',
 	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency Code',
-	'Currency Name' => 'Currency Name',
+	'Currency Code' => 'Währungsschlüssel',
+	'Currency Name' => 'Name der Währung',
 	'LBL_ADD_NEW_CURRENCY' => 'Währung hinzufügen',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_CURRENCY_CODE' => 'Währungskürzel',

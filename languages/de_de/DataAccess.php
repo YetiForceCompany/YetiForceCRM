@@ -68,8 +68,8 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Diese Werkzeug färbt die Datensätze zeilenweise ein, die entsprechenden Bedingungen erfüllen. So sind Datensätze mit einer höheren Priorität leichter zu unterscheiden.',
 	'LBL_BACKGROUND_COLOR' => 'Hintergrund Farbe',
 	'LBL_TEXT_COLOR' => 'Text Farbe',
-	'This name already exists' => 'This name already exists',
+	'This name already exists' => 'Der Name existiert schon',
 );
 $jsLanguageStrings = array(
-	'DataAccess' => 'Data Access',
+	'DataAccess' => 'Datenzugriff',
 );
