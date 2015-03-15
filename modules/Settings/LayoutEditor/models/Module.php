@@ -195,10 +195,15 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
         }
 		if($fieldType == 'Related1M') {
 			if( !is_array( $params['ModuleList'] ) )
-				$ModuleList[] = $params['ModuleList'];
+				$moduleList[] = $params['ModuleList'];
 			else
-				$ModuleList = $params['ModuleList'];
-			$fieldModel->setRelatedModules($ModuleList);
+				$moduleList = $params['ModuleList'];
+			$fieldModel->setRelatedModules($moduleList);
+                        foreach($moduleList as $module){
+                            $targetModule = Vtiger_Module::getInstance($module);
+                            $targetModule->setRelatedList($this, $moduleName, array('Add'),'get_dependents_list');
+                        }
+                        
 		}
         return $fieldModel;
     }

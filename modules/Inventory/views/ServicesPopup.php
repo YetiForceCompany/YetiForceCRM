@@ -27,7 +27,6 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
 		$moduleName = $this->getModule($request);
-		$viewer->assign('MODULE',$moduleName);
 		$viewer->assign('MODULE_NAME',$moduleName);
 		$viewer->view('Popup.tpl', $moduleName);
 	}
@@ -52,7 +51,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 		$relatedParentModule = $request->get('related_parent_module');
 		$relatedParentId = $request->get('related_parent_id');
 		$potentialId = $request->get('potentialid');
-		
+		$searchParams = $request->get('search_params');
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
 
@@ -109,6 +108,20 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
+		$searchParmams = $request->get('search_params');
+        if(empty($searchParmams)) {
+            $searchParmams = array();
+        }
+        $transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
+        $listViewModel->set('search_params',$transformedSearchParams);
+        //To make smarty to get the details easily accesible
+        foreach($searchParmams as $fieldListGroup){
+        	foreach($fieldListGroup as $fieldSearchInfo){
+        		$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+        		$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
+        		$searchParmams[$fieldName] = $fieldSearchInfo;
+        	}
+        }
 		if(Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() && Settings_SalesProcesses_Module_Model::isLimitForModule( $sourceModule ) ) {
 			if ( $potentialId == '' ) $potentialId = -1;
 			$listViewModel->set('potential_id', $potentialId);
@@ -200,6 +213,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT',$noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
+		$viewer->assign('POPUPTYPE', vglobal('popupType'));
 		
 		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false)) {
 			if(!$this->listViewCount){
@@ -219,6 +233,7 @@ class Inventory_ServicesPopup_View extends Vtiger_Popup_View {
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('VIEW', 'ServicesPopup');
+		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	}
 
 }
