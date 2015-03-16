@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
-	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
+	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
 	'ModuleManager' => 'Module Manager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Modul aus Datei importieren',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
@@ -61,11 +61,11 @@ $languageStrings = array(
 	'LBL_INVALID_MODULE_NAME' => 'Fehlerhafter Modulname',
 );
 $jsLanguageStrings = array(
-	'JS_UPDATED_MODULE' => 'Update Successfull',
-	'JS_UPDATE_SUCCESSFULL' => 'Update Successfull',
-	'JS_IMPORTED_MODULE' => 'Install Successfull',
-	'JS_IMPORT_SUCCESSFULL' => 'Install Successfull',
-	'JS_FOR_INSTALLATION' => 'for installation',
-	'JS_CLICK_HERE' => 'Click Here',
-	'JS_ON' => 'On',
+	'JS_UPDATED_MODULE' => 'Update Erfolgreich',
+	'JS_UPDATE_SUCCESSFULL' => 'Update Erfolgreich',
+	'JS_IMPORTED_MODULE' => 'Installation Erfolgreich',
+	'JS_IMPORT_SUCCESSFULL' => 'Installation Erfolgreich',
+	'JS_FOR_INSTALLATION' => 'für Installation',
+	'JS_CLICK_HERE' => 'Hier Klicken',
+	'JS_ON' => 'Ein',
 );

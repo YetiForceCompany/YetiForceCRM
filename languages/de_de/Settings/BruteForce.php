@@ -27,8 +27,8 @@ $languageStrings = array(
     'Users' => 'Benutzer',
     'Browsers' => 'Browser',
     'Unblock' => 'Entsperren',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
-	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Anwender für Benachrichtungen',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Aktiv',
     
 );
 
@@ -39,7 +39,7 @@ $jsLanguageStrings = array(
     'LBL_FAIL' => 'Änderungen wurden nicht gespeichert', 
     'LBL_UNBLOCK_FAIL' => 'IP-Adresse noch nicht freigegeben',
     'LBL_UNBLOCK_SUCCESS' => 'IP-Adresse wurde freigegeben',   
-	'JS_WRONG_ATTEMPS_NUMBER' => 'You have entered an incorrect format for a number of attempts, correct it.',
-	'JS_WRONG_TIME_LOCK_FORMAT' => 'You have entered an incorrect format for a time lock, correct it.'   
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Sie haben mehrmals ein falsches Format für eine Nummer eingegeben, bitte korrigieren Sie dies.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Sie haben mehrmals ein falsches Format für eine Zeit eingegeben, bitte korrigieren Sie dies.'   
     
 );

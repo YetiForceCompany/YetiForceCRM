@@ -308,8 +308,8 @@ $languageStrings = array(
 	"Production Department"	=> 'Produktion',
 	"Marketing Department"	=> 'Marketing',
 
-	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
-	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
+	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
+	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
 );
 
 $jsLanguageStrings = array(

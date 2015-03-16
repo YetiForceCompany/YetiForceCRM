@@ -10,7 +10,7 @@
  ************************************************************************************/
 
 $languageStrings = array(
-	'Payments' => 'Payments',
+	'Payments' => 'Zahlungen',
     'LBL_RIGHT_CLICK_COPY' => 'Rechte Maustaste zum kopieren',
 );
 
