@@ -62,6 +62,8 @@ $server->addPlugin(new Sabre\DAV\Sync\Plugin());
 
 if($enableBrowser){
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
+	// Automatically guess (some) contenttypes, based on extesion
+	$server->addPlugin(new Sabre\DAV\Browser\GuessContentType());
 }
 if($enableCardDAV){//CardDav integration
 	$server->addPlugin(new Sabre\CardDAV\Plugin());
@@ -76,8 +78,6 @@ if($enableWebDAV){//WebDAV integration
 	$lockBackend = new Sabre\DAV\Locks\Backend\File($upload_dir . '/locksdb');
 	$lockPlugin = new Sabre\DAV\Locks\Plugin($lockBackend);
 	$server->addPlugin($lockPlugin);
-	// Automatically guess (some) contenttypes, based on extesion
-	$server->addPlugin(new Sabre\DAV\Browser\GuessContentType());
 	// Temporary file filter
 	$tempFF = new Sabre\DAV\TemporaryFileFilterPlugin($upload_dir);
 	$server->addPlugin($tempFF);
