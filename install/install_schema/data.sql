@@ -4055,7 +4055,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (49,777,'oss_module_list','vtiger_ossmailtemplates',2,'301','oss_module_list','Module',1,2,'',100,5,126,1,'V~M',2,0,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (49,778,'subject','vtiger_ossmailtemplates',2,'1','subject','Subject',1,2,'',100,1,127,1,'V~M~LE~255',2,0,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (49,779,'content','vtiger_ossmailtemplates',2,'300','content','Content',1,2,'',100,2,127,1,'V~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,780,'name','vtiger_osstimecontrol',1,'16','name','name',1,2,'',100,1,128,1,'V~M',2,1,'BAS',1,'',1,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,780,'name','vtiger_osstimecontrol',1,'1','name','name',1,2,'',100,1,128,1,'V~M',2,1,'BAS',1,'',1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,781,'osstimecontrol_no','vtiger_osstimecontrol',1,'4','osstimecontrol_no','No.',1,2,'',100,2,128,3,'V~O',1,NULL,'BAS',1,'',1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,782,'osstimecontrol_status','vtiger_osstimecontrol',2,'16','osstimecontrol_status','LBL_STATUS',1,2,'To approval',100,3,128,1,'V~M',2,7,'BAS',2,'',1,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (51,783,'smownerid','vtiger_crmentity',1,'53','assigned_user_id','Assigned To',1,2,'',100,9,128,1,'V~M',1,4,'BAS',1,'',1,'');
@@ -5710,32 +5710,6 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (82,1);
 /*Data for the table `vtiger_module_dashboard_blocks` */
 
 /*Data for the table `vtiger_module_dashboard_widgets` */
-
-/*Data for the table `vtiger_name` */
-
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (1,'Telephone contact',1,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (2,'Email contact',2,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (3,'Data verification',3,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (4,'Information completing',4,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (5,'Company presentation',5,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (6,'Product/service presentation',6,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (7,'Calculations preparation',7,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (8,'Quote preparation',8,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (9,'Order/Service preparation',9,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (10,'Project preparation',10,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (11,'Task realization',11,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (12,'Event realization',12,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (13,'Support',13,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (14,'Document Verification',14,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (15,'Visits at Organizations',15,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (16,'Trips to Organizations',16,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (17,'Office work',17,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (18,'Administrative work',18,1);
-insert  into `vtiger_name`(`nameid`,`name`,`sortorderid`,`presence`) values (19,'Accounting work',19,1);
-
-/*Data for the table `vtiger_name_seq` */
-
-insert  into `vtiger_name_seq`(`id`) values (19);
 
 /*Data for the table `vtiger_neworders` */
 
