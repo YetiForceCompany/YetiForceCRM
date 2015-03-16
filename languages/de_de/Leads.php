@@ -73,6 +73,10 @@ $languageStrings = array(
 	'LBL_REQUIRES_VERIFICATION' => 'Daten Überprüfung',
 	'Approval for phone calls'=>'Erlaubnis zum Anrufen',
 	'Approval for email'=>'Berechtigung um Emails zu versenden',
+
+	//PICKLIST VALUES
+	'PLL_B2C' => 'B2C',
+	'PLL_B2B' => 'B2B',
     
 	'Total emails'=>'Anzahl von EMails',
 	'Total comments'=>'Anzahl von Kommentaren',
@@ -83,6 +87,7 @@ $languageStrings = array(
 	'Attention' => 'Kommentare',
 	"Attorney General's Office" => "Generalstaatsanwaltschaft",
 	'Orders accepted' => 'Aufträge angenommen',
+	'LBL_RELATION' => 'Relation',
 );
 
 $jsLanguageStrings = array(

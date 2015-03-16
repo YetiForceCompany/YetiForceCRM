@@ -84,6 +84,11 @@ $languageStrings = array(
 	'LBL_REQUIRES_VERIFICATION'	=>	'Проверка данных',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм'              , 
     'Prospecting'                  => 'Разведка',
+	'LBL_RELATION' => 'Relation',
+
+	//PICKLIST VALUES
+	'PLL_B2C' => 'B2C',
+	'PLL_B2B' => 'B2B',
 );
 
 $jsLanguageStrings = array(
