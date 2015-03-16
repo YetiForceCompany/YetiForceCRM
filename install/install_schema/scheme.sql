@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -786,7 +786,6 @@ CREATE TABLE `vtiger_assets` (
   `invoiceid` int(19) DEFAULT NULL,
   `shippingmethod` varchar(200) DEFAULT NULL,
   `assetname` varchar(100) DEFAULT NULL,
-  `contact` int(19) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
@@ -798,7 +797,6 @@ CREATE TABLE `vtiger_assets` (
   KEY `product` (`product`),
   KEY `invoiceid` (`invoiceid`),
   KEY `potential` (`potential`),
-  KEY `contact` (`contact`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2967,7 +2965,6 @@ CREATE TABLE `vtiger_invoice` (
   `subject` varchar(100) DEFAULT NULL,
   `salesorderid` int(19) DEFAULT NULL,
   `customerno` varchar(100) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `notes` varchar(100) DEFAULT NULL,
   `invoicedate` date DEFAULT NULL,
   `duedate` date DEFAULT NULL,
@@ -3001,7 +2998,6 @@ CREATE TABLE `vtiger_invoice` (
   KEY `invoice_purchaseorderid_idx` (`invoiceid`),
   KEY `fk_2_vtiger_invoice` (`salesorderid`),
   KEY `potentialid` (`potentialid`),
-  KEY `contactid` (`contactid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_2_vtiger_invoice` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3308,12 +3304,7 @@ CREATE TABLE `vtiger_lettersin` (
   `lettersinid` int(19) NOT NULL DEFAULT '0',
   `number` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `helpdeskid` int(19) DEFAULT NULL,
-  `projectid` int(19) DEFAULT NULL,
-  `campaignid` int(19) DEFAULT NULL,
   `person_receiving` int(19) DEFAULT NULL,
   `parentid` int(19) DEFAULT NULL,
   `date_adoption` date DEFAULT NULL,
@@ -3342,12 +3333,7 @@ CREATE TABLE `vtiger_lettersout` (
   `lettersoutid` int(19) NOT NULL DEFAULT '0',
   `number` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `helpdeskid` int(19) DEFAULT NULL,
-  `projectid` int(19) DEFAULT NULL,
-  `campaignid` int(19) DEFAULT NULL,
   `person_receiving` int(19) DEFAULT NULL,
   `parentid` int(19) DEFAULT NULL,
   `date_adoption` date DEFAULT NULL,
@@ -4241,7 +4227,6 @@ CREATE TABLE `vtiger_ossoutsourcedservices` (
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
-  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`ossoutsourcedservicesid`),
@@ -4456,7 +4441,6 @@ CREATE TABLE `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
@@ -4490,7 +4474,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `time_end` varchar(50) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `accountid` int(19) DEFAULT '0',
-  `contactid` int(19) DEFAULT '0',
   `ticketid` int(19) DEFAULT '0',
   `projectid` int(19) DEFAULT '0',
   `projecttaskid` int(19) DEFAULT '0',
@@ -4518,7 +4501,6 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `calculationsid` (`calculationsid`),
   KEY `leadid` (`leadid`),
   KEY `accountid` (`accountid`),
-  KEY `contactid` (`contactid`),
   KEY `ticketid` (`ticketid`),
   KEY `projectid` (`projectid`),
   KEY `projecttaskid` (`projecttaskid`),
@@ -4585,7 +4567,6 @@ CREATE TABLE `vtiger_outsourcedproducts` (
   `pscategory` varchar(255) DEFAULT '',
   `wherebought` varchar(255) DEFAULT '',
   `prodcount` varchar(255) DEFAULT '',
-  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`outsourcedproductsid`),
@@ -4645,7 +4626,6 @@ CREATE TABLE `vtiger_paymentsin` (
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
   `salesid` int(19) DEFAULT NULL,
-  `parentid` int(19) DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
   CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5416,7 +5396,6 @@ CREATE TABLE `vtiger_purchaseorder` (
   `requisition_no` varchar(100) DEFAULT NULL,
   `purchaseorder_no` varchar(100) DEFAULT NULL,
   `tracking_no` varchar(100) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `duedate` date DEFAULT NULL,
   `carrier` varchar(200) DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
@@ -5440,7 +5419,6 @@ CREATE TABLE `vtiger_purchaseorder` (
   PRIMARY KEY (`purchaseorderid`),
   KEY `purchaseorder_vendorid_idx` (`vendorid`),
   KEY `purchaseorder_quoteid_idx` (`quoteid`),
-  KEY `purchaseorder_contactid_idx` (`contactid`),
   CONSTRAINT `vtiger_purchaseorder_ibfk_1` FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5490,7 +5468,6 @@ CREATE TABLE `vtiger_quotes` (
   `potentialid` int(19) DEFAULT NULL,
   `quotestage` varchar(200) DEFAULT NULL,
   `validtill` date DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `quote_no` varchar(100) DEFAULT NULL,
   `subtotal` decimal(25,8) DEFAULT NULL,
   `carrier` varchar(200) DEFAULT NULL,
@@ -5514,7 +5491,6 @@ CREATE TABLE `vtiger_quotes` (
   PRIMARY KEY (`quoteid`),
   KEY `quote_quotestage_idx` (`quotestage`),
   KEY `quotes_potentialid_idx` (`potentialid`),
-  KEY `quotes_contactid_idx` (`contactid`),
   KEY `accountid` (`accountid`),
   KEY `requirementcards_id` (`requirementcards_id`),
   CONSTRAINT `vtiger_quotes_ibfk_1` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -6141,7 +6117,6 @@ CREATE TABLE `vtiger_salesorder` (
   `salesorder_no` varchar(100) DEFAULT NULL,
   `quoteid` int(19) DEFAULT NULL,
   `vendorterms` varchar(100) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `vendorid` int(19) DEFAULT NULL,
   `duedate` date DEFAULT NULL,
   `carrier` varchar(200) DEFAULT NULL,
@@ -6169,7 +6144,6 @@ CREATE TABLE `vtiger_salesorder` (
   `form_payment` varchar(255) DEFAULT '',
   PRIMARY KEY (`salesorderid`),
   KEY `salesorder_vendorid_idx` (`vendorid`),
-  KEY `salesorder_contactid_idx` (`contactid`),
   KEY `accountid` (`accountid`),
   KEY `sostatus` (`sostatus`),
   KEY `potentialid` (`potentialid`,`sostatus`),
@@ -7090,7 +7064,6 @@ CREATE TABLE `vtiger_troubletickets` (
   `solution` text,
   `update_log` text,
   `version_id` int(11) DEFAULT NULL,
-  `contact_id` int(19) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `projectid` int(19) DEFAULT NULL,
   `servicecontractsid` int(19) DEFAULT NULL,
@@ -7102,7 +7075,6 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `troubletickets_status_idx` (`status`),
   KEY `parent_id` (`parent_id`),
   KEY `product_id` (`product_id`),
-  KEY `contact_id` (`contact_id`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `projectid` (`projectid`),
   KEY `pssold_id` (`pssold_id`),
