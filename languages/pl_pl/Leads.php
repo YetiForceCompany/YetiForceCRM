@@ -71,6 +71,10 @@ $languageStrings = array(
 	'Contact Information' => 'Informacje kontaktowe',
 	'LBL_REGISTRATION_INFO'=>'Informacje rejestrowe',
 	'LBL_REQUIRES_VERIFICATION' => 'Weryfikacja danych',
+
+	//PICKLIST VALUES
+	'PLL_B2C' => 'B2C',
+	'PLL_B2B' => 'B2B',
 	
 	'Total emails'=>'Liczba <br />maili',
 	'Total comments'=>'Liczba komentarzy',
@@ -82,6 +86,7 @@ $languageStrings = array(
     
 	'Attention' => 'Uwagi',
     "Attorney General's Office" => 'Prokuratura',
+	'LBL_RELATION' => 'Relacja',
 );
 
 $jsLanguageStrings = array(
