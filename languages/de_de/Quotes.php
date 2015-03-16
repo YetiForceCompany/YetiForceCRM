@@ -29,14 +29,14 @@ $languageStrings = array(
 	'Cash' => 'Bar',
 	
 	//picklist values
-	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
-	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
-	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
-	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
-	'PLL_IN_PREPARATION' => 'In preparation',
-	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
-	'PLL_DECLINED' => 'Declined',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_WAITING_FOR_PREPARATION' => 'Warten auf Zuarbeit',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Interne Klärung erforderlich',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Externe Klärung erforderlich',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Warten auf Kundenantwort',
+	'PLL_IN_PREPARATION' => 'In Bearbeitung',
+	'PLL_SENT_TO_ORGANIZATION' => 'An Organisation gesendet',
+	'PLL_DECLINED' => 'Abgelehnt',
+	'PLL_ACCEPTED' => 'Angenommen',
 );
 
 $jsLanguageStrings = array(

@@ -758,9 +758,9 @@ $languageStrings = array(
 	'OSSTimeControl' => 'Zeiterfassung',
 	'OSSMailView' => 'E-Mails',
 	'OSSEmployees' => 'Mitarbeiter',
-	'HolidaysEntitlement' => 'Annual holiday entitlement',
+	'HolidaysEntitlement' => 'Urlaubsanspruch',
 	'Calculations' => 'Kalkulationen',
-	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Suche in Unterkategorien',
 
 	/* industry */
 	'Administration'=>'Verwaltung',
@@ -884,17 +884,17 @@ $languageStrings = array(
 	'LBL_SELECT_USER_TO_CALL' => 'Auswählen, wen Sie anrufen möchten?',
 	
 	//Widget
-	'LIST_OF_LAST_UPDATED_RECORD' => 'List of last updated record',
-	'LBL_NAME' => 'Record name',
-	'LBL_MODULE_NAME' => 'Module name',
-	'LBL_NO_MOD_RECORDS' => 'No modified records',
-	'PLL_HOLIDAY_TIME' => 'Holiday',
-	'PLL_BREAK_TIME' => 'Break from work',
-	'PLL_WORKING_TIME' => 'Working time',
+	'LIST_OF_LAST_UPDATED_RECORD' => 'Letzte geänderte Datensätze',
+	'LBL_NAME' => 'Datensatzbezeichnung',
+	'LBL_MODULE_NAME' => 'Modulname',
+	'LBL_NO_MOD_RECORDS' => 'Keine geänderte Datensätze',
+	'PLL_HOLIDAY_TIME' => 'Ferien',
+	'PLL_BREAK_TIME' => 'Unterbrechung der Arbeit',
+	'PLL_WORKING_TIME' => 'Arbeitszeit',
 );
 $jsLanguageStrings = array(
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
-	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Arbeitszeit darf 24 Stunden nicht überschreiten',
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',
 	'JS_SAVE_LOADER_INFO' => 'Speichere Daten...',
 	'JS_OF' => 'von',

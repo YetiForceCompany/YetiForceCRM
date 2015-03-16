@@ -8,11 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'isactive' => 'Active',
+	'isactive' => 'Aktiv',
 	'password' => 'Password',
 	'username' => 'User Name',
-	'LBL_SEREVER_CONFIG' => 'New Configuration',
-	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
+	'LBL_SEREVER_CONFIG' => 'Neue Konfiguration',
+	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 Zeichen erlaubt',
 	'providertype' => 'Provider',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'SMS senden an die ausgewählten Nummern',

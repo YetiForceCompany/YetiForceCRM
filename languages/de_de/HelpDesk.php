@@ -8,8 +8,8 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
-	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
-	'LBL_STATUS_CLOSED' => 'Closed',
+	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
+	'LBL_STATUS_CLOSED' => 'Geschlossen',
 	'Big Problem' => 'Grosses Problem',
 	'Closed' => 'Geschlossen',
 	'created' => 'erstellt',

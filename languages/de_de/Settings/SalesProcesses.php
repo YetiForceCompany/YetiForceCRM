@@ -9,11 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SALES_PROCESSES'													=> 'Sales processes',
+	'LBL_SALES_PROCESSES'													=> 'Vertriebsprozess',
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
-	'LBL_SAVE_CONFIG_OK'													=> 'Successfully saved sales processes settings.',
-	'LBL_SAVE_CONFIG_ERROR'													=> 'Failed to save sales processes settings.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
+	'LBL_SAVE_CONFIG_OK'													=> 'Vertriebsprozesseinstellungen erfolgreich gesichert.',
+	'LBL_SAVE_CONFIG_ERROR'													=> 'Fehler beim Sichern.',
+	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu wählen. Wird von folgenden Modulen unterstützt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
 );
 $jsLanguageStrings = array(
 
