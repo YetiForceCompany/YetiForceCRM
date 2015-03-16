@@ -70,14 +70,13 @@ $languageStrings = array(
  'more than hours before' => 'mehr als Stunden vor',
  'more than hours later' => 'mehr als Stunden später',
  'has changed' => 'hat geändert',
- 'Adding time period to status change' => 'Adding time period to status change',
- 'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
- 'Date validation' => 'Date validation',
- 'Check parent task' => 'Check parent task',
- 'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
- 'Check for duplicate names' => 'Check for duplicate names',
- 'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
- 'Lock edit on the status' => 'Lock edit on the status',
+ 'Adding time period to status change' => 'Zeitperiode zur Statusänderung hinzufügen',
+ 'Check if there are any tasks that are not closed' => 'Prüfen ob alle Aufgaben erledigt sind',
+ 'Date validation' => 'Datumsüberprüfung',
+ 'Check parent task' => 'Prüfe übergeordnete Aufgabe',
+ 'Check for duplicate names' => 'Prüfe auf doppelte Namen',
+ 'Check whether all mandatory fields in quick edit are filled in' => 'Prüfe ob alle Mussfelder bei Schnelleditieren gefüllt sind',
+ 'Lock edit on the status' => 'Bearbeiten Sperren bei folgendem Status',
 );
 
 $jsLanguageStrings = array(

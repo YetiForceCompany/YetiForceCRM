@@ -30,17 +30,17 @@ $languageStrings = array(
 	'LBL_PASSWORD' => 'Passwort',
 	'LBL_CONNECTION_STATUS' => 'Verbindungsstatus',
 	'LBL_SEND_TO_FTP' => 'An FTP senden',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_PATH' => 'Save path',
-	'LBL_PATH_INFO' => 'If path field is empty, backup will be saved in the main folder',
-	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail notifications',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_ACTIVE' => 'Aktiv',
+	'LBL_PATH' => 'Pfad sichern',
+	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird das Backup im Hauptordner gesichert',
+	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 );
 
 $jsLanguageStrings = array(
-	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
-	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
+	'JS_MANDATORY_FIELDS_EMPTY' => 'Pflichtfelder dürfen nicht leer sein',
+	'JS_PORT_ONLY_NUMBERS' => 'In Feld Port können nur Ziffern hinterlegt werden',
 	'JS_SAVE_CHANGES' => 'Änderungen wurden gespeichert',
-	'JS_HOST_NOT_CORRECT' => 'Incorrect host address',
-	'JS_CONNECTION_FAIL' => 'Failed login attempt',
+	'JS_HOST_NOT_CORRECT' => 'Fehlerhafte Host Adresse',
+	'JS_CONNECTION_FAIL' => 'Fehlerhafter Login Versuch',
 );

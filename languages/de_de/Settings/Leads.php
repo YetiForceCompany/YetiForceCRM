@@ -37,8 +37,8 @@ $languageStrings = array(
 	'text' => 'Text',
 	'time' => 'Zeit',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'In Organisation konvertieren',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Bei gesetzt, wird die Person welche ein Lead in eine Verkaufschance konvertiert zum Besitzer des Datensatzes.',
 );
 
 $jsLanguageStrings = array(
