@@ -75,6 +75,25 @@ $languageStrings = array(
 	//PICKLIST VALUES
 	'PLL_B2C' => 'B2C',
 	'PLL_B2B' => 'B2B',
+	'PLL_NATURAL_PERSON' => 'Natural person',
+	'PLL_BUSINESS_ACTIVITY' => 'Business activity', 
+	'PLL_GENERAL_PARTNERSHIP' => 'General partnership',
+	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Professional partnership',
+	'PLL_LIMITED_PARTNERSHIP' => 'Limited partnership',
+	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Joint stock partnership', 
+	'PLL_LIMITED_LIABILITY_COMPANY' => 'Limited liability company',
+	'PLL_STOCK_OFFERING_COMPANY' => 'Stock offeting company',
+	'PLL_GOVERMENT_ENTERPRISE' => 'Goverment enterprise',
+	'PLL_ASSOCIATION' => 'Association',
+	'PLL_COOPERATIVE' => 'Cooperative',
+	'PLL_FOUNDATION' => 'Foundation',
+	'PLL_EUROPEAN_PARTNERSHIP' => 'Europen partnership',
+	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'Europen economic interest grouping',
+	'PLL_EUROPEAN_COOPERATIVE' => 'European cooperative', 
+	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'European private partnership',
+	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European reciprocal partnership',
+	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
+	'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES' => 'Undertakings for collective invesment in transferable securites',
     
 	'Total emails'=>'Número de Emails',
 	'Total comments'=>'Número de Comentários',
@@ -86,6 +105,7 @@ $languageStrings = array(
     "Attorney General's Office" => "Escritório da Procuradoria Geral",
 	'Orders accepted'=>'Orders accepted',
 	'LBL_RELATION' => 'Relation',
+	'LBL_LEGAL_FORM' => 'Legal form',
 );
 
 $jsLanguageStrings = array(

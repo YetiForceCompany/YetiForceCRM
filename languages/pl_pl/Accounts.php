@@ -63,6 +63,28 @@ $languageStrings = array(
 	'Balance' => 'Saldo księgowe',
 	'Average profit sales order' => 'Średnia marża',
 	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
+	'LBL_LEGAL_FORM' => 'Forma prawna',
+
+	//PICKLIST VALUES
+	'PLL_NATURAL_PERSON' => 'Osoba fizyczna',
+	'PLL_BUSINESS_ACTIVITY' => 'Działalność gospodarcza', 
+	'PLL_GENERAL_PARTNERSHIP' => 'Spółka jawna',
+	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Spółka partnerska',
+	'PLL_LIMITED_PARTNERSHIP' => 'Spółka komandytowa',
+	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Spółka komandytowo-akcyjna', 
+	'PLL_LIMITED_LIABILITY_COMPANY' => 'Spółka z ograniczoną odpowiedzialnością',
+	'PLL_STOCK_OFFERING_COMPANY' => 'Spółka akcyjna',
+	'PLL_GOVERMENT_ENTERPRISE' => 'Przedsiębiorstwo państwowe',
+	'PLL_ASSOCIATION' => 'Stowarzyszenie',
+	'PLL_COOPERATIVE' => 'Spółdzielnia',
+	'PLL_FOUNDATION' => 'Fundacja',
+	'PLL_EUROPEAN_PARTNERSHIP' => 'Spółka europejska',
+	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'Europejskie zgrupowanie interesów gospodarczych',
+	'PLL_EUROPEAN_COOPERATIVE' => 'Spółdzielnia europejska', 
+	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'Europejska spółka prywatna',
+	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
+	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
+	'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
 );
 
 $jsLanguageStrings = array(

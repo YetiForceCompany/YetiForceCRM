@@ -4899,10 +4899,12 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (84,1734,'inheritsharing','vtiger_crmentity',1,'56','inheritsharing','Copy permissions automatically',1,2,'',100,1,264,1,'C~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (84,1735,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,2,264,1,'V~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (7,1736,'leads_relation','vtiger_leaddetails',1,'16','leads_relation','LBL_RELATION',1,2,'PLL_B2C',100,25,13,1,'V~M',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (7,1737,'legal_form','vtiger_leaddetails',1,'16','legal_form','LBL_LEGAL_FORM',1,2,'',100,5,191,1,'V~M',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (6,1738,'legal_form','vtiger_account',1,'16','legal_form','LBL_LEGAL_FORM',1,2,'',100,7,194,1,'V~M',1,NULL,'BAS',1,'',0,'');
 
 /*Data for the table `vtiger_field_seq` */
 
-insert  into `vtiger_field_seq`(`id`) values (1736);
+insert  into `vtiger_field_seq`(`id`) values (1738);
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -5393,6 +5395,33 @@ insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklis
 insert  into `vtiger_leadstatus_seq`(`id`) values (20);
 
 /*Data for the table `vtiger_leadsubdetails` */
+
+/*Data for the table `vtiger_legal_form` */
+
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (1,'PLL_NATURAL_PERSON',1,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (2,'PLL_BUSINESS_ACTIVITY',2,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (3,'PLL_GENERAL_PARTNERSHIP',3,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (4,'PLL_PROFESSIONAL_PARTNERSHIP',4,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (5,'PLL_LIMITED_PARTNERSHIP',5,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (6,'PLL_JOINT_STOCK_PARTNERSHIP',6,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (7,'PLL_LIMITED_LIABILITY_COMPANY',7,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (8,'PLL_STOCK_OFFERING_COMPANY',8,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (9,'PLL_GOVERMENT_ENTERPRISE',9,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (10,'PLL_ASSOCIATION',10,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (11,'PLL_COOPERATIVE',11,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (12,'PLL_FOUNDATION',12,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (13,'PLL_EUROPEAN_PARTNERSHIP',13,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (14,'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING',14,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (15,'PLL_EUROPEAN_COOPERATIVE',15,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (16,'PLL_EUROPEAN_PRIVATE_PARTNERSHIP',16,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (17,'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP',17,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (18,'PLL_EUROPEAN_ASSOCIATION',18,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (19,'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES',19,1);
+
+/*Data for the table `vtiger_legal_form_seq` */
+
+insert  into `vtiger_legal_form_seq`(`id`) values (19);
+
 
 /*Data for the table `vtiger_lettersin` */
 
@@ -8256,6 +8285,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,84,1734,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,84,1735,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,7,1736,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,7,1737,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,6,1738,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,3,0,0);
@@ -9782,6 +9813,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,84,1734,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,84,1735,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,7,1736,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,7,1737,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (2,6,1738,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,3,0,0);
@@ -11308,6 +11341,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,84,1734,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,84,1735,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,7,1736,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,7,1737,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (3,6,1738,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,2,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,3,0,0);
@@ -12834,6 +12869,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,84,1734,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,84,1735,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,7,1736,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,7,1737,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (4,6,1738,0,0);
 /*Data for the table `vtiger_profile2globalpermissions` */
 
 insert  into `vtiger_profile2globalpermissions`(`profileid`,`globalactionid`,`globalactionpermission`) values (1,1,1);

@@ -2492,7 +2492,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1737 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1739 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -3197,6 +3197,7 @@ CREATE TABLE `vtiger_leaddetails` (
   `subindustry` varchar(255) DEFAULT '',
   `atenttion` text,
   `leads_relation` varchar(255) DEFAULT NULL,
+  `legal_form` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`leadid`),
   KEY `leaddetails_converted_leadstatus_idx` (`converted`,`leadstatus`),
   KEY `email_idx` (`email`),
@@ -3282,6 +3283,22 @@ CREATE TABLE `vtiger_leadsubdetails` (
   `empct` int(10) DEFAULT '0',
   PRIMARY KEY (`leadsubscriptionid`),
   CONSTRAINT `fk_1_vtiger_leadsubdetails` FOREIGN KEY (`leadsubscriptionid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_legal_form` */
+
+CREATE TABLE `vtiger_legal_form` (
+  `legal_formid` int(11) NOT NULL AUTO_INCREMENT,
+  `legal_form` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`legal_formid`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_legal_form_seq` */
+
+CREATE TABLE `vtiger_legal_form_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lettersin` */
