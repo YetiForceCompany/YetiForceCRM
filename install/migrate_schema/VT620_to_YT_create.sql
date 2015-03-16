@@ -1,4 +1,4 @@
-CREATE TABLE `vtiger_vendoraddress` (
+CREATE TABLE IF NOT EXISTS `vtiger_vendoraddress` (
   `vendorid` int(19) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
   `addresslevel1b` varchar(255) DEFAULT NULL,
@@ -37,146 +37,156 @@ CREATE TABLE `vtiger_vendoraddress` (
   CONSTRAINT `vtiger_vendoraddress_ibfk_1` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_vendor` (`vendorid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_salesorderaddress`(
-	`salesorderaddressid` int(19) NOT NULL  , 
-	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`buildingnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`salesorderaddressid`) , 
-	CONSTRAINT `vtiger_salesorderaddress_ibfk_1` 
-	FOREIGN KEY (`salesorderaddressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE IF NOT EXISTS `vtiger_quotesaddress`(
-	`quoteaddressid` int(19) NOT NULL  , 
-	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`buildingnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`quoteaddressid`) , 
-	CONSTRAINT `vtiger_quotesaddress_ibfk_1` 
-	FOREIGN KEY (`quoteaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE IF NOT EXISTS `vtiger_purchaseorderaddress`(
-	`purchaseorderaddressid` int(19) NOT NULL  , 
-	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`buildingnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`purchaseorderaddressid`) , 
-	CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` 
-	FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_purchaseorder` (`purchaseorderid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE IF NOT EXISTS `vtiger_invoiceaddress`(
-	`invoiceaddressid` int(19) NOT NULL  , 
-	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`buildingnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`invoiceaddressid`) , 
-	CONSTRAINT `vtiger_invoiceaddress_ibfk_1` 
-	FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-CREATE TABLE IF NOT EXISTS `vtiger_accountaddress`(
-	`accountaddressid` int(19) NOT NULL  , 
-	`addresslevel1a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel1c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel2c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel3c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel4c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel5c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel6c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel7c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8a` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8b` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`addresslevel8c` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`buildingnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumbera` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberb` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`buildingnumberc` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`localnumberc` varchar(100) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`accountaddressid`) , 
-	CONSTRAINT `vtiger_accountaddress_ibfk_1` 
-	FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+CREATE TABLE `vtiger_salesorderaddress` (
+  `salesorderaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`salesorderaddressid`),
+  CONSTRAINT `vtiger_salesorderaddress_ibfk_1` FOREIGN KEY (`salesorderaddressid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vtiger_quotesaddress` (
+  `quoteaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`quoteaddressid`),
+  CONSTRAINT `vtiger_quotesaddress_ibfk_1` FOREIGN KEY (`quoteaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vtiger_purchaseorderaddress` (
+  `purchaseorderaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`purchaseorderaddressid`),
+  CONSTRAINT `vtiger_purchaseorderaddress_ibfk_1` FOREIGN KEY (`purchaseorderaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vtiger_invoiceaddress` (
+  `invoiceaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`invoiceaddressid`),
+  CONSTRAINT `vtiger_invoiceaddress_ibfk_1` FOREIGN KEY (`invoiceaddressid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `vtiger_accountaddress` (
+  `accountaddressid` int(19) NOT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `addresslevel1b` varchar(255) DEFAULT NULL,
+  `addresslevel1c` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel2b` varchar(255) DEFAULT NULL,
+  `addresslevel2c` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel3b` varchar(255) DEFAULT NULL,
+  `addresslevel3c` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel4b` varchar(255) DEFAULT NULL,
+  `addresslevel4c` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel5b` varchar(255) DEFAULT NULL,
+  `addresslevel5c` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel6b` varchar(255) DEFAULT NULL,
+  `addresslevel6c` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel7b` varchar(255) DEFAULT NULL,
+  `addresslevel7c` varchar(255) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel8b` varchar(255) DEFAULT NULL,
+  `addresslevel8c` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(100) DEFAULT NULL,
+  `localnumbera` varchar(100) DEFAULT NULL,
+  `buildingnumberb` varchar(100) DEFAULT NULL,
+  `localnumberb` varchar(100) DEFAULT NULL,
+  `buildingnumberc` varchar(100) DEFAULT NULL,
+  `localnumberc` varchar(100) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  `poboxb` varchar(50) DEFAULT NULL,
+  `poboxc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`accountaddressid`),
+  CONSTRAINT `vtiger_accountaddress_ibfk_1` FOREIGN KEY (`accountaddressid`) REFERENCES `vtiger_account` (`accountid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_config` (
   `conf_type` varchar(100) NOT NULL,
@@ -312,56 +322,59 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservicescf` (
   CONSTRAINT `fk_1_vtiger_osssoldservicescf` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_osssoldservices` (`osssoldservicesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol`(
-	`osstimecontrolid` int(19) NOT NULL  DEFAULT 0 , 
-	`name` varchar(128) COLLATE utf8_general_ci NULL  , 
-	`osstimecontrol_no` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`osstimecontrol_status` varchar(128) COLLATE utf8_general_ci NULL  , 
-	`date_start` date NOT NULL  , 
-	`time_start` varchar(50) COLLATE utf8_general_ci NULL  , 
-	`due_date` date NULL  , 
-	`time_end` varchar(50) COLLATE utf8_general_ci NULL  , 
-	`sum_time` decimal(10,2) NULL  DEFAULT 0.00 , 
-	`accountid` int(19) NULL  DEFAULT 0 , 
-	`contactid` int(19) NULL  DEFAULT 0 , 
-	`ticketid` int(19) NULL  DEFAULT 0 , 
-	`projectid` int(19) NULL  DEFAULT 0 , 
-	`projecttaskid` int(19) NULL  DEFAULT 0 , 
-	`servicecontractsid` int(19) NULL  DEFAULT 0 , 
-	`assetsid` int(19) NULL  DEFAULT 0 , 
-	`salesorderid` int(19) NULL  DEFAULT 0 , 
-	`quoteid` int(19) NULL  DEFAULT 0 , 
-	`potentialid` int(19) NULL  DEFAULT 0 , 
-	`deleted` int(1) NULL  DEFAULT 0 , 
-	`calculationsid` int(19) NULL  DEFAULT 0 , 
-	`leadid` int(19) NULL  DEFAULT 0 , 
-	`timecontrol_type` varchar(255) COLLATE utf8_general_ci NULL  , 
-	PRIMARY KEY (`osstimecontrolid`) , 
-	KEY `osstimecontrol_status`(`osstimecontrol_status`,`ticketid`) , 
-	KEY `osstimecontrol_status_2`(`osstimecontrol_status`,`projectid`) , 
-	KEY `osstimecontrol_status_3`(`osstimecontrol_status`,`projecttaskid`) , 
-	KEY `osstimecontrol_status_4`(`osstimecontrol_status`,`servicecontractsid`) , 
-	KEY `osstimecontrol_status_5`(`osstimecontrol_status`,`assetsid`) , 
-	KEY `osstimecontrol_status_6`(`osstimecontrol_status`,`salesorderid`) , 
-	KEY `osstimecontrol_status_7`(`osstimecontrol_status`,`quoteid`) , 
-	KEY `osstimecontrol_status_8`(`osstimecontrol_status`,`potentialid`) , 
-	KEY `on_update_cascade`(`deleted`) , 
-	KEY `calculationsid`(`calculationsid`) , 
-	KEY `leadid`(`leadid`) , 
-	KEY `accountid`(`accountid`) , 
-	KEY `contactid`(`contactid`) , 
-	KEY `ticketid`(`ticketid`) , 
-	KEY `projectid`(`projectid`) , 
-	KEY `projecttaskid`(`projecttaskid`) , 
-	KEY `servicecontractsid`(`servicecontractsid`) , 
-	KEY `assetsid`(`assetsid`) , 
-	KEY `salesorderid`(`salesorderid`) , 
-	KEY `quoteid`(`quoteid`) , 
-	KEY `potentialid`(`potentialid`) , 
-	KEY `osstimecontrol_status_9`(`osstimecontrol_status`,`deleted`) , 
-	CONSTRAINT `vtiger_osstimecontrol` 
-	FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol` (
+  `osstimecontrolid` int(19) NOT NULL DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
+  `osstimecontrol_no` varchar(255) DEFAULT NULL,
+  `osstimecontrol_status` varchar(128) DEFAULT NULL,
+  `date_start` date NOT NULL,
+  `time_start` varchar(50) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `time_end` varchar(50) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
+  `accountid` int(19) DEFAULT '0',
+  `contactid` int(19) DEFAULT '0',
+  `ticketid` int(19) DEFAULT '0',
+  `projectid` int(19) DEFAULT '0',
+  `projecttaskid` int(19) DEFAULT '0',
+  `servicecontractsid` int(19) DEFAULT '0',
+  `assetsid` int(19) DEFAULT '0',
+  `salesorderid` int(19) DEFAULT '0',
+  `quoteid` int(19) DEFAULT '0',
+  `potentialid` int(19) DEFAULT '0',
+  `deleted` int(1) DEFAULT '0',
+  `calculationsid` int(19) DEFAULT '0',
+  `leadid` int(19) DEFAULT '0',
+  `timecontrol_type` varchar(255) DEFAULT NULL,
+  `requirementcardsid` int(19) DEFAULT NULL,
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`osstimecontrolid`),
+  KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
+  KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
+  KEY `osstimecontrol_status_3` (`osstimecontrol_status`,`projecttaskid`),
+  KEY `osstimecontrol_status_4` (`osstimecontrol_status`,`servicecontractsid`),
+  KEY `osstimecontrol_status_5` (`osstimecontrol_status`,`assetsid`),
+  KEY `osstimecontrol_status_6` (`osstimecontrol_status`,`salesorderid`),
+  KEY `osstimecontrol_status_7` (`osstimecontrol_status`,`quoteid`),
+  KEY `osstimecontrol_status_8` (`osstimecontrol_status`,`potentialid`),
+  KEY `on_update_cascade` (`deleted`),
+  KEY `calculationsid` (`calculationsid`),
+  KEY `leadid` (`leadid`),
+  KEY `accountid` (`accountid`),
+  KEY `contactid` (`contactid`),
+  KEY `ticketid` (`ticketid`),
+  KEY `projectid` (`projectid`),
+  KEY `projecttaskid` (`projecttaskid`),
+  KEY `servicecontractsid` (`servicecontractsid`),
+  KEY `assetsid` (`assetsid`),
+  KEY `salesorderid` (`salesorderid`),
+  KEY `quoteid` (`quoteid`),
+  KEY `potentialid` (`potentialid`),
+  KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
+  KEY `requirementcardsid` (`requirementcardsid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
+  CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrolcf` (
   `osstimecontrolid` int(19) NOT NULL,
@@ -508,6 +521,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossemployees` (
   `ship_city` varchar(200) DEFAULT NULL,
   `ship_state` varchar(200) DEFAULT NULL,
   `ship_country` varchar(200) DEFAULT NULL,
+  `dav_status` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -848,29 +862,32 @@ CREATE TABLE IF NOT EXISTS `vtiger_bruteforce`(
 	`active` tinyint(1) NULL  DEFAULT 1 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE IF NOT EXISTS `vtiger_calculations`(
-	`calculationsid` int(19) NOT NULL  , 
-	`calculations_no` varchar(30) COLLATE utf8_general_ci NOT NULL  , 
-	`name` varchar(200) COLLATE utf8_general_ci NULL  , 
-	`parentid` int(19) NULL  , 
-	`relatedid` int(19) NULL  , 
-	`potentialid` int(19) NULL  , 
-	`comments` text COLLATE utf8_general_ci NULL  , 
-	`total` decimal(25,8) NULL  , 
-	`calculationsstatus` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
-	`total_purchase` decimal(13,2) NULL  , 
-	`total_margin` decimal(13,2) NULL  , 
-	`total_marginp` decimal(13,2) NULL  , 
-	`date` date NULL  , 
-	`currency_id` int(19) unsigned NOT NULL  , 
-	`conversion_rate` decimal(10,3) unsigned NOT NULL  , 
-	PRIMARY KEY (`calculationsid`) , 
-	KEY `calculations_parentid_idx`(`parentid`) , 
-	KEY `calculations_relatedid_idx`(`relatedid`) , 
-	KEY `osscosts_potentialid_idx`(`potentialid`) , 
-	CONSTRAINT `fk_1_vtiger_calculations` 
-	FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+CREATE TABLE IF NOT EXISTS `vtiger_calculations` (
+  `calculationsid` int(19) NOT NULL,
+  `calculations_no` varchar(30) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `comments` text,
+  `total` decimal(25,8) DEFAULT NULL,
+  `calculationsstatus` varchar(255) DEFAULT '',
+  `total_purchase` decimal(13,2) DEFAULT NULL,
+  `total_margin` decimal(13,2) DEFAULT NULL,
+  `total_marginp` decimal(13,2) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `currency_id` int(19) unsigned NOT NULL,
+  `conversion_rate` decimal(10,3) unsigned NOT NULL,
+  `requirementcardsid` int(19) DEFAULT NULL,
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  `calculations_cons` text,
+  `calculations_pros` text,
+  PRIMARY KEY (`calculationsid`),
+  KEY `calculations_relatedid_idx` (`relatedid`),
+  KEY `osscosts_potentialid_idx` (`potentialid`),
+  KEY `requirementcardsid` (`requirementcardsid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
+  CONSTRAINT `fk_1_vtiger_calculations` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_osscosts_config` (
   `param` varchar(100) DEFAULT NULL,
@@ -1008,13 +1025,16 @@ CREATE TABLE IF NOT EXISTS `vtiger_backup_dir` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_backup_ftp` (
-`id` int(11) NOT NULL AUTO_INCREMENT,
-`host` varchar(50) NOT NULL,
-`login` varchar(50) NOT NULL,
-`password` varchar(100) NOT NULL,
-`status` tinyint(1) NOT NULL,
-PRIMARY KEY (`id`))
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `host` varchar(50) NOT NULL,
+  `login` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `port` int(11) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_contactsbookmails` (
   `contactid` int(19) DEFAULT NULL,
@@ -1035,27 +1055,28 @@ insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (5,'key','','o
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (6,'source','https://api.opencagedata.com/geocode/v1/','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (7,'nominatim','0','opencage_data');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (8,'result_num','10','global');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (1,'HelpDesk','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (2,'Calendar','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (3,'ProjectTask','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (4,'Potentials','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (5,'ProjectTask','Date vatidation','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:22:\"Vtiger!!check_taskdate\";}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (6,'ProjectTask','Check parent task','a:1:{i:0;a:3:{s:2:\"an\";s:24:\"Vtiger!!check_taskstatus\";s:6:\"status\";a:2:{i:0;s:4:\"Open\";i:1;s:11:\"In Progress\";}s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (7,'Leads','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
-insert into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Checking whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
+
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (1,'HelpDesk','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (2,'Calendar','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (3,'ProjectTask','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (4,'Potentials','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (5,'ProjectTask','Date validation','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:22:\"Vtiger!!check_taskdate\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (6,'ProjectTask','Check parent task','a:1:{i:0;a:3:{s:2:\"an\";s:24:\"Vtiger!!check_taskstatus\";s:6:\"status\";a:2:{i:0;s:4:\"Open\";i:1;s:11:\"In Progress\";}s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (7,'Leads','Check if there are any tasks that are not closed','a:1:{i:0;a:4:{s:2:\"an\";s:21:\"Vtiger!!check_alltask\";s:6:\"status\";a:5:{i:0;s:11:\"Not Started\";i:1;s:11:\"In Progress\";i:2;s:13:\"Pending Input\";i:3;s:8:\"Deferred\";i:4;s:7:\"Planned\";}s:7:\"message\";s:67:\"There are unsolved tasks, complete them to be able to change status\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Check whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
 
-insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (37,1,'ticketstatus','has changed','Open',1,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (38,2,'taskstatus','has changed','Not Started',1,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (42,5,'projectmilestoneid','is not empty','',1,'reference');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','LBL_LEAD_ACQUIRED',1,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (47,4,'sales_stage','is','Closed Lost',0,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (48,4,'sales_stage','is','Closed Won',0,'picklist');
-insert into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (37,1,'ticketstatus','has changed','Open',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (38,2,'taskstatus','has changed','Not Started',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (39,3,'projecttaskstatus','has changed','Open',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (42,5,'projectmilestoneid','is not empty','',1,'reference');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (46,7,'leadstatus','is','LBL_LEAD_ACQUIRED',1,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (47,4,'sales_stage','is','Closed Lost',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (48,4,'sales_stage','is','Closed Won',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
 
 insert  into `vtiger_password`(`type`,`val`) values ('min_length','8');
 insert  into `vtiger_password`(`type`,`val`) values ('max_length','32');
@@ -1228,3 +1249,145 @@ CREATE TABLE IF NOT EXISTS `vtiger_bruteforce_users`(
 	CONSTRAINT `fk_1_vtiger_bruteforce_users` 
 	FOREIGN KEY (`id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+
+CREATE TABLE IF NOT EXISTS `dav_addressbookchanges` (
+					  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					  `uri` varchar(200) NOT NULL,
+					  `synctoken` int(11) unsigned NOT NULL,
+					  `addressbookid` int(11) unsigned NOT NULL,
+					  `operation` tinyint(1) NOT NULL,
+					  PRIMARY KEY (`id`),
+					  KEY `addressbookid_synctoken` (`addressbookid`,`synctoken`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_groupmembers` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `principal_id` int(10) unsigned NOT NULL,
+				  `member_id` int(10) unsigned NOT NULL,
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `principal_id` (`principal_id`,`member_id`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				CREATE TABLE IF NOT EXISTS `dav_principals` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `uri` varchar(200) NOT NULL,
+				  `email` varchar(80) DEFAULT NULL,
+				  `displayname` varchar(80) DEFAULT NULL,
+				  `vcardurl` varchar(255) DEFAULT NULL,
+				  `userid` int(19) DEFAULT NULL,
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `uri` (`uri`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_addressbooks` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `principaluri` varchar(255) DEFAULT NULL,
+				  `displayname` varchar(255) DEFAULT NULL,
+				  `uri` varchar(200) DEFAULT NULL,
+				  `description` text,
+				  `synctoken` int(11) unsigned NOT NULL DEFAULT '1',
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `principaluri` (`principaluri`(100),`uri`(100)),
+				  KEY `principaluri_2` (`principaluri`),
+				  CONSTRAINT `dav_addressbooks_ibfk_1` FOREIGN KEY (`principaluri`) REFERENCES `dav_principals` (`uri`) ON DELETE CASCADE
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_cards` (
+				  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				  `addressbookid` int(11) unsigned NOT NULL,
+				  `carddata` mediumblob,
+				  `uri` varchar(200) DEFAULT NULL,
+				  `lastmodified` int(11) unsigned DEFAULT NULL,
+				  `etag` varbinary(32) DEFAULT NULL,
+				  `size` int(11) unsigned NOT NULL,
+				  `crmid` int(19) DEFAULT '0',
+				  PRIMARY KEY (`id`),
+				  KEY `addressbookid` (`addressbookid`,`crmid`),
+				  CONSTRAINT `dav_cards_ibfk_1` FOREIGN KEY (`addressbookid`) REFERENCES `dav_addressbooks` (`id`) ON DELETE CASCADE
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_users` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `username` varchar(50) DEFAULT NULL,
+				  `digesta1` varchar(32) DEFAULT NULL,
+				  `userid` int(19) unsigned DEFAULT NULL,
+				  `key` varchar(50) DEFAULT NULL,
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `username` (`username`),
+				  UNIQUE KEY `userid` (`userid`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_calendarchanges` (
+					  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					  `uri` varchar(200) NOT NULL,
+					  `synctoken` int(11) unsigned NOT NULL,
+					  `calendarid` int(11) unsigned NOT NULL,
+					  `operation` tinyint(1) NOT NULL,
+					  PRIMARY KEY (`id`),
+					  KEY `calendarid_synctoken` (`calendarid`,`synctoken`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_calendars` (
+					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+					  `principaluri` varbinary(100) DEFAULT NULL,
+					  `displayname` varchar(100) DEFAULT NULL,
+					  `uri` varbinary(200) DEFAULT NULL,
+					  `synctoken` int(10) unsigned NOT NULL DEFAULT '1',
+					  `description` text,
+					  `calendarorder` int(11) unsigned NOT NULL DEFAULT '0',
+					  `calendarcolor` varbinary(10) DEFAULT NULL,
+					  `timezone` text,
+					  `components` varbinary(20) DEFAULT NULL,
+					  `transparent` tinyint(1) NOT NULL DEFAULT '0',
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `principaluri` (`principaluri`,`uri`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_calendarobjects` (
+					  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					  `calendardata` mediumblob,
+					  `uri` varbinary(200) DEFAULT NULL,
+					  `calendarid` int(10) unsigned NOT NULL,
+					  `lastmodified` int(11) unsigned DEFAULT NULL,
+					  `etag` varbinary(32) DEFAULT NULL,
+					  `size` int(11) unsigned NOT NULL,
+					  `componenttype` varbinary(8) DEFAULT NULL,
+					  `firstoccurence` int(11) unsigned DEFAULT NULL,
+					  `lastoccurence` int(11) unsigned DEFAULT NULL,
+					  `uid` varchar(200) DEFAULT NULL,
+					  `crmid` int(19) DEFAULT NULL,
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `calendarid` (`calendarid`,`uri`),
+					  CONSTRAINT `dav_calendarobjects_ibfk_1` FOREIGN KEY (`calendarid`) REFERENCES `dav_calendars` (`id`) ON DELETE CASCADE
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_schedulingobjects` (
+					  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					  `principaluri` varchar(255) DEFAULT NULL,
+					  `calendardata` mediumblob,
+					  `uri` varchar(200) DEFAULT NULL,
+					  `lastmodified` int(11) unsigned DEFAULT NULL,
+					  `etag` varchar(32) DEFAULT NULL,
+					  `size` int(11) unsigned NOT NULL,
+					  PRIMARY KEY (`id`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `dav_calendarsubscriptions` (
+					  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+					  `uri` varchar(200) NOT NULL,
+					  `principaluri` varchar(100) NOT NULL,
+					  `source` text,
+					  `displayname` varchar(100) DEFAULT NULL,
+					  `refreshrate` varchar(10) DEFAULT NULL,
+					  `calendarorder` int(11) unsigned NOT NULL DEFAULT '0',
+					  `calendarcolor` varchar(10) DEFAULT NULL,
+					  `striptodos` tinyint(1) DEFAULT NULL,
+					  `stripalarms` tinyint(1) DEFAULT NULL,
+					  `stripattachments` tinyint(1) DEFAULT NULL,
+					  `lastmodified` int(11) unsigned DEFAULT NULL,
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `principaluri` (`principaluri`,`uri`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@
 <exporttime>2015-02-12 08:38:52</exporttime>
 <name>Ideas</name>
 <label>Ideas</label>
-<parent>Group Card</parent>
+<parent>Teamwork</parent>
 <dependencies>
 <vtiger_version>1.2.100 RC</vtiger_version>
 </dependencies>

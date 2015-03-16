@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2014-12-03 13:10:01</exporttime>
+<exporttime>2015-03-13 13:19:14</exporttime>
 <name>OSSTimeControl</name>
 <label>OSSTimeControl</label>
 <parent>Human resources</parent>
@@ -712,6 +712,58 @@
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Leads</relatedmodule>
+</relatedmodules>
+</field>
+<field>
+<fieldname>requirementcardsid</fieldname>
+<uitype>10</uitype>
+<columnname>requirementcardsid</columnname>
+<columntype>int(19)</columntype>
+<tablename>vtiger_osstimecontrol</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>RequirementCards</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>13</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<relatedmodules>
+<relatedmodule>RequirementCards</relatedmodule>
+</relatedmodules>
+</field>
+<field>
+<fieldname>quotesenquiresid</fieldname>
+<uitype>10</uitype>
+<columnname>quotesenquiresid</columnname>
+<columntype>int(19)</columntype>
+<tablename>vtiger_osstimecontrol</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>QuotesEnquires</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<relatedmodules>
+<relatedmodule>QuotesEnquires</relatedmodule>
 </relatedmodules>
 </field>
 </fields>

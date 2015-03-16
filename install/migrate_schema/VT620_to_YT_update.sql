@@ -549,6 +549,8 @@ ALTER TABLE `vtiger_activity`
 	ADD COLUMN `deleted` tinyint(1)   NULL DEFAULT 0 after `recurringtype` , 
 	ADD COLUMN `smownerid` int(19)   NULL after `deleted` , 
 	ADD COLUMN `allday` tinyint(1)   NULL after `smownerid` , 
+	ADD COLUMN `dav_status` tinyint(1)   NULL DEFAULT 1 after `allday` , 
+	ADD COLUMN `state` varchar(255)  COLLATE utf8_general_ci NULL after `dav_status` , 
 	ADD KEY `activitytype`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`eventstatus`,`deleted`,`smownerid`) , 
 	ADD KEY `activitytype_2`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`) ;
 ALTER TABLE `vtiger_activity`
@@ -639,7 +641,8 @@ ALTER TABLE `vtiger_contactdetails`
 	ADD COLUMN `verification` text  COLLATE utf8_general_ci NULL after `isconvertedfromlead` , 
 	ADD COLUMN `secondary_email` varchar(50)  COLLATE utf8_general_ci NULL DEFAULT '' after `verification` , 
 	ADD COLUMN `notifilanguage` varchar(100)  COLLATE utf8_general_ci NULL DEFAULT '' after `secondary_email` , 
-	ADD COLUMN `contactstatus` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `notifilanguage` ,
+	ADD COLUMN `contactstatus` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `notifilanguage` , 
+	ADD COLUMN `dav_status` tinyint(1)   NULL DEFAULT 1 after `contactstatus` ,  
 	DROP KEY `contactdetails_accountid_idx`, ADD KEY `contactdetails_accountid_idx`(`parentid`) ;
 ALTER TABLE `vtiger_contactdetails`
 	ADD CONSTRAINT `fk_1_vtiger_contactdetails` 
