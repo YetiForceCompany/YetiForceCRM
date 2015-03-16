@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-02-05 05:58:29</exporttime>
+<exporttime>2015-03-13 12:24:14</exporttime>
 <name>OSSEmployees</name>
 <label>OSSEmployees</label>
 <parent>Human resources</parent>
@@ -22,11 +22,21 @@
 <blocks>
 <block>
 <label>LBL_INFORMATION</label>
+<sequence>1</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>ossemployees_no</fieldname>
 <uitype>4</uitype>
 <columnname>ossemployees_no</columnname>
+<columntype>varchar(255)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>No.</fieldlabel>
@@ -40,7 +50,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -48,6 +59,7 @@
 <fieldname>employee_status</fieldname>
 <uitype>15</uitype>
 <columnname>employee_status</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_EMPLOYEESTATUS</fieldlabel>
@@ -61,7 +73,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -74,6 +87,7 @@
 <fieldname>parentid</fieldname>
 <uitype>10</uitype>
 <columnname>parentid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_Member_Of</fieldlabel>
@@ -87,7 +101,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -98,6 +113,7 @@
 <fieldname>assigned_user_id</fieldname>
 <uitype>53</uitype>
 <columnname>smownerid</columnname>
+<columntype>int(19)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Assigned To</fieldlabel>
@@ -111,7 +127,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -119,6 +136,7 @@
 <fieldname>name</fieldname>
 <uitype>1</uitype>
 <columnname>name</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_NAME</fieldlabel>
@@ -132,7 +150,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -140,6 +159,7 @@
 <fieldname>last_name</fieldname>
 <uitype>1</uitype>
 <columnname>last_name</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_LASTNAME</fieldlabel>
@@ -153,7 +173,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -165,6 +186,7 @@
 <fieldname>pesel</fieldname>
 <uitype>1</uitype>
 <columnname>pesel</columnname>
+<columntype>varchar(20)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_PESEL</fieldlabel>
@@ -178,7 +200,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -186,6 +209,7 @@
 <fieldname>id_card</fieldname>
 <uitype>1</uitype>
 <columnname>id_card</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_IDCARD</fieldlabel>
@@ -199,7 +223,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -207,6 +232,7 @@
 <fieldname>employee_education</fieldname>
 <uitype>15</uitype>
 <columnname>employee_education</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_EDUCATION</fieldlabel>
@@ -220,7 +246,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -233,6 +260,7 @@
 <fieldname>birth_date</fieldname>
 <uitype>5</uitype>
 <columnname>birth_date</columnname>
+<columntype>date</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>2</generatedtype>
 <fieldlabel>LBL_BIRTHDATE</fieldlabel>
@@ -246,7 +274,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -254,6 +283,7 @@
 <fieldname>createdtime</fieldname>
 <uitype>70</uitype>
 <columnname>createdtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Created Time</fieldlabel>
@@ -267,7 +297,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -275,6 +306,7 @@
 <fieldname>modifiedtime</fieldname>
 <uitype>70</uitype>
 <columnname>modifiedtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Modified Time</fieldlabel>
@@ -288,7 +320,8 @@
 <quickcreatesequence>0</quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -296,6 +329,7 @@
 <fieldname>closedtime</fieldname>
 <uitype>70</uitype>
 <columnname>closedtime</columnname>
+<columntype>datetime</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Closed Time</fieldlabel>
@@ -309,7 +343,31 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>was_read</fieldname>
+<uitype>56</uitype>
+<columnname>was_read</columnname>
+<columntype>tinyint(1)</columntype>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Was read</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>2</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -317,11 +375,21 @@
 </block>
 <block>
 <label>LBL_CONTACTS</label>
+<sequence>2</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>business_phone</fieldname>
 <uitype>11</uitype>
 <columnname>business_phone</columnname>
+<columntype>varchar(20)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_BUSINESSPHONE</fieldlabel>
@@ -335,7 +403,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -343,6 +412,7 @@
 <fieldname>private_phone</fieldname>
 <uitype>11</uitype>
 <columnname>private_phone</columnname>
+<columntype>varchar(25)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_PRIVATEPHONE</fieldlabel>
@@ -356,7 +426,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -364,6 +435,7 @@
 <fieldname>business_mail</fieldname>
 <uitype>13</uitype>
 <columnname>business_mail</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_BUSINESSMAIL</fieldlabel>
@@ -377,7 +449,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -385,6 +458,7 @@
 <fieldname>private_mail</fieldname>
 <uitype>13</uitype>
 <columnname>private_mail</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_PRIVATEMAIL</fieldlabel>
@@ -398,7 +472,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -406,11 +481,21 @@
 </block>
 <block>
 <label>LBL_PERMANENT_ADDRESS</label>
+<sequence>3</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>street</fieldname>
 <uitype>1</uitype>
 <columnname>street</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_STREET</fieldlabel>
@@ -424,7 +509,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -432,6 +518,7 @@
 <fieldname>code</fieldname>
 <uitype>1</uitype>
 <columnname>code</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_CODE</fieldlabel>
@@ -445,7 +532,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -453,6 +541,7 @@
 <fieldname>city</fieldname>
 <uitype>1</uitype>
 <columnname>city</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_CITY</fieldlabel>
@@ -466,7 +555,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -474,6 +564,7 @@
 <fieldname>state</fieldname>
 <uitype>1</uitype>
 <columnname>state</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_STATE</fieldlabel>
@@ -487,7 +578,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -495,6 +587,7 @@
 <fieldname>country</fieldname>
 <uitype>1</uitype>
 <columnname>country</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_COUNTRY</fieldlabel>
@@ -508,7 +601,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -516,11 +610,21 @@
 </block>
 <block>
 <label>LBL_CORRESPONDANCE_ADDRESS</label>
+<sequence>4</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>0</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>ship_street</fieldname>
 <uitype>1</uitype>
 <columnname>ship_street</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_SHIPSTREET</fieldlabel>
@@ -534,7 +638,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -542,6 +647,7 @@
 <fieldname>ship_code</fieldname>
 <uitype>1</uitype>
 <columnname>ship_code</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_SHIPCODE</fieldlabel>
@@ -555,7 +661,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -563,6 +670,7 @@
 <fieldname>ship_city</fieldname>
 <uitype>1</uitype>
 <columnname>ship_city</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_SHIPCITY</fieldlabel>
@@ -576,7 +684,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -584,6 +693,7 @@
 <fieldname>ship_state</fieldname>
 <uitype>1</uitype>
 <columnname>ship_state</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_SHIPSTATE</fieldlabel>
@@ -597,7 +707,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -605,6 +716,7 @@
 <fieldname>ship_country</fieldname>
 <uitype>1</uitype>
 <columnname>ship_country</columnname>
+<columntype>varchar(200)</columntype>
 <tablename>vtiger_ossemployees</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>LBL_SHIPCOUNTRY</fieldlabel>
@@ -618,7 +730,8 @@
 <quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -626,11 +739,21 @@
 </block>
 <block>
 <label>LBL_SHARING_INFORMATION</label>
+<sequence>5</sequence>
+<show_title>0</show_title>
+<visible>0</visible>
+<create_view>0</create_view>
+<edit_view>0</edit_view>
+<detail_view>0</detail_view>
+<display_status>1</display_status>
+<iscustom>1</iscustom>
+<islist></islist>
 <fields>
 <field>
 <fieldname>inheritsharing</fieldname>
 <uitype>56</uitype>
 <columnname>inheritsharing</columnname>
+<columntype>tinyint(1)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Copy permissions automatically</fieldlabel>
@@ -644,7 +767,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -652,6 +776,7 @@
 <fieldname>shownerid</fieldname>
 <uitype>120</uitype>
 <columnname>shownerid</columnname>
+<columntype>set(&#039;1&#039;)</columntype>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Share with users</fieldlabel>
@@ -665,7 +790,8 @@
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[0]]></helpinfo>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -761,10 +887,17 @@
 <label>CallHistory</label>
 <sequence>3</sequence>
 <presence>0</presence>
-<actions>
-<action> </action>
-</actions>
 <relatedmodule>CallHistory</relatedmodule>
+</relatedlist>
+<relatedlist>
+<function>get_dependents_list</function>
+<label>HolidaysEntitlement</label>
+<sequence>4</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+<relatedmodule>HolidaysEntitlement</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>

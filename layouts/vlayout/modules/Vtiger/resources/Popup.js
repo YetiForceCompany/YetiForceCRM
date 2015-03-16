@@ -368,6 +368,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 * Function to get complete params
 	 */
 	getCompleteParams : function(){
+		var thisInstance = this;
 		var params = {};
 		params['view'] = this.getView();
 		params['src_module'] = this.getSourceModule();
@@ -381,14 +382,26 @@ jQuery.Class("Vtiger_Popup_Js",{
 		params['related_parent_module'] = this.getRelatedParentModule();
 		params['related_parent_id'] = this.getRelatedParentRecord();
 		params['module'] = app.getModuleName();
-
+		// narrow popup products list to those related to chosen potential
+		var vars = thisInstance.getVarFromUrl();
+		var moduleName = app.getModuleName();
+		if ( typeof vars['potentialid'] != 'undefined' ) {
+			params['potentialid'] = vars['potentialid'];
+		}
 		params['search_params'] = JSON.stringify(this.getListSearchParams());
 		if(this.isMultiSelectMode()) {
 			params['multi_select'] = true;
 		}
 		return params;
 	},
-
+	
+	getVarFromUrl : function() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+			vars[key] = value;
+		});
+		return vars;
+	},
 	/**
 	 * Function to get Page Records
 	 */

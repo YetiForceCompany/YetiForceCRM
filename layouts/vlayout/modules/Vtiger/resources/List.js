@@ -491,8 +491,6 @@ jQuery.Class("Vtiger_List_Js",{
 			var selectedIds = listInstance.readSelectedIds(true);
 			var excludedIds = listInstance.readExcludedIds(true);
 			var cvId = listInstance.getCurrentCvId();
-			console.log(selectedIds);
-			console.log(excludedIds);
 			var params = {
 				'module': 'Potentials',
 				'action' : 'GeneratePotentials',
@@ -503,7 +501,6 @@ jQuery.Class("Vtiger_List_Js",{
 			}
 			AppConnector.request(params).then(
 				function(data) {
-					console.log(data.result);
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					var params = {
 						title : app.vtranslate('JS_MESSAGE'),

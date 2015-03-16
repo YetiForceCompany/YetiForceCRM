@@ -376,7 +376,7 @@ class OSSPasswords extends CRMEntity {
         
             // handler for obscuring password data in "update history"
             $em = new VTEventsManager($adb);
-            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/secure.php', $handlerClass);
+            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/handlers/secure.php', $handlerClass);
 						            
             // Module icon
             copy( 'modules/OSSPasswords/OSSPasswords.png', 'layouts/vlayout/skins/images/OSSPasswords.png' );

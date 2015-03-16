@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-02-24 15:14:21</exporttime>
+<exporttime>2015-03-13 11:49:56</exporttime>
 <name>RequirementCards</name>
 <label>RequirementCards</label>
 <parent>Sales</parent>
@@ -16,11 +16,14 @@
   `subject` varchar(255) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `requirementcards_status` varchar(255) DEFAULT '',
-  `rejection_reason` varchar(255) DEFAULT '',
   `quotesenquiresid` int(19) DEFAULT NULL,
+  `accountid` int(19) DEFAULT NULL,
+  `requirementcards_cons` text,
+  `requirementcards_pros` text,
   PRIMARY KEY (`requirementcardsid`),
   KEY `potentialid` (`potentialid`),
   KEY `quotesenquiresid` (`quotesenquiresid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_requirementcards` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
@@ -65,7 +68,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <entityidentifier>
@@ -86,24 +89,24 @@
 <defaultvalue></defaultvalue>
 <sequence>2</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
+<typeofdata>V~M</typeofdata>
+<quickcreate>2</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
-<picklistvalue>Created</picklistvalue>
-<picklistvalue>Verification process</picklistvalue>
-<picklistvalue>Internal consultation required</picklistvalue>
-<picklistvalue>External consultation required</picklistvalue>
-<picklistvalue>Waiting for answer</picklistvalue>
-<picklistvalue>Information completing</picklistvalue>
-<picklistvalue>Declined</picklistvalue>
-<picklistvalue>Closed</picklistvalue>
+<picklistvalue>PLL_WAITING_FOR_VERIFICATION</picklistvalue>
+<picklistvalue>PLL_VERIFICATION_PROCESS</picklistvalue>
+<picklistvalue>PLL_INTERNAL_CONSULTATION_REQUIRED</picklistvalue>
+<picklistvalue>PLL_EXTERNAL_CONSULTATION_REQUIRED</picklistvalue>
+<picklistvalue>PLL_WAITING_FOR_ANSWER</picklistvalue>
+<picklistvalue>PLL_INFORMATION_COMPLETING</picklistvalue>
+<picklistvalue>PLL_DECLINED</picklistvalue>
+<picklistvalue>PLL_CLOSED</picklistvalue>
 </picklistvalues>
 </field>
 <field>
@@ -125,37 +128,12 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Potentials</relatedmodule>
 </relatedmodules>
-</field>
-<field>
-<fieldname>rejection_reason</fieldname>
-<uitype>15</uitype>
-<columnname>rejection_reason</columnname>
-<columntype>varchar(255)</columntype>
-<tablename>vtiger_requirementcards</tablename>
-<generatedtype>2</generatedtype>
-<fieldlabel>LBL_REJECTION_REASON</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>5</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>1</summaryfield>
-<picklistvalues>
-</picklistvalues>
 </field>
 <field>
 <fieldname>quotesenquiresid</fieldname>
@@ -176,12 +154,99 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>QuotesEnquires</relatedmodule>
 </relatedmodules>
+</field>
+<field>
+<fieldname>accountid</fieldname>
+<uitype>10</uitype>
+<columnname>accountid</columnname>
+<columntype>int(19)</columntype>
+<tablename>vtiger_requirementcards</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Accounts</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>7</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>10</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<relatedmodules>
+<relatedmodule>Accounts</relatedmodule>
+</relatedmodules>
+</field>
+<field>
+<fieldname>requirementcards_cons</fieldname>
+<uitype>33</uitype>
+<columnname>requirementcards_cons</columnname>
+<columntype>text</columntype>
+<tablename>vtiger_requirementcards</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_CONS</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>8</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_UNTYPICAL_PRODUCT</picklistvalue>
+<picklistvalue>PLL_UNTYPICAL_SERVICE</picklistvalue>
+<picklistvalue>PLL_UNTYPICAL_FINANCIAL_REQUIREMENTS</picklistvalue>
+<picklistvalue>PLL_UNTYPICAL_ADDITIONAL_REQUIREMENTS</picklistvalue>
+<picklistvalue>PLL_UNFULFILLED</picklistvalue>
+<picklistvalue>PLL_DIFFICULT_CONTACT</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>requirementcards_pros</fieldname>
+<uitype>33</uitype>
+<columnname>requirementcards_pros</columnname>
+<columntype>text</columntype>
+<tablename>vtiger_requirementcards</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_PROS</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>9</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_PRODUCT_DEVELOPMENT</picklistvalue>
+<picklistvalue>PLL_SERVICE_DEVELOPMENT</picklistvalue>
+<picklistvalue>PLL_POSSIBILITY_TO_PREPAY</picklistvalue>
+<picklistvalue>PLL_POSSIBILITY_TO_ADJUST</picklistvalue>
+<picklistvalue>PLL_NEW_ORGANIZATION_ORDER</picklistvalue>
+</picklistvalues>
 </field>
 </fields>
 </block>
@@ -216,7 +281,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -239,7 +304,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -262,7 +327,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -285,7 +350,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -308,7 +373,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -331,7 +396,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -368,7 +433,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -391,7 +456,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -428,7 +493,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -451,7 +516,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -521,16 +586,6 @@
 <relatedmodule>Documents</relatedmodule>
 </relatedlist>
 <relatedlist>
-<function>get_related_list</function>
-<label>OSSMailView</label>
-<sequence>2</sequence>
-<presence>0</presence>
-<actions>
-<action>SELECT</action>
-</actions>
-<relatedmodule>OSSMailView</relatedmodule>
-</relatedlist>
-<relatedlist>
 <function>get_dependents_list</function>
 <label>Quotes</label>
 <sequence>3</sequence>
@@ -539,6 +594,16 @@
 <action>ADD</action>
 </actions>
 <relatedmodule>Quotes</relatedmodule>
+</relatedlist>
+<relatedlist>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>4</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+<relatedmodule>OSSTimeControl</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>

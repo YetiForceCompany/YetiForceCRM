@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-02-24 15:23:13</exporttime>
+<exporttime>2015-03-13 11:46:51</exporttime>
 <name>QuotesEnquires</name>
 <label>QuotesEnquires</label>
 <parent>Sales</parent>
@@ -15,9 +15,13 @@
   `subject` varchar(255) DEFAULT NULL,
   `potentialid` int(19) DEFAULT NULL,
   `quotesenquires_no` varchar(255) DEFAULT '',
-  `rejection_reason` varchar(255) DEFAULT '',
+  `quotesenquires_stage` varchar(255) DEFAULT NULL,
+  `quotesenquires_cons` text,
+  `quotesenquires_pros` text,
+  `accountid` int(19) DEFAULT NULL,
   PRIMARY KEY (`quotesenquiresid`),
   KEY `potentialid` (`potentialid`),
+  KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_quotesenquires` FOREIGN KEY (`quotesenquiresid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
@@ -62,7 +66,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -76,20 +80,20 @@
 <columnname>potentialid</columnname>
 <columntype>int(19)</columntype>
 <tablename>vtiger_quotesenquires</tablename>
-<generatedtype>2</generatedtype>
+<generatedtype>1</generatedtype>
 <fieldlabel>LBL_POTENTIAL</fieldlabel>
 <readonly>1</readonly>
 <presence>2</presence>
 <defaultvalue></defaultvalue>
-<sequence>10</sequence>
+<sequence>2</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
+<typeofdata>V~M</typeofdata>
+<quickcreate>2</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -97,13 +101,105 @@
 </relatedmodules>
 </field>
 <field>
-<fieldname>rejection_reason</fieldname>
-<uitype>15</uitype>
-<columnname>rejection_reason</columnname>
+<fieldname>quotesenquires_stage</fieldname>
+<uitype>16</uitype>
+<columnname>quotesenquires_stage</columnname>
 <columntype>varchar(255)</columntype>
 <tablename>vtiger_quotesenquires</tablename>
-<generatedtype>2</generatedtype>
-<fieldlabel>LBL_REJECTION_REASON</fieldlabel>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_STAGE</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>4</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>2</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_NOT_STARTED</picklistvalue>
+<picklistvalue>PLL_VERIFICATION</picklistvalue>
+<picklistvalue>PLL_DECLINED</picklistvalue>
+<picklistvalue>PLL_ACCEPTED</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>quotesenquires_cons</fieldname>
+<uitype>33</uitype>
+<columnname>quotesenquires_cons</columnname>
+<columntype>text</columntype>
+<tablename>vtiger_quotesenquires</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_CONS</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>5</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_LOW_MARGIN</picklistvalue>
+<picklistvalue>PLL_UNRELIABLE_CONTRACTOR</picklistvalue>
+<picklistvalue>PLL_UNRELIABLE_PAYMENT</picklistvalue>
+<picklistvalue>PLL_NO_DETAILS</picklistvalue>
+<picklistvalue>PLL_LACK_OF_COMPETENCE</picklistvalue>
+<picklistvalue>PLL_LACK_OF_TIME</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>quotesenquires_pros</fieldname>
+<uitype>33</uitype>
+<columnname>quotesenquires_pros</columnname>
+<columntype>text</columntype>
+<tablename>vtiger_quotesenquires</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_PROS</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>6</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<summaryfield>0</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_HIGH_MARGIN</picklistvalue>
+<picklistvalue>PLL_RELIABLE_CONTRACTOR</picklistvalue>
+<picklistvalue>PLL_SOLID_PAYMENT</picklistvalue>
+<picklistvalue>PLL_DETAILED_DESCRIPTION</picklistvalue>
+<picklistvalue>PLL_COMPETENT_TEAM</picklistvalue>
+<picklistvalue>PLL_EASE_OF_COMMUNICATION</picklistvalue>
+<picklistvalue>PLL_RECOMMENDABLE</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>accountid</fieldname>
+<uitype>10</uitype>
+<columnname>accountid</columnname>
+<columntype>int(19)</columntype>
+<tablename>vtiger_quotesenquires</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Accounts</fieldlabel>
 <readonly>1</readonly>
 <presence>2</presence>
 <defaultvalue></defaultvalue>
@@ -112,16 +208,15 @@
 <typeofdata>V~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
+<displaytype>10</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
-<summaryfield>1</summaryfield>
-<picklistvalues>
-<picklistvalue>Requirements not met</picklistvalue>
-<picklistvalue>Incomplete information</picklistvalue>
-</picklistvalues>
+<summaryfield>0</summaryfield>
+<relatedmodules>
+<relatedmodule>Accounts</relatedmodule>
+</relatedmodules>
 </field>
 </fields>
 </block>
@@ -156,7 +251,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -179,7 +274,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -202,7 +297,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -225,7 +320,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -248,7 +343,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -271,7 +366,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -308,7 +403,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -331,7 +426,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -368,7 +463,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -391,7 +486,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -450,16 +545,6 @@
 </actions>
 <relatedlists>
 <relatedlist>
-<function>get_related_list</function>
-<label>OSSMailView</label>
-<sequence>1</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-</actions>
-<relatedmodule>OSSMailView</relatedmodule>
-</relatedlist>
-<relatedlist>
 <function>get_attachments</function>
 <label>Documents</label>
 <sequence>2</sequence>
@@ -469,6 +554,16 @@
 <action>SELECT</action>
 </actions>
 <relatedmodule>Documents</relatedmodule>
+</relatedlist>
+<relatedlist>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+<relatedmodule>OSSTimeControl</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>
