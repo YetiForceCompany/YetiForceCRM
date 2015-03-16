@@ -6,3 +6,4 @@
 /config/config_override.php
 /cache/logs/*.log
 /test/templates_c/vlayout/*.php
+/nbproject/private/
