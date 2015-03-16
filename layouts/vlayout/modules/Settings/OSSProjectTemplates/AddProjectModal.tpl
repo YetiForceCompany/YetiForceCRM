@@ -27,12 +27,16 @@
 
             <table class="table">
                 <tr>
-                    <td>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
+					<td><span class="redColor">*</span>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
                     <td><input class="required" name="tpl_name" value="" type="text" /></td>
                 </tr>
                 {foreach from=$FIELD_HTML key=key item=item}
                     <tr>
-                        <td>{vtranslate($item.label, 'Project')}</td>
+						{if $item.mandatory}
+							<td><span class="redColor">*</span> {vtranslate($item.label, 'Project')}</td>    
+						{else}
+							<td>{vtranslate($item.label, 'Project')}</td>
+						{/if}
                         <td>{$item.html}</td>
                     </tr>
                 {/foreach}
