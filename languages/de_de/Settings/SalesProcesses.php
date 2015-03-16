@@ -13,7 +13,7 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
 	'LBL_SAVE_CONFIG_OK'													=> 'Vertriebsprozesseinstellungen erfolgreich gesichert.',
 	'LBL_SAVE_CONFIG_ERROR'													=> 'Fehler beim Sichern.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu w‰hlen. Wird von folgenden Modulen unterst¸tzt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
+	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu w√§hlen. Wird von folgenden Modulen unterst√ºtzt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
 );
 $jsLanguageStrings = array(
 

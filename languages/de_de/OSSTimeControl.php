@@ -67,8 +67,8 @@ $languageStrings = array(
 	'LBL_BLOCK' => 'Beziehungen',
 	'OSSTimeControl' => 'Zeiterfassung',
 	'SINGLE_OSSTimeControl' => 'Zeiterfassung',
-	'LBL_CALENDAR_VIEW' => 'Calendar',
-	'LBL_TIMECONTROL_TYPE' => '__No_Translated__',
+	'LBL_CALENDAR_VIEW' => 'Kalender',
+	'LBL_TIMECONTROL_TYPE' => 'Typ',
 );
 $jsLanguageStrings = array(
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

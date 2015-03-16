@@ -10,6 +10,8 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'Calendar' => 'Kalender',
+	'Task' => 'Aufgabe',
+	'Meeting' => 'Besprechung',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Aktivitätstypen',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Verwaltung von Aktivitätstypen.',
@@ -31,6 +33,7 @@ $languageStrings = array(
 	'PLL_BREAK_TIME' => 'Öffnungszeit',
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
+	'LBL_UPDATE_EVENT' => 'Ereignis aktualisieren',
 );
 $jsLanguageStrings = array(
 
