@@ -1,5 +1,4 @@
 <?php
-
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -12,7 +11,7 @@
 
 class API_CalDAV_Model {
 
-	const PRODID = 'YetiForceCRM';
+	const PRODID = 'YetiForce';
 	const CALENDAR_NAME = 'YFCalendar';
 	const COMPONENTS = 'VEVENT,VTODO';
 
@@ -69,7 +68,7 @@ class API_CalDAV_Model {
 		$endField = $this->getEndFieldName($calType);
 
 		$vcalendar = new Sabre\VObject\Component\VCalendar();
-		$vcalendar->PRODID = self::PRODID;
+		$vcalendar->PRODID = '-//'.self::PRODID.' V'.vglobal('YetiForce_current_version').'//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
 		if ($record['allday']) {
@@ -102,9 +101,9 @@ class API_CalDAV_Model {
 		$vcalendar->add($cal);
 		$calendarData = $vcalendar->serialize();
 
-		$calUri = $record['crmid'] . '.ics';
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
+		$calUri = $extraData['uid'] . '.ics';
 		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarobjects (calendarid, uri, calendardata, lastmodified, etag, size, componenttype, firstoccurence, lastoccurence, uid, crmid) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 		$stmt->execute([
 			$this->calendarId,
@@ -130,7 +129,7 @@ class API_CalDAV_Model {
 		$endField = $this->getEndFieldName($calType);
 
 		$vcalendar = Sabre\VObject\Reader::read($calendar['calendardata']);
-		$vcalendar->PRODID = self::PRODID;
+		$vcalendar->PRODID = '-//'.self::PRODID.' V'.vglobal('YetiForce_current_version').'//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
 		if ($record['allday']) {
@@ -466,11 +465,13 @@ class API_CalDAV_Model {
 	 * @return void
 	 */
 	protected function addChange($objectUri, $operation) {
+/*
 		$stmt = $this->pdo->prepare('DELETE FROM dav_calendarchanges WHERE uri = ? AND calendarid = ?;');
 		$stmt->execute([
 			$objectUri,
 			$this->calendarId
 		]);
+*/
 		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?');
 		$stmt->execute([
 			$objectUri,
