@@ -114,6 +114,7 @@ $languageStrings = array(
 	'LBL_SIZEICON' => 'Bildgröße',
 	'Blok menu' => 'Menü Block',
 	'Typ menu' => 'Menütyp',
+	'LBL_LANGEDITION' => '__No_Translated__',
     // połączenia
     'MSG_ADDMENUITEM_OK' => 'Neues Menü erfolgreich hinzugefügt.',
     'MSG_ADDMENUITEM_ERROR' => 'Fehler beim neuen Menü hinzufügen.',

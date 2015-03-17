@@ -112,6 +112,8 @@ $languageStrings = array(
     'LBL_WINDOWNEW' => 'Nowe okno',
     'LBL_SAVE' => 'Zapisz',
     'LBL_MENUTYPE' => 'Rodzaj menu',
+	'LBL_LANGEDITION' => 'Edytuj tłumaczenie',
+	
     // połączenia
     'MSG_ADDMENUITEM_OK' => 'Pomyślnie dodano nowe menu.',
     'MSG_ADDMENUITEM_ERROR' => 'Nie udało się dodać nowego menu.',

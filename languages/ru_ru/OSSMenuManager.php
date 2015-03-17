@@ -95,6 +95,7 @@ $languageStrings = array(
 	'LBL_SIZEICON'	=>	'Размер иконки',
 	'Blok menu'	=>	'Блок меню',
 	'Typ menu'	=>	'Тип Ссылки',
+	'LBL_LANGEDITION' => '__No_Translated__',
     // połączenia
 	'MSG_ADDMENUITEM_OK'	=>	'Ссылка успешно добавлена',
 	'MSG_ADDMENUITEM_ERROR'	=>	'Ошибка добавления Ссылки',
