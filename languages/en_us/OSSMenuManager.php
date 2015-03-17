@@ -139,6 +139,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR' => 'Failed to approve changes',
 	'MSG_CHANGE_ICON' => 'You have successfully made ​​changes',
 	'LBL_ADDICON' => 'Add icon theme changes',
+    'LBL_OTHER' => 'Other',
 );
 
 $jsLanguageStrings = array(

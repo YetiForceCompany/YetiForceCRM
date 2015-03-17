@@ -138,7 +138,7 @@ hr {
 .moreMenus {
   width: 52em;
   padding: 24%;
-  left: -270px;
+  left: 0;
   border-radius: 2px;
 }
 .moreMenus.leftAligned:after,
@@ -293,19 +293,6 @@ hr {
   }
 }
 @media screen and (max-width: 960px) {
-  #mediumNav,
-  #largeNav,
-  #headerLinksBig,
-  #commonMoreMenu,
-  .nav.quickActions,
-  #leftPanel,
-  #toggleButton,
-  .companyLogo,
-  .notificationMessageHolder,
-  .adv-search,
-  .select-search .chzn-container.chzn-container-single {
-    display: none !important;
-  }
   .bodyContents {
     margin: 0 !important;
   }
