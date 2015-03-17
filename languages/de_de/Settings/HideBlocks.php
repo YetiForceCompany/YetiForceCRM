@@ -16,9 +16,9 @@ $languageStrings = array(
 	'LBL_MODULE' => 'Modul',
 	'LBL_ENABLED' => 'Aktiv',
 	'LBL_EDIT_BLOCK' => 'Bearbeiten',
-	'LBL_NEW_BLOCK' => 'Hinzufügen',
+	'LBL_NEW_BLOCK' => 'HinzufÃ¼gen',
 	'LBL_BLOCK' => 'Abschnitt',
-	'LBL_NEXT' => 'Nächster',
+	'LBL_NEXT' => 'NÃ¤chster',
 	'LBL_VIEW' => 'Sicht',
-	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Abschnitt kann nicht ausgeblendet werden, da er Mussfelder enthält.',
+	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Abschnitt kann nicht ausgeblendet werden, da er Mussfelder enthÃ¤lt.',
 );

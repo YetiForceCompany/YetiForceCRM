@@ -33,6 +33,7 @@ $languageStrings = array(
 	'Other Email' => 'weitere E-Mail',
 	'Other Phone' => 'weiteres Telefon',
 	'Ownership' => 'Besitzer',
+	'Payment balance' => 'Zahlungsbilanz',
 	'Phone' => 'Telefon',
 	'Press'=>'Presse',
 	'Prospect'=>'Interessent',
@@ -84,7 +85,6 @@ $languageStrings = array(
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European reciprocal partnership',
 	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
 	'PLL_UFCIITS' => 'Undertakings for collective invesment in transferable securites',
-
 );
 
 $jsLanguageStrings = array(

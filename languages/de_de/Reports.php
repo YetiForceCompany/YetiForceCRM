@@ -55,6 +55,7 @@ $languageStrings = array(
 	'LBL_MOVE_REPORT' => 'Bericht verschieben',
 	'LBL_NEXT' => 'Weiter',
 	'LBL_NEXT_TRIGGER_TIME' => 'Nächster Zeitpunkt',
+	'LBL_NO' => 'Kein',	
 	'LBL_NO_OF_RECORDS' => 'Anzahl Datensätze : ',
 	'LBL_ON_THESE_DAYS' => 'An diesen Tagen',
 	'LBL_PRINT_REPORT' => 'Bericht drucken',

@@ -28,6 +28,7 @@ $languageStrings = array(
 	'New Business'=>'Neugeschäft',
 	'Next Step' => 'Nächster Schritt',
 	'--None--'=>'--Keine--',
+	'Payment balance' => 'Zahlungsbilanz',
 	'Potential No' => 'Verkaufschance Nummer',
 	'Potentials by Stage' => 'Verkaufschance nach Stufe',
 	'Potentials' => 'Verkaufschancen',

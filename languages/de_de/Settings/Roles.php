@@ -30,6 +30,7 @@ $languageStrings = array(
 	'Roles' => 'Rollen',
 	'SINGLE_Roles' => 'Rolle',
 	'LBL_USERS_LIST' => 'Liste der Benutzer, die dieser Rolle angehören:',
+
 );
 
 $jsLanguageStrings = array(

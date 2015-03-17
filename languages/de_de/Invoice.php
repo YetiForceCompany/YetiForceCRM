@@ -30,6 +30,7 @@ $languageStrings = array(
 	'LBL_SUB_PRODUCTS'		       => 'Unter Produkte',
 	'LBL_THIS' 			           => 'Produkt/Service (',
 	'Paid'                         => 'bezahlt'                     , 
+	'Payment balance' => 'Zahlungsbilanz',
 	'Purchase Order'               => 'Auftrag:'                    , 
 	'Sales Commission'             => 'Provision'                   , 
 	'Sales Order'                  => 'Bestellung'                  , 

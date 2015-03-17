@@ -9,11 +9,13 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'NewOrders' => 'New Orders',
+	'NewOrders' => 'Neue Beauftragung',
+	'SINGLE_NewOrders' => 'Neue Beauftragung',
 
 	//BLOCKS
-	'LBL_NEWORDERS_INFORMATION' => 'Basic information',
+	'LBL_NEWORDERS_INFORMATION' => 'Information',
 
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
+	'LBL_SUBJECT' => 'Bezeichnung',
+	'LBL_NUMBER' => 'Nummer',
 );

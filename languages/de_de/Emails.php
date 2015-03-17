@@ -8,12 +8,16 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = array(
-	'Parent ID' => 'Parent ID',
-	'Owner' => 'Owner',
-	'Access Count' => 'Access Count',
+	'Parent ID' => 'Übergeordnete ID',
+	'Owner' => 'Eigentümer',
+	'Access Count' => 'Anzahl Zugriffe',
 	'LBL_ATTACHED'	=>	'Angehängt',
 	'Date & Time Sent'             => 'Sendedatum'                   , 
 	'Emails' => 'E-Mails',
+	'To' => 'An',
+	'From' => 'Von', 
+	'Attachment' => 'Anhang',
+	'Sales Enity Module' => 'Zugehöriges Vertriebmodul',
 	'LBL_ADD_BCC'                  => 'Bcc hinzufügen'                     , 
 	'LBL_ADD_CC'                   => 'Cc hinzufügen'                      , 
 	'LBL_ATTACHMENT'               => 'Anhang'                      , 
