@@ -21526,7 +21526,7 @@ insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrr
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (6,'Backup','T5','T5',0,'Backup',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (7,'LBL_MEETING_ROOMS','T3','T3',0,'LBL_MEETING_ROOMS',NULL);
 insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (7,'LBL_EQUIPMENT','T2','T2',0,'LBL_EQUIPMENT',NULL);
-insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (7,'LBL_CARS','T1','T1',0,'TRE_CARS',NULL);
+insert  into `vtiger_trees_templates_data`(`templateid`,`name`,`tree`,`parenttrre`,`depth`,`label`,`state`) values (7,'LBL_CARS','T1','T1',0,'LBL_CARS',NULL);
 
 /*Data for the table `vtiger_troubletickets` */
 
