@@ -95,7 +95,7 @@ $languageStrings = array(
 	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'European private partnership',
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'European reciprocal partnership',
 	'PLL_EUROPEAN_ASSOCIATION' => 'European association',
-	'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES' => 'Undertakings for collective invesment in transferable securites',
+	'PLL_UFCIITS' => 'Undertakings for collective invesment in transferable securites',
 
 	'Total emails'=>'Anzahl von EMails',
 	'Total comments'=>'Anzahl von Kommentaren',

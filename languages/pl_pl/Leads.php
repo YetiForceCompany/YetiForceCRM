@@ -93,7 +93,7 @@ $languageStrings = array(
 	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'Europejska spółka prywatna',
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
-	'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
+	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
 	
 	'Total emails'=>'Liczba <br />maili',
 	'Total comments'=>'Liczba komentarzy',
