@@ -28,6 +28,7 @@ $languageStrings = array(
 	'LBL_HOST' => 'Host',
 	'LBL_LOGIN' => 'Login',
 	'LBL_PASSWORD' => 'Passwort',
+	'LBL_PORT' => 'Port',
 	'LBL_CONNECTION_STATUS' => 'Verbindungsstatus',
 	'LBL_SEND_TO_FTP' => 'An FTP senden',
 	'LBL_ACTIVE' => 'Aktiv',

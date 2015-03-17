@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = array(
-    'My Home Page' => 'Mein Schreibtisch',
+    'My Home Page' => 'Mein Arbeitsplatz',
 	'Analytics' => 'Berichte',
     'Inventory' => 'Bestand',
     'Marketing' => 'Marketing',

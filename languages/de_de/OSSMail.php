@@ -33,6 +33,7 @@ $languageStrings = array(
     'MSG_DEL_WARN5' => 'Wenn Sie irgendein Problem haben, erreichen Sie uns über unsere E-Mail oder über ein Trouble Ticket auf der Webseite www.opensaas.pl',
     'MSG_DEL_WARN6' => 'Ihr Team von OpenSaaS Sp. z o.o.',    
     'Uninstall OSSMail module' => 'Deinstallieren OSSMail Modul',
+	'To' => 'An',
 
     'Removed relationship' => 'Beziehung wurde entfernt',
     'Add relationship' => 'Beziehung wurde hinzugefügt',
