@@ -5344,7 +5344,7 @@ insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`pres
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (16,'PLL_EUROPEAN_PRIVATE_PARTNERSHIP',16,1);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (17,'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP',17,1);
 insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (18,'PLL_EUROPEAN_ASSOCIATION',18,1);
-insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (19,'PLL_UNDERTAKINGS_FOR_COLLECTIVE_INVESMENT_IN_TRANSFERABLE_SECURITES',19,1);
+insert  into `vtiger_legal_form`(`legal_formid`,`legal_form`,`sortorderid`,`presence`) values (19,'PLL_UFCIITS',19,1);
 
 /*Data for the table `vtiger_legal_form_seq` */
 
