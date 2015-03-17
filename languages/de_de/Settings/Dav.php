@@ -9,26 +9,26 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_DAV_KEYS' => 'DAV Schl¸ssel',
-	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schl¸ssel',
-	'LBL_KEY' => 'Schl¸ssel',
+	'LBL_DAV_KEYS' => 'DAV Schl√ºssel',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schl√ºssel',
+	'LBL_KEY' => 'Schl√ºssel',
 	'LBL_TOOLS' => 'Tools',
-	'LBL_DELETE_KEY' => 'Schl¸ssel lˆschen',
-	'LBL_ADD_KEY' => 'Schl¸ssel hinzuf¸gen',
+	'LBL_DELETE_KEY' => 'Schl√ºssel l√∂schen',
+	'LBL_ADD_KEY' => 'Schl√ºssel hinzuf√ºgen',
 	'LBL_DISPLAY_NAME' => 'Anwender',
 	'LBL_EMAIL' => 'Email',
 	'LBL_LOGIN' => 'Login',
-	'LBL_KEY' => 'Schl¸ssel',
-	'LBL_SELECT_USER' => 'W‰hle Anwender:',
+	'LBL_KEY' => 'Schl√ºssel',
+	'LBL_SELECT_USER' => 'W√§hle Anwender:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'DAV Anwendung ist nicht aktiv',
 	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'DAV Anwendung wurde noch nicht aktiviert, bitte in config/api.php aktivieren',
-	'LBL_SUCCESS_SAVE_KEY' => 'Neuer Schl¸ssel wurde erfolgreich erzeugt',
-	'LBL_ERROR_SAVE_KEY' => 'Fehler beim Speichern des Schl¸ssels',
-	'LBL_SUCCESS_SAVE_CHANGES' => 'ƒnderungen wurden gesichert',
+	'LBL_SUCCESS_SAVE_KEY' => 'Neuer Schl√ºssel wurde erfolgreich erzeugt',
+	'LBL_ERROR_SAVE_KEY' => 'Fehler beim Speichern des Schl√ºssels',
+	'LBL_SUCCESS_SAVE_CHANGES' => '√Ñnderungen wurden gesichert',
 	'LBL_ACTIVE_USER' => 'Anwenderstatus',
-	'LBL_KEY_HAS_BEEN_REMOVED' => 'Schl¸ssel wurde gelˆscht',
+	'LBL_KEY_HAS_BEEN_REMOVED' => 'Schl√ºssel wurde gel√∂scht',
 	'LBL_SELECT_TYPE' => 'Typ',
 );
 $jsLanguageStrings = array(
-	'Adding a Key' => 'Schl¸ssel hinzuf¸gen',
+	'Adding a Key' => 'Schl√ºssel hinzuf√ºgen',
 );

@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'LBL_VIEW_PRVILIGE' => 'Ansicht',
 	'CreateCustomFilter'	=>	'Benutzerdefinierte Filter-Erstellung',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_CHOOSE_PROFILES' => 'Profil auswählen',
@@ -30,13 +29,13 @@ $languageStrings = array(
 	'LBL_MODULES' => 'Modul',
 	'LBL_PROFILE_NAME' => 'Profilname',
 	'LBL_PROFILES' => 'Profile',
-	'LBL_PROFILE_VIEW' => 'Profil Ansicht',
+	'LBL_PROFILE_VIEW' => 'Profilanzeige',
 	'LBL_READ_ONLY' => 'Nur Lesen',
 	'LBL_TOOLS' => 'Werkzeuge',
 	'LBL_TRANSFER_ROLES_TO_PROFILE' => 'Rollen zum Profil übertragen',
    'LBL_VIEW_ALL_DESC' => 'Kann alle Module Informationen ansehen',
    'LBL_VIEW_ALL' => 'Alle anzeigen',
-	'LBL_VIEW_PRIVILEGE' => 'Ansicht',
+	'LBL_VIEW_PRIVILEGE' => 'Anzeigen',
 	'LBL_WRITE' => 'Schreiben',
 	'Profiles' => 'Profile',
 	'SINGLE_Profiles' => 'Profil',
@@ -45,11 +44,11 @@ $languageStrings = array(
    'Export' => 'Exportieren',
 	'Merge'  => 'Zusammenführen',
    'ConvertLead' => 'Lead konvertieren',
-   'DuplicatesHandling' => 'Duplikate Handhabung',
+   'DuplicatesHandling' => 'Duplikatbearbeitung',
    'ReceiveIncomingCalls' => 'Eingehende Anrufe',
    'MakeOutgoingCalls' => 'Abgehende Anrufe',
    'Print' => 'Drucken',
-	'DuplicateRecord'  => 'Dupliziere',
+	'DuplicateRecord'  => 'Duplizieren',
 	'EditableComments' => 'Kommentar bearbeiten',
 	'TagCloud' => 'Tag Wolke',
 );

@@ -15,8 +15,8 @@ $languageStrings = array(
 	'Public Id' => 'Öffentliche Id',
 	'Enabled' => 'Aktiviert',
 	'Module' => 'Modul',
-	'Return Url' => 'Rückgabe Url',
-	'Post Url' => 'Url senden',
+	'Return Url' => 'Rückgabe URL',
+	'Post Url' => 'URL senden',
    'Captcha Enabled' => 'Captcha aktivieren',
 	'SINGLE_Webforms' => 'Webformular',
 
