@@ -140,6 +140,7 @@ $languageStrings = array(
 	'LBL_ADDICON' => 'Dodaj ikonę zmiany motywu',
 	'Blok menu' => 'Blok menu',
 	'Typ menu' => 'Typ menu',
+	'LBL_OTHER' => 'Pozostałe',
 );
 
 $jsLanguageStrings = array(

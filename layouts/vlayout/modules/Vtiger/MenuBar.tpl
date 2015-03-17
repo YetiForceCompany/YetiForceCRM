@@ -13,105 +13,188 @@
 
 
 <style>
-ul.nav.modulesList > li > ul {
-  display:none;
-}
+	ul.nav.modulesList > li > ul {
+		display:none;
+	}
 
-ul.nav.modulesList > li:hover > ul {
-  display:block;
-}
-.navbar .nav > li > a.OSSMenuBlock, .dropdown-menu li a:hover{
-color: #ffffff !important;
-}
-.navbar .nav > li > a.OSSMenuBlock{
-font-weight: 800;
-}
+	ul.nav.modulesList > li:hover > ul {
+		display:block;
+	}
+	.navbar .nav > li > a.OSSMenuBlock, .dropdown-menu li a:hover{
+		color: #ffffff !important;
+	}
+	.navbar .nav > li > a.OSSMenuBlock{
+		font-weight: 800;
+	}
+	.scrollable-menu {
+		height: 550%;
+		max-height: 600px;
+		overflow-x: hidden;
+	}
+	.menuVSpace { margin-top: 10px; }
+	.clipText { overflow:hidden; text-overflow:ellipsis; }
 </style>
 
 {strip}
 	{assign var="topMenus" value=$MENU_STRUCTURE['structure']}
 	{assign var="icons" value=$MENU_STRUCTURE['icons']}
-{*{var_dump($topMenus)} {exit;}*}
-    <div class="navbar" id="topMenus">
+	{*{var_dump($topMenus)} {exit;}*}
+	<div class="navbar" id="topMenus">
 		<div class="navbar-inner" id="nav-inner">
 			<div class="menuBar row-fluid">
-				<div class="span8">
-					<ul class="nav modulesList">
+				<div class="span9" id="largeNavDiv">
+					<ul id="largeNav" class="nav modulesList collapsed">
 						<li class="tabs">
 							<a class="alignMiddle {if $MODULE eq 'Home'} selected {/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}"><img src="{vimage_path('home.png')}" alt="{vtranslate('LBL_HOME',$moduleName)}" title="{vtranslate('LBL_HOME',$moduleName)}" /></a>
 						</li>
-							{foreach key=moduleName item=moduleModel from=$topMenus}
-							
-							<li class="dropdown" id="{$moduleName}">
-								<a class="dropdown-toggle OSSMenuBlock" data-toggle="dropdown" href="{$moduleName}"> 
-	
-                                {if !empty($icons[$moduleName]['picon'])}
-                                <img style="max-width:{$icons[$moduleName]['iconf']}px; vertical-align: middle; max-height:{$icons[$moduleName]['icons']}px" src="{$icons[$moduleName]['picon']}" alt=""/>&nbsp;
-                                {/if}
-							{vtranslate($moduleName, 'OSSMenuManager')}
-							</a>
-                            {if count($moduleModel) gt 0}
-							<ul class="dropdown-menu userName" style="max-height:700px; margin-top:0px;" >
-							{foreach from=$moduleModel item=module}
-                                {if $module.link|strpos:'*etykieta*' === 0}
-                                    {$module.link=$module.link|replace:'*etykieta*':''}
-                                    <li>
-                                        {if strlen($module.link) gt 0}
-                                            {if $module.link|strpos:'*_blank*' === 0}
-				                                <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}" target="_blank">
-                                                {if !empty($module.locationiconname)}
-                                                <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;									
+						{foreach key=moduleName item=moduleModel from=$topMenus}
+
+							<li class="dropdown hide blockli" id="{str_replace(' ', '_', $moduleName)}">
+								<a class="dropdown-toggle OSSMenuBlock" data-toggle="dropdown" href="{$moduleName}">
+
+									{if !empty($icons[$moduleName]['picon'])}
+										<img style="max-width:{$icons[$moduleName]['iconf']}px; vertical-align: middle; max-height:{$icons[$moduleName]['icons']}px" src="{$icons[$moduleName]['picon']}" alt=""/>&nbsp;
+									{/if}
+									{vtranslate($moduleName, 'OSSMenuManager')}
+								</a>
+								{if count($moduleModel) gt 0}
+									<ul class="dropdown-menu userName" style="max-height:700px; margin-top:0px;" >
+										{foreach from=$moduleModel item=module}
+											{if $module.link|strpos:'*etykieta*' === 0}
+												{$module.link=$module.link|replace:'*etykieta*':''}
+												<li>
+													{if strlen($module.link) gt 0}
+														{if $module.link|strpos:'*_blank*' === 0}
+															<a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" href="{$module.link}" target="_blank">
+																{if !empty($module.locationiconname)}
+																	<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;
+																{/if}
+																{vtranslate($module.name, $module.name)}</a>
+														{else}
+															<a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" href="{$module.link}">
+																{if !empty($module.locationiconname)}
+																	<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle; color: grey;" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;
+																{/if}
+																{vtranslate($module.name, $module.name)}</a>
+														{/if}
+													{else}
+														<a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}">
+															{if !empty($module.locationiconname)}
+																<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle; color: grey;" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;
+															{/if}
+															{vtranslate($module.name, $module.name)}</a>
+													{/if}
+												</li>
+											{else if $module.link eq '*separator*'}
+												<li class="divider"></li>
+											{else if $module.link|strpos:"javascript:" === 0 || $module.link|strpos:"jQuery" === 0}
+												<li>
+													<a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="#" onclick="{$module.link} return false;">
+														{if !empty($module.locationiconname)}
+															<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;
+														{/if}
+														{vtranslate($module.name, $module.name)}</a></li>
+											{else}
+												{if $module.link|strpos:"*_blank*" === 0}
+													{$module.link=$module.link|replace:'*_blank*':''}
+													<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}" target="_blank">
+															{if !empty($module.locationiconname)}
+																<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;
+															{/if}
+															{vtranslate($module.name, $module.name)}</a></li>
+												{else if $module.link|strpos:"index" === 0 || $module.link|strpos:"http://" === 0 || $module.link|strpos:"https://" === 0 || $module.link|strpos:"www" === 0}
+
+													<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}">
+															{if !empty($module.locationiconname)}
+																<img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>
+															{/if}
+															&nbsp;{vtranslate($module.name, $module.name)}</a></li>
 												{/if}
-                                                {vtranslate($module.name, $module.name)}</a>
-                                            {else}
-		                                        <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}">
-                                                {if !empty($module.locationiconname)}
-                                                <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;											
-												{/if}
-                                                {vtranslate($module.name, $module.name)}</a>
-                                            {/if}
-                                        {else}
-	                                            <a class="menuLinkClass etykietaUrl moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if}>
-                                                {if !empty($module.locationiconname)}
-                                                <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;											
-												{/if}
-                                                {vtranslate($module.name, $module.name)}</a>
-                                        {/if}
-                                    </li>
-                                {else if $module.link eq '*separator*'}
-									<li class="divider"></li>
-                                {else if $module.link|strpos:"javascript:" === 0 || $module.link|strpos:"jQuery" === 0}
-                                <li>
-								<a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="#" onclick="{$module.link} return false;">
-									{if !empty($module.locationiconname)}
-                                        <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;							
-                                    {/if}
-                                {vtranslate($module.name, $module.name)}</a></li>
-                                {else}
-                                    {if $module.link|strpos:"*_blank*" === 0}
-                                        {$module.link=$module.link|replace:'*_blank*':''}	
-								<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}" target="_blank">
-									{if !empty($module.locationiconname)}
-                                        <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>&nbsp;							
-                                    {/if}
-                                {vtranslate($module.name, $module.name)}</a></li>
-                                    {else if $module.link|strpos:"index" === 0 || $module.link|strpos:"http://" === 0 || $module.link|strpos:"https://" === 0 || $module.link|strpos:"www" === 0}
-								
-								<li><a class="menuLinkClass moduleColor_{$module.mod}" {if $module.color}style="color: #{$module.color}!important;"{/if} href="{$module.link}">
-                                    {if !empty($module.locationiconname)}
-                                        <img style="max-width: {$module.sizeicon_first}px; max-height:{$module.sizeicon_second}px; vertical-align: middle" src="{$module.locationiconname}" alt="{$module.locationiconname}"/>
-                                  	{/if}
-                                    &nbsp;{vtranslate($module.name, $module.name)}</a></li>
-								   {/if}
-                                {/if}
-							{/foreach}
-							</ul>
-                            {/if}
+											{/if}
+										{/foreach}
+									</ul>
+								{/if}
 							</li>
 						{/foreach}
 					</ul>
+					<ul class="nav" id="commonMoreMenu">
+						<li class="dropdown" id="moreMenu">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#moreMenu">
+								<strong>{vtranslate('LBL_OTHER', 'OSSMenuManager')}&nbsp;</strong>
+								<b class="caret"></b>
+							</a>
+							<div class="dropdown-menu moreMenus scrollable-menu" style="width: 10em;">
+								{foreach key=parent item=moduleList from=$topMenus name=more}
+									{if $smarty.foreach.more.index % 1 == 0}
+										<div class="row-fluid">
+									{/if}
+									{assign var=SPAN_CLASS value=span12}
+									<span id="{str_replace(' ', '_', $parent)}_other" class="{$SPAN_CLASS} {if $smarty.foreach.more.index > 0} menuVSpace{/if} clipText">
+										<strong>{vtranslate($parent, 'OSSMenuManager')}</strong><hr>
+										{foreach key=moduleName item=moduleModel from=$moduleList}
+											{if $moduleModel.link|strpos:'*etykieta*' === 0}
+												{$moduleModel.link=$moduleModel.link|replace:'*etykieta*':''}
+												<label class="moduleNames">
+													{if strlen($moduleModel.link) gt 0}
+														{if $moduleModel.link|strpos:'*_blank*' === 0}
+															<a class="menuLinkClass etykietaUrl moduleColor_{$moduleModel.mod}" href="{$moduleModel.link}" target="_blank">
+																{if !empty($moduleModel.locationiconname)}
+																	<img style="max-width: {$moduleModel.sizeicon_first}px; max-height:{$moduleModel.sizeicon_second}px; vertical-align: middle" src="{$moduleModel.locationiconname}" alt="{$moduleModel.locationiconname}"/>&nbsp;
+																{/if}
+																{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+														{else}
+															<a class="menuLinkClass etykietaUrl moduleColor_{$moduleModel.mod}" {if $moduleModel.color}style="color: #{$moduleModel.color}!important;"{/if} href="{$moduleModel.link}">
+																{if !empty($moduleModel.locationiconname)}
+																	<img style="max-width: {$moduleModel.sizeicon_first}px; max-height:{$moduleModel.sizeicon_second}px; vertical-align: middle" src="{$moduleModel.locationiconname}" alt="{$moduleModel.locationiconname}"/>&nbsp;
+																{/if}
+																{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+														{/if}
+													{else}
+														<a class="menuLinkClass etykietaUrl moduleColor_{$moduleModel.mod}" {if $moduleModel.color}style="color: #{$moduleModel.color}!important;"{/if}>
+															{if !empty($moduleModel.locationiconname)}
+																<img style="max-width: {$moduleModel.sizeicon_first}px; max-height:{$moduleModel.sizeicon_second}px; vertical-align: middle" src="{$moduleModel.locationiconname}" alt="{$moduleModel.locationiconname}"/>&nbsp;
+															{/if}
+															{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+													{/if}
+												</label>
+											{else if $moduleModel.link eq '*separator*'}
+												<label class="divider"></label>
+											{else if $moduleModel.link|strpos:"javascript:" === 0 || $moduleModel.link|strpos:"jQuery" === 0}
+												<label class="moduleNames">
+												<a class="menuLinkClass" href="#" onclick="{$moduleModel.link} return false;">
+													{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+											</label>
+											{else}
+												{if $moduleModel.link|strpos:"*_blank*" === 0}
+												{$moduleModel.link=$moduleModel.link|replace:'*_blank*':''}
+												<label class="moduleNames">
+													<a class="menuLinkClass moduleColor_{$moduleModel.mod}" {if $moduleModel.color}style="color: #{$moduleModel.color}!important;"{/if} href="{$moduleModel.link}" target="_blank">
+														{if !empty($moduleModel.locationiconname)}
+															<img style="max-width: {$moduleModel.sizeicon_first}px; max-height:{$moduleModel.sizeicon_second}px; vertical-align: middle" src="{$moduleModel.locationiconname}" alt="{$moduleModel.locationiconname}"/>&nbsp;
+														{/if}
+														{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+												</label>
+												{else if $moduleModel.link|strpos:"index" === 0 || $moduleModel.link|strpos:"http://" === 0 || $moduleModel.link|strpos:"https://" === 0 || $moduleModel.link|strpos:"www" === 0}
+													<label class="moduleNames">
+													<a class="menuLinkClass moduleColor_{$moduleModel.mod}" {if $moduleModel.color}style="color: #{$moduleModel.color}!important;"{/if} href="{$moduleModel.link}">
+														{if !empty($moduleModel.locationiconname)}
+															<img style="max-width: {$moduleModel.sizeicon_first}px; max-height:{$moduleModel.sizeicon_second}px; vertical-align: middle" src="{$moduleModel.locationiconname}" alt="{$moduleModel.locationiconname}"/>
+														{/if}
+														&nbsp;{vtranslate($moduleModel.name, $moduleModel.name)}</a>
+												</label>
+											{/if}
+											{/if}
+										{/foreach}
+									</span>
+									{if $smarty.foreach.more.last OR ($smarty.foreach.more.index+1) % 1 == 0}
+										</div>
+									{/if}
+								{/foreach}
+							</div>
+						</li>
+					</ul>
 				</div>
-				<div class="span4 row-fluid" id="headerLinks">
+				<div class="span3 row-fluid" id="headerLinks">
 					<span id="headerLinksBig" class="pull-right headerLinksContainer">
 						{if $PAINTEDICON eq 1}
 							<span class="dropdown span settingIcons">
@@ -123,16 +206,16 @@ font-weight: 800;
 										{assign var=COUNTER value=0}
 										{assign var=THEMES_LIST value=Vtiger_Theme::getAllSkins()}
 										<div class="row-fluid themeMenu">
-										{foreach key=SKIN_NAME item=SKIN_COLOR from=$THEMES_LIST}
+											{foreach key=SKIN_NAME item=SKIN_COLOR from=$THEMES_LIST}
 											{if $COUNTER eq 3}
-												</div>
-												<div class="row-fluid themeMenu">
-												{assign var=COUNTER value=1}
+										</div>
+										<div class="row-fluid themeMenu">
+											{assign var=COUNTER value=1}
 											{else}
-												{assign var=COUNTER value=$COUNTER+1}
+											{assign var=COUNTER value=$COUNTER+1}
 											{/if}
 											<div class="span4 themeElement {if $USER_MODEL->get('theme') eq $SKIN_NAME}themeSelected{/if}" data-skin-name="{$SKIN_NAME}" title="{ucfirst($SKIN_NAME)}" style="background-color:{$SKIN_COLOR};"></div>
-										{/foreach}
+											{/foreach}
 										</div>
 									</div>
 									<div id="progressDiv"></div>
@@ -150,27 +233,27 @@ font-weight: 800;
 									{else}
 										{assign var=title value=$USER_MODEL->get('first_name')}
 										{if empty($title)}
-											{assign var=title value=$USER_MODEL->get('last_name')}
-										{/if}
+									{assign var=title value=$USER_MODEL->get('last_name')}
+								{/if}
 									<span class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         <a id="menubar_item_right_{$title}"  class="userName textOverflowEllipsis" title="{$title}"><strong>{$title}</strong>&nbsp;<i class="caret"></i> </a> </span>
-									{/if}
-									{if !empty($childLinks)}
+								{/if}
+								{if !empty($childLinks)}
 									<ul class="dropdown-menu pull-right">
 										{foreach key=index item=obj from=$childLinks}
 											{if $obj->getLabel() eq NULL}
 												<li class="divider">&nbsp;</li>
-												{else}
-													{assign var="id" value=$obj->getId()}
-													{assign var="href" value=$obj->getUrl()}
-													{assign var="label" value=$obj->getLabel()}
-													{assign var="onclick" value=""}
-													{if stripos($obj->getUrl(), 'javascript:') === 0}
-														{assign var="onclick" value="onclick="|cat:$href}
-														{assign var="href" value="javascript:;"}
-													{/if}
+											{else}
+												{assign var="id" value=$obj->getId()}
+												{assign var="href" value=$obj->getUrl()}
+												{assign var="label" value=$obj->getLabel()}
+												{assign var="onclick" value=""}
+												{if stripos($obj->getUrl(), 'javascript:') === 0}
+													{assign var="onclick" value="onclick="|cat:$href}
+													{assign var="href" value="javascript:;"}
+												{/if}
 												<li>
-														<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+													<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
 												</li>
 											{/if}
 										{/foreach}
@@ -231,16 +314,16 @@ font-weight: 800;
 									{assign var="childLinks" value=$obj->getChildLinks()}
 									{if $smarty.foreach.compactIndex.index neq 0}
 										<li class="divider">&nbsp;</li>
+									{/if}
+									{foreach key=index item=obj from=$childLinks}
+										{assign var="id" value=$obj->getId()}
+										{assign var="href" value=$obj->getUrl()}
+										{assign var="label" value=$obj->getLabel()}
+										{assign var="onclick" value=""}
+										{if stripos($obj->getUrl(), 'javascript:') === 0}
+											{assign var="onclick" value="onclick="|cat:$href}
+											{assign var="href" value="javascript:;"}
 										{/if}
-										{foreach key=index item=obj from=$childLinks}
-											{assign var="id" value=$obj->getId()}
-											{assign var="href" value=$obj->getUrl()}
-											{assign var="label" value=$obj->getLabel()}
-											{assign var="onclick" value=""}
-											{if stripos($obj->getUrl(), 'javascript:') === 0}
-												{assign var="onclick" value="onclick="|cat:$href}
-												{assign var="href" value="javascript:;"}
-											{/if}
 										<li>
 											<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
 										</li>
@@ -262,18 +345,59 @@ font-weight: 800;
 	</div>
 	<input type='hidden' value="{$MODULE}" id='module' name='module'/>
 	<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />
-        <input type='hidden' value="{$VIEW}" id='view' name='view'/>
-    {literal}
-    <script>
-        jQuery( function() {
+	<input type='hidden' value="{$VIEW}" id='view' name='view'/>
+{literal}
+	<script>
+		jQuery( function() {
 			jQuery( ".OSSMenuBlock" ).hover(
-				function() {
-					jQuery(this).dropdown('toggle');
-				}, function() {
-					jQuery(this).dropdown('toggle');
-				}
+					function() {
+						jQuery(this).dropdown('toggle');
+					}, function() {
+						jQuery(this).dropdown('toggle');
+					}
 			);
-        });
-    </script>
-    {/literal}
+
+			jQuery('#commonMoreMenu').hide();
+			refreshMenu();
+		});
+
+		jQuery( window ).resize(function() {
+			refreshMenu();
+		});
+
+		function refreshMenu() {
+			var largeNav = jQuery( '#largeNavDiv' ).width();
+			var tabsWidth = jQuery( 'li.tabs' ).width() + 15;
+			var windowWidth = jQuery(window).width();
+			jQuery('#largeNavDiv').find('li.blockli').each( function() {
+				jQuery(this).hide();
+			});
+			jQuery('#commonMoreMenu').show();
+			jQuery('#commonMoreMenu').find('span').each( function() {
+				jQuery(this).show();
+			});
+
+			var elemendthWidth = tabsWidth + jQuery('#commonMoreMenu').width();
+			if ( windowWidth > 400 ) {
+				jQuery('#largeNavDiv').find('li.blockli').each( function() {
+					var eWidth = jQuery(this).width();
+					if ( elemendthWidth + eWidth < largeNav-60 ) {
+						elemendthWidth += eWidth;
+						jQuery(this).show();
+						var id = jQuery(this).attr('id');
+						jQuery('#commonMoreMenu').find('[id="'+id+'_other"]').hide();
+					}
+				});
+			}
+			var visibleSpans = 0;
+			jQuery('#commonMoreMenu').find('span').each( function() {
+				if ( jQuery(this).css('display') !== 'none' )
+					visibleSpans++;
+			});
+
+			if ( visibleSpans == 0 )
+				jQuery('#commonMoreMenu').hide();
+		};
+	</script>
+{/literal}
 {/strip}

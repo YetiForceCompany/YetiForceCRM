@@ -120,6 +120,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR'	=>	'Ошибка сохранения изменений',
 	'MSG_CHANGE_ICON'	=>	'Изменения успешно сохранены',
 	'LBL_ADDICON'	=>	'Показывать иконку Изменения темы',
+	'LBL_OTHER' => 'Other',
 );
 
 $jsLanguageStrings = array(
