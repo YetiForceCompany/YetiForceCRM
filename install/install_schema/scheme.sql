@@ -550,6 +550,7 @@ CREATE TABLE `vtiger_account` (
   `balance` decimal(25,8) DEFAULT NULL,
   `average_profit_so` decimal(5,2) DEFAULT NULL,
   `payment_balance` decimal(25,8) DEFAULT NULL,
+  `legal_form` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
