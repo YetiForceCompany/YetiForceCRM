@@ -1,0 +1,35 @@
+<?php
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+class Reservations_Field_Model extends Vtiger_Field_Model {
+
+	/**
+	 * Function to get Edit view display value
+	 * @param <String> Data base value
+	 * @return <String> value
+	 */
+	 
+	public function getEditViewDisplayValue($value) {
+		$fieldName = $this->getName();
+
+		//Set the start date and end date
+		if(empty($value)) {
+			if ($fieldName === 'date_start') {
+				return DateTimeField::convertToUserFormat(date('Y-m-d'));
+			} elseif ($fieldName === 'due_date') {
+				//$currentUser = Users_Record_Model::getCurrentUserModel();
+				$minutes = 15;
+				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
+			}
+		}
+		return parent::getEditViewDisplayValue($value);
+	}
+
+}

@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -550,7 +550,6 @@ CREATE TABLE `vtiger_account` (
   `balance` decimal(25,8) DEFAULT NULL,
   `average_profit_so` decimal(5,2) DEFAULT NULL,
   `payment_balance` decimal(25,8) DEFAULT NULL,
-  `legal_form` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -2109,7 +2108,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_def_org_share_seq` */
 
@@ -2491,7 +2490,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1719 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1739 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4198,7 +4197,7 @@ CREATE TABLE `vtiger_ossmenumanager` (
   `paintedicon` int(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=342 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -5967,6 +5966,50 @@ CREATE TABLE `vtiger_requirementcardscf` (
   CONSTRAINT `fk_1_vtiger_requirementcardscf` FOREIGN KEY (`requirementcardsid`) REFERENCES `vtiger_requirementcards` (`requirementcardsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_reservations` */
+
+CREATE TABLE `vtiger_reservations` (
+  `reservationsid` int(19) NOT NULL DEFAULT '0',
+  `title` varchar(128) DEFAULT NULL,
+  `reservations_no` varchar(255) DEFAULT NULL,
+  `reservations_status` varchar(128) DEFAULT NULL,
+  `date_start` date NOT NULL,
+  `time_start` varchar(50) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `time_end` varchar(50) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
+  `relatedida` int(19) DEFAULT '0',
+  `relatedidb` int(19) DEFAULT '0',
+  `deleted` int(1) DEFAULT '0',
+  `type` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`reservationsid`),
+  CONSTRAINT `vtiger_reservations` FOREIGN KEY (`reservationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_reservations_status` */
+
+CREATE TABLE `vtiger_reservations_status` (
+  `reservations_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `reservations_status` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`reservations_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_reservations_status_seq` */
+
+CREATE TABLE `vtiger_reservations_status_seq` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_reservationscf` */
+
+CREATE TABLE `vtiger_reservationscf` (
+  `reservationsid` int(19) NOT NULL,
+  PRIMARY KEY (`reservationsid`),
+  CONSTRAINT `vtiger_reservationscf` FOREIGN KEY (`reservationsid`) REFERENCES `vtiger_reservations` (`reservationsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_role` */
 
 CREATE TABLE `vtiger_role` (
@@ -7016,7 +7059,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 
@@ -7401,7 +7444,7 @@ CREATE TABLE `vtiger_widgets` (
   PRIMARY KEY (`id`),
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_wordtemplates` */
 
@@ -7428,7 +7471,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 

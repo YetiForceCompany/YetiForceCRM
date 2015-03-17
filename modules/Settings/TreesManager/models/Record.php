@@ -130,11 +130,15 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		$sql = 'SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?';
 		$params = array($templateId);
 		$result = $adb->pquery($sql, $params);
+		$module = $this->get('module');
+		if (is_numeric($module)) {
+			$module = Vtiger_Functions::getModuleName($module);
+		}
 		for($i = 0; $i < $adb->num_rows($result); $i++){
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
 			$depth = (int)$row['depth']; 
-			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $this->get('module')) , 'attr' =>  array('id' => $treeID ), 'state' => $row['state'] );
+			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $module) , 'attr' =>  array('id' => $treeID ), 'state' => $row['state'] );
 			if($depth != 0)
 				$parent[$depth][] = $row;
 			if( $depth > $maxDepth)
