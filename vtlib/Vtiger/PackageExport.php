@@ -437,9 +437,10 @@ class Vtiger_PackageExport {
 			$this->outputNode($fieldresultrow['displaytype'], 'displaytype');
 			$this->outputNode($fieldresultrow['info_type'], 'info_type');
 			$this->outputNode($fieldresultrow['fieldparams'], 'fieldparams');
-			$this->outputNode('<![CDATA[' . $fieldresultrow['helpinfo'] . ']]>', 'helpinfo');
-			if (isset($fieldresultrow['masseditable'])) {
-				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
+			$this->outputNode($fieldresultrow['helpinfo'], 'helpinfo');
+
+			if (isset($fieldresultrow['summaryfield'])) {
+				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
 			}
 			if (isset($fieldresultrow['summaryfield'])) {
 				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
@@ -479,26 +480,27 @@ class Vtiger_PackageExport {
 				}
 			}
 			if ($uitype == '302') {
-				$this->openNode('trees_template');
+				$this->outputNode('', 'fieldparams');
+				$this->openNode('tree_template');
 				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
 				if($adb->num_rows($trees) > 0){
 					$this->outputNode($adb->query_result_raw($trees, 0, 'name'), 'name');
 					$this->outputNode($adb->query_result_raw($trees, 0, 'access'), 'access');
 					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
-					$this->openNode('trees_values');
+					$this->openNode('tree_values');
 					for($i = 0; $i < $adb->num_rows($treesData); $i++){
-						$this->openNode('trees_value');
+						$this->openNode('tree_value');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'name'), 'name');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'tree'), 'tree');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'parenttrre'), 'parenttrre');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'depth'), 'depth');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'label'), 'label');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'state'), 'state');
-						$this->openNode('trees_value');
+						$this->closeNode('tree_value');
 					}
-					$this->openNode('trees_values');
+					$this->closeNode('tree_values');
 				}
-				$this->closeNode('trees_template');
+				$this->closeNode('tree_template');
 			}
 			$this->closeNode('field');
 		}

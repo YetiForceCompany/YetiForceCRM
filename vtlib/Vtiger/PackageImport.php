@@ -676,50 +676,54 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$fieldInstance->displaytype  = $fieldnode->displaytype;
 		$fieldInstance->info_type    = $fieldnode->info_type;
 
-		if(!empty($fieldnode->fieldparams))
+		if (!empty($fieldnode->fieldparams))
 			$fieldInstance->fieldparams = $fieldnode->fieldparams;
-		
-		if(!empty($fieldnode->helpinfo))
+
+		if (!empty($fieldnode->helpinfo))
 			$fieldInstance->helpinfo = $fieldnode->helpinfo;
 
-		if(isset($fieldnode->masseditable))
+		if (isset($fieldnode->masseditable))
 			$fieldInstance->masseditable = $fieldnode->masseditable;
 
-		if(isset($fieldnode->columntype) && !empty($fieldnode->columntype))
+		if (isset($fieldnode->columntype) && !empty($fieldnode->columntype))
 			$fieldInstance->columntype = strval($fieldnode->columntype);
-
+		
+		if (!empty($fieldnode->tree_template)) {
+			$templateid = $fieldInstance->setTreeTemplate($fieldnode->tree_template,$moduleInstance);
+			$fieldInstance->fieldparams = $templateid;
+		}
+		
 		$blockInstance->addField($fieldInstance);
 
 		// Set the field as entity identifier if marked.
-		if(!empty($fieldnode->entityidentifier)) {
+		if (!empty($fieldnode->entityidentifier)) {
 			$moduleInstance->entityidfield = $fieldnode->entityidentifier->entityidfield;
-			$moduleInstance->entityidcolumn= $fieldnode->entityidentifier->entityidcolumn;
+			$moduleInstance->entityidcolumn = $fieldnode->entityidentifier->entityidcolumn;
 			$moduleInstance->setEntityIdentifier($fieldInstance);
 		}
 
 		// Check picklist values associated with field if any.
-		if(!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
+		if (!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
 			$picklistvalues = Array();
-			foreach($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
+			foreach ($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
 				$picklistvalues[] = $picklistvaluenode;
 			}
-			$fieldInstance->setPicklistValues( $picklistvalues );
+			$fieldInstance->setPicklistValues($picklistvalues);
 		}
 
 		// Check related modules associated with this field
-		if(!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
+		if (!empty($fieldnode->relatedmodules) && !empty($fieldnode->relatedmodules->relatedmodule)) {
 			$relatedmodules = Array();
-			foreach($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
+			foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 				$relatedmodules[] = $relatedmodulenode;
 			}
 			$fieldInstance->setRelatedModules($relatedmodules);
 		}
-                
-                // Set summary field if marked in xml
-                if(!empty($fieldnode->summaryfield)) {
-                    $fieldInstance->setSummaryField($fieldnode->summaryfield);
-                }
-                
+
+		// Set summary field if marked in xml
+		if (!empty($fieldnode->summaryfield)) {
+			$fieldInstance->setSummaryField($fieldnode->summaryfield);
+		}
 		$this->__AddModuleFieldToCache($moduleInstance, $fieldnode->fieldname, $fieldInstance);
 		return $fieldInstance;
 	}

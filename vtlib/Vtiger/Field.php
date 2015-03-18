@@ -283,5 +283,18 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		$adb->pquery("DELETE FROM vtiger_field WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting fields of the module ... DONE");
 	}
+	
+	function setTreeTemplate($tree, $moduleInstance) {
+		global $adb;
+		$adb->pquery('INSERT INTO vtiger_trees_templates(name, module, access) VALUES (?,?,?)', Array($tree->name, $moduleInstance->id, $tree->access));
+		$templateid = $adb->getLastInsertID();
+
+		foreach ($tree->tree_values->tree_value as $treeValue) {
+			$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
+			$params = array($templateid, $treeValue->name, $treeValue->tree, $treeValue->parenttrre, $treeValue->depth, $treeValue->label, $treeValue->state);
+			$adb->pquery($sql, $params);
+		}
+		self::log("Add tree template $tree->name ... DONE");
+		return $templateid;
+	}
 }
-?>
