@@ -37,11 +37,16 @@
 								<th><strong>{vtranslate('CardDAV',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('CalDAV',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('WebDAV',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_COUNT_CARD',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_COUNT_CAL',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
+							{assign var=AMOUNT_DATA value=$MODULE_MODEL->getAmountData()}
 							{foreach from=$MODULE_MODEL->getAllKeys() item=item key=key}
+								{assign var=ADDRESSBOOK value=$AMOUNT_DATA['addressbook'][$item.addressbooksid]}
+								{assign var=CALENDAR value=$AMOUNT_DATA['calendar'][$item.calendarsid]}
 								<tr data-user="{$item.userid}" data-name="{$item.user_name}">
 									<td>{$item.user_name}</td>
 									<td>{$item.key}</td>
@@ -51,6 +56,8 @@
 									<td>{if $item.addressbooksid}{vtranslate('LBL_YES')}{else}{vtranslate('LBL_NO')}{/if}</td>
 									<td>{if $item.calendarsid}{vtranslate('LBL_YES')}{else}{vtranslate('LBL_NO')}{/if}</td>
 									<td>{vtranslate('LBL_YES')}</td>
+									<td>{if $ADDRESSBOOK}{$ADDRESSBOOK}{else}0{/if}</td>
+									<td>{if $CALENDAR}{$CALENDAR}{else}0{/if}</td>
 									<td>
 										<button class="btn btn-danger deleteKey">{vtranslate('LBL_DELETE_KEY',$QUALIFIED_MODULE)}</button>
 									</td>

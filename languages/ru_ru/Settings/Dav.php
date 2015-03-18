@@ -29,6 +29,8 @@ $languageStrings = array(
 	'LBL_ACTIVE_USER' => 'Статус пользователя',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Ключ был удален',
 	'LBL_SELECT_TYPE' => 'Type',
+	'LBL_COUNT_CARD' => '__No_Translated__',
+	'LBL_COUNT_CAL' => '__No_Translated__',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Добавление ключа',
