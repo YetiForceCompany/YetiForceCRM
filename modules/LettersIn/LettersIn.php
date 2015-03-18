@@ -342,34 +342,19 @@ class LettersIn extends CRMEntity {
 			if($nModule){
 				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
 			}
-			$nModule = Vtiger_Module::getInstance('Contacts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
 			$nModule = Vtiger_Module::getInstance('Leads');
 			if($nModule){
 				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
 			}
-			$nModule = Vtiger_Module::getInstance('Potentials');
+			$nModule = Vtiger_Module::getInstance('Vendors');
 			if($nModule){
 				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
 			}
-			$nModule = Vtiger_Module::getInstance('HelpDesk');
+			$nModule = Vtiger_Module::getInstance('OSSEmployees');
 			if($nModule){
 				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
 			}
-			$nModule = Vtiger_Module::getInstance('Campaigns');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('Project');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('OSSCosts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('ADD','SELECT'),'get_related_list');
-			}
+
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
 			if($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
 				include_once('vtlib/Vtiger/Module.php');
