@@ -33,7 +33,7 @@
 			<h4 style="margin-bottom: 10px;">{vtranslate('LBL_TYPE',$MODULE)}:</h4>
 			<select style="width: 100%;" class="chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
 				{foreach key=KEY item=ITEM from=Reservations_Calendar_Model::getCalendarTypes()}
-					<option value="{$KEY}">{vtranslate($ITEM,$MODULE)}</option>
+					<option value="{$KEY}" selected>{vtranslate($ITEM,$MODULE)}</option>
 				{/foreach}
 			</select>
 		</div>
