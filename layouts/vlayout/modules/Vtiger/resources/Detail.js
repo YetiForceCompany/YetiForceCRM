@@ -220,6 +220,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	updatedFields : ['company','designation','title'],
 	//Event that will triggered before saving the ajax edit of fields
 	fieldPreSave : 'Vtiger.Field.PreSave',
+	tempData : [],
 
 	referenceFieldNames: {
 		'Calendar': {
@@ -963,6 +964,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 				return;
 			}
 
+			fieldElement.inputmask();
+			var hasMaskedValue = false;
+			if(fieldElement.inputmask("hasMaskedValue")){
+				hasMaskedValue = true;
+			}
 			detailViewValue.addClass('hide');
 			editElement.removeClass('hide').show().children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 
@@ -974,6 +980,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if((element.closest('td').is(currentTdElement))){
 					return;
 				}
+				fieldElement.inputmask('remove');
 				currentTdElement.removeAttr('tabindex');
                 var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
@@ -995,6 +1002,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 				var errorExists = fieldElement.validationEngine('validate');
 				//If validation fails
 				if(errorExists) {
+					if(hasMaskedValue){
+						fieldElement.inputmask();
+					}
 					return;
 				}
 				fieldElement.validationEngine('hide');
@@ -1350,16 +1360,21 @@ jQuery.Class("Vtiger_Detail_Js",{
 			thisInstance.loadWidget(updatesWidget);
 		});
 
-		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
+		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var currentDiv = currentTarget.closest('.activityStatus');
+			var activity = currentTarget.closest('.activityEntries');
+			var activityId = activity.find('.activityId').val();
 			var editElement = currentDiv.find('.edit');
-			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
+			var fieldElement = jQuery('[name="' + currentTarget.data('field') + '"]', editElement);
 			var editStatusElement = currentDiv.find('.editStatus');
-			editStatusElement.trigger( "click" );
-			fieldElement.val( currentTarget.data('status') ).trigger("liszt:updated");
-			editStatusElement.trigger( "clickoutside" );
+			if (thisInstance.tempData.indexOf(activityId) < 0) {
+				thisInstance.tempData.push(activityId);
+				editStatusElement.trigger("click");
+				fieldElement.val(currentTarget.data('status')).trigger("liszt:updated");
+				editStatusElement.trigger("clickoutside");
+			}
 		});
 
 		/*

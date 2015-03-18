@@ -1013,3 +1013,54 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashes_Validator_Js",{
         return true;
 	}
 })
+Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js",{
+
+	/**
+	 *Function which invokes field validation
+	 *@param accepts field element as parameter
+	 * @return error if validation fails true on success
+	 */
+	invokeValidation: function(field, rules, i, options){
+		var maskInstance = new Vtiger_InputMask_Validator_Js();
+		maskInstance.setElement(field);
+		var response = maskInstance.validate();
+		if(response != true){
+			return maskInstance.getError();
+		}
+	}
+
+},{
+
+	/**
+	 * Function to validate the Positive Numbers
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validate: function(){
+		var response = this._super();
+		if(response != true){
+			return response;
+		}
+		var field = this.getElement();
+		var fieldValue = field.val();
+		if(field.inputmask("hasMaskedValue")){
+			var unMaskedValue = field.inputmask('unmaskedvalue');
+			var getmetadata = field.inputmask("getmetadata");
+			var maskLength = (getmetadata.match(/9/g) || []).length + (getmetadata.match(/A/g) || []).length + (getmetadata.match(/'*'/g) || []).length;
+			if(unMaskedValue.length != 0 && maskLength > unMaskedValue.length) {
+				var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+				this.setError(errorInfo);
+				window.inputMaskValidation = true;
+				return false;
+			}else{
+				window.inputMaskValidation = false;
+			}
+		}
+		if(window.inputMaskValidation){
+			var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+			this.setError(errorInfo);
+			return false;
+		}
+        return true;
+	}
+})

@@ -1621,11 +1621,27 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
  * Function to related two records of different entity types
   */
 function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds) {
+	global $log,$adb;
+	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+	require_once("include/events/include.inc");
+	$em = new VTEventsManager($adb);
+	$em->initTriggerCache();
 	if(!is_array($destinationRecordIds)) $destinationRecordIds = Array($destinationRecordIds);
 	foreach($destinationRecordIds as $destinationRecordId) {
+		$data = array();
+		$data['focus'] = $focus;
+		$data['sourceModule'] = $sourceModule;
+		$data['sourceRecordId'] = $sourceRecordId;
+		$data['destinationModule'] = $destinationModule;
+		$data['destinationRecordId'] = $destinationRecordId;
+		$em->triggerEvent('vtiger.entity.link.before', $data);
+		
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		
+		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}
+	$log->debug("Exiting relateEntities method ...");
 }
 
 /**

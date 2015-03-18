@@ -23,5 +23,21 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 				}
 			}
 		}
+		if ($eventName == 'vtiger.entity.link.after') {
+			$destinationModule = array('Products', 'Services');
+			if ($entityData['sourceModule'] == 'Potentials' && in_array($entityData['destinationModule'], $destinationModule)) {
+				global $adb;
+				$result1 = $adb->pquery('SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?;', array($entityData['destinationRecordId']));
+				$result2 = $adb->pquery('SELECT smownerid,shownerid FROM vtiger_crmentity WHERE crmid = ?;', array($entityData['sourceRecordId']));
+				if ($adb->num_rows($result1) == 1 && $adb->num_rows($result2) == 1) {
+					$smownerid = $adb->query_result($result1, 0, 'smownerid');
+					$shownerid = $adb->query_result($result2, 0, 'shownerid') . ',' . $smownerid;
+
+					if ($smownerid != $adb->query_result($result2, 0, 'smownerid')) {
+						$adb->pquery("UPDATE vtiger_crmentity SET shownerid = ? WHERE crmid = ?;", array(rtrim($shownerid, ','), $entityData['sourceRecordId']));
+					}
+				}
+			}
+		}
 	}
 }
