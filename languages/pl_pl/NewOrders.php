@@ -10,6 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = Array(
 	'NewOrders' => 'Zarządzenia',
+	'SINGLE_NewOrders' => 'Zarządzenie',
 
 	//BLOCKS
 	'LBL_NEWORDERS_INFORMATION' => 'Podstawowe informacje',
