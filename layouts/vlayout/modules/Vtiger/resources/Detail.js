@@ -963,6 +963,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 				return;
 			}
 
+			fieldElement.inputmask();
+			var hasMaskedValue = false;
+			if(fieldElement.inputmask("hasMaskedValue")){
+				hasMaskedValue = true;
+			}
 			detailViewValue.addClass('hide');
 			editElement.removeClass('hide').show().children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 
@@ -974,6 +979,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if((element.closest('td').is(currentTdElement))){
 					return;
 				}
+				fieldElement.inputmask('remove');
 				currentTdElement.removeAttr('tabindex');
                 var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
@@ -995,6 +1001,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 				var errorExists = fieldElement.validationEngine('validate');
 				//If validation fails
 				if(errorExists) {
+					if(hasMaskedValue){
+						fieldElement.inputmask();
+					}
 					return;
 				}
 				fieldElement.validationEngine('hide');

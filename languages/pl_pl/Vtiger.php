@@ -909,6 +909,7 @@ $jsLanguageStrings = array(
 	'JS_LBL_NO_TAXES' => 'Wybrany produkt nie zawiera podatku',
 	'INVALID_NUMBER' => 'Nieprawidłowy numer',
 	'INVALID_NUMBER_OF' => 'Nieprawidłowy numer',
+	'JS_INVALID_LENGTH' => 'Wprowadzona wartość jest nie kompletna',
 	'JS_ACCEPT_ONLY_NUMBER' => 'Akceptuje tylko liczby',
 	'JS_ACCEPT_POSITIVE_NUMBER' => 'Akceptuje tylko dodatnie liczby',
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Możesz wybrać maksymalnie trzy rekordy',

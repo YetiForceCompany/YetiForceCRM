@@ -837,6 +837,7 @@ $jsLanguageStrings = array(
 	'JS_LBL_NO_TAXES' => 'O produto selecionado não possui impostos',
 	'INVALID_NUMBER' => 'Número inválido',
 	'INVALID_NUMBER_OF'=> 'Número inválido de',
+	'JS_INVALID_LENGTH' => '_UNTRANSLATED_',
 	'JS_ACCEPT_ONLY_NUMBER' => 'Aceita somente números',
 	'JS_ACCEPT_POSITIVE_NUMBER'=> 'aceita somente valores positivos',
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Você tem permissão para selecionar no máximo três registros',

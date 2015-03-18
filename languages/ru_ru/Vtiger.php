@@ -1134,6 +1134,7 @@ $jsLanguageStrings = array(
 	'Generate default PDF'=>'Создать шаблон PDF',
 	'INVALID_NUMBER'               => 'Неверный номер'              , 
 	'INVALID_NUMBER_OF'            => 'Неверный номер для'           , 
+	'JS_INVALID_LENGTH' => '_UNTRANSLATED_',
 	'JS_ACCEPT_ONLY_NUMBER'        => 'Принимаются только числа'        , 
 	'JS_ACCEPT_POSITIVE_NUMBER'    => 'Допускаются только положительные числа', 
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Вы имеете право выбрать не более трех записей',
