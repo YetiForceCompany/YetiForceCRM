@@ -220,6 +220,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	updatedFields : ['company','designation','title'],
 	//Event that will triggered before saving the ajax edit of fields
 	fieldPreSave : 'Vtiger.Field.PreSave',
+	tempData : [],
 
 	referenceFieldNames: {
 		'Calendar': {
@@ -1359,16 +1360,21 @@ jQuery.Class("Vtiger_Detail_Js",{
 			thisInstance.loadWidget(updatesWidget);
 		});
 
-		summaryViewContainer.on('click', '.editDefaultStatus', function(e){
+		summaryViewContainer.on('click', '.editDefaultStatus', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.popover('hide');
 			var currentDiv = currentTarget.closest('.activityStatus');
+			var activity = currentTarget.closest('.activityEntries');
+			var activityId = activity.find('.activityId').val();
 			var editElement = currentDiv.find('.edit');
-			var fieldElement = jQuery('[name="'+ currentTarget.data('field') +'"]', editElement);
+			var fieldElement = jQuery('[name="' + currentTarget.data('field') + '"]', editElement);
 			var editStatusElement = currentDiv.find('.editStatus');
-			editStatusElement.trigger( "click" );
-			fieldElement.val( currentTarget.data('status') ).trigger("liszt:updated");
-			editStatusElement.trigger( "clickoutside" );
+			if (thisInstance.tempData.indexOf(activityId) < 0) {
+				thisInstance.tempData.push(activityId);
+				editStatusElement.trigger("click");
+				fieldElement.val(currentTarget.data('status')).trigger("liszt:updated");
+				editStatusElement.trigger("clickoutside");
+			}
 		});
 
 		/*
