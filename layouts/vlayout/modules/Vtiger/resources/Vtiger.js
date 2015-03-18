@@ -273,7 +273,6 @@ var Vtiger_Index_Js = {
 				jQuery(p).data('info', record);
 			}
 		};
-		console.log(record);
 		document.notify[record.id] = Vtiger_Helper_Js.showPnotify(params);
 		jQuery('.reminder_accept').on('click', function(e) {
 			var currentElement = jQuery(e.currentTarget);
