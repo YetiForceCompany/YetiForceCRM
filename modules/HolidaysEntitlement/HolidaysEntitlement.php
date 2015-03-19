@@ -93,10 +93,11 @@ class HolidaysEntitlement extends Vtiger_CRMEntity {
 	function vtlib_handler($moduleName, $eventType) {
 		global $adb;
  		if($eventType == 'module.postinstall') {
-
+			include_once('vtlib/Vtiger/Module.php'); 
  			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
 			$moduleInstance->setModuleSeqNumber("configure",'HolidaysEntitlement','HE','1');
  			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
+			$moduleInstance = Vtiger_Module::getInstance('HolidaysEntitlement');
 			$targetModule = Vtiger_Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'),'get_dependents_list');
 
