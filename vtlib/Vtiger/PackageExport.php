@@ -661,7 +661,7 @@ class Vtiger_PackageExport {
 	function export_RelatedLists($moduleInstance) {
 
 		if(!$moduleInstance->isentitytype) return;
-
+		
 		global $adb;
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if($adb->num_rows($result)) {
@@ -671,6 +671,8 @@ class Vtiger_PackageExport {
 				$row = $adb->fetch_array($result);
 				$this->openNode('relatedlist');
 
+				$relModuleInstance = Vtiger_Module::getInstance($row['related_tabid']);
+				$this->outputNode($relModuleInstance->name, 'relatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
@@ -685,14 +687,40 @@ class Vtiger_PackageExport {
 					}
 					$this->closeNode('actions');
 				}
-
-				$relModuleInstance = Vtiger_Module::getInstance($row['related_tabid']);
-				$this->outputNode($relModuleInstance->name, 'relatedmodule');
-
 				$this->closeNode('relatedlist');
 			}
 
 			$this->closeNode('relatedlists');
+		}
+		
+		// Relations in the opposite direction
+		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?", Array($moduleInstance->id));
+		if ($adb->num_rows($result)) {
+			$this->openNode('inrelatedlists');
+
+			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+				$row = $adb->fetch_array($result);
+				$this->openNode('inrelatedlist');
+
+				$relModuleInstance = Vtiger_Module::getInstance($row['tabid']);
+				$this->outputNode($relModuleInstance->name, 'inrelatedmodule');
+				$this->outputNode($row['name'], 'function');
+				$this->outputNode($row['label'], 'label');
+				$this->outputNode($row['sequence'], 'sequence');
+				$this->outputNode($row['presence'], 'presence');
+
+				$action_text = $row['actions'];
+				if (!empty($action_text)) {
+					$this->openNode('actions');
+					$actions = explode(',', $action_text);
+					foreach ($actions as $action) {
+						$this->outputNode($action, 'action');
+					}
+					$this->closeNode('actions');
+				}
+				$this->closeNode('inrelatedlist');
+			}
+			$this->closeNode('inrelatedlists');
 		}
 	}
 
