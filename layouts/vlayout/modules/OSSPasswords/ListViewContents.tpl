@@ -73,7 +73,7 @@
 		</thead>
         {if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td></td>
+            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><i class="icon-search"></i></a></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
