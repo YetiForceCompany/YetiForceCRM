@@ -41,33 +41,27 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
             $unzip = new Vtiger_Unzip($zipfile, $overwrite);
 
             // Unzip selectively
-            $unzip->unzipAllEx( ".",
-                    Array(
-                    'include' => Array('templates', "modules/$module", 'cron', 'languages',
-						'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'),
+			$unzip->unzipAllEx(".", Array(
+					'include' => Array('templates', "modules/$module", 'cron', 'languages',
+					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'),
 					// DEFAULT: excludes all not in include
-                    ),
-
-                    Array(// Templates folder to be renamed while copying
-						'templates' => "layouts/vlayout/modules/$module",
-
+				), Array(// Templates folder to be renamed while copying
+					'templates' => "layouts/vlayout/modules/$module",
 					// Cron folder
-						'cron' => "cron/modules/$module",
+					'cron' => "cron/modules/$module",
+					// Settings folder
+					'settings/actions' => "modules/Settings/$module/actions",
+					'settings/views' => "modules/Settings/$module/views",
+					'settings/models' => "modules/Settings/$module/models",
+					'settings/connectors' => "modules/Settings/$module/connectors",
+					'settings/libraries' => "modules/Settings/$module/libraries",
+					// Settings templates folder
+					'settings/templates' => "layouts/vlayout/modules/Settings/$module",
+					'settings' => "modules/Settings",
+				)
+			);
 
-						// Settings folder
-						'settings/actions' => "modules/Settings/$module/actions",
-						'settings/views' => "modules/Settings/$module/views",
-						'settings/models' => "modules/Settings/$module/models",
-                                                'settings/connectors' => "modules/Settings/$module/connectors",
-                                                'settings/libraries' => "modules/Settings/$module/libraries",
-
-						// Settings templates folder
-						'settings/templates' => "layouts/vlayout/modules/Settings/$module",
-                                                'settings' => "modules/Settings",
-                    )   
-            );
-
-            // If data is not yet available
+			// If data is not yet available
             if(empty($this->_modulexml)) {
                 $this->__parseManifestFile($unzip);
             }
@@ -326,7 +320,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
     	$fieldInstance->typeofdata   = strval($fieldnode->typeofdata);
     	$fieldInstance->displaytype  = strval($fieldnode->displaytype);
     	$fieldInstance->info_type    = strval($fieldnode->info_type);
-    	$fieldInstance->fieldparams    = strval($fieldnode->fieldparams);
+    	$fieldInstance->fieldparams  = strval($fieldnode->fieldparams);
     	
     	if(!empty($fieldnode->fieldparams))
     		$fieldInstance->fieldparams    = strval($fieldnode->fieldparams);
@@ -467,11 +461,19 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      * @access private
      */
     function update_RelatedLists($modulenode, $moduleInstance) {
-        if(empty($modulenode->relatedlists) || empty($modulenode->relatedlists->relatedlist)) return;
         $moduleInstance->deleteRelatedLists();
-        foreach($modulenode->relatedlists->relatedlist as $relatedlistnode) {
-            $relModuleInstance = $this->update_Relatedlist($modulenode, $moduleInstance, $relatedlistnode);
-        }
+		if(!empty($modulenode->relatedlists) && !empty($modulenode->relatedlists->relatedlist)){
+			foreach($modulenode->relatedlists->relatedlist as $relatedlistnode) {
+				$this->update_Relatedlist($modulenode, $moduleInstance, $relatedlistnode);
+			}
+		}
+		
+		$moduleInstance->deleteInRelatedLists();
+		if(!empty($modulenode->inrelatedlists) && !empty($modulenode->inrelatedlists->inrelatedlist)){
+			foreach($modulenode->inrelatedlists->inrelatedlist as $inRelatedListNode) {
+				$this->update_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode);
+			}
+		}
     }
 
     /**
@@ -494,6 +496,23 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
         }
         return $relModuleInstance;
     }
+	
+    function update_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode) {
+		$inRelModuleInstance = Vtiger_Module::getInstance((string) $inRelatedListNode->inrelatedmodule);
+		$label = $inRelatedListNode->label;
+		$actions = false;
+		if (!empty($inRelatedListNode->actions) && !empty($inRelatedListNode->actions->action)) {
+			$actions = Array();
+			foreach ($inRelatedListNode->actions->action as $actionnode) {
+				$actions[] = "$actionnode";
+			}
+		}
+		if ($inRelModuleInstance) {
+			$inRelModuleInstance->unsetRelatedList($moduleInstance, "$label", "$inRelatedListNode->function");
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
+		}
+		return $inRelModuleInstance;
+	}
 
 	function update_CustomLinks($modulenode, $moduleInstance) {
 		if(empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink)) return;

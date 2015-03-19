@@ -839,9 +839,15 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	 * @access private
 	 */
 	function import_RelatedLists($modulenode, $moduleInstance) {
-		if(empty($modulenode->relatedlists) || empty($modulenode->relatedlists->relatedlist)) return;
-		foreach($modulenode->relatedlists->relatedlist as $relatedlistnode) {
-			$relModuleInstance = $this->import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode);
+		if(!empty($modulenode->relatedlists) && !empty($modulenode->relatedlists->relatedlist)){
+			foreach($modulenode->relatedlists->relatedlist as $relatedlistnode) {
+				$this->import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode);
+			}
+		}
+		if(!empty($modulenode->inrelatedlists) && !empty($modulenode->inrelatedlists->inrelatedlist)){
+			foreach($modulenode->inrelatedlists->inrelatedlist as $inRelatedListNode) {
+				$this->import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode);
+			}
 		}
 	}
 
@@ -865,6 +871,21 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		return $relModuleInstance;
 	}
 
+	function import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode) {
+		$inRelModuleInstance = Vtiger_Module::getInstance($inRelatedListNode->inrelatedmodule);
+		$label = $inRelatedListNode->label;
+		$actions = false;
+		if(!empty($inRelatedListNode->actions) && !empty($inRelatedListNode->actions->action)) {
+			$actions = Array();
+			foreach($inRelatedListNode->actions->action as $actionnode) {
+				$actions[] = "$actionnode";
+			}
+		}
+		if($inRelModuleInstance) {
+			$inRelModuleInstance->setRelatedList($moduleInstance, "$label", $actions, "$inRelatedListNode->function");
+		}
+		return $inRelModuleInstance;
+	}
 	/**
 	 * Import custom links of the module.
 	 * @access private

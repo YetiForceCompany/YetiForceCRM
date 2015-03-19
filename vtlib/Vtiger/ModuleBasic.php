@@ -333,6 +333,12 @@ class Vtiger_ModuleBasic {
 		self::log("Deleting related lists ... DONE");
 	}
 
+	function deleteInRelatedLists() {
+		global $adb;
+		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE related_tabid=?", Array($this->id));
+		self::log("Deleting related lists ... DONE");
+	}
+	
 	/**
 	 * Delete links information
 	 */

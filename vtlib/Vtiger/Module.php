@@ -59,20 +59,18 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 		global $adb;
 
 		if(empty($moduleInstance)) return;
-
-		if(!Vtiger_Utils::CheckTable('vtiger_crmentityrel')) {
-			Vtiger_Utils::CreateTable(
-				'vtiger_crmentityrel',
-				'(crmid INT NOT NULL, module VARCHAR(100) NOT NULL, relcrmid INT NOT NULL, relmodule VARCHAR(100) NOT NULL)',
-				true
-			);
+		if(empty($label)) $label = $moduleInstance->name;
+		
+		$result = $adb->pquery("SELECT relation_id FROM vtiger_relatedlists WHERE tabid=? AND related_tabid = ? AND name = ? AND label = ?;", 
+				Array($this->id,$moduleInstance->id,$function_name,$label));
+		if($adb->num_rows($result) > 0){
+			self::log("Setting relation with $moduleInstance->name [$useactions_text] ... Error, the related module already exists");
+			return;
 		}
-
+		
 		$relation_id = $this->__getRelatedListUniqueId();
 		$sequence = $this->__getNextRelatedListSequence();
 		$presence = 0; // 0 - Enabled, 1 - Disabled
-
-		if(empty($label)) $label = $moduleInstance->name;
 
 		// Allow ADD action of other module records (default)
 		if($actions === false) $actions = Array('ADD');
@@ -80,10 +78,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 		$useactions_text = $actions;
 		if(is_array($actions)) $useactions_text = implode(',', $actions);
 		$useactions_text = strtoupper($useactions_text);
-
-		// Add column to vtiger_relatedlists to save extended actions
-		Vtiger_Utils::AddColumn('vtiger_relatedlists', 'actions', 'VARCHAR(50)');
-
+		
 		$adb->pquery("INSERT INTO vtiger_relatedlists(relation_id,tabid,related_tabid,name,sequence,label,presence,actions) VALUES(?,?,?,?,?,?,?,?)",
 			Array($relation_id,$this->id,$moduleInstance->id,$function_name,$sequence,$label,$presence,$useactions_text));
 
