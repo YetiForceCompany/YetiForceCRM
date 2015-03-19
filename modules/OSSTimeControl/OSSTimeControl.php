@@ -112,8 +112,6 @@ class OSSTimeControl extends Vtiger_CRMEntity {
 			$moduleInstance = Vtiger_Module::getInstance($modulename);
 			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('HelpDesk');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSTimeControl', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Project');

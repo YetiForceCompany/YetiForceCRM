@@ -9,7 +9,8 @@ ALTER TABLE `vtiger_leadaddress`
 	ADD COLUMN `addresslevel7a` varchar(255)  COLLATE utf8_general_ci NULL after `addresslevel6a` , 
 	ADD COLUMN `addresslevel8a` varchar(255)  COLLATE utf8_general_ci NULL after `addresslevel7a` , 
 	ADD COLUMN `buildingnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `addresslevel8a` , 
-	ADD COLUMN `localnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumbera` ; 
+	ADD COLUMN `localnumbera` varchar(100)  COLLATE utf8_general_ci NULL after `buildingnumbera`,
+	DROP COLUMN `leadaddresstype`	; 
 ALTER TABLE `vtiger_leadaddress`
 	ADD CONSTRAINT `fk_1_vtiger_leadaddress` 
 	FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE ;
@@ -604,12 +605,19 @@ ALTER TABLE `vtiger_cntactivityrel`
 	
 ALTER TABLE `vtiger_assets` 
 	CHANGE `product` `product` int(19)   NOT NULL after `asset_no` , 
+	CHANGE `serialnumber` `serialnumber` varchar(200)  COLLATE utf8_general_ci NULL after `product` , 
+	CHANGE `datesold` `datesold` date   NULL after `serialnumber` , 
+	CHANGE `dateinservice` `dateinservice` date   NULL after `datesold` , 
+	CHANGE `assetstatus` `assetstatus` varchar(200)  COLLATE utf8_general_ci NULL DEFAULT 'In Service' after `dateinservice` , 
+	CHANGE `tagnumber` `tagnumber` varchar(300)  COLLATE utf8_general_ci NULL after `assetstatus` , 
+	CHANGE `invoiceid` `invoiceid` int(19)   NULL after `tagnumber` , 
+	CHANGE `shippingmethod` `shippingmethod` varchar(200)  COLLATE utf8_general_ci NULL after `invoiceid` , 
 	CHANGE `assetname` `assetname` varchar(100)  COLLATE utf8_general_ci NULL after `shippingmethod` , 
-	ADD COLUMN `sum_time` decimal(10,2)   NULL DEFAULT 0.00 after `contact` , 
+	ADD COLUMN `sum_time` decimal(10,2)   NULL DEFAULT 0.00 after `assetname` , 
 	ADD COLUMN `potential` int(19)   NULL after `sum_time` , 
 	ADD COLUMN `parent_id` int(19)   NULL after `potential` , 
 	ADD COLUMN `pot_renewal` int(19)   NULL after `parent_id` , 
-	ADD KEY `contact`(`contact`) , 
+	ADD COLUMN `ordertime` decimal(10,2)   NULL after `pot_renewal` , 
 	ADD KEY `invoiceid`(`invoiceid`) , 
 	ADD KEY `parent_id`(`parent_id`) , 
 	ADD KEY `pot_renewal`(`pot_renewal`) , 
@@ -851,6 +859,11 @@ ALTER TABLE `vtiger_invitees`
 	FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_invoice` 
+	CHANGE `notes` `notes` varchar(100)  COLLATE utf8_general_ci NULL after `customerno` , 
+	CHANGE `invoicedate` `invoicedate` date   NULL after `notes` , 
+	CHANGE `duedate` `duedate` date   NULL after `invoicedate` , 
+	CHANGE `invoiceterms` `invoiceterms` varchar(100)  COLLATE utf8_general_ci NULL after `duedate` , 
+	CHANGE `type` `type` varchar(100)  COLLATE utf8_general_ci NULL after `invoiceterms` , 
 	CHANGE `salescommission` `salescommission` decimal(25,3)   NULL after `type` , 
 	CHANGE `exciseduty` `exciseduty` decimal(25,3)   NULL after `salescommission` , 
 	CHANGE `subtotal` `subtotal` decimal(25,8)   NULL after `exciseduty` , 
@@ -876,7 +889,6 @@ ALTER TABLE `vtiger_invoice`
 	ADD COLUMN `form_payment` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `potentialid` , 
 	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `form_payment` , 
 	ADD KEY `accountid`(`accountid`) , 
-	ADD KEY `contactid`(`contactid`) , 
 	ADD KEY `fk_2_vtiger_invoice`(`salesorderid`) , 
 	ADD KEY `potentialid`(`potentialid`) ;
 ALTER TABLE `vtiger_invoice`
@@ -909,7 +921,27 @@ ALTER TABLE `vtiger_language`
 	
 ALTER TABLE `vtiger_leaddetails` 
 	CHANGE `leadstatus` `leadstatus` varchar(50)  COLLATE utf8_general_ci NULL after `campaign` , 
+	CHANGE `leadsource` `leadsource` varchar(200)  COLLATE utf8_general_ci NULL after `leadstatus` , 
+	CHANGE `converted` `converted` int(1)   NULL DEFAULT 0 after `leadsource` , 
 	CHANGE `licencekeystatus` `licencekeystatus` varchar(50)  COLLATE utf8_general_ci NULL after `converted` , 
+	CHANGE `space` `space` varchar(250)  COLLATE utf8_general_ci NULL after `licencekeystatus` , 
+	CHANGE `comments` `comments` text  COLLATE utf8_general_ci NULL after `space` , 
+	CHANGE `priority` `priority` varchar(50)  COLLATE utf8_general_ci NULL after `comments` , 
+	CHANGE `demorequest` `demorequest` varchar(50)  COLLATE utf8_general_ci NULL after `priority` , 
+	CHANGE `partnercontact` `partnercontact` varchar(50)  COLLATE utf8_general_ci NULL after `demorequest` , 
+	CHANGE `productversion` `productversion` varchar(20)  COLLATE utf8_general_ci NULL after `partnercontact` , 
+	CHANGE `product` `product` varchar(50)  COLLATE utf8_general_ci NULL after `productversion` , 
+	CHANGE `maildate` `maildate` date   NULL after `product` , 
+	CHANGE `nextstepdate` `nextstepdate` date   NULL after `maildate` , 
+	CHANGE `fundingsituation` `fundingsituation` varchar(50)  COLLATE utf8_general_ci NULL after `nextstepdate` , 
+	CHANGE `purpose` `purpose` varchar(50)  COLLATE utf8_general_ci NULL after `fundingsituation` , 
+	CHANGE `evaluationstatus` `evaluationstatus` varchar(50)  COLLATE utf8_general_ci NULL after `purpose` , 
+	CHANGE `transferdate` `transferdate` date   NULL after `evaluationstatus` , 
+	CHANGE `revenuetype` `revenuetype` varchar(50)  COLLATE utf8_general_ci NULL after `transferdate` , 
+	CHANGE `noofemployees` `noofemployees` int(50)   NULL after `revenuetype` , 
+	CHANGE `secondaryemail` `secondaryemail` varchar(100)  COLLATE utf8_general_ci NULL after `noofemployees` , 
+	CHANGE `assignleadchk` `assignleadchk` int(1)   NULL DEFAULT 0 after `secondaryemail` , 
+	CHANGE `emailoptout` `emailoptout` varchar(3)  COLLATE utf8_general_ci NULL after `assignleadchk` , 
 	ADD COLUMN `noapprovalcalls` varchar(3)  COLLATE utf8_general_ci NULL after `emailoptout` , 
 	ADD COLUMN `noapprovalemails` varchar(3)  COLLATE utf8_general_ci NULL after `noapprovalcalls` , 
 	ADD COLUMN `vat_id` varchar(30)  COLLATE utf8_general_ci NULL after `noapprovalemails` , 
@@ -917,7 +949,9 @@ ALTER TABLE `vtiger_leaddetails`
 	ADD COLUMN `registration_number_2` varchar(30)  COLLATE utf8_general_ci NULL after `registration_number_1` , 
 	ADD COLUMN `verification` text  COLLATE utf8_general_ci NULL after `registration_number_2` , 
 	ADD COLUMN `subindustry` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `verification` , 
-	ADD COLUMN `atenttion` text  COLLATE utf8_general_ci NULL after `subindustry` ; 
+	ADD COLUMN `atenttion` text  COLLATE utf8_general_ci NULL after `subindustry` , 
+	ADD COLUMN `leads_relation` varchar(255)  COLLATE utf8_general_ci NULL after `atenttion` , 
+	ADD COLUMN `legal_form` varchar(255)  COLLATE utf8_general_ci NULL after `leads_relation`;
 ALTER TABLE `vtiger_leaddetails`
 	ADD CONSTRAINT `fk_1_vtiger_leaddetails` 
 	FOREIGN KEY (`leadid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
@@ -971,16 +1005,36 @@ ALTER TABLE `vtiger_projecttask`
 	FOREIGN KEY (`projecttaskid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_purchaseorder` 
+	CHANGE `duedate` `duedate` date   NULL after `tracking_no` , 
+	CHANGE `carrier` `carrier` varchar(200)  COLLATE utf8_general_ci NULL after `duedate` , 
+	CHANGE `type` `type` varchar(100)  COLLATE utf8_general_ci NULL after `carrier` , 
 	CHANGE `salescommission` `salescommission` decimal(25,3)   NULL after `type` , 
+	CHANGE `exciseduty` `exciseduty` decimal(25,3)   NULL after `salescommission` , 
+	CHANGE `total` `total` decimal(25,8)   NULL after `exciseduty` , 
+	CHANGE `subtotal` `subtotal` decimal(25,8)   NULL after `total` , 
+	CHANGE `taxtype` `taxtype` varchar(25)  COLLATE utf8_general_ci NULL after `subtotal` , 
+	CHANGE `discount_percent` `discount_percent` decimal(25,3)   NULL after `taxtype` , 
+	CHANGE `discount_amount` `discount_amount` decimal(25,8)   NULL after `discount_percent` , 
 	CHANGE `terms_conditions` `terms_conditions` text  COLLATE utf8_general_ci NULL after `discount_amount` , 
+	CHANGE `postatus` `postatus` varchar(200)  COLLATE utf8_general_ci NULL after `terms_conditions` , 
+	CHANGE `currency_id` `currency_id` int(19)   NOT NULL DEFAULT 1 after `postatus` , 
+	CHANGE `conversion_rate` `conversion_rate` decimal(10,3)   NOT NULL DEFAULT 1.000 after `currency_id` , 
+	CHANGE `pre_tax_total` `pre_tax_total` decimal(25,8)   NULL after `conversion_rate` , 
+	CHANGE `paid` `paid` decimal(25,8)   NULL after `pre_tax_total` , 
+	CHANGE `balance` `balance` decimal(25,8)   NULL after `paid` , 
 	ADD COLUMN `total_purchase` decimal(13,2)   NULL after `balance` , 
 	ADD COLUMN `total_margin` decimal(13,2)   NULL after `total_purchase` , 
-	ADD COLUMN `total_marginp` decimal(13,2)   NULL after `total_margin` ; 
+	ADD COLUMN `total_marginp` decimal(13,2)   NULL after `total_margin` ,  
+	DROP KEY `purchaseorder_contactid_idx` ; 
 ALTER TABLE `vtiger_purchaseorder`
 	ADD CONSTRAINT `vtiger_purchaseorder_ibfk_1` 
 	FOREIGN KEY (`purchaseorderid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_quotes` 
+	CHANGE `quote_no` `quote_no` varchar(100)  COLLATE utf8_general_ci NULL after `validtill` , 
+	CHANGE `subtotal` `subtotal` decimal(25,8)   NULL after `quote_no` , 
+	CHANGE `carrier` `carrier` varchar(200)  COLLATE utf8_general_ci NULL after `subtotal` , 
+	CHANGE `shipping` `shipping` varchar(100)  COLLATE utf8_general_ci NULL after `carrier` , 
 	CHANGE `type` `type` varchar(100)  COLLATE utf8_general_ci NULL after `shipping` , 
 	CHANGE `total` `total` decimal(25,8)   NULL after `type` , 
 	CHANGE `taxtype` `taxtype` varchar(25)  COLLATE utf8_general_ci NULL after `total` , 
@@ -996,14 +1050,35 @@ ALTER TABLE `vtiger_quotes`
 	ADD COLUMN `total_margin` decimal(13,2)   NULL after `total_purchase` , 
 	ADD COLUMN `total_marginp` decimal(13,2)   NULL after `total_margin` , 
 	ADD COLUMN `form_payment` varchar(255)  COLLATE utf8_general_ci NULL DEFAULT '' after `total_marginp` , 
-	ADD KEY `accountid`(`accountid`) ;
+	ADD COLUMN `requirementcards_id` int(19)   NULL after `form_payment` , 
+	ADD KEY `accountid`(`accountid`) , 
+	DROP KEY `quotes_contactid_idx` , 
+	ADD KEY `requirementcards_id`(`requirementcards_id`) ;
 ALTER TABLE `vtiger_quotes`
 	ADD CONSTRAINT `vtiger_quotes_ibfk_1` 
 	FOREIGN KEY (`quoteid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_salesorder` 
+	CHANGE `vendorid` `vendorid` int(19)   NULL after `vendorterms` , 
+	CHANGE `duedate` `duedate` date   NULL after `vendorid` , 
+	CHANGE `carrier` `carrier` varchar(200)  COLLATE utf8_general_ci NULL after `duedate` , 
+	CHANGE `pending` `pending` varchar(200)  COLLATE utf8_general_ci NULL after `carrier` , 
+	CHANGE `type` `type` varchar(100)  COLLATE utf8_general_ci NULL after `pending` , 
 	CHANGE `salescommission` `salescommission` decimal(25,3)   NULL after `type` , 
+	CHANGE `exciseduty` `exciseduty` decimal(25,3)   NULL after `salescommission` , 
+	CHANGE `total` `total` decimal(25,8)   NULL after `exciseduty` , 
+	CHANGE `subtotal` `subtotal` decimal(25,8)   NULL after `total` , 
+	CHANGE `taxtype` `taxtype` varchar(25)  COLLATE utf8_general_ci NULL after `subtotal` , 
+	CHANGE `discount_percent` `discount_percent` decimal(25,3)   NULL after `taxtype` , 
+	CHANGE `discount_amount` `discount_amount` decimal(25,8)   NULL after `discount_percent` , 
 	CHANGE `accountid` `accountid` int(19)   NULL after `discount_amount` , 
+	CHANGE `terms_conditions` `terms_conditions` text  COLLATE utf8_general_ci NULL after `accountid` , 
+	CHANGE `purchaseorder` `purchaseorder` varchar(200)  COLLATE utf8_general_ci NULL after `terms_conditions` , 
+	CHANGE `sostatus` `sostatus` varchar(200)  COLLATE utf8_general_ci NULL after `purchaseorder` , 
+	CHANGE `currency_id` `currency_id` int(19)   NOT NULL DEFAULT 1 after `sostatus` , 
+	CHANGE `conversion_rate` `conversion_rate` decimal(10,3)   NOT NULL DEFAULT 1.000 after `currency_id` , 
+	CHANGE `enable_recurring` `enable_recurring` int(11)   NULL DEFAULT 0 after `conversion_rate` , 
+	CHANGE `pre_tax_total` `pre_tax_total` decimal(25,8)   NULL after `enable_recurring` , 
 	ADD COLUMN `sum_time` decimal(10,2)   NULL DEFAULT 0.00 after `pre_tax_total` , 
 	ADD COLUMN `total_purchase` decimal(13,2)   NULL after `sum_time` , 
 	ADD COLUMN `total_margin` decimal(13,2)   NULL after `total_purchase` , 
@@ -1012,6 +1087,7 @@ ALTER TABLE `vtiger_salesorder`
 	ADD KEY `accountid`(`accountid`) , 
 	ADD KEY `potentialid`(`potentialid`,`sostatus`) , 
 	ADD KEY `quoteid`(`quoteid`) , 
+	DROP KEY `salesorder_contactid_idx` , 
 	ADD KEY `sostatus`(`sostatus`) ;
 ALTER TABLE `vtiger_salesorder`
 	ADD CONSTRAINT `vtiger_salesorder_ibfk_1` 
@@ -1041,15 +1117,16 @@ ALTER TABLE `vtiger_servicecontractscf`
 ALTER TABLE `vtiger_troubletickets` 
 	CHANGE `parent_id` `parent_id` int(19)   NULL after `groupname` , 
 	CHANGE `product_id` `product_id` int(19)   NULL after `parent_id` , 
-	CHANGE `contact_id` `contact_id` int(19)   NULL after `version_id` , 
-	ADD COLUMN `sum_time` decimal(10,2)   NULL DEFAULT 0.00 after `contact_id` , 
+	ADD COLUMN `sum_time` decimal(10,2)   NULL DEFAULT 0.00 after `version_id` , 
 	ADD COLUMN `projectid` int(19)   NULL after `sum_time` , 
 	ADD COLUMN `servicecontractsid` int(19)   NULL after `projectid` , 
-	ADD COLUMN `attention` text  COLLATE utf8_general_ci NULL after `servicecontractsid` , 
-	ADD KEY `contact_id`(`contact_id`) , 
+	ADD COLUMN `attention` text NULL after `servicecontractsid` , 
+	ADD COLUMN `pssold_id` int(19)   NULL after `attention` , 
+	ADD COLUMN `ordertime` decimal(10,2)   NULL after `pssold_id` , 
 	ADD KEY `parent_id`(`parent_id`) , 
 	ADD KEY `product_id`(`product_id`) , 
 	ADD KEY `projectid`(`projectid`) , 
+	ADD KEY `pssold_id`(`pssold_id`) , 
 	ADD KEY `servicecontractsid`(`servicecontractsid`) ;
 ALTER TABLE `vtiger_troubletickets`
 	ADD CONSTRAINT `fk_1_vtiger_troubletickets` 
@@ -1087,6 +1164,7 @@ ALTER TABLE `vtiger_account`
 	ADD COLUMN `balance` decimal(25,8)   NULL after `sum_invoices` , 
 	ADD COLUMN `average_profit_so` decimal(5,2)   NULL after `balance` , 
 	ADD COLUMN `payment_balance` decimal(25,8)   NULL after `average_profit_so` , 
+	ADD COLUMN `legal_form` varchar(255)  COLLATE utf8_general_ci NULL after `payment_balance` , 
 	ADD KEY `sum_invoices`(`sum_invoices`) , 
 	ADD KEY `sum_salesorders`(`sum_salesorders`) ;
 ALTER TABLE `vtiger_account`

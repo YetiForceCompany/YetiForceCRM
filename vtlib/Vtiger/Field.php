@@ -89,7 +89,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		// END
 
 		// Add value to picklist now
-		$picklistValues = $this->getPicklistValues();
+		$picklistValues = self::getPicklistValues();
 		$sortid = 0; // TODO To be set per role
 		foreach($values as $value) {
 			if(in_array($value, $picklistValues)){

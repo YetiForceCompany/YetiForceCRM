@@ -27,7 +27,7 @@ class OSSMail {
             $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Mail', '', 'LBL_OSSMAIL_DESCRIPTION', 'index.php?module=OSSMail&parent=Settings&view=index'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'autologon','true'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'time_checking_mail','10'));
+			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'time_checking_mail','30'));
 			$adb->query("CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (
 					  `id` int(19) NOT NULL AUTO_INCREMENT,
 					  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

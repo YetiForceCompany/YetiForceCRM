@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-13 13:19:14</exporttime>
+<exporttime>2015-03-18 09:29:18</exporttime>
 <name>OSSTimeControl</name>
 <label>OSSTimeControl</label>
 <parent>Human resources</parent>
@@ -34,7 +34,7 @@
 <fields>
 <field>
 <fieldname>name</fieldname>
-<uitype>16</uitype>
+<uitype>1</uitype>
 <columnname>name</columnname>
 <columntype>varchar(128)</columntype>
 <tablename>vtiger_osstimecontrol</tablename>
@@ -58,27 +58,6 @@
 <entityidfield>osstimecontrolid</entityidfield>
 <entityidcolumn>osstimecontrolid</entityidcolumn>
 </entityidentifier>
-<picklistvalues>
-<picklistvalue>Telephone contact</picklistvalue>
-<picklistvalue>Email contact</picklistvalue>
-<picklistvalue>Data verification</picklistvalue>
-<picklistvalue>Information completing</picklistvalue>
-<picklistvalue>Company presentation</picklistvalue>
-<picklistvalue>Product/service presentation</picklistvalue>
-<picklistvalue>Calculations preparation</picklistvalue>
-<picklistvalue>Quote preparation</picklistvalue>
-<picklistvalue>Order/Service preparation</picklistvalue>
-<picklistvalue>Project preparation</picklistvalue>
-<picklistvalue>Task realization</picklistvalue>
-<picklistvalue>Event realization</picklistvalue>
-<picklistvalue>Support</picklistvalue>
-<picklistvalue>Document Verification</picklistvalue>
-<picklistvalue>Visits at Organizations</picklistvalue>
-<picklistvalue>Trips to Organizations</picklistvalue>
-<picklistvalue>Office work</picklistvalue>
-<picklistvalue>Administrative work</picklistvalue>
-<picklistvalue>Accounting work</picklistvalue>
-</picklistvalues>
 </field>
 <field>
 <fieldname>osstimecontrol_no</fieldname>
@@ -426,32 +405,6 @@
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
-</relatedmodules>
-</field>
-<field>
-<fieldname>contactid</fieldname>
-<uitype>10</uitype>
-<columnname>contactid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_osstimecontrol</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Contacts</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>3</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>Contacts</relatedmodule>
 </relatedmodules>
 </field>
 <field>

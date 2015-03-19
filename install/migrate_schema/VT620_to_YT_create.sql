@@ -194,8 +194,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_config` (
   `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
 CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
   `ossoutsourcedservicesid` int(19) NOT NULL DEFAULT '0',
   `ossoutsourcedservices_no` varchar(255) DEFAULT NULL,
@@ -205,7 +203,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
   `datesold` date DEFAULT NULL,
   `dateinservice` date DEFAULT NULL,
   `wherebought` varchar(100) DEFAULT '',
-  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   PRIMARY KEY (`ossoutsourcedservicesid`),
@@ -303,7 +300,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   `dateinservice` date DEFAULT NULL,
   `invoice` varchar(255) DEFAULT '',
   `invoiceid` int(19) DEFAULT NULL,
-  `contact` int(19) DEFAULT NULL,
   `potential` int(19) DEFAULT NULL,
   `parent_id` int(19) DEFAULT NULL,
   `pot_renewal` int(19) DEFAULT NULL,
@@ -314,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
   KEY `pot_renewal` (`pot_renewal`),
   KEY `serviceid` (`serviceid`),
   CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_osssoldservicescf` (
   `osssoldservicesid` int(11) NOT NULL,
@@ -333,7 +329,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol` (
   `time_end` varchar(50) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `accountid` int(19) DEFAULT '0',
-  `contactid` int(19) DEFAULT '0',
   `ticketid` int(19) DEFAULT '0',
   `projectid` int(19) DEFAULT '0',
   `projecttaskid` int(19) DEFAULT '0',
@@ -361,7 +356,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol` (
   KEY `calculationsid` (`calculationsid`),
   KEY `leadid` (`leadid`),
   KEY `accountid` (`accountid`),
-  KEY `contactid` (`contactid`),
   KEY `ticketid` (`ticketid`),
   KEY `projectid` (`projectid`),
   KEY `projecttaskid` (`projecttaskid`),
@@ -382,24 +376,22 @@ CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrolcf` (
   CONSTRAINT `vtiger_osstimecontrolcf` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_osstimecontrol` (`osstimecontrolid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproducts`(
-	`outsourcedproductsid` int(11) NOT NULL  DEFAULT 0 , 
-	`asset_no` varchar(32) COLLATE utf8_general_ci NULL  , 
-	`productname` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`datesold` date NULL  , 
-	`dateinservice` date NULL  , 
-	`oproductstatus` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`pscategory` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
-	`wherebought` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
-	`prodcount` varchar(255) COLLATE utf8_general_ci NULL  DEFAULT '' , 
-	`contact` int(19) NULL  , 
-	`potential` int(19) NULL  , 
-	`parent_id` int(19) NULL  , 
-	PRIMARY KEY (`outsourcedproductsid`) , 
-	KEY `parent_id`(`parent_id`) , 
-	CONSTRAINT `fk_1_vtiger_outsourcedproducts` 
-	FOREIGN KEY (`outsourcedproductsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproducts` (
+  `outsourcedproductsid` int(11) NOT NULL DEFAULT '0',
+  `asset_no` varchar(32) DEFAULT NULL,
+  `productname` varchar(255) DEFAULT NULL,
+  `datesold` date DEFAULT NULL,
+  `dateinservice` date DEFAULT NULL,
+  `oproductstatus` varchar(255) DEFAULT NULL,
+  `pscategory` varchar(255) DEFAULT '',
+  `wherebought` varchar(255) DEFAULT '',
+  `prodcount` varchar(255) DEFAULT '',
+  `potential` int(19) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  PRIMARY KEY (`outsourcedproductsid`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `fk_1_vtiger_outsourcedproducts` FOREIGN KEY (`outsourcedproductsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproductscf` (
   `outsourcedproductsid` int(11) NOT NULL,
@@ -1084,10 +1076,6 @@ insert  into `vtiger_password`(`type`,`val`) values ('big_letters','true');
 insert  into `vtiger_password`(`type`,`val`) values ('small_letters','true');
 insert  into `vtiger_password`(`type`,`val`) values ('numbers','true');
 insert  into `vtiger_password`(`type`,`val`) values ('special','false');
-
-
-/*Data for the table `vtiger_passwords_config` */
-insert  into `vtiger_passwords_config`(`pass_length_min`,`pass_length_max`,`pass_allow_chars`,`register_changes`) values (10,15,'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9',0);
 
 insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('300','text');
 insert  into `vtiger_ws_fieldtype`(`uitype`,`fieldtype`) values ('120','sharedOwner');

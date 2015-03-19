@@ -26,7 +26,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.3.164 RC';
+// migration to version '1.3.185 RC';
 class VT620_to_YT {
 	var $name = 'Vtiger CRM 6.2.0';
 	var $version = '6.2.0';
@@ -90,13 +90,17 @@ class VT620_to_YT {
 		
 		$fieldsToDelete = array(
 		'Contacts'=>array('mailingcity',"mailingstreet",'mailingcountry',"othercountry",'mailingstate',"mailingpobox",'othercity',"otherstate",'mailingzip',"otherzip",'otherstreet',"otherpobox"),
-		'Invoice'=>array('s_h_amount',"adjustment",'s_h_percent','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
-		'Leads'=>array('city',"code",'state','country','lane','leadaddresstype','pobox',"designation","rating"),
-		'PurchaseOrder'=>array('s_h_percent',"s_h_amount",'adjustment','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox'),
-		'Quotes'=>array('s_h_percent',"s_h_amount",'adjustment','inventorymanager'),
-		'SalesOrder'=>array('s_h_percent',"s_h_amount",'adjustment'),
+		'Invoice'=>array('s_h_amount',"adjustment",'s_h_percent','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox','contactid'),
+		'Leads'=>array('city',"code",'state','country','lane','pobox',"designation","rating"),
+		'PurchaseOrder'=>array('s_h_percent',"s_h_amount",'adjustment','ship_city','ship_code','ship_country','ship_state','ship_street','ship_pobox','bill_city','bill_code','bill_country','bill_state','bill_street','bill_pobox','contactid'),
+		'Quotes'=>array('s_h_percent',"s_h_amount",'adjustment','inventorymanager','contactid'),
+		'SalesOrder'=>array('s_h_percent',"s_h_amount",'adjustment','contactid'),
 		'Accounts'=>array('bill_street',"bill_city","bill_state","bill_code","bill_country","bill_pobox","ship_street","ship_city","ship_state","ship_code","ship_country","ship_pobox"),
 		'Vendors'=>array('country',"city","street","postalcode","state","pobox"),
+		'Assets'=>array('contact'),
+		'HelpDesk'=>array('contact_id'),
+		'Products'=>array('productcategory'),
+		'Users'=>array('address_street','address_city','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_state','address_country','address_postalcode','phone_work','title')
 		);
 		self::deleteFields($fieldsToDelete);
 		self::leadMapping();
@@ -121,7 +125,7 @@ class VT620_to_YT {
 		global $log;
 		$log->debug("Entering VT620_to_YT::addModule() method ...");
 		
-		$modules = array('OSSPdf','OSSMail','OSSMailTemplates','Password','OSSTimeControl','OSSMenuManager','OSSMailScanner','OSSMailView','OSSDocumentControl','OSSProjectTemplates','OSSOutsourcedServices','OSSSoldServices','OutsourcedProducts','OSSPasswords','OSSEmployees','Calculations','OSSCosts','AJAXChat','ApiAddress','CallHistory','Ideas','QuotesEnquires','RequirementCards','HolidaysEntitlement','PaymentsIn','PaymentsOut','LettersIn','LettersOut','NewOrders');
+		$modules = array('OSSPdf','OSSMail','OSSMailTemplates','Password','OSSTimeControl','OSSMenuManager','OSSMailScanner','OSSMailView','OSSDocumentControl','OSSProjectTemplates','OSSOutsourcedServices','OSSSoldServices','OutsourcedProducts','OSSPasswords','OSSEmployees','Calculations','OSSCosts','AJAXChat','ApiAddress','CallHistory','Ideas','QuotesEnquires','RequirementCards','HolidaysEntitlement','PaymentsIn','PaymentsOut','LettersIn','LettersOut','NewOrders','Reservations');
 
 		foreach($modules AS $module){
 			try {
@@ -182,6 +186,7 @@ class VT620_to_YT {
 		$adb = PearDatabase::getInstance();
 		
 		//menu manager
+		
 		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(238,237,3,'Home',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(239,237,9,'Calendar',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
@@ -213,7 +218,7 @@ class VT620_to_YT {
 		$menu_manager[] = array(271,305,47,'OSSPdf',18,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1);
 		$menu_manager[] = array(272,237,48,'OSSMail',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*My mailbox#pl_pl*Moja poczta',1);
 		$menu_manager[] = array(273,305,49,'OSSMailTemplates',16,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1);
-		$menu_manager[] = array(274,292,51,'OSSTimeControl',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1);
+		$menu_manager[] = array(274,292,51,'OSSTimeControl',998,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1);
 		$menu_manager[] = array(277,305,59,'OutsourcedProducts',3,1,0,'index.php?module=OutsourcedProducts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
 		$menu_manager[] = array(278,305,58,'OSSSoldServices',9,1,0,'index.php?module=OSSSoldServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
 		$menu_manager[] = array(279,305,57,'OSSOutsourcedServices',8,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
@@ -229,7 +234,7 @@ class VT620_to_YT {
 		$menu_manager[] = array(307,305,0,'Services database',6,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Services database#pl_pl*Baza usług',0);
 		$menu_manager[] = array(308,305,0,'*separator*',10,1,3,'*separator*',0,'  ','','','',0);
 		$menu_manager[] = array(309,305,0,'Lists',11,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Lists#pl_pl*Wykazy',0);
-		$menu_manager[] = array(311,292,61,'OSSEmployees',1,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
+		$menu_manager[] = array(311,292,61,'OSSEmployees',997,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
 		$menu_manager[] = array(312,305,60,'OSSPasswords',20,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
 		$menu_manager[] = array(323,301,70,'Calculations',5,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0);
 		$menu_manager[] = array(324,334,71,'OSSCosts',2,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
@@ -240,28 +245,30 @@ class VT620_to_YT {
 		$menu_manager[] = array(330,329,75,'Ideas',1,1,0,'index.php?module=Ideas&view=List',0,'  ','','16x16','',0);
 		$menu_manager[] = array(331,301,76,'RequirementCards',4,1,0,'index.php?module=RequirementCards&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Requirement Cards#pl_pl*Karty wymagań',0);
 		$menu_manager[] = array(332,301,77,'QuotesEnquires',3,1,0,'index.php?module=QuotesEnquires&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Quotes enquires#pl_pl*Zapytania ofertowe',0);
-		$menu_manager[] = array(333,292,78,'HolidaysEntitlement',3,1,0,'index.php?module=HolidaysEntitlement&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Annual holiday entitlement#pl_pl*Roczny wymiar urlopu',0);
+		$menu_manager[] = array(333,292,78,'HolidaysEntitlement',999,1,0,'index.php?module=HolidaysEntitlement&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Annual holiday entitlement#pl_pl*Roczny wymiar urlopu',0);
 		$menu_manager[] = array(334,0,0,'Bookkeeping',6,1,0,'',0,'  ','','16x16','en_us*Bookkeeping#pl_pl*Księgowość#de_de*Bookkeeping#pt_br*Bookkeeping#ru_ru*Bookkeeping',0);
 		$menu_manager[] = array(335,334,79,'PaymentsIn',3,1,0,'index.php?module=PaymentsIn&view=List',0,'  ','','16x16','en_us*Payments in#pl_pl*Wpłaty',0);
 		$menu_manager[] = array(336,334,80,'PaymentsOut',4,1,0,'index.php?module=PaymentsOut&view=List',0,'  ','','16x16','pl_pl*Wypłaty',0);
 		$menu_manager[] = array(337,0,0,'Secretariat',8,1,0,'',0,'  ','','16x16','en_us*Secretariat#pl_pl*Sekretariat#de_de*Secretariat#pt_br*Secretariat#ru_ru*Secretariat',0);
-		$menu_manager[] = array(338,337,81,'LettersIn',1,1,0,'index.php?module=LettersIn&view=List',0,'  ','','16x16','en_us*Letters In#pl_pl*Listy przychodzące#de_de*Letters In#pt_br*Letters In#ru_ru*Letters In',0);
-		$menu_manager[] = array(339,337,82,'LettersOut',2,1,0,'index.php?module=LettersOut&view=List',0,'  ','','16x16','en_us*Letters Out#pl_pl*Listy wychodzące#de_de*Letters Out#pt_br*Letters Out#ru_ru*Letters Out',0);
+		$menu_manager[] = array(338,337,81,'LettersIn',998,1,0,'index.php?module=LettersIn&view=List',0,'  ','','16x16','en_us*Letters In#pl_pl*Listy przychodzące#de_de*Letters In#pt_br*Letters In#ru_ru*Letters In',0);
+		$menu_manager[] = array(339,337,82,'LettersOut',999,1,0,'index.php?module=LettersOut&view=List',0,'  ','','16x16','en_us*Letters Out#pl_pl*Listy wychodzące#de_de*Letters Out#pt_br*Letters Out#ru_ru*Letters Out',0);
 		$menu_manager[] = array(340,305,0,'*separator*',24,1,3,'*separator*',0,'  ','','','',0);
 		$menu_manager[] = array(341,305,83,'NewOrders',25,1,0,'index.php?module=NewOrders&view=List',0,'  ','','16x16','',0);
+		$menu_manager[] = array(342,337,84,'Reservations',1000,1,0,'index.php?module=Reservations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
+
 
 		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database','Teamwork','Bookkeeping','Secretariat');
 		
 		$sql = "SELECT `profileid` FROM `vtiger_profile` WHERE 1;";
-        $result = $adb->query( $sql, true );
-        $num = $adb->num_rows( $result );
-        
-        $profiles = array();
-        for ( $i=0; $i<$num; $i++ ) {
-            $profiles[] = $adb->query_result( $result, $i, 'profileid' );
-        }
-        
-        $profilePermissions = implode( ' |##| ', $profiles );
+		$result = $adb->query( $sql, true );
+		$num = $adb->num_rows( $result );
+		
+		$profiles = array();
+		for ( $i=0; $i<$num; $i++ ) {
+			$profiles[] = $adb->query_result( $result, $i, 'profileid' );
+		}
+		
+		$profilePermissions = implode( ' |##| ', $profiles );
 		$profilePermissions = ' ' . $profilePermissions . ' ';
 
 		foreach ($menu_manager AS $module){
@@ -786,7 +793,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$blocksVendors = array(array('LBL_ADDRESS_DELIVERY_INFORMATION',4,0,0,0,0,0,1,1));
 		$blocksCalculations = array(array('LBL_INFORMATION',1,0,0,0,0,0,1,0),array('LBL_CUSTOM_INFORMATION',2,0,0,0,0,0,1,0),array('LBL_DESCRIPTION_INFORMATION',3,0,0,0,0,0,1,0),array('LBL_PRODUCT_INFORMATION',4,0,0,0,0,0,1,0));
 		$blocksOSSCosts = array(array('LBL_INFORMATION',1,0,0,0,0,0,1,0),array('LBL_ADDRESS_INFORMATION',2,0,0,0,0,0,1,0),array('LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0),array('LBL_DESCRIPTION_INFORMATION',4,0,0,0,0,0,1,0));
-		$blocksServiceContracts = array(array('LBL_SUMMARY',2,0,0,0,0,0,1,1),array('BLOCK_INFORMATION_TIME',3,0,0,0,0,0,1,1));
+		$blocksServiceContracts = array(array('LBL_SERVICE_CONTRACT_INFORMATION',1,0,0,0,0,0,1,0),array('LBL_SUMMARY',2,0,0,0,0,0,1,1),array('LBL_CUSTOM_INFORMATION',3,0,0,0,0,0,1,0));
 		$blocksAccounts = array(array('LBL_ADDRESS_DELIVERY_INFORMATION',9,0,0,0,0,0,0,1),array('LBL_REGISTRATION_INFO',5,0,0,0,0,0,1,1),array('LBL_CONTACT_INFO',2,0,0,0,0,0,1,1),array('LBL_ADVANCED_BLOCK',4,0,0,0,0,0,1,1),array('LBL_FINANSIAL_SUMMARY',3,0,0,0,0,0,1,1));
 		$blocksContacts = array(array('LBL_ADDRESS_MAILING_INFORMATION',7,0,0,0,0,0,0,1),array('LBL_CONTACT_INFO',2,0,0,0,0,0,1,1));
 		$blocksPotentials = array(array('LBL_SUMMARY',6,0,0,0,0,0,1,0),array('LBL_FINANSIAL_SUMMARY',2,0,0,0,0,0,1,1));
@@ -840,6 +847,16 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 			$result = $adb->pquery($sql, array(18), true);
 			$sql = "UPDATE vtiger_blocks SET `blocklabel` = 'LBL_ADDRESS_DELIVERY_INFORMATION' WHERE `tabid` IN (?,?,?,?) AND `blocklabel` = 'LBL_CUSTOM_INFORMATION';";
 			$result = $adb->pquery($sql, array(20,21,22,23), true);
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?,?,?) AND `blocklabel` = 'LBL_ADDRESS_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Contacts'),getTabid('Accounts'),getTabid('Leads')));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?) AND `blocklabel` = 'LBL_ADDRESS_MAILING_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Accounts')));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?,?) AND `blocklabel` = 'LBL_CUSTOM_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Contacts'),getTabid('Leads')));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `blocklabel` = 'LBL_CUSTOMER_PORTAL_INFORMATION';";
+			$result = $adb->pquery($sql, array(0));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?) AND `blocklabel` = 'LBL_IMAGE_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Contacts')));
 			//delete
 			$sql = "DELETE FROM vtiger_blocks WHERE `blocklabel` = ? AND `tabid` = ?;";
 			$result = $adb->pquery($sql, array('LBL_ADDRESS_INFORMATION',29), true);
@@ -852,8 +869,10 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$setBlockToCRM = self::blocksTable();
 		foreach($setBlockToCRM as $moduleName=>$blocks){
 			foreach($blocks as $block){
+				$log->debug("Entering VT620_to_YT::addBlockstest(".$moduleName.",".$block['blocklabel'].") method ...");
 				if(self::checkBlockExists($moduleName, $block))
 					continue;
+				$log->debug("Entering VT620_to_YT::addBlockstest przeszlo(".$moduleName.",".$block['blocklabel'].") method ...");
 				try {
 					$moduleInstance = Vtiger_Module::getInstance($moduleName);
 					$blockInstance = new Vtiger_Block();
@@ -864,6 +883,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 					$blockInstance->increateview = $block['create_view'];
 					$blockInstance->ineditview = $block['edit_view'];
 					$blockInstance->indetailview = $block['detail_view'];
+					$blockInstance->display_status = $block['display_status'];
 					$blockInstance->iscustom = $block['iscustom'];
 					$moduleInstance->addBlock($blockInstance);
 				} catch (Exception $e) {
@@ -994,7 +1014,9 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		array("7","967","vat_id","vtiger_leaddetails","1","1","vat_id","Vat ID","1","2","","100","6","13","1","V~M","2", "","BAS","1","0","0","varchar(30)","LBL_LEAD_INFORMATION"),
 		array("7","968","registration_number_1","vtiger_leaddetails","1","1","registration_number_1","Registration number 1","1","2","","100","3","191","1","V~O","1", "","BAS","1","0","0","varchar(30)","LBL_REGISTRATION_INFO"),
 		array("7","969","registration_number_2","vtiger_leaddetails","1","1","registration_number_2","Registration number 2","1","2","","100","2","191","1","V~O","1", "","BAS","1","0","0","varchar(30)","LBL_REGISTRATION_INFO"),
-		array("7","1329","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","16","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION")
+		array("7","1329","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","16","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
+		array('7','1736','leads_relation','vtiger_leaddetails','1','16','leads_relation','LBL_RELATION','1','2','PLL_B2C','100','25','13','1','V~M','1',NULL,'BAS','1','','0',"varchar(255)","LBL_LEAD_INFORMATION",array('PLL_B2C','PLL_B2B')),
+		array(7,1737,'legal_form','vtiger_leaddetails',1,'16','legal_form','LBL_LEGAL_FORM',1,2,'',100,5,191,1,'V~M',1,NULL,'BAS',1,'',0,"varchar(255)","LBL_REGISTRATION_INFO",array('PLL_NATURAL_PERSON','PLL_BUSINESS_ACTIVITY','PLL_GENERAL_PARTNERSHIP','PLL_PROFESSIONAL_PARTNERSHIP','PLL_LIMITED_PARTNERSHIP','PLL_JOINT_STOCK_PARTNERSHIP','PLL_LIMITED_LIABILITY_COMPANY','PLL_STOCK_OFFERING_COMPANY','PLL_GOVERMENT_ENTERPRISE','PLL_ASSOCIATION','PLL_COOPERATIVE','PLL_FOUNDATION','PLL_EUROPEAN_PARTNERSHIP','PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING','PLL_EUROPEAN_COOPERATIVE','PLL_EUROPEAN_PRIVATE_PARTNERSHIP','PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP','PLL_EUROPEAN_ASSOCIATION','PLL_UFCIITS'),array())
 		);
 
 		$tab = 4;
@@ -1069,7 +1091,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		array("6","1369","balance","vtiger_account","2","71","balance","Balance","1","2","","100","2","198","1","N~O","1", "","BAS","1","0","0","decimal(25,8)","LBL_FINANSIAL_SUMMARY"),
 		array("6","1370","average_profit_so","vtiger_account","2","9","average_profit_so","Average profit sales order","1","2","","100","4","198","10","N~O~2~2","1", "","BAS","1","0","0","decimal(5,2)","LBL_FINANSIAL_SUMMARY"),
 		array("6","1331","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","12","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
-		array(6,1630,'payment_balance','vtiger_account',1,'7','payment_balance','Payment balance',1,2,'',100,25,9,2,'NN~O',1,NULL,'BAS',1,'',0,"decimal(25,8)","LBL_ACCOUNT_INFORMATION")
+		array(6,1630,'payment_balance','vtiger_account',1,'7','payment_balance','Payment balance',1,2,'',100,25,9,2,'NN~O',1,NULL,'BAS',1,'',0,"decimal(25,8)","LBL_ACCOUNT_INFORMATION"),
+		array(6,1738,'legal_form','vtiger_account',1,'16','legal_form','LBL_LEGAL_FORM',1,2,'',100,7,194,1,'V~M',1,NULL,'BAS',1,'',0,"varchar(255)","LBL_REGISTRATION_INFO",array('PLL_NATURAL_PERSON','PLL_BUSINESS_ACTIVITY','PLL_GENERAL_PARTNERSHIP','PLL_PROFESSIONAL_PARTNERSHIP','PLL_LIMITED_PARTNERSHIP','PLL_JOINT_STOCK_PARTNERSHIP','PLL_LIMITED_LIABILITY_COMPANY','PLL_STOCK_OFFERING_COMPANY','PLL_GOVERMENT_ENTERPRISE','PLL_ASSOCIATION','PLL_COOPERATIVE','PLL_FOUNDATION','PLL_EUROPEAN_PARTNERSHIP','PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING','PLL_EUROPEAN_COOPERATIVE','PLL_EUROPEAN_PRIVATE_PARTNERSHIP','PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP','PLL_EUROPEAN_ASSOCIATION','PLL_UFCIITS'),array())
 		);
 
 		$tab = 18;
@@ -1415,8 +1438,9 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 			return false;
 		}
 		$log->debug("Exiting VT620_to_YT::checkFieldExists() method ...");
-		return true;
+		return $adb->query_result($result,0,'fieldid');;
 	}
+	
 	//copy values
 	public function copyValues($moduleName,$moduleToCopyValues){
 		global $log;
@@ -1454,13 +1478,11 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
 		'Quotes'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
 		'SalesOrder'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
-		'Products'=>array('productcategory'),
 		'Assets'=>array('account',"shippingtrackingnumber",'shippingmethod','tagnumber'),
 		'ProjectTask'=>array('projecttaskhours'),
 		'Contacts'=>array('accountid',"fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
 		'Potentials'=>array('probability','nextstep','amount'),
 		'Leads'=>array('firstname'),
-		'Users'=>array('address_street','address_city','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_state','address_country','address_postalcode','phone_work','title'),
 		'Services'=>array('servicecategory') //copy to picklist
 		);
 		foreach($fieldsInactive AS $moduleName=>$fields){
@@ -1520,8 +1542,10 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$res = $adb->pquery($fieldquery,array($moduleId,$columnname));
 				$id = $adb->query_result($res,0,'fieldid');
 				$log->debug("deleteFields( is ".$id.",".$columnname.",".$fld_module.") method ...");
-				if(empty($id))
+				if(empty($id)){
+					$log->debug("deleteFields is not vtiger_field table( is ".$id.",".$columnname.",".$fld_module.") method ...");
 					continue;
+				}
 				$log->debug("deleteFields( przeszlo ".$id.") method ...");
 				$typeofdata = $adb->query_result($res,0,'typeofdata');
 				$fieldname = $adb->query_result($res,0,'fieldname');
@@ -1861,12 +1885,32 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		);
 		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('End of support for contact','Contacts','support_end_date'));
 		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET fieldname = ? WHERE `module` = ? AND fieldname = ? ;",array('Birthdays of contacts','Contacts','birthday'));
-		
+		$adb->pquery("UPDATE vtiger_calendar_default_activitytypes SET `active` = ? ;",array(1));
+		// links
 		$instanceModule = Vtiger_Module::getInstance('Potentials');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
 		$instanceModule = Vtiger_Module::getInstance('Home');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated (overdue) Events/ToDos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated (overdue) project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList');
+		$instanceModule = Vtiger_Module::getInstance('Leads');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted');
+		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = '', `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Note'));
 		
+		
+		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE tabid = ? AND linktype = ? AND linklabel = ?;", array(getTabid('SalesOrder'),'DETAILVIEWWIDGET','DetailViewBlockCommentWidget'));
+		if($adb->num_rows($result) == 0){
+			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
+			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
+				include_once 'modules/ModComments/ModComments.php';
+				if(class_exists('ModComments')) ModComments::addWidgetTo(array('SalesOrder'));
+			}
+		}
+		$result = $adb->query("SELECT * FROM `vtiger_fieldmodulerel` WHERE module = 'HelpDesk' AND relmodule = 'Products'");
 		if($adb->num_rows($result) == 0){
 			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values ((SELECT fieldid FROM `vtiger_field` WHERE `columnname` = 'product_id' AND `tablename` = 'vtiger_troubletickets'),'HelpDesk','Products',NULL,1);");
 		}
@@ -1916,6 +1960,11 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				array('path'=>'modules/ModTracker/ModTracker.php','class'=>'ModTracker','method'=>'isViewPermitted'));
 			}
 		}
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('PBXManager','Leads'));
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Leads'),getTabid('PBXManager'),'PBXManager'), true );
+		
 		
 		$log->debug("Exiting VT620_to_YT::updateRecords() method ...");
 	}
@@ -1948,8 +1997,9 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$fieldInstance->uitype = 70;
 				$fieldInstance->typeofdata = 'DT~O'; 
 				$fieldInstance->displaytype = 2;
-				$blockInstance->addField($fieldInstance); 
 				$log->debug("check VT620_to_YT::addClosedtimeField(".$name.", ".$block.") end method ...");
+				$blockInstance->addField($fieldInstance); 
+				
 			}
 		}
 		$log->debug("Exiting VT620_to_YT::addClosedtimeField() method ...");
@@ -2844,166 +2894,183 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::customView() method ...");
 		$columnList = array();
-		$columnList['Leads'][] = array(1,1,'vtiger_leaddetails:firstname:firstname:Leads_First_Name:V');
-		$columnList['Leads'][] = array(1,2,'vtiger_leaddetails:lastname:lastname:Leads_Last_Name:V');
-		$columnList['Leads'][] = array(1,3,'vtiger_leaddetails:company:company:Leads_Company:V');
-		$columnList['Leads'][] = array(1,4,'vtiger_leadaddress:phone:phone:Leads_Phone:V');
-		$columnList['Leads'][] = array(1,5,'vtiger_leadsubdetails:website:website:Leads_Website:V');
-		$columnList['Leads'][] = array(1,6,'vtiger_leaddetails:email:email:Leads_Email:E');
-		$columnList['Leads'][] = array(1,7,'vtiger_crmentity:smownerid:assigned_user_id:Leads_Assigned_To:V');
-		$columnList['Accounts'][] = array(4,1,'vtiger_account:accountname:accountname:Accounts_Account_Name:V');
-		$columnList['Accounts'][] = array(4,2,'vtiger_accountbillads:bill_city:bill_city:Accounts_City:V');
-		$columnList['Accounts'][] = array(4,3,'vtiger_account:website:website:Accounts_Website:V');
-		$columnList['Accounts'][] = array(4,4,'vtiger_account:phone:phone:Accounts_Phone:V');
-		$columnList['Accounts'][] = array(4,5,'vtiger_crmentity:smownerid:assigned_user_id:Accounts_Assigned_To:V');
-		$columnList['Contacts'][] = array(7,1,'vtiger_contactdetails:firstname:firstname:Contacts_First_Name:V');
-		$columnList['Contacts'][] = array(7,2,'vtiger_contactdetails:lastname:lastname:Contacts_Last_Name:V');
-		$columnList['Contacts'][] = array(7,4,'vtiger_contactdetails:parentid:parent_id:Contacts_Member_Of:I');
-		$columnList['Contacts'][] = array(7,5,'vtiger_contactdetails:email:email:Contacts_Email:E');
-		$columnList['Contacts'][] = array(7,6,'vtiger_contactdetails:phone:phone:Contacts_Office_Phone:V');
-		$columnList['Contacts'][] = array(7,7,'vtiger_crmentity:smownerid:assigned_user_id:Contacts_Assigned_To:V');
-		$columnList['Potentials'][] = array(10,0,'vtiger_potential:potentialname:potentialname:Potentials_Potential_Name:V');
-		$columnList['Potentials'][] = array(10,1,'vtiger_potential:related_to:related_to:Potentials_Related_To:V');
-		$columnList['Potentials'][] = array(10,3,'vtiger_potential:closingdate:closingdate:Potentials_Expected_Close_Date:D');
-		$columnList['Potentials'][] = array(10,4,'vtiger_potential:leadsource:leadsource:Potentials_Lead_Source:V');
-		$columnList['Potentials'][] = array(10,5,'vtiger_crmentity:smownerid:assigned_user_id:Potentials_Assigned_To:V');
-		$columnList['Potentials'][] = array(10,6,'vtiger_potential:sales_stage:sales_stage:Potentials_Sales_Stage:V');
-		$columnList['Potentials'][] = array(10,7,'vtiger_potential:contact_id:contact_id:Potentials_Contact_Name:V');
-		$columnList['Potentials'][] = array(10,8,'vtiger_potential:potentialtype:opportunity_type:Potentials_Type:V');
-		$columnList['HelpDesk'][] = array(13,1,'vtiger_troubletickets:title:ticket_title:HelpDesk_Title:V');
-		$columnList['HelpDesk'][] = array(13,2,'vtiger_troubletickets:parent_id:parent_id:HelpDesk_Related_To:I');
-		$columnList['HelpDesk'][] = array(13,3,'vtiger_troubletickets:status:ticketstatus:HelpDesk_Status:V');
-		$columnList['HelpDesk'][] = array(13,4,'vtiger_troubletickets:priority:ticketpriorities:HelpDesk_Priority:V');
-		$columnList['HelpDesk'][] = array(13,5,'vtiger_crmentity:smownerid:assigned_user_id:HelpDesk_Assigned_To:V');
-		$columnList['HelpDesk'][] = array(13,6,'vtiger_troubletickets:contact_id:contact_id:HelpDesk_Contact_Name:V');
-		$columnList['Quotes'][] = array(16,1,'vtiger_quotes:subject:subject:Quotes_Subject:V');
-		$columnList['Quotes'][] = array(16,2,'vtiger_quotes:quotestage:quotestage:Quotes_Quote_Stage:V');
-		$columnList['Quotes'][] = array(16,3,'vtiger_quotes:potentialid:potential_id:Quotes_Potential_Name:I');
-		$columnList['Quotes'][] = array(16,4,'vtiger_quotes:accountid:account_id:Quotes_Account_Name:I');
-		$columnList['Quotes'][] = array(16,5,'vtiger_quotes:total:hdnGrandTotal:Quotes_Total:I');
-		$columnList['Quotes'][] = array(16,6,'vtiger_crmentity:smownerid:assigned_user_id:Quotes_Assigned_To:V');
-		$columnList['Calendar'][] = array(19,0,'vtiger_activity:status:taskstatus:Calendar_Status:V');
-		$columnList['Calendar'][] = array(19,1,'vtiger_activity:activitytype:activitytype:Calendar_Type:V');
-		$columnList['Calendar'][] = array(19,2,'vtiger_activity:subject:subject:Calendar_Subject:V');
-		$columnList['Calendar'][] = array(19,3,'vtiger_seactivityrel:crmid:parent_id:Calendar_Related_to:V');
-		$columnList['Calendar'][] = array(19,4,'vtiger_activity:date_start:date_start:Calendar_Start_Date:D');
-		$columnList['Calendar'][] = array(19,5,'vtiger_activity:due_date:due_date:Calendar_End_Date:D');
-		$columnList['Calendar'][] = array(19,6,'vtiger_crmentity:smownerid:assigned_user_id:Calendar_Assigned_To:V');
-		$columnList['Emails'][] = array(20,0,'vtiger_activity:subject:subject:Emails_Subject:V');
-		$columnList['Emails'][] = array(20,1,'vtiger_emaildetails:to_email:saved_toid:Emails_To:V');
-		$columnList['Emails'][] = array(20,2,'vtiger_activity:date_start:date_start:Emails_Date_Sent:D');
-		$columnList['Invoice'][] = array(21,1,'vtiger_invoice:subject:subject:Invoice_Subject:V');
-		$columnList['Invoice'][] = array(21,2,'vtiger_invoice:salesorderid:salesorder_id:Invoice_Sales_Order:I');
-		$columnList['Invoice'][] = array(21,3,'vtiger_invoice:invoicestatus:invoicestatus:Invoice_Status:V');
-		$columnList['Invoice'][] = array(21,4,'vtiger_invoice:total:hdnGrandTotal:Invoice_Total:I');
-		$columnList['Invoice'][] = array(21,5,'vtiger_crmentity:smownerid:assigned_user_id:Invoice_Assigned_To:V');
-		$columnList['Documents'][] = array(22,1,'vtiger_notes:title:notes_title:Notes_Title:V');
-		$columnList['Documents'][] = array(22,2,'vtiger_notes:filename:filename:Notes_File:V');
-		$columnList['Documents'][] = array(22,3,'vtiger_notes:folderid:folderid:Documents_Folder_Name:V');
-		$columnList['Documents'][] = array(22,4,'vtiger_crmentity:smownerid:assigned_user_id:Notes_Assigned_To:V');
-		$columnList['PriceBooks'][] = array(23,1,'vtiger_pricebook:bookname:bookname:PriceBooks_Price_Book_Name:V');
-		$columnList['PriceBooks'][] = array(23,2,'vtiger_pricebook:active:active:PriceBooks_Active:V');
-		$columnList['PriceBooks'][] = array(23,3,'vtiger_pricebook:currency_id:currency_id:PriceBooks_Currency:I');
-		$columnList['Products'][] = array(24,0,'vtiger_products:productname:productname:Products_Product_Name:V');
-		$columnList['Products'][] = array(24,1,'vtiger_products:pscategory:pscategory:Products_Product_Category:V');
-		$columnList['Products'][] = array(24,3,'vtiger_products:unit_price:unit_price:Products_Unit_Price:N');
-		$columnList['Products'][] = array(24,4,'vtiger_products:qtyinstock:qtyinstock:Products_Qty_In_Stock:NN');
-		$columnList['Products'][] = array(24,5,'vtiger_products:discontinued:discontinued:Products_Product_Active:C');
-		$columnList['Products'][] = array(24,6,'vtiger_products:sales_start_date:sales_start_date:Products_Sales_Start_Date:D');
-		$columnList['PurchaseOrder'][] = array(25,1,'vtiger_purchaseorder:subject:subject:PurchaseOrder_Subject:V');
-		$columnList['PurchaseOrder'][] = array(25,2,'vtiger_purchaseorder:vendorid:vendor_id:PurchaseOrder_Vendor_Name:I');
-		$columnList['PurchaseOrder'][] = array(25,3,'vtiger_purchaseorder:tracking_no:tracking_no:PurchaseOrder_Tracking_Number:V');
-		$columnList['PurchaseOrder'][] = array(25,4,'vtiger_purchaseorder:total:hdnGrandTotal:PurchaseOrder_Total:V');
-		$columnList['PurchaseOrder'][] = array(25,5,'vtiger_crmentity:smownerid:assigned_user_id:PurchaseOrder_Assigned_To:V');
-		$columnList['SalesOrder'][] = array(26,1,'vtiger_salesorder:subject:subject:SalesOrder_Subject:V');
-		$columnList['SalesOrder'][] = array(26,2,'vtiger_salesorder:accountid:account_id:SalesOrder_Account_Name:I');
-		$columnList['SalesOrder'][] = array(26,3,'vtiger_salesorder:quoteid:quote_id:SalesOrder_Quote_Name:I');
-		$columnList['SalesOrder'][] = array(26,4,'vtiger_salesorder:total:hdnGrandTotal:SalesOrder_Total:V');
-		$columnList['SalesOrder'][] = array(26,5,'vtiger_crmentity:smownerid:assigned_user_id:SalesOrder_Assigned_To:V');
-		$columnList['Vendors'][] = array(27,1,'vtiger_vendor:vendorname:vendorname:Vendors_Vendor_Name:V');
-		$columnList['Vendors'][] = array(27,2,'vtiger_vendor:phone:phone:Vendors_Phone:V');
-		$columnList['Vendors'][] = array(27,3,'vtiger_vendor:email:email:Vendors_Email:E');
-		$columnList['Vendors'][] = array(27,4,'vtiger_vendor:category:category:Vendors_Category:V');
-		$columnList['Vendors'][] = array(27,5,'vtiger_crmentity:smownerid:assigned_user_id:Vendors_Assigned_To:V');
-		$columnList['Faq'][] = array(28,1,'vtiger_faq:question:question:Faq_Question:V');
-		$columnList['Faq'][] = array(28,2,'vtiger_faq:category:faqcategories:Faq_Category:V');
-		$columnList['Faq'][] = array(28,3,'vtiger_faq:product_id:product_id:Faq_Product_Name:I');
-		$columnList['Faq'][] = array(28,4,'vtiger_crmentity:createdtime:createdtime:Faq_Created_Time:DT');
-		$columnList['Faq'][] = array(28,5,'vtiger_crmentity:modifiedtime:modifiedtime:Faq_Modified_Time:DT');
-		$columnList['Campaigns'][] = array(29,1,'vtiger_campaign:campaignname:campaignname:Campaigns_Campaign_Name:V');
-		$columnList['Campaigns'][] = array(29,2,'vtiger_campaign:campaigntype:campaigntype:Campaigns_Campaign_Type:N');
-		$columnList['Campaigns'][] = array(29,3,'vtiger_campaign:campaignstatus:campaignstatus:Campaigns_Campaign_Status:N');
-		$columnList['Campaigns'][] = array(29,4,'vtiger_campaign:expectedrevenue:expectedrevenue:Campaigns_Expected_Revenue:V');
-		$columnList['Campaigns'][] = array(29,5,'vtiger_campaign:closingdate:closingdate:Campaigns_Expected_Close_Date:D');
-		$columnList['Campaigns'][] = array(29,6,'vtiger_crmentity:smownerid:assigned_user_id:Campaigns_Assigned_To:V');
-		$columnList['ServiceContracts'][] = array(39,1,'vtiger_servicecontracts:subject:subject:ServiceContracts_Subject:V');
-		$columnList['ServiceContracts'][] = array(39,2,'vtiger_servicecontracts:sc_related_to:sc_related_to:ServiceContracts_Related_to:V');
-		$columnList['ServiceContracts'][] = array(39,3,'vtiger_crmentity:smownerid:assigned_user_id:ServiceContracts_Assigned_To:V');
-		$columnList['ServiceContracts'][] = array(39,4,'vtiger_servicecontracts:start_date:start_date:ServiceContracts_Start_Date:D');
-		$columnList['ServiceContracts'][] = array(39,5,'vtiger_servicecontracts:due_date:due_date:ServiceContracts_Due_date:D');
-		$columnList['ServiceContracts'][] = array(39,7,'vtiger_servicecontracts:progress:progress:ServiceContracts_Progress:N');
-		$columnList['ServiceContracts'][] = array(39,8,'vtiger_servicecontracts:contract_status:contract_status:ServiceContracts_Status:V');
-		$columnList['Services'][] = array(40,0,'vtiger_service:servicename:servicename:Services_Service_Name:V');
-		$columnList['Services'][] = array(40,1,'vtiger_service:unit_price:unit_price:Services_Price:N');
-		$columnList['Services'][] = array(40,2,'vtiger_service:sales_start_date:sales_start_date:Services_Sales_Start_Date:D');
-		$columnList['Services'][] = array(40,3,'vtiger_service:sales_end_date:sales_end_date:Services_Sales_End_Date:D');
-		$columnList['Services'][] = array(40,4,'vtiger_service:pscategory:pscategory:Services_Service_Category:V');
-		$columnList['Services'][] = array(40,6,'vtiger_service:discontinued:discontinued:Services_Service_Active:V');
-		$columnList['Assets'][] = array(41,0,'vtiger_assets:assetname:assetname:Assets_Asset_Name:V');
-		$columnList['Assets'][] = array(41,1,'vtiger_assets:product:product:Assets_Product_Name:V');
-		$columnList['Assets'][] = array(41,2,'vtiger_assets:parent_id:parent_id:Assets_Parent_ID:V');
-		$columnList['Assets'][] = array(41,3,'vtiger_assets:dateinservice:dateinservice:Assets_Date_in_Service:D');
-		$columnList['Assets'][] = array(41,4,'vtiger_assets:potential:potential:Assets_Potential:V');
-		$columnList['Assets'][] = array(41,5,'vtiger_assets:potential renewal:Potential renewal:Assets_Potential_renewal:V');
-		$columnList['Assets'][] = array(41,6,'vtiger_assets:assetstatus:assetstatus:Assets_Status:V');
-		$columnList['ModComments'][] = array(42,0,'vtiger_modcomments:commentcontent:commentcontent:ModComments_Comment:V');
-		$columnList['ModComments'][] = array(42,1,'vtiger_modcomments:related_to:related_to:ModComments_Related_To:V');
-		$columnList['ModComments'][] = array(42,2,'vtiger_crmentity:modifiedtime:modifiedtime:ModComments_Modified_Time:DT');
-		$columnList['ModComments'][] = array(42,3,'vtiger_crmentity:smownerid:assigned_user_id:ModComments_Assigned_To:V');
-		$columnList['ProjectMilestone'][] = array(43,0,'vtiger_projectmilestone:projectmilestonename:projectmilestonename:ProjectMilestone_Project_Milestone_Name:V');
-		$columnList['ProjectMilestone'][] = array(43,1,'vtiger_projectmilestone:projectmilestonedate:projectmilestonedate:ProjectMilestone_Milestone_Date:D');
-		$columnList['ProjectMilestone'][] = array(43,3,'vtiger_crmentity:description:description:ProjectMilestone_description:V');
-		$columnList['ProjectMilestone'][] = array(43,4,'vtiger_crmentity:createdtime:createdtime:ProjectMilestone_Created_Time:T');
-		$columnList['ProjectMilestone'][] = array(43,5,'vtiger_crmentity:modifiedtime:modifiedtime:ProjectMilestone_Modified_Time:T');
-		$columnList['ProjectTask'][] = array(44,2,'vtiger_projecttask:projecttaskname:projecttaskname:ProjectTask_Project_Task_Name:V');
-		$columnList['ProjectTask'][] = array(44,3,'vtiger_projecttask:projectid:projectid:ProjectTask_Related_to:V');
-		$columnList['ProjectTask'][] = array(44,4,'vtiger_projecttask:projecttaskpriority:projecttaskpriority:ProjectTask_Priority:V');
-		$columnList['ProjectTask'][] = array(44,5,'vtiger_projecttask:projecttaskprogress:projecttaskprogress:ProjectTask_Progress:V');
-		$columnList['ProjectTask'][] = array(44,6,'vtiger_projecttask:startdate:startdate:ProjectTask_Start_Date:D');
-		$columnList['ProjectTask'][] = array(44,7,'vtiger_projecttask:enddate:enddate:ProjectTask_End_Date:D');
-		$columnList['ProjectTask'][] = array(44,8,'vtiger_crmentity:smownerid:assigned_user_id:ProjectTask_Assigned_To:V');
-		$columnList['Project'][] = array(45,0,'vtiger_project:projectname:projectname:Project_Project_Name:V');
-		$columnList['Project'][] = array(45,1,'vtiger_project:linktoaccountscontacts:linktoaccountscontacts:Project_Related_to:V');
-		$columnList['Project'][] = array(45,2,'vtiger_project:startdate:startdate:Project_Start_Date:D');
-		$columnList['Project'][] = array(45,3,'vtiger_project:targetenddate:targetenddate:Project_Target_End_Date:D');
-		$columnList['Project'][] = array(45,4,'vtiger_project:actualenddate:actualenddate:Project_Actual_End_Date:D');
-		$columnList['Project'][] = array(45,5,'vtiger_project:targetbudget:targetbudget:Project_Target_Budget:V');
-		$columnList['Project'][] = array(45,6,'vtiger_project:progress:progress:Project_Progress:V');
-		$columnList['Project'][] = array(45,7,'vtiger_project:projectstatus:projectstatus:Project_Status:V');
-		$columnList['Project'][] = array(45,8,'vtiger_crmentity:smownerid:assigned_user_id:Project_Assigned_To:V');
-		$columnList['SMSNotifier'][] = array(46,0,'vtiger_smsnotifier:message:message:SMSNotifier_message:V');
-		$columnList['SMSNotifier'][] = array(46,2,'vtiger_crmentity:smownerid:assigned_user_id:SMSNotifier_Assigned_To:V');
-		$columnList['SMSNotifier'][] = array(46,3,'vtiger_crmentity:createdtime:createdtime:SMSNotifier_Created_Time:DT');
-		$columnList['SMSNotifier'][] = array(46,4,'vtiger_crmentity:modifiedtime:modifiedtime:SMSNotifier_Modified_Time:DT');
-		$columnList['PBXManager'][] = array(57,0,'vtiger_pbxmanager:callstatus:callstatus:PBXManager_Call_Status:V');
-		$columnList['PBXManager'][] = array(57,1,'vtiger_pbxmanager:customernumber:customernumber:PBXManager_Customer_Number:V');
-		$columnList['PBXManager'][] = array(57,2,'vtiger_pbxmanager:customer:customer:PBXManager_Customer:V');
-		$columnList['PBXManager'][] = array(57,3,'vtiger_pbxmanager:user:user:PBXManager_User:V');
-		$columnList['PBXManager'][] = array(57,4,'vtiger_pbxmanager:recordingurl:recordingurl:PBXManager_Recording_URL:V');
-		$columnList['PBXManager'][] = array(57,5,'vtiger_pbxmanager:totalduration:totalduration:PBXManager_Total_Duration:V');
-		$columnList['PBXManager'][] = array(57,6,'vtiger_pbxmanager:starttime:starttime:PBXManager_Start_Time:DT');
 		
+		$columnList[] = array(1,1,'vtiger_leaddetails:firstname:firstname:Leads_First_Name:V');
+		$columnList[] = array(1,2,'vtiger_leaddetails:lastname:lastname:Leads_Last_Name:V');
+		$columnList[] = array(1,3,'vtiger_leaddetails:company:company:Leads_Company:V');
+		$columnList[] = array(1,4,'vtiger_leadaddress:phone:phone:Leads_Phone:V');
+		$columnList[] = array(1,5,'vtiger_leadsubdetails:website:website:Leads_Website:V');
+		$columnList[] = array(1,6,'vtiger_leaddetails:email:email:Leads_Email:E');
+		$columnList[] = array(1,7,'vtiger_crmentity:smownerid:assigned_user_id:Leads_Assigned_To:V');
+		$columnList[] = array(4,1,'vtiger_account:accountname:accountname:Accounts_Account_Name:V');
+		$columnList[] = array(4,2,'vtiger_accountbillads:bill_city:bill_city:Accounts_City:V');
+		$columnList[] = array(4,3,'vtiger_account:website:website:Accounts_Website:V');
+		$columnList[] = array(4,4,'vtiger_account:phone:phone:Accounts_Phone:V');
+		$columnList[] = array(4,5,'vtiger_crmentity:smownerid:assigned_user_id:Accounts_Assigned_To:V');
+		$columnList[] = array(7,1,'vtiger_contactdetails:firstname:firstname:Contacts_First_Name:V');
+		$columnList[] = array(7,2,'vtiger_contactdetails:lastname:lastname:Contacts_Last_Name:V');
+		$columnList[] = array(7,4,'vtiger_contactdetails:parentid:parent_id:Contacts_Member_Of:I');
+		$columnList[] = array(7,5,'vtiger_contactdetails:email:email:Contacts_Email:E');
+		$columnList[] = array(7,6,'vtiger_contactdetails:phone:phone:Contacts_Office_Phone:V');
+		$columnList[] = array(7,7,'vtiger_crmentity:smownerid:assigned_user_id:Contacts_Assigned_To:V');
+		$columnList[] = array(10,0,'vtiger_potential:potentialname:potentialname:Potentials_Potential_Name:V');
+		$columnList[] = array(10,1,'vtiger_potential:related_to:related_to:Potentials_Related_To:V');
+		$columnList[] = array(10,3,'vtiger_potential:closingdate:closingdate:Potentials_Expected_Close_Date:D');
+		$columnList[] = array(10,4,'vtiger_potential:leadsource:leadsource:Potentials_Lead_Source:V');
+		$columnList[] = array(10,5,'vtiger_crmentity:smownerid:assigned_user_id:Potentials_Assigned_To:V');
+		$columnList[] = array(10,6,'vtiger_potential:sales_stage:sales_stage:Potentials_Sales_Stage:V');
+		$columnList[] = array(10,7,'vtiger_potential:contact_id:contact_id:Potentials_Contact_Name:V');
+		$columnList[] = array(10,8,'vtiger_potential:potentialtype:opportunity_type:Potentials_Type:V');
+		$columnList[] = array(13,1,'vtiger_troubletickets:title:ticket_title:HelpDesk_Title:V');
+		$columnList[] = array(13,2,'vtiger_troubletickets:parent_id:parent_id:HelpDesk_Related_To:I');
+		$columnList[] = array(13,3,'vtiger_troubletickets:status:ticketstatus:HelpDesk_Status:V');
+		$columnList[] = array(13,4,'vtiger_troubletickets:priority:ticketpriorities:HelpDesk_Priority:V');
+		$columnList[] = array(13,5,'vtiger_crmentity:smownerid:assigned_user_id:HelpDesk_Assigned_To:V');
+		$columnList[] = array(16,1,'vtiger_quotes:subject:subject:Quotes_Subject:V');
+		$columnList[] = array(16,2,'vtiger_quotes:quotestage:quotestage:Quotes_Quote_Stage:V');
+		$columnList[] = array(16,3,'vtiger_quotes:potentialid:potential_id:Quotes_Potential_Name:I');
+		$columnList[] = array(16,4,'vtiger_quotes:accountid:account_id:Quotes_Account_Name:I');
+		$columnList[] = array(16,5,'vtiger_quotes:total:hdnGrandTotal:Quotes_Total:I');
+		$columnList[] = array(16,6,'vtiger_crmentity:smownerid:assigned_user_id:Quotes_Assigned_To:V');
+		$columnList[] = array(19,0,'vtiger_activity:status:taskstatus:Calendar_Status:V');
+		$columnList[] = array(19,1,'vtiger_activity:activitytype:activitytype:Calendar_Type:V');
+		$columnList[] = array(19,2,'vtiger_activity:subject:subject:Calendar_Subject:V');
+		$columnList[] = array(19,3,'vtiger_seactivityrel:crmid:parent_id:Calendar_Related_to:V');
+		$columnList[] = array(19,4,'vtiger_activity:date_start:date_start:Calendar_Start_Date:D');
+		$columnList[] = array(19,5,'vtiger_activity:due_date:due_date:Calendar_End_Date:D');
+		$columnList[] = array(19,6,'vtiger_crmentity:smownerid:assigned_user_id:Calendar_Assigned_To:V');
+		$columnList[] = array(20,0,'vtiger_activity:subject:subject:Emails_Subject:V');
+		$columnList[] = array(20,1,'vtiger_emaildetails:to_email:saved_toid:Emails_To:V');
+		$columnList[] = array(20,2,'vtiger_activity:date_start:date_start:Emails_Date_Sent:D');
+		$columnList[] = array(21,1,'vtiger_invoice:subject:subject:Invoice_Subject:V');
+		$columnList[] = array(21,2,'vtiger_invoice:salesorderid:salesorder_id:Invoice_Sales_Order:I');
+		$columnList[] = array(21,3,'vtiger_invoice:invoicestatus:invoicestatus:Invoice_Status:V');
+		$columnList[] = array(21,4,'vtiger_invoice:total:hdnGrandTotal:Invoice_Total:I');
+		$columnList[] = array(21,5,'vtiger_crmentity:smownerid:assigned_user_id:Invoice_Assigned_To:V');
+		$columnList[] = array(22,1,'vtiger_notes:title:notes_title:Notes_Title:V');
+		$columnList[] = array(22,2,'vtiger_notes:filename:filename:Notes_File:V');
+		$columnList[] = array(22,3,'vtiger_notes:folderid:folderid:Documents_Folder_Name:V');
+		$columnList[] = array(22,4,'vtiger_crmentity:smownerid:assigned_user_id:Notes_Assigned_To:V');
+		$columnList[] = array(23,1,'vtiger_pricebook:bookname:bookname:PriceBooks_Price_Book_Name:V');
+		$columnList[] = array(23,2,'vtiger_pricebook:active:active:PriceBooks_Active:V');
+		$columnList[] = array(23,3,'vtiger_pricebook:currency_id:currency_id:PriceBooks_Currency:I');
+		$columnList[] = array(24,0,'vtiger_products:productname:productname:Products_Product_Name:V');
+		$columnList[] = array(24,1,'vtiger_products:pscategory:pscategory:Products_Product_Category:V');
+		$columnList[] = array(24,3,'vtiger_products:unit_price:unit_price:Products_Unit_Price:N');
+		$columnList[] = array(24,4,'vtiger_products:qtyinstock:qtyinstock:Products_Qty_In_Stock:NN');
+		$columnList[] = array(24,5,'vtiger_products:discontinued:discontinued:Products_Product_Active:C');
+		$columnList[] = array(24,6,'vtiger_products:sales_start_date:sales_start_date:Products_Sales_Start_Date:D');
+		$columnList[] = array(25,1,'vtiger_purchaseorder:subject:subject:PurchaseOrder_Subject:V');
+		$columnList[] = array(25,2,'vtiger_purchaseorder:vendorid:vendor_id:PurchaseOrder_Vendor_Name:I');
+		$columnList[] = array(25,3,'vtiger_purchaseorder:tracking_no:tracking_no:PurchaseOrder_Tracking_Number:V');
+		$columnList[] = array(25,4,'vtiger_purchaseorder:total:hdnGrandTotal:PurchaseOrder_Total:V');
+		$columnList[] = array(25,5,'vtiger_crmentity:smownerid:assigned_user_id:PurchaseOrder_Assigned_To:V');
+		$columnList[] = array(26,1,'vtiger_salesorder:subject:subject:SalesOrder_Subject:V');
+		$columnList[] = array(26,2,'vtiger_salesorder:accountid:account_id:SalesOrder_Account_Name:I');
+		$columnList[] = array(26,3,'vtiger_salesorder:quoteid:quote_id:SalesOrder_Quote_Name:I');
+		$columnList[] = array(26,4,'vtiger_salesorder:total:hdnGrandTotal:SalesOrder_Total:V');
+		$columnList[] = array(26,5,'vtiger_crmentity:smownerid:assigned_user_id:SalesOrder_Assigned_To:V');
+		$columnList[] = array(27,1,'vtiger_vendor:vendorname:vendorname:Vendors_Vendor_Name:V');
+		$columnList[] = array(27,2,'vtiger_vendor:phone:phone:Vendors_Phone:V');
+		$columnList[] = array(27,3,'vtiger_vendor:email:email:Vendors_Email:E');
+		$columnList[] = array(27,4,'vtiger_vendor:category:category:Vendors_Category:V');
+		$columnList[] = array(27,5,'vtiger_crmentity:smownerid:assigned_user_id:Vendors_Assigned_To:V');
+		$columnList[] = array(28,1,'vtiger_faq:question:question:Faq_Question:V');
+		$columnList[] = array(28,2,'vtiger_faq:category:faqcategories:Faq_Category:V');
+		$columnList[] = array(28,3,'vtiger_faq:product_id:product_id:Faq_Product_Name:I');
+		$columnList[] = array(28,4,'vtiger_crmentity:createdtime:createdtime:Faq_Created_Time:DT');
+		$columnList[] = array(28,5,'vtiger_crmentity:modifiedtime:modifiedtime:Faq_Modified_Time:DT');
+		$columnList[] = array(29,1,'vtiger_campaign:campaignname:campaignname:Campaigns_Campaign_Name:V');
+		$columnList[] = array(29,2,'vtiger_campaign:campaigntype:campaigntype:Campaigns_Campaign_Type:N');
+		$columnList[] = array(29,3,'vtiger_campaign:campaignstatus:campaignstatus:Campaigns_Campaign_Status:N');
+		$columnList[] = array(29,4,'vtiger_campaign:expectedrevenue:expectedrevenue:Campaigns_Expected_Revenue:V');
+		$columnList[] = array(29,5,'vtiger_campaign:closingdate:closingdate:Campaigns_Expected_Close_Date:D');
+		$columnList[] = array(29,6,'vtiger_crmentity:smownerid:assigned_user_id:Campaigns_Assigned_To:V');
+		$columnList[] = array(39,1,'vtiger_servicecontracts:subject:subject:ServiceContracts_Subject:V');
+		$columnList[] = array(39,2,'vtiger_servicecontracts:sc_related_to:sc_related_to:ServiceContracts_Related_to:V');
+		$columnList[] = array(39,3,'vtiger_crmentity:smownerid:assigned_user_id:ServiceContracts_Assigned_To:V');
+		$columnList[] = array(39,4,'vtiger_servicecontracts:start_date:start_date:ServiceContracts_Start_Date:D');
+		$columnList[] = array(39,5,'vtiger_servicecontracts:due_date:due_date:ServiceContracts_Due_date:D');
+		$columnList[] = array(39,7,'vtiger_servicecontracts:progress:progress:ServiceContracts_Progress:N');
+		$columnList[] = array(39,8,'vtiger_servicecontracts:contract_status:contract_status:ServiceContracts_Status:V');
+		$columnList[] = array(40,0,'vtiger_service:servicename:servicename:Services_Service_Name:V');
+		$columnList[] = array(40,1,'vtiger_service:unit_price:unit_price:Services_Price:N');
+		$columnList[] = array(40,2,'vtiger_service:sales_start_date:sales_start_date:Services_Sales_Start_Date:D');
+		$columnList[] = array(40,3,'vtiger_service:sales_end_date:sales_end_date:Services_Sales_End_Date:D');
+		$columnList[] = array(40,4,'vtiger_service:pscategory:pscategory:Services_Service_Category:V');
+		$columnList[] = array(40,6,'vtiger_service:discontinued:discontinued:Services_Service_Active:V');
+		$columnList[] = array(41,0,'vtiger_assets:assetname:assetname:Assets_Asset_Name:V');
+		$columnList[] = array(41,1,'vtiger_assets:product:product:Assets_Product_Name:V');
+		$columnList[] = array(41,2,'vtiger_assets:parent_id:parent_id:Assets_Parent_ID:V');
+		$columnList[] = array(41,3,'vtiger_assets:dateinservice:dateinservice:Assets_Date_in_Service:D');
+		$columnList[] = array(41,4,'vtiger_assets:potential:potential:Assets_Potential:V');
+		$columnList[] = array(41,5,'vtiger_assets:potential renewal:Potential renewal:Assets_Potential_renewal:V');
+		$columnList[] = array(41,6,'vtiger_assets:assetstatus:assetstatus:Assets_Status:V');
+		$columnList[] = array(42,0,'vtiger_modcomments:commentcontent:commentcontent:ModComments_Comment:V');
+		$columnList[] = array(42,1,'vtiger_modcomments:related_to:related_to:ModComments_Related_To:V');
+		$columnList[] = array(42,2,'vtiger_crmentity:modifiedtime:modifiedtime:ModComments_Modified_Time:DT');
+		$columnList[] = array(42,3,'vtiger_crmentity:smownerid:assigned_user_id:ModComments_Assigned_To:V');
+		$columnList[] = array(43,0,'vtiger_projectmilestone:projectmilestonename:projectmilestonename:ProjectMilestone_Project_Milestone_Name:V');
+		$columnList[] = array(43,1,'vtiger_projectmilestone:projectmilestonedate:projectmilestonedate:ProjectMilestone_Milestone_Date:D');
+		$columnList[] = array(43,3,'vtiger_crmentity:description:description:ProjectMilestone_description:V');
+		$columnList[] = array(43,4,'vtiger_crmentity:createdtime:createdtime:ProjectMilestone_Created_Time:T');
+		$columnList[] = array(43,5,'vtiger_crmentity:modifiedtime:modifiedtime:ProjectMilestone_Modified_Time:T');
+		$columnList[] = array(44,2,'vtiger_projecttask:projecttaskname:projecttaskname:ProjectTask_Project_Task_Name:V');
+		$columnList[] = array(44,3,'vtiger_projecttask:projectid:projectid:ProjectTask_Related_to:V');
+		$columnList[] = array(44,4,'vtiger_projecttask:projecttaskpriority:projecttaskpriority:ProjectTask_Priority:V');
+		$columnList[] = array(44,5,'vtiger_projecttask:projecttaskprogress:projecttaskprogress:ProjectTask_Progress:V');
+		$columnList[] = array(44,6,'vtiger_projecttask:startdate:startdate:ProjectTask_Start_Date:D');
+		$columnList[] = array(44,7,'vtiger_projecttask:enddate:enddate:ProjectTask_End_Date:D');
+		$columnList[] = array(44,8,'vtiger_crmentity:smownerid:assigned_user_id:ProjectTask_Assigned_To:V');
+		$columnList[] = array(45,0,'vtiger_project:projectname:projectname:Project_Project_Name:V');
+		$columnList[] = array(45,1,'vtiger_project:linktoaccountscontacts:linktoaccountscontacts:Project_Related_to:V');
+		$columnList[] = array(45,2,'vtiger_project:startdate:startdate:Project_Start_Date:D');
+		$columnList[] = array(45,3,'vtiger_project:targetenddate:targetenddate:Project_Target_End_Date:D');
+		$columnList[] = array(45,4,'vtiger_project:actualenddate:actualenddate:Project_Actual_End_Date:D');
+		$columnList[] = array(45,5,'vtiger_project:targetbudget:targetbudget:Project_Target_Budget:V');
+		$columnList[] = array(45,6,'vtiger_project:progress:progress:Project_Progress:V');
+		$columnList[] = array(45,7,'vtiger_project:projectstatus:projectstatus:Project_Status:V');
+		$columnList[] = array(45,8,'vtiger_crmentity:smownerid:assigned_user_id:Project_Assigned_To:V');
+		$columnList[] = array(46,0,'vtiger_smsnotifier:message:message:SMSNotifier_message:V');
+		$columnList[] = array(46,2,'vtiger_crmentity:smownerid:assigned_user_id:SMSNotifier_Assigned_To:V');
+		$columnList[] = array(46,3,'vtiger_crmentity:createdtime:createdtime:SMSNotifier_Created_Time:DT');
+		$columnList[] = array(46,4,'vtiger_crmentity:modifiedtime:modifiedtime:SMSNotifier_Modified_Time:DT');
+		$columnList[] = array(57,0,'vtiger_pbxmanager:callstatus:callstatus:PBXManager_Call_Status:V');
+		$columnList[] = array(57,1,'vtiger_pbxmanager:customernumber:customernumber:PBXManager_Customer_Number:V');
+		$columnList[] = array(57,2,'vtiger_pbxmanager:customer:customer:PBXManager_Customer:V');
+		$columnList[] = array(57,3,'vtiger_pbxmanager:user:user:PBXManager_User:V');
+		$columnList[] = array(57,4,'vtiger_pbxmanager:recordingurl:recordingurl:PBXManager_Recording_URL:V');
+		$columnList[] = array(57,5,'vtiger_pbxmanager:totalduration:totalduration:PBXManager_Total_Duration:V');
+		$columnList[] = array(57,6,'vtiger_pbxmanager:starttime:starttime:PBXManager_Start_Time:DT');
+
 		$modules = array('Leads','Accounts','Contacts','Potentials','HelpDesk','Quotes','Calendar','Emails','Invoice','Documents','PriceBooks','Products','PurchaseOrder','SalesOrder','Vendors','Faq','Campaigns','ServiceContracts','Services','Assets','ModComments','ProjectMilestone','ProjectTask','Project','SMSNotifier','PBXManager');
 
 		foreach($modules as $module){
-			$sql = "SELECT `cvid` FROM `vtiger_customview` WHERE entitytype = ?;";
+			$sql = "SELECT * FROM `vtiger_customview` WHERE entitytype = ? ;";
 			$result = $adb->pquery( $sql, array($module) );
 			$num = $adb->num_rows( $result );
-			if($num == 1){
-				$cvId = $adb->query_result( $result, 0, 'cvid' );
+			for($i=0;$i<$num;$i++){
+				$viewName = $adb->query_result( $result, $i, 'viewname' );
+				$cvId = $adb->query_result( $result, $i, 'cvid' );
 				$adb->pquery("DELETE FROM `vtiger_cvcolumnlist` WHERE cvid = ? ", array($cvId));
-				foreach($columnList[$module] as $cvc){
-					$adb->pquery("INSERT INTO vtiger_cvcolumnlist (cvid,columnindex,columnname) VALUES (?,?,?)", array($cvId, $cvc[1], $cvc[2]));
+				if('All' == $viewName){
+					$mod = '';
+					foreach($columnList as $cvc){
+						if($mod == ''){
+							$testModArray = explode(':',$cvc[2]);
+							$testMod = explode('_',$testModArray[3]);
+							if($module == $testMod[0]){
+								$mod = $cvc[0];
+							}
+						}
+						if($cvc[0] == $mod){
+							$adb->pquery("INSERT INTO vtiger_cvcolumnlist (cvid,columnindex,columnname) VALUES (?,?,?)", array($cvId, $cvc[1], $cvc[2]));
+						}
+					}
+				} else {
+					$adb->pquery("DELETE FROM `vtiger_customview` WHERE cvid = ? ", array($cvId));
+					$adb->pquery("DELETE FROM `vtiger_cvadvfilter_grouping` WHERE cvid = ? ", array($cvId));
+					$adb->pquery("DELETE FROM `vtiger_cvstdfilter` WHERE cvid = ? ", array($cvId));
 				}
 			}
 		}
@@ -3054,9 +3121,25 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$entityName[] = array(71,'OSSCosts','vtiger_osscosts','name','osscostsid','osscostsid','name',1,0);
 		$entityName[] = array(74,'CallHistory','vtiger_callhistory','to_number','callhistoryid','callhistoryid','to_number',1,0);
 		$entityName[] = array(75,'Ideas','vtiger_ideas','subject','ideasid','ideasid','subject',1,0);
+		$entityName[] = array(76,'RequirementCards','vtiger_requirementcards','subject','requirementcardsid','requirementcardsid','subject',1,0);
+		$entityName[] = array(77,'QuotesEnquires','vtiger_quotesenquires','subject','quotesenquiresid','quotesenquiresid','subject',1,0);
+		$entityName[] = array(78,'HolidaysEntitlement','vtiger_holidaysentitlement','holidaysentitlement_year','holidaysentitlementid','holidaysentitlementid','holidaysentitlement_year,ossemployeesid',1,0);
+		$entityName[] = array(79,'PaymentsIn','vtiger_paymentsin','paymentsname','paymentsinid','paymentsinid','paymentsinid',1,0);
+		$entityName[] = array(80,'PaymentsOut','vtiger_paymentsout','paymentsname','paymentsoutid','paymentsoutid','paymentsoutid',1,0);
+		$entityName[] = array(81,'LettersIn','vtiger_lettersin','title','lettersinid','lettersinid','lettersinid',1,0);
+		$entityName[] = array(82,'LettersOut','vtiger_lettersout','title','lettersoutid','lettersoutid','lettersoutid',1,0);
+		$entityName[] = array(83,'NewOrders','vtiger_neworders','subject','newordersid','newordersid','newordersid',1,0);
+		$entityName[] = array(84,'Reservations','vtiger_reservations','title','reservationsid','reservationsid','reservationsid',1,0);
 		
 		foreach($entityName as $name){
-			$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]), true);
+			$result = $adb->pquery( "SELECT * FROM `vtiger_entityname` WHERE `modulename` = ? ;", array($name[1]));
+			if($adb->num_rows( $result )){
+				$adb->pquery('UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` = ?;', array($name[6], $name[1]));
+			} elseif(self::checkModuleExists($name[1])){
+				$sql = "INSERT INTO vtiger_entityname (tabid, modulename, tablename, fieldname, entityidfield, entityidcolumn, searchcolumn, turn_off, sequence) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				$adb->pquery($sql, array( getTabid($name[1]), $name[1], $name[2], $name[3], $name[4], $name[5], $name[6], $name[7], $name[8]));
+			}
+			
 		}
 		
 		$log->debug("Exiting VT620_to_YT::addSearchfield() method ...");
@@ -3065,56 +3148,58 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	public function addWidget(){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::addWidget() method ...");
-		$widgets[] = array(1,'Accounts','Summary',NULL,1,0,NULL,'[]');
-		$widgets[] = array(2,'Accounts','Comments','ModComments',2,6,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(3,'Accounts','Updates','LBL_UPDATES',1,2,NULL,'[]');
-		$widgets[] = array(4,'Accounts','Activities','Calendar',2,4,NULL,'{"limit":"5"}');
-		$widgets[] = array(5,'Accounts','RelatedModule','Contacts',2,3,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Contacts').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(6,'Accounts','RelatedModule','Potentials',1,1,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Potentials').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(7,'Leads','Summary',NULL,1,1,NULL,'[]');
-		$widgets[] = array(8,'Leads','Comments','ModComments',1,2,1,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(9,'Leads','Updates','LBL_UPDATES',2,6,NULL,'[]');
-		$widgets[] = array(10,'Leads','Activities','Calendar',2,4,NULL,'{"limit":"5"}');
-		$widgets[] = array(11,'Leads','EmailList','Emails',2,5,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(12,'Accounts','EmailList','Emails',2,5,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(14,'Contacts','Summary',NULL,1,1,NULL,'[]');
-		$widgets[] = array(15,'Contacts','Comments','ModComments',2,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(16,'Contacts','Updates','LBL_UPDATES',1,3,NULL,'[]');
-		$widgets[] = array(17,'Contacts','Activities','Calendar',2,4,NULL,'{"limit":"5"}');
-		$widgets[] = array(18,'Contacts','EmailList','Emails',2,5,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(19,'Potentials','Summary',NULL,1,0,NULL,'[]');
-		$widgets[] = array(20,'Potentials','Comments','ModComments',2,4,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(21,'Potentials','EmailList','Emails',1,3,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(22,'Potentials','Activities','Calendar',2,1,NULL,'{"limit":"5"}');
-		$widgets[] = array(23,'Potentials','RelatedModule','Contacts',2,6,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Contacts').'","columns":"3","filter":"-"}');
-		$widgets[] = array(24,'Potentials','RelatedModule','Documents',2,2,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Documents').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(25,'Potentials','Updates','LBL_UPDATES',2,5,NULL,'[]');
-		$widgets[] = array(26,'Project','Summary',NULL,1,1,NULL,'[]');
-		$widgets[] = array(27,'Project','Comments','ModComments',2,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(28,'Project','Updates','LBL_UPDATES',1,3,NULL,'[]');
-		$widgets[] = array(30,'Project','EmailList','Emails',1,5,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(31,'Project','RelatedModule','ProjectTask',2,6,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectTask').'","columns":"3","action":"1","filter":"vtiger_projecttask::projecttaskstatus::projecttaskstatus"}');
-		$widgets[] = array(32,'Project','RelatedModule','ProjectMilestone',2,7,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectMilestone').'","columns":"3","action":"1","filter":"vtiger_projectmilestone::projectmilestonetype::projectmilestonetype"}');
-		$widgets[] = array(33,'Project','RelatedModule','HelpDesk',2,8,NULL,'{"limit":"5","relatedmodule":"'.getTabid('HelpDesk').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(34,'HelpDesk','Summary',NULL,1,1,NULL,'[]');
-		$widgets[] = array(35,'HelpDesk','Comments','ModComments',1,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(36,'HelpDesk','Updates','LBL_UPDATES',1,3,NULL,'[]');
-		$widgets[] = array(37,'HelpDesk','EmailList','Emails',2,4,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(38,'HelpDesk','Activities','Calendar',2,5,NULL,'{"limit":"5"}');
-		$widgets[] = array(39,'HelpDesk','RelatedModule','Documents',2,6,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Documents').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(40,'OSSTimeControl','Summary',NULL,1,1,NULL,'[]');
-		$widgets[] = array(41,'OSSTimeControl','Comments','ModComments',2,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		$widgets[] = array(42,'OSSTimeControl','RelatedModule','Documents',2,3,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Documents').'","columns":"3","filter":"-"}');
-		$widgets[] = array(43,'Leads','RelatedModule','Contacts',2,3,NULL,'{"limit":"5","relatedmodule":"'.getTabid('Contacts').'","columns":"3","action":"1","filter":"-"}');
-		$widgets[] = array(47,'HelpDesk','WYSIWYG','WYSIWYG',1,7,NULL,'{"field_name":"description"}');
-		$widgets[] = array(48,'OSSMailView','PreviewMail',NULL,1,1,NULL,'{"relatedmodule":"Emails"}');
-		$widgets[] = array(49,'ProjectTask','Summary',NULL,1,0,NULL,'[]');
-		$widgets[] = array(50,'ProjectTask','Comments','ModComments',2,1,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
-		
+		$widgets[] = array('Accounts','Summary',NULL,'1','0',NULL,'[]');
+		$widgets[] = array('Accounts','Comments','ModComments','2','6',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Accounts','Updates','LBL_UPDATES','1','2',NULL,'[]');
+		$widgets[] = array('Accounts','Activities','Calendar','2','4',NULL,'{"limit":"5"}');
+		$widgets[] = array('Accounts','RelatedModule','Contacts','2','3',NULL,'{"limit":"5","relatedmodule":"4","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('Accounts','RelatedModule','Potentials','1','1',NULL,'{"limit":"5","relatedmodule":"2","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('Leads','Summary',NULL,'1','1',NULL,'[]');
+		$widgets[] = array('Leads','Comments','ModComments','1','2','1','{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Leads','Updates','LBL_UPDATES','2','6',NULL,'[]');
+		$widgets[] = array('Leads','Activities','Calendar','2','4',NULL,'{"limit":"5"}');
+		$widgets[] = array('Leads','EmailList','Emails','2','5',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('Accounts','EmailList','Emails','2','5',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('Contacts','Summary',NULL,'1','1',NULL,'[]');
+		$widgets[] = array('Contacts','Comments','ModComments','2','2',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Contacts','Updates','LBL_UPDATES','1','3',NULL,'[]');
+		$widgets[] = array('Contacts','Activities','Calendar','2','4',NULL,'{"limit":"5"}');
+		$widgets[] = array('Contacts','EmailList','Emails','2','5',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('Potentials','Summary',NULL,'1','0',NULL,'[]');
+		$widgets[] = array('Potentials','Comments','ModComments','2','4',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Potentials','EmailList','Emails','1','3',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('Potentials','Activities','Calendar','2','1',NULL,'{"limit":"5"}');
+		$widgets[] = array('Potentials','RelatedModule','Contacts','2','6',NULL,'{"limit":"5","relatedmodule":"4","columns":"3","filter":"-"}');
+		$widgets[] = array('Potentials','RelatedModule','Documents','2','2',NULL,'{"limit":"5","relatedmodule":"8","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('Potentials','Updates','LBL_UPDATES','2','5',NULL,'[]');
+		$widgets[] = array('Project','Summary',NULL,'1','1',NULL,'[]');
+		$widgets[] = array('Project','Comments','ModComments','2','2',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Project','Updates','LBL_UPDATES','1','3',NULL,'[]');
+		$widgets[] = array('Project','EmailList','Emails','1','5',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('Project','RelatedModule','ProjectTask','2','6',NULL,'{"limit":"5","relatedmodule":"42","columns":"3","action":"1","filter":"vtiger_projecttask::projecttaskstatus::projecttaskstatus"}');
+		$widgets[] = array('Project','RelatedModule','ProjectMilestone','2','7',NULL,'{"limit":"5","relatedmodule":"41","columns":"3","action":"1","filter":"vtiger_projectmilestone::projectmilestonetype::projectmilestonetype"}');
+		$widgets[] = array('Project','RelatedModule','HelpDesk','2','8',NULL,'{"limit":"5","relatedmodule":"13","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('HelpDesk','Summary',NULL,'1','1',NULL,'[]');
+		$widgets[] = array('HelpDesk','Comments','ModComments','1','2',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('HelpDesk','Updates','LBL_UPDATES','1','3',NULL,'[]');
+		$widgets[] = array('HelpDesk','EmailList','Emails','2','4',NULL,'{"relatedmodule":"Emails","limit":"5"}');
+		$widgets[] = array('HelpDesk','Activities','Calendar','2','5',NULL,'{"limit":"5"}');
+		$widgets[] = array('HelpDesk','RelatedModule','Documents','2','6',NULL,'{"limit":"5","relatedmodule":"8","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('OSSTimeControl','Summary',NULL,'1','1',NULL,'[]');
+		$widgets[] = array('OSSTimeControl','Comments','ModComments','2','2',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('OSSTimeControl','RelatedModule','Documents','2','3',NULL,'{"limit":"5","relatedmodule":"8","columns":"3","filter":"-"}');
+		$widgets[] = array('Leads','RelatedModule','Contacts','2','3',NULL,'{"limit":"5","relatedmodule":"4","columns":"3","action":"1","filter":"-"}');
+		$widgets[] = array('HelpDesk','WYSIWYG','WYSIWYG','1','7',NULL,'{"field_name":"description"}');
+		$widgets[] = array('OSSMailView','PreviewMail',NULL,'1','1',NULL,'{"relatedmodule":"Emails"}');
+		$widgets[] = array('ProjectTask','Summary',NULL,'1','0',NULL,'[]');
+		$widgets[] = array('ProjectTask','Comments','ModComments','2','1',NULL,'{"relatedmodule":"ModComments","limit":"5"}');
+		$widgets[] = array('Reservations','Summary',NULL,'1','0',NULL,'[]');
+		$widgets[] = array('Reservations','Comments','','2','1',NULL,'{"relatedmodule":"ModComments","limit":"10"}');
+				
 		foreach($widgets as $widget){
-			if(self::checkModuleExists($widget[1])){
+			if(self::checkModuleExists($widget[0])){
 				$sql = "INSERT INTO vtiger_widgets (tabid, type, label, wcol, sequence, nomargin, data) VALUES (?, ?, ?, ?, ?, ?, ?);";
-				$adb->pquery($sql, array( getTabid($widget[1]), $widget[2], $widget[3], $widget[4], $widget[5], $widget[6], $widget[7]));
+				$adb->pquery($sql, array( getTabid($widget[0]), $widget[1], $widget[2], $widget[3], $widget[4], $widget[5], $widget[6]));
 			}
 		}
 		$log->debug("Exiting VT620_to_YT::addWidget() method ...");
@@ -3133,28 +3218,26 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$targetModule = Vtiger_Module::getInstance('Vendors');
 		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
-		//$targetModule = Vtiger_Module::getInstance('OSSEmployees');
-		//$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$targetModule = Vtiger_Module::getInstance('Potentials');
 		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		$targetModule = Vtiger_Module::getInstance('HelpDesk');
+		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
+		$targetModule = Vtiger_Module::getInstance('OSSEmployees');
 		$targetModule->setRelatedList($moduleInstance, 'CallHistory', array(),'get_dependents_list');
 		
 		$addRelations = array();
 		$addRelations['Potentials'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Potentials'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
-		$addRelations['Contacts'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['Accounts'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_dependents_list');
-		$addRelations['Quotes'][] = array('related_tabid'=>'Calculations', 'label'=>'Calculations', 'actions'=>'ADD', 'name'=>'get_related_list');
 		$addRelations['Leads'][] = array('related_tabid'=>'Contacts', 'label'=>'Contacts', 'actions'=>'ADD', 'name'=>'get_dependents_list');
 		$addRelations['ServiceContracts'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');
 		$addRelations['Project'][] = array('related_tabid'=>'Calendar', 'label'=>'Activities', 'actions'=>'ADD', 'name'=>'get_activities');
-		$addRelations['HelpDesk'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD,SELECT', 'name'=>'get_dependents_list');
-		
+		$addRelations['HelpDesk'][] = array('related_tabid'=>'Assets', 'label'=>'Assets', 'actions'=>'ADD,SELECT', 'name'=>'get_related_list');
 		
 		$addRelations['Campaigns'][] = array('related_tabid'=>'Calendar', 'label'=>'Activity History', 'actions'=>' ', 'name'=>'get_history');
 		$addRelations['Project'][] = array('related_tabid'=>'Calendar', 'label'=>'Activity History', 'actions'=>' ', 'name'=>'get_history');
 		$addRelations['ServiceContracts'][] = array('related_tabid'=>'Calendar', 'label'=>'Activity History', 'actions'=>' ', 'name'=>'get_history');
+		$addRelations['ServiceContracts'][] = array('related_tabid'=>'Project', 'label'=>'Project', 'actions'=>array('ADD'), 'name'=>'get_dependents_list');
 		foreach($addRelations as $moduleName=>$relations){
 			$moduleInstance = Vtiger_Module::getInstance($moduleName);
 			foreach($relations as $relation){
@@ -3163,31 +3246,100 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			}
 		}
 		
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OSSOutsourcedServices')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OSSSoldServices')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OutsourcedProducts')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Services')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Products')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Assets')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('Products')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('OutsourcedProducts')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Products')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Services')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Assets')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OSSOutsourcedServices')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OSSSoldServices')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OutsourcedProducts')),'change'=>array('presence'=>1));
-		$update[] = array('select'=>array('tabid'=>getTabid('ServiceContracts'), 'related_tabid'=>getTabid('HelpDesk')),'change'=>array('label'=>'HelpDesk'));
+		$update[] = array('tabid'=>getTabid('Calculations'), 'related_tabid'=>getTabid('Calculations'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OSSOutsourcedServices'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OSSSoldServices'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('OutsourcedProducts'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Services'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Products'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Accounts'), 'related_tabid'=>getTabid('Assets'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('OSSOutsourcedServices'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('OutsourcedProducts'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('Products'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Leads'), 'related_tabid'=>getTabid('Services'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Products'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Services'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('Assets'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OSSOutsourcedServices'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OSSSoldServices'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('Potentials'), 'related_tabid'=>getTabid('OutsourcedProducts'),'change'=>array('presence'=>1));
+		$update[] = array('tabid'=>getTabid('ServiceContracts'), 'related_tabid'=>getTabid('HelpDesk'),'change'=>array('label'=>'HelpDesk'));
+		$update[] = array('tabid'=>getTabid('ServiceContracts'), 'related_tabid'=>getTabid('HelpDesk'),'change'=>array('actions'=>'ADD'));
+		$update[] = array('tabid'=>getTabid('ServiceContracts'), 'related_tabid'=>getTabid('HelpDesk'),'change'=>array('name'=>'get_dependents_list'));
+		$update[] = array('tabid'=>getTabid('Project'), 'related_tabid'=>getTabid('HelpDesk'),'change'=>array('name'=>'get_dependents_list'));
+		$update[] = array('tabid'=>getTabid('Project'), 'related_tabid'=>getTabid('HelpDesk'),'change'=>array('actions'=>'ADD'));
 		foreach($update as $presents){
 			$sql = 'UPDATE `vtiger_relatedlists` SET ';
-			foreach($presents['change'] as $column=>$value)
+			foreach($presents['change'] as $column=>$value){
 				$sql .= $column.' = ? ';
-			$sql .= 'WHERE `tabid` = ? AND `related_tabid` = ? ;';
-			$adb->pquery($sql, array(1,$presents['tabid'],$presents['related_tabid']), true);
+				$sql .= 'WHERE `tabid` = ? AND `related_tabid` = ? ;';
+				$adb->pquery($sql, array($value,$presents['tabid'],$presents['related_tabid']), true);
+			}
 		}
 		$adb->pquery("UPDATE `vtiger_relatedlists` SET label = ? WHERE related_tabid = ? AND name = ? AND label = ?;", array('Upcoming Activities',getTabid('Calendar'),'get_activities','Activities'));
 		$adb->pquery("UPDATE `vtiger_relatedlists` SET actions = ? WHERE related_tabid = ? AND name = ? AND label = ?;", array('',getTabid('Calendar'),'get_history','Activity History'));
 		
+		// Related Products of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Products'),'Products'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Products'),getTabid('Contacts'),'Contacts'), true );
+		////// Related Assets of contact
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('Assets','Contacts'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Assets'),'Assets'), true );
+		////// Related Services of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Services'),'Services'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Services'),getTabid('Contacts'),'Contacts'), true );
+		////// Related Vendors of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Vendors'),'Vendors'), true );
+		////// Related ServiceContracts of contact
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('ServiceContracts','Contacts'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('ServiceContracts'),'Service Contracts'), true );
+		////// Related PBXManager of contact
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('PBXManager','Contacts'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('PBXManager'),'PBXManager'), true );
+		////// Related Invoices of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Invoice'),'Invoice'), true );
+		////// Related Contacts of Campaigns ect.
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Campaigns'),'Campaigns'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Campaigns'),getTabid('Contacts'),'Contacts'), true );
+		////// Related PurchaseOrder of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('PurchaseOrder'),'Purchase Order'), true );
+		////// Related SalesOrder of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('SalesOrder'),'Sales Order'), true );
+		////// Related  Quotes of contact
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Quotes'),'Quotes'), true );
+		
+		////// Related HelpDesk of contact
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('HelpDesk','Contacts'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('HelpDesk'),'HelpDesk'), true );
+		
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('HelpDesk'),getTabid('Project'),'Projects'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('HelpDesk'),getTabid('Project'),'Projects'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('HelpDesk'),getTabid('ServiceContracts'),'Service Contracts'), true );
+		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
+		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Project'),'Projects'), true );
+
 		$log->debug("Exiting VT620_to_YT::relatedList() method ...");
 	}
 	
@@ -3213,16 +3365,21 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 					'vtiger_service'=>'pscategory',	
 					'vtiger_ossoutsourcedservices'=>'pscategory',	
 					'vtiger_osssoldservices'=>'pscategory',	
-					'vtiger_outsourcedproducts'=>'pscategory'	
+					'vtiger_outsourcedproducts'=>'pscategory',	
+					'vtiger_reservations'=>'type'
 					);
-		$templateNames = array('pscategory'=>'Category');
+		$templateNames = array('pscategory'=>'Category','type'=>'Reservations');
 		foreach($tab as $tablename=>$columnname){
 			$result = $adb->pquery("SELECT * FROM `vtiger_field` WHERE `columnname` = ? AND `tablename` = ?;", array($columnname, $tablename));
 			if($adb->num_rows($result) == 1){
 				$fieldparams = $adb->query_result_raw($result, 0, 'fieldparams');
 				$moduleId = $adb->query_result_raw($result, 0, 'tabid');
 				if(!$fieldparams){
-					$stem = array("Hardware","Software","CRM Applications","Antivirus","Backup");
+					if('type' == $columnname){
+						$stem = array("LBL_CARS","LBL_EQUIPMENT","LBL_MEETING_ROOMS");
+					}else{
+						$stem = array("Hardware","Software","CRM Applications","Antivirus","Backup");
+					}
 					$k=1;
 					$tree = array();
 					foreach($stem AS $storey){

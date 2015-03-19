@@ -22,7 +22,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
 
             $this->addLink($moduleName);
             $this->addRelationModue();
-            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+            $this->addWidgetToListView('Project', 'LBL_GENERATE_FROM_TEMPLATE');
             
             $db->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
 
@@ -31,7 +31,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
 			$this->removeRecords();
         } else if($eventType == 'module.enabled') {
             $this->addLink($moduleName);
-            $this->addWidgetToListView('Project', 'Generuj z szablonu');
+            $this->addWidgetToListView('Project', 'LBL_GENERATE_FROM_TEMPLATE');
         } else if ($eventType == 'module.preuninstall') {
             // TODO Handle actions when this module is about to be deleted.
         } else if ($eventType == 'module.preupdate') {
@@ -83,7 +83,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     private function removeRecords() {
         $db = PearDatabase::getInstance();
         
-        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='Generuj z szablonu'", true);
+        $db->query("DELETE FROM vtiger_links WHERE linktype='LISTVIEWSIDEBARWIDGET' AND linklabel='LBL_GENERATE_FROM_TEMPLATE'", true);
         $db->query("DELETE FROM `vtiger_settings_field` WHERE `name` = 'Project Templates' AND `linkto` = 'index.php?module=OSSProjectTemplates&parent=Settings&view=Index'", true);
     }
 
