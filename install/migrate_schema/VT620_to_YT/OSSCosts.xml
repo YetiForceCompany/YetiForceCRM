@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-13 14:51:51</exporttime>
+<exporttime>2015-03-18 10:44:29</exporttime>
 <name>OSSCosts</name>
 <label>OSSCosts</label>
 <parent>Bookkeeping</parent>
@@ -233,7 +233,6 @@
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
-<relatedmodule>Contacts</relatedmodule>
 <relatedmodule>Vendors</relatedmodule>
 </relatedmodules>
 </field>
@@ -756,28 +755,6 @@
 <action>SELECT</action>
 </actions>
 <relatedmodule>Documents</relatedmodule>
-</relatedlist>
-<relatedlist>
-<function>get_related_list</function>
-<label>LettersIn</label>
-<sequence>2</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-<action>SELECT</action>
-</actions>
-<relatedmodule>LettersIn</relatedmodule>
-</relatedlist>
-<relatedlist>
-<function>get_related_list</function>
-<label>LettersOut</label>
-<sequence>3</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-<action>SELECT</action>
-</actions>
-<relatedmodule>LettersOut</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>

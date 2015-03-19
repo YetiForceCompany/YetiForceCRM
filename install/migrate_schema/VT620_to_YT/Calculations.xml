@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-13 11:52:29</exporttime>
+<exporttime>2015-03-19 05:52:30</exporttime>
 <name>Calculations</name>
 <label>Calculations</label>
 <parent>Sales</parent>
@@ -51,8 +51,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -74,8 +74,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <entityidentifier>
 <entityidfield>calculationsid</entityidfield>
@@ -101,8 +101,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
@@ -127,8 +127,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Potentials</relatedmodule>
@@ -153,8 +153,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_WAITING_FOR_VERIFICATION</picklistvalue>
@@ -187,8 +187,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -210,8 +210,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -233,8 +233,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -256,8 +256,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>RequirementCards</relatedmodule>
@@ -282,8 +282,8 @@
 <displaytype>10</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>QuotesEnquires</relatedmodule>
@@ -308,8 +308,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_DIFFICULT_REALIZATION</picklistvalue>
@@ -337,8 +337,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_HIGH_MARGIN</picklistvalue>
@@ -379,8 +379,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -402,8 +402,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -425,8 +425,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -448,8 +448,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -471,8 +471,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -494,8 +494,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -531,8 +531,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -554,8 +554,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -591,8 +591,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -614,8 +614,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -637,8 +637,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -660,8 +660,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -697,8 +697,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -720,8 +720,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -822,6 +822,9 @@
 <label>Quotes</label>
 <sequence>4</sequence>
 <presence>0</presence>
+<actions>
+<action> </action>
+</actions>
 <relatedmodule>Quotes</relatedmodule>
 </relatedlist>
 </relatedlists>

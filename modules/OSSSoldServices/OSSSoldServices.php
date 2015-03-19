@@ -118,14 +118,12 @@ class OSSSoldServices extends Vtiger_CRMEntity {
 			include_once('vtlib/Vtiger/Module.php'); 
 			// deklaracja modulow do powiazania 
 			$moduleInstance = Vtiger_Module::getInstance($modulename);
-			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
-        	$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
-			$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Invoice');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSSoldServices', array('select'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Accounts');
+			$targetModule->setRelatedList($moduleInstance, 'OSSSoldServices', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Potentials');
+			$targetModule->setRelatedList($moduleInstance, 'OSSSoldServices', array('ADD'),'get_dependents_list');
+			$targetModule = Vtiger_Module::getInstance('Invoice');
+			$targetModule->setRelatedList($moduleInstance, 'OSSSoldServices', array('ADD'),'get_dependents_list');	
         	
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.

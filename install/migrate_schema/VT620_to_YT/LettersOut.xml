@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-05 10:54:34</exporttime>
+<exporttime>2015-03-17 13:07:04</exporttime>
 <name>LettersOut</name>
 <label>LettersOut</label>
 <parent>Secretariat</parent>
@@ -16,12 +16,7 @@
   `lettersoutid` int(19) NOT NULL DEFAULT '0',
   `number` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `contactid` int(19) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `helpdeskid` int(19) DEFAULT NULL,
-  `projectid` int(19) DEFAULT NULL,
-  `campaignid` int(19) DEFAULT NULL,
   `person_receiving` int(19) DEFAULT NULL,
   `parentid` int(19) DEFAULT NULL,
   `date_adoption` date DEFAULT NULL,
@@ -307,32 +302,6 @@
 </picklistvalues>
 </field>
 <field>
-<fieldname>contactid</fieldname>
-<uitype>10</uitype>
-<columnname>contactid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_lettersout</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Contact</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>11</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>1</summaryfield>
-<relatedmodules>
-<relatedmodule>Contacts</relatedmodule>
-</relatedmodules>
-</field>
-<field>
 <fieldname>relatedid</fieldname>
 <uitype>10</uitype>
 <columnname>relatedid</columnname>
@@ -357,6 +326,8 @@
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
 <relatedmodule>Leads</relatedmodule>
+<relatedmodule>Vendors</relatedmodule>
+<relatedmodule>OSSEmployees</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -504,110 +475,6 @@
 <picklistvalue>B</picklistvalue>
 </picklistvalues>
 </field>
-<field>
-<fieldname>potentialid</fieldname>
-<uitype>10</uitype>
-<columnname>potentialid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_lettersout</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Potentials</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>12</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>Potentials</relatedmodule>
-</relatedmodules>
-</field>
-<field>
-<fieldname>helpdeskid</fieldname>
-<uitype>10</uitype>
-<columnname>helpdeskid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_lettersout</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>HelpDesk</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>13</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>HelpDesk</relatedmodule>
-</relatedmodules>
-</field>
-<field>
-<fieldname>projectid</fieldname>
-<uitype>10</uitype>
-<columnname>projectid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_lettersout</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Project</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>14</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>Project</relatedmodule>
-</relatedmodules>
-</field>
-<field>
-<fieldname>campaignid</fieldname>
-<uitype>10</uitype>
-<columnname>campaignid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_lettersout</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Campaigns</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>15</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>Campaigns</relatedmodule>
-</relatedmodules>
-</field>
 </fields>
 </block>
 <block>
@@ -671,10 +538,6 @@
 <columnindex>4</columnindex>
 </field>
 <field>
-<fieldname>contactid</fieldname>
-<columnindex>5</columnindex>
-</field>
-<field>
 <fieldname>lout_type_ship</fieldname>
 <columnindex>6</columnindex>
 </field>
@@ -713,17 +576,6 @@
 <action>SELECT</action>
 </actions>
 <relatedmodule>Documents</relatedmodule>
-</relatedlist>
-<relatedlist>
-<function>get_related_list</function>
-<label>OSSCosts</label>
-<sequence>2</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-<action>SELECT</action>
-</actions>
-<relatedmodule>OSSCosts</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>

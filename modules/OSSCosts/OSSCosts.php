@@ -130,8 +130,6 @@ class OSSCosts extends CRMEntity {
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
-			$docelowy_Module = Vtiger_Module::getInstance('Contacts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 			$docelowy_Module = Vtiger_Module::getInstance('Vendors');
 			$docelowy_Module->setRelatedList($moduleInstance, 'OSSCosts', array('add'),'get_dependents_list');
 
