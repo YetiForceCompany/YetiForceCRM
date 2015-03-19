@@ -72,7 +72,7 @@
 			</tr>
 		</thead>
         <tr>
-            <td></td>
+            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><i class="icon-search"></i></a></td>
          {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}     
@@ -81,7 +81,7 @@
              </td>
          {/foreach}
          <td> 
-             <button data-trigger="listSearch">Search</button> 
+             <button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
          </td>
         </tr>
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}

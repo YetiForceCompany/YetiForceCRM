@@ -94,12 +94,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
-			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			selectable: true,
 			selectHelper: true,
 			select: function (start, end) {
-				thisInstance.selectDays(start.format(), end.format());
+				thisInstance.selectDays(start, end);
 				thisInstance.getCalendarView().fullCalendar('unselect');
 			},
 			eventDrop: function (event, delta, revertFunc) {
@@ -170,23 +169,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	updateEvent: function (event, delta, revertFunc) {
 		var progressInstance = jQuery.progressIndicator();
 		var start = event.start.format();
-
-		if(event.allDay){
-			var end = start;
-		}else if(event.end != null){
-			var end = event.end.format();
-		}else{
-			var endDate = Date.parse(start);
-			endDate.addMinutes('60');
-			var end = endDate.toString('yyyy-mm-ddTHH:mm');
-		}
 		var params = {
 			module: 'Calendar',
 			action: 'Calendar',
 			mode: 'updateEvent',
 			id: event.id,
 			start: start,
-			end: end,
+			delta: delta._data,
 			allDay: event.allDay
 		}
 		AppConnector.request(params).then(function (response) {
@@ -204,14 +193,19 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	selectDays: function (start, end) {
 		var thisInstance = this;
+		if (end.hasTime() == false) {
+			end.add(-1, 'days');
+		}
+		start = start.format();
+		end = end.format();
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
 			}
-				
+
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
 			var timeFormat = data.find('[name="time_start"]').data('format');
-			if(timeFormat == 24){
+			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
@@ -227,12 +221,12 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			data.find('[name="due_date"]').val(endDateString);
 			data.find('[name="time_start"]').val(startTimeString);
 			data.find('[name="time_end"]').val(endTimeString);
-			data.find('.tabbable').before( '<input type="hidden" name="selectedTimeStart" value="'+endTimeString+'">' );
+			data.find('.tabbable').before('<input type="hidden" name="selectedTimeStart" value="' + endTimeString + '">');
 
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-				thisInstance.addCalendarEvent(data.result);
-			}});
+					thisInstance.addCalendarEvent(data.result);
+				}});
 			jQuery('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 		});
 	},
