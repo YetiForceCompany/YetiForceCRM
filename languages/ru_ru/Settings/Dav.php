@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'Dav' => 'Синхронизация контактов',
-	'LBL_DAV_KEYS' => 'Синхронизация контактов',
-	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка синхронизации контактов',
+	'Dav' => 'Синхронизация',
+	'LBL_DAV_KEYS' => 'Синхронизация',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка Синхронизации',
 	'LBL_KEY' => 'Ключ',
 	'LBL_TOOLS' => 'Инструменты',
 	'LBL_DELETE_KEY' => 'Удалить ключ',
@@ -21,16 +21,16 @@ $languageStrings = array(
 	'LBL_LOGIN' => 'Логин',
 	'LBL_KEY' => 'Ключ',
 	'LBL_SELECT_USER' => 'Выберите имя пользователя:',
-	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'Приложение Синхронизация контактов не активно',
-	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'Для активации приложения Синхронизация контактов, расскомметируйте строку DAV в файле config/api.php',
+	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'Приложение Синхронизация не активно',
+	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'Для активации приложения Синхронизация, расскомметируйте строку DAV в файле config/api.php',
 	'LBL_SUCCESS_SAVE_KEY' => 'Добавлен новый ключ',
 	'LBL_ERROR_SAVE_KEY' => 'Ошибка при добавлении ключа',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Изменения успешно сохранены',
 	'LBL_ACTIVE_USER' => 'Статус пользователя',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Ключ был удален',
-	'LBL_SELECT_TYPE' => 'Type',
-	'LBL_COUNT_CARD' => '__No_Translated__',
-	'LBL_COUNT_CAL' => '__No_Translated__',
+	'LBL_SELECT_TYPE' => 'Тип',
+	'LBL_COUNT_CARD' => 'Количество контактов',
+	'LBL_COUNT_CAL' => 'Количество событий',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Добавление ключа',
