@@ -947,7 +947,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					}
 				}
 				$this->recurseCopy($dirName.'/files', '', true);
-				//$result = $Instance->postupdate();
+				$result = $Instance->postupdate();
 			}
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		}
