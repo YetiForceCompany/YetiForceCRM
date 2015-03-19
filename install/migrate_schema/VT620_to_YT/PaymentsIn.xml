@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-04 04:51:57</exporttime>
+<exporttime>2015-03-18 10:12:15</exporttime>
 <name>PaymentsIn</name>
 <label>PaymentsIn</label>
 <parent>Bookkeeping</parent>
@@ -22,7 +22,6 @@
   `paymentsin_status` varchar(128) DEFAULT NULL,
   `relatedid` int(19) DEFAULT NULL,
   `salesid` int(19) DEFAULT NULL,
-  `parentid` int(19) DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
   CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
@@ -68,7 +67,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -91,7 +90,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 <entityidentifier>
@@ -118,7 +117,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -141,7 +140,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -164,7 +163,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -187,7 +186,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
@@ -215,12 +214,11 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
-<relatedmodule>Contacts</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -242,37 +240,11 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Invoice</relatedmodule>
-</relatedmodules>
-</field>
-<field>
-<fieldname>parentid</fieldname>
-<uitype>10</uitype>
-<columnname>parentid</columnname>
-<columntype>int(19)</columntype>
-<tablename>vtiger_paymentsin</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>LBL_PARENTID</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>8</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>0</quickcreate>
-<quickcreatesequence>0</quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
-<masseditable>0</masseditable>
-<summaryfield>0</summaryfield>
-<relatedmodules>
-<relatedmodule>PaymentsIn</relatedmodule>
 </relatedmodules>
 </field>
 </fields>
@@ -308,7 +280,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -331,7 +303,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -354,7 +326,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -377,7 +349,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[0]]></helpinfo>
+<helpinfo><![CDATA[]]></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>

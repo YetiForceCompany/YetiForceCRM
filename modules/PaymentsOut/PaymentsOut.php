@@ -115,10 +115,6 @@ class PaymentsOut extends Vtiger_CRMEntity {
 			if($nModule){
 				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
 			}
-			$nModule = Vtiger_Module::getInstance('Contacts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
 			$Instance = Vtiger_Module::getInstance($modulename);
 			$nModule = Vtiger_Module::getInstance('Invoice');
 			if($nModule){

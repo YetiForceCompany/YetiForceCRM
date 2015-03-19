@@ -344,12 +344,6 @@ class OSSPasswords extends CRMEntity {
 			$accountInstance = Vtiger_Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
             
-            $contactInstance = Vtiger_Module::getInstance('Contacts');
-			$contactInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $leadsInstance = Vtiger_Module::getInstance('Leads');
-			$leadsInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-
 			$productInstance = Vtiger_Module::getInstance('Products');
 			$productInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
             

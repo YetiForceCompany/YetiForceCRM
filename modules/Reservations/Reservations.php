@@ -99,9 +99,24 @@ class Reservations extends Vtiger_CRMEntity {
      */
     function vtlib_handler($modulename, $event_type) {
 		$registerLink = false;
-		$displayLabel = 'Time Control';
 		global $adb, $log;
         if($event_type == 'module.postinstall') {
+			$moduleInstance = CRMEntity::getInstance('Reservations');
+			$moduleInstance->setModuleSeqNumber("configure",'Reservations','RES','1');
+ 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
+			
+			$targetModule = Vtiger_Module::getInstance('Accounts');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('HelpDesk');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Leads');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Potentials');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Project');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
+			$targetModule = Vtiger_Module::getInstance('Vendors');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'),'get_dependents_list');	
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {
