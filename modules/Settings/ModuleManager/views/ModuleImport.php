@@ -118,11 +118,18 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$importType = $request->get('module_import_type');
 		if(strtolower($importType) == 'language') {
 			$package = new Vtiger_Language();
+			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
 		} else {
 			$package = new Vtiger_Package();
 		}
 
 		$package->import($uploadFileName);
+		if($package->packageType){
+			$viewer->assign("IMPORT_MODULE_TYPE", $package->packageType);
+		}
+		if($package->_errorText != ''){
+			$viewer->assign("MODULEIMPORT_ERROR", $package->_errorText);
+		}
 		checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 		
