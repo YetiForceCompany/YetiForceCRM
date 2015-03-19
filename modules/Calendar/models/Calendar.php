@@ -14,12 +14,16 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 		$module = 'Calendar';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = getListQuery($module);
-
+		
 		$params = array();
 		if($this->get('start') && $this->get('end')){
-			$query.= ' AND vtiger_activity.date_start >= ? AND vtiger_activity.due_date <= ?';
-			$params[] = $this->get('start');
-			$params[] = $this->get('end');
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
+			$query.= " AND (concat(date_start, ' ', time_start)  >= ? AND concat(due_date, ' ', time_end) <= ?) ";
+			$params[] = $dbStartDateTime;
+			$params[] = $dbEndDateTime;
 		}
 		if($this->get('types')){
 			$query.= " AND vtiger_activity.activitytype IN ('".implode("','", $this->get('types'))."')";
@@ -49,18 +53,20 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ',$userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
+			$startTimeFormated = $dateTimeComponents[1];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$startDateFormated= DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ',$userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
+			$endTimeFormated = $dateTimeComponents[1];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
-			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
+			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			
-			$item['start'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
-			$item['end'] = $dataBaseDateFormatedString.' '. $dateTimeComponents[1];
+			$item['start'] = $startDateFormated.' '. $startTimeFormated;
+			$item['end'] = $endDateFormated.' '. $endTimeFormated;
 			$item['allDay'] = $record['allday']==1?true:false;
 			$item['className'] = ' userCol_'.$record['smownerid'].' calCol_'.$activitytype;
 			$result[] = $item;
