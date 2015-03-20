@@ -38,7 +38,7 @@ function SaveResult() {
 				function(response) {
 					resp = response['result']['data'];
 					$.each( resp, function( key, object ) {
-						if(object.type){
+						if(typeof object.type != 'undefined'){
 							staus = thisInstnce.executeTask(object)
 						}
 					});
