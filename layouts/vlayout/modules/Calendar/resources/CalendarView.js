@@ -246,12 +246,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		eventObject.url = 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId;
 		eventObject.activitytype = calendarDetails.activitytype.value;
 		if (calendarDetails.activitytype.value == 'Task') {
-			eventObject.allDay = true;
 			eventObject.status = calendarDetails.taskstatus.value;
 		} else {
 			eventObject.status = calendarDetails.eventstatus.value;
-			eventObject.allDay = false;
 		}
+		if('on' == calendarDetails.allday.value)
+			eventObject.allDay = true;
+		else
+			eventObject.allDay = false;
+
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},

@@ -67,6 +67,8 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
 					$recordModel->set('due_date', $due_date);	
 					if($request->get('allDay')=='true'){
 						$recordModel->set('allday', 1);
+						$start = self::changeDateTime($recordData['date_start'].' '.$recordData['time_start'],$delta);
+						$recordModel->set('date_start', $start['date']);
 					}else{
 						$recordModel->set('time_start', $time_start);
 						$recordModel->set('time_end', $time_end);

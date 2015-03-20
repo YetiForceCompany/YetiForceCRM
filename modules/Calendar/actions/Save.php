@@ -84,6 +84,11 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 	protected function getRecordModelFromRequest(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
+		$allDay = $request->get('allday');
+		if('on' == $allDay){
+			$request->set('time_start', NULL);
+			$request->set('time_end', NULL);
+		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
@@ -119,8 +124,13 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 
 		//Start Date and Time values
 		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
-		$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
-		list($startDate, $startTime) = explode(' ', $startDateTime);
+		$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
+
+		if($startTime){
+			$startTime =  Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
+			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start')." ".$startTime);
+			list($startDate, $startTime) = explode(' ', $startDateTime);
+		}
 
 		$recordModel->set('date_start', $startDate);
 		$recordModel->set('time_start', $startTime);
