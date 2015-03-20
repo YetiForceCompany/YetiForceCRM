@@ -110,7 +110,7 @@
 					.breadcrumbsIcon{
 						display: inline-block;
 						line-height: 10px;
-						background-image: url("../layouts/vlayout/skins/images/breadcrumbs.png");
+						background-image: url("layouts/vlayout/skins/images/breadcrumbs.png");
 						width: 20px;
 						height: 18px;
 						background-position: 0px 0px;
