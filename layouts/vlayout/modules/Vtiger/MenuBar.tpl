@@ -33,6 +33,55 @@
 	}
 	.menuVSpace { margin-top: 10px; }
 	.clipText { overflow:hidden; text-overflow:ellipsis; }
+
+	#headerLinks{
+		margin-left: 0;
+	}
+	@media(max-width: 960px){
+		#dropdown-headerLinksBig{
+			margin-right: 15px !important;
+		}
+		.mainContainer{
+			margin-top: 125px !important;
+		}
+		.commonActionsContainer .actionsContainer{
+			height: 94px !important;
+		}
+	}
+	@media (max-width: 1160px) {
+		.btn-navbar {
+			display: block !important;
+		}
+		#headerLinksBig{
+			display: none !important;
+		}
+		.headerLinksAJAXChat{
+			margin-top: 6px !important;
+		}
+	}
+	@media screen and (max-width: 1000px){
+		#companyLogo-container{
+			display: block !important;
+		}
+	}
+	#dropdown-headerLinksBig{
+		margin-right: 5px;
+		position: absolute;
+		top: 7px;
+		right: 70px;
+	}
+	#OSSMail-more-other a,
+	.chat-other{
+		padding-left: 0 !important;
+	}
+	.chat-other{
+		color:black !important;
+	}
+	#headerLinksCompact .qCreate{
+		margin-top: 5px !important;
+
+	}
+
 </style>
 
 {strip}
@@ -190,6 +239,20 @@
 										</div>
 									{/if}
 								{/foreach}
+									<div id="OSSMail-more" class="row-fluid">
+										<span id="OSSMail-more-other">
+											<hr>
+											<a class="menuLinkClass" href="index.php?module=OSSMail&view=index"><strong>{vtranslate('LBL_MAIL', 'OSSMenuManager')} </strong></a>
+										</span>
+									</div>
+									{if $WORKTIME}
+									<div class="row-fluid">
+										<span id="worktime-other">
+											<hr>
+											{$WORKTIME}
+										</span>
+									</div>	
+									{/if}	
 							</div>
 						</li>
 					</ul>
@@ -269,7 +332,7 @@
 							</span>
 						</span>
 					{/if}
-					<span class="pull-right headerLinksContainer" style="color: #ffffff;">
+					<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
 						<span class="span">
 							{$WORKTIME}
 						</span>
@@ -281,7 +344,7 @@
 					</span>
 					<div id="headerLinksCompact">
 						<span class="btn-group dropdown qCreate cursorPointer">
-							<img src="{vimage_path('btnAdd_white.png')}" class="" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" data-toggle="dropdown"/>
+							<img style="float:right;" src="{vimage_path('btnAdd_white.png')}" class="" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" data-toggle="dropdown"/>
 							<ul class="dropdown-menu dropdownStyles pull-right commonActionsButtonDropDown">
 								<li class="title"><strong>{vtranslate('Quick Create',$MODULE)}</strong></li><hr/>
 								<li id="compactquickCreate">
@@ -300,7 +363,7 @@
 								</li>
 							</ul>
 						</span>
-						<span  class="dropdown">
+						<span id="dropdown-headerLinksBig" class="dropdown">
 							<a class="dropdown-toggle btn-navbar" data-toggle="dropdown" href="#">
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
@@ -389,6 +452,39 @@
 					}
 				});
 			}
+			if(windowWidth < 1715){
+				$('.headerLinksWorkTime').hide();
+				$('#worktime-other').show();
+			}
+			else{
+				$('.headerLinksWorkTime').show();
+				$('#worktime-other').hide();
+			}
+			if(windowWidth < 1340){
+				
+				$('#OSSMailBoxInfo').hide();
+				$('#OSSMail-more-other').show();
+			}else{
+				$('#OSSMailBoxInfo').show();
+				$('#OSSMail-more-other').hide();
+				
+			}
+			
+			if(windowWidth <= 1160){
+				$('#chat-more-other').show();
+				$('#menubar_quickCreate').hide();
+			}
+			else{
+				$('#chat-more-other').hide();
+				$('#menubar_quickCreate').show();
+				$('.headerLinksAJAXChat').show();
+
+			}
+			if(windowWidth <= 1025)
+				$('#headerLinksBig').hide();
+			else
+				$('#headerLinksBig').show();
+
 			var visibleSpans = 0;
 			jQuery('#commonMoreMenu').find('span').each( function() {
 				if ( jQuery(this).css('display') !== 'none' )
