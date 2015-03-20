@@ -439,10 +439,66 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery(".mainContainer > .span2 ").css('min-height', bodyHeight);
 		jQuery(".contentsDiv").css('min-height', bodyHeight);
 	},
+	
+	recentPageViews: function () {
+		var maxValues = 20;
+		var BtnText = '';
+		var BtnLink = 'javascript:void();';
+		var history = localStorage.history;
+		if (history != "" && history != null) {
+			var sp = history.toString().split(",");
+			var item = sp[sp.length - 1].toString().split("|");
+			BtnText = item[0];
+			BtnLink = item[1];
+			;
+		}
+		jQuery(".breadcrumbsContainer .goBack").attr('href', BtnLink);
+		var htmlContent = '<ul class="dropdown-menu pull-left" role="menu">';
+		if (sp != null) {
+			for (var i = sp.length - 1; i >= 0; i--) {
+				item = sp[i].toString().split("|");
+				htmlContent += '<li><a href="' + item[1] + '">' + item[0] + '</a></li>';
+			}
+			var Label = this.getHistoryLabel();
+			if (Label.length > 1 && document.URL != BtnLink) {
+				sp.push(this.getHistoryLabel() + '|' + document.URL);
+			}
+			if (sp.length >= maxValues) {
+				sp.splice(0, 1);
+			}
+			localStorage.history = sp.toString();
+		} else {
+			var stack = new Array();
+			var Label = this.getHistoryLabel();
+			if (Label.length > 1) {
+				stack.push(this.getHistoryLabel() + '|' + document.URL);
+				localStorage.history = stack.toString();
+			}
+		}
+		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
+		htmlContent += '</ul>';
+		$(".breadcrumbsContainer .showHistory").after(htmlContent);
+		this.registerClearHistory();
+	},
+	getHistoryLabel: function () {
+		var label = "";
+		$(".breadcrumbsLinks span").each(function (index) {
+			label += $(this).text();
+		});
+		return label;
+	},
+	registerClearHistory: function () {
+		$(".breadcrumbsIcon .clearHistory").click(function () {
+			localStorage.history = "";
+			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
+			$(".breadcrumbsContainer .dropdown-menu").html(htmlContent);
+		});
+	},
 
     registerEvents: function() {
         var thisInstance = this;
-
+		thisInstance.recentPageViews();
+		
 		//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
 		if(jQuery.browser.msie && jQuery.browser.version < 9.0) {
 			if(app.getCookie('oldbrowser') != 'true') {
@@ -537,8 +593,5 @@ jQuery.Class("Vtiger_Header_Js", {
 }
 });
 jQuery(document).ready(function() {
-
-
     Vtiger_Header_Js.getInstance().registerEvents();
-
 });
