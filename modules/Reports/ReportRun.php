@@ -2490,9 +2490,6 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_potentialRelQuotes")){
 				$query .= " left join vtiger_potential as vtiger_potentialRelQuotes on vtiger_potentialRelQuotes.potentialid = vtiger_quotes.potentialid";
 			}
-			if ($this->queryPlanner->requireTable("vtiger_contactdetailsQuotes")){
-				$query .= " left join vtiger_contactdetails as vtiger_contactdetailsQuotes on vtiger_contactdetailsQuotes.contactid = vtiger_quotes.contactid";
-			}
 			if ($this->queryPlanner->requireTable("vtiger_accountQuotes")){
 				$query .= " left join vtiger_account as vtiger_accountQuotes on vtiger_accountQuotes.accountid = vtiger_quotes.accountid";
 			}
@@ -4480,8 +4477,6 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_potentialRelQuotes';
 				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Accounts') {
 					$referenceTableName = 'vtiger_accountQuotes';
-				} elseif ($moduleName == 'Quotes' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsQuotes';
 				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Potentials') {
 					$referenceTableName = 'vtiger_potentialRelSalesOrder';
 				} elseif ($moduleName == 'SalesOrder' && $referenceModule == 'Accounts') {

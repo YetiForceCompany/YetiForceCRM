@@ -256,7 +256,7 @@ class Quotes extends CRMEntity {
 		$matrix->setDependency('vtiger_inventoryproductrelQuotes', array('vtiger_productsQuotes', 'vtiger_serviceQuotes'));
 		$matrix->setDependency('vtiger_quotes',array('vtiger_crmentityQuotes', "vtiger_currency_info$secmodule",
 				'vtiger_quotescf', 'vtiger_potentialRelQuotes', 'vtiger_quotesaddress',
-				'vtiger_inventoryproductrelQuotes', 'vtiger_contactdetailsQuotes', 'vtiger_accountQuotes',
+				'vtiger_inventoryproductrelQuotes', 'vtiger_accountQuotes',
 				'vtiger_invoice_recurring_info','vtiger_quotesQuotes','vtiger_usersRel1'));
 
 		if (!$queryPlanner->requireTable('vtiger_quotes', $matrix)) {
@@ -304,9 +304,6 @@ class Quotes extends CRMEntity {
 		}
 		if ($queryPlanner->requireTable("vtiger_potentialRelQuotes")){
 			$query .= " left join vtiger_potential as vtiger_potentialRelQuotes on vtiger_potentialRelQuotes.potentialid = vtiger_quotes.potentialid";
-		}
-		if ($queryPlanner->requireTable("vtiger_contactdetailsQuotes")){
-			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsQuotes on vtiger_contactdetailsQuotes.contactid = vtiger_quotes.contactid";
 		}
 		if ($queryPlanner->requireTable("vtiger_accountQuotes")){
 			$query .= " left join vtiger_account as vtiger_accountQuotes on vtiger_accountQuotes.accountid = vtiger_quotes.accountid";
@@ -415,7 +412,6 @@ class Quotes extends CRMEntity {
 				LEFT JOIN vtiger_inventoryproductrel ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
 				LEFT JOIN vtiger_products ON vtiger_products.productid = vtiger_inventoryproductrel.productid
 				LEFT JOIN vtiger_service ON vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_quotes.contactid
 				LEFT JOIN vtiger_potential ON vtiger_potential.potentialid = vtiger_quotes.potentialid
 				LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_quotes.accountid
 				LEFT JOIN vtiger_currency_info ON vtiger_currency_info.id = vtiger_quotes.currency_id
