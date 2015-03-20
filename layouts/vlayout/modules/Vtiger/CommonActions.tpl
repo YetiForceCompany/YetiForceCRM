@@ -99,13 +99,35 @@
             </div>
 			{assign var="BREADCRUMBS" value=$MENU_STRUCTURE['breadcrumbs']}
 			{if $BREADCRUMBS}
-				<div class="breadcrumbsContainer span12" style="margin-left: 20px;">
+				<div class="breadcrumbsContainer span12" style="margin-left: 10px;">
 					<style>
 					.mainContainer{
 						margin-top: {if !empty($announcement)} 135px {else} 110px {/if}!important;
 					}
 					.commonActionsContainer .actionsContainer{
 						height: 70px !important;
+					}
+					.breadcrumbsIcon{
+						display: inline-block;
+						line-height: 10px;
+						background-image: url("layouts/vlayout/skins/images/breadcrumbs.png");
+						width: 20px;
+						height: 18px;
+						background-position: 0px 0px;
+						margin-right: 5px;
+					}
+					.breadcrumbsIcon.goBack{
+						background-position: -22px 0px;
+					}
+					.breadcrumbsIcon.mainPage{
+						background-position: -42px 0px;
+						width: 13px;
+					}
+					.breadcrumbsLinks{
+						display: inline;
+						position: relative;
+						top: -5px;
+						font-size: 14px;
 					}
 					@media(max-width: 960px){
 						.mainContainer{
@@ -124,15 +146,23 @@
 						}
 					}
 					</style>
-					<span><a href="index.php"><i class="icon-home"></i></a></span>
-					{foreach item=item from=$BREADCRUMBS}
-						<span>&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+					<div class="btn-group" style="margin: 0;padding-left: 7px;display: inline-block;">
+						<a class="breadcrumbsIcon showHistory popoverTooltip" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" data-placement="right" data-toggle="dropdown" aria-expanded="false" ></a>
+					</div>
+					<a class="breadcrumbsIcon goBack popoverTooltip" data-content="{vtranslate('LBL_GO_BACK')}" data-placement="right" href="#"></a>
+					<a class="breadcrumbsIcon mainPage popoverTooltip" href="index.php" data-content="{vtranslate('LBL_MAIN_PAGE')}" data-placement="right"></a>
+					<div class="breadcrumbsLinks">
+					{foreach key=key item=item from=$BREADCRUMBS}
+						{if $key != 0}
+							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+						{/if}
 						{if $item.url}
 							<span><a {if $item.class}class="{$item.class}" {/if}href="{$item.url}">{$item.lable}</a></span>
 						{else}
 							<span {if $item.class}class="{$item.class}"{/if}>{$item.lable}</span>
 						{/if}
 					{/foreach}
+					</div>
 				</div>
 			{/if}
 			{assign var="MENUSCOLOR" value=Settings_MenuEditor_Module_Model::getModulesColors(true)}

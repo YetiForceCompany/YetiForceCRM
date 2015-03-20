@@ -871,6 +871,7 @@ $languageStrings = array(
 	'LBL_AVERAGE_WORKING_TIME' => 'Średnia czasu pracy',
 	'Employees Time Control' => 'Czas pracy użytkownika',
 	'LBL_MARK_AS_DONE' => 'Oznacz jako wykonane',
+	'LBL_PAGES_HISTORY' => 'Ostanio przeglądane strony',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',
@@ -1059,4 +1060,5 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer telefonu został wysłany do telefonu',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
 	'JS_SET_READ_RECORD' => 'Zapoznałeś się ze wszystkimi zmianami w rekordzie.',
+	'JS_CLEAR_HISTORY' => 'Usuń historię',
 );
