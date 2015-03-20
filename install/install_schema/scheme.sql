@@ -1,9 +1,8 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -980,7 +979,7 @@ CREATE TABLE `vtiger_blocks_hide` (
   `enabled` tinyint(1) DEFAULT NULL,
   `view` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_seq` */
 
