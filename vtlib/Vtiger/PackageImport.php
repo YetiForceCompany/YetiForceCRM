@@ -38,6 +38,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	var $_licensetext = false;
 
 	var $_errorText = '';
+	
+	var $packageType = '';
 
 	/**
 	 * Constructor
@@ -257,7 +259,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		// Verify module language file.
 		if(!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
-		}else{
+		}elseif(!$updatefile_found){
 			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__',$default_language,$_errorText);
 			$this->_errorText = $_errorText;
@@ -377,7 +379,6 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					//module images
 					'images' => "layouts/vlayout/skins/images/$module",
 					'settings' => "modules/Settings",
-					'updates/files' => ".",
 					'updates' => "cache/updates",
 				)
 			);
@@ -508,8 +509,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 
 		$isextension= false;
 		if(!empty($this->_modulexml->type)) {
-			$type = strtolower($this->_modulexml->type);
-			if($type == 'extension' || $type == 'language')
+			$this->packageType = strtolower($this->_modulexml->type);
+			if($this->packageType == 'extension' || $this->packageType == 'language')
 				$isextension = true;
 		}
 
@@ -524,7 +525,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$moduleInstance->minversion = (!$vtigerMinVersion)? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion)?  false : $vtigerMaxVersion;
 
-		if($type != 'update'){
+		if($this->packageType != 'update'){
 			$moduleInstance->save();
 			$moduleInstance->initWebservice();
 			$this->import_Tables($this->_modulexml);
@@ -891,23 +892,19 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	 * @access private
 	 */
 	function import_CustomLinks($modulenode, $moduleInstance) {
-		if(empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink)) return;
+		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
+			return;
 
-		foreach($modulenode->customlinks->customlink as $customlinknode) {
+		foreach ($modulenode->customlinks->customlink as $customlinknode) {
 			$handlerInfo = null;
-			if(!empty($customlinknode->handler_path)) {
+			if (!empty($customlinknode->handler_path)) {
 				$handlerInfo = array();
 				$handlerInfo = array("$customlinknode->handler_path",
-										"$customlinknode->handler_class",
-										"$customlinknode->handler");
+					"$customlinknode->handler_class",
+					"$customlinknode->handler");
 			}
 			$moduleInstance->addLink(
-				"$customlinknode->linktype",
-				"$customlinknode->linklabel",
-				"$customlinknode->linkurl",
-				"$customlinknode->linkicon",
-				"$customlinknode->sequence",
-				$handlerInfo
+					"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
 			);
 		}
 	}
@@ -916,70 +913,99 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	 * Import cron jobs of the module.
 	 * @access private
 	 */
-	function import_CronTasks($modulenode){
-		if(empty($modulenode->crons) || empty($modulenode->crons->cron)) return;
-		foreach ($modulenode->crons->cron as $cronTask){
-			if(empty($cronTask->status)){
-                            $cronTask->status = Vtiger_Cron::$STATUS_DISABLED;
-                        } else {
-                            $cronTask->status = Vtiger_Cron::$STATUS_ENABLED;
-                        } 
-			if((empty($cronTask->sequence))){
-				$cronTask->sequence=Vtiger_Cron::nextSequence();
+	function import_CronTasks($modulenode) {
+		if (empty($modulenode->crons) || empty($modulenode->crons->cron))
+			return;
+		foreach ($modulenode->crons->cron as $cronTask) {
+			if (empty($cronTask->status)) {
+				$cronTask->status = Vtiger_Cron::$STATUS_DISABLED;
+			} else {
+				$cronTask->status = Vtiger_Cron::$STATUS_ENABLED;
 			}
-			Vtiger_Cron::register("$cronTask->name","$cronTask->handler", "$cronTask->frequency", "$modulenode->name","$cronTask->status","$cronTask->sequence","$cronTask->description");
+			if ((empty($cronTask->sequence))) {
+				$cronTask->sequence = Vtiger_Cron::nextSequence();
+			}
+			Vtiger_Cron::register("$cronTask->name", "$cronTask->handler", "$cronTask->frequency", "$modulenode->name", "$cronTask->status", "$cronTask->sequence", "$cronTask->description");
 		}
 	}
-	
+
 	function import_update($modulenode) {
 		$dirName = 'cache/updates';
 		$result = false;
 		$adb = PearDatabase::getInstance();
-		if(file_exists($dirName."/init.php")){
-			require_once $dirName."/init.php";
-			$adb->query( 'SET FOREIGN_KEY_CHECKS = 0;');
+		if (file_exists($dirName . "/init.php")) {
+			require_once $dirName . "/init.php";
+			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 			$Instance = new YetiForceUpdate($modulenode);
-			$Instance->preupdate();
-			$Instance->update();
-			if($Instance->filesToDelete){
-				foreach($Instance->filesToDelete as $path) {
-					$this->deleteDirFile($path);
+			$Instance->package = $this;
+			$result = $Instance->preupdate();
+			if ($result != false) {
+				$Instance->update();
+				if ($Instance->filesToDelete) {
+					foreach ($Instance->filesToDelete as $path) {
+						$this->deleteDirFile($path);
+					}
 				}
+				$this->recurseCopy($dirName.'/files', '', true);
+				$result = $Instance->postupdate();
 			}
-			$result = $Instance->postupdate();
-			$adb->query( 'SET FOREIGN_KEY_CHECKS = 1;');
-		}	
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('".$currentUser->get('user_name')."', '".$modulenode->label."', '".$modulenode->from_version."', '".$modulenode->to_version."','".$result."');",true);
-		$adb->query("UPDATE vtiger_version SET `current_version` = '".$modulenode->to_version."';");
-		
-		if($result){
-			$this->deleteDirFile($dirName.'/files');
-			$this->deleteDirFile($dirName.'/init.php');
+			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		}
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$adb->query("INSERT INTO `yetiforce_updates` (`user`, `name`, `from_version`, `to_version`, `result`) VALUES ('" . $currentUser->get('user_name') . "', '" . $modulenode->label . "', '" . $modulenode->from_version . "', '" . $modulenode->to_version . "','" . $result . "');", true);
+
+		if ($result) {
+			$adb->query("UPDATE vtiger_version SET `current_version` = '" . $modulenode->to_version . "';");
+		}
+		$this->deleteDirFile($dirName . '/files');
+		$this->deleteDirFile($dirName . '/init.php');
 	}
-	
+
 	function deleteDirFile($src) {
 		global $root_directory;
-		if(!file_exists( $src ) )
+		if (!file_exists($src))
 			return;
-		@chmod($root_directory.$src, 0777);
-		if(is_dir($src)){
-			$dir = opendir($src); 
-			while(false !== ( $file = readdir($dir)) ) { 
-				if (( $file != '.' ) && ( $file != '..' )) { 
-					if ( is_dir($src . '/' . $file) ) { 
-						$this->deleteDirFile($src . '/' . $file); 
-						rmdir($root_directory.$src . '/' . $file);
+		
+		@chmod($root_directory . $src, 0777);
+		if (is_dir($src)) {
+			$dir = new DirectoryIterator($src);
+			foreach ($dir as $fileinfo) {
+				if (!$fileinfo->isDot()) {
+					if ($fileinfo->isDir()) {
+						$this->deleteDirFile($fileinfo->getPathname());
+						rmdir($root_directory . $fileinfo->getPathname());
 					} else {
-						unlink($root_directory.$src . '/' . $file);
+						unlink($root_directory . $fileinfo->getPathname());
 					}
-				} 
-			} 
-			closedir($dir);
-			rmdir($root_directory.$src);
-		} else{
-			unlink($src);
+				}
+			}
+		} else {
+			unlink($root_directory . $src);
 		}
 	}
+
+	function recurseCopy($src, $dst, $delete = false) {
+		global $root_directory;
+		if (!file_exists($root_directory . $src))
+			return;
+
+		$dir = new DirectoryIterator($src);
+		foreach ($dir as $fileinfo) {
+			if (!$fileinfo->isDot()) {
+				$dst = str_replace($src . DIRECTORY_SEPARATOR, '', $fileinfo->getPathname());
+				if ($fileinfo->isDir()) {
+					if (!file_exists($root_directory . $dst))
+						mkdir($root_directory . $dst);
+					$this->recurseCopy($fileinfo->getPathname(), $dst, $delete);
+					if ($delete)
+						rmdir($root_directory . $fileinfo->getPathname());
+				}else {
+					copy($root_directory . $fileinfo->getPathname(), $root_directory . $dst);
+					if ($delete)
+						unlink($root_directory . $fileinfo->getPathname());
+				}
+			}
+		}
+	}
+
 }
