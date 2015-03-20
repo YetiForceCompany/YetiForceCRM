@@ -16,13 +16,13 @@
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
     <div class="navbar commonActionsContainer noprint">
         <div class="actionsContainer row-fluid">
-            <div class="span2">
+            <div id="companyLogo-container" class="span2">
                 <span class="companyLogo"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>&nbsp;</span>
             </div>
             <div class="span10">
                 <div class="row-fluid">
-                    <div class="searchElement span8">
-                        <div class="select-search">
+                    <div class="searchElement span10">
+                        <div class="select-search span2">
                             <select class="chzn-select" id="basicSearchModulesList" style="width:150px;">
                                 <option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
                                 {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
@@ -34,7 +34,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="input-append searchBar">
+                        <div class="input-append searchBar span6">
                             <input type="text" class="" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
                             <span id="searchIcon" class="add-on search-icon"><i class="icon-white icon-search "></i></span>
                             <span class="adv-search  pull-left">
@@ -106,6 +106,22 @@
 					}
 					.commonActionsContainer .actionsContainer{
 						height: 70px !important;
+					}
+					@media(max-width: 960px){
+						.mainContainer{
+							margin-top: {if !empty($announcement)} 150px {else} 125px {/if}!important;
+						}
+						.commonActionsContainer .actionsContainer{
+							height: 94px !important;
+						}
+					}
+					@media(max-width: 668px){
+						.mainContainer{
+							margin-top: {if !empty($announcement)} 150px {else} 136px {/if}!important;
+						}
+						.commonActionsContainer .actionsContainer{
+							height: 107px !important;
+						}
 					}
 					</style>
 					<span><a href="index.php"><i class="icon-home"></i></a></span>
