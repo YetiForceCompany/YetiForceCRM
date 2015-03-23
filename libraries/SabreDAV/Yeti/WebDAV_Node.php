@@ -98,6 +98,5 @@ abstract class WebDAV_Node implements DAV\INode {
 			$this->exData->crmUserId = $row['userid'];
 			return $row;
 		}
-		throw new DAV\Exception\Forbidden();
 	}
 }

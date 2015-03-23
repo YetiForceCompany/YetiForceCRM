@@ -18,7 +18,7 @@ $enabledServices = array(
 	//'firefox',
 	//'wordplugin',
 	//'thunderbird',
-	//'dav',
+	'dav',
 );
 /*+********   DAV   **********/
 $enableBrowser = true;

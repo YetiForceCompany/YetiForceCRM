@@ -86,6 +86,17 @@ $languageStrings = array(
 	'Tree' => 'Pole drzewa',
 	'LBL_FIELD_MASK' => 'Maska',
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	
+	'LBL_ADD_RELATION' => 'Dodaj relację',
+	'LBL_RELATION_TYPE' => 'Typ relacji',
+	'LBL_RELATION_ACTIONS' => 'Akcje',
+	'LBL_SOURCE_MODULE' => 'W module',
+	'LBL_TARGET_MODULE' => 'Do modułu',
+	'LBL_RELATION_LABLE' => 'Etykieta',
+	'PLL_RELATED_LIST' => 'Wiele do wielu',
+	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
+	'PLL_ADD' => 'Tworzenie',
+	'PLL_SELECT' => 'Wybieranie',
 );
 
 $jsLanguageStrings = array(
