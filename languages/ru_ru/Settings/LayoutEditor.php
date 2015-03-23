@@ -90,6 +90,17 @@ $languageStrings = array(
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
 	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	
+	'LBL_ADD_RELATION' => '_UNTRANSLATED_',
+	'LBL_RELATION_TYPE' => '_UNTRANSLATED_',
+	'LBL_RELATION_ACTIONS' => '_UNTRANSLATED_',
+	'LBL_SOURCE_MODULE' => '_UNTRANSLATED_',
+	'LBL_TARGET_MODULE' => '_UNTRANSLATED_',
+	'LBL_RELATION_LABLE' => '_UNTRANSLATED_',
+	'PLL_RELATED_LIST' => '_UNTRANSLATED_',
+	'PLL_DEPENDENTS_LIST' => '_UNTRANSLATED_',
+	'PLL_ADD' => '_UNTRANSLATED_',
+	'PLL_SELECT' => '_UNTRANSLATED_',
 );
 
 $jsLanguageStrings = array(

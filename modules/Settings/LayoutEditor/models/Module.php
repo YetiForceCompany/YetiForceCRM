@@ -486,4 +486,19 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 		}
 		return $treeList;
 	}
+	
+	public function getRelationsTypes() {
+		$typesList = array(
+			'get_related_list' => 'PLL_RELATED_LIST',
+			'get_dependents_list' => 'PLL_DEPENDENTS_LIST',
+		);
+		return $typesList;
+	}
+	public function getRelationsActions() {
+		$actionList = array(
+			'ADD' => 'PLL_ADD',
+			'SELECT' => 'PLL_SELECT',
+		);
+		return $actionList;
+	}
 }
