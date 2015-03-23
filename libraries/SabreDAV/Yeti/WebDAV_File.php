@@ -18,7 +18,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      * @return void
      */
     function put($data) {
-		$path = $this->exData->lacalStorageDir . $this->lacalPath;
+		$path = $this->exData->localStorageDir . $this->localPath;
         file_put_contents($path,$data);
     }
 
@@ -31,7 +31,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET downloadcount=downloadcount+1 WHERE filesid=?;');
 		$stmt->execute([$this->filesid]);
 	
-		$path = $this->exData->lacalStorageDir . $this->lacalPath;
+		$path = $this->exData->localStorageDir . $this->localPath;
         return fopen($path,'r');
     }
 
@@ -41,8 +41,10 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      * @return void
      */
     function delete() {
-		$path = $this->exData->lacalStorageDir . $this->lacalPath;
-        unlink($path);
+		$path = $this->exData->localStorageDir . $this->localPath;
+		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_crmentity SET deleted = ? WHERE crmid = ?;');
+		$stmt->execute([1,$this->filesid]);
+		//unlink($path);
     }
 
     /**
@@ -54,7 +56,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
 		if (isset($this->size)) {
 			return $this->size;
 		}
-		$path = $this->exData->lacalStorageDir . $this->lacalPath;
+		$path = $this->exData->localStorageDir . $this->localPath;
         return filesize($path);
     }
 

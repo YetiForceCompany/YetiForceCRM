@@ -52,8 +52,10 @@ if($enableWebDAV){
 	$exData = new stdClass();
 	$exData->pdo = $pdo;
 	$exData->storageDir = $davStorageDir;
+	$exData->historyDir = $davHistoryDir;
 	$exData->rootDirectory = $root_directory;
-	$exData->lacalStorageDir = $exData->rootDirectory . $exData->storageDir;
+	$exData->localStorageDir = $exData->rootDirectory . $exData->storageDir;
+	$exData->localHistoryDir = $exData->rootDirectory . $exData->historyDir;
 	$directory = new Yeti\WebDAV_Directory('files', $exData);
 	$directory->getRootChild();
 	$nodes[] = $directory;

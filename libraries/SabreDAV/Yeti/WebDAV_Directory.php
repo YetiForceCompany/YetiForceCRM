@@ -43,21 +43,21 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$current_user = $user->retrieveCurrentUserInfoFromFile( 1 );
 		
 		$path = trim($this->path, 'files') .'/'.$name;
-		$lacalPath = $this->lacalPath . $name;
-		$hash = sha1($path);
+		$localPath = $this->localPath . $name;
+		$hash = sha1($this->exData->username.$path);
 		$pathParts = pathinfo($path);
-		file_put_contents($this->exData->lacalStorageDir . $lacalPath, $data);
+		file_put_contents($this->exData->localStorageDir . $localPath, $data);
 		
 		$rekord = \Vtiger_Record_Model::getCleanInstance( 'Files' );
 		$rekord->set( 'assigned_user_id', 1 );
 		$rekord->set( 'title', $pathParts['filename'] );
 		$rekord->set( 'name', $pathParts['filename'] );
-		$rekord->set( 'path', $lacalPath );
+		$rekord->set( 'path', $localPath );
 		$rekord->save();
 		$id = $rekord->getId();
 		
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET dirid=?,extension=?,size=?,hash=?,ctime=? WHERE filesid=?;');
-		$stmt->execute([$this->dirid, $pathParts['extension'], filesize ( $this->exData->lacalStorageDir . $lacalPath ), $hash, date('Y-m-d H:i:s'), $id]);
+		$stmt->execute([$this->dirid, $pathParts['extension'], filesize ( $this->exData->localStorageDir . $localPath ), $hash, date('Y-m-d H:i:s'), $id]);
 	}
 
 	/**
@@ -68,10 +68,10 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 */
 	function createDirectory($name) {
 		$path = trim($this->path, 'files') . '/' . $name . '/';
-		$dirHash = sha1($path);
-		$newPath = $this->lacalPath . $name. '/';
+		$dirHash = sha1($this->exData->username.$path);
+		$newPath = $this->localPath . $name. '/';
 		$parent_dirid = $this->dirid;
-		mkdir($this->exData->lacalStorageDir . $newPath);
+		mkdir($this->exData->localStorageDir . $newPath);
 		
 		$stmt = $this->exData->pdo->prepare('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime) VALUES (?,?,?,?,NOW());');
 		$stmt->execute([$name, $newPath, $parent_dirid, $dirHash]);
@@ -79,15 +79,17 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 
 	function getRootChild() {
 		$path = '/';
-		$dirHash = sha1($path);
+		$dirHash = sha1($this->exData->username.$path);
 		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ?;');
 		$stmt->execute([$dirHash]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		
 		$this->mtime = $row['mtime'];
 		$this->size = $row['size'];
-		$this->lacalPath = $row['path'];
+		$this->localPath = $row['path'];
 		$this->dirid = $row['id'];
+		$currentUser = $this->getCurrentUser();
+		
 	}
 	/**
 	 * Returns a specific child node, referenced by its name
@@ -101,7 +103,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 */
 	function getChild($file) {
 		$path = trim($this->path, 'files') . '/' . $file . '/';
-		$hash = sha1($path);
+		$hash = sha1($this->exData->username.$path);
 		$stmt = $this->exData->pdo->prepare('SELECT id, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files_dir WHERE hash = ?;');
 		$stmt->execute([$hash]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -109,19 +111,19 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 			$directory = new WebDAV_Directory($this->path . '/' . $file, $this->exData);
 			$directory->mtime = $row['mtime'];
 			$directory->size = $row['size'];
-			$directory->lacalPath = $row['path'];
+			$directory->localPath = $row['path'];
 			$directory->dirid = $row['id'];
 			return $directory;
 		}
 		$path = trim($this->path, 'files') . '/' . $file;
-		$hash = sha1($path);
+		$hash = sha1($this->exData->username.$path);
 		$stmt = $this->exData->pdo->prepare('SELECT filesid, path, size, UNIX_TIMESTAMP(`mtime`) AS mtime FROM vtiger_files WHERE hash = ?;');
 		$stmt->execute([$hash]);
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
 		if ($row){
 			$directory = new WebDAV_File($this->path . '/' . $file, $this->exData);
 			$directory->size = $row['size'];
-			$directory->lacalPath = $row['path'];
+			$directory->localPath = $row['path'];
 			$directory->filesid = $row['filesid'];
 			return $directory;
 		}
@@ -135,27 +137,27 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 */
 	function getChildren() {
 		$path = trim($this->path, 'files') . '/';
-		$dirHash = sha1($path);
+		$dirHash = sha1($this->exData->username.$path);
 		$nodes = [];
-
-		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ?;');
-		$stmt->execute([$this->dirid]);
+		
+		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files_dir WHERE parent_dirid = ? AND userid IN (?,?);');
+		$stmt->execute([$this->dirid, 0, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'];
 			$directory = new WebDAV_Directory($path, $this->exData);
 			$directory->mtime = $row['mtime'];
 			$directory->size = $row['size'];
-			$directory->lacalPath = $row['path'];
+			$directory->localPath = $row['path'];
 			$nodes[] = $directory;
 		}
-		$stmt = $this->exData->pdo->prepare('SELECT * FROM vtiger_files WHERE dirid = ?;');
-		$stmt->execute([$this->dirid]);
+		$stmt = $this->exData->pdo->prepare('SELECT vtiger_files.* FROM vtiger_files INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_files.filesid WHERE vtiger_files.dirid = ? AND vtiger_crmentity.shownerid = ?;');
+		$stmt->execute([$this->dirid, $this->exData->crmUserId]);
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$path = $this->path . '/' . $row['name'] . '.' . $row['extension'];
 			$file = new WebDAV_File($path, $this->exData);
 			$file->mtime = $row['mtime'];
 			$file->size = $row['size'];
-			$file->lacalPath = $row['path'];
+			$file->localPath = $row['path'];
 			$nodes[] = $file;
 		}
 		//var_dump($path);exit;
@@ -191,7 +193,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @return array
 	 */
 	function getQuotaInfo() {
-		$path = $this->exData->lacalStorageDir . $this->lacalPath;
+		$path = $this->exData->localStorageDir . $this->localPath;
 		return [
 			disk_total_space($path) - disk_free_space($path),
 			disk_free_space($path)
