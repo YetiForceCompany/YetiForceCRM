@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -637,9 +637,6 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 
 /*Data for the table `vtiger_blocks_hide` */
 
-insert  into `vtiger_blocks_hide`(`id`,`blockid`,`conditions`,`enabled`,`view`) values (1,117,'[]',1,'Detail');
-insert  into `vtiger_blocks_hide`(`id`,`blockid`,`conditions`,`enabled`,`view`) values (2,40,'[]',1,'Detail');
-
 /*Data for the table `vtiger_blocks_seq` */
 
 insert  into `vtiger_blocks_seq`(`id`) values (264);
@@ -1150,7 +1147,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5083,9 +5080,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
