@@ -1485,9 +1485,12 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	}
 
 	public function transferRecordsOwnership($transferOwnerId, $relatedModuleRecordIds){
+		global $current_user;
+		$user_id = $current_user->id;
+
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_crmentity SET smownerid = ? WHERE crmid IN ('.  generateQuestionMarks($relatedModuleRecordIds).')';
-		$db->pquery($query, array($transferOwnerId,$relatedModuleRecordIds));
+		$query = 'UPDATE vtiger_crmentity SET smownerid = ?, modifiedby = ?, modifiedtime = NOW() WHERE crmid IN (' . generateQuestionMarks($relatedModuleRecordIds) . ')';
+		$db->pquery($query, array($transferOwnerId, $user_id, $relatedModuleRecordIds));
 	}
 
     /**
