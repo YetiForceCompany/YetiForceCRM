@@ -146,7 +146,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 			var callBackFunction = function(data) {
 				app.showSelect2ElementView(data.find('select'));
-				console.log('callBackFunction');
 				data.find('.relLabel').val(data.find('.target option:selected').val());
 				data.on('change', '.target', function(e) {
 					var currentTarget = jQuery(e.currentTarget);
