@@ -25,12 +25,13 @@ $baseUri = $_SERVER['SCRIPT_NAME'];
 $pdo = new PDO('mysql:host='.$dbconfig['db_server'].';dbname='.$dbconfig['db_name'].';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
+/*
 //Mapping PHP errors to exceptions
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 set_error_handler("exception_error_handler");
-
+*/
 // Autoloader
 require_once 'libraries/SabreDAV/autoload.php';
 
@@ -48,7 +49,16 @@ if($enableCardDAV){
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
 }
 if($enableWebDAV){
-	$nodes[] = new Sabre\DAV\FS\Directory($davStorageDir);
+	$exData = new stdClass();
+	$exData->pdo = $pdo;
+	$exData->storageDir = $davStorageDir;
+	$exData->historyDir = $davHistoryDir;
+	$exData->rootDirectory = $root_directory;
+	$exData->localStorageDir = $exData->rootDirectory . $exData->storageDir;
+	$exData->localHistoryDir = $exData->rootDirectory . $exData->historyDir;
+	$directory = new Yeti\WebDAV_Directory('files', $exData);
+	$directory->getRootChild();
+	$nodes[] = $directory;
 }
 // The object tree needs in turn to be passed to the server class
 $server = new Yeti\DAV_Server($nodes);
@@ -73,14 +83,8 @@ if($enableCalDAV){//CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
 }
-if($enableWebDAV){//WebDAV integration
-	// Support for LOCK and UNLOCK
-	$lockBackend = new Sabre\DAV\Locks\Backend\File($upload_dir . '/locksdb');
-	$lockPlugin = new Sabre\DAV\Locks\Plugin($lockBackend);
-	$server->addPlugin($lockPlugin);
-	// Temporary file filter
-	$tempFF = new Sabre\DAV\TemporaryFileFilterPlugin($upload_dir);
-	$server->addPlugin($tempFF);
+if(SysDebug::get('DAV_DEBUG_PLUGIN')){
+	$server->addPlugin(new Yeti\Debug());
 }
 // And off we go!
 $server->exec();

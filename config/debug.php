@@ -13,13 +13,13 @@ $GEBUG_CONFIG = Array(
 	'LOG4PHP_DEBUG' => false,
 	
 	// show php errors (display_errors),
-	'DISPLAY_PHP_ERRORS' => true,
+	'DISPLAY_PHP_ERRORS' => false,
 	
 	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => false,
 
 	// stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => true,
+	'SQL_DIE_ON_ERROR' => false,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
@@ -29,6 +29,8 @@ $GEBUG_CONFIG = Array(
 	
 	// sabre dav - This is a flag that allow or not showing file, line and code of the exception in the returned XML
 	'DAV_DEBUG_EXCEPTIONS' => false,
+	
+	'DAV_DEBUG_PLUGIN' => false,
 	
 	/*+***************************************************************
 	 *	ROUNDCUBE 
