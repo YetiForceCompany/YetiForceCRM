@@ -24,7 +24,7 @@
 {else if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
 	<div class="input-prepend">
 		<div class="row-fluid">
-			<span class="span1">
+			<span class="span2">
 				<span class="add-on row-fluid">{$BASE_CURRENCY_SYMBOL}</span>
 			</span>
 			<span class="span10 row-fluid">

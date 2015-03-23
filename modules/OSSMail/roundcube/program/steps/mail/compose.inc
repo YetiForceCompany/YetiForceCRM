@@ -542,17 +542,18 @@ function rcmail_process_compose_params(&$COMPOSE)
             }
             
             $attachName = explode(DIRECTORY_SEPARATOR, $attach);
+			$filename = implode(DIRECTORY_SEPARATOR, $newPath) . DIRECTORY_SEPARATOR . $attach;
+			$filename = $_SERVER['DOCUMENT_ROOT']. '/'. $attachName[count($attachName) - 1];
 
-            $filename = implode(DIRECTORY_SEPARATOR, $newPath) . DIRECTORY_SEPARATOR . $attach;
             $attachment = array(
-                'group' => $COMPOSE_ID,
+                'group' => $COMPOSE['id'],
                 'name' => $attachName[count($attachName) - 1],
                 'mimetype' => rcube_mime::file_content_type($attach, $filename),
                 'path' => $filename,
             );
         }
         // save attachment if valid
-        if (($attachment['data'] && $attachment['name']) || ($attachment['path'] && file_exists($attachment['path']))) {
+        if ($attachment['name'] || ($attachment['path'] && file_exists($attachment['path']))) {
             $attachment = rcmail::get_instance()->plugins->exec_hook('attachment_save', $attachment);
         }
         if ($attachment['status'] && !$attachment['abort']) {
