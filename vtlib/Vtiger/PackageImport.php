@@ -899,9 +899,9 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			$handlerInfo = null;
 			if (!empty($customlinknode->handler_path)) {
 				$handlerInfo = array();
-				$handlerInfo = array("$customlinknode->handler_path",
-					"$customlinknode->handler_class",
-					"$customlinknode->handler");
+				$handlerInfo = array('path'=>"$customlinknode->handler_path",
+					'class'=>"$customlinknode->handler_class",
+					'method'=>"$customlinknode->handler");
 			}
 			$moduleInstance->addLink(
 					"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
