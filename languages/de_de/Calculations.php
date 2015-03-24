@@ -18,8 +18,8 @@ $languageStrings = array(
 	// Basic Strings
 	'Calculations' => 'Kalkulationen',
 	'SINGLE_Calculations' => 'Kalkulation',
-	'LBL_ADD_RECORD' => 'Neue Kalkulation',
-	'LBL_RECORDS_LIST' => 'Kalkulationen',
+	'LBL_ADD_RECORD' => 'Kalkulation hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Kalkulationen',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Informationen',

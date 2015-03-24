@@ -11,6 +11,8 @@
 $languageStrings = Array(
 	'HolidaysEntitlement' => 'Urlaubsanspruch',
 	'SINGLE_HolidaysEntitlement' => 'Urlaubsanspruch',
+	'LBL_ADD_RECORD' => 'Urlaubsanspruch hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Urlaubsansprüche',
 	
 	//Bloks
 	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Information',

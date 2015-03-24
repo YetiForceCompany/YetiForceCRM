@@ -12,8 +12,8 @@ $languageStrings = array(
 	// Basic Strings
 	'LettersIn'						=> 'Eingehender Schriftverkehr',
 	'SINGLE_LettersIn'				=> 'Eingehender Schriftverkehr',
-	'LBL_ADD_RECORD'				=> 'Schriftstück hinzufügen',
-	'LBL_RECORDS_LIST'				=> 'Eingehender Schriftverkehr',
+	'LBL_ADD_RECORD'				=> 'Schriftverkehr hinzufügen',
+	'LBL_RECORDS_LIST'				=> 'Liste Schriftverkehr',
 
 	// Blocks
 	'LBL_MAIN_INFORMATION'			=> 'Information zum Schriftverkehr',

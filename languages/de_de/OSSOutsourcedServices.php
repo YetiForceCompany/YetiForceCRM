@@ -11,9 +11,11 @@
 $languageStrings = array(
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
-'OSSOutsourcedServices' => 'Outsourcing-Dienste',
-'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
-'LBL_INFORMATION' => 'Informationsblock',
+	'OSSOutsourcedServices' => 'Outsourcing-Dienste',
+	'SINGLE_OSSOutsourcedServices' => 'Outsourcing-Dienst',
+	'LBL_INFORMATION' => 'Informationsblock',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Dienstleistungen',
 
 //fields
 	'Assigned To' => 'Zugewiesen an',

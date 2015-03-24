@@ -15,8 +15,8 @@ $languageStrings = array(
 	'LBL_CONTACTS'	=>	'Kontakt',
 	'LBL_PERMANENT_ADDRESS'	=>	'Wohnadresse',
 	'LBL_CORRESPONDANCE_ADDRESS'	=>	'Nachsendeadresse',
-
-
+	'LBL_ADD_RECORD' => 'Mitarbeiter hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Mitarbeiter',
 
 //fields
 	'No.'	=>	'Nummer',

@@ -11,13 +11,13 @@ $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Projekt Meilenstein',
 	'LBL_ADD_RECORD' => 'Meilenstein hinzufügen',
-	'LBL_RECORDS_LIST' => 'Projekt Meilenstein Liste',
+	'LBL_RECORDS_LIST' => 'Liste Meilensteine',
 
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Projekt Meilenstein Details',
-	'LBL_PROJECTS_LIST' => 'Projekt Liste',
-	'LBL_TASKS_LIST' => 'Aufgaben Liste',
-	'LBL_MILESTONES_LIST' => 'Meilenstein Liste' ,
+	'LBL_PROJECTS_LIST' => 'Liste Projekte',
+	'LBL_TASKS_LIST' => 'Liste Aufgaben',
+	'LBL_MILESTONES_LIST' => 'Liste Meilensteine' ,
 	'description'=>'Beschreibung',
         'Related to'=>'Projekt',
 	//Field Labels

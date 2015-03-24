@@ -12,7 +12,7 @@ $languageStrings = array(
 	'OSSCosts'        => 'Kosten',
 	'SINGLE_OSSCosts' => 'Kosten',
 	'LBL_ADD_RECORD' => 'Kosten hinzufügen',
-	'LBL_RECORDS_LIST' => 'Kosten',
+	'LBL_RECORDS_LIST' => 'Liste Kosten',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Kundeninformation',

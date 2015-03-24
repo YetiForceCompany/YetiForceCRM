@@ -33,7 +33,7 @@ $languageStrings = array(
 	'LBL_SEND_TO_FTP' => 'An FTP senden',
 	'LBL_ACTIVE' => 'Aktiv',
 	'LBL_PATH' => 'Pfad sichern',
-	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird das Backup im Hauptordner gesichert',
+	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird die Datensicherung im Hauptordner gespeichert',
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 );

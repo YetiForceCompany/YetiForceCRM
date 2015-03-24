@@ -11,14 +11,14 @@ $languageStrings = array(
 	// Basic Strings
 	'OSSMailView'        => 'Unternehmens-E-Mails',
 	'SINGLE_OSSMailView' => 'Unternehmens-E-Mail',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_RECORDS_LIST' => 'E-Mail-Liste',
+	'LBL_ADD_RECORD' => 'E-Mail hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste E-Mails',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Allgemeine Information',
 
 	//Field Labels
-   'relatedid' => 'Zuständig',
+	'relatedid' => 'Zuständig',
 	'number' => 'Nummer',
 	'yes' => 'Ja',
 	'no' => 'Nein',
@@ -59,7 +59,7 @@ $languageStrings = array(
     
 
 	'LBL_VERIFY' => 'Zur Überprüfung',
-	'LBL_REL_MOD' => 'Zugehörige Module',
+	'LBL_REL_MOD' => 'Verknüpfte Module',
 	'LBL_BindMailsOK' => 'Zugeordnete E-Mails werden beim nächsten CRON Durchlauf den Datensätzen zugewiesen',
 	'LBL_BindMails' => 'E-Mails zuordnen',
 	'LBL_ChangeType' => 'E-Mail-Typ ändern',
