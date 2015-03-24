@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
-	'LBL_PAGES_HISTORY' => 'Recently viewed pages',
+	'LBL_PAGES_HISTORY' => 'История просмотров',
 	'Secretary\'s Office' => 'Секретариат',
 	'PLL_WORKING_TIME' => 'Время работы',
 	'PLL_HOLIDAY_TIME' => 'Отпуск',
@@ -1328,5 +1328,5 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Номер телефона отправлен на Ваш телефон',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Ошибка, при попытке отправить номер телефона',
 	'JS_SET_READ_RECORD' => 'Вы читаете все изменения, выполненные на этой записи',
-	'JS_CLEAR_HISTORY' => 'Clear recent history',
+	'JS_CLEAR_HISTORY' => 'Очистить историю просмотров',
 );
