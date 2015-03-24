@@ -439,8 +439,8 @@ class Vtiger_PackageExport {
 			$this->outputNode($fieldresultrow['fieldparams'], 'fieldparams');
 			$this->outputNode($fieldresultrow['helpinfo'], 'helpinfo');
 
-			if (isset($fieldresultrow['summaryfield'])) {
-				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
+			if (isset($fieldresultrow['masseditable'])) {
+				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
 			}
 			if (isset($fieldresultrow['summaryfield'])) {
 				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
