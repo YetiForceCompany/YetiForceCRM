@@ -143,6 +143,7 @@ $languageStrings = array(
 	'PLL_TRANSPARENT' => 'Свободен',
 );
 $jsLanguageStrings = array(
+	'JS Cancelled' => 'Отменено',
 	'JS_MORE' => 'Еще',
 	'JS_WEEK' => 'Неделя',
 	'JS_WED' => 'Ср',

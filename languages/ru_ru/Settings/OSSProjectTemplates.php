@@ -14,5 +14,5 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
-	'JS_FILL_REQUIRED_FIELDS' => 'Fill required fields',
+	'JS_FILL_REQUIRED_FIELDS' => 'Заполните обязательные поля',
 );
