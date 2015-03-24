@@ -66,7 +66,7 @@ $languageStrings = array(
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',
-	'PLL_GENERAL_PARTNERSHIP' => 'Общество с Неограниченно Ответственностью',
+	'PLL_GENERAL_PARTNERSHIP' => 'Общество с Неограниченной Ответственностью',
 	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Саморегулируемая Организация',
 	'PLL_LIMITED_PARTNERSHIP' => 'Партнерство с Ограниченной Ответственностью',
 	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Открытое Акционерное Общество',
