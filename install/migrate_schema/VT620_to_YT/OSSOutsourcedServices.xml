@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-18 09:17:07</exporttime>
+<exporttime>2015-03-23 13:42:59</exporttime>
 <name>OSSOutsourcedServices</name>
 <label>OSSOutsourcedServices</label>
 <parent>Databases</parent>
@@ -51,8 +51,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>2</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>1</summaryfield>
 <summaryfield>1</summaryfield>
 <picklistvalues>
 <picklistvalue>Active</picklistvalue>
@@ -78,8 +78,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>1</summaryfield>
 <summaryfield>1</summaryfield>
 <entityidentifier>
 <entityidfield>ossoutsourcedservicesid</entityidfield>
@@ -105,7 +105,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -128,8 +128,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>1</summaryfield>
 <summaryfield>1</summaryfield>
 </field>
 <field>
@@ -151,8 +151,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>1</summaryfield>
 <summaryfield>1</summaryfield>
 </field>
 <field>
@@ -174,8 +174,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -197,8 +197,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Potentials</relatedmodule>
@@ -223,8 +223,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>1</summaryfield>
 <summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
@@ -250,8 +250,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -287,8 +287,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -310,8 +310,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -333,8 +333,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -356,8 +356,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -379,8 +379,8 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -402,8 +402,8 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -439,8 +439,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -476,8 +476,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -499,8 +499,8 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
+<helpinfo></helpinfo>
+<summaryfield>0</summaryfield>
 <summaryfield>0</summaryfield>
 </field>
 </fields>

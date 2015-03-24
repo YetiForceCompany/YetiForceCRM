@@ -70,11 +70,11 @@ class VT620_to_YT {
 		$log->debug("Entering VT620_to_YT::process() method ...");
 		self::transferLogo();
 		self::removeModules();
+		self::handlers();
+		self::addModule();
 		self::changeInTable();
 		self::load_default_menu();
 		self::settingsReplace();
-		self::handlers();
-		self::addModule();
 		self::addBlocks();
 		self::addFields();
 		self::relatedList();
@@ -99,7 +99,6 @@ class VT620_to_YT {
 		'Vendors'=>array('country',"city","street","postalcode","state","pobox"),
 		'Assets'=>array('contact'),
 		'HelpDesk'=>array('contact_id'),
-		'Products'=>array('productcategory'),
 		'Users'=>array('address_street','address_city','department','phone_home','phone_mobile','phone_other','phone_fax','email2','secondaryemail','address_state','address_country','address_postalcode','phone_work','title')
 		);
 		self::deleteFields($fieldsToDelete);
@@ -108,7 +107,7 @@ class VT620_to_YT {
 		self::deleteWorkflow();
 		self::addWorkflowType();
 		self::addWorkflow();
-		self::fieldsModuleRel();
+		//self::fieldsModuleRel();
 		self::customerPortal();
 		self::cron();
 		self::picklists();
@@ -118,6 +117,7 @@ class VT620_to_YT {
 		self::customView();
 		self::addRecords();
 		self::addEmployees();
+		self::cleanInDatabase();
 		$log->debug("Exiting VT620_to_YT::process() method ...");
 	}
 	
@@ -857,6 +857,10 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 			$result = $adb->pquery($sql, array(0));
 			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?) AND `blocklabel` = 'LBL_IMAGE_INFORMATION';";
 			$result = $adb->pquery($sql, array(0,getTabid('Contacts')));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?) AND `blocklabel` = 'LBL_DESCRIPTION_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Leads')));
+			$sql = "UPDATE vtiger_blocks SET `display_status` = ? WHERE `tabid` IN (?) AND `blocklabel` = 'LBL_DESCRIPTION_INFORMATION';";
+			$result = $adb->pquery($sql, array(0,getTabid('Contacts')));
 			//delete
 			$sql = "DELETE FROM vtiger_blocks WHERE `blocklabel` = ? AND `tabid` = ?;";
 			$result = $adb->pquery($sql, array('LBL_ADDRESS_INFORMATION',29), true);
@@ -872,7 +876,6 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$log->debug("Entering VT620_to_YT::addBlockstest(".$moduleName.",".$block['blocklabel'].") method ...");
 				if(self::checkBlockExists($moduleName, $block))
 					continue;
-				$log->debug("Entering VT620_to_YT::addBlockstest przeszlo(".$moduleName.",".$block['blocklabel'].") method ...");
 				try {
 					$moduleInstance = Vtiger_Module::getInstance($moduleName);
 					$blockInstance = new Vtiger_Block();
@@ -942,7 +945,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$tab = 14;
 		$Products = array(
 		array("14","178","pscategory","vtiger_products","1","302","pscategory","Product Category","1","2","","100","6","31","1","V~O","2","5","BAS","1","0","1","varchar(200)","LBL_PRODUCT_INFORMATION"),
-		array("14","1392","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","24","31","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_PRODUCT_INFORMATION")
+		array("14","1392","inheritsharing","vtiger_crmentity","1","56","inheritsharing","Copy permissions automatically","1","2","","100","24","31","1","C~O","1", "","BAS","1","0","0","tinyint(1)","LBL_PRODUCT_INFORMATION"),
+		array('14','1393','shownerid','vtiger_crmentity','1','120','shownerid','Share with users','1','2','','100','25','31','1','V~O','1',NULL,'BAS','1','','0',"set('1')","LBL_PRODUCT_INFORMATION")
 		);
 
 		$tab = 34;
@@ -1371,13 +1375,31 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				self::copyValues($moduleName,$moduleToCopyValues);
 		}
 		Install_InitSchema_Model::addMigrationLog('addFields');
+		/*
+		$sql = 'SELECT * FROM vtiger_blocks WHERE blocklabel = ? AND tabid = ?';
+		$params = array('LBL_RECURRENCE_INFORMATION', getTabid('Events'));
+		$tabresult = $adb->pquery($sql, $params,true);
+		if($adb->num_rows($tabresult) == 1){
+			$blockid = $adb->query_result_raw($tabresult, 0, 'blockid');
+			$query = "INSERT INTO `vtiger_blocks_hide`(`id`,`blockid`,`conditions`,`enabled`,`view`) values (?,?,?,?,?);";
+			$adb->pquery($query, array('1',$blockid,'[]','1','Detail'));
+		}
+		$sql = 'SELECT * FROM vtiger_blocks WHERE blocklabel = ? AND tabid = ?';
+		$params = array('LBL_REMINDER_INFORMATION', getTabid('Events'));
+		$tabresult = $adb->pquery($sql, $params,true);
+		if($adb->num_rows($tabresult) == 1){
+			$blockid = $adb->query_result_raw($tabresult, 0, 'blockid');
+			$query = "INSERT INTO `vtiger_blocks_hide`(`id`,`blockid`,`conditions`,`enabled`,`view`) values (?,?,?,?,?);";
+			$adb->pquery($query, array('2',$blockid,'[]','1','Detail'));
+		}
+		*/
 		$log->debug("Exiting VT620_to_YT::addFields() method ...");
 	}
 	
 	public function addSharingToModules(){
 		global $log, $adb;
 		$log->debug("Entering VT620_to_YT::addSharingToModules() method ...");
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager','CallHistory');
+		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager','CallHistory','LettersIn','LettersOut','NewOrders','PaymentsIn','PaymentsOut','Services','Products');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
 		$params = array(1, $restrictedModules);
 		$tabresult = $adb->pquery($sql, $params,true);
@@ -1393,6 +1415,11 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$blockInstance->increateview = 0;
 				$blockInstance->ineditview = 0;
 				$blockInstance->indetailview = 0;
+				if(in_array($moduleName,array('Contacts','HelpDesk','Project','Potentials','Campaigns','Accounts'))){
+					$blockInstance->display_status = 0;
+				}else{
+					$blockInstance->display_status = 1;
+				}
 				$blockInstance->iscustom = 1;
 				$blockInstance->__create($moduleInstance); 
 			}
@@ -1430,7 +1457,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::checkFieldExists(".$field.",".$moduleName.") method ...");
 		if($moduleName == 'Settings')
-			$result = $adb->pquery("SELECT * FROM vtiger_settings_field WHERE name = ? AND linkto = ? ;", array($field[1],$field[5]));
+			$result = $adb->pquery("SELECT * FROM `vtiger_settings_field` WHERE `name` = ? AND `linkto` = ? ;", array($field[2],$field[5]));
 		else
 			$result = $adb->pquery("SELECT * FROM vtiger_field WHERE columnname = ? AND tablename = ? AND tabid = ?;", array($field['name'],$field['table'], getTabid($moduleName)));
 		if(!$adb->num_rows($result)) {
@@ -1438,7 +1465,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 			return false;
 		}
 		$log->debug("Exiting VT620_to_YT::checkFieldExists() method ...");
-		return $adb->query_result($result,0,'fieldid');;
+		return $adb->query_result($result,0,'fieldid');
 	}
 	
 	//copy values
@@ -1483,6 +1510,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		'Contacts'=>array('accountid',"fax","reference","title","department","notify_owner","secondaryemail","homephone","otherphone","assistant","assistantphone"),
 		'Potentials'=>array('probability','nextstep','amount'),
 		'Leads'=>array('firstname'),
+		'Products'=>array('productcategory'),
 		'Services'=>array('servicecategory') //copy to picklist
 		);
 		foreach($fieldsInactive AS $moduleName=>$fields){
@@ -1543,10 +1571,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$id = $adb->query_result($res,0,'fieldid');
 				$log->debug("deleteFields( is ".$id.",".$columnname.",".$fld_module.") method ...");
 				if(empty($id)){
-					$log->debug("deleteFields is not vtiger_field table( is ".$id.",".$columnname.",".$fld_module.") method ...");
 					continue;
 				}
-				$log->debug("deleteFields( przeszlo ".$id.") method ...");
 				$typeofdata = $adb->query_result($res,0,'typeofdata');
 				$fieldname = $adb->query_result($res,0,'fieldname');
 				$oldfieldlabel = $adb->query_result($res,0,'fieldlabel');
@@ -1643,6 +1669,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$addPicklists['Calendar'][] = array('name'=>'activitytype','uitype'=>'15','add_values'=>array(),'remove_values'=>array('Mobile Call'));
 		$addPicklists['Users'][] = array('name'=>'defaulteventstatus','uitype'=>'15','add_values'=>array(),'remove_values'=>array('Planned'));
 		$addPicklists['Calendar'][] = array('name'=>'eventstatus','uitype'=>'15','add_values'=>array(),'remove_values'=>array('Planned'));
+		$addPicklists['Potentials'][] = array('name'=>'sales_stage','uitype'=>'15','add_values'=>array('Accepted for processing','Data verification','Customer internal analysis','First contact with a customer','Advanced business analysis','Perception Analysis','Preparation of calculations','Preparation of offers','Awaiting a decision','Negotiations','Order and contract','Documentation verification','Closed Lost','Closed Waiting for processing','Closed Order/contract processing','Closed Presale activities','Closed Won'),'remove_values'=>array('Prospecting','Qualification','Needs Analysis','Value Proposition','Id. Decision Makers','Proposal or Price Quote','Negotiation or Review'));
+		$addPicklists['Calendar'][] = array('name'=>'taskstatus','uitype'=>'15','add_values'=>array('Cancelled'),'remove_values'=>array('Planned'));
 		
 		
 		$roleRecordList = Settings_Roles_Record_Model::getAll();
@@ -1694,6 +1722,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 					//$moduleModel->remove($piscklist['name'], $deletePicklistId, '', $moduleName); // remove and replace in records
 				}
 			}
+			$adb->pquery("UPDATE `vtiger_projecttaskstatus` SET `projecttaskstatus` = ? WHERE `projecttaskstatus` = ? ;", array('Cancelled', 'Canceled'));
 		}
 		$log->debug("Exiting VT620_to_YT::picklists() method ...");
 	}
@@ -1891,7 +1920,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$instanceModule->addLink('DASHBOARDWIDGET', 'KPI', 'index.php?module=Potentials&view=ShowWidget&name=Kpi');
 		$instanceModule = Vtiger_Module::getInstance('Home');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Employees Time Control', 'index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl');
-		$instanceModule->addLink('DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks');
+		$instanceModule->addLink('DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated (overdue) Events/ToDos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated (overdue) project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueProjectsTasks');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks');
@@ -1899,7 +1928,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList');
 		$instanceModule = Vtiger_Module::getInstance('Leads');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted');
-		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = '', `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Note'));
+		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Note'));
+		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Project Task'));
 		
 		
 		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE tabid = ? AND linktype = ? AND linklabel = ?;", array(getTabid('SalesOrder'),'DETAILVIEWWIDGET','DetailViewBlockCommentWidget'));
@@ -1931,6 +1961,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		}
 		$adb->pquery("UPDATE `vtiger_entityname` SET `searchcolumn` = ? WHERE `modulename` IN (?,?);", array('subject','RequirementCards', 'QuotesEnquires'));
 		$adb->pquery("UPDATE `vtiger_entityname` SET `searchcolumn` = ?, fieldname = ?  WHERE `modulename` = ?;", array('holidaysentitlement_year,ossemployeesid','holidaysentitlement_year', 'HolidaysEntitlement'));
+		$adb->pquery("UPDATE `vtiger_entityname` SET fieldname = ?  WHERE `modulename` = ?;", array('lastname','Leads'));
 		
 		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE tabid = ? AND linktype = ? AND linklabel = ?;", array(getTabid('Quotes'),'DETAILVIEWWIDGET','DetailViewBlockCommentWidget'));
 		if($adb->num_rows($result) == 0){
@@ -1966,6 +1997,8 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$adb->pquery( $query, array(getTabid('Leads'),getTabid('PBXManager'),'PBXManager'), true );
 		
 		
+		
+		
 		$log->debug("Exiting VT620_to_YT::updateRecords() method ...");
 	}
 	
@@ -1997,7 +2030,6 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 				$fieldInstance->uitype = 70;
 				$fieldInstance->typeofdata = 'DT~O'; 
 				$fieldInstance->displaytype = 2;
-				$log->debug("check VT620_to_YT::addClosedtimeField(".$name.", ".$block.") end method ...");
 				$blockInstance->addField($fieldInstance); 
 				
 			}
@@ -2108,7 +2140,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$adb->pquery($query, array($calendarId,$eventsId));
 		$log->debug("Exiting VT620_to_YT::rebootSeq() method ...");
 	}
-	public function fieldsModuleRel(){
+	/*public function fieldsModuleRel(){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::fieldsModuleRel() method ...");
 		
@@ -2122,6 +2154,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		}
 		$log->debug("Exiting VT620_to_YT::fieldsModuleRel() method ...");
 	}
+	*/
 	public function actionMapping(){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::actionMapping() method ...");
@@ -3061,6 +3094,8 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 							$testMod = explode('_',$testModArray[3]);
 							if($module == $testMod[0]){
 								$mod = $cvc[0];
+							}elseif($module == 'Documents' && $testMod[0] == 'Notes'){
+								$mod = $cvc[0];
 							}
 						}
 						if($cvc[0] == $mod){
@@ -3340,6 +3375,28 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
 		$adb->pquery( $query, array(getTabid('Contacts'),getTabid('Project'),'Projects'), true );
 
+		$query = "DELETE FROM vtiger_fieldmodulerel WHERE module = ? AND relmodule = ? ;";
+		$adb->pquery( $query, array('Project','Contacts'), true );
+		
+		$result1 = $adb->pquery("SELECT fieldid FROM `vtiger_field` WHERE columnname = ? AND tablename = ?", array('related_to','vtiger_modcomments'));
+		$result2 = $adb->pquery("SELECT * FROM `vtiger_fieldmodulerel` WHERE fieldid = ? AND relmodule = ?", array($adb->query_result($result1, 0, 'fieldid'),'Calculations'));
+		if($adb->num_rows($result2) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`) values (".$adb->query_result($result1, 0, 'fieldid').",'ModComments','Calculations');");
+		}
+		$result = $adb->pquery("SELECT * FROM `vtiger_fieldmodulerel` WHERE module = ? AND relmodule = ?", array('ModComments','Reservations'));
+		if($adb->num_rows($result) == 0){
+			$result = $adb->pquery("SELECT * FROM `vtiger_field` WHERE columnname = ? AND tablename = ?", array('related_to','vtiger_modcomments'));
+			$fieldId = $adb->query_result( $result, 0, 'fieldid' );
+			$adb->pquery("INSERT INTO vtiger_fieldmodulerel(fieldid, module, relmodule) VALUES(?,?,?)", array($fieldId, 'ModComments', 'Reservations'));
+		}
+		$result = $adb->pquery("SELECT * FROM `vtiger_fieldmodulerel` WHERE module = ? AND relmodule = ?", array('ModComments','SalesOrder'));
+		if($adb->num_rows($result) == 0){
+			$result = $adb->pquery("SELECT * FROM `vtiger_field` WHERE columnname = ? AND tablename = ?", array('related_to','vtiger_modcomments'));
+			$fieldId = $adb->query_result( $result, 0, 'fieldid' );
+			$adb->pquery("INSERT INTO vtiger_fieldmodulerel(fieldid, module, relmodule) VALUES(?,?,?)", array($fieldId, 'ModComments', 'SalesOrder'));
+		}
+		
+		
 		$log->debug("Exiting VT620_to_YT::relatedList() method ...");
 	}
 	
@@ -3428,12 +3485,64 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$log->debug("Exiting VT620_to_YT::createTree() method ...");
 		return $templateId;
 	}
+	
+	/*
+	* Delete Reports
+	*/
+	public function deleteRaports(){
+		global $log,$adb;
+		$log->debug("Entering VT620_to_YT::deleteRaports() method ...");
+		
+		$restrictedRaports = array('Contacts by Accounts', 'Contacts without Accounts', 'Contacts by Potentials', 'Lead by Source', 'Lead Status Report','Potential Pipeline','Closed Potentials','Last Month Activities','This Month Activities','Tickets by Products','Tickets by Priority','Open Tickets','Product Details','Products by Contacts','Open Quotes','Quotes Detailed Report','PurchaseOrder by Contacts','PurchaseOrder Detailed Report','Invoice Detailed Report','SalesOrder Detailed Report','Campaign Expectations and Actuals','Contacts Email Report','Accounts Email Report','Leads Email Report','Vendors Email Report');
+		
+		$sql = "SELECT * FROM `vtiger_report` WHERE reportname IN (".generateQuestionMarks($restrictedRaports).")";
+		$params = array($restrictedRaports);
+		$result = $adb->pquery($sql, $params,true);
+		$num = $adb->num_rows($result);
+		$deleteField = array();
+		$moduleModel = Vtiger_Module_Model::getInstance('Reports');
+		for($i=0;$i<$num;$i++){
+			$reportId = $adb->query_result( $result,$i,"reportid" );
+			$raportInstance = Vtiger_Record_Model::getInstanceById($reportId);
+			$moduleModel->deleteRecord($raportInstance);
+		}
+		$log->debug("Exiting VT620_to_YT::deleteRaports() method ...");
+	}
 	public function changeInTable(){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::changeInTable() method ...");
-                $adb->query( "DELETE FROM vtiger_wsapp_handlerdetails where type IN ( 'Google_vtigerHandler', 'Google_vtigerSyncHandler');");
-
+			$adb->query( "DELETE FROM vtiger_wsapp_handlerdetails where type IN ( 'Google_vtigerHandler', 'Google_vtigerSyncHandler');");
 		$log->debug("Exiting VT620_to_YT::changeInTable() method ...");
+	}
+	public function cleanInDatabase(){
+		global $log,$adb;
+		$log->debug("Entering VT620_to_YT::cleanInDatabase() method ...");
+		$result = $adb->query( "SELECT vtiger_def_org_field.tabid,vtiger_def_org_field.fieldid FROM `vtiger_def_org_field` WHERE fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
+		$num = $adb->num_rows($result);
+		$deleteField = array();
+		for($i=0;$i<$num;$i++){
+			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
+		}
+		$adb->pquery( "delete from vtiger_def_org_field where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		
+		$result = $adb->query( "SELECT vtiger_profile2field.tabid,vtiger_profile2field.fieldid FROM `vtiger_profile2field` WHERE fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
+		$num = $adb->num_rows($result);
+		$deleteField = array();
+		for($i=0;$i<$num;$i++){
+			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
+		}
+		$adb->pquery( "delete from vtiger_profile2field where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		
+		$result = $adb->query( "SELECT vtiger_fieldmodulerel.fieldid FROM `vtiger_fieldmodulerel` WHERE vtiger_fieldmodulerel.fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
+		$num = $adb->num_rows($result);
+		$deleteField = array();
+		for($i=0;$i<$num;$i++){
+			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
+		}
+		$adb->pquery( "delete from vtiger_fieldmodulerel where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		
+		
+		$log->debug("Exiting VT620_to_YT::cleanInDatabase() method ...");
 	}
 	////////////
 	public function removeModules(){
