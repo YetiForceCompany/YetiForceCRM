@@ -23,7 +23,7 @@ $languageStrings = array(
 	'LBL_COPY_OTHER_ADDRESS'       => 'Weitere Adresse kopieren'          , 
 	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Kundenportal'                , 
 	'LBL_IMAGE_INFORMATION'        => 'Bild vom Kontakt'            , 
-	'LBL_RECORDS_LIST'             => 'Kontaktliste'               , 
+	'LBL_RECORDS_LIST'             => 'Liste Kontakte'               , 
 	'Office Phone' => 'Primäre Telefonnummer',
 	'Portal User'                  => 'Portal Nutzer'               , 
 	'Reference'                    => 'Referenz'                    , 
@@ -33,7 +33,7 @@ $languageStrings = array(
 	'Support End Date'             => 'Support-Enddatum'          ,
 	'Support Start Date'           => 'Support-Startdatum'          ,
 	'Title'                        => 'Funktion'                    , 
-	'User List'                    => 'Nutzerliste'                 , 
+	'User List'                    => 'Benutzerliste'                 , 
 
 	//Added for Picklist Values
 	'Dr.'                          => 'Sehr geehrter Herr Dr.'      , 

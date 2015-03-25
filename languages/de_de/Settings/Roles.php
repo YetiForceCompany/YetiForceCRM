@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Rolle hinzufügen',
 	'LBL_ALL_USERS' => 'Alle Benutzer',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Vergebe Rechte aus vorhandenen Profilen',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Rechte direkt der Rolle zuweisen',

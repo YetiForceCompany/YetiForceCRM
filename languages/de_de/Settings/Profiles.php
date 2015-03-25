@@ -9,7 +9,7 @@
  *************************************************************************************/
 $languageStrings = array(
 	'CreateCustomFilter'	=>	'Benutzerdefinierte Filter-Erstellung',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Profil hinzufügen',
 	'LBL_CHOOSE_PROFILES' => 'Profil auswählen',
 	'LBL_CREATE_PROFILE' => 'Profil erstellen',
 	'LBL_DELETE_PROFILE' => 'Profil löschen',

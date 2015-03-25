@@ -22,11 +22,11 @@ $languageStrings = array(
 
 	'Activities'	=> 'Kalender',
 	'EmailList' => 'E-Mailliste',
-	'RelatedModule' => 'Übergeordnetes Modul',
+	'RelatedModule' => 'Verknüpftes Modul',
 	'WYSIWYG' => 'WYSIWYG',
 	'PreviewMail' => 'E-Mail Vorschau',
 	'FastEdit'	=> 'Auswahlliste bearbeiten',
-	'Related module' => 'Übergeordnetes Modul',
+	'Related module' => 'Verknüpftes Modul',
 	'Size'	=> 'Spalte',
 	'Label'	=> 'Bezeichnung',
 	'Add button' => 'Knopf hinzufügen',

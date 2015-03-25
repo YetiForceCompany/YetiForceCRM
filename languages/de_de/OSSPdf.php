@@ -11,6 +11,8 @@
  *************************************************************************************************************************************/
 $languageStrings = Array(
 
+	'LBL_ADD_RECORD' => 'PDF hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste PDF',
     'LBL_NORECORDS_CHECKED' => 'Sie haben keinen Datensatz gewählt',
     'Enable Numbering' => 'Aktivieren Sie die Seitennummerierung',
     'LBLEdit' => 'Bearbeiten',
