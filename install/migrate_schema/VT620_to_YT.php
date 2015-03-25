@@ -62,6 +62,40 @@ class VT620_to_YT {
 
 		$location = Install_InitSchema_Model::migration_schema;
 		Install_InitSchema_Model::initializeDatabase($location, array('VT620_to_YT_delete'));
+		
+		$filesToDelete = array(
+		'/modules/HolidaysEntitlement/schema.xml',
+		'/modules/LettersIn/schema.xml',
+		'/modules/LettersOut/schema.xml',
+		'/modules/NewOrders/schema.xml',
+		'/modules/PaymentsIn/schema.xml',
+		'/modules/PaymentsOut/schema.xml',
+		'/modules/QuotesEnquires/schema.xml',
+		'/modules/RequirementCards/schema.xml',
+		'/modules/AJAXChat/schema.xml',
+		'/modules/Calculations/schema.xml',
+		'/modules/CallHistory/schema.xml',
+		'/modules/Ideas/schema.xml',
+		'/modules/OSSCosts/schema.xml',
+		'/modules/OSSDocumentControl/schema.xml',
+		'/modules/OSSEmployees/schema.xml',
+		'/modules/OSSMail/schema.xml',
+		'/modules/OSSMailScanner/schema.xml',
+		'/modules/OSSMailTemplates/schema.xml',
+		'/modules/OSSMailView/schema.xml',
+		'/modules/OSSMenuManager/schema.xml',
+		'/modules/OSSOutsourcedServices/schema.xml',
+		'/modules/OSSPasswords/schema.xml',
+		'/modules/OSSPdf/schema.xml',
+		'/modules/OSSProjectTemplates/schema.xml',
+		'/modules/OSSSoldServices/schema.xml',
+		'/modules/OSSTimeControl/schema.xml',
+		'/modules/OutsourcedProducts/schema.xml',
+		'/modules/Password/schema.xml',
+		'/modules/Reservations/schema.xml'
+		);
+		
+		Install_InitSchema_Model::deleteFiles($filesToDelete);
 		$log->debug("Exiting VT620_to_YT::postProcess() method ...");
 		return true;
 	}
@@ -82,8 +116,6 @@ class VT620_to_YT {
 		self::addClosedtimeField();
 		self::wasRead();
 		self::pobox();
-		self::rebootSeq();
-		self::updateRecords();
 		self::foldersToTree();
 		self::changeFieldOnTree();
 		self::InactiveFields();
@@ -108,6 +140,7 @@ class VT620_to_YT {
 		self::addWorkflowType();
 		self::addWorkflow();
 		//self::fieldsModuleRel();
+		self::updateRecords();
 		self::customerPortal();
 		self::cron();
 		self::picklists();
@@ -118,6 +151,7 @@ class VT620_to_YT {
 		self::addRecords();
 		self::addEmployees();
 		self::cleanInDatabase();
+		self::rebootSeq();
 		$log->debug("Exiting VT620_to_YT::process() method ...");
 	}
 	
@@ -186,7 +220,6 @@ class VT620_to_YT {
 		$adb = PearDatabase::getInstance();
 		
 		//menu manager
-		
 		$menu_manager[] = array(237,0,0,'My Home Page',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(238,237,3,'Home',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(239,237,9,'Calendar',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
@@ -194,7 +227,7 @@ class VT620_to_YT {
 		$menu_manager[] = array(242,282,6,'Accounts',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(243,282,4,'Contacts',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(244,282,7,'Leads',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
-		$menu_manager[] = array(245,305,8,'Documents',17,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of documents#pl_pl*Lista dokumentów',1);
+		$menu_manager[] = array(245,305,8,'Documents',16,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of documents#pl_pl*Lista dokumentów',1);
 		$menu_manager[] = array(247,301,2,'Potentials',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(248,301,20,'Quotes',6,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(249,301,22,'SalesOrder',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
@@ -206,23 +239,23 @@ class VT620_to_YT {
 		$menu_manager[] = array(256,302,41,'ProjectMilestone',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(257,302,42,'ProjectTask',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(258,302,43,'Project',1,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
-		$menu_manager[] = array(260,305,25,'Reports',23,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of reports#pl_pl*Lista raportów',1);
+		$menu_manager[] = array(260,305,25,'Reports',22,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of reports#pl_pl*Lista raportów',1);
 		$menu_manager[] = array(262,305,14,'Products',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(263,282,18,'Vendors',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(264,301,21,'PurchaseOrder',8,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(265,305,35,'Services',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,NULL,1);
 		$menu_manager[] = array(266,305,37,'Assets',4,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Sold Products#pl_pl*Produkty sprzedane',1);
-		$menu_manager[] = array(268,305,33,'PBXManager',15,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista połączeń telefonicznych',1);
-		$menu_manager[] = array(269,305,44,'RecycleBin',19,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1);
-		$menu_manager[] = array(270,305,45,'SMSNotifier',14,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of text messages#pl_pl*Lista smsów',1);
-		$menu_manager[] = array(271,305,47,'OSSPdf',18,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1);
+		$menu_manager[] = array(268,305,33,'PBXManager',14,1,0,'index.php?module=PBXManager&view=List',0,' 1 ','','16x16','en_us*List of calls#pl_pl*Lista połączeń telefonicznych',1);
+		$menu_manager[] = array(269,305,44,'RecycleBin',18,1,0,'index.php?module=RecycleBin&view=List',0,' 1 ','','16x16','en_us*List of deleted records#pl_pl*Lista usuniętych rekordów',1);
+		$menu_manager[] = array(270,305,45,'SMSNotifier',13,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of text messages#pl_pl*Lista smsów',1);
+		$menu_manager[] = array(271,305,47,'OSSPdf',17,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of pdf templates#pl_pl*Lista szablonów pdf',1);
 		$menu_manager[] = array(272,237,48,'OSSMail',3,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*My mailbox#pl_pl*Moja poczta',1);
-		$menu_manager[] = array(273,305,49,'OSSMailTemplates',16,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1);
+		$menu_manager[] = array(273,305,49,'OSSMailTemplates',15,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*List of email templates#pl_pl*Lista szablonów mailowych',1);
 		$menu_manager[] = array(274,292,51,'OSSTimeControl',998,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ',NULL,NULL,'en_us*Time control#pl_pl*Czas pracy',1);
 		$menu_manager[] = array(277,305,59,'OutsourcedProducts',3,1,0,'index.php?module=OutsourcedProducts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
 		$menu_manager[] = array(278,305,58,'OSSSoldServices',9,1,0,'index.php?module=OSSSoldServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
 		$menu_manager[] = array(279,305,57,'OSSOutsourcedServices',8,1,0,'index.php?module=OSSOutsourcedServices&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
-		$menu_manager[] = array(280,305,54,'OSSMailView',13,1,0,'index.php?module=OSSMailView&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0);
+		$menu_manager[] = array(280,305,54,'OSSMailView',12,1,0,'index.php?module=OSSMailView&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of corporate mailbox#pl_pl*Lista maili',0);
 		$menu_manager[] = array(282,0,0,'Companies',2,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Companies#pl_pl*Firmy',0);
 		$menu_manager[] = array(292,0,0,'Human resources',7,1,0,'',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*HR#pl_pl*Kadry',0);
 		$menu_manager[] = array(299,305,0,'*separator*',5,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
@@ -235,12 +268,11 @@ class VT620_to_YT {
 		$menu_manager[] = array(308,305,0,'*separator*',10,1,3,'*separator*',0,'  ','','','',0);
 		$menu_manager[] = array(309,305,0,'Lists',11,1,2,'*etykieta*',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Lists#pl_pl*Wykazy',0);
 		$menu_manager[] = array(311,292,61,'OSSEmployees',997,1,0,'index.php?module=OSSEmployees&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Employees#pl_pl*Pracownicy',0);
-		$menu_manager[] = array(312,305,60,'OSSPasswords',20,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
+		$menu_manager[] = array(312,305,60,'OSSPasswords',19,1,0,'index.php?module=OSSPasswords&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of passwords#pl_pl*Lista haseł',0);
 		$menu_manager[] = array(323,301,70,'Calculations',5,1,0,'index.php?module=Calculations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Calculations#pl_pl*Kalkulacje',0);
 		$menu_manager[] = array(324,334,71,'OSSCosts',2,1,0,'index.php?module=OSSCosts&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Purchase invoices#pl_pl*Faktury zakupowe',0);
-		$menu_manager[] = array(325,305,69,'AddressLevel1',12,1,0,'index.php?module=AddressLevel1&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*List of addresses#pl_pl*Lista adresów',0);
-		$menu_manager[] = array(327,305,0,'*separator*',22,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
-		$menu_manager[] = array(328,305,74,'CallHistory',21,1,0,'index.php?module=CallHistory&view=List',0,'  ','','16x16','',0);
+		$menu_manager[] = array(327,305,0,'*separator*',21,1,3,'*separator*',0,' 1 |##| 2 |##| 3 |##| 4 ','','','',0);
+		$menu_manager[] = array(328,305,74,'CallHistory',20,1,0,'index.php?module=CallHistory&view=List',0,'  ','','16x16','',0);
 		$menu_manager[] = array(329,0,0,'Teamwork',10,1,0,'',0,'  ','','16x16','en_us*Teamwork#pl_pl*Praca grupowa',0);
 		$menu_manager[] = array(330,329,75,'Ideas',1,1,0,'index.php?module=Ideas&view=List',0,'  ','','16x16','',0);
 		$menu_manager[] = array(331,301,76,'RequirementCards',4,1,0,'index.php?module=RequirementCards&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','en_us*Requirement Cards#pl_pl*Karty wymagań',0);
@@ -252,10 +284,9 @@ class VT620_to_YT {
 		$menu_manager[] = array(337,0,0,'Secretariat',8,1,0,'',0,'  ','','16x16','en_us*Secretariat#pl_pl*Sekretariat#de_de*Secretariat#pt_br*Secretariat#ru_ru*Secretariat',0);
 		$menu_manager[] = array(338,337,81,'LettersIn',998,1,0,'index.php?module=LettersIn&view=List',0,'  ','','16x16','en_us*Letters In#pl_pl*Listy przychodzące#de_de*Letters In#pt_br*Letters In#ru_ru*Letters In',0);
 		$menu_manager[] = array(339,337,82,'LettersOut',999,1,0,'index.php?module=LettersOut&view=List',0,'  ','','16x16','en_us*Letters Out#pl_pl*Listy wychodzące#de_de*Letters Out#pt_br*Letters Out#ru_ru*Letters Out',0);
-		$menu_manager[] = array(340,305,0,'*separator*',24,1,3,'*separator*',0,'  ','','','',0);
-		$menu_manager[] = array(341,305,83,'NewOrders',25,1,0,'index.php?module=NewOrders&view=List',0,'  ','','16x16','',0);
+		$menu_manager[] = array(340,305,0,'*separator*',23,1,3,'*separator*',0,'  ','','','',0);
+		$menu_manager[] = array(341,305,83,'NewOrders',24,1,0,'index.php?module=NewOrders&view=List',0,'  ','','16x16','',0);
 		$menu_manager[] = array(342,337,84,'Reservations',1000,1,0,'index.php?module=Reservations&view=List',0,' 1 |##| 2 |##| 3 |##| 4 ','','16x16','',0);
-
 
 		$blocksModule = array('My Home Page','Companies','Human resources','Sales','Projects','Support','Databases','*separator*','Lists','Products database','Services database','Teamwork','Bookkeeping','Secretariat');
 		
@@ -1848,7 +1879,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$changes[] = array('where'=>array('columnname'=>array('donotcall'),'tabid'=>array(getTabid('Contacts'))), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Approval for phone calls'));
 		$changes[] = array('where'=>array('columnname'=>array('emailoptout'),'tabid'=>array(getTabid('Contacts'), getTabid('Accounts'))), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Approval for email'));
 		$changes[] = array('where'=>array('columnname'=>array('end_hour'),'tabid'=>array(getTabid('Users'))), 'setColumn'=>array('uitype'), 'setValue'=>array(16));
-		$changes[] = array('where'=>array('columnname'=>array('industry'),'tabid'=>array(getTabid('Accounts'))), 'setColumn'=>array('uitype'), 'setValue'=>array(16));
+		//$changes[] = array('where'=>array('columnname'=>array('industry'),'tabid'=>array(getTabid('Leads'))), 'setColumn'=>array('uitype'), 'setValue'=>array(16));
 		$changes[] = array('where'=>array('columnname'=>array('invoiceid'),'tabid'=>array(getTabid('Assets'))), 'setColumn'=>array('typeofdata'), 'setValue'=>array('V~M'));
 		$changes[] = array('where'=>array('columnname'=>array('lastname'),'tabid'=>array(getTabid('Leads'))), 'setColumn'=>array('fieldlabel'), 'setValue'=>array('Short name'));
 		$changes[] = array('where'=>array('columnname'=>array('notecontent '),'tabid'=>array(getTabid('Documents'))), 'setColumn'=>array('uitype'), 'setValue'=>array(300));
@@ -1996,7 +2027,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$query = "DELETE FROM `vtiger_relatedlists` WHERE `tabid` = ? AND `related_tabid` = ? AND `label` = ?;";
 		$adb->pquery( $query, array(getTabid('Leads'),getTabid('PBXManager'),'PBXManager'), true );
 		
-		
+		$adb->pquery("UPDATE `vtiger_calendar_user_activitytypes` SET `visible` = ? WHERE `id` > ? ;", array(0, 2));
 		
 		
 		$log->debug("Exiting VT620_to_YT::updateRecords() method ...");
@@ -2138,6 +2169,234 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$query .=' END ';
         $query .= ' WHERE tabid IN ('.generateQuestionMarks($modules).')';
 		$adb->pquery($query, array($calendarId,$eventsId));
+		
+		// related list
+		$relatedList = array(array('tabid'=>'Accounts','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'Potentials','name'=>'get_opportunities','sequence'=>'2'),
+		array('tabid'=>'Accounts','related_tabid'=>'Quotes','name'=>'get_quotes','sequence'=>'3'),
+		array('tabid'=>'Accounts','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'4'),
+		array('tabid'=>'Accounts','related_tabid'=>'Invoice','name'=>'get_invoices','sequence'=>'5'),
+		array('tabid'=>'Accounts','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'6'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'8'),
+		array('tabid'=>'Accounts','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'7'),
+		array('tabid'=>'Accounts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'9'),
+		array('tabid'=>'Accounts','related_tabid'=>'HelpDesk','name'=>'get_tickets','sequence'=>'10'),
+		array('tabid'=>'Accounts','related_tabid'=>'Products','name'=>'get_products','sequence'=>'20'),
+		array('tabid'=>'Leads','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'2'),
+		array('tabid'=>'Leads','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'5'),
+		array('tabid'=>'Leads','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'3'),
+		array('tabid'=>'Leads','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
+		array('tabid'=>'Leads','related_tabid'=>'Products','name'=>'get_products','sequence'=>'9'),
+		array('tabid'=>'Leads','related_tabid'=>'Campaigns','name'=>'get_campaigns','sequence'=>'7'),
+		array('tabid'=>'Contacts','related_tabid'=>'Potentials','name'=>'get_opportunities','sequence'=>'1'),
+		array('tabid'=>'Contacts','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'2'),
+		array('tabid'=>'Contacts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'9'),
+		array('tabid'=>'Contacts','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'3'),
+		array('tabid'=>'Contacts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'8'),
+		array('tabid'=>'Potentials','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'Potentials','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'8'),
+		array('tabid'=>'Potentials','related_tabid'=>'Products','name'=>'get_products','sequence'=>'18'),
+		array('tabid'=>'Potentials','related_tabid'=>'','name'=>'get_stage_history','sequence'=>'4'),
+		array('tabid'=>'Potentials','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'Potentials','related_tabid'=>'Quotes','name'=>'get_Quotes','sequence'=>'5'),
+		array('tabid'=>'Potentials','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'6'),
+		array('tabid'=>'Potentials','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'Products','related_tabid'=>'HelpDesk','name'=>'get_tickets','sequence'=>'1'),
+		array('tabid'=>'Products','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'Products','related_tabid'=>'Quotes','name'=>'get_quotes','sequence'=>'4'),
+		array('tabid'=>'Products','related_tabid'=>'PurchaseOrder','name'=>'get_purchase_orders','sequence'=>'5'),
+		array('tabid'=>'Products','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'6'),
+		array('tabid'=>'Products','related_tabid'=>'Invoice','name'=>'get_invoices','sequence'=>'7'),
+		array('tabid'=>'Products','related_tabid'=>'PriceBooks','name'=>'get_product_pricebooks','sequence'=>'8'),
+		array('tabid'=>'Products','related_tabid'=>'Leads','name'=>'get_leads','sequence'=>'9'),
+		array('tabid'=>'Products','related_tabid'=>'Accounts','name'=>'get_accounts','sequence'=>'10'),
+		array('tabid'=>'Products','related_tabid'=>'Potentials','name'=>'get_opportunities','sequence'=>'12'),
+		array('tabid'=>'Products','related_tabid'=>'Products','name'=>'get_products','sequence'=>'13'),
+		array('tabid'=>'Products','related_tabid'=>'Products','name'=>'get_parent_products','sequence'=>'14'),
+		array('tabid'=>'Emails','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'1'),
+		array('tabid'=>'Emails','related_tabid'=>'','name'=>'get_users','sequence'=>'2'),
+		array('tabid'=>'Emails','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'','name'=>'get_ticket_history','sequence'=>'3'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'PriceBooks','related_tabid'=>'Products','name'=>'get_pricebook_products','sequence'=>'2'),
+		array('tabid'=>'Vendors','related_tabid'=>'Products','name'=>'get_products','sequence'=>'1'),
+		array('tabid'=>'Vendors','related_tabid'=>'PurchaseOrder','name'=>'get_purchase_orders','sequence'=>'2'),
+		array('tabid'=>'Vendors','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'3'),
+		array('tabid'=>'Vendors','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'4'),
+		array('tabid'=>'Quotes','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'1'),
+		array('tabid'=>'Quotes','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'2'),
+		array('tabid'=>'Quotes','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
+		array('tabid'=>'Quotes','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'3'),
+		array('tabid'=>'Quotes','related_tabid'=>'','name'=>'get_quotestagehistory','sequence'=>'5'),
+		array('tabid'=>'PurchaseOrder','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'PurchaseOrder','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'PurchaseOrder','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'PurchaseOrder','related_tabid'=>'','name'=>'get_postatushistory','sequence'=>'4'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'Invoice','name'=>'get_invoices','sequence'=>'3'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'','name'=>'get_sostatushistory','sequence'=>'5'),
+		array('tabid'=>'Invoice','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'Invoice','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'Invoice','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'Invoice','related_tabid'=>'','name'=>'get_invoicestatushistory','sequence'=>'4'),
+		array('tabid'=>'Calendar','related_tabid'=>'','name'=>'get_users','sequence'=>'1'),
+		array('tabid'=>'Calendar','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'2'),
+		array('tabid'=>'Campaigns','related_tabid'=>'Leads','name'=>'get_leads','sequence'=>'2'),
+		array('tabid'=>'Campaigns','related_tabid'=>'Potentials','name'=>'get_opportunities','sequence'=>'3'),
+		array('tabid'=>'Campaigns','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'4'),
+		array('tabid'=>'Accounts','related_tabid'=>'Campaigns','name'=>'get_campaigns','sequence'=>'11'),
+		array('tabid'=>'Campaigns','related_tabid'=>'Accounts','name'=>'get_accounts','sequence'=>'6'),
+		array('tabid'=>'Faq','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'PBXManager','name'=>'get_dependents_list','sequence'=>'13'),
+		array('tabid'=>'Accounts','related_tabid'=>'ServiceContracts','name'=>'get_dependents_list','sequence'=>'14'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Services','name'=>'get_related_list','sequence'=>'6'),
+		array('tabid'=>'Leads','related_tabid'=>'Services','name'=>'get_related_list','sequence'=>'17'),
+		array('tabid'=>'Accounts','related_tabid'=>'Services','name'=>'get_related_list','sequence'=>'23'),
+		array('tabid'=>'Potentials','related_tabid'=>'Services','name'=>'get_related_list','sequence'=>'12'),
+		array('tabid'=>'PriceBooks','related_tabid'=>'Services','name'=>'get_pricebook_services','sequence'=>'3'),
+		array('tabid'=>'Accounts','related_tabid'=>'Assets','name'=>'get_dependents_list','sequence'=>'21'),
+		array('tabid'=>'Products','related_tabid'=>'Assets','name'=>'get_dependents_list','sequence'=>'15'),
+		array('tabid'=>'Invoice','related_tabid'=>'Assets','name'=>'get_dependents_list','sequence'=>'5'),
+		array('tabid'=>'Accounts','related_tabid'=>'Project','name'=>'get_dependents_list','sequence'=>'15'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'HelpDesk','name'=>'get_dependents_list','sequence'=>'4'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'3'),
+		array('tabid'=>'Services','related_tabid'=>'HelpDesk','name'=>'get_related_list','sequence'=>'1'),
+		array('tabid'=>'Services','related_tabid'=>'Quotes','name'=>'get_quotes','sequence'=>'2'),
+		array('tabid'=>'Services','related_tabid'=>'PurchaseOrder','name'=>'get_purchase_orders','sequence'=>'3'),
+		array('tabid'=>'Services','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'4'),
+		array('tabid'=>'Services','related_tabid'=>'Invoice','name'=>'get_invoices','sequence'=>'5'),
+		array('tabid'=>'Services','related_tabid'=>'PriceBooks','name'=>'get_service_pricebooks','sequence'=>'6'),
+		array('tabid'=>'Services','related_tabid'=>'Leads','name'=>'get_related_list','sequence'=>'7'),
+		array('tabid'=>'Services','related_tabid'=>'Accounts','name'=>'get_related_list','sequence'=>'8'),
+		array('tabid'=>'Services','related_tabid'=>'Potentials','name'=>'get_related_list','sequence'=>'10'),
+		array('tabid'=>'Services','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'11'),
+		array('tabid'=>'Assets','related_tabid'=>'HelpDesk','name'=>'get_related_list','sequence'=>'1'),
+		array('tabid'=>'Assets','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'2'),
+		array('tabid'=>'ProjectTask','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Project','related_tabid'=>'ProjectTask','name'=>'get_dependents_list','sequence'=>'2'),
+		array('tabid'=>'Project','related_tabid'=>'ProjectMilestone','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'Project','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
+		array('tabid'=>'Project','related_tabid'=>'HelpDesk','name'=>'get_dependents_list','sequence'=>'5'),
+		array('tabid'=>'Project','related_tabid'=>'','name'=>'get_gantt_chart','sequence'=>'1'),
+		array('tabid'=>'SMSNotifier','related_tabid'=>'Accounts','name'=>'get_related_list','sequence'=>'1'),
+		array('tabid'=>'SMSNotifier','related_tabid'=>'Contacts','name'=>'get_related_list','sequence'=>'2'),
+		array('tabid'=>'SMSNotifier','related_tabid'=>'Leads','name'=>'get_related_list','sequence'=>'3'),
+		array('tabid'=>'OSSTimeControl','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'16'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'8'),
+		array('tabid'=>'Project','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'8'),
+		array('tabid'=>'ProjectTask','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'2'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'5'),
+		array('tabid'=>'Assets','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'SalesOrder','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'Potentials','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'7'),
+		array('tabid'=>'Quotes','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Accounts','name'=>'get_related_list','sequence'=>'2'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Contacts','name'=>'get_related_list','sequence'=>'3'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Leads','name'=>'get_related_list','sequence'=>'4'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Potentials','name'=>'get_related_list','sequence'=>'5'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'HelpDesk','name'=>'get_related_list','sequence'=>'6'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Project','name'=>'get_related_list','sequence'=>'7'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'ServiceContracts','name'=>'get_related_list','sequence'=>'8'),
+		array('tabid'=>'OSSMailView','related_tabid'=>'Campaigns','name'=>'get_related_list','sequence'=>'9'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'6'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'10'),
+		array('tabid'=>'Potentials','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'11'),
+		array('tabid'=>'Project','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'9'),
+		array('tabid'=>'Campaigns','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'7'),
+		array('tabid'=>'Potentials','related_tabid'=>'Project','name'=>'get_related_list','sequence'=>'10'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Assets','name'=>'get_related_list','sequence'=>'11'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSOutsourcedServices','name'=>'get_dependents_list','sequence'=>'24'),
+		array('tabid'=>'Leads','related_tabid'=>'OSSOutsourcedServices','name'=>'get_dependents_list','sequence'=>'18'),
+		array('tabid'=>'Potentials','related_tabid'=>'OSSOutsourcedServices','name'=>'get_dependents_list','sequence'=>'16'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSSoldServices','name'=>'get_dependents_list','sequence'=>'25'),
+		array('tabid'=>'Potentials','related_tabid'=>'OSSSoldServices','name'=>'get_dependents_list','sequence'=>'17'),
+		array('tabid'=>'Accounts','related_tabid'=>'OutsourcedProducts','name'=>'get_dependents_list','sequence'=>'22'),
+		array('tabid'=>'Leads','related_tabid'=>'OutsourcedProducts','name'=>'get_dependents_list','sequence'=>'16'),
+		array('tabid'=>'Invoice','related_tabid'=>'OSSSoldServices','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'Potentials','related_tabid'=>'OutsourcedProducts','name'=>'get_dependents_list','sequence'=>'19'),
+		array('tabid'=>'Potentials','related_tabid'=>'Assets','name'=>'get_dependents_list','sequence'=>'21'),
+		array('tabid'=>'Assets','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'4'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'17'),
+		array('tabid'=>'Products','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'16'),
+		array('tabid'=>'Services','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'12'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'12'),
+		array('tabid'=>'Vendors','related_tabid'=>'OSSPasswords','name'=>'get_dependents_list','sequence'=>'5'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'OSSTimeControl','name'=>'get_osstimecontrol','sequence'=>'2'),
+		array('tabid'=>'Leads','related_tabid'=>'Contacts','name'=>'get_dependents_list','sequence'=>'1'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'Project','name'=>'get_dependents_list','sequence'=>'7'),
+		array('tabid'=>'Calculations','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Potentials','related_tabid'=>'Calculations','name'=>'get_dependents_list','sequence'=>'22'),
+		array('tabid'=>'Calculations','related_tabid'=>'Calculations','name'=>'get_dependents_list','sequence'=>'2'),
+		array('tabid'=>'Quotes','related_tabid'=>'Calculations','name'=>'get_related_list','sequence'=>'7'),
+		array('tabid'=>'Accounts','related_tabid'=>'Calculations','name'=>'get_dependents_list','sequence'=>'18'),
+		array('tabid'=>'OSSCosts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Potentials','related_tabid'=>'OSSCosts','name'=>'get_dependents_list','sequence'=>'23'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'OSSCosts','name'=>'get_dependents_list','sequence'=>'13'),
+		array('tabid'=>'Project','related_tabid'=>'OSSCosts','name'=>'get_dependents_list','sequence'=>'10'),
+		array('tabid'=>'Accounts','related_tabid'=>'OSSCosts','name'=>'get_dependents_list','sequence'=>'19'),
+		array('tabid'=>'Vendors','related_tabid'=>'OSSCosts','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'Calculations','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'Leads','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'Project','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'6'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
+		array('tabid'=>'Calculations','related_tabid'=>'Quotes','name'=>'get_related_list','sequence'=>'4'),
+		array('tabid'=>'Contacts','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'26'),
+		array('tabid'=>'Accounts','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'26'),
+		array('tabid'=>'Leads','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'19'),
+		array('tabid'=>'Vendors','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'7'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'Potentials','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'24'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'CallHistory','name'=>'get_dependents_list','sequence'=>'14'),
+		array('tabid'=>'Ideas','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'RequirementCards','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'RequirementCards','related_tabid'=>'Quotes','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'QuotesEnquires','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'2'),
+		array('tabid'=>'Campaigns','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'5'),
+		array('tabid'=>'Project','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'7'),
+		array('tabid'=>'ServiceContracts','related_tabid'=>'Calendar','name'=>'get_history','sequence'=>'2'),
+		array('tabid'=>'PaymentsIn','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'PaymentsIn','name'=>'get_dependents_list','sequence'=>'27'),
+		array('tabid'=>'Invoice','related_tabid'=>'PaymentsIn','name'=>'get_dependents_list','sequence'=>'7'),
+		array('tabid'=>'PaymentsOut','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'PaymentsOut','name'=>'get_dependents_list','sequence'=>'28'),
+		array('tabid'=>'Invoice','related_tabid'=>'PaymentsOut','name'=>'get_dependents_list','sequence'=>'8'),
+		array('tabid'=>'LettersIn','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'LettersIn','name'=>'get_dependents_list','sequence'=>'29'),
+		array('tabid'=>'Leads','related_tabid'=>'LettersIn','name'=>'get_dependents_list','sequence'=>'20'),
+		array('tabid'=>'LettersOut','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'LettersOut','name'=>'get_dependents_list','sequence'=>'30'),
+		array('tabid'=>'Leads','related_tabid'=>'LettersOut','name'=>'get_dependents_list','sequence'=>'21'),
+		array('tabid'=>'Vendors','related_tabid'=>'LettersOut','name'=>'get_dependents_list','sequence'=>'8'),
+		array('tabid'=>'Vendors','related_tabid'=>'LettersIn','name'=>'get_dependents_list','sequence'=>'9'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'LettersOut','name'=>'get_dependents_list','sequence'=>'5'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'LettersIn','name'=>'get_dependents_list','sequence'=>'6'),
+		array('tabid'=>'OSSEmployees','related_tabid'=>'HolidaysEntitlement','name'=>'get_dependents_list','sequence'=>'4'),
+		array('tabid'=>'Accounts','related_tabid'=>'RequirementCards','name'=>'get_dependents_list','sequence'=>'31'),
+		array('tabid'=>'RequirementCards','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'4'),
+		array('tabid'=>'QuotesEnquires','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'3'),
+		array('tabid'=>'NewOrders','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Reservations','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
+		array('tabid'=>'Accounts','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'32'),
+		array('tabid'=>'Leads','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'22'),
+		array('tabid'=>'Vendors','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'8'),
+		array('tabid'=>'Potentials','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'27'),
+		array('tabid'=>'Project','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'13'),
+		array('tabid'=>'HelpDesk','related_tabid'=>'Reservations','name'=>'get_dependents_list','sequence'=>'17'));
+
+		$query = 'UPDATE vtiger_relatedlists SET ';
+		$query .=' sequence= CASE ';
+		foreach($relatedList as $related ) {
+				$query .= ' WHEN tabid="'.getTabid($related['tabid']).'" AND related_tabid = "'.getTabid($related['related_tabid']).'" AND name = "'.$related['name'].'" THEN '.$related['sequence'];
+		}
+		$query .=' END ';
+		$adb->query($query);
 		$log->debug("Exiting VT620_to_YT::rebootSeq() method ...");
 	}
 	/*public function fieldsModuleRel(){
@@ -3523,7 +3782,9 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		for($i=0;$i<$num;$i++){
 			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
 		}
+		if($deleteField){
 		$adb->pquery( "delete from vtiger_def_org_field where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		}
 		
 		$result = $adb->query( "SELECT vtiger_profile2field.tabid,vtiger_profile2field.fieldid FROM `vtiger_profile2field` WHERE fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
 		$num = $adb->num_rows($result);
@@ -3531,7 +3792,9 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		for($i=0;$i<$num;$i++){
 			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
 		}
+		if($deleteField){
 		$adb->pquery( "delete from vtiger_profile2field where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		}
 		
 		$result = $adb->query( "SELECT vtiger_fieldmodulerel.fieldid FROM `vtiger_fieldmodulerel` WHERE vtiger_fieldmodulerel.fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
 		$num = $adb->num_rows($result);
@@ -3539,9 +3802,11 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		for($i=0;$i<$num;$i++){
 			$deleteField[] = $adb->query_result( $result,$i,"fieldid" );
 		}
-		$adb->pquery( "delete from vtiger_fieldmodulerel where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		if($deleteField){
+			$adb->pquery( "delete from vtiger_fieldmodulerel where fieldid in (".generateQuestionMarks($deleteField).")", $deleteField);
+		}
 		
-		
+		$adb->query( "delete from vtiger_role2picklist where roleid = 'H1'");
 		$log->debug("Exiting VT620_to_YT::cleanInDatabase() method ...");
 	}
 	////////////
