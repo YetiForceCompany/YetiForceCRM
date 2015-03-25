@@ -24,6 +24,7 @@
                 <div class="span6">
 
                     {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
+						{if {Users_Privileges_Model::isPermitted($RELATED_MODULE_NAME, 'EditView')} }
                         <div class="btn-group">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                             <button type="button" class="btn addButton
@@ -35,6 +36,7 @@
                     {/if}
             {if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<i class="icon-plus icon-white"></i>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
     </div>
+	{/if}
 {/foreach}
 &nbsp;
 </div>

@@ -1258,26 +1258,24 @@ function get_ticket_attachments($input_array)
 	if(!validateSession($id,$sessionid))
 	return array( array('error' => "#INVALIDATE SESSION#"));
 
-	$query = "select vtiger_troubletickets.ticketid, vtiger_attachments.*,vtiger_notes.filename,vtiger_notes.filelocationtype from vtiger_troubletickets " .
-		"left join vtiger_senotesrel on vtiger_senotesrel.crmid=vtiger_troubletickets.ticketid " .
-		"left join vtiger_notes on vtiger_notes.notesid=vtiger_senotesrel.notesid " .
-		"inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_notes.notesid " .
-		"left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_notes.notesid " .
-		"left join vtiger_attachments on vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid " .
-		"and vtiger_crmentity.deleted = 0 where vtiger_troubletickets.ticketid =?";
-
+	$query = 'select vtiger_troubletickets.ticketid, vtiger_attachments.*,vtiger_notes.filename,vtiger_notes.filelocationtype from vtiger_troubletickets 
+	left join vtiger_senotesrel on vtiger_senotesrel.crmid=vtiger_troubletickets.ticketid 
+	left join vtiger_notes on vtiger_notes.notesid=vtiger_senotesrel.notesid 
+	inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_notes.notesid 
+	left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_notes.notesid 
+	left join vtiger_attachments on vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid 
+	WHERE vtiger_troubletickets.ticketid = ? AND vtiger_crmentity.deleted = 0;';
 	$res = $adb->pquery($query, array($ticketid));
 	$noofrows = $adb->num_rows($res);
 	$output = array();
 	for($i=0;$i<$noofrows;$i++)
 	{
-		$filename = $adb->query_result($res,$i,'filename');
-		$filepath = $adb->query_result($res,$i,'path');
-
-		$fileid = $adb->query_result($res,$i,'attachmentsid');
+		$filename = $adb->query_result_raw($res,$i,'filename');
+		$filepath = $adb->query_result_raw($res,$i,'path');
+		$fileid = $adb->query_result_raw($res,$i,'attachmentsid');
 		$filesize = filesize($filepath.$fileid."_".$filename);
-		$filetype = $adb->query_result($res,$i,'type');
-		$filelocationtype = $adb->query_result($res,$i,'filelocationtype');
+		$filetype = $adb->query_result_raw($res,$i,'type');
+		$filelocationtype = $adb->query_result_raw($res,$i,'filelocationtype');
 		//Now we will not pass the file content to CP, when the customer click on the link we will retrieve
 		//$filecontents = base64_encode(file_get_contents($filepath.$fileid."_".$filename));//fread(fopen($filepath.$filename, "r"), $filesize));
 
@@ -1626,16 +1624,16 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
 	if($module == 'Quotes')
 	{
 		$query = "select distinct vtiger_quotes.*,vtiger_crmentity.smownerid,
-		case when vtiger_quotes.contactid is not null then vtiger_quotes.contactid else vtiger_quotes.accountid end as entityid,
-		case when vtiger_quotes.contactid is not null then 'Contacts' else 'Accounts' end as setype,
+		vtiger_quotes.accountid as entityid,
+		'Accounts' as setype,
 		vtiger_potential.potentialname,vtiger_account.accountid
 		from vtiger_quotes left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
 		LEFT OUTER JOIN vtiger_account
 		ON vtiger_account.accountid = vtiger_quotes.accountid
 		LEFT OUTER JOIN vtiger_potential
 		ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-		where vtiger_crmentity.deleted=0 and (vtiger_quotes.accountid in  (". generateQuestionMarks($entity_ids_list) .") or contactid in (". generateQuestionMarks($entity_ids_list) ."))";
-		$params = array($entity_ids_list,$entity_ids_list);
+		where vtiger_crmentity.deleted=0 and (vtiger_quotes.accountid in  (". generateQuestionMarks($entity_ids_list) .") )";
+		$params = array($entity_ids_list);
 		$fields_list['Related To'] = 'entityid';
 
 	}
@@ -2226,13 +2224,13 @@ function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
 	$checkQuotes = checkModuleActive('Quotes');
 	if($checkQuotes == true){
 		$query[] = "select distinct vtiger_products.*,
-			case when vtiger_quotes.contactid is not null then vtiger_quotes.contactid else vtiger_quotes.accountid end as entityid,
-			case when vtiger_quotes.contactid is not null then 'Contacts' else 'Accounts' end as setype
+			vtiger_quotes.accountid as entityid,
+			'Accounts' as setype
 			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
 			left join vtiger_products on vtiger_products.productid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) .") or contactid in (". generateQuestionMarks($entity_ids_list) ."))";
-		$params[] = array($entity_ids_list,$entity_ids_list);
+			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) .") )";
+		$params[] = array($entity_ids_list);
 	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if($checkInvoices == true){
@@ -2685,9 +2683,9 @@ function check_permission($customerid, $module, $entityid) {
 													LEFT JOIN vtiger_quotes
 													ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
 													WHERE vtiger_crmentity.deleted=0
-														AND (vtiger_quotes.contactid IN (". generateQuestionMarks($allowed_contacts_and_accounts).") or vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
+														AND (vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
 														AND vtiger_inventoryproductrel.productid = ?";
-							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
+							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 							if ($adb->num_rows($res) > 0) {
 								return true;
 							}
@@ -2711,9 +2709,9 @@ function check_permission($customerid, $module, $entityid) {
 								INNER JOIN vtiger_crmentity
 								ON vtiger_quotes.quoteid=vtiger_crmentity.crmid
 								WHERE vtiger_crmentity.deleted=0
-									AND (vtiger_quotes.contactid IN (". generateQuestionMarks($allowed_contacts_and_accounts).") or vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
+									AND (vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
 									AND vtiger_quotes.quoteid = ?";
-							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
+							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 							if ($adb->num_rows($res) > 0) {
 								return true;
 							}
@@ -2818,9 +2816,9 @@ function check_permission($customerid, $module, $entityid) {
 									LEFT JOIN vtiger_quotes
 									ON vtiger_inventoryproductrel.id = vtiger_quotes.quoteid
 									WHERE vtiger_crmentity.deleted=0
-									AND (vtiger_quotes.contactid IN (". generateQuestionMarks($allowed_contacts_and_accounts).") or vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
+									AND (vtiger_quotes.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
 									AND vtiger_inventoryproductrel.productid = ?";
-							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
+							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 							if ($adb->num_rows($res) > 0) {
 								return true;
 							}
@@ -3203,13 +3201,13 @@ function get_service_list_values($id,$modulename,$sessionid,$only_mine='true')
 	$checkQuotes = checkModuleActive('Quotes');
 	if($checkQuotes == true){
 		$query[] = "select distinct vtiger_service.*,
-			case when vtiger_quotes.contactid is not null then vtiger_quotes.contactid else vtiger_quotes.accountid end as entityid,
-			case when vtiger_quotes.contactid is not null then 'Contacts' else 'Accounts' end as setype
+			vtiger_quotes.accountid as entityid,
+			'Accounts' as setype
 			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
 			left join vtiger_service on vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) .") or contactid in (". generateQuestionMarks($entity_ids_list) ."))";
-		$params[] = array($entity_ids_list,$entity_ids_list);
+			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) ."))";
+		$params[] = array($entity_ids_list);
 	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if($checkInvoices == true){

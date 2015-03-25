@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = array(
 	'QuotesEnquires' => 'Zapytania ofertowe',
 	'SINGLE_QuotesEnquires' => 'Zapytanie ofertowe',
 	
@@ -24,8 +24,28 @@ $languageStrings = Array(
 	'LBL_WAS_READ' => 'Uaktualniono',
 	'Description' => 'Opis',
 	'Attention' => 'Uwagi',
-	'LBL_REJECTION_REASON' => 'Przyczyna odrzucenia',
+	'LBL_STAGE' => 'Etap',
+	'LBL_CONS' => 'Wady',
+	'LBL_PROS' => 'Zalety',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Generuj kartę wymagań',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Niepełne informacje',
+	'PLL_NOT_STARTED' => 'Nierozpoczęte',
+	'PLL_VERIFICATION' => 'Weryfikacja',
+	'PLL_DECLINED' => 'Odrzucone ',
+	'PLL_ACCEPTED' => 'Zaakceptowane ',
+	'PLL_LOW_MARGIN' => 'Niska marża',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Nierzetelny kontrahent',
+	'PLL_UNRELIABLE_PAYMENT' => 'Nierzetelne płatności',
+	'PLL_NO_DETAILS' => 'Brak szczegółów',
+	'PLL_LACK_OF_COMPETENCE' => 'Brak kompetencji',
+	'PLL_LACK_OF_TIME' => 'Brak czasu',
+	'PLL_HIGH_MARGIN' => 'Wysoka marża',
+	'PLL_RELIABLE_CONTRACTOR' => 'Rzetelny kontrahent',
+	'PLL_SOLID_PAYMENT' => 'Rzetelne płatności',
+	'PLL_DETAILED_DESCRIPTION' => 'Szczegółowy opis',
+	'PLL_COMPETENT_TEAM' => 'Kompetentny zespół',
+	'PLL_EASE_OF_COMMUNICATION' => 'Łatwość komunikacji',
+	'PLL_RECOMMENDABLE' => 'Możliwość polecenia',
+
 );

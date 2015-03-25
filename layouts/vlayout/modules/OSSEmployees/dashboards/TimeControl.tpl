@@ -11,8 +11,8 @@
 -->*}
 <style type="text/css">
 	.filterContainerTimeControl{
-		margin-top: 5px;
-		padding: 0 !important
+		margin: 5px 0 0 17px;
+		padding: 0 !important;
 	}
 	.dashboardWidgetContentTimeControl{
 		padding: 0 !important
@@ -20,7 +20,19 @@
 	.widgetFilter{
 		margin-bottom: 0 !important;
 	}
-	.iconMiddle { vertical-align: middle; }
+	.iconMiddle {
+		margin-top: 7px;
+		vertical-align: middle;
+	}
+	.legend-colors {
+		text-align:center;
+	}
+	.legend-colors ol {
+		display:inline-table;
+	}
+	.legend-colors ol li {
+		display:inline;
+	}
 </style>
 <script type="text/javascript">
 	Vtiger_Barchat_Widget_Js('Vtiger_Timecontrol_Widget_Js',{
@@ -42,30 +54,89 @@
 			this.fillDateRange();
 		}
 	},{
+		positionNoDataMsg : function() {
+			var container = this.getContainer();
+			app.showSelect2ElementView(container.find('select'), {
+				closeOnSelect: true
+			});
+			var widgetContentsContainer = container.find('.dashboardWidgetContent');
+			var noDataMsgHolder = widgetContentsContainer.find('.noDataMsg');
+			noDataMsgHolder.position({
+							'my' : 'center center',
+							'at' : 'center center',
+							'of' : widgetContentsContainer
+			})
+		},
 		generateChartData : function() {
 			var container = this.getContainer();
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var chartData = [];
-			var xLabels = new Array();
-			var yMaxValue = 0;
-			for(var index in data) {
-				var row = data[index];
-				xLabels.push(app.getDecodedValue(row[1]))
-				chartData.push(row[0]);
-				if(parseInt(row[0]) > yMaxValue){
-					yMaxValue = parseInt(row[0]);
+			if(undefined != data['PLL_WORKING_TIME'])
+				chartData.push(data['PLL_WORKING_TIME']);
+			if(undefined != data['PLL_BREAK_TIME'])
+				chartData.push(data['PLL_BREAK_TIME']);
+			if(undefined != data['PLL_HOLIDAY_TIME'])
+				chartData.push(data['PLL_HOLIDAY_TIME']);
+	
+			return {literal}{'chartData':chartData, 'yMaxValue':data['yMaxValue'], 'labels':data['days']}{/literal};
+		},
+
+		loadChart : function() {
+			app.showSelect2ElementView(this.getContainer().find('select'), {
+				closeOnSelect: true
+			});
+			var data = this.generateChartData();
+			this.getPlotContainer(false).jqplot(data['chartData'] , {
+				title: data['title'],
+			    stackSeries: true,
+				animate: !$.jqplot.use_excanvas,
+				{literal}
+				seriesDefaults:{
+					renderer:jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection : 'vertical'
+					},
+					pointLabels: {show: true,edgeTolerance: -15}
+				},
+				{/literal}
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							angle: -45
+						}
+					},
+					yaxis: {
+						min:0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad : 1.2
+					}
+				},
+				legend: {
+					show		: (data['data_labels']) ? true:false,
+					location	: 'e',
+					placement	: 'outside',
+					showLabels	: (data['data_labels']) ? true:false,
+					showSwatch	: (data['data_labels']) ? true:false,
+					labels		: data['data_labels']
 				}
-			}
-			// yMaxValue Should be 25% more than Maximum Value
-			yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
-			return {literal}{'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels}{/literal};
+			});
 		},
 	});
 
 	jQuery(document).ready(function () {
 		Vtiger_Timecontrol_Widget_Js.registerEvents();
-		jQuery('select').select2();
+		app.showSelect2ElementView(jQuery('select'), {
+			closeOnSelect: true
+		});
 	});
 </script>
 <div class="dashboardWidgetHeader">
@@ -103,23 +174,23 @@
 		</tbody>
 	</table>
 	<div class="row-fluid filterContainerTimeControl">
-		<div class="row-fluid span6">
-			<span class="span4">
-				<span class="pull-right">
+		<div class="row-fluid span4">
+			<span class="span1" style="margin-right:5px;">
+				<span>
 					<i class="icon-calendar iconMiddle"></i>
 				</span>
 			</span>
-			<span class="span8">
-				<input type="text" name="time" class="dateRange widgetFilter" style="width:90%;" />
+			<span>
+				<input type="text" name="time" class="dateRange widgetFilter" style="width:80%;" />
 			</span>
 		</div>
-		<div class="row-fluid span6">
-			<span class="span1">
-				<span class="pull-right">
+		<div class="row-fluid span4">
+			<span class="span1" style="margin-right:5px;">
+				<span>
 					<i class="icon-user iconMiddle"></i>
 				</span>
 			</span>
-			<span class="span8">
+			<span>
 				{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 				{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
 				<select class="widgetFilter" name="user" style="width:90%;" >
@@ -133,6 +204,7 @@
 				</select>
 			</span>
 		</div>
+		
 	</div>
 </div>
 <div class="dashboardWidgetContent dashboardWidgetContentTimeControl">

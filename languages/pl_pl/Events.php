@@ -18,6 +18,7 @@ $languageStrings = array(
 	'Daily'=>'Dni',
 	'Events' => 'Terminy',
 	'Held' => 'Odbyte',
+	'Status' => 'Etap',
 	'INVITATION'=>' Zaproszenia ',
 	'LBL_ADD_RECORD' => 'Dodaj termin',
 	'LBL_CALENDAR_VIEW' => 'Kalendarz',
@@ -77,8 +78,12 @@ $languageStrings = array(
 	'Weekly'=>'Tygodni',
 	'Yearly'=>'Lat',
 	'LBL_NO_DESCRIPTION'=>'Brak opisu',
+	'All day' => 'Całodniowe',
 	//Priority picklist values 
 	'High' => 'Wysoki', 
 	'Medium' => 'Średni', 
 	'Low' => 'Niski', 
+	'LBL_STATE' => 'Stan',
+	'PLL_OPAQUE' => 'Zajęty',
+	'PLL_TRANSPARENT' => 'Dostepny',
 );

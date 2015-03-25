@@ -9,7 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-
+	'QuotesEnquires' => 'Quotes enquires',
+	'SINGLE_QuotesEnquires' => 'Quotes enquires',
+	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
@@ -18,16 +20,29 @@ $languageStrings = Array(
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_POTENTIAL' => 'Potential',
 	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'LBL_WAS_READ' => 'Updated',
 	'Description' => 'Description',
 	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+	'LBL_STAGE' => 'Stage',
+	'LBL_CONS' => 'Disadvantages',
+	'LBL_PROS' => 'Advantages',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Generate requirements card',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
-);
-$languageStrings = array(
-	'SINGLE_QuotesEnquires' => 'Quote Enquires',
-	'QuotesEnquires' => 'Quotes Enquires',
+	'PLL_NOT_STARTED' => 'Not started',
+	'PLL_VERIFICATION' => 'Verification',
+	'PLL_DECLINED' => 'Declined ',
+	'PLL_ACCEPTED' => 'Accepted ',
+	'PLL_LOW_MARGIN' => 'Low margin',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Unreliable organization',
+	'PLL_UNRELIABLE_PAYMENT' => 'Unreliable payment',
+	'PLL_NO_DETAILS' => 'No details',
+	'PLL_LACK_OF_COMPETENCE' => 'No expertise',
+	'PLL_LACK_OF_TIME' => 'No time',
+	'PLL_HIGH_MARGIN' => 'High margin',
+	'PLL_RELIABLE_CONTRACTOR' => 'Reliable organization',
+	'PLL_SOLID_PAYMENT' => 'Reliable payments',
+	'PLL_DETAILED_DESCRIPTION' => 'Detailed description',
+	'PLL_COMPETENT_TEAM' => 'Competent team',
+	'PLL_EASE_OF_COMMUNICATION' => 'Easy communication',
+	'PLL_RECOMMENDABLE' => 'Recommendable',
 );

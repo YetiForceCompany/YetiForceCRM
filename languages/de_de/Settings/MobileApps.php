@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'MobileApps' => 'Mobile Apps',
-	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
+	'LBL_MOBILE_CALLLISTENER' => 'Anrufliste',
  	'LBL_MOBILE_KEYS' => 'Mobile Applikation Keys',
  	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Erzeugen und Verwalten von Mobile Applikation Keys.',
  	'LBL_USERNAME' => 'Benutzer',
@@ -28,7 +28,7 @@ $languageStrings = array(
  	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key wurde gelöscht',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Änderungen wurden erfolgreich gesichert',
 	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Mobile Applikation ist nicht Aktiv',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile Applikation wurde bisher nicht aktiviert, bitte aktivieren Sie "mobile" in api/config.php ',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile Applikation wurde bisher nicht aktiviert, bitte aktivieren Sie "mobile" in config/api.php ',
 
  	// Mobile services
  	'LBL_MOBILE_HISTORYCALL' => 'Mobile Anrufhistorie',

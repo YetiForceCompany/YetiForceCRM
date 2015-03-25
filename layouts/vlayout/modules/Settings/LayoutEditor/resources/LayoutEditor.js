@@ -137,6 +137,46 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var relatedModule = currentTarget.closest('.relatedModule');
 			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
 		})
+		relatedList.on('click', '.addRelation', function(e) {
+			var currentTarget = jQuery(e.currentTarget);
+			var container = currentTarget.closest('#relatedTabOrder');
+			var contentsDiv = container.closest('.contentsDiv');
+			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
+			addRelationContainer.removeClass('hide');
+
+			var callBackFunction = function(data) {
+				app.showSelect2ElementView(data.find('select'));
+				data.find('.relLabel').val(data.find('.target option:selected').val());
+				data.on('change', '.target', function(e) {
+					var currentTarget = jQuery(e.currentTarget);
+					data.find('.relLabel').val(currentTarget.find('option:selected').val());
+				})
+				data.on('click', '.addButton', function(e) {
+					var form = data.find('form').serializeFormData();
+					var params = {};
+					params['module'] = app.getModuleName();
+					params['parent'] = app.getParentModuleName();
+					params['action'] = 'Relation';
+					params['mode'] = 'addRelation';
+					$.extend( params, form );
+					AppConnector.request(params).then(
+						function(data) {
+							thisInstance.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val()).then(
+								function(data) {
+									contentsDiv.html(data);
+									thisInstance.registerEvents();
+								}
+							);
+						}
+					);
+				});
+			}
+			app.showModalWindow(addRelationContainer,function(data) {
+				if(typeof callBackFunction == 'function') {
+					callBackFunction(data);
+				}
+			});
+		})
 	},
 
 	getSelectedFields : function(target) {

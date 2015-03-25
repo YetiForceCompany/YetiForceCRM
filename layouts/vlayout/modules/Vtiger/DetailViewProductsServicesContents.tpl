@@ -38,11 +38,13 @@
 						<input type="hidden" name="relatedModule" value="OutsourcedProducts" />
 						<span class="span9 margin0px"><h4>{vtranslate('LBL_RELATED_OP',$MODULE_NAME)}</h4></span>
 						<span class="span3">
-							<span class="pull-right">
-								<button class="btn createRecord" type="button" data-url="index.php?module=OutsourcedProducts&view=QuickCreateAjax">
-									<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
-								</button>
-							</span>
+							{if {Users_Privileges_Model::isPermitted('OutsourcedProducts', 'EditView')}}
+								<span class="pull-right">
+									<button class="btn createRecord" type="button" data-url="index.php?module=OutsourcedProducts&view=QuickCreateAjax">
+										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+									</button>
+								</span>
+							{/if}	
 						</span>
 					</div>
 					<div class="widget_contents">
@@ -58,11 +60,13 @@
 						<input type="hidden" name="relatedModule" value="Assets" />
 						<span class="span9 margin0px"><h4>{vtranslate('LBL_RELATED_ASSETS',$MODULE_NAME)}</h4></span>
 						<span class="span3">
-							<span class="pull-right">
-								<button class="btn createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
-									<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
-								</button>
-							</span>
+							{if {Users_Privileges_Model::isPermitted('Assets', 'EditView')} }
+								<span class="pull-right">
+									<button class="btn createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
+										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+									</button>
+								</span>
+							{/if}
 						</span>
 					</div>
 					<div class="widget_contents">
@@ -96,11 +100,13 @@
 						<input type="hidden" name="relatedModule" value="OSSOutsourcedServices" />
 						<span class="span9 margin0px"><h4>{vtranslate('LBL_RELATED_OSSOS',$MODULE_NAME)}</h4></span>
 						<span class="span3">
-							<span class="pull-right">
-								<button class="btn createRecord" type="button" data-url="index.php?module=OSSOutsourcedServices&view=QuickCreateAjax">
-									<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
-								</button>
-							</span>
+							{if {Users_Privileges_Model::isPermitted('OSSOutsourcedServices', 'EditView')} }
+								<span class="pull-right">
+									<button class="btn createRecord" type="button" data-url="index.php?module=OSSOutsourcedServices&view=QuickCreateAjax">
+										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+									</button>
+								</span>
+							{/if}
 						</span>
 					</div>
 					<div class="widget_contents">
@@ -114,11 +120,13 @@
 						<input type="hidden" name="relatedModule" value="OSSSoldServices" />
 						<span class="span9 margin0px"><h4>{vtranslate('LBL_RELATED_OSSSS',$MODULE_NAME)}</h4></span>
 						<span class="span3">
-							<span class="pull-right">
-								<button class="btn createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
-									<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
-								</button>
-							</span>
+							{if {Users_Privileges_Model::isPermitted('OSSSoldServices', 'EditView')} }
+								<span class="pull-right">
+									<button class="btn createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
+										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+									</button>
+								</span>
+							{/if}
 						</span>
 					</div>
 					<div class="widget_contents">

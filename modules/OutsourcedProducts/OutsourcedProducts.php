@@ -129,11 +129,10 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 			$accountInstance = Vtiger_Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
-			$productInstance = Vtiger_Module::getInstance('Products');
+			$productInstance = Vtiger_Module::getInstance('Potentials');
 			$productInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
-			$InvoiceInstance = Vtiger_Module::getInstance('Invoice');
-			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');$InvoiceInstance = Vtiger_Module::getInstance('Leads');
+			$InvoiceInstance = Vtiger_Module::getInstance('Leads');
 			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
 
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));

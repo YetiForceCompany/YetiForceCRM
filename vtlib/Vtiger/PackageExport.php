@@ -401,13 +401,14 @@ class Vtiger_PackageExport {
 		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? AND block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
 
-		if(empty($fieldcount)) return;
+		if (empty($fieldcount))
+			return;
 
 		$entityresult = $adb->pquery("SELECT * FROM vtiger_entityname WHERE tabid=?", Array($moduleInstance->id));
 		$entity_fieldname = $adb->query_result($entityresult, 0, 'fieldname');
 
 		$this->openNode('fields');
-		for($index = 0; $index < $fieldcount; ++$index) {
+		for ($index = 0; $index < $fieldcount; ++$index) {
 			$this->openNode('field');
 			$fieldresultrow = $adb->fetch_row($fieldresult);
 
@@ -415,73 +416,93 @@ class Vtiger_PackageExport {
 			$uitype = $fieldresultrow['uitype'];
 			$fieldid = $fieldresultrow['fieldid'];
 
-			$info_schema = $adb->pquery( "SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() AND table_name = ? AND column_name = ?",
-					Array($fieldresultrow['tablename'],$fieldresultrow['columnname']));
+			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() AND table_name = ? AND column_name = ?", Array($fieldresultrow['tablename'], $fieldresultrow['columnname']));
 			$info_schemarow = $adb->fetch_row($info_schema);
-			
+
 			$this->outputNode($fieldname, 'fieldname');
-			$this->outputNode($uitype,    'uitype');
-			$this->outputNode($fieldresultrow['columnname'],'columnname');
-			$this->outputNode($info_schemarow['column_type'],'columntype');
-			$this->outputNode($fieldresultrow['tablename'],     'tablename');
+			$this->outputNode($uitype, 'uitype');
+			$this->outputNode($fieldresultrow['columnname'], 'columnname');
+			$this->outputNode($info_schemarow['column_type'], 'columntype');
+			$this->outputNode($fieldresultrow['tablename'], 'tablename');
 			$this->outputNode($fieldresultrow['generatedtype'], 'generatedtype');
-			$this->outputNode($fieldresultrow['fieldlabel'],    'fieldlabel');
-			$this->outputNode($fieldresultrow['readonly'],      'readonly');
-			$this->outputNode($fieldresultrow['presence'],      'presence');
-			$this->outputNode($fieldresultrow['defaultvalue'],  'defaultvalue');
-			$this->outputNode($fieldresultrow['sequence'],      'sequence');
+			$this->outputNode($fieldresultrow['fieldlabel'], 'fieldlabel');
+			$this->outputNode($fieldresultrow['readonly'], 'readonly');
+			$this->outputNode($fieldresultrow['presence'], 'presence');
+			$this->outputNode($fieldresultrow['defaultvalue'], 'defaultvalue');
+			$this->outputNode($fieldresultrow['sequence'], 'sequence');
 			$this->outputNode($fieldresultrow['maximumlength'], 'maximumlength');
-			$this->outputNode($fieldresultrow['typeofdata'],    'typeofdata');
-			$this->outputNode($fieldresultrow['quickcreate'],   'quickcreate');
-			$this->outputNode($fieldresultrow['quickcreatesequence'],   'quickcreatesequence');
-			$this->outputNode($fieldresultrow['displaytype'],   'displaytype');
-			$this->outputNode($fieldresultrow['info_type'],     'info_type');
-			$this->outputNode($fieldresultrow['fieldparams'],   'fieldparams');
-			$this->outputNode('<![CDATA['.$fieldresultrow['helpinfo'].']]>', 'helpinfo');
-			if(isset($fieldresultrow['masseditable'])) {
+			$this->outputNode($fieldresultrow['typeofdata'], 'typeofdata');
+			$this->outputNode($fieldresultrow['quickcreate'], 'quickcreate');
+			$this->outputNode($fieldresultrow['quickcreatesequence'], 'quickcreatesequence');
+			$this->outputNode($fieldresultrow['displaytype'], 'displaytype');
+			$this->outputNode($fieldresultrow['info_type'], 'info_type');
+			$this->outputNode($fieldresultrow['fieldparams'], 'fieldparams');
+			$this->outputNode($fieldresultrow['helpinfo'], 'helpinfo');
+
+			if (isset($fieldresultrow['masseditable'])) {
 				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
 			}
-                        if(isset($fieldresultrow['summaryfield'])){
-                            $this->outputNode($fieldresultrow['summaryfield'],'summaryfield');
-                        }
+			if (isset($fieldresultrow['summaryfield'])) {
+				$this->outputNode($fieldresultrow['summaryfield'], 'summaryfield');
+			}
 			// Export Entity Identifier Information
-			if($fieldname == $entity_fieldname) {
+			if ($fieldname == $entity_fieldname) {
 				$this->openNode('entityidentifier');
-				$this->outputNode($adb->query_result($entityresult, 0, 'entityidfield'),    'entityidfield');
+				$this->outputNode($adb->query_result($entityresult, 0, 'entityidfield'), 'entityidfield');
 				$this->outputNode($adb->query_result($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
 				$this->closeNode('entityidentifier');
 			}
 
 			// Export picklist values for picklist fields
-			if($uitype == '15' || $uitype == '16' || $uitype == '111' || $uitype == '33' || $uitype == '55') {
-
-				if($uitype == '16') {
+			if ($uitype == '15' || $uitype == '16' || $uitype == '111' || $uitype == '33' || $uitype == '55') {
+				if ($uitype == '16') {
 					$picklistvalues = vtlib_getPicklistValues($fieldname);
 				} else {
 					$picklistvalues = vtlib_getPicklistValues_AccessibleToAll($fieldname);
 				}
 				$this->openNode('picklistvalues');
-				foreach($picklistvalues as $picklistvalue) {
+				foreach ($picklistvalues as $picklistvalue) {
 					$this->outputNode($picklistvalue, 'picklistvalue');
 				}
 				$this->closeNode('picklistvalues');
 			}
 
 			// Export field to module relations
-			if($uitype == '10') {
+			if ($uitype == '10') {
 				$relatedmodres = $adb->pquery("SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?", Array($fieldid));
 				$relatedmodcount = $adb->num_rows($relatedmodres);
-				if($relatedmodcount) {
+				if ($relatedmodcount) {
 					$this->openNode('relatedmodules');
-					for($relmodidx = 0; $relmodidx < $relatedmodcount; ++$relmodidx) {
+					for ($relmodidx = 0; $relmodidx < $relatedmodcount; ++$relmodidx) {
 						$this->outputNode($adb->query_result($relatedmodres, $relmodidx, 'relmodule'), 'relatedmodule');
 					}
 					$this->closeNode('relatedmodules');
 				}
 			}
-
+			if ($uitype == '302') {
+				$this->outputNode('', 'fieldparams');
+				$this->openNode('tree_template');
+				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
+				if($adb->num_rows($trees) > 0){
+					$this->outputNode($adb->query_result_raw($trees, 0, 'name'), 'name');
+					$this->outputNode($adb->query_result_raw($trees, 0, 'access'), 'access');
+					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
+					$this->openNode('tree_values');
+					for($i = 0; $i < $adb->num_rows($treesData); $i++){
+						$this->openNode('tree_value');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'name'), 'name');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'tree'), 'tree');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'parenttrre'), 'parenttrre');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'depth'), 'depth');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'label'), 'label');
+						$this->outputNode($adb->query_result_raw($treesData, $i, 'state'), 'state');
+						$this->closeNode('tree_value');
+					}
+					$this->closeNode('tree_values');
+				}
+				$this->closeNode('tree_template');
+			}
 			$this->closeNode('field');
-
 		}
 		$this->closeNode('fields');
 	}
@@ -640,7 +661,7 @@ class Vtiger_PackageExport {
 	function export_RelatedLists($moduleInstance) {
 
 		if(!$moduleInstance->isentitytype) return;
-
+		
 		global $adb;
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if($adb->num_rows($result)) {
@@ -650,6 +671,8 @@ class Vtiger_PackageExport {
 				$row = $adb->fetch_array($result);
 				$this->openNode('relatedlist');
 
+				$relModuleInstance = Vtiger_Module::getInstance($row['related_tabid']);
+				$this->outputNode($relModuleInstance->name, 'relatedmodule');
 				$this->outputNode($row['name'], 'function');
 				$this->outputNode($row['label'], 'label');
 				$this->outputNode($row['sequence'], 'sequence');
@@ -664,14 +687,40 @@ class Vtiger_PackageExport {
 					}
 					$this->closeNode('actions');
 				}
-
-				$relModuleInstance = Vtiger_Module::getInstance($row['related_tabid']);
-				$this->outputNode($relModuleInstance->name, 'relatedmodule');
-
 				$this->closeNode('relatedlist');
 			}
 
 			$this->closeNode('relatedlists');
+		}
+		
+		// Relations in the opposite direction
+		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?", Array($moduleInstance->id));
+		if ($adb->num_rows($result)) {
+			$this->openNode('inrelatedlists');
+
+			for ($index = 0; $index < $adb->num_rows($result); ++$index) {
+				$row = $adb->fetch_array($result);
+				$this->openNode('inrelatedlist');
+
+				$relModuleInstance = Vtiger_Module::getInstance($row['tabid']);
+				$this->outputNode($relModuleInstance->name, 'inrelatedmodule');
+				$this->outputNode($row['name'], 'function');
+				$this->outputNode($row['label'], 'label');
+				$this->outputNode($row['sequence'], 'sequence');
+				$this->outputNode($row['presence'], 'presence');
+
+				$action_text = $row['actions'];
+				if (!empty($action_text)) {
+					$this->openNode('actions');
+					$actions = explode(',', $action_text);
+					foreach ($actions as $action) {
+						$this->outputNode($action, 'action');
+					}
+					$this->closeNode('actions');
+				}
+				$this->closeNode('inrelatedlist');
+			}
+			$this->closeNode('inrelatedlists');
 		}
 	}
 

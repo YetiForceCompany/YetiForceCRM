@@ -176,6 +176,10 @@ var app = {
 		if (typeof params == 'undefined') {
 			params = {trigger: 'hover', placement: 'top', delay: {show: 1000, hide: 100}};
 		}
+		if(selectElement.data('placement')){
+			params.placement = selectElement.data('placement');
+		}
+		
 		if (selectElement.hasClass('delay0')) {
 			params.delay = {show: 0, hide: 0}
 		}

@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = array(
-	'dd-mm-yyyy' => 'dd-mm-rrrr',
-	'mm-dd-yyyy' => 'mm-dd-rrrr',
-	'yyyy-mm-dd' => 'rrrr-mm-dd',
+	'dd-mm-yyyy' => 'dd-mm-yyyy',
+	'mm-dd-yyyy' => 'mm-dd-yyyy',
+	'yyyy-mm-dd' => 'yyyy-mm-dd',
 	'LBL_SELECT_USERS' => 'Select Users',
 	'Share calendar users' => 'Share calendar users',
 	'Users' => 'Users',
@@ -57,7 +57,7 @@ $languageStrings = array(
 	'LBL_DELETE_USER' => 'User to be Deleted',
 	'LBL_DEPARTMENT'		=> 'Department',
 	'LBL_EMAIL_SEND' => 'We have sent you email to reset your password.',
-	'LBL_GET_MORE' => 'Get more out of Vtiger',
+	'LBL_GET_MORE' => 'Get more out of YetiForce',
 	'LBL_GET_STARTED'	=> 'Get Started',
 	'LBL_HIDDEN' => 'Hidden',
 	'LBL_HIDE' => 'Hide',
@@ -282,6 +282,12 @@ $languageStrings = array(
 	'Inactive'=> 'Inactive',
 	'yes'=> 'Yes',
 	'no'=> 'No',
+	'Meeting' => 'Meeting',
+	'Call' => 'Call',
+	'Mobile Call' => 'Mobile Call',
+	'Planned' => 'Planned',
+	'Held' => 'Odbyte',
+	'Not Held' => 'Not Held',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',

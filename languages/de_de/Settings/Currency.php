@@ -8,16 +8,16 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'Conversion Rate' => 'Conversion Rate',
-	'Currency' => 'Currency',
+	'Conversion Rate' => 'Umrechnungskurs',
+	'Currency' => 'Währung',
 	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency Code',
-	'Currency Name' => 'Currency Name',
+	'Currency Code' => 'Währungsschlüssel',
+	'Currency Name' => 'Name der Währung',
 	'LBL_ADD_NEW_CURRENCY' => 'Währung hinzufügen',
 	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
 	'LBL_CURRENCY_CODE' => 'Währungskürzel',
 	'LBL_CURRENCY_NAME' => 'Währungsname',
-	'LBL_CURRENCY_STATUS_DESC' => 'Haken, um Währung als im Programm aktive Währung zu setzen', 
+	'LBL_CURRENCY_STATUS_DESC' => 'aktive Währung (Haken gesetzt)', 
 	'LBL_CURRENCY_SYMBOL' => 'Symbol',
 	'LBL_CURRENT_CURRENCY' => 'Aktuelle Währung',
 	'LBL_EDIT_CURRENCY' => 'Währung bearbeiten',

@@ -248,6 +248,11 @@ $languageStrings = array(
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Zarządzanie ukrywaniem bloków z polami',
 	'LBL_PUBLIC_HOLIDAY' => 'Publiczne święta',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_CALENDAR_CONFIG' => 'Konfiguracja kalendarza',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
+	'LBL_DAV_KEYS' => 'Klucze aplikacji DAV',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji DAV',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
@@ -266,6 +271,10 @@ $languageStrings = array(
 	'Document Control'=>'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
 	"Credits"	=> 'Współtwórcy',
+	'LBL_PROCESSES' => 'Procesy',
+	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 );
 
 $jsLanguageStrings = array(

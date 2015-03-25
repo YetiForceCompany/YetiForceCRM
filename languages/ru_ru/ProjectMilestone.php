@@ -21,8 +21,5 @@ $languageStrings = array(
 	'Project Milestone No'         => '№'    , 
 	'Related to'                   => 'Связан с'    , 
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
-	'administrative' => 'Административный',
 	'description' => 'Описание',
-	'operative' => 'Оперативный',
-	'other' => 'Другой',
 );

@@ -491,8 +491,6 @@ jQuery.Class("Vtiger_List_Js",{
 			var selectedIds = listInstance.readSelectedIds(true);
 			var excludedIds = listInstance.readExcludedIds(true);
 			var cvId = listInstance.getCurrentCvId();
-			console.log(selectedIds);
-			console.log(excludedIds);
 			var params = {
 				'module': 'Potentials',
 				'action' : 'GeneratePotentials',
@@ -503,7 +501,6 @@ jQuery.Class("Vtiger_List_Js",{
 			}
 			AppConnector.request(params).then(
 				function(data) {
-					console.log(data.result);
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});
 					var params = {
 						title : app.vtranslate('JS_MESSAGE'),
@@ -642,7 +639,9 @@ jQuery.Class("Vtiger_List_Js",{
                 listViewContentsContainer.html(data);
                 app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
 				thisInstance.registerListViewSelect();
-                app.changeSelectElementView(listViewContentsContainer);
+				thisInstance.registerListViewSpecialOptiopn();
+				app.changeSelectElementView(listViewContentsContainer);
+				app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
                 thisInstance.registerTimeListSearch(listViewContentsContainer);
 
                 thisInstance.registerDateListSearch(listViewContentsContainer);
@@ -742,7 +741,7 @@ jQuery.Class("Vtiger_List_Js",{
 			for(var fieldName in massEditFieldList){
                 var fieldInfo = massEditFieldList[fieldName];
                 var fieldElement = form.find('[name="'+fieldInfo.name+'"]');
-                if(fieldInfo.type == "reference") {
+                if(fieldInfo.type == "reference" || fieldInfo.type == "tree" ) {
                     //get the element which will be shown which has "_display" appended to actual field name
                     fieldElement = form.find('[name="'+fieldInfo.name+'_display"]');
                 }else if(fieldInfo.type == "multipicklist" || fieldInfo.type == "sharedOwner") {
@@ -1887,6 +1886,7 @@ jQuery.Class("Vtiger_List_Js",{
         this.registerDateListSearch(listViewContainer);
         this.registerTimeListSearch(listViewContainer);
 		this.registerListViewSelect();
+		this.registerListViewSpecialOptiopn();
 	},
 	registerListViewSelect : function() {
 		var listViewContainer = this.getListViewContentContainer();
@@ -1896,6 +1896,18 @@ jQuery.Class("Vtiger_List_Js",{
 			Vtiger_List_Js.triggerListSearch();
 		})
 	},
+	registerListViewSpecialOptiopn : function() {
+		var listViewContainer = this.getListViewContentContainer();
+		var box = listViewContainer.find('.listViewEntriesTable #searchInSubcategories');
+		box.on("change", function(e) { 
+			var searchContributorElement = jQuery('.listSearchContributor[name="'+box.data('columnname')+'"]');
+			var searchValue = searchContributorElement.val();
+			if(searchValue){
+				Vtiger_List_Js.triggerListSearch();
+			}
+		})
+	},
+	
 	/**
 	 * Function that executes after the mass delete action
 	 */
@@ -1948,12 +1960,16 @@ jQuery.Class("Vtiger_List_Js",{
                 searchOperator = 'bw';
             }else if (fieldInfo.type == 'percentage' || fieldInfo.type == "double" || fieldInfo.type == "integer"
                 || fieldInfo.type == 'currency' || fieldInfo.type == "number" || fieldInfo.type == "boolean" ||
-                fieldInfo.type == "picklist"|| fieldInfo.type == "tree") {
+                fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
                 searchOperator = 'e';
             }
             searchInfo.push(fieldName);
             searchInfo.push(searchOperator);
             searchInfo.push(searchValue);
+			if(fieldInfo.type == "tree"){
+				var searchInSubcategories = jQuery('.listViewHeaders #searchInSubcategories[data-columnname="'+fieldName+'"]').prop('checked');
+				 searchInfo.push(searchInSubcategories);
+			}
             searchParams.push(searchInfo);
         });
         return new Array(searchParams);

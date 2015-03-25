@@ -47,7 +47,7 @@
                         {foreach from=$DOC_TPL_LIST item=item key=key}
                         <tr class="listViewEntries" data-id="{$item.id}">
                                 <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{vtranslate($item.module, $item.module)}</td>
-                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{$item.summary}</td>
+                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"> {vtranslate($item.summary, $QUALIFIED_MODULE)}</td>
                                 <td><a class="pull-right edit_tpl" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"><!--<i title="{vtranslate('LBL_EDIT')}" class="icon-pencil alignMiddle"></i>--></a>
                                     <a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteTemplate&tpl_id={$item.id}' class="pull-right marginRight10px">
                                         <i type="{vtranslate('REMOVE_TPL', $QUALIFIED_MODULE)}" class="icon-trash alignMiddle"></i></a>

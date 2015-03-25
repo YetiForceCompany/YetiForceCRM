@@ -344,12 +344,6 @@ class OSSPasswords extends CRMEntity {
 			$accountInstance = Vtiger_Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
             
-            $contactInstance = Vtiger_Module::getInstance('Contacts');
-			$contactInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $leadsInstance = Vtiger_Module::getInstance('Leads');
-			$leadsInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-
 			$productInstance = Vtiger_Module::getInstance('Products');
 			$productInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
             
@@ -376,7 +370,7 @@ class OSSPasswords extends CRMEntity {
         
             // handler for obscuring password data in "update history"
             $em = new VTEventsManager($adb);
-            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/secure.php', $handlerClass);
+            $em->registerHandler('vtiger.entity.aftersave.final', 'modules/OSSPasswords/handlers/secure.php', $handlerClass);
 						            
             // Module icon
             copy( 'modules/OSSPasswords/OSSPasswords.png', 'layouts/vlayout/skins/images/OSSPasswords.png' );

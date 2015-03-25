@@ -23,6 +23,7 @@ class Settings_OSSProjectTemplates_Base_View extends Settings_Vtiger_Index_View 
                 $fieldModel = new $modelClassName();
                 $output[$key]['html'] = $fieldModel->process($key, $moduleName, $editView);
                 $output[$key]['label'] = $fieldModel->getFieldLabel($key, $moduleName);
+				$output[$key]['mandatory'] = $fieldModel->fieldIsRequired($key, $moduleName);
             }
         }
 

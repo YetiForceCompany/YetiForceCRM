@@ -50,7 +50,7 @@ function OSSProjectTemplatesEdit() {
                     });
 
                     if (!status) {
-                        var msg = "Wypełnij pola wymagane";
+                        var msg = app.vtranslate('JS_FILL_REQUIRED_FIELDS')
                         thisInstance.showErrorMessage(msg);
                     }
 

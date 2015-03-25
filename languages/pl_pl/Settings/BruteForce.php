@@ -12,7 +12,7 @@ $languageStrings = array(
 	'BruteForce'  => 'Brute Force',
     'Number of attempts' => 'Liczba prób',
     'Time lock' => 'Czas blokady (minuty)',
-    'Settings' => 'Ustawienia ograniczeń logowania',
+    'Settings' => 'Ustawienia',
     'Blocked IP' => 'Zablokowane IP',
     'BruteForce settings' => 'Ustawienia ochrony',
     'Save' => 'Zapisz',
@@ -27,6 +27,8 @@ $languageStrings = array(
     'Users' => 'Loginy',
     'Browsers' => 'Przeglądarki',
     'Unblock' => 'Odblokuj',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Aktywny',
 );
 
 $jsLanguageStrings = array(
@@ -36,4 +38,6 @@ $jsLanguageStrings = array(
     'LBL_FAIL' => 'Nie można było zapisać zmian', 
     'LBL_UNBLOCK_FAIL' => 'Nie udało się odblokować adresu IP',
     'LBL_UNBLOCK_SUCCESS' => 'Odblokowano adres IP',       
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Wprowadziłeś niepoprawny format dla liczby prób, popraw go.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Wprowadziłeś niepoprawny format dla czasu blokady, popraw go.'
 );

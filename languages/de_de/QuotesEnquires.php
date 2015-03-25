@@ -8,24 +8,41 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
+$languageStrings = array(
+	'QuotesEnquires' => 'Angebotsanalyse',
+	'SINGLE_QuotesEnquires' => 'Angebotsanalyse',
 	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
 
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamkniÄ™cia',
-	'LBL_WAS_READ' => 'Updated',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+	'LBL_SUBJECT' => 'Bezeichnung',
+	'LBL_POTENTIAL' => 'Verkaufschance',
+	'LBL_NUMBER' => 'Nummer',
+	'Description' => 'Beschreibung',
+	'Attention' => 'Punkte zur Beachtung',
+	'LBL_STAGE' => 'Stufe',
+	'LBL_CONS' => 'Nachteile',
+	'LBL_PROS' => 'Vorteile',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Anforderungen stellen',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
+	'PLL_NOT_STARTED' => 'Nicht gestartet',
+	'PLL_VERIFICATION' => 'Überprüfung',
+	'PLL_DECLINED' => 'Abgelehnt ',
+	'PLL_ACCEPTED' => 'Angenommeen ',
+	'PLL_LOW_MARGIN' => 'geringer Umsatz',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Unzuverlässige Organisation',
+	'PLL_UNRELIABLE_PAYMENT' => 'Unzuverlässige Zahlungen',
+	'PLL_NO_DETAILS' => 'Keine Details',
+	'PLL_LACK_OF_COMPETENCE' => 'Kein Know How',
+	'PLL_LACK_OF_TIME' => 'Keine Zeit',
+	'PLL_HIGH_MARGIN' => 'Hoher Umsatz',
+	'PLL_RELIABLE_CONTRACTOR' => 'Zuverlässige Organisation',
+	'PLL_SOLID_PAYMENT' => 'Zuverlässige Zahlungen',
+	'PLL_DETAILED_DESCRIPTION' => 'Detailierte Beschreibung',
+	'PLL_COMPETENT_TEAM' => 'Zuständiges Team',
+	'PLL_EASE_OF_COMMUNICATION' => 'Einfache Kommunikation',
+	'PLL_RECOMMENDABLE' => 'Empfehlenswert',
 );

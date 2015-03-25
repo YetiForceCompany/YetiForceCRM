@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,30 +7,57 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
+
 	function __construct() {
 		parent::__construct();
-		$this->exposeMethod('UpdateColor');
-		$this->exposeMethod('UpdateActiveType');
+		$this->exposeMethod('UpdateModuleColor');
+		$this->exposeMethod('UpdateModuleActiveType');
+		$this->exposeMethod('UpdateUserColor');
+		$this->exposeMethod('UpdateCalendarConfig');
 	}
-	public function UpdateColor(Vtiger_Request $request) {
+
+	public function UpdateModuleColor(Vtiger_Request $request) {
 		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateColor($params);
+		Settings_Calendar_Module_Model::updateModuleColor($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
-	public function UpdateActiveType(Vtiger_Request $request) {
+
+	public function UpdateModuleActiveType(Vtiger_Request $request) {
 		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateActiveType($params);
+		Settings_Calendar_Module_Model::updateModuleActiveType($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE',$request->getModule(false))
+			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function UpdateUserColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Settings_Calendar_Module_Model::updateUserColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	
+	public function UpdateCalendarConfig(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_CHANGES', $request->getModule(false))
 		));
 		$response->emit();
 	}

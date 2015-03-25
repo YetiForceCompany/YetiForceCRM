@@ -26,13 +26,15 @@ $languageStrings = array(
     // Fields
     'Total Duration' => 'Dauer (sek)',
     'Bill Duration'  => 'Abrechnungsdauer (sek)',
-    'Recording URL' => 'Mitscheid URL',
+    'Recording URL' => 'Mitschnitt URL',
 	'Start Time' => 'Start Uhrzeit',
+	'End Time' => 'Ende Uhrzeit',
     'Call Status' => 'Anruf Status',
     'Customer Number' => 'Kundennummer',
     'Customer' => 'Kunde',
     'User' => 'Benutzer',
     'SINGLE_PBXManager' => 'Anruf Mitschneiden' ,
+	'Direction' => 'Richtung',
 
 );
 

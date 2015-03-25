@@ -8,11 +8,11 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
-	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
-	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
-	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
-	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
+	'Recommended frequency for SendReminder is 15 mins' => 'Die empfohlene Frequenz für Erinnerungen ist 15min',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Die empfohlene Frequenz für wiederholende Rechnungen ist 12 Stunden',
+	'Recommended frequency for Workflow is 15 mins' => 'Die empfohlene Frequenz für Workflows ist 15min',
+	'Recommended frequency for MailScanner is 15 mins' => 'Die empfohlene Frequenz fürden Mailscanner ist 15min',
 	'Cron Job' => 'CRON Aufgabe',
 	'CronTasks' => 'CRON Aufgaben',
 	'Frequency' => 'Frequenz',
@@ -34,11 +34,11 @@ $languageStrings = array(
 
 
 $jsLanguageStrings = array(
-	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
-	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
-	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
-	'Recommended frequency for Workflow is 15 mins' => 'Recommended frequency for Workflow is 15 mins',
-	'Recommended frequency for MailScanner is 15 mins' => 'Recommended frequency for MailScanner is 15 mins',
+	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
+	'Recommended frequency for SendReminder is 15 mins' => 'Die empfohlene Frequenz für Erinnerungen ist 15min',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'Die empfohlene Frequenz für wiederholende Rechnungen ist 12 Stunden',
+	'Recommended frequency for Workflow is 15 mins' => 'Die empfohlene Frequenz für Workflows ist 15min',
+	'Recommended frequency for MailScanner is 15 mins' => 'Die empfohlene Frequenz fürden Mailscanner ist 15min',
 	'FREQUENCY_NUMBER' => 'Die Frequenz muss eine ganze Zahl sein',
 	'FREQUENCY_REQUIRED' => 'Das Feld Frequenz wird benötigt',
 	'PATH_REQUIRED' => 'Der Pfad ist erforderlich',

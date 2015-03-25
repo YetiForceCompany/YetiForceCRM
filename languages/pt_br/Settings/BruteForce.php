@@ -13,7 +13,7 @@ $languageStrings = array(
 	'BruteForce'  => 'Força Bruta',
     'Number of attempts' => 'Número de tentativas',
     'Time lock' => 'Tempo de bloqueio (minutos)',
-    'Settings' => 'Configurações da restrição de acesso',
+    'Settings' => 'Settings',
     'Blocked IP' => 'Endereço de IP bloqueado',
     'BruteForce settings' => 'Configurações Força Bruta',
     'Save' => 'Salvar',
@@ -28,6 +28,8 @@ $languageStrings = array(
     'Users' => 'Usuários',
     'Browsers' => 'Browsers',
     'Unblock' => 'Desbloquear',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
     
 );
 
@@ -38,5 +40,7 @@ $jsLanguageStrings = array(
     'LBL_FAIL' => 'As alterações não foram salvas', 
     'LBL_UNBLOCK_FAIL' => 'O endereço de IP não foi desbloeado',
     'LBL_UNBLOCK_SUCCESS' => 'O endereço de IP foi desbloqueado',   
+	'JS_WRONG_ATTEMPS_NUMBER' => 'You have entered an incorrect format for a number of attempts, correct it.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'You have entered an incorrect format for a time lock, correct it.'    
     
 );

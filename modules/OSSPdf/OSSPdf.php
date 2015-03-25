@@ -450,7 +450,7 @@ class OSSPdf extends CRMEntity {
                 
                 
                 $tekst = "javascript:QuickGenerate('$mod','$cat','$record');";
-                $modCommentsModule->addLink('DETAILVIEWBASIC', 'Generate default PDF' , $tekst, 'Smarty/templates/modules/OSSPdf/gen_domysle_dok.png');
+                //$modCommentsModule->addLink('DETAILVIEWBASIC', 'Generate default PDF' , $tekst, 'Smarty/templates/modules/OSSPdf/gen_domysle_dok.png');
                 
                 $tekst = "javascript:QuickGenerateMail('$mod','$cat','$record');";
                 

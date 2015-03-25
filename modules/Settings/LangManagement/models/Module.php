@@ -81,7 +81,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 			}
 			$new_translation = "'$langkey' => '$val',";
 			if(self::parse_data($to_replase,$fileContent)){
-				$fileContent = str_replace($to_replase,$to_replase.PHP_EOL.'	'.$new_translation,$fileContent);
+				$fileContent = str_ireplace($to_replase,$to_replase.PHP_EOL.'	'.$new_translation,$fileContent);
 			}else{
 				if(self::parse_data('?>',$fileContent)){
 					$fileContent = str_replace('?>','',$fileContent);
@@ -105,13 +105,34 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 		$langkey = $params['langkey'];
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator,"/",$mod);
+		$languageStrings = array();$jsLanguageStrings = array();
 		$fileName = "languages/$lang/$mod.php";
 		$fileExists = file_exists($fileName);
 		if($fileExists) {
-			$fileContentEdit = file($fileName);
+			require($fileName);
+			vglobal('languageStrings');vglobal('jsLanguageStrings');
+				if($params['type'] == 'php'){
+				vglobal('languageStrings');
+				$lang_tab = $languageStrings;
+			}else{
+				vglobal('jsLanguageStrings');
+				$lang_tab = $jsLanguageStrings;
+			}
+			if (!is_array($lang_tab) || !array_key_exists($langkey, $lang_tab)) {
+				return array('success' => false,'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES');
+			}
+				$countLangEl = count(explode("\n",$lang_tab[$langkey]));
+				$i = 1;
+				$start = false;
+				$fileContentEdit = file($fileName);
 			foreach ($fileContentEdit as $k=>$row){
+				if($start && $i<$countLangEl){
+					unset($fileContentEdit[$k]);
+					$i++;
+				}
 				if (strstr($row, "'$langkey'") !== false || strstr($row, '"'.$langkey.'"') !== false){
 					$fileContentEdit[$k] = "	'$langkey' => '$val',".PHP_EOL;
+					$start = true;
 				}
 			}
 			$fileContent = implode("", $fileContentEdit);
@@ -178,6 +199,27 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 		}
 		return array('php' => $resp_php,'js' => $resp_js,'langs' => $langs, 'keys' => $keys);
 	}
+	public function loadAllFieldsFromModule($lang,$mod,$ShowDifferences = 0) {
+        $adb = PearDatabase::getInstance();
+		$result = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid = ? AND `presence` IN (0,2)",array(getTabid($mod)));
+		$variablesFromFile = $this->loadLangTranslation($lang,'HelpInfo',$ShowDifferences);
+		$output = array();
+		if(self::parse_data(',',$lang)){
+		$langs = explode(",", $lang);
+		}else{
+			$langs[] = $lang;
+		}
+		$output['langs'] = $langs;
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$row = $adb->query_result_rowdata($result, $i);
+			$output['php'][$mod.'|'.$row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'],$mod);
+			$output['php'][$mod.'|'.$row['fieldlabel']]['info'] = array('view'=>explode(',',$row['helpinfo']), 'fieldid' => $row['fieldid']);
+			foreach($langs AS $lang){
+				$output['php'][$mod.'|'.$row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod.'|'.$row['fieldlabel']][$lang]);
+			}
+		}
+		return $output;
+	}
 	public function getModFromLang($lang) {
         $adb = PearDatabase::getInstance();
 		if($lang == '' || $lang == NULL){
@@ -237,6 +279,15 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 		}
 		return false;
 	}
+	public function saveView($params) {
+        $adb = PearDatabase::getInstance();
+		if(!is_array($params['value'])){
+			$params['value'] = array($params['value']);
+		}
+		$value = implode(',', $params['value']);
+			$adb->pquery("UPDATE `vtiger_field` SET `helpinfo` = ? WHERE `fieldid` = ?;",array($value ,$params['fieldid']), true);
+		return array('success' => true,'data' => 'LBL_SUCCESSFULLY_UPDATED');
+	}
 	public function delete($params) {
         $adb = PearDatabase::getInstance();
 		$dir = "languages/".$params['prefix'];
@@ -249,7 +300,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 	// Dodatkowe funkcje
 	public function parse_data($a,$b) {
 		$resp = false;
-		if ($b != '' && strstr($b,$a) !== false ) {
+		if ($b != '' &&  stristr($b,$a) !== false ) {
 			$resp = true;
 		}
 		return $resp;

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = array(
-    'My Home Page' => 'Mein Schreibtisch',
+    'My Home Page' => 'Mein Arbeitsplatz',
 	'Analytics' => 'Berichte',
     'Inventory' => 'Bestand',
     'Marketing' => 'Marketing',
@@ -114,6 +114,7 @@ $languageStrings = array(
 	'LBL_SIZEICON' => 'Bildgröße',
 	'Blok menu' => 'Menü Block',
 	'Typ menu' => 'Menütyp',
+	'LBL_LANGEDITION' => 'Edit translation',
     // połączenia
     'MSG_ADDMENUITEM_OK' => 'Neues Menü erfolgreich hinzugefügt.',
     'MSG_ADDMENUITEM_ERROR' => 'Fehler beim neuen Menü hinzufügen.',
@@ -138,6 +139,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR' => 'Fehler bei Änderungsgenehmigung',
 	'MSG_CHANGE_ICON' => 'Sie haben erfolgreich Änderungen vorgenommen',
 	'LBL_ADDICON' => 'Symboldesign Änderungen hinzufügen',
+    'LBL_OTHER' => 'Other',
 );
 
 $jsLanguageStrings = array(

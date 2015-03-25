@@ -9,6 +9,22 @@
  *
  * @version 2.0
  * @author Wout Decre <wout@canodus.be>
+ * @author Aleksander Machniak <machniak@kolabsys.com>
+ *
+ * Copyright (C) 2005-2014, The Roundcube Dev Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
 class rcube_ldap_simple_password
@@ -113,7 +129,7 @@ class rcube_ldap_simple_password
             return PASSWORD_CRYPT_ERROR;
         }
 
-        $this->_debug("C: Bind $binddn [pass: $bindpw]");
+        $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
 
         // Bind
         if (!ldap_bind($ds, $binddn, $bindpw)) {
@@ -168,14 +184,16 @@ class rcube_ldap_simple_password
      */
     function search_userdn($rcmail, $ds)
     {
-        $search_user = $rcmail->config->get('password_ldap_searchDN');
-        $search_pass = $rcmail->config->get('password_ldap_searchPW');
+        $search_user   = $rcmail->config->get('password_ldap_searchDN');
+        $search_pass   = $rcmail->config->get('password_ldap_searchPW');
+        $search_base   = $rcmail->config->get('password_ldap_search_base');
+        $search_filter = $rcmail->config->get('password_ldap_search_filter');
 
-        if (empty($search_user)) {
-            return null;
+        if (empty($search_filter)) {
+            return false;
         }
 
-        $this->_debug("C: Bind $search_user [pass: $search_pass]");
+        $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
 
         // Bind
         if (!ldap_bind($ds, $search_user, $search_pass)) {
@@ -184,9 +202,6 @@ class rcube_ldap_simple_password
         }
 
         $this->_debug("S: OK");
-
-        $search_base   = $rcmail->config->get('password_ldap_search_base');
-        $search_filter = $rcmail->config->get('password_ldap_search_filter');
 
         $search_base   = rcube_ldap_password::substitute_vars($search_base);
         $search_filter = rcube_ldap_password::substitute_vars($search_filter);
@@ -220,5 +235,4 @@ class rcube_ldap_simple_password
             rcube::write_log('ldap', $str);
         }
     }
-
 }

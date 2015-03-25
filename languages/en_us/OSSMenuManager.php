@@ -115,6 +115,7 @@ $languageStrings = array(
 	'LBL_SIZEICON' => 'Image Size',
 	'Blok menu' => 'Menu block',
 	'Typ menu' => 'Type menu',
+	'LBL_LANGEDITION' => 'Edit translation',
     // połączenia
     'MSG_ADDMENUITEM_OK' => 'Successfully added new menu.',
     'MSG_ADDMENUITEM_ERROR' => 'Failed to add new menu.',
@@ -139,6 +140,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR' => 'Failed to approve changes',
 	'MSG_CHANGE_ICON' => 'You have successfully made ​​changes',
 	'LBL_ADDICON' => 'Add icon theme changes',
+    'LBL_OTHER' => 'Other',
 );
 
 $jsLanguageStrings = array(

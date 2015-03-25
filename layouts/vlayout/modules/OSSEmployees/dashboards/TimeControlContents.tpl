@@ -11,19 +11,41 @@
  ********************************************************************************/
 -->*}
 {strip}
-{if count($DATA) gt 0 }
+{if $CHARTEXIST}
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
 	<div class="widgetChartContainer" style="height:65%;width:98%"></div>
-	<div class="widgetDescContainer" style="margin-left: 10px;margin-top: 10px">
-		<h5>{vtranslate('LBL_TIME_RANGE', $MODULE_NAME)}: {$DTIME['start']} - {$DTIME['end']}</h5>
-		<h5>{vtranslate('LBL_NUMBER_OF_DAYS', $MODULE_NAME)}: {$SELECTEDDAYS}</h5>
-		<h5>{vtranslate('LBL_NUMBER_OF_WORKING_DAYS', $MODULE_NAME)}: {$WORKDAYS}</h5>
-		<h5>{vtranslate('LBL_NUMBER_OF_DAYS_WORKED', $MODULE_NAME)}: {$COUNTDAYS}</h5>
-		<h5>{vtranslate('LBL_AVERAGE_WORKING_TIME', $MODULE_NAME)}: {$AVERAGE}</h5>
+	<div class="legend-colors">
+		<ol>
+		{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
+			<li style="float:left; margin-right:15px;">
+				<div style="margin-right:5px; margin-top:5px; float:left; width:10px; height:10px; background-color:{$COLOR}"></div>
+				<h5  style="float:left;">{vtranslate($TIMETYPE, $MODULE_NAME)} </h5>
+			</li>
+		{/foreach}
+	</ol>
 	</div>
 {else}
 	<span class="noDataMsg">
 		{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
 	</span>
 {/if}
+<div class="row-fluid span4" style="margin-top:10px;">
+			
+			<span class="span1" style="width:3%;">
+				<i class="icon-time iconMiddle"></i>
+			</span>
+			<select name="timeTypes" class="select2 widgetFilter" multiple style="width:50%;">
+				{foreach key=KEY item=ITEM from=$TIMETYPEPOSSIBILITY}
+					{if $SELECTEDTIMETYPES eq 'all'}
+						<option selected value="{$ITEM}">
+					{elseif in_array($ITEM, $SELECTEDTIMETYPES)}
+						<option selected value="{$ITEM}">
+					{else}
+						<option  value="{$ITEM}">
+					{/if}
+						{vtranslate($KEY, $MODULE_NAME)}
+					</option>
+				{/foreach}
+			</select> 
+</div>
 {/strip}

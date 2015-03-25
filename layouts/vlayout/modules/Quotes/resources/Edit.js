@@ -76,6 +76,9 @@ Inventory_Edit_Js("Quotes_Edit_Js",{},{
 				}
 			}
 		}
+		else if ( params.search_module == 'Products' || params.search_module == 'Services' ) {
+			params.potentialid = jQuery('[name="potential_id"]').val();
+		}
 
 		AppConnector.request(params).then(
 			function(data){

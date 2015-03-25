@@ -45,6 +45,7 @@ class rcube_cache
     private $cache         = array();
     private $cache_changes = array();
     private $cache_sums    = array();
+    private $max_packet    = -1;
 
 
     /**
@@ -74,7 +75,7 @@ class rcube_cache
         else {
             $this->type  = 'db';
             $this->db    = $rcube->get_dbh();
-            $this->table = $this->db->table_name('cache');
+            $this->table = $this->db->table_name('cache', true);
         }
 
         // convert ttl string to seconds
@@ -196,10 +197,10 @@ class rcube_cache
     {
         if ($this->type == 'db' && $this->db && $this->ttl) {
             $this->db->query(
-                "DELETE FROM ".$this->table.
-                " WHERE user_id = ?".
-                " AND cache_key LIKE ?".
-                " AND expires < " . $this->db->now(),
+                "DELETE FROM {$this->table}".
+                " WHERE `user_id` = ?".
+                " AND `cache_key` LIKE ?".
+                " AND `expires` < " . $this->db->now(),
                 $this->userid,
                 $this->prefix.'.%');
         }
@@ -214,7 +215,7 @@ class rcube_cache
         $rcube = rcube::get_instance();
         $db    = $rcube->get_dbh();
 
-        $db->query("DELETE FROM " . $db->table_name('cache') . " WHERE expires < " . $db->now());
+        $db->query("DELETE FROM " . $db->table_name('cache', true) . " WHERE `expires` < " . $db->now());
     }
 
 
@@ -283,13 +284,12 @@ class rcube_cache
         }
         else {
             $sql_result = $this->db->limitquery(
-                "SELECT data, cache_key".
-                " FROM " . $this->table.
-                " WHERE user_id = ?".
-                " AND cache_key = ?".
+                "SELECT `data`, `cache_key`".
+                " FROM {$this->table}".
+                " WHERE `user_id` = ? AND `cache_key` = ?".
                 // for better performance we allow more records for one key
                 // get the newer one
-                " ORDER BY created DESC",
+                " ORDER BY `created` DESC",
                 0, 1, $this->userid, $this->prefix.'.'.$key);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
@@ -319,13 +319,19 @@ class rcube_cache
      * Writes single cache record into DB.
      *
      * @param string $key  Cache key name
-     * @param mxied  $data Serialized cache data 
+     * @param mixed  $data Serialized cache data
      *
      * @param boolean True on success, False on failure
      */
     private function write_record($key, $data)
     {
         if (!$this->db) {
+            return false;
+        }
+
+        // don't attempt to write too big data sets
+        if (strlen($data) > $this->max_packet_size()) {
+            trigger_error("rcube_cache: max_packet_size ($this->max_packet) exceeded for key $key. Tried to write " . strlen($data) . " bytes", E_USER_WARNING);
             return false;
         }
 
@@ -339,9 +345,8 @@ class rcube_cache
         // Remove NULL rows (here we don't need to check if the record exist)
         if ($data == 'N;') {
             $this->db->query(
-                "DELETE FROM " . $this->table.
-                " WHERE user_id = ?".
-                " AND cache_key = ?",
+                "DELETE FROM {$this->table}".
+                " WHERE `user_id` = ? AND `cache_key` = ?",
                 $this->userid, $key);
 
             return true;
@@ -350,12 +355,12 @@ class rcube_cache
         // update existing cache record
         if ($key_exists) {
             $result = $this->db->query(
-                "UPDATE " . $this->table.
-                " SET created = " . $this->db->now().
-                    ", expires = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL').
-                    ", data = ?".
-                " WHERE user_id = ?".
-                " AND cache_key = ?",
+                "UPDATE {$this->table}".
+                " SET `created` = " . $this->db->now().
+                    ", `expires` = " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL').
+                    ", `data` = ?".
+                " WHERE `user_id` = ?".
+                " AND `cache_key` = ?",
                 $data, $this->userid, $key);
         }
         // add new cache record
@@ -363,8 +368,8 @@ class rcube_cache
             // for better performance we allow more records for one key
             // so, no need to check if record exist (see rcube_cache::read_record())
             $result = $this->db->query(
-                "INSERT INTO " . $this->table.
-                " (created, expires, user_id, cache_key, data)".
+                "INSERT INTO {$this->table}".
+                " (`created`, `expires`, `user_id`, `cache_key`, `data`)".
                 " VALUES (" . $this->db->now() . ", " . ($this->ttl ? $this->db->now($this->ttl) : 'NULL') . ", ?, ?, ?)",
                 $this->userid, $key, $data);
         }
@@ -414,20 +419,19 @@ class rcube_cache
 
         // Remove all keys (in specified cache)
         if ($key === null) {
-            $where = " AND cache_key LIKE " . $this->db->quote($this->prefix.'.%');
+            $where = " AND `cache_key` LIKE " . $this->db->quote($this->prefix.'.%');
         }
         // Remove keys by name prefix
         else if ($prefix_mode) {
-            $where = " AND cache_key LIKE " . $this->db->quote($this->prefix.'.'.$key.'%');
+            $where = " AND `cache_key` LIKE " . $this->db->quote($this->prefix.'.'.$key.'%');
         }
         // Remove one key by name
         else {
-            $where = " AND cache_key = " . $this->db->quote($this->prefix.'.'.$key);
+            $where = " AND `cache_key` = " . $this->db->quote($this->prefix.'.'.$key);
         }
 
         $this->db->query(
-            "DELETE FROM " . $this->table.
-            " WHERE user_id = ?" . $where,
+            "DELETE FROM {$this->table} WHERE `user_id` = ?" . $where,
             $this->userid);
     }
 
@@ -590,5 +594,31 @@ class rcube_cache
         }
 
         return $this->packed ? @unserialize($data) : $data;
+    }
+
+    /**
+     * Determine the maximum size for cache data to be written
+     */
+    private function max_packet_size()
+    {
+        if ($this->max_packet < 0) {
+            $this->max_packet = 2097152; // default/max is 2 MB
+
+            if ($this->type == 'db') {
+                $value = $this->db->get_variable('max_allowed_packet', 1048500);
+                $this->max_packet = min($value, $this->max_packet) - 2000;
+            }
+            else if ($this->type == 'memcache') {
+                $stats = $this->db->getStats();
+                $remaining = $stats['limit_maxbytes'] - $stats['bytes'];
+                $this->max_packet = min($remaining / 5, $this->max_packet);
+            }
+            else if ($this->type == 'apc' && function_exists('apc_sma_info')) {
+                $stats = apc_sma_info();
+                $this->max_packet = min($stats['avail_mem'] / 5, $this->max_packet);
+            }
+        }
+
+        return $this->max_packet;
     }
 }

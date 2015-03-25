@@ -14,7 +14,6 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$this->exposeMethod('Save');
 		$this->exposeMethod('UpdateLabels');
 		$this->exposeMethod('SaveSequenceNumber');
-		$this->exposeMethod('MaxSearchResultSave');
 	}
 	public function Save(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -47,16 +46,6 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 
         $response = new Vtiger_Response();
 		$response->setResult(array('success'=>true));
-		$response->emit();
-    }
-	public function MaxSearchResultSave(Vtiger_Request $request) {
-        $countMax = $request->get('value');
-
-        Settings_Search_Module_Model::setMaxSearchResult($countMax);
-
-        $response = new Vtiger_Response();
-		$response->setResult(array('success' => true,
-			'message' => vtranslate('LBL_SAVE_MAX_SEARCH_RESULT',$request->getModule(false))));
 		$response->emit();
     }
 }

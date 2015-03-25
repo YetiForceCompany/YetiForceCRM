@@ -85,6 +85,11 @@
 					{assign var=COUNTER value=$COUNTER+1}
 				 {/if}
 				 <td class="fieldLabel {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getName() eq 'description' or $FIELD_MODEL->get('uitype') eq '69' or $FIELD_MODEL->get('uitype') eq '300'} style='width:8%'{/if}>
+					{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+					{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
+					{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+						<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><i class="icon-info-sign"></i></a>
+					{/if}
 					 <label class="muted pull-right marginRight10px">
 						 {vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
 						 {if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
@@ -101,9 +106,10 @@
 							 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
                              {if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
                                 <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
+                             {elseif $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}
+								<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />		
                              {else}
                                  <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
-                                 
                                 {if $FIELD_MODEL->get('name') eq 'date_start' && $MODULE eq 'Calendar'}
                                     <input type="hidden" class="fieldname" value='time_start' data-prev-value='' />
                              {/if}

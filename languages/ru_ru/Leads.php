@@ -9,6 +9,8 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = array(
+	'Products' => 'Товар',
+	'Orders accepted' => 'Принимаем заказы',
 	'Township'	=>	'Поселок',
 	'--None--'                     => '--нет--'                  , 
 	'Approval for email'	=>	'Разрешено писать',
@@ -77,11 +79,36 @@ $languageStrings = array(
 	'Warm'                         => 'Теплый'                , 
 	'Website'	=>	'Сайт',
 	'Werification data'	=>	'Проверка данных',
-    "Attorney General's Office" => "Офис Генерального прокурора",
+	'Attorney General\'s Office' => 'Прокуратура',
     'Hot Leads'                    => 'Горячие Обращения',
 	'LBL_REQUIRES_VERIFICATION'	=>	'Проверка данных',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм'              , 
     'Prospecting'                  => 'Разведка',
+	'LBL_RELATION' => 'Отношение',
+	'LBL_LEGAL_FORM' => 'Юридическая форма',
+
+	//PICKLIST VALUES
+	'PLL_B2C' => 'B2C',
+	'PLL_B2B' => 'B2B',
+	'PLL_NATURAL_PERSON' => 'Физическое лицо',
+	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',
+	'PLL_GENERAL_PARTNERSHIP' => 'Общество с Неограниченной Ответственностью',
+	'PLL_PROFESSIONAL_PARTNERSHIP' => 'Саморегулируемая Организация',
+	'PLL_LIMITED_PARTNERSHIP' => 'Партнерство с Ограниченной Ответственностью',
+	'PLL_JOINT_STOCK_PARTNERSHIP' => 'Открытое Акционерное Общество',
+	'PLL_LIMITED_LIABILITY_COMPANY' => 'Закрытое Акционерное Общество',
+	'PLL_STOCK_OFFERING_COMPANY' => 'Акционерное Общество',
+	'PLL_GOVERMENT_ENTERPRISE' => 'Индивидуальный Предприниматель',
+	'PLL_ASSOCIATION' => 'Компания',
+	'PLL_COOPERATIVE' => 'Кооператив',
+	'PLL_FOUNDATION' => 'Фонд',
+	'PLL_EUROPEAN_PARTNERSHIP' => 'Европейское Партнерство',
+	'PLL_EUROPEAN_ECONOMIC_INTEREST_GROUPING' => 'Европейское Открытое Партнерство',
+	'PLL_EUROPEAN_COOPERATIVE' => 'Европейский Кооператив',
+	'PLL_EUROPEAN_PRIVATE_PARTNERSHIP' => 'Европейское Закрытое Партнерство',
+	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
+	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
+	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
 );
 
 $jsLanguageStrings = array(

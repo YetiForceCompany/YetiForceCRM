@@ -70,6 +70,14 @@ $languageStrings = array(
  	'more than hours before' => 'mais que horas antes',
  	'more than hours later' => 'mais que horas depois',
  	'has changed' => 'alterado',
+	'Adding time period to status change' => 'Adding time period to status change',
+	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
+	'Date validation' => 'Date validation',
+	'Check parent task' => 'Check parent task',
+	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
+	'Check for duplicate names' => 'Check for duplicate names',
+	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
+	'Lock edit on the status' => 'Lock edit on the status',
 );
 
 $jsLanguageStrings = array(

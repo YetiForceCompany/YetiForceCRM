@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ********************************************************************************/
-require_once 'api/config.php';
+require_once 'config/api.php';
 $service = $_REQUEST['service'];
 
 if(isset($service))

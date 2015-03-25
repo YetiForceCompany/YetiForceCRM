@@ -14,37 +14,17 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 		global $log;
 		$log->debug("Entering Settings_PublicHoliday_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$sourceModule = $request->get('sourceModule');
-
-		if(empty($sourceModule))
-			$sourceModule = 'Home';
 
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-
-		$yearFrom = $request->get('yearFrom');
-		$yearTo = $request->get('yearTo');
-
-		if ( empty($yearTo) ) {
-			$currentYear = $dateTo = date('Y');
-		}
-		else {
-			$dateTo = $currentYear = $yearTo;
-		}
-
-		if ( empty($yearFrom) ) {
-			$minus3Years = $dateFrom = date('Y', strtotime('-3 years'));
-		}
-		else {
-			$minus3Years = $dateFrom = $yearFrom;
-		}
-
-		$holidays = Settings_PublicHoliday_Module_Model::getHolidays( $dateFrom, $dateTo );
-
-		$viewer->assign('CURRENT_YEAR', $currentYear);
+		$date = $request->get('date');
+		if(!$date)
+			$date = array(date('Y-m-d', mktime(0,0,0,date('m'),1,date('Y'))),date('Y-m-d', mktime(23,59,59,date('m')+1,0,date('Y'))));
+		$holidays = Settings_PublicHoliday_Module_Model::getHolidays( $date );
+	
+		$viewer->assign('DATE', implode(" - ", $date));
 		$viewer->assign('THREE_YEARS_BACK', $minus3Years);
 		$viewer->assign('HOLIDAYS', $holidays);
-		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 

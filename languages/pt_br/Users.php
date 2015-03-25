@@ -52,7 +52,7 @@ $languageStrings = array(
 	'LBL_DELETE_USER'=> 'Usuário a ser Apagado',
 	'LBL_DEPARTMENT'		=> 'Departmento',
 	'LBL_EMAIL_SEND' => 'Enviamos-lhe email para que você possa redefinir sua senha.',
-	'LBL_GET_MORE' => 'Saiba mais sobre o Vtiger',
+	'LBL_GET_MORE' => 'Saiba mais sobre o YetiForce',
 	'LBL_GET_STARTED'	=> 'Iniciar',
 	'LBL_HIDDEN' => 'Ocultar' , 
 	'LBL_HIDE' => 'Ocultar' , 
@@ -277,6 +277,12 @@ $languageStrings = array(
 	'Inactive'=> 'Inativo',
 	'yes'=> 'Sim',
 	'no'=> 'Não',
+	'Meeting' => 'Reunião',
+	'Call' => 'Chamada',
+	'Mobile Call' => 'Ligar para Celular',
+	'Planned' => 'Planejado',
+	'Held' => 'Realizado',
+	'Not Held' => 'Não Realizado',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho Administrativo',

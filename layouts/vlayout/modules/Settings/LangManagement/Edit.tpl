@@ -23,7 +23,7 @@
 	<div class="span4 marginLeftZero">
 		<div class="pull-left marginRight10px pushDown2per">{vtranslate('Module',$QUALIFIED_MODULE)}:</div>
 		<div class="pull-left">
-			<select class="chzn-select span3" id="mods_list">
+			<select class="chzn-select span3 mods_list" id="mods_list">
 				<optgroup label="{vtranslate('Modules',$QUALIFIED_MODULE)}">
 					{foreach from=$MODS['mods'] item=MOD key=ID}
 						<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>

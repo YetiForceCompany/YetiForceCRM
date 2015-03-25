@@ -50,7 +50,7 @@ class Logger {
 	
 	function emit($level, $message) {
 		if(!$this->appender) {
-			$filename = 'cache/logs/vtigercrm.log';			
+			$filename = 'cache/logs/system.log';			
 			if($this->configinfo && isset($this->configinfo['appender']['File'])) {
 				$filename = $this->configinfo['appender']['File'];
 			}
@@ -116,12 +116,14 @@ class LoggerAppenderFile {
 		$this->chmod    = $chmod;
 	}
 	
-	function emit($prefix, $message) {		
+	function emit($prefix, $message) {
+		/*
 		if($this->chmod != 0777 && file_exists($this->filename)) {
 			if(is_readable($this->filename)) {
 				@chmod($this->filename, $this->chmod);
 			}
 		}
+		*/
 		$fh = @fopen($this->filename, 'a');
 		if($fh) {
 			@fwrite($fh, date('m/d/Y H:i:s') . " $prefix $message\n");

@@ -9,30 +9,42 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'RequirementCards' => 'Requirement Cards',
-	'SINGLE_RequirementCards' => 'Requirement Card',
+	'RequirementCards' => 'Anforderungen',
+	'SINGLE_RequirementCards' => 'Anforderungen',
 	
 	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Informationen',
+	'LBL_CUSTOM_INFORMATION' => 'System Informationen',
 	
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_STAGE' => 'Stage',
-	'Description' => 'Basic description',
-	'LBL_REJECTION_REASON' => 'Rejection reason',
-	'Attention' => 'Comments',
-	'LBL_NUMBER' => 'Number',
-	'Quotes Enquires' => 'Quotes enquires',
-	
+	'LBL_SUBJECT' => 'Bezeichnung',
+	'LBL_STAGE' => 'Status',
+	'Description' => 'Beschreibung',
+	'Attention' => 'Kommentare',
+	'LBL_NUMBER' => 'Nummer',
+	'Quotes Enquires' => 'zugehörige Angebote',
+	'LBL_CONS' => 'Nachteile',
+	'LBL_PROS' => 'Vorteile',
+	'LBL_GENERATE_CALCULATIONS' => 'Kalkulation durchführen',
+
 	//pick list values
-	'Created' => 'Created',
-	'Verification process' => 'Verification process',
-	'Internal consultation required' => 'Internal consultation required',
-	'External consultation required' => 'External consultation required',
-	'Waiting for answer' => 'Waiting for answer',
-	'Information completing' => 'Information completing',
-	'Declined' => 'Declined',
-	'Closed' => 'Closed',
-	'Requirements not met' => 'Requirements not met',
+	'PLL_WAITING_FOR_VERIFICATION' => 'Warten auf Prüfung',
+	'PLL_VERIFICATION_PROCESS' => 'in Prüfung',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Interne Prüfung benötigt',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Externe Prüfung benötigt',
+	'PLL_WAITING_FOR_ANSWER' => 'Warten auf Antwort',
+	'PLL_INFORMATION_COMPLETING' => 'Informationen komplett',
+	'PLL_DECLINED' => 'Abgelehnt',
+	'PLL_CLOSED' => 'Geschlossen',
+	'PLL_UNTYPICAL_PRODUCT' => 'Untypische Produkt',
+	'PLL_UNTYPICAL_SERVICE' => 'Untypische Dienstleistung',
+	'PLL_UNTYPICAL_FINANCIAL_REQUIREMENTS' => 'Untypische finanzielle Anforderung',
+	'PLL_UNTYPICAL_ADDITIONAL_REQUIREMENTS' => 'Untypische zusätzliche Anforderung',
+	'PLL_UNFULFILLED' => 'nicht erledigt',
+	'PLL_DIFFICULT_CONTACT' => 'Schwieriger Kontakt',
+	'PLL_PRODUCT_DEVELOPMENT' => 'Produktentwicklung',
+	'PLL_SERVICE_DEVELOPMENT' => 'Dienstleistung',
+	'PLL_POSSIBILITY_TO_PREPAY' => 'Vorleistung möglich',
+	'PLL_POSSIBILITY_TO_ADJUST' => 'Anpassungen möglich',
+	'PLL_NEW_ORGANIZATION_ORDER' => 'New organization order',
 );

@@ -248,6 +248,11 @@ $languageStrings = array(
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
 	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'User colors',
+	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_DAV_KEYS' => 'DAV keys',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',
@@ -266,6 +271,10 @@ $languageStrings = array(
 	'Document Control'=>'Document Control',
 	'Time control' => 'Time control',
 	"Credits"	=> 'Credits',
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
 );
 
 $jsLanguageStrings = array(

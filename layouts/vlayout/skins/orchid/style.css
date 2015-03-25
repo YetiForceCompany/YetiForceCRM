@@ -138,7 +138,7 @@ hr {
 .moreMenus {
   width: 52em;
   padding: 24%;
-  left: -270px;
+  left: 0;
   border-radius: 2px;
 }
 .moreMenus.leftAligned:after,
@@ -293,19 +293,6 @@ hr {
   }
 }
 @media screen and (max-width: 960px) {
-  #mediumNav,
-  #largeNav,
-  #headerLinksBig,
-  #commonMoreMenu,
-  .nav.quickActions,
-  #leftPanel,
-  #toggleButton,
-  .companyLogo,
-  .notificationMessageHolder,
-  .adv-search,
-  .select-search .chzn-container.chzn-container-single {
-    display: none !important;
-  }
   .bodyContents {
     margin: 0 !important;
   }
@@ -2718,7 +2705,6 @@ th.htColHeader,
   border-bottom: 20px solid #ECECEC;
   border-left: 20px solid transparent;
   display: inline-block;
-  cursor: pointer;
   box-shadow: 0 1px #ddd;
   margin-right: 5px;
 }
@@ -2730,18 +2716,6 @@ th.htColHeader,
   font-weight: bold;
   color: #666;
   text-decoration: none;
-}
-.crumbs li:hover {
-  height: 0;
-  border-top: 20px solid #cc6788;
-  border-bottom: 20px solid #cc6788;
-  box-shadow: 0 1px #cc6788;
-}
-.crumbs li:hover a {
-  color: #ffffff;
-}
-.crumbs li:hover:after {
-  border-left: 18px solid #cc6788 !important;
 }
 .crumbs li.active {
   height: 0;

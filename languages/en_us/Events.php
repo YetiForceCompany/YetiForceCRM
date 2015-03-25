@@ -77,8 +77,12 @@ $languageStrings = array(
 	'Yearly'=>'Year',
 	'Mobile Call' => 'Mobile call',
 	'LBL_NO_DESCRIPTION'=>'No description',
+	'All day' => '__No_Translated__',
 	//Priority picklist values 
 	'High' => 'High', 
 	'Medium' => 'Medium', 
 	'Low' => 'Low', 
+	'LBL_STATE' => '__No_Translated__',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
 );

@@ -263,13 +263,6 @@ display: none;
 											</span>
 											<span>
 												<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-												{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-												<input type="checkbox" name="helpinfo" value="1"
-                                                {if $FIELD_MODEL->get('helpinfo') eq 1} checked {/if} />
-												</label>
-											</span>
-											<span>
-												<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
 												{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
 												<input type="checkbox" name="generatedtype" value="1"
                                                 {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
@@ -439,7 +432,10 @@ display: none;
 			{if $FIELD_MODEL->getFieldDataType() eq "string"}
 				<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 					{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-					<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+					<span class="input-append">
+						<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
+						<span class="add-on"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+					</span>
 				</div>
 			{/if}
 			<hr />
@@ -455,13 +451,6 @@ display: none;
 						{/foreach}
 					</select>
 				</div>
-			</span>
-			<span>
-				<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-				{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-				<input type="checkbox" name="helpinfo" value="1"
-				{if $FIELD_MODEL->get('helpinfo') eq 1} checked {/if} />
-				</label>
 			</span>
 			<span>
 				<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
@@ -609,12 +598,6 @@ display: none;
 												<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</select>
-										</label>
-									</span>
-									<span>
-										<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-										{vtranslate('LBL_HELP_INFO', $QUALIFIED_MODULE)}
-										<input type="checkbox" name="helpinfo" value="1" />
 										</label>
 									</span>
 									<span>

@@ -77,8 +77,12 @@ $languageStrings = array(
 	'Yearly'=>'Ano',
 	'Mobile Call' => 'Chamada Celular',
 	'LBL_NO_DESCRIPTION'=>'Nenhuma descrição',
+	'All day' => '__No_Translated__',
 	//Priority picklist values 
 	'High' => 'Alta', 
 	'Medium' => 'Média', 
 	'Low' => 'Baixa', 
+	'LBL_STATE' => '__No_Translated__',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
 );

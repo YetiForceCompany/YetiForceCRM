@@ -202,47 +202,50 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	/**
 	 * Function to change the end time based on default call duration
 	 */
-	registerTimeStartChangeEvent : function(container) {
-		container.on('changeTime','input[name="time_start"]',function(e) {
+	registerTimeStartChangeEvent: function (container) {
+		container.on('changeTime', 'input[name="time_start"]', function (e) {
 			var strtTimeElement = jQuery(e.currentTarget);
 			var endTimeElement = container.find('[name="time_end"]');
 			var dateStartElement = container.find('[name="date_start"]');
-            var endDateElement = container.find('[name="due_date"]');
-			
-            if(endDateElement.data('userChangedTime') == true) {
-                return;
-            }
-            if(jQuery('[name="userChangedEndDateTime"]').val() == '1') {
-                return;
-            }
-			
-			var startDate = dateStartElement.val();
-			var strtTime = strtTimeElement.val();
-			
-			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
-			if(result != true){
+			var endDateElement = container.find('[name="due_date"]');
+
+			if (endDateElement.data('userChangedTime') == true) {
 				return;
 			}
-			var dateTime = startDate+' '+strtTime;
-			var dateFormat = container.find('[name="date_start"]').data('dateFormat');
-			var timeFormat = endTimeElement.data('format');
-			var date = Vtiger_Helper_Js.getDateInstance(dateTime,dateFormat);
+			if (jQuery('[name="userChangedEndDateTime"]').val() == '1') {
+				return;
+			}
 
+			var endDate = endDateElement.val();
+			var endTime = endTimeElement.val();
+
+			var result = Vtiger_Time_Validator_Js.invokeValidation(strtTimeElement);
+			if (result != true) {
+				return;
+			}
+			var dateTime = endDate + ' ' + endTime;
+			var dateFormat = container.find('[name="due_date"]').data('dateFormat');
+			var timeFormat = endTimeElement.data('format');
+			var date = Vtiger_Helper_Js.getDateInstance(dateTime, dateFormat);
 			var endDateInstance = Date.parse(date);
-			if(container.find('[name="activitytype"]').val() == 'Call'){
+
+			if (container.find('[name="activitytype"]').val() == 'Call') {
 				var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
 				endDateInstance.addMinutes(defaulCallDuration);
 			} else {
 				var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
 				endDateInstance.addMinutes(defaultOtherEventDuration);
 			}
-			var endDateString = app.getDateInVtigerFormat(dateFormat,endDateInstance);
+			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 			if(timeFormat == 24){
 				var defaultTimeFormat = 'HH:mm';
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
 			}
 			var endTimeString = endDateInstance.toString(defaultTimeFormat);
+			var selectedEndTimeString = container.find('[name="selectedTimeStart"]');
+			if(selectedEndTimeString.length > 0)
+				endTimeString = selectedEndTimeString.val();
 
 			endDateElement.val(endDateString);
 			endTimeElement.val(endTimeString);
@@ -431,11 +434,28 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 
 	registerBasicEvents : function(container) {
 		this._super(container);
+		this.toggleTimesInputs(container)
 		this.registerActivityTypeChangeEvent(container);
 		this.registerTimeStartChangeEvent(container);
         this.registerEndDateTimeChangeLogger(container);
         //Required to set the end time based on the default ActivityType selected
         container.find('[name="activitytype"]').trigger('change');
+	},
+
+	toggleTimesInputs: function(container){		
+		container.find(':checkbox').change(function() {
+			var checkboxName =  $(this).attr('name');
+			if('allday' == checkboxName){
+				var checkboxIsChecked = $(this).is(':checked');
+				if (!container.find('#quickCreate').length){
+					if(checkboxIsChecked){
+						container.find('.time').hide();
+					}else{
+						container.find('.time').show();
+					}
+				}
+			}
+		});
 	},
 	
 	registerEvents : function(){
@@ -443,13 +463,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		if(!statusToProceed){
 			return;
 		}
-	 	this.registerReminderFieldCheckBox();
+		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
-        this.registerRelatedContactSpecificEvents();
+		this.registerRelatedContactSpecificEvents();
 		this._super();
 	}
 });
+

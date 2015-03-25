@@ -29,7 +29,9 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 		}
 
 		$checkBlocked = Settings_BruteForce_Module_Model::checkBlocked();
-		if($checkBlocked){
+		$bruteForceSettings = Settings_BruteForce_Module_Model::getBruteForceSettings();
+		if($checkBlocked && $bruteForceSettings['active']){
+			Settings_BruteForce_Module_Model::sendNotificationEmail();
 			header ('Location: index.php?module=Users&parent=Settings&view=Login&error=2');
 			exit;
 		}

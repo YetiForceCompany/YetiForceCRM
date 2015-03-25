@@ -5,7 +5,7 @@
  | localization/<lang>/messages.inc                                      |
  |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2014, The Roundcube Dev Team                       |
+ | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -26,6 +26,7 @@ $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
 $messages['errornoperm'] = 'Unable to perform operation. Permission denied.';
@@ -95,6 +96,7 @@ $messages['contactsearchsuccessful'] = '$nr contacts found.';
 $messages['searchnomatch'] = 'Search returned no matches.';
 $messages['searching'] = 'Searching...';
 $messages['checking'] = 'Checking...';
+$messages['stillsearching'] = 'Still searching...';
 $messages['nospellerrors'] = 'No spelling errors found.';
 $messages['folderdeleted'] = 'Folder successfully deleted.';
 $messages['foldersubscribed'] = 'Folder successfully subscribed.';
@@ -138,7 +140,7 @@ $messages['importmessagesuccess'] = 'Successfully imported $nr messages';
 $messages['importmessageerror'] = 'Import failed! The uploaded file is not a valid message or mailbox file';
 $messages['opnotpermitted'] = 'Operation not permitted!';
 $messages['nofromaddress'] = 'Missing e-mail address in selected identity.';
-$messages['editorwarning'] = 'Switching to the plain text editor will cause all text formatting to be lost. Do you wish to continue?';
+$messages['editorwarning'] = 'Switching editor type may cause text formatting to be lost. Do you wish to continue?';
 $messages['httpreceivedencrypterror'] = 'A fatal configuration error occurred. Contact your administrator immediately. <b>Your message can not be sent.</b>';
 $messages['smtpconnerror'] = 'SMTP Error ($code): Connection to server failed.';
 $messages['smtpautherror'] = 'SMTP Error ($code): Authentication failed.';

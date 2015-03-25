@@ -10,30 +10,24 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 /*********************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/logging.php,v 1.1 2004/08/17 13:23:37 gjayakrishnan Exp $
  * Description:  Kicks off log4php.
  ********************************************************************************/
-
+include_once 'config/debug.php';
 require_once('config/config.php');
-
 // Performance Optimization: Configure the log folder
-@include_once('config/performance.php');
-global $PERFORMANCE_CONFIG;
-if(isset($PERFORMANCE_CONFIG) && isset($PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) && $PERFORMANCE_CONFIG['LOG4PHP_DEBUG']) {
+if (SysDebug::getBoolean('LOG4PHP_DEBUG', false)) {
 	define('LOG4PHP_DIR', 'libraries/log4php.debug');
 } else {
 	define('LOG4PHP_DIR', 'libraries/log4php');
 }
 // END
 define('LOG4PHP_DEFAULT_INIT_OVERRIDE', true);
-
 require_once(LOG4PHP_DIR.'/LoggerManager.php');
 require_once(LOG4PHP_DIR.'/LoggerPropertyConfigurator.php');
 
 $config = new LoggerPropertyConfigurator();
 $config->configure('config/log4php.properties');
-
-?>

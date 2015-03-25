@@ -14,10 +14,6 @@
 ********************************************************************************/
 include_once('config/version.php');
 
-// Adjust error_reporting favourable to deployment.
-ini_set('display_errors','off');version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT); // PRODUCTION
-//ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);   // DEBUGGING
-
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
 ini_set('memory_limit','512M');
@@ -204,7 +200,7 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'cache/logs/php_error_log.log');
+ini_set('error_log',$root_directory.'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;
@@ -217,9 +213,6 @@ $href_max_length = 35;
 
 // Maximum number of displayed search results
 $max_number_search_result = 100;
-
-// List of products in the inventory module popup limited to products / services selected in Potentials
-$inventory_popup_limited_from_potentials = true;
 
 //Should menu breadcrumbs be visible? true = show, false = hide
 $breadcrumbs = true;
@@ -238,3 +231,9 @@ $session_regenerate_id = false;
 
 //Would you like to encode passwords for Customer Portal
 $encode_customer_portal_passwords = true;
+
+$davStorageDir = 'storage/Files';
+$davHistoryDir = 'storage/FilesHistory';
+
+// prod and demo
+$systemMode = 'prod';

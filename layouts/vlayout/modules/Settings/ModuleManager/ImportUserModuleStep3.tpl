@@ -27,7 +27,26 @@
 						<tbody>
 							<tr valign=top>
 								<td class='cellText small'>
-									{$IMPORT_MODULE_NAME} {vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE)}
+									{if $MODULEIMPORT_ERROR}
+										<div class="alert alert-error">
+											<div class="modal-header">
+												<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
+											</div>
+											<div class="modal-body">
+												<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
+											</div>
+										</div>
+									{else}
+										{if $IMPORT_MODULE_TYPE eq 'Language'}
+											{vtranslate('LBL_IMPORTED_LANGUAGE', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'extension'}
+											{vtranslate('LBL_IMPORTED_EXTENSION', $QUALIFIED_MODULE)}
+										{else if $IMPORT_MODULE_TYPE eq 'update'}
+											{vtranslate('LBL_IMPORTED_UPDATE', $QUALIFIED_MODULE)}
+										{else}
+											{$IMPORT_MODULE_NAME} {vtranslate('LBL_IMPORTED_MODULE', $QUALIFIED_MODULE)}
+										{/if}
+									{/if}
 								</td>
 							</tr>
 						</tbody>

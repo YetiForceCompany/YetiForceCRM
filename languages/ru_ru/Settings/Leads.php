@@ -38,6 +38,8 @@ $languageStrings = array(
 	'text' => 'Текст',
 	'time' => 'Время',
 	'url' => 'Ссылка',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Если вы отметите эту опцию, пользователь, который производит преобразование Обращения, станет владельцем записи.',
 );
 
 $jsLanguageStrings = array(
@@ -64,4 +66,6 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Ссылка',
 	'JS_WITH' => 'с',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Сохранено',
+	'JS_CONVERSION_STATE_SUCCES' => 'Изменения успешно сохранены',
+	'JS_CONVERSION_STATE_FAILURE' => 'Изменения не сохранены',
 );

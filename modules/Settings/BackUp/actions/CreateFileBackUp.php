@@ -56,7 +56,8 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
         $zip->addFile( Settings_BackUp_Module_Model::$tempDir.'/'.$sqlFileName.'.db.zip', "db.zip" );
         $zip->addFile( Settings_BackUp_Module_Model::$tempDir.'/'.$this->fileName.'.zip', "files.zip" );
         $zip->close();
-
+		Settings_BackUp_Module_Model::sendBackupToFTP(Settings_BackUp_Module_Model::$destDir.'/', $sqlFileName.'.zip');
+		Settings_BackUp_Module_Model::sendNotificationEmail();
         Settings_BackUp_Module_Model::setBackUp();
         Settings_BackUp_Module_Model::deleteTmpBackUpContent();
         Settings_BackUp_Module_Model::deleteFile($sqlFileName . '.db.zip');

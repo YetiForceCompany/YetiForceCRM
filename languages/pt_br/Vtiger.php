@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * ***********************************************************************************/
 $languageStrings = array(
+	'LBL_PAGES_HISTORY' => 'Recently viewed pages',
 	'--None--' => '--Nada--',
 	'Account Name' => 'Nome Organização', 
 	'Accounts' => 'Organizações', 
@@ -21,7 +22,7 @@ $languageStrings = array(
 	'All' => 'Todos' ,
 	'Annual Revenue' => 'Receita Anual' , 
 	'Approved' => 'Aprovado',
-	'APPTITLE' => 'vtiger CRM',
+	'APPTITLE' => 'YetiForce CRM',
 	'Assets' => 'Ativos',
 	'Assigned To'=> 'Responsável',
 	'Was read' => 'Updated',
@@ -488,7 +489,7 @@ $languageStrings = array(
 	'LBL_VIEW_DETAILS' => 'Visualizar Datalhes',
 	'LBL_VIEW_NAME'=> 'Visualizar Nome' ,
 	'LBL_VIEW_THREAD'=> 'Visualizar Tópico' ,
-	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'vtiger CRM Open Source',
+	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'YetiForce CRM Open Source',
 	'LBL_WEBFORMS' => 'WebForms',
 	'LBL_Wed' => 'Qua',
 	'LBL_YEAR' => 'ano',
@@ -603,9 +604,9 @@ $languageStrings = array(
 	'Total' => 'Total' , 
 	'Trade Show' => 'Feira Negócios',
 	'Type' => 'Tipo',
-	'Upcoming Activities'=> 'Atividades Programadas',
+	'Upcoming Activities'=> 'Calendar - pending',
 	'Upcoming Tasks' => 'Próximas Tarefas',
-	'Activity History' => 'Activity History',
+	'Activity History' => 'Calendar - done',
 	'UPS' => 'ECT' ,
 	'USPS' => 'Braspress',
 	'Valid Date' => 'Data Validade',
@@ -685,7 +686,9 @@ $languageStrings = array(
 	'OSSTimeControl' => 'Controle de Tempo',
 	'OSSMailView' => 'Emails',
 	'OSSEmployees' => 'Empregados',
+	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'Calculations' => 'Cálculos',
+	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Search branches',
 
 	/* industry */
 	'Administration'=>'Administração',
@@ -790,6 +793,8 @@ $languageStrings = array(
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Number of days worked',
 	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
 	'Employees Time Control' => 'Employees Time Control',
+	'RequirementCards' => 'Requirement Cards',
+	'QuotesEnquires' => 'Quotes enquires',
 
 	//Missing Fields in Menu
 	'Companies'=>'Empresas',
@@ -820,14 +825,20 @@ $languageStrings = array(
 	'LBL_NAME' => 'Record name',
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_MOD_RECORDS' => 'No modified records',
+	'PLL_HOLIDAY_TIME' => 'Holiday',
+	'PLL_BREAK_TIME' => 'Break from work',
+	'PLL_WORKING_TIME' => 'Working time',
 );
 $jsLanguageStrings = array(
+	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
+	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	'JS_SAVE_LOADER_INFO' => 'Salvando dados...',
 	'JS_OF' => 'de',
 	'AM' => 'AM',
 	'JS_LBL_NO_TAXES' => 'O produto selecionado não possui impostos',
 	'INVALID_NUMBER' => 'Número inválido',
 	'INVALID_NUMBER_OF'=> 'Número inválido de',
+	'JS_INVALID_LENGTH' => 'Added value is incomplete',
 	'JS_ACCEPT_ONLY_NUMBER' => 'Aceita somente números',
 	'JS_ACCEPT_POSITIVE_NUMBER'=> 'aceita somente valores positivos',
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Você tem permissão para selecionar no máximo três registros',
@@ -979,4 +990,5 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 	'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
+	'JS_CLEAR_HISTORY' => 'Clear recent history',
 );

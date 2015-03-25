@@ -37,6 +37,8 @@ $languageStrings = array(
 	'text' => 'Text',
 	'time' => 'Zeit',
 	'url' => 'Url',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'In Organisation konvertieren',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Bei gesetzt, wird die Person welche ein Lead in eine Verkaufschance konvertiert zum Besitzer des Datensatzes.',
 );
 
 $jsLanguageStrings = array(
@@ -63,4 +65,6 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
+	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
+	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
 );

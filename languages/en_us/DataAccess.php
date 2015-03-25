@@ -69,6 +69,7 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'This tool allows to color lines that fulfil corresponding conditions. Thanks to this, records with higher priority can be distinguished.',
 	'LBL_BACKGROUND_COLOR' => 'Background color',
 	'LBL_TEXT_COLOR' => 'Text color',
+	'This name already exists' => 'This name already exists',
 );
 $jsLanguageStrings = array(
 	'DataAccess' => 'Data Access',

@@ -22,6 +22,7 @@ $languageStrings = array(
 	//Field Labels
 	'Comment' => 'Kommentar',
 	'Creator' => 'Ersteller',
+	'Customer' => 'Kunde',
 	'Related To Comments' => 'Bezogen auf',
 	
 );

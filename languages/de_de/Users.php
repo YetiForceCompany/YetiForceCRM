@@ -288,6 +288,12 @@ $languageStrings = array(
 	'Last 2 Days' => 'Letzte 2 Tage',
 	'Last Week' => 'Letzte Woche',
 	" "	=> 'Keine',
+	'Meeting' => 'Besprechung',
+	'Call' => 'Anruf',
+	'Mobile Call' => 'Mobiler Anruf',
+	'Planned' => 'Geplant',
+	'Held' => 'Stattgefunden',
+	'Not Held' => 'Nicht stattgefunden',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
@@ -302,8 +308,8 @@ $languageStrings = array(
 	"Production Department"	=> 'Produktion',
 	"Marketing Department"	=> 'Marketing',
 
-	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
-	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
+	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
+	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
 );
 
 $jsLanguageStrings = array(

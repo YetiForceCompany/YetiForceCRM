@@ -108,7 +108,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 * @return <String>
 	 */
 	public function getRelationQuery($recordId, $functionName, $relatedModule,$relationModel = false) {
-		if ($functionName === 'get_activities') {
+		if ($functionName === 'get_activities' || $functionName === 'get_history') {
 			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
@@ -121,9 +121,14 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'
-								AND vtiger_seactivityrel.crmid = ".$recordId;
-
+							WHERE vtiger_crmentity.deleted = 0 AND vtiger_seactivityrel.crmid = ".$recordId;
+			if($functionName === 'get_activities') {
+				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
+				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus not in ('','Not Held','Held')))";
+			} else {
+				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
+				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Not Held','Held')))";
+			}
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
 			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);

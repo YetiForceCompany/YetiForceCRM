@@ -10,8 +10,10 @@
 
 //Overrides GetRelatedList : used to get related query
 //TODO : Eliminate below hacking solution
+require_once 'config/config.php';
+require_once 'config/debug.php';
+require_once 'config/performance.php';
 include_once 'include/Webservices/Relation.php';
-
 include_once 'vtlib/Vtiger/Module.php';
 include_once dirname(__FILE__) . '/include/Loader.php';
 

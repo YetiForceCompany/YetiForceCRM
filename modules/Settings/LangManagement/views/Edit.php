@@ -14,26 +14,37 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View{
 	
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$lang = $request->get('lang');
 		$mod = $request->get('mod');
+		$tpl = $request->get('tpl');
 		$ShowDifferences = $request->get('sd');
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
 		if($lang != '' && $mod != ''){
-			$data = $moduleModel->loadLangTranslation($lang,$mod,$ShowDifferences);
+			if($tpl == 'editLang'){
+				$data = $moduleModel->loadLangTranslation($lang,$mod,$ShowDifferences);
+				
+			}else{
+				$data = $moduleModel->loadAllFieldsFromModule($lang,$mod,$ShowDifferences);
+			}
 		}
-		$Langs = $moduleModel->getLang();
 		$Mods = $moduleModel->getModFromLang($lang);
-		$viewer = $this->getViewer($request);
+		$Langs = $moduleModel->getLang();
+		$viewer->assign('MODS', $Mods );
 		$viewer->assign('MODULE_MODEL', $moduleModel );
 		$viewer->assign('REQUEST', $request );
 		$viewer->assign('LANGS', $Langs );
 		$viewer->assign('DATA', $data );
 		$viewer->assign('LANGS', $Langs );
 		$viewer->assign('SD', $ShowDifferences );
-		$viewer->assign('MODS', $Mods );
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Edit.tpl', $qualifiedModuleName);
+		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		if($tpl == 'editLang'){
+			$viewer->view('Edit.tpl', $qualifiedModuleName);
+		}else{
+			$viewer->view('EditHelpIcon.tpl', $qualifiedModuleName);
+		}
 	}
 }

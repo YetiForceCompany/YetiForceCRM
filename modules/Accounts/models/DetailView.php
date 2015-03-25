@@ -122,15 +122,16 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkicon' => '',
 				'related' => 'Details'
 		);
-		$relatedLinks[] = array(
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showRelatedProductsServices&requestMode=summary',
-				'linkicon' => '',
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices'
-		);
-		
+                if('Contacts' != $moduleName){
+                    $relatedLinks[] = array(
+                                    'linktype' => 'DETAILVIEWTAB',
+                                    'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
+                                    'linkurl' => $recordModel->getDetailViewUrl().'&mode=showRelatedProductsServices&requestMode=summary',
+                                    'linkicon' => '',
+                                    'linkKey' => 'LBL_RECORD_SUMMARY',
+                                    'related' => 'ProductsAndServices'
+                    );
+                }
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(

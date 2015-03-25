@@ -8,24 +8,43 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
-	'Quotesenquires' => 'Quotes enquires',
-	'SINGLE_Quotesenquires' => 'Quotes enquires',
+$languageStrings = array(
+	'LBL_WAS_READ' => 'Обновлено',
+	'LBL_CLOSED_TIME' => 'Время закрытия',
+	'QuotesEnquires' => 'Запрос Предложения',
+	'SINGLE_QuotesEnquires' => 'Запрос Предложения',
 
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Базовая информация',
+	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',
 	
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'LBL_CLOSED_TIME' => 'Czas zamknięcia',
-	'LBL_WAS_READ' => 'Updated',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_REJECTION_REASON' => 'LBL_REJECTION_REASON',
+	'LBL_SUBJECT' => 'Тема',
+	'LBL_POTENTIAL' => 'Сделка',
+	'LBL_NUMBER' => 'Номер',
+	'Description' => 'Описание',
+	'Attention' => 'Комментарии',
+	'LBL_STAGE' => 'Этап',
+	'LBL_CONS' => 'Недостатки',
+	'LBL_PROS' => 'Преимущества',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Создание карты запроса',
 
 	//PICKLIST VALUES
-	'Incomplete information' => 'Incomplete information',
+	'PLL_NOT_STARTED' => 'Не начато',
+	'PLL_VERIFICATION' => 'Проверка',
+	'PLL_DECLINED' => 'Отклонено',
+	'PLL_ACCEPTED' => 'Принято',
+	'PLL_LOW_MARGIN' => 'Низкая прибыль',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Ненадежный контрагент',
+	'PLL_UNRELIABLE_PAYMENT' => 'Ненадежный плательщик',
+	'PLL_NO_DETAILS' => 'Нет информации',
+	'PLL_LACK_OF_COMPETENCE' => 'Недостаточная компетентность',
+	'PLL_LACK_OF_TIME' => 'Нехватка времени',
+	'PLL_HIGH_MARGIN' => 'Высокая прибыль',
+	'PLL_RELIABLE_CONTRACTOR' => 'Надежный контрагент',
+	'PLL_SOLID_PAYMENT' => 'Надежный плательщик',
+	'PLL_DETAILED_DESCRIPTION' => 'Подробное описание',
+	'PLL_COMPETENT_TEAM' => 'Компетентная команда',
+	'PLL_EASE_OF_COMMUNICATION' => 'Легкое общение',
+	'PLL_RECOMMENDABLE' => 'Рекоммендовано',
 );

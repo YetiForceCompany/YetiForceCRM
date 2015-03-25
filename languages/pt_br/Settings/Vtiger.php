@@ -161,7 +161,7 @@ $languageStrings = array(
 	'LBL_UPDATE_LOGO' => 'Atualizar Logo',
 	'LBL_UPDATE_MISSING_RECORD_SEQUENCE' => 'Atualizar Sequência Registros',
 	'LBL_USE_PREFIX' => 'Utilizar Prefixo',
-	'LBL_USER_DESCRIPTION' => 'Gerenciar Usuários para acesso ao vtiger CRM',
+	'LBL_USER_DESCRIPTION' => 'Gerenciar Usuários para acesso ao YetiForce CRM',
 	'LBL_USER_IP_ADDRESS'=> 'Endereço IP do Usuários',
 	'LBL_USER_MANAGEMENT'=> 'Controle Usuário/Acessos',
 	'LBL_USER_NAME'=> 'Nome Usuário', //Duplicated key-value pair
@@ -248,6 +248,11 @@ $languageStrings = array(
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fileds to hide',
 	'LBL_PUBLIC_HOLIDAY' => 'Public Holiday',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
+	'LBL_USER_COLORS' => 'User colors',
+	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
+	'LBL_DAV_KEYS' => 'DAV keys',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
@@ -266,6 +271,10 @@ $languageStrings = array(
 	'Document Control'=>'Controle de Documento',
 	'Time control' => 'Controle de Tempo',
 	"Credits"	=> 'Créditos',
+	'LBL_PROCESSES' => 'Processes',
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
+	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
 );
 
 $jsLanguageStrings = array(

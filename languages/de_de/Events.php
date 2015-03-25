@@ -79,4 +79,14 @@ $languageStrings = array(
 	'Yearly'                       => 'jährlich'                        , 
 	'Mobile Call'			 => 'per Mobilfunk',
 	'LBL_NO_DESCRIPTION'		 => 'Keine Beschreibung',
+	'All day' => 'Alle Tage',
+	'LBL_STATE' => 'Status',
+	'PLL_OPAQUE' => '__No_Translated__',
+	'PLL_TRANSPARENT' => '__No_Translated__',
+	'Duration' => 'Dauer',
+	'Duration Minutes' => 'Dauer in Minuten',
+	'No Time' => 'Keine Dauer',
+	'Time Start' => 'Beginnt um',
+	'End Time' => 'Endet um',
+	
 );

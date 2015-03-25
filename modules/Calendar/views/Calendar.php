@@ -27,9 +27,9 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 	public function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$jsFileNames = array(
-			"modules.Calendar.resources.CalendarView",
-			"~/libraries/fullcalendar/fullcalendar.js",
-			"~/libraries/jquery/colorpicker/js/colorpicker.js"
+			'~/libraries/fullcalendar/moment.min.js',
+			'~/libraries/fullcalendar/fullcalendar.js',
+			'modules.Calendar.resources.CalendarView',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -42,9 +42,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 
 
 		$cssFileNames = array(
-			'~/libraries/fullcalendar/fullcalendar.css',
-			'~/libraries/fullcalendar/fullcalendar-bootstrap.css',
-			'~/libraries/jquery/colorpicker/css/colorpicker.css'
+			'~/libraries/fullcalendar/fullcalendar.min.css',
+			'~/libraries/fullcalendar/fullcalendarCRM.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

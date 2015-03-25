@@ -48,7 +48,7 @@ $languageStrings = array(
 	'No message' => 'Brak komunikatu',
 	'No message info' => 'Nie pokazuj komunikatu kiedy nie znaleziono rekordów do wyświetlenia',
 	'Filter' => 'Filtrowanie',
-	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych wedłóg listy wyboru',
+	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych według listy wyboru',
 	'None' => 'Brak',
 );
 $jsLanguageStrings = array(

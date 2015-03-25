@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 jQuery.Class("Vtiger_Header_Js", {
@@ -197,6 +198,18 @@ jQuery.Class("Vtiger_Header_Js", {
             className: 'globalCalendar'
         });
     },
+	registerHelpInfo : function(container){
+		if(typeof container == 'undefined')
+			container = jQuery('form[name="QuickCreate"]');
+		container.find('.HelpInfoPopover').hover(
+			function () {
+				$(this).popover('show');
+			}, 
+			function () {
+				$(this).popover('show');
+			}
+		);
+	},
     handleQuickCreateData: function(data, params) {
         if (typeof params == 'undefined') {
             params = {};
@@ -204,6 +217,7 @@ jQuery.Class("Vtiger_Header_Js", {
         var thisInstance = this;
         app.showModalWindow(data, function(data) {
             var quickCreateForm = data.find('form[name="QuickCreate"]');
+			thisInstance.registerHelpInfo(quickCreateForm);
             var moduleName = quickCreateForm.find('[name="module"]').val();
             var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
             editViewInstance.registerBasicEvents(quickCreateForm);
@@ -212,6 +226,7 @@ jQuery.Class("Vtiger_Header_Js", {
                 params.callbackPostShown(quickCreateForm);
             }
             thisInstance.registerQuickCreatePostLoadEvents(quickCreateForm, params);
+			thisInstance.toggleTimesInputs(quickCreateForm);
             app.registerEventForDatePickerFields(quickCreateForm);
             var quickCreateContent = quickCreateForm.find('.quickCreateContent');
             var quickCreateContentHeight = quickCreateContent.height();
@@ -231,6 +246,20 @@ jQuery.Class("Vtiger_Header_Js", {
 	    });
         });
     },
+	toggleTimesInputs: function(form){    	
+		form.find(':checkbox').change(function() {
+			var checkboxName = $(this).attr('name');
+			if('allday' == checkboxName){
+				var checkboxIsChecked = $(this).is(':checked');
+				if(checkboxIsChecked){
+					form.find('.active .time').hide();
+				}else{
+					form.find('.active .time').show();
+				}
+			}
+		});
+	},
+
     registerQuickCreatePostLoadEvents: function(form, params) {
         var thisInstance = this;
         var submitSuccessCallbackFunction = params.callbackFunction;
@@ -410,10 +439,66 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery(".mainContainer > .span2 ").css('min-height', bodyHeight);
 		jQuery(".contentsDiv").css('min-height', bodyHeight);
 	},
+	
+	recentPageViews: function () {
+		var maxValues = 20;
+		var BtnText = '';
+		var BtnLink = 'javascript:void();';
+		var history = localStorage.history;
+		if (history != "" && history != null) {
+			var sp = history.toString().split(",");
+			var item = sp[sp.length - 1].toString().split("|");
+			BtnText = item[0];
+			BtnLink = item[1];
+			;
+		}
+		jQuery(".breadcrumbsContainer .goBack").attr('href', BtnLink);
+		var htmlContent = '<ul class="dropdown-menu pull-left" role="menu">';
+		if (sp != null) {
+			for (var i = sp.length - 1; i >= 0; i--) {
+				item = sp[i].toString().split("|");
+				htmlContent += '<li><a href="' + item[1] + '">' + item[0] + '</a></li>';
+			}
+			var Label = this.getHistoryLabel();
+			if (Label.length > 1 && document.URL != BtnLink) {
+				sp.push(this.getHistoryLabel() + '|' + document.URL);
+			}
+			if (sp.length >= maxValues) {
+				sp.splice(0, 1);
+			}
+			localStorage.history = sp.toString();
+		} else {
+			var stack = new Array();
+			var Label = this.getHistoryLabel();
+			if (Label.length > 1) {
+				stack.push(this.getHistoryLabel() + '|' + document.URL);
+				localStorage.history = stack.toString();
+			}
+		}
+		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
+		htmlContent += '</ul>';
+		$(".breadcrumbsContainer .showHistory").after(htmlContent);
+		this.registerClearHistory();
+	},
+	getHistoryLabel: function () {
+		var label = "";
+		$(".breadcrumbsLinks span").each(function (index) {
+			label += $(this).text();
+		});
+		return label;
+	},
+	registerClearHistory: function () {
+		$(".breadcrumbsIcon .clearHistory").click(function () {
+			localStorage.history = "";
+			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
+			$(".breadcrumbsContainer .dropdown-menu").html(htmlContent);
+		});
+	},
 
     registerEvents: function() {
         var thisInstance = this;
-
+		thisInstance.recentPageViews();
+		
 		//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
 		if(jQuery.browser.msie && jQuery.browser.version < 9.0) {
 			if(app.getCookie('oldbrowser') != 'true') {
@@ -508,8 +593,5 @@ jQuery.Class("Vtiger_Header_Js", {
 }
 });
 jQuery(document).ready(function() {
-
-
     Vtiger_Header_Js.getInstance().registerEvents();
-
 });

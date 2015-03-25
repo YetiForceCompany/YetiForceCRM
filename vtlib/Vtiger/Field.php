@@ -25,6 +25,19 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		global $adb;
 		return $adb->getUniqueID('vtiger_picklist');
 	}
+	/**
+	 * Get picklist values from table
+	 */
+	function getPicklistValues() {
+		global $adb;
+		$picklist_table = 'vtiger_'.$this->name;
+		$picklistValues = array();
+		$picklistResult = $adb->query("SELECT ".$this->name." FROM ".$picklist_table);
+		for($i=0; $i<$adb->num_rows( $picklistResult ); $i++){
+			$picklistValues[] = $adb->query_result($picklistResult, $i, $this->name);
+		}
+		return $picklistValues;
+	}
 
 	/**
 	 * Set values for picklist field (for all the roles)
@@ -76,8 +89,12 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		// END
 
 		// Add value to picklist now
+		$picklistValues = self::getPicklistValues();
 		$sortid = 0; // TODO To be set per role
 		foreach($values as $value) {
+			if(in_array($value, $picklistValues)){
+				continue;
+			}
 			$new_picklistvalueid = getUniquePicklistID();
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			$new_id = $adb->getUniqueID($picklist_table);
@@ -120,8 +137,13 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		}
 
 		// Add value to picklist now
+		
+		$picklistValues = $this->getPicklistValues();
 		$sortid = 1;
 		foreach($values as $value) {
+			if(in_array($value, $picklistValues)){
+				continue;
+			}
 			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
 			$new_id = $adb->getUniqueId($picklist_table);
 			$adb->pquery("INSERT INTO $picklist_table($picklist_idcol, $this->name, sortorderid, presence) VALUES(?,?,?,?)",
@@ -261,5 +283,18 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		$adb->pquery("DELETE FROM vtiger_field WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting fields of the module ... DONE");
 	}
+	
+	function setTreeTemplate($tree, $moduleInstance) {
+		global $adb;
+		$adb->pquery('INSERT INTO vtiger_trees_templates(name, module, access) VALUES (?,?,?)', Array($tree->name, $moduleInstance->id, $tree->access));
+		$templateid = $adb->getLastInsertID();
+
+		foreach ($tree->tree_values->tree_value as $treeValue) {
+			$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
+			$params = array($templateid, $treeValue->name, $treeValue->tree, $treeValue->parenttrre, $treeValue->depth, $treeValue->label, $treeValue->state);
+			$adb->pquery($sql, $params);
+		}
+		self::log("Add tree template $tree->name ... DONE");
+		return $templateid;
+	}
 }
-?>

@@ -263,9 +263,12 @@ function getListQuery($module, $where = '') {
 			             ON vtiger_recurringevents.activityid=vtiger_activity.activityid";
 			}
 			//end
-
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' " . $where;
+			$instance = CRMEntity::getInstance($module);
+			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
+			if($securityParameter != '')
+				$query.= ' '.$securityParameter;
+			$query.= ' '.$where;
 			break;
 		Case "Emails":
 			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -350,8 +353,6 @@ function getListQuery($module, $where = '') {
 				ON vtiger_account.accountid = vtiger_quotes.accountid
 			LEFT OUTER JOIN vtiger_potential
 				ON vtiger_potential.potentialid = vtiger_quotes.potentialid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_quotes.contactid
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users

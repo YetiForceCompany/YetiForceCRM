@@ -567,61 +567,6 @@ class Products extends CRMEntity {
 		return $return_value;
 	}
 
-	/**	function used to get the list of activities which are related to the product
-	 *	@param int $id - product id
-	 *	@return array - array which will be returned from the function GetRelatedList
-	 */
-	function get_activities($id)
-	{
-		global $log, $singlepane_view;
-		$log->debug("Entering get_activities(".$id.") method ...");
-		global $app_strings;
-
-		require_once('modules/Calendar/Activity.php');
-
-        	//if($this->column_fields['contact_id']!=0 && $this->column_fields['contact_id']!='')
-        	$focus = new Activity();
-
-		$button = '';
-
-		if($singlepane_view == 'true')
-			$returnset = '&return_module=Products&return_action=DetailView&return_id='.$id;
-		else
-			$returnset = '&return_module=Products&return_action=CallRelatedList&return_id='.$id;
-
-
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_contactdetails.lastname,
-			vtiger_contactdetails.firstname,
-			vtiger_contactdetails.contactid,
-			vtiger_activity.*,
-			vtiger_seactivityrel.crmid as parent_id,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-			vtiger_crmentity.modifiedtime,
-			$userNameSql,
-			vtiger_recurringevents.recurringtype
-			FROM vtiger_activity
-			INNER JOIN vtiger_seactivityrel
-				ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid=vtiger_activity.activityid
-			LEFT JOIN vtiger_cntactivityrel
-				ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT OUTER JOIN vtiger_recurringevents
-				ON vtiger_recurringevents.activityid = vtiger_activity.activityid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_seactivityrel.crmid=".$id."
-			AND (activitytype != 'Emails')";
-		$log->debug("Exiting get_activities method ...");
-		return GetRelatedList('Products','Calendar',$focus,$query,$button,$returnset);
-	}
-
 	/**	function used to get the list of quotes which are related to the product
 	 *	@param int $id - product id
 	 *	@return array - array which will be returned from the function GetRelatedList

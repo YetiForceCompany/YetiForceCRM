@@ -1485,9 +1485,12 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	}
 
 	public function transferRecordsOwnership($transferOwnerId, $relatedModuleRecordIds){
+		global $current_user;
+		$user_id = $current_user->id;
+
 		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_crmentity SET smownerid = ? WHERE crmid IN ('.  generateQuestionMarks($relatedModuleRecordIds).')';
-		$db->pquery($query, array($transferOwnerId,$relatedModuleRecordIds));
+		$query = 'UPDATE vtiger_crmentity SET smownerid = ?, modifiedby = ?, modifiedtime = NOW() WHERE crmid IN (' . generateQuestionMarks($relatedModuleRecordIds) . ')';
+		$db->pquery($query, array($transferOwnerId, $user_id, $relatedModuleRecordIds));
 	}
 
     /**
@@ -1547,11 +1550,15 @@ class Vtiger_Module_Model extends Vtiger_Module {
     public function getMappingRelatedField( $moduleName, $field = false) {
         $data = array();
 		// Selected field = ( target field => source field )
+		$data['RequirementCards']['potentialid'] = array( 'Potentials' => array('accountid'=>array('related_to')) );
+		$data['QuotesEnquires']['potentialid'] = array( 'Potentials' => array('accountid'=>array('related_to')) );
 		$data['Calculations']['potentialid'] = array( 'Potentials' => array('relatedid'=>array('related_to')) );
+		$data['Calculations']['requirementcardsid'] = array( 'RequirementCards' => array('potentialid'=>array('potentialid'),'quotesenquiresid'=>array('quotesenquiresid'),'relatedid'=>array('accountid') ) );
 		$data['Potentials']['contact_id'] = array( 'Contacts' => array('related_to'=>array('parent_id')) );
 		$data['ProjectTask']['projectmilestoneid'] = array( 'ProjectMilestone' => array('projectid'=>array('projectid')) );
 		$data['Quotes']['potential_id'] = array( 'Potentials' => array('account_id'=>array('related_to')) );
 		$data['Quotes']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
+		$data['Quotes']['requirementcards_id'] = array( 'RequirementCards' => array('potential_id'=>array('potential_id'),'account_id'=>array('accountid')) );
 		$data['SalesOrder']['potential_id'] = array( 'Potentials' => array('account_id'=>array('related_to') ));
 		$data['SalesOrder']['quote_id'] = array( 'Quotes' => array('account_id'=>array('account_id')) );
 		$data['SalesOrder']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
@@ -1576,6 +1583,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$mapping = array();
 			// [target module][Source module] = ( target field => (source module field, source field) )
 			$mapping['OSSTimeControl']['HelpDesk'] = array( 'contactid' => array('Contacts','contact_id'), 'accountid' => array('Accounts','parent_id') );
+			$mapping['OutsourcedProducts']['Potentials'] = array( 'parent_id' => array('Accounts','related_to') );
 			
 			if(!$mapping[$moduleName][$sourceModule])
 				return $data;

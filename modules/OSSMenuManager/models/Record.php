@@ -193,7 +193,14 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
 			if( vglobal('breadcrumbs') && count($breadcrumbs) == 0 && $request->get('module') != '' && $request->get('parent') == ''){
-				$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List', 'class' => 'moduleColor_'.$request->get('module'));
+				if('Users' == $request->get('module')){
+					$moduleModel = Vtiger_Module_Model::getInstance($request->get('module'));
+					$listViewUrl = $moduleModel->getListViewUrl();
+					$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => $listViewUrl, 'class' => 'moduleColor_'.$request->get('module'));
+				}
+				else
+					$breadcrumbs[] = array('lable' => vtranslate($request->get('module'), $request->get('module')), 'url' => 'index.php?module='.$request->get('module').'&view=List', 'class' => 'moduleColor_'.$request->get('module'));
+
 				if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
 					$breadcrumbs[] = array('lable' => vtranslate('LBL_VIEW_CREATE', $request->get('module')) );
 				}else{

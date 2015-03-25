@@ -1621,11 +1621,27 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
  * Function to related two records of different entity types
   */
 function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds) {
+	global $log,$adb;
+	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+	require_once("include/events/include.inc");
+	$em = new VTEventsManager($adb);
+	$em->initTriggerCache();
 	if(!is_array($destinationRecordIds)) $destinationRecordIds = Array($destinationRecordIds);
 	foreach($destinationRecordIds as $destinationRecordId) {
+		$data = array();
+		$data['focus'] = $focus;
+		$data['sourceModule'] = $sourceModule;
+		$data['sourceRecordId'] = $sourceRecordId;
+		$data['destinationModule'] = $destinationModule;
+		$data['destinationRecordId'] = $destinationRecordId;
+		$em->triggerEvent('vtiger.entity.link.before', $data);
+		
 		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
 		$focus->trackLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		
+		$em->triggerEvent('vtiger.entity.link.after', $data);
 	}
+	$log->debug("Exiting relateEntities method ...");
 }
 
 /**
@@ -2289,15 +2305,7 @@ function getCompanyDetails() {
 	$result = $adb->pquery($sql, array());
 	
 	$companyDetails = array();
-	$companyDetails['companyname'] = $adb->query_result($result,0,'organizationname');
-	$companyDetails['website'] = $adb->query_result($result,0,'website');
-	$companyDetails['address'] = $adb->query_result($result,0,'address');
-	$companyDetails['city'] = $adb->query_result($result,0,'city');
-	$companyDetails['state'] = $adb->query_result($result,0,'state');
-	$companyDetails['country'] = $adb->query_result($result,0,'country');
-	$companyDetails['phone'] = $adb->query_result($result,0,'phone');
-	$companyDetails['fax'] = $adb->query_result($result,0,'fax');
-	$companyDetails['logoname'] = $adb->query_result($result,0,'logoname');
+	$companyDetails = $adb->query_result_rowdata($result, $i);
 	
 	return $companyDetails;
 }

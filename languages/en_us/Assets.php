@@ -39,7 +39,7 @@ $languageStrings = array(
 	
 	//YetiForce
 	'description'=>'Description',
-	'attentions'=>'Attentions',
+	'attentions'=>'Comments',
 	'BLOCK_INFORMATION_TIME'=>'Information time',
 	'Total time [h]'=>'Total time [h]',
 	'Potential'=>'Source sales',

@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'tools' => 'Инструменты',
 	'LBL_separator'	=>	'Разделитель',
 	'OSSMenuManager'	=>	'Редактор Меню',
 	'My Home Page'	=>	'Главная',
@@ -94,6 +95,7 @@ $languageStrings = array(
 	'LBL_SIZEICON'	=>	'Размер иконки',
 	'Blok menu'	=>	'Блок меню',
 	'Typ menu'	=>	'Тип Ссылки',
+	'LBL_LANGEDITION' => 'Изменить язык',
     // połączenia
 	'MSG_ADDMENUITEM_OK'	=>	'Ссылка успешно добавлена',
 	'MSG_ADDMENUITEM_ERROR'	=>	'Ошибка добавления Ссылки',
@@ -118,6 +120,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR'	=>	'Ошибка сохранения изменений',
 	'MSG_CHANGE_ICON'	=>	'Изменения успешно сохранены',
 	'LBL_ADDICON'	=>	'Показывать иконку Изменения темы',
+	'LBL_OTHER' => 'Другие',
 );
 
 $jsLanguageStrings = array(

@@ -241,7 +241,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activitytype <> 'Emails'";
+						WHERE vtiger_crmentity.deleted = 0";
 			if($functionName === 'get_activities') {
 				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
 				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus not in ('','Not Held','Held')))";

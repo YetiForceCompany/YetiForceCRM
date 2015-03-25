@@ -16,6 +16,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('DeleteTranslation');
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');
+		$this->exposeMethod('saveView');
 		$this->exposeMethod('delete');
 		$this->exposeMethod('setAsDefault');
 	}
@@ -43,6 +44,16 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function SaveTranslation(Vtiger_Request $request) {
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::SaveTranslation($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => $saveResp['success'],
+			'message' => vtranslate($saveResp['data'],$request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function saveView(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],

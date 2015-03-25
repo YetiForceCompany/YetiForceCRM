@@ -315,7 +315,9 @@ class Vtiger_Deprecated {
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
+			global $log;
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
 		}
 	}
 
@@ -344,6 +346,8 @@ class Vtiger_Deprecated {
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
+			global $log;
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
 		}
 
@@ -352,6 +356,8 @@ class Vtiger_Deprecated {
 	/** Function to check the file access is made within web root directory. */
 	static function checkFileAccess($filepath) {
 		if (!self::isFileAccessible($filepath)) {
+			global $log;
+			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
 		}
 	}
