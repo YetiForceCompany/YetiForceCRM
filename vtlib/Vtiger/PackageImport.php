@@ -933,8 +933,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$dirName = 'cache/updates';
 		$result = false;
 		$adb = PearDatabase::getInstance();
-		if (file_exists($dirName . "/init.php")) {
-			require_once $dirName . "/init.php";
+		if (file_exists($dirName . '/init.php')) {
+			require_once $dirName . '/init.php';
 			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
 			$Instance = new YetiForceUpdate($modulenode);
 			$Instance->package = $this;
@@ -959,6 +959,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		}
 		$this->deleteDirFile($dirName . '/files');
 		$this->deleteDirFile($dirName . '/init.php');
+		$this->deleteDirFile('cache/templates_c');
 	}
 
 	function deleteDirFile($src) {

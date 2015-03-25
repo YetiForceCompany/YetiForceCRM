@@ -14,7 +14,7 @@ $languageStrings = array(
 	// Basic Strings
 	'SINGLE_Project' => 'Projekt',
 	'LBL_ADD_RECORD' => 'Projekt hinzufügen',
-	'LBL_RECORDS_LIST' => 'Projekt Liste',
+	'LBL_RECORDS_LIST' => 'Liste Projekte',
 
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Projekt Details',

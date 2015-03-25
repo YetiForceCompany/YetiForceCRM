@@ -8,13 +8,13 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = array(
-	'LBL_RECORDS_LIST' => 'Liste der Datensätze',
+	'LBL_RECORDS_LIST' => 'Liste Produkte',
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Outsourcing-Produkte',
 	'SINGLE_OutsourcedProducts' => 'Outsourcing-Produkt',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
+	'LBL_ADD_RECORD' => 'Produkt hinzufügen',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Ausgelagerte Produkte',

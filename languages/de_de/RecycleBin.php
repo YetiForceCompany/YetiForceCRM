@@ -14,7 +14,7 @@ $languageStrings = Array(
 	'LBL_EMPTY_RECYCLEBIN' => 'Papierkorb leeren',
 	'LBL_RESTORE' => 'Wiederherstellen',
 	'LBL_NO_PERMITTED_MODULES' => 'Keine zulässigen Module',
-	'LBL_RECORDS_LIST' => 'Papierkorb Liste',
+	'LBL_RECORDS_LIST' => 'Liste gelöschte Objekte',
 	'LBL_NO_RECORDS_FOUND' => 'Keine Datensätze gefunden, um Sie im Modul wiederherzustellen',
 );
 

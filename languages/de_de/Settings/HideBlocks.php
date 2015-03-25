@@ -9,16 +9,16 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'HideBlocks' => 'Abschnitt ausblenden',
-	'LBL_HIDEBLOCKS' => 'Abschnitt ausblenden',
-	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Verwalte Abschnitte mit auszublendenden Felder',
-	'LBL_BLOCK_LABEL' => 'Abschnitt',
+	'HideBlocks' => 'Block ausblenden',
+	'LBL_HIDEBLOCKS' => 'Block ausblenden',
+	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Verwalte Blocks mit auszublendenden Felder',
+	'LBL_BLOCK_LABEL' => 'Block',
 	'LBL_MODULE' => 'Modul',
 	'LBL_ENABLED' => 'Aktiv',
 	'LBL_EDIT_BLOCK' => 'Bearbeiten',
 	'LBL_NEW_BLOCK' => 'Hinzufügen',
-	'LBL_BLOCK' => 'Abschnitt',
+	'LBL_BLOCK' => 'Block',
 	'LBL_NEXT' => 'Nächster',
 	'LBL_VIEW' => 'Sicht',
-	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Abschnitt kann nicht ausgeblendet werden, da er Mussfelder enthält.',
+	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Block kann nicht ausgeblendet werden, da er Mussfelder enthält.',
 );

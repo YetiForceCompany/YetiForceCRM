@@ -24,8 +24,8 @@ $languageStrings = array(
 	// Basic Strings
 	'Services' => 'Dienstleistungen',
 	'SINGLE_Services' => 'Dienstleistung',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_RECORDS_LIST' => 'Dienstleistungsliste',
+	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Dienstleistungen',
 
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Dienstleistungsdetails',

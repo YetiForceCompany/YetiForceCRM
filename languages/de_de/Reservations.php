@@ -11,8 +11,10 @@
 $languageStrings = array(
 	'SINGLE_Reservations' => 'Reservierungen',
 	'Reservations' => 'Reservierungen',
+	'LBL_ADD_RECORD' => 'Reservierung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Reservierungen',
 	'LBL_MAIN_INFORMATION' => 'Informationen',
-	'LBL_BLOCK' => 'Abschnitt',
+	'LBL_BLOCK' => 'Block',
 	'LBL_TOTAL_TIME' => 'Gesamtdauer',
 	'LBL_STATUS' => 'Status',
 	'Assigned To' => 'Zugehörig zu',

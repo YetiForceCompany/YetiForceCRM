@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
+	'LBL_ADD_RECORD' => 'Anforderung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Anforderungen', 
 	'RequirementCards' => 'Anforderungen',
 	'SINGLE_RequirementCards' => 'Anforderungen',
 	
