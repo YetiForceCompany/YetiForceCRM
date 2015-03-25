@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -4958,24 +4958,6 @@ CREATE TABLE `vtiger_priority` (
   UNIQUE KEY `priority_priority_idx` (`priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_productcategory` */
-
-CREATE TABLE `vtiger_productcategory` (
-  `productcategoryid` int(19) NOT NULL AUTO_INCREMENT,
-  `productcategory` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`productcategoryid`),
-  UNIQUE KEY `productcategory_productcategory_idx` (`productcategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_productcategory_seq` */
-
-CREATE TABLE `vtiger_productcategory_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_productcf` */
 
 CREATE TABLE `vtiger_productcf` (
@@ -7446,22 +7428,6 @@ CREATE TABLE `vtiger_widgets` (
   KEY `tabid` (`tabid`),
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wordtemplates` */
-
-CREATE TABLE `vtiger_wordtemplates` (
-  `templateid` int(19) NOT NULL,
-  `filename` varchar(100) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `parent_type` varchar(50) NOT NULL,
-  `data` longblob,
-  `description` text,
-  `filesize` varchar(50) NOT NULL,
-  `filetype` varchar(20) NOT NULL,
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`templateid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity` */
 
