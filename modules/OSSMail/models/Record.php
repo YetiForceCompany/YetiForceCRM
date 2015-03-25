@@ -547,7 +547,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			'smtp_port'					=> array('label' => 'LBL_RC_smtp_port',				'fieldType' => 'int'		,'required' => 1),
 			'language'					=> array('label' => 'LBL_RC_language',				'fieldType' => 'picklist' 	,'required' => 1, 'value' => array('ar_SA','az_AZ','be_BE','bg_BG','bn_BD','bs_BA','ca_ES','cs_CZ','cy_GB','da_DK','de_CH','de_DE','el_GR','en_CA','en_GB','en_US','es_419','es_AR','es_ES','et_EE','eu_ES','fa_AF','fa_IR','fi_FI','fr_FR','fy_NL','ga_IE','gl_ES','he_IL','hi_IN','hr_HR','hu_HU','hy_AM','id_ID','is_IS','it_IT','ja_JP','ka_GE','km_KH','ko_KR','lb_LU','lt_LT','lv_LV','mk_MK','ml_IN','mr_IN','ms_MY','nb_NO','ne_NP','nl_BE','nl_NL','nn_NO','pl_PL','pt_BR','pt_PT','ro_RO','ru_RU','si_LK','sk_SK','sl_SI','sq_AL','sr_CS','sv_SE','ta_IN','th_TH','tr_TR','uk_UA','ur_PK','vi_VN','zh_CN','zh_TW') ),
 			'username_domain'			=> array('label' => 'LBL_RC_username_domain',		'fieldType' => 'text'		,'required' => 0),
-			'debug_level'				=> array('label' => 'LBL_RC_debug_level',			'fieldType' => 'int'		,'required' => 1),
 			'skin_logo'					=> array('label' => 'LBL_RC_skin_logo',				'fieldType' => 'text'		,'required' => 1),
 			'ip_check'					=> array('label' => 'LBL_RC_ip_check',				'fieldType' => 'checkbox'	,'required' => 0),
 			'enable_spellcheck'			=> array('label' => 'LBL_RC_enable_spellcheck',		'fieldType' => 'checkbox'	,'required' => 0),
