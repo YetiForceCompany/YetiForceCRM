@@ -51,6 +51,12 @@ $config['db_table_dsn'] = array(
 //    'cache_messages' => 'r',
 );
 
+// It is possible to specify database variable values e.g. some limits here.
+// Use them if your server is not MySQL or for better performance.
+// For example Roundcube uses max_allowed_packet value (in bytes)
+// which limits query size for database cache operations.
+$config['db_max_allowed_packet'] = null;
+
 
 // ----------------------------------
 // LOGGING/DEBUGGING
@@ -383,6 +389,19 @@ $config['session_storage'] = 'db';
 // Use these hosts for accessing memcached
 // Define any number of hosts in the form of hostname:port or unix:///path/to/socket.file
 $config['memcache_hosts'] = null; // e.g. array( 'localhost:11211', '192.168.1.12:11211', 'unix:///var/tmp/memcached.sock' );
+
+// Controls the use of a persistent connections to memcache servers
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_pconnect'] = true;
+
+// Value in seconds which will be used for connecting to the daemon
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_timeout'] = 1;
+
+// Controls how often a failed server will be retried (value in seconds).
+// Setting this parameter to -1 disables automatic retry.
+// See http://php.net/manual/en/memcache.addserver.php
+$config['memcache_retry_interval'] = 15;
 
 // check client IP in session authorization
 $config['ip_check'] = false;

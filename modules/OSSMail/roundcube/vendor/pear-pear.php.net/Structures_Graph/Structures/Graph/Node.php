@@ -131,7 +131,7 @@ class Structures_Graph_Node {
     * @return	mixed	Data to store in node
     * @access	public
     */
-    function setData($data) {
+    function setData(&$data) {
         $this->_data =& $data;
     }
     /* }}} */
@@ -213,7 +213,7 @@ class Structures_Graph_Node {
     * @param    mixed   Data 
     * @access	public
     */
-    function setMetadata($key, $data) {
+    function setMetadata($key, &$data) {
         $this->_metadata[$key] =& $data;
     }
     /* }}} */

@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | Net/LDAP3.php                                                         |
@@ -8,9 +9,18 @@
  | Copyright (C) 2006-2014, The Roundcube Dev Team                       |
  | Copyright (C) 2012-2014, Kolab Systems AG                             |
  |                                                                       |
- | Licensed under the GNU General Public License version 3 or            |
- | any later version with exceptions for plugins.                        |
- | See the README file for a full license statement.                     |
+ | This program is free software: you can redistribute it and/or modify  |
+ | it under the terms of the GNU General Public License as published by  |
+ | the Free Software Foundation, either version 3 of the License, or     |
+ | (at your option) any later version.                                   |
+ |                                                                       |
+ | This program is distributed in the hope that it will be useful,       |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the          |
+ | GNU General Public License for more details.                          |
+ |                                                                       |
+ | You should have received a copy of the GNU General Public License     |
+ | along with this program.  If not, see <http://www.gnu.org/licenses/>. |
  |                                                                       |
  | PURPOSE:                                                              |
  |   Provide advanced functionality for accessing LDAP directories       |
@@ -79,6 +89,7 @@ class Net_LDAP3
     protected $debug_level = false;
     protected $list_page   = 1;
     protected $page_size   = 10;
+    protected $icache      = array();
     protected $cache;
 
     // Use public method config_set('log_hook', $callback) to have $callback be
@@ -555,7 +566,7 @@ class Net_LDAP3
         else if (method_exists($this, "config_set_{$key}")) {
             call_user_func_array(array($this, "config_set_$key"), array($value));
         }
-        else if (isset($this->$key)) {
+        else if (property_exists($this, $key)) {
             $this->$key = $value;
         }
         else {
@@ -863,7 +874,7 @@ class Net_LDAP3
      */
     public function entry_dn($subject, $attributes = array(), $base_dn = null)
     {
-        $this->_debug("entry_dn on subject $subject");
+        $this->_debug("Net_LDAP3::entry_dn($subject)");
         $is_dn = ldap_explode_dn($subject, 1);
 
         if (is_array($is_dn) && array_key_exists("count", $is_dn) && $is_dn["count"] > 0) {
@@ -1070,7 +1081,7 @@ class Net_LDAP3
 
     public function login($username, $password, $domain = null, &$attributes = null)
     {
-        $this->_debug("Net_LDAP3::login(\$username = '" . $username . "', \$password = '****', \$domain = '" . $domain . "')");
+        $this->_debug("Net_LDAP3::login($username,***,$domain)");
 
         $_bind_dn = $this->config_get('service_bind_dn');
         $_bind_pw = $this->config_get('service_bind_pw');
@@ -1191,7 +1202,7 @@ class Net_LDAP3
 
     public function list_group_members($dn, $entry = null, $recurse = true)
     {
-        $this->_debug("Called list_group_members(" . $dn . ")");
+        $this->_debug("Net_LDAP3::list_group_members($dn)");
 
         if (is_array($entry) && in_array('objectclass', $entry)) {
             if (!in_array(array('groupofnames', 'groupofuniquenames', 'groupofurls'), $entry['objectclass'])) {
@@ -1552,12 +1563,16 @@ class Net_LDAP3
             return false;
         }
 
-        $this->_debug("C: Search base dn: [$base_dn] scope [$scope] with filter [$filter]");
-
         // make sure attributes list is not empty
         if (empty($attrs)) {
             $attrs = array('dn');
         }
+        // make sure filter is not empty
+        if (empty($filter)) {
+            $filter = '(objectclass=*)';
+        }
+
+        $this->_debug("C: Search base dn: [$base_dn] scope [$scope] with filter [$filter]");
 
         $function = self::scope_to_function($scope, $ns_function);
 
@@ -1575,6 +1590,7 @@ class Net_LDAP3
             }
             // ...or by fetching all records dn and count them
             else if (!function_exists('ldap_parse_virtuallist_control')) {
+                // @FIXME: this search will ignore $props['search']
                 $vlv_count = $this->search($base_dn, $filter, $scope, array('dn'), $props, true);
             }
 
@@ -2037,7 +2053,7 @@ class Net_LDAP3
             return array();
         }
 
-        if ($this->cache && ($cached_config = $this->cache->get('vlvconfig'))) {
+        if ($cached_config = $this->get_cache_data('vlvconfig')) {
             $this->_vlv_indexes_and_searches = $cached_config;
             return $this->_vlv_indexes_and_searches;
         }
@@ -2095,9 +2111,7 @@ class Net_LDAP3
         }
 
         // cache this
-        if ($this->cache) {
-            $this->cache->set('vlvconfig', $this->_vlv_indexes_and_searches);
-        }
+        $this->set_cache_data('vlvconfig', $this->_vlv_indexes_and_searches);
 
         return $this->_vlv_indexes_and_searches;
     }
@@ -2161,7 +2175,7 @@ class Net_LDAP3
 
     private function list_group_member($dn, $members, $recurse = true)
     {
-        $this->_debug("Called list_group_member(" . $dn . ")");
+        $this->_debug("Net_LDAP3::list_group_member($dn)");
 
         $members       = (array) $members;
         $group_members = array();
@@ -2194,7 +2208,7 @@ class Net_LDAP3
 
     private function list_group_uniquemember($dn, $uniquemembers, $recurse = true)
     {
-        $this->_debug("Called list_group_uniquemember(" . $dn . ")", $entry);
+        $this->_debug("Net_LDAP3::list_group_uniquemember($dn)", $entry);
 
         $uniquemembers = (array)($uniquemembers);
         $group_members = array();
@@ -2225,7 +2239,7 @@ class Net_LDAP3
 
     private function list_group_memberurl($dn, $memberurls, $recurse = true)
     {
-        $this->_debug("Called list_group_memberurl(" . $dn . ")");
+        $this->_debug("Net_LDAP3::list_group_memberurl($dn)");
 
         $group_members = array();
         $memberurls    = (array) $memberurls;
@@ -2367,7 +2381,8 @@ class Net_LDAP3
         return true;
     }
 
-    private function parse_aclrights(&$attributes, $attribute_value) {
+    private function parse_aclrights(&$attributes, $attribute_value)
+    {
         $components = explode(':', $attribute_value);
         $_acl_target = array_shift($components);
         $_acl_value = trim(implode(':', $components));
@@ -2792,6 +2807,11 @@ class Net_LDAP3
 
     /**
      * Return the search string value to be used in VLV controls
+     *
+     * @param array        $sort   List of attributes in vlv index
+     * @param array|string $search Search string or attribute => value hash
+     *
+     * @return string Search string
      */
     private function _vlv_search($sort, $search)
     {
@@ -2804,15 +2824,13 @@ class Net_LDAP3
             return;
         }
 
-        $search_suffix = $this->_fuzzy_search_suffix();
-
-        foreach ($search as $attr => $value) {
-            if (!in_array(strtolower($attr), $sort)) {
+        foreach ((array) $search as $attr => $value) {
+            if ($attr && !in_array(strtolower($attr), $sort)) {
                 $this->_debug("Cannot use VLV search using attribute not indexed: $attr (not in " . var_export($sort, true) . ")");
                 return;
             }
             else {
-                return $value . $search_suffix;
+                return $value . $this->_fuzzy_search_suffix();
             }
         }
     }
@@ -2855,4 +2873,247 @@ class Net_LDAP3
         return true;
     }
 
+    /**
+     * Get global handle for cache access
+     *
+     * @return object Cache object
+     */
+    public function get_cache()
+    {
+        if ($this->cache === true) {
+            // no memcache support in PHP
+            if (!class_exists('Memcache')) {
+                $this->cache = false;
+                return false;
+            }
+
+            // add all configured hosts to pool
+            $pconnect = $this->config_get('memcache_pconnect');
+            $hosts    = $this->config_get('memcache_hosts');
+
+            if ($hosts) {
+                $this->cache        = new Memcache;
+                $this->mc_available = 0;
+
+                $hosts = explode(',', $hosts);
+                foreach ($hosts as $host) {
+                    $host = trim($host);
+                    if (substr($host, 0, 7) != 'unix://') {
+                        list($host, $port) = explode(':', $host);
+                        if (!$port) $port = 11211;
+                    }
+                    else {
+                        $port = 0;
+                    }
+
+                    $this->mc_available += intval($this->cache->addServer(
+                        $host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
+                }
+
+                // test connection and failover (will result in $this->mc_available == 0 on complete failure)
+                $this->cache->increment('__CONNECTIONTEST__', 1);  // NOP if key doesn't exist
+            }
+
+            if (!$this->mc_available) {
+                $this->cache = false;
+            }
+        }
+
+        return $this->cache;
+    }
+
+    /**
+     * Callback for memcache failure
+     */
+    public function memcache_failure($host, $port)
+    {
+        static $seen = array();
+
+        // only report once
+        if (!$seen["$host:$port"]++) {
+            $this->mc_available--;
+            $this->_error("Memcache failure on host $host:$port");
+        }
+    }
+
+    /**
+     * Get cached data
+     *
+     * @param string $key Cache key
+     *
+     * @return mixed Cached value
+     */
+    public function get_cache_data($key)
+    {
+        if ($cache = $this->get_cache()) {
+            return $cache->get($key);
+        }
+    }
+
+    /**
+     * Store cached data
+     *
+     * @param string $key  Cache key
+     * @param mixed  $data Data
+     * @param int    $ttl  Cache TTL in seconds
+     *
+     * @return bool False on failure or when cache is disabled, True if data was saved succesfully
+     */
+    public function set_cache_data($key, $data, $ttl = 3600)
+    {
+        if ($cache = $this->get_cache()) {
+            if (!method_exists($cache, 'replace') || !$cache->replace($key, $data, MEMCACHE_COMPRESSED, $ttl)) {
+                return $cache->set($key, $data, MEMCACHE_COMPRESSED, $ttl);
+            }
+            else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Translate a domain name into it's corresponding root dn.
+     *
+     * @param string $domain Domain name
+     *
+     * @return string|bool Domain root DN or False on error
+     */
+    public function domain_root_dn($domain)
+    {
+        if (empty($domain)) {
+            return false;
+        }
+
+        $ckey = 'domain.root::' . $domain;
+        if ($result = $this->icache[$ckey]) {
+            return $result;
+        }
+
+        $this->_debug("Net_LDAP3::domain_root_dn($domain)");
+
+        if ($entry_attrs = $this->find_domain($domain)) {
+            $name_attribute = $this->config_get('domain_name_attribute');
+
+            if (empty($name_attribute)) {
+                $name_attribute = 'associateddomain';
+            }
+
+            if (is_array($entry_attrs)) {
+                if (!empty($entry_attrs['inetdomainbasedn'])) {
+                    $domain_root_dn = $entry_attrs['inetdomainbasedn'];
+                }
+                else {
+                    if (is_array($entry_attrs[$name_attribute])) {
+                        $domain_root_dn = $this->_standard_root_dn($entry_attrs[$name_attribute][0]);
+                    }
+                    else {
+                        $domain_root_dn = $this->_standard_root_dn($entry_attrs[$name_attribute]);
+                    }
+                }
+            }
+        }
+
+        if (empty($domain_root_dn)) {
+            $domain_root_dn = $this->_standard_root_dn($domain);
+        }
+
+        $this->_debug("Net_LDAP3::domain_root_dn() result: $domain_root_dn");
+
+        return $this->icache[$ckey] = $domain_root_dn;
+    }
+
+    /**
+     * Find domain by name
+     *
+     * @param string $domain     Domain name
+     * @param array  $attributes Result attributes
+     *
+     * @return array|bool Domain attributes (plus 'dn' attribute) or False if not found
+     */
+    public function find_domain($domain, $attributes = array('*'))
+    {
+        if (empty($domain)) {
+            return false;
+        }
+
+        $ckey  = 'domain::' . $domain;
+        $ickey = $ckey . '::' . md5(implode(',', $attributes));
+
+        if (isset($this->icache[$ickey])) {
+            return $this->icache[$ickey];
+        }
+
+        $this->_debug("Net_LDAP3::find_domain($domain)");
+
+        // use cache
+        $domain_dn = $this->get_cache_data($ckey);
+
+        if ($domain_dn) {
+            $result = $this->get_entry_attributes($domain_dn, $attributes);
+            if (!empty($result)) {
+                $result['dn'] = $domain_dn;
+            }
+            else {
+                $result = false;
+            }
+        }
+        else {
+            $domain_base_dn = $this->config_get('domain_base_dn');
+            $domain_filter  = $this->config_get('domain_filter');
+            $name_attribute = $this->config_get('domain_name_attribute');
+
+            if (empty($name_attribute)) {
+                $name_attribute = 'associateddomain';
+            }
+
+            $domain_filter = "(&" . $domain_filter . "(" . $name_attribute . "=" . self::quote_string($domain) . "))";
+
+            if ($result = $this->search($domain_base_dn, $domain_filter, 'sub', $attributes)) {
+                $result       = $result->entries(true);
+                $domain_dn    = key($result);
+                $result       = $result[$domain_dn];
+                $result['dn'] = $domain_dn;
+
+                // cache domain DN
+                $this->set_cache_data($ckey, $domain_dn);
+            }
+        }
+
+        $this->_debug("Net_LDAP3::find_domain() result: " . var_export($result, true));
+
+        return $this->icache[$ickey] = $result;
+    }
+
+    /**
+     * From a domain name, such as 'kanarip.com', create a standard root
+     * dn, such as 'dc=kanarip,dc=com'.
+     *
+     * As the parameter $associatedDomains, either pass it an array (such
+     * as may have been returned by ldap_get_entries() or perhaps
+     * ldap_list()), where the function will assume the first value
+     * ($array[0]) to be the uber-level domain name, or pass it a string
+     * such as 'kanarip.nl'.
+     *
+     * @return string
+     */
+    protected function _standard_root_dn($associatedDomains)
+    {
+        if (is_array($associatedDomains)) {
+            // Usually, the associatedDomain in position 0 is the naming attribute associatedDomain
+            if ($associatedDomains['count'] > 1) {
+                // Issue a debug message here
+                $relevant_associatedDomain = $associatedDomains[0];
+            }
+            else {
+                $relevant_associatedDomain = $associatedDomains[0];
+            }
+        }
+        else {
+            $relevant_associatedDomain = $associatedDomains;
+        }
+
+        return 'dc=' . implode(',dc=', explode('.', $relevant_associatedDomain));
+    }
 }

@@ -59,10 +59,9 @@ class Structures_Graph_Manipulator_AcyclicTest {
     * This is a variant of Structures_Graph::inDegree which does 
     * not count nodes marked as visited.
     *
-    * @access   private
     * @return	integer	 Number of non-visited nodes that link to this one
     */
-    function _nonVisitedInDegree(&$node) {
+    protected static function _nonVisitedInDegree(&$node) {
         $result = 0;
         $graphNodes =& $node->_graph->getNodes();
         foreach (array_keys($graphNodes) as $key) {
@@ -75,9 +74,9 @@ class Structures_Graph_Manipulator_AcyclicTest {
 
     /* _isAcyclic {{{ */
     /**
-    * @access   private
-    */
-    function _isAcyclic(&$graph) {
+     * Check if the graph is acyclic
+     */
+    protected static function _isAcyclic(&$graph) {
         // Mark every node as not visited
         $nodes =& $graph->getNodes();
         $nodeKeys = array_keys($nodes);
@@ -121,9 +120,8 @@ class Structures_Graph_Manipulator_AcyclicTest {
     * isAcyclic returns true if a graph contains no cycles, false otherwise.
     *
     * @return	boolean	 true iff graph is acyclic
-    * @access	public
     */
-    function isAcyclic(&$graph) {
+    public static function isAcyclic(&$graph) {
         // We only test graphs
         if (!is_a($graph, 'Structures_Graph')) return Pear::raiseError('Structures_Graph_Manipulator_AcyclicTest::isAcyclic received an object that is not a Structures_Graph', STRUCTURES_GRAPH_ERROR_GENERIC);
         if (!$graph->isDirected()) return false; // Only directed graphs may be acyclic
