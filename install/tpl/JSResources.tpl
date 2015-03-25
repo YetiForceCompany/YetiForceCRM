@@ -34,7 +34,6 @@
 	<script type="text/javascript" src="../layouts/vlayout/resources/helper.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/Connector.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/ProgressIndicator.js" ></script>
-	<script type="text/javascript" src="../libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js" ></script>
 	<script type="text/javascript" src="../libraries/guidersjs/guiders-1.2.6.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/datepicker/js/datepicker.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js"></script>
