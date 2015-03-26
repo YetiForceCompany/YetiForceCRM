@@ -24,5 +24,9 @@ $languageStrings = array(
 	'Project Milestone Name' => 'Projekt Meilenstein Name',
 	'Milestone Date' => 'Meilenstein Datum',
 	'Project Milestone No' => 'Projekt Meilenstein Nummer',
+	//PICKLIST
+	'PLL_INTERNAL' => 'Internal',
+	'PLL_EXTERNAL' => 'External',
+	'PLL_SHARED' => 'Shared',
 	
 );
