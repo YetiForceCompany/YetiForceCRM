@@ -65,6 +65,10 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_users WHERE userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_principals WHERE userid = ?;', array($params['user']));
+		
+		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
+		$user_name =  $user->get('user_name');
+		Vtiger_Functions::recurseDelete(vglobal('davStorageDir') . '/' . $user_name);
 	}
 
 	public function getTypes() {
@@ -78,7 +82,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		$path = '/' . $user_name . '/';
 		$dirHash = sha1($path);
 		$parent_dirid = 0;
-		mkdir(vglobal('davStorageDir') . $path);
+		@mkdir(vglobal('davStorageDir') . $path);
 		
 		$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
 			array($user_name, $path, $parent_dirid, $dirHash, $params['user']));

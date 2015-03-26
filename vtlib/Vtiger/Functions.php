@@ -1021,7 +1021,7 @@ class Vtiger_Functions {
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {
-						self::deleteDirFile($fileinfo->getPathname());
+						self::recurseDelete($fileinfo->getPathname());
 						rmdir($root_dir . $fileinfo->getPathname());
 					} else {
 						unlink($root_dir . $fileinfo->getPathname());
