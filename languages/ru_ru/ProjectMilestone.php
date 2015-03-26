@@ -22,4 +22,8 @@ $languageStrings = array(
 	'Related to'                   => 'Связан с'    , 
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
 	'description' => 'Описание',
+	//PICKLIST
+	'PLL_INTERNAL' => 'Internal',
+	'PLL_EXTERNAL' => 'External',
+	'PLL_SHARED' => 'Shared',
 );

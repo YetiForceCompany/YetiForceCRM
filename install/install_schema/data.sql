@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -1149,7 +1149,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5072,9 +5072,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -14090,9 +14090,9 @@ insert  into `vtiger_progress_seq`(`id`) values (11);
 
 /*Data for the table `vtiger_projectmilestonetype` */
 
-insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'administrative',1,238,2);
-insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'operative',1,239,3);
-insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'other',1,240,4);
+insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'PLL_INTERNAL',1,238,2);
+insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_EXTERNAL',1,239,3);
+insert  into `vtiger_projectmilestonetype`(`projectmilestonetypeid`,`projectmilestonetype`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_SHARED',1,240,4);
 
 /*Data for the table `vtiger_projectmilestonetype_seq` */
 
