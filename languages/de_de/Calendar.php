@@ -119,6 +119,8 @@ $languageStrings = array(
 	'LBL_NO_DESCRIPTION'=>'Keine Beschreibung',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD' => 'Falsche ICS-Datei',
 	'LBL_IMPORT_ICS_SUCCESS' => 'Kalendereintrag hinzugefügt',
+	'--None' =>'None',
+	'Daily--' => 'Daily',
 );
 
 $jsLanguageStrings = array(
