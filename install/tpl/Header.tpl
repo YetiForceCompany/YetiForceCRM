@@ -22,7 +22,6 @@
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" />
 		<link rel="stylesheet" href="../libraries/guidersjs/guiders-1.2.6.css"/>
 		<link rel="stylesheet" href="../libraries/jquery/pnotify/jquery.pnotify.default.css"/>
