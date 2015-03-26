@@ -63,7 +63,7 @@ class rcube_sieve_engine
         1 => 'notifyimportancehigh'
     );
 
-    const VERSION  = '8.2';
+    const VERSION  = '8.3';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -122,9 +122,6 @@ class rcube_sieve_engine
                 case rcube_sieve::ERROR_CONNECTION:
                 case rcube_sieve::ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
-                    rcube::raise_error(array('code' => 403, 'type' => 'php',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Unable to connect to managesieve on $host:$port"), true, false);
                     break;
 
                 default:
@@ -210,7 +207,18 @@ class rcube_sieve_engine
             $plugin['socket_options']
         );
 
-        return $this->sieve->error();
+        $error = $this->sieve->error();
+
+        if ($error) {
+            rcube::raise_error(array(
+                    'code'    => 403,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Unable to connect to managesieve on $host:$port"
+                ), true, false);
+        }
+
+        return $error;
     }
 
     /**
@@ -390,10 +398,11 @@ class rcube_sieve_engine
             }
             else if ($action == 'setget') {
                 $script_name = rcube_utils::get_input_value('_set', rcube_utils::INPUT_GPC, true);
-                $script = $this->sieve->get_script($script_name);
+                $script      = $this->sieve->get_script($script_name);
 
-                if (PEAR::isError($script))
+                if (is_a($script, 'PEAR_Error')) {
                     exit;
+                }
 
                 $browser = new rcube_browser;
 
@@ -1393,19 +1402,21 @@ class rcube_sieve_engine
         }
 
         if (isset($rule['test'])) {
-            if (in_array($rule['test'], array('header', 'address', 'envelope'))
-                && !is_array($rule['arg1'])
-                && ($header = strtolower($rule['arg1']))
-                && isset($this->headers[$header])
-            ) {
-                $test = $header;
+            if (in_array($rule['test'], array('header', 'address', 'envelope'))) {
+                if (is_array($rule['arg1']) && count($rule['arg1']) == 1) {
+                    $rule['arg1'] = $rule['arg1'][0];
+                }
+
+                $matches = ($header = strtolower($rule['arg1'])) && isset($this->headers[$header]);
+                $test    = $matches ? $header : '...';
             }
-            else if ($rule['test'] == 'exists'
-                && !is_array($rule['arg'])
-                && ($header = strtolower($rule['arg']))
-                && isset($this->headers[$header])
-            ) {
-                $test = $header;
+            else if ($rule['test'] == 'exists') {
+                if (is_array($rule['arg']) && count($rule['arg']) == 1) {
+                    $rule['arg'] = $rule['arg'][0];
+                }
+
+                $matches = ($header = strtolower($rule['arg'])) && isset($this->headers[$header]);
+                $test    = $matches ? $header : '...';
             }
             else if (in_array($rule['test'], array('size', 'body', 'date', 'currentdate'))) {
                 $test = $rule['test'];
@@ -2344,11 +2355,11 @@ class rcube_sieve_engine
      */
     protected function init_script()
     {
-        $this->script = $this->sieve->script->as_array();
-
-        if (!$this->script) {
+        if (!$this->sieve->script) {
             return;
         }
+
+        $this->script = $this->sieve->script->as_array();
 
         $headers    = array();
         $exceptions = array('date', 'currentdate', 'size', 'body');

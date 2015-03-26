@@ -26,14 +26,11 @@
 /**
  * The Graph.php file contains the definition of the Structures_Graph class 
  *
- * @see Structures_Graph
  * @package Structures_Graph
  */
 
 /* dependencies {{{ */
-/** PEAR base classes */
 require_once 'PEAR.php';
-/** Graph Node */
 require_once 'Structures/Graph/Node.php';
 /* }}} */
 
@@ -48,65 +45,86 @@ define('STRUCTURES_GRAPH_ERROR_GENERIC', 100);
  * directional, and can be traveled only one way. In an undirected graph, arcs
  * are bidirectional, and can be traveled both ways.
  *
- * @author		Sérgio Carvalho <sergio.carvalho@portugalmail.com> 
- * @copyright	(c) 2004 by Sérgio Carvalho
- * @package Structures_Graph
+ * @author    Sérgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright (c) 2004 by Sérgio Carvalho
+ * @package   Structures_Graph
  */
 /* }}} */
-class Structures_Graph {
-    /* fields {{{ */
+class Structures_Graph
+{
     /**
+     * List of node objects in this graph
      * @access private
      */
     var $_nodes = array();
+
     /**
+     * If the graph is directed or not
      * @access private
      */
     var $_directed = false;
-    /* }}} */
 
-    /* Constructor {{{ */
+
     /**
-    *
-    * Constructor
-    *
-    * @param    boolean    Set to true if the graph is directed. Set to false if it is not directed. (Optional, defaults to true)
-    * @access	public
-    */
-    function Structures_Graph($directed = true) {
+     * Constructor
+     *
+     * @param boolean $directed Set to true if the graph is directed.
+     *                          Set to false if it is not directed.
+     */
+    public function __construct($directed = true)
+    {
         $this->_directed = $directed;
     }
-    /* }}} */
 
-    /* isDirected {{{ */
     /**
-    *
-    * Return true if a graph is directed
-    *
-    * @return	boolean	 true if the graph is directed
-    * @access	public
-    */
-    function isDirected() {
+     * Old constructor (PHP4-style; kept for BC with extending classes)
+     *
+     * @param boolean $directed Set to true if the graph is directed.
+     *                          Set to false if it is not directed.
+     *
+     * @return void
+     */
+    public function Structures_Graph($directed = true)
+    {
+        $this->__construct($directed);
+    }
+
+    /**
+     * Return true if a graph is directed
+     *
+     * @return boolean true if the graph is directed
+     */
+    public function isDirected()
+    {
         return (boolean) $this->_directed;
     }
-    /* }}} */
 
-    /* addNode {{{ */
     /**
-    *
-    * Add a Node to the Graph
-    *
-    * @param    Structures_Graph_Node   The node to be added.
-    * @access	public
-    */
-    function addNode(&$newNode) {
+     * Add a Node to the Graph
+     *
+     * @param Structures_Graph_Node $newNode The node to be added.
+     *
+     * @return void
+     */
+    public function addNode(&$newNode)
+    {
         // We only add nodes
-        if (!is_a($newNode, 'Structures_Graph_Node')) return Pear::raiseError('Structures_Graph::addNode received an object that is not a Structures_Graph_Node', STRUCTURES_GRAPH_ERROR_GENERIC);
-        // Graphs are node *sets*, so duplicates are forbidden. We allow nodes that are exactly equal, but disallow equal references.
-        foreach($this->_nodes as $key => $node) {
+        if (!is_a($newNode, 'Structures_Graph_Node')) {
+            return Pear::raiseError(
+                'Structures_Graph::addNode received an object that is not'
+                . ' a Structures_Graph_Node',
+                STRUCTURES_GRAPH_ERROR_GENERIC
+            );
+        }
+
+        //Graphs are node *sets*, so duplicates are forbidden.
+        // We allow nodes that are exactly equal, but disallow equal references.
+        foreach ($this->_nodes as $key => $node) {
             /*
-             ZE1 equality operators choke on the recursive cycle introduced by the _graph field in the Node object.
-             So, we'll check references the hard way (change $this->_nodes[$key] and check if the change reflects in 
+             ZE1 equality operators choke on the recursive cycle introduced
+             by the _graph field in the Node object.
+             So, we'll check references the hard way
+             (change $this->_nodes[$key] and check if the change reflects in
              $node)
             */
             $savedData = $this->_nodes[$key];
@@ -114,41 +132,45 @@ class Structures_Graph {
             $this->_nodes[$key] = true;
             if ($node === true) {
                 $this->_nodes[$key] = false;
-                if ($node === false) $referenceIsEqualFlag = true;
+                if ($node === false) {
+                    $referenceIsEqualFlag = true;
+                }
             }
             $this->_nodes[$key] = $savedData;
-            if ($referenceIsEqualFlag) return Pear::raiseError('Structures_Graph::addNode received an object that is a duplicate for this dataset', STRUCTURES_GRAPH_ERROR_GENERIC);
+            if ($referenceIsEqualFlag) {
+                return Pear::raiseError(
+                    'Structures_Graph::addNode received an object that is'
+                    . ' a duplicate for this dataset',
+                    STRUCTURES_GRAPH_ERROR_GENERIC
+                );
+            }
         }
         $this->_nodes[] =& $newNode;
         $newNode->setGraph($this);
     }
-    /* }}} */
 
-    /* removeNode (unimplemented) {{{ */
     /**
-    *
-    * Remove a Node from the Graph
-    *
-    * @todo     This is unimplemented
-    * @param    Structures_Graph_Node   The node to be removed from the graph
-    * @access	public
-    */
-    function removeNode(&$node) {
+     * Remove a Node from the Graph
+     *
+     * @param Structures_Graph_Node $node The node to be removed from the graph
+     *
+     * @return void
+     * @todo   This is unimplemented
+     */
+    public function removeNode(&$node)
+    {
     }
-    /* }}} */
 
-    /* getNodes {{{ */
     /**
-    *
-    * Return the node set, in no particular order. For ordered node sets, use a Graph Manipulator insted.
-    *
-    * @access   public
-    * @see      Structures_Graph_Manipulator_TopologicalSorter
-    * @return   array The set of nodes in this graph
-    */
-    function &getNodes() {
+     * Return the node set, in no particular order.
+     * For ordered node sets, use a Graph Manipulator insted.
+     *
+     * @return array The set of nodes in this graph
+     * @see    Structures_Graph_Manipulator_TopologicalSorter
+     */
+    public function &getNodes()
+    {
         return $this->_nodes;
     }
-    /* }}} */
 }
 ?>

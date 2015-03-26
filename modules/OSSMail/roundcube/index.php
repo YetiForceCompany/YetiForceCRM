@@ -2,7 +2,7 @@
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |
- | Version 1.1.0                                                           |
+ | Version 1.1.1                                                           |
  |                                                                         |
  | Copyright (C) 2005-2015, The Roundcube Dev Team                         |
  |                                                                         |
@@ -134,16 +134,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
                 $query = array();
             }
         }
-		// <--------   YetiForce Sp. z o.o.   -------->
-		$pass = $auth['pass'];
-		if($pass == ''){
-			$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
-		}
-		$sql = "UPDATE ".$RCMAIL->db->table_name('users')." SET password = ? WHERE user_id = ?";
-		call_user_func_array(array($RCMAIL->db, 'query'),array_merge(array($sql), array($pass,$RCMAIL->get_user_id()) ));
-		$RCMAIL->db->affected_rows();
-		// <--------   YetiForce Sp. z o.o.   -------->
-		
+
         // allow plugins to control the redirect url after login success
         $redir = $RCMAIL->plugins->exec_hook('login_after', $query + array('_task' => 'mail'));
         unset($redir['abort'], $redir['_err']);

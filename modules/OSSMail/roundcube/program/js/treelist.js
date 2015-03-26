@@ -334,7 +334,7 @@ function rcube_treelist_widget(node, p)
 
       // re-render the entire subtree
       if (parent_node.children.length == 1) {
-        render_node(parent_node, parent_li.parent(), parent_li);
+        render_node(parent_node, null, parent_li);
         li = id2dom(node.id);
       }
       else {
@@ -365,6 +365,12 @@ function rcube_treelist_widget(node, p)
     }
 
     indexbyid[node.id] = node;
+
+    // set new reference to node.html after insert
+    // will otherwise vanish in Firefox 3.6
+    if (typeof node.html == 'object') {
+        indexbyid[node.id].html = id2dom(node.id, true).children();
+    }
 
     if (sort) {
       resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');

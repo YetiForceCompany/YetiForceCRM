@@ -1,6 +1,45 @@
 CHANGELOG Roundcube Webmail
 ===========================
 
+RELEASE 1.1.1
+-------------
+- ACL: Allow other plugins to adjust the list of permissions and groups to edit
+- Add possibility to print contact information (of a single contact)
+- Add possibility to configure max_allowed_packet value for all database engines (#1490283)
+- Improved handling of storage errors after message is sent
+- Update to TinyMCE 4.1.9
+- Unified request* event arguments handling, added support for _unlock and _action parameters
+- Security: Generate random hash for the per-user local storage prefix (#1490279)
+- Fix refreshing of drafts list when sending a message which was saved in meantime (#1490238)
+- Fix saving/sending emoticon images when assets_dir is set
+- Fix PHP fatal error when visiting Vacation interface and there's no sieve script yet (#1490292)
+- Fix setting max packet size for DB caches and check packet size also in shared cache
+- Fix needless security warning on BMP attachments display (#1490282)
+- Fix handling of some improper constructs in format=flowed text as per the RFC3676[4.5] (#1490284)
+- Fix performance of rcube_db_mysql::get_variable()
+- Fix missing or not up-to-date CATEGORIES entry in vCard export (#1490277)
+- Fix fatal errors on systems without mbstring extension or mb_regex_encoding() function (#1490280)
+- Fix cursor position on reply below the quote in HTML mode (#1490263)
+- Fix so "over quota" errors are displayed also in message compose page
+- Fix duplicate entries supression in autocomplete result (#1490290)
+- Fix "Non-static method PEAR::isError() should not be called statically" errors (#1490281)
+- Fix parsing invalid HTML messages with BOM after <!DOCTYPE> (#1490291)
+- Fix duplicate entry on timezones list in rcube_config::timezone_name_from_abbr() (#1490293)
+- Fix so localized folder name is displayed in multi-folder search result (#1490243)
+- Fix javascript error after creating a folder which is a subfolder of another one (#1490297)
+- Fix bug where subject of sent/saved message was removed if mbstring wasn't installed (#1490295)
+- Fix missing vcard_attachment icon on messages list (#1490303)
+- Fix storing signatures with big images in MySQL database (#1490306)
+- Fix Opera browser detection in javascript (#1490307)
+- Fix so search filter, scope and fields are reset on folder change
+- Fix rows count when messages search fails (#1490266)
+- Fix bug where spellchecking in HTML editor do not work after switching editor type more than once (#1490311)
+- Fix bug where TinyMCE area height was too small on slow network connection (#1490310)
+- Fix backtick character handling in sql queries (#1490312)
+- Fix redirct URL for attachments loaded in an iframe when behind proxy (#1490191)
+- Fix menu container references to point to the actual <ul> element (#1490313)
+- Fix javascripts errors in IE8 - lack of Event.which, focusing a hidden element (#1490318)
+
 RELEASE 1.1.0
 -------------
 - Make SMTP error log more verbose - include server response and error code

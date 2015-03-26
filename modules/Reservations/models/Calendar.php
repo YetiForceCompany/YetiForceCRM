@@ -16,9 +16,13 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model{
 		$query = getListQuery($module);
 		$params = array();
 		if($this->get('start') && $this->get('end')){
-			$query.= ' AND vtiger_reservations.date_start >= ? AND vtiger_reservations.due_date <= ?';
-			$params[] = $this->get('start');
-			$params[] = $this->get('end');
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
+			$query.= " AND (concat(date_start, ' ', time_start) >= ? AND concat(vtiger_reservations.due_date, ' ', time_end) <= ?) ";
+			$params[] = $dbStartDateTime;
+			$params[] = $dbEndDateTime;
 		}
 		if($this->get('types')){
 			$query.= " AND vtiger_reservations.type IN ('".implode("','", $this->get('types'))."')";
@@ -44,7 +48,7 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model{
 			$item = array();
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
-			$item['title'] = vtranslate($record['name'],$module);
+			$item['title'] = $record['title'];
 			$item['url']   = 'index.php?module=Reservations&view=Detail&record='.$crmid;
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

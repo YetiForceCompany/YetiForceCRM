@@ -544,13 +544,20 @@ abstract class rcube_addressbook
 
         $fn = trim($fn, ', ');
 
-        // fallback to display name
-        if (empty($fn) && $contact['name'])
-            $fn = $contact['name'];
-
-        // fallback to email address
-        if (empty($fn) && ($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
-            return $email[0];
+        // fallbacks...
+        if ($fn === '') {
+            // ... display name
+            if (!empty($contact['name'])) {
+                $fn = $contact['name'];
+            }
+            // ... organization
+            else if (!empty($contact['organization'])) {
+                $fn = $contact['organization'];
+            }
+            // ... email address
+            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+                $fn = $email[0];
+            }
         }
 
         return $fn;
@@ -587,6 +594,13 @@ abstract class rcube_addressbook
                 switch ($key) {
                 case 'name':
                     $value = $name ?: self::compose_list_name($contact);
+
+                    // If name(s) are undefined compose_list_name() may return an email address
+                    // here we prevent from returning the same name and email
+                    if ($name === $email && strpos($result, '{email}') !== false) {
+                        $value = '';
+                    }
+
                     break;
 
                 case 'email':
