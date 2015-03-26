@@ -9,7 +9,7 @@ use Sabre\DAV;
  * @author Evert Pot (http://evertpot.com/)
  * @license http://sabre.io/license/ Modified BSD License
  */
-class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuota {
+class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuota, DAV\IMoveTarget {
 	/**
 	 * Creates a new file in the directory
 	 *
@@ -35,6 +35,8 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @return null|string
 	 */
 	function createFile($name, $data = null) {
+		if($this->dirid == 0)
+			throw new DAV\Exception\Forbidden('Permission denied to create file: '.$name);
 		include_once 'include/main/WebUI.php';
 		GLOBAL $log,$adb,$current_user;
 		$adb = \PearDatabase::getInstance();
@@ -79,6 +81,8 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 	 * @return void
 	 */
 	function createDirectory($name) {
+		if($this->dirid == 0)
+			throw new DAV\Exception\Forbidden('Permission denied to create directory: '.$name);
 		$path = trim($this->path, 'files') . '/' . $name . '/';
 		$dirHash = sha1($path);
 		$newPath = $this->localPath . $name. '/';
@@ -208,6 +212,72 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 			disk_total_space($path) - disk_free_space($path),
 			disk_free_space($path)
 		];
+	}
+	
+	/**
+	 * Renames the node
+	 *
+	 * @param string $name The new name
+	 * @return void
+	 */
+	function setName($name) {
+		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
+		list($parentPath, ) = URLUtil::splitPath($this->path);
+		list(, $newName) = URLUtil::splitPath($name);
+		$newPath = $parentLocalPath . '/' . $newName.'/';
+		$path = trim($parentPath, 'files') . '/' . $newName.'/';
+		$hash = sha1($path);
+		
+		$log = print_r([$this->exData->pdo, $name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid], true);
+		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+
+		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files_dir SET name=?, path = ?, hash=?, mtime=? WHERE id=?;');
+		$stmt->execute([$name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid]);
+		rename($this->exData->localStorageDir .$this->localPath, $this->exData->localStorageDir .$newPath);
+		$this->path = $newPath;
+	}
+	
+    /**
+     * Moves a node into this collection.
+     *
+     * It is up to the implementors to:
+     *   1. Create the new resource.
+     *   2. Remove the old resource.
+     *   3. Transfer any properties or other data.
+     *
+     * Generally you should make very sure that your collection can easily move
+     * the move.
+     *
+     * If you don't, just return false, which will trigger sabre/dav to handle
+     * the move itself. If you return true from this function, the assumption
+     * is that the move was successful.
+     *
+     * @param string $targetName New local file/collection name.
+     * @param string $sourcePath Full path to source node
+     * @param DAV\INode $sourceNode Source node itself
+     * @return bool
+     */
+    function moveInto($targetName, $sourcePath, DAV\INode $sourceNode) {
+		$log = print_r([$targetName, $sourcePath, $sourceNode,$this], true);
+		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+
+		if (!$sourceNode instanceof WebDAV_File) {
+			return false;
+		}
+		$from = $sourceNode->exData->localStorageDir . $sourceNode->localPath;
+		$to = $this->exData->localStorageDir . $this->localPath . '/' . $targetName;
+		// PHP allows us to access protected properties from other objects, as
+		// long as they are defined in a class that has a shared inheritence
+		// with the current class.
+		rename($from, $to);
+
+		$path = trim($this->path, 'files') . '/' . $targetName;
+		$hash = sha1($path);
+		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files SET dirid=?, path = ?, hash=? WHERE filesid=?;');
+		$stmt->execute([$this->dirid, $this->localPath . $targetName, $hash, $sourceNode->filesid]);
+		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?;');
+		$stmt->execute([date('Y-m-d H:i:s'), $this->exData->crmUserId, $sourceNode->filesid]);
+		return true;
 	}
 
 }
