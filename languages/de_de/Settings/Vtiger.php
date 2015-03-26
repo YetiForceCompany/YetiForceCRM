@@ -255,6 +255,8 @@ $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Nach Organisation konvertieren',
 	'LBL_DAV_KEYS' => 'DAV Schlüssel',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Verwaltung von DAV Schlüssln',
+	'LBL_AUTOLOGIN' => '__UNTRANSLATED__',
+	'LBL_AUTOLOGIN_DESCRIPTION' => '__UNTRANSLATED__',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

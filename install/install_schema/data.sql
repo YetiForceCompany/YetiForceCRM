@@ -255,11 +255,15 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (131);
 
 /*Data for the table `roundcube_session` */
 
+insert  into `roundcube_session`(`sess_id`,`created`,`changed`,`ip`,`vars`) values ('3a7v845g6h5va0h43lo938nvc1','2015-03-26 20:55:36','2015-03-26 20:55:39','127.0.0.1','dGVtcHxiOjE7bGFuZ3VhZ2V8czo1OiJlbl9VUyI7dGFza3xzOjU6ImxvZ2luIjs=');
+
 /*Data for the table `roundcube_system` */
 
 insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2014042900');
 
 /*Data for the table `roundcube_users` */
+
+/*Data for the table `roundcube_users_autologin` */
 
 /*Data for the table `vtiger_account` */
 
