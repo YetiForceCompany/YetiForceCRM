@@ -957,8 +957,8 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		if ($result) {
 			$adb->query("UPDATE vtiger_version SET `current_version` = '" . $modulenode->to_version . "';");
 		}
-		$this->deleteDirFile($dirName . '/files');
-		$this->deleteDirFile($dirName . '/init.php');
-		$this->deleteDirFile('cache/templates_c');
+		Vtiger_Functions::recurseDelete($dirName . '/files');
+		Vtiger_Functions::recurseDelete($dirName . '/init.php');
+		Vtiger_Functions::recurseDelete('cache/templates_c');
 	}
 }
