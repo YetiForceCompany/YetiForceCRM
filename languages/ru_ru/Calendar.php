@@ -141,6 +141,8 @@ $languageStrings = array(
 	'LBL_STATE' => 'Состояние',
 	'PLL_OPAQUE' => 'Занят',
 	'PLL_TRANSPARENT' => 'Свободен',
+	'--None' =>'None',
+	'Daily--' => 'Daily',
 );
 $jsLanguageStrings = array(
 	'JS Cancelled' => 'Отменено',
