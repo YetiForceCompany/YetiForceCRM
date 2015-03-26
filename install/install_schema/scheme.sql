@@ -519,6 +519,15 @@ CREATE TABLE `roundcube_users` (
   UNIQUE KEY `username` (`username`,`mail_host`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `roundcube_users_autologin` */
+
+CREATE TABLE `roundcube_users_autologin` (
+  `rcuser_id` int(10) unsigned NOT NULL,
+  `crmuser_id` int(19) NOT NULL,
+  KEY `rcuser_id` (`rcuser_id`),
+  CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_account` */
 
 CREATE TABLE `vtiger_account` (
