@@ -48,22 +48,6 @@ abstract class WebDAV_Node implements DAV\INode {
 	}
 
 	/**
-	 * Renames the node
-	 *
-	 * @param string $name The new name
-	 * @return void
-	 */
-	function setName($name) {
-		list($parentPath, ) = URLUtil::splitPath($this->path);
-		list(, $newName) = URLUtil::splitPath($name);
-
-		$newPath = $parentPath . '/' . $newName;
-		rename($this->path, $newPath);
-
-		$this->path = $newPath;
-	}
-
-	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
 	 * @return int
