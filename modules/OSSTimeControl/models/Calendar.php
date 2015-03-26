@@ -16,9 +16,13 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 		$query = getListQuery($module);
 		$params = array();
 		if($this->get('start') && $this->get('end')){
-			$query.= ' AND vtiger_osstimecontrol.date_start >= ? AND vtiger_osstimecontrol.due_date <= ?';
-			$params[] = $this->get('start');
-			$params[] = $this->get('end');
+			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
+			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
+			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
+			$query.= " AND (concat(date_start, ' ', time_start) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', time_end) <= ?) ";
+			$params[] = $dbStartDateTime;
+			$params[] = $dbEndDateTime;
 		}
 		if($this->get('types')){
 			$query.= " AND vtiger_osstimecontrol.timecontrol_type IN ('".implode("','", $this->get('types'))."')";

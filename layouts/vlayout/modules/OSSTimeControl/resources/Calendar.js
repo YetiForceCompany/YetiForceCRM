@@ -164,7 +164,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			mode: 'updateEvent',
 			id: event.id,
 			start: start,
-			end: end
+			delta: delta._data
 		}
 		AppConnector.request(params).then(function (response) {
 			if (!response['result']) {

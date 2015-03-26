@@ -84,7 +84,6 @@ jQuery.Class("Reservations_Calendar_Js",{
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
-			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			allDaySlot: false,
 			dayClick: function(date, jsEvent, view) {
@@ -165,7 +164,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 			mode: 'updateEvent',
 			id: event.id,
 			start: start,
-			end: end
+			delta: delta._data
 		}
 		AppConnector.request(params).then(function (response) {
 			if (!response['result']) {
@@ -237,10 +236,10 @@ jQuery.Class("Reservations_Calendar_Js",{
 	addCalendarEvent : function(calendarDetails) {
 		var isAllowed = this.isAllowedToAddTimeControl();
 		if(isAllowed == false) return;
-
+console.log(calendarDetails);
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.name.display_value;
+		eventObject.title = calendarDetails.title.display_value;
 		var startDate = Date.parse(calendarDetails.date_start.display_value+'T'+calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
 		var endDate = Date.parse(calendarDetails.due_date.display_value+'T'+calendarDetails.time_end.display_value);
