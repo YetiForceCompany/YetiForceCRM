@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
