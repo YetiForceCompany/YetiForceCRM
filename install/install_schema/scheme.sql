@@ -135,7 +135,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -2339,7 +2339,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
