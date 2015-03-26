@@ -943,10 +943,10 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 				$Instance->update();
 				if ($Instance->filesToDelete) {
 					foreach ($Instance->filesToDelete as $path) {
-						$this->deleteDirFile($path);
+						Vtiger_Functions::recurseDelete($path);
 					}
 				}
-				$this->recurseCopy($dirName.'/files', '', true);
+				Vtiger_Functions::recurseCopy($dirName.'/files', '', true);
 				$result = $Instance->postupdate();
 			}
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
@@ -961,52 +961,4 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		$this->deleteDirFile($dirName . '/init.php');
 		$this->deleteDirFile('cache/templates_c');
 	}
-
-	function deleteDirFile($src) {
-		global $root_directory;
-		if (!file_exists($src))
-			return;
-		
-		@chmod($root_directory . $src, 0777);
-		if (is_dir($src)) {
-			$dir = new DirectoryIterator($src);
-			foreach ($dir as $fileinfo) {
-				if (!$fileinfo->isDot()) {
-					if ($fileinfo->isDir()) {
-						$this->deleteDirFile($fileinfo->getPathname());
-						rmdir($root_directory . $fileinfo->getPathname());
-					} else {
-						unlink($root_directory . $fileinfo->getPathname());
-					}
-				}
-			}
-		} else {
-			unlink($root_directory . $src);
-		}
-	}
-
-	function recurseCopy($src, $dst, $delete = false) {
-		global $root_directory;
-		if (!file_exists($root_directory . $src))
-			return;
-
-		$dir = new DirectoryIterator($src);
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot()) {
-				$dst = str_replace($src . DIRECTORY_SEPARATOR, '', $fileinfo->getPathname());
-				if ($fileinfo->isDir()) {
-					if (!file_exists($root_directory . $dst))
-						mkdir($root_directory . $dst);
-					$this->recurseCopy($fileinfo->getPathname(), $dst, $delete);
-					if ($delete)
-						rmdir($root_directory . $fileinfo->getPathname());
-				}else {
-					copy($root_directory . $fileinfo->getPathname(), $root_directory . $dst);
-					if ($delete)
-						unlink($root_directory . $fileinfo->getPathname());
-				}
-			}
-		}
-	}
-
 }
