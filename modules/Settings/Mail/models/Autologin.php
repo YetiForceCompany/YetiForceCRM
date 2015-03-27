@@ -12,7 +12,7 @@ class Settings_Mail_Autologin_Model {
 	public function getAccountsList() {
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = array();
+		$param = [];
 		$sql = "SELECT * FROM roundcube_users WHERE password <> '';";
 		$result = $db->query($sql);
 		$Num = $db->num_rows($result);
@@ -35,7 +35,7 @@ class Settings_Mail_Autologin_Model {
 	}
 	
 	
-	public function update($id,$users) {
+	public function updateUsersAutologin($id,$users) {
 		$db = PearDatabase::getInstance();
 		if(!$users)
 			$users = [];
@@ -45,6 +45,23 @@ class Settings_Mail_Autologin_Model {
 		}
 	}
 
+	public function updateConfig($name, $val, $type = 'autologin') {
+		$db = PearDatabase::getInstance();
+		$db->pquery('UPDATE yetiforce_mail_config SET `value` = ? WHERE `type` = ? AND `name` = ?;',[$val, $type, $name]);
+	}
+	
+	public function getConfig($type = 'autologin') {
+		$db = PearDatabase::getInstance();
+		$config = [];
+		$result = $db->pquery('SELECT * FROM yetiforce_mail_config WHERE type = ?;',[$type]);
+		for($i = 0; $i < $db->num_rows($result); $i++){
+			$row = $db->raw_query_result_rowdata($result, $i);
+			$config[$row['name']] = $row['value'];
+		}
+		return $config;
+		
+	}
+	
 	/**
 	 * Function to get instance
 	 * @param <Boolean> true/false
