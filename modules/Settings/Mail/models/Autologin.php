@@ -44,23 +44,6 @@ class Settings_Mail_Autologin_Model {
 			$db->pquery('INSERT INTO roundcube_users_autologin (`rcuser_id`,`crmuser_id`) VALUES (?, ?);',[$id,$user]);
 		}
 	}
-
-	public function updateConfig($name, $val, $type = 'autologin') {
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE yetiforce_mail_config SET `value` = ? WHERE `type` = ? AND `name` = ?;',[$val, $type, $name]);
-	}
-	
-	public function getConfig($type = 'autologin') {
-		$db = PearDatabase::getInstance();
-		$config = [];
-		$result = $db->pquery('SELECT * FROM yetiforce_mail_config WHERE type = ?;',[$type]);
-		for($i = 0; $i < $db->num_rows($result); $i++){
-			$row = $db->raw_query_result_rowdata($result, $i);
-			$config[$row['name']] = $row['value'];
-		}
-		return $config;
-		
-	}
 	
 	/**
 	 * Function to get instance

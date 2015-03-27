@@ -55,4 +55,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model {
 			file_put_contents( 'cache/addressBook/mails_'.$user.'.php' , $fstart.$file.$fend );
 		}
 	}
+	
+	public function getDefaultMailAccount($accounts) {
+		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
+		return $rcUser;
+	}
 }

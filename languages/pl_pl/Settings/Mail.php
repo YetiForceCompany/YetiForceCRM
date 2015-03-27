@@ -22,4 +22,5 @@ $languageStrings = array(
 	'LBL_SHOW_MAIL_ACCOUNTS' => 'Pokaż listę kont pocztowych powiązanym z aktualnym użytkownikiem',
 	'LBL_NUMBER_UNREAD_EMAILS' => 'Pokazuj ilości nieprzeczytanych wiadomości mail',
 	'LBL_MAIL_ICON_CONFIG' => 'Ikona poczty',
+	'LBL_AUTOLOGIN_ACTIVE' => 'Czy włączyć automatyczne logowanie do poczty?',
 );

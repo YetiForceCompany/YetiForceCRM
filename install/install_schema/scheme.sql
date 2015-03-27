@@ -7642,6 +7642,16 @@ CREATE TABLE `yetiforce_mail_config` (
   `value` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `yetiforce_mail_quantities` */
+
+CREATE TABLE `yetiforce_mail_quantities` (
+  `userid` int(10) unsigned NOT NULL,
+  `num` int(10) unsigned DEFAULT '0',
+  `status` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`userid`),
+  CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `yetiforce_mobile_keys` */
 
 CREATE TABLE `yetiforce_mobile_keys` (
