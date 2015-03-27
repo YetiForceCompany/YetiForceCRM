@@ -12,11 +12,24 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('updateUsers');
+		$this->exposeMethod('updateConfig');
 	}
 	public function updateUsers(Vtiger_Request $request) {
 		$id = $request->get('id');
 		$user = $request->get('user');
-		Settings_Mail_Autologin_Model::update($id,$user);
+		Settings_Mail_Autologin_Model::updateUsersAutologin($id,$user);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVED_CHANGES',$request->getModule(false))
+		));
+		$response->emit();
+	}
+	
+	public function updateConfig(Vtiger_Request $request) {
+		$name = $request->get('name');
+		$val = $request->get('val');
+		Settings_Mail_Autologin_Model::updateConfig($name,$val);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

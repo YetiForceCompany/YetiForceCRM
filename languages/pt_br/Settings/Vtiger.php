@@ -255,6 +255,8 @@ $languageStrings = array(
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
 	'LBL_AUTOLOGIN' => '__UNTRANSLATED__',
 	'LBL_AUTOLOGIN_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => '__UNTRANSLATED__',
+	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => '__UNTRANSLATED__',
 	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
