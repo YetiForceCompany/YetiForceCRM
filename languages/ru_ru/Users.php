@@ -312,6 +312,7 @@ $languageStrings = array(
 	'Planned' => 'Запланировано',
 	'Held' => 'Проведено',
 	'Not Held' => 'Не проведено',
+	'Approval for email'=>'Permission to send emails',
 );
 
 $jsLanguageStrings = array(
