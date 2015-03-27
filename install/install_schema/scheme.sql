@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -2500,7 +2500,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1739 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1740 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4109,9 +4109,26 @@ CREATE TABLE `vtiger_ossmailtemplates` (
   `oss_module_list` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT '',
   `content` text,
+  `ossmailtemplates_type` varchar(255) DEFAULT NULL,
   KEY `ossmailtemplatesid` (`ossmailtemplatesid`),
   KEY `oss_module_list` (`oss_module_list`),
   CONSTRAINT `vtiger_ossmailtemplates_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ossmailtemplates_type` */
+
+CREATE TABLE `vtiger_ossmailtemplates_type` (
+  `ossmailtemplates_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `ossmailtemplates_type` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ossmailtemplates_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ossmailtemplates_type_seq` */
+
+CREATE TABLE `vtiger_ossmailtemplates_type_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailtemplatescf` */

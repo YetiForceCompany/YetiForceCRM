@@ -89,8 +89,12 @@
                 <tbody {if $IS_HIDDEN} class="hide" {/if}>
                     <tr>
                         {assign var=COUNTER value=0}
+						{assign var=MAILTEMPLATES_TYPE value=FALSE}
                         {foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-
+						
+						{if $FIELD_NAME eq 'ossmailtemplates_type' && $FIELD_MODEL->get('fieldvalue') eq 'PLL_MODULE'}
+							{assign var=MAILTEMPLATES_TYPE value=TRUE}
+						{/if}
                         {assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
                         {if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19" or $FIELD_MODEL->get('uitype') eq "300"}
                             {if $COUNTER eq '1'}
@@ -170,12 +174,12 @@
 				{assign var=COUNTER value=$COUNTER+1}
 				<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
 				<td class="fieldValue {$WIDTHTYPE}">
-					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}">
+					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 					</select>
-					<button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
+					<button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
 						<i class="icon-arrow-down"></i>
 					</button>
-					<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
+					<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
 						<i class="icon-arrow-down"></i>
 					</button>
 				</td>
@@ -190,12 +194,12 @@
 				
 					<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
 					<td class="fieldValue {$WIDTHTYPE}">
-						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}">
+						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 						</select>
-						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
+						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
 							<i class="icon-arrow-down"></i>
 						</button>
-						<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
+						<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
 							<i class="icon-arrow-down"></i>
 						</button>
 					</td>

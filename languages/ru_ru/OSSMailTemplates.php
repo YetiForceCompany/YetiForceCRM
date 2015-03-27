@@ -28,6 +28,9 @@ $languageStrings = array(
 	'No'	=>	'Нет',
 	'MAIL_TPL_LIST'	=>	'Выберите Шаблон Почты',
 	'LBL_COPY_TO_CLIPBOARD_TITLE'	=>	'Копировать в буфер обмена',
+	'LBL_TYPE' => 'Type',
+	'PLL_MODULE' => 'Module',
+	'PLL_RECORD' => 'Record',
 	
 	/// special_functions
 	'CurrentDate'	=>	'Текущая дата',

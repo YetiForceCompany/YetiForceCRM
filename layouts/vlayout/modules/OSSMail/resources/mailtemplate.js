@@ -30,8 +30,11 @@ $('#vtmodulemenulink').ready(function() {
         url: parntUrl + 'GetListTpl',
         async: false,
         success: function(data) {
+            var module = getUrlVars()['mod'];
             jQuery(data.result).each(function(index, item) {
-                jQuery('#tplmenu .toolbarmenu').append('<li><a href="#" data-module="' + item.module + '" data-tplid="' + item.id + '" class="active">' + item.name + '</a></li>');
+                if(module == item.module || item.type == 'PLL_MODULE'){
+                   jQuery('#tplmenu .toolbarmenu').append('<li><a href="#" data-module="' + item.module + '" data-tplid="' + item.id + '" class="active">' + item.name + '</a></li>');  
+                }
             });
             if (openType == false) {
                 var selectModule = getUrlVars()['module'];
@@ -53,9 +56,17 @@ $('#vtmodulemenulink').ready(function() {
         url: parntUrl + 'GetListModule',
         async: false,
         success: function(data) {
-            jQuery(data.result).each(function(index, item) {
-                jQuery('#vtmodulemenu .toolbarmenu').append('<li><a href="#" data-module="' + item.name + '" class="active">' + item.tr_name + '</a></li>');
-            });
+            var item = data.result;
+            var module = getUrlVars()['mod'];
+            var modules = [];
+            for(var type in item){
+                for(var i in item[type]){
+                    if((item[type][i]['name'] == module || item[type][i]['type'] == 'PLL_MODULE') && jQuery.inArray(item[type][i]['name'], modules) == -1){
+                        modules.push(item[type][i]['name']);
+                        jQuery('#vtmodulemenu .toolbarmenu').append('<li><a href="#" data-module="' + item[type][i]['name'] + '" class="active">' + item[type][i]['tr_name'] + '</a></li>');
+                    }
+                }
+            }
         }
     });
     jQuery('#vtmodulemenu .toolbarmenu li a').on('click', function() {
