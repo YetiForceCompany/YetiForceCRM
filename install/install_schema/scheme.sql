@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -7631,6 +7631,14 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `stateencodedvalues` varchar(300) NOT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_mail_config` */
+
+CREATE TABLE `yetiforce_mail_config` (
+  `type` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `value` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */
