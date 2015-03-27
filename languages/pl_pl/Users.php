@@ -265,7 +265,6 @@ $languageStrings = array(
     '45 Minutes' => '45 Minut',
    	'1 Hour' => '1 Godzina',
 	'1 Day' => '1 Dzień',
-	'Starting Day of the week' => 'Pierwszy dzień tygodnia',
 	'Calendar Shared Type' => 'Udostępnienie kalendarza',
 	'private' => 'Prywatne',
 	'public' => 'Publiczne',
@@ -288,6 +287,7 @@ $languageStrings = array(
 	'Inactive'=> 'Nie aktywny',
 	'yes'=> 'Tak',
 	'no'=> 'Nie',
+	'Approval for email'=>'Zgoda na kontakt mailowy',
 
 
 	/* Role */

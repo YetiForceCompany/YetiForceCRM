@@ -38,10 +38,16 @@ class HelpDeskHandler extends VTEventHandler {
 					$primaryEmail = $contactRecord->get('email');
 					$secondaryEmail = $contactRecord->get('secondary_email');
 
-					if ( !empty($primaryEmail) )
-						$mails[] = $primaryEmail;
-					else if ( !empty($secondaryEmail) )
-						$mails[] = $secondaryEmail;
+					if ( $contactRecord->get('emailoptout') == 1 ) {
+						if (!empty($primaryEmail)) {
+							$mails[] = $primaryEmail;
+						}
+						else {
+							if (!empty($secondaryEmail)) {
+								$mails[] = $secondaryEmail;
+							}
+						}
+					}
 				}
 
 				if ( count($mails) > 0 ) {

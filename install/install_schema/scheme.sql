@@ -2500,7 +2500,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1740 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1741 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7227,6 +7227,7 @@ CREATE TABLE `vtiger_users` (
   `defaultactivitytype` varchar(50) DEFAULT NULL,
   `hidecompletedevents` int(11) DEFAULT NULL,
   `is_owner` varchar(5) DEFAULT NULL,
+  `emailoptout` varchar(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
