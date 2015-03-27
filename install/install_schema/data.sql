@@ -5935,8 +5935,6 @@ insert  into `vtiger_osservicesstatus_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ossmailscanner_config` */
 
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','autologon','true');
-insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('email_list','time_checking_mail','30');
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Received',NULL);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Sent',NULL);
 insert  into `vtiger_ossmailscanner_config`(`conf_type`,`parameter`,`value`) values ('folders','Spam',NULL);
@@ -20747,9 +20745,13 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 
 /*Data for the table `yetiforce_mail_config` */
 
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','showMailAccounts','true');
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','showNumberUnreadEmails','false');
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','showMailIcon','false');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailAccounts','false');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showNumberUnreadEmails','false');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailIcon','true');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','timeCheckingMail','30');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','autologinActive','false');
+
+/*Data for the table `yetiforce_mail_quantities` */
 
 /*Data for the table `yetiforce_mobile_keys` */
 

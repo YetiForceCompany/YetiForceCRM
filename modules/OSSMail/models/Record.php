@@ -64,7 +64,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		include 'modules/OSSMail/roundcube/config/config.inc.php';
 		return $config;
 	}
-	public static function imap_connect($user , $password , $folder = 'INBOX') {
+	public static function imap_connect($user , $password , $folder = 'INBOX', $dieOnError = true) {
 		global $log;
 		$log->debug("Entering OSSMail_Record_Model::imap_connect($user , $password , $folder) method ...");
 		$roundcube_config = self::load_roundcube_config();
@@ -91,8 +91,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
 		imap_timeout(IMAP_OPENTIMEOUT,5);
 		$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
-		$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
+		if($dieOnError){
+			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
 			die( self::imap_open_error(imap_last_error()) );
+		}else{
+			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password );
+		}
 		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
 		return $mbox;
 	}
@@ -101,16 +105,45 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		$log->error("Error OSSMail_Record_Model::imap_connect(): ".$error); 
 		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error);
 	}
-	public static function getMailBoxmsgInfo($userid = false) {
-		if($userid){
-			$Accounts = self::get_account_detail($userid);
-		}else{
-			$Accounts = self::get_active_email_account();
+	public static function updateMailBoxmsgInfo($users) {
+		global $log;
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		$adb = PearDatabase::getInstance();
+		$sUsers = implode(',', $users);
+		$result = $adb->pquery( "SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) AND status = 1;", [$sUsers]);
+		if($adb->query_result_raw($result, 0, 'num') > 0){
+			return FALSE;
 		}
-		if(!$Accounts){return false;}
-		$mbox = self::imap_connect($Accounts[0]['username'] , $Accounts[0]['password']);
-		$mailboxmsginfo = imap_mailboxmsginfo($mbox);
-		return $mailboxmsginfo;
+		$adb->pquery( 'UPDATE yetiforce_mail_quantities SET `status` = ? WHERE userid IN ('.$sUsers.');', [1]);
+		foreach ($users as $user) {
+			$account = self::get_account_detail($user);
+			if ($account !== FALSE) {
+				$result = $adb->pquery( "SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
+				$mbox = self::imap_connect($account['username'] , $account['password'], 'INBOX', FALSE);
+				if($mbox){
+					$info = imap_mailboxmsginfo($mbox);
+					if($adb->query_result_raw($result, 0, 'num') > 0){
+						$adb->pquery( 'UPDATE yetiforce_mail_quantities SET `num` = ?,`status` = ? WHERE `userid` = ?;', [$info->Unread, 0, $user]);
+					}else{
+						$adb->pquery( 'INSERT INTO yetiforce_mail_quantities (`num`,`userid`) VALUES (?,?);', [$info->Unread, $user]);
+					}
+				}
+			}
+		}
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		return TRUE;
+	}
+	public static function getMailBoxmsgInfo($users) {
+		global $log;
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+		$adb = PearDatabase::getInstance();
+		$result = $adb->query( 'SELECT * FROM yetiforce_mail_quantities WHERE userid IN ('.implode(',', $users).');');
+		$account = [];
+		for($i = 0; $i < $adb->num_rows($result); $i++){
+			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
+		}
+		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		return $account;
 	}
 	public static function get_mail_detail($mbox,$id,$msgno = false) {
 		$return = array();
@@ -158,20 +191,17 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
                 
 		return $return;
 	}
-	public static function get_active_email_account() {
-		return self::get_account_detail(Users_Record_Model::getCurrentUserModel()->get('id'));
-	}
 	public static function get_account_detail($userid) {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery( "SELECT * FROM roundcube_users where crm_user_id = ?", array($userid) ,true);
+		$result = $adb->pquery("SELECT * FROM roundcube_users where user_id = ?", array($userid));
 		$Num = $adb->num_rows($result);
-		if($Num > 0){
-			return $result->GetArray();
-		}else{
+		if ($Num > 0) {
+			return $adb->raw_query_result_rowdata($result, 0);
+		} else {
 			return false;
 		}
-		
 	}
+
 	public static function get_account_detail_by_name($name) {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery( "SELECT * FROM roundcube_users where username = ? ", array($name) ,true);

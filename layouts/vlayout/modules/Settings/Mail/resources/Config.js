@@ -20,8 +20,10 @@ jQuery.Class('Settings_Mail_Config_Js', {}, {
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'SaveAjax';
 			params['mode'] = 'updateConfig';
+			params['type'] = 'mailIcon';
 			params['name'] = name;
 			params['val'] = val;
+			
 			AppConnector.request(params).then(
 				function(data) {
 					progressIndicator.progressIndicator({'mode' : 'hide'});

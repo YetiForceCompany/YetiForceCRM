@@ -6,7 +6,7 @@
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="configuration">
-			{assign var=CONFIG value=$MODULE_MODEL->getConfig()}
+			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
 			<div class="row-fluid">
 				<div class="span1 pagination-centered">
 					<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>

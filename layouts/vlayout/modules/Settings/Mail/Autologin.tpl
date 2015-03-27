@@ -3,6 +3,7 @@
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#configuration" data-toggle="tab">{vtranslate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="user_list">
@@ -33,6 +34,18 @@
 					{/foreach}
 				</tbody>
 			</table>	
+		</div>
+		<div class="tab-pane" id="configuration">
+			{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('autologin')}
+			<div class="row-fluid">
+				<div class="span1 pagination-centered">
+					<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
+				</div>
+				<div class="span11">
+					<label for="autologinActive">{vtranslate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

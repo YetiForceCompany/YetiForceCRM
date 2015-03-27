@@ -8,20 +8,30 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class OSSMail_checkMails_Action extends Vtiger_Action_Controller {
-	function checkPermission(Vtiger_Request $request) {
-		return;
+class Settings_Mail_Config_Model {
+	public function updateConfig($name, $val, $type) {
+		$db = PearDatabase::getInstance();
+		$db->pquery('UPDATE yetiforce_mail_config SET `value` = ? WHERE `type` = ? AND `name` = ?;',[$val, $type, $name]);
 	}
-	public function process(Vtiger_Request $request) {
-		$user = $request->get('users');
-		$output = [];
-		if($user != ''){
-			$users = explode(',', $user);
-			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
-			$output = OSSMail_Record_Model::getMailBoxmsgInfo($users);
+	
+	public function getConfig($type) {
+		$db = PearDatabase::getInstance();
+		$config = [];
+		$result = $db->pquery('SELECT * FROM yetiforce_mail_config WHERE type = ?;',[$type]);
+		for($i = 0; $i < $db->num_rows($result); $i++){
+			$row = $db->raw_query_result_rowdata($result, $i);
+			$config[$row['name']] = $row['value'];
 		}
-        $response = new Vtiger_Response();
-		$response->setResult($output);
-		$response->emit();
-    }
+		return $config;
+	}
+	
+	/**
+	 * Function to get instance
+	 * @param <Boolean> true/false
+	 * @return <Settings_Leads_Mapping_Model>
+	 */
+	public static function getInstance() {
+		$instance = new self();
+		return $instance;
+	}
 }

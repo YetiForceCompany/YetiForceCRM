@@ -29,7 +29,8 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	public function updateConfig(Vtiger_Request $request) {
 		$name = $request->get('name');
 		$val = $request->get('val');
-		Settings_Mail_Autologin_Model::updateConfig($name,$val);
+		$type = $request->get('type');
+		Settings_Mail_Config_Model::updateConfig($name, $val, $type);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
