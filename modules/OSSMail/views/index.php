@@ -15,14 +15,18 @@ class OSSMail_index_View extends Vtiger_Index_View{
 		$url = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
 		$config = OSSMail_Record_Model::getConfig('email_list');
 		if ($config['autologon'] == 'true') {
-			$account = OSSMail_Autologin_Model::getAutologinUsers(Users_Record_Model::getCurrentUserModel()->get('id'));
+			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if ($account) {
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
-				
 				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
 				$rcl = new RoundcubeLogin($url, false);
 				try {
-					if (!$rcl->isLoggedIn()) {
+					if ($rcl->isLoggedIn()) {
+						if($rcl->getUsername() != $rcUser['username']){
+							$rcl->logout();
+							$rcl->login($rcUser['username'], $rcUser['password']);
+						}
+					}else{
 						$rcl->login($rcUser['username'], $rcUser['password']);
 					}
 				} catch (RoundcubeLoginException $ex) {

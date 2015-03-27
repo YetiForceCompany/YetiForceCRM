@@ -8,22 +8,20 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class OSSMail_Autologin_Model {
-	public function getAutologinUsers() {
-		$db = PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$user_id = $currentUserModel->getId();
-		$users = [];
-		$sql = 'SELECT rcuser_id, crmuser_id, username, password FROM roundcube_users_autologin '
-				. 'INNER JOIN roundcube_users ON roundcube_users_autologin.rcuser_id = roundcube_users.user_id WHERE crmuser_id = ?;';
-		$result = $db->pquery($sql,[$user_id]);
-		$rcUser = isset($_SESSION['AutoLoginUser']) ? $_SESSION['AutoLoginUser'] : FALSE;
-		for($i = 0; $i < $db->num_rows($result); $i++){
-			$account = $db->raw_query_result_rowdata($result, $i);
-			$account['active'] = ($rcUser && $rcUser == $account['rcuser_id'])?TRUE:FALSE;
-			$users[$account['rcuser_id']] =  $account;
-		}
-		return $users;
+// <--------   YetiForce Sp. z o.o.   -------->
+class yt_new_user extends rcube_plugin {
+
+	function init() {
+		$this->add_hook('login_after', array($this, 'login_after'));
 	}
-	
+
+	function login_after($args) {
+		$rcmail = rcmail::get_instance();
+		$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
+		$sql = "UPDATE " . $rcmail->db->table_name('users') . " SET password = ? WHERE user_id = ?";
+		call_user_func_array(array($rcmail->db, 'query'), array_merge(array($sql), array($pass, $rcmail->get_user_id())));
+		$rcmail->db->affected_rows();
+		return $args;
+	}
+
 }

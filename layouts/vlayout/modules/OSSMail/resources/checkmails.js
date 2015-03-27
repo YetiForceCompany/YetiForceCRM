@@ -15,6 +15,20 @@ jQuery(function() {
     }
 });
 function startCheckMails() {
+	$('#OSSMailBoxInfo .dropdown-menu li').click(function() {
+		var params = {
+			'module': 'OSSMail',
+			'action': "SetUser",
+			'user': $(this).data('id'),
+		};
+		AppConnector.request(params).then(
+			function(response) {
+				if( app.getModuleName() == 'OSSMail'){
+					location.reload();
+				}
+			}
+		);
+	});
 	var params = {
 		'module': 'OSSMailScanner',
 		'action': "getConfig"

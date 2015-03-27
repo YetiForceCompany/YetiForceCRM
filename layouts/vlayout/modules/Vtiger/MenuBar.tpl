@@ -338,8 +338,16 @@
 						</span>
 					</span>
 					<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo">
-						<span class="span">
-							<a href="index.php?module=OSSMail&view=index"><span class="InfoBox"><img src="layouts/vlayout/skins/images/mailNotification.png"/></span></a>
+					<span class="span btn-group" style="margin: 0;">
+							<a href="index.php?module=OSSMail&view=index" tabindex="-1"><span class="InfoBox"><img src="layouts/vlayout/skins/images/mailNotification.png"/></span></a>
+							<span data-placement="left" class="dropdown-toggle" tabindex="-1" data-toggle="dropdown" style="cursor: pointer;padding: 0px 2px;display: inline-block;line-height: 10px;">
+								<span class="caret" style="border-top: 4px solid #fff;opacity: 1;"></span>
+							</span>
+							<ul class="dropdown-menu">
+								{foreach key=KEY item=ITEM from=OSSMail_Autologin_Model::getAutologinUsers()}
+									<li data-id="{$KEY}" {if $ITEM.active}selested{/if}><a href="#">{$ITEM.username}</a></li>
+								{/foreach}
+							</ul>
 						</span>
 					</span>
 					<div id="headerLinksCompact">

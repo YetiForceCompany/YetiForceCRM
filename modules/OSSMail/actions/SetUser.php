@@ -8,22 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class OSSMail_Autologin_Model {
-	public function getAutologinUsers() {
-		$db = PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$user_id = $currentUserModel->getId();
-		$users = [];
-		$sql = 'SELECT rcuser_id, crmuser_id, username, password FROM roundcube_users_autologin '
-				. 'INNER JOIN roundcube_users ON roundcube_users_autologin.rcuser_id = roundcube_users.user_id WHERE crmuser_id = ?;';
-		$result = $db->pquery($sql,[$user_id]);
-		$rcUser = isset($_SESSION['AutoLoginUser']) ? $_SESSION['AutoLoginUser'] : FALSE;
-		for($i = 0; $i < $db->num_rows($result); $i++){
-			$account = $db->raw_query_result_rowdata($result, $i);
-			$account['active'] = ($rcUser && $rcUser == $account['rcuser_id'])?TRUE:FALSE;
-			$users[$account['rcuser_id']] =  $account;
+class OSSMail_SetUser_Action extends Vtiger_Action_Controller {
+	public function checkPermission(Vtiger_Request $request) {
+		if(!Users_Privileges_Model::isPermitted('OSSMail', 'index')) {
+			throw new AppException('LBL_PERMISSION_DENIED');
 		}
-		return $users;
 	}
-	
+	public function process(Vtiger_Request $request) {
+		$user = $request->get('user');
+		$_SESSION['AutoLoginUser'] = $user;
+        $response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+    }
 }
