@@ -28,6 +28,9 @@ $languageStrings = array(
     'No' => 'Não',
 	'MAIL_TPL_LIST' => 'Selecionar um modelo de e-mail',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'Copiar para a Área de Transferência',
+	'LBL_TYPE' => 'Type',
+	'PLL_MODULE' => 'Module',
+	'PLL_RECORD' => 'Record',
 	
 	/// special_functions
 	'CurrentDate' => 'Data Atual',

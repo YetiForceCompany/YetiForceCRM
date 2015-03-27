@@ -145,12 +145,35 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
         });
 		thisInstance.loadRelatedFieldList();
     },
+	showHideSpecialField: function() {
+		var thisInstance = this;
+		var type = jQuery('[name="ossmailtemplates_type"]');
+		var fieldsList = jQuery('[name="oss_fields_list"]');
+		var fieldsButtons = fieldsList.closest('td').find('button');
+		var relatedFieldsList = jQuery('[name="oss_related_fields_list"]');
+		var relatedFieldsListButtons = relatedFieldsList.closest('td').find('button');
+		type.on("change", function() {
+			var value = jQuery(this).val();
+			if(value == 'PLL_MODULE'){
+				fieldsList.prop('disabled', true).trigger('liszt:updated');
+				fieldsButtons.addClass('hide');
+				relatedFieldsList.prop('disabled', true).trigger('liszt:updated');
+				relatedFieldsListButtons.addClass('hide');
+			} else {
+				fieldsList.prop('disabled', false).trigger('liszt:updated');
+				fieldsButtons.removeClass('hide');
+				relatedFieldsList.prop('disabled', false).trigger('liszt:updated');
+				relatedFieldsListButtons.removeClass('hide');
+			}
+		});
+	},
 
     registerBasicEvents: function(container) {
         this._super(container);
         this.setFieldList();
         this.setRelatedFieldList();
         this.setSpecialFunctionList();
+        this.showHideSpecialField();
         this.registerToZeroClipboard();
     }
 })

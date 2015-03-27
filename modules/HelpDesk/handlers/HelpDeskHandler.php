@@ -23,7 +23,7 @@ class HelpDeskHandler extends VTEventHandler {
 			}
 		}
 		else if ( $eventName == 'vtiger.entity.link.after' ) {
-			if ( $entityData['destinationModule'] == 'Contacts' && isRecordExists($entityData['destinationRecordId']) ) {
+			if ( $entityData['destinationModule'] == 'Contacts' && $entityData['sourceModule'] == 'HelpDesk' && isRecordExists($entityData['destinationRecordId']) ) {
 				$ticketId = $entityData['sourceRecordId'];
 				$contactId = $entityData['destinationRecordId'];
 				$log->debug("Entering HelpDeskHandler:vtiger.entity.link.after");

@@ -27,6 +27,9 @@ $languageStrings = array(
     'No' => 'Nie',
 	'MAIL_TPL_LIST' => 'Wybierz szablon e-mail',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'Kopiuj do schowka',
+	'LBL_TYPE' => 'Typ',
+	'PLL_MODULE' => 'Moduł',
+	'PLL_RECORD' => 'Rekord',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktualna data',

@@ -8,55 +8,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
-function HeldDeskCreationNotifyContacts($entityData) {
-	$wsId = $entityData->getId();
-	$parts = explode('x', $wsId);
-	$entityId = $parts[1];
-
-	global $log;
-	$db = PearDatabase::getInstance();
-	$log->debug("Entering HeldDeskCreationNotifyContacts");
-
-	$mails = [];
-	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? AND `relmodule` = ? AND `crmid` = ?;';
-	$params = array( 'HelpDesk', 'Contacts', $entityId );
-	$result = $db->pquery( $sql, $params );
-	$num = $db->num_rows( $result );
-
-	if ( $num > 0 ) {
-		for( $i=0; $i<$num; $i++ ) {
-			$contactId = $db->query_result( $result, $i, 'contactid' );
-
-			if ( isRecordExists( $contactId ) ) {
-				$contactRecord = Vtiger_Record_Model::getInstanceById( $contactId, 'Contacts' );
-				$primaryEmail = $contactRecord->get('email');
-				$secondaryEmail = $contactRecord->get('secondary_email');
-
-				if ( !empty($primaryEmail) )
-					$mails[] = $primaryEmail;
-				else if ( !empty($secondaryEmail) )
-					$mails[] = $secondaryEmail;
-			}
-		}
-	}
-	$mails = implode( ',', $mails );
-
-	$data = array(
-		'id' => 39,
-		'to_email' => $mails,
-		'module' => 'HelpDesk',
-		'record' => $entityId
-	);
-
-	$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-
-	$log->debug("HeldDeskCreationNotifyContacts");
-
-	if ( $recordModel->sendMailFromTemplate($data) )
-		return true;
-
-	return false;
-}
 
 function HeldDeskChangeNotifyContacts($entityData) {
 	$wsId = $entityData->getId();
