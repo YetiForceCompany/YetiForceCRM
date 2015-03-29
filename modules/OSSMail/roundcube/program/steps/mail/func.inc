@@ -64,17 +64,6 @@ if (empty($RCMAIL->action) || $RCMAIL->action == 'list') {
     $mbox_name = $RCMAIL->storage->get_folder();
 
     if (empty($RCMAIL->action)) {
-        // initialize searching result if search_filter is used
-        if ($_SESSION['search_filter'] && $_SESSION['search_filter'] != 'ALL') {
-            $RCMAIL->storage->search($mbox_name, $_SESSION['search_filter'], RCUBE_CHARSET, rcmail_sort_column());
-
-            $search_request             = md5($mbox_name.$_SESSION['search_filter']);
-            $_SESSION['search']         = $RCMAIL->storage->get_search_set();
-            $_SESSION['search_request'] = $search_request;
-
-            $OUTPUT->set_env('search_request', $search_request);
-        }
-
         $OUTPUT->set_env('search_mods', rcmail_search_mods());
 
         if (!empty($_SESSION['search_scope']))
@@ -399,6 +388,7 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
         $head_replace = true;
     }
 
+    $delimiter   = $RCMAIL->storage->get_hierarchy_delimiter();
     $search_set  = $RCMAIL->storage->get_search_set();
     $multifolder = $search_set && $search_set[1]->multi;
 
@@ -489,8 +479,16 @@ function rcmail_js_message_list($a_headers, $insert_top=false, $a_show_cols=null
                 $cont = show_bytes($header->$col);
             else if ($col == 'date')
                 $cont = $RCMAIL->format_date($header->date);
-            else if ($col == 'folder')
-                $cont = rcube::Q(rcube_charset::convert($header->folder, 'UTF7-IMAP'));
+            else if ($col == 'folder') {
+                if ($last_folder !== $header->folder) {
+                    $last_folder      = $header->folder;
+                    $last_folder_name = rcube_charset::convert($last_folder, 'UTF7-IMAP');
+                    $last_folder_name = $RCMAIL->localize_foldername($last_folder_name, true);
+                    $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
+                }
+
+                $cont = rcube::Q($last_folder_name);
+            }
             else
                 $cont = rcube::Q($header->$col);
 
@@ -1959,9 +1957,16 @@ function rcmail_identity_select($MESSAGE, $identities = null, $compose_mode = 'r
 // Fixes some content-type names
 function rcmail_fix_mimetype($name)
 {
+    $map = array(
+        'image/x-ms-bmp' => 'image/bmp', // #1490282
+    );
+
+    if ($alias = $map[strtolower($name)]) {
+        $name = $alias;
+    }
     // Some versions of Outlook create garbage Content-Type:
     // application/pdf.A520491B_3BF7_494D_8855_7FAC2C6C0608
-    if (preg_match('/^application\/pdf.+/', $name)) {
+    else if (preg_match('/^application\/pdf.+/', $name)) {
         $name = 'application/pdf';
     }
     // treat image/pjpeg (image/pjpg, image/jpg) as image/jpeg (#1489097)
@@ -2040,7 +2045,7 @@ function rcmail_search_filter($attrib)
     $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('low'), 'HEADER X-PRIORITY 4');
     $select_filter->add($RCMAIL->gettext('priority').': '.$RCMAIL->gettext('lowest'), 'HEADER X-PRIORITY 5');
 
-    $out = $select_filter->show($_SESSION['search_filter']);
+    $out = $select_filter->show($_REQUEST['_search'] ? $_SESSION['search_filter'] : 'ALL');
 
     $RCMAIL->output->add_gui_object('search_filter', $attrib['id']);
 

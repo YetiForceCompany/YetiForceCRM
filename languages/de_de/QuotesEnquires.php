@@ -11,6 +11,8 @@
 $languageStrings = array(
 	'QuotesEnquires' => 'Angebotsanalyse',
 	'SINGLE_QuotesEnquires' => 'Angebotsanalyse',
+	'LBL_ADD_RECORD' => 'Angebotsanalyse hinzufÃ¼gen',
+	'LBL_RECORDS_LIST' => 'Liste Angebotsanalysen', 
 	
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
@@ -29,20 +31,20 @@ $languageStrings = array(
 
 	//PICKLIST VALUES
 	'PLL_NOT_STARTED' => 'Nicht gestartet',
-	'PLL_VERIFICATION' => 'Überprüfung',
+	'PLL_VERIFICATION' => 'ÃœberprÃ¼fung',
 	'PLL_DECLINED' => 'Abgelehnt ',
 	'PLL_ACCEPTED' => 'Angenommeen ',
 	'PLL_LOW_MARGIN' => 'geringer Umsatz',
-	'PLL_UNRELIABLE_CONTRACTOR' => 'Unzuverlässige Organisation',
-	'PLL_UNRELIABLE_PAYMENT' => 'Unzuverlässige Zahlungen',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'UnzuverlÃ¤ssige Organisation',
+	'PLL_UNRELIABLE_PAYMENT' => 'UnzuverlÃ¤ssige Zahlungen',
 	'PLL_NO_DETAILS' => 'Keine Details',
 	'PLL_LACK_OF_COMPETENCE' => 'Kein Know How',
 	'PLL_LACK_OF_TIME' => 'Keine Zeit',
 	'PLL_HIGH_MARGIN' => 'Hoher Umsatz',
-	'PLL_RELIABLE_CONTRACTOR' => 'Zuverlässige Organisation',
-	'PLL_SOLID_PAYMENT' => 'Zuverlässige Zahlungen',
+	'PLL_RELIABLE_CONTRACTOR' => 'ZuverlÃ¤ssige Organisation',
+	'PLL_SOLID_PAYMENT' => 'ZuverlÃ¤ssige Zahlungen',
 	'PLL_DETAILED_DESCRIPTION' => 'Detailierte Beschreibung',
-	'PLL_COMPETENT_TEAM' => 'Zuständiges Team',
+	'PLL_COMPETENT_TEAM' => 'ZustÃ¤ndiges Team',
 	'PLL_EASE_OF_COMMUNICATION' => 'Einfache Kommunikation',
 	'PLL_RECOMMENDABLE' => 'Empfehlenswert',
 );

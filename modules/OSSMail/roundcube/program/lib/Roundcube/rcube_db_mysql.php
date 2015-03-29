@@ -161,15 +161,30 @@ class rcube_db_mysql extends rcube_db
     {
         if (!isset($this->variables)) {
             $this->variables = array();
-
-            $result = $this->query('SHOW VARIABLES');
-
-            while ($row = $this->fetch_array($result)) {
-                $this->variables[$row[0]] = $row[1];
-            }
         }
 
-        return isset($this->variables[$varname]) ? $this->variables[$varname] : $default;
+        if (array_key_exists($varname, $this->variables)) {
+            return $this->variables[$varname];
+        }
+
+        // configured value has higher prio
+        $conf_value = rcube::get_instance()->config->get('db_' . $varname);
+        if ($conf_value !== null) {
+            return $this->variables[$varname] = $conf_value;
+        }
+
+        $result = $this->query('SHOW VARIABLES LIKE ?', $varname);
+
+        while ($row = $this->fetch_array($result)) {
+            $this->variables[$row[0]] = $row[1];
+        }
+
+        // not found, use default
+        if (!isset($this->variables[$varname])) {
+            $this->variables[$varname] = $default;
+        }
+
+        return $this->variables[$varname];
     }
 
     /**

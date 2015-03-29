@@ -54,7 +54,7 @@ foreach ($config as $optname => $optval) {
 }
 
 // framework constants
-define('RCUBE_VERSION', '1.1.0');
+define('RCUBE_VERSION', '1.1.1');
 define('RCUBE_CHARSET', 'UTF-8');
 
 if (!defined('RCUBE_LIB_DIR')) {
@@ -78,9 +78,11 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 // set internal encoding for mbstring extension
-if (extension_loaded('mbstring')) {
+if (function_exists('mb_internal_encoding')) {
     mb_internal_encoding(RCUBE_CHARSET);
-    @mb_regex_encoding(RCUBE_CHARSET);
+}
+if (function_exists('mb_regex_encoding')) {
+    mb_regex_encoding(RCUBE_CHARSET);
 }
 
 // make sure the Roundcube lib directory is in the include_path

@@ -11,6 +11,8 @@
 $languageStrings = Array(
 	'NewOrders' => 'Neue Beauftragung',
 	'SINGLE_NewOrders' => 'Neue Beauftragung',
+	'LBL_ADD_RECORD' => 'Beauftragung hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Beauftragungen',
 
 	//BLOCKS
 	'LBL_NEWORDERS_INFORMATION' => 'Information',

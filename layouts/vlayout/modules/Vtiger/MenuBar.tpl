@@ -91,7 +91,7 @@
 	<div class="navbar" id="topMenus">
 		<div class="navbar-inner" id="nav-inner">
 			<div class="menuBar row-fluid">
-				<div class="span9" id="largeNavDiv">
+				<div class="span7" id="largeNavDiv">
 					<ul id="largeNav" class="nav modulesList collapsed">
 						<li class="tabs">
 							<a class="alignMiddle {if $MODULE eq 'Home'} selected {/if}" href="{$HOME_MODULE_MODEL->getDefaultUrl()}"><img src="{vimage_path('home.png')}" alt="{vtranslate('LBL_HOME',$moduleName)}" title="{vtranslate('LBL_HOME',$moduleName)}" /></a>
@@ -257,7 +257,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="span3 row-fluid" id="headerLinks">
+				<div class="span5 row-fluid" id="headerLinks">
 					<span id="headerLinksBig" class="pull-right headerLinksContainer">
 						{if $PAINTEDICON eq 1}
 							<span class="dropdown span settingIcons">
@@ -337,11 +337,26 @@
 							{$WORKTIME}
 						</span>
 					</span>
-					<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo">
-						<span class="span">
-							<a href="index.php?module=OSSMail&view=index"><span class="InfoBox"><img src="layouts/vlayout/skins/images/mailNotification.png"/></span></a>
+					{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
+					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
+					{if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
+						<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if} style="width: 270px;  margin-top: -5px;">
+							<div class="btn-group pull-right" style="margin-top: 0;">
+								{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
+								<a class="btn btn-small mainMail" href="index.php?module=OSSMail&view=index">{$MAIN_MAIL.username} <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
+								<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+									<span class="caret"></span>
+								</button>
+								{if $CONFIG['showMailAccounts']=='true'}
+									<ul class="dropdown-menu">
+										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
+											<li data-id="{$KEY}" {if $ITEM.active}selested{/if}><a href="#">{$ITEM.username} <span class="noMails"></span></a></li>
+										{/foreach}
+									</ul>
+								{/if}
+							</div>
 						</span>
-					</span>
+					{/if}
 					<div id="headerLinksCompact">
 						<span class="btn-group dropdown qCreate cursorPointer">
 							<img style="float:right;" src="{vimage_path('btnAdd_white.png')}" class="" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" data-toggle="dropdown"/>

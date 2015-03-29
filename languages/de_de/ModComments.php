@@ -10,7 +10,7 @@
 $languageStrings = array(
 	// Basic Strings
 	'SINGLE_ModComments' => 'Kommentar',
-	'LBL_RECORDS_LIST' => 'Kommentar Liste',
+	'LBL_RECORDS_LIST' => 'Liste Kommentare',
 
 	// Blocks
 	'LBL_MODCOMMENTS_INFORMATION' => 'Kommentar',

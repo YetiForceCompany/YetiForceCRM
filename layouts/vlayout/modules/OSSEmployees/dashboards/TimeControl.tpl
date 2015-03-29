@@ -131,13 +131,6 @@
 			});
 		},
 	});
-
-	jQuery(document).ready(function () {
-		Vtiger_Timecontrol_Widget_Js.registerEvents();
-		app.showSelect2ElementView(jQuery('select'), {
-			closeOnSelect: true
-		});
-	});
 </script>
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}

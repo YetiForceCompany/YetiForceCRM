@@ -710,7 +710,7 @@ class Archive_Tar extends PEAR
                     break;
 
                 default :
-                    $this->_error('Unknow attribute code ' . $v_att_list[$i] . '');
+                    $this->_error('Unknown attribute code ' . $v_att_list[$i] . '');
                     return false;
             }
 
@@ -1718,7 +1718,7 @@ class Archive_Tar extends PEAR
         }
 
         // ----- Extract the properties
-        $v_header['filename'] = $v_data['filename'];
+        $v_header['filename'] = rtrim($v_data['filename'], "\0");
         if ($this->_maliciousFilename($v_header['filename'])) {
             $this->_error(
                 'Malicious .tar detected, file "' . $v_header['filename'] .
@@ -1776,6 +1776,7 @@ class Archive_Tar extends PEAR
     function _readLongHeader(&$v_header)
     {
         $v_filename = '';
+        $v_filesize = $v_header['size'];
         $n = floor($v_header['size'] / 512);
         for ($i = 0; $i < $n; $i++) {
             $v_content = $this->_readBlock();
@@ -1783,7 +1784,7 @@ class Archive_Tar extends PEAR
         }
         if (($v_header['size'] % 512) != 0) {
             $v_content = $this->_readBlock();
-            $v_filename .= trim($v_content);
+            $v_filename .= $v_content;
         }
 
         // ----- Read the next header
@@ -1793,7 +1794,7 @@ class Archive_Tar extends PEAR
             return false;
         }
 
-        $v_filename = trim($v_filename);
+        $v_filename = rtrim(substr($v_filename, 0, $v_filesize), "\0");
         $v_header['filename'] = $v_filename;
         if ($this->_maliciousFilename($v_filename)) {
             $this->_error(

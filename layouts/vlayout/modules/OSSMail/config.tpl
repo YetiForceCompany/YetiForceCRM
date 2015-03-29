@@ -24,14 +24,6 @@
         <form id="RCConfigEditorForm" class="form-horizontal">
             <table class="">
                 <tbody>
-					<tr>
-						<td><label class="muted pull-right marginRight10px">{vtranslate('Autologon', 'OSSMail')}</label></td>
-						<td><input type="checkbox" name="tab_email_view_Autologon" id="tab_email_view_Autologon" {if $WIDGET_CFG['email_list']['autologon'] eq 'true'} checked {/if}></td>
-					</tr>
-					<tr>
-						<td><label class="muted pull-right marginRight10px">{vtranslate('Time_checking_mail', 'OSSMail')}</label></td>
-						<td><input value="{$WIDGET_CFG['email_list']['time_checking_mail']}" type="text" name="tab_email_view_time_checking_mail" id="tab_email_view_time_checking_mail" ></td>
-					</tr>
                     {assign var=FIELD_DATA value=$RecordModel->getViewableData()}
                     {foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
                         <tr><td width="40%"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
@@ -139,9 +131,6 @@ jQuery("#RCConfigEditorForm").submit(function(event) {
 
 				}
 		);
-		
-		saveWidgetConfig('autologon', jQuery('#tab_email_view_Autologon').is(':checked'), 'email_list');
-		saveWidgetConfig('time_checking_mail', jQuery('#tab_email_view_time_checking_mail').val(), 'email_list');
 	}
 	return event.preventDefault();
 });

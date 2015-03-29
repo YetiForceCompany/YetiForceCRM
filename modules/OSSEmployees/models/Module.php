@@ -71,17 +71,17 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model {
 			$selectedTimeTypes = array($selectedTimeTypes);
 		} 
 		foreach ($data as $key => $value) {
-			if($value['PLL_BREAK_TIME'] && (in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
-				$chartData['PLL_BREAK_TIME'][] = $value['PLL_BREAK_TIME'];
-				$chartExist = TRUE;
-			}elseif(in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
-				$chartData['PLL_BREAK_TIME'][] = 0;
-			}
 			if($value['PLL_WORKING_TIME'] && (in_array('workTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
 				$chartData['PLL_WORKING_TIME'][] = $value['PLL_WORKING_TIME'];
 				$chartExist = TRUE;
 			}elseif(in_array('workTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
 				$chartData['PLL_WORKING_TIME'][] = 0;
+			}
+			if($value['PLL_BREAK_TIME'] && (in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
+				$chartData['PLL_BREAK_TIME'][] = $value['PLL_BREAK_TIME'];
+				$chartExist = TRUE;
+			}elseif(in_array('breakTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes)){
+				$chartData['PLL_BREAK_TIME'][] = 0;
 			}
 			if($value['PLL_HOLIDAY'] && (in_array('holidayTime', $selectedTimeTypes) || in_array('all', $selectedTimeTypes))){
 				$chartData['PLL_HOLIDAY_TIME'][] = $value['PLL_HOLIDAY'];

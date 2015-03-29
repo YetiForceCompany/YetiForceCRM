@@ -5,7 +5,7 @@
 	"version": "1.0.2",
 	"keywords": ["pear", "ldap", "vlv"],
 	"homepage": "http://git.kolab.org/pear/Net_LDAP3/",
-	"license": "GPL-3.0",
+	"license": "GPL-3.0+",
 	"authors": [
 		{
 			"name": "Jeroen van Meeuwen",

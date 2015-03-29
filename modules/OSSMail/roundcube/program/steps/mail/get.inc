@@ -22,7 +22,9 @@
 
 // show loading page
 if (!empty($_GET['_preload'])) {
-    $url = preg_replace('/([&?]+)_preload=/', '\\1_mimewarning=1&_embed=', $_SERVER['REQUEST_URI']);
+    $_get = $_GET + array('_mimewarning' => 1, '_embed' => 1);
+    unset($_get['_preload']);
+    $url = $RCMAIL->url($_get);
     $message = $RCMAIL->gettext('loadingdata');
 
     header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
@@ -85,7 +87,7 @@ else if ($_GET['_thumb']) {
         // render thumbnail image if not done yet
         if (!is_file($cache_file)) {
             if ($fp = fopen(($orig_name = $cache_basename . '.orig.' . $ext), 'w')) {
-                $MESSAGE->get_part_content($part->mime_id, $fp);
+                $MESSAGE->get_part_body($part->mime_id, false, 0, $fp);
                 fclose($fp);
 
                 $image = new rcube_image($orig_name);
@@ -138,7 +140,7 @@ else if (strlen($part_id)) {
             $file_extension = strtolower(pathinfo($part->filename, PATHINFO_EXTENSION));
 
             // 1. compare filename suffix with expected suffix derived from mimetype
-            $valid = $file_extension && in_array($file_extension, (array)$extensions) || !empty($_REQUEST['_mimeclass']);
+            $valid = $file_extension && in_array($file_extension, (array)$extensions) || empty($extensions) || !empty($_REQUEST['_mimeclass']);
 
             // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
             if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
@@ -164,7 +166,7 @@ else if (strlen($part_id)) {
                 else {
                     // get valid file extensions
                     $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                    $valid_extension = (!$file_extension || in_array($file_extension, (array)$extensions));
+                    $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
                 }
 
                 // fix mimetype for images wrongly declared as octet-stream
@@ -172,7 +174,10 @@ else if (strlen($part_id)) {
                     $mimetype = $real_mimetype;
                 }
 
-                $valid = ($real_mimetype == $mimetype && $valid_extension);
+                // "fix" real mimetype the same way the original is before comparison
+                $real_mimetype = rcmail_fix_mimetype($real_mimetype);
+
+                $valid = $real_mimetype == $mimetype && $valid_extension;
             }
             else {
                 $real_mimetype = $mimetype;

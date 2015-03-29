@@ -95,6 +95,8 @@ $languageStrings = array(
 	'reply' => 'Добавлен новый комментарий для заявки ',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм',
 	'LBL_ORDER_TIME'	=>	'Время создания Заявки',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'Record Id' => 'Record Id',
 );
 
 $jsLanguageStrings = array(

@@ -18,8 +18,9 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
      * @return void
      */
     function put($data) {
-		$path = $this->exData->localStorageDir . $this->localPath;
-        file_put_contents($path,$data);
+		
+		//$path = $this->exData->localStorageDir . $this->localPath;
+        //file_put_contents($path,$data);
     }
 
     /**
@@ -85,5 +86,27 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
         return null;
     }
 
+	/**
+	 * Renames the node
+	 *
+	 * @param string $name The new name
+	 * @return void
+	 */
+	function setName($name) {
+		list($parentLocalPath, ) = URLUtil::splitPath($this->localPath);
+		list($parentPath, ) = URLUtil::splitPath($this->path);
+		list(, $newName) = URLUtil::splitPath($name);
+		$newPath = $parentLocalPath . '/' . $newName.'/';
+		$path = trim($parentPath, 'files') . '/' . $newName.'/';
+		$hash = sha1($path);
+		
+		$log = print_r([$this->exData->pdo, $name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid], true);
+		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+
+		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files_dir SET name=?, path = ?, hash=?, mtime=? WHERE id=?;');
+		$stmt->execute([$name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid]);
+		rename($this->exData->localStorageDir .$this->localPath, $this->exData->localStorageDir .$newPath);
+		$this->path = $newPath;
+	}
 }
 

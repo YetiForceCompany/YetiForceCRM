@@ -253,6 +253,10 @@ $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
 	'LBL_DAV_KEYS' => 'Klucze aplikacji DAV',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Tworzenie i zarządzanie kluczami aplikacji DAV',
+	'LBL_AUTOLOGIN' => 'Autologowanie',
+	'LBL_AUTOLOGIN_DESCRIPTION' => 'Konfiguracja automatycznego logowania do modułu poczty',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Konfiguracja ogólna',
+	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Ogólna konfiguracja poczty w systemie',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

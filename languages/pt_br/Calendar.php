@@ -128,6 +128,8 @@ $languageStrings = array(
     'Calendar Hour Format'=>'Formato Hora',
     'Time Zone'=>'Fuso Horário',
     'Default Activity View'=>'Padrão Visualização Atividade',
+	'--None' =>'None',
+	'Daily--' => 'Daily',
 );
 
 $jsLanguageStrings = array(

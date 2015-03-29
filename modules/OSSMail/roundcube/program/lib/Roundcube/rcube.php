@@ -215,7 +215,10 @@ class rcube
             $this->mc_available = 0;
 
             // add all configured hosts to pool
-            $pconnect = $this->config->get('memcache_pconnect', true);
+            $pconnect       = $this->config->get('memcache_pconnect', true);
+            $timeout        = $this->config->get('memcache_timeout', 1);
+            $retry_interval = $this->config->get('memcache_retry_interval', 15);
+
             foreach ($this->config->get('memcache_hosts', array()) as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
                     list($host, $port) = explode(':', $host);
@@ -226,7 +229,7 @@ class rcube
                 }
 
                 $this->mc_available += intval($this->memcache->addServer(
-                    $host, $port, $pconnect, 1, 1, 15, false, array($this, 'memcache_failure')));
+                    $host, $port, $pconnect, 1, $timeout, $retry_interval, false, array($this, 'memcache_failure')));
             }
 
             // test connection and failover (will result in $this->mc_available == 0 on complete failure)
@@ -1678,15 +1681,18 @@ class rcube
 
             if ($message->getParam('delay_file_io')) {
                 // use common temp dir
-                $temp_dir = $this->config->get('temp_dir');
-                $body_file = tempnam($temp_dir, 'rcmMsg');
-                if (PEAR::isError($mime_result = $message->saveMessageBody($body_file))) {
+                $temp_dir    = $this->config->get('temp_dir');
+                $body_file   = tempnam($temp_dir, 'rcmMsg');
+                $mime_result = $message->saveMessageBody($body_file);
+
+                if (is_a($mime_result, 'PEAR_Error')) {
                     self::raise_error(array('code' => 650, 'type' => 'php',
                         'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Could not create message: ".$mime_result->getMessage()),
-                        TRUE, FALSE);
+                        true, false);
                     return false;
                 }
+
                 $msg_body = fopen($body_file, 'r');
             }
             else {
@@ -1729,11 +1735,11 @@ class rcube
 
             $msg_body = $message->get();
 
-            if (PEAR::isError($msg_body)) {
+            if (is_a($msg_body, 'PEAR_Error')) {
                 self::raise_error(array('code' => 650, 'type' => 'php',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Could not create message: ".$msg_body->getMessage()),
-                    TRUE, FALSE);
+                    true, false);
             }
             else {
                 $delim   = $this->config->header_delimiter();

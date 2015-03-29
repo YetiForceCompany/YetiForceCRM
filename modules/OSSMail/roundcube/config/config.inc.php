@@ -20,7 +20,6 @@ if(!$no_include_config){
 }
 $config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].$dbconfig['db_port'].'/'.$dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
-$config['debug_level'] = 1;
 $config['default_host'] = 'ssl://imap.gmail.com';
 $config['validate_cert'] = false;
 $config['default_port'] = 993;
@@ -32,7 +31,7 @@ $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
-$config['plugins'] = array('autologon','identity_smtp','ical_attachments');
+$config['plugins'] = array('yt_new_user','autologon','identity_smtp','ical_attachments');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array("*" => "/images/null.png");
@@ -55,7 +54,6 @@ $config['time_format'] = 'H:i';
 $config['show_images'] = '0';
 $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
-$config['smtp_log'] = true;
 
 $config['debug_level'] = $GEBUG_CONFIG['ROUNDCUBE_DEBUG_LEVEL'];
 $config['per_user_logging'] = $GEBUG_CONFIG['ROUNDCUBE_PER_USER_LOGGING'];

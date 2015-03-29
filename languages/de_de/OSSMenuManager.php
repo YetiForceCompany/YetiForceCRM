@@ -139,7 +139,7 @@ $languageStrings = array(
 	'MSG_CHANGE_ICON_ERROR' => 'Fehler bei Änderungsgenehmigung',
 	'MSG_CHANGE_ICON' => 'Sie haben erfolgreich Änderungen vorgenommen',
 	'LBL_ADDICON' => 'Symboldesign Änderungen hinzufügen',
-    'LBL_OTHER' => 'Other',
+    'LBL_OTHER' => 'Weitere',
 );
 
 $jsLanguageStrings = array(

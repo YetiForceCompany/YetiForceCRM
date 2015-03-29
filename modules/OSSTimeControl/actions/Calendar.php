@@ -56,22 +56,29 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller {
 		$recordId = $request->get('id');
 		$date_start = date('Y-m-d', strtotime($request->get('start')) );
 		$time_start = date('H:i:s', strtotime($request->get('start')) );
-		$due_date = date('Y-m-d', strtotime($request->get('end')) );
-		$time_end = date('H:i:s', strtotime($request->get('end')) );
 		$succes = false;
-		if (!empty($recordId)) {
-			try {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				$recordModel->set('id', $recordId);
-				$recordModel->set('mode', 'edit');
-				$recordModel->set('date_start', $date_start);
-				$recordModel->set('time_start', $time_start);
-				$recordModel->set('due_date', $due_date);
-				$recordModel->set('time_end', $time_end);
-				$recordModel->save();
-				$succes = true;
-			} catch (Exception $e) {
-				$succes = false;
+		if(isPermitted($moduleName, 'EditView', $recordId) === 'no'){
+            $succes = false;
+        }else{
+			if (!empty($recordId)) {
+				try {
+					$delta = $request->get('delta');
+					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+					$recordData = $recordModel->entity->column_fields;
+					$end = self::changeDateTime($recordData['due_date'].' '.$recordData['time_end'],$delta);
+					$due_date = $end['date'];
+					$time_end = $end['time'];
+					$recordModel->set('id', $recordId);
+					$recordModel->set('mode', 'edit');
+					$recordModel->set('date_start', $date_start);
+					$recordModel->set('time_start', $time_start);
+					$recordModel->set('due_date', $due_date);
+					$recordModel->set('time_end', $time_end);
+					$recordModel->save();
+					$succes = true;
+				} catch (Exception $e) {
+					$succes = false;
+				}
 			}
 		}
 		$response = new Vtiger_Response();
@@ -79,4 +86,17 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller {
 		$response->emit();
 	}
 
+    public function changeDateTime($datetime,$delta){
+		$date = new DateTime($datetime);
+		if($delta['days'] != 0){
+			$date = $date->modify('+'.$delta['days'].' days');
+		}
+		if($delta['hours'] != 0){
+			$date = $date->modify('+'.$delta['hours'].' hours');
+		}
+		if($delta['minutes'] != 0){
+			$date = $date->modify('+'.$delta['minutes'].' minutes');
+		}
+        return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
+    }
 }

@@ -88,6 +88,8 @@ $languageStrings = array(
 	'Rejected'=>'Rejeitado',
 	'Answered'=>'Respondido',
 	'P&S Sold'=>'Product / Service Sold',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'Record Id' => 'Record Id',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Bem vindo(a) à Plataforma',

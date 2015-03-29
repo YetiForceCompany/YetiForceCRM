@@ -26,4 +26,8 @@ $languageStrings = array(
 	'LBL_MILESTONES_LIST' => 'Lista etapów',
 	'LBL_TASKS_LIST' => 'Lista zadań',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
+	//PICKLIST
+	'PLL_INTERNAL' => 'Wewnętrzny',
+	'PLL_EXTERNAL' => 'Zewnętrzny',
+	'PLL_SHARED' => 'Wspólny',
 );

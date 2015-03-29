@@ -47,6 +47,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
         
         $menuStructure = array();
 		$breadcrumbs = array();
+		$breadcrumbsModules = array();
 		$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		
         if ( $num > 0 ) {
@@ -158,9 +159,13 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 						
 						$moduleName = Vtiger_Functions::getModuleName($tabId);
 						$excludedViews = array("DashBoard",'index','Index');
-						$purl = false;
+						$breadcrumbsOn = $purl = false;
 						
-						if ( $request->get('module') != '' && $request->get('module') == $moduleName && vglobal('breadcrumbs') && $request->get('parent') == '') {
+						if($request->get('module') != '' && !in_array($request->get('module'), $breadcrumbsModules) && vglobal('breadcrumbs') && $request->get('parent') == ''){
+							$breadcrumbsOn = true;
+						}
+						if ( $breadcrumbsOn && $request->get('module') == $moduleName ) {
+							$breadcrumbsModules[] = $request->get('module');
 							$breadcrumbs[] = array('lable' => vtranslate($name, 'OSSMenuManager'));
 							$breadcrumbs[] = array('lable' => vtranslate($subName, $moduleName), 'url' => $url, 'class' => 'moduleColor_'.$moduleName );
 							if ( $request->get('view') == 'Edit' && $request->get('record') == '' ) {
@@ -174,7 +179,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 									$breadcrumbs[] = array('lable' => $recordLabel );
 								}
 							}
-						}elseif( vglobal('breadcrumbs') && $request->get('module') != '' && $request->get('parent') == ''){
+						}elseif( $breadcrumbsOn ){
 							$parts = parse_url($url);
 							parse_str($parts['query'], $purl);
 							if( $request->get('module') == $purl['module'] && $request->get('view') == $purl['view'] && $request->get('viewname') == $purl['viewname'] ){
@@ -192,7 +197,7 @@ class OSSMenuManager_Record_Model extends Vtiger_Record_Model {
 				$menuStructureGroupe[$name]['picon'] = $locationicon;			
 				$menuStructureGroupe[$name]['icons'] = $sizeicon_second;
             }
-			if( vglobal('breadcrumbs') && count($breadcrumbs) == 0 && $request->get('module') != '' && $request->get('parent') == ''){
+			if( $breadcrumbsOn && count($breadcrumbs) == 0 ){
 				if('Users' == $request->get('module')){
 					$moduleModel = Vtiger_Module_Model::getInstance($request->get('module'));
 					$listViewUrl = $moduleModel->getListViewUrl();

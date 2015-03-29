@@ -158,6 +158,8 @@ class RoundcubeLogin {
      * @var string
      */     
     private $hostname;
+	
+	private $username = false;
 
     /**
      * Roundcube port. Automatically defaults
@@ -228,10 +230,6 @@ class RoundcubeLogin {
      */
     public function login($username,$password) {                
         $this->updateLoginStatus();
-
-        // If already logged in, perform a re-login (logout first)
-        if ($this->isLoggedIn())
-            $this->logout();
 
         // Try login
         $data = (($this->lastToken) ? "_token=".$this->lastToken."&" : "")
@@ -355,18 +353,17 @@ class RoundcubeLogin {
         if (preg_match('/<input.+name="_token".+value="([^"]+)"/mi', $response, $m)) 
             $this->lastToken = $m[1]; // override previous token (if this one exists!)            
         
+        if (preg_match('/<span.+class="username">([^"]+)</mi', $response, $m)) 
+            $this->username = $m[1];  
+
         // Login form available?
         if (preg_match('/<input.+name="_pass"/mi',$response)) {
             $this->addDebug("NOT LOGGED IN", "Detected that we're NOT logged in.");            
             $this->rcLoginStatus = -1;            
-        }
-        
-        else if (preg_match('/<div.+id="message"/mi',$response)) {
+        } else if (preg_match('/<div.+id="header"/mi',$response)) {
             $this->addDebug("LOGGED IN", "Detected that we're logged in.");            
             $this->rcLoginStatus = 1;    
-        }
-        
-        else {
+        } else {
             $this->addDebug("UNKNOWN LOGIN STATE", "Unable to determine the login status. Did you change the RC version?");            
             throw new RoundcubeLoginException("Unable to determine the login status. Unable to continue due to technical problems.");
         }            
@@ -551,7 +548,10 @@ class RoundcubeLogin {
      */
     public function dumpDebugStack() {
         print "<p>".join("\n", $this->debugStack)."</p>";
-    }    
+    }
+    public function getUsername() {
+        return $this->username;
+    }
 }
 
 /**

@@ -70,10 +70,10 @@ $languageStrings = array(
 	'Orders accepted'=>'Orders accepted',
 	
     //YetiForce
-	'Total time [Calculation]'=>'Total time<br />[Calculation]',
-	'Total time [Potential]' => 'Total time<br/>[Potential]',
-	'Total time [Sales Order]' => '  Total time<br />[Orders]',
-	'Total time [Quotes]' => ' Total time<br />[Quotes]',
+	'Total time [Calculation]'=>'Total time <br />[Calculation]',
+	'Total time [Potential]' => 'Total time <br/>[Potential]',
+	'Total time [Sales Order]' => '  Total time <br />[Orders]',
+	'Total time [Quotes]' => ' Total time <br />[Quotes]',
 	'Total time [Sum]' => 'Total <br />[Grand total]',
 	'Total time [h]'=>'Total time [h]',
 	'LBL_FINANSIAL_SUMMARY' => 'Financial summary',

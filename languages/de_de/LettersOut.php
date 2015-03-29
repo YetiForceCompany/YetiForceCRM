@@ -13,7 +13,7 @@ $languageStrings = array(
 	'LettersOut'					=> 'Ausgehender Schriftverkehr',
 	'SINGLE_LettersOut'				=> 'Ausgehender Schriftverkehr',
 	'LBL_ADD_RECORD'				=> 'Schriftverkehr hinzufügen',
-	'LBL_RECORDS_LIST'				=> 'Ausgehender Schriftverkehr',
+	'LBL_RECORDS_LIST'				=> 'Liste Schriftverkehr',
 
 	// Blocks
 	'LBL_MAIN_INFORMATION'			=> 'Informationen zum Schriftverkehr',

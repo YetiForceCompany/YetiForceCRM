@@ -70,3 +70,8 @@
 .marginBottom5px {
   margin-bottom: 5px;
 }
+#headerLinks .headerLinksContainer.headerLinksMails ul.dropdown-menu,
+#headerLinks .headerLinksContainer.headerLinksMails ul.dropdown-menu{
+right: -8px;
+left: auto;
+}

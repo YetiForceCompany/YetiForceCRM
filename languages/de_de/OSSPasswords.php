@@ -6,8 +6,8 @@ $languageStrings = array(
 	// Basic Strings
 	'OSSPasswords'        => 'Passwörter',
 	'SINGLE_OSSPasswords' => 'Passwort',
-	'LBL_ADD_RECORD' => 'Datensatz hinzufügen',
-	'LBL_RECORDS_LIST' => 'Passwort-Liste',
+	'LBL_ADD_RECORD' => 'Passwort hinzufügen',
+	'LBL_RECORDS_LIST' => 'Liste Passwörter',
     'LBL_PASS_CONFIGURATION' => 'Passwörter Konfiguration',
     'LBL_HELP' => 'Hilfe',
 
@@ -90,7 +90,7 @@ $languageStrings = array(
     'Password is hidden' => 'Passwort ist versteckt',
     'Delete_panel' => 'Das Konfigurationsfenster ist für die Deinstallation des Moduls konzipiert. Modulname: ',
     'MSG_DEL_WARN1' => 'Warnung!',
-    'MSG_DEL_WARN2' => '<p>Vor dem Löschen dieses Moduls sollten Sie ein Backup von YetiForce machen.<p><p>Alle Daten und Dateien die zu diesem Modul gehören, werden gelöscht!</p><p>Sind Sie sicher, dass Sie dieses Modul löschen möchten?</p>',
+    'MSG_DEL_WARN2' => '<p>Vor dem Löschen dieses Moduls sollten Sie eine Datensicherung von YetiForce machen.<p><p>Alle Daten und Dateien die zu diesem Modul gehören, werden gelöscht!</p><p>Sind Sie sicher, dass Sie dieses Modul löschen möchten?</p>',
 	'LBL_NULLPASS' => 'Das Passwort darf nicht leer sein.',
 	'LBL_PASS_TOOSHORT' => 'Das Passwort ist zu kurz.',
 	'LBL_PASS_TOOLONG' => 'Das Passwort ist zu lang.',

@@ -240,4 +240,38 @@ class Install_InitSchema_Model {
 			}
 		}
 	}
+	public function deleteFiles($files = array()) {
+		if(!is_array($files)){
+			$files = array($files);
+		}
+		foreach($files as $file){
+			self::deleteDirFile($file);
+		}
+	}
+	public function deleteDirFile($src) {
+		global $root_directory,$log;
+		if($root_directory && strpos($src,$root_directory) === FALSE){
+			$src = $root_directory.$src;
+		}
+		if (!file_exists($src) || !$root_directory)
+			return;
+		@chmod($src, 0777);
+		$log->debug("Exiting VT620_to_YT::testest(".$src.") method ...");
+		if (is_dir($src)) {
+			$dir = new DirectoryIterator($src);
+			foreach ($dir as $fileinfo) {
+				if (!$fileinfo->isDot()) {
+					if ($fileinfo->isDir()) {
+						$log->debug("Exiting VT620_to_YT::testest 22(".$fileinfo->getPathname().") method ...");
+						self::deleteDirFile($fileinfo->getPathname());
+						rmdir($fileinfo->getPathname());
+					} else {
+						unlink($fileinfo->getPathname());
+					}
+				}
+			}
+		} else {
+			unlink($src);
+		}
+	}
 }

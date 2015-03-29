@@ -28,6 +28,9 @@ $languageStrings = array(
     'No' => 'No',
 	'MAIL_TPL_LIST' => 'Select a template e-mail',
 	'LBL_COPY_TO_CLIPBOARD_TITLE' => 'Copy to Clipboard',
+	'LBL_TYPE' => 'Type',
+	'PLL_MODULE' => 'Module',
+	'PLL_RECORD' => 'Record',
 	
 	/// special_functions
 	'CurrentDate' => 'Current Date',

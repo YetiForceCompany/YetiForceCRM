@@ -9,48 +9,79 @@
  *************************************************************************************************************************************/
 
 jQuery(function() {
-    window.activeCall = false;
-    if(getUrlVars()['view'] != 'Popup'){
-        startCheckMails();
-    }
+	if($('#OSSMailBoxInfo').data('numberunreademails') != undefined){
+		window.stopScanMails = false;
+		if(getUrlVars()['view'] != 'Popup'){
+			startCheckMails();
+		}
+	}
+	if($('#OSSMailBoxInfo .dropdown-menu').length > 0){
+		registerUserList();
+	}
 });
-function startCheckMails() {
-	var params = {
-		'module': 'OSSMailScanner',
-		'action': "getConfig"
-	};
-	window.stop_scan_mails = false;
-	AppConnector.request(params).then(
-		function(response) {
-			if (response.success) {
-				var result = response.result;
-				if(result.data.time_checking_mail != 0){
-					checkMails();
-					var refreshIntervalId = setInterval(function() {
-						if(window.stop_scan_mails == false){
-							checkMails();
-						}else{
-							clearInterval(refreshIntervalId);
-						}
-					}, result.data.time_checking_mail*1000);
+function registerUserList() {
+	$('#OSSMailBoxInfo .dropdown-menu li').click(function() {
+		var params = {
+			'module': 'OSSMail',
+			'action': "SetUser",
+			'user': $(this).data('id'),
+		};
+		AppConnector.request(params).then(
+			function(response) {
+				if( app.getModuleName() == 'OSSMail'){
+					location.reload();
 				}
 			}
-		}
-	);
+		);
+	});
 }
-function checkMails() {
+function startCheckMails() {
+	var users = [];
+	var timeCheckingMails = $('#OSSMailBoxInfo').data('interval')
+	$( "#OSSMailBoxInfo .dropdown-menu li" ).each(function( index ) {
+		users.push($( this ).data('id'));
+	});
+	if(users.length > 0){
+		checkMails(users);
+		var refreshIntervalId = setInterval(function() {
+			if(window.stopScanMails == false){
+				checkMails(users);
+			}else{
+				clearInterval(refreshIntervalId);
+			}
+		}, timeCheckingMails*1000);
+	}
+}
+function checkMails(users) {
 	var params = {
 		'module': 'OSSMail',
-		'action': "checkMails"
+		'action': "checkMails",
+		'users': users,
 	};
 	AppConnector.request(params).then(
-		function(response) {
+		function (response) {
+			console.log(response);
 			if (response.success && response.success.error != true && response.result.error != true) {
 				var result = response.result;
-				$('#OSSMailBoxInfo').html(result.html);
-			}else{window.stop_scan_mails = true;}
+				$("#OSSMailBoxInfo .dropdown-menu li").each(function (index) {
+					var id = $(this).data('id');
+					if (jQuery.inArray(id, result)) {
+						var num = result[id];
+						var text = '';
+						if(num > 0 ){
+							text = '('+num+')';
+						}
+						$(this).find('.noMails').text(text);
+						$("#OSSMailBoxInfo .mainMail").find('.noMails_'+id).text(text);
+					}
+				});
+			} else {
+				window.stopScanMails = true;
+			}
 		},
-		function(data, err) {}
+		function (data, err) {
+			window.stopScanMails = true;
+		}
 	);
 }
 function getUrlVars() {

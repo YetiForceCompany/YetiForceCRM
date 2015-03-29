@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.01 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -135,7 +135,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `task` text,
   PRIMARY KEY (`task_id`),
   UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */
 
@@ -461,7 +461,7 @@ CREATE TABLE `roundcube_identities` (
   `email` varchar(128) NOT NULL,
   `reply-to` varchar(128) NOT NULL DEFAULT '',
   `bcc` varchar(128) NOT NULL DEFAULT '',
-  `signature` text,
+  `signature` longtext,
   `html_signature` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`identity_id`),
   KEY `user_identities_index` (`user_id`,`del`),
@@ -517,6 +517,15 @@ CREATE TABLE `roundcube_users` (
   `crm_user_id` int(19) DEFAULT '0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`,`mail_host`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `roundcube_users_autologin` */
+
+CREATE TABLE `roundcube_users_autologin` (
+  `rcuser_id` int(10) unsigned NOT NULL,
+  `crmuser_id` int(19) NOT NULL,
+  KEY `rcuser_id` (`rcuser_id`),
+  CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_account` */
@@ -2339,7 +2348,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
@@ -2491,7 +2500,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1739 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1741 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4100,9 +4109,26 @@ CREATE TABLE `vtiger_ossmailtemplates` (
   `oss_module_list` varchar(255) DEFAULT '',
   `subject` varchar(255) DEFAULT '',
   `content` text,
+  `ossmailtemplates_type` varchar(255) DEFAULT NULL,
   KEY `ossmailtemplatesid` (`ossmailtemplatesid`),
   KEY `oss_module_list` (`oss_module_list`),
   CONSTRAINT `vtiger_ossmailtemplates_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ossmailtemplates_type` */
+
+CREATE TABLE `vtiger_ossmailtemplates_type` (
+  `ossmailtemplates_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `ossmailtemplates_type` varchar(200) NOT NULL,
+  `sortorderid` int(11) DEFAULT NULL,
+  `presence` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ossmailtemplates_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ossmailtemplates_type_seq` */
+
+CREATE TABLE `vtiger_ossmailtemplates_type_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailtemplatescf` */
@@ -4956,24 +4982,6 @@ CREATE TABLE `vtiger_priority` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`priorityid`),
   UNIQUE KEY `priority_priority_idx` (`priority`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_productcategory` */
-
-CREATE TABLE `vtiger_productcategory` (
-  `productcategoryid` int(19) NOT NULL AUTO_INCREMENT,
-  `productcategory` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(19) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`productcategoryid`),
-  UNIQUE KEY `productcategory_productcategory_idx` (`productcategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_productcategory_seq` */
-
-CREATE TABLE `vtiger_productcategory_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcf` */
@@ -7219,6 +7227,7 @@ CREATE TABLE `vtiger_users` (
   `defaultactivitytype` varchar(50) DEFAULT NULL,
   `hidecompletedevents` int(11) DEFAULT NULL,
   `is_owner` varchar(5) DEFAULT NULL,
+  `emailoptout` varchar(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
@@ -7447,22 +7456,6 @@ CREATE TABLE `vtiger_widgets` (
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_wordtemplates` */
-
-CREATE TABLE `vtiger_wordtemplates` (
-  `templateid` int(19) NOT NULL,
-  `filename` varchar(100) NOT NULL,
-  `module` varchar(30) NOT NULL,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `parent_type` varchar(50) NOT NULL,
-  `data` longblob,
-  `description` text,
-  `filesize` varchar(50) NOT NULL,
-  `filetype` varchar(20) NOT NULL,
-  `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`templateid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_entity` */
 
 CREATE TABLE `vtiger_ws_entity` (
@@ -7639,6 +7632,24 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `stateencodedvalues` varchar(300) NOT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_mail_config` */
+
+CREATE TABLE `yetiforce_mail_config` (
+  `type` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `value` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_mail_quantities` */
+
+CREATE TABLE `yetiforce_mail_quantities` (
+  `userid` int(10) unsigned NOT NULL,
+  `num` int(10) unsigned DEFAULT '0',
+  `status` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`userid`),
+  CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */

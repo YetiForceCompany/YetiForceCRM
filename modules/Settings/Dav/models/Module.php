@@ -29,7 +29,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public function addKey($params) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
 		$userID = $params['user'];
 		$result = $adb->pquery("SELECT id FROM dav_users WHERE userid = ?;", array($userID), true);
@@ -54,18 +54,37 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		if (in_array('CalDav', $type)) {
 			$result = $adb->pquery('INSERT INTO dav_calendars (`principaluri`,`displayname`,`uri`,`components`) VALUES (?, ?, ?, ?);', array('principals/' . $userModel->get('user_name'), API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::COMPONENTS));
 		}
+		if (in_array('WebDav', $type)) {
+			$this->createUserDirectory($params);
+		}
 		return $key;
 	}
 
 	public function deleteKey($params) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_users WHERE userid = ?;', array($params['user']));
 		$adb->pquery('DELETE FROM dav_principals WHERE userid = ?;', array($params['user']));
+		
+		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
+		$user_name =  $user->get('user_name');
+		Vtiger_Functions::recurseDelete(vglobal('davStorageDir') . '/' . $user_name);
 	}
 
 	public function getTypes() {
 		return ['CalDav', 'CardDav', 'WebDav'];
 	}
+	public function createUserDirectory($params) {
+		$adb = PearDatabase::getInstance();
+		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
+		$user_name =  $user->get('user_name');
 
+		$path = '/' . $user_name . '/';
+		$dirHash = sha1($path);
+		$parent_dirid = 0;
+		@mkdir(vglobal('davStorageDir') . $path);
+		
+		$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
+			array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
+	}
 }
