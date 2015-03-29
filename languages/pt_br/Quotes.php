@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
@@ -30,14 +30,14 @@ $languageStrings = array(
 	'Cash' => 'Dinheiro',
 
 	//picklist values
-	'PLL_WAITING_FOR_PREPARATION' => 'Waiting for preparation',
-	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
-	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
-	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Waiting for customer\'s reply',
-	'PLL_IN_PREPARATION' => 'In preparation',
-	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
-	'PLL_DECLINED' => 'Declined',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_WAITING_FOR_PREPARATION' => 'Aguarda preparação',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Interna',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Externa',
+	'PLL_WAITING_FOR_CUSTOMERS_REPLY' => 'Aguarda resposta do Cliente',
+	'PLL_IN_PREPARATION' => 'Em preparação',
+	'PLL_SENT_TO_ORGANIZATION' => 'Enviado para Organização',
+	'PLL_DECLINED' => 'Recusada',
+	'PLL_ACCEPTED' => 'Aceita',
 );
 
 $jsLanguageStrings = array(

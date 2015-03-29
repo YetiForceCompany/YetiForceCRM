@@ -5,7 +5,7 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 06/01/2015 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'ADD_CONDITIONS' => 'Adicionar Condições',
@@ -78,7 +78,7 @@ $languageStrings = array(
 	'ON_MODIFY' => 'Todas as vezes que o registro for modificado',
 	'SCHEDULE_WORKFLOW' => 'Agendar Workflow',
 	'ON_SCHEDULE'=>'Agendar',
-        'LBL_RUN_WORKFLOW' => 'Executar Workflow',
+  'LBL_RUN_WORKFLOW' => 'Executar Workflow',
 	'LBL_AT_TIME'=>'Na Hora',
 	'LBL_HOURLY'=>'A cada hora',
 	'LBL_DAILY'=>'Diariamente',
@@ -132,17 +132,17 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'Escolha data:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Dia e Mês selecionados:',
 	'LBL_SELECTED_DATES' => 'Datas selecionadas:',
-	'LBL_ACTIVATION_TASKS' => 'Activate Tasks', 
-	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks', 
-	'LBL_ALL_TASKS' => 'All Tasks', 
+	'LBL_ACTIVATION_TASKS' => 'Activate Tasks',
+	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks',
+	'LBL_ALL_TASKS' => 'All Tasks',
 	'LBL_ACTIVE_TASKS' => 'Active Tasks',
-	
+
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',
 	'Do you send all attachments' => 'Send all attachments?',
 	'Select e-mail address' => 'Select e-mail address',
 	'Send a copy to email' => 'Send a copy to email',
-	
+
 	//workflow task types
 	'Send Mail' => 'Enviar Mensagem',
 	'Invoke Custom Function' => 'Invocar Função Customizada',
@@ -163,6 +163,6 @@ $jsLanguageStrings = array(
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status alterado com Sucesso',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Tarefa excluída com Sucesso',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow salvo com Sucesso',
-	'LBL_STATUS_CONFIRMATION' => 'Are you sure you want to change statuses for all Tasks?',
-	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Changing statuses for Tasks...',
+	'LBL_STATUS_CONFIRMATION' => 'Você tem certeza que deseja alterar os status de todas as Tarefas?',
+	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Alterando os status das Tarefas...',
 );

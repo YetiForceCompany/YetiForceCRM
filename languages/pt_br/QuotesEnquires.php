@@ -5,44 +5,44 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
-	'QuotesEnquires' => 'Quotes enquires',
-	'SINGLE_QuotesEnquires' => 'Quotes enquires',
+$languageStrings = Array(
+	'Quotesenquires' => 'Levantamentos Cotações',
+	'SINGLE_Quotesenquires' => 'Levantamento para Cotações',
 
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
-	
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informações básicas',
+	'LBL_CUSTOM_INFORMATION' => 'Informações adicionais',
+
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
-	'LBL_NUMBER' => 'Number',
-	'Description' => 'Description',
-	'Attention' => 'Attentions',
-	'LBL_STAGE' => 'Stage',
-	'LBL_CONS' => 'Disadvantages',
-	'LBL_PROS' => 'Advantages',
-	'LBL_GENERATE_REQUIREMENTCARDS' => 'Generate requirements card',
+	'LBL_SUBJECT' => 'Assunto',
+	'LBL_POTENTIAL' => 'Oportunidade',
+	'LBL_NUMBER' => 'Número',
+	'Description' => 'Descrição',
+	'Attention' => 'Atentções',
+	'LBL_STAGE' => 'Estágio',
+	'LBL_CONS' => 'Desvantagens',
+	'LBL_PROS' => 'Vantagens',
+	'LBL_GENERATE_REQUIREMENTCARDS' => 'Gerar cartão de requisitos',
 
 	//PICKLIST VALUES
-	'PLL_NOT_STARTED' => 'Not started',
-	'PLL_VERIFICATION' => 'Verification',
-	'PLL_DECLINED' => 'Declined ',
-	'PLL_ACCEPTED' => 'Accepted ',
-	'PLL_LOW_MARGIN' => 'Low margin',
-	'PLL_UNRELIABLE_CONTRACTOR' => 'Unreliable organization',
-	'PLL_UNRELIABLE_PAYMENT' => 'Unreliable payment',
-	'PLL_NO_DETAILS' => 'No details',
-	'PLL_LACK_OF_COMPETENCE' => 'No expertise',
-	'PLL_LACK_OF_TIME' => 'No time',
-	'PLL_HIGH_MARGIN' => 'High margin',
-	'PLL_RELIABLE_CONTRACTOR' => 'Reliable organization',
-	'PLL_SOLID_PAYMENT' => 'Reliable payments',
-	'PLL_DETAILED_DESCRIPTION' => 'Detailed description',
-	'PLL_COMPETENT_TEAM' => 'Competent team',
-	'PLL_EASE_OF_COMMUNICATION' => 'Easy communication',
-	'PLL_RECOMMENDABLE' => 'Recommendable',
+	'PLL_NOT_STARTED' => 'Não iniciado',
+	'PLL_VERIFICATION' => 'Verificação',
+	'PLL_DECLINED' => 'Rejeitado ',
+	'PLL_ACCEPTED' => 'Aceito ',
+	'PLL_LOW_MARGIN' => 'Margem baixa',
+	'PLL_UNRELIABLE_CONTRACTOR' => 'Organização duvidosa',
+	'PLL_UNRELIABLE_PAYMENT' => 'pagamento duvidoso',
+	'PLL_NO_DETAILS' => 'Nenhum detalhe',
+	'PLL_LACK_OF_COMPETENCE' => 'Nenhuma expertise',
+	'PLL_LACK_OF_TIME' => 'Nenhum tempo',
+	'PLL_HIGH_MARGIN' => 'Margem elevada',
+	'PLL_RELIABLE_CONTRACTOR' => 'Organização confiável',
+	'PLL_SOLID_PAYMENT' => 'Pagamento confiável',
+	'PLL_DETAILED_DESCRIPTION' => 'Descrição detalhada',
+	'PLL_COMPETENT_TEAM' => 'Equipe competente',
+	'PLL_EASE_OF_COMMUNICATION' => 'Fácil comunicação',
+	'PLL_RECOMMENDABLE' => 'Recomendável',
 );

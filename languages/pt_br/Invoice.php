@@ -6,15 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'Approved' => 'Aprovada',
 	'AutoCreated'=> 'Requer Aprovação' ,
 	'Created'=>'Rascunho',
 	'Cancel' => 'Cancelada',
-	'Credit Invoice' => 'A Receber' , 
-	'Customer No'=> 'Cod. Cliente', 
-	'Invoice Date' => 'Data Fatura' , 
+	'Credit Invoice' => 'A Receber' ,
+	'Customer No'=> 'Cod. Cliente',
+	'Invoice Date' => 'Data Fatura' ,
 	'Invoice No' => 'No. Fatura',
 	'LBL_ACTION'	=> 'Ação',
 	'LBL_ADD_RECORD' => 'Adicionar Fatura' ,
@@ -24,14 +25,14 @@ $languageStrings = array(
 	'LBL_NOT_A_BUNDLE' => 'Não é um pacote',
 	'LBL_RECEIVED' => 'Recebida',
 	'LBL_RECORDS_LIST' => 'Lista Faturas' ,
-    	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
+  'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'LBL_SUB_PRODUCTS'	=> 'Sub Produtos',
-	'Paid' => 'Paga', 
-	'Purchase Order' => 'Pedido Compra', 
-	'Sales Commission' => 'Comissão Vendas', 
-	'Sales Order'=> 'Pedido Vendas' , 
-	'Sent' => 'Enviada' , 
-	'SINGLE_Invoice' => 'Fatura', 
+	'Paid' => 'Paga',
+	'Purchase Order' => 'Pedido Compra',
+	'Sales Commission' => 'Comissão Vendas',
+	'Sales Order'=> 'Pedido Vendas' ,
+	'Sent' => 'Enviada' ,
+	'SINGLE_Invoice' => 'Fatura',
     'Potential' => 'Oportunidade',
     'Invoice entered' => 'Reservada',
 	'Derecognized' => 'Baixada',
@@ -41,8 +42,6 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
-	//Missing Invoice Status Item. In Portuguese the word "Approved" has in masculine [Aprovado] and feminine [Aprovada]. For Invoice, this word is feminine.
-	'Approved' => 'Aprovada',
 );
 
 $jsLanguageStrings = array(

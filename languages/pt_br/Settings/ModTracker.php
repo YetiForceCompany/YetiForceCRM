@@ -5,16 +5,16 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'ModTracker' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
-	'LBL_MODULE' => 'Module',
-	'LBL_ACTIVE' => 'Track changes',
-	'LBL_TOOLS' => 'Tools',
-	'LBL_TRACK_CHANGES_ENABLED' => 'Track changes enabled',
-	'LBL_TRACK_CHANGES_DISABLE' => 'Track changes disabled',
+	'ModTracker' => 'Histórico de alterações',
+	'LBL_MODTRACKER_SETTINGS' => 'Histórico de alterações',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Gerenciar histórico de alterações nos módulos',
+	'LBL_MODULE' => 'Módulo',
+	'LBL_ACTIVE' => 'Rastrear alterações',
+	'LBL_TOOLS' => 'Ferramentas',
+	'LBL_TRACK_CHANGES_ENABLED' => 'Rasteamento de alterações habilitado',
+	'LBL_TRACK_CHANGES_DISABLE' => 'Rasteamento de alterações desabilitado',
 );

@@ -5,36 +5,36 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contibutor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'MobileApps' => 'Mobile Apps',
-	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
- 	'LBL_MOBILE_KEYS' => 'Mobile application keys',
- 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Create and manage mobile application keys.',
- 	'LBL_USERNAME' => 'User',
- 	'LBL_SERVICE' => 'Application',
- 	'LBL_KEY' => 'Key',
-	'LBL_WHO_CAN_DIAL' => 'Who can dial a number',
- 	'LBL_TOOLS' => 'Tools',
- 	'LBL_DELETE_KEY' => 'Delete key',
- 	'LBL_ADD_KEY' => 'Add key',
- 	'LBL_SELECT_USER' => 'Select user:',
- 	'LBL_SELECT_SERVICE' => 'Select application',
- 	'LBL_SUCCESS_SAVE_KEY' => 'New key saved',
- 	'LBL_ERROR_SAVE_KEY' => 'Error saving key',
- 	'LBL_DUPLICATE_USER_SERVICES' => 'Key for this application already exists.',
- 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Key has been deleted',
-	'LBL_SUCCESS_SAVE_CHANGES' => 'Changes saved successfully',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'Mobile application is not active',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'Mobile application has not been activated yet, please enable "mobile" in config/api.php file',
+	'MobileApps' => 'Aplicativos Celular',
+	'LBL_MOBILE_CALLLISTENER' => 'Conexões escutadas',
+ 	'LBL_MOBILE_KEYS' => 'Chaves aplicação Celular',
+ 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves para aplicações de Celular.',
+ 	'LBL_USERNAME' => 'Usuário',
+ 	'LBL_SERVICE' => 'Aplicação',
+ 	'LBL_KEY' => 'Chave',
+	'LBL_WHO_CAN_DIAL' => 'Quem pode discar um número',
+ 	'LBL_TOOLS' => 'Ferramentas',
+ 	'LBL_DELETE_KEY' => 'Apagar chave',
+ 	'LBL_ADD_KEY' => 'Adicionar chave',
+ 	'LBL_SELECT_USER' => 'Selecionar usuário:',
+ 	'LBL_SELECT_SERVICE' => 'Selecionar aplicação',
+ 	'LBL_SUCCESS_SAVE_KEY' => 'Nova chave foi salva',
+ 	'LBL_ERROR_SAVE_KEY' => 'Erro ao salvar a chave',
+ 	'LBL_DUPLICATE_USER_SERVICES' => 'A chave para esta aplicação já existe.',
+ 	'LBL_KEY_HAS_BEEN_REMOVED' => 'A chave foi apagada',
+	'LBL_SUCCESS_SAVE_CHANGES' => 'As mudanças foram salvas com sucesso',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'A aplicação para Celular não está ativa',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'A aplicação para Celular ainda não foi ativada, por favor, habilite o arquivo "mobile" em api/config.php',
 
  	// Mobile services
- 	'LBL_MOBILE_HISTORYCALL' => 'Mobile call history',
- 	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
-	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
+ 	'LBL_MOBILE_HISTORYCALL' => 'Histórico chamadas Celular',
+ 	'LBL_MOBILE_PUSHCALL' => 'Discagem automática do número',
+	'LBL_MOBILE_CALLLISTENER' => 'Destinatário chamada Celular',
 );
 $jsLanguageStrings = array(
-	'Adding a Key' => 'Add key',
+	'Adding a Key' => 'Adicionar chave',
 );

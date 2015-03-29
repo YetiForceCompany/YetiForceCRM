@@ -5,9 +5,8 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'Calendar' => 'Calendar',
@@ -24,14 +23,14 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Editar Cor',
 	'LBL_SELECT_COLOR' => 'Selecionar cor:',
 	'LBL_SAVE_COLOR' => 'Cor salva',
-	'LBL_CALENDAR_CONFIG' => 'Calendar configuration',
+	'LBL_CALENDAR_CONFIG' => 'Configuração Agenda',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
-	'LBL_USER_COLORS' => 'User colors',
-	'LBL_CALENDAR_COLORS' => 'Calendar colors',
-	'LBL_CALENDAR_TYPE' => 'Calendar type',
-	'PLL_BREAK_TIME' => 'Break time',
-	'PLL_HOLIDAY_TIME' => 'Holiday',
-	'LBL_SAVE_CHANGES' => 'Saved changes',
+	'LBL_USER_COLORS' => 'Cores de Usuários',
+	'LBL_CALENDAR_COLORS' => 'Cores da Agenda',
+	'LBL_CALENDAR_TYPE' => 'Tipo Agenda',
+	'PLL_BREAK_TIME' => 'Intervalo Trabalho',
+	'PLL_HOLIDAY_TIME' => 'Feriados',
+	'LBL_SAVE_CHANGES' => 'Mudanças salvas',
 );
 $jsLanguageStrings = array(
 

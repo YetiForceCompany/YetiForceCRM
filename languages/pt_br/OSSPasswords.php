@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade [valmir@ttcasolucoes.com.br] and Gabriel P. Trindade [gptrind@gmail.com] - 25-11-2014
+ * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade and Gabriel P. Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
 	// Basic Strings
@@ -26,8 +26,8 @@ $languageStrings = array(
     'Key name' => 'Nome da Chave',
     'Username' => 'Usuário',
     'Password' => 'Senha',
-    'WWW page' => 'Site', 
-    'Description' => 'Descrição',  
+    'WWW page' => 'Site',
+    'Description' => 'Descrição',
 	'Generate Password' => 'Gerar Senha',
     'Configure Password' => 'Configurar Senha',
     'Minimum Length' => 'Comprimento Mínimo',
@@ -41,7 +41,7 @@ $languageStrings = array(
     'Better' => 'Melhor',
     'Medium' => 'Média',
     'Strong' => 'Forte',
-    'Very Strong' => 'Muito Forte',    
+    'Very Strong' => 'Muito Forte',
     'Password not entered' => 'Senha incorreta',
     'OSSPassword Configuration' => 'Configuração Senhas',
     'Configure OSSPasswords' => 'Configurar Senhas',
@@ -54,17 +54,17 @@ $languageStrings = array(
     'Access denied!' => 'Acesso negado!',
     'TroubleTicketDescription'=>'No endereço a seguir você encontrará o site onde será capaz de abrir Chamado, propor melhorias para este módulo ou apenas ler a documentação do módulo.',
     'LBL_TroubleUrl' => 'Endereço do site',
-    'LBL_UrlLink' => 'http://apps.opensaas.pl',	
+    'LBL_UrlLink' => 'http://apps.opensaas.pl',
     'LBL_UrlLinkInfo' => 'precisa criar uma Conta',
     'LBL_OurWebsite' => 'Nosso site',
-    'LBL_OurWebsiteLink' => 'http://opensaas.pl',    
+    'LBL_OurWebsiteLink' => 'http://opensaas.pl',
     'Related to' => 'Relacionado a',
     'Settings were successfuly saved.' => 'As configurações foram salvas com sucesso.',
     'LBL_REGISTER_CHANGES' => 'Registro das mudanças no rastreador de modulo',
     'LBL_START_REGISTER' => 'Registrar mudanças',
     'LBL_REGISTER_WARN1' => 'ATENÇÃO!',
     'LBL_REGISTER_WARN2' => 'Ao ativar as opções abaixo, você concorda em registrar todas as mudanças de senhas no rastreador de módulos. Somente senhas antigas serão exibidas, as novas senhas serão mantidas ocultas.',
-    
+
     // configure password
     'Encoding' => 'Codificando',
     'Edit Password Key' => 'Editar Chave Senha',
@@ -104,7 +104,7 @@ $languageStrings = array(
 	'LBL_ONLY_STARS' => 'A senha não pode conter somente asterisco - *.',
 	'Yes' => 'Sim',
 	'No' => 'Não',
-	    
+
     // widget sidebar
     'LBL_GeneratePass' => 'Gerar Senha',
     'LBL_ConfigurePass' => 'Configurar Senha',
@@ -114,15 +114,15 @@ $languageStrings = array(
     'LBL_CopyToClipboardTitle' => 'Copiar senha para área de transferência',
     'LBL_NotifPassCopied' => 'A senha foi copiada para a área de transferência',
     'LBL_NotifPassTitle' => 'Senha',
-	
+
 	// help
 	'LBL_Helpforthemodule' => 'Ajuda para o módulo: ',
 	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
+	'LBL_UrlHelp' => 'serwis@opensaas.pl',
 	'LBL_UrlHelp2' => 'bok@opensaas.pl',
 	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
 	'LBL_License' => 'Informação da Licença: ',
-	'LBL_Company' => 'Informa da Empresa: ',
+	'LBL_Company' => 'Informação da Empresa: ',
 	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information' => 'Informação dos Módulos:' ,
 );

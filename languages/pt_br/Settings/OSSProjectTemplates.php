@@ -6,13 +6,14 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
+
 $languageStrings = array(
     'OSSProjectTemplates' => 'Modelos OSSProject',
-    
+
 );
 
 $jsLanguageStrings = array(
-	'JS_FILL_REQUIRED_FIELDS' => 'Fill required fields',
+	'JS_FILL_REQUIRED_FIELDS' => 'Preencha os campos obrigatórios',
 );

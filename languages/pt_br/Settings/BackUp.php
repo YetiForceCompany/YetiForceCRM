@@ -6,8 +6,7 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 18/12/2014 - www.ttcasolucoes.com.br
+ * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 
 $languageStrings = array(
@@ -29,19 +28,20 @@ $languageStrings = array(
 	'LBL_HOST' => 'Host',
 	'LBL_LOGIN' => 'Acesso',
 	'LBL_PASSWORD' => 'Senha',
+	'LBL_CONNECTION_STATUS' => 'Status da conexão',
 	'LBL_SEND_TO_FTP' => 'Enviar para FTP',
-	'LBL_CONNECTION_STATUS' => 'Connection status',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_PATH' => 'Save path',
-	'LBL_PATH_INFO' => 'If path field is empty, backup will be saved in the main folder',
-	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail notifications',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_ACTIVE' => 'Ativo',
+	'LBL_PATH' => 'Salvar caminho',
+	'LBL_PATH_INFO' => 'Se o campo Caminho estiver vazio, o backup será salvo na pasta principal',
+	'LBL_EMAIL_NOTIFICATIONS' => 'Notificações por e-mail',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
+
 );
 
 $jsLanguageStrings = array(
-	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
-	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
-	'JS_SAVE_CHANGES' => 'Saved changes',
-	'JS_HOST_NOT_CORRECT' => 'Incorrect host address',	
-	'JS_CONNECTION_FAIL' => 'Failed login attempt', 
+	'JS_MANDATORY_FIELDS_EMPTY' => 'Os campos obrigatórios não podem estar vazios',
+	'JS_PORT_ONLY_NUMBERS' => 'O campo Porta somente aceita números',
+	'JS_SAVE_CHANGES' => 'Mudanças salvas',
+	'JS_HOST_NOT_CORRECT' => 'Endereço de host incorreto',	
+	'JS_CONNECTION_FAIL' => 'A tentativa de acesso falhou', 
 );

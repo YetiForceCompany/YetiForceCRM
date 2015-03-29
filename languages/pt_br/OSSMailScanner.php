@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
     'OSSMailScanner' => 'Escaner Mensagem',
@@ -144,9 +144,9 @@ $languageStrings = array(
 	'User' => 'Usuário',
 	'None' => 'Escolher usuário',
 	'User list' => 'Lista dos usuários',
-    'identities_name' => 'Nome identidade', 
-    'identities_adress' => 'Endereço identidade', 
-    'identities_del' => 'Apagar identidade', 
+    'identities_name' => 'Nome identidade',
+    'identities_adress' => 'Endereço identidade',
+    'identities_del' => 'Apagar identidade',
     'show_identities' => 'Exibir identidades',
 	'IMAP_ERROR' => 'Não foi possível conectar o servidor de e-mail',
 	'ERROR_ACTIVE_CRON' => 'Não foi possível ligar o escaneamento, pois CRON está ativo no momento.',
@@ -164,6 +164,6 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Conta apagada',
 	'No' => 'Não',
 	'LBL_MAIL_LOGS' => 'Log das Mensagens',
-	'Group list' => 'Group list',
-	
+	'Group list' => 'Lista Grupo',
+
 );

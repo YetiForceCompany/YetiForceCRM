@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 26/04/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'ALVT' => 'Principais Organizações',
@@ -14,7 +14,7 @@ $languageStrings = array(
 	'GRT' => 'Meus Grupos',
 	'HDB' => 'Página Painel',
 	'HLT' => 'Principais Chamados' ,
-        'Home'=> 'Principal',
+  	'Home'=> 'Principal',
 	'ILTI' => 'Principais Faturas',
 	'LTFAQ' => 'Minhas FAQs Recentes',
 	'OLTPO' => 'Principais Pedidos Compras',
