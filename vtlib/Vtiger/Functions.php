@@ -1010,38 +1010,41 @@ class Vtiger_Functions {
 		return $result;
 	}
 	
-	function recurseDelete($src) {
+	public function recurseDelete($src) {
 		$rootDir = vglobal('root_directory');
 		if (!file_exists($rootDir . $src))
 			return;
 		$dirs = [];
 		@chmod($root_dir . $src, 0777);
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isDir()) {
-				$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
-			} else {
-				unlink($rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+		if(is_dir($src)) {
+			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+				if ($item->isDir()) {
+					$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+				} else {
+					unlink($rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+				}
 			}
-		}
-		arsort($dirs);
-		foreach ($dirs as $dir) {
-			rmdir($dir);
+			arsort($dirs);
+			foreach ($dirs as $dir) {
+				rmdir($dir);
+			}
+		} else {
+			unlink($rootDir . $src);
 		}
 	}
 
-	function recurseCopy($src, $dest, $delete = false) {
+	public function recurseCopy($src, $dest, $delete = false) {
 		$rootDir = vglobal('root_directory');
 		if (!file_exists($rootDir . $src))
 			return;
 
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isDir()) {
+			if ($item->isDir() && !file_exists($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {
 				mkdir($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-			} else {
+			} elseif(!$item->isDir())  {
 				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
 		}
-		
 	}
 
 }
