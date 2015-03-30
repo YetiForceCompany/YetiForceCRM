@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
+ * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = Array(
 
@@ -109,7 +109,7 @@ $languageStrings = Array(
     'company_name' => 'OpenSaaS Sp. z o.o.',
     'street' => 'ul. Kasprzaka 29/31',
     'city' => '01-234 Warszawa',
-    'phone_title' => 'Phone: ',
+    'phone_title' => 'Fone: ',
     'email_title' => 'E-mail:',
     'website_title' => 'Website: ',
     'website' => 'www.opensaas.pl',
@@ -408,7 +408,6 @@ $languageStrings = Array(
     'LBL_AND' => 'e',
     'LBL_OR' => 'ou',
     'LBL_NONE' => 'NADA',
-    'LBL_APPROVE' => 'Aprovar',
     'LBL_DENY' => 'Negar',
     'LBL_EQUALS' => 'iguais',
     'LBL_EQUAL_TO' => 'iguais',
@@ -446,10 +445,10 @@ $languageStrings = Array(
     'List' => 'Listar',
     'Detail' => 'Visualizar',
     'LBL_CONDITIONS_INFO' => 'As condições do visor funciona somente para pré-visualizar os registros a partir do qual podemos gerar um PDF',
-    
-    'Enable column with positions no. :' => 'Habilitar coluna com posição do no. do Produto:', 
+
+    'Enable column with positions no. :' => 'Habilitar coluna com posição do no. do Produto:',
     'Enable column with product name :' => 'Habilitar coluna com nome Produto:',
-    'Enable column with product`s amount :' => 'Habilitar coluna com quantidade Produto :', 
+    'Enable column with product`s amount :' => 'Habilitar coluna com quantidade Produto :',
     'Enable column with product`s price :' => 'Habilitar coluna com preço do Produto:',
     'Enable column with product`s net price :' => 'Habilitar coluna com preço líquido do Produto:',
     'Enable column with product`s discount :' => 'Habilitar coluna com desconto do Produto:',
@@ -481,7 +480,6 @@ $jsLanguageStrings = array(
     'LBL_AND' => 'e',
     'LBL_OR' => 'ou',
     'LBL_NONE' => 'NADA',
-    'LBL_APPROVE' => 'Aprovar',
     'LBL_DENY' => 'Negar',
     'LBL_EQUALS' => 'iquais',
     'LBL_EQUAL_TO' => 'iguais',
@@ -539,4 +537,12 @@ $jsLanguageStrings = array(
     'Current date (yyyy-mm-dd)' => 'Data atual (yyyy-mm-dd)',
         //
 );
-?>
+
+$languageStrings = array(
+	'LBL_AND' => 'e',
+	'LBL_OR' => 'ou',
+	'LBL_NONE' => 'Nada',
+	'Content' => 'Conteúdo',
+	'Field' => 'Campo',
+	'Label' => 'Rótulo',
+);

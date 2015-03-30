@@ -5,10 +5,10 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
-	'LBL_ADD_RECORD' => 'Adicionar Função',
+	'LBL_ADD_RECORD' => 'Adicionar Registro',
 	'LBL_ALL_USERS' => 'Todos os Usuários',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Atribuir privilégios a partir de um Perfil existente',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Atribuir privilégios diretamente para Função',

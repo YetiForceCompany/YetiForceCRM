@@ -6,29 +6,30 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_SUMMARY' => 'Resumo tempo trabalho',
 	// Basic Strings
 	'ServiceContracts' => 'Contratos' ,
 	'Service Contracts' => 'Contratos',
-	'SINGLE_ServiceContracts'=> 'Contrato' , 
+	'SINGLE_ServiceContracts'=> 'Contrato' ,
 	'LBL_ADD_RECORD' => 'Adicionar Contrato',
 	'LBL_RECORDS_LIST' => 'Lista Contratos',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Detalhes do Contrato',
-	
+
 	//Field Labels
-	'Contract No'=> 'No. Contrato', 
-	'Start Date' => 'Data Início', 
-	'End Date' => 'Data Término' , 
-	'Tracking Unit'=> 'Unidade Rastreamento', 
-	'Total Units'=> 'Unidades Totais' , 
-	'Used Units' => 'Unidades Utilizadas' , 
-	'Progress' => 'Progresso', 
+	'Contract No'=> 'No. Contrato',
+	'Start Date' => 'Data Início',
+	'End Date' => 'Data Término' ,
+	'Tracking Unit'=> 'Unidade Rastreamento',
+	'Total Units'=> 'Unidades Totais' ,
+	'Used Units' => 'Unidades Utilizadas' ,
+	'Progress' => 'Progresso',
 	'Planned Duration' => 'Duração Planejada (em Dias)', 
 	'Actual Duration'=> 'Duração Atual (em Dias)',
-	
+
 	//YetiForce
 	'Total time [Projects]' => 'Tempo total [Projetos]',
 	'Total time [Project Task]' => 'Tempo total [Tarefa Projeto]',
@@ -47,8 +48,8 @@ $languageStrings = array(
 	'Low' => 'Baixa',
 	'Normal' => 'Normal',
 	'High' => 'Alta',
-	'Total time [Tickets]'=>'Tempo total [Chamados]',	
-	
+	'Total time [Tickets]'=>'Tempo total [Chamados]',
+
 	'Hours' => 'Horas',
 	'Days' => 'Dias',
 	'Incidents' => 'Incidentes',

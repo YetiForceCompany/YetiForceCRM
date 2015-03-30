@@ -5,11 +5,14 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 19/02/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - valmir@ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'Conversion Rate' => 'Conversion Rate',
 	'Currency' => 'Currency',
+	'Symbol' => 'Símbolo',
+	'Currency Code' => 'Código Moeda',
+	'Currency Name' => 'Nome Moeda',
 	'LBL_ADD_NEW_CURRENCY' => 'Adicionar Nova Moeda',
 	'LBL_ADD_RECORD' => 'Adicionar Moeda',
 	'LBL_CURRENCY_CODE' => 'Código Moeda',
@@ -20,7 +23,7 @@ $languageStrings = array(
 	'LBL_EDIT_CURRENCY' => 'Editar Moeda',
 	'LBL_ENTER_CONVERSION_RATE' => 'Digitar Taxa Câmbio',
 	'LBL_TRANSFER_CURRENCY' => 'Transferir Moeda',
-	
+
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' 		=> 'Albania, Leke',
@@ -152,12 +155,6 @@ $languageStrings = array(
 	'Yemen, Rials'			=> 'Yemen, Rials',
 	'Zambia, Kwacha'		=> 'Zambia, Kwacha',
 	'Zimbabwe Dollars' 		=> 'Zimbabwe Dollars',
-
-//Missing Fields
-'Currency Name'=>'Nome Moeda',
-'Currency Code'=>'Código Moeda',
-'Symbol'=>'Símbolo',	
-
 );
 
 $jsLanguageStrings = array(

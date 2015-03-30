@@ -5,7 +5,7 @@
  * The Original Code is:vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
 	'Sharing Rules' => 'Regras de Compartilhamento',
@@ -33,9 +33,9 @@ $languageStrings = array(
 	'Public: Read Only' => 'Público: Somente Leitura',
 	'Public: Read, Create/Edit, Delete' => 'Público: Leitura, Criar/Editar, Apagar',
 	'Public: Read, Create/Edit' => 'Público: Ler, Criar/Editar',
-	'RoleAndSubordinates' => 'Role And Subordinates',
-	'Roles' => 'Roles',
-	'Groups' => 'Groups',
+	'RoleAndSubordinates' => 'Função e Subordinados',
+	'Roles' => 'Funções',
+	'Groups' => 'Grupos',
 );
 
 $jsLanguageStrings = array(

@@ -6,8 +6,7 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 19/12/2014 - www.ttcasolucoes.com.br
- * All Rights Reserved.
+ * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'ConfReport' => 'Configuração do Servidor',
@@ -19,9 +18,9 @@ $languageStrings = array(
 	'LBL_FILES_PERMISSIONS' => 'Permissões arquivos',
 	'LBL_FILE' => 'Nome',
 	'LBL_PATH' => 'Diretório',
-	'LBL_PERMISSION' => 'Permissão',	
+	'LBL_PERMISSION' => 'Permissão',
 	'LBL_TRUE_PERMISSION' => 'Permitido',
-	'LBL_FAILED_PERMISSION' => 'Não permitido',	
+	'LBL_FAILED_PERMISSION' => 'Não permitido',
 	'On' => 'Ligar',
 	'Off' => 'Desligar',
 	'NOT RECOMMENDED' => 'Não Recomendado'

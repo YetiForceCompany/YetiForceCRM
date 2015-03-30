@@ -5,15 +5,15 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
+ * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translantion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SALES_PROCESSES'													=> 'Sales processes',
+	'LBL_SALES_PROCESSES'													=> 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
-	'LBL_SAVE_CONFIG_OK'													=> 'Successfully saved sales processes settings.',
-	'LBL_SAVE_CONFIG_ERROR'													=> 'Failed to save sales processes settings.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
+	'LBL_SAVE_CONFIG_OK'													=> 'Configurações dos processos de vendas salvo com sucesso.',
+	'LBL_SAVE_CONFIG_ERROR'													=> 'Falha ao salvar as configurações dos processos de vendas.',
+	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Fornecido para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
 );
 $jsLanguageStrings = array(
 

@@ -6,45 +6,45 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 05/01/2015 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
-	'Birthdate'=> 'Aniversário', 
+	'Member Of' => 'Membro de',
+	'Birthdate'=> 'Aniversário',
 	'Contact Id' => 'No. Contato',
 	'Contact Image'=> 'Imagem Contato',
-	'Contacts' => 'Contatos', 
-	'Do Not Call'=> 'Recusa Chamada', 
+	'Contacts' => 'Contatos',
+	'Do Not Call'=> 'Recusa Chamada',
 	'Email' => 'Email',
-	'LBL_ADD_RECORD' => 'Adicionar Contato' , 
-	'LBL_CONTACT_INFORMATION'=> 'Informação do Contato' , 
+	'LBL_ADD_RECORD' => 'Adicionar Contato' ,
+	'LBL_CONTACT_INFORMATION'=> 'Informação do Contato' ,
 	'LBL_COPY_MAILING_ADDRESS' => 'Copiar Endereço Correspondência',
 	'LBL_COPY_OTHER_ADDRESS' => 'Copiar Endereço Alterantivo',
-	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Informação Portal Cliente' , 
+	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Informação Portal Cliente' ,
 	'LBL_IMAGE_INFORMATION'=> 'Informação Imagem Contato:',
 	'LBL_RECORDS_LIST' => 'Lista Contatos' ,
-	'Member Of' => 'Membro de',
-	'Office Phone' => 'Telefone Escritório', 
-	'Portal User'=> 'Portal Usuário' , 
-	'Reference'=> 'Referência' , 
-	'Reports To' => 'Reporta-se à' , 
+	'Office Phone' => 'Telefone Escritório',
+	'Portal User'=> 'Portal Usuário' ,
+	'Reference'=> 'Referência' ,
+	'Reports To' => 'Reporta-se à' ,
 	'Secondary Email' => 'Email Alternativo',
-	'SINGLE_Contacts'=> 'Contato' , 
+	'SINGLE_Contacts'=> 'Contato' ,
     'Support End Date'   => 'Data Término Suporte',
     'Support Start Date' => 'Data Início Suporte',
-	'Title'=> 'Cargo' , 
+	'Title'=> 'Cargo' ,
 	'User List'=> 'Lista Usuário',
-	
+
 	//Added for Picklist Values
 	'Dr.'=>'Dr.',
-	'Mr.'=> 'Sr.' , 
-	'Mrs.' => 'Srta.' , 
+	'Mr.'=> 'Sr.' ,
+	'Mrs.' => 'Srta.' ,
 	'Ms.'=> 'Sra.',
 	'Prof.'=> 'Prof.' ,
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
-	
-	'Other Po Box' => 'Additional Address: PO Box',
-	'Mailing Po Box' => 'Primary Address: PO Box',
+
+	'Other Po Box' => 'Endereço Adicional: Cx. Postal',
+	'Mailing Po Box' => 'Endereço Principal: Cx. Postal',
 	'LBL_ADDRESS_INFORMATION' => 'Endereço residencial',
 	'LBL_CONTACT_INFO' => 'Informação contato',
 	'Approval for phone calls'=>'Permissão Chamadas',
@@ -57,12 +57,12 @@ $languageStrings = array(
 	'Service Contracts'=>'Contratos',
 	'Projects'=>'Projetos',
 	'Purchase Order'=>'Pedido Compras',
-	'SINGLE_Leads' => 'Lead',
-	'SINGLE_Vendors' => 'Fornecedor',
 
 	//Activity Types
 	'End of support for contact' => 'Fim Suporte',
 	'Birthdays of contacts' => 'Aniversários Contatos',
+	'SINGLE_Leads' => 'Lead',
+	'SINGLE_Vendors' => 'Fornecedor',
 );
 
 $jsLanguageStrings = array(

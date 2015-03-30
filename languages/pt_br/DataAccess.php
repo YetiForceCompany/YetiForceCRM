@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
@@ -69,9 +69,9 @@ $languageStrings = array(
 	'Action_Desc_colorList' => 'Esta ferramenta permite colorir linhas que satisfaçam as condições correspondentes. Graças a esta funcionalidade, os registros com prioridade mais elevada podem ser diferenciados.',
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
-	'This name already exists' => 'This name already exists',
+	'This name already exists' => 'este nome já existe',
 );
 
 $jsLanguageStrings = array(
-	'DataAccess' => 'Data Access',
+	'DataAccess' => 'Acesso Dados',
 );

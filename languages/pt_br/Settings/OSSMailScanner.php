@@ -1,12 +1,9 @@
 <?php
- /*+********************************************************************************
- *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014
- ********************************************************************************+*/
 $languageStrings = array(
-	'OSSMailScanner_manual' => 'Mail Scanner',
-	'OSSMailScanner' => 'Mail Scanner',
-	'Mail Scanner' => 'Mail Scanner',
-    
+	'OSSMailScanner_manual' => 'Escaner Mensagens',
+	'OSSMailScanner' => 'Escaner Mensagem',
+	'Mail Scanner' => 'Escaner Mensagem',
+
 );
 
 $jsLanguageStrings = array(
@@ -16,12 +13,10 @@ $jsLanguageStrings = array(
     'JS_mail_error' => 'O email informado está incorreto',
     'JS_time_error' => 'O formato da data informado está incorreto',
     'JS_StopCron' => 'Parar o Cron manualmente',
-    'stop_user' => 'Usuário que parou o escanemento',
+    'stop_user' => 'Usuário que parou o escaneamento',
     'Manually stopped' => 'Parar manualmente',
     'OK' => 'ok',
-    'In progress' => 'Realização W',
+    'In progress' => 'Em andamento',
     'whether_remove_an_identity' => 'Quer remover uma identidade',
     'removed_identity' => 'Identidade apagada',
 );
-
-
