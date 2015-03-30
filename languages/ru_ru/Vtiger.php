@@ -9,6 +9,11 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'Letters Out' => 'Исходящая корреспонденция',
+	'Letters In' => 'Входящая корреспонденция',
+	'Teamwork' => 'Работа в команде',
+	'Bookkeeping' => 'Бухгалтерский учет',
+	'Secretariat' => 'Секретариат',
 	'ConfReport' => 'Конфигурация сервера',
 	'LBL_PAGES_HISTORY' => 'История просмотров',
 	'Secretary\'s Office' => 'Секретариат',
