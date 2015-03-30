@@ -275,10 +275,10 @@ $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
 	'LBL_DAV_KEYS' => 'Синхронизация контактов',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка синхронизации контактов',
-	'LBL_AUTOLOGIN' => '__UNTRANSLATED__',
-	'LBL_AUTOLOGIN_DESCRIPTION' => '__UNTRANSLATED__',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => '__UNTRANSLATED__',
-	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_AUTOLOGIN' => 'Вход в почту',
+	'LBL_AUTOLOGIN_DESCRIPTION' => 'Здесь вы можете настроить параметры входа в почту',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Общие настройки почты',
+	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Настройка конфигурации почты в системе',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',
@@ -298,8 +298,8 @@ $languageStrings = array(
 	'Time control' => 'Учет рабочего времени',
 	"Credits"	=> 'Благодарности',
 	'LBL_PROCESSES' => 'Процесс',
-	'LBL_SALES_PROCESSES' => 'Процесс продаж',
-	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Настройка процесса продаж',
+	'LBL_SALES_PROCESSES' => 'Процессы продаж',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Настройка процессов продаж',
 	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
 );
 

@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = array(
+	'ConfReport' => 'Конфигурация сервера',
 	'LBL_PAGES_HISTORY' => 'История просмотров',
 	'Secretary\'s Office' => 'Секретариат',
 	'PLL_WORKING_TIME' => 'Время работы',
@@ -330,9 +331,9 @@ $languageStrings = array(
 	'LBL_ACTIVITY_TO'	=>	'для',
 	'LBL_ADD'=> 'Добавить',
 	'LBL_ADDED'=> 'добавил' , 
-	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Адрес доставки',
-	'LBL_ADDRESS_INFORMATION'=> 'Адрес' , 
-	'LBL_ADDRESS_MAILING_INFORMATION' => 'Адрес получения',
+	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Фактический адрес',
+	'LBL_ADDRESS_INFORMATION' => 'Юридический адрес',
+	'LBL_ADDRESS_MAILING_INFORMATION' => 'Почтовый адрес',
 	'LBL_ADD_BCC'=> 'Добавить скрытую копию', 
 	'LBL_ADD_CC' => 'Добавить копию', 
 	'LBL_ADD_COMMENT'=> 'Добавить комментарий' , 
