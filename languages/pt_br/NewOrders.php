@@ -6,15 +6,15 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'NewOrders' => 'New Orders',
-	'SINGLE_NewOrders' => 'New Orders',
+	'NewOrders' => 'Novos Pedidos',
+	'SINGLE_NewOrders' => 'Novos Pedidos',
 
 	//BLOCKS
-	'LBL_NEWORDERS_INFORMATION' => 'Basic information',
+	'LBL_NEWORDERS_INFORMATION' => 'Informação básica',
 
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
+	'LBL_SUBJECT' => 'Assunto',
 );

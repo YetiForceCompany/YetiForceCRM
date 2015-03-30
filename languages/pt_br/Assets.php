@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 14/07/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 22/02/2015
  ************************************************************************************/
 $languageStrings = array(
 	// Basic Strings
@@ -36,7 +36,7 @@ $languageStrings = array(
 	'Realization proceeding'=>'Em execução',
 	'Warranty proceeding'=>'Garantia',
 	'Delivered to Organization'=>'Entregue',
-	
+
 	//YetiForce
 	'description'=>'Descrição',
 	'attentions'=>'Atenções',
@@ -45,5 +45,5 @@ $languageStrings = array(
 	'Potential'=>'Fonte Vendas',
 	'Potential renewal'=>'Renovação Oportunidade',
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
-	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_ORDER_TIME'=>'Hora Pedido',
 );

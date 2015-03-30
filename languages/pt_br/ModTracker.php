@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 14/07/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation valmir@ttcasolucoes.com.br
  *************************************************************************************/
 
 $languageStrings = array(

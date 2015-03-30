@@ -5,46 +5,46 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array(
-	'RequirementCards' => 'Requirement Cards',
-	'SINGLE_RequirementCards' => 'Requirement Card',
-	
+	'RequirementCards' => 'Cartão de Requisitos',
+	'SINGLE_RequirementCards' => 'Cartão de Requisito',
+
 	//Bloks
-	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	
+	'LBL_REQUIREMENTCARDS_INFORMATION' => 'Informações Customizadas',
+	'LBL_CUSTOM_INFORMATION' => 'Informação Sistema',
+
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_STAGE' => 'Stage',
-	'Description' => 'Basic description',
-	'Attention' => 'Comments',
-	'LBL_NUMBER' => 'Number',
-	'Quotes Enquires' => 'Quotes enquires',
-	'LBL_CONS' => 'Disadvantages',
-	'LBL_PROS' => 'Advantages',
-	'LBL_GENERATE_CALCULATIONS' => 'Generate Calculation',
+	'LBL_SUBJECT' => 'Assunto',
+	'LBL_STAGE' => 'Estágio',
+	'Description' => 'Descrição Básica',
+	'Attention' => 'Comentários',
+	'LBL_NUMBER' => 'Número',
+	'Quotes Enquires' => 'Levantamentos Cotações',
+	'LBL_CONS' => 'Desvantagens',
+	'LBL_PROS' => 'Vantagens',
+	'LBL_GENERATE_CALCULATIONS' => 'Gerar Cálculo',
 
 	//pick list values
-	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
-	'PLL_VERIFICATION_PROCESS' => 'Verification process',
-	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Internal consultation required',
-	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'External consultation required',
-	'PLL_WAITING_FOR_ANSWER' => 'Waiting for answer',
-	'PLL_INFORMATION_COMPLETING' => 'Information completing',
-	'PLL_DECLINED' => 'Declined',
-	'PLL_CLOSED' => 'Closed',
-	'PLL_UNTYPICAL_PRODUCT' => 'Untypical product',
-	'PLL_UNTYPICAL_SERVICE' => 'Untypical service',
-	'PLL_UNTYPICAL_FINANCIAL_REQUIREMENTS' => 'Untypical financial requirements',
-	'PLL_UNTYPICAL_ADDITIONAL_REQUIREMENTS' => 'Untypical additional requirements',
-	'PLL_UNFULFILLED' => 'Unfulfilled',
-	'PLL_DIFFICULT_CONTACT' => 'Difficult contact',
-	'PLL_PRODUCT_DEVELOPMENT' => 'Product development',
-	'PLL_SERVICE_DEVELOPMENT' => 'Service development',
-	'PLL_POSSIBILITY_TO_PREPAY' => 'Possibility to prepay',
-	'PLL_POSSIBILITY_TO_ADJUST' => 'Possibility to adjust',
-	'PLL_NEW_ORGANIZATION_ORDER' => 'New organization order',
+	'PLL_WAITING_FOR_VERIFICATION' => 'Aguarda verificação',
+	'PLL_VERIFICATION_PROCESS' => 'Verificação em andamento',
+	'PLL_INTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Interna',
+	'PLL_EXTERNAL_CONSULTATION_REQUIRED' => 'Necessita Consulta Externa',
+	'PLL_WAITING_FOR_ANSWER' => 'Aguarda resposta',
+	'PLL_INFORMATION_COMPLETING' => 'Completando informação',
+	'PLL_DECLINED' => 'Rejeitado',
+	'PLL_CLOSED' => 'Fechado',
+	'PLL_UNTYPICAL_PRODUCT' => 'Produto atípico',
+	'PLL_UNTYPICAL_SERVICE' => 'Serviço atípico',
+	'PLL_UNTYPICAL_FINANCIAL_REQUIREMENTS' => 'Requisitos financeiros atipicos',
+	'PLL_UNTYPICAL_ADDITIONAL_REQUIREMENTS' => 'Requisitos adicionais atípicos',
+	'PLL_UNFULFILLED' => 'Não realizado',
+	'PLL_DIFFICULT_CONTACT' => 'Difícil contato',
+	'PLL_PRODUCT_DEVELOPMENT' => 'Desenvolvimento Produto',
+	'PLL_SERVICE_DEVELOPMENT' => 'Desenvolvimento Serviço',
+	'PLL_POSSIBILITY_TO_PREPAY' => 'Possibilidade pré-pagamento',
+	'PLL_POSSIBILITY_TO_ADJUST' => 'Possibilidade de ajuste',
+	'PLL_NEW_ORGANIZATION_ORDER' => 'Novo Pedido Organização',
 );

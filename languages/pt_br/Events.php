@@ -6,22 +6,22 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 26/04/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation
  ************************************************************************************/
 
 /* NOTE: Should be inline with Calendar language translation but few variations */
 
 $languageStrings = array(
-	'Activity Type'=> 'Tipo Atividade', 
+	'Activity Type'=> 'Tipo Atividade',
 	'Busy' => 'Ocupado',
-	'Call' => 'Chamada' , 
+	'Call' => 'Chamada' ,
 	'Daily'=>'Dia(s)',
-	'Events' => 'Eventos' , 
-	'Held' => 'Realizado', 
+	'Events' => 'Eventos' ,
+	'Held' => 'Realizado',
 	'INVITATION'=>' Convite ',
 	'LBL_ADD_RECORD' => 'Adicionar Evento' ,
 	'LBL_CALENDAR_VIEW'=> 'Visualizar Agenda' ,
-        'LBL_CREATE_FOLLOWUP_EVENT' => 'Criar Follow Up para Evento',
+  	'LBL_CREATE_FOLLOWUP_EVENT' => 'Criar Follow Up para Evento',
 	'LBL_DAY0' => 'Domingo',
 	'LBL_DAY1' => 'Segunda',
 	'LBL_DAY2' => 'Terça',
@@ -37,14 +37,14 @@ $languageStrings = array(
 	'LBL_FIRST' => 'Primeiro',
 	'LBL_HOLD_FOLLOWUP_ON' => 'Realizar Followup em',
 	'LBL_HOURS' => 'Horas' ,
-        'LBL_INVITE_USER_BLOCK' => 'Convite',
-        'LBL_INVITE_USERS' => 'Convidar Usuários',
+  	'LBL_INVITE_USER_BLOCK' => 'Convite',
+  	'LBL_INVITE_USERS' => 'Convidar Usuários',
 	'LBL_LAST' => 'Último',
 	'LBL_MONTHS_TYPE' => 'Mês(es)',
 	'LBL_ON' => 'em',
 	'LBL_RECORDS_LIST' => 'Lista Registros', //Duplicated key-value pair
 	'LBL_RECURRENCE_INFORMATION' => 'Detalhes Recorrência',
-        'LBL_RELATED_TO' => 'Relacionado à',
+  	'LBL_RELATED_TO' => 'Relacionado à',
 	'LBL_REPEATEVENT' => 'Repetir um por vez',
 	'LBL_SM_FRI' => 'Sex',
 	'LBL_SM_MON' => 'Seg',
@@ -61,13 +61,13 @@ $languageStrings = array(
 	'Meeting' => 'Reunião',
 	'Monthly'=>'Mês(es)',
 	'Not Held' => 'Não Realizado' ,
-	'Planned' => 'Planejado' , 
+	'Planned' => 'Planejado' ,
 	'Private' => 'Particular',
 	'Public' => 'Público',
 	'Recurrence' => 'Repetir', //Duplicated key-value pair
 	'Send Notification'=> 'Enviar Notificação' ,
 	'Send Reminder' => 'Enviar Lembrete' ,
-	'SINGLE_Events' => 'Evento', 
+	'SINGLE_Events' => 'Evento',
 	'Start Date & Time'=> 'Data & Hora Inicial' ,
 	'End Date & Time' => 'Data & Hora Final',
 	'Start Date &amp; Time'=>'Data & Hora Inicial',
@@ -78,10 +78,10 @@ $languageStrings = array(
 	'Mobile Call' => 'Chamada Celular',
 	'LBL_NO_DESCRIPTION'=>'Nenhuma descrição',
 	'All day' => '__No_Translated__',
-	//Priority picklist values 
-	'High' => 'Alta', 
-	'Medium' => 'Média', 
-	'Low' => 'Baixa', 
+	//Priority picklist values
+	'High' => 'Alta',
+	'Medium' => 'Média',
+	'Low' => 'Baixa',
 	'LBL_STATE' => '__No_Translated__',
 	'PLL_OPAQUE' => '__No_Translated__',
 	'PLL_TRANSPARENT' => '__No_Translated__',

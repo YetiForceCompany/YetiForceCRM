@@ -9,6 +9,8 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = array(
+	'LBL_PROJECTS_LIST' => 'Lista de Projetos',
+	'LBL_SUMMARY' => 'Resumo tempo de trabalho',
 	// Basic Strings
 	'SINGLE_Project' => 'Projeto',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
@@ -26,12 +28,12 @@ $languageStrings = array(
 	'Target Budget' => 'Orçamento Alvo',
 	'Project Url' => 'URL do Projeto',
 	'Progress' => 'Progresso',
-        'LBL_MILESTONES_LIST'          => 'Lista Milestones'             , 
-        'LBL_TASKS_HIGH'               => 'Prioridade Alta'              , 
-        'LBL_TASKS_NORMAL'             => 'Prioridade Normal'            , 
-        'LBL_TASKS_LOW'                => 'Prioridade Baixa'             , 
-        'LBL_TASKS_OTHER'              => 'Prioridade Outra'             , 
-        'LBL_SELECT_PROGRESS'          => 'Selecionar Progresso'         , 
+        'LBL_MILESTONES_LIST'          => 'Lista Milestones'             ,
+        'LBL_TASKS_HIGH'               => 'Prioridade Alta'              ,
+        'LBL_TASKS_NORMAL'             => 'Prioridade Normal'            ,
+        'LBL_TASKS_LOW'                => 'Prioridade Baixa'             ,
+        'LBL_TASKS_OTHER'              => 'Prioridade Outra'             ,
+        'LBL_SELECT_PROGRESS'          => 'Selecionar Progresso'         ,
 	'description' => 'Descrição',
 	'Related to' => 'Relacionado a',
 	//Summary Information
@@ -54,20 +56,20 @@ $languageStrings = array(
 	'PLL_INTERNAL' => 'internal',
 	'PLL_EXTERNAL' => 'external',
 	'PLL_COMMON' => 'common',
-	
+
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Baixar Arquivo',
-   
-    
+
+
 	//YetiForce
 	'Total time [Project]' => 'Tempo total [Projeto]',
 	'Total time [Project Task]' => 'Tempo total [Tarefa Projeto]',
 	'Total time [Sum]' => 'Tempo total [Soma]',
 	'Total time [Tickets]' => 'Tempo total [Chamados]',
-    
+
 	'LBL_CHARTS'=>'Gráficos',
 	'Add Project Task' => 'Adicionar Tarefa Projeto',
-	
+
 	'low'=>'baixo',
 	'normal'=>'normal',
 	'high'=>'alto',

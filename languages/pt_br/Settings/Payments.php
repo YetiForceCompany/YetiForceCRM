@@ -6,15 +6,15 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 14/07/2013 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 
 $languageStrings = array(
-	'Payments' => 'Payments',
+	'Payments' => 'Pagamentos',
     'LBL_RIGHT_CLICK_COPY' => 'Clique com lado direito do mouse e copie',
 );
 
 $jsLanguageStrings = array(
-	'JS_SAVED_SUCCESSFULLY' => 'Salvo com Sucesso',
 	'JS_DELETED_SUCCESSFULLY' => 'Excluído com Sucesso',
-);	
+	'JS_SAVED_SUCCESSFULLY' => 'Salvo com Sucesso',
+);

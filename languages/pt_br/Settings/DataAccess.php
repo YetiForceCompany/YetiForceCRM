@@ -6,7 +6,7 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. All Rights Reserved.
-*  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 13-12-2014
+*  Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_DATAACCESS' => 'Validação de acesso',
@@ -47,15 +47,15 @@ $languageStrings = array(
  	'is' => 'é',
 	'contains' => 'contém',
 	'does not contain' => 'não contém',
- 	'ends with' => 'final com',
+ 	'ends with' => 'termina com',
  	'is empty' => 'está vazio',
  	'is not empty' => 'não está vazio',
  	'equal to' => 'igual a',
  	'less than' => 'menor que',
  	'greater than' => 'maior que',
  	'does not equal' => 'diferente',
- 	'less than or equal to' => 'menor que ou igual a',
- 	'greater than or equal to' => 'maior que ou igual a',
+ 	'less than or equal to' => 'menor ou igual a',
+ 	'greater than or equal to' => 'maior ou igual a',
  	'is not' => 'não é',
  	'between' => 'entre',
  	'before' => 'antes',
@@ -70,14 +70,14 @@ $languageStrings = array(
  	'more than hours before' => 'mais que horas antes',
  	'more than hours later' => 'mais que horas depois',
  	'has changed' => 'alterado',
-	'Adding time period to status change' => 'Adding time period to status change',
-	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
-	'Date validation' => 'Date validation',
-	'Check parent task' => 'Check parent task',
-	'Check if there are any tasks that are not closed' => 'Check if there are any tasks that are not closed',
-	'Check for duplicate names' => 'Check for duplicate names',
-	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
-	'Lock edit on the status' => 'Lock edit on the status',
+	'Adding time period to status change' => 'Adicionando periodo de tempo para mudança de status',
+	'Check if there are any tasks that are not closed' => 'Verificar se existe alguma tarefa que não está fechada',
+	'Date validation' => 'Data da validação',
+	'Check parent task' => 'Verifica tarefa pai',
+	'Check if there are any tasks that are not closed' => 'Verificar se existe alguma tarefa que não esta fechada',
+	'Check for duplicate names' => 'Verificar nomes duplicados',
+	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
+	'Lock edit on the status' => 'Bloquear edição no status',
 );
 
 $jsLanguageStrings = array(
@@ -88,15 +88,15 @@ $jsLanguageStrings = array(
  	'is' => 'é',
  	'contains' => 'contém',
  	'does not contain' => 'não contém',
- 	'ends with' => 'final com',
+ 	'ends with' => 'termina com',
  	'is empty' => 'está vazio',
  	'is not empty' => 'não está vazio',
  	'equal to' => 'igual a',
  	'less than' => 'menor que',
  	'greater than' => 'maior que',
  	'does not equal' => 'diferente',
- 	'less than or equal to' => 'menor que ou igual a',
- 	'greater than or equal to' => 'maior que ou igual a',
+ 	'less than or equal to' => 'menor ou igual a',
+ 	'greater than or equal to' => 'maior ou igual a',
  	'is not' => 'não é',
  	'between' => 'entre',
  	'before' => 'antes',
@@ -110,5 +110,5 @@ $jsLanguageStrings = array(
  	'less than hours later' => 'menor que horas depois',
  	'more than hours before' => 'mais que horas antes',
  	'more than hours later' => 'mais que horas depois',
- 	'has changed' => 'Alterado',           
+ 	'has changed' => 'Alterado',
 );

@@ -21,7 +21,7 @@ $languageStrings = array(
 	'Project Task Number'=>'Número Tarefa Projeto',
 	'description'=>' Descrição',
 	'Total time [h]'=>'Tempo total [h]',
-	'Project Task No'=>'No. Tarefa Projeto',	
+	'Project Task No'=>'No. Tarefa Projeto',
 	'Project Task Name'=>'Nome Tarefa Projeto',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Detalhes Tarefa Projeto',
@@ -31,7 +31,7 @@ $languageStrings = array(
     	'low'=>'baixa',
 	'normal'=>'normal',
 	'high'=>'alta',
-    
+
 	'In Progress' => 'Em Andamento',
 	'Open'=>'Aberto',
 	'Completed' => 'Concluído',

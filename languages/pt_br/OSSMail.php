@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- *  Contributor(s): Valmir C. Trindade - Translated to Brazilian Portuguese - 24/10/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translaion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
     'OSSMail' => 'Caixa Correio',
@@ -81,10 +81,9 @@ $languageStrings = array(
     'mdn_requests_2' => 'ignorar',
     'mdn_requests_3' => 'enviar automaticamente se o remetente estiver na lista de endereço, caso contrário, perguntar para o Usuário',
     'mdn_requests_4' => 'enviar automaticamente se o remetente estiver na lista de endereço, caso contrário, ignore',
-	'LBL_SAVE' => 'Salvar configuração',    
+	'LBL_SAVE' => 'Salvar configuração',
 	'Mails List' => 'Emails mais recentes',
-	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',   
-
+	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',
 );
 
 $jsLanguageStrings = array(
@@ -130,7 +129,7 @@ $jsLanguageStrings = array(
 	'MHelpDesk' => 'Chamados',
 	'MPotentials' => 'Oportunidades',
 	'MProject' => 'Projeto',
-	
+
 	'Sale' => 'Venda',
     'Calendar' => 'Agenda',
     'Service' => 'Serviço',
@@ -162,13 +161,13 @@ $jsLanguageStrings = array(
 	'Related To HelpDesk' => 'Relacionado a Chamado',
 	'Add or related to Potentials' => 'Adicionar ou relacionar a Oportunidades',
 	'Add or related to Project' => 'Adicionar ou relacionar a Projeto',
-	'Add or related to HelpDesk' => 'Adicionar ou relacionar a Chamado', 
-	'Add or related to Leads' => 'Adicionar ou relacionar a Leads', 
-	'Add or related to Accounts' => 'Adicionar ou relacionar a Organizações', 
-	'Add or related to Contacts' => 'Adicionar ou relacionar a Contatos', 
-	'Add or related to ServiceContracts' => 'Adicionar ou relacionar a Contratos', 
-	'Add or related to Vendors' => 'Add or related to Vendor', 
-	'Related To Vendors' => 'Related To Vendors',
+	'Add or related to HelpDesk' => 'Adicionar ou relacionar a Chamado',
+	'Add or related to Leads' => 'Adicionar ou relacionar a Leads',
+	'Add or related to Accounts' => 'Adicionar ou relacionar a Organizações',
+	'Add or related to Contacts' => 'Adicionar ou relacionar a Contatos',
+	'Add or related to ServiceContracts' => 'Adicionar ou relacionar a Contratos',
+	'Add or related to Vendors' => 'Adicionar ou relacionar a Fornecedor',
+	'Related To Vendors' => 'Relacionado a Fornecedores',
 	'Related To Campaigns' => 'Relacionado a Campanhas',
 	'Related To Leads' => 'Relacionado a Leads',
 	'Related To Contacts' => 'Relacionado a Contatos',

@@ -3,10 +3,9 @@
  * Terms & Conditions are placed on the: http://opensaas.pl
  ********************************************************************************
  *  Module				: LangManagement
- *  Author				: OpenSaaS Sp. z o.o. 
- *  Help/Email			: bok@opensaas.pl
- *  Website				: www.opensaas.pl
- *  Brazilian Portuguese Translation - Valmir Carlos Trindade [valmir@ttcasolucoes.com.br] - 08-12-2014 *
+ *  Author				: OpenSaaS Sp. z o.o.
+ *  Help/Email			: bok@opensaas.pl | Website				: www.opensaas.pl
+ *  Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br*
  ********************************************************************************+*/
 $languageStrings = array(
 	'No data available in table' => 'No data available in table',
@@ -50,25 +49,24 @@ $languageStrings = array(
 	'LBL_KeyExists'	=> 'Esta variável do Idioma já existe',
 	'Export'	=> 'Exportar',
 	'LBL_SHOW_MISSING_TRANSLATIONS'	=> 'Exibir traduções faltantes',
-	'LBL_DEFAULT'	=> 'Default',
-	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Cannot make changes',
-	'LBL_EDIT'	=> 'Create & Edit',
-	'LBL_DETAIL' => 'Detail view & Summary view',
-	'LBL_QUICKCREATE' => 'Quick create',
-	'LBL_SHOW_EMPTY_VALUES' => 'Show empty values',
-	'LBL_SHOW_IN'	=> 'Show in',
-	'LBL_EDIT_HELP_ICON'	=> 'Help icons',
+	'LBL_DEFAULT'	=> 'Padrão',
+	'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES' => 'Não é possível alterar',
+	'LBL_EDIT'	=> 'Criar & Editar',
+	'LBL_DETAIL' => 'Visualização Detalhada & Resumida',
+	'LBL_QUICKCREATE' => 'Criar Rápido',
+	'LBL_SHOW_EMPTY_VALUES' => 'Exibir valores vazios',
+	'LBL_SHOW_IN'	=> 'Exibir',
+	'LBL_EDIT_HELP_ICON'	=> 'ícones de Ajuda',
 );
 $jsLanguageStrings = array(
-	'Translations' => 'Translations',
-	'Language editor' => 'Language editor',
+	'Translations' => 'Traduções',
 	'LBL_AreYouSure'	=> 'Tem certeza que deseja apagar este Idioma?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
-	'JS_DEFAULT'	=> 'Default',
+	'JS_DEFAULT'	=> 'Padrão',
 	'Delete'	=> 'Apagar',
 	'Cancel'	=> 'Cancelar',
 	'LBL_Loader'	=> 'Baixando',
 	'No matching records found'	=> 'Nenhum registro encontrado',
 	'Search'	=> 'Pesquisar:',
-	'No data available in table'	=> 'No translations',
+	'No data available in table'	=> 'Nenhuma tradução',
 );

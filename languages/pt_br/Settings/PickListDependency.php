@@ -5,11 +5,11 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 09/12/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = array(
-	'Selected Values' => 'Selected Values',
+	'Selected Values' => 'Valores Selecionados',
 	'LBL_ADD_RECORD' => 'Adicionar Dependência Lista de Opções',
 	'PickListDependency' => 'Dependência Lista Opções',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Somente valores do campo Fonte, da Lista de Opções mapeada serão exibidos a seguir (exceto na primeira vez)',
@@ -17,7 +17,7 @@ $languageStrings = array(
 	'LBL_CONFIGURE_DEPENDENCY_HELP_3' => 'Os valores selecionados do campo Alvo, são destacados como',
 	'LBL_CONFIGURE_DEPENDENCY_INFO' => 'Clique sobre a respectiva celula, para alterar o mapeamento de valores da Lista de Opções do campo alvo',
 	'LBL_ERR_CYCLIC_DEPENDENCY' => 'Esta configuração de dependência não é permitida, uma vez que acaba gerando uma dependência cíclica',
-	'LBL_PICKLIST_DEPENDENCY' => 'Dependência Lista de Opções',	
+	'LBL_PICKLIST_DEPENDENCY' => 'Dependência Lista de Opções',
 	'LBL_SELECT_FIELD' => 'Selecionar campo',
 	'LBL_SELECT_MODULE' => 'Módulo',
 	'LBL_SELECT_SOURCE_PICKLIST_VALUES' => 'Selecionar Valores da Lista de Opções Fonte',

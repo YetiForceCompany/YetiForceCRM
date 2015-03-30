@@ -5,7 +5,7 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - 26/04/2014 - www.ttcasolucoes.com.br
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  *************************************************************************************/
 $languageStrings = array(
 	'Webforms' => 'Webforms',
@@ -37,7 +37,7 @@ $languageStrings = array(
 	'LBL_EMBED_THE_FOLLOWING_FORM_IN_YOUR_WEBSITE' => 'Insira o seguinte formulário no seu website',
 	'LBL_SELECT_VALUE' => 'Selecionar Valor',
 	'LBL_LABEL' => 'rótulo',
-	'LBL_SAVE_FIELDS_ORDER' => 'Salvar ordem dos campos', 
+	'LBL_SAVE_FIELDS_ORDER' => 'Salvar ordem dos campos',
 	'LBL_HIDDEN' => 'Ocultar',
 	'LBL_ENABLE_TARGET_MODULES_FOR_WEBFORM' => 'Habilitar módulos Alvo para Webform',
 	'LBL_ASSIGN_USERS' => 'Usuário Responsável',
