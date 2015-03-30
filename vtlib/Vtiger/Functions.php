@@ -1011,49 +1011,37 @@ class Vtiger_Functions {
 	}
 	
 	function recurseDelete($src) {
-		$root_dir = vglobal('root_directory');
-		if (!file_exists($src))
+		$rootDir = vglobal('root_directory');
+		if (!file_exists($rootDir . $src))
 			return;
-		
+		$dirs = [];
 		@chmod($root_dir . $src, 0777);
-		if (is_dir($src)) {
-			$dir = new DirectoryIterator($src);
-			foreach ($dir as $fileinfo) {
-				if (!$fileinfo->isDot()) {
-					if ($fileinfo->isDir()) {
-						self::recurseDelete($fileinfo->getPathname());
-						rmdir($root_dir . $fileinfo->getPathname());
-					} else {
-						unlink($root_dir . $fileinfo->getPathname());
-					}
-				}
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isDir()) {
+				$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+			} else {
+				unlink($rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
-		} else {
-			unlink($root_dir . $src);
+		}
+		arsort($dirs);
+		foreach ($dirs as $dir) {
+			rmdir($dir);
 		}
 	}
-	
-	function recurseCopy($src, $dst, $delete = false) {
-		$root_dir = vglobal('root_directory');
-		if (!file_exists($root_dir . $src))
+
+	function recurseCopy($src, $dest, $delete = false) {
+		$rootDir = vglobal('root_directory');
+		if (!file_exists($rootDir . $src))
 			return;
 
-		$dir = new DirectoryIterator($src);
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot()) {
-				$dst = str_replace($src . DIRECTORY_SEPARATOR, '', $fileinfo->getPathname());
-				if ($fileinfo->isDir()) {
-					if (!file_exists($root_dir . $dst))
-						mkdir($root_dir . $dst);
-					self::recurseCopy($fileinfo->getPathname(), $dst, $delete);
-					if ($delete)
-						rmdir($root_dir . $fileinfo->getPathname());
-				}else {
-					copy($root_dir . $fileinfo->getPathname(), $root_dir . $dst);
-					if ($delete)
-						unlink($root_dir . $fileinfo->getPathname());
-				}
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isDir()) {
+				mkdir($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+			} else {
+				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
 			}
 		}
+		
 	}
+
 }
