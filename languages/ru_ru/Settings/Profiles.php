@@ -42,6 +42,7 @@ $languageStrings = array(
 	'SINGLE_Profiles' => 'Профиль',
 	'Name' => 'Название профиля',
 
+	//Actions
 	'Import' => 'Импортировать записи',
 	'Export' => 'Экспортировать записи',
 	'Merge'  => 'Объединять записи',
@@ -54,8 +55,14 @@ $languageStrings = array(
 	'DuplicateRecord'  => 'Дублировать записи',
 	'EditableComments'  => 'Редактировать комментарии',
 	'TagCloud' => 'Теги',
+	'MassEdit' => '__UNTRANSLATED__',
+	'MassDelete' => '__UNTRANSLATED__',
+	'MassAddComment' => '__UNTRANSLATED__',
+	'MassComposeEmail' => '__UNTRANSLATED__',
+	'MassSendSMS' => '__UNTRANSLATED__',
+	'MassTransferOwnership' => '__UNTRANSLATED__',
+	'MassMoveDocuments' => '__UNTRANSLATED__',
 );
-
 $jsLanguageStrings = array(
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',
 );

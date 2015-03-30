@@ -99,8 +99,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
-		$massActionLinks = array();
-		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
+		$massActionLinks = [];
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassEdit')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
@@ -108,7 +108,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 				'linkicon' => ''
 			);
 		}
-		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
@@ -118,7 +118,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 		}
 
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
-		if($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView')) {
+		if($moduleModel->isCommentEnabled() && $modCommentsModel->isPermitted('EditView') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassAddComment')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
@@ -127,6 +127,15 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 			);
 		}
 
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassTransferOwnership')) {
+			$massActionLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
+				'linkicon' => ''
+			);
+		}
+		
 		if ( $linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && is_admin($currentUserModel) ) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -139,7 +148,6 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 		foreach($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
-
 		return $links;
 	}
 
