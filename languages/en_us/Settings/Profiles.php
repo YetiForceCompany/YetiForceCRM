@@ -41,6 +41,7 @@ $languageStrings = array(
 	'SINGLE_Profiles' => 'Profile',
 	'Name' => 'Profile Name',
 
+	//Actions
 	'Import' => 'Import',
 	'Export' => 'Export',
 	'Merge'  => 'Merge',
@@ -53,8 +54,14 @@ $languageStrings = array(
 	'DuplicateRecord'  => 'Duplicating',
 	'EditableComments'  => 'Edit comments',
 	'TagCloud' => 'Tags cloud',
+	'MassEdit' => '__UNTRANSLATED__',
+	'MassDelete' => '__UNTRANSLATED__',
+	'MassAddComment' => '__UNTRANSLATED__',
+	'MassComposeEmail' => '__UNTRANSLATED__',
+	'MassSendSMS' => '__UNTRANSLATED__',
+	'MassTransferOwnership' => '__UNTRANSLATED__',
+	'MassMoveDocuments' => '__UNTRANSLATED__',
 );
-
 $jsLanguageStrings = array(
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',
 );

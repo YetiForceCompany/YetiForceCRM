@@ -40,19 +40,27 @@ $languageStrings = array(
 	'Profiles' => 'Profile',
 	'SINGLE_Profiles' => 'Profil',
 	'Name' => 'Name',
-   'Import' => 'Importieren',
-   'Export' => 'Exportieren',
+	
+	//Actions
+	'Import' => 'Importieren',
+	'Export' => 'Exportieren',
 	'Merge'  => 'Zusammenführen',
-   'ConvertLead' => 'Lead konvertieren',
-   'DuplicatesHandling' => 'Duplikatbearbeitung',
-   'ReceiveIncomingCalls' => 'Eingehende Anrufe',
-   'MakeOutgoingCalls' => 'Abgehende Anrufe',
-   'Print' => 'Drucken',
+	'ConvertLead' => 'Lead konvertieren',
+	'DuplicatesHandling' => 'Duplikatbearbeitung',
+	'ReceiveIncomingCalls' => 'Eingehende Anrufe',
+	'MakeOutgoingCalls' => 'Abgehende Anrufe',
+	'Print' => 'Drucken',
 	'DuplicateRecord'  => 'Duplizieren',
 	'EditableComments' => 'Kommentar bearbeiten',
 	'TagCloud' => 'Tag Wolke',
+	'MassEdit' => '__UNTRANSLATED__',
+	'MassDelete' => '__UNTRANSLATED__',
+	'MassAddComment' => '__UNTRANSLATED__',
+	'MassComposeEmail' => '__UNTRANSLATED__',
+	'MassSendSMS' => '__UNTRANSLATED__',
+	'MassTransferOwnership' => '__UNTRANSLATED__',
+	'MassMoveDocuments' => '__UNTRANSLATED__',
 );
-
 $jsLanguageStrings = array(
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil erfolgreich gelöscht',
 );

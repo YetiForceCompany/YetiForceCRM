@@ -20,8 +20,8 @@ $languageStrings = array(
 	'LBL_DUPLICATE_RECORD' => 'Duplikuj',
 	'LBL_DUPLICATES_EXIST' => 'Duplikuj istniejący profil',
 	'LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE' => 'Edytuj uprawnienia do profilu',
-        'LBL_EDIT_ALL_DESC' => 'Po zaznaczeniu tej opcji wszystkie moduły będą miały włączoną opcję: Tworzenie/Edycja.',
-        'LBL_EDIT_ALL' => ' Edycja wszystkich modułów',
+	'LBL_EDIT_ALL_DESC' => 'Po zaznaczeniu tej opcji wszystkie moduły będą miały włączoną opcję: Tworzenie/Edycja.',
+	'LBL_EDIT_ALL' => ' Edycja wszystkich modułów',
 	'LBL_EDIT_PRIVILIGE' => 'Tworzenie/Edycja',
 	'LBL_EDIT_RECORD' => 'Edytuj',
 	'LBL_FIELD_AND_TOOL_PRVILIGES' => 'Uprawnienia do pól i narzędzi',
@@ -41,6 +41,8 @@ $languageStrings = array(
 	'Profiles' => 'Profile',
 	'SINGLE_Profiles' => 'Profil',
 	'Name' => 'Nazwa',
+	
+	//Actions
 	'Import' => 'Import',
 	'Export' => 'Eksport',
 	'DuplicatesHandling' => 'Obsługa duplikatów',
@@ -53,8 +55,14 @@ $languageStrings = array(
 	'DuplicateRecord'  => 'Tworzenie duplikatów',
 	'EditableComments'  => 'Edycja komentarzy',
 	'TagCloud' => 'Chmura tagów',
+	'MassEdit' => 'Masowa edycja',
+	'MassDelete' => 'Masowe usuwanie',
+	'MassAddComment' => 'Masowe dodawanie komentarzy',
+	'MassComposeEmail' => 'Masowe wysyłanie maili',
+	'MassSendSMS' => 'Masowe wysyłanie SMS-ów',
+	'MassTransferOwnership' => 'Masowa zmiana właściciela',
+	'MassMoveDocuments' => 'Masowa zmiana katalogu',
 );
-
 $jsLanguageStrings = array(
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
 );
