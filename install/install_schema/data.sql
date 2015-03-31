@@ -20943,6 +20943,8 @@ insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailIcon','true');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','timeCheckingMail','30');
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('autologin','autologinActive','false');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('signature','signature','');
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('signature','addSignature','false');
 
 /*Data for the table `yetiforce_mail_quantities` */
 
