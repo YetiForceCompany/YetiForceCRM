@@ -24,7 +24,7 @@ require_once("modules/Users/Users.php");
 class VTCreateTodoTask extends VTTask{
 	public $executeImmediately = true;
 
-	public function getFieldNames(){return array('todo', 'description', 'sendNotification', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days');}
+	public function getFieldNames(){return array('todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate');}
 
 	function getAdmin(){
 		$user = Users::getActiveAdminUser();
@@ -38,10 +38,34 @@ class VTCreateTodoTask extends VTTask{
 		if(!vtlib_isModuleActive('Calendar')) {
 			return;
 		}
-		global $adb, $current_user;
+		global $adb, $log, $current_user;
 		$userId = $entityData->get('assigned_user_id');
 		if($userId===null){
 			$userId = vtws_getWebserviceEntityId('Users', 1);
+		}
+		$moduleName = $entityData->getModuleName();
+		$adminUser = $this->getAdmin();
+		$id = $entityData->getId();
+		if($this->doNotDuplicate == 'true'){
+			$parts = explode('x', $id);
+			$entityId = $parts[1];
+			if($moduleName=='Contacts'){
+				$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
+					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
+					LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid 
+					WHERE vtiger_crmentity.deleted = 0 AND vtiger_cntactivityrel.contactid = ? AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+			}else{
+				$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
+					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
+					LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid 
+					WHERE vtiger_crmentity.deleted = 0 AND vtiger_seactivityrel.crmid = ? AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+			}
+			$duplicates = $adb->pquery($sql, [$entityId, 'Task', $this->todo]);
+			$num = $adb->query_result_raw($duplicates, 0, 'num');
+			if($num > 0){
+				$log->warn(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.'.$this->todo);
+				return;
+			}
 		}
 		//
 		$baseDateStart = $entityData->get($this->datefield_start);
@@ -111,9 +135,6 @@ class VTCreateTodoTask extends VTTask{
 			'visibility'=>'Private',
 			'eventstatus'=>''
 		);
-		$moduleName = $entityData->getModuleName();
-		$adminUser = $this->getAdmin();
-		$id = $entityData->getId();
 		if($moduleName=='Contacts'){
 			$fields['contact_id'] = $id;
 		}else{

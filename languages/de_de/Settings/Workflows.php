@@ -122,6 +122,7 @@ $languageStrings = array(
 	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',
 	'LBL_ALL_TASKS' => 'Alle Aufgaben',
 	'LBL_ACTIVE_TASKS' => 'Aktive Aufgaben',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Do not duplicate records',
 	
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',

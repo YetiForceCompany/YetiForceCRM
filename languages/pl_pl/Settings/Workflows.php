@@ -123,6 +123,7 @@ $languageStrings = array(
 	'LBL_DEACTIVATION_TASKS' => 'Dezaktywuj zadnia', 
 	'LBL_ALL_TASKS' => 'Liczba zadań', 
 	'LBL_ACTIVE_TASKS' => 'Aktywnych zadań', 
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Nie powielaj rekordów',
 	
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
