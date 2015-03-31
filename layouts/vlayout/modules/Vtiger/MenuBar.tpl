@@ -344,10 +344,10 @@
 							<div class="btn-group pull-right" style="margin-top: 0;">
 								{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
 								<a class="btn btn-small mainMail" href="index.php?module=OSSMail&view=index">{$MAIN_MAIL.username} <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
-								<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
-									<span class="caret"></span>
-								</button>
 								{if $CONFIG['showMailAccounts']=='true'}
+									<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+										<span class="caret"></span>
+									</button>
 									<ul class="dropdown-menu">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<li data-id="{$KEY}" {if $ITEM.active}selested{/if}><a href="#">{$ITEM.username} <span class="noMails"></span></a></li>
