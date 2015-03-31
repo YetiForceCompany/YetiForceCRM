@@ -310,7 +310,7 @@ $languageStrings = array(
 
 	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
 	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
-	'Approval for email'=>'Permission to send emails',
+	'Approval for email'=>'Berechtigung zum Senden von Mails',
 );
 
 $jsLanguageStrings = array(

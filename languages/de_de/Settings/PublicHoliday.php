@@ -11,7 +11,7 @@
 $languageStrings = array(
 	'PublicHoliday'															=> 'Feiertage',
 	'LBL_PUBLIC_HOLIDAY'													=> 'Feiertage',
-	'LBL_PUBLIC_HOLIDAY_DESCRIPTION'										=> ' ',
+	'LBL_PUBLIC_HOLIDAY_DESCRIPTION'										=> 'Pflege von Feiertagen',
 	'LBL_ADD_HOLIDAY'														=> 'Feiertag hinzufügen',
 	'LBL_HOLIDAY_LIST'														=> 'Feiertage',
 	'LBL_YEAR_FROM'															=> 'Von',
