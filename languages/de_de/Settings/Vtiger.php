@@ -255,10 +255,10 @@ $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Nach Organisation konvertieren',
 	'LBL_DAV_KEYS' => 'DAV Schlüssel',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Verwaltung von DAV Schlüssln',
-	'LBL_AUTOLOGIN' => '__UNTRANSLATED__',
-	'LBL_AUTOLOGIN_DESCRIPTION' => '__UNTRANSLATED__',
-	'LBL_MAIL_GENERAL_CONFIGURATION' => '__UNTRANSLATED__',
-	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => '__UNTRANSLATED__',
+	'LBL_AUTOLOGIN' => 'Auto Login',
+	'LBL_AUTOLOGIN_DESCRIPTION' => 'Configuration of auto login for the Email module',
+	'LBL_MAIL_GENERAL_CONFIGURATION' => 'General configuration',
+	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'General configuration of the Email module',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

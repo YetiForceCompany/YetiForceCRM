@@ -86,16 +86,16 @@ $languageStrings = array(
 	'Tree' => 'Field of trees',
 	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	
-	'LBL_ADD_RELATION' => '_UNTRANSLATED_',
-	'LBL_RELATION_TYPE' => '_UNTRANSLATED_',
-	'LBL_RELATION_ACTIONS' => '_UNTRANSLATED_',
-	'LBL_SOURCE_MODULE' => '_UNTRANSLATED_',
-	'LBL_TARGET_MODULE' => '_UNTRANSLATED_',
-	'LBL_RELATION_LABLE' => '_UNTRANSLATED_',
-	'PLL_RELATED_LIST' => '_UNTRANSLATED_',
-	'PLL_DEPENDENTS_LIST' => '_UNTRANSLATED_',
-	'PLL_ADD' => '_UNTRANSLATED_',
-	'PLL_SELECT' => '_UNTRANSLATED_',
+	'LBL_ADD_RELATION' => 'Add relation',
+	'LBL_RELATION_TYPE' => 'Relation type',
+	'LBL_RELATION_ACTIONS' => 'Actions',
+	'LBL_SOURCE_MODULE' => 'Source module',
+	'LBL_TARGET_MODULE' => 'Target module',
+	'LBL_RELATION_LABLE' => 'Label',
+	'PLL_RELATED_LIST' => 'Many to many',
+	'PLL_DEPENDENTS_LIST' => 'One to many',
+	'PLL_ADD' => 'Add',
+	'PLL_SELECT' => 'Select',
 );
 
 $jsLanguageStrings = array(
