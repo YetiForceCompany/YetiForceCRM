@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'SINGLE_Reservations' => 'Резервация',
-	'Reservations' => 'Резервация',
-	'LBL_MAIN_INFORMATION' => 'Информация о Резервации',
+	'SINGLE_Reservations' => 'Бронирование',
+	'Reservations' => 'Бронирование',
+	'LBL_MAIN_INFORMATION' => 'Информация о Бронировании',
 	'LBL_BLOCK' => 'Связан с',
 	'LBL_TOTAL_TIME' => 'Всего времени',
 	'LBL_STATUS' => 'Статус',
@@ -23,7 +23,7 @@ $languageStrings = array(
 	'LBL_END_TIME' => 'Время окончания',
 	'LBL_NUM' => 'Номер',
 	'LBL_CALENDAR_VIEW' => 'Календарь',
-	'LBL_RESERVATIONS_TYPE' => 'Тип Резервации',
+	'LBL_RESERVATIONS_TYPE' => 'Тип Бронирования',
 	'LBL_STATUS' => 'Статус',
 	'PLL_ACCEPTED' => 'Для утверждения',
 	'PLL_TO_APPROVAL' => 'Принято',

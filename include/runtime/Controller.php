@@ -125,7 +125,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	}
 
 	function getPageTitle(Vtiger_Request $request) {
-		return vtranslate($request->getModule(), $request->get('module'));
+		$title = $request->getModule();
+		return $title=='Vtiger'?'YetiForce':$title;
 	}
 
 	function preProcess(Vtiger_Request $request, $display=true) {
