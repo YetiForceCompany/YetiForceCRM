@@ -115,10 +115,16 @@
 				</select>&nbsp;<span style="vertical-align: super">({vtranslate('LBL_THE_SAME_VALUE_IS_USED_FOR_START_DATE',$QUALIFIED_MODULE)})</span>
 			</span>
 		</div>
-		<div class="row-fluid">
+		<div class="row-fluid padding-bottom1per">
 			<span class="span2">{vtranslate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
 			<div class="span6">
 				<input  type="checkbox" name="sendNotification" value="true" {if $TASK_OBJECT->sendNotification}checked{/if} />
+			</div>
+		</div>
+		<div class="row-fluid">
+			<span class="span2">{vtranslate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
+			<div class="span6">
+				<input  type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
 			</div>
 		</div>
 	</div>

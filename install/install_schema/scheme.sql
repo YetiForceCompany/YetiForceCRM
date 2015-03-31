@@ -7185,7 +7185,6 @@ CREATE TABLE `vtiger_users` (
   `modified_user_id` varchar(36) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
-  `signature` text,
   `user_preferences` text,
   `tz` varchar(30) DEFAULT NULL,
   `holidays` varchar(60) DEFAULT NULL,
