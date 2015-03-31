@@ -252,7 +252,7 @@ $languageStrings = array(
 	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
 	'LBL_DAV_KEYS' => '__No_Translated__',
-	'LBL_DAV_KEYS_DESCRIPTION' => '__No_Translated__',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
