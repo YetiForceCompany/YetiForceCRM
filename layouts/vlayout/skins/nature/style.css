@@ -47,6 +47,7 @@ hr {
 }
 .navbar.navbar-fixed-top {
   margin-bottom: 0 !important;
+  z-index: 1;
 }
 .navbar.navbar-fixed-top #topMenus {
   margin-bottom: 0 !important;
@@ -3327,4 +3328,7 @@ td.listViewEntryValue .row-fluid input {
 }
 .tag {
 float: right !important;   
+}
+.fc-more-popover{
+  z-index: 100;
 }
