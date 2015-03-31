@@ -100,22 +100,38 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {
 
 			var updatedBlock = contents.find('.block');
 			var firstBlockSortFields = updatedBlock.find('ul[name=sortable1]');
-			var editFields = firstBlockSortFields.find('.editFields');
+			var tmpArray = []
+			firstBlockSortFields.each(function(i,domElement){	
+				var fieldEle = jQuery(domElement);			
+				var eleAmount = fieldEle.find('.editFields').length;	
+				tmpArray.push(eleAmount)
+			});	
+			var editFields = firstBlockSortFields.find('.editFields');			
 			var expectedFieldSequence = 1;
-			editFields.each(function(i,domElement){
+			editFields.each(function(i,domElement){						
 				var fieldEle = jQuery(domElement);
 				var fieldId = fieldEle.data('fieldId');
 				thisInstance.updatedBlockFieldsList.push({'fieldid' : fieldId,'sequence' : expectedFieldSequence});
 				expectedFieldSequence = expectedFieldSequence+2;
+				if(i == tmpArray[0]-1)
+					expectedFieldSequence = 1;
 			});
 			var secondBlockSortFields = updatedBlock.find('ul[name=sortable2]');
 			var secondEditFields = secondBlockSortFields.find('.editFields');
 			var sequenceValue = 2;
+			var tmpArray = []
+			secondBlockSortFields.each(function(i,domElement){	
+				var fieldEle = jQuery(domElement);			
+				var eleAmount = fieldEle.find('.editFields').length;	
+				tmpArray.push(eleAmount)
+			});
 			secondEditFields.each(function(i,domElement){
 				var fieldEle = jQuery(domElement);
 				var fieldId = fieldEle.data('fieldId');
 				thisInstance.updatedBlockFieldsList.push({'fieldid' : fieldId,'sequence' : sequenceValue});
 				sequenceValue = sequenceValue+2;
+				if(i == tmpArray[0]-1)
+					sequenceValue = 2;
 			});
 	},
 
