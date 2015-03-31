@@ -13,10 +13,9 @@ class OSSMail_checkMails_Action extends Vtiger_Action_Controller {
 		return;
 	}
 	public function process(Vtiger_Request $request) {
-		$user = $request->get('users');
+		$users = $request->get('users');
 		$output = [];
-		if($user != ''){
-			$users = explode(',', $user);
+		if(count($users) > 0) {
 			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
 			$output = OSSMail_Record_Model::getMailBoxmsgInfo($users);
 		}
