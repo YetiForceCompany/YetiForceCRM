@@ -12,26 +12,54 @@
 <div class="dashboardWidgetHeader">
 	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
-<div class="dashboardWidgetContent">
-	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
+<div class='dashboardWidgetContent' id="openTicketdWidgetContent" style="height:85%">
+	{include file="dashboards/OpenTicketsContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+<style>
+#openTicketContainer{
+	display:block;
+	width:80%;
+} 
+</style>
 
 <script type="text/javascript">
-	Vtiger_Pie_Widget_Js('Vtiger_Opentickets_Widget_Js',{},{
-		/**
-		 * Function which will give chart related Data
-		 */
+	Vtiger_OpenTicketPieChart_Widget_Js('Vtiger_Opentickets_Widget_Js',{},{		 
 		generateData : function() {
-			var container = this.getContainer();
+			this.preLoadWidget();
+			var container = this.getContainer();		
 			var jData = container.find('.widgetData').val();
 			var data = JSON.parse(jData);
 			var chartData = [];
+			var links = [];
 			for(var index in data) {
 				var row = data[index];
-				var rowData = [row.name, parseInt(row.count), row.id];
+				{literal}
+				var rowData = {'value' : parseInt(row[0]),  'color' : row.color};
+				var link = {'color' : row.color, 'link' : row.links};
+				{/literal}
 				chartData.push(rowData);
+				links.push(link);
 			}
-			return {literal}{'chartData':chartData}{/literal};
+
+			return {literal}{'chartData':chartData, 'links':links}{/literal};
+		},
+		preLoadWidget: function(){
+			var container = this.getContainer();
+			var h = container.find('#openTicketdWidgetContent').height();
+			var newHeight = h * 90  / 100;
+			container.find('#openTicketContainer').css('height', newHeight);
+
+			var c = container.find('#openTicketsChart');
+			var ct = c.get(0).getContext('2d');
+			var container = $(c).parent();
+	 
+			$(window).resize( respondCanvas );
+
+			function respondCanvas(){ 
+				c.attr('width', $(container).width() ); //max width
+				c.attr('height', $(container).height() ); //max height
+			}	
+			respondCanvas();
 		}
 	});
 </script>

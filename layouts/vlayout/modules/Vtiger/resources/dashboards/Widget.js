@@ -820,3 +820,25 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js',{},{
 		});
 	}
 });
+
+Vtiger_Widget_Js('Vtiger_OpenTicketPieChart_Widget_Js',{},{
+	loadChart : function() {
+		var chartOptions = {
+			segmentShowStroke : false,
+			animation: false,
+		}	
+		var data = this.generateData();
+		var openTicketsChartElement = document.getElementById("openTicketsChart").getContext("2d");
+		var openTicketsChart = new Chart(openTicketsChartElement).Pie(data.chartData, chartOptions);
+		$("#openTicketsChart").click(function(evt){
+			var activePoints = openTicketsChart.getSegmentsAtEvent(evt);
+			var color = activePoints[0].fillColor;  
+				$(data.links).each(function(){
+					if(color == this.color)
+						window.location.href = this.link;
+				}) 
+			}
+		);
+	},
+});
+

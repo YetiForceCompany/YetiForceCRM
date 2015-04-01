@@ -257,6 +257,7 @@ $languageStrings = array(
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Konfiguracja automatycznego logowania do modułu poczty',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Konfiguracja ogólna',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Ogólna konfiguracja poczty w systemie',
+	'LBL_SUPPORT_PROCESSES' => 'Procesy wsparcia',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

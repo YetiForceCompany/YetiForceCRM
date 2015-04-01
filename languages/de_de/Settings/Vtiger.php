@@ -259,6 +259,7 @@ $languageStrings = array(
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Configuration of auto login for the Email module',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'General configuration',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'General configuration of the Email module',
+	'LBL_SUPPORT_PROCESSES' => 'Support processes',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
