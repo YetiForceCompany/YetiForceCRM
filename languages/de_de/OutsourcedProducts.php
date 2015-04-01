@@ -20,7 +20,7 @@ $languageStrings = array(
 	'LBL_INFORMATION' => 'Ausgelagerte Produkte',
 
 	//Field Labels
-	'Assigned To' => 'Zugewiesen an',
+	'Assigned To' => 'zuständig',
 	'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
 	'LBL_osservicesstatus' => 'Status',
 	'Individual Agreement' => 'Individuelle Vereinbarung',

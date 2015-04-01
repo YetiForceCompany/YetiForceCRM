@@ -64,7 +64,7 @@ $languageStrings = array(
 	'Normal'                => 'normal'                      , 
 	'Open'                  => 'offen'                       , 
 	'Other Problem'         => 'anderes Problem'             , 
-	'Related To' 		=> 'zugeordnet',
+	'Related To' 		=> 'Bezogen auf',
 	'replied' 		=> 'beantwortet.',
 	'reply' 		=> 'Es gibt eine Antwort zu Ihrem Anliegen ',
 	'Re' 			=> 'Re :',
@@ -89,7 +89,7 @@ $languageStrings = array(
 	'Rejected'		=>	'Abgelehnt',
 	'Answered'		=>	'Beantwortet',
 	'P&S Sold'=>'Produkt/Dienstleistung verkauft',
-	'LBL_VIEW_FINDDUPLICATES'=> 'Find Duplicates',
+	'LBL_VIEW_FINDDUPLICATES'=> 'Dubletten finden',
 	'Record Id' => 'Record Id',
 	
 	//notifications translation 
