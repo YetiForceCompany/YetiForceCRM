@@ -18,7 +18,7 @@ $languageStrings = array(
 	'LBL_RECORDS_LIST' => 'Liste Dienstleistungen',
 
 //fields
-	'Assigned To' => 'Zugewiesen an',
+	'Assigned To' => 'zuständig',
 'LBL_osservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',
 'In service' => 'Wird unterstützt',

@@ -13,6 +13,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		parent::__construct();
 		$this->exposeMethod('updateUsers');
 		$this->exposeMethod('updateConfig');
+		$this->exposeMethod('updateSignature');
 	}
 	public function updateUsers(Vtiger_Request $request) {
 		$id = $request->get('id');
@@ -35,6 +36,17 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_SAVED_CHANGES',$request->getModule(false))
+		));
+		$response->emit();
+	}
+	
+	public function updateSignature(Vtiger_Request $request) {
+		$val = $request->get('val');
+		Settings_Mail_Config_Model::updateConfig('signature', $val, 'signature');
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVED_SIGNATURE',$request->getModule(false))
 		));
 		$response->emit();
 	}
