@@ -21,7 +21,7 @@ $languageStrings = array(
 //fields
 'Invoice number' => 'Rechnungs-Nr.',
 'Number' => 'Nummer',
-'Assigned To' => 'Zuständig',
+'Assigned To' => 'zuständig',
 'LBL_RODZAJUMOWY' => 'Art der Vereinbarung',
 'LBL_ssservicesstatus' => 'Status',
 'Individual Agreement' => 'Individuelle Vereinbarung',

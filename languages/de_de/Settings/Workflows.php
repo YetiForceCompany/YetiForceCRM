@@ -33,7 +33,7 @@ $languageStrings = array(
 	'LBL_EXAMPLE_RAWTEXT' => 'Rohtext',
 	'LBL_EXECUTE_TASK' => 'Aufgabe ausführen',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-	'LBL_EXPRESSION' => 'Expression',
+	'LBL_EXPRESSION' => 'Ausdruck',
 	'LBL_FIELD_NAME' => 'Feld',
 	'LBL_FINISH' => 'Ende',
 	'LBL_IN_ACTIVE' => 'Inaktiv',

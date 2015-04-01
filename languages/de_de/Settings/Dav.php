@@ -28,8 +28,8 @@ $languageStrings = array(
 	'LBL_ACTIVE_USER' => 'Anwenderstatus',
 	'LBL_KEY_HAS_BEEN_REMOVED' => 'Schlüssel wurde gelöscht',
 	'LBL_SELECT_TYPE' => 'Typ',
-	'LBL_COUNT_CARD' => 'Number of contacts',
-	'LBL_COUNT_CAL' => 'Number of events',
+	'LBL_COUNT_CARD' => 'Anzahl von Kontakten',
+	'LBL_COUNT_CAL' => 'Anzahl von Ereignissen',
 );
 $jsLanguageStrings = array(
 	'Adding a Key' => 'Schlüssel hinzufügen',

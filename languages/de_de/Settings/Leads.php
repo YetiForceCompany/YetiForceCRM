@@ -65,6 +65,6 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'mit',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
-	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
-	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
+	'JS_CONVERSION_STATE_SUCCES' => 'Konvertierung erfolgreich',
+	'JS_CONVERSION_STATE_FAILURE' => 'Konvertierung abgebrochen',
 );

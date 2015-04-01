@@ -9,8 +9,8 @@
  ********************************************************************************+*/
 $languageStrings = array(
 	'No data available in table' => 'Keine Daten in Tabelle verfügbar',
-	'Translations' => 'Translations',
-	'Language editor' => 'Language editor',
+	'Translations' => 'Übersetzungen',
+	'Language editor' => 'Sprachen Editor',
 	'LangManagement' => 'Sprachen Management',
 	'LBL_Module_desc' => 'Dieses Tool hilft Übersetzungen innerhalb des Systems zu ändern und zu verwalten.',
 	'LBL_TAB_LIST' => 'Verfügbare Sprachen',
@@ -59,7 +59,7 @@ $languageStrings = array(
 	'LBL_EDIT_HELP_ICON'	=> 'Hilfe Icons',
 );
 $jsLanguageStrings = array(
-	'Translations' => 'Translations',
+	'Translations' => 'Übersetzungen',
 	'Language editor' => 'Spracheneditor',
 	'LBL_AreYouSure'	=> 'Sind Sie sicher, dass Sie diese Sprache löschen möchten?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Sie Sie sicher, dass Sie die Standardsprache ändern möchten?',
