@@ -17,7 +17,6 @@
 </style>
 <ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs" style="margin: 20px;">
     <li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
-	<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', 'OSSMail')}</a></li>
 </ul>
 <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
     <div class="editViewContainer tab-pane active" id="tab_rc_config">
@@ -58,10 +57,7 @@
 
         </form>
     </div>
-    {* check config module *}
-    <div class='editViewContainer tab-pane' id="check_config">
-		<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
-    </div>
+    
 </div>
 <script type="text/javascript">
 $('#status').change(function() {

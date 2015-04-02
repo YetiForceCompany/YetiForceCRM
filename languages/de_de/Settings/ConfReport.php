@@ -14,7 +14,7 @@ $languageStrings = array(
 	'LBL_PARAMETER' => 'Parameter',
 	'LBL_VALUE' => 'Aktuelle Konfiguration',
 	'LBL_RECOMMENDED' => 'Empfohlene Konfiguration',
-	'LBL_FILES_PERMISSIONS' => 'Dateiberechtigungen',
+	'LBL_FILES_PERMISSIONS' => 'Files/Folders',
 	'LBL_FILE' => 'Name',
 	'LBL_PATH' => 'Pfad',
 	'LBL_PERMISSION' => 'Berechtigung',
@@ -24,5 +24,7 @@ $languageStrings = array(
 	'LBL_CONFREPORT_DESCRIPTION' => 'Zeigt die aktuelle Konfiguration des Servers im Vergleich zur empfohlenen Konfiguration.',
 	'On' => 'Ein',
 	'Off' => 'Aus',
-	'NOT RECOMMENDED' => 'Nicht empfohlen'
+	'NOT RECOMMENDED' => 'Nicht empfohlen',
+	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
+	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
 );

@@ -15,7 +15,7 @@ $languageStrings = array(
 	'LBL_PARAMETER' => 'Parameter',
 	'LBL_VALUE' => 'Current configuration',
 	'LBL_RECOMMENDED' => 'Recommended configuration',
-	'LBL_FILES_PERMISSIONS' => 'Files permissions',
+	'LBL_FILES_PERMISSIONS' => 'Files/Folders',
 	'LBL_FILE' => 'Name',
 	'LBL_PATH' => 'Path',
 	'LBL_PERMISSION' => 'Permission',	
@@ -23,5 +23,7 @@ $languageStrings = array(
 	'LBL_FAILED_PERMISSION' => 'Not allowed',	
 	'On' => 'On',
 	'Off' => 'Off',
-	'NOT RECOMMENDED' => 'Not Recommended'
+	'NOT RECOMMENDED' => 'Not Recommended',
+	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
+	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
 );
