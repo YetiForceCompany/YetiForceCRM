@@ -878,6 +878,7 @@ $languageStrings = array(
 	'LBL_VIEW_EDIT' => 'Edycja',
 	'LBL_VIEW_DETAIL' => 'Podgląd',
 	'LBL_VIEW_LIST' => 'Lista',
+	'LBL_VIEW_DASHBOARD' => 'Podsumowanie',
 	'LBL_VIEW_CALENDAR' => 'Kalendarz graficzny',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Kalendarz wspólny',
 	'LBL_VIEW_COMPOSE' => 'Tworzenie e-maila',

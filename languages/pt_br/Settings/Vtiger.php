@@ -249,11 +249,12 @@ $languageStrings = array(
 	'LBL_PUBLIC_HOLIDAY' => 'Feriados Públicos',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Gerenciar Feriados Públicos ',
 	'LBL_USER_COLORS' => 'Cores Usuários',
-	'LBL_USER_COLORS_DESCRIPTION' => '__No_Translated__',
+	'LBL_USER_COLORS_DESCRIPTION' => 'Descrição cores Usuário',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
-	'LBL_DAV_KEYS' => '__No_Translated__',
-	'LBL_DAV_KEYS_DESCRIPTION' => 'Create and manage DAV keys',
+	'LBL_DAV_KEYS' => 'Chaves DAV',
+	'LBL_DAV_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves DAV',
 	'LBL_SUPPORT_PROCESSES' => 'Support processes',
+	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',

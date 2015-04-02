@@ -40,7 +40,7 @@ $languageStrings = array(
 	'Paid' => 'Pago',
 	'Free' => 'Gratuíto',
 	'LBL_CALENDAR_VIEW' => 'Agenda',
-	'LBL_TIMECONTROL_TYPE' => 'Type',
+	'LBL_TIMECONTROL_TYPE' => 'Tipo',
 
 	// Settings
 	'SETTINGS' => 'Configurações',

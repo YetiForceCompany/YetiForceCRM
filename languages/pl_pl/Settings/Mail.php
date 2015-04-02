@@ -24,6 +24,6 @@ $languageStrings = array(
 	'LBL_MAIL_ICON_CONFIG' => 'Ikona poczty',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Czy włączyć automatyczne logowanie do poczty?',
 	'LBL_ADD_SIGNATURE' => 'Aktywuj globalną stopkę dla wszystkich maili wychodzących',
-	'LBL_SIGNATURE' => 'Podpis',
+	'LBL_SIGNATURE' => 'Podpis globalny',
 	'LBL_SAVED_SIGNATURE' => 'Zmieniono podpis',
 );

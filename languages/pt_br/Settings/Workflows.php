@@ -132,17 +132,17 @@ $languageStrings = array(
 	'LBL_CHOOSE_DATE' => 'Escolha data:',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Dia e Mês selecionados:',
 	'LBL_SELECTED_DATES' => 'Datas selecionadas:',
-	'LBL_ACTIVATION_TASKS' => 'Activate Tasks',
-	'LBL_DEACTIVATION_TASKS' => 'Deactivate Tasks',
-	'LBL_ALL_TASKS' => 'All Tasks',
-	'LBL_ACTIVE_TASKS' => 'Active Tasks',
-	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Do not duplicate records',
+	'LBL_ACTIVATION_TASKS' => 'Ativar Tarefas',
+	'LBL_DEACTIVATION_TASKS' => 'Desativar Tarefas',
+	'LBL_ALL_TASKS' => 'Todas as Tarefas',
+	'LBL_ACTIVE_TASKS' => 'Tarefas ativas',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Não duplicar registros',
 
 	//workflow task
-	'EmailTempleteList' => 'Select a template email to be sent',
-	'Do you send all attachments' => 'Send all attachments?',
-	'Select e-mail address' => 'Select e-mail address',
-	'Send a copy to email' => 'Send a copy to email',
+	'EmailTempleteList' => 'Selecionar um modelo de e-mail para ser enviado',
+	'Do you send all attachments' => 'Enviar todos os anexos?',
+	'Select e-mail address' => 'Selecionar endereço e-mail',
+	'Send a copy to email' => 'Enviar uma cópia por e-mail',
 
 	//workflow task types
 	'Send Mail' => 'Enviar Mensagem',

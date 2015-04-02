@@ -888,6 +888,7 @@ $languageStrings = array(
 	'LBL_VIEW_EDIT' => 'Bearbeiten',
 	'LBL_VIEW_DETAIL' => 'Details',
 	'LBL_VIEW_LIST' => 'Liste',
+	'LBL_VIEW_DASHBOARD' => '__UNTRANSLATED__',
 	'LBL_VIEW_CALENDAR' => 'Grafischer Kalender',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Geteilter Kalender',
 	'LBL_VIEW_COMPOSE' => 'E-Mail verfassen',
