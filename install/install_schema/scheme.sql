@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.01 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -670,6 +670,8 @@ CREATE TABLE `vtiger_activity` (
   `allday` tinyint(1) DEFAULT NULL,
   `dav_status` tinyint(1) DEFAULT '1',
   `state` varchar(255) DEFAULT NULL,
+  `link` int(19) DEFAULT NULL,
+  `process` int(19) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -679,6 +681,8 @@ CREATE TABLE `vtiger_activity` (
   KEY `activity_status_idx` (`status`),
   KEY `activitytype` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`eventstatus`,`deleted`,`smownerid`),
   KEY `activitytype_2` (`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`),
+  KEY `link` (`link`),
+  KEY `process` (`process`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1381,17 +1385,6 @@ CREATE TABLE `vtiger_carrier` (
 
 CREATE TABLE `vtiger_carrier_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_cntactivityrel` */
-
-CREATE TABLE `vtiger_cntactivityrel` (
-  `contactid` int(19) NOT NULL DEFAULT '0',
-  `activityid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`contactid`,`activityid`),
-  KEY `cntactivityrel_contactid_idx` (`contactid`),
-  KEY `cntactivityrel_activityid_idx` (`activityid`),
-  CONSTRAINT `fk_2_vtiger_cntactivityrel` FOREIGN KEY (`contactid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactaddress` */
@@ -6277,23 +6270,6 @@ CREATE TABLE `vtiger_schedulereports` (
   `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `reportid` (`reportid`),
   CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_seactivityrel` */
-
-CREATE TABLE `vtiger_seactivityrel` (
-  `crmid` int(19) NOT NULL,
-  `activityid` int(19) NOT NULL,
-  PRIMARY KEY (`crmid`,`activityid`),
-  KEY `seactivityrel_activityid_idx` (`activityid`),
-  KEY `seactivityrel_crmid_idx` (`crmid`),
-  CONSTRAINT `fk_2_vtiger_seactivityrel` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_seactivityrel_seq` */
-
-CREATE TABLE `vtiger_seactivityrel_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_seattachmentsrel` */
