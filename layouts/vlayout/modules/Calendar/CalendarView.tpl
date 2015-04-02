@@ -24,6 +24,9 @@
 {foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
+{foreach from=Vtiger_Module_Model::getAll() item=MODULE}
+	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
+{/foreach}
 </style>
 <div class="container-fluid">
 	<div class="row-fluid">

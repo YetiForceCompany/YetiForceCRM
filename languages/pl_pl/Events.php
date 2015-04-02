@@ -86,4 +86,6 @@ $languageStrings = array(
 	'LBL_STATE' => 'Stan',
 	'PLL_OPAQUE' => 'Zajęty',
 	'PLL_TRANSPARENT' => 'Dostepny',
+	'Relation' => 'Powiązanie',
+	'Process' => 'Proces',
 );

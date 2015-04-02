@@ -86,6 +86,8 @@ $languageStrings = array(
 	'LBL_STATE' => 'Состояние',
 	'PLL_OPAQUE' => 'Занят',
 	'PLL_TRANSPARENT' => 'Доступен',
+	'Relation' => '__UNTRANSLATED__',
+	'Process' => '__UNTRANSLATED__',
 );
 
 $jsLanguageStrings = array(

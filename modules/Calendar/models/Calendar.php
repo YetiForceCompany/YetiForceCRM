@@ -9,11 +9,34 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 class Calendar_Calendar_Model extends Vtiger_Base_Model{
+	var $relationAcounts = [
+		'Contacts' => ['vtiger_contactdetails','contactid','parentid'],
+		'Potentials' => ['vtiger_potential','potentialid','related_to'],
+		'Project' => ['vtiger_project','projectid','linktoaccountscontacts'],
+		'HelpDesk' => ['vtiger_troubletickets','ticketid','parent_id'],
+		'ServiceContracts' => ['vtiger_servicecontracts','servicecontractsid','sc_related_to'],
+	];
+	
 	public function getEntity() {
 		$db = PearDatabase::getInstance();
 		$module = 'Calendar';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = getListQuery($module);
+		$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
+		vtiger_activity.*, relcrm.setype AS linkmod, relcrm.label AS linklabel, procrm.label AS processlabel, procrm.setype AS processmod
+		FROM vtiger_activity
+		LEFT JOIN vtiger_activitycf
+			ON vtiger_activitycf.activityid = vtiger_activity.activityid
+		LEFT JOIN vtiger_crmentity
+			ON vtiger_crmentity.crmid = vtiger_activity.activityid
+		LEFT JOIN vtiger_crmentity relcrm
+			ON relcrm.crmid = vtiger_activity.link
+		LEFT JOIN vtiger_crmentity procrm
+			ON procrm.crmid = vtiger_activity.process
+		WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
+		$instance = CRMEntity::getInstance($module);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		if($securityParameter != '')
+			$query.= ' '.$securityParameter;
 		
 		$params = array();
 		if($this->get('start') && $this->get('end')){
@@ -36,7 +59,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			}
 		}
 		$query.= ' ORDER BY date_start,time_start ASC';
-
 		$queryResult = $db->pquery($query,$params);
 		$result = array();
 		for($i = 0; $i < $db->num_rows($queryResult); $i++){
@@ -48,7 +70,45 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$item['id'] = $crmid;
 			$item['title'] = $record['subject'];
 			$item['url']   = 'index.php?module='.$module.'&view=Detail&record='.$crmid;
+			$item['set'] = $record['activitytype']=='Task'?'Task':'Event';
+			$item['lok'] = $record['location'];
+			$item['pri'] = $record['priority'];
+			$item['sta'] = $record['status']==''?$record['eventstatus']:$record['status'];
+			$item['vis'] = $record['visibility'];
+			$item['state'] = $record['state'];
 			
+			//Relation
+			$item['link'] = $record['link'];
+			$item['linkl'] = $record['linklabel'];
+			$item['linkm'] = $record['linkmod'];
+			//Process
+			$item['process'] = $record['process'];
+			$item['procl'] = $record['processlabel'];
+			$item['procm'] = $record['processmod'];
+
+			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
+				$findId = 0;
+				$findMod = '';
+				if (!empty($record['link'])){
+					$findId = $record['link'];
+					$findMod = $record['linkmod'];
+				}
+				if (!empty($record['process'])){
+					$findId = $record['process'];
+					$findMod = $record['processmod'];
+				}
+				$tabInfo = $this->relationAcounts[$findMod];
+				if($tabInfo){
+					$findResult = $db->pquery('SELECT accountid, accountname FROM vtiger_account '
+							. 'INNER JOIN '.$tabInfo[0].' ON vtiger_account.accountid = '.$tabInfo[0].'.'.$tabInfo[2]
+							. ' WHERE '.$tabInfo[1].' = ?;', [$findId]);
+					if ($db->num_rows($findResult) > 0) {
+						$item['accid'] = $db->query_result_raw($findResult, 0, 'accountid');
+						$item['accname'] = $db->query_result_raw($findResult, 0, 'accountname');
+					}
+				}
+			}
+
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ',$userDateTimeString);
