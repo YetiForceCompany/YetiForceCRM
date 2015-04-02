@@ -89,7 +89,6 @@ class Accounts extends CRMEntity {
 		'Invoice' => array('table_name' => 'vtiger_invoice', 'table_index' => 'invoiceid', 'rel_index' => 'accountid'),
 		'HelpDesk' => array('table_name' => 'vtiger_troubletickets', 'table_index' => 'ticketid', 'rel_index' => 'parent_id'),
 		'Products' => array('table_name' => 'vtiger_seproductsrel', 'table_index' => 'productid', 'rel_index' => 'crmid'),
-		'Calendar' => array('table_name' => 'vtiger_seactivityrel', 'table_index' => 'activityid', 'rel_index' => 'crmid'),
 		'Documents' => array('table_name' => 'vtiger_senotesrel', 'table_index' => 'notesid', 'rel_index' => 'crmid'),
 		'ServiceContracts' => array('table_name' => 'vtiger_servicecontracts', 'table_index' => 'servicecontractsid', 'rel_index' => 'sc_related_to'),
 		'Services' => array('table_name' => 'vtiger_crmentityrel', 'table_index' => 'crmid', 'rel_index' => 'crmid'),
@@ -349,11 +348,10 @@ class Accounts extends CRMEntity {
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 			vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.activitytype, vtiger_crmentity.modifiedtime,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start,vtiger_activity.time_start, vtiger_seactivityrel.crmid as parent_id
-			FROM vtiger_activity, vtiger_seactivityrel, vtiger_account, vtiger_users, vtiger_crmentity
+			vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start,vtiger_activity.time_start
+			FROM vtiger_activity, vtiger_account, vtiger_users, vtiger_crmentity
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_seactivityrel.activityid = vtiger_activity.activityid
-				AND vtiger_seactivityrel.crmid IN (".$entityIds.")
+			WHERE vtiger_activity.link IN (".$entityIds.")
 				AND vtiger_users.id=vtiger_crmentity.smownerid
 				AND vtiger_crmentity.crmid = vtiger_activity.activityid
 				AND vtiger_activity.activitytype='Emails'
@@ -780,19 +778,19 @@ class Accounts extends CRMEntity {
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Contacts"=>"vtiger_contactdetails","Potentials"=>"vtiger_potential","Quotes"=>"vtiger_quotes",
-					"SalesOrder"=>"vtiger_salesorder","Invoice"=>"vtiger_invoice","Activities"=>"vtiger_seactivityrel",
+					"SalesOrder"=>"vtiger_salesorder","Invoice"=>"vtiger_invoice",
 					"Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel","HelpDesk"=>"vtiger_troubletickets",
 					"Products"=>"vtiger_seproductsrel","ServiceContracts"=>"vtiger_servicecontracts","Campaigns"=>"vtiger_campaignaccountrel",
 					"Assets"=>"vtiger_assets","Project"=>"vtiger_project");
 
 		$tbl_field_arr = Array("vtiger_contactdetails"=>"contactid","vtiger_potential"=>"potentialid","vtiger_quotes"=>"quoteid",
-					"vtiger_salesorder"=>"salesorderid","vtiger_invoice"=>"invoiceid","vtiger_seactivityrel"=>"activityid",
+					"vtiger_salesorder"=>"salesorderid","vtiger_invoice"=>"invoiceid",
 					"vtiger_senotesrel"=>"notesid","vtiger_seattachmentsrel"=>"attachmentsid","vtiger_troubletickets"=>"ticketid",
 					"vtiger_seproductsrel"=>"productid","vtiger_servicecontracts"=>"servicecontractsid","vtiger_campaignaccountrel"=>"campaignid",
 					"vtiger_assets"=>"assetsid","vtiger_project"=>"projectid","vtiger_payments"=>"paymentsid");
 
 		$entity_tbl_field_arr = Array("vtiger_contactdetails"=>"parentid","vtiger_potential"=>"related_to","vtiger_quotes"=>"accountid",
-					"vtiger_salesorder"=>"accountid","vtiger_invoice"=>"accountid","vtiger_seactivityrel"=>"crmid",
+					"vtiger_salesorder"=>"accountid","vtiger_invoice"=>"accountid",
 					"vtiger_senotesrel"=>"crmid","vtiger_seattachmentsrel"=>"crmid","vtiger_troubletickets"=>"parent_id",
 					"vtiger_seproductsrel"=>"crmid","vtiger_servicecontracts"=>"sc_related_to","vtiger_campaignaccountrel"=>"accountid",
 					"vtiger_assets"=>"account","vtiger_project"=>"linktoaccountscontacts","vtiger_payments"=>"relatedorganization");
@@ -831,12 +829,10 @@ class Accounts extends CRMEntity {
 			"Quotes" => array("vtiger_quotes"=>array("accountid","quoteid"),"vtiger_account"=>"accountid"),
 			"SalesOrder" => array("vtiger_salesorder"=>array("accountid","salesorderid"),"vtiger_account"=>"accountid"),
 			"Invoice" => array("vtiger_invoice"=>array("accountid","invoiceid"),"vtiger_account"=>"accountid"),
-			"Calendar" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_account"=>"accountid"),
 			"HelpDesk" => array("vtiger_troubletickets"=>array("parent_id","ticketid"),"vtiger_account"=>"accountid"),
 			"Products" => array("vtiger_seproductsrel"=>array("crmid","productid"),"vtiger_account"=>"accountid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_account"=>"accountid"),
 			"Campaigns" => array("vtiger_campaignaccountrel"=>array("accountid","campaignid"),"vtiger_account"=>"accountid"),
-			"Emails" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_account"=>"accountid"),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -856,7 +852,7 @@ class Accounts extends CRMEntity {
 		if (!$queryPlanner->requireTable('vtiger_account', $matrix)) {
 			return '';
 		}
-
+		/* //To remove
          // Activities related to contact should linked to accounts if contact is related to that account
         if($module == "Calendar"){
             // query to get all the contacts related to Accounts
@@ -869,11 +865,11 @@ class Accounts extends CRMEntity {
                 vtiger_activity.activityid = vtiger_tmpcntactivityrel.activityid AND
                 vtiger_tmpcntactivityrel.contactid IN ($relContactsQuery)
                 left join vtiger_contactdetails as vtiger_tmpcontactdetails on vtiger_tmpcntactivityrel.contactid = vtiger_tmpcontactdetails.contactid ";
-        }else {
+		}else {
             $query = "";
         }
-
-		$query .= $this->getRelationQuery($module,$secmodule,"vtiger_account","accountid", $queryPlanner);
+		*/
+		$query = $this->getRelationQuery($module,$secmodule,"vtiger_account","accountid", $queryPlanner);
 
         if($module == "Calendar"){
             $query .= " OR vtiger_account.accountid = vtiger_tmpcontactdetails.parentid " ;

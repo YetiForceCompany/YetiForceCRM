@@ -68,7 +68,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	}
 
 	if($module != "Calendar")
-		$contents = addSignature($contents,$from_name);
+		//$contents = addSignature($contents,$from_name); //TODO improved during the reconstruction Signature
 
 	$mail = new PHPMailer();
 

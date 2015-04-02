@@ -49,18 +49,10 @@ class VTCreateTodoTask extends VTTask{
 		if($this->doNotDuplicate == 'true'){
 			$parts = explode('x', $id);
 			$entityId = $parts[1];
-			if($moduleName=='Contacts'){
-				$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
+			$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid 
-					WHERE vtiger_crmentity.deleted = 0 AND vtiger_cntactivityrel.contactid = ? AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
-			}else{
-				$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
-					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid 
-					WHERE vtiger_crmentity.deleted = 0 AND vtiger_seactivityrel.crmid = ? AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
-			}
-			$duplicates = $adb->pquery($sql, [$entityId, 'Task', $this->todo]);
+					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
 			$num = $adb->query_result_raw($duplicates, 0, 'num');
 			if($num > 0){
 				$log->warn(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.'.$this->todo);

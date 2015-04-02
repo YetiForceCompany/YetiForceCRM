@@ -128,16 +128,6 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$existingRelatedContacts = $recordModel->getRelatedContactInfo();
-
-		//To add contact ids that is there in the request . Happens in gotoFull form mode of quick create
-		$requestContactIdValue = $request->get('contact_id');
-		if(!empty($requestContactIdValue)) {
-			$existingRelatedContacts[] = array('name' => Vtiger_Util_Helper::getRecordName($requestContactIdValue) ,'id' => $requestContactIdValue);
-		}
-		
-        $viewer->assign('RELATED_CONTACTS', $existingRelatedContacts);
-
 		$isRelationOperation = $request->get('relationOperation');
 
 		//if it is relation edit

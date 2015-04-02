@@ -687,49 +687,11 @@ function vtws_getRelatedActivities($leadId,$accountId,$contactId,$relatedId) {
 			"Failed to move related Activities/Emails");
 	}
 	global $adb;
-	$sql = "select * from vtiger_seactivityrel where crmid=?";
-	$result = $adb->pquery($sql, array($leadId));
-	if($result === false){
-		return false;
+	if (!empty($accountId)) {
+		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($accountId, $leadId));
 	}
-	$rowCount = $adb->num_rows($result);
-	for($i=0;$i<$rowCount;++$i) {
-		$activityId=$adb->query_result($result,$i,"activityid");
-
-		$sql ="select setype from vtiger_crmentity where crmid=?";
-		$resultNew = $adb->pquery($sql, array($activityId));
-		if($resultNew === false){
-			return false;
-		}
-		$type=$adb->query_result($resultNew,0,"setype");
-
-		$sql="delete from vtiger_seactivityrel where crmid=?";
-		$resultNew = $adb->pquery($sql, array($leadId));
-		if($resultNew === false){
-			return false;
-		}
-		if($type != "Emails") {
-				if(!empty($accountId)){
-					$sql = "insert into vtiger_seactivityrel(crmid,activityid) values (?,?)";
-					$resultNew = $adb->pquery($sql, array($accountId, $activityId));
-					if($resultNew === false){
-						return false;
-				}
-			}
-				if(!empty($contactId)){
-					$sql="insert into vtiger_cntactivityrel(contactid,activityid) values (?,?)";
-					$resultNew = $adb->pquery($sql, array($contactId, $activityId));
-					if($resultNew === false){
-						return false;
-				}
-			}
-		} else {
-			$sql = "insert into vtiger_seactivityrel(crmid,activityid) values (?,?)";
-			$resultNew = $adb->pquery($sql, array($relatedId, $activityId));
-			if($resultNew === false){
-				return false;
-			}
-		}
+	if (!empty($contactId)) {
+		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($contactId, $leadId));
 	}
 	return true;
 }

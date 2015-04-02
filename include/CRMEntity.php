@@ -679,7 +679,6 @@ class CRMEntity {
 				'vtiger_campaignrelstatus',
 				'vtiger_attachments',
 				//'vtiger_inventoryproductrel',
-				//'vtiger_cntactivityrel',
 				'vtiger_email_track'
 			);
 		}
@@ -2136,15 +2135,7 @@ class CRMEntity {
 			$instance = self::getInstance($module);
 			$sectableindex = $instance->tab_name_index[$sectablename];
 			$condition = "$table_name.$column_name=$tmpname.$secfieldname";
-            if($pritablename == 'vtiger_seactivityrel') {
-                if($module == "Emails" || $secmodule == "Emails"){
-                    $tmpModule = "Emails";
-                }else{
-                    $tmpModule = "Calendar";
-                }
-                $query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
-                    AND $tmpname.activityid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='$tmpModule' AND deleted = 0))";
-            } else if($pritablename == 'vtiger_senotesrel') {
+            if($pritablename == 'vtiger_senotesrel') {
                     $query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     AND $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' AND deleted = 0))";
             } else if($pritablename == 'vtiger_inventoryproductrel' && ($module =="Products" || $module =="Services") && ($secmodule == "Invoice" || $secmodule == "SalesOrder" || $secmodule == "PurchaseOrder" || $secmodule == "Quotes")) {

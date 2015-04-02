@@ -237,15 +237,14 @@ class Leads extends CRMEntity {
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query ="select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name," .
-				" vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.semodule, vtiger_activity.activitytype," .
-				" vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.status, vtiger_activity.priority, vtiger_crmentity.crmid," .
-				" vtiger_crmentity.smownerid,vtiger_crmentity.modifiedtime, vtiger_users.user_name, vtiger_seactivityrel.crmid as parent_id " .
-				" from vtiger_activity" .
-				" inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid=vtiger_activity.activityid" .
-				" inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid" .
-				" left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid" .
-				" left join vtiger_users on  vtiger_users.id=vtiger_crmentity.smownerid" .
-				" where vtiger_activity.activitytype='Emails' and vtiger_crmentity.deleted=0 and vtiger_seactivityrel.crmid=".$id;
+				' vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.semodule, vtiger_activity.activitytype,' .
+				' vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.status, vtiger_activity.priority, vtiger_crmentity.crmid,' .
+				' vtiger_crmentity.smownerid,vtiger_crmentity.modifiedtime, vtiger_users.user_name' .
+				' from vtiger_activity' .
+				' inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid' .
+				' left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid' .
+				' left join vtiger_users on  vtiger_users.id=vtiger_crmentity.smownerid' .
+				" where vtiger_activity.activitytype='Emails' and vtiger_crmentity.deleted=0 and vtiger_activity.link=".$id;
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -361,13 +360,13 @@ class Leads extends CRMEntity {
 		global $adb,$log;
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Activities"=>"vtiger_seactivityrel","Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel",
+		$rel_table_arr = Array("Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel",
 					"Products"=>"vtiger_seproductsrel","Campaigns"=>"vtiger_campaignleadrel");
 
-		$tbl_field_arr = Array("vtiger_seactivityrel"=>"activityid","vtiger_senotesrel"=>"notesid","vtiger_seattachmentsrel"=>"attachmentsid",
+		$tbl_field_arr = Array("vtiger_senotesrel"=>"notesid","vtiger_seattachmentsrel"=>"attachmentsid",
 					"vtiger_seproductsrel"=>"productid","vtiger_campaignleadrel"=>"campaignid");
 
-		$entity_tbl_field_arr = Array("vtiger_seactivityrel"=>"crmid","vtiger_senotesrel"=>"crmid","vtiger_seattachmentsrel"=>"crmid",
+		$entity_tbl_field_arr = Array("vtiger_senotesrel"=>"crmid","vtiger_seattachmentsrel"=>"crmid",
 					"vtiger_seproductsrel"=>"crmid","vtiger_campaignleadrel"=>"leadid");
 
 		foreach($transferEntityIds as $transferId) {
@@ -445,12 +444,10 @@ class Leads extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_leaddetails"=>"leadid"),
 			"Products" => array("vtiger_seproductsrel"=>array("crmid","productid"),"vtiger_leaddetails"=>"leadid"),
 			"Campaigns" => array("vtiger_campaignleadrel"=>array("leadid","campaignid"),"vtiger_leaddetails"=>"leadid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_leaddetails"=>"leadid"),
 			"Services" => array("vtiger_crmentityrel"=>array("crmid","relcrmid"),"vtiger_leaddetails"=>"leadid"),
-			"Emails" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_leaddetails"=>"leadid"),
 		);
 		return $rel_tables[$secmodule];
 	}

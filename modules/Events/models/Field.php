@@ -56,12 +56,4 @@ class Events_Field_Model extends Calendar_Field_Model {
 		}
 		return true;
 	}
-
-    public function getFieldDataType() {
-        if($this->getName() == 'contact_id' ) {
-            return 'multireference';
-        }
-        return parent::getFieldDataType();
-
-    }
 }

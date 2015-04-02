@@ -501,14 +501,7 @@ class QueryGenerator {
 			if($field->getFieldDataType() == 'reference') {
 				$moduleList = $this->referenceFieldInfoList[$fieldName];
 				// This is special condition as the data is not stored in the base table, 
-                                // If empty search is performed on this field then it fails to retrieve any information. 
-                                if ($fieldName == 'parent_id' && $field->getTableName() == 'vtiger_seactivityrel') {
-                                    $tableJoinMapping[$field->getTableName()] = 'LEFT JOIN';
-                                } else if ($fieldName == 'contact_id' && $field->getTableName() == 'vtiger_cntactivityrel') {
-                                    $tableJoinMapping[$field->getTableName()] = "LEFT JOIN";
-                                } else {
-                                    $tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
-                                }
+                $tableJoinMapping[$field->getTableName()] = 'INNER JOIN';
                 foreach($moduleList as $module) {
 					$meta = $this->getMeta($module);
 					$nameFields = $this->moduleNameFields[$module];
@@ -622,13 +615,6 @@ class QueryGenerator {
 
 				$tableName = $fieldObject->getTableName();
 				if(!in_array($tableName, $referenceFieldTableList)) {
-					if($referenceFieldObject->getFieldName() == 'parent_id' && ($this->getModule() == 'Calendar' || $this->getModule() == 'Events')) {
-						$sql .= ' LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid ';
-					}
-					//TODO : this will create duplicates, need to find a better way
-					if($referenceFieldObject->getFieldName() == 'contact_id' && ($this->getModule() == 'Calendar' || $this->getModule() == 'Events')) {
-						$sql .= ' LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid ';
-					}
 					$sql .= " LEFT JOIN ".$tableName.' AS '.$tableName.$conditionInfo['referenceField'].' ON
 							'.$tableName.$conditionInfo['referenceField'].'.'.$tableList[$tableName].'='.
 						$referenceFieldObject->getTableName().'.'.$referenceFieldObject->getColumnName();

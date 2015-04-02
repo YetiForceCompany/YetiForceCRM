@@ -5042,20 +5042,27 @@ DayGrid.mixin({
 		var titleHtml;
 
 		classes.unshift('fc-day-grid-event', 'fc-h-event');
-
+		// <--------   YetiForce Sp. z o.o.   -------->
 		// Only display a timed events time if it is the starting segment
 		if (seg.isStart) {
-			timeText = this.getEventTimeText(event);
+			timeText = this.getEventTimeText(event,null,true);
 			if (timeText) {
-				timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
+				timeHtml = '<span class="fc-time"><i class="icon-time"></i> ' + htmlEscape(timeText) + '</span>';
+			}else{
+				timeHtml = '<span class="fc-time"><i class="icon-time"></i> ' + app.vtranslate('JS_ALL_DAY') + '</span>';
 			}
 		}
-
-		titleHtml =
-			'<span class="fc-title">' +
-				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
-			'</span>';
-		
+		var eventIcon = 'icon-calendar';
+		if(event.set == 'Task'){
+			eventIcon = 'icon-tasks'
+		}
+		titleHtml = '<span class="fc-title"><i class="' + eventIcon + '"></i> ' + event.title + '</span>';
+		if(event.accname){
+			titleHtml += '<br /><span class="fc-parentlabel"><i class="calIcon modIcon_Accounts"></i> ' + event.accname + '</span>';
+		}
+		if(event.linkl){
+			titleHtml += '<br /><span class="fc-parentlabel"><i class="calIcon modIcon_' + event.linkm + '"></i> ' + event.linkl + '</span>';
+		}
 		return '<a class="' + classes.join(' ') + '"' +
 				(event.url ?
 					' href="' + htmlEscape(event.url) + '"' :
@@ -5065,7 +5072,7 @@ DayGrid.mixin({
 					' style="' + skinCss + '"' :
 					''
 					) +
-			'>' +
+			'>' + '<span class="fc-info"><i class="icon-info-sign"></i></span>' +
 				'<div class="fc-content">' +
 					(this.isRTL ?
 						titleHtml + ' ' + timeHtml : // put a natural space in between
@@ -5082,7 +5089,7 @@ DayGrid.mixin({
 					) +
 			'</a>';
 	},
-
+	// <--------   YetiForce Sp. z o.o.   -------->
 
 	// Given a row # and an array of segments all in the same row, render a <tbody> element, a skeleton that contains
 	// the segments. Returns object with a bunch of internal data about how the render was calculated.
@@ -6258,7 +6265,11 @@ TimeGrid.mixin({
 			fullTimeText = this.getEventTimeText(event, 'LT');
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
-
+		// <--------   YetiForce Sp. z o.o.   -------->
+		var eventIcon = 'icon-calendar';
+		if(event.set == 'Task'){
+			eventIcon = 'icon-tasks'
+		}
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
@@ -6269,22 +6280,14 @@ TimeGrid.mixin({
 				''
 				) +
 			'>' +
-				'<div class="fc-content">' +
+				'<span class="fc-info"><i class="icon-info-sign"></i></span><div class="fc-content">' +
 					(timeText ?
-						'<div class="fc-time"' +
-						' data-start="' + htmlEscape(startTimeText) + '"' +
-						' data-full="' + htmlEscape(fullTimeText) + '"' +
-						'>' +
-							'<span>' + htmlEscape(timeText) + '</span>' +
-						'</div>' :
-						''
-						) +
-					(event.title ?
-						'<div class="fc-title">' +
-							htmlEscape(event.title) +
-						'</div>' :
-						''
-						) +
+						'<div class="fc-time"' + ' data-start="' + htmlEscape(startTimeText) + '"' +' data-full="' + htmlEscape(fullTimeText) + '"' +'>' +
+							'<span><i class="icon-time"></i> ' + htmlEscape(timeText) + '</span>' +
+						'</div>' : '' ) +
+					(event.title ? '<div class="fc-title"><i class="' + eventIcon + '"></i> ' + event.title + '</div>' : '' ) +
+					(event.accname ? '<div class="fc-parentlabel"><i class="calIcon modIcon_Accounts"></i>' + event.accname + '</div>' :	'' ) +
+					(event.linkl ? '<div class="fc-parentlabel"><i class="calIcon modIcon_' + event.linkm + '"></i> ' + event.linkl + '</div>' :	'' ) +
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				/* TODO: write CSS for this
@@ -6299,7 +6302,7 @@ TimeGrid.mixin({
 					) +
 			'</a>';
 	},
-
+	// <--------   YetiForce Sp. z o.o.   -------->
 
 	// Generates an object with CSS properties/values that should be applied to an event segment element.
 	// Contains important positioning-related properties that should be applied to any event element, customized or not.

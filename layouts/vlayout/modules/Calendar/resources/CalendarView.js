@@ -94,6 +94,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
+			forceEventDuration: true,
+			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			selectable: true,
 			selectHelper: true,
@@ -106,6 +108,18 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventResize: function (event, delta, revertFunc) {
 				thisInstance.updateEvent(event, delta, revertFunc);
+			},
+ 			eventRender: function (event, element) {
+				element.find('.fc-info').popover({
+					title: event.title,
+					placement: 'top',
+					html: true,
+					content: app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br />' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
+							(event.lok != '' ? app.vtranslate('JS_LOCATION') + ': ' + event.lok + '<br />' : '') + (event.pri ? app.vtranslate('JS_PRIORITY') + ': ' + app.vtranslate('JS_' + event.pri) + '<br />' : '')+
+							app.vtranslate('JS_STATUS') + ': ' + app.vtranslate('JS_' + event.sta) + '<br />' + (event.accname ? app.vtranslate('JS_ACCOUNTS') + ': ' + event.accname + '<br />' : '') +
+							(event.linkl ? app.vtranslate('JS_RELATION') + ': ' + event.linkl + '<br />' : '') + (event.procl ? app.vtranslate('JS_PROCESS') + ': ' + event.procl + '<br />' : '') + 
+							(event.state ? app.vtranslate('JS_STATE') + ': ' + app.vtranslate(event.state) + '<br />' : '') + app.vtranslate('JS_VISIBILITY') + ': ' + app.vtranslate('JS_' + event.vis) + '<br />' 
+				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -254,7 +268,16 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			eventObject.allDay = true;
 		else
 			eventObject.allDay = false;
-
+		eventObject.state = calendarDetails.state.value;
+		eventObject.vis = calendarDetails.visibility.value;
+		if(calendarDetails.status){
+			eventObject.sta = calendarDetails.status.value;
+		}
+		if(calendarDetails.eventstatus){
+			eventObject.sta = calendarDetails.eventstatus.value;
+		}
+		
+		console.log(calendarDetails);
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},

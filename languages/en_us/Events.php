@@ -85,4 +85,6 @@ $languageStrings = array(
 	'LBL_STATE' => 'Show as',
 	'PLL_OPAQUE' => 'Busy',
 	'PLL_TRANSPARENT' => 'Free',
+	'Relation' => '__UNTRANSLATED__',
+	'Process' => '__UNTRANSLATED__',
 );

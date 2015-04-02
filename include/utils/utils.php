@@ -2053,13 +2053,13 @@ function initUpdateVtlibModule($module, $packagepath) {
 function getActivityRelatedContacts($activityId) {
 	$adb = PearDatabase::getInstance();
 
-	$query = 'SELECT * FROM vtiger_cntactivityrel WHERE activityid=?';
+	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
 	$result = $adb->pquery($query, array($activityId));
 
 	$noOfContacts = $adb->num_rows($result);
 	$contactsList = array();
 	for ($i = 0; $i < $noOfContacts; ++$i) {
-		$contactId = $adb->query_result($result, $i, 'contactid');
+		$contactId = $adb->query_result($result, $i, 'link');
 		$displayValueArray = getEntityName('Contacts', $contactId);
 		if (!empty($displayValueArray)) {
 			foreach ($displayValueArray as $key => $field_value) {
