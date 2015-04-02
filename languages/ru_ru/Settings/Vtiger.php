@@ -279,6 +279,8 @@ $languageStrings = array(
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Здесь вы можете настроить параметры входа в почту',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Общие настройки почты',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Настройка конфигурации почты в системе',
+	'LBL_SUPPORT_PROCESSES' => 'Support processes',
+	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

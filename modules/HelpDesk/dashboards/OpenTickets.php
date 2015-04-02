@@ -6,13 +6,20 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ *************************************************************************************************************************************/
 
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
     
     function getSearchParams($value) {
+		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		if('' == $openTicketsStatus)
+			$openTicketsStatus = 'Open,In Progress,Wait For Response,Answered,Rejected,Closed';
+		else
+			$openTicketsStatus = implode(',', $openTicketsStatus);
+    	
         $listSearchParams = array();
         $conditions = array(array('assigned_user_id','e',$value));
+		array_push($conditions,array('ticketstatus','e',"$openTicketsStatus"));
         $listSearchParams[] = $conditions;
         return '&search_params='. json_encode($listSearchParams);
     }
@@ -42,7 +49,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 
 		$content = $request->get('content');
 		if(!empty($content)) {
-			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
+			$viewer->view('dashboards/OpenTicketsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/OpenTickets.tpl', $moduleName);
 		}

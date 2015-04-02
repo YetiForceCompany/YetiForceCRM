@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -19918,6 +19918,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (77,5,'LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS_DESCRIPTION','index.php?parent=Settings&module=Dav&view=Keys',6,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (78,8,'LBL_AUTOLOGIN',NULL,'LBL_AUTOLOGIN_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Autologin',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (79,8,'LBL_MAIL_GENERAL_CONFIGURATION',NULL,'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Config',1,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (80,6,'LBL_SUPPORT_PROCESSES',NULL,'LBL_SUPPORT_PROCESSES_DESCRIPTION','index.php?module=SupportProcesses&view=Index&parent=Settings',3,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
@@ -20062,6 +20063,10 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 /*Data for the table `vtiger_subindustry_seq` */
 
 insert  into `vtiger_subindustry_seq`(`id`) values (43);
+
+/*Data for the table `vtiger_support_processes` */
+
+insert  into `vtiger_support_processes`(`id`,`ticket_status_indicate_closing`) values (1,'');
 
 /*Data for the table `vtiger_systems` */
 
