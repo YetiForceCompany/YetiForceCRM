@@ -996,9 +996,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$username = $adb->sql_escape_string($username);
 	$password = $adb->sql_escape_string($password);
 
-	if (vglobal('encode_customer_portal_passwords')) {
-		$password = CustomerPortalPassword::encryptPassword($password, $username);
-	}
+	$password = CustomerPortalPassword::encryptPassword($password, $username);
 	
 	$currentDate = date("Y-m-d");
 	$sql = "select id, user_name, user_password,last_login_time, support_start_date, support_end_date
@@ -1021,7 +1019,6 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	$list[0]['last_login_time'] = $adb->query_result($result,0,'last_login_time');
 	$list[0]['support_start_date'] = $adb->query_result($result,0,'support_start_date');
 	$list[0]['support_end_date'] = $adb->query_result($result,0,'support_end_date');
-	$list[0]['encode_password'] = vglobal('encode_customer_portal_passwords');
 	$currentLanguage = $portalLang;
 	vglobal('default_language', $currentLanguage);
 
@@ -1064,10 +1061,7 @@ function change_password($input_array)
 
 	$list = authenticate_user($userName,$old_password,$version ,'false');
 	if(!empty($list[0]['id'])){
-		
-		if (vglobal('encode_customer_portal_passwords')) {
-			$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
-		}
+		$newPassword = CustomerPortalPassword::encryptPassword($newPassword, $userName);
 		
 		$sql = "update vtiger_portalinfo set user_password=? where id=? and user_name=?";
 		$result = $adb->pquery($sql, array($newPassword, $id, $userName));
@@ -1122,8 +1116,8 @@ function send_mail_for_password($mailid) {
 		$password = makeRandomPassword();
 		$truePassword = $password;
 		$password = CustomerPortalPassword::encryptPassword($password, $user_name);
-		$params = array( $password, CustomerPortalPassword::getCryptType(), $record );
-		$sql = 'UPDATE vtiger_portalinfo SET `user_password` = ?, `crypt_type` = ? WHERE `id` = ? LIMIT 1;';
+		$params = array( $password, CustomerPortalPassword::getCryptType(), $truePassword, $record );
+		$sql = 'UPDATE vtiger_portalinfo SET `user_password` = ?, `crypt_type` = ?, `password_sent` = ? WHERE `id` = ? LIMIT 1;';
 		$adb->pquery( $sql, $params );
 
 		$data = array(
@@ -1148,6 +1142,9 @@ function send_mail_for_password($mailid) {
 	} else {
 		$succes = true;
 		$masage = 'LBL_PASSWORD_HAS_BEEN_SENT';
+		$params = array( 1, $record );
+		$sql = 'UPDATE vtiger_portalinfo SET `password_sent` = ? WHERE `id` = ? LIMIT 1;';
+		$adb->pquery( $sql, $params );
 	}
 	$ret_msg = array('succes' => $succes, 'masage' => $masage);
 	$adb->println("Exit from send_mail_for_password. $ret_msg");
