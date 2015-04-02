@@ -1110,6 +1110,7 @@ $languageStrings = array(
 	'LBL_VIEW_PREFERENCEDETAIL' => 'Мои настройки',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Изменить настройки',
 	'Credits' => 'Благодарности',
+	'LBL_VIEW_DASHBOARD' => '__UNTRANSLATED__',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

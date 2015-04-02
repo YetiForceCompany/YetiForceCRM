@@ -865,6 +865,7 @@ $languageStrings = array(
 	'LBL_VIEW_EDIT' => 'Editar',
 	'LBL_VIEW_DETAIL' => 'Detalhes',
 	'LBL_VIEW_LIST' => 'Lista',
+	'LBL_VIEW_DASHBOARD' => '__UNTRANSLATED__',
 	'LBL_VIEW_CALENDAR' => 'Calendário Gráfico',
 	'LBL_VIEW_SHAREDCALENDAR' => 'Calendário compartilhado',
 	'LBL_SELECT_TREE_ITEM' => 'Selecionar item:',
