@@ -41,29 +41,6 @@ class Events_Record_Model extends Calendar_Record_Model {
 
     }
 
-    public function getRelatedToContactIdList() {
-        $adb = PearDatabase::getInstance();
-        $query = 'SELECT * from vtiger_cntactivityrel where activityid=?';
-        $result = $adb->pquery($query, array($this->getId()));
-        $num_rows = $adb->num_rows($result);
-
-        $contactIdList = array();
-        for($i=0; $i<$num_rows; $i++) {
-            $row = $adb->fetchByAssoc($result, $i);
-            $contactIdList[$i] = $row['contactid'];
-        }
-        return $contactIdList;
-    }
-
-    public function getRelatedContactInfo() {
-        $contactIdList = $this->getRelatedToContactIdList();
-        $relatedContactInfo = array();
-        foreach($contactIdList as $contactId) {
-            $relatedContactInfo[] = array('name' => Vtiger_Util_Helper::getRecordName($contactId) ,'id' => $contactId);
-        }
-        return $relatedContactInfo;
-     }
-
      public function getInvities() {
          $adb = PearDatabase::getInstance();
          $sql = "select vtiger_invitees.* from vtiger_invitees where activityid=?";
@@ -80,7 +57,7 @@ class Events_Record_Model extends Calendar_Record_Model {
 
      public function getInviteUserMailData() {
             $adb = PearDatabase::getInstance();
-
+			return []; // To do
             $return_id = $this->getId();
             $cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
             $cont_res = $adb->pquery($cont_qry, array($return_id));

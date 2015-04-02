@@ -224,7 +224,6 @@ class OSSCosts extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" =>array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_osscosts"=>"osscostsid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_osscosts"=>"osscostsid"),
 		);
 		return $rel_tables[$secmodule];

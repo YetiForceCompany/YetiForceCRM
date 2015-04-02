@@ -210,19 +210,10 @@ function getListQuery($module, $where = '') {
 		Case "Calendar":
 
 			$query = "SELECT vtiger_activity.activityid as act_id,vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype,
-		vtiger_activity.*,
-		vtiger_contactdetails.lastname, vtiger_contactdetails.firstname,
-		vtiger_contactdetails.contactid,
-		vtiger_account.accountid, vtiger_account.accountname
+		vtiger_activity.*
 		FROM vtiger_activity
 		LEFT JOIN vtiger_activitycf
-			ON vtiger_activitycf.activityid = vtiger_activity.activityid
-		LEFT JOIN vtiger_cntactivityrel
-			ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-		LEFT JOIN vtiger_contactdetails
-			ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-		LEFT JOIN vtiger_seactivityrel
-			ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
+			ON vtiger_activitycf.activityid = vtiger_activity.activityidd
 		LEFT OUTER JOIN vtiger_activity_reminder
 			ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid
 		LEFT JOIN vtiger_crmentity
@@ -234,27 +225,7 @@ function getListQuery($module, $where = '') {
 		LEFT JOIN vtiger_users vtiger_users2
 			ON vtiger_crmentity.modifiedby = vtiger_users2.id
 		LEFT JOIN vtiger_groups vtiger_groups2
-			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid
-		LEFT OUTER JOIN vtiger_account
-			ON vtiger_account.accountid = vtiger_contactdetails.parentid
-		LEFT OUTER JOIN vtiger_leaddetails
-	       		ON vtiger_leaddetails.leadid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_account vtiger_account2
-	        	ON vtiger_account2.accountid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_potential
-	       		ON vtiger_potential.potentialid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_troubletickets
-	       		ON vtiger_troubletickets.ticketid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_salesorder
-			ON vtiger_salesorder.salesorderid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_purchaseorder
-			ON vtiger_purchaseorder.purchaseorderid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_quotes
-			ON vtiger_quotes.quoteid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_invoice
-	                ON vtiger_invoice.invoiceid = vtiger_seactivityrel.crmid
-		LEFT OUTER JOIN vtiger_campaign
-		ON vtiger_campaign.campaignid = vtiger_seactivityrel.crmid";
+			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
 			//added to fix #5135
 			if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] ==
@@ -281,10 +252,8 @@ function getListQuery($module, $where = '') {
 				ON vtiger_crmentity.crmid = vtiger_activity.activityid
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_seactivityrel
-				ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
 			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_seactivityrel.crmid
+				ON vtiger_contactdetails.contactid = vtiger_activity.link
 			LEFT JOIN vtiger_cntactivityrel
 				ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 				AND vtiger_cntactivityrel.contactid = vtiger_cntactivityrel.contactid

@@ -491,15 +491,15 @@ class Potentials extends CRMEntity {
 		global $adb,$log;
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Activities"=>"vtiger_seactivityrel","Contacts"=>"vtiger_contpotentialrel","Products"=>"vtiger_seproductsrel",
+		$rel_table_arr = Array("Contacts"=>"vtiger_contpotentialrel","Products"=>"vtiger_seproductsrel",
 						"Attachments"=>"vtiger_seattachmentsrel","Quotes"=>"vtiger_quotes","SalesOrder"=>"vtiger_salesorder",
 						"Documents"=>"vtiger_senotesrel");
 
-		$tbl_field_arr = Array("vtiger_seactivityrel"=>"activityid","vtiger_contpotentialrel"=>"contactid","vtiger_seproductsrel"=>"productid",
+		$tbl_field_arr = Array("vtiger_contpotentialrel"=>"contactid","vtiger_seproductsrel"=>"productid",
 						"vtiger_seattachmentsrel"=>"attachmentsid","vtiger_quotes"=>"quoteid","vtiger_salesorder"=>"salesorderid",
 						"vtiger_senotesrel"=>"notesid");
 
-		$entity_tbl_field_arr = Array("vtiger_seactivityrel"=>"crmid","vtiger_contpotentialrel"=>"potentialid","vtiger_seproductsrel"=>"crmid",
+		$entity_tbl_field_arr = Array("vtiger_contpotentialrel"=>"potentialid","vtiger_seproductsrel"=>"crmid",
 						"vtiger_seattachmentsrel"=>"crmid","vtiger_quotes"=>"potentialid","vtiger_salesorder"=>"potentialid",
 						"vtiger_senotesrel"=>"crmid");
 
@@ -581,7 +581,6 @@ class Potentials extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_potential"=>"potentialid"),
 			"Products" => array("vtiger_seproductsrel"=>array("crmid","productid"),"vtiger_potential"=>"potentialid"),
 			"Quotes" => array("vtiger_quotes"=>array("potentialid","quoteid"),"vtiger_potential"=>"potentialid"),
 			"SalesOrder" => array("vtiger_salesorder"=>array("potentialid","salesorderid"),"vtiger_potential"=>"potentialid"),
@@ -591,27 +590,6 @@ class Potentials extends CRMEntity {
 		);
 		return $rel_tables[$secmodule];
 	}
-
-	// Function to unlink all the dependent entities of the given Entity by Id
-	function unlinkDependencies($module, $id) {
-		global $log;
-		/*//Backup Activity-Potentials Relation
-		$act_q = "select activityid from vtiger_seactivityrel where crmid = ?";
-		$act_res = $this->db->pquery($act_q, array($id));
-		if ($this->db->num_rows($act_res) > 0) {
-			for($k=0;$k < $this->db->num_rows($act_res);$k++)
-			{
-				$act_id = $this->db->query_result($act_res,$k,"activityid");
-				$params = array($id, RB_RECORD_DELETED, 'vtiger_seactivityrel', 'crmid', 'activityid', $act_id);
-				$this->db->pquery("insert into vtiger_relatedlists_rb values (?,?,?,?,?,?)", $params);
-			}
-		}
-		$sql = 'delete from vtiger_seactivityrel where crmid = ?';
-		$this->db->pquery($sql, array($id));*/
-
-		parent::unlinkDependencies($module, $id);
-	}
-
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
 		global $log;

@@ -265,15 +265,6 @@ class WebserviceField{
 				array_push($referenceTypes,$this->pearDB->query_result($result,$i,"type"));
 			}
 
-			//to handle hardcoding done for Calendar module todo activities.
-			if($this->tabid == 9 && $this->fieldName =='parent_id'){
-				$referenceTypes[] = 'Invoice';
-				$referenceTypes[] = 'Quotes';
-				$referenceTypes[] = 'PurchaseOrder';
-				$referenceTypes[] = 'SalesOrder';
-				$referenceTypes[] = 'Campaigns';
-			}
-
 			global $current_user;
 			$types = vtws_listtypes(null, $current_user);
 			$accessibleTypes = $types['types'];

@@ -1007,8 +1007,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_seactivityrel.crmid = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
+					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.link = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
 		$query .= Users_Privileges_Model::getNonAdminAccessControlQuery('Calendar');
@@ -1019,7 +1018,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
 
 		if ($recordId) {
-			$query .= " AND vtiger_seactivityrel.crmid = ?";
+			$query .= " AND vtiger_activity.link = ?";
 		} elseif ($mode === 'upcoming') {
 			$query .= " AND due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {

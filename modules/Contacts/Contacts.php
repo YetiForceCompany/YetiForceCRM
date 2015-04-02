@@ -134,14 +134,12 @@ class Contacts extends CRMEntity {
 		'Invoice' => array('table_name' => 'vtiger_invoice', 'table_index' => 'invoiceid', 'rel_index' => 'contactid'),
 		'HelpDesk' => array('table_name' => 'vtiger_troubletickets', 'table_index' => 'ticketid', 'rel_index' => 'contact_id'),
 		'Products' => array('table_name' => 'vtiger_seproductsrel', 'table_index' => 'productid', 'rel_index' => 'crmid'),
-		'Calendar' => array('table_name' => 'vtiger_cntactivityrel', 'table_index' => 'activityid', 'rel_index' => 'contactid'),
 		'Documents' => array('table_name' => 'vtiger_senotesrel', 'table_index' => 'notesid', 'rel_index' => 'crmid'),
 		'ServiceContracts' => array('table_name' => 'vtiger_servicecontracts', 'table_index' => 'servicecontractsid', 'rel_index' => 'sc_related_to'),
 		'Services' => array('table_name' => 'vtiger_crmentityrel', 'table_index' => 'crmid', 'rel_index' => 'crmid'),
 		'Campaigns' => array('table_name' => 'vtiger_campaigncontrel', 'table_index' => 'campaignid', 'rel_index' => 'contactid'),
 		'Assets' => array('table_name' => 'vtiger_assets', 'table_index' => 'assetsid', 'rel_index' => 'contact'),
 		'Project' => array('table_name' => 'vtiger_project', 'table_index' => 'projectid', 'rel_index' => 'linktoaccountscontacts'),
-		'Emails' => array('table_name' => 'vtiger_seactivityrel', 'table_index' => 'crmid', 'rel_index' => 'activityid'),
 	);
 
 	function Contacts() {
@@ -622,11 +620,10 @@ class Contacts extends CRMEntity {
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name," .
 				" vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.activitytype, vtiger_crmentity.modifiedtime," .
-				" vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start, vtiger_activity.time_start, vtiger_seactivityrel.crmid as parent_id " .
-				" from vtiger_activity, vtiger_seactivityrel, vtiger_contactdetails, vtiger_users, vtiger_crmentity" .
+				" vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start, vtiger_activity.time_start " .
+				" from vtiger_activity, vtiger_contactdetails, vtiger_users, vtiger_crmentity" .
 				" left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid" .
-				" where vtiger_seactivityrel.activityid = vtiger_activity.activityid" .
-				" and vtiger_contactdetails.contactid = vtiger_seactivityrel.crmid and vtiger_users.id=vtiger_crmentity.smownerid" .
+				" where vtiger_contactdetails.contactid = vtiger_activity.link and vtiger_users.id=vtiger_crmentity.smownerid" .
 				" and vtiger_crmentity.crmid = vtiger_activity.activityid  and vtiger_contactdetails.contactid = ".$id." and" .
 						" vtiger_activity.activitytype='Emails' and vtiger_crmentity.deleted = 0";
 
@@ -1074,21 +1071,19 @@ function get_contactsforol($user_name)
 		global $adb,$log;
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Potentials"=>"vtiger_contpotentialrel","Potentials"=>"vtiger_potential","Activities"=>"vtiger_cntactivityrel",
-				"Emails"=>"vtiger_seactivityrel","HelpDesk"=>"vtiger_troubletickets","Quotes"=>"vtiger_quotes","PurchaseOrder"=>"vtiger_purchaseorder",
+		$rel_table_arr = Array("Potentials"=>"vtiger_contpotentialrel","Potentials"=>"vtiger_potential",
+				"HelpDesk"=>"vtiger_troubletickets","Quotes"=>"vtiger_quotes","PurchaseOrder"=>"vtiger_purchaseorder",
 				"SalesOrder"=>"vtiger_salesorder","Products"=>"vtiger_seproductsrel","Documents"=>"vtiger_senotesrel",
 				"Attachments"=>"vtiger_seattachmentsrel","Campaigns"=>"vtiger_campaigncontrel",'Invoice'=>'vtiger_invoice',
                 'ServiceContracts'=>'vtiger_servicecontracts','Project'=>'vtiger_project','Assets'=>'vtiger_assets');
 
-		$tbl_field_arr = Array("vtiger_contpotentialrel"=>"potentialid","vtiger_potential"=>"potentialid","vtiger_cntactivityrel"=>"activityid",
-				"vtiger_seactivityrel"=>"activityid","vtiger_troubletickets"=>"ticketid","vtiger_quotes"=>"quoteid","vtiger_purchaseorder"=>"purchaseorderid",
+		$tbl_field_arr = Array("vtiger_contpotentialrel"=>"potentialid","vtiger_potential"=>"potentialid","vtiger_troubletickets"=>"ticketid","vtiger_quotes"=>"quoteid","vtiger_purchaseorder"=>"purchaseorderid",
 				"vtiger_salesorder"=>"salesorderid","vtiger_seproductsrel"=>"productid","vtiger_senotesrel"=>"notesid",
 				"vtiger_seattachmentsrel"=>"attachmentsid","vtiger_campaigncontrel"=>"campaignid",'vtiger_invoice'=>'invoiceid',
                 'vtiger_servicecontracts'=>'servicecontractsid','vtiger_project'=>'projectid','vtiger_assets'=>'assetsid',
                 'vtiger_payments'=>'paymentsid');
 
-		$entity_tbl_field_arr = Array("vtiger_contpotentialrel"=>"contactid","vtiger_potential"=>"contact_id","vtiger_cntactivityrel"=>"contactid",
-				"vtiger_seactivityrel"=>"crmid","vtiger_troubletickets"=>"contact_id","vtiger_quotes"=>"contactid","vtiger_purchaseorder"=>"contactid",
+		$entity_tbl_field_arr = Array("vtiger_contpotentialrel"=>"contactid","vtiger_potential"=>"contact_id","vtiger_troubletickets"=>"contact_id","vtiger_quotes"=>"contactid","vtiger_purchaseorder"=>"contactid",
 				"vtiger_salesorder"=>"contactid","vtiger_seproductsrel"=>"crmid","vtiger_senotesrel"=>"crmid",
 				"vtiger_seattachmentsrel"=>"crmid","vtiger_campaigncontrel"=>"contactid",'vtiger_invoice'=>'contactid',
                 'vtiger_servicecontracts'=>'sc_related_to','vtiger_project'=>'linktoaccountscontacts','vtiger_assets'=>'contact',
@@ -1182,7 +1177,6 @@ function get_contactsforol($user_name)
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" => array("vtiger_cntactivityrel"=>array("contactid","activityid"),"vtiger_contactdetails"=>"contactid"),
 			"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
 			"Quotes" => array("vtiger_quotes"=>array("contactid","quoteid"),"vtiger_contactdetails"=>"contactid"),
 			"PurchaseOrder" => array("vtiger_purchaseorder"=>array("contactid","purchaseorderid"),"vtiger_contactdetails"=>"contactid"),
@@ -1192,7 +1186,6 @@ function get_contactsforol($user_name)
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_contactdetails"=>"contactid"),
 			"Accounts" => array("vtiger_contactdetails"=>array("contactid","accountid")),
 			"Invoice" => array("vtiger_invoice"=>array("contactid","invoiceid"),"vtiger_contactdetails"=>"contactid"),
-			"Emails" => array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_contactdetails"=>"contactid"),
 		);
 		return $rel_tables[$secmodule];
 	}

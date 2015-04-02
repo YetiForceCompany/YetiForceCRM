@@ -43,8 +43,6 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getOpenTickets() {
 		$db = PearDatabase::getInstance();
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		
 		//TODO need to handle security
 		$sql = 'SELECT count(*) AS count,vtiger_users.cal_color as color , case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
 			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, vtiger_users.id as id
@@ -126,15 +124,13 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 
 			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
 						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
-						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility, vtiger_seactivityrel.crmid AS parent_id,
+						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility,
 						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
 						FROM vtiger_activity
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							WHERE vtiger_crmentity.deleted = 0 AND vtiger_seactivityrel.crmid = ".$recordId;
+							WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.process = ".$recordId;
 			if($functionName === 'get_activities') {
 				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
 				OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus not in ('','Not Held','Held')))";

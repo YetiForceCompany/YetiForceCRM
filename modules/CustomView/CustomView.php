@@ -1348,17 +1348,9 @@ class CustomView extends CRMEntity {
 			if ($modulename == 'Accounts') {
 				//By Pavani : Related to problem in calender, Ticket: 4284 and 4675
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
-					if ($tablename == 'vtiger_seactivityrel' && $fieldname == 'crmid') {
-						$value .= 'vtiger_account2.accountname IS NULL or ';
-					} else {
-						$value .= 'vtiger_account.accountname IS NULL or ';
-					}
+					$value .= 'vtiger_account.accountname IS NULL or ';
 				}
-				if ($tablename == 'vtiger_seactivityrel' && $fieldname == 'crmid') {
-					$value .= 'vtiger_account2.accountname';
-				} else {
-					$value .= 'vtiger_account.accountname';
-				}
+				$value .= 'vtiger_account.accountname';
 			}
 			if ($modulename == 'Leads') {
 				$concatSql = getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
@@ -1720,8 +1712,6 @@ class CustomView extends CRMEntity {
 			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
 			if ($module == "Calendar" || $module == "Emails") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . ", vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, case when (vtiger_activity.status not like '') then vtiger_activity.status else vtiger_activity.eventstatus end as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid " . $listviewquery;
-				if ($module == "Calendar")
-					$query = str_replace('vtiger_seactivityrel.crmid,', '', $query);
 			}else if ($module == "Documents") {
 				$query = "select " . $this->getCvColumnListSQL($viewid) . " ,vtiger_crmentity.crmid,vtiger_notes.* " . $listviewquery;
 			} else if ($module == "Products") {

@@ -173,34 +173,6 @@ class Calendar_RepeatEvents {
 				unset($new_focus->column_fields['sendnotification']);
 			}
 			$new_focus->save('Calendar');
-            $record = $new_focus->id;
-            
-            // add repeat event to contact record
-            if (isset($_REQUEST['contactidlist']) && $_REQUEST['contactidlist'] != '') {
-                //split the string and store in an array
-                $storearray = explode(";", $_REQUEST['contactidlist']);
-                $del_sql = "delete from vtiger_cntactivityrel where activityid=?";
-                $adb->pquery($del_sql, array($record));
-                foreach ($storearray as $id) {
-                    if ($id != '') {
-                        $sql = "insert into vtiger_cntactivityrel values (?,?)";
-                        $adb->pquery($sql, array($id, $record));
-                    }
-                }
-            }
-            
-            //to delete contact relation while editing event
-            if (isset($_REQUEST['deletecntlist']) && $_REQUEST['deletecntlist'] != '' && $_REQUEST['mode'] == 'edit') {
-                //split the string and store it in an array
-                $storearray = explode(";", $_REQUEST['deletecntlist']);
-                foreach ($storearray as $id) {
-                    if ($id != '') {
-                        $sql = "delete from vtiger_cntactivityrel where contactid=? and activityid=?";
-                        $adb->pquery($sql, array($id, $record));
-                    }
-                }
-            }
-            
 		}
 	}
 
@@ -210,5 +182,3 @@ class Calendar_RepeatEvents {
 		self::repeat($focus, $recurObj);
 	}
 }
-
-?>

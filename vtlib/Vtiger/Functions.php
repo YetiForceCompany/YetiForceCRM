@@ -794,9 +794,6 @@ class Vtiger_Functions {
 			"vtiger_leaddetails:secondaryemail" => "V",
 			//Documents Related Fields
 			"vtiger_senotesrel:crmid" => "V",
-			//Calendar Related Fields
-			"vtiger_seactivityrel:crmid" => "V",
-			"vtiger_seactivityrel:contactid" => "V",
 			"vtiger_recurringevents:recurringtype" => "V",
 			//HelpDesk Related Fields
 			"vtiger_troubletickets:parent_id" => "V",
@@ -834,14 +831,10 @@ class Vtiger_Functions {
 			"vtiger_campaigncontrel:contactid" => "V",
 			"vtiger_campaignleadrel:campaignid" => "V",
 			"vtiger_campaignleadrel:leadid" => "V",
-			"vtiger_cntactivityrel:contactid" => "V",
-			"vtiger_cntactivityrel:activityid" => "V",
 			"vtiger_contpotentialrel:contactid" => "V",
 			"vtiger_contpotentialrel:potentialid" => "V",
 			"vtiger_pricebookproductrel:pricebookid" => "V",
 			"vtiger_pricebookproductrel:productid" => "V",
-			"vtiger_seactivityrel:crmid" => "V",
-			"vtiger_seactivityrel:activityid" => "V",
 			"vtiger_senotesrel:crmid" => "V",
 			"vtiger_senotesrel:notesid" => "V",
 			"vtiger_seproductsrel:crmid" => "V",

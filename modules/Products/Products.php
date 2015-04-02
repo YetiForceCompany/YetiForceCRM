@@ -1235,10 +1235,7 @@ class Products extends CRMEntity {
 		global $log;
 		if(empty($return_module) || empty($return_id)) return;
 
-		if($return_module == 'Calendar') {
-			$sql = 'DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ?';
-			$this->db->pquery($sql, array($id, $return_id));
-		} elseif($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
+		if($return_module == 'Leads' || $return_module == 'Contacts' || $return_module == 'Potentials') {
 			$sql = 'DELETE FROM vtiger_seproductsrel WHERE productid = ? AND crmid = ?';
 			$this->db->pquery($sql, array($id, $return_id));
 		} elseif($return_module == 'Vendors') {

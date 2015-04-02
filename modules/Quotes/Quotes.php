@@ -325,7 +325,6 @@ class Quotes extends CRMEntity {
 	function setRelationTables($secmodule){
 		$rel_tables = array (
 			"SalesOrder" =>array("vtiger_salesorder"=>array("quoteid","salesorderid"),"vtiger_quotes"=>"quoteid"),
-			"Calendar" =>array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_quotes"=>"quoteid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_quotes"=>"quoteid"),
 			"Accounts" => array("vtiger_quotes"=>array("quoteid","accountid")),
 			"Contacts" => array("vtiger_quotes"=>array("quoteid","contactid")),

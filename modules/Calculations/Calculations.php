@@ -313,7 +313,6 @@ class Calculations extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Calendar" =>array("vtiger_seactivityrel"=>array("crmid","activityid"),"vtiger_calculations"=>"calculationsid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_calculations"=>"calculationsid"),
 		);
 		return $rel_tables[$secmodule];

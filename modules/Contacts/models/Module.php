@@ -54,8 +54,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS contact_id, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					INNER JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_cntactivityrel.contactid = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
+					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.link = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
 		$query .= Users_Privileges_Model::getNonAdminAccessControlQuery('Calendar');
@@ -66,7 +65,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
 
 		if ($recordId) {
-			$query .= " AND vtiger_cntactivityrel.contactid = ?";
+			$query .= " AND vtiger_activity.link = ?";
 		} elseif ($mode === 'upcoming') {
 			$query .= " AND due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
@@ -214,17 +213,14 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 			$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 			$query = "SELECT CASE WHEN (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name,
-						vtiger_cntactivityrel.contactid, vtiger_seactivityrel.crmid AS parent_id,
 						vtiger_crmentity.*, vtiger_activity.activitytype, vtiger_activity.subject, vtiger_activity.date_start, vtiger_activity.time_start,
 						vtiger_activity.recurringtype, vtiger_activity.due_date, vtiger_activity.time_end, vtiger_activity.visibility,
 						CASE WHEN (vtiger_activity.activitytype = 'Task') THEN (vtiger_activity.status) ELSE (vtiger_activity.eventstatus) END AS status
 						FROM vtiger_activity
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-						INNER JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-						LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_cntactivityrel.contactid = ".$recordId." AND vtiger_crmentity.deleted = 0";
+						WHERE vtiger_activity.link = ".$recordId." AND vtiger_crmentity.deleted = 0";
 
 			if($functionName === 'get_activities') {
 				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))

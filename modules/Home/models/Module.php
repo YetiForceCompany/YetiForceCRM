@@ -134,10 +134,9 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
 		
 		$params = array();
-		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, 		vtiger_activity.*,vtiger_seactivityrel.crmid as parent_id
+		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-			LEFT JOIN vtiger_seactivityrel ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
 			WHERE vtiger_crmentity.deleted=0";
 			$query .= $UserAccessConditions;
 		if ($mode === 'upcoming') {
