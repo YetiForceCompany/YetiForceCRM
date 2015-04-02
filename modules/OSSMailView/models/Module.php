@@ -30,20 +30,21 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 		}
 	}
 	function getSideBarLinks() {
-		$quickLinks = array(
-			array(
+		$quickLinks = array();  
+		$quickLinks[] =	array(
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
-			),
-			array(
+			);
+		if(Vtiger_DashBoard_Model::verifyDashboard($this->getName())){
+			$quickLinks[] = array(
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_DASHBOARD',
 				'linkurl' => $this->getDashBoardUrl(),
 				'linkicon' => '',
-			),
-		);
+			);
+		}
 		foreach($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}

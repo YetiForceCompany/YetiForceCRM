@@ -14,26 +14,28 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$links = parent::getSideBarLinks($linkParams);
 
-		$quickLinks = array(
-			array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_TASKS_LIST',
-				'linkurl' => $this->getTasksListUrl(),
-				'linkicon' => '',
-			),
-            array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_MILESTONES_LIST',
-				'linkurl' => $this->getMilestonesListUrl(),
-				'linkicon' => '',
-			),
-            array(
-			   'linktype' => 'SIDEBARLINK',
-			   'linklabel' => 'LBL_DASHBOARD',
-			   'linkurl' => $this->getDashBoardUrl(),
-			   'linkicon' => '',
-            ),           
+		$quickLinks = array();
+		$quickLinks[] =	array(
+		'linktype' => 'SIDEBARLINK',
+		'linklabel' => 'LBL_TASKS_LIST',
+		'linkurl' => $this->getTasksListUrl(),
+		'linkicon' => '',
 		);
+		$quickLinks[] =	  array(
+		'linktype' => 'SIDEBARLINK',
+		'linklabel' => 'LBL_MILESTONES_LIST',
+		'linkurl' => $this->getMilestonesListUrl(),
+		'linkicon' => '',
+		);
+		if(Vtiger_DashBoard_Model::verifyDashboard($this->getName())){
+			$quickLinks[] =	 array(
+					   'linktype' => 'SIDEBARLINK',
+					   'linklabel' => 'LBL_DASHBOARD',
+					   'linkurl' => $this->getDashBoardUrl(),
+					   'linkicon' => '',
+			);  
+		}
+
 		foreach($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
