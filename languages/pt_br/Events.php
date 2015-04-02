@@ -82,7 +82,7 @@ $languageStrings = array(
 	'High' => 'Alta',
 	'Medium' => 'Média',
 	'Low' => 'Baixa',
-	'LBL_STATE' => 'Show as',
-	'PLL_OPAQUE' => 'Busy',
-	'PLL_TRANSPARENT' => 'Free',
+	'LBL_STATE' => 'Exibir como',
+	'PLL_OPAQUE' => 'Ocupado',
+	'PLL_TRANSPARENT' => 'Livre',
 );

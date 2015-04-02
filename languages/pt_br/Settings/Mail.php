@@ -23,7 +23,7 @@ $languageStrings = array(
 	'LBL_NUMBER_UNREAD_EMAILS' => 'Exibir a quantidade de mensagens não lidas',
 	'LBL_MAIL_ICON_CONFIG' => 'Ícone e-mail',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Ativar o autoacesso automático para seu e-mail?',
-	'LBL_ADD_SIGNATURE' => '__NOT_TRANSLATED__',
-	'LBL_SIGNATURE' => '__NOT_TRANSLATED__',
-	'LBL_SAVED_SIGNATURE' => '__NOT_TRANSLATED__',
+	'LBL_ADD_SIGNATURE' => 'Adicionar Assinatura',
+	'LBL_SIGNATURE' => 'Assinatura Global_',
+	'LBL_SAVED_SIGNATURE' => 'Assinatura Salva',
 );
