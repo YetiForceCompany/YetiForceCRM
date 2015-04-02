@@ -18,6 +18,7 @@ class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
+		$viewer->assign( 'CCURL', 'index.php?module=OSSMail&view=CheckConfig');
 		$viewer->assign('CONF', $conf);
 		$viewer->assign('PERMISSIONS', $permissions);
 		$viewer->assign('MODULE', $qualifiedModuleName);

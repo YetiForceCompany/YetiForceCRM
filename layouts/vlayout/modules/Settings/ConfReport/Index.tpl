@@ -10,8 +10,9 @@
 <div class="container-fluid" style="margin-top:10px;">
 	<h3>{vtranslate('LBL_CONFIGURATION', $MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_CONFIGURATION', $MODULE)}</a></li>
+        <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
+		<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
@@ -87,5 +88,9 @@
 				</tbody>
 			</table>
         </div>
+		{* check config module *}
+		<div class='editViewContainer tab-pane' id="check_config">
+			<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
+		</div>
     </div>
 </div>

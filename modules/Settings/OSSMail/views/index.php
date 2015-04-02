@@ -17,7 +17,6 @@ class Settings_OSSMail_Index_View extends Settings_Vtiger_Index_View{
 			$OSSMailScanner_Record_Model = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 			$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 		}
-		$viewer->assign( 'CCURL', 'index.php?module=OSSMail&view=CheckConfig');
         $viewer->assign( 'RecordModel', $OSSMail_Record_Model );
 		$viewer->assign( 'WIDGET_CFG', $WidgetCfg );
         $viewer->assign( 'MODULENAME', $moduleName);

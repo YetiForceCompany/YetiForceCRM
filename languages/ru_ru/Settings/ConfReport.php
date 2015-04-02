@@ -32,7 +32,7 @@ $languageStrings = array(
 	'LBL_PARAMETER'	=>	'Параметр',
 	'LBL_VALUE'	=>	'Текущее значение',
 	'LBL_RECOMMENDED'	=>	'Рекомендуемое значение',
-	'LBL_FILES_PERMISSIONS'	=>	'Права на запись в файлы',
+	'LBL_FILES_PERMISSIONS'	=>	'Files/Folders',
 	'LBL_FILE'	=>	'Название',
 	'LBL_PATH'	=>	'Путь к файлу',
 	'LBL_PERMISSION'	=>	'Запись в файл',
@@ -41,4 +41,6 @@ $languageStrings = array(
 	'On'	=>	'Вкл.',
 	'Off'	=>	'Выкл.',
 	'NOT RECOMMENDED'	=>	'Не рекомендуется',
+	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
+	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
 );
