@@ -273,7 +273,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateEventUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateEventRecordUrl().'&parent_id='.$this->getId();
+		return $calendarModuleModel->getCreateEventRecordUrl().'&link='.$this->getId();
 	}
 
 	/**
@@ -282,7 +282,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 	 */
 	function getCreateTaskUrl() {
 		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-		return $calendarModuleModel->getCreateTaskRecordUrl().'&parent_id='.$this->getId();
+		return $calendarModuleModel->getCreateTaskRecordUrl().'&link='.$this->getId();
 	}
     
     /**

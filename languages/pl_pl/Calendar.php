@@ -152,6 +152,7 @@ $jsLanguageStrings = array(
 	'JS_Task' => 'Zadanie',
 	'JS_Low' => 'Niski',
 	'JS_Normal' => 'Średni',
+	'JS_Medium' => 'Normalny',
 	'JS_High' => 'Wysoki',
 	'JS_RELATION' => 'Powiązanie',
 	'JS_PROCESS' => 'Proces',
