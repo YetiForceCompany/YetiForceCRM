@@ -18,8 +18,11 @@
 <style>
 #openTicketContainer{
 	display:block;
-	width:80%;
+	width:60%;
 } 
+#legend p{
+	margin-bottom: 1px;
+}
 </style>
 
 <script type="text/javascript">
@@ -53,11 +56,11 @@
 			var ct = c.get(0).getContext('2d');
 			var container = $(c).parent();
 	 
-			$(window).resize( respondCanvas );
+			$(window).resize(respondCanvas);
 
 			function respondCanvas(){ 
-				c.attr('width', $(container).width() ); //max width
-				c.attr('height', $(container).height() ); //max height
+				c.attr('width', $(container).width()); 
+				c.attr('height', $(container).height()); 
 			}	
 			respondCanvas();
 		}

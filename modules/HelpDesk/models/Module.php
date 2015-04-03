@@ -45,6 +45,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getOpenTickets() {
 		$db = PearDatabase::getInstance();
+		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		//TODO need to handle security
 		$sql = 'SELECT count(*) AS count,vtiger_users.cal_color as color , case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
 			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, vtiger_users.id as id
@@ -52,14 +53,16 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			AND vtiger_crmentity.deleted = 0'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
+			WHERE vtiger_crmentity.deleted = 0'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
 			
 		
-		foreach ($ticketStatus as $key => $value) {
-			$ticketStatusSearch[] =  "'$value'";
-		}	
-		$ticketStatusSearch = implode(',', $ticketStatusSearch);
-		$sql .=	" WHERE vtiger_troubletickets.status NOT IN ($ticketStatusSearch) ";
+		if(!empty($ticketStatus)){
+			foreach ($ticketStatus as $key => $value) {
+				$ticketStatusSearch[] = "'$value'";
+			}	
+			$ticketStatusSearch = implode(',', $ticketStatusSearch);
+			$sql .=	" AND vtiger_troubletickets.status NOT IN ($ticketStatusSearch)";
+		}
 		$sql .= 'GROUP BY smownerid';
 		$result = $db->pquery($sql , array());
 

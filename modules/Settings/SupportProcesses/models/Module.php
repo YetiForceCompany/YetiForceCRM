@@ -41,14 +41,14 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...");
 		$sql = 'SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`;';
 		$result = $adb->query($sql);
-		$rowsNum = $adb->num_rows($result);
 		
-		if(0 == $rowsNum)
-			$return = array();
+		$ticketStatus = $adb->query_result($result, 0, 'ticket_status_indicate_closing');
+		if($ticketStatus == '')
+			$return = [];
 		else{
-			$return = $adb->query_result($result, 0, 'ticket_status_indicate_closing');
-			$return = explode(",",$return);
+			$return = explode(",",$ticketStatus);
 		}
+		
 		$log->debug("Exiting Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...");
 		return $return;
 	}
@@ -69,6 +69,38 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 		}
 		$log->debug("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		return TRUE;
+	}
+
+	public function getAllTicketStatus(){
+		global $adb, $log;
+		$log->debug("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
+		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
+		$result = $adb->query($sql);
+		$rowsNum = $adb->num_rows($result);
+		for ($i=0; $i < $rowsNum; $i++) { 
+			$ticketStatus[] = $adb->query_result($result, $i, 'ticketstatus');
+		}
+		return $ticketStatus;
+	}
+
+	public static function getOpenTicketStatus(){
+		global $log;
+		$getTicketStatusClosed = self::getTicketStatusNotModify();
+		$log->debug("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
+		if(empty($getTicketStatusClosed)){
+			$result = FALSE;
+		}else{
+			$getAllTicketStatus = self::getAllTicketStatus();
+			foreach ($getTicketStatusClosed as $key => $closedStatus) {
+				foreach ($getAllTicketStatus as $key => $status) {
+					if($closedStatus == $status)
+						unset($getAllTicketStatus[$key]);
+				}
+			}
+			$result = $getAllTicketStatus;
+
+		}
+		return $result;
 	}
 
 
