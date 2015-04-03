@@ -33,3 +33,11 @@ padding:0;
 .fc-event.fc-draggable .fc-content .fc-parentlabel{
 white-space: nowrap;
 }
+.fc-more-popover{
+width: 440px;
+}
+.fc-more-popover .fc-event{
+width: 204px;
+display: inline-block;
+  vertical-align: top;
+}
