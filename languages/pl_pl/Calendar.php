@@ -157,6 +157,7 @@ $jsLanguageStrings = array(
 	'JS_PROCESS' => 'Proces',
 	'JS_ACCOUNTS' => 'Kontrahent',
 	'JS_STATE' => 'Stan',
+	'JS_STATUS' => 'Status',
 	'JS_VISIBILITY' => 'Widoczność',
 	'PLL_OPAQUE' => 'Zajęty',
 	'PLL_TRANSPARENT' => 'Dostepny',

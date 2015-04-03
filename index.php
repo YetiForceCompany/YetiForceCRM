@@ -13,6 +13,7 @@
 //TODO : Eliminate below hacking solution
 
 $Start_time = microtime(true);
+include_once 'include/RequirementsValidation.php';
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
 include_once 'vtlib/Vtiger/Module.php';
