@@ -114,11 +114,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					title: event.title,
 					placement: 'top',
 					html: true,
-					content: app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br />' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
-							(event.lok != '' ? app.vtranslate('JS_LOCATION') + ': ' + event.lok + '<br />' : '') + (event.pri ? app.vtranslate('JS_PRIORITY') + ': ' + app.vtranslate('JS_' + event.pri) + '<br />' : '')+
-							app.vtranslate('JS_STATUS') + ': ' + app.vtranslate('JS_' + event.sta) + '<br />' + (event.accname ? app.vtranslate('JS_ACCOUNTS') + ': ' + event.accname + '<br />' : '') +
-							(event.linkl ? app.vtranslate('JS_RELATION') + ': ' + event.linkl + '<br />' : '') + (event.procl ? app.vtranslate('JS_PROCESS') + ': ' + event.procl + '<br />' : '') + 
-							(event.state ? app.vtranslate('JS_STATE') + ': ' + app.vtranslate(event.state) + '<br />' : '') + app.vtranslate('JS_VISIBILITY') + ': ' + app.vtranslate('JS_' + event.vis) + '<br />' 
+					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
+							(event.lok != '' ? '<i class="icon-globe"></i> '+app.vtranslate('JS_LOCATION') + ': ' + event.lok + '<br />' : '') + (event.pri ? '<i class="icon-warning-sign"></i> '+app.vtranslate('JS_PRIORITY') + ': ' + app.vtranslate('JS_' + event.pri) + '<br />' : '')+
+							'<i class="icon-question-sign"></i> '+app.vtranslate('JS_STATUS') + ': ' + app.vtranslate('JS_' + event.sta) + '<br />' + (event.accname ? '<i class="calIcon modIcon_Accounts"></i> '+app.vtranslate('JS_ACCOUNTS') + ': ' + event.accname + '<br />' : '') +
+							(event.linkl ? '<i class="calIcon modIcon_'+event.linkm+'"></i> '+app.vtranslate('JS_RELATION') + ': ' + event.linkl + '<br />' : '') + (event.procl ? '<i class="calIcon modIcon_'+event.procm+'"></i> '+app.vtranslate('JS_PROCESS') + ': ' + event.procl + '<br />' : '') + 
+							(event.state ? '<i class="icon-star-empty"></i> '+app.vtranslate('JS_STATE') + ': ' + app.vtranslate(event.state) + '<br />' : '') + '<i class="icon-eye-open"></i> '+app.vtranslate('JS_VISIBILITY') + ': ' + app.vtranslate('JS_' + event.vis) + '<br />' 
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
