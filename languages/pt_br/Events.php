@@ -77,7 +77,7 @@ $languageStrings = array(
 	'Yearly'=>'Ano',
 	'Mobile Call' => 'Chamada Celular',
 	'LBL_NO_DESCRIPTION'=>'Nenhuma descrição',
-	'All day' => '__No_Translated__',
+	'All day' => 'Dia todo',
 	//Priority picklist values
 	'High' => 'Alta',
 	'Medium' => 'Média',
@@ -85,6 +85,6 @@ $languageStrings = array(
 	'LBL_STATE' => 'Exibir como',
 	'PLL_OPAQUE' => 'Ocupado',
 	'PLL_TRANSPARENT' => 'Livre',
-	'Relation' => '__UNTRANSLATED__',
-	'Process' => '__UNTRANSLATED__',
+	'Relation' => 'Relação',
+	'Process' => 'Processo_',
 );

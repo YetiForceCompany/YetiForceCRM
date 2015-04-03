@@ -6,17 +6,17 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SUPPORT_PROCESSES' => 'Support Processes',
-	'LBL_GENERAL_CONFIGURATION' => 'General Configuration',
-	'LBL_OTHER' => 'Other',
-	'LBL_INFO' => 'Info',
-	'LBL_TYPE' => 'Type',
-	'LBL_TICKET_STATUS_INFO' => 'Ticket status indicate closing',
-	'LBL_SAVE_CONFIG_OK' => 'Changes has been saved',
-	'LBL_SAVE_CONFIG_ERROR'	=> 'hanges has been saved.',
+	'LBL_SUPPORT_PROCESSES' => 'Processos de Suporte',
+	'LBL_GENERAL_CONFIGURATION' => 'Configuração Geral',
+	'LBL_OTHER' => 'Outro',
+	'LBL_INFO' => 'Informação',
+	'LBL_TYPE' => 'Tipo',
+	'LBL_TICKET_STATUS_INFO' => 'O status do Chamado indica fechamento',
+	'LBL_SAVE_CONFIG_OK' => 'As mudanças foram salvas',
+	'LBL_SAVE_CONFIG_ERROR'	=> 'As mudanças foram salvas.',
 	
 );
 
