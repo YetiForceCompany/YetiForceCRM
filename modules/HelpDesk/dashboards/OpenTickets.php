@@ -11,11 +11,13 @@
 class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
     
     function getSearchParams($value) {
-		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		if('' == $openTicketsStatus)
-			$openTicketsStatus = 'Open,In Progress,Wait For Response,Answered,Rejected,Closed';
-		else
+		$openTicketsStatus = Settings_SupportProcesses_Module_Model::getOpenTicketStatus();
+		if($openTicketsStatus)
 			$openTicketsStatus = implode(',', $openTicketsStatus);
+		else{
+			$allTicketStatus = Settings_SupportProcesses_Module_Model::getAllTicketStatus();
+			$openTicketsStatus = implode(',', $allTicketStatus);
+		}
     	
         $listSearchParams = array();
         $conditions = array(array('assigned_user_id','e',$value));

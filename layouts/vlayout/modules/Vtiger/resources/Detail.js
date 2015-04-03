@@ -224,17 +224,16 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 	referenceFieldNames: {
 		'Calendar': {
-			'Accounts': 'parent_id',
-			'Campaigns': 'parent_id',
-			'HelpDesk': 'parent_id',
-			'Leads': 'parent_id',
-			'Potentials': 'parent_id',
-			'Projects': 'parent_id',
-			'ServiceContracts': 'parent_id',
-			'Invoice': 'parent_id',
-			'Quotes': 'parent_id',
-			'PurchaseOrder': 'parent_id',
-			'SalesOrder': 'parent_id'
+			'Accounts': 'link',
+			'Leads': 'link',
+			'Contacts': 'link',
+			'Vendors': 'link',
+			'OSSEmployees': 'link',
+			'Campaigns': 'process',
+			'HelpDesk': 'process',
+			'Potentials': 'process',
+			'Projects': 'process',
+			'ServiceContracts': 'process',
 		},
 		'OutsourcedProducts': {
 			'Potentials': 'potential',
@@ -1108,10 +1107,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 	/**
 	 * Function updates the hidden elements which is used for creating relations
 	 */
-	addElementsToQuickCreateForCreatingRelation : function(container,moduleName,recordId){
-		jQuery('<input type="hidden" name="sourceModule" value="'+moduleName+'" >').appendTo(container);
-		jQuery('<input type="hidden" name="sourceRecord" value="'+recordId+'" >').appendTo(container);
+	addElementsToQuickCreateForCreatingRelation : function(container,customParams){
 		jQuery('<input type="hidden" name="relationOperation" value="true" >').appendTo(container);
+		jQuery.each(customParams, function( index, value ) {
+			jQuery('<input type="hidden" name="'+index+'" value="'+value+'" >').appendTo(container);
+		});
 	},
         
 	/**
@@ -1136,29 +1136,31 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			var customParams = {};
+			customParams['sourceModule'] = module;
+			customParams['sourceRecord'] = recordId;
 			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
 				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
-
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function(data){
-				thisInstance.addElementsToQuickCreateForCreatingRelation(data,module,recordId);
+				thisInstance.addElementsToQuickCreateForCreatingRelation(data,customParams);
 
 				var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('#goToFullForm');
 				var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('#goToFullForm');
-				var taskFullFormUrl = taskGoToFullFormButton.data('editViewUrl')+"&"+fullFormUrl;
-				var eventsFullFormUrl = eventsGoToFullFormButton.data('editViewUrl')+"&"+fullFormUrl;
+				var taskFullFormUrl = taskGoToFullFormButton.data('edit-view-url')+"&"+fullFormUrl;
+				var eventsFullFormUrl = eventsGoToFullFormButton.data('edit-view-url')+"&"+fullFormUrl;
 				taskGoToFullFormButton.data('editViewUrl',taskFullFormUrl);
 				eventsGoToFullFormButton.data('editViewUrl',eventsFullFormUrl);
 				
+				/*
                 thisInstance.getPlannedEvents();
                 jQuery('[name="date_start"]').on('change', function() {
                     thisInstance.getPlannedEventsClearTable();
                     thisInstance.getPlannedEvents();
                 });
 				jQuery('.modal-body').css({'max-height' : '500px', 'overflow-y': 'auto'});
-
+				*/
 			}
 
 			var callbackFunction = function() {
@@ -1181,7 +1183,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 				);
 				thisInstance.loadWidgets();
 			}
-
+			
 			var QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;
@@ -1557,11 +1559,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var module = app.getModuleName();
 			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
 			var customParams = {};
+			customParams['sourceModule'] = module;
+			customParams['sourceRecord'] = recordId;
 			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
 				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[fieldName] = recordId;
-				customParams['sourceModule'] = module;
-				customParams['sourceRecord'] = recordId;
 			}
 
 			if(quickCreateNode.length <= 0) {
@@ -1573,7 +1575,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 
 			var goToFullFormcallback = function(data){
-				thisInstance.addElementsToQuickCreateForCreatingRelation(data,module,recordId);
+				thisInstance.addElementsToQuickCreateForCreatingRelation(data,customParams);
 			}
 
 			var QuickCreateParams = {};

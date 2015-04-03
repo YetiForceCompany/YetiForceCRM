@@ -122,7 +122,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			"modules.$moduleName.resources.AdvanceSearch",
 			'modules.Vtiger.resources.Mobile',
 			'modules.Settings.DataAccess.resources.SaveResult',
-			'libraries.chartjs.Chart',
+			'libraries.chartjs.Chartmin',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

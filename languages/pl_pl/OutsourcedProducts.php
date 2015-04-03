@@ -38,6 +38,6 @@ $languageStrings = array(
 	'Save' => 'Zapisz',
 	'Selling proposition'=>'Propozycja sprzedaży',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
-	'Active' => 'Aktywna',
-	'Inactive' => 'Nieaktywna',
+	'Active' => 'Aktywny',
+	'Inactive' => 'Nieaktywny',
 );
