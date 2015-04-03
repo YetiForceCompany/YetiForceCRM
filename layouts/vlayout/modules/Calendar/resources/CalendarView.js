@@ -159,8 +159,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		if (jQuery('#calendarTypes').length > 0) {
 			var types = jQuery('#calendarTypes').val();	
+		}else{
+			allEvents = true;
 		}
-		
 		if(allEvents == true || types != null){
 			var params = {
 				module: 'Calendar',
