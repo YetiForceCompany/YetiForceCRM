@@ -76,9 +76,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
 
 		//Default first hour of the day
-		var defaultFirstHour = jQuery('#start_hour').val();
-		var explodedTime = defaultFirstHour.split(':');
-		defaultFirstHour = explodedTime['0'];
+		var defaultFirstHour = jQuery('#start_hour').val()+':00';
 
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
@@ -88,7 +86,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			timeFormat: userDefaultTimeFormat,
 			axisFormat: userDefaultTimeFormat,
-			firstHour: defaultFirstHour,
+			scrollTime: defaultFirstHour,
 			firstDay: convertedFirstDay,
 			defaultView: userDefaultActivityView,
 			editable: true,

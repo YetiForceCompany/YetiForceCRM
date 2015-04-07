@@ -53,13 +53,11 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model {
 					'linkicon' => ''
 				);
 			}
-			$detailViewPreferenceLinks = array(
-				array(
-					'linktype' => 'DETAILVIEWPREFERENCE',
-					'linklabel' => 'LBL_EDIT',
-					'linkurl' => $recordModel->getPreferenceEditViewUrl(),
-					'linkicon' => ''
-				)
+			$detailViewPreferenceLinks[] = array(
+				'linktype' => 'DETAILVIEWPREFERENCE',
+				'linklabel' => 'LBL_EDIT',
+				'linkurl' => $recordModel->getPreferenceEditViewUrl(),
+				'linkicon' => ''
 			);
 
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
