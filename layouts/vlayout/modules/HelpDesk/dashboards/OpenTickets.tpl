@@ -37,7 +37,7 @@
 			for(var index in data) {
 				var row = data[index];
 				{literal}
-				var rowData = {'value' : parseInt(row[0]),  'color' : row.color};
+				var rowData = {'value' : parseInt(row[0]), 'color' : row.color, label : row.name};
 				var link = {'color' : row.color, 'link' : row.links};
 				{/literal}
 				chartData.push(rowData);
