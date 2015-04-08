@@ -17,8 +17,8 @@ $languageStrings = array(
 	'LBL_MODULE' => 'Módulo',
 	'LBL_COLOR' => 'Cor',
 	'LBL_TOOLS' => 'Ferramentas',
-	'LBL_ACTIVE' => 'Active',
-	'LBL_SAVE_ACTIVE_TYPE' => 'Saved change',
+	'LBL_ACTIVE' => 'Ativo',
+	'LBL_SAVE_ACTIVE_TYPE' => 'Alteração salva',
 	'LBL_UPDATE_COLOR' => 'Mudar Cor',
 	'LBL_EDIT_COLOR' => 'Editar Cor',
 	'LBL_SELECT_COLOR' => 'Selecionar cor:',
@@ -30,9 +30,9 @@ $languageStrings = array(
 	'LBL_CALENDAR_TYPE' => 'Tipo Agenda',
 	'PLL_BREAK_TIME' => 'Intervalo Trabalho',
 	'PLL_HOLIDAY_TIME' => 'Feriados',
-	'LBL_SAVE_CHANGES' => 'Mudanças salvas',
-	'LBL_GENERATE_COLOR' => 'Generate random color',
-	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_SAVE_CHANGES' => 'Alterações salvas',
+	'LBL_GENERATE_COLOR' => 'Gerar cor aleatória',
+	'LBL_GENERATED_COLOR' => 'Cor gerada',
 );
 $jsLanguageStrings = array(
 
