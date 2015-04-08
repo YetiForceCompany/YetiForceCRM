@@ -22,8 +22,10 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		
-		$sql = 'SELECT count(*) AS count,vtiger_users.cal_color as color , case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
-			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, smownerid as id
+		$sql = 'SELECT count(*) AS count, case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
+			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, 
+			case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
+			vtiger_users.cal_color else vtiger_groups.color end as color, smownerid as id
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
@@ -36,7 +38,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 			$ticketStatusSearch = implode(',', $ticketStatus);
 			$sql .=	" AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
-		$sql .= 'GROUP BY smownerid';
+		$sql .= ' GROUP BY smownerid';
 		$result = $db->pquery($sql , array());
 		$moduleModel = Vtiger_Module_Model::getInstance('HelpDesk');
 		$listViewUrl = $moduleModel->getListViewUrl();
