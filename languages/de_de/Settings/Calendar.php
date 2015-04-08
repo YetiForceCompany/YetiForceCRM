@@ -34,6 +34,8 @@ $languageStrings = array(
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
 	'LBL_UPDATE_EVENT' => 'Ereignis aktualisieren',
+	'LBL_GENERATE_COLOR' => 'Generate random color',
+	'LBL_GENERATED_COLOR' => 'Color generated',
 );
 $jsLanguageStrings = array(
 
