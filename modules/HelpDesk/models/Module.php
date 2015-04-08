@@ -43,43 +43,6 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getOpenTickets() {
-		$db = PearDatabase::getInstance();
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		//TODO need to handle security
-		$sql = 'SELECT count(*) AS count,vtiger_users.cal_color as color , case when ( concat(vtiger_users.last_name, " ", vtiger_users.first_name)  not like "") then
-			concat(vtiger_users.last_name, " ", vtiger_users.first_name) else vtiger_groups.groupname end as name, vtiger_users.id as id
-			FROM vtiger_troubletickets
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
-			
-		
-		if(!empty($ticketStatus)){
-			foreach ($ticketStatus as $key => $value) {
-				$ticketStatusSearch[] = "'$value'";
-			}	
-			$ticketStatusSearch = implode(',', $ticketStatusSearch);
-			$sql .=	" AND vtiger_troubletickets.status NOT IN ($ticketStatusSearch)";
-		}
-		$sql .= 'GROUP BY smownerid';
-		$result = $db->pquery($sql , array());
-
-		$data = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$row['name'] = trim($row['name']);
-			$data[] = $row;
-		}
-		return $data;
-	}
-
-	/**
-	 * Function returns Tickets grouped by Status
-	 * @param type $data
-	 * @return <Array>
-	 */
 	public function getTicketsByStatus($owner, $dateFilter) {
 		$db = PearDatabase::getInstance();
 
