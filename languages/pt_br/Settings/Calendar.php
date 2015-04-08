@@ -31,6 +31,8 @@ $languageStrings = array(
 	'PLL_BREAK_TIME' => 'Intervalo Trabalho',
 	'PLL_HOLIDAY_TIME' => 'Feriados',
 	'LBL_SAVE_CHANGES' => 'Mudanças salvas',
+	'LBL_GENERATE_COLOR' => 'Generate random color',
+	'LBL_GENERATED_COLOR' => 'Color generated',
 );
 $jsLanguageStrings = array(
 
