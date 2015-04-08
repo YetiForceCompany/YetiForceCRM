@@ -16,8 +16,20 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$this->exposeMethod('UpdateModuleActiveType');
 		$this->exposeMethod('UpdateUserColor');
 		$this->exposeMethod('UpdateCalendarConfig');
+		$this->exposeMethod('GenerateUserColor');
 	}
-
+	public function GenerateUserColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => Settings_Calendar_Module_Model::generateUserColor($params),
+			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	
 	public function UpdateModuleColor(Vtiger_Request $request) {
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateModuleColor($params);
