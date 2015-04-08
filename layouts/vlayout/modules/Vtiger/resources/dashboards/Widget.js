@@ -18,12 +18,14 @@ jQuery.Class('Vtiger_Widget_Js',{
 		var widgetClassName = widgetName.toCamelCase();
 		var moduleClass = window[moduleName+"_"+widgetClassName+"_Widget_Js"];
 		var fallbackClass = window["Vtiger_"+widgetClassName+"_Widget_Js"];
-
+		var yetiClass = window["YetiForce_"+widgetClassName+"_Widget_Js"];
 		var basicClass = Vtiger_Widget_Js;
 		if(typeof moduleClass != 'undefined') {
 			var instance = new moduleClass(container);
 		}else if(typeof fallbackClass != 'undefined') {
 			var instance = new fallbackClass(container);
+		}else if(typeof yetiClass != 'undefined') {
+			var instance = new yetiClass(container);
 		} else {
 			var instance = new basicClass(container);
 		}
@@ -33,6 +35,8 @@ jQuery.Class('Vtiger_Widget_Js',{
 
 	container : false,
 	plotContainer : false,
+	plotInstance : false,
+	chartData : [],
 
 	init : function (container) {
 		this.setContainer(jQuery(container));
@@ -96,6 +100,19 @@ jQuery.Class('Vtiger_Widget_Js',{
 		}
 	},
 
+	generateData : function() {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		for(var index in data) {
+			chartData.push(data[index]);
+			thisInstance.chartData[data[index].id] = data[index];
+		}
+		return {'chartData':chartData};
+	},
+	
 	loadChart : function() {
 
 	},
@@ -131,6 +148,7 @@ jQuery.Class('Vtiger_Widget_Js',{
 		}else{
 			this.positionNoDataMsg();
 		}
+		this.registerSectionClick();
 	},
 
 	getFilterData : function() {
@@ -252,14 +270,7 @@ jQuery.Class('Vtiger_Widget_Js',{
 		});
 	},
 
-	registerSectionClick : function() {
-		this.getContainer().on('jqplotClick', function() {
-			var sectionData = arguments[3];
-			var assignedUserId = sectionData[0];
-			//TODO : we need to construct the list url with the sales stage and filters
-		});
-
-	}
+	registerSectionClick : function() {}
 });
 
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
@@ -409,25 +420,6 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js',{},{
 		}
 		return {'chartData':chartData};
 	},
-    
-    postLoadWidget: function() {
-		this._super();
-        var thisInstance = this;
-
-		this.getContainer().on('jqplotDataClick', function(ev, gridpos, datapos, neighbor, plot) {
-            var jData = thisInstance.getContainer().find('.widgetData').val();
-			var data = JSON.parse(jData);
-			var linkUrl = data[datapos]['links'];
-			if(linkUrl) window.location.href = linkUrl;
-		});
-
-		this.getContainer().on("jqplotDataHighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'pointer' );
-		});
-		this.getContainer().on("jqplotDataUnhighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'auto' );
-		});
-    },
 
 	loadChart : function() {
 		var chartData = this.generateData();
@@ -480,25 +472,6 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js',{},{
 		yMaxValue = yMaxValue + 2 + (yMaxValue/100)*25;
 		return {'chartData':[chartData], 'yMaxValue':yMaxValue, 'labels':xLabels};
 	},
-    
-     postLoadWidget: function() {
-		this._super();
-		var thisInstance = this;
-	
-		this.getContainer().on('jqplotDataClick', function(ev, gridpos, datapos, neighbor, plot) {
-	       var jData = thisInstance.getContainer().find('.widgetData').val();
-			var data = JSON.parse(jData);
-			var linkUrl = data[datapos]['links'];
-			if(linkUrl) window.location.href = linkUrl;
-		});
-	
-		this.getContainer().on("jqplotDataHighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'pointer' );
-		});
-		this.getContainer().on("jqplotDataUnhighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'auto' );
-		});
-    },
 
 	loadChart : function() {
 		var data = this.generateChartData();
@@ -641,28 +614,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js',{
 				labels:labels
 			}
 	  });
-	},
-    
-     postLoadWidget: function() {
-		this._super();
-        var thisInstance = this;
-
-		this.getContainer().on('jqplotDataClick', function(ev, gridpos, datapos, neighbor) {
-            var chartRelatedData = thisInstance.getCharRelatedData();
-            var allLinks = chartRelatedData.links;
-            if(allLinks)
-                var linkUrl = allLinks[gridpos][datapos];
-			if(linkUrl) window.location.href = linkUrl;
-		});
-
-		this.getContainer().on("jqplotDataMouseOver", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'pointer' );
-		});
-		this.getContainer().on("jqplotDataUnhighlight", function(evt, seriesIndex, pointIndex, neighbor) {
-			$('.jqplot-event-canvas').css( 'cursor', 'auto' );
-		});
-    }
-
+	}
 });
 
 // NOTE Widget-class name camel-case convention
@@ -821,24 +773,44 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js',{},{
 	}
 });
 
-Vtiger_Widget_Js('Vtiger_OpenTicketPieChart_Widget_Js',{},{
+Vtiger_Widget_Js('YetiForce_Pie_Widget_Js',{},{
 	loadChart : function() {
-		var chartOptions = {
-			segmentShowStroke : false,
-			animation: false,
-		}	
-		var data = this.generateData();
-		var openTicketsChartElement = document.getElementById("openTicketsChart").getContext("2d");
-		var openTicketsChart = new Chart(openTicketsChartElement).Pie(data.chartData, chartOptions);
-		$("#openTicketsChart").click(function(evt){
-			var activePoints = openTicketsChart.getSegmentsAtEvent(evt);
-			var color = activePoints[0].fillColor;  
-				$(data.links).each(function(){
-					if(color == this.color)
-						window.location.href = this.link;
-				}) 
-			}
-		);
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
+			series: {
+				pie: { 
+					show: true,
+					label: { 
+						formatter: thisInstance.getLabelFormat
+					}
+				}
+			},
+			legend: {
+				show: false
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+		});
 	},
+	getLabelFormat : function(label, slice) {
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";	
+	},
+	registerSectionClick : function() {	
+		var thisInstance = this;
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css( 'cursor', 'pointer' );
+			}else{
+				$(this).css( 'cursor', 'auto' );
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
+			if (item) {
+				if(item.series.links) window.location.href = item.series.links;
+			}
+		});
+	}
 });
-
