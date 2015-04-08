@@ -10,7 +10,19 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'Users' => 'Użytkownicy',
-    'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
+	'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
+	'LBL_COLORS' => 'Kolory',
+	'LBL_COLORS_DESCRIPTION' => ' ',
+	'LBL_UPDATE_COLOR' => 'Zmień kolor',
+	'LBL_COLOR' => 'Kolor',
+	'LBL_GENERATE_COLOR' => 'Generuj losowy kolor',
+	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
+	'LBL_EDIT_COLOR' => 'Edycja koloru',
+	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
+	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+	'LBL_GROUPS_COLORS' => 'Kolory grup',
+	'LBL_USERS_COLORS' => 'Kolory użytkowników',
+	'LBL_GROUP_NAME' => 'Nazwa grupy',
 );
 
 $jsLanguageStrings = array(

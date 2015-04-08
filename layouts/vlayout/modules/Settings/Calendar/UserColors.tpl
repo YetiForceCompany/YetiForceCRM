@@ -19,36 +19,11 @@
 	<div class="row-fluid">
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
-                <li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USER_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-				<li><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+               	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li><a data-toggle="tab" href="#calendarConfig"><strong>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
             </ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
-				<div class="tab-pane active" id="userColors">
-					<table class="table table-bordered table-condensed listViewEntriesTable">
-						<thead>
-							<tr class="blockHeader">
-								<th><strong>{vtranslate('First Name',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('Last Name',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
-							</tr>
-						</thead>
-						<tbody>
-							{foreach from=$MODULE_MODEL->getUserColors() item=item key=key}
-								<tr data-id="{$item.id}" data-color="{$item.color}">
-									<td>{$item.first}</td>
-									<td>{$item.last}</td>
-									<td class="calendarColor" style="background: {$item.color};"></td>
-									<td>
-										<button class="btn marginLeftZero updateColor" data-metod="UpdateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
-									</td>
-								</tr>
-							{/foreach}
-						</tbody>
-					</table>
-				</div>
-				<div class="tab-pane" id="calendarColors">
+				<div class="tab-pane active" id="calendarColors">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">

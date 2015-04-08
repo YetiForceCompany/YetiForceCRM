@@ -59,7 +59,7 @@ var Settings_UserColors_Js = {
 			}
 		}, {'width':'1000px'});
 	},
-	
+
 	updateEvent: function(e) {
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('Update labels'),
@@ -101,6 +101,7 @@ var Settings_UserColors_Js = {
 					type: 'success'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
+				return response;
 			},
 			function(data, err) {}
         );

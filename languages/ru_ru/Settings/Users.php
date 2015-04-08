@@ -12,6 +12,19 @@
 $languageStrings = array(
 	'Users'	=>	'Пользователи',
 	'USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
+	'LBL_USERS_COLORS' => 'User colors',
+	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
+	'LBL_UPDATE_COLOR' => 'Изменить цвет',
+	'LBL_COLOR' => 'Цвет',
+	'LBL_GENERATE_COLOR' => 'Generate random color',
+	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_EDIT_COLOR' => 'Редактировать цвет',
+	'LBL_SELECT_COLOR' => 'Выберите цвет:',
+	'LBL_SAVE_COLOR' => 'Сохранить цвет',
+	'LBL_GROUPS_COLORS' => 'Kolory grup',
+	'LBL_GROUP_NAME' => 'Group name',
+	'LBL_COLORS' => 'Colors',
+
 );
 
 $jsLanguageStrings = array(

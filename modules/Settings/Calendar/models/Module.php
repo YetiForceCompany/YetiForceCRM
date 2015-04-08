@@ -78,11 +78,6 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 		return $calendarViewTypes;
 	}
 
-	public static function updateUserColor($params) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_users SET cal_color = ? WHERE id = ?;', array($params['color'], $params['id']));
-	}
-
 	public static function getCalendarConfig($type) {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_calendar_config WHERE type = ?;",array($type));
@@ -104,4 +99,5 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = ?;', array($params['color'], $params['id']));
 	}
+	
 }
