@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -2609,6 +2609,7 @@ CREATE TABLE `vtiger_groups` (
   `groupid` int(19) NOT NULL,
   `groupname` varchar(100) DEFAULT NULL,
   `description` text,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`groupid`),
   UNIQUE KEY `groups_groupname_idx` (`groupname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

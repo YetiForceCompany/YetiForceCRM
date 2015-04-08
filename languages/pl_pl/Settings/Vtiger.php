@@ -259,6 +259,8 @@ $languageStrings = array(
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Ogólna konfiguracja poczty w systemie',
 	'LBL_SUPPORT_PROCESSES' => 'Procesy wsparcia',
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
+	'LBL_COLORS' => 'Kolory',
+	'LBL_COLORS_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',
