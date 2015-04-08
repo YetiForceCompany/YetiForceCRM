@@ -10,6 +10,7 @@
 var Settings_UserColors_Js = {
 	initEvants: function() {
 		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
+		$('.UserColors .generateColor').click(Settings_UserColors_Js.generateColor);
 		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
 	},
 	updateColor: function(e) {
@@ -59,7 +60,33 @@ var Settings_UserColors_Js = {
 			}
 		}, {'width':'1000px'});
 	},
-	
+	generateColor: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
+		var metod = target.data('metod');
+		
+		var params = {
+			module: app.getModuleName(), 
+			parent: app.getParentModuleName(), 
+			action: 'SaveAjax', 
+			mode: metod,
+			params: {id: closestTrElement.data('id')}
+		}
+        AppConnector.request(params).then(
+			function(data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					animation: 'show',
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				closestTrElement.find('.calendarColor').css('background',response.color);
+				closestTrElement.data('color', response.color);
+			},
+			function(data, err) {}
+        );
+	},
 	updateEvent: function(e) {
 		var progress = $.progressIndicator({
 			'message' : app.vtranslate('Update labels'),
@@ -101,6 +128,7 @@ var Settings_UserColors_Js = {
 					type: 'success'
 				};
 				Vtiger_Helper_Js.showPnotify(params);
+				return response;
 			},
 			function(data, err) {}
         );
