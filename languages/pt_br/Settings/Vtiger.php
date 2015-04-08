@@ -255,6 +255,8 @@ $languageStrings = array(
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves DAV',
 	'LBL_SUPPORT_PROCESSES' => 'Support processes',
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
+	'LBL_COLORS' => 'Colors',
+	'LBL_COLORS_DESCRIPTION' => ' ',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',

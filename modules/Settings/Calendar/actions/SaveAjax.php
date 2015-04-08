@@ -14,20 +14,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		parent::__construct();
 		$this->exposeMethod('UpdateModuleColor');
 		$this->exposeMethod('UpdateModuleActiveType');
-		$this->exposeMethod('UpdateUserColor');
 		$this->exposeMethod('UpdateCalendarConfig');
-		$this->exposeMethod('GenerateUserColor');
-	}
-	public function GenerateUserColor(Vtiger_Request $request) {
-		$params = $request->get('params');
-		
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => Settings_Calendar_Module_Model::generateUserColor($params),
-			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
-		));
-		$response->emit();
 	}
 	
 	public function UpdateModuleColor(Vtiger_Request $request) {
@@ -52,17 +39,6 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response->emit();
 	}
 
-	public function UpdateUserColor(Vtiger_Request $request) {
-		$params = $request->get('params');
-		Settings_Calendar_Module_Model::updateUserColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-	
 	public function UpdateCalendarConfig(Vtiger_Request $request) {
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);

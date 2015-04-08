@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -4931,9 +4931,9 @@ insert  into `vtiger_group2rs`(`groupid`,`roleandsubid`) values (4,'H3');
 
 /*Data for the table `vtiger_groups` */
 
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`) values (2,'Team Selling','Group Related to Sales');
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`) values (3,'Marketing Group','Group Related to Marketing Activities');
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`) values (4,'Support Group','Group Related to providing Support to Customers');
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`) values (2,'Team Selling','Group Related to Sales','#E6FAD8');
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`) values (3,'Marketing Group','Group Related to Marketing Activities','#E6FAD8');
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`) values (4,'Support Group','Group Related to providing Support to Customers','#E6FAD8');
 
 /*Data for the table `vtiger_holidaysentitlement` */
 
@@ -19903,10 +19903,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (78,8,'LBL_AUTOLOGIN',NULL,'LBL_AUTOLOGIN_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Autologin',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (79,8,'LBL_MAIL_GENERAL_CONFIGURATION',NULL,'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Config',1,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (80,6,'LBL_SUPPORT_PROCESSES',NULL,'LBL_SUPPORT_PROCESSES_DESCRIPTION','index.php?module=SupportProcesses&view=Index&parent=Settings',3,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (81,2,'LBL_COLORS',NULL,'LBL_COLORS_DESCRIPTION','index.php?module=Users&parent=Settings&view=Colors',19,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (79);
+insert  into `vtiger_settings_field_seq`(`id`) values (81);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

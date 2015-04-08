@@ -12,46 +12,61 @@
 {strip}
 <div class="container-fluid UserColors">
 	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="span10"><h3>{vtranslate('LBL_COLORS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 		<div class="span2"></div>
 	</div>
 	<hr>
 	<div class="row-fluid">
-        <div class="contents tabbable">
-            <ul class="nav nav-tabs layoutTabs massEditTabs">
-               	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-				<li><a data-toggle="tab" href="#calendarConfig"><strong>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
-            </ul>
+		<div class="contents tabbable">
+			<ul class="nav nav-tabs layoutTabs massEditTabs">
+				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#groupsColors"><strong>{vtranslate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
-				<div class="tab-pane active" id="calendarColors">
+				<div class="tab-pane active" id="userColors">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="blockHeader">
-								<th><strong>{vtranslate('LBL_CALENDAR_TYPE',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('First Name',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('Last Name',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
 								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=$MODULE_MODEL->getCalendarConfig('colors') item=item key=key}
-								<tr data-id="{$item.name}" data-color="{$item.value}">
-									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
-									<td class="calendarColor" style="background: {$item.value};"></td>
+							
+							{foreach from=Users_Colors_Model::getUserColors() item=item key=key}
+								<tr data-id="{$item.id}" data-color="{$item.color}">
+									<td>{$item.first}</td>
+									<td>{$item.last}</td>
+									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
 						</tbody>
 					</table>
 				</div>
-				<div class="tab-pane paddingTop20" id="calendarConfig">
+				<div class="tab-pane" id="groupsColors">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
+						<thead>
+							<tr class="blockHeader">
+								<th><strong>{vtranslate('LBL_GROUP_NAME',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+							</tr>
+						</thead>
 						<tbody>
-							{foreach from=$MODULE_MODEL->getCalendarConfig('reminder') item=item key=key}
-								<tr data-id="{$item.name}" data-color="{$item.value}">
-									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
-									<td><input type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/></td>
+							{foreach from=Users_Colors_Model::getGroupColors() item=item key=key}
+								<tr data-id="{$item.id}" data-color="{$item.color}">
+									<td>{$item.groupname}</td>
+									<td class="calendarColor" style="background: {$item.color};"></td>
+									<td>
+										<button class="btn updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+									</td>
 								</tr>
 							{/foreach}
 						</tbody>

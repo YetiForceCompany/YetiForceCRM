@@ -259,6 +259,8 @@ $languageStrings = array(
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'General configuration of the Email module',
 	'LBL_SUPPORT_PROCESSES' => 'Support processes',
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
+	'LBL_COLORS' => 'Colors',
+	'LBL_COLORS_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',

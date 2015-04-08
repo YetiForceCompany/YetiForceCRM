@@ -7,10 +7,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-var Settings_UserColors_Js = {
+var Colors_Js = {
 	initEvants: function() {
-		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
-		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
+		$('.UserColors .updateColor').click(Colors_Js.updateColor);
+		$('.UserColors .generateColor').click(Colors_Js.generateColor);		
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
@@ -44,7 +44,7 @@ var Settings_UserColors_Js = {
 						'enabled' : true
 					}
 				});
-				Settings_UserColors_Js.registerSaveEvent(metod,{
+				Colors_Js.registerSaveEvent(metod,{
 					'color': selectedColor.val(),
 					'id':closestTrElement.data('id'),
 				});
@@ -59,26 +59,32 @@ var Settings_UserColors_Js = {
 			}
 		}, {'width':'1000px'});
 	},
-
-	updateEvent: function(e) {
-		var progress = $.progressIndicator({
-			'message' : app.vtranslate('Update labels'),
-			'blockInfo' : {
-				'enabled' : true
-			}
-		});
+	generateColor: function(e) {
 		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
 		var metod = target.data('metod');
-		if(target.prop('checked')){
-			value = 1;
-		}else
-			value = 0;
-		params = {};
-		params.color = value;
-		params.id = target.attr('id');
-		params = jQuery.extend({}, params);
-		Settings_UserColors_Js.registerSaveEvent(metod,params);
-		progress.progressIndicator({'mode': 'hide'});
+		
+		var params = {
+			module: app.getModuleName(), 
+			parent: app.getParentModuleName(), 
+			action: 'SaveAjax', 
+			mode: metod,
+			params: {id: closestTrElement.data('id')}
+		}
+		AppConnector.request(params).then(
+			function(data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					animation: 'show',
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				closestTrElement.find('.calendarColor').css('background',response.color);
+				closestTrElement.data('color', response.color);
+			},
+			function(data, err) {}
+		);
 	},
 	
 	registerSaveEvent: function(mode, data) {
@@ -92,7 +98,7 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-        AppConnector.request(params).then(
+		AppConnector.request(params).then(
 			function(data) {
 				var response = data['result'];
 				var params = {
@@ -104,13 +110,13 @@ var Settings_UserColors_Js = {
 				return response;
 			},
 			function(data, err) {}
-        );
+		);
 	},
 	
 	registerEvents : function() {
-		Settings_UserColors_Js.initEvants();
+		Colors_Js.initEvants();
 	}
 }
 $(document).ready(function(){
-	Settings_UserColors_Js.registerEvents();
+	Colors_Js.registerEvents();
 })
