@@ -8,14 +8,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Users_Colors_View extends Settings_Vtiger_Index_View {
+class Settings_Users_Colors_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Users_Module_Model::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Colors.tpl', $qualifiedModuleName);
@@ -25,7 +23,7 @@ class Users_Colors_View extends Settings_Vtiger_Index_View {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			"modules.$moduleName.resources.Colors",
+			"modules.Settings.$moduleName.resources.Colors",
 			"~/libraries/jquery/colorpicker/js/colorpicker.js"
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
