@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -19909,10 +19910,12 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (80,6,'LBL_SUPPORT_PROCESSES',NULL,'LBL_SUPPORT_PROCESSES_DESCRIPTION','index.php?module=SupportProcesses&view=Index&parent=Settings',3,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (81,2,'LBL_COLORS',NULL,'LBL_COLORS_DESCRIPTION','index.php?module=Users&parent=Settings&view=Colors',19,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (82,6,'LBL_REALIZATION_PROCESSES','','LBL_REALIZATION_PROCESSES_DESCRIPTION','index.php?module=RealizationProcesses&view=Index&parent=Settings',4,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (83,6,'LBL_MARKETING_PROCESSES','','LBL_MARKETING_PROCESSES_DESCRIPTION','index.php?module=MarketingProcesses&view=Index&parent=Settings',4,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (84,6,'LBL_FINANCIAL_PROCESSES','','LBL_FINANCIAL_PROCESSES_DESCRIPTION','index.php?module=FinancialProcesses&view=Index&parent=Settings',4,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (82);
+insert  into `vtiger_settings_field_seq`(`id`) values (84);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
