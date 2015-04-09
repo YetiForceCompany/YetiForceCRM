@@ -47,6 +47,8 @@ var Colors_Js = {
 				Colors_Js.registerSaveEvent(metod,{
 					'color': selectedColor.val(),
 					'id':closestTrElement.data('id'),
+					'table': closestTrElement.data('table'),
+
 				});
 				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
@@ -68,8 +70,11 @@ var Colors_Js = {
 			module: app.getModuleName(), 
 			parent: app.getParentModuleName(), 
 			action: 'SaveAjax', 
-			mode: metod,
-			params: {id: closestTrElement.data('id')}
+			mode: 'generateColor',
+			params: {id: closestTrElement.data('id'),
+					table: closestTrElement.data('table'),
+					mode: metod,
+					}
 		}
 		AppConnector.request(params).then(
 			function(data) {

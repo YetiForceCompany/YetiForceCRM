@@ -11,9 +11,13 @@
 class Settings_Users_Colors_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
+		$supportProcesses = Users_Colors_Model::getModulesFieldsForSupport();
+		$tablesForSupport = Users_Colors_Model::getTablesForSupport();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULESFIELDSFORSUPPORT', $supportProcesses);
+		$viewer->assign('TABLESFORSUPPORT', $tablesForSupport);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Colors.tpl', $qualifiedModuleName);

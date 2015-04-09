@@ -20251,10 +20251,10 @@ insert  into `vtiger_ticketcategories_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ticketpriorities` */
 
-insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Low',1,182,0);
-insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Normal',1,183,1);
-insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'High',1,184,2);
-insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Urgent',1,185,3);
+insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Low',1,182,0,'	#E6FAD8');
+insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'Normal',1,183,1,'	#E6FAD8');
+insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'High',1,184,2,'	#E6FAD8');
+insert  into `vtiger_ticketpriorities`(`ticketpriorities_id`,`ticketpriorities`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'Urgent',1,185,3,'	#E6FAD8');
 
 /*Data for the table `vtiger_ticketpriorities_seq` */
 

@@ -21,6 +21,7 @@
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#groupsColors"><strong>{vtranslate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#supportProcesses"><strong>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
@@ -72,9 +73,48 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="tab-pane" id="supportProcesses">
+					<div class="accordion">
+						{foreach from=$MODULESFIELDSFORSUPPORT item=ITEM key=KEY}
+							<div class="accordion-group">
+								<div class="accordion-heading">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$KEY}">
+										{vtranslate($TABLESFORSUPPORT[$KEY]['module'], $TABLESFORSUPPORT[$KEY]['module'])}
+										&ensp;:&ensp;
+										{vtranslate($TABLESFORSUPPORT[$KEY]['nameField'], $TABLESFORSUPPORT[$KEY]['module'])}
+									</a>
+								</div>
+								<div id="{$KEY}" class="accordion-body collapse">
+									<div class="accordion-inner">
+										<table class="table table-bordered table-condensed listViewEntriesTable">
+											<thead>
+												<tr class="blockHeader">
+													<th><strong>{vtranslate('LBL_PRIORITY',$QUALIFIED_MODULE)}</strong></th>
+													<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+													<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+												</tr>
+											</thead>
+											<tbody>
+												{foreach from=$ITEM item=INNER_ITEM key=INNER_KEY}
+													<tr data-table="{$KEY}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
+														<td>{vtranslate($INNER_ITEM['value'], $TABLESFORSUPPORT[$KEY]['module'])}</td>
+														<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
+														<td>
+															<button class="btn updateColor" data-metod="updateColorForSupportProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+															<button class="btn generateColor" data-metod="generateColorForSupportProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+														</td>
+													</tr>
+												{/foreach}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						{/foreach}
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
 	<div class="clearfix"></div>
 	<div class="modal editColorContainer hide">
 		<div class="modal-header contentsBackground">

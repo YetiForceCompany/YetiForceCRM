@@ -11,6 +11,11 @@
 
 class Users_Colors_Model extends Vtiger_Record_Model {
 
+	public static function getTablesForSupport(){
+		$modulesFieldsForSupport['vtiger_ticketpriorities'] = ['module' => 'HelpDesk', 'table' => 'vtiger_ticketpriorities','nameField' => 'ticketpriorities'];
+		return $modulesFieldsForSupport;
+	}
+
 	public static function getUserColors() {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM vtiger_users");
@@ -40,6 +45,8 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		$params['color'] = $color;
 		if('generateGroupColor' == $params['mode'])
 			self::updateGroupColor($params);
+		elseif('generateColorForSupportProcesses' == $params['mode'])
+			self::updateColorForSupportProcesses($params);
 		else	
 			self::updateUserColor($params);
 		return $color;
@@ -67,4 +74,33 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
+
+	public static function getModulesFieldsForSupport(){
+		$adb = PearDatabase::getInstance(); 
+		$modulesFieldsForSupport = self::getTablesForSupport();
+		foreach ($modulesFieldsForSupport as $key => $value) {
+			$query = 'SELECT * FROM ' .$value['table'].'';
+			$result = $adb->query($query);
+			$rows = $adb->num_rows($result);
+				for ($i = 0; $i < $rows; $i++) {
+					$row = $adb->query_result_rowdata($result, $i);
+					$groupColors[$value['table']][] = array(
+						'id' => $row[$value['nameField'].'_id'],
+						'value' => $row[$value['nameField']],
+						'color' => $row['color']
+					);
+				}
+		}
+		return $groupColors;
+	}
+
+	public static function updateColorForSupportProcesses($params){
+		$adb = PearDatabase::getInstance();
+		$modulesFieldsForSupport = self::getTablesForSupport();
+		$idFieldName = $modulesFieldsForSupport[$params['table']]['nameField'] .'_id';
+		$adb->pquery('UPDATE '.$params['table'].' SET color = ? WHERE '.$idFieldName.' = ?;', array($params['color'], $params['id']));
+
+	}
+
+
 }
