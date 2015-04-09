@@ -137,7 +137,7 @@ $languageStrings = array(
 	'LBL_SETTINGS_SHORTCUTS' => 'Atalho Configurações',
 	'LBL_SHARING_ACCESS_DESCRIPTION' => 'Gerenciar regras de compartilhamento de módulo e compartilhamento customizado',
 	'LBL_SHARING_ACCESS' => 'Compartilhamento',
-  	'LBL_SHORT_SECONDS' => 'sec',
+  	'LBL_SHORT_SECONDS' => 'seg',
 	'LBL_START_SEQUENCE' => 'Iniciar Sequência',
 	'LBL_STATUS' => 'Status', //Duplicated key-value pair
 	'LBL_STUDIO' => 'Estudio' ,
@@ -253,9 +253,9 @@ $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
 	'LBL_DAV_KEYS' => 'Chaves DAV',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves DAV',
-	'LBL_SUPPORT_PROCESSES' => 'Support processes',
+	'LBL_SUPPORT_PROCESSES' => 'Processo de Suporte',
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
-	'LBL_COLORS' => 'Colors',
+	'LBL_COLORS' => 'Cores',
 	'LBL_COLORS_DESCRIPTION' => ' ',
 
 	/* Role */

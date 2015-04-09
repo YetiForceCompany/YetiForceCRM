@@ -15,7 +15,7 @@ $languageStrings = array(
 	'LBL_PARAMETER' => 'Parâmetro',
 	'LBL_VALUE' => 'Configurações atuais',
 	'LBL_RECOMMENDED' => 'Configuração recomendada',
-	'LBL_FILES_PERMISSIONS' => 'Files/Folders',
+	'LBL_FILES_PERMISSIONS' => 'Pastas/Arquivos',
 	'LBL_FILE' => 'Nome',
 	'LBL_PATH' => 'Diretório',
 	'LBL_PERMISSION' => 'Permissão',
@@ -24,6 +24,6 @@ $languageStrings = array(
 	'On' => 'Ligar',
 	'Off' => 'Desligar',
 	'NOT RECOMMENDED' => 'Não Recomendado',
-	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
-	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
+	'LBL_YETIFORCE_ENGINE' => 'Motor YetiForce',
+	'LBL_CHECK_CONFIG' => 'Motor RoundCube',
 );
