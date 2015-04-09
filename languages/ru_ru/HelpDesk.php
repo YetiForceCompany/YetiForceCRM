@@ -97,6 +97,7 @@ $languageStrings = array(
 	'LBL_ORDER_TIME'	=>	'Время создания Заявки',
 	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
 	'Record Id' => 'Номер записи',
+	'ticketpriorities' => 'priority',
 );
 
 $jsLanguageStrings = array(

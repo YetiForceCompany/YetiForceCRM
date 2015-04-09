@@ -6848,6 +6848,7 @@ CREATE TABLE `vtiger_ticketpriorities` (
   `presence` int(1) NOT NULL DEFAULT '0',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '	#E6FAD8',
   PRIMARY KEY (`ticketpriorities_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 

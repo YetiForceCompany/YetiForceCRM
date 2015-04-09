@@ -24,6 +24,7 @@ $languageStrings = array(
 	'LBL_GROUPS_COLORS' => 'Kolory grup',
 	'LBL_GROUP_NAME' => 'Group name',
 	'LBL_COLORS' => 'Colors',
+	'LBL_PRIORITY' => 'Priority',
 
 );
 
