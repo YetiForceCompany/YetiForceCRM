@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -5625,6 +5625,13 @@ CREATE TABLE `vtiger_quotestagehistory` (
   PRIMARY KEY (`historyid`),
   KEY `quotestagehistory_quoteid_idx` (`quoteid`),
   CONSTRAINT `fk_1_vtiger_quotestagehistory` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_realization_process` */
+
+CREATE TABLE `vtiger_realization_process` (
+  `module_id` int(11) NOT NULL,
+  `status_indicate_closing` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_recurring_frequency` */
