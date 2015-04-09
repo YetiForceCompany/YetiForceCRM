@@ -382,17 +382,17 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                         $key = $db->query_result( $pobierz_pola, $i, "fieldname" );
                         $value = $obiekt->column_fields[ $key ];
                         ################################################
-                        /// Dla pól z datą
-                        if( in_array( $field_uitype, $ui_datefields ) ) {
+                        /// for date type fields
+                        if( in_array( $field_uitype, $ui_datefields ) && !empty($field) ) {
                             $value = getValidDisplayDate( $value );
                         }
                         ################################################
-                        /// Dla pól z walutami
+                        /// for currency type fields
                         if( in_array( $field_uitype, $ui_currfields ) ) {
                             $currfield = new CurrencyField( $value );
                             $value = $currfield->getDisplayValue();
                         }
-                        //// Dla pola z językiem użytkownika
+                        //// for users language field
                         if( $field_uitype == 27 ) {
                             if( $value == 'I' ) {
                                 $value = getTranslatedString( 'Internal', $modulename );
