@@ -259,6 +259,10 @@ $languageStrings = array(
 	'LBL_COLORS_DESCRIPTION' => ' ',
 	'LBL_REALIZATION_PROCESSES' => 'Realization processes',
 	'LBL_REALIZATION_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_FINANCIAL_PROCESSES' => 'Financial processes',
+	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_MARKETING_PROCESSES' => 'Marketing processes',
+	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
