@@ -9,9 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'General',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
 );
 
 $jsLanguageStrings = array(
+	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
+	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
 	
 );

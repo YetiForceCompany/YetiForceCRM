@@ -9,9 +9,10 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'Ogólne',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Zaznaczona opcja powoduje, że przy konwertowaniu leada na kontrahenta jako właściciel rekordu ustawiana jest osoba, która dokonała konwersji.',
 );
 
 $jsLanguageStrings = array(
-	
+	'JS_CONVERSION_STATE_SUCCES' => 'Stan zapisany pomyślnie',
+	'JS_CONVERSION_STATE_FAILURE' => 'Błąd przy zapisie',
 );
