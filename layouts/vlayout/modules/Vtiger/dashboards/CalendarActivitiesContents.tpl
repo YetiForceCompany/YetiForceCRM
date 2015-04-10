@@ -28,20 +28,16 @@ font-size: 75%;
 		</div>
 		<div>
 			<div class='pull-left'>
-				{assign var=PARENT_ID value=$ACTIVITY->get('parent_id')}
-				{assign var=CONTACT_ID value=$ACTIVITY->get('contact_id')}
+				{assign var=LINK value=$ACTIVITY->get('link')}
+				{assign var=PROCESS value=$ACTIVITY->get('process')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}					
 				<a href="{$ACTIVITY->getDetailViewUrl()}">{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}</a>				
 				{if $CONTRACTOR}
-				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('parent_id')}</b></small>, <b><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></b>			
-				{else if $PARENT_ID}
-				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('parent_id')}</b></small>					
-				{else if $CONTACT_ID}
-					{if is_array($CONTACT_ID)}
-					    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{implode(',',$CONTACT_ID)}</b></small>
-					{else}
-					    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('contact_id')}</b></small>
-					{/if}
+				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('contractor')}</b></small>, <b><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGHT}</a></small></b>			
+				{else if $LINK}
+				    <br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('link')}</b></small>
+				{else if $PROCESS}
+					<br/><small class='small-a'>{vtranslate('LBL_FOR')} <b>{$ACTIVITY->getDisplayValue('process')}</b></small>
 				{/if}
 			</div>
 				{assign var=START_DATE value=$ACTIVITY->get('date_start')}
