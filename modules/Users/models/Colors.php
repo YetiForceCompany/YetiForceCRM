@@ -11,11 +11,28 @@
 
 class Users_Colors_Model extends Vtiger_Record_Model {
 
-	public static function getTablesForSupport(){
-		$modulesFieldsForSupport['vtiger_ticketpriorities'] = ['module' => 'HelpDesk', 'table' => 'vtiger_ticketpriorities','nameField' => 'ticketpriorities'];
-		return $modulesFieldsForSupport;
+
+	public static function getAllField(){
+		$modulesFields['marketing'][] = ['module' => 'Leads', 'nameField' => 'leadstatus'];
+		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketpriorities'];
+		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketstatus'];
+		$modulesFields['sales'][] = ['module' => 'Potentials', 'nameField' => 'sales_stage'];
+		$modulesFields['realization'][] = ['module' => 'Project', 'nameField' => 'projectstatus'];
+		$modulesFields['financial'][] = [];
+		return $modulesFields;
 	}
 
+	public static function getTablesAll(){
+		$modulesFields = self::getAllField();
+		foreach($modulesFields AS $key=>$fields){
+			foreach($fields AS $field){
+				$instance[$key][] = Vtiger_Functions::getModuleFieldInfo(getTabid($field['module']), $field['nameField']);
+			}
+		}
+		return $instance;
+	}
+
+	
 	public static function getUserColors() {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM vtiger_users");
@@ -45,8 +62,8 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		$params['color'] = $color;
 		if('generateGroupColor' == $params['mode'])
 			self::updateGroupColor($params);
-		elseif('generateColorForSupportProcesses' == $params['mode'])
-			self::updateColorForSupportProcesses($params);
+		elseif('generateColorForProcesses' == $params['mode'])
+			self::updateColorForProcesses($params);
 		else	
 			self::updateUserColor($params);
 		return $color;
@@ -75,31 +92,31 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
 
-	public static function getModulesFieldsForSupport(){
-		$adb = PearDatabase::getInstance(); 
-		$modulesFieldsForSupport = self::getTablesForSupport();
-		foreach ($modulesFieldsForSupport as $key => $value) {
-			$query = 'SELECT * FROM ' .$value['table'].'';
-			$result = $adb->query($query);
-			$rows = $adb->num_rows($result);
-				for ($i = 0; $i < $rows; $i++) {
-					$row = $adb->query_result_rowdata($result, $i);
-					$groupColors[$value['table']][] = array(
-						'id' => $row[$value['nameField'].'_id'],
-						'value' => $row[$value['nameField']],
-						'color' => $row['color']
-					);
-				}
+
+	public static function updateColorForProcesses($params){
+		$adb = PearDatabase::getInstance();
+		$primaryKey = Vtiger_Util_Helper::getPickListId($params['field']);
+		$adb->pquery('UPDATE '.$params['table'].' SET color = ? WHERE '.$primaryKey.' = ?;', array($params['color'], $params['id']));
+
+	}
+	
+	public static function getValuesFromField($fieldName) {
+		$db = PearDatabase::getInstance();
+
+		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
+		$query = 'SELECT * FROM vtiger_'.$fieldName.' order by sortorderid';
+		$values = array();
+		$result = $db->pquery($query, array());
+		$num_rows = $db->num_rows($result);
+		for($i=0; $i<$num_rows; $i++) {
+			//Need to decode the picklist values twice which are saved from old ui
+			$groupColors[] = array(
+				'id' => $db->query_result($result,$i,$primaryKey),
+				'value' => decode_html(decode_html($db->query_result($result,$i,$fieldName))),
+				'color' => $db->query_result($result,$i,'color')
+			);
 		}
 		return $groupColors;
-	}
-
-	public static function updateColorForSupportProcesses($params){
-		$adb = PearDatabase::getInstance();
-		$modulesFieldsForSupport = self::getTablesForSupport();
-		$idFieldName = $modulesFieldsForSupport[$params['table']]['nameField'] .'_id';
-		$adb->pquery('UPDATE '.$params['table'].' SET color = ? WHERE '.$idFieldName.' = ?;', array($params['color'], $params['id']));
-
 	}
 
 

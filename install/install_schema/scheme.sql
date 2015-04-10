@@ -3264,6 +3264,7 @@ CREATE TABLE `vtiger_leadstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`leadstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
@@ -5236,6 +5237,7 @@ CREATE TABLE `vtiger_projectstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`projectstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -6102,6 +6104,7 @@ CREATE TABLE `vtiger_sales_stage` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`sales_stage_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
@@ -6890,6 +6893,7 @@ CREATE TABLE `vtiger_ticketstatus` (
   `presence` int(1) NOT NULL DEFAULT '0',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`ticketstatus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
