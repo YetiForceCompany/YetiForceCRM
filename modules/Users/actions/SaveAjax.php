@@ -18,10 +18,11 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
 		$this->exposeMethod('editPasswords');
-		$this->exposeMethod('generateUserColor');
 		$this->exposeMethod('updateUserColor');
 		$this->exposeMethod('updateGroupColor');
-		$this->exposeMethod('generateGroupColor');
+		$this->exposeMethod('updateColorForSupportProcesses');
+		$this->exposeMethod('generateColorForSupportProcesses');
+		$this->exposeMethod('generateColor');
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -184,18 +185,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$response->emit();
 	}
 
-	public function generateUserColor(Vtiger_Request $request) {
-		$params = $request->get('params');
-		
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => Users_Colors_Model::generateColor($params),
-			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
 	public function updateUserColor(Vtiger_Request $request) {
 		$params = $request->get('params');
 		Users_Colors_Model::updateUserColor($params);
@@ -218,9 +207,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$response->emit();
 	}
 
-	public function generateGroupColor(Vtiger_Request $request) {
+	public function generateColor(Vtiger_Request $request) {
 		$params = $request->get('params');
-		$params['mode'] =  $request->get('mode');
+		
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -229,4 +218,16 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		));
 		$response->emit();
 	}
+
+	public function updateColorForSupportProcesses(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateColorForSupportProcesses($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
 }

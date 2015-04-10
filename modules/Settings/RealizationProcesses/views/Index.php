@@ -8,28 +8,21 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
+class Settings_RealizationProcesses_Index_View extends Settings_Vtiger_Index_View {
 
-$languageStrings = array(
-	'Users' => 'Users',
-    'USER_MAIL_EXIST' => 'User with this e-mail address exists',
-	'LBL_USERS_COLORS' => 'User colors',
-	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
-	'LBL_UPDATE_COLOR' => 'Change Color',
-	'LBL_COLOR' => 'Color',
-	'LBL_GENERATE_COLOR' => 'Generate random color',
-	'LBL_GENERATED_COLOR' => 'Color generated',
-	'LBL_EDIT_COLOR' => 'Edit color',
-	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
-	'LBL_SAVE_COLOR' => 'Color saved',
-	'LBL_GROUPS_COLORS' => 'Kolory grup',
-	'LBL_GROUP_NAME' => 'Group name',
-	'LBL_COLORS' => 'Colors',
-	'LBL_PRIORITY' => 'Priority',
-);
+	public function process(Vtiger_Request $request) {
+		global $log;
+		$log->debug("Entering Settings_RealizationProcesses_Index_View::process() method ...");
+		$qualifiedModule = $request->getModule(false);
+		$viewer = $this->getViewer($request);
 
-$jsLanguageStrings = array(
-    'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Decimal seperator and Grouping seperator cant be the same',
-);
-
-
+		$projectStatus = Settings_RealizationProcesses_Module_Model::getProjectStatus();
+		$statusNotModify = Settings_RealizationProcesses_Module_Model::getStatusNotModify();
+		$viewer->assign('STATUS_NOT_MODIFY', $statusNotModify);
+		$viewer->assign('PROJECT_STATUS', $projectStatus);
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		
+		$viewer->view('Index.tpl',$qualifiedModule);
+		$log->debug("Exiting Settings_RealizationProcesses_Index_View::process() method ...");
+	}
+}

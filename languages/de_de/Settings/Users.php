@@ -24,6 +24,7 @@ $languageStrings = array(
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'LBL_GROUPS_COLORS' => 'Kolory grup',
 	'LBL_GROUP_NAME' => 'Group name',
+	'LBL_PRIORITY' => 'Priority',
 );
 
 $jsLanguageStrings = array(

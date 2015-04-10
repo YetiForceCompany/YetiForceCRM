@@ -261,6 +261,12 @@ $languageStrings = array(
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'General configuration of the Email module',
 	'LBL_SUPPORT_PROCESSES' => 'Support processes',
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
+	'LBL_REALIZATION_PROCESSES' => 'Realization processes',
+	'LBL_REALIZATION_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_FINANCIAL_PROCESSES' => 'Financial processes',
+	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_MARKETING_PROCESSES' => 'Marketing processes',
+	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_COLORS' => 'Colors',
 	'LBL_COLORS_DESCRIPTION' => ' ',
 	
