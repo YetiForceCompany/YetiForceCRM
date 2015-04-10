@@ -6,16 +6,16 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_PROJECT_CONFIGURATION' => 'Project',
-	'LBL_INFO' => 'Information',
+	'LBL_PROJECT_CONFIGURATION' => 'Projeto',
+	'LBL_INFO' => 'Informação',
 	'LBL_TYPE' => 'Status',
-	'LBL_PROJECT' => 'Project',
-	'LBL_PROJECT_STATUS_INFO' => 'Statuses determining that the project is closed',
-	'LBL_SAVE_CONFIG_OK' => 'Changes saved successfully.',
-	'LBL_SAVE_CONFIG_ERROR' => 'Failed to save changes.',
+	'LBL_PROJECT' => 'Projeto',
+	'LBL_PROJECT_STATUS_INFO' => 'Os status determinam que o projeto está fechado',
+	'LBL_SAVE_CONFIG_OK' => 'Alterações salvas com sucesso.',
+	'LBL_SAVE_CONFIG_ERROR' => 'Falha ao salvar as alterações.',
 );
 
 $jsLanguageStrings = array(

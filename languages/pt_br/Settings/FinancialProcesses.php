@@ -6,10 +6,10 @@
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+ * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'General',
+	'LBL_GENERAL' => 'Geral',
 );
 
 $jsLanguageStrings = array(
