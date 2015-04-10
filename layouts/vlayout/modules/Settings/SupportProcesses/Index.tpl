@@ -42,9 +42,10 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-success saveButton pull-right" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>	
-		</div>
+			<button class="btn btn-success saveButton pull-left" type="submit" id='saveConfig' title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}" style="margin-top:10px;"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+		</div>	
 		<div class="tab-pane" id="other">
 		</div>
+	</div>
 	</div>
 </div>
