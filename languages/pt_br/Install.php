@@ -9,7 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************** */
 $languageStrings = array(
-	'LANGNAME' => 'Inglês',
+	'LANGNAME' => 'PortuguÃªs Brasil',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Não foi possível conectar à Base de Dados',
 	'ERR_DB_NOT_FOUND' => 'Esta Base de Dados não foi encontrada.Tente mudar as configurações da Base de Dados',
 	'ERR_INVALID_MYSQL_PARAMETERS' => 'Os parâmetros especificados para a conexão com o MySQL são inválidos',

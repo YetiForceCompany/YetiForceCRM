@@ -897,6 +897,7 @@ $languageStrings = array(
         'Lists'=>'Listas',
 	'Letters In'=>'Correspondências Recebidas',
 	'Letters Out'=>'Correspondências Enviadas',
+        'Companies'=>'Empresas',
 
 );
 $jsLanguageStrings = array(
