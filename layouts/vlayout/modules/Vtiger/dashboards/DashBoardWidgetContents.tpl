@@ -12,7 +12,7 @@
 {strip}
 {if count($DATA) gt 0 }
 	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
-	<div class="widgetChartContainer" style="height:100%;width:100%"></div>
+	<div class="widgetChartContainer" style="height:98%;width:100%"></div>
 {else}
 	<span class="noDataMsg">
 		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
