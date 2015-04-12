@@ -19,7 +19,7 @@ $languageStrings = array(
 	'LBL_TASKS_LIST' => 'Liste Aufgaben',
 	'LBL_MILESTONES_LIST' => 'Liste Meilensteine' ,
 	'description'=>'Beschreibung',
-        'Related to'=>'Projekt',
+	'Related to'=>'Projekt',
 	//Field Labels
 	'Project Milestone Name' => 'Projekt Meilenstein Name',
 	'Milestone Date' => 'Meilenstein Datum',

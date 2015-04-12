@@ -27,15 +27,15 @@ $languageStrings = array(
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'LBL_CALENDAR_CONFIG' => 'Kalenderkonfiguration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
-	'LBL_USER_COLORS' => 'Benutze Farben',
+	'LBL_USER_COLORS' => 'Benutzerfarben',
 	'LBL_CALENDAR_COLORS' => 'Kalenderfarben',
 	'LBL_CALENDAR_TYPE' => 'Kalendertyp',
 	'PLL_BREAK_TIME' => 'Öffnungszeit',
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
 	'LBL_UPDATE_EVENT' => 'Ereignis aktualisieren',
-	'LBL_GENERATE_COLOR' => 'Generate random color',
-	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_GENERATE_COLOR' => 'Generiere Zufallsfarbe',
+	'LBL_GENERATED_COLOR' => 'Farbe generiert',
 );
 $jsLanguageStrings = array(
 
