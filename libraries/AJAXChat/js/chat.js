@@ -297,7 +297,7 @@ var ajaxChat = {
 	startChat: function() {
 		this.chatStarted = true;
 		if(this.dom['inputField'] && this.settings['autoFocus']) {
-			this.dom['inputField'].focus();
+			//this.dom['inputField'].focus();
 		}
 		this.loadFlashInterface();
 		this.startChatUpdate();
@@ -2420,9 +2420,7 @@ var ajaxChat = {
 					+ this.scriptLinkEncode(users[i])
 					+ '\', null);" title="'
 					+ this.lang['toggleUserMenu'].replace(/%s/, users[i])
-					+ '" dir="'
-					+ this.baseDirection
-					+ '">'
+					+ '" >'
 					+ ((users[i] === this.userName) ? '<b>'+users[i]+'</b>' : users[i])
 					+ '</a>'
 					+ '<ul class="inlineUserMenu" id="'

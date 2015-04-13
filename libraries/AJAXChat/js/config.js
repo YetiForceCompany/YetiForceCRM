@@ -66,7 +66,7 @@ var ajaxChatConfig = {
 		emoticons: true,
 	
 		// Defines if the focus is automatically set to the input field on chat load or channel switch:
-		autoFocus: true,
+		autoFocus: false,
 		// Defines if the chat list scrolls automatically to display the latest messages:
 		autoScroll: true,	
 		// The maximum count of messages displayed in the chat list (will be ignored if set to 0):
