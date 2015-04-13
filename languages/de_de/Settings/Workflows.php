@@ -117,12 +117,12 @@ $languageStrings = array(
 	'Sales stage - Preparing calculations'	=> 'Verkaufsphase - Vorbereitung Berechnungen',
 	'Sales stage - Preparing quote'	=> 'Verkaufsphase - Vorbereitung Angebot',
 	'Sales stage - Awaiting decision'	=> 'Verkaufsphase - Warten auf Entscheidung',
-	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
+	'New comment added to ticket from portal' => 'Neues Kommentar dem Ticket vom Portal hinzufügen',
 	'LBL_ACTIVATION_TASKS' => 'Aktiviere Aufgaben',
 	'LBL_DEACTIVATION_TASKS' => 'Deaktiviere Aufgaben',
 	'LBL_ALL_TASKS' => 'Alle Aufgaben',
 	'LBL_ACTIVE_TASKS' => 'Aktive Aufgaben',
-	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Do not duplicate records',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Kein Datensätze dublizieren',
 	
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
