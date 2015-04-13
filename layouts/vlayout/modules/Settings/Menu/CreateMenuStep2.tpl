@@ -16,7 +16,7 @@
 		{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 		{assign var=MENU_TYPE value=$MENU_TYPES[$TYPE]}
 		<form>
-			<input type="hidden" name="type" value="{$MENU_TYPE}" />
+			<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 			<div class="row-fluid">
 				<div class="span5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
 				<div class="span7">{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>

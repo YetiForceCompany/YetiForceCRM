@@ -146,6 +146,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 			$menu[] = [
 				'id' => $row['id'],
 				'tabid' => $row['module'],
+				'mod' => $row['name'],
 				'name' => $settingsModel->getMenuName($row),
 				'type' => $settingsModel->getMenuTypes($row['type']),
 				'sequence' => $row['sequence'],
