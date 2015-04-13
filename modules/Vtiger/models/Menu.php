@@ -29,4 +29,14 @@ class Vtiger_Menu_Model{
 		}
 		return $menus;
     }
+	
+	public static function vtranslateMenu($key, $module) {
+		$language = Vtiger_Language_Handler::getLanguage();
+		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
+		if (array_key_exists($key, $moduleStrings['languageStrings'])) {
+			return stripslashes($moduleStrings['languageStrings'][$key]);
+		}
+		return vtranslate($key, $module);
+	}
+
 }

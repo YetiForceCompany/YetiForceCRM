@@ -31,18 +31,18 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 
 		$result = $db->pquery('SELECT yetiforce_menu.*, vtiger_tab.name FROM yetiforce_menu LEFT JOIN vtiger_tab ON vtiger_tab.tabid = yetiforce_menu.module WHERE role = ? ORDER BY yetiforce_menu.sequence, yetiforce_menu.parentid;', [$roleId]);
 		$menu = [];
-		for ($i=0; $i<$db->num_rows($result); ++$i) {
+		for ($i = 0; $i < $db->num_rows($result); ++$i) {
 			$row = $db->raw_query_result_rowdata($result, $i);
 			$menu[] = [
-				'id' => $row['id'], 
-				'parent' => $row['parentid']==0?'#':$row['parentid'], 
-				'text' => vtranslate($settingsModel->getMenuName($row, true),'Menu'),
-				'icon' => 'menu-icon-'.$settingsModel->getMenuTypes($row['type'])
+				'id' => $row['id'],
+				'parent' => $row['parentid'] == 0 ? '#' : $row['parentid'],
+				'text' => Vtiger_Menu_Model::vtranslateMenu($settingsModel->getMenuName($row, true), $row['name']),
+				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type'])
 			];
 		}
 		return $menu;
 	}
-	
+
 	public static function getCleanInstance() {
 		$instance = new self();
 		return $instance;

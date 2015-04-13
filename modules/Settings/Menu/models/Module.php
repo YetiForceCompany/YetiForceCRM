@@ -50,7 +50,7 @@ class Settings_Menu_Module_Model{
 				if($row['label'] != ''){
 					$name = $row['label'];
 				}elseif($settings){
-					$name = vtranslate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . vtranslate('SINGLE_'.$row['name'], $row['name']);
+					$name = vtranslate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_'.$row['name'], $row['name']);
 				}
 				break;
 			case 6: $name = 'LBL_HOME';
