@@ -165,7 +165,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 
-            $complusoryFields = array('sum_invoices');
+            $complusoryFields = array();
 			foreach($fieldModels as $fieldName => $fieldModel) {
 				if($fieldModel->isMandatory() &&  $fieldName != 'assigned_user_id' && $fieldName != 'related_to'
 						&& $fieldName != 'contact_id') {

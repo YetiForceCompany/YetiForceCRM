@@ -87,22 +87,17 @@
 
 									{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 									{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
-
-									{if $FIELD_VALUE eq ''}
-										{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
-									{/if}
 									
+									{if $FIELD_VALUE eq '' || $STATE eq '1'}
+										{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
+									{/if}	
 									<select class="chzn-select {$ASSIGNED_USER_ID}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
 										<optgroup label="{vtranslate('LBL_USERS')}">
 											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-
+												
 													<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' 
 														{if array_key_exists($OWNER_ID, $ACCESSIBLE_USER_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if}
-															{if $STATE}
-														 		{if $OWNER_ID eq $CURRENT_USER_ID } selected {/if}
-														  	{else}
-														  		{if $FIELD_VALUE eq $OWNER_ID} selected {/if}
-														  	{/if}
+															{if $FIELD_VALUE eq $OWNER_ID} selected {/if}
 														data-userId="{$CURRENT_USER_ID}">
 														{$OWNER_NAME}	
 													</option>
@@ -110,7 +105,7 @@
 										</optgroup>
 										<optgroup label="{vtranslate('LBL_GROUPS')}">
 											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-												<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {/if}
+												<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
 													{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
 												{$OWNER_NAME}
 												</option>

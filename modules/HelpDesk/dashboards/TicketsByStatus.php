@@ -30,13 +30,12 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 
 		$vtigerModel = new Vtiger_Module_Model();
 		$ownerSql = $vtigerModel->getOwnerWhereConditionForDashBoards($owner);
-	
+		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$params = array();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'HelpDesk';
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
-		
 
 		$sql = 'SELECT COUNT(*) as count
 					, priority, vtiger_ticketpriorities.color,
@@ -50,10 +49,13 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 				INNER JOIN vtiger_ticketpriorities
 					ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority`
 				WHERE
-					vtiger_ticketstatus.ticketstatus <> "Closed"
-					AND vtiger_crmentity.`deleted` = 0';
+					vtiger_crmentity.`deleted` = 0';
 		if(!empty($ownerSql)) {
 			$sql .= ' AND '.$ownerSql;
+		}
+		if(!empty($ticketStatus)){
+			$ticketStatusSearch = implode(',', $ticketStatus);
+			$sql .=	" AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
 		if ($securityParameter != '')
 			$sql .= ' ' . $securityParameter;
@@ -87,16 +89,13 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
+					$result[$priorityValue]['data'][$counter][0] = $counter;
+					$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
+					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if($ticketValue[$priorityKey]){
-						$result[$priorityValue]['data'][$counter][0] = $counter;
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
-						$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
-						$result[$priorityValue]['color'] = $colors[$priorityKey];
 					}else{
-						$result[$priorityValue]['data'][$counter][0] = $counter;
 						$result[$priorityValue]['data'][$counter][1] = 0;
-						$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
-						$result[$priorityValue]['color'] = $colors[$priorityKey];
 					}
 				}
 				$counter++;
@@ -106,12 +105,12 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 			foreach ($status as $key => $value) {
 				$newArray = [$key, vtranslate($value, 'HelpDesk')];
 				array_push($ticks, $newArray);
-				$ticketsNotTranslate[] = $value;
+				$name[] = $value;
 			}
 			
 			$response['chart'] = $result;
 			$response['ticks'] = $ticks;
-			$response['ticketsNotTranslate'] = $ticketsNotTranslate;
+			$response['name'] = $name;
 		}
 		return $response;
 	}
@@ -142,10 +141,10 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 		$data = ($owner === false)?array():$this->getTicketsByStatus($owner);
 
         $listViewUrl = $moduleModel->getListViewUrl();
-		$statusmount = count($data['ticketsNotTranslate']);
+		$statusmount = count($data['name']);
         for($i = 0;$i<$statusmount;$i++){   
 			$data['links'][$i][0] = $i;
-			$data['links'][$i][1] = $listViewUrl.$this->getSearchParams($data['ticketsNotTranslate'][$i],$owner);
+			$data['links'][$i][1] = $listViewUrl.$this->getSearchParams($data['name'][$i],$owner);
         }
 		//Include special script and css needed for this widget
 

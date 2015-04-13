@@ -13,13 +13,13 @@ $GEBUG_CONFIG = Array(
 	'LOG4PHP_DEBUG' => false,
 	
 	// show php errors (display_errors),
-	'DISPLAY_PHP_ERRORS' => false,
+	'DISPLAY_PHP_ERRORS' => true,
 	
 	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => false,
 
 	// stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => false,
+	'SQL_DIE_ON_ERROR' => true,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
