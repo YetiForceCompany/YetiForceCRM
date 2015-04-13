@@ -9,6 +9,7 @@
  *************************************************************************************************************************************/*}
 <nav role="navigation" aria-label="Main menu">
 	<ul class="nav modulesList collapsed" role="menubar" aria-hidden="false">
+		{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 		{assign var=TABINDEX value=0}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{assign var=TABINDEX value=$TABINDEX+1}

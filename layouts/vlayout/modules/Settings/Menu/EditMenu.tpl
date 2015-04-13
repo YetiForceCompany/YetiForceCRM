@@ -24,7 +24,7 @@
 					{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 				</div>
 			</div>
-			{include file='Types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</form>
     </div>
 	<div class="modal-footer">

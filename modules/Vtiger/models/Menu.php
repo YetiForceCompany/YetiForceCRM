@@ -27,19 +27,6 @@ class Vtiger_Menu_Model{
 		if(count($menus) == 0){
 			require('user_privileges/menu_0.php');
 		}
-		$showMenu = [];
-		foreach ($menus as $menu) {
-			if ( in_array($menu['type'], [0, 6]) && ( $userPrivModel->isAdminUser() ||
-					$userPrivModel->hasGlobalReadPermission() ||
-					$userPrivModel->hasModulePermission($menu['tabid']))
-			) {
-				$showMenu[$menu['id']] = $menu;
-			} elseif ($menu['type'] == 5 && ($userPrivModel->getGlobalWritePermission() || $userPrivModel->hasModuleActionPermission($menu['tabid'], 'EditView') )) {
-				$showMenu[$menu['id']] = $menu;
-			} elseif (!in_array($menu['type'], [0, 5, 6])) {
-				$showMenu[$menu['id']] = $menu;
-			}
-		}
-		return $showMenu;
+		return $menus;
     }
 }
