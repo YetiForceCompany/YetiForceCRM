@@ -24,6 +24,9 @@ class Vtiger_Menu_Model{
 		} else {
 			require('user_privileges/menu_0.php');
 		}
+		if(count($menus) == 0){
+			require('user_privileges/menu_0.php');
+		}
 		$showMenu = [];
 		foreach ($menus as $menu) {
 			if ( in_array($menu['type'], [0, 6]) && ( $userPrivModel->isAdminUser() ||
