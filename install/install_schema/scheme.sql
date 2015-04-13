@@ -4200,27 +4200,6 @@ CREATE TABLE `vtiger_ossmailviewcf` (
   CONSTRAINT `fk_1_vtiger_ossmailviewcf` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ossmenumanager` */
-
-CREATE TABLE `vtiger_ossmenumanager` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(19) DEFAULT NULL,
-  `tabid` int(19) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL,
-  `sequence` int(3) DEFAULT NULL,
-  `visible` int(3) DEFAULT NULL,
-  `type` int(3) DEFAULT NULL,
-  `url` text,
-  `new_window` int(3) DEFAULT NULL,
-  `permission` text,
-  `locationicon` varchar(255) DEFAULT NULL,
-  `sizeicon` varchar(255) DEFAULT NULL,
-  `langfield` text,
-  `paintedicon` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
 CREATE TABLE `vtiger_ossoutsourcedservices` (
