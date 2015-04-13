@@ -36,33 +36,30 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		if($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			$menuModelsList = Vtiger_Menu_Model::getAll(true);
+
 			$selectedModule = $request->getModule();
-			$menuStructure = Vtiger_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
-
-			// Order by pre-defined automation process for QuickCreate.
-			uksort($menuModelsList, array('Vtiger_MenuStructure_Model', 'sortMenuItemsByProcess'));
-
 			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 			$companyLogo = $companyDetails->getLogo();
-
-			$viewer->assign('CURRENTDATE', date('Y-n-j'));
+			$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
+			$viewer->assign('CURRENTDATE', $currentDate);
 			$viewer->assign('MODULE', $selectedModule);
+			$viewer->assign('MODULE_NAME', $selectedModule);
+			$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
-            $viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('MENUS', $menuModelsList);
-			$viewer->assign('MENU_STRUCTURE', $menuStructure);
-			$viewer->assign('MENU_SELECTED_MODULENAME', $selectedModule);
-			$viewer->assign('MENU_TOPITEMS_LIMIT', $menuStructure->getLimit());
+			$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
+			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->assign('COMPANY_LOGO',$companyLogo);
 			$viewer->assign('USER_MODEL', $currentUser);
-            $viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-
+			
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 			$viewer->assign('HEADER_LINKS',$this->getHeaderLinks());
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
-
+			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
+			$viewer->assign('WORKTIME', OSSEmployees_Record_Model::getWorkTime());
+			
+			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
 			$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
@@ -77,12 +74,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$sharedType = Calendar_Module_Model::getSharedType($currentUser->id);
 			$viewer->assign('ALL_USERS',$allUsers);
 			$viewer->assign('SHAREDUSERS',$sharedUsers);
-			$viewer->assign('SHARED_TYPE',$sharedType);
-			// OpenSaaS
-			$OSSMenu = OSSMenuManager_Record_Model::getMenu();
-			$viewer->assign('MENU_STRUCTURE', $OSSMenu);
-			//  OpenSaaS
-			
+			$viewer->assign('SHARED_TYPE',$sharedType);	
 			if($display) {
 				$this->preProcessDisplay($request);
 			}

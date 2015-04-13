@@ -3307,11 +3307,6 @@ td.listViewEntryValue .row-fluid input {
     padding-left: 2px;
     padding-right: 2px;
 }
-.quickCreateModule {
-	overflow: hidden !important;
-	text-overflow: ellipsis !important;
-	padding: 3px 3px 3px 10px !important;
-}
 .fieldLabel .pull-right {
     text-align: right;
 }
