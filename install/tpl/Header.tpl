@@ -43,8 +43,8 @@
 		{* This is needed as in some of the tpl we are using jQuery.ready *}
 		<script type="text/javascript" src="../libraries/jquery/jquery.min.js"></script>
 		<!--[if IE]>
-		<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
-		<script type="text/javascript" src="libraries/html5shim/respond.js"></script>
+		<script type="text/javascript" src="libraries/html5shim/html5shiv.min.js"></script>
+		<script type="text/javascript" src="libraries/html5shim/respond.min.js"></script>
 		<![endif]-->
 		{* ends *}
 

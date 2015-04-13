@@ -16,6 +16,7 @@
 		{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 		{assign var=MENU_TYPE value=$MENU_TYPES[$RECORD->get('type')]}
 		<form>
+			<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 			<input type="hidden" name="id" value="{$ID}" />
 			<input type="hidden" name="role" value="{$RECORD->get('role')}" />
 			<div class="row-fluid">

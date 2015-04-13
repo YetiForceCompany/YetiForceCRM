@@ -151,6 +151,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var thisInstance = this;
 		container.find('form').validationEngine(app.validationEngineOptions);
 		thisInstance.registerHotkeys(container);
+		thisInstance.registerHiddenInput(container);
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			var errorExists = container.find('form').validationEngine('validate');
@@ -179,6 +180,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		var thisInstance = this;
 		container.find('form').validationEngine(app.validationEngineOptions);
 		thisInstance.registerHotkeys(container);
+		thisInstance.registerHiddenInput(container);
 		container.find('.saveButton').click(function (e) {
 			var form = container.find('form').serializeFormData();
 			form.role = $('[name="roleMenu"]').val();
@@ -231,6 +233,17 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				Mousetrap.unbind(key);
 			});
 		}); 
+	},
+	registerHiddenInput: function (container) {
+		if(container.find('#menuType').val() == 'CustomFilter'){
+			var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
+			container.find('[name="module"]').val(tabid);
+			container.on('change', 'select[name="dataurl"]', function (e) {
+				var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
+				container.find('[name="module"]').val(tabid);
+			});
+			
+		}
 	},
 	registerEvents: function () {
 		var thisInstance = this;
