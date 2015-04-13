@@ -427,7 +427,7 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 		quickCreateParams['noCache'] = true;
-		var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
+		var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
 		if(quickCreateNode.length <= 0) {
 			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
 		}
