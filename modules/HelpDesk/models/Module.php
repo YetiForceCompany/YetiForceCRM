@@ -38,46 +38,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 		return $parentQuickLinks;
 	}
 
-	/**
-	 * Function returns Tickets grouped by Status
-	 * @param type $data
-	 * @return <Array>
-	 */
-	public function getTicketsByStatus($owner, $dateFilter) {
-		$db = PearDatabase::getInstance();
-
-		$ownerSql = $this->getOwnerWhereConditionForDashBoards($owner);
-		if(!empty($ownerSql)) {
-			$ownerSql = ' AND '.$ownerSql;
-		}
-		
-		$params = array();
-		if(!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start']. ' 00:00:00';
-			$params[] = $dateFilter['end']. ' 23:59:59';
-		}
-		
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue 
-							FROM vtiger_troubletickets INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted=0
-							'.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql .' '.$dateFilterSql.
-							" INNER JOIN vtiger_ticketstatus ON vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus WHERE vtiger_ticketstatus.ticketstatus <> 'Closed' GROUP BY statusvalue ORDER BY vtiger_ticketstatus.sortorderid", $params);
-
-		$response = array();
-
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$response[$i][0] = $row['count'];
-			$ticketStatusVal = $row['statusvalue'];
-			if($ticketStatusVal == '') {
-				$ticketStatusVal = 'LBL_BLANK';
-			}
-			$response[$i][1] = vtranslate($ticketStatusVal, $this->getName());
-			$response[$i][2] = $ticketStatusVal;
-		}
-		return $response;
-	}
+	
 
 	/**
 	 * Function to get relation query for particular module with function name

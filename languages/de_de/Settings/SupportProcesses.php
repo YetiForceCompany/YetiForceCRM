@@ -9,14 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_SUPPORT_PROCESSES' => 'Support Processes',
-	'LBL_GENERAL_CONFIGURATION' => 'General Configuration',
-	'LBL_OTHER' => 'Other',
+	'LBL_SUPPORT_PROCESSES' => 'Supportprozesse',
+	'LBL_GENERAL_CONFIGURATION' => 'Allgemeine Konfiguration',
+	'LBL_OTHER' => 'Weitere',
 	'LBL_INFO' => 'Info',
-	'LBL_TYPE' => 'Type',
-	'LBL_TICKET_STATUS_INFO' => 'Ticket status indicate closing',
-	'LBL_SAVE_CONFIG_OK' => 'Changes has been saved',
-	'LBL_SAVE_CONFIG_ERROR'	=> 'hanges has been saved.',
+	'LBL_TYPE' => 'Typ',
+	'LBL_TICKET_STATUS_INFO' => 'Ticketstatus welcher als geschlossen zählt',
+	'LBL_SAVE_CONFIG_OK' => 'Änderungen wurden gesichert',
+	'LBL_SAVE_CONFIG_ERROR'	=> 'Beim Sichern traten Fehler auf.',
 	
 );
 

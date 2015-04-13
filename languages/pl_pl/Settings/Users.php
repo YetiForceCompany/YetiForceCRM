@@ -23,6 +23,7 @@ $languageStrings = array(
 	'LBL_GROUPS_COLORS' => 'Kolory grup',
 	'LBL_USERS_COLORS' => 'Kolory użytkowników',
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
+	'LBL_PRIORITY' => 'Priorytet',
 );
 
 $jsLanguageStrings = array(

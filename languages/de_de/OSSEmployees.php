@@ -52,7 +52,7 @@ $languageStrings = array(
 	'Inactive'	=>	'Inaktiv',
 	'Average daily working time'	=>	'durchschnittliche Arbeitszeit',
 
-	'LBL_USER_EXISTS'	=>	'User für Mitarbeiter angelegt',
+	'LBL_USER_EXISTS'	=>	'Benutzer für Mitarbeiter angelegt',
 
 //widget
 	'LBL_Holidays'	=>	'Ferien',

@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v11.5 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -3264,6 +3264,7 @@ CREATE TABLE `vtiger_leadstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`leadstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
@@ -5236,6 +5237,7 @@ CREATE TABLE `vtiger_projectstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`projectstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -5625,6 +5627,13 @@ CREATE TABLE `vtiger_quotestagehistory` (
   PRIMARY KEY (`historyid`),
   KEY `quotestagehistory_quoteid_idx` (`quoteid`),
   CONSTRAINT `fk_1_vtiger_quotestagehistory` FOREIGN KEY (`quoteid`) REFERENCES `vtiger_quotes` (`quoteid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_realization_process` */
+
+CREATE TABLE `vtiger_realization_process` (
+  `module_id` int(11) NOT NULL,
+  `status_indicate_closing` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_recurring_frequency` */
@@ -6095,6 +6104,7 @@ CREATE TABLE `vtiger_sales_stage` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`sales_stage_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
@@ -6848,6 +6858,7 @@ CREATE TABLE `vtiger_ticketpriorities` (
   `presence` int(1) NOT NULL DEFAULT '0',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '	#E6FAD8',
   PRIMARY KEY (`ticketpriorities_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -6882,6 +6893,7 @@ CREATE TABLE `vtiger_ticketstatus` (
   `presence` int(1) NOT NULL DEFAULT '0',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`ticketstatus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 

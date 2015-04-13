@@ -15,6 +15,7 @@ var Colors_Js = {
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
+		var closestTableElement = target.closest('table');
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
 		var metod = target.data('metod');
@@ -47,6 +48,9 @@ var Colors_Js = {
 				Colors_Js.registerSaveEvent(metod,{
 					'color': selectedColor.val(),
 					'id':closestTrElement.data('id'),
+					'table': closestTrElement.data('table'),
+					'field': closestTableElement.data('fieldname'),
+
 				});
 				closestTrElement.find('.calendarColor').css('background',selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
@@ -62,14 +66,19 @@ var Colors_Js = {
 	generateColor: function(e) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
+		var closestTableElement = target.closest('table');
 		var metod = target.data('metod');
 		
 		var params = {
 			module: app.getModuleName(), 
 			parent: app.getParentModuleName(), 
 			action: 'SaveAjax', 
-			mode: metod,
-			params: {id: closestTrElement.data('id')}
+			mode: 'generateColor',
+			params: {id: closestTrElement.data('id'),
+					table: closestTrElement.data('table'),
+					field: closestTableElement.data('fieldname'),
+					mode: metod,
+					}
 		}
 		AppConnector.request(params).then(
 			function(data) {

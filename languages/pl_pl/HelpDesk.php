@@ -90,6 +90,7 @@ $languageStrings = array(
 	'P&S Sold'=>'Produkt/Usługa Sprzedana',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Znajdź duplikaty',
 	'Record Id' => 'Id rekordu',
+	'ticketpriorities' => 'priorytet',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'=>'Witaj w platformie',

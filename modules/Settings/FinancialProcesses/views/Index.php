@@ -8,33 +8,17 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
-class Settings_Leads_ConvertToAccount_View extends Settings_Vtiger_Index_View{
+class Settings_FinancialProcesses_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
-		$qualifiedModuleName = $request->getModule(false);
+		global $log;
+		$log->debug("Entering Settings_FinancialProcesses_Index_View::process() method ...");
+		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$state = Settings_Leads_ConvertToAccount_Model::getState();
-		$viewer->assign('STATE', $state);
-		$viewer->view('ConvertToAccount.tpl', $qualifiedModuleName);
+
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		
+		$viewer->view('Index.tpl',$qualifiedModule);
+		$log->debug("Exiting Settings_FinancialProcesses_Index_View::process() method ...");
 	}
-
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
-	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
-			"modules.Settings.$moduleName.resources.ConvertToAccount"
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
-
 }
