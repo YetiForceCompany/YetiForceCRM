@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -7646,6 +7646,29 @@ CREATE TABLE `yetiforce_mail_quantities` (
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`userid`),
   CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_menu` */
+
+CREATE TABLE `yetiforce_menu` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `role` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT '0',
+  `type` tinyint(1) DEFAULT NULL,
+  `sequence` int(3) DEFAULT NULL,
+  `module` int(19) DEFAULT NULL,
+  `label` varchar(100) DEFAULT NULL,
+  `newwindow` tinyint(1) DEFAULT '0',
+  `dataurl` text,
+  `showicon` tinyint(1) DEFAULT '0',
+  `icon` varchar(255) DEFAULT NULL,
+  `sizeicon` varchar(255) DEFAULT NULL,
+  `hotkey` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parentid`),
+  KEY `role` (`role`),
+  KEY `module` (`module`),
+  CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */
