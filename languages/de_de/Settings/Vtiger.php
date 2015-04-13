@@ -214,7 +214,6 @@ $languageStrings = array(
 	'OSSCosts' => 'Kosten',
 	
 	/* settings menu */
-	'Menu Manager' => 'Menüverwaltung',
 	'LBL_BRUTEFORCE_DESCRIPTION'	=>	'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
 	'LBL_BRUTEFORCE'	=>	'Brute force',
 	'LBL_API_ADDRESS'	=>	'Adressen-Suche',
@@ -269,6 +268,8 @@ $languageStrings = array(
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_COLORS' => 'Farbverwaltung',
 	'LBL_COLORS_DESCRIPTION' => ' ',
+	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
