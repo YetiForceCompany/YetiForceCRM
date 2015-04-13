@@ -165,6 +165,9 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				});
 			}
 		});
+		container.find('form').submit(function( event ) {
+			event.preventDefault();
+		});
 	},
 	registerStep1: function (container) {
 		var thisInstance = this;
@@ -194,6 +197,9 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
+		});
+		container.find('form').submit(function( event ) {
+			event.preventDefault();
 		});
 	},
 	save: function (mode, data) {

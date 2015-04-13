@@ -16,7 +16,7 @@
 		{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
 		{assign var=MENU_TYPE value=$MENU_TYPES[$RECORD->get('type')]}
 		<form>
-			<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
+			<input type="hidden" id="menuType" value="{$MENU_TYPE}" />
 			<input type="hidden" name="id" value="{$ID}" />
 			<input type="hidden" name="role" value="{$RECORD->get('role')}" />
 			<div class="row-fluid">
@@ -31,7 +31,7 @@
 	<div class="modal-footer">
 		<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
 			<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-			<button class="btn btn-success saveButton" type="submit"><strong>{vtranslate('LBL_SAVE_MENU', $QUALIFIED_MODULE)}</strong></button>
+			<a class="btn btn-success saveButton"><strong>{vtranslate('LBL_SAVE_MENU', $QUALIFIED_MODULE)}</strong></a>
 		</div>
 	</div>
 </div>

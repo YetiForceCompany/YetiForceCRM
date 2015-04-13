@@ -27,7 +27,7 @@
 	<div class="modal-footer">
 		<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
 			<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-			<button class="btn btn-success saveButton" type="submit"><strong>{vtranslate('LBL_ADD_NEW_MENU', $QUALIFIED_MODULE)}</strong></button>
+			<a class="btn btn-success saveButton"><strong>{vtranslate('LBL_ADD_NEW_MENU', $QUALIFIED_MODULE)}</strong></a>
 		</div>
 	</div>
 </div>
