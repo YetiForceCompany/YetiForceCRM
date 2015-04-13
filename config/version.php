@@ -10,5 +10,5 @@
  ********************************************************************************/
 // -ve timestamp before release, +ve timestamp after release.
 $patch_version = '20150408';  
-$YetiForce_current_version = '1.4.72 RC';
+$YetiForce_current_version = '1.4.73 RC';
 $_SESSION['yetiforce_version'] = $YetiForce_current_version;
