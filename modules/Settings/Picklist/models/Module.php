@@ -38,13 +38,25 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model {
 		$maxSeqQuery = 'SELECT max(sortorderid) as maxsequence FROM '.$tableName;
 		$result = $db->pquery($maxSeqQuery, array());
 		$sequence = $db->query_result($result,0,'maxsequence');
+		$columnNames = $db->getColumnNames($tableName);
+
 
         if($fieldModel->isRoleBased()) {
-            $sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?)';
-            $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid,++$sequence));
+			if(in_array('color', $columnNames)){
+				$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?,?)';
+				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid,++$sequence, '#E6FAD8'));
+			}else{
+				$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?)';
+				$result = $db->pquery($sql, array($id, $newValue, 1, $picklist_valueid,++$sequence));
+			}
         }else{
-            $sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?)';
-            $db->pquery($sql, array($id, $newValue, ++$sequence, 1));
+			if(in_array('color', $columnNames)){
+				$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?,?)';
+				$db->pquery($sql, array($id, $newValue, ++$sequence, 1));
+			}else{
+				$sql = 'INSERT INTO '.$tableName.' VALUES (?,?,?,?)';
+				$db->pquery($sql, array($id, $newValue, ++$sequence, 1), '#E6FAD8');
+			}
         }
 
         if($fieldModel->isRoleBased() && !empty($rolesSelected)) {
