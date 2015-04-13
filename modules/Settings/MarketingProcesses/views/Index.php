@@ -14,11 +14,13 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 		global $log;
 		$log->debug("Entering Settings_MarketingProcesses_Index_View::process() method ...");
 		$qualifiedModule = $request->getModule(false);
-		$viewer = $this->getViewer($request);
-
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		$state = Settings_Leads_ConvertToAccount_Model::getState();
 		
+		$viewer = $this->getViewer($request);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('STATE', $state);
 		$viewer->view('Index.tpl',$qualifiedModule);
 		$log->debug("Exiting Settings_MarketingProcesses_Index_View::process() method ...");
 	}
+	
 }

@@ -20,8 +20,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$this->exposeMethod('editPasswords');
 		$this->exposeMethod('updateUserColor');
 		$this->exposeMethod('updateGroupColor');
-		$this->exposeMethod('updateColorForSupportProcesses');
-		$this->exposeMethod('generateColorForSupportProcesses');
+		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 	}
 
@@ -219,9 +218,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$response->emit();
 	}
 
-	public function updateColorForSupportProcesses(Vtiger_Request $request) {
+	public function updateColorForProcesses(Vtiger_Request $request) {
 		$params = $request->get('params');
-		Users_Colors_Model::updateColorForSupportProcesses($params);
+		Users_Colors_Model::updateColorForProcesses($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

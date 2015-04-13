@@ -38,7 +38,7 @@ $languageStrings = array(
 	'time' => 'Hora',
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Se você marcar esta opção, a pessoa que converter o Lead em Oportunidade será o proprietário dos registros.',
+
 );
 
 $jsLanguageStrings = array(
@@ -65,6 +65,5 @@ $jsLanguageStrings = array(
 	'JS_url' => 'Url',
 	'JS_WITH' => 'com',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'O Mapeamento de Campos foi salvo',
-	'JS_CONVERSION_STATE_SUCCES' => 'Estado salvo corretamente',
-	'JS_CONVERSION_STATE_FAILURE' => 'Falha ao salvar',
+
 );

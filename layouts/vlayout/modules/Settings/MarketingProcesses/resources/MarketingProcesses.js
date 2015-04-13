@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-jQuery.Class("Settings_Leads_ConvertToAccount_Js",{},{	
+jQuery.Class("Settings_MarketingProcesses_Js",{},{	
 
 	/**
 	 * Saves config to database
@@ -17,13 +17,12 @@ jQuery.Class("Settings_Leads_ConvertToAccount_Js",{},{
 		jQuery('#saveConversionState').on('click',function(e){
 			var state = $("[name='conversiontoaccount']").is(':checked');
 			var params = {
-			'module' : app.getModuleName(),
+			'module' : 'Leads',
 			'parent' : app.getParentModuleName(),
 			'action' : 'ConvertToAccountSave',
 			'state' : state,
 			'mode': 'save',
 		}
-		
 		AppConnector.request(params).then(
 			function(data){
 				if(true == data.result['success']){
@@ -45,4 +44,7 @@ jQuery.Class("Settings_Leads_ConvertToAccount_Js",{},{
 		this.registerSaveConversionState();
 	}
 });
-
+jQuery(document).ready(function() {
+	var instance = new Settings_MarketingProcesses_Js();
+	instance.registerEvents();
+})

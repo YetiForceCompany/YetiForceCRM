@@ -9,9 +9,10 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'General',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Bei gesetzt, wird die Person welche ein Lead in eine Verkaufschance konvertiert zum Besitzer des Datensatzes.',
 );
 
 $jsLanguageStrings = array(
-	
+	'JS_CONVERSION_STATE_SUCCES' => 'Konvertierung erfolgreich',
+	'JS_CONVERSION_STATE_FAILURE' => 'Konvertierung abgebrochen',
 );

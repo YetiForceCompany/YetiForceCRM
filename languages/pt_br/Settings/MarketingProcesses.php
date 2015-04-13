@@ -9,9 +9,10 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'General',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Se você marcar esta opção, a pessoa que converter o Lead em Oportunidade será o proprietário dos registros.',
 );
 
 $jsLanguageStrings = array(
-	
+	'JS_CONVERSION_STATE_SUCCES' => 'Estado salvo corretamente',
+	'JS_CONVERSION_STATE_FAILURE' => 'Falha ao salvar',
 );

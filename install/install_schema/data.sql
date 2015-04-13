@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5176,14 +5175,14 @@ insert  into `vtiger_leadsource_seq`(`id`) values (13);
 
 /*Data for the table `vtiger_leadstatus` */
 
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'LBL_TO_REALIZE',1,446,12);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (14,'LBL_REQUIRES_VERIFICATION',1,447,13);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (15,'LBL_PRELIMINARY_ANALYSIS_OF',1,448,14);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (16,'LBL_ADVANCED_ANALYSIS',1,449,15);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (17,'LBL_INITIAL_ACQUISITION',1,450,16);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (18,'LBL_CONTACTS_IN_THE_FUTURE',1,451,17);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (19,'LBL_LEAD_UNTAPPED',1,452,18);
-insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (20,'LBL_LEAD_ACQUIRED',1,453,19);
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (13,'LBL_TO_REALIZE',1,446,12,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (14,'LBL_REQUIRES_VERIFICATION',1,447,13,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (15,'LBL_PRELIMINARY_ANALYSIS_OF',1,448,14,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (16,'LBL_ADVANCED_ANALYSIS',1,449,15,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (17,'LBL_INITIAL_ACQUISITION',1,450,16,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (18,'LBL_CONTACTS_IN_THE_FUTURE',1,451,17,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (19,'LBL_LEAD_UNTAPPED',1,452,18,'#E6FAD8');
+insert  into `vtiger_leadstatus`(`leadstatusid`,`leadstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (20,'LBL_LEAD_ACQUIRED',1,453,19,'#E6FAD8');
 
 /*Data for the table `vtiger_leadstatus_seq` */
 
@@ -14321,14 +14320,14 @@ insert  into `vtiger_projectpriority_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_projectstatus` */
 
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'prospecting',1,261,2);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'initiated',1,262,3);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'in progress',1,263,4);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'waiting for feedback',1,264,5);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'on hold',1,265,6);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'completed',1,266,7);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'delivered',1,267,8);
-insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'archived',1,268,9);
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'prospecting',1,261,2,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'initiated',1,262,3,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'in progress',1,263,4,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (5,'waiting for feedback',1,264,5,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (6,'on hold',1,265,6,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (7,'completed',1,266,7,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (8,'delivered',1,267,8,'#E6FAD8');
+insert  into `vtiger_projectstatus`(`projectstatusid`,`projectstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (9,'archived',1,268,9,'#E6FAD8');
 
 /*Data for the table `vtiger_projectstatus_seq` */
 
@@ -19719,23 +19718,23 @@ insert  into `vtiger_rowheight_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_sales_stage` */
 
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Accepted for processing',1,150,1);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Data verification',1,151,2);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Customer internal analysis',1,152,3);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'First contact with a customer',1,153,4);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Advanced business analysis',1,154,5);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Perception Analysis',1,155,6);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (7,'Preparation of calculations',1,156,7);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (8,'Preparation of offers',1,157,8);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (9,'Awaiting a decision',1,428,9);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (10,'Negotiations',1,429,10);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (11,'Order and contract',1,430,11);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (12,'Documentation verification',1,431,12);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (13,'Closed Lost',0,159,13);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (14,'Closed Waiting for processing',1,432,14);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (15,'Closed Order/contract processing',1,433,15);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (16,'Closed Presale activities',1,434,16);
-insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`) values (17,'Closed Won',0,158,17);
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Accepted for processing',1,150,1,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'Data verification',1,151,2,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'Customer internal analysis',1,152,3,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'First contact with a customer',1,153,4,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (5,'Advanced business analysis',1,154,5,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (6,'Perception Analysis',1,155,6,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (7,'Preparation of calculations',1,156,7,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (8,'Preparation of offers',1,157,8,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (9,'Awaiting a decision',1,428,9,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (10,'Negotiations',1,429,10,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (11,'Order and contract',1,430,11,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (12,'Documentation verification',1,431,12,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (13,'Closed Lost',0,159,13,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (14,'Closed Waiting for processing',1,432,14,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (15,'Closed Order/contract processing',1,433,15,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (16,'Closed Presale activities',1,434,16,'#E6FAD8');
+insert  into `vtiger_sales_stage`(`sales_stage_id`,`sales_stage`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (17,'Closed Won',0,158,17,'#E6FAD8');
 
 /*Data for the table `vtiger_sales_stage_seq` */
 
@@ -19903,7 +19902,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (73,4,'LBL_PUBLIC_HOLIDAY',NULL,'LBL_PUBLIC_HOLIDAY_DESCRIPTION','index.php?module=PublicHoliday&view=Configuration&parent=Settings',25,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (74,2,'LBL_CALENDAR_CONFIG',NULL,'LBL_CALENDAR_CONFIG_DESCRIPTION','index.php?parent=Settings&module=Calendar&view=UserColors',18,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (75,6,'LBL_SALES_PROCESSES',NULL,'LBL_SALES_PROCESSES_DESCRIPTION','index.php?module=SalesProcesses&view=Configuration&parent=Settings',1,0,0);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (76,6,'LBL_CONVERSION_TO_ACCOUNT',NULL,'LBL_CONVERSION_TO_ACCOUNT_DESCRIPTION','index.php?module=Leads&parent=Settings&view=ConvertToAccount',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (77,5,'LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS_DESCRIPTION','index.php?parent=Settings&module=Dav&view=Keys',6,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (78,8,'LBL_AUTOLOGIN',NULL,'LBL_AUTOLOGIN_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Autologin',2,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (79,8,'LBL_MAIL_GENERAL_CONFIGURATION',NULL,'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION','index.php?parent=Settings&module=Mail&view=Config',1,0,0);
@@ -20281,12 +20279,12 @@ insert  into `vtiger_ticketseverities_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_ticketstatus` */
 
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'Open',0,190,1);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'In Progress',0,191,2);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'Wait For Response',0,192,3);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'Closed',0,193,6);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'Answered',0,387,4);
-insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`) values (6,'Rejected',0,557,5);
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (1,'Open',0,190,1,'#E6FAD8');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (2,'In Progress',0,191,2,'#E6FAD8');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (3,'Wait For Response',0,192,3,'#E6FAD8');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (4,'Closed',0,193,6,'#E6FAD8');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (5,'Answered',0,387,4,'#E6FAD8');
+insert  into `vtiger_ticketstatus`(`ticketstatus_id`,`ticketstatus`,`presence`,`picklist_valueid`,`sortorderid`,`color`) values (6,'Rejected',0,557,5,'#E6FAD8');
 
 /*Data for the table `vtiger_ticketstatus_seq` */
 
