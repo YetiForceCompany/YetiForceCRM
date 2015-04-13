@@ -157,7 +157,7 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = 'Potentials';
 
-		if(!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
 			return;
 		}
 
@@ -165,28 +165,30 @@ class Leads_Record_Model extends Vtiger_Record_Model {
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 
-            $complusoryFields = array();
-			foreach($fieldModels as $fieldName => $fieldModel) {
-				if($fieldModel->isMandatory() &&  $fieldName != 'assigned_user_id' && $fieldName != 'related_to'
-						&& $fieldName != 'contact_id') {
-                    $keyIndex = array_search($fieldName,$complusoryFields);
-                    if($keyIndex !== false) {
-                        unset($complusoryFields[$keyIndex]);
-                    }
+			$complusoryFields = array();
+			foreach ($fieldModels as $fieldName => $fieldModel) {
+				if ($fieldModel->isMandatory() && $fieldName != 'assigned_user_id' && $fieldName != 'related_to' && $fieldName != 'contact_id') {
+					$keyIndex = array_search($fieldName, $complusoryFields);
+					if ($keyIndex !== false) {
+						unset($complusoryFields[$keyIndex]);
+					}
 					$leadMappedField = $this->getConvertLeadMappedField($fieldName, $moduleName);
 					$fieldModel->set('fieldvalue', $this->get($leadMappedField));
+					if ($fieldModel->get('fieldvalue') == '') {
+						$fieldModel->set('fieldvalue', $fieldModel->getDefaultFieldValue());
+					}
 					$potentialFields[] = $fieldModel;
 				}
 			}
-            foreach($complusoryFields as $complusoryField) {
-                $fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
-                if($fieldModel->getPermissions('readwrite')) {
-                    $fieldModel = $moduleModel->getField($complusoryField);
-                    $amountLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
-                    $fieldModel->set('fieldvalue', $this->get($amountLeadMappedField));
-                    $potentialFields[] = $fieldModel;
-                }
-            }
+			foreach ($complusoryFields as $complusoryField) {
+				$fieldModel = Vtiger_Field_Model::getInstance($complusoryField, $moduleModel);
+				if ($fieldModel->getPermissions('readwrite')) {
+					$fieldModel = $moduleModel->getField($complusoryField);
+					$amountLeadMappedField = $this->getConvertLeadMappedField($complusoryField, $moduleName);
+					$fieldModel->set('fieldvalue', $this->get($amountLeadMappedField));
+					$potentialFields[] = $fieldModel;
+				}
+			}
 		}
 		return $potentialFields;
 	}
