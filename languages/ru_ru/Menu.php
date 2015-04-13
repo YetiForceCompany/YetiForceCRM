@@ -9,6 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array (
-	'LBL_QUICK_CREATE_MODULE' => 'Quick create',
+	'LBL_QUICK_CREATE_MODULE' => '__UNTRANSLATED__',
 	'LBL_SEPARATOR' => 'Separator',
 );
