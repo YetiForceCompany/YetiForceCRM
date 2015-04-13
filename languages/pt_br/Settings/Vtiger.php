@@ -212,7 +212,6 @@ $languageStrings = array(
 	'OSSCosts'=>'Custos',
 
 	/* settings menu */
-	'Menu Manager' => 'Menu',
     'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
@@ -263,7 +262,9 @@ $languageStrings = array(
 	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_MARKETING_PROCESSES' => 'Marketing processes',
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
-
+	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
+	
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
 	'Sales Department'	=> 'Departamento de Vendas',

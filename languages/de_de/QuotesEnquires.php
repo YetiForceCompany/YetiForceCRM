@@ -15,8 +15,8 @@ $languageStrings = array(
 	'LBL_RECORDS_LIST' => 'Liste Angebotsanalysen', 
 	
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'Additional Information',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informationen',
+	'LBL_CUSTOM_INFORMATION' => 'Zusätzliche Informationen',
 
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',

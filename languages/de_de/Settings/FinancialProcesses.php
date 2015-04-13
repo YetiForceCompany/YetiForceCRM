@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'General',
+	'LBL_GENERAL' => 'Allgemein',
 );
 
 $jsLanguageStrings = array(

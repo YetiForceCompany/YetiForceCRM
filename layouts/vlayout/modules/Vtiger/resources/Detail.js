@@ -924,7 +924,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var element = jQuery(e.currentTarget);
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
-            var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ relatedModuleName +'"]');
+            var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ relatedModuleName +'"]');
             if(quickCreateNode.length <= 0) {
                 window.location.href = element.data('url');
                 return;
@@ -1126,7 +1126,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		 */
 		jQuery('.createActivity').on('click', function(e){
 			var referenceModuleName = "Calendar";
-			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
+			var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
 			var element = jQuery(e.currentTarget);
@@ -1557,7 +1557,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
-			var quickCreateNode = jQuery('#quickCreateModules').find('[data-name="'+ referenceModuleName +'"]');
+			var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;

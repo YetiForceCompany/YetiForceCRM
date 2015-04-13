@@ -88,6 +88,6 @@ $languageStrings = array(
 	'No Time' => 'Keine Dauer',
 	'Time Start' => 'Beginnt um',
 	'End Time' => 'Endet um',
-	'Relation' => '__UNTRANSLATED__',
-	'Process' => '__UNTRANSLATED__',
+	'Relation' => 'Beziehung',
+	'Process' => 'Prozess',
 );

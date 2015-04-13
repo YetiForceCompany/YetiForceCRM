@@ -48,5 +48,5 @@ $languageStrings = Array(
 	'PLL_SERVICE_DEVELOPMENT' => 'Dienstleistung',
 	'PLL_POSSIBILITY_TO_PREPAY' => 'Vorleistung möglich',
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Anpassungen möglich',
-	'PLL_NEW_ORGANIZATION_ORDER' => 'New organization order',
+	'PLL_NEW_ORGANIZATION_ORDER' => 'Neue Kundenbestellung',
 );

@@ -280,7 +280,7 @@ console.log(calendarDetails);
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules').find('[data-name="Reservations"]');
+		var quickCreateCalendarElement = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="Reservations"]');
 		var url = quickCreateCalendarElement.data('url');
 		var name = quickCreateCalendarElement.data('name');
 		var headerInstance = new Vtiger_Header_Js();

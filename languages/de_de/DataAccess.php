@@ -59,8 +59,8 @@ $languageStrings = array(
 	'Action_validate_mandatory' => 'Überprüfen Sie Pflichtfelder',
 	'Action_Desc_validate_mandatory' => 'Prüfen, ob alle Pflichtfelder in der Schnellerfassung ausgefüllt sind.',
 	//
-	'Action_check_assigneduser' => 'Einschränkung Datensatz Eigentümerwechsel',
-	'Action_Desc_check_assigneduser' => 'Aktion beschränkt die Möglichkeit, Besitzer einer bestimmten Liste zu ändern.',
+	'Action_check_assigneduser' => 'Einschränkung Datensatz Benutzerwechsel',
+	'Action_Desc_check_assigneduser' => 'Aktion beschränkt die Möglichkeit, Benutzer einer bestimmten Liste zu ändern.',
 	'LBL_SELECT_USER_OR_GROUP' => 'Wählen Sie die erlaubten Benutzer oder Gruppen',
 	'LBL_CURRENT_USER' => 'Aktueller Benutzer',
 	//

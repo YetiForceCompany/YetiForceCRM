@@ -53,46 +53,10 @@
                                     <img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
                                 </div>&nbsp;
                             {/if}
-
                             <div class="btn-group cursorPointer" id="guiderHandler">
                                 {if !$MAIN_PRODUCT_WHITELABEL}
                                 {/if}
-                            </div>&nbsp;
-
-                            <div class="btn-group cursorPointer">
-                                <img id="menubar_quickCreate" src="{vimage_path('btnAdd.png')}" class="alignMiddle" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" data-toggle="dropdown" />
-                                <ul class="dropdown-menu dropdownStyles commonActionsButtonDropDown">
-                                    <li class="title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></li><hr/>
-                                    <li id="quickCreateModules">
-                                        <div class="row-fluid">
-                                            <div class="span12">
-                                                {foreach key=moduleName item=moduleModel from=$MENUS}
-                                                    {if $moduleModel->isPermitted('EditView')}
-                                                        {assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
-                                                        {assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
-														{if $singularLabel == 'SINGLE_Calendar'}
-															{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-														{/if}	
-                                                        {if $quickCreateModule == '1'}
-                                                            {if $count % 3 == 0}
-                                                                <div class="row-fluid">
-                                                                {/if}
-                                                                <div class="span4">
-                                                                    <a id="menubar_quickCreate_{$moduleModel->getName()}" class="quickCreateModule" data-name="{$moduleModel->getName()}"
-                                                                       data-url="{$moduleModel->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$moduleName)}">{vtranslate($singularLabel,$moduleName)}</a>
-                                                                </div>
-                                                                {if $count % 3 == 2}
-                                                                </div>
-                                                            {/if}
-                                                            {assign var='count' value=$count+1}
-                                                        {/if}
-                                                    {/if}
-                                                {/foreach}
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>&nbsp;
+                            </div>
                         </div>
                     </div>
                 </div>

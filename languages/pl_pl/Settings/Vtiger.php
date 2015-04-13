@@ -212,7 +212,6 @@ $languageStrings = array(
 	'Widgets'	=> 'Widgety podsumowania rekordu',
 	
 	/* settings menu */
-	'Menu Manager' => 'Menu',
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.',
 	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
@@ -267,6 +266,9 @@ $languageStrings = array(
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_COLORS' => 'Kolory',
 	'LBL_COLORS_DESCRIPTION' => ' ',
+	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
+
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

@@ -47,7 +47,6 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 
 		$jsFileNames = array(
 			'~libraries/jquery/jstree/jquery.jstree.js',
-			'~libraries/jquery/jstree/jquery.hotkeys.js',
 			"modules.Settings.$moduleName.resources.Edit",
 		);
 
