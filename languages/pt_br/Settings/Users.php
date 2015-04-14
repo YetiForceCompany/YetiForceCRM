@@ -23,7 +23,7 @@ $languageStrings = array(
 	'LBL_GROUPS_COLORS' => 'Grupo de cores',
 	'LBL_GROUP_NAME' => 'Nome grupo',
 	'LBL_COLORS' => 'Cores',
-	'LBL_PRIORITY' => 'Priority',
+	'LBL_PRIORITY' => 'Prioridade',
 	
 	//Auth
 	'LBL_AUTHORIZATION' => '__UNTRANSLATED__',
