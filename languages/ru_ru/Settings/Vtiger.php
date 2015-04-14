@@ -290,6 +290,8 @@ $languageStrings = array(
 	'LBL_COLORS_DESCRIPTION' => ' ',
 	'LBL_MENU_BUILDER' => 'Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
+	'LBL_AUTHORIZATION' => '__UNTRANSLATED__',
+	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

@@ -26,11 +26,17 @@ $languageStrings = array(
 	'LBL_COLORS' => 'Colors',
 	'LBL_PRIORITY' => 'Priority',
 
+	//Auth
+	'LBL_AUTHORIZATION' => '__UNTRANSLATED__',
+	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_LDAP_AUTH' => '__UNTRANSLATED__',
+	'LBL_ACTIVE_LDAP_AUTH' => '__UNTRANSLATED__',
+	'LBL_LDAP_SERVER' => '__UNTRANSLATED__',
+	'LBL_LDAP_PORT' => '__UNTRANSLATED__',
+	'LBL_LDAP_USERS' => '__UNTRANSLATED__',
+	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
 );
-
 $jsLanguageStrings = array(
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 );
-
-

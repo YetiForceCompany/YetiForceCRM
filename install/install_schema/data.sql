@@ -19836,10 +19836,11 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (82,6,'LBL_REALIZATION_PROCESSES','','LBL_REALIZATION_PROCESSES_DESCRIPTION','index.php?module=RealizationProcesses&view=Index&parent=Settings',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (83,6,'LBL_MARKETING_PROCESSES','','LBL_MARKETING_PROCESSES_DESCRIPTION','index.php?module=MarketingProcesses&view=Index&parent=Settings',4,0,0);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (84,6,'LBL_FINANCIAL_PROCESSES','','LBL_FINANCIAL_PROCESSES_DESCRIPTION','index.php?module=FinancialProcesses&view=Index&parent=Settings',4,0,0);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`) values (85,1,'LBL_AUTHORIZATION',NULL,'LBL_AUTHORIZATION_DESCRIPTION','index.php?module=Users&view=Auth&parent=Settings',8,0,0);
 
 /*Data for the table `vtiger_settings_field_seq` */
 
-insert  into `vtiger_settings_field_seq`(`id`) values (84);
+insert  into `vtiger_settings_field_seq`(`id`) values (85);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -20856,6 +20857,13 @@ insert  into `vtiger_wsapp_handlerdetails`(`type`,`handlerclass`,`handlerpath`) 
 /*Data for the table `vtiger_wsapp_recordmapping` */
 
 /*Data for the table `vtiger_wsapp_sync_state` */
+
+/*Data for the table `yetiforce_auth` */
+
+insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','active','false');
+insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','server','testlab.local');
+insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','port','389');
+insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','users',NULL);
 
 /*Data for the table `yetiforce_mail_config` */
 

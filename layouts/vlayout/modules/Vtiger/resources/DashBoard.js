@@ -72,10 +72,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var thisInstance = this;
 		Vtiger_DashBoard_Js.gridster = this.getContainer().gridster({
 			widget_margins: [7, 7],
-			widget_base_dimensions: [((thisInstance.getContainer().width()/10)-14), 100],
+			widget_base_dimensions: [((thisInstance.getContainer().width()/12)-14), 100],
 			min_cols: 6,
 			min_rows: 20,
-			max_size_x:10,
+			max_size_x:12,
 			draggable: {
 				'stop': function() {
 					thisInstance.savePositions(jQuery('.dashboardWidget'));

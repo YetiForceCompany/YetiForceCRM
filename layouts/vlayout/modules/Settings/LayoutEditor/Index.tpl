@@ -237,7 +237,7 @@ display: none;
                                                     {/if}
                                                 </div>
                                             </span>
-                                            {if $FIELD_MODEL->getFieldDataType() eq "string"}
+                                            {if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
 												<span style="padding-left: 5px;">
 													{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 													<span style="margin-left: 26px;display: block;">
@@ -429,7 +429,7 @@ display: none;
                     {/if}
                 </div>
             </span>      
-			{if $FIELD_MODEL->getFieldDataType() eq "string"}
+			{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
 				<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 					{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 					<span class="input-append">
