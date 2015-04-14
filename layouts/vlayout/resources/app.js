@@ -971,6 +971,24 @@ var app = {
         return y + "-" + m + "-" + d;
     },
 	
+    saveAjax: function(mode, param) {
+		var aDeferred = jQuery.Deferred();
+		var params = {};
+		params['module'] = app.getModuleName();
+		params['parent'] = app.getParentModuleName();
+		params['action'] = 'SaveAjax';
+		params['mode'] = mode;
+		params['param'] = param;
+		AppConnector.request(params).then(
+			function (data) {
+				aDeferred.resolve(data);
+			},
+			function (error) {
+				aDeferred.reject();
+			}
+		);
+		return aDeferred.promise();
+    },
 }
 
 jQuery(document).ready(function(){

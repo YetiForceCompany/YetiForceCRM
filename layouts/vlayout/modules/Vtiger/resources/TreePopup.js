@@ -87,7 +87,7 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 	
 	registerSelect : function(obj){
 		var thisInstance = this;
-		var recordData = {id: obj.attr("id"),name: obj.text()}
+		var recordData = {id: obj.attr("id"),name: obj.find('a:first').text()}
 		thisInstance.done(recordData, thisInstance.getEventName());
 	},
 	

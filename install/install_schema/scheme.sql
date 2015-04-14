@@ -756,7 +756,7 @@ CREATE TABLE `vtiger_activitytype` (
   `sortorderid` int(11) DEFAULT NULL,
   PRIMARY KEY (`activitytypeid`),
   UNIQUE KEY `activitytype_activitytype_idx` (`activitytype`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_activitytype_seq` */
 
@@ -992,7 +992,7 @@ CREATE TABLE `vtiger_blocks_hide` (
   `enabled` tinyint(1) DEFAULT NULL,
   `view` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_seq` */
 
@@ -2171,7 +2171,7 @@ CREATE TABLE `vtiger_defaulteventstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`defaulteventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_defaulteventstatus_seq` */
 
@@ -2358,7 +2358,7 @@ CREATE TABLE `vtiger_eventstatus` (
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
   PRIMARY KEY (`eventstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus_seq` */
 
@@ -6642,7 +6642,7 @@ CREATE TABLE `vtiger_state` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`stateid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_state_seq` */
 
@@ -7606,6 +7606,15 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   `stateencodedvalues` varchar(300) NOT NULL,
   `userid` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_auth` */
+
+CREATE TABLE `yetiforce_auth` (
+  `type` varchar(20) DEFAULT NULL,
+  `param` varchar(20) DEFAULT NULL,
+  `value` text,
+  UNIQUE KEY `type` (`type`,`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mail_config` */

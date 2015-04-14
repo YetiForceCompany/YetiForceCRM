@@ -20,6 +20,9 @@ class OSSMail_index_View extends Vtiger_Index_View{
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
 				$rcl = new RoundcubeLogin($url, false);
+				//$rcl->setHostname('fdc.org.pl');
+				//$rcl->setPort(143);
+				//$rcl->setSSL(false);
 				try {
 					if ($rcl->isLoggedIn()) {
 						if($rcl->getUsername() != $rcUser['username']){
