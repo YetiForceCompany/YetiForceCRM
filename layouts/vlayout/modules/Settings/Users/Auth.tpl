@@ -1,0 +1,70 @@
+{*<!--
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+-->*}
+{strip}
+<div class="container-fluid usersAuth">
+	<div class="widget_header row-fluid">
+		<div class="span10"><h3>{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="span2"></div>
+	</div>
+	<hr>
+	<div class="row-fluid">
+		<div class="contents tabbable">
+			<ul class="nav nav-tabs layoutTabs massEditTabs">
+				<li class="active"><a data-toggle="tab" href="#ldap"><strong>{vtranslate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
+			</ul>
+			<div class="tab-content layoutContent" style="padding-top: 10px;">
+				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
+				<div class="tab-pane active" id="ldap">
+					<div class="row-fluid">
+						<div class="span1 pagination-centered">
+							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
+						</div>
+						<div class="span11">
+							<label for="ldapActive">{vtranslate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
+						</div>
+					</div>
+					<hr />
+					<div class="row-fluid">
+						<div class="span2">
+							<label for="showMailIcon">{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
+						</div>
+						<div class="span10">
+							<input class="configField" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span2">
+							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
+						</div>
+						<div class="span10">
+							<input class="configField" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span2">
+							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
+						</div>
+						<div class="span10">
+							{assign var=USER_LIST value=$USER_MODEL->getAccessibleUsers()}
+							<select multiple="" name="users" class="select2 configField" data-type="ldap" style="width: 100%;">
+								{foreach key=OWNER_ID item=OWNER_NAME from=$USER_LIST}
+									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $CONFIG['users'])} selected {/if}>{$OWNER_NAME}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+{/strip}

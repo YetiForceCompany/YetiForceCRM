@@ -24,11 +24,18 @@ $languageStrings = array(
 	'LBL_USERS_COLORS' => 'Kolory użytkowników',
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
 	'LBL_PRIORITY' => 'Priorytet',
+	
+	//Auth
+	'LBL_AUTHORIZATION' => 'Autoryzacja',
+	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_LDAP_AUTH' => 'LDAP',
+	'LBL_ACTIVE_LDAP_AUTH' => 'Autoryzacja za pomocą LDAP',
+	'LBL_LDAP_SERVER' => 'Adres serwera',
+	'LBL_LDAP_PORT' => 'Port',
+	'LBL_LDAP_USERS' => 'Autlogowanie aktywne dla użytkowników',
+	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
 );
-
 $jsLanguageStrings = array(
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 );
-
-
