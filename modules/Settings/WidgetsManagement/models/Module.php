@@ -86,8 +86,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
 		
-		$width = array(3,4,5,6,7,8,9,10);
-		$height = array(3,4,5,6,7,8,9,10);
+		$width = array(3,4,5,6,7,8,9,10,11,12);
+		$height = array(3,4,5,6,7,8,9,10,11,12);
 		
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...");
 		return array('width'=>$width,'height'=>$height);
