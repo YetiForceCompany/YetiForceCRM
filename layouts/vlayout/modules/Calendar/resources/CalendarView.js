@@ -211,6 +211,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		start = start.format();
 		end = end.format();
+		var view = thisInstance.getCalendarView().fullCalendar('getView');
+		if (view.name == "month") {
+			start = start + 'T' + $('#start_hour').val() + ':00';
+			end = end + 'T' + $('#end_hour').val() + ':00';
+		}
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
 				return;
