@@ -9,13 +9,13 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_PROJECT_CONFIGURATION' => 'Project',
+	'LBL_PROJECT_CONFIGURATION' => 'Projekt',
 	'LBL_INFO' => 'Information',
 	'LBL_TYPE' => 'Status',
-	'LBL_PROJECT' => 'Project',
-	'LBL_PROJECT_STATUS_INFO' => 'Statuses determining that the project is closed',
-	'LBL_SAVE_CONFIG_OK' => 'Changes saved successfully.',
-	'LBL_SAVE_CONFIG_ERROR' => 'Failed to save changes.',
+	'LBL_PROJECT' => 'Projekt',
+	'LBL_PROJECT_STATUS_INFO' => 'Status welche das Projekt als geschlossen kennzeichnet',
+	'LBL_SAVE_CONFIG_OK' => 'Änderungen erfolgreich gesichert.',
+	'LBL_SAVE_CONFIG_ERROR' => 'Fehler beim sichern.',
 );
 
 $jsLanguageStrings = array(

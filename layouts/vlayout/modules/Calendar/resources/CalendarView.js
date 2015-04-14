@@ -311,7 +311,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	loadCalendarCreateView: function () {
 		var aDeferred = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules').find('[data-name="Calendar"]');
+		var quickCreateCalendarElement = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="Calendar"]');
 		var url = quickCreateCalendarElement.data('url');
 		var name = quickCreateCalendarElement.data('name');
 		var headerInstance = new Vtiger_Header_Js();

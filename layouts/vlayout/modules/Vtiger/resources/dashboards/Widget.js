@@ -814,3 +814,70 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js',{},{
 		});
 	}
 });
+
+Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
+	generateData : function() {
+		var thisInstance = this;
+		var container = thisInstance.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);	
+		var chartData = [];
+		for(var index in data['chart']) {
+			chartData.push(data['chart'][index]);
+			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
+		}
+
+		return {'chartData':chartData, 'ticks': data['ticks'], 'links' : data['links']};
+	},
+	loadChart : function() {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		var options = {
+			xaxis: {
+				minTickSize: 1,
+				ticks: chartData['ticks']
+			},
+			yaxis: { 
+				min: 0 ,
+				 tickDecimals: 0
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			series: {
+				bars: {
+					show: true,
+					barWidth: .9,
+					dataLabels: false,
+					align: "center",
+					lineWidth: 0
+				},
+				stack: true
+			}
+		};
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+	},
+	getLabelFormat : function(label, slice) {
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";	
+	},
+	registerSectionClick : function() {	
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
+			if (item) {
+				$(this).css( 'cursor', 'pointer' );
+			}else{
+				$(this).css( 'cursor', 'auto' );
+			}
+		});
+		thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {			
+			if(item) {
+				$(chartData['links']).each(function(){
+					if(item.dataIndex == this[0])
+						window.location.href = this[1];
+				});
+			}
+		});
+	}
+});

@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -3264,6 +3264,7 @@ CREATE TABLE `vtiger_leadstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`leadstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
@@ -4198,27 +4199,6 @@ CREATE TABLE `vtiger_ossmailviewcf` (
   PRIMARY KEY (`ossmailviewid`),
   CONSTRAINT `fk_1_vtiger_ossmailviewcf` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmenumanager` */
-
-CREATE TABLE `vtiger_ossmenumanager` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(19) DEFAULT NULL,
-  `tabid` int(19) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL,
-  `sequence` int(3) DEFAULT NULL,
-  `visible` int(3) DEFAULT NULL,
-  `type` int(3) DEFAULT NULL,
-  `url` text,
-  `new_window` int(3) DEFAULT NULL,
-  `permission` text,
-  `locationicon` varchar(255) DEFAULT NULL,
-  `sizeicon` varchar(255) DEFAULT NULL,
-  `langfield` text,
-  `paintedicon` int(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
@@ -5236,6 +5216,7 @@ CREATE TABLE `vtiger_projectstatus` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`projectstatusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -6102,6 +6083,7 @@ CREATE TABLE `vtiger_sales_stage` (
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`sales_stage_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
@@ -6890,6 +6872,7 @@ CREATE TABLE `vtiger_ticketstatus` (
   `presence` int(1) NOT NULL DEFAULT '0',
   `picklist_valueid` int(19) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT NULL,
+  `color` varchar(25) DEFAULT '#E6FAD8',
   PRIMARY KEY (`ticketstatus_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -7642,6 +7625,29 @@ CREATE TABLE `yetiforce_mail_quantities` (
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`userid`),
   CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_menu` */
+
+CREATE TABLE `yetiforce_menu` (
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `role` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT '0',
+  `type` tinyint(1) DEFAULT NULL,
+  `sequence` int(3) DEFAULT NULL,
+  `module` int(19) DEFAULT NULL,
+  `label` varchar(100) DEFAULT NULL,
+  `newwindow` tinyint(1) DEFAULT '0',
+  `dataurl` text,
+  `showicon` tinyint(1) DEFAULT '0',
+  `icon` varchar(255) DEFAULT NULL,
+  `sizeicon` varchar(255) DEFAULT NULL,
+  `hotkey` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parentid`),
+  KEY `role` (`role`),
+  KEY `module` (`module`),
+  CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_mobile_keys` */

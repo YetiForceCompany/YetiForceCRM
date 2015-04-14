@@ -212,7 +212,6 @@ $languageStrings = array(
 	'OSSCosts'=>'Costs',
 
 	/* settings menu */
-	'Menu Manager' => 'Menu',
     'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
 	'LBL_API_ADDRESS' => 'Address Search',
@@ -267,6 +266,8 @@ $languageStrings = array(
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_COLORS' => 'Colors',
 	'LBL_COLORS_DESCRIPTION' => ' ',
+	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',

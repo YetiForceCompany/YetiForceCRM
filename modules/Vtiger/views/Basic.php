@@ -24,30 +24,19 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 
 	function preProcess (Vtiger_Request $request, $display=true) {
 		parent::preProcess($request, false);
-
-                $viewer = $this->getViewer($request);
-
-		$menuModelsList = Vtiger_Menu_Model::getAll(true);
+		$viewer = $this->getViewer($request);
+		
 		$selectedModule = $request->getModule();
-		$menuStructure = Vtiger_MenuStructure_Model::getInstanceFromMenuList($menuModelsList, $selectedModule);
-
 		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
-		$currentDate  = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
+		$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
-                $viewer->assign('MODULE_NAME', $selectedModule);
+		$viewer->assign('MODULE_NAME', $selectedModule);
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
 		$viewer->assign('VIEW', $request->get('view'));
-
-		// Order by pre-defined automation process for QuickCreate.
-		uksort($menuModelsList, array('Vtiger_MenuStructure_Model', 'sortMenuItemsByProcess'));
-                
-		$viewer->assign('MENUS', $menuModelsList);
-		//$viewer->assign('MENU_STRUCTURE', $menuStructure);
-		$viewer->assign('MENU_SELECTED_MODULENAME', $selectedModule);
-		$viewer->assign('MENU_TOPITEMS_LIMIT', $menuStructure->getLimit());
 		$viewer->assign('COMPANY_LOGO',$companyLogo);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
@@ -57,15 +46,8 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-		
-		// OpenSaaS
-		$OSSMenu = OSSMenuManager_Record_Model::getMenu();
-		$paintedIcon = OSSMenuManager_Record_Model::getIcon();
-		$viewer->assign('MENU_STRUCTURE', $OSSMenu);
-		$viewer->assign('PAINTEDICON', $paintedIcon);
 		$viewer->assign('WORKTIME', OSSEmployees_Record_Model::getWorkTime());
-		//  OpenSaaS
-		
+
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -101,6 +83,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.'.Vtiger_Language_Handler::getShortLanguageName().'.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
+			'~libraries/jquery/mousetrap/mousetrap.min.js',
             'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
 			"modules.$moduleName.resources.Edit",
@@ -145,5 +128,4 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 	function getGuiderModels(Vtiger_Request $request) {
 		return array();
 	}
-
 }

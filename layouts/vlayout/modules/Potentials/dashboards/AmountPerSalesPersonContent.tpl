@@ -15,7 +15,7 @@
 	<div class="widgetChartContainer" style="height:250px;width:81%"></div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO')} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_MATCHED_THIS_CRITERIA')}
+		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 	</span>
 {/if}
 {/strip}

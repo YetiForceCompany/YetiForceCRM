@@ -67,7 +67,6 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$jsFileNames = array(
 			'libraries.jquery.jquery_windowmsg',
 			'~libraries/jquery/jstree/jquery.jstree.js',
-			'~libraries/jquery/jstree/jquery.hotkeys.js',
 			'modules.Vtiger.resources.TreePopup',
 			"modules.$moduleName.resources.TreePopup",
 		);

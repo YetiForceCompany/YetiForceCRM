@@ -85,6 +85,7 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 			'~/libraries/jquery/gridster/jquery.gridster.min.js',
 			'~/libraries/jquery/flot/jquery.flot.min.js',
 			'~/libraries/jquery/flot/jquery.flot.pie.min.js',
+			'~/libraries/jquery/flot/jquery.flot.stack.min.js',
 			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
 			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
 			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',

@@ -9,9 +9,11 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_GENERAL' => 'Geral',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Se você marcar esta opção, a pessoa que converter o Lead em Oportunidade será o proprietário dos registros.',
 );
 
 $jsLanguageStrings = array(
+	'JS_CONVERSION_STATE_SUCCES' => 'Estado salvo corretamente',
+	'JS_CONVERSION_STATE_FAILURE' => 'Falha ao salvar',
 	
 );

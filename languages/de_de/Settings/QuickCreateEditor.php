@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'QuickCreateEditor' => 'Quick Create Editor',
+	'QuickCreateEditor' => 'Schnellerfassungs-Editor',
 	'LBL_QUICK_CREATE_EDITOR'	=>	'Schnellerfassungs-Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION'	=>	'Modul ermöglicht, das Layout der Felder innerhalb im Schnellerfassungs-Fenster zu ändern',
 	'LBL_SEQUENCE'	=>	'Feld Reihenfolge',

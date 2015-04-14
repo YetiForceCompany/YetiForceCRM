@@ -21,7 +21,11 @@
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#groupsColors"><strong>{vtranslate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#supportProcesses"><strong>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#marketing"><strong>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#sales"><strong>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#realization"><strong>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#support"><strong>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#financial"><strong>{vtranslate('LBL_FINANCIAL_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
@@ -73,46 +77,54 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="tab-pane" id="supportProcesses">
-					<div class="accordion">
-						{foreach from=$MODULESFIELDSFORSUPPORT item=ITEM key=KEY}
-							<div class="accordion-group">
-								<div class="accordion-heading">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$KEY}">
-										{vtranslate($TABLESFORSUPPORT[$KEY]['module'], $TABLESFORSUPPORT[$KEY]['module'])}
-										&ensp;:&ensp;
-										{vtranslate($TABLESFORSUPPORT[$KEY]['nameField'], $TABLESFORSUPPORT[$KEY]['module'])}
-									</a>
-								</div>
-								<div id="{$KEY}" class="accordion-body collapse">
-									<div class="accordion-inner">
-										<table class="table table-bordered table-condensed listViewEntriesTable">
-											<thead>
-												<tr class="blockHeader">
-													<th><strong>{vtranslate('LBL_PRIORITY',$QUALIFIED_MODULE)}</strong></th>
-													<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-													<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
-												</tr>
-											</thead>
-											<tbody>
-												{foreach from=$ITEM item=INNER_ITEM key=INNER_KEY}
-													<tr data-table="{$KEY}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
-														<td>{vtranslate($INNER_ITEM['value'], $TABLESFORSUPPORT[$KEY]['module'])}</td>
-														<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
-														<td>
-															<button class="btn updateColor" data-metod="updateColorForSupportProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-															<button class="btn generateColor" data-metod="generateColorForSupportProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
-														</td>
+				{foreach from=$TABLES_ALL item=ELEMENTS key=PROCESS}
+					<div class="tab-pane" id="{$PROCESS}">
+						<div class="accordion">
+							{foreach from=$ELEMENTS item=ITEM }
+								{if $ITEM eq ''}
+									{continue}
+								{/if}
+								<div class="accordion-group">
+									<div class="accordion-heading">
+										{assign var=TABLE value='vtiger_'|cat:$ITEM.fieldname}
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$TABLE}">
+											{assign var=MODULE_NAME value=Vtiger_Functions::getModuleName($ITEM.tabid)}
+											{vtranslate($MODULE_NAME, $MODULE_NAME)}
+											&ensp;:&ensp;
+											{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}
+										</a>
+									</div>
+									<div id="{$TABLE}" class="accordion-body collapse">
+										<div class="accordion-inner">
+											<table class="table table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
+												<thead>
+													<tr class="blockHeader">
+														<th><strong>{vtranslate($ITEM.fieldlabel, $MODULE_NAME)}</strong></th>
+														<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+														<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
 													</tr>
-												{/foreach}
-											</tbody>
-										</table>
+												</thead>
+												<tbody>
+													{assign var=FIELD value=Users_Colors_Model::getValuesFromField($ITEM.fieldname)}
+													{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
+														<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
+															<td>{vtranslate($INNER_ITEM['value'], $MODULE_NAME)}</td>
+															<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
+															<td>
+																<button class="btn updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+																<button class="btn generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+															</td>
+														</tr>
+													{/foreach}
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
-							</div>
-						{/foreach}
+							{/foreach}
+						</div>
 					</div>
-				</div>
+				{/foreach}
 			</div>
 		</div>
 	<div class="clearfix"></div>

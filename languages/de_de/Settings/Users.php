@@ -10,21 +10,21 @@
  * *********************************************************************************************************************************** */
 
 $languageStrings = array(
-	'Users' => 'Users',
+	'Users' => 'Benutzer',
     'USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
-	'LBL_COLORS' => 'Colors',
-	'LBL_USERS_COLORS' => 'User colors',
+	'LBL_COLORS' => 'Farben',
+	'LBL_USERS_COLORS' => 'Benutzerfarben',
 	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
 	'LBL_UPDATE_COLOR' => 'Farbe ändern',
 	'LBL_COLOR' => 'Farbe',
-	'LBL_GENERATE_COLOR' => 'Generate random color',
-	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_GENERATE_COLOR' => 'Zufällige Farbe ermitteln',
+	'LBL_GENERATED_COLOR' => 'Farbe generiert',
 	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
 	'LBL_SELECT_COLOR' => 'Farbe wählen:',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
-	'LBL_GROUPS_COLORS' => 'Kolory grup',
-	'LBL_GROUP_NAME' => 'Group name',
-	'LBL_PRIORITY' => 'Priority',
+	'LBL_GROUPS_COLORS' => 'Farbgruppe',
+	'LBL_GROUP_NAME' => 'Gruppenname',
+	'LBL_PRIORITY' => 'Priorität',
 );
 
 $jsLanguageStrings = array(
