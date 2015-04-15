@@ -7,8 +7,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-
-jQuery.Class("Settings_MarketingProcesses_Js",{},{	
+jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{	
 
 	/**
 	 * Saves config to database
@@ -40,11 +39,41 @@ jQuery.Class("Settings_MarketingProcesses_Js",{},{
 		
 		return false;
 	},
+	registerSave : function() {
+		jQuery('.saveButton').on('click',function(e){
+			saveButton = jQuery(this);
+			saveButton.attr('disabled', 'disabled');
+			form = jQuery(this).closest('form');
+			paramsForm = form.serializeFormData();
+			var state = $("[name='conversiontoaccount']").is(':checked');
+			var params = {
+			'module' : app.getModuleName(),
+			'parent' : app.getParentModuleName(),
+			'action' : 'Save',
+			'params' : paramsForm,
+			'mode': 'save',
+		}
+		AppConnector.request(params).then(
+			function(data){
+				if(true == data.result['success']){
+					var param = {text:app.vtranslate('LBL_SAVE_CONFIG_OK')};
+					Vtiger_Helper_Js.showMessage(param);
+					saveButton.removeAttr('disabled');
+				}else{
+					var param = {text:app.vtranslate('LBL_SAVE_CONFIG_ERROR')};
+					Vtiger_Helper_Js.showPnotify(param);
+					saveButton.removeAttr('disabled');
+				}
+			},
+			function(jqXHR,textStatus, errorThrown){
+			})
+		});
+		
+		return false;
+	},
 	registerEvents: function() {
 		this.registerSaveConversionState();
+		this.registerSave();
 	}
 });
-jQuery(document).ready(function() {
-	var instance = new Settings_MarketingProcesses_Js();
-	instance.registerEvents();
-})
+
