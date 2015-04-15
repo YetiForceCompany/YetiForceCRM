@@ -58,7 +58,7 @@ function load_all_widgets(inframe, crm_path) {
     }
     var params = {};
     var gcrm = {};
-    if (!inframe.find('#messageheader').text() == '') {
+    if (!inframe.find('.oss-header').text() == '') {
         var progressIndicatorElement = '';
         var fromEmailString = inframe.find('.from .rcmContactAddress').attr("href");
         if (!!fromEmailString) {

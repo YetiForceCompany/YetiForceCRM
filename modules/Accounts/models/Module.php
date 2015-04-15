@@ -97,7 +97,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 						LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link = IN (".$entityIds.')';
+						WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.link IN (".$entityIds.')';
 			if($functionName === 'get_activities') {
 				$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
 				OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";

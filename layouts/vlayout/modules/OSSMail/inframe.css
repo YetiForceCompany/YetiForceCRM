@@ -97,7 +97,7 @@ height: 11px;
 #message-oss-header tr td div.oss-border-top:first-child{
 	border-top: 0;
 }
-.oss-header .oss-close-bar{
+.oss-close-bar{
     color: #000;
     font-weight: 800;
     text-decoration: blink;

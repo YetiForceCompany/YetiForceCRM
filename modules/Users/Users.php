@@ -336,57 +336,64 @@ class Users extends CRMEntity {
      * @param string $user_password - The password of the user to authenticate
      * @return true if the user is authenticated, false otherwise
      */
-    function doLogin($user_password) {
-        global $AUTHCFG;
-        $usr_name = $this->column_fields["user_name"];
+    function doLogin($userPassword) {
+		$userName = $this->column_fields["user_name"];
+		$userid = $this->retrieve_user_id($userName);
+		$this->log->debug("Start of authentication for user: $userName");
+		$result = $this->db->pquery('SELECT * FROM yetiforce_auth');
+		$auth = [];
+		for ($i = 0; $i < $this->db->num_rows($result); $i++) {
+			$row = $this->db->raw_query_result_rowdata($result, $i);
+			$auth[$row['type']][$row['param']] = $row['value'];
+		}
+		if ($auth['ldap']['active'] == 'true') {
+			$this->log->debug('Start LDAP authentication');
+			$users = explode(',', $auth['ldap']['users']);
+			if (in_array($userid, $users)) {
+				$bind = FALSE;
+				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
+				$ds = @ldap_connect($auth['ldap']['server'], $port);
+				if (!$ds) {
+					$this->log->error('Error LDAP authentication: Could not connect to LDAP server.');
+				}
+				@ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
+				@ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+				if ($port != 636) {
+					@ldap_start_tls($ds);
+				}
+				$bind = @ldap_bind($ds, $userName, $userPassword);
+				if (!$bind) {
+					$this->log->error('LDAP authentication: LDAP bind failed.');
+				}
+				return $bind;
+			} else {
+				$this->log->error("$userName user does not belong to the LDAP");
+			}
+			$this->log->debug('End LDAP authentication');
+		}
 
-        switch (strtoupper($AUTHCFG['authType'])) {
-            case 'LDAP':
-                $this->log->debug("Using LDAP authentication");
-                require_once('modules/Users/authTypes/LDAP.php');
-                $result = ldapAuthenticate($this->column_fields["user_name"], $user_password);
-                if ($result == NULL) {
-                    return false;
-                } else {
-                    return true;
-                }
-                break;
+		//Default authentication
+		$this->log->debug('Using integrated/SQL authentication');
+		$query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
+		$result = $this->db->requirePsSingleResult($query, array($userName), false);
+		if (empty($result)) {
+			$this->log->error("User not found: $userName");
+			return FALSE;
+		}
+		$cryptType = $this->db->query_result($result, 0, 'crypt_type');
+		$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
+		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
+		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
+		$result = $this->db->requirePsSingleResult($query, array($userName, $encryptedPassword, 'Active'), false);
+		if (!empty($result)) {
+			$this->log->debug("Authentication OK. User: $userName");
+			return TRUE;
+		}
+		$this->log->debug("Authentication failed. User: $userName");
+		return FALSE;
+	}
 
-            case 'AD':
-                $this->log->debug("Using Active Directory authentication");
-                require_once('modules/Users/authTypes/adLDAP.php');
-                $adldap = new adLDAP();
-                if ($adldap->authenticate($this->column_fields["user_name"],$user_password)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
-
-            default:
-                $this->log->debug("Using integrated/SQL authentication");
-                $query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
-                $result = $this->db->requirePsSingleResult($query, array($usr_name), false);
-                if (empty($result)) {
-                    return false;
-                }
-                $crypt_type = $this->db->query_result($result, 0, 'crypt_type');
-				$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
-                $encrypted_password = $this->encrypt_password($user_password, $crypt_type);
-                $query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
-                $result = $this->db->requirePsSingleResult($query, array($usr_name, $encrypted_password, 'Active'), false);
-                if (empty($result)) {
-                    return false;
-                } else {
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-
-    /**
+	/**
      * Load a user based on the user_name in $this
      * @return -- this if load was successul and null if load failed.
      * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..

@@ -15,12 +15,29 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 		$log->debug("Entering Settings_MarketingProcesses_Index_View::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$state = Settings_Leads_ConvertToAccount_Model::getState();
+		$processes = new Settings_MarketingProcesses_Processes_Model();
+		$currentUser = Users_Record_Model::getCurrentUserModel();
 		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('STATE', $state);
+		$viewer->assign('LEADSTATUS', Vtiger_Util_Helper::getPickListValues('leadstatus'));
+		$viewer->assign('PROCESSES', $processes);
 		$viewer->view('Index.tpl',$qualifiedModule);
 		$log->debug("Exiting Settings_MarketingProcesses_Index_View::process() method ...");
 	}
 	
+	public function getHeaderScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getHeaderScripts($request);
+		$moduleName = $request->getModule();
+
+		$jsFileNames = array(
+			"modules.Settings.$moduleName.resources.Index",
+		);
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
+		return $headerScriptInstances;
+	}
 }

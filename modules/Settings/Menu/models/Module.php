@@ -95,7 +95,7 @@ class Settings_Menu_Module_Model {
 	public function getModulesList() {
 		$db = PearDatabase::getInstance();
 		$modules = $db->query("SELECT tabid,name FROM vtiger_tab WHERE name NOT "
-				. "IN ('Users','ModComments','Emails') AND ( isentitytype = '1' OR name IN ('Home') ) ORDER BY name;");
+				. "IN ('Users','ModComments','Emails') AND ( isentitytype = '1' OR name IN ('Home','Reports','RecycleBin','OSSMail') ) ORDER BY name;");
 		return $modules->GetArray();
 	}
 
