@@ -10,9 +10,17 @@
  *************************************************************************************************************************************/
 $languageStrings = array(
 	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Zaznaczona opcja powoduje, że przy konwertowaniu leada na kontrahenta jako właściciel rekordu ustawiana jest osoba, która dokonała konwersji.',
+	'LBL_LEADS' => 'Leady',
+	'LBL_INFO' => 'Informacja',
+	'LBL_VALUES' => 'Wartości',
+	'LBL_GROUPS_INFO' => 'Grypy oznaczające brak właściciela rekordu',
+	'LBL_LEAD_STATUS' => 'Statusy',
+	'LBL_CURRENTUSER_STATUS' => 'Ustaw właścicielem rekordu osobę dokonującą edycji',
 );
 
 $jsLanguageStrings = array(
 	'JS_CONVERSION_STATE_SUCCES' => 'Stan zapisany pomyślnie',
 	'JS_CONVERSION_STATE_FAILURE' => 'Błąd przy zapisie',
+	'LBL_SAVE_CONFIG_OK' => 'Pomyślnie zapisano zmiany.',
+	'LBL_SAVE_CONFIG_ERROR'	=> 'Nie udało się zapisać zmian.',
 );
