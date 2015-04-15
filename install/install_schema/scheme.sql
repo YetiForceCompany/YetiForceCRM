@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -3569,6 +3569,13 @@ CREATE TABLE `vtiger_manufacturer` (
 
 CREATE TABLE `vtiger_manufacturer_seq` (
   `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_marketing_processes` */
+
+CREATE TABLE `vtiger_marketing_processes` (
+  `module_id` int(11) NOT NULL,
+  `data` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_mobile_alerts` */
