@@ -140,6 +140,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 		global $adb;
 		$result = $adb->query("SELECT * FROM vtiger_bruteforce_users", true);
 		$numRows = $adb->num_rows($result);
+		$output = [];
 		for($i = 0; $i < $numRows; $i++){
 			$id = $adb->query_result($result, $i, 'id');
 			$output[$id] = $id;
@@ -148,24 +149,31 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 		return $output;
 	}
 
-	public static function sendNotificationEmail(){
+	public static function sendNotificationEmail() {
+		global $log;
+		$log->debug("Start " . __CLASS__ . "::" . __METHOD__);
 		$usersId = self::getUsersForNotifications();
-		foreach ($usersId as $id) {		
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users'); 
-			$userEmail = $recordModel->get('email1'); 
+		if (count($usersId) == 0) {
+			$log->fatal('No brute force users found to send email');
+			return false;
+		}
+		foreach ($usersId as $id) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users');
+			$userEmail = $recordModel->get('email1');
 			$emails[] = $userEmail;
 		}
 		$emailsList = implode(',', $emails);
 		$data = array(
-				'id' => 107,
-				'to_email' => $emailsList,
-				'module' => 'Contacts',
+			'id' => 107,
+			'to_email' => $emailsList,
+			'module' => 'Contacts',
 		);
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 		$mail_status = $recordModel->sendMailFromTemplate($data);
-		 
-		if($mail_status != 1) {
-			throw new Exception('Error occurred while sending mail');
-		} 
-	}	
+
+		if ($mail_status != 1) {
+			$log->error('Do not sent mail with information about brute force attack');
+		}
+		$log->debug("End " . __CLASS__ . "::" . __METHOD__);
+	}
 }
