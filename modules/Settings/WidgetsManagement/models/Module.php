@@ -77,7 +77,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		global $log;
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
 		
-		$widgetsWithFilterUsers = array('Leads by Status Converted','Graf','Tickets by Status','Leads by Industry','Leads by Source','Leads by Status','Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos');
+		$widgetsWithFilterUsers = array('Leads by Status Converted','Graf','Tickets by Status','Leads by Industry','Leads by Source','Leads by Status','Funnel', 'Upcoming Activities', 'Overdue Activities', 'Mini List', 'Delegated project tasks', 'Delegated (overdue) project tasks', 'Delagated Events/To Do', 'Delegated (overdue) Events/ToDos', 'Calendar');
 		
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::getWidgetsWithFilterUsers() method ...");
 		return $widgetsWithFilterUsers;
