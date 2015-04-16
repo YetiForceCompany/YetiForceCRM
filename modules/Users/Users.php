@@ -361,7 +361,7 @@ class Users extends CRMEntity {
 				if ($port != 636) {
 					@ldap_start_tls($ds);
 				}
-				$bind = @ldap_bind($ds, $userName, $userPassword);
+				$bind = @ldap_bind($ds, $userName.$auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
 					$this->log->error('LDAP authentication: LDAP bind failed.');
 				}

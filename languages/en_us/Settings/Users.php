@@ -34,6 +34,7 @@ $languageStrings = array(
 	'LBL_LDAP_PORT' => 'Port',
 	'LBL_LDAP_USERS' => 'Auto login active for users',
 	'LBL_SAVE_CONFIG' => 'Configuration has been saved',
+	'LBL_LDAP_DOMAIN' => '__UNTRANSLATED__',
 );
 $jsLanguageStrings = array(
     'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',
