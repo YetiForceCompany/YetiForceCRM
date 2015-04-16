@@ -148,7 +148,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries($pagingModel) {
+	public function getListViewEntries($pagingModel, $searchResult = false) {
 		$db = PearDatabase::getInstance();
 
 		$moduleName = $this->getModule()->get('name');
@@ -213,6 +213,10 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model {
         }
 
 		$listQuery = $this->getQuery();
+		if($searchResult && $searchResult != '' && is_array($searchResult)){
+			$listQuery .= " AND vtiger_crmentity.crmid IN (".implode(',',$searchResult).") ";
+		}
+		unset($searchResult);
 		
 		$sourceModule = $this->get('src_module');
 		if(!empty($sourceModule)) {
