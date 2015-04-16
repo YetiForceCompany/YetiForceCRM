@@ -177,6 +177,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			addBlockContainer.find('[name="holidayId"]').val( dateElement.data('holiday-id') );
 			addBlockContainer.find('[name="holidayDate"]').val( dateElement.data('holiday-date') );
 			addBlockContainer.find('[name="holidayName"]').val( dateElement.data('holiday-name') );
+			addBlockContainer.find('[name="holidayType"]').val( dateElement.data('holiday-type') );
 
 			var callBackFunction = function(data) {
 				data.find('.addDateWindowModal').removeClass('hide');

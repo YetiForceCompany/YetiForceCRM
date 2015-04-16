@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -5357,6 +5357,7 @@ CREATE TABLE `vtiger_publicholiday` (
   `publicholidayid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
   `holidaydate` date NOT NULL COMMENT 'date of holiday',
   `holidayname` varchar(255) NOT NULL COMMENT 'name of holiday',
+  `holidaytype` varchar(25) DEFAULT NULL COMMENT 'type of holiday',
   PRIMARY KEY (`publicholidayid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
