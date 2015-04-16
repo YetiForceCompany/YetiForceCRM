@@ -512,6 +512,23 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 		});
 	},
+	quickCreateModule: function (moduleName, params) {
+		var thisInstance = this;
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+		if (typeof params.callbackFunction == 'undefined') {
+			params.callbackFunction = function() {};
+		}
+		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
+		var progress = jQuery.progressIndicator();
+		thisInstance.getQuickCreateForm(url, moduleName, params).then(function(data) {
+			thisInstance.handleQuickCreateData(data, params);
+			progress.progressIndicator({
+				'mode': 'hide'
+			});
+		});
+	},
     registerEvents: function() {
         var thisInstance = this;
 		thisInstance.recentPageViews();
@@ -558,25 +575,8 @@ jQuery.Class("Vtiger_Header_Js", {
 
         thisInstance.basicSearch();
         jQuery('#quickCreateModules,#compactquickCreate,#topMenus').on("click", ".quickCreateModule", function(e, params) {
-            if (typeof params == 'undefined') {
-                params = {};
-            }
-            if (typeof params.callbackFunction == 'undefined') {
-                params.callbackFunction = function() {};
-            }
-
-            var quickCreateElem = jQuery(e.currentTarget);
-            var quickCreateUrl = quickCreateElem.data('url');
-            var quickCreateModuleName = quickCreateElem.data('name');
-
-            var progress = jQuery.progressIndicator();
-            thisInstance.getQuickCreateForm(quickCreateUrl, quickCreateModuleName, params).then(function(data) {
-                thisInstance.handleQuickCreateData(data, params);
-                progress.progressIndicator({
-                    'mode': 'hide'
-                });
-            });
-
+			var moduleName = jQuery(e.currentTarget).data('name');
+			thisInstance.quickCreateModule(moduleName);
         });
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
 			jQuery('#basicSearchModulesList_chzn').find('.chzn-results').css({'max-height':'350px','overflow-y':'scroll'});

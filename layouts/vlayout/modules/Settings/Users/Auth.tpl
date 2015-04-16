@@ -43,6 +43,14 @@
 					</div>
 					<div class="row-fluid">
 						<div class="span2">
+							<label for="showMailIcon">{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
+						</div>
+						<div class="span10">
+							<input class="configField" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="span10">

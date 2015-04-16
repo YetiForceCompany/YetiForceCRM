@@ -20867,6 +20867,7 @@ insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','active','f
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','server','testlab.local');
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','port','389');
 insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','users',NULL);
+insert  into `yetiforce_auth`(`type`,`param`,`value`) values ('ldap','domain',NULL);
 
 /*Data for the table `yetiforce_mail_config` */
 

@@ -9,7 +9,7 @@
  *************************************************************************************/
 $languageStrings = array(
 	'Leads' => 'Leads',
-	'LBL_OPPORTUNITIES' => 'Opportunities',
+	'LBL_OPPORTUNITIES' => 'Oportunidades',
 	'checkBox' => 'Caixa Seleção',
 	'currency' => 'Moeda',
 	'date' => 'Data',

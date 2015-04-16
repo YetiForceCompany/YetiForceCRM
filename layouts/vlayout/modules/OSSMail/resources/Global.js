@@ -625,7 +625,6 @@ function loadQuickCreateForm(moduleName, params, inframe) {
     var quickCreateParams = {};
     var relatedParams = {};
     var quickcreateUrl = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
-    //console.log(params);
     relatedParams['email'] = params['from_email'];
     relatedParams['potentialname'] = params['title'];
     relatedParams['projectname'] = params['title'];
@@ -649,20 +648,11 @@ function loadQuickCreateForm(moduleName, params, inframe) {
     var headerInstance = new Vtiger_Header_Js();
     headerInstance.getQuickCreateForm(quickcreateUrl, moduleName, quickCreateParams).then(function(data) {
         headerInstance.handleQuickCreateData(data, quickCreateParams);
-        console.log(data);
         progress.progressIndicator({'mode': 'hide'});
     });
 }
-function oss_add_events(params) {
-    jQuery('#menubar_quickCreate_Calendar').trigger('click');
-    $("#globalmodal").ready(function() {
-        setTimeout(function() {
-            jQuery('.active #Calendar_editView_fieldName_subject').val(params['title']);
-        }, 1000);
-    });
-}
 function oss_add_task(params) {
-    jQuery('#menubar_quickCreate_Calendar').trigger('click');
+	Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
     $("#globalmodal").ready(function() {
         setTimeout(function() {
             jQuery('a[data-tab-name="Task"]').trigger('click');

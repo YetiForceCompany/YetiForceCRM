@@ -10,15 +10,6 @@
 Vtiger_Edit_Js("Calendar_Edit_Js",{
 
 },{
-    relatedContactElement : false,
-
-    getRelatedContactElement : function() {
-        if(this.relatedContactElement == false) {
-            this.relatedContactElement =  jQuery('#contact_id_display');
-        }
-        return this.relatedContactElement;
-    },
-
     isEvents : function() {
         var form = this.getForm();
         var moduleName = form.find('[name="module"]').val();
@@ -26,22 +17,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
             return true;
         }
         return false;
-    },
-
-    getPopUpParams : function(container) {
-        var params = this._super(container);
-		var sourceFieldElement = jQuery('input[class="sourceField"]',container);
-
-		if(sourceFieldElement.attr('name') == 'contact_id') {
-			var form = this.getForm();
-			var parentIdElement  = form.find('[name="parent_id"]');
-			if(parentIdElement.length > 0 && parentIdElement.val().length > 0) {
-				var closestContainer = parentIdElement.closest('td');
-				params['related_parent_id'] = parentIdElement.val();
-				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
-			}
-		}
-        return params;
     },
 
 	registerReminderFieldCheckBox : function() {
@@ -130,74 +105,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				jQuery('#repeatMonthDay').select2("disable");
 			}
 	},
-
-    /**
-     * Function which will fill the already saved contacts on load 
-     */
-    fillRelatedContacts : function() {
-        var form = this.getForm();
-        var relatedContactValue = form.find('[name="relatedContactInfo"]').data('value');
-        for(var contactId in relatedContactValue) {
-            var info = relatedContactValue[contactId];
-            info.text = info.name;
-            relatedContactValue[contactId] = info;
-        }
-        this.getRelatedContactElement().select2('data',relatedContactValue);
-    },
-
-    addNewContactToRelatedList : function(newContactInfo){
-         var resultentData = new Array();
-            var element =  jQuery('#contact_id_display');
-            var selectContainer = jQuery(element.data('select2').containerSelector);
-            var choices = selectContainer.find('.select2-search-choice');
-            choices.each(function(index,element){
-                resultentData.push(jQuery(element).data('select2-data'));
-            });
-
-            var select2FormatedResult = newContactInfo.data;
-            for(var i=0 ; i < select2FormatedResult.length; i++) {
-              var recordResult = select2FormatedResult[i];
-              recordResult.text = recordResult.name;
-              resultentData.push( recordResult );
-            }
-            jQuery('#contact_id_display').select2('data',resultentData);
-    },
-
-    referenceCreateHandler : function(container) {
-        var thisInstance = this;
-		var form = thisInstance.getForm();
-		var mode = jQuery(form).find('[name="module"]').val();
-        if(container.find('.sourceField').attr('name') != 'contact_id'){
-            this._super(container);
-			return;
-        }
-         var postQuickCreateSave  = function(data) {
-            var params = {};
-            params.name = data.result._recordLabel;
-            params.id = data.result._recordId;
-			if(mode == "Calendar"){
-				thisInstance.setReferenceFieldValue(container, params);
-				return;
-			}
-            thisInstance.addNewContactToRelatedList({'data':[params]});
-        }
-
-        var referenceModuleName = this.getReferencedModuleName(container);
-        var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
-        if(quickCreateNode.length <= 0) {
-            Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
-        }
-        quickCreateNode.trigger('click',{'callbackFunction':postQuickCreateSave});
-    },
-
-    registerClearReferenceSelectionEvent : function(container) {
-        var thisInstance = this;
-        this._super(container);
-
-        this.getRelatedContactElement().closest('td').find('.clearReferenceSelection').on('click',function(e){
-            thisInstance.getRelatedContactElement().select2('data',[]);
-        });
-    },
 	
 	/**
 	 * Function to change the end time based on default call duration
@@ -341,8 +248,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				jQuery('#recurringType').append(jQuery('<option value="--None--">None</option>')).val('--None--');
 			}
             if(thisInstance.isEvents()) {
-                jQuery('<input type="hidden" name="contactidlist" /> ').appendTo(form).val(thisInstance.getRelatedContactElement().val().split(',').join(';'));
-                form.find('[name="contact_id"]').attr('name','');
 				var inviteeIdsList = jQuery('#selectedUsers').val();
 				if(inviteeIdsList != null) {
 					inviteeIdsList = jQuery('#selectedUsers').val().join(';')
@@ -350,86 +255,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
                 jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(inviteeIdsList);
             }
 		})
-	},
-
-    registerRelatedContactSpecificEvents : function() {
-        var thisInstance = this;
-		var form = this.getForm();
-		
-		form.find('[name="contact_id"]').on(Vtiger_Edit_Js.preReferencePopUpOpenEvent,function(e){
-            var form = thisInstance.getForm();
-            var parentIdElement  = form.find('[name="parent_id"]');
-            var container = parentIdElement.closest('td');
-            var popupReferenceModule = jQuery('input[name="popupReferenceModule"]',container).val();
-            
-            if(popupReferenceModule == 'Leads' && parentIdElement.val().length > 0) {
-                e.preventDefault();
-                Vtiger_Helper_Js.showPnotify(app.vtranslate('LBL_CANT_SELECT_CONTACT_FROM_LEADS'));
-            }
-        })
-        //If module is not events then we dont have to register events
-        if(!this.isEvents()) {
-            return;
-        }
-        this.getRelatedContactElement().select2({
-             minimumInputLength: 3,
-             ajax : {
-                'url' : 'index.php?module=Contacts&action=BasicAjax&search_module=Contacts',
-                'dataType' : 'json',
-                'data' : function(term,page){
-                     var data = {};
-                     data['search_value'] = term;
-                     var parentIdElement  = form.find('[name="parent_id"]');
-                     if(parentIdElement.val().length > 0) {
-                        var closestContainer = parentIdElement.closest('td');
-                        data['parent_id'] = parentIdElement.val();
-                        data['parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
-                     }
-                     return data;
-                },
-                'results' : function(data){
-                    data.results = data.result;
-                    for(var index in data.results ) {
-
-                        var resultData = data.result[index];
-                        resultData.text = resultData.label;
-                    }
-                    return data
-                },
-                 transport : function(params){
-                    return jQuery.ajax(params);
-                 }
-             },
-             multiple : true
-        });
-		
-        //To add multiple selected contact from popup
-        form.find('[name="contact_id"]').on(Vtiger_Edit_Js.refrenceMultiSelectionEvent,function(e,result){
-            thisInstance.addNewContactToRelatedList(result);
-        });
-        
-        this.fillRelatedContacts();
-    },
-	
-	/**
-	 * Function to get reference search params
-	 */
-	getReferenceSearchParams : function(element){
-		var tdElement = jQuery(element).closest('td');
-		var contactField = tdElement.find('[name="contact_id"]');
-		var params = {};
-		if(contactField.length > 0){
-			var form = this.getForm();
-			var parentIdElement  = form.find('[name="parent_id"]');
-			if(parentIdElement.val().length > 0) {
-			   var closestContainer = parentIdElement.closest('td');
-			   params['parent_id'] = parentIdElement.val();
-			   params['parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
-			}
-		}
-		var searchModule = this.getReferencedModuleName(tdElement);
-		params.search_module = searchModule;
-		return params;
 	},
 
 	registerBasicEvents : function(container) {
@@ -469,7 +294,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
 		this.registerRepeatMonthActions();
-		this.registerRelatedContactSpecificEvents();
 		this._super();
 	}
 });

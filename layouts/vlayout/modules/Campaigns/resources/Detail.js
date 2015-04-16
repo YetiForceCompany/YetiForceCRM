@@ -153,8 +153,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js",{},{
 			var element = jQuery(e.currentTarget);
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
-            var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ relatedModuleName +'"]');
-            if(quickCreateNode.length <= 0) {
+            if(element.hasClass('quickCreateSupported') != true) {
                 window.location.href = element.data('url');
                 return;
             }

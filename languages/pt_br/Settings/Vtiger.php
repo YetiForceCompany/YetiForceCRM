@@ -256,15 +256,15 @@ $languageStrings = array(
 	'LBL_SUPPORT_PROCESSES_DESCRIPTION' => '',
 	'LBL_COLORS' => 'Cores',
 	'LBL_COLORS_DESCRIPTION' => ' ',
-	'LBL_REALIZATION_PROCESSES' => 'Realization processes',
+	'LBL_REALIZATION_PROCESSES' => 'Processos de realização',
 	'LBL_REALIZATION_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_FINANCIAL_PROCESSES' => 'Financial processes',
+	'LBL_FINANCIAL_PROCESSES' => 'Processos financeiros',
 	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_MARKETING_PROCESSES' => 'Marketing processes',
+	'LBL_MARKETING_PROCESSES' => 'Processos de marketing',
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_MENU_BUILDER' => 'Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
-	'LBL_AUTHORIZATION' => 'Authorization',
+	'LBL_AUTHORIZATION' => 'Autorização',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',	
 	
 	/* Role */
@@ -288,9 +288,6 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Prazos e Condições',
-
-	// Missing fields
-	'Bookkeeping'=>'Escrituração',
 );
 
 $jsLanguageStrings = array(

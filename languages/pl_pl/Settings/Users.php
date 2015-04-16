@@ -34,6 +34,7 @@ $languageStrings = array(
 	'LBL_LDAP_PORT' => 'Port',
 	'LBL_LDAP_USERS' => 'Autlogowanie aktywne dla użytkowników',
 	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
+	'LBL_LDAP_DOMAIN' => 'Domena (automatycznie dodawana do loginu)',
 );
 $jsLanguageStrings = array(
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',

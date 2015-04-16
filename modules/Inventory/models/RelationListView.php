@@ -32,6 +32,7 @@ class Inventory_RelationListView_Model extends Vtiger_RelationListView_Model {
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => vtranslate('LBL_ADD')." ".vtranslate($relatedModel->get('label')),
 					'linkurl' => $this->getCreateViewUrl(),
+					'linkqcs' => $relatedModel->isQuickCreateSupported(),
 					'linkicon' => '',
 				)
 			);

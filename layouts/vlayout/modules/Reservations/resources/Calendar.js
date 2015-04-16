@@ -234,9 +234,6 @@ jQuery.Class("Reservations_Calendar_Js",{
 		});
 	},
 	addCalendarEvent : function(calendarDetails) {
-		var isAllowed = this.isAllowedToAddTimeControl();
-		if(isAllowed == false) return;
-console.log(calendarDetails);
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.title.display_value;
@@ -249,13 +246,7 @@ console.log(calendarDetails);
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.type.value;
 		this.getCalendarView().fullCalendar('renderEvent',eventObject);
 	},
-	isAllowedToAddTimeControl : function () {
-		if(jQuery('#menubar_quickCreate_Reservations').length > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	},
+	
 	getCalendarCreateView : function() {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
@@ -280,11 +271,10 @@ console.log(calendarDetails);
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="Reservations"]');
-		var url = quickCreateCalendarElement.data('url');
-		var name = quickCreateCalendarElement.data('name');
-		var headerInstance = new Vtiger_Header_Js();
-		headerInstance.getQuickCreateForm(url,name).then(
+		var moduleName = 'Reservations';
+		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
+		var headerInstance = Vtiger_Header_Js.getInstance();
+		headerInstance.getQuickCreateForm(url, moduleName).then(
 			function(data){
 				aDeferred.resolve(jQuery(data));
 			},
