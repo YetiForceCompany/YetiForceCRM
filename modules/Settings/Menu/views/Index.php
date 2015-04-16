@@ -35,7 +35,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jstree3/jstree.min.js',
+			'~libraries/jquery/jstree/jstree.min.js',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -47,7 +47,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
-			'~libraries/jquery/jstree3/themes/default/style.css',
+			'~libraries/jquery/jstree/themes/default/style.css',
 			"~/layouts/vlayout/modules/Settings/$moduleName/Index.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

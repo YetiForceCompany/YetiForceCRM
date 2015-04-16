@@ -68,18 +68,13 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 			var treeValues = $('#treePopupValues').val();
 			var data = JSON.parse(treeValues);
 			thisInstance.jstreeInstance = $("#treePopupContents");
-			thisInstance.jstreeInstance.jstree({
-				"json_data" : {
-					"data" : data
-				},
-				"themes" : {
-					"theme" : "default",
-					"dots" : true,
-					"icons" : true
-				},
-				"plugins" : [ "themes", "json_data", "ui","hotkeys" ]
-			}).bind("select_node.jstree", function (event, data) {
-				thisInstance.registerSelect(data.rslt.obj);
+			thisInstance.jstreeInstance.jstree({ 
+				core: {
+					data: data
+				}
+			})
+			.on('select_node.jstree', function (event, data) {
+				thisInstance.registerSelect(data.node);
 			});
 		}
 		return this.jstreeInstance;
@@ -87,7 +82,7 @@ jQuery.Class("Vtiger_TreePopup_Js",{
 	
 	registerSelect : function(obj){
 		var thisInstance = this;
-		var recordData = {id: obj.attr("id"),name: obj.find('a:first').text()}
+		var recordData = {id: obj.id, name: obj.text}
 		thisInstance.done(recordData, thisInstance.getEventName());
 	},
 	
