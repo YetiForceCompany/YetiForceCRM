@@ -7,9 +7,9 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<nav role="navigation" aria-label="Main menu">
+{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
+ <nav role="navigation" aria-label="Main menu" class="menu">
 	<ul class="nav modulesList collapsed" role="menubar" aria-hidden="false">
-		{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 		{assign var=TABINDEX value=0}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{assign var=TABINDEX value=$TABINDEX+1}
@@ -25,3 +25,21 @@
 		{/foreach}
 	</ul>
 </nav>
+<ul class="nav" id="commonMoreMenu">
+	<li class="dropdown" id="moreMenu">
+		<a class="dropdown-toggle" href="#moreMenu">
+			<strong>{vtranslate('LBL_OTHER', 'Menu')}&nbsp;</strong>
+			<b class="caret"></b>
+		</a>
+		<ul class="dropdown-menu">
+			{assign var=TABINDEX value=-1}
+			{assign var=HASPOPUP value=false}
+			{assign var=CLASS value=false}
+			{assign var=MOREMENU value=true}
+			{foreach key=KEY item=MENU from=$MENUS}
+				{assign var=CHILDS value=$MENU.childs}
+				{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
+			{/foreach}
+		</ul>
+	</li>
+</ul>

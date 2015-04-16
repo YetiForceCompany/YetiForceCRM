@@ -188,6 +188,11 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 				$languageFileContents = str_replace($key, $value, $languageFileContents);
 			}
 			file_put_contents('languages/en_us/' . $this->name . '.php', $languageFileContents);
+			$languages = Users_Module_Model::getLanguagesList();
+			foreach ($languages as $key => $language) {
+				file_put_contents('languages/'.$key.'/' . $this->name . '.php', $languageFileContents);
+			}
+			
 		}
 	}
 	/**

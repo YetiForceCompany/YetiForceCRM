@@ -12,7 +12,6 @@
 {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 {assign var="currentDate" value=Vtiger_Date_UIType::getDisplayDateValue('')}
 {assign var="time" value=Vtiger_Time_UIType::getDisplayTimeValue(null)}
-{assign var="currentTimeInVtigerFormat" value=Vtiger_Time_UIType::getTimeValueInAMorPM($time)}
 {if $COUNTER eq 2}
 </tr><tr class="">
 	{assign var=COUNTER value=1}
@@ -46,9 +45,9 @@
 		</div>		
 	</div>
 	<div>
-		<div class="input-append time">		    
+		<div class="input-append time">
 			<input type="text" name="followup_time_start" class="timepicker-default input-small" 
-				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$currentTimeInVtigerFormat}{/if}" />
+				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}" />
 			<span class="add-on cursorPointer">
 				<i class="icon-time"></i>
 			</span>

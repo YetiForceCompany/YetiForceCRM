@@ -72,20 +72,13 @@
 		</span>
 	</span>
 {/if}
-{if $WORKTIME}
-	<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
-		<span class="span">
-			{$WORKTIME}
-		</span>
-	</span>
-{/if}
 {assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 {assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 {if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
-	<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if} style="width: 270px;  margin-top: -5px;">
+	<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if} style="margin-top: -5px;">
 		<div class="btn-group pull-right" style="margin-top: 0;">
 			{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-			<a class="btn btn-small mainMail" href="index.php?module=OSSMail&view=index">{$MAIN_MAIL.username} <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
+			<a class="btn btn-small mainMail" href="index.php?module=OSSMail&view=index" title="{$MAIN_MAIL.username}"><span class="mail_user_name">{$MAIN_MAIL.username}</span> <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
 			{if $CONFIG['showMailAccounts']=='true'}
 				<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
 					<span class="caret"></span>
@@ -99,18 +92,14 @@
 		</div>
 	</span>
 {/if}
-<div id="headerLinksCompact">
-	<span class="btn-group dropdown qCreate cursorPointer">
-		<img style="float:right;" src="{vimage_path('btnAdd_white.png')}" class="" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" data-toggle="dropdown"/>
-		<ul class="dropdown-menu dropdownStyles pull-right commonActionsButtonDropDown">
-			<li class="title"><strong>{vtranslate('Quick Create',$MODULE)}</strong></li><hr/>
-			<li id="compactquickCreate">
-				<div class="CompactQC">
-
-				</div>
-			</li>
-		</ul>
+{if $WORKTIME}
+	<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
+		<span class="span">
+			{$WORKTIME}
+		</span>
 	</span>
+{/if}
+<div id="headerLinksCompact">
 	<span id="dropdown-headerLinksBig" class="dropdown">
 		<a class="dropdown-toggle btn-navbar" data-toggle="dropdown" href="#">
 			<span class="icon-bar"></span>

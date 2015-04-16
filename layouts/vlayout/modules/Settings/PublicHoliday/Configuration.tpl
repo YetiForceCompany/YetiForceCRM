@@ -64,12 +64,13 @@ padding: 5px;
 						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="span12">
 							{foreach item=HOLIDAY from=$HOLIDAYS}
 							<li>
-								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
+								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
 									<div class="row-fluid paddingAll5">
 										<div style="word-wrap: break-word;" class="span10 ">
 											<span class="fieldLabel marginLeft20 span2">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
 											<span class="fieldLabel marginLeft20 span2">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
-											<span class="marginLeft20 span6">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
+											<span class="marginLeft20 span3">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
+											<span class="marginLeft20 span3">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
 										</div>
 										<span class="btn-group pull-right marginRight20 actions">
 											<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
@@ -104,6 +105,18 @@ padding: 5px;
 							<div class="controls">
 								<input type="text" name="holidayDate" class="dateField" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
 								
+							</div>
+						</div>
+						<div class="control-group">
+							<span class="control-label">
+								<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
+								<span class="redColor">*</span>
+							</span>
+							<div class="controls">
+								 <select name="holidayType" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
+									<option value="national">{vtranslate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
+									<option value="ecclesiastical">{vtranslate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
+								</select> 
 							</div>
 						</div>
 						<div class="control-group">

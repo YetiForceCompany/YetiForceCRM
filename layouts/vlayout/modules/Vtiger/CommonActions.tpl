@@ -21,7 +21,7 @@
             </div>
             <div class="span10">
                 <div class="row-fluid">
-                    <div class="searchElement span10">
+                    <div class="searchElement span11">
                         <div class="select-search span2">
                             <select class="chzn-select" id="basicSearchModulesList" style="width:150px;">
                                 <option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
@@ -34,29 +34,21 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="input-append searchBar span6">
+                        <div class="input-append searchBar span5">
                             <input type="text" class="" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
                             <span id="searchIcon" class="add-on search-icon"><i class="icon-white icon-search "></i></span>
                             <span class="adv-search  pull-left">
                                 <a class="alignMiddle" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</a>
                             </span>
                         </div>
-
                     </div>
-                    <div class="notificationMessageHolder span2">
-
-                    </div>
-                    <div class="nav quickActions btn-toolbar span2 pull-right marginLeftZero">
+                    <div class="nav quickActions btn-toolbar span marginLeftZero">
                         <div class="pull-right commonActionsButtonContainer">
                             {if !empty($announcement)}
                                 <div class="btn-group cursorPointer">
                                     <img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
                                 </div>&nbsp;
                             {/if}
-                            <div class="btn-group cursorPointer" id="guiderHandler">
-                                {if !$MAIN_PRODUCT_WHITELABEL}
-                                {/if}
-                            </div>
                         </div>
                     </div>
                 </div>

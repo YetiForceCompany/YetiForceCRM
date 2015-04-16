@@ -129,7 +129,38 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$item['end'] = $endDateFormated.' '. $endTimeFormated;
 			$item['allDay'] = $record['allday']==1?true:false;
 			$item['className'] = ' userCol_'.$record['smownerid'].' calCol_'.$activitytype;
-			$result[] = $item;
+				if($this->has('widget') && $this->get('widget') == TRUE){
+					$firstDate = strtotime($startDateFormated);
+					$endDate = strtotime($endDateFormated);
+					$diffDate = intval(($endDate - $firstDate)/(60*60*24));
+					for($q=0;$q<=$diffDate;$q++){
+						if($q == 0){
+						   $date = $startDateFormated;
+						}else{
+							$date = strtotime(date("Y-m-d", strtotime($date)) . " +1 day");
+							$date = date('Y-m-d', $date);
+						}
+						if($activitytype == 'Task'){
+							$widgetElements[$date]['start'] = $date;
+							$widgetElements[$date]['event']['Task']['ids'][] = $crmid;
+							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Task']['ids']);
+							$widgetElements[$date]['event']['Task']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
+							$widgetElements[$date]['event']['Task']['className'] = ' span5 fc-draggable calCol_'.$activitytype; 
+							$widgetElements[$date]['type'] = 'widget';
+						}else{
+							$widgetElements[$date]['start'] = $date;
+							$widgetElements[$date]['event']['Meeting']['ids'][] = $crmid;
+							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Task']['ids']);
+							$widgetElements[$date]['event']['Meeting']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
+							$widgetElements[$date]['event']['Meeting']['className'] = ' span5 fc-draggable calCol_'.$activitytype;
+							$widgetElements[$date]['type'] = 'widget';
+						} 
+					}
+					$result = array_values($widgetElements);
+				}else{
+				   $result[] = $item; 
+				}
+			
 		}
 		return $result;
 	}

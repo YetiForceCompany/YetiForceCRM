@@ -11,4 +11,18 @@
 $languageStrings = Array (
 	'LBL_QUICK_CREATE_MODULE' => 'Szybkie tworzenie',
 	'LBL_SEPARATOR' => 'Separator',
+	'LBL_OTHER' => 'Pozostałe',
+	'MEN_VIRTUAL_DESK' => 'Wirtualne biurko',
+	'MEN_LEADS' => 'Firmy',
+	'MEN_SALES' => 'Sprzedaż',
+	'MEN_PROJECTS' => 'Projekty',
+	'MEN_SUPPORT' => 'Wsparcie',
+	'MEN_BOOKKEEPING' => 'Księgowość',
+	'MEN_HUMAN_RESOURCES' => 'Kadry',
+	'MEN_SECRETARY' => 'Sekretariat',
+	'MEN_DATABESES' => 'Bazy danych',
+	'MEN_TEAMWORK' => 'Praca grupowa',
+	'MEN_PRODUCTBASE' => 'Baza produktów',
+	'MEN_LISTS' => 'Wykazy',
+	'MEN_SERVICESBASE' => 'Baza usług',
 );

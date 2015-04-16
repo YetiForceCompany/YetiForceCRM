@@ -54,12 +54,13 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 			$id		= $request->get('holidayId');
 			$date	= DateTimeField::convertToDBFormat($request->get('holidayDate'));
 			$name	= $request->get('holidayName');
+			$type = $request->get('holidayType');
 
 			if ( empty($name) || empty($date) ) {
 				$response->setResult( array( 'success' => false, 'message' => vtranslate('LBL_FILL_FORM_ERROR', $moduleName) ) );
 			}
 			else if ( !empty($id) ) {
-				if ( Settings_PublicHoliday_Module_Model::edit( $id, $date, $name ) ) {
+				if ( Settings_PublicHoliday_Module_Model::edit( $id, $date, $name, $type ) ) {
 					$response->setResult( array( 'success' => true, 'message' => vtranslate('LBL_EDIT_DATE_OK', $moduleName) ) );
 				}
 				else {
@@ -67,7 +68,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 				}
 			}
 			else {
-				if ( Settings_PublicHoliday_Module_Model::save( $date, $name ) ) {
+				if ( Settings_PublicHoliday_Module_Model::save( $date, $name, $type ) ) {
 					$response->setResult( array( 'success' => true, 'message' => vtranslate('LBL_NEW_DATE_OK', $moduleName) ) );
 				}
 				else {

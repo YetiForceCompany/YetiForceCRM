@@ -21,7 +21,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(".print_r($date,true).") method ...");
 
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname` FROM `vtiger_publicholiday`'; 
+		$sql = 'SELECT `publicholidayid`, `holidaydate`, `holidayname`, `holidaytype` FROM `vtiger_publicholiday`'; 
 		$params = array();
 
 		if ( is_array($date) ) {
@@ -40,12 +40,15 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 				$id   = $db->query_result( $result, $i, 'publicholidayid' );
 				$date = $db->query_result( $result, $i, 'holidaydate' );
 				$name = $db->query_result( $result, $i, 'holidayname' );
+				$type = $db->query_result( $result, $i, 'holidaytype' );
 				$holidays[$id]['id']   = $id; 
 				$holidays[$id]['date'] = $date; 
 				$holidays[$id]['name'] = $name; 
+				$holidays[$id]['type'] = $type; 
 				$holidays[$id]['day']  = vtranslate(date('l', strtotime($date)), 'PublicHoliday');
 			}
 		}
+		
 		$log->debug("Exiting Settings_PublicHoliday_Module_Model::getHolidays() method ...");
 		return $holidays;
 	}
@@ -78,15 +81,16 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * Add new holiday
 	 * @param <String> $date - date of the holiday
 	 * @param <String> $name - name of the holiday
+	 * @param <String> $type - type of the holiday
 	 * @return - true on success, false on failure
 	 */
-	public static function save( $date, $name ) {
+	public static function save( $date, $name, $type ) {
 		global $log;
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::save(".$date.', '.$name.") method ...");
+		$log->debug("Entering Settings_PublicHoliday_Module_Model::save(".$date.', '.$name.', '.$type.") method ...");
 
 		$db = PearDatabase::getInstance();
-		$sql = 'INSERT INTO `vtiger_publicholiday` (`holidaydate`, `holidayname`) VALUES (?, ?);'; 
-		$params = array( $date, $name );
+		$sql = 'INSERT INTO `vtiger_publicholiday` (`holidaydate`, `holidayname`, `holidaytype`) VALUES (?, ?, ?);'; 
+		$params = array( $date, $name, $type );
 
 		$result = $db->pquery( $sql, $params );
 		$saved = $db->getAffectedRowCount( $result );
@@ -104,15 +108,16 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @param <Int> $id - id of the holiday
 	 * @param <String> $date - date of the holiday
 	 * @param <String> $name - name of the holiday
+	 * @param <String> $type - name of the holiday
 	 * @return - true on success, false on failure
 	 */
-	public static function edit( $id, $date, $name ) {
+	public static function edit( $id, $date, $name, $type ) {
 		global $log;
-		$log->debug("Entering Settings_PublicHoliday_Module_Model::edit(".$id.', '.$date.', '.$name.") method ...");
+		$log->debug("Entering Settings_PublicHoliday_Module_Model::edit(".$id.', '.$date.', '.$name.', '.$type.") method ...");
 
 		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE `vtiger_publicholiday` SET `holidaydate` = ?, `holidayname` = ? WHERE `publicholidayid` = ? LIMIT 1;'; 
-		$params = array( $date, $name, $id );
+		$sql = 'UPDATE `vtiger_publicholiday` SET `holidaydate` = ?, `holidayname` = ?, `holidaytype` = ? WHERE `publicholidayid` = ? LIMIT 1;'; 
+		$params = array( $date, $name, $type, $id );
 
 		$result = $db->pquery( $sql, $params );
 		$saved = $db->getAffectedRowCount( $result );
@@ -148,4 +153,32 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return - holidays count group by type if exist or false
+	 */
+	public static function getHolidayGroupType(){
+		global $log;
+		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
+		$db = PearDatabase::getInstance();
+		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` GROUP BY `holidaytype`';
+		$result = $db->query($sql);
+		$numRows = $db->num_rows($result);
+		if(0 == $numRows)
+			$return = FALSE;
+		else{
+			for( $i=0; $i<$numRows; $i++ ) {
+				$count = $db->query_result($result, $i, 'count');
+				$type = $db->query_result( $result, $i, 'holidaytype');
+				$return[$type]  = $count; 
+			}
+		}
+		$log->debug("Exiting Settings_PublicHoliday_Module_Model::getHolidayGroupType() method ...");
+		return $return;
+	}
+
+
+
+	
 }

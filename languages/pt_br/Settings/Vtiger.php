@@ -264,7 +264,7 @@ $languageStrings = array(
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_MENU_BUILDER' => 'Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
-	'LBL_AUTHORIZATION' => '__UNTRANSLATED__',
+	'LBL_AUTHORIZATION' => 'Autorização',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',	
 	
 	/* Role */
@@ -288,9 +288,6 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Prazos e Condições',
-
-	// Missing fields
-	'Bookkeeping'=>'Escrituração',
 );
 
 $jsLanguageStrings = array(
