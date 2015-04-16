@@ -47,14 +47,14 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 		$userModel = Users_Record_Model::getCurrentUserModel();
 
 		$headerLinks = array(
-				// Note: This structure is expected to generate side-bar feedback button.
-			array (
+			// Note: This structure is expected to generate side-bar feedback button.
+			array(
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_FEEDBACK',
 				'linkurl' => "javascript:','feedbackwin','height=400,width=550,top=200,left=300')",
 				'linkicon' => 'info.png',
 				'childlinks' => array(
-					array (
+					array(
 						'linktype' => 'HEADERLINK',
 						'linklabel' => 'LBL_DOCUMENTATION',
 						'linkurl' => 'https://yetiforce.com',
@@ -64,66 +64,64 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 				)
 			)
 		);
-		
-		if($userModel->isAdminUser()) {
+
+		if ($userModel->isAdminUser()) {
 			$crmSettingsLink = array(
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_SYSTEM_SETTINGS',
 				'linkurl' => '',
 				'linkicon' => 'setting.png',
 				'childlinks' => array(
-					array (
+					array(
 						'linktype' => 'HEADERLINK',
 						'linklabel' => 'LBL_SYSTEM_SETTINGS',
 						'linkurl' => '?module=Vtiger&parent=Settings&view=Index',
 						'linkicon' => '',
 					),
-                                        array(), // separator 
-                                        array ( 
-                                                'linktype' => 'HEADERLINK', 
-                                                'linklabel' => 'LBL_MANAGE_USERS', 
-                                                'linkurl' => '?module=Users&parent=Settings&view=List', 
-                                                'linkicon' => '', 
-                                       ),
+					array(
+						'linktype' => 'HEADERLINK',
+						'linklabel' => 'LBL_MANAGE_USERS',
+						'linkurl' => '?module=Users&parent=Settings&view=List',
+						'linkicon' => '',
+					),
 				)
 			);
 			array_push($headerLinks, $crmSettingsLink);
 		}
 		$userPersonalSettingsLinks = array(
-				'linktype' => 'HEADERLINK',
-				'linklabel' => $userModel->getDisplayName(),
-				'linkurl' => '',
-				'linkicon' => '',
-				'childlinks' => array(
-					array (
-						'linktype' => 'HEADERLINK',
-						'linklabel' => 'LBL_MY_PREFERENCES',
-						'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-						'linkicon' => '',
-					),
-					array(), // separator
-					array (
-						'linktype' => 'HEADERLINK',
-						'linklabel' => 'LBL_SIGN_OUT',
-						'linkurl' => '?module=Users&parent=Settings&action=Logout',
-						'linkicon' => '',
-					)
+			'linktype' => 'HEADERLINK',
+			'linklabel' => $userModel->getDisplayName(),
+			'linkurl' => '',
+			'linkicon' => '',
+			'childlinks' => array(
+				array(
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_MY_PREFERENCES',
+					'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+					'linkicon' => '',
+				),
+				array(
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_SIGN_OUT',
+					'linkurl' => '?module=Users&parent=Settings&action=Logout',
+					'linkicon' => '',
 				)
-			);
+			)
+		);
 		array_push($headerLinks, $userPersonalSettingsLinks);
 		$headerLinkInstances = array();
 
 		$index = 0;
-		foreach($headerLinks as  $headerLink) {
+		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = Vtiger_Link_Model::getInstanceFromValues($headerLink);
-			foreach($headerLink['childlinks'] as $childLink) {
+			foreach ($headerLink['childlinks'] as $childLink) {
 				$headerLinkInstance->addChildLink(Vtiger_Link_Model::getInstanceFromValues($childLink));
 			}
 			$headerLinkInstances[$index++] = $headerLinkInstance;
 		}
 		$headerLinks = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERLINK'));
-		foreach($headerLinks as $headerType => $headerLinks) {
-			foreach($headerLinks as $headerLink) {
+		foreach ($headerLinks as $headerType => $headerLinks) {
+			foreach ($headerLinks as $headerLink) {
 				$headerLinkInstances[$index++] = Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
 			}
 		}

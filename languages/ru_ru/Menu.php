@@ -11,4 +11,5 @@
 $languageStrings = Array (
 	'LBL_QUICK_CREATE_MODULE' => 'Quick create',
 	'LBL_SEPARATOR' => 'Separator',
+	'LBL_OTHER' => '__UNTRANSLATED__',
 );

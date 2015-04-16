@@ -1,7 +1,7 @@
 {assign var=MENUS value=$MENU.childs}
 {if $MENUS|@count neq 0}
 	{assign var=TABINDEX value=-1}
-	<ul class="dropdown-menu" role="menu" aria-hidden="true">
+	<ul {if $MOREMENU neq true}class="dropdown-menu"{/if} role="menu" aria-hidden="true">
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{assign var=CHILDS value=$MENU.childs}
