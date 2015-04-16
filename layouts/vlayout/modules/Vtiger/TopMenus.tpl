@@ -10,7 +10,7 @@
 <div class="navbar" id="topMenus">
 	<div class="navbar-inner" id="nav-inner">
 		<div class="menuBar row-fluid">
-			<div class="span7" id="largeNavDiv" style="height:40px;">
+			<div class="span7" id="largeNavDiv">
 				{include file='TopMenusLeft.tpl'|@vtemplate_path:$MODULE}
 			</div>
 			<div class="span5 row-fluid" id="headerLinks">
