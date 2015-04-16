@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array (
-	'LBL_QUICK_CREATE_MODULE' => '__UNTRANSLATED__',
+	'LBL_QUICK_CREATE_MODULE' => 'Quick create',
 	'LBL_SEPARATOR' => 'Separator',
-	'LBL_OTHER' => '__UNTRANSLATED__',
+	'LBL_OTHER' => 'Other',
 	'MEN_VIRTUAL_DESK' => 'Virtual desk',
 	'MEN_LEADS' => 'Leads',
 	'MEN_SALES' => 'Sales',
