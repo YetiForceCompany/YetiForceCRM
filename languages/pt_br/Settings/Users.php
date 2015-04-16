@@ -26,14 +26,14 @@ $languageStrings = array(
 	'LBL_PRIORITY' => 'Priority',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => '__UNTRANSLATED__',
+	'LBL_AUTHORIZATION' => 'Authorization',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
-	'LBL_LDAP_AUTH' => '__UNTRANSLATED__',
-	'LBL_ACTIVE_LDAP_AUTH' => '__UNTRANSLATED__',
-	'LBL_LDAP_SERVER' => '__UNTRANSLATED__',
-	'LBL_LDAP_PORT' => '__UNTRANSLATED__',
-	'LBL_LDAP_USERS' => '__UNTRANSLATED__',
-	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
+	'LBL_LDAP_AUTH' => 'LDAP',
+	'LBL_ACTIVE_LDAP_AUTH' => 'Authorization with LDAP',
+	'LBL_LDAP_SERVER' => 'Server address',
+	'LBL_LDAP_PORT' => 'Port',
+	'LBL_LDAP_USERS' => 'Auto login active for users',
+	'LBL_SAVE_CONFIG' => 'Configuration has been saved',
 );
 $jsLanguageStrings = array(
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
