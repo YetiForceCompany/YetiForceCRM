@@ -99,7 +99,9 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
-			'modules.Vtiger.resources.dashboards.Widget'
+			'modules.Vtiger.resources.dashboards.Widget',
+			'~/libraries/fullcalendar/moment.min.js',
+			'~/libraries/fullcalendar/fullcalendar.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -118,6 +120,8 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$headerCss = array(
 			'~/libraries/jquery/gridster/jquery.gridster.min.css',
 			'~/libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~/libraries/fullcalendar/fullcalendar.min.css',
+			'~/libraries/fullcalendar/fullcalendarCRM.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);
