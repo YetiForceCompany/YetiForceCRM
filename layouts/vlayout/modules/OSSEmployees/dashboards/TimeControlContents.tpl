@@ -11,39 +11,99 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div style='padding:5px;'>
-	{if $CHARTEXIST}
-		<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
-		<div class="widgetChartContainer" style="height:65%;width:98%"></div>
-		<div class="legend-colors">
-			<ol>
-			{foreach from=$TIMETYPESCOLORS key=TIMETYPE item=COLOR}
-				<li style="float:left; margin-right:15px;">
-					<div style="margin-right:5px; margin-top:5px; float:left; width:10px; height:10px; background-color:{$COLOR}"></div>
-					<h5  style="float:left;">{vtranslate($TIMETYPE, $MODULE_NAME)} </h5>
-				</li>
-			{/foreach}
-		</ol>
-		</div>
-	{else}
-		<span class="noDataMsg">
-			{vtranslate('LBL_NO_DATA', $MODULE_NAME)}
+{if count($DATA) gt 0 }
+	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/all_days.png" alt="All days" data-placement="right" data-content="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">{$ALLDAYS}</span>
 		</span>
-	{/if}
-	<div class="">		
-		<select name="timeTypes" class="widgetFilter chzn-select" multiple style="width:80%; height: 100px;">
-			{foreach key=KEY item=ITEM from=$TIMETYPEPOSSIBILITY}
-				{if $SELECTEDTIMETYPES eq 'all'}
-					<option selected value="{$ITEM}">
-				{elseif in_array($ITEM, $SELECTEDTIMETYPES)}
-					<option selected value="{$ITEM}">
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" data-content="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
+			<span class="summary-text">
+			{$WEEKENDDAYS}
+			</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" data-content="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{if $ECCLESIASTICAL}
+					{$ECCLESIASTICAL}
 				{else}
-					<option  value="{$ITEM}">
+					0
 				{/if}
-					{vtranslate($KEY, $MODULE_NAME)}
-				</option>
-			{/foreach}
-		</select>
+			</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" data-content="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{if $NATIONAL}
+					{$NATIONAL}
+				{else}
+					0
+				{/if}
+			</span>
+		</span>
+
 	</div>
-</div>
+	<div class="summary-right pull-right" style="text-align:center;">
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/worked_days.png" alt="Worked days" data-placement="right"  data-content="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{if $WORKEDDAYS}
+					{$WORKEDDAYS}
+				{else}
+					0
+				{/if}
+			</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/holiday_days.png" alt="Holiday days" data-content="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{if $HOLIDAYDAYS}
+					{$HOLIDAYDAYS}
+				{else}
+					0
+				{/if}
+			</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/average_working_time.png" alt="Average working time" data-content="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{if $AVERAGEWORKTIME}
+					{$AVERAGEWORKTIME}
+				{else}
+					0
+				{/if}
+			</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/average_break_time.png" alt="Average breaking time" data-content="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
+			<span class="summary-text">
+				{$AVERAGEBREAKTIME}
+			</span>
+		</span>
+	</div>
+	<div class="clearfix"></div>
+	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
+	<div class="widgetChartContainer" style="height:90%;width:98%"></div>
+{else}
+	<span class="noDataMsg">
+		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+	</span>
+{/if}
+<style>
+.summary-text{
+	font-size: 20px;
+	vertical-align: super;
+}
+.summary-img{
+	margin-right: 3px;
+}
+.summary-detail{
+	margin-right: 7px;
+}
+</style>
+<script type="text/javascript">
+	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
+</script>
 {/strip}

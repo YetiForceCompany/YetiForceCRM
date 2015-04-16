@@ -827,7 +827,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
 			thisInstance.chartData[data['chart'][index].id] = data['chart'][index];
 		}
 
-		return {'chartData':chartData, 'ticks': data['ticks'], 'links' : data['links']};
+		return {'chartData':chartData, 'ticks': data['ticks'], 'links' : data['links'], 'legend': data['legend']};
 	},
 	loadChart : function() {
 		var thisInstance = this;
