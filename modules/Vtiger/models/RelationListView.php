@@ -145,7 +145,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 		$relatedModel = $relationModel->getRelationModuleModel();
 
 		if($relatedModel->get('label') == 'Calendar'){
-
 			$addLinkList[] = array(
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => vtranslate('LBL_ADD_EVENT'),
@@ -166,6 +165,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 					//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
 					'linklabel' => vtranslate('LBL_ADD_RELATION'),
 					'linkurl' => $this->getCreateViewUrl(),
+					'linkqcs' => $relatedModel->isQuickCreateSupported(),
 					'linkicon' => '',
 				)
 			);

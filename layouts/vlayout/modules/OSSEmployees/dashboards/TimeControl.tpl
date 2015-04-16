@@ -104,7 +104,7 @@
 				</td>	
 				<td class="widgeticons span3" align="right">
 					<div class="box pull-right">
-						<a class="btn" onclick="jQuery('#menubar_quickCreate_OSSTimeControl').trigger('click'); return false;">
+						<a class="btn" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
 							<i class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
 						</a>
 						<a class="btn" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">

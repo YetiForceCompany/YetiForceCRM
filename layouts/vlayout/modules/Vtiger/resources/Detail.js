@@ -924,12 +924,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var element = jQuery(e.currentTarget);
 			var selectedTabElement = thisInstance.getSelectedTab();
 			var relatedModuleName = thisInstance.getRelatedModuleName();
-            var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ relatedModuleName +'"]');
-            if(quickCreateNode.length <= 0) {
+            if(element.hasClass('quickCreateSupported') != true) {
                 window.location.href = element.data('url');
                 return;
             }
-
+			
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.addRelatedRecord(element);
 		})
@@ -1126,70 +1125,64 @@ jQuery.Class("Vtiger_Detail_Js",{
 		 */
 		jQuery('.createActivity').on('click', function(e){
 			var referenceModuleName = "Calendar";
-			var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
 			var element = jQuery(e.currentTarget);
 
-			if(quickCreateNode.length <= 0) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
-			}
-
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined') {
 				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[relField] = recordId;
 			}
 			var fullFormUrl = element.data('url');
-			var preQuickCreateSave = function(data){
-				thisInstance.addElementsToQuickCreateForCreatingRelation(data,customParams);
+			var preQuickCreateSave = function (data) {
+				thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
 
 				var taskGoToFullFormButton = data.find('[class^="CalendarQuikcCreateContents"]').find('#goToFullForm');
 				var eventsGoToFullFormButton = data.find('[class^="EventsQuikcCreateContents"]').find('#goToFullForm');
-				var taskFullFormUrl = taskGoToFullFormButton.data('edit-view-url')+"&"+fullFormUrl;
-				var eventsFullFormUrl = eventsGoToFullFormButton.data('edit-view-url')+"&"+fullFormUrl;
-				taskGoToFullFormButton.data('editViewUrl',taskFullFormUrl);
-				eventsGoToFullFormButton.data('editViewUrl',eventsFullFormUrl);
-				
+				var taskFullFormUrl = taskGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
+				var eventsFullFormUrl = eventsGoToFullFormButton.data('edit-view-url') + "&" + fullFormUrl;
+				taskGoToFullFormButton.data('editViewUrl', taskFullFormUrl);
+				eventsGoToFullFormButton.data('editViewUrl', eventsFullFormUrl);
+
 				/*
-                thisInstance.getPlannedEvents();
-                jQuery('[name="date_start"]').on('change', function() {
-                    thisInstance.getPlannedEventsClearTable();
-                    thisInstance.getPlannedEvents();
-                });
-				jQuery('.modal-body').css({'max-height' : '500px', 'overflow-y': 'auto'});
-				*/
+				 thisInstance.getPlannedEvents();
+				 jQuery('[name="date_start"]').on('change', function() {
+				 thisInstance.getPlannedEventsClearTable();
+				 thisInstance.getPlannedEvents();
+				 });
+				 jQuery('.modal-body').css({'max-height' : '500px', 'overflow-y': 'auto'});
+				 */
 			}
 
-			var callbackFunction = function() {
+			var callbackFunction = function () {
 				var widgetContainer = element.closest('.summaryWidgetContainer');
 				var widgetContentBlock = widgetContainer.find('.widgetContentBlock');
 				var urlParams = widgetContentBlock.data('url');
 				var params = {
-					'type' : 'GET',
+					'type': 'GET',
 					'dataType': 'html',
-					'data' : urlParams
+					'data': urlParams
 				};
 				AppConnector.request(params).then(
-					function(data) {
-						var activitiesWidget = widgetContainer.find('.widget_contents');
-						activitiesWidget.html(data);
-						app.changeSelectElementView(activitiesWidget);
-						thisInstance.registerEventForActivityWidget();
-						
-					}
+						function (data) {
+							var activitiesWidget = widgetContainer.find('.widget_contents');
+							activitiesWidget.html(data);
+							app.changeSelectElementView(activitiesWidget);
+							thisInstance.registerEventForActivityWidget();
+						}
 				);
 				thisInstance.loadWidgets();
 			}
-			
+
 			var QuickCreateParams = {};
 			QuickCreateParams['callbackPostShown'] = preQuickCreateSave;
 			QuickCreateParams['callbackFunction'] = callbackFunction;
 			QuickCreateParams['data'] = customParams;
 			QuickCreateParams['noCache'] = false;
-			quickCreateNode.trigger('click', QuickCreateParams);
+			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
 		});
 	},
     getPlannedEventsClearTable: function() {
@@ -1557,17 +1550,12 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 			var recordId = thisInstance.getRecordId();
 			var module = app.getModuleName();
-			var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
 			if(module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined'){
 				var fieldName = thisInstance.referenceFieldNames[referenceModuleName][module];
 				customParams[fieldName] = recordId;
-			}
-
-			if(quickCreateNode.length <= 0) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
 			}
 
 			var postQuickCreateSave = function(data) {
@@ -1583,7 +1571,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			QuickCreateParams['goToFullFormcallback'] = goToFullFormcallback;
 			QuickCreateParams['data'] = customParams;
 			QuickCreateParams['noCache'] = false;
-			quickCreateNode.trigger('click', QuickCreateParams);
+			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName,QuickCreateParams);
 		});
 		this.registerFastEditingFiels();
 	},

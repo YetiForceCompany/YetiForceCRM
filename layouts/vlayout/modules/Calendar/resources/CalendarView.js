@@ -249,10 +249,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
-		var isAllowed = this.isAllowedToAddCalendarEvent(calendarDetails);
-		if (isAllowed == false)
-			return;
-
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.subject.display_value;
@@ -280,19 +276,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if(calendarDetails.eventstatus){
 			eventObject.sta = calendarDetails.eventstatus.value;
 		}
-		
-		console.log(calendarDetails);
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
-	isAllowedToAddCalendarEvent: function (calendarDetails) {
-		var activityType = calendarDetails.activitytype.value;
-		if(jQuery('#menubar_quickCreate_Calendar').length > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	},
+
 	getCalendarCreateView: function () {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
@@ -316,11 +303,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	},
 	loadCalendarCreateView: function () {
 		var aDeferred = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="Calendar"]');
-		var url = quickCreateCalendarElement.data('url');
-		var name = quickCreateCalendarElement.data('name');
-		var headerInstance = new Vtiger_Header_Js();
-		headerInstance.getQuickCreateForm(url, name).then(
+		var moduleName = 'Calendar';
+		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
+		var headerInstance = Vtiger_Header_Js.getInstance();
+		headerInstance.getQuickCreateForm(url, moduleName).then(
 			function (data) {
 				aDeferred.resolve(jQuery(data));
 			},

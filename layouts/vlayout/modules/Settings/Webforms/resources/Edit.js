@@ -743,11 +743,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		}
 
 		var referenceModuleName = this.getReferencedModuleName(container);
-		var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ referenceModuleName +'"]');
-		if(quickCreateNode.length <= 0) {
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_CREATE_OR_NOT_QUICK_CREATE_ENABLED'))
-		}
-        quickCreateNode.trigger('click',{'callbackFunction':postQuickCreateSave});
+		Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName,{callbackFunction: postQuickCreateSave});
 	},
 	
 	/**

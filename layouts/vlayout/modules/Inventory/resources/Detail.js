@@ -14,28 +14,6 @@ Vtiger_Detail_Js("Inventory_Detail_Js",{
     }
 
 },{
-    
-    /**
-	 * Function to register event for adding related record for module
-	 */
-	registerEventForAddingRelatedRecord : function(){
-		var thisInstance = this;
-		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click','[name="addButton"]',function(e){
-			var element = jQuery(e.currentTarget);
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-            var quickCreateNode = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="'+ relatedModuleName +'"]');
-
-			if(quickCreateNode.length <= 0 || selectedTabElement.data('labelKey') == 'Activities') {
-                window.location.href = element.data('url');
-                return;
-            }
-
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
-			relatedController.addRelatedRecord(element);
-		})
-	},
     /**
     * Function which will regiter all events for this page
     */

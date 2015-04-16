@@ -234,9 +234,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		});
 	},
 	addCalendarEvent : function(calendarDetails) {
-		var isAllowed = this.isAllowedToAddTimeControl();
-		if(isAllowed == false) return;
-
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.name.display_value;
@@ -248,13 +245,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record='+calendarDetails._recordId;
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value+' calCol_' + calendarDetails.timecontrol_type.value;
 		this.getCalendarView().fullCalendar('renderEvent',eventObject);
-	},
-	isAllowedToAddTimeControl : function () {
-		if(jQuery('#menubar_quickCreate_OSSTimeControl').length > 0) {
-			return true;
-		} else {
-			return false;
-		}
 	},
 	getCalendarCreateView : function() {
 		var thisInstance = this;
@@ -280,11 +270,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var quickCreateCalendarElement = jQuery('#quickCreateModules,#compactquickCreate,#topMenus').find('[data-name="OSSTimeControl"]');
-		var url = quickCreateCalendarElement.data('url');
-		var name = quickCreateCalendarElement.data('name');
-		var headerInstance = new Vtiger_Header_Js();
-		headerInstance.getQuickCreateForm(url,name).then(
+		var moduleName = 'Calendar';
+		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
+		var headerInstance = Vtiger_Header_Js.getInstance();
+		headerInstance.getQuickCreateForm(url,moduleName).then(
 			function(data){
 				aDeferred.resolve(jQuery(data));
 			},
