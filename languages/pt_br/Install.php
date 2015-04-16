@@ -5,11 +5,11 @@
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
- * Contributor(s): YetiForce.com
- * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com | Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************** */
 $languageStrings = array(
-	'LANGNAME' => 'Inglês',
+	'LANGNAME' => 'Português Brasil',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Não foi possível conectar à Base de Dados',
 	'ERR_DB_NOT_FOUND' => 'Esta Base de Dados não foi encontrada.Tente mudar as configurações da Base de Dados',
 	'ERR_INVALID_MYSQL_PARAMETERS' => 'Os parâmetros especificados para a conexão com o MySQL são inválidos',
@@ -65,9 +65,9 @@ $languageStrings = array(
 	'MSG_DB_USER_NOT_AUTHORIZED' => 'o usuário da base de dados não tem acesso para conectar à base de dados a partir do host',
 	'MSG_LIST_REASONS' => 'Isto pode ser devido às seguintes razões',
 	'LBL_MYSQLI_CONNECT_SUPPORT'=>'Suporte Mysqli',
-  'LBL_OPEN_SSL'=>'Suporte Openssl',
+  	'LBL_OPEN_SSL'=>'Suporte Openssl',
 	'LBL_LICENSE' => 'Licença',
-  'LBL_CURL'=>'Suporte cURL',
+  	'LBL_CURL'=>'Suporte cURL',
 	'LBL_INDUSTRY_OPTION' => 'Por favor, selecione a atividade apropriada.',
 	'LBL_ERROR_LOGIN'=>'Authorization error, the data entered is incorrect.',
 
