@@ -34,13 +34,17 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
 			$record->set('start', $request->get('start'));
 			$record->set('end', $request->get('end'));
 		}
+		if ($request->get('widget')) {
+			$record->set('widget', TRUE);
+		}
+                
 		$entity = $record->getEntity();
    
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
 	}
-	
+
 	public function updateEvent(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');

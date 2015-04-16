@@ -3374,7 +3374,11 @@ var Grid = fc.Grid = RowRenderer.extend({
 	// TODO: move to another class. not applicable to all Grids
 	headHtml: function() {
 		return '' +
-			'<div class="fc-row ' + this.view.widgetHeaderClass + '">' +
+                        // <--------   YetiForce Sp. z o.o.   -------->
+			//'<div class="fc-row ' + this.view.widgetHeaderClass + '">' 
+			'<div class="fc-row ">' 
+                         // <--------   YetiForce Sp. z o.o.   -------->
+                                +
 				'<table>' +
 					'<thead>' +
 						this.rowHtml('head') + // leverages RowRenderer
@@ -5044,7 +5048,37 @@ DayGrid.mixin({
 		classes.unshift('fc-day-grid-event', 'fc-h-event');
 		// <--------   YetiForce Sp. z o.o.   -------->
 		// Only display a timed events time if it is the starting segment
-		if (seg.isStart) {
+                
+                if(event.type == 'widget'){ //Calendar widget
+                    var addHtml = '';
+                    addHtml = '<div class="row-fluid">';
+                    for(var i in event.event){
+                        var eventIcon = 'icon-calendar';
+                        if(i == 'Task'){
+                            eventIcon = 'icon-tasks';
+                        }
+                        timeHtml = '<span class="fc-time">';
+                                if(event.width > 40){
+                                    timeHtml += '<i class="' + eventIcon + '">';
+                                }
+                                 timeHtml += '</i></span>';
+                        titleHtml = '<div style="text-align:center"><span class="fc-title"><i></i><strong> '+event.event[i].ids.length+'</strong></span></div>';
+                         addHtml +='<a  class="' + classes.join(' ') + ' ' + event.event[i].className + '"' +
+				(event.event[i].url ?
+					' href="' + htmlEscape(event.event[i].url) + '"' :
+					''
+					) +
+				' style="left:3%; width:'+event.width+'px; height:'+event.height+'px; '+ (skinCss ? ' ' + skinCss + '' : '') + '" '  +
+			'>' + '<div class="fc-content">' + 
+						timeHtml + ' ' + titleHtml   // put a natural space in between
+						+
+				'</div>' +
+			'</a>\n';
+             
+                    }   addHtml += '</div>';
+                    return addHtml;
+                }
+		if(seg.isStart){
 			timeText = this.getEventTimeText(event,null,true);
 			if (timeText) {
 				timeHtml = '<span class="fc-time"><i class="icon-time"></i> ' + htmlEscape(timeText) + '</span>';
@@ -10080,7 +10114,11 @@ var BasicView = fcViews.basic = View.extend({
 			'<table>' +
 				'<thead class="fc-head">' +
 					'<tr>' +
-						'<td class="' + this.widgetHeaderClass + '">' +
+                                        
+                                                // <--------   YetiForce Sp. z o.o.   -------->
+                                                //'<td class="' + this.widgetHeaderClass + '">' +
+                                                '<td>' +
+                                                 // <--------   YetiForce Sp. z o.o.   -------->
 							this.dayGrid.headHtml() + // render the day-of-week headers
 						'</td>' +
 					'</tr>' +
@@ -10496,7 +10534,10 @@ var AgendaView = fcViews.agenda = View.extend({
 			'<table>' +
 				'<thead class="fc-head">' +
 					'<tr>' +
-						'<td class="' + this.widgetHeaderClass + '">' +
+						// <--------   YetiForce Sp. z o.o.   -------->
+                                                //'<td class="' + this.widgetHeaderClass + '">' +
+                                                '<td>' +
+                                                 // <--------   YetiForce Sp. z o.o.   -------->
 							this.timeGrid.headHtml() + // render the day-of-week headers
 						'</td>' +
 					'</tr>' +

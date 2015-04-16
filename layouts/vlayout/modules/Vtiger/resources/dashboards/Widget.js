@@ -622,7 +622,7 @@ Vtiger_Widget_Js('Vtiger_Minilist_Widget_Js', {}, {
 
 	postLoadWidget: function() {
 		app.hideModalWindow();
-        this.restrictContentDrag();
+		this.restrictContentDrag();
 		this.registerFilterChangeEvent();
 	}
 });
