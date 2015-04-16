@@ -154,3 +154,8 @@ margin: 0;
 @media (max-width: 960px) {
 nav.menu{width: 80%;}
 }
+#moreMenu > ul.dropdown-menu{
+max-height: 500px;
+overflow-x: hidden;
+top: 90%;
+}
