@@ -9,7 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = Array (
-	'LBL_QUICK_CREATE_MODULE' => 'Quick create',
+	'LBL_QUICK_CREATE_MODULE' => '__UNTRANSLATED__',
 	'LBL_SEPARATOR' => 'Separator',
 	'LBL_OTHER' => '__UNTRANSLATED__',
+	'MEN_VIRTUAL_DESK' => 'Virtual desk',
+	'MEN_LEADS' => 'Leads',
+	'MEN_SALES' => 'Sales',
+	'MEN_PROJECTS' => 'Projects',
+	'MEN_SUPPORT' => 'Support',
+	'MEN_LEADS' => 'Firmy',
+	'MEN_BOOKKEEPING' => 'Bookkeeping',
+	'MEN_HUMAN_RESOURCES' => 'Human resources',
+	'MEN_SECRETARY' => 'Secretary',
+	'MEN_DATABESES' => 'Databases',
+	'MEN_TEAMWORK' => 'Team work',
+	'MEN_PRODUCTBASE' => 'Product database',
+	'MEN_LISTS' => 'Lists',
+	'MEN_SERVICESBASE' => 'Service database',
 );
