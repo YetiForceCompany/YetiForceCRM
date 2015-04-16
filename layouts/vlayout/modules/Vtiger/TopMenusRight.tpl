@@ -72,13 +72,6 @@
 		</span>
 	</span>
 {/if}
-{if $WORKTIME}
-	<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
-		<span class="span">
-			{$WORKTIME}
-		</span>
-	</span>
-{/if}
 {assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 {assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 {if $CONFIG['showMailIcon']=='true' && count($AUTOLOGINUSERS) > 0}
@@ -97,6 +90,13 @@
 				</ul>
 			{/if}
 		</div>
+	</span>
+{/if}
+{if $WORKTIME}
+	<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
+		<span class="span">
+			{$WORKTIME}
+		</span>
 	</span>
 {/if}
 <div id="headerLinksCompact">

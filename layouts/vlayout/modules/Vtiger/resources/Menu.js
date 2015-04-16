@@ -8,7 +8,6 @@
  *************************************************************************************/
 jQuery.Class("Vtiger_Menu_Js", {
 	registerMenu: function() {
-		console.log('----------------------');
 		var largeNav = jQuery('#largeNavDiv nav').width();
 		var tabsWidth = 0;
 		var windowWidth = jQuery(window).width();
@@ -25,14 +24,6 @@ jQuery.Class("Vtiger_Menu_Js", {
 				moreMenuElement.hide();
 			}
 		});
-		if(windowWidth < 1715){
-			$('.headerLinksWorkTime').hide();
-			$('#worktime-other').show();
-		}
-		else{
-			$('.headerLinksWorkTime').show();
-			$('#worktime-other').hide();
-		}
 		if (tabsWidth < largeNav )
 			jQuery('#commonMoreMenu').hide();	
 	}
@@ -43,7 +34,4 @@ jQuery( window ).resize(function() {
 });
 jQuery( function() {
 	menu.registerMenu();
-});
-$( document ).ready(function() {
-    menu.registerMenu();
 });
