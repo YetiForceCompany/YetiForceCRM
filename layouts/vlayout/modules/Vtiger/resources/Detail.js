@@ -824,7 +824,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 			var restrictionsField = jQuery(e.currentTarget).data('rf');
 			var params = {};
-			if(Object.keys(restrictionsField).length > 0){
+			
+			if(restrictionsField && Object.keys(restrictionsField).length > 0){
 				params = {search_key: restrictionsField.key, search_value: restrictionsField.name};
 			}
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
