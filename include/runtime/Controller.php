@@ -70,17 +70,16 @@ abstract class Vtiger_Controller {
 	
 	function setHeaders() {
 		$browser = Vtiger_Functions::getBrowserInfo();
-        header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
-        header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-		
-        if ($browser->ie && $browser->https) {
-            header('Pragma: private');
-            header("Cache-Control: private, must-revalidate");
-        }
-        else {
-            header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
-            header("Pragma: no-cache");
-        }
+		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+
+		if ($browser->ie && $browser->https) {
+			header('Pragma: private');
+			header("Cache-Control: private, must-revalidate");
+		} else {
+			header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
+			header("Pragma: no-cache");
+		}
 	}
 }
 

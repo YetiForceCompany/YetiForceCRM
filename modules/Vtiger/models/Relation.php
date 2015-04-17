@@ -250,7 +250,48 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 		return $relationField;
 	}
     
-    public static  function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId) {
+	public function getAutoCompleteField($recordModel) {
+		$fields = [];
+		$fieldsReferenceList = [];
+		$excludedModules = ['Users'];
+		$excludedFields = ['created_user_id','modifiedby'];
+		$relatedModel = $this->getRelationModuleModel();
+		$relatedModuleName = $relatedModel->getName();
+		$parentModule = $this->getParentModuleModel();
+
+		$parentModelFields = $parentModule->getFields();
+		foreach ($parentModelFields as $fieldName => $fieldModel) {
+			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				$referenceList = $fieldModel->getReferenceList();
+				foreach ($referenceList as $module) {
+					if (!in_array($module, $excludedModules) && !in_array($fieldName, $excludedFields)) {
+						$fieldsReferenceList[$module] = $fieldModel;
+					}
+					if ($relatedModuleName == $module) {
+						$fields[$fieldName] = $recordModel->getId();
+					}
+				}
+			}
+		}
+		$relatedModelFields = $relatedModel->getFields();
+		foreach ($relatedModelFields as $fieldName => $fieldModel) {
+			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
+				$referenceList = $fieldModel->getReferenceList();
+				foreach ($referenceList as $module) {
+					if (array_key_exists($module, $fieldsReferenceList)) {
+						$parentFieldModel = $fieldsReferenceList[$module];
+						$relId = $recordModel->get($parentFieldModel->getName());
+						if($relId != '' && $relId != 0){
+							$fields[$fieldName] = $relId;
+						}
+					}
+				}
+			}
+		}
+		return $fields;
+	}
+
+	public static  function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId) {
         $db = PearDatabase::getInstance();
         $query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
         $relation_ids = array();
