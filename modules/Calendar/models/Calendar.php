@@ -150,7 +150,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 						}else{
 							$widgetElements[$date]['start'] = $date;
 							$widgetElements[$date]['event']['Meeting']['ids'][] = $crmid;
-							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Task']['ids']);
+							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Meeting']['ids']);
 							$widgetElements[$date]['event']['Meeting']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
 							$widgetElements[$date]['event']['Meeting']['className'] = ' span5 fc-draggable calCol_'.$activitytype;
 							$widgetElements[$date]['type'] = 'widget';

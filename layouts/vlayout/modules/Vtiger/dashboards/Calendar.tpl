@@ -15,19 +15,29 @@
 <div class="dashboardWidgetHeader">
 	<table width="100%" cellspacing="0" cellpadding="0">
 	<thead>
-		<tr>
-			<th class="span6">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
+		<tr class="row-float">
+			<th class="span3"> 
+				 <div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"> <b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div> 
 			</th>
-			<th class="span5">
+			<th class="span5 headerCalendar fc-center pinUnpinShortCut row-fluid" >
+				<div class="span2">
+				<button type="button prev fc-corner-left " data-type="fc-prev-button"><span class="fc-icon fc-icon-left-single-arrow"></span></button>
+				</div>
+				<div class="span8 month marginLeftZero" style="text-align:center">
+				</div>
+				<div class="span2">
+				<button type="button next fc-corner-left span3" data-type="fc-next-button"><span class="fc-icon fc-icon-right-single-arrow"></span></button> 
+				</div>
+			</th>
+			<th class="span3">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
-			<th class="widgeticons" align="right">
+			<th class="widgeticons span1" align="right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</th>
 		</tr>
 		<tr>
-			<th class="span12 refresh" align="center">
+			<th class=" refresh" align="center">
 				<span style="position:relative;"></span>
 			</th>
 		</tr>
@@ -38,5 +48,5 @@
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 <script type='text/javascript'>
-	Vtiger_Calendar_Widget_Js('Vtiger_Home_Widget_Js',{},{});
+	YetiForce_Calendar_Widget_Js('YetiForce_Home_Widget_Js',{},{});
 </script>

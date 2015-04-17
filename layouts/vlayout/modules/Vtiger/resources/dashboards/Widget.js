@@ -881,7 +881,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js',{},{
 		});
 	}
 });
-Vtiger_Widget_Js('Vtiger_Calendar_Widget_Js',{},{
+Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 	calendarView : false,
 	calendarCreateView : false,
 	weekDaysArray: {
@@ -916,7 +916,9 @@ Vtiger_Widget_Js('Vtiger_Calendar_Widget_Js',{},{
 
 		thisInstance.getCalendarView().fullCalendar({
 			header: {
-				right: 'prev,next'
+				left: ' ',
+				center: 'prev title next',
+				right: ' '
 			},
 
 			timeFormat: userDefaultTimeFormat,
@@ -994,11 +996,30 @@ Vtiger_Widget_Js('Vtiger_Calendar_Widget_Js',{},{
 		}
 		return this.calendarView;
 	},
+	getMonthName: function () {
+		var thisInstance = this;
+		var month = thisInstance.getCalendarView().find('.fc-toolbar h2').text();
+		if(month){
+			headerCalendar = container.find('.headerCalendar .month').html('<h3>'+month+'</h3>');
+		}
+	},
 	registerChangeView: function () {
 		var thisInstance = this;
-		thisInstance.getCalendarView().find("button.fc-button").click(function () {
-			thisInstance.loadCalendarData();
-		});
+		container = this.getContainer();
+		container.find('.fc-toolbar').addClass('hide');
+		var month = container.find('.fc-toolbar h2').text();
+		if(month){
+			headerCalendar = container.find('.headerCalendar').removeClass('hide').find('.month').append('<h3>'+month+'</h3>');
+			button = container.find('.headerCalendar button');
+			button.each(function(){
+				var tag = jQuery(this).data('type');
+				jQuery(this).on('click',function(){
+					thisInstance.getCalendarView().find('.fc-toolbar .'+tag).trigger('click');
+					thisInstance.loadCalendarData();
+					thisInstance.getMonthName();
+				})
+			})
+		}
 	},
 
 	postLoadWidget : function() {
