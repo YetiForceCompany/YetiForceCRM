@@ -7,37 +7,24 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{	
-
-	/**
-	 * Saves config to database
-	 */
-	registerSaveConversionState : function() {
-		jQuery('#saveConversionState').on('click',function(e){
-			var state = $("[name='conversiontoaccount']").is(':checked');
-			var params = {
-			'module' : 'Leads',
-			'parent' : app.getParentModuleName(),
-			'action' : 'ConvertToAccountSave',
-			'state' : state,
-			'mode': 'save',
-		}
-		AppConnector.request(params).then(
-			function(data){
-				if(true == data.result['success']){
-					var param = {text:app.vtranslate('JS_CONVERSION_STATE_SUCCES')};
-					Vtiger_Helper_Js.showMessage(param);
-					
-				}else{
-					var param = {text:app.vtranslate('JS_CONVERSION_STATE_FAILURE')};
-					Vtiger_Helper_Js.showPnotify(param);
-				}
-			},
-			function(jqXHR,textStatus, errorThrown){
-			})
+jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{
+	registerChangeVal: function(content) {
+		var thisInstance = this;
+		content.find('.configField').change(function(e) {
+			console.log('configField');
+			var target = $(e.currentTarget);
+			var params = {};
+			params['type'] = target.data('type');
+			params['param'] = target.attr('name');
+			if(target.attr('type') == 'checkbox'){
+				params['val'] = this.checked;
+			}else{
+				params['val'] = target.val();
+			}
+			app.saveAjax('updateConfig', params).then(function (data) {
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			});
 		});
-		
-		return false;
 	},
 	registerSave : function() {
 		jQuery('.saveButton').on('click',function(e){
@@ -72,7 +59,8 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{
 		return false;
 	},
 	registerEvents: function() {
-		this.registerSaveConversionState();
+		var content = $('#supportProcessesContainer');
+		this.registerChangeVal(content);
 		this.registerSave();
 	}
 });

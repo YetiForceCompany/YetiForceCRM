@@ -8,30 +8,20 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_Leads_ConvertToAccountSave_Action extends Settings_Vtiger_Index_Action {
-
-	public function __construct() {
-		$this->exposeMethod('save');
+class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
+	function __construct() {
+		parent::__construct();
+		$this->exposeMethod('updateConfig');
 	}
-
-	/**
-	 * Save date
-	 * @param <String> state
-	 * @return true if saved, false otherwise
-	 */
-	public function save(Vtiger_Request $request) {
-
-		global $log;
-		$result = Settings_Leads_ConvertToAccount_Model::save($request->get('state'));
-		$log->debug('Settings_Leads_ConvertToAccountSave_Action::save - started');
-		if($result)
-			$result = array('success' => TRUE);
-		else
-			$result = array('success' => FALSE);
-
+	public function updateConfig(Vtiger_Request $request) {
+		$param = $request->get('param');
+		$recordModel = Settings_MarketingProcesses_Processes_Model::getCleanInstance();
+		$recordModel->setConfig($param);
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_CONFIG',$request->getModule(false))
+		));
 		$response->emit();
 	}
-
 }

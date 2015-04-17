@@ -1572,12 +1572,6 @@ CREATE TABLE `vtiger_convertleadmapping` (
   PRIMARY KEY (`cfmid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_converttoaccount_settings` */
-
-CREATE TABLE `vtiger_converttoaccount_settings` (
-  `state` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_crmentity` */
 
 CREATE TABLE `vtiger_crmentity` (
@@ -4963,6 +4957,15 @@ CREATE TABLE `vtiger_priority` (
   `presence` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`priorityid`),
   UNIQUE KEY `priority_priority_idx` (`priority`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_proc_marketing` */
+
+CREATE TABLE `vtiger_proc_marketing` (
+  `type` varchar(20) DEFAULT NULL,
+  `param` varchar(20) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  KEY `type` (`type`,`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_productcf` */

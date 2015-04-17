@@ -8,30 +8,27 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
- <div class="container-fluid supportProcessesContainer" style="margin-top:10px;">
+ <div id="supportProcessesContainer" class="container-fluid supportProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
 	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{vtranslate('LBL_CONVERSION_TO_ACCOUNT', $QUALIFIED_MODULE)} </a></li>
+		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{vtranslate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
 		<li ><a href="#lead_configuration" data-toggle="tab">{vtranslate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="conversiontoaccount">
-			<div class="container-fluid settingsIndexPage">
+			<div class="settingsIndexPage">
 				<form  method="post" action="index.php">
-					<div class="control-group span5" >
-						<label class="span3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label>
-						<input class="span1" type="checkbox" name="conversiontoaccount"  {if $STATE} checked {/if} />
+					<div class="row-fluid">
+						<div class="span3"><label class="span3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
+						<div class="span1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONFIG['active']=='true'}checked=""{/if} /></div>
+						<div class="span8">
+							<span class="alert alert-info pull-right">
+								{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
+							</span>
+						</div>
 					</div>
-
-					<span class="alert alert-info pull-right span7">
-						{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
-					</span>
 				</form>
-				<span class="span12">
-					<button style="margin-left: 20px;" id="saveConversionState" class="btn btn-success">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
-				</span>
-				
 			</div>
 		</div>
 		<div class='editViewContainer tab-pane' id="lead_configuration">

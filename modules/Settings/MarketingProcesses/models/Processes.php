@@ -10,7 +10,10 @@
  *************************************************************************************************************************************/
 	  
 class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
-	
+	public static function getCleanInstance() {
+		$instance = new self();
+		return $instance;
+	}
 	/**
 	 * Function to get all the values of the Object
 	 * @return Array (key-value mapping)
@@ -83,5 +86,15 @@ class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
 		}
 		$log->debug("Exiting Settings_MarketingProcesses_Processes_Model::save() method ...");
 		return $adb->pquery($query, $params);
+	}
+	
+	public static function setConfig($param) {
+		$db = PearDatabase::getInstance();
+		$value = $param['val'];
+		if(is_array($value)){
+			$value = implode(',', $value);
+		}
+		$db->pquery('UPDATE vtiger_proc_marketing SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
+		return true;
 	}
 }
