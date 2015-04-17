@@ -19,6 +19,7 @@
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
 	<input type="hidden" id="access" value="{$ACCESS}" />
 	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
+	<input type="hidden" name="replace" id="replaceIds" value="" />
 	<div class="widget_header row-fluid">
 		{if $MODE eq 'edit'}
 			<h3>{vtranslate('LBL_EDIT_TEMPLATE_TREES', $QUALIFIED_MODULE)}</h3>

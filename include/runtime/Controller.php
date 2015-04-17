@@ -13,7 +13,9 @@
  */
 abstract class Vtiger_Controller {
 
-	function __construct() { }
+	function __construct() {
+		self::setHeaders();
+	}
 
 	function loginRequired() {
 		return true;
@@ -64,6 +66,21 @@ abstract class Vtiger_Controller {
 			return call_user_func_array(array($this, $name), $parameters);
 		}
 		throw new Exception(vtranslate('LBL_NOT_ACCESSIBLE'));
+	}
+	
+	function setHeaders() {
+		$browser = Vtiger_Functions::getBrowserInfo();
+        header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
+        header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+		
+        if ($browser->ie && $browser->https) {
+            header('Pragma: private');
+            header("Cache-Control: private, must-revalidate");
+        }
+        else {
+            header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
+            header("Pragma: no-cache");
+        }
 	}
 }
 

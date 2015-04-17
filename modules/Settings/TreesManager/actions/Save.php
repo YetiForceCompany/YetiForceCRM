@@ -23,6 +23,7 @@ class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller {
 		$recordId = $request->get('record');
 		$name = $request->get('name');
 		$tree = $request->get('tree');
+		$replace = $request->get('replace');
 		$templatemodule = $request->get('templatemodule');
 
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
@@ -34,6 +35,7 @@ class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller {
 		$recordModel->set('name', $name);
 		$recordModel->set('module', $templatemodule);
 		$recordModel->set('tree', $tree);
+		$recordModel->set('replace', $replace);
 		$recordModel->save();
 		header('Location: '.$moduleModel->getListViewUrl());
 	}

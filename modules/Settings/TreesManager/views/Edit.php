@@ -28,7 +28,6 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 			$recordModel->set('lastId',0);
 		}
 		$tree = $recordModel->getTree();
-		//echo '<pre>', print_r($tree); echo '</pre>'; exit;
 		$viewer->assign('TREE', Zend_Json::encode($tree));
 		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
@@ -46,7 +45,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jstree/jquery.jstree.js',
+			'~libraries/jquery/jstree/jstree.min.js',
 			"modules.Settings.$moduleName.resources.Edit",
 		);
 

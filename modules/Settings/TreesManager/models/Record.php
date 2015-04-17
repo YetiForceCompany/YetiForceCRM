@@ -96,16 +96,16 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 	 */
 	public function insertData($tree, $depth, $parenttrre) {
 		$adb = PearDatabase::getInstance();
-		$label = $tree['data'];
-		$id = $tree['attr']['id'];
-		$state = $tree['state'];
+		$label = $tree['text'];
+		$id = $tree['id'];
+		$state = '';//$tree['state'];
 		$treeID = 'T'.$id;
 		if($parenttrre != '')
 			$parenttrre = $parenttrre.'::';
 		$parenttrre = $parenttrre.$treeID;
 
 		$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label, state) VALUES (?,?,?,?,?,?,?)';
-		$params = array($this->getId(), $tree['data'], $treeID, $parenttrre, $depth, $label, $state);
+		$params = array($this->getId(), $label, $treeID, $parenttrre, $depth, $label, $state);
 		$adb->pquery($sql, $params);
 		if(!empty($tree['children'])){
 			foreach ($tree['children'] as $tree) {
@@ -123,13 +123,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			return $tree;
 
 		$adb = PearDatabase::getInstance();
-		$parent = array();
-		$data = array();
 		$lastId = 0;
-		$maxDepth = 0;
-		$sql = 'SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?';
-		$params = array($templateId);
-		$result = $adb->pquery($sql, $params);
+		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$templateId]);
 		$module = $this->get('module');
 		if (is_numeric($module)) {
 			$module = Vtiger_Functions::getModuleName($module);
@@ -137,29 +132,20 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 		for($i = 0; $i < $adb->num_rows($result); $i++){
 			$row = $adb->raw_query_result_rowdata($result, $i);
 			$treeID = (int)str_replace('T', '', $row['tree']);
-			$depth = (int)$row['depth']; 
-			$data[$row['tree']] = array( 'data' => vtranslate($row['name'], $module) , 'attr' =>  array('id' => $treeID ), 'state' => $row['state'] );
-			if($depth != 0)
-				$parent[$depth][] = $row;
-			if( $depth > $maxDepth)
-				$maxDepth = $depth;
+			$cut = strlen('::'.$row['tree']);
+			$parenttrre = substr($row['parenttrre'], 0, - $cut);
+			$pieces = explode('::', $parenttrre);
+			$parent = (int)str_replace('T', '', end($pieces));
+			$tree[] = [
+				'id' => $treeID,
+				'parent' => $parent == 0 ? '#' : $parent,
+				'text' => vtranslate($row['name'], $module),
+				'state' => ($row['state'])?$row['state']:''
+			];
 			if( $treeID > $lastId)
 				$lastId = $treeID;
 		}
 		$this->set('lastId',$lastId);
-		for($i = $maxDepth; $i > 0; $i--){
-			foreach ($parent[$i] as $row) {
-				$treeID = (int)str_replace('T', '', $row['tree']);
-				$cut = strlen('::'.$row['tree']);
-				$parenttrre = substr($row['parenttrre'], 0, - $cut);
-				$pieces = explode('::', $parenttrre);
-				$data[end($pieces)]['children'][] = $data[$row['tree']];
-				unset($data[$row['tree']]);
-			}
-		}
-		foreach ($data as $row) {
-			$tree[] = $row;
-		}
 		return $tree;
 	}
 	/**
@@ -184,9 +170,10 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			$adb->pquery('DELETE FROM vtiger_trees_templates_data WHERE `templateid` = ?', array($templateId));
 			foreach ($this->get('tree') as $tree) {
 				$this->insertData( $tree , 0, '');
-				if($tree['metadata']['replaceid'])
-					$this->replaceValue($tree, $this->get('module'), $templateId);
 			}
+		}
+		if($this->get('replace')){
+			$this->replaceValue($this->get('replace'), $this->get('module'), $templateId);
 		}
 	}
 
@@ -206,9 +193,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 			$row = $adb->query_result_rowdata($result, $i);
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
-			foreach($tree['metadata']['replaceid'] as $id){
+			foreach($tree as $row){
 				$query = 'UPDATE '.$tableName.' SET '.$columnName.' = ? WHERE '.$columnName.' = ?';
-				$params = array('T'.$tree['attr']['id'], 'T'.$id);
+				$params = array('T'.$row['new'], 'T'.$row['old']);
 				$adb->pquery($query, $params);
 			}
 		}

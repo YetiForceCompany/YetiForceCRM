@@ -24,12 +24,12 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 				return false;		
 			}
 			thisInstance.jstreeLastID = thisInstance.jstreeLastID+1;
-			jstreeInstance.jstree("create",-1,false,{  
-				"data" : { 
-					"title" : newElement.val()
-				},
-				"attr" : { id : thisInstance.jstreeLastID},
-			},false,true);
+			var ref = jstreeInstance.jstree(true),
+				sel = ref.get_selected();
+			ref.create_node('#', {
+				id: thisInstance.jstreeLastID,
+				text: newElement.val(),
+			},'last');
 			$('input.addNewElement').val('');
 		});
 		$('.saveTree').click(function(e) {
@@ -49,107 +49,94 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	createTree : function() {
 		var thisInstance = this;
 		if(this.jstreeInstance == false) {
-			this.jstreeLastID = parseInt($('#treeLastID').val());
+			thisInstance.jstreeLastID = parseInt($('#treeLastID').val());
 			var treeValues = $('#treeValues').val();
 			var data = JSON.parse(treeValues);
-			this.jstreeInstance = $("#treeContents");
-			this.jstreeInstance.jstree({
-				"json_data" : {
-					"data" : data
+			thisInstance.jstreeInstance = $("#treeContents");
+			thisInstance.jstreeInstance.jstree({ 
+				core: {
+					data: data,
+					check_callback: true,
 				},
-				"themes" : {
-					"theme" : "default",
-					"dots" : true,
-					"icons" : true
-				},
-				"contextmenu" : {
-					"items" :{
-						"create" : {"label"	: app.vtranslate('JS_JSTREE_CREATE')},
-						"rename" : {"label"	: app.vtranslate('JS_JSTREE_RENAME')},
-						"remove" : {"label"	: app.vtranslate('JS_JSTREE_REMOVE'),
-									"action" : function (node) {
-									thisInstance.deleteItemEvent(node).then(
-										function(e){
-											if(e)
-												node.remove();
+				contextmenu: {
+					items: {
+						create: {"label"	: app.vtranslate('JS_JSTREE_CREATE')},
+						rename: {"label"	: app.vtranslate('JS_JSTREE_RENAME')},
+						remove: {"label"	: app.vtranslate('JS_JSTREE_REMOVE'),
+							action: function (data) {
+								var inst = $.jstree.reference(data.reference);
+								var id = inst.get_selected();
+								var status = true;
+								$.each(id, function( index, value ) {
+									var menu = inst.get_node(value);
+									if(menu.children.length > 0){
+										Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),type : 'error'})
+										status = false;
+									}
+								});
+								if(status){
+									thisInstance.deleteItemEvent(id, inst).then(function (e) {
+										if(e.length > 0){
+											$.each(id, function( index, value ) {
+												inst.delete_node(value);
+											});
 										}
-									)}},
-						"ccp" : {
-							"label"	: app.vtranslate('JS_JSTREE_CCP'),
-							"submenu" : { 
-								"cut" : {"label": app.vtranslate('JS_JSTREE_CUT')},
-								"copy" : {"label": app.vtranslate('JS_JSTREE_COPY')},
-								"paste" : {"label": app.vtranslate('JS_JSTREE_PASTE')},
+									})	
+								}
+							}},
+						ccp: {
+							label: app.vtranslate('JS_JSTREE_CCP'),
+							submenu: { 
+								cut: {label: app.vtranslate('JS_JSTREE_CUT')},
+								copy: {label: app.vtranslate('JS_JSTREE_COPY')},
+								paste: {label: app.vtranslate('JS_JSTREE_PASTE')},
 							}
-						},
+						}
 					}
 				},
-				"plugins" : [ "themes", "json_data" , "dnd", "ui", "hotkeys", "crrm","contextmenu" ]
+				plugins: [ "contextmenu", "dnd"]
 			});
 		}
 		return this.jstreeInstance;
 	},
-	deleteItemEvent : function(node) {
+	deleteItemEvent : function(id,inst) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
-		jstreeInstanceClone = jQuery('#treeContents ul:first').clone(true, true);
-
-		//check last element
-		if(jstreeInstanceClone.find('li').length == 1){
+		var treeValues = $('#treeValues').val();
+		var data = JSON.parse(treeValues);
+		$.each(id, function( index, id ) {
+			data = jQuery.grep(data, function(value) {
+				return value.id != id;
+			});
+		});
+		if(data.length == 0){
 			Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS'),type : 'error'})
 			aDeferred.resolve();
 			return aDeferred.promise();
 		}
-		//check childNodes exists
-		var childNodes = thisInstance.jstreeInstance.jstree('get_json', node);
-		if(typeof childNodes['0']['children'] != 'undefined'){
-			Settings_Vtiger_Index_Js.showMessage({text:app.vtranslate('JS_YOU_CANNOT_DELETE_PERENT_ITEM'),type : 'error'})
-			aDeferred.resolve();
-			return aDeferred.promise();
-		}
-		
-		
 		app.showModalWindow(null, "index.php?module=TreesManager&parent=Settings&view=ReplaceTreeItem", function(wizardContainer){
 			var form = jQuery('form', wizardContainer);
-			nodeId = jQuery(node).attr('id');
-			var jsonReplaceIds = jQuery(node).data('replaceid');
-			if(typeof jsonReplaceIds != 'undefined'){
-				jsonReplaceIds.push(parseInt(nodeId));
-			}else{
-				jsonReplaceIds = [parseInt(nodeId)];
-			}
-			jstreeInstanceClone.find('li[id="'+nodeId+'"]').remove();
-			
 			jstreeInstanceReplace = wizardContainer.find('#treePopupContents');
 			jstreeInstanceReplace.jstree({
-				"html_data" : {
-					"data" : jstreeInstanceClone
+				core: {
+					data: data
 				},
-				"themes" : {
-					"theme" : "default",
-					"dots" : true,
-					"icons" : true
-				},
-				"plugins" : [ "themes", "html_data", "ui","hotkeys" ]
 			}).bind("loaded.jstree", function (event, data) {
 				$(this).jstree("open_all");	
 			});
 			form.submit(function(e){
 				e.preventDefault();
-				var data = jstreeInstanceReplace.jstree('get_selected');
-				if(typeof data.attr('id') == 'undefined'){
-					var params = {};
-						params['type'] = 'error';
-						params['text'] = app.vtranslate('JS_NO_ITEM_SELECTED');
-						Settings_Vtiger_Index_Js.showMessage(params);
-					return false;
+				var selected = jstreeInstanceReplace.jstree("get_selected");
+				var replaceIds = $('#replaceIds').val();
+				if(replaceIds == ''){
+					var data = [];
+				}else{
+					var data = JSON.parse(replaceIds);
 				}
-				if(typeof data.data('replaceid') != 'undefined'){
-					jsonReplaceIds = jsonReplaceIds.concat(data.data('replaceid'));
-				}
-				jQuery('#treeContents ul:first li[id="'+data.attr('id')+'"]').attr('data-replaceId', JSON.stringify(jsonReplaceIds));
+				data = $.merge(data, [{old:id, new:selected}]);
+				$('#replaceIds').val(JSON.stringify(data));
 				app.hideModalWindow();
-				aDeferred.resolve(data.attr('id'));
+				aDeferred.resolve(selected);
 			});
 		});
 		return aDeferred.promise();
