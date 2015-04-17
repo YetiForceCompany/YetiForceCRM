@@ -12,5 +12,5 @@ $languageStrings = [
     'OSSProjectTemplates' => 'Projekt Vorlagen',
 ];
 $jsLanguageStrings = [
-	'JS_FILL_REQUIRED_FIELDS' => 'Muss Felder f�llen',
+	'JS_FILL_REQUIRED_FIELDS' => 'Muss Felder füllen',
 ];
