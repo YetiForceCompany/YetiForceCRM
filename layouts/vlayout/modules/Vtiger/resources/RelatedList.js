@@ -87,11 +87,13 @@ jQuery.Class("Vtiger_RelatedList_Js",{},{
 		}
 	},
 	
-	showSelectRelationPopup : function(){
+	showSelectRelationPopup : function(extendParams){
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(this.getPopupParams(), function(responseString){
+		var mainParams = this.getPopupParams()
+		$.extend( mainParams, extendParams );
+		popupInstance.show(mainParams, function(responseString){
 				var responseData = JSON.parse(responseString);
 				var relatedIdList = Object.keys(responseData);
 				thisInstance.addRelations(relatedIdList).then(

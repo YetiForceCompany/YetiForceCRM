@@ -61,55 +61,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			return $query;	
 		}
 	}
-	/**
-	 * Function returns comments and recent activities across CRM
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param <String> $type - comments, updates or all
-	 * @return <Array>
-	 */
-	public function getHistory($pagingModel, $type=false) {
-		if(empty($type)) {
-			$type = 'all';
-		}
-		//TODO: need to handle security
-		$comments = array();
-		if($type == 'comments') {
-			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments'); 
-			if($modCommentsModel->isPermitted('DetailView')){
-				$comments = $this->getComments($pagingModel);
-			}
-			if($type == 'comments') {
-				return $comments;
-			}
-		}
-		//As getComments api is used to get comment infomation,no need of getting
-		//comment information again,so avoiding from modtracker
-		//updateActivityQuery api is used to update a query to fetch a only activity
-		else if($type == 'updates' || $type == 'all' ){
-			$db = PearDatabase::getInstance();
-			$queryforActivity = $this->getActivityQuery($type);
-			$result = $db->pquery('SELECT vtiger_modtracker_basic.*
-					FROM vtiger_modtracker_basic
-					INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
-					AND deleted = 0 ' .  $queryforActivity .'
-					ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?',array($pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
-			$history = array();
-			for($i=0; $i<$db->num_rows($result); $i++) {
-				$row = $db->query_result_rowdata($result, $i);
-				$moduleName = $row['module'];
-				$recordId = $row['crmid'];
-				if(Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)){
-					$modTrackerRecorModel = new ModTracker_Record_Model();
-					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
-					$time = $modTrackerRecorModel->get('changedon');
-					$history[$time] = $modTrackerRecorModel;
-				}
-			}
-			return $history;
-		}
-		return false;
-	}
 
 	/**
 	 * Function returns the Calendar Events for the module

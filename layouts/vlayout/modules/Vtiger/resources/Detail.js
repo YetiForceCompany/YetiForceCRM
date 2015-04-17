@@ -822,8 +822,14 @@ jQuery.Class("Vtiger_Detail_Js",{
 			if(relatedModuleName == undefined){
 				relatedModuleName = jQuery(e.currentTarget).data('modulename');
 			}
+			var restrictionsField = jQuery(e.currentTarget).data('rf');
+			var params = {};
+			
+			if(restrictionsField && Object.keys(restrictionsField).length > 0){
+				params = {search_key: restrictionsField.key, search_value: restrictionsField.name};
+			}
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
-			relatedController.showSelectRelationPopup().then(function(data){
+			relatedController.showSelectRelationPopup(params).then(function(data){
 				//thisInstance.loadWidgets();
 				var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 				if(emailEnabledModule){
