@@ -31,10 +31,11 @@
 				{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
 				{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 				{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
+				{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 				<span class="span2">
 					<span class="pull-right">
 						<button class="btn pull-right createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
-						{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if}>
+						{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
 							<strong>{vtranslate('LBL_ADD',$MODULE_NAME)}</strong>
 						</button>
 					</span>

@@ -1259,20 +1259,27 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var parentId = thisInstance.getRecordId();
 			var quickCreateParams = {};
 			var relatedField = currentElement.data('prf');
+			var autoCompleteFields = currentElement.data('acf');
 			var moduleName = currentElement.closest('.widget_header').find('[name="relatedModule"]').val();
 			var relatedParams = {};
-			relatedParams[relatedField] = parentId;
-			
 			var postQuickCreateSave = function(data) {
 				thisInstance.postSummaryWidgetAddRecord(data,currentElement);
 				if(referenceModuleName == "ProjectTask"){
 					thisInstance.loadModuleSummary();
 				}
 			}
-			
 			if(typeof relatedField != "undefined"){
+				relatedParams[relatedField] = parentId;
+			}
+			if(typeof autoCompleteFields != "undefined"){
+				$.each(autoCompleteFields, function( index, value ) {
+					relatedParams[index] = value;
+				});
+			}
+			if(Object.keys(relatedParams).length > 0){
 				quickCreateParams['data'] = relatedParams;
 			}
+
 			quickCreateParams['noCache'] = true;
 			quickCreateParams['callbackFunction'] = postQuickCreateSave;
 			var progress = jQuery.progressIndicator();
