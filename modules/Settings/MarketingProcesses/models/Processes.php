@@ -89,12 +89,15 @@ class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
 	}
 	
 	public static function setConfig($param) {
+		global $log;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$db = PearDatabase::getInstance();
 		$value = $param['val'];
 		if(is_array($value)){
 			$value = implode(',', $value);
 		}
 		$db->pquery('UPDATE vtiger_proc_marketing SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return true;
 	}
 }

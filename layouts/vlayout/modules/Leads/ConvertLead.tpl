@@ -84,13 +84,14 @@
 									{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 									{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 									{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
+									{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 
 									{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 									{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 									
-									{if $FIELD_VALUE eq '' || $STATE eq '1'}
+									{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
 										{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
-									{/if}	
+									{/if}
 									<select class="chzn-select {$ASSIGNED_USER_ID}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
 										<optgroup label="{vtranslate('LBL_USERS')}">
 											{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
