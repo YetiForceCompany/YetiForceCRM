@@ -25,6 +25,7 @@ $languageStrings = array(
 );
 
 $jsLanguageStrings = array(
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Невозможно выбрать соответствующие Контакты для Обращений',
 	'JS_MORE' => 'Еще',
 	'JS_WEEK' => 'Неделя',
 	'JS_WED' => 'Ср',

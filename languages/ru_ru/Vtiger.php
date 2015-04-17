@@ -563,7 +563,7 @@ $languageStrings = array(
 	'LBL_MASS_EDITING'	=>	'Изменение',
 	'LBL_MASS_SEND_EMAIL' => 'Рассылка почты',
 	'LBL_MASS_SEND_SMS' => 'Рассылка SMS',
-	'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA' => 'No records matched this criteria.',
+	'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA' => 'Нет записей, удовлетворяющих этим критериям.',
 	'LBL_MAX_NUMBER_FILTER_COLUMNS' => 'Макс 12', 
 	'LBL_MAX_QTY_SELECT' => 'Максимальное значение' , 
 	'LBL_MAX_UPLOAD_SIZE'=> 'Максимальный размер', 
@@ -1110,7 +1110,7 @@ $languageStrings = array(
 	'LBL_VIEW_PREFERENCEDETAIL' => 'Мои настройки',
 	'LBL_VIEW_PREFERENCEEDIT' => 'Изменить настройки',
 	'Credits' => 'Благодарности',
-	'LBL_VIEW_DASHBOARD' => '__UNTRANSLATED__',
+	'LBL_VIEW_DASHBOARD' => 'Суммирование',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
