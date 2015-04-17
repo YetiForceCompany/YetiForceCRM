@@ -9,10 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Если вы отметите эту опцию, пользователь, который производит преобразование Обращения, станет владельцем записи.',
+	'LBL_CONVERSION' => '__UNTRANSLATED__',
+	'LBL_CONVERSION_TO_ACCOUNT' => '__UNTRANSLATED__',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => '__UNTRANSLATED__',
+	'LBL_LEADS' => '__UNTRANSLATED__',
+	'LBL_INFO' => '__UNTRANSLATED__',
+	'LBL_VALUES' => '__UNTRANSLATED__',
+	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
+	'LBL_LEAD_STATUS' => '__UNTRANSLATED__',
+	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
 );
 
-$jsLanguageStrings = array(
-	'JS_CONVERSION_STATE_SUCCES' => 'Изменения успешно сохранены',
-	'JS_CONVERSION_STATE_FAILURE' => 'Изменения не сохранены',
-);

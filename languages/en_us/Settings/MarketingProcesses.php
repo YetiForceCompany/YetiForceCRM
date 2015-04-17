@@ -9,11 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = array(
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'If you mark this option, a person who convers lead to opportunity will become records owner.',
+	'LBL_CONVERSION' => '__UNTRANSLATED__',
+	'LBL_CONVERSION_TO_ACCOUNT' => '__UNTRANSLATED__',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => '__UNTRANSLATED__',
+	'LBL_LEADS' => '__UNTRANSLATED__',
+	'LBL_INFO' => '__UNTRANSLATED__',
+	'LBL_VALUES' => '__UNTRANSLATED__',
+	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
+	'LBL_LEAD_STATUS' => '__UNTRANSLATED__',
+	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
 );
 
-$jsLanguageStrings = array(
-	'JS_CONVERSION_STATE_SUCCES' => 'State saved correct',
-	'JS_CONVERSION_STATE_FAILURE' => 'Failure on saved',
-	
-);

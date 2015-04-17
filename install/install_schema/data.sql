@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -922,8 +922,6 @@ insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contact
 insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`potentialfid`,`editable`) values (42,967,970,0,0,1);
 insert  into `vtiger_convertleadmapping`(`cfmid`,`leadfid`,`accountfid`,`contactfid`,`potentialfid`,`editable`) values (43,969,972,0,0,1);
 
-/*Data for the table `vtiger_converttoaccount_settings` */
-
 /*Data for the table `vtiger_crmentity` */
 
 insert  into `vtiger_crmentity`(`crmid`,`smcreatorid`,`smownerid`,`shownerid`,`modifiedby`,`setype`,`description`,`attention`,`createdtime`,`modifiedtime`,`viewedtime`,`closedtime`,`status`,`version`,`presence`,`deleted`,`label`,`searchlabel`,`inheritsharing`,`was_read`) values (35,1,1,NULL,1,'OSSMailTemplates',NULL,NULL,'2014-09-22 23:48:32','2014-11-24 10:52:34',NULL,NULL,NULL,0,1,0,'Notify Owner On Ticket Change','Notify Owner On Ticket Change',0,NULL);
@@ -1156,7 +1154,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5083,9 +5081,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5520,8 +5518,6 @@ insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`p
 /*Data for the table `vtiger_manufacturer_seq` */
 
 insert  into `vtiger_manufacturer_seq`(`id`) values (4);
-
-/*Data for the table `vtiger_marketing_processes` */
 
 /*Data for the table `vtiger_mobile_alerts` */
 
@@ -6435,6 +6431,13 @@ insert  into `vtiger_postatus_seq`(`id`) values (5);
 /*Data for the table `vtiger_pricebookproductrel` */
 
 /*Data for the table `vtiger_priority` */
+
+/*Data for the table `vtiger_proc_marketing` */
+
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('conversion','change_owner','false');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 
 /*Data for the table `vtiger_productcf` */
 

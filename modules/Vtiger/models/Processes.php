@@ -8,24 +8,21 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-	  
-class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
-	public static function getCleanInstance() {
-		$instance = new self();
-		return $instance;
-	}
-
-	public static function getConfig($type) {
+class Vtiger_Processes_Model{
+	public static function getConfig($process, $type) {
 		global $log;
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type" );
-		$cache = Vtiger_Cache::get('MarketingProcesses',$type);
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Process: $process, Type: $type" );
+		$db = PearDatabase::getInstance();
+		$processList = [
+			'marketing' => 'vtiger_proc_marketing',
+		];
+		$cache = Vtiger_Cache::get('ProcessesModel',$process.$type);
 		if($cache){
 			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 			return $cache;
 		}
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_proc_marketing WHERE type = ?;', [$type]);
+		
+		$result = $db->pquery('SELECT * FROM '.$processList[$process].' WHERE type = ?;', [$type]);
 		if ($db->num_rows($result) == 0) {
 			return [];
 		}
@@ -33,27 +30,14 @@ class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
 		for ($i = 0; $i < $db->num_rows($result); ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');
-			if (in_array($param, ['groups','status'])) {
+			if ($param == 'users') {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {
 				$config[$param] = $value;
 			}
 		}
-		Vtiger_Cache::set('MarketingProcesses',$type, $config);
+		Vtiger_Cache::set('ProcessesModel',$process.$type, $config);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $config;
-	}
-	
-	public static function setConfig($param) {
-		global $log;
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
-		$db = PearDatabase::getInstance();
-		$value = $param['val'];
-		if(is_array($value)){
-			$value = implode(',', $value);
-		}
-		$db->pquery('UPDATE vtiger_proc_marketing SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
-		return true;
 	}
 }

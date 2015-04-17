@@ -314,6 +314,7 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Настройка процессов продаж',
 	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
+	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
 );
 
 $jsLanguageStrings = array(

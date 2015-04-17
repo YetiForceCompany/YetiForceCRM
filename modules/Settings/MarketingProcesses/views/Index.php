@@ -12,20 +12,18 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 
 	public function process(Vtiger_Request $request) {
 		global $log;
-		$log->debug("Entering Settings_MarketingProcesses_Index_View::process() method ...");
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$qualifiedModule = $request->getModule(false);
-		$state = Settings_Leads_ConvertToAccount_Model::getState();
+		$moduleModel = Settings_MarketingProcesses_Processes_Model::getCleanInstance();
 		$processes = new Settings_MarketingProcesses_Processes_Model();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
-		$viewer->assign('STATE', $state);
-		$viewer->assign('LEADSTATUS', Vtiger_Util_Helper::getPickListValues('leadstatus'));
-		$viewer->assign('PROCESSES', $processes);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('Index.tpl',$qualifiedModule);
-		$log->debug("Exiting Settings_MarketingProcesses_Index_View::process() method ...");
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}
 	
 	public function getHeaderScripts(Vtiger_Request $request) {

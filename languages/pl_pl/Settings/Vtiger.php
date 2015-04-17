@@ -279,10 +279,10 @@ $languageStrings = array(
 	'Help Desk Department'	=> 'Dział wsparcia',
 	'Human Resources Department'	=> 'Dział kadr',
 	"Secretary's Office"	=> 'Sekretariat',
-	"Organization"	=> 'Organizacja',
-	"Financial Department"	=> 'Dział finansów',
-	"Production Department"	=> 'Dział produkcji',
-	"Marketing Department"	=> 'Dział marketingu',
+	'Organization'	=> 'Organizacja',
+	'Financial Department'	=> 'Dział finansów',
+	'Production Department'	=> 'Dział produkcji',
+	'Marketing Department'	=> 'Dział marketingu',
     
 	'OSSPassword Configuration'=>'Konfiguracja hasła',
 	'Document Control'=>'Przepływ dokumentów',
@@ -292,6 +292,7 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES' => 'Procesy sprzedażowe',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
+	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
 );
 
 $jsLanguageStrings = array(
