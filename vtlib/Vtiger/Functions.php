@@ -925,8 +925,11 @@ class Vtiger_Functions {
 	}
 	
 	static function getArrayFromValue($values) {
+		if(is_array($values)){
+			return $values;
+		}
 		if($values == ''){
-			return array();
+			return [];
 		}
 		if (strpos($values, ',') === false) {
 			$array[] = $values;

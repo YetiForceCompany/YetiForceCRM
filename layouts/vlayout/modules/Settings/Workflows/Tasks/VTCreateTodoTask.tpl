@@ -127,5 +127,16 @@
 				<input  type="checkbox" name="doNotDuplicate" value="true" {if $TASK_OBJECT->doNotDuplicate}checked{/if} />
 			</div>
 		</div>
+		<div class="row-fluid padding-bottom1per">
+			<span class="span2">{vtranslate('LBL_DUPLICATE_STATUS',$QUALIFIED_MODULE)}</span>
+			<span class="span5">
+				<select multiple name="duplicateStatus" class="chzn-select" style="width: 400px;">
+					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
+					{foreach from=Vtiger_Util_Helper::getPickListValues('taskstatus') key=KEY item=ITEM}
+						<option value="{$ITEM}" {if in_array($ITEM,Vtiger_Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
+					{/foreach}
+				</select>
+			</span>
+		</div>
 	</div>
 {/strip}

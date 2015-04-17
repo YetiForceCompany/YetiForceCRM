@@ -137,7 +137,8 @@ $languageStrings = [
 	'LBL_ALL_TASKS' => 'Todas as Tarefas',
 	'LBL_ACTIVE_TASKS' => 'Tarefas ativas',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Não duplicar registros',
-
+	'LBL_DUPLICATE_STATUS' => '__UNTRANSLATED__',
+	
 	//workflow task
 	'EmailTempleteList' => 'Selecionar um modelo de e-mail para ser enviado',
 	'Do you send all attachments' => 'Enviar todos os anexos?',

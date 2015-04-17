@@ -128,6 +128,7 @@ $languageStrings = [
 	'LBL_ALL_TASKS' => 'Все Задачи', 
 	'LBL_ACTIVE_TASKS' => 'Активные Задачи',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Do not duplicate records',
+	'LBL_DUPLICATE_STATUS' => '__UNTRANSLATED__',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
