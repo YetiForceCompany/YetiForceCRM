@@ -42,9 +42,15 @@
 				</span>
 			{/if}
 			{if $WIDGET['data']['actionSelect'] eq 1}
+				{if isset($VRM)}
+					{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
+					{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
+					{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
+					{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
+				{/if}
 				<span class="span2" style="margin-left: 16px;">
 					<span class="pull-right">
-						<button class="btn pull-right selectRelation" type="button" data-modulename="{$WIDGET['data']['relatedmodule']}">
+						<button class="btn pull-right selectRelation" type="button" data-modulename="{$WIDGET['data']['relatedmodule']}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
 							<strong>{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}</strong>
 						</button>
 					</span>

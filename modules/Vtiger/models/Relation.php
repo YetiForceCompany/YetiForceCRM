@@ -290,6 +290,23 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 		}
 		return $fields;
 	}
+	
+	public function getRestrictionsPopupField($recordModel) {
+		$fields = [];
+		$map = [
+			'Contacts::Potentials' => ['parent_id','related_to'],
+		];
+		$relatedModel = $this->getRelationModuleModel();
+		$parentModule = $this->getParentModuleModel();
+		$relatedModuleName = $relatedModel->getName();
+		$parentModuleName = $parentModule->getName();
+		
+		if( array_key_exists("$relatedModuleName::$parentModuleName", $map)){
+			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
+			$fields = ['key' => $fieldMap[0], 'name' => strip_tags($recordModel->getDisplayValue($fieldMap[1]))];
+		}
+		return $fields;
+	}
 
 	public static  function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId) {
         $db = PearDatabase::getInstance();
