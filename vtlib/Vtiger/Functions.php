@@ -1040,4 +1040,48 @@ class Vtiger_Functions {
 		}
 	}
 
+	public function getBrowserInfo() {
+		$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+		$browser = new stdClass;
+		$browser->ver = 0;
+		$browser->https = false;
+		$browser->win = strpos($HTTP_USER_AGENT, 'win') != false;
+		$browser->mac = strpos($HTTP_USER_AGENT, 'mac') != false;
+		$browser->linux = strpos($HTTP_USER_AGENT, 'linux') != false;
+		$browser->unix = strpos($HTTP_USER_AGENT, 'unix') != false;
+
+		$browser->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
+		$browser->opera = strpos($HTTP_USER_AGENT, 'opera') !== false || ($browser->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);
+		$browser->ns = strpos($HTTP_USER_AGENT, 'netscape') !== false;
+		$browser->chrome = !$browser->opera && strpos($HTTP_USER_AGENT, 'chrome') !== false;
+		$browser->ie = !$browser->opera && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
+		$browser->safari = !$browser->opera && !$browser->chrome && ($browser->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
+		$browser->mz = !$browser->ie && !$browser->safari && !$browser->chrome && !$browser->ns && !$browser->opera && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
+
+		if ($browser->opera) {
+			if (preg_match('/(opera|opr)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+				$browser->ver = (float) $regs[2];
+			}
+		} else if (preg_match('/(chrome|msie|version|khtml)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+			$browser->ver = (float) $regs[3];
+		} else if (preg_match('/rv:([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+			$browser->ver = (float) $regs[1];
+		}
+
+		if (preg_match('/ ([a-z]{2})-([a-z]{2})/', $HTTP_USER_AGENT, $regs))
+			$browser->lang = $regs[1];
+		else
+			$browser->lang = 'en';
+
+		if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
+			$browser->https = true;
+		}
+		if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
+			$browser->https = true;
+		}
+
+		return $browser;
+	}
+
 }
