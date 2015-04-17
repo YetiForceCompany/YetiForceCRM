@@ -25,6 +25,7 @@ $languageStrings = array(
 	'LBL_GROUP_NAME' => 'Group name',
 	'LBL_COLORS' => 'Colors',
 	'LBL_PRIORITY' => 'Priority',
+	'LBL_MODULE' => 'Модуль',
 
 	//Auth
 	'LBL_AUTHORIZATION' => 'Authorization',

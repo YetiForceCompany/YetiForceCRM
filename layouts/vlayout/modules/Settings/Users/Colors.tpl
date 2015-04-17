@@ -21,6 +21,7 @@
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#groupsColors"><strong>{vtranslate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#modulesColors"><strong>{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#marketing"><strong>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#sales"><strong>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#realization"><strong>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
@@ -71,6 +72,35 @@
 									<td>
 										<button class="btn updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 										<button class="btn generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane" id="modulesColors">
+					<table class="table table-bordered table-condensed listViewEntriesTable">
+						<thead>
+							<tr class="blockHeader">
+								<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Users_Colors_Model::getModulesColors() item=item key=key}
+								<tr data-id="{$item.id}" data-color="{$item.color}">
+									<td>{vtranslate($item.module,$item.module)}</td>
+									<td>
+										<label class="checkbox">
+											<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
+										</label> 
+									</td>
+									<td class="calendarColor" style="background: {$item.color};"></td>
+									<td>
+										<button class="btn updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}

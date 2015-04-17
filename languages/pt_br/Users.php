@@ -312,6 +312,9 @@ $languageStrings = array(
         'Secondary Email'=>'Email Secundário',
         'Secondary Phone'=>'Telefone Secundário',
         'Reminder Interval'=>'Intervalo Lembrete',
+		
+	'LBL_GENERATED_COLOR' => 'Cor gerada',
+	'LBL_SAVE_COLOR' => 'Cor salva',
 );
 
 $jsLanguageStrings = array(
