@@ -10,6 +10,14 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = array(
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность обеда',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
+	'LBL_HOLIDAYDAYS_INFO' => 'Количество дней отпуска',
+	'LBL_WORKEDDAYS_INFO' => 'Количество отработанных дней',
+	'LBL_NATIONAL_INFO' => 'Количество национальных праздников',
+	'LBL_ECCLESIASTICAL_INFO' => 'Количество церковных праздников',
+	'LBL_WEEKENDDAYS_INFO' => 'Выходные',
+	'LBL_ALLDAYS_INFO' => 'Все дни',
 	'OSSEmployees'	=>	'Сотрудники',
 	'SINGLE_OSSEmployees'	=>	'Сотрудник',
 	'LBL_INFORMATION'	=>	'Информация о сотрудниках',

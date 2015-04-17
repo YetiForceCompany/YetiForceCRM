@@ -29,6 +29,7 @@ $languageStrings = array(
 	'Size'	=> 'Column',
 	'Label'	=> 'Label',
 	'Add button' => 'Add button',
+	'Select button' => '__NOT_TRANSLATED__',
 	'Limit entries'	=> 'Limit of entries',
 	'Columns'	=> 'Columns',
 	'No left margin' => 'No left margin',
