@@ -4,7 +4,12 @@
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 			<span class="span8 margin0px">
 				<div class="row-fluid">
-					<span class="span5 margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+					{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
+						{assign var=span value='span5'}
+					{else}
+						{assign var=span value='span12'}
+					{/if}
+					<span class="{$span} margin0px"><h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 					{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 						{assign var=filter value=$WIDGET['data']['filter']}
 						<input type="hidden" name="filter_data" value="{$filter}" />
@@ -26,6 +31,7 @@
 					{/if}
 				</div>
 			</span>
+			{if $WIDGET['data']['actionSelect'] neq 1}<span class="span2 margin0px">&nbsp;</span>{/if}
 			{if $WIDGET['data']['action'] eq 1}
 				{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 				{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $WIDGET['data']['relatedmodule'])}
