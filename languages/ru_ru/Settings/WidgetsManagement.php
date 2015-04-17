@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CHOISE_AUTHORIZED'	=>	'Роль',
 	'LBL_ADD_DASHBOARD_BLOCK'	=>	'Добавить Блок Виджетов для Роли',
 	'LBL_WIDTH'	=>	'Ширина',
@@ -30,12 +30,12 @@ $languageStrings = array(
 	'LBL_DEFAULT_FILTER' => 'Фильтр по умолчанию',
 	'LBL_FILTERS_AVAILABLE' => 'Доступные фильтры',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Необходимо выбрать, как минимум 1 пункт',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_BLOCK_ADDED'	=>	'Блок Виджетов успешно добавлен',
 	'JS_CUSTOM_FIELD_ADDED'	=>	'Виджет успешно добавлен',
 	'JS_CUSTOM_FIELD_DELETED'	=>	'Виджет успешно добавлен',
 	'JS_CUSTOM_BLOCK_DELETED'	=>	'Блок Виджетов успешно удален',
 	'JS_FIELD_EMPTY'	=>	'Поле не может быть пустым',
 	'JS_FILTERS_AVAILABLE' => 'Доступные фильтры',
-);
+];

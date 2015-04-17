@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 21/12/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'providertype' => 'Provedor',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'Permitido no máximo 160 caracteres',
 	'LBL_SEREVER_CONFIG' => 'Nova Configuração',
@@ -32,4 +32,4 @@ $languageStrings = array(
 	//Blocks
 	'LBL_SMSNOTIFIER_INFORMATION'=> 'Informação SMS',
 	'SINGLE_SMSNotifier' => 'Notificador SMS',
-);
+];

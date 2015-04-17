@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Enter new data' => 'Wprowadz nowe dane',
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Numer Kontrahenta',
 	'LBL_SMS_SENDER' => 'Nadawca',
@@ -29,9 +29,9 @@ $languageStrings = array(
 	'isactive' => 'Aktywny',
 	'username' => 'Nazwa użytkownika',
 	'password' => 'Hasło',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Numer Kontrahenta',
 	'LBL_SMSPM_AUTH_HASH' => 'Symbol # potwierdzenia autentyczności',
 	'LBL_SMS_TIME' => 'Czas (min)',
@@ -39,4 +39,4 @@ $jsLanguageStrings = array(
 	'LBL_DELETE_CONFIRMATION' => 'Czy jesteś pewien, że chcesz usunąć tą konfiguracje?',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Konfiguracja została poprawnie usunięta',
 	'JS_CONFIGURATION_SAVED' => 'Konfiguracja została zapisana',
-);	
+];	

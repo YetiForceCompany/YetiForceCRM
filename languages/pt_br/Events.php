@@ -11,7 +11,7 @@
 
 /* NOTE: Should be inline with Calendar language translation but few variations */
 
-$languageStrings = array(
+$languageStrings = [
 	'Activity Type'=> 'Tipo Atividade',
 	'Busy' => 'Ocupado',
 	'Call' => 'Chamada' ,
@@ -87,4 +87,4 @@ $languageStrings = array(
 	'PLL_TRANSPARENT' => 'Livre',
 	'Relation' => 'Relação',
 	'Process' => 'Processo_',
-);
+];

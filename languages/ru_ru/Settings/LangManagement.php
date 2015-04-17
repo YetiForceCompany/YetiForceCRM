@@ -8,7 +8,7 @@
  *  Website				: www.opensaas.pl
  * VERSION YetiForceCRM: 1.1.0 RC
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	'Language editor'	=>	'Редактор языков',
 	'Translations'	=>	'Редактор языков',
 	'No data available in table'	=>	'Не найдено ни одной записи',
@@ -58,8 +58,8 @@ $languageStrings = array(
 	'LBL_SHOW_EMPTY_VALUES' => 'Показать пустые значения',
 	'LBL_SHOW_IN' => 'Показать в',
 	'LBL_EDIT_HELP_ICON' => 'Иконка справки',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',
 	'Language editor'	=>	'Редактор языков',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT' => 'Вы уверены, что хотите изменить язык, установленный по умолчанию?',
@@ -73,4 +73,4 @@ $jsLanguageStrings = array(
 	'No matching records found'	=>	'Не найдено ни одной записи',
 	'Search'	=>	'Поиск:',
 	
-);
+];

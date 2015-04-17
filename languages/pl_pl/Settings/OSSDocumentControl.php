@@ -8,18 +8,18 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Document Control' => 'Kontrola dokumentów',
 	'OSSDocumentControl' => 'Kontrola dokumentów',
     'LBL_ENTER_BASIC_INFO' => 'Podaj podstawowe informacje',
     'LBL_STEP_1' => 'Krok 1',
     'NEXT' => 'Dalej',
     'CANCEL' => 'Anuluj',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Document Control' => 'Kontrola dokumentów',
 	'OSSDocumentControl' => 'Kontrola dokumentów',
     'DES_REQUIRED' => 'Opis dokumentu jest wymagany',
     'DES_NAME_REQUIRED' => 'Nazwa dokumentu jest wymagana',
-);
+];

@@ -9,9 +9,9 @@
   * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
   ********************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CHANGE_PASSWORD_FAILURE' => 'Falha ao alterar a senha',
 	'LBL_DATABASE_QUERY_ERROR' => 'Erro de banco de dados durante a execução da operação solicitada',
 	'LBL_INVALID_OLD_PASSWORD' => 'Valor inválido fornecido para senha antiga.',
 	'LBL_NEW_PASSWORD_MISMATCH' => "Nova Senha e Senha de Confirmação não são idênticas",
-);
+];

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'Letters Out' => 'Исходящая корреспонденция',
 	'Letters In' => 'Входящая корреспонденция',
 	'Teamwork' => 'Работа в команде',
@@ -1130,8 +1130,8 @@ $languageStrings = array(
 	'LBL_HOLIDAY' => 'Праздники',
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_WORKING_TIME' => 'Рабочее время',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'System' => 'Сообщение',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Время работы не может превышать 24 часа',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания не может быть меньше, чем дата начала',
@@ -1337,4 +1337,4 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Ошибка, при попытке отправить номер телефона',
 	'JS_SET_READ_RECORD' => 'Вы подтвердили, что вы ознакомились со всеми изменениями в данной записи.',
 	'JS_CLEAR_HISTORY' => 'Очистить историю просмотров',
-);
+];

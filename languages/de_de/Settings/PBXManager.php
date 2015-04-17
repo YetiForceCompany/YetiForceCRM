@@ -8,7 +8,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'PBXManager' => 'PBX Manager',
     'LBL_SELECT_ONE' => 'Auswählen',
     'LBL_PBXMANAGER' =>'Telefonanlagen Manager',
@@ -23,9 +23,9 @@ $languageStrings = array(
     'vtigersecretkey'=>'Yetiforce Secret Key',
     'outboundcontext' => 'Outbound-Kontext',
     'outboundtrunk' => 'Outbound-Trunk',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];
 ?>  

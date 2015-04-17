@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Member Of' => 'Powiązane z',
 	'Birthdate' => 'Data urodzin',
 	'Contact Id' => 'Numer',
@@ -58,7 +58,7 @@ $languageStrings = array(
 	//Activity Types
 	'End of support for contact' => 'Koniec wsparcia kontaktu',
 	'Birthdays of contacts' => 'Urodziny kontaktów',
-);
+];
 
-$jsLanguageStrings = array(
- );
+$jsLanguageStrings = [
+ ];

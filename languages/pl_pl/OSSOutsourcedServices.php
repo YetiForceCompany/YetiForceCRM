@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSOutsourcedServices' => 'Usługi obce',
 	'SINGLE_OSSOutsourcedServices' => 'Usługa obca',
 	'LBL_INFORMATION' => 'Blok informacji',
@@ -34,4 +34,4 @@ $languageStrings = array(
 	'Selling proposition'=>'Propozycja sprzedaży',
 	'Active' => 'Aktywna',
 	'Inactive' => 'Nieaktywna',
-);
+];

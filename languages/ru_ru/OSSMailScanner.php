@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'action' => 'Действие',
 	'Group list' => 'Группы',
 	'OSSMailScanner'	=>	'Сканер почты',
@@ -144,4 +144,4 @@ $languageStrings = array(
 	'No'	=>	'Нет',
 	'LBL_MAIL_LOGS'	=>	'Журнал почты',
 
-);
+];

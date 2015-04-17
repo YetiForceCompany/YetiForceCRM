@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_OPPURTUNITIES' => 'Сделки',
 	'Leads'	=>	'Обращения',
 	'checkBox' => 'Флажок',
@@ -40,9 +40,9 @@ $languageStrings = array(
 	'url' => 'Ссылка',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Преобразовать в Контрагента',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_None' => 'Нет',
 	'JS_CANT_MAP' => 'Не удается сопоставить поля',
 	'JS_checkBox' => 'Флажок',
@@ -67,4 +67,4 @@ $jsLanguageStrings = array(
 	'JS_WITH' => 'с',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Сохранено',
 
-);
+];

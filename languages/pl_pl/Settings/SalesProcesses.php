@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SALES_PROCESSES'													=> 'Procesy sprzedażowe',
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
 	'LBL_SAVE_CONFIG_OK'													=> 'Pomyślnie zapisano ustawienia procesów sprzedażowych.',
 	'LBL_SAVE_CONFIG_ERROR'													=> 'Nie udało się zapisać ustawień procesów biznesowych.',
 	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Pozwala na wybór produktów powiązanych z aktualnie wybraną Szansą sprzedaży. Dotyczy modułów: Kalkulacje, Oferty, Zamówienia od Klienta, Faktury sprzedażowe.',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 
-);
+];

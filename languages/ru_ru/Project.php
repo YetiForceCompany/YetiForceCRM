@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => 'Всего рабочего времени',
 	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'Actual End Date'              => 'Фактическая дата завершения'             , 
@@ -65,4 +65,4 @@ $languageStrings = array(
 	'PLL_INTERNAL' => 'Административное',
 	'PLL_EXTERNAL' => 'Оперативное',
 	'PLL_COMMON' => 'Другое',
-);
+];

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Enter new data' => 'Digite novo dado',
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Número Conta',
 	'LBL_SMS_SENDER' => 'Remetente',
@@ -28,9 +28,9 @@ $languageStrings = array(
 	'isactive' => 'Ativo',
 	'username' => 'Usuário',
 	'password' => 'Senha',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Número Conta',
 	'LBL_SMSPM_AUTH_HASH' => 'Hash de autenticação ',
 	'LBL_SMS_TIME' => 'Tempo (min)',
@@ -38,4 +38,4 @@ $jsLanguageStrings = array(
 	'LBL_DELETE_CONFIRMATION' => 'Tem certeza que deseja apagar esta Configuração do Notificador SMS?',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Provedor SMS Apagado com Sucesso',
 	'JS_CONFIGURATION_SAVED' => 'Configuração do Provedor SMS salva',
-);
+];

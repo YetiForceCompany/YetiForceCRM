@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Select role',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Add summary block for module',
 	'LBL_WIDTH' => 'Width',
@@ -30,8 +30,8 @@ $languageStrings = array(
 	'LBL_DEFAULT_FILTER' => 'Default filter',
 	'LBL_FILTERS_AVAILABLE' => 'Filters available',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Please select at least one option',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block has been added successfully',
 	'JS_CUSTOM_FIELD_ADDED' => 'Widget has been added successfully to block ',
 	'JS_CUSTOM_FIELD_DELETED' => 'Widget has been deleted successfully',
@@ -39,4 +39,4 @@ $jsLanguageStrings = array(
 	'JS_FIELD_EMPTY' => 'The field can not be empty',
 	'JS_FILTERS_AVAILABLE' => 'Filters available',
 	'JS_FILTERS_AVAILABLE' => 'Filters available',
-);
+];

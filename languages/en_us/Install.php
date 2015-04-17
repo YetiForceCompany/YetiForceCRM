@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'LANGNAME' => 'English',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Unable to connect to database Server',
 	'ERR_DB_NOT_FOUND' => 'This Database is not found.Try changing the Database settings',
@@ -95,9 +95,9 @@ $languageStrings = array(
 	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Incorrect login or password',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warning!</strong> During the migration you will loose all data related to the following modules: MailManager, EmailTemplates, Workflows. <br /> Please be aware that migration is still in its testing stage so you should make all possible back-up copies and follow security procedures in case of any unforeseen events.',
 	'LBL_MIGRATION_IN_PROGRESS'=>'Migration in progress',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_PASS_TO_SHORT' => 'Password is too short - the minimum length is 8 characters',
 	'LBL_PASS_TO_LONG' => 'The password is too long - maximum length is 32 characters',
 	'LBL_PASS_NO_NUM' => 'The password must contain numbers',
@@ -110,4 +110,4 @@ $jsLanguageStrings = array(
 	'LBL_INVALID_EMAIL_ERROR' => 'Warning! Invalid email address.',
 		'LBL_RESOLVE_ERROR' => 'Please resolve the error before proceeding with the installation',
 
-);
+];

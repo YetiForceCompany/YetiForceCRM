@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Approved',
 	'AutoCreated'=>'Approval required',
 	'Created'=>'Draft',
@@ -42,8 +42,8 @@ $languageStrings = array(
 	'Form of payment' => 'Form of payment',
 	'Transfer' => 'Transfer',
 	'Cash' => 'Cash',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Please remove line item that is deleted',
-);
+];

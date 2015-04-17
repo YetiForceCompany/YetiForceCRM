@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 08/12/2014 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess' => 'Validação de acesso',
 	'LBL_NONE' => '--Nada--',
 	'Message' => 'Mensagem',
@@ -70,8 +70,8 @@ $languageStrings = array(
 	'LBL_BACKGROUND_COLOR' => 'Cor de fundo',
 	'LBL_TEXT_COLOR' => 'Cor do texto',
 	'This name already exists' => 'este nome já existe',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'DataAccess' => 'Acesso Dados',
-);
+];

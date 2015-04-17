@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	//'Reviewed' => 'Oczekuje na decyzję',
 	//'Created' => 'Utworzona',
 	//'Accepted'=>'Zaakceptowana',
@@ -42,8 +42,8 @@ $languageStrings = array(
 	'PLL_SENT_TO_ORGANIZATION' => 'Wysłana do kontrahenta',
 	'PLL_DECLINED' => 'Odrzucona',
 	'PLL_ACCEPTED' => 'Zaakceptowana',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Usuń linię, której produkt/usługa został/a usunięty/a z/w systemie.',
-);
+];

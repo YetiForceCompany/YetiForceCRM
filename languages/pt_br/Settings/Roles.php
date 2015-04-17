@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar Registro',
 	'LBL_ALL_USERS' => 'Todos os Usuários',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Atribuir privilégios a partir de um Perfil existente',
@@ -30,9 +30,9 @@ $languageStrings = array(
 	'Roles' => 'Funções' ,
 	'SINGLE_Roles' => 'Função',
 	'LBL_USERS_LIST' => 'Lista de Usuários pertencentes a esta Função:',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',
 	'JS_PERMISSION_DENIED' => 'Permissão Negada',
-);
+];

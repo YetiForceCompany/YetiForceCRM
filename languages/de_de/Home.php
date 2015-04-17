@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT' => 'Top Organisationen',
 	'CVLVT' => 'Schlüsselmetrik',
 	'GRT' => 'Meine Gruppenzuordnung',
@@ -22,9 +22,9 @@ $languageStrings = array(
 	'PLVT' => 'Top Chancen',
 	'QLTQ' => 'Top Angebote',
 	'UA' => 'Die nächsten Aktivitäten',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_DAY' => 'Jeden Tag',
 	'JS_APR' => 'Apr',
 	'JS_APRIL' => 'April',
@@ -69,4 +69,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Mi',
 	'JS_WEEK' => 'Woche',
 
-);
+];

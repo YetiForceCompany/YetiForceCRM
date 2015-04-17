@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 
     'LBL_NORECORDS_CHECKED' => 'You haven`t choosen any record yet',
     'Enable Numbering' => 'Enable page numbering',
@@ -464,9 +464,9 @@ $languageStrings = Array(
     'Document summary: show tax amount :' => 'Document summary: show tax amount :',
     'Show document summary :' => 'Show document summary :',
 	'LBL_SELECT_OPTION' => 'Select an Option',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'Copied to clipboard',
     'LBL_NotifPassTitle' => 'Text',
@@ -536,13 +536,13 @@ $jsLanguageStrings = array(
     'Current date (mm-dd-yyyy)' => 'Current date (mm-dd-yyyy)',
     'Current date (yyyy-mm-dd)' => 'Current data (yyyy-mm-dd)',
         //
-);
+];
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AND' => 'and',
 	'LBL_OR' => 'or',
 	'LBL_NONE' => 'None',
 	'Content' => 'Content',
 	'Field' => 'Field',
 	'Label' => 'Label',
-);
+];

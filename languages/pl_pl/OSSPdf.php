@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 
     'WidgetConstraints' => 'Ograniczenia dla wzorca',
     'FIELD_NAME' => 'Nazwa pola',
@@ -494,8 +494,8 @@ $languageStrings = Array(
 	'LBL_OR' => 'lub',
 	'LBL_AND' => 'i',
 	'LBL_SELECT_OPTION' => 'Wybierz',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Show document summary :' => 'Pokaż podsumowanie dokumentu:',
 	'Right margin [mm]' => 'Margines prawy[mm]',
 	'Left margin [mm]' => 'Margines lewy [mm]',
@@ -548,4 +548,4 @@ $jsLanguageStrings = array(
 	'LBL_LESS_THAN_HOURS_LATER' => 'mniej godzin później',
 	'LBL_MORE_THAN_HOURS_BEFORE' => 'ponad godzin przed',
 	'LBL_MORE_THAN_HOURS_LATER' => 'więcej godzin później',
-);
+];

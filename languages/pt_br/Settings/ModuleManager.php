@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Erro ao Mover Arquivo Atualizado',
 	'ModuleManager' => 'Gestor de Módulo',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importar o Módulo a partir do Arquivo',
@@ -62,8 +62,8 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL' => 'Rótulo campo Entidade',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER' => 'Este nome de módulo já existe, tente outro',
 	'LBL_INVALID_MODULE_NAME' => 'Nome do módulo inválido',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Atualizado com sucesso',
 	'JS_UPDATE_SUCCESSFULL' => 'Atualizado com sucesso',
 	'JS_IMPORTED_MODULE' => 'Instalado com sucesso',
@@ -71,4 +71,4 @@ $jsLanguageStrings = array(
 	'JS_FOR_INSTALLATION' => 'para instalação',
 	'JS_CLICK_HERE' => 'Clique Aqui',
 	'JS_ON' => 'Em',
-);
+];

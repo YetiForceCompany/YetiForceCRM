@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ModComments' => 'Komentarz',
 	'LBL_RECORDS_LIST' => 'Lista komentarzy',
@@ -25,4 +25,4 @@ $languageStrings = array(
 	'Creator' => 'Kreator',
 	'Related To Comments' => 'Powiązany z',
 	
-);
+];

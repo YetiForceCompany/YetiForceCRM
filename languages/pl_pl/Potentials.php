@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Amount' => 'Kwota',
 	'Campaign Source' => 'Źródło kampanii',
 	'Existing Business'=>'Wznowiona sprzedaż',
@@ -82,4 +82,4 @@ $languageStrings = array(
 	'Potential Name' => 'Nazwa',
 	'LBL_FINANSIAL_SUMMARY' => 'Podsumowanie finansowe',
 	'Average profit sales order' => 'Średnia marża',
-);
+];

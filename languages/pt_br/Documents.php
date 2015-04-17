@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - 26/04/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active' => 'Ativo' ,
 	'Document No'=> 'No. Documento' ,
 	'Documents' => 'Documentos',
@@ -53,9 +53,9 @@ $languageStrings = array(
 	'None' => 'Nada',
 	'Default' => 'Padrão',
 	'LBL_SELECT_Documents' => 'Selecionar documento',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Tem certeza que deseja mover o(s) arquivo(s) para',
 	'JS_FOLDER'=> 'pasta',
 	'JS_FOLDER_IS_NOT_EMPTY' => 'A pasta não está vazia',
@@ -64,4 +64,4 @@ $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED' => 'não são permitidos',
 	'JS_OPERATION_DENIED'=> 'Operação Negada',
 	'JS_SPECIAL_CHARACTERS' => 'Caracteres Especiais como',
-);
+];

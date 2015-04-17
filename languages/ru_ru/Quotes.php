@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Rejected' => 'Отклонено',
 	'Accepted' => 'Принято',
 	'Created' => 'Создано',
@@ -43,8 +43,8 @@ $languageStrings = array(
 	'PLL_SENT_TO_ORGANIZATION' => 'Отправлено в организацию',
 	'PLL_DECLINED' => 'Отменено',
 	'PLL_ACCEPTED' => 'Принято',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите позиции, которые были удалены из системы.',
-);
+];

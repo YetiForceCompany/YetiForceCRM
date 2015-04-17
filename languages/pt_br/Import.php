@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation / valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'csv' => 'CSV',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
@@ -80,4 +80,4 @@ $languageStrings = array(
 	'skipped' => 'Registros Ignorados',
 	'failed' => 'Registros Falhos',
 
-);
+];

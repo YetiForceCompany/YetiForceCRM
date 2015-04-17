@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSProjectTemplates'	=>	'Шаблоны Проектов',
 	'SINGLE_MODULE_NAME'	=>	'Шаблоны Проектов',
 	'LBL_NEW_TPL'	=>	'Добавить Шаблон',
@@ -53,4 +53,4 @@ $languageStrings = array(
     
 	'ONLY_WORK_DAY'	=>	'Только в рабочие дни',
 	'TPL_VISIBILITY'	=>	'Выберите какие группы могут использовать шаблон',
-    );
+    ];

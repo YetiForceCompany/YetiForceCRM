@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates' => 'Mail Templates',
     'Blank' => 'Mail Templates',
     'SINGLE_OSSMailTemplates' => 'Mail Templates',
@@ -44,9 +44,9 @@ $languageStrings = array(
 	'LBL_LABEL' => 'Label',
 	'ContactsPortalPass' => 'Customer Portal Password',
 	'LinkToForgotPassword' => 'Link to reset your password',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_NOTIF_PASS_COPIED' => 'Copied to clipboard',
     'JS_NOTIF_PASS_TITLE' => 'Text',
 
-);
+];

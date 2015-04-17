@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/05/2014
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer' => 'Resposta',
 	'Comments' => 'Comentários',
 	'Draft'=> 'Rascunho',
@@ -24,4 +24,4 @@ $languageStrings = array(
 	'Published'=> 'Publicada' ,
 	'Question' => 'Questão',
 	'SINGLE_Faq' => 'FAQ' ,
-);
+];

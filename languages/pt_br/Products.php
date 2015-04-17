@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 31/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Unit Code'=>'Código Unidade',
 	'Mf. Country Code'=>'Código País Fabricante',
 	'Manuf. Country'=>'País Fabricante',
@@ -80,4 +80,4 @@ $languageStrings = array(
 	'Website'=> 'Website' ,
 	'Service' => 'Serviço',
 	'Sales' => 'Vendas',
-);
+];

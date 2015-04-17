@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PRIMARY_MODULE' => 'Podstawowy moduł',
 	'Report Name' => 'Nazwa raportu',
 	'Reports'=>'Raporty',
@@ -115,10 +115,10 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ten email został wygenerowany automatycznie i wysłany na rzecz harmonogramu raportów.',
 	'LBL_PIVOT_REPORT' => 'Pivot Report',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Ograniczenie: Pola (Cena, Rabat i Ilość) mogą zostać użyte tylko gdy inne pola kalkulacji nie są wybrane.',
 	'JS_DUPLICATE_RECORD' => 'Duplikuj raport',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Dane nie są dostępne, należy sprawdzić wybrane pola',
-);
+];

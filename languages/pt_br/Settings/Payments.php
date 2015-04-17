@@ -9,12 +9,12 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Payments' => 'Pagamentos',
     'LBL_RIGHT_CLICK_COPY' => 'Clique com lado direito do mouse e copie',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DELETED_SUCCESSFULLY' => 'Excluído com Sucesso',
 	'JS_SAVED_SUCCESSFULLY' => 'Salvo com Sucesso',
-);
+];

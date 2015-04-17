@@ -8,10 +8,10 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GENERAL' => 'Geral',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	
-);
+];

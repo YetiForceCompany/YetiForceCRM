@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Группу',
 	'LBL_ADD_USERS_ROLES' => 'Добавьте Пользователей, Роли, Группы ...',
 	'LBL_DUPLICATES_EXIST' => 'Такая группа уже существует',
@@ -24,9 +24,9 @@ $languageStrings = array(
 	'Roles' => 'Роли',
 	'Name' => 'Название Группы',
 	'Description' => 'Описание',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Пожалуйста, выберите одного члена Группы',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Группа удалена',
-);
+];

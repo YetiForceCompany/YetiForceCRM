@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_ADD_TO' => 'Dodaj do',
 	'LBL_EDIT_LIST_PRICE' => 'Edytuj cenny dla produktów/usług',
@@ -19,4 +19,4 @@ $languageStrings = array(
 	'PriceBook No' => 'Numer cennika',
 	'PriceBooks' => 'Cenniki',
 	'SINGLE_PriceBooks' => 'Cennik',
-);
+];

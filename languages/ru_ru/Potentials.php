@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Related To' => 'Контрагент',
 	'Potential Name' => 'Название',
 	'--None--' => '--Нет--', 
@@ -78,7 +78,7 @@ $languageStrings = array(
 	'LBL_GENERATED_OPPORTUNITIES_COMPLETED' => 'Создание сделки завершено',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
 	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

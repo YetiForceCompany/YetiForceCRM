@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Status' => 'Этап',
 	'End Time' => 'Время окончания',
 	'Duration Minutes' => 'Продолжительность в минутах',
@@ -88,8 +88,8 @@ $languageStrings = array(
 	'PLL_TRANSPARENT' => 'Доступен',
 	'Relation' => 'Связь',
 	'Process' => 'Процесс',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 
-);
+];

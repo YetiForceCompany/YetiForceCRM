@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess'	=>	'Редактор условий',
 	'LBL_NONE' => '--Нет--',
 	'Message' => 'Сообщение',
@@ -71,8 +71,8 @@ $languageStrings = array(
 	'LBL_BACKGROUND_COLOR' => 'Цвет фона',
 	'LBL_TEXT_COLOR' => 'Цвет текста',
 	'This name already exists' => 'Такое название уже существует',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'DataAccess'	=>	'Редактор условий',
-);
+];

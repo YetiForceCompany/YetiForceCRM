@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'HolidaysEntitlement' => 'Annual holiday entitlement',
 	'SINGLE_HolidaysEntitlement' => 'Annual holiday entitlement',
 	
@@ -21,4 +21,4 @@ $languageStrings = Array(
 	'LBL_DAYS' => 'Number of holidays',
 	'LBL_EMPLOYEE' => 'Employee',
 	'LBL_NUMBER' => 'Number',
-);
+];

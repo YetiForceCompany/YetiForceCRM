@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'csv' => 'CSV',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
@@ -80,4 +80,4 @@ $languageStrings = array(
 	'skipped' => 'Skipped Records',
 	'failed' => 'Failed Records',
 	
-);
+];

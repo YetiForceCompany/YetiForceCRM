@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Translate to Brazilian Portuguese - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CustomerPortal' => 'Portal do Cliente',
 	'LBL_PORTAL_DESCRIPTION' => 'Configurar Privilégios do Portal do Usuário',
 
@@ -25,8 +25,8 @@ $languageStrings = array(
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Os Tickets serão atribuídos ao Responsável selecionado como Usuário/Grupo padrão do Portal do Cliente.',
 	'LBL_PORTAL_URL_MESSAGE' => 'Esta é a URL do Portal onde seus Contatos poderão acessar para submeter/acompanhar os Tickets, acessar a Base de Conhecimento e muito mais. Os detalhes para acesso ao Portal do Cliente serão enviados assim que o acesso for habilitado no cadastro do Contato.',
 	'LBL_DRAG_AND_DROP_MESSAGE' => 'Arraste e solte os módulos para que sejam reordenados no Portal do Cliente',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PORTAL_INFO_SAVED' => 'As configurações do Portal do Cliente foram salvas',
-);
+];

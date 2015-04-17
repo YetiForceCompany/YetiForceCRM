@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSCosts' => 'Koszty',
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'LBL_SEND_EMAIL' => 'Wyślij maila',
@@ -898,9 +898,9 @@ $languageStrings = array(
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_HOLIDAY_TIME' => 'Urlop',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
 	'Generate default PDF' => 'Generuj domyślny PDF',
@@ -1062,4 +1062,4 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
 	'JS_SET_READ_RECORD' => 'Zapoznałeś się ze wszystkimi zmianami w rekordzie.',
 	'JS_CLEAR_HISTORY' => 'Usuń historię',
-);
+];

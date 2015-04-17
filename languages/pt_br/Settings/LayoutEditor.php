@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_FIELD_MASK' => 'Mascara Campo',
 	'Calendar' => 'Tarefa',
 	'Checkbox' => 'Caixa Seleção',
@@ -96,9 +96,9 @@ $languageStrings = array(
 	'PLL_DEPENDENTS_LIST' => 'Um para muitos',
 	'PLL_ADD' => 'Adicionar',
 	'PLL_SELECT' => 'Selecionar',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Nome do Bloco já existe',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Sequência Blocos Atualizada',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Ocultar Bloco habilitado',
@@ -123,4 +123,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Nova sequência de módulos relacionados foi salva',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Lista de campos foi atualizada',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'O campo não pode estar vazio',
-);
+];

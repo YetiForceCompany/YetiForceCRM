@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Account Name' => 'Organization Name',
 	'Account No' => 'Organization Number',
 	'Accounts' => 'Organizations',
@@ -84,11 +84,11 @@ $languageStrings = array(
 	'Approval for phone calls'=>'Permission to call',
 	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
 	'LBL_LEGAL_FORM' => 'Legal form',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Organization Name already Exists.Do you want to create a duplicate record?',
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Organization will remove its related Opportunities & Quotes. Are you sure you want to delete this Organization?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this Organization(s) will remove its related Opportunities & Quotes. Are you sure you want to delete the selected records?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
-);
+];

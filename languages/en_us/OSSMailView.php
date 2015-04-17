@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Corporate emails',
 	'SINGLE_OSSMailView' => 'Corporate email',
@@ -78,8 +78,8 @@ $languageStrings = array(
 	'Previous week' => 'Previous week',	
 	'Current month' => 'Current month',
 	'Previous month' => 'Previous month',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'From',
 	'To' => 'To',
 	'CC' => 'CC',
@@ -88,4 +88,4 @@ $jsLanguageStrings = array(
 	'Subject'=>'Subject',
 	'Content'=>'Content',
 	'JS_BIND_CONFIRM'=>'Are you sure you want to bind the selected messages?',
-);
+];

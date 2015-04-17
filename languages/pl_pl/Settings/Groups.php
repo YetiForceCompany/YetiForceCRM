@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj grupę',
 	'LBL_ADD_USERS_ROLES' => 'Dodaj użytkowników, grupy...',
 	'LBL_DUPLICATES_EXIST' => 'Nazwa grupy już istnieje',
@@ -24,9 +24,9 @@ $languageStrings = array(
 	'Roles' => 'Role',
 	'Name' => 'Nazwa',
 	'Description' => 'Opis',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Do grupy musisz przydzielić przynajmniej jednego członka',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Usunięcie grupy wykonano poprawnie',
-);
+];

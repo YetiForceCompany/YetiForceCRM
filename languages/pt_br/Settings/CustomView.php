@@ -1,6 +1,6 @@
 <?php
 
-$languageStrings = array(
+$languageStrings = [
 	'CustomView'	=> 'Visualização Customizada',
 	'LBL_MODULE_DESC'	=> 'Esta ferramenta permite configurar visualizações customizadas para os módulos. Estes módulos devem conter registros e utilizar filtros padrões do YetiForce CRM.',
 	'Module'	=> 'Módulo',
@@ -12,8 +12,8 @@ $languageStrings = array(
 	'Saving CustomView'	=> 'View has been saved',
 	'Actions'	=> 'Ações',
 	'Edit'	=> 'Editar',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes'	=> 'Savando as alterações...',
 	'Update labels'	=> 'Atualização',
-);
+];

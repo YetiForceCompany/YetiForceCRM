@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ConfReport' => 'Configuração do Servidor',
 	'LBL_CONFIGURATION' => 'Configuração do Servidor',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Permite verificar se as configurações do servidor principal são compatíveis com os parâmetros recomendados.',
@@ -26,4 +26,4 @@ $languageStrings = array(
 	'NOT RECOMMENDED' => 'Não Recomendado',
 	'LBL_YETIFORCE_ENGINE' => 'Motor YetiForce',
 	'LBL_CHECK_CONFIG' => 'Motor RoundCube',
-);
+];

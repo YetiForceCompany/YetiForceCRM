@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Activity Type'=>'Rodzaj zdarzenia',
 	'Call' => 'Telefon',
 	'Completed' => 'Wykonane',
@@ -119,9 +119,9 @@ $languageStrings = array(
 	'LBL_IMPORT_ICS_SUCCESS'=>'Dodano wpis do kalendarza',
 	'Relation' => 'Powiązanie',
 	'Process' => 'Proces',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Zmieniono kolor kalendarza',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć ten kalendarz?',
@@ -213,4 +213,4 @@ $jsLanguageStrings = array(
 	'JS_MORE' => 'więcej',
 	'Mobile Call' => 'Połączenie',
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
-);
+];

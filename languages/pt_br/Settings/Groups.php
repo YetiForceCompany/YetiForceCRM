@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar Grupo',
 	'LBL_ADD_USERS_ROLES' => 'Adicionar Usuários, Funções...',
 	'LBL_DUPLICATES_EXIST' => 'Nome do Grupo já Existe',
@@ -23,9 +23,9 @@ $languageStrings = array(
 	'Roles' => 'Funções',
 	'Name' => 'Nome Grupo',
 	'Description' => 'Descrição',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Por favor, selecione pelo menos um membro de um Grupo',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'O Grupo foi apagado com sucesso',
-);
+];

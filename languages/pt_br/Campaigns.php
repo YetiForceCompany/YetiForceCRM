@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 22/02/2015
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Complete' => 'Completo',
 	'Actual Cost'=> 'Custo Atual',
 	'Actual Response Count'=> 'Quantidade Resposta Atual',
@@ -56,4 +56,4 @@ $languageStrings = array(
 	'TargetSize' => 'Tamanho Alvo' ,
 	'Telemarketing' => 'Telemarketing',
 	'Webinar' => 'Webinar' ,
-);
+];

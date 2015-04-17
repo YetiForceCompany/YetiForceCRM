@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Complete' => 'Complete',
 	'Actual Cost' => 'Aktualny koszt kampanii',
 	'Actual Response Count' => 'Aktualna ilość odpowiedzi',
@@ -56,4 +56,4 @@ $languageStrings = array(
 	'TargetSize' => 'Rozmiar kampanii',
 	'Telemarketing'=>'Call center',
 	'Webinar'=>'Seminarium',
-);
+];

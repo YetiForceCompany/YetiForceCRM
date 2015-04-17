@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT' => 'Top Organizations',
 	'CVLVT' => 'Key Metrics',
 	'GRT' => 'My Group Allocation',
@@ -23,9 +23,9 @@ $languageStrings = array(
 	'PLVT' => 'Top Opportunities',
 	'QLTQ' => 'Top Quotes',
 	'UA' => 'Upcoming Activities',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_ALL_DAY' => 'All-Day',
 	'LBL_APR' => 'Apr',
 	'LBL_APRIL' => 'April',
@@ -69,4 +69,4 @@ $jsLanguageStrings = array(
 	'LBL_TUE' => 'Tue',
 	'LBL_WEDNESDAY' => 'Wednesday',
 	'LBL_WED' => 'Wed',
-);
+];

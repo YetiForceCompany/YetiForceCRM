@@ -9,7 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation valmir@ttcasolucoes.com.br
  *************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'ModTracker' => 'ModTracker',
 	'SINGLE_ModTracker' => 'Registro Módulo Rastreamento',
-);
+];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates'	=>	'Шаблоны Почты',
 	'Blank'	=>	'Шаблоны Почты',
 	'SINGLE_OSSMailTemplates'	=>	'Шаблоны Почты',
@@ -44,9 +44,9 @@ $languageStrings = array(
 	'LBL_LABEL'	=>	'Поле',
 	'ContactsPortalPass' => 'Пароль для доступа к Порталу',
 	'LinkToForgotPassword' => 'Восстановить пароль',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_NOTIF_PASS_COPIED'	=>	'Скопировано в буфер обмена',
 	'JS_NOTIF_PASS_TITLE'	=>	'Сообщение',
 
-);
+];

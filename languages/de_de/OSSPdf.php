@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 
 	'LBL_ADD_RECORD' => 'PDF hinzufügen',
 	'LBL_RECORDS_LIST' => 'Liste PDF',
@@ -468,9 +468,9 @@ $languageStrings = Array(
     'Document summary: show tax amount :' => 'Document summary: show tax amount :',
     'Show document summary :' => 'Show document summary :',
 	'LBL_SELECT_OPTION' => 'Option wählen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'In die Zwischenablage kopiert',
     'LBL_NotifPassTitle' => 'Text',
@@ -547,5 +547,5 @@ $jsLanguageStrings = array(
     'Current date (mm/dd/yyyy)' => 'Aktuelles Datum (mm/tt/jjjj)',
     'Current date (yyyy/mm/dd)' => 'Aktuelles Datum (jjjj/mm/tt)',
         //
-);
+];
 ?>

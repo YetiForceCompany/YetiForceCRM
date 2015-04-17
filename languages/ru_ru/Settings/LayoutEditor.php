@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_FIELD_MASK' => 'Маска поля',
 	'LBL_SELECT_MODULE_TO_ADD'	=>	'Выберите модуль',
 	'LBL_ADD_MODULE_INFO'	=>	'Выберите модуль из удаленных модулей, чтобы добавить его к списку',
@@ -101,9 +101,9 @@ $languageStrings = array(
 	'PLL_DEPENDENTS_LIST' => 'Один ко многим',
 	'PLL_ADD' => 'Добавление',
 	'PLL_SELECT' => 'Выбор',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Блок с таким именем уже существует',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Последовательность блоков обновлена',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Отображение блока выключено',
@@ -128,4 +128,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Последовательность сохранена',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Список полей обновлен',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Поле не может быть пустым',
-);
+];

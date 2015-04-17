@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets' => 'Bestandsverwaltung',
 	'SINGLE_Assets' => 'Bestand',
@@ -45,4 +45,4 @@ $languageStrings = array(
 	'Potential renewal'=>'Verkaufschance verlängern',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME'=>'Bestellzeit',
-);
+];

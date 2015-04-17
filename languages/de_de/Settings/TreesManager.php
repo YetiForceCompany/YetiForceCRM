@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Hinzufügen',
 	'TreesManager' => 'Baumstruktur Verwaltung',
 	'LBL_TREES_MANAGER' => 'Baumstruktur Verwaltung',
@@ -22,8 +22,8 @@ $languageStrings = array(
 	'LBL_ADD_TO_TREES' => 'Hinzufügen',
 	'LBL_SAVE' => 'Speichern',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',
 	'JS_JSTREE_CREATE' => 'Hinzufügen',
 	'JS_JSTREE_RENAME' => 'Name ändern',
@@ -36,4 +36,4 @@ $jsLanguageStrings = array(
 	'JS_NO_ITEM_SELECTED' => 'Kein Eintrag gewählt',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Es können nicht alle Einträge gelöscht werden',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Der Haupteintrag kann nicht gelöscht werden',
-);
+];

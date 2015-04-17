@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/09/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar Pedido Compra',
 	'LBL_BALANCE' => 'Saldo',
 	'LBL_COPY_BILLING_ADDRESS' => 'Copiar Endereço Faturamento',
@@ -29,8 +29,8 @@ $languageStrings = array(
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') foi removido do Sistema. Tente substitui-lo por um Produto/Serviço diferente.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produto/Serviço foi removido do Sistema. Remova-o do registro.',
 	'LBL_THIS' => 'Produto/Serviço (',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Por favor, remova o item da linha que foi excluído',
-);
+];

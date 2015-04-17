@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'ModTracker' => 'ModTracker',
 	'SINGLE_ModTracker' => 'ModTracker Record',
-);
+];

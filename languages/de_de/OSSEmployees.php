@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'OSSEmployees'	=>	'Mitarbeiter',
 	'SINGLE_OSSEmployees'	=>	'Mitarbeiter',
 	'LBL_INFORMATION' => 'Mitarbeiterdetails',
@@ -62,4 +62,4 @@ $languageStrings = array(
 	'Brak danych'	=>	'Keine Daten',
 
 	'LBL_DAYWORKSUM'	=>	'Arbeitszeit',
-);
+];

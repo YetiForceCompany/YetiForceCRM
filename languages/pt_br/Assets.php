@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 22/02/2015
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets'        => 'Ativos',
 	'SINGLE_Assets' => 'Ativo',
@@ -46,4 +46,4 @@ $languageStrings = array(
 	'Potential renewal'=>'Renovação Oportunidade',
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'LBL_ORDER_TIME'=>'Hora Pedido',
-);
+];

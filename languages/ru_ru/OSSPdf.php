@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_NAME_OF_MATERIAL_THE_PRODUCT_PACKAGING' => 'Материал упаковки',
 	'Content' => 'Содержание',
 	'siteUrl'	=>	'Ссылка',
@@ -399,9 +399,9 @@ $languageStrings = array(
 	'Document summary: show tax amount :'	=>	'Итог: Сумма с НДС',
 	'Show document summary :'	=>	'Показать ИТОГ',
 	'LBL_SELECT_OPTION'	=>	'-- Выбрать --',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Current date (yyyy/mm/dd)' => 'Текущая дата (гггг/мм/дд)',
 	'Current date (mm/dd/yyyy)' => 'Текущая дата (мм/дд/гггг)',
 	'Current date (dd/mm/yyyy)' => 'Текущая дата (дд/мм/гггг)',
@@ -478,4 +478,4 @@ $jsLanguageStrings = array(
 	'Current date (dd-mm-yyyy)'	=>	'Текущая дата (дд-мм-гггг)',
 	'Current date (mm-dd-yyyy)'	=>	'Текущая дата (мм-дд-гггг)',
 	'Current date (yyyy-mm-dd)'	=>	'Текущая дата (гггг-мм-дд)',
-);
+];

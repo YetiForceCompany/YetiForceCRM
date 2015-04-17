@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'QuotesEnquires' => 'Quotes enquires',
 	'SINGLE_QuotesEnquires' => 'Quotes enquires',
 	
@@ -45,4 +45,4 @@ $languageStrings = Array(
 	'PLL_COMPETENT_TEAM' => 'Competent team',
 	'PLL_EASE_OF_COMMUNICATION' => 'Easy communication',
 	'PLL_RECOMMENDABLE' => 'Recommendable',
-);
+];

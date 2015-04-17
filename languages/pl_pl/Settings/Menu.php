@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MENU_BUILDER' => 'Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Panel do tworzenia i zarządzania wyglądem menu',
 	'LBL_DEFAULT_MENU' => 'Domyślne menu',
@@ -57,10 +57,10 @@ $languageStrings = array(
 	'LBL_REMOVE_DESC' => 'Wybrana pozycja zawiera podmenu, usuwając to menu usuwasz również wszystkie zawarte w niej pozycje podmenu.',
 	'LBL_REMOVE' => 'Usuń',
 	'LBL_CANCEL' => 'Anuluj',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_EDIT' => 'Edytuj',
 	'JS_REMOVE' => 'Usuń',
 	'JS_NO_DATA' => 'Brak menu',
 	'JS_TEST_HOTKEY_OK' => 'Skrót działa poprawnie.',
-);
+];

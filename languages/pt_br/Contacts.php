@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Member Of' => 'Membro de',
 	'Birthdate'=> 'Aniversário',
 	'Contact Id' => 'No. Contato',
@@ -63,7 +63,7 @@ $languageStrings = array(
 	'Birthdays of contacts' => 'Aniversários Contatos',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Fornecedor',
-);
+];
 
-$jsLanguageStrings = array(
- );
+$jsLanguageStrings = [
+ ];

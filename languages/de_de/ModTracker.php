@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'ModTracker' => 'ModTracker',
 	'SINGLE_ModTracker' => 'ModTracker Datensatz',
-);
+];

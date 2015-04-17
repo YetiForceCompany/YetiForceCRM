@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Calendar' => 'Do wykonania',
 	'Checkbox' => 'Pole zaznaczenia',
 	'Currency'=>'Pole walutowe',
@@ -97,9 +97,9 @@ $languageStrings = array(
 	'PLL_DEPENDENTS_LIST' => 'Jeden do wielu',
 	'PLL_ADD' => 'Tworzenie',
 	'PLL_SELECT' => 'Wybieranie',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Nazwa bloku już istnieje',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Kolejność bloków została zaktualizowana',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Ukrycie bloku włączone',
@@ -124,4 +124,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Zapisano nowy układ modułów powiązanych',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Zaktualizowano listę pól',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Pole nie może być puste',
-);
+];

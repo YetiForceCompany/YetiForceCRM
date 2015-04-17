@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'Moja poczta',
     'OSSMail_manual' => 'Moduł pocztowy',
     'DELETE' => 'Usuwanie modułu',
@@ -83,9 +83,9 @@ $languageStrings = array(
 	'LBL_SAVE' => 'Zapisz konfigurację',
 	'Mails List' => 'Najnowsze maile',
 	'LBL_NOMAILSLIST' => 'Brak wiadomości mail',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Sale' => 'Sprzedaż',
     'Calendar' => 'Kalendarz',
     'Service' => 'Serwis',
@@ -176,4 +176,4 @@ $jsLanguageStrings = array(
 	'NoCrmRecord' => 'Nie znaleziono wiadomości. Sprawdz czy akcje są włączone.',
 	'NoFindEmailInRecord' => 'Rekord nie posiada adresu email',
 	'AddFindEmailInRecord' => 'Pobrano email',
-);
+];

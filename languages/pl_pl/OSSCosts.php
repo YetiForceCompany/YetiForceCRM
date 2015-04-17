@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSCosts'        => 'Koszty',
 	'SINGLE_OSSCosts' => 'Koszt',
@@ -54,4 +54,4 @@ $languageStrings = array(
 	'Alert_desc' => 'Wszystkie poniższe opcje modyfikują pliki systemowe. Przed nadpisaniem pliku jest robiona jego kopia zapasowa i po odznaczeniu zostają przewrócone oryginalne pliki.',
 	'Module configuration' => 'Konfiguracja modułu',
 	'JS_save_config_info' => 'Zapisano konfigurację',
-);
+];

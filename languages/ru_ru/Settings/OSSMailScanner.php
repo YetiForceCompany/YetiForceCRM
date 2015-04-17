@@ -8,13 +8,13 @@
  *  Website				: www.opensaas.pl
    * VERSION YetiForceCRM: 1.1.0 RC
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
 	'Mail Scanner' => 'Настройка почты',
 	'OSSMailScanner' => 'Настройка почты',
 	'OSSMailScanner_manual' => 'Настройка почты',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'start_cron'	=>	'Планировщик запущен',
 	'end_cron_ok'	=>	'Планировщик завершил работу',
 	'end_cron_error'	=>	'Планировщик завершил работу с ошибкой',
@@ -27,6 +27,6 @@ $jsLanguageStrings = array(
 	'In progress'	=>	'В процессе',
 	'whether_remove_an_identity'	=>	'Следует ли удалять удостоверение',
 	'removed_identity'	=>	'Удостоверение удалено',
-);
+];
 
 

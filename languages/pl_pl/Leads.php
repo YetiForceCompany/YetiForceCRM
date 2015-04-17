@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Attempted to Contact'=>'Zakwalifikowany do kontaktu',
 	'CANNOT_CONVERT' => 'Nie można wykonać konwertowania',
 	'Cold'=>'Zimny',
@@ -107,10 +107,10 @@ $languageStrings = array(
     "Attorney General's Office" => 'Prokuratura',
 	'LBL_RELATION' => 'Relacja',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Zaznacz kontakt w celu kontynuowania',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Konwertowanie wymaga zaznaczenia kontaktu lub kontrahenta',
 	'JS_SELECT_ORGANIZATION' => 'Zaznacz kontrahenta w celu kontynuowania',
-);
+];

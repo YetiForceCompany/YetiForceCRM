@@ -10,7 +10,7 @@
 
  /* NOTE: Should be inline with Calendar language translation but few variations */
 
-$languageStrings = array(
+$languageStrings = [
 	'Low'	=>	'Niedrig',
 	'Medium'	=>	'Medium',
 	'High'	=>	'Hoch',
@@ -90,4 +90,4 @@ $languageStrings = array(
 	'End Time' => 'Endet um',
 	'Relation' => 'Beziehung',
 	'Process' => 'Prozess',
-);
+];

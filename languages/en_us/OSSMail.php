@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'My mailbox',
     'OSSMail_manual' => 'Mail module',
     'DELETE' => 'Removal of module',
@@ -84,9 +84,9 @@ $languageStrings = array(
 	'LBL_SAVE' => 'Save configuration',    
 	'Mails List' => 'Most recent emails',
 	'LBL_NOMAILSLIST' => 'No messages mail',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Sale' => 'Sale',
     'Calendar' => 'Calendar',
     'Service' => 'Service',
@@ -178,4 +178,4 @@ $jsLanguageStrings = array(
 	'NoCrmRecord' => 'No messages found. Check if actions are enabled.',
 	'NoFindEmailInRecord' => 'Record does not have email address',
 	'AddFindEmailInRecord' => 'Downloaded email',
-);
+];

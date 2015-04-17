@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Type of document' => 'Тип документа',
 	// Basic Strings
 	'LettersOut' => 'Исходящая корреспонденция',
@@ -68,4 +68,4 @@ $languageStrings = array(
 	'PLL_SETTLED' => 'Решение',
 	'PLL_A' => 'А',
 	'PLL_B' => 'Б',
-);
+];

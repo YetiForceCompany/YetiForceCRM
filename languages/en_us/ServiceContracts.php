@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => 'Working time summary',
 	// Basic Strings
 	'ServiceContracts' => 'Service Contracts',
@@ -54,4 +54,4 @@ $languageStrings = array(
 	'Days' => 'Days',
 	'Incidents' => 'Incidents',
 	'Services' => 'Services',
-);
+];

@@ -8,9 +8,9 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$mod_strings = Array (
+$mod_strings = [
 'WSAPP' => 'WSAPP',
 
-);
+];
 
 ?>

@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT' => 'Principais Organizações',
 	'CVLVT' => 'Métricas Chave',
 	'GRT' => 'Meus Grupos',
@@ -23,9 +23,9 @@ $languageStrings = array(
 	'PLVT' => 'Principais Oportunidades',
 	'QLTQ' => 'Principais Cotações',
 	'UA' => 'Atividades Programadas',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_DAY' => 'Todos os Dias',
 	'JS_APR' => 'Abr',
 	'JS_APRIL' => 'Abril',
@@ -70,4 +70,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Qua',
 	'JS_WEEK' => 'Semana',
 	'JS_MORE' => 'Mais',
-);
+];

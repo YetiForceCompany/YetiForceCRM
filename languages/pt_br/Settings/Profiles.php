@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation  - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_PRIVILEGE' => 'Visualizar',
 	'LBL_ADD_RECORD' => 'Adicionar Perfil',
 	'LBL_CHOOSE_PROFILES' => 'Escolher Perfis',
@@ -61,7 +61,7 @@ $languageStrings = array(
 	'MassSendSMS' => 'SMS',
 	'MassTransferOwnership' => 'Transferir propriedade',
 	'MassMoveDocuments' => 'Mover Documentos',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Perfil excluído com Sucesso',
-);
+];

@@ -9,6 +9,6 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$mod_strings = Array (
+$mod_strings = [
 'Mobile' => 'Мобильная версия',
-);
+];

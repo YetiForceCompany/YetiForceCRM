@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Total time [Project]' => 'Общее время (Проекты)',
 	'Total time [Project Task]' => 'Общее время (Проектные задачи)',
 	'Total time [Sum]' => 'Общее время',
@@ -51,4 +51,4 @@ $languageStrings = array(
     'Migration'                    => 'Миграция',
     'Support'                      => 'Поддержка',
     'Training'                     => 'Тренинг',
-);
+];

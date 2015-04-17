@@ -1,12 +1,12 @@
 <?php
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailScanner_manual' => 'Escaner Mensagens',
 	'OSSMailScanner' => 'Escaner Mensagem',
 	'Mail Scanner' => 'Escaner Mensagem',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'start_cron' => 'Cron iniciado',
     'end_cron_ok' => 'As tarefas do Cron foram finalizadas com sucesso',
     'end_cron_error' => 'Ocorreu um erro enquanto o Cron estava sendo executado',
@@ -19,4 +19,4 @@ $jsLanguageStrings = array(
     'In progress' => 'Em andamento',
     'whether_remove_an_identity' => 'Quer remover uma identidade',
     'removed_identity' => 'Identidade apagada',
-);
+];

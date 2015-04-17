@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Invoice number' => 'Invoice No.',
 	'OSSSoldServices' => 'Usługi sprzedane',
 	'SINGLE_OSSSoldServices' => 'Usługa sprzedana',
@@ -39,5 +39,5 @@ $languageStrings = array(
 	'Services' => 'Nazwa usługi',
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
-);
+];
 ?>

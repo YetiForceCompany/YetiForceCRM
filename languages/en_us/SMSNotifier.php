@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'providertype' => 'Provider',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 characters allowed',
 	'LBL_SEREVER_CONFIG' => 'New Configuration',
@@ -32,4 +32,4 @@ $languageStrings = array(
 	//Blocks
 	'LBL_SMSNOTIFIER_INFORMATION' => 'SMS Information',
 	'SINGLE_SMSNotifier' => 'SMS Notifier',
-);
+];

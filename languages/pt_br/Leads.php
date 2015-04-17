@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Orders accepted' => 'Pedidos aceitos',
 	'Attempted to Contact' => 'Tentativa Contato' ,
 	'CANNOT_CONVERT' => 'Não pode ser Convertido',
@@ -106,10 +106,10 @@ $languageStrings = array(
     "Attorney General's Office" => "Escritório da Procuradoria Geral",
 	'LBL_RELATION' => 'Relação',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Selecionar Contatos para prosseguir',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'A conversão requer seleção do Contato ou Organização',
 	'JS_SELECT_ORGANIZATION' => 'Selecionar Organização para prosseguir',
-);
+];

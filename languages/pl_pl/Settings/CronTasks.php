@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwośc dla wysyłanych Przypomnień to 15 minut',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Zalecana częstotliwośc dla Cylkicznej Faktury to 12 godzin',
@@ -31,10 +31,10 @@ $languageStrings = array(
 	'MODULE' => 'Moduł',
 	'LBL_NAME' => 'Nazwa',
 	'LBL_PATH_TO_FILE' => 'Ścieżka do pliku'
-);
+];
 
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
 	'Recommended frequency for SendReminder is 15 mins' => 'Zalecana częstotliwośc dla wysyłanych Przypomnień to 15 minut.',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Zalecana częstotliwośc dla Cylkicznej Faktury to 12 godzin.',
@@ -44,4 +44,4 @@ $jsLanguageStrings = array(
 	'FREQUENCY_REQUIRED' => 'Pole częstotliwość jest wymagane',
 	'PATH_REQUIRED' => 'Pole ścieżka jest wymagane',
 	'NAME_REQUIRED' => 'Pole nazwa jest wymagane'
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'HolidaysEntitlement' => 'Urlaubsanspruch',
 	'SINGLE_HolidaysEntitlement' => 'Urlaubsanspruch',
 	'LBL_ADD_RECORD' => 'Urlaubsanspruch hinzufügen',
@@ -24,4 +24,4 @@ $languageStrings = Array(
 	'LBL_EMPLOYEE' => 'Mitarbeiter',
 	'LBL_NUMBER' => 'Nummer',
 	
-);
+];

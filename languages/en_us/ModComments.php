@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ModComments' => 'Comment',
 	'LBL_RECORDS_LIST' => 'Comments List',
@@ -25,4 +25,4 @@ $languageStrings = array(
 	'Creator' => 'Creator',
 	'Related To Comments' => 'Related To',
 	
-);
+];

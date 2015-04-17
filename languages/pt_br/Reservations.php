@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'SINGLE_Reservations' => 'Reserva',
 	'Reservations' => 'Reservas',
 	'LBL_MAIN_INFORMATION' => 'Detalhes Reserva',
@@ -33,8 +33,8 @@ $languageStrings = array(
 	'LBL_MEETING_ROOMS' => 'Sala Reunião',
 	'LBL_EQUIPMENT' => 'Equipamento',
 	'LBL_CARS' => 'Carros',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final deve ser mair que a Data Inicial',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O número de horas deve ser menor que 24h',
@@ -85,4 +85,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Qua.',
 	'JS_WEEK' => 'Semana',
 	'JS_MORE' => 'Mais',
-);
+];

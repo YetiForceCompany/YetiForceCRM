@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PUBLICHOLIDAY_CONFIGURATION_DESCRIPTION' => 'Изменяйте и редактируйте Прздники',
 	'Public Holidays' => 'Праздники',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Управление настройками Календаря',
@@ -315,9 +315,9 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Настройка процессов продаж',
 	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
 	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LangManagement'	=>	'Редактор языков',
 	'JS_ANNOUNCEMENT_SAVED' => 'Оповещение сохранено',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Конфигурация сохранена',
@@ -340,4 +340,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'Не поддерживаемый формат изображения',
 	'JS_COLUMN_ADDED' => 'Поле успешно добавлено',
 	'JS_COLUMN_EXIST' => 'Ошибка добавления поля',
-);
+];

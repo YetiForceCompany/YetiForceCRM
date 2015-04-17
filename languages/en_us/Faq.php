@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer'=>'Answer',
 	'Comments'=>'Comments',
 	'Draft'=>'Draft',
@@ -24,4 +24,4 @@ $languageStrings = array(
 	'Published'=>'Published',
 	'Question'=>'Question',
 	'SINGLE_Faq' => 'FAQ',
-);
+];

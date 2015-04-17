@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
 	'LBL_STATUS_CLOSED' => 'Geschlossen',
 	'Big Problem' => 'grosses Problem',
@@ -103,4 +103,4 @@ $languageStrings = array(
 	'LBL_NOTICE_MODIFICATION'	=>	'Veränderung',
 	'LBL_NOTICE_CLOSE'	=>	'Geschlossen',
 	'LBL_NOTICE_FOOTER'	=>	'Wenn Sie keine Mitteilungen von unserem Projekt-Management-System erhalten möchten, informieren Sie uns bitte per E-Mail. Wenn Sie nicht zu den Adressaten dieser Nachricht gehören, informieren Sie uns bitte darüber und löschen die Nachricht.',
-);
+];

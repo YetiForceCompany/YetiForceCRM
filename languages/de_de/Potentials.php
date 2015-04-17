@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Potential Name' => 'Name',
 	'LBL_GENERATING_COMMENT' => 'Chance aus der folgenden generiert:',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => '%s Verkaufschancen generiert ',
@@ -83,4 +83,4 @@ $languageStrings = array(
 	'Total price [Quotes]' => 'Gesamtwert der Angebote',
 	'Total price [Sales Order]' => 'Gesamtwert der Aufträge',
 	'Total price [Invoice]' => 'Gesamtwert der Rechnungen',
-);
+];

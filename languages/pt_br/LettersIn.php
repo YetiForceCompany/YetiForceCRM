@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'LettersIn'						=> 'Cartas recebidas',
 	'SINGLE_LettersIn'				=> 'Cartas recebidas',
@@ -68,4 +68,4 @@ $languageStrings = array(
 	'PLL_SETTLED'					=> 'Liquidada',
 	'PLL_A'							=> 'A',
 	'PLL_B'							=> 'B',
-);
+];

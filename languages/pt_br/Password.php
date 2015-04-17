@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Password' => 'Configuração Senha',
 	'LBL_PASSWORD_DESCRIPTION' => 'Definir a complexidade da senha para os Usuários do software',
 	'LBL_Password_Header' => 'Os parâmetros determinam a complexidade da senha',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_ERROR' => 'Erro ao salvar o arquivo',
 	'LBL_SAVE_OK' => 'Os dados foram salvos',
 	'characters' => 'caracteres',
-);
+];

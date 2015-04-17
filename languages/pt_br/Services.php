@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CRM Applications' => 'Aplicações CRM',
 	'Software' => 'Software',
 	'Hardware' => 'Hardware',
@@ -61,4 +61,4 @@ $languageStrings = array(
 	'Migration' => 'Migração',
 	'Customization' => 'Customização',
 	'Training' => 'Treinamento',
-);
+];

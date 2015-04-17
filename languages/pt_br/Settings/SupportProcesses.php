@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUPPORT_PROCESSES' => 'Processos de Suporte',
 	'LBL_GENERAL_CONFIGURATION' => 'Configuração Geral',
 	'LBL_OTHER' => 'Outro',
@@ -18,8 +18,8 @@ $languageStrings = array(
 	'LBL_SAVE_CONFIG_OK' => 'As mudanças foram salvas',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'As mudanças foram salvas.',
 	
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	
-);
+];

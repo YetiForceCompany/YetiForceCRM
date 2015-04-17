@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_DATAACCES' => 'Редактор условий',
 	'LBL_DATAACCESS' => 'Редактор условий',
 	'DataAccess' => 'Редактор условий',
@@ -79,9 +79,9 @@ $languageStrings = array(
 	'Check for duplicate names' => 'Проверка на наличие дубликатов',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Проверка, все ли поля заполнены в форме Быстрого создания',
 	'Lock edit on the status' => 'Блокировка изменения статуса',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'DES_REQUIRED' => 'Требуется описание',
 
 	//comparators
@@ -112,4 +112,4 @@ $jsLanguageStrings = array(
 	'more than hours before'	=>	'более часа до',
 	'more than hours later'	=>	'более часа после',
 	'has changed'	=>	'изменено',
-);
+];

@@ -75,9 +75,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 			}
 			$fileContent = file_get_contents($fileName);
 			if($params['type'] == 'php'){
-				$to_replase = '$languageStrings = array(';
+				$to_replase = '$languageStrings = [';
 			}else{
-				$to_replase = '$jsLanguageStrings = array(';
+				$to_replase = '$jsLanguageStrings = [';
 			}
 			$new_translation = "'$langkey' => '$val',";
 			if(self::parse_data($to_replase,$fileContent)){
@@ -86,7 +86,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model 
 				if(self::parse_data('?>',$fileContent)){
 					$fileContent = str_replace('?>','',$fileContent);
 				}
-				$fileContent = $fileContent.PHP_EOL.$to_replase.PHP_EOL.'	'.$new_translation.PHP_EOL.');';
+				$fileContent = $fileContent.PHP_EOL.$to_replase.PHP_EOL.'	'.$new_translation.PHP_EOL.'];';
 			}
 		}else{
 			$fileContent = '<?php'.PHP_EOL;

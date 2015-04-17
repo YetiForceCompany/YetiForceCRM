@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Updates'	=>	'Обновление',
 	'LBL_YES'	=>	'Да',
 	'LBL_NO'	=>	'Нет',
@@ -20,4 +20,4 @@ $languageStrings = array(
 	'LBL_RESULT'	=>	'Статус',
 	'LBL_UPDATES'	=>	'Обновления',
 	'LBL_UPDATES_DESCRIPTION'	=>	'История обновлений',
-);
+];

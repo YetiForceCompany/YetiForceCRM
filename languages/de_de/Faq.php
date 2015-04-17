@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer'                       => 'Antwort'                     , 
 	'Comments'                     => 'Kommentare'                  , 
 	'Draft'                        => 'Entwurf'                     , 
@@ -23,4 +23,4 @@ $languageStrings = array(
 	'Published'                    => 'veröffentlicht'             , 
 	'Question'                     => 'Frage'                       , 
 	'SINGLE_Faq'                   => 'Wissensbasis'                , 
-);
+];

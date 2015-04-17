@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PROS' => 'Преимущества',
 	'LBL_CONS' => 'Недостатки',
 	'LBL_IN_PREPARATION' => 'Подготовка',
@@ -82,4 +82,4 @@ $languageStrings = array(
 	'LBL_THIS'	=>	'Товар или Услуга (',
 	'Conversion Rate' => 'Обменный курс',
 	'Currency' => 'Валюта',
-);
+];

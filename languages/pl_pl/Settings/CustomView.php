@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CustomView'	=> 'Widoki',
 	'LBL_MODULE_DESC'	=> 'Narzedzie pozwala na zarządzania filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
 	'Module'	=> 'Moduł',
@@ -20,8 +20,8 @@ $languageStrings = array(
 	'Saving CustomView'	=> 'Widok został zapisany',
 	'Actions'	=> 'Akcje',
 	'Edit'	=> 'Edycja',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes'	=> 'Trwa aktualizacja w systemie...',
 	'Update labels'	=> 'Aktualizuj',
-);
+];

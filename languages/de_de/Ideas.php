@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'Ideas' => 'Ideen',
 	'SINGLE_Ideas' => 'Idee',
 	
@@ -26,4 +26,4 @@ $languageStrings = Array(
 	//pick list values
 	'Draft' => 'Entwurf',
 	'Proposition' => 'Vorschlag',
-);
+];

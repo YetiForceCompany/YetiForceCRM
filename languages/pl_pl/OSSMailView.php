@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Maile',
 	'SINGLE_OSSMailView' => 'Mail firmowy',
@@ -78,8 +78,8 @@ $languageStrings = array(
 	'Current month' => 'Aktualny miesiąc',
 	'Previous month' => 'Poprzedni miesiąc',
 	
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'Od',
 	'To' => 'Do',
 	'CC' => 'DW',
@@ -88,4 +88,4 @@ $jsLanguageStrings = array(
 	'Subject'=>'Temat',
 	'Content'=>'Treść',
 	'JS_BIND_CONFIRM'=>'Czy na pewno chcesz powiązać zaznaczone wiadomości ?',
-);
+];

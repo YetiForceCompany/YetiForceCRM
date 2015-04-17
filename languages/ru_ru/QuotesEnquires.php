@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_WAS_READ' => 'Обновлено',
 	'LBL_CLOSED_TIME' => 'Время закрытия',
 	'QuotesEnquires' => 'Запрос Предложения',
@@ -47,4 +47,4 @@ $languageStrings = array(
 	'PLL_COMPETENT_TEAM' => 'Компетентная команда',
 	'PLL_EASE_OF_COMMUNICATION' => 'Легкое общение',
 	'PLL_RECOMMENDABLE' => 'Рекоммендовано',
-);
+];

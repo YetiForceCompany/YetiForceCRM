@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OutsourcedProducts'        => 'Produkty obce',
 	'SINGLE_OutsourcedProducts' => 'Produkt obcy',
@@ -40,4 +40,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 	'Active' => 'Aktywny',
 	'Inactive' => 'Nieaktywny',
-);
+];

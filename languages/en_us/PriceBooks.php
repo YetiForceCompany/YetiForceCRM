@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_TO' => 'Add to',
 	'LBL_EDIT_LIST_PRICE' => 'Edit List Price',
@@ -19,4 +19,4 @@ $languageStrings = array(
 	'PriceBook No' => 'Price Book Number',
 	'PriceBooks' => 'Price Books',
 	'SINGLE_PriceBooks' => 'Price Book',
-);
+];

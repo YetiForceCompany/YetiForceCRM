@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Attachment' => 'Вложения',
 	'Activtiy Type' => 'Тип',
 	'To' => 'Кому',
@@ -49,7 +49,7 @@ $languageStrings = array(
 	'Parent ID' => 'Связан с',
 	'SINGLE_Emails'                => 'Почта'                  , 
 	'Time Start'                   => 'Время начала',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_FIELD_MASK' => 'Feld Maske',
 	'Calendar' => 'Kalender',
 	'Checkbox' => 'Kontrollkästchen',
@@ -100,9 +100,9 @@ $languageStrings = array(
 	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
 	'PLL_ADD' => 'Hinzufügen',
 	'PLL_SELECT' => 'Auswählen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Block Name existiert bereits',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Block Reihenfolge aktualisiert',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Block ausblenden aktiviert',
@@ -127,5 +127,5 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'Neue Reihenfolge von verbundenen Modulen wurde gespeichert',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Liste der Felder wurde aktualisiert',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Feld darf nicht leer sein',
-);
+];
 

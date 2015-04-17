@@ -8,7 +8,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Selected Values' => 'Valores Selecionados',
 	'LBL_ADD_RECORD' => 'Adicionar Dependência Lista de Opções',
 	'PickListDependency' => 'Dependência Lista Opções',
@@ -28,13 +28,13 @@ $languageStrings = array(
 	'Module' => 'Módulo',
 	'Source Field' => 'Campo Fonte',
 	'Target Field' => 'Campo Alvo',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
         'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Você precisa selecionar pelo menos um valor para',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dependencia apagada com Sucesso',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Tem certeza que deseja apagar esta dependência de Lista de Opções?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Dependência de Lista de Opções Salva',
 	'JS_SELECT_SOME_VALUE' => 'Selecionar algum valor',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Os campos Fonte e Alvo não devem ser os mesmos',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SETUP_WEBFORMS' => 'Ustawienia formularzy internetowych',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
 	'Big Problem'=>'Duży problem',
@@ -101,4 +101,4 @@ $languageStrings = array(
 	'LBL_NOTICE_MODIFICATION'=>'Modyfikacja',
 	'LBL_NOTICE_CLOSE'=>'Zamknięto',
 	'LBL_NOTICE_FOOTER'=>'Jeżeli nie chcesz otrzymywać powiadomień z naszego systemu do zarządzania projektów, poinformuj nas o tym wysyłając nam wiadomość na adres <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Jeżeli nie jesteś adresatem tej wiadomości poinformuj nas o tym i usuń tą wiadomość.',
-);
+];

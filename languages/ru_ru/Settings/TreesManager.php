@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить Каталог',
 	'TreesManager'	=>	'Менеджер Каталогов',
 	'LBL_TREES_MANAGER'	=>	'Менеджер Каталогов',
@@ -22,8 +22,8 @@ $languageStrings = array(
 	'LBL_ADD_TO_TREES'	=>	'Добавить',
 	'LBL_SAVE'	=>	'Сохранить',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Изменить Каталог:',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY'	=>	'Шаблон Каталога успешно удален',
 	'JS_JSTREE_CREATE'	=>	'Добавить',
 	'JS_JSTREE_RENAME'	=>	'Переименовать',
@@ -36,4 +36,4 @@ $jsLanguageStrings = array(
 	'JS_NO_ITEM_SELECTED' => 'Ничего не выбрано',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Вы не можете удалить все',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Вы не можете удалять родителя',
-);
+];

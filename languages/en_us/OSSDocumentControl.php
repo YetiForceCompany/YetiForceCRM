@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add Conditions',
     'LBL_NEW_TPL' => 'Add a new document',
 	'OSSDocumentControl' => 'Document Control',
@@ -43,7 +43,7 @@ $languageStrings = array(
     
     'NOT_ALLOW_TO_SAVE' => 'You cannot save the record because the required documents are not attached',
     'LIST_REQ_DOC' => 'Please attach the following documents',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add Conditions',
-);
+];

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Sharing Rules' => 'Freigaberegeln',
 	'SharingAccess' => 'Freigaberegeln',
 	'Accounts' => 'Organisationen & Kontakte',
@@ -36,11 +36,11 @@ $languageStrings = array(
 	'RoleAndSubordinates' => 'Rolle und Untergeordnete',
 	'Roles' => 'Rollen',
 	'Groups' => 'Gruppen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Individuelle Freigaberegel erfolgreich gespeichert',
 	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Verkaufspotentiale-, Tickets-, Angebote-, Auftrags- und Rechnungszugriff muss Privat sein, wenn der Organisationszugriff Privat ist',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'Neue Freigaberegeln erfolgreich angewendet',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Einen anderen zugriffsberechtigten Benutzer wählen',
-);
+];

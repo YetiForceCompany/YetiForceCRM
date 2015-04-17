@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSOutsourcedServices' => 'Outsourced Services',
 	'SINGLE_OSSOutsourcedServices' => 'Outsourced Service',
 	'LBL_INFORMATION' => 'Information Block',
@@ -35,4 +35,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'Active' => 'Active',
 	'Inactive' => 'Inactive',
-);
+];

@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation -valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PRIMARY_MODULE' => 'Módulo Principal',
 	'Report Name' => 'Nome do Relatório',
 	'Reports'=>'Relatórios',
@@ -115,10 +115,10 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Este é um email gerado automaticamente e enviado em função de um relatório agendado.',
 	'LBL_PIVOT_REPORT' => 'Relatório Pivot',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitação: os campos do Item da linha (Lista de Preço, Desconto & Quantidade) somente podem ser utilizados quando outros campos de cálculo não forem selecionados.',
 	'JS_DUPLICATE_RECORD' => 'Duplicar Relatório',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Dados não disponíveis, por favor, verifique os campos selecionados',
-);
+];

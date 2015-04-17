@@ -8,7 +8,7 @@
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'address' => 'Endereço',
 	'Allows you to Configure Cron Task' => 'Permite que você configure tarefas Cron',
 	'Allows you to manage Webforms' => 'Gerenciar Webforms',
@@ -289,9 +289,9 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Prazos e Condições',
 	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Anúncio Salvo',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Os detalhes da Configuração foram salvos',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Você tem certeza que deseja alterar os detalhes do Servidor para os valores padrões',
@@ -313,4 +313,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'o tipo de imagem não é suportado',
 	'JS_COLUMN_ADDED' => 'Campo adicionado',
 	'JS_COLUMN_EXIST' => 'Erro ao adicionar campo',
-);
+];

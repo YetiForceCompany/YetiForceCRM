@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Добавить зависимость списков',
 	'PickListDependency' => 'Редактор зависимостей списков',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Ниже будут отображаться только связанные значения Исходного поля (за исключением первого раза)',
@@ -29,13 +29,13 @@ $languageStrings = array(
 	'Source Field' => 'Исходное поле',
 	'Target Field' => 'Целевое поле',
 	'Selected Values' => 'Выбранные значения',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Вы уверены,  что хотите удалить эту зависимость списков?',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Зависимость успешно удалена',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Зависимость списков сохранена', 
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Вы должны выбрать по крайней мере одно значение', 
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Исходное и целевое поля не должны совпадать', 
 	'JS_SELECT_SOME_VALUE'         => 'Выберите значение',
-);
+];

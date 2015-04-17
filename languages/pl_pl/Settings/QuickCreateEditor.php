@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'QuickCreateEditor' => 'Edytor szybkiego tworzenia',
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.',
 	'LBL_SEQUENCE' => 'Kolejność pól',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Zapisz kolejność pól',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FIELD_SEQUENCE_UPDATED' => 'Kolejność pól została zaktualizowana',
-);
+];

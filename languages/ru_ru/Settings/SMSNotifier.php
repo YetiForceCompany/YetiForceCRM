@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Новая конфигурация',
 	'SMSNotifier' => 'SMS-Уведомления',
 	'LBL_ADD_CONFIGURATION' => 'Новая конфигурация',
@@ -30,9 +30,9 @@ $languageStrings = array(
     'LBL_SMS_SENDER'               => 'Отправитель',
     'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Номер счета',
     'Enter new data'               => 'Введите новые данные',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION'      => 'Вы уверены, что хотите удалить конфигурацию SMS-провайдера?', 
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'SMS-провайдер успешно удален', 
 	'JS_CONFIGURATION_SAVED'       => 'Конфигурация SMS-провайдера сохранена',
@@ -40,4 +40,4 @@ $jsLanguageStrings = array(
     'LBL_SMS_TIME' => 'Время(мин)',
     'LBL_SMSPM_AUTH_HASH' => 'Хэш-код',
     'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Номер счета',
-);	
+];	

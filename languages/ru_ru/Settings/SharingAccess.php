@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'RoleAndSubordinates' => 'Роли и Подчиненные',
 	'Groups' => 'Группы',
 	'Roles' => 'Роли',
@@ -37,11 +37,11 @@ $languageStrings = array(
 	'Public: Read Only' => 'Публичный</br>Только чтение',
 	'Public: Read, Create/Edit, Delete' => 'Публичный</br>Чтение</br>Создание</br>Редактирование</br>Удаление',
 	'Public: Read, Create/Edit' => 'Публичный</br>Чтение</br>Создание</br>Редактирование',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Пользовательские правила совместного доступа',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Выбрать любого другого пользователя',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'Новые правила применены успешно',
 	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Доступ у модулей Сделки, Заявки, Предложения, Заказы и Счета должен быть установлен в приватный когда доступ у модуля Контрагенты установлен в приватный',
-);
+];

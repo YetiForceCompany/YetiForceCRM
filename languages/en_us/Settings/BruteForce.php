@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'BruteForce'  => 'Brute Force',
     'Number of attempts' => 'Number of attemps',
     'Time lock' => 'Time lock (minutes)',
@@ -30,9 +30,9 @@ $languageStrings = array(
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Could not finnish reaction.' => 'Could not finnish reaction.',
     'Complete the fields' => 'Complete the fields',
     'LBL_SAVE_SUCCESS' => 'Changes has been saved ',
@@ -42,4 +42,4 @@ $jsLanguageStrings = array(
 	'JS_WRONG_ATTEMPS_NUMBER' => 'You have entered an incorrect format for a number of attempts, correct it.',
 	'JS_WRONG_TIME_LOCK_FORMAT' => 'You have entered an incorrect format for a time lock, correct it.'     
     
-);
+];

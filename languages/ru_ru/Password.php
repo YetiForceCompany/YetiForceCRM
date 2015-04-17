@@ -10,7 +10,7 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Password'	=>	'Настройки пароля',
 	'LBL_PASSWORD_DESCRIPTION'	=>	'Настройка сложности пароля',
 	'LBL_Password_Header'	=>	'Параметры определяющие сложность пароля',
@@ -23,4 +23,4 @@ $languageStrings = array(
 	'LBL_ERROR'	=>	'Ошибка сохранения изменений',
 	'LBL_SAVE_OK'	=>	'Изменения успешно сохранены',
 	'characters'	=>	'Символы',
-);
+];

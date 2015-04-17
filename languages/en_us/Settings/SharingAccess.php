@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Sharing Rules' => 'Sharing Rules',
 	'SharingAccess' => 'Sharing Rules',
 	'Accounts' => 'Organizations and Contacts',
@@ -36,11 +36,11 @@ $languageStrings = array(
 	'RoleAndSubordinates' => 'Role And Subordinates',
 	'Roles' => 'Roles',
 	'Groups' => 'Groups',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Custom Sharing Rule Saved Successfully',
 	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Opportunities, Tickets, Quotes, SalesOrder & Invoice Access must be set to Private when the Organization Access is set to Private',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'New Sharing Rules Applied Successfully',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Select any other accessing user',
-);
+];

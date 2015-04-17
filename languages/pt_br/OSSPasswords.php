@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade and Gabriel P. Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSPasswords'        => 'Senha',
 	'SINGLE_OSSPasswords' => 'Senha',
@@ -125,9 +125,9 @@ $languageStrings = array(
 	'LBL_Company' => 'Informação da Empresa: ',
 	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information' => 'Informação dos Módulos:' ,
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'A senha foi copiada para a área de Transferência',
     'LBL_NotifPassTitle' => 'Senha',
@@ -140,4 +140,4 @@ $jsLanguageStrings = array(
     'Medium' => 'Média',
     'Strong' => 'Forte',
     'Very Strong' => 'Muito Forte',
-);
+];

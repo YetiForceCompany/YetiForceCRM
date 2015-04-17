@@ -8,7 +8,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * Contributor(s): YetiForce.com
  * ***********************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PAGES_HISTORY' => 'Páginas visualizadas recentemente',
 	'LBL_MARK_AS_DONE' => 'Marcar como pronto',
 	'days later' => 'dias depois',
@@ -899,8 +899,8 @@ $languageStrings = array(
 	'Letters Out'=>'Correspondências Enviadas',
         'Companies'=>'Empresas',
 
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode exceder a 24 horas',
 	'JS_SAVE_NOTIFY_OK' => 'As alterações foram salvas',
@@ -1061,4 +1061,4 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_OK' => 'O número do telefone foi enviado para seu telefone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Erro ao tentar enviar o número do telefone',
 	'JS_SET_READ_RECORD' => 'Você leu todas as mudanças realizadas neste registro',
-);
+];

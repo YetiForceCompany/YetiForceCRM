@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leads',
 	'LBL_OPPURTUNITIES' => 'Opportunities',
 	'checkBox' => 'Check Box',
@@ -39,9 +39,9 @@ $languageStrings = array(
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Convert to Organization',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Can\'t map',
 	'JS_checkBox' => 'Check Box',
 	'JS_currency' => 'Currency',
@@ -66,4 +66,4 @@ $jsLanguageStrings = array(
 	'JS_WITH' => 'with',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Saved field mapping',
 
-);
+];

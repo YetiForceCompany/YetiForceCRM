@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_USERS_ROLES' => 'Add Users, Roles...',
 	'LBL_DUPLICATES_EXIST' => 'Group Name already Exists',
@@ -23,9 +23,9 @@ $languageStrings = array(
 	'Roles' => 'Roles',
 	'Name' => 'Group Name',
 	'Description' => 'Description',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MEMBER_FOR_A_GROUP' => 'Please select at least one member for a group',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Group deleted successfully',
-);
+];

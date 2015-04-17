@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
 	'OSSOutsourcedServices' => 'Outsourcing-Dienste',
@@ -36,4 +36,4 @@ $languageStrings = array(
 'Save' => 'Speichern',
 'Selling proposition'=>'Gelegenheit',
 'LBL_GENERATE_EXTENSION' => 'Generiere Verlängerung',
-);
+];

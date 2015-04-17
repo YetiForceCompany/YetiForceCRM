@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MDULES_COLOR_EDITOR' => 'Kolory modułów',
 	'LBL_MDULES_COLOR_EDITOR_DESCRIPTION' => 'Zarządzanie kolorami modułów',
 	'LBL_MODULE' => 'Moduł',
@@ -19,7 +19,7 @@ $languageStrings = array(
 	'LBL_EDIT_COLOR' => 'Edycja koloru',
 	'LBL_SELECT_COLOR' => 'Wybierz kolor:',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 
-);
+];

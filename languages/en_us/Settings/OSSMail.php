@@ -7,10 +7,10 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'My mailbox',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'JS_ERROR_EMPTY' => 'All fields must be completed',
-);
+];

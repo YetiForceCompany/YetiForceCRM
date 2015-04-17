@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Search Configuration' => 'Such-Konfiguration',
 	'Search Setup' => 'Such-Einstellungen',
 	'Search' => 'Such-Konfiguration',
@@ -26,13 +26,13 @@ $languageStrings = array(
 	'LBL_SAVE_MODULE_SEQUENCE'	=> 'Modulreihenfolge speichern',
 	'LBL_TURN_ON'	=> 'Einschalten',
 	'LBL_TURN_OFF'	=> 'Ausschalten',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Saving changes' => 'Speichere Änderungen...',
 	'Update labels' => 'Aktualisiere Beschriftung',
 	'JS_MODULES_SEQUENCE_UPDATED'	=> 'Modulreihenfolge aktualisiert',
 	'JS_TURN_ON'	=> 'Einschalten',
 	'JS_TURN_OFF'	=> 'Ausschalten',
 
-);
+];

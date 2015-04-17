@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSMailTemplates' => 'Modelos Emails',
     'Blank' => 'Modelos Emails',
     'SINGLE_OSSMailTemplates' => 'Modelos Emails',
@@ -43,9 +43,9 @@ $languageStrings = array(
 	'LBL_LABEL' => 'Rótulo',
 	'ContactsPortalPass' => 'Senha Portal Cliente',
 	'LinkToForgotPassword' => 'Link para redefinir sua senha',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_NOTIF_PASS_COPIED' => 'Copiado para a Área de Transferência',
     'JS_NOTIF_PASS_TITLE' => 'Texto',
 
-);
+];

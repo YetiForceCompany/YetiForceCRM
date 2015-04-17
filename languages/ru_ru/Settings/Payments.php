@@ -10,12 +10,12 @@
     * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Payments'	=>	'Платежи',
 	'LBL_RIGHT_CLICK_COPY'	=>	'Щелкните правой кнопкой мыши и скопируйте',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DELETED_SUCCESSFULLY'	=>	'Удалено успешно',
 	'JS_SAVED_SUCCESSFULLY'	=>	'Сохранено успешно',
-);	
+];	

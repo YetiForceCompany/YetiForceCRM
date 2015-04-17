@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answer'=>'Odpowiedź',
 	'Comments'=>'Komentarze',
 	'Draft'=>'Szkic',
@@ -24,4 +24,4 @@ $languageStrings = array(
 	'Published'=>'Opublikowany',
 	'Question'=>'Pytanie',
 	'SINGLE_Faq' => 'Instrukcja',
-);
+];

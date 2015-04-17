@@ -8,6 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$mod_strings = Array (
+$mod_strings = [
 'Mobile' => 'Mobile',
-);
+];

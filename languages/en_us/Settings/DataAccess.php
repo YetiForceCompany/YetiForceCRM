@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_DATAACCES' => 'Validation of access',
 	'LBL_DATAACCESS' => 'Validation of access',
 	'DataAccess' => 'Validation of access',
@@ -78,9 +78,9 @@ $languageStrings = array(
 	'Check for duplicate names' => 'Check for duplicate names',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
 	'Lock edit on the status' => 'Lock edit on the status',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'DES_REQUIRED' => 'Description is required',
 
 	//comparators
@@ -111,4 +111,4 @@ $jsLanguageStrings = array(
 	'more than hours before' => 'more than hours before',
 	'more than hours later' => 'more than hours later',
 	'has changed' => 'has changed',
-);
+];

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'dd-mm-yyyy' => 'dd-mm-yyyy',
 	'mm-dd-yyyy' => 'mm-dd-yyyy',
 	'yyyy-mm-dd' => 'yyyy-mm-dd',
@@ -309,9 +309,9 @@ $languageStrings = array(
 	
 	'LBL_GENERATED_COLOR' => 'Color generated',
 	'LBL_SAVE_COLOR' => 'Color saved',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Decimal seperator and Grouping seperator cant be same',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Please enter your password confirmation.',
@@ -322,4 +322,4 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' failed.  The new password must be set.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Incorrect old password specified. Re-enter password information.',
 	'JS_REENTER_PASSWORDS'=>'Please re-enter passwords.  The \"new password\" and \"confirm password\" values do not match.',
-);
+];

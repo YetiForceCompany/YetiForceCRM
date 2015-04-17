@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Password' => 'Konfiguracja hasła',
 	'LBL_PASSWORD_DESCRIPTION' => 'Ustaw złożoności hasła dla użytkowników systemu',
 	'LBL_Password_Header' => 'Parametry określające złożoność hasła',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_ERROR' => 'Błąd podczas zapisu',
 	'LBL_SAVE_OK' => 'Dane zostały zapisane',
 	'characters' => 'znaków',
-);
+];

@@ -8,8 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_TEMPLATE_NAME' => 'Nazwa szablonu',
 	'LBL_DESCRIPTION' => 'Opis ',
 	'LBL_SUBJECT' => 'Temat'
-);
+];

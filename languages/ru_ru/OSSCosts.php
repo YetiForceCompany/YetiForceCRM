@@ -10,7 +10,7 @@
  * Contributor(s):
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSCosts'	=>	'Расходы',
 	'SINGLE_OSSCosts'	=>	'Расход',
@@ -55,4 +55,4 @@ $languageStrings = array(
 	'Alert_desc'	=>	'Все ниже выбранные параметры изменяют системные файлы, сделайте резервную копию перед внесением изменений.',
 	'Module configuration'	=>	'Конфигурация модуля',
 	'JS_save_config_info'	=>	'Конфигурация сохранена',
-);
+];

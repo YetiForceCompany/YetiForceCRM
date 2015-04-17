@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Cancelled' => 'Отменен',
 	'Completed' => 'Завершенный',
 	'Deferred' => 'Отложенный',
@@ -35,4 +35,4 @@ $languageStrings = array(
 	'high' => 'Высокий',
 	'low' => 'Низкий',
 	'normal' => 'Нормальный',
-);
+];

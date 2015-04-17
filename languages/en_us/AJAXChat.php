@@ -9,6 +9,6 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'AJAXChat'  => 'Chat',
-);
+];

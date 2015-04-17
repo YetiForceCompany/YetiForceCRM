@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Logo Directory' => 'Папка хранения Логотипа компании',
 	'Contact Image Directory' => 'Папка хранения изображения Контакта',
 	'User Image Directory' => 'Папка хранения изображения Пользователя',
@@ -43,4 +43,4 @@ $languageStrings = array(
 	'NOT RECOMMENDED'	=>	'Не рекомендуется',
 	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
 	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
-);
+];

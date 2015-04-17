@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Projektaufgabe',
 	'Project Task' => 'Projektaufgaben',
@@ -37,4 +37,4 @@ $languageStrings = array(
 	'Completed' => 'Abgeschlossen',
 	'Deferred' => 'Aufgeschoben',
 	'Cancelled' => 'Abgebrochen',
-);
+];

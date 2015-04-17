@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Birthdays of contacts' => 'День рождения',
 	'End of support for contact' => 'Окончание поддержки',
     'Support Start Date' 			=> 'Начало тех. поддержки',
@@ -50,6 +50,6 @@ $languageStrings = array(
 	'Active' 						=> 'Активный',
 	'SINGLE_Leads' => 'Обращение',
 	'SINGLE_Vendors' => 'Поставщик',
-);
-$jsLanguageStrings = array(
-);
+];
+$jsLanguageStrings = [
+];

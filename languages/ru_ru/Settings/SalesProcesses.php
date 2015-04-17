@@ -8,14 +8,14 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'SalesProcesses' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Управление процессами продаж',
 	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
 	'LBL_SAVE_CONFIG_ERROR' => 'Изменения не сохранены',
 	'LBL_PRODUCTS_REL_DESCRIPTION' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 
-);
+];

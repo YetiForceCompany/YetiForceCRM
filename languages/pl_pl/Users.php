@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Last Name' => 'Nazwisko',
 	'Users' => 'Użytkownicy',
 	'Admin' => 'Administrator',
@@ -307,9 +307,9 @@ $languageStrings = array(
 	
 	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Wpisz potwierdzenie nowego hasła.',
@@ -320,4 +320,4 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' niepowodzenie. Nowe hasło musi zostać ustawione.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS'=>'Wpisz hasła ponownie.  Nowe hasło i potwierdzenie hasła nie są identyczne.',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Conversion Rate' => 'Kurs wymiany',
 	'Currency' => 'Waluta',
 	'Symbol' => 'Symbol',
@@ -156,9 +156,9 @@ $languageStrings = array(
 	'Yemen, Rials'			=> 'Yemen, Rials',
 	'Zambia, Kwacha'		=> 'Zambia, Kwacha',
 	'Zimbabwe Dollars' 		=> 'Zimbabwe Dollars',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Usunięto walutę poprawnie',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Szczegóły waluty zapisano',
-);
+];

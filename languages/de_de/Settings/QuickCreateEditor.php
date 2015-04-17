@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'QuickCreateEditor' => 'Schnellerfassungs-Editor',
 	'LBL_QUICK_CREATE_EDITOR'	=>	'Schnellerfassungs-Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION'	=>	'Modul ermöglicht, das Layout der Felder innerhalb im Schnellerfassungs-Fenster zu ändern',
 	'LBL_SEQUENCE'	=>	'Feld Reihenfolge',
 	'LBL_SAVE_FIELD_SEQUENCE'	=>	'Feld Reihenfolge speichern',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FIELD_SEQUENCE_UPDATED'	=>	'Feld Reihenfolge aktualisiert',
-);
+];

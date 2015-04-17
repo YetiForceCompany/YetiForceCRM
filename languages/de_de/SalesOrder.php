@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Genehmigt',
 	'Cancel' => 'Abgebrochen',
 	'Derecognized' => 'Entfernt',
@@ -90,8 +90,8 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Letzter des nächsten Monats',
 	'payment:first day of +3 months' => 'Erster Tag des nächsten Quartals',
 	'payment:last day of +3 months' => 'Letzter Tag des nächsten Quartals',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Bitte entfernen den gelöschten Datensatz',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'MobileApps' => 'Mobile Apps',
 	'LBL_MOBILE_CALLLISTENER' => 'Listening connections',
  	'LBL_MOBILE_KEYS' => 'Mobile application keys',
@@ -34,7 +34,7 @@ $languageStrings = array(
  	'LBL_MOBILE_HISTORYCALL' => 'Mobile call history',
  	'LBL_MOBILE_PUSHCALL' => 'Automatic number dialling',
 	'LBL_MOBILE_CALLLISTENER' => 'Mobile call listener',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Adding a Key' => 'Add key',
-);
+];

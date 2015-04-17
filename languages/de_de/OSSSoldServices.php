@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Services' => 'Service Name',
 	'Potential' => 'Quelle Verkaufschance',
 	'Invoice' => 'Rechnungsnummer',
@@ -40,4 +40,4 @@ $languageStrings = array(
 'Potential renewal'=>'Verkaufschance erneuern',
 'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 'LBL_ORDER_TIME'=>'Bestellzeit',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HTTP_ERROR' => 'Strona, którą próbujesz otworzyć nie jest bezpieczna i nie zostanie otwarta. Jeśli nadal chcesz obejrzeć zawartość strony, kliknij na blokera treści w pasku adresu i włącz go.',
 	'LBL_ADD_BOOKMARK' => 'Dodaj do zakładek',
 	'LBL_ADD_NEW_BOOKMARK' => 'Dodaj nową zakładkę',
@@ -27,8 +27,8 @@ $languageStrings = array(
 	'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Rekord został pomyślnie usunięty',
 	'Portal' => 'Nasze strony',
 	'SINGLE_Portal' => 'Nasze strony',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];

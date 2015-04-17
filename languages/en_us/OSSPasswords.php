@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSPasswords'        => 'Passwords',
 	'SINGLE_OSSPasswords' => 'Password',
@@ -125,9 +125,9 @@ $languageStrings = array(
 	'LBL_Company' => 'The Company information: ',
 	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information' => 'Modules information:' ,
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'Password has been copied to clipboard',
     'LBL_NotifPassTitle' => 'Pasword',
@@ -140,4 +140,4 @@ $jsLanguageStrings = array(
     'Medium' => 'Medium',
     'Strong' => 'Strong',
     'Very Strong' => 'Very Strong',
-);
+];

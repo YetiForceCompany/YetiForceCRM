@@ -8,7 +8,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
     'LBL_SELECT_ONE' => 'Select',
     'LBL_PBXMANAGER' =>'PBXManager',
     'LBL_PBXMANAGER_CONFIG' => 'Asterisk Server Details',
@@ -24,9 +24,9 @@ $languageStrings = array(
     'outboundcontext' => 'Outbound Context',
     'outboundtrunk' => 'Outbound Trunk',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];
 ?>  

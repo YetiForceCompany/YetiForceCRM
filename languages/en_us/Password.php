@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Password' => 'Password Setup',
 	'LBL_PASSWORD_DESCRIPTION' => 'Set complexities of the password for users of the software',
 	'LBL_Password_Header' => 'Parameters determining the complexity of the password',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_ERROR' => 'Error saving file',
 	'LBL_SAVE_OK' => 'Data was saved',
 	'characters' => 'characters',
-);
+];

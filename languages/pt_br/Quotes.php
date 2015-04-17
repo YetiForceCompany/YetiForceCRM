@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
 	'Inventory Manager'=>'Almoxarife',
 	'LBL_ADD_RECORD' => 'Adicionar registro',
@@ -38,8 +38,8 @@ $languageStrings = array(
 	'PLL_SENT_TO_ORGANIZATION' => 'Enviado para Organização',
 	'PLL_DECLINED' => 'Recusada',
 	'PLL_ACCEPTED' => 'Aceita',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Por favor, remova o item da linha que foi exculído',
-);
+];

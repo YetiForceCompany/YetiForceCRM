@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Принято',
 	'Cancel' => 'Отменено',
 	'Derecognized' => 'Удалено',
@@ -90,8 +90,8 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Последний день следующего месяца',
 	'payment:first day of +3 months' => 'Первый день следующего квартала',
 	'payment:last day of +3 months' => 'Последний день следующего квартала',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Пожалуйста удалите позиции, которые были удалены из системы.',
-);
+];

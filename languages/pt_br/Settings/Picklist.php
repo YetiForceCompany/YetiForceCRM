@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@.ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Picklist' => 'Lista de Opções',
 	'Calendar' => 'Tarefa',
 	'LBL_ADD_ITEM_TO' => 'Adicionar Item para',
@@ -40,9 +40,9 @@ $languageStrings = array(
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Para Apagar múltiplos itens aperte a tecla Ctrl enquanto seleciona os itens',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Valores atribuídos a uma função',
     'NO_PICKLIST_FIELDS'=> 'não existe nenhum campo Lista de Opções',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_ROLES_SELECTED' => 'Todas as Funções Selecionadas',
 	'JS_ITEM_ADDED_SUCCESSFULLY' => 'Item adicionado com Sucesso',
 	'JS_ITEM_RENAMED_SUCCESSFULLY' => 'Item Renomeado com Sucesso',
@@ -56,4 +56,4 @@ $jsLanguageStrings = array(
 	'JS_SPECIAL_CHARACTERS' => 'Caracteres Especiais como',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Valor atribuído com Sucesso',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Você não pode apagar todos os valores',
-);	
+];	

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_MORE_FIELDS'               => 'Добавьте поле',
 	'LBL_CHECK_STATUS'                  => 'Проверить статус',
 	'LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND' => 'Выберите тип телефонного номера', 
@@ -28,4 +28,4 @@ $languageStrings = array(
     'LBL_SEREVER_CONFIG'                => 'Конфигурация сервера',
     'LBL_SMS_MAX_CHARACTERS_ALLOWED'    => 'Максимум 160 символов',
     'providertype'                      => 'Провайдер', 
-);
+];

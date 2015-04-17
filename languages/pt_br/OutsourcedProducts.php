@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista de Registros',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Produtos Terceirizados',
@@ -41,4 +41,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
-);
+];

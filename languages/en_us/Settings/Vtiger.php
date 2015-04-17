@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'address' => 'Address',
 	'Allows you to Configure Cron Task' => 'Allows you to Configure Cron Task',
 	'Allows you to manage Webforms' => 'Manage Webforms',
@@ -293,9 +293,9 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Terms and Conditions',
 	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Announcement Saved',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Configuration Details Saved',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Are you sure that you want to change the server details to the default server values',
@@ -317,4 +317,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'not supported Image type',
 	'JS_COLUMN_ADDED' => 'Field added',
 	'JS_COLUMN_EXIST' => 'Error while adding field',
-);
+];

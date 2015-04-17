@@ -10,7 +10,7 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PLL_WORKING_TIME' => 'Рабочее время',
 	'PLL_BREAK_TIME' => 'Обед',
 	'PLL_HOLIDAY' => 'Праздник',
@@ -90,8 +90,8 @@ $languageStrings = array(
 	'Office work'	=>	'Работа в офисе',
 	'Administrative work'	=>	'Административная работа',
 	'Accounting work'	=>	'Учет рабочего времени',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания не может быть меньше, чем дата начала',
 	'LBL_HOURS_SHOULD_BE_SMALLER_THAN' => 'Время работы не может превышать 24 часа',
 	'MSG_ERROR_NUMBER'	=>	'Допустимые символы: [0-9]',
@@ -143,4 +143,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Ср',
 	'JS_WEEK' => 'Неделя',
 	'JS_MORE' => 'Еще',
-);
+];

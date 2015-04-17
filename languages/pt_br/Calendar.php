@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Activity Type'=> 'Tipo Atividade',
 	'Call' => 'Chamada' ,
 	'Completed'=> 'Concluído',
@@ -131,9 +131,9 @@ $languageStrings = array(
     'Default Activity View'=>'Padrão Visualização Atividade',
 	'Relation' => 'Relação',
 	'Process' => 'Processo',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'A visualização da Agenda foi adicionada com sucesso',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'A cor da Agenda foi atualizada com sucesso',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Você tem certeza que deseja apagar esta visualização da Agenda?',
@@ -224,4 +224,4 @@ $jsLanguageStrings = array(
 	'JS_MORE' => 'Mais',
 	'Mobile Call' => 'Ligar para Celular',
     'NOTIFICATION_ACCEPTED' => 'Aceita',
-);
+];

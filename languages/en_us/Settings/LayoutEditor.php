@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_FIELD_MASK' => 'Field Mask',
 	'Calendar' => 'To Do',
 	'Checkbox' => 'Checkbox',
@@ -96,9 +96,9 @@ $languageStrings = array(
 	'PLL_DEPENDENTS_LIST' => 'One to many',
 	'PLL_ADD' => 'Add',
 	'PLL_SELECT' => 'Select',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_BLOCK_NAME_EXISTS' => 'Block Name already exists',
 	'JS_BLOCK_SEQUENCE_UPDATED' => 'Blocks Sequence Updated',
 	'JS_BLOCK_VISIBILITY_HIDE' => 'Block hide enabled',
@@ -123,4 +123,4 @@ $jsLanguageStrings = array(
 	'JS_UPDATE_SEQUENCE' => 'New sequence of related modules has been saved',
 	'JS_UPDATED_FIELD_LIST_MODULE_RELATED' => 'Field list has been updated',
 	'JS_FIELD_CAN_NOT_BE_EMPTY' => 'Field cannot be empty',
-);
+];

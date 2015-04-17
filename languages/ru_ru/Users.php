@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'yyyy/mm/dd' => 'гггг/мм/дд',
 	'mm/dd/yyyy' => 'мм/дд/гггг',
 	'dd/mm/yyyy' => 'дд/мм/гггг',
@@ -316,9 +316,9 @@ $languageStrings = array(
 	
 	'LBL_GENERATED_COLOR' => 'Color generated',
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ENTER_OLD_PASSWORD'=>'Пожалуйста, введите ваш старый пароль.',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Пожалуйста, введите подтверждение пароля.',
@@ -328,4 +328,4 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' Ошибка. Новый пароль должен быть задан.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Указан неверно старый пароль. Введите пароль повторно.',
 	'JS_REENTER_PASSWORDS'=>'Пожалуйста, введите пароли заново. Значения полей \"Новый пароль\" и \"Подтверждение пароля\" не совпадают.',
-);
+];

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active' => 'Active',
 	'Document No' => 'Document No',
 	'Documents' => 'Documents',
@@ -53,9 +53,9 @@ $languageStrings = array(
 	'None' => 'None',
 	'Default' => 'Default',
 	'LBL_SELECT_Documents' => 'Select the document',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Are you sure you want to move the file(s) to',
 	'JS_FOLDER' => 'folder',
 	'JS_FOLDER_IS_NOT_EMPTY' => 'Folder is not empty',
@@ -64,4 +64,4 @@ $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED' => 'are not allowed',
 	'JS_OPERATION_DENIED' => 'Operation Denied',
 	'JS_SPECIAL_CHARACTERS' => 'Special Characters like',
-);
+];

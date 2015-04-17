@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ADD_CONDITIONS' => 'Adicionar Condições',
 	'ADD_TASKS' => 'Adicionar Tarefas',
 	'Calendar' => 'Tarefa',
@@ -157,13 +157,13 @@ $languageStrings = array(
 	'Update Closed Time' => 'Atualizar Tempo Fechado',
 	'Send Notification' => 'Convites - Enviar Notificação',
 	'Create Address Book' => 'Criar Livro de Endereços',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Os mesmos campos escolhidos mais de uma vez',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status alterado com Sucesso',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Tarefa excluída com Sucesso',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow salvo com Sucesso',
 	'LBL_STATUS_CONFIRMATION' => 'Você tem certeza que deseja alterar os status de todas as Tarefas?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Alterando os status das Tarefas...',
-);
+];

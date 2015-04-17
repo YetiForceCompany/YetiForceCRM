@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Saving CustomView' => 'Фильтр успешно сохранен',
 	'CustomView'	=> 'Редактор Фильтров',
 	'LBL_MODULE_DESC'	=> 'Модуль позволяет редактировать системные и пользовательские фильтры.',
@@ -21,8 +21,8 @@ $languageStrings = array(
 	'Delete CustomView'	=> 'Фильтр удален',
 	'Actions'	=> 'Действия',
 	'Edit'	=> 'Редактировать',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes'	=> 'Сохранение изменений...',
 	'Update labels'	=> 'Обновление',
-);
+];

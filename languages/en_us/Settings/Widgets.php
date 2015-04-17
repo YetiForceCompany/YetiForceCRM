@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=> 'Widgets',
 	'LBL_MODULE_DESC'	=> 'Module managing widgets in summary',
 	'Add widget'	=> 'Add Widget',
@@ -52,9 +52,9 @@ $languageStrings = array(
 	'Filter info' => 'Enable data filtering by selection list',
 	'None' => 'None',
 
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=> 'Loading...',
 	'Saving changes'	=> 'Saving changes...',
 	'None' => 'None',
-);
+];

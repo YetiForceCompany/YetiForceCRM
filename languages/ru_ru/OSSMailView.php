@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'RC user' => 'Пользователь',
 	'ToID' => 'ID получателя',
 	'id' => 'Идентификатор',
@@ -82,8 +82,8 @@ $languageStrings = array(
 	
 	//dashboards
 	'Graf'	=>	'Письма по статусу',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From'	=>	'От',
 	'To'	=>	'Для',
 	'CC'	=>	'Копия',
@@ -92,4 +92,4 @@ $jsLanguageStrings = array(
 	'Subject'	=>	'Тема',
 	'Content'	=>	'Содержание',
 	'JS_BIND_CONFIRM'	=>	'Вы уверены, что хотите связать выбранные сообщения?',
-);
+];

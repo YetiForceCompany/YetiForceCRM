@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com | Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'LANGNAME' => 'Português Brasil',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Não foi possível conectar à Base de Dados',
 	'ERR_DB_NOT_FOUND' => 'Esta Base de Dados não foi encontrada.Tente mudar as configurações da Base de Dados',
@@ -95,9 +95,9 @@ $languageStrings = array(
 	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Senha ou Usuário incorreto',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Atenção!</strong> Durante a migração você perderá todos os dados relacionados com os seguintes módulos: Gestor de Mensagens, Modelos de Email e Workflows. <br /> Por favor, esteja ciente que a a migração ainda está em fase de testes, portanto, realize todos o backups e siga os procedimentos de segurança em caso de imprevistos.',
 	'LBL_MIGRATION_IN_PROGRESS'=>'Migração em andamento',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_PASS_TO_SHORT' => 'A senha é muito curta - o tamanho mínimo são 8 caracteres',
 	'LBL_PASS_TO_LONG' => 'A senha é muito longa - o tamanho máximo são 32 caracteres',
 	'LBL_PASS_NO_NUM' => 'A senha senha deve conter números',
@@ -110,4 +110,4 @@ $jsLanguageStrings = array(
 	'LBL_INVALID_EMAIL_ERROR' => 'Atenção! Endereço de e-mail inválido.',
 		'LBL_RESOLVE_ERROR' => 'Por favor, resolva os erros antes de seguir com a instalação',
 
-);
+];

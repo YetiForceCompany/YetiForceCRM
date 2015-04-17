@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Принято',
 	'AutoCreated'	=>	'Авто создание',
 	'Cancel'                       => 'Отменить'            ,
@@ -42,8 +42,8 @@ $languageStrings = array(
 	'Transfer'	=>	'Безнал',
 	'Invoice entered'	=>	'Заказан',
 	'Potential'	=>	'Сделка',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED'	=>	'Пожалуйста, удалите Товары или Услуги, которые удалены из системы.',
-);
+];

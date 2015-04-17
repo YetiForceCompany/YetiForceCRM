@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CRM Applications' => 'CRM Anwendungen',
 	'Software' => 'Software',
 	'Hardware' => 'Hardware',
@@ -60,4 +60,4 @@ $languageStrings = array(
 	'Incidents' => 'Vorfälle',
 	'Sales' => 'Verkauf',
 	'Service' => 'Dienstleistung',
-);
+];

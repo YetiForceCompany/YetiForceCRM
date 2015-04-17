@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PRIMARY_MODULE' => 'Primary Module',
 	'Report Name' => 'Report Name',
 	'Reports'=>'Reports',
@@ -115,10 +115,10 @@ $languageStrings = array(
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'This is an auto-generated email sent on behalf of a scheduled report.',
 	'LBL_PIVOT_REPORT' => 'Pivot Report',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitation: Line Item fields(List Price, Discount & Quantity) can only be used when other calculation fields are not selected.',
 	'JS_DUPLICATE_RECORD' => 'Duplicate Report',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Data not available, please check the selected fields',
-);
+];

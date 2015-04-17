@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Orders accepted' => 'Orders accepted',
 	'Attempted to Contact'=>'Attempted to Contact',
 	'CANNOT_CONVERT' => 'Cannot Convert',
@@ -106,10 +106,10 @@ $languageStrings = array(
     "Attorney General's Office" => "Attorney General's Office",
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Legal form',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Select Contacts to proceed',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Conversion requires selection of Contact or Organization',
 	'JS_SELECT_ORGANIZATION' => 'Select Organization to proceed',
-);
+];

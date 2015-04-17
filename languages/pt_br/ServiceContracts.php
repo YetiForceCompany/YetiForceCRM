@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => 'Resumo tempo trabalho',
 	// Basic Strings
 	'ServiceContracts' => 'Contratos' ,
@@ -54,4 +54,4 @@ $languageStrings = array(
 	'Days' => 'Dias',
 	'Incidents' => 'Incidentes',
 	'Services' => 'Serviços',
-);
+];

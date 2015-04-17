@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Dav' => 'Синхронизация',
 	'LBL_DAV_KEYS' => 'Синхронизация',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Настройка Синхронизации',
@@ -31,7 +31,7 @@ $languageStrings = array(
 	'LBL_SELECT_TYPE' => 'Тип',
 	'LBL_COUNT_CARD' => 'Количество контактов',
 	'LBL_COUNT_CAL' => 'Количество событий',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Adding a Key' => 'Добавление ключа',
-);
+];

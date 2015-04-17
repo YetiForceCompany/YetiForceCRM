@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'address' => 'Ulica',
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
 	'Allows you to manage Webforms' => 'Twórz formularze, które będą zintegrowane z Twoim systemem CRM.',
@@ -293,9 +293,9 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Ogłoszenie systemowe zapisano',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Szczegóły konfiguracji zostały zapisane',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Czy jesteś pewien, że chcesz zmienić dane serwera do wartości domyślnych serwera',
@@ -317,4 +317,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'nie wspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
 	'JS_COLUMN_EXIST' => 'Bład przy dodaniu pola',
-);
+];

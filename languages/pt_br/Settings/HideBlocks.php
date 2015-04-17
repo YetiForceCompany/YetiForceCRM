@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolcuoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HideBlocks' => 'Ocultar blocos',
 	'LBL_HIDEBLOCKS' => 'Ocultar blocos',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Gerenciar quais blocos com campos para ocultar',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Próximo',
 	'LBL_VIEW' => 'Visualizar',
 	'LBL_MANDATORY_FIELDS_EXIST' => 'Este bloco não pode ser ocultado porque contém campos obrigatórios.',
-);
+];

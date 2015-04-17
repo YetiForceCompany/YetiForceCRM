@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Etap projektu',
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
@@ -30,4 +30,4 @@ $languageStrings = array(
 	'PLL_INTERNAL' => 'Wewnętrzny',
 	'PLL_EXTERNAL' => 'Zewnętrzny',
 	'PLL_SHARED' => 'Wspólny',
-);
+];

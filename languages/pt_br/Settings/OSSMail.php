@@ -8,10 +8,10 @@
  *  Website				: www.opensaas.pl
  *  Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br*
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'Minha Caixa de Correio',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'JS_ERROR_EMPTY' => 'Todos os campos devem ser preenchidos',
-);
+];

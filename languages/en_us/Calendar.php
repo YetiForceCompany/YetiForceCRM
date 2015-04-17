@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Activity Type'=>'Activity Type',
 	'Call' => 'Call',
 	'Completed' => 'Completed',
@@ -122,9 +122,9 @@ $languageStrings = array(
 	'LBL_IMPORT_ICS_SUCCESS'=>'Added entry to the calendar',
 	'Relation' => 'Relation',
 	'Process' => 'Process',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Calendar View added successfully',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Calendar view color updated successfully',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this Calendar view ?',
@@ -213,4 +213,4 @@ $jsLanguageStrings = array(
 	'LBL_WEEK' => 'Week',
 	'Mobile Call' => 'Mobile Call',
     'NOTIFICATION_ACCEPTED' => 'Accept',
-);
+];

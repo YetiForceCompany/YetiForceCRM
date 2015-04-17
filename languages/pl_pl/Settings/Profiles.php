@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'Przeglądanie',
 	'LBL_ADD_RECORD' => 'Dodaj profil',
 	'LBL_CHOOSE_PROFILES' => 'Wybierz profil',
@@ -62,7 +62,7 @@ $languageStrings = array(
 	'MassSendSMS' => 'Masowe wysyłanie SMS-ów',
 	'MassTransferOwnership' => 'Masowa zmiana właściciela',
 	'MassMoveDocuments' => 'Masowa zmiana katalogu',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
-);
+];

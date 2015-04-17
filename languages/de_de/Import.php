@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'csv' => 'CSV',
 	'UTF-8' => 'UTF-8',
 	'vcf' => 'VCard',
@@ -77,4 +77,4 @@ $languageStrings = array(
 	'Skip'			       => 'Überspringen',
 	'Overwrite'			=> 'Überschreiben',
 	'Merge'				=> 'Zusammenführen',
-);
+];
