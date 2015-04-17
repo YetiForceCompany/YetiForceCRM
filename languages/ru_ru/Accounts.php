@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Account Name'                 => 'Контрагент'        , 
 	'Account No'                   => 'Контрагент №'    , 
 	'Accounts'                     => 'Контрагенты'      , 
@@ -83,10 +83,10 @@ $languageStrings = array(
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
 	'LBL_DELETE_CONFIRMATION'      => 'Удаление записи повлечет за собой удаление связанных записей модулей Сделки и Предложения. Вы уверены, что хотите удалить данную запись?', // TODO: Review
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Удаление записей повлечет за собой удаление связанных записей модулей Сделки и Предложения. Вы уверены, что хотите удалить данные записи?', // TODO: Review
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Вы уверены, что хотите удалить запись?',
-);
+];

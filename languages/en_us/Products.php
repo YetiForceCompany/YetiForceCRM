@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Unit Code' => 'Unit Code',
 	'Mf. Country Code' => 'Mf. Country Code',
 	'Manuf. Country' => 'Manuf. Country',
@@ -80,4 +80,4 @@ $languageStrings = array(
 	'Website' => 'Website',	
 	'Service' => 'Service',
 	'Sales' => 'Sales',
-);
+];

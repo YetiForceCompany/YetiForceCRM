@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets'        => 'Assets',
 	'SINGLE_Assets' => 'Asset',
@@ -46,4 +46,4 @@ $languageStrings = array(
 	'Potential renewal'=>'Potential renewal',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME'=>'Order time',
-);
+];

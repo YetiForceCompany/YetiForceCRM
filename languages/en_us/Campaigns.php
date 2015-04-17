@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Complete' => 'Complete',
 	'Actual Cost' => 'Actual Cost',
 	'Actual Response Count' => 'Actual Response Count',
@@ -56,4 +56,4 @@ $languageStrings = array(
 	'TargetSize' => 'TargetSize',
 	'Telemarketing'=>'Telemarketing',
 	'Webinar'=>'Webinar',
-);
+];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MarginP' => 'Percentual Margem',
 	'LBL_Margin' => 'Margem',
 	'LBL_Purchase' => 'Compra',
@@ -72,4 +72,4 @@ $languageStrings = array(
 	'LBL_THIS' => 'Produto/Serviço (',
 	'Conversion Rate' => 'Taxa de Conversão',
 	'Currency' => 'Moeda',
-);
+];

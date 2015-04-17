@@ -8,7 +8,7 @@
  * All Rights Reserved.
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Ошибка загрузки файла',
 	'ModuleManager'	=>	'Менеджер Модулей',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Установка модуля из файла',
@@ -62,8 +62,8 @@ $languageStrings = array(
 	'LBL_ENTITY_FIELDLABEL'	=>	'Название Поля',
 	'LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER'	=>	'Модуль с таким названием уже существует',
 	'LBL_INVALID_MODULE_NAME'	=>	'Неверное название Модуля',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
   'JS_ON' => 'вкл',
   'JS_CLICK_HERE' => 'Нажмите здесь ',
   'JS_FOR_INSTALLATION' => 'для установки',
@@ -71,4 +71,4 @@ $jsLanguageStrings = array(
   'JS_IMPORTED_MODULE' => 'Модуль успешно установлен.',
   'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
   'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
-);
+];

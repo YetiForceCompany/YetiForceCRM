@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Unit Code' => 'Unit Code',
 	'Mf. Country Code' => 'Mf. Country Code',
 	'Manuf. Country' => 'Manuf. Country',
@@ -80,4 +80,4 @@ $languageStrings = array(
 	'Website' => 'Strona internetowa',
 	'Service' => 'Usługa',
 	'Sales' => 'Sprzedaż',
-);
+];

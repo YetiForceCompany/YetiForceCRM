@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Status' => 'Этап',
 	'Start Time' => 'Время начала',
 	'Selected Users' => 'Выберите пользователей',
@@ -143,8 +143,8 @@ $languageStrings = array(
 	'PLL_TRANSPARENT' => 'Свободен',
 	'Relation' => 'Связь',
 	'Process' => 'Процесс',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS Activity Type' => 'Тип события',
 	'JS_SATATUS' => 'Статус',
 	'JS_PROCESS' => 'Процесс',
@@ -282,4 +282,4 @@ $jsLanguageStrings = array(
     'JS_RECORD_DELETED' => 'Запись удалена',
 	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR'	=>	'Задача добавлена в Ваш календарь',
 	'NOTIFICATION_ACCEPTED'	=>	'Принято',
-);
+];

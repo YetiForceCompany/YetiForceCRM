@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Zaakceptowana',
 	'AutoCreated'=>'Wymaga weryfikacji',
 	'Created' => 'Wersja robocza',
@@ -91,8 +91,8 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Ostatni dzień następnego miesiąca',
 	'payment:first day of +3 months' => 'Pierwszy dzień następnego kwartału',
 	'payment:last day of +3 months' => 'Ostatni dzień następnego kwartału',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Usuń linię, której produkt/usługa został/a usunięty/a z/w systemie.',
-);
+];

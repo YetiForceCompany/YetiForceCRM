@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ModTracker' => 'Änderungshistorie',
 	'LBL_MODTRACKER_SETTINGS' => 'Änderungshistorie',
 	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Verwalten der Änderungshistorie in den Modulen',
@@ -17,4 +17,4 @@ $languageStrings = array(
 	'LBL_TOOLS' => 'Tools',
 	'LBL_TRACK_CHANGES_ENABLED' => 'Änderungen verfolgen aktiviert',
 	'LBL_TRACK_CHANGES_DISABLE' => 'Änderungen verfolgen deaktiviert',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSPasswords'        => 'Hasła',
 	'SINGLE_OSSPasswords' => 'Hasło',
@@ -124,9 +124,9 @@ $languageStrings = array(
 	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information' => 'Informacje o modułach: ' ,
 	'LBL_Helpforthemodule' => 'Pomoc dla modułu: ',	
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'Skopiowano hasło do schowka',
     'LBL_NotifPassTitle' => 'Hasło',
@@ -139,4 +139,4 @@ $jsLanguageStrings = array(
     'Medium' => 'Średnie',
     'Strong' => 'Silne',
     'Very Strong' => 'Bardzo Silne',
-);
+];

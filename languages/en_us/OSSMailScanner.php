@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
     'E-mail Accounts' => 'E-mail Accounts',
@@ -166,4 +166,4 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS' => 'Mail Logs',
 	'Group list' => 'Group list',
 
-);
+];

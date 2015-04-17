@@ -1,6 +1,6 @@
 <?php
 
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Projekt-Vorlagen',
     'SINGLE_MODULE_NAME' => 'Projekt-Vorlage',
     'LBL_NEW_TPL' => 'Neue Vorlage',
@@ -48,4 +48,4 @@ $languageStrings = array(
     'TPL_VISIBILITY' => 'Welche Gruppen können die Vorlage nutzen',
 		// help
 
-    );
+    ];

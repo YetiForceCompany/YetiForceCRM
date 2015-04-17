@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUPPORT_PROCESSES' => 'Procesy wsparcia',
 	'LBL_GENERAL_CONFIGURATION' => 'Ogólna konfiguracja',
 	'LBL_OTHER' => 'Pozostałe',
@@ -17,8 +17,8 @@ $languageStrings = array(
 	'LBL_TICKET_STATUS_INFO' => 'Statusy oznaczające zamknięcie zgłoszenia',
 	'LBL_SAVE_CONFIG_OK' => 'Pomyślnie zapisano ustawienia.',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'Nie udało się zapisać ustawień.',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	
-);
+];

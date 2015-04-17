@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'zu',
 	'LBL_EXPORT_TO_PDF' => 'Als PDF exportieren',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Adressinformation',
@@ -37,10 +37,10 @@ $languageStrings = array(
 	'Website' => 'Webseite',
 	'LBL_BUILDING_NUMBER' => 'Hausnummer',
 	'LBL_LOCAL_NUMBER' => 'Büronummer',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Löschen dieses Lieferanten, wird auch seine ihm zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie diesen Lieferanten löschen möchten?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Löschen dieser Lieferanten, wird auch die ihnen zugehörigen Bestellungen entfernen. Sind Sie sicher, dass Sie die ausgewählten Lieferanten löschen möchten?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?',
-);
+];

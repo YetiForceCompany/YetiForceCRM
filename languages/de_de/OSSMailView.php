@@ -7,7 +7,7 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'Unternehmens-E-Mails',
 	'SINGLE_OSSMailView' => 'Unternehmens-E-Mail',
@@ -77,8 +77,8 @@ $languageStrings = array(
 	'Previous week' => 'Letzte Woche',	
 	'Current month' => 'Aktueller Monat',
 	'Previous month' => 'Letzter Monat',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'Von',
 	'To' => 'An',
 	'CC' => 'CC',
@@ -87,4 +87,4 @@ $jsLanguageStrings = array(
 	'Subject'=>'Betreff',
 	'Content'=>'Inhalt',
 	'JS_BIND_CONFIRM'=>'Sind Sie sicher, dass Sie die ausgewählten Nachrichten zuordnen möchten?',
-);
+];

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MAX_SEARCH_RESULT'	=>	'Maximale Anzahl der angezeigten Suchergebnisse',
 	'address' => 'Adresse',
 	'Allows you to Configure Cron Task' => 'Ermöglicht Ihnen die Konfiguration von CRON Aufgaben',
@@ -295,9 +295,9 @@ $languageStrings = array(
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Allgemeine Geschäftsbedingungen',
 	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Konfigurationsdetails gespeichert',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Sind Sie sicher, dass Sie die Serverdetails auf die Standardserverwerte zurücksetzen wollen',
@@ -319,4 +319,4 @@ $jsLanguageStrings = array(
 	'LBL_WRONG_IMAGE_TYPE' => 'Nicht unterstütztes Bildformat',
 	'JS_COLUMN_ADDED' => 'Feld hinzugefügt',
 	'JS_COLUMN_EXIST' => 'Fehler beim Feld hinzufügen',
-);
+];

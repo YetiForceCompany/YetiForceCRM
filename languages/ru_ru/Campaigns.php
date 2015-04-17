@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'--None--'                     => '--Нет--'                  , 
 	'Active'	=>	'Активно',
 	'Actual Cost'                  => 'Затраты'              , 
@@ -56,8 +56,8 @@ $languageStrings = array(
 	'Webinar'                      => 'Семинар'              , 
     'Completed'                    => 'Завершена',
     'Partners'                     => 'Партнеры',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 
-);
+];

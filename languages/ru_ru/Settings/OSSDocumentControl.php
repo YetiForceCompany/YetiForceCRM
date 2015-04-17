@@ -8,18 +8,18 @@
  * All Rights Reserved.
   * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSDocumentControl' => 'Менеджер документов',
 	'Document Control'	=>	'Менеджер документов',
 	'LBL_ENTER_BASIC_INFO'	=>	'Введите основную информацию',
 	'LBL_STEP_1'	=>	'Шаг 1',
 	'NEXT'	=>	'Далее',
 	'CANCEL'	=>	'Отмена',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'OSSDocumentControl' => 'Менеджер документов',
 	'Document Control'	=>	'Менеджер документов',
 	'DES_REQUIRED'	=>	'Введите описание документа',
 	'DES_NAME_REQUIRED'	=>	'Введите название документа',
-);
+];

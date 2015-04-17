@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Webforms' => 'Webforms',
 	'SINGLE_Settings:Webforms' => 'Webform',
 	//Basic Field Names
@@ -43,8 +43,8 @@ $languageStrings = array(
 	'LBL_ASSIGN_USERS' => 'User Assignment',
     'LBL_ASSIGN_ROUND_ROBIN' => 'Assign Users In Round Robin',
     'LBL_ROUNDROBIN_USERS_LIST' => 'Round Robin Users List',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Webform deleted successfully',
 	'JS_LOADING_TARGET_MODULE_FIELDS' => 'Loading Target Module Fields',
 	'JS_SELECT_AN_OPTION' => 'Select an Option',
@@ -53,4 +53,4 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Reference fields can be mandatory without overridden value',
 	'JS_TYPE_TO_SEARCH' => 'Type to search',
 	"JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS" => 'Webform with this name already exists',
-);
+];

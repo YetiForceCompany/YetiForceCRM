@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Projekt Meilenstein',
 	'LBL_ADD_RECORD' => 'Meilenstein hinzufügen',
@@ -29,4 +29,4 @@ $languageStrings = array(
 	'PLL_EXTERNAL' => 'Extern',
 	'PLL_SHARED' => 'Geteilt',
 	
-);
+];

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ModComments' => 'Kommentar',
 	'LBL_RECORDS_LIST' => 'Liste Kommentare',
@@ -25,4 +25,4 @@ $languageStrings = array(
 	'Customer' => 'Kunde',
 	'Related To Comments' => 'Bezogen auf',
 	
-);
+];

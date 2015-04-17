@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Potential Name' => 'Nome',
 	'LBL_GENERATING_COMMENT' => 'Oportunidade gerada a partir do seguinte:',
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Gerada %s oportunidades de vendas.',
@@ -84,4 +84,4 @@ $languageStrings = array(
 	'Total price [Sales Order]' => 'Valor total Pedidos',
 	'Total price [Invoice]' => 'Valor total Faturas',
 
-);
+];

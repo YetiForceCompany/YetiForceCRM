@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'PBXManager'	=>	'Менеджер PBX',
     'LBL_SELECT_ONE' => 'Выберите',
     'LBL_PBXMANAGER' =>'Менеджер PBX',
@@ -26,9 +26,9 @@ $languageStrings = array(
     'outboundcontext' => 'Контекст',
     'outboundtrunk' => 'Транк',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];
 ?>  

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT'                         => 'Последние Контрагенты',
 	'CVLVT'                        => 'Ключевые Показатели',
 	'GRT'                          => 'Положение Моей Группы',
@@ -22,9 +22,9 @@ $languageStrings = array(
 	'UA'                           => 'Ближайшие События',
     'Home'                         => 'Главная',
     'OLTPO'                        => 'Последние Закупки',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Невозможно выбрать соответствующие Контакты для Обращений',
 	'JS_MORE' => 'Еще',
 	'JS_WEEK' => 'Неделя',
@@ -111,4 +111,4 @@ $jsLanguageStrings = array(
 	'LBL_WED' => 'Ср',
 	'LBL_WEDNESDAY' => 'Среда',
 	'LBL_WEEK' => 'Неделя',
-);
+];

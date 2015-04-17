@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CONVERSION' => 'Konwersja',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Zmiana własciciela rekordu',
 	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Zaznaczona opcja powoduje, że przy konwertowaniu leada na kontrahenta jako właściciel rekordu ustawiana jest osoba, która dokonuje konwersji.',
@@ -18,5 +18,5 @@ $languageStrings = array(
 	'LBL_GROUPS_INFO' => 'Grypy oznaczające brak właściciela rekordu',
 	'LBL_LEAD_STATUS' => 'Statusy',
 	'LBL_CURRENTUSER_STATUS' => 'Ustaw właścicielem rekordu osobę dokonującą edycji',
-);
+];
 

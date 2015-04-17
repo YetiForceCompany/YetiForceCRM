@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CRM Applications' => 'CRM Applications',
 	'Software' => 'Software',
 	'Hardware' => 'Hardware',
@@ -61,4 +61,4 @@ $languageStrings = array(
 	'Migration' => 'Migration',
 	'Customization' => 'Customization', 
 	'Training' => 'Training',
-);
+];

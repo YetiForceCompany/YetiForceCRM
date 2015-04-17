@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Asset Name'                   => 'Название Актива', 
 	'Asset No'                     => 'Актив №'              , 
 	'Assets'	=>	'Активы',
@@ -37,4 +37,4 @@ $languageStrings = array(
 	'attentions'	=>	'Внимание',
 	'description'	=>	'Описание',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
-);
+];

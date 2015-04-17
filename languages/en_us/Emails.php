@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Parent ID' => 'Parent ID',
 	'Owner' => 'Owner',
 	'Access Count' => 'Access Count',
@@ -44,4 +44,4 @@ $languageStrings = array(
 	'LBL_TO' => 'To',
 	'SINGLE_Emails' => 'Email',
 	'Time Start' => 'Time Sent',
-);
+];

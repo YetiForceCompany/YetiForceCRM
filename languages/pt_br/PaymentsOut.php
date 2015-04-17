@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PaymentsOut' => 'Pagamentos',
 	'SINGLE_PaymentsOut' => 'Pagamento',
 	'LBL_MAIN_INFORMATION' => 'Informações Básicas',
@@ -45,4 +45,4 @@ $languageStrings = array(
 	'Liczba transakcji:' => 'Número de transações:',
 	'Title' => 'Assunto',
 	'NEXT' => 'Próximo',
-);
+];

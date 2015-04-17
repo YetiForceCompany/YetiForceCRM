@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Anrufdetails',
@@ -36,5 +36,5 @@ $languageStrings = array(
     'SINGLE_PBXManager' => 'Anruf Mitschneiden' ,
 	'Direction' => 'Richtung',
 
-);
+];
 

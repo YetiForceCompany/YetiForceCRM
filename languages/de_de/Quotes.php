@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GENERATE_QUOTES' => 'Angebote generieren',
 	'Inventory Manager'=>'Bestandsmanager',
 	'LBL_ADD_RECORD' => 'Neues Angebot',
@@ -37,9 +37,9 @@ $languageStrings = array(
 	'PLL_SENT_TO_ORGANIZATION' => 'An Organisation gesendet',
 	'PLL_DECLINED' => 'Abgelehnt',
 	'PLL_ACCEPTED' => 'Angenommen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Entfernen Sie Posten, die gelöscht wurden',
-);
+];
 

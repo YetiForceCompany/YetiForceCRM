@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Picklist' => 'Pole słownikowe',
 	'Calendar' => 'Do wykonania',
 	'LBL_ADD_ITEM_TO' => 'Dodaj wartość do',
@@ -41,9 +41,9 @@ $languageStrings = array(
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Aby usunąć kilka pozycji przytrzymaj klawisz Ctrl podczas wybierania pozycji w dół',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Wartości przypisane do roli',
     'NO_PICKLIST_FIELDS'=> 'nie mają żadnych pól słownikowych',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_ALL_ROLES_SELECTED' => 'Wszystkie role zaznaczone',
 	'JS_ITEM_ADDED_SUCCESSFULLY' => 'Dodano wartość poprawnie',
 	'JS_ITEM_RENAMED_SUCCESSFULLY' => 'Zmieniono nazwę wartości poprawnie',
@@ -57,4 +57,4 @@ $jsLanguageStrings = array(
 	'JS_SPECIAL_CHARACTERS' => 'Znaki specjalne takie jak',
 	'JS_VALUE_ASSIGNED_SUCCESSFULLY' => 'Wartość powiązana poprawnie',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_VALUES' => 'Nie możesz usunąć wszystkich wartości',
-);	
+];	

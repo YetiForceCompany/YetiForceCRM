@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Milestone Projeto' ,
 	'LBL_ADD_RECORD' => 'Adicionar Milestone Projeto' ,
@@ -30,4 +30,4 @@ $languageStrings = array(
 	'PLL_INTERNAL' => 'Interno',
 	'PLL_EXTERNAL' => 'Externo',
 	'PLL_SHARED' => 'Compartilhado',
-);
+];

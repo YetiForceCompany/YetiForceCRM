@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'isactive' => 'Aktiv',
 	'password' => 'Password',
 	'username' => 'User Name',
@@ -31,4 +31,4 @@ $languageStrings = array(
 	//Blocks
 	'LBL_SMSNOTIFIER_INFORMATION' => 'SMS Information',
 	'SINGLE_SMSNotifier' => 'SMS Benachrichtigung',
-);
+];

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Enter new data' => 'Enter new data',
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Account Number',
 	'LBL_SMS_SENDER' => 'Sender',
@@ -28,9 +28,9 @@ $languageStrings = array(
 	'isactive' => 'Active',
 	'username' => 'User Name',
 	'password' => 'Password',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Account Number',
 	'LBL_SMSPM_AUTH_HASH' => 'Authentification Hash',
 	'LBL_SMS_TIME' => 'Time (min)',
@@ -38,4 +38,4 @@ $jsLanguageStrings = array(
 	'LBL_DELETE_CONFIRMATION' => 'Are you sure, you want to delete this SMSNotifier Configuration?',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'SMS Provider Deleted Successfully',
 	'JS_CONFIGURATION_SAVED' => 'SMS Provider Configurations saved',
-);	
+];	

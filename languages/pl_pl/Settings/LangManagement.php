@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'No data available in table' => 'Brak danych w tabeli',
 	'Translations' => 'Tłumaczenia',
 	'Language editor' => 'Editor języka',
@@ -58,8 +58,8 @@ $languageStrings = array(
 	'LBL_SHOW_EMPTY_VALUES'	=> 'Pokaż puste wartości',
 	'LBL_SHOW_IN'	=> 'Pokaż w',
 	'LBL_EDIT_HELP_ICON'	=> 'Ikony pomocy',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',
 	'LBL_AreYouSure'	=> 'Czy na perwno chcesz usunąć język?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na perwno chcesz zmienić język domyślny?',
@@ -71,4 +71,4 @@ $jsLanguageStrings = array(
 	'Search'	=> 'Szukaj:',
 	'No data available in table'	=> 'Brak tłumaczeń',
 	'JS_NOTRANSLATION'	=> '--Brak tłumaczenia--',
-);
+];

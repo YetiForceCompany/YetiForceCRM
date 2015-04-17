@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PaymentsOut' => 'Payments out',
 	'SINGLE_PaymentsOut' => 'Payment out',
 	'LBL_MAIN_INFORMATION' => 'Basic information',
@@ -45,4 +45,4 @@ $languageStrings = array(
 	'Liczba transakcji:' => 'Number of transactions:',
 	'Title' => 'Subject',
 	'NEXT' => 'Next',
-);
+];

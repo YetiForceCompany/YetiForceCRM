@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'LettersOut'					=> 'Letters outgoing',
 	'SINGLE_LettersOut'				=> 'Letters outgoing',
@@ -67,4 +67,4 @@ $languageStrings = array(
 	'PLL_SETTLED'					=> 'Settled',
 	'PLL_A'							=> 'A',
 	'PLL_B'							=> 'B',
-);
+];

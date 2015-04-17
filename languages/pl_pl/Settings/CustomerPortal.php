@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'CustomerPortal' => 'Portal klienta',
 	'LBL_PORTAL_DESCRIPTION' => 'Ustaw uprawnienia do użytkowników portalu',
 
@@ -26,8 +26,8 @@ $languageStrings = array(
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Zgłoszenia zostaną przydzielone do wybranego użytkownika/grupy w CRM.',
 	'LBL_PORTAL_URL_MESSAGE' => 'To jest adres portalu, w którym Kontrahenci będą mogli przeglądać udostępnione im informacje.',
 	'LBL_DRAG_AND_DROP_MESSAGE' => 'Chwyć i przemieść moduły w celu uporządkowania ich kolejności wyświetlania.',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PORTAL_INFO_SAVED' => 'Konfiguracja portalu została zapisana',
-);
+];

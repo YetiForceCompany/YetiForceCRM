@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributors: Brazilian Portuguese Translation - Valmir Carlos Trindade e Gabriel Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=> 'Widgets',
 	'LBL_MODULE_DESC'	=> 'Informação do Móodulo',
 	'Add widget'	=> 'Adicionar Widget',
@@ -52,9 +52,9 @@ $languageStrings = array(
 	'Filter info' => 'Habilitar a filtragem de dados a partir da lista de seleção',
 	'None' => 'Nada',
 
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=> 'Carregando...',
 	'Saving changes'	=> 'Salvando mudanças...',
 	'None' => 'Nada',
-);
+];

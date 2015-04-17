@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MIGRATION_SYSTEM_FINISH'	=>	' Abgeschlossene Migration YetiForce CRM-System',
 	'LBL_EXAMPLE_DIRECTORY'	=>	'Beispiel',
 	'LANGNAME' => 'Deutsch',
@@ -96,9 +96,9 @@ $languageStrings = array(
 	'LBL_WRONG_USERNAME_OR_PASSWORD' => 'Falscher Benutzername oder Passwort',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Warnung!</strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:	MailManager, EmailTemplates, Workflows. <br> Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen',
 	'LBL_MIGRATION_IN_PROGRESS' => 'Migration in Bearbeitung',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_PASS_TO_SHORT' => 'Passwort ist zu kurz - die Mindestlänge beträgt 8 Zeichen',
 	'LBL_PASS_TO_LONG' => 'Das Passwort ist zu lang - maximale Länge beträgt 32 Zeichen',
 	'LBL_PASS_NO_NUM' => 'Das Passwort muss Zahlen enthalten',
@@ -111,4 +111,4 @@ $jsLanguageStrings = array(
 	'LBL_INVALID_EMAIL_ERROR' => 'Achtung! Ungültige E-Mail-Adresse.',
 	'LBL_RESOLVE_ERROR' => 'Bitte beheben Sie den Fehler, bevor Sie mit der Installation fortfahren',
 
-);
+];

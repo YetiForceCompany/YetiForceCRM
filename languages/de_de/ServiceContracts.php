@@ -8,7 +8,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => ' Zusammenfassung der Arbeitszeit',
 	'Services'	=>	'Dienstleistungen',
 	'In Progress'	=>	'In Arbeit',
@@ -55,4 +55,4 @@ $languageStrings = array(
 	'Days' => 'Tage',
 	'Incidents' => 'Vorfälle'
 
-);
+];

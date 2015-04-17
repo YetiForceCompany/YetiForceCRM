@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Products' => 'Товар',
 	'Orders accepted' => 'Оформление заказа',
 	'Township'	=>	'Поселок',
@@ -109,11 +109,11 @@ $languageStrings = array(
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Европейское Ограниченное Партнерство',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Европейская ассоциация',
 	'PLL_UFCIITS' => 'Организация Коллективного Инвестирования',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Township'	=>	'Поселок',
 	'JS_SELECT_CONTACTS'           => 'Выберите контакты для продолжения'  , 
 	'JS_SELECT_ORGANIZATION' => 'Выберите Контрагента для продолжнеия',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Необходимо выбрать Контакт или Контрагент',
-);
+];

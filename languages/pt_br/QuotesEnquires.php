@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'Quotesenquires' => 'Levantamentos Cotações',
 	'SINGLE_Quotesenquires' => 'Levantamento para Cotações',
 
@@ -45,4 +45,4 @@ $languageStrings = Array(
 	'PLL_COMPETENT_TEAM' => 'Equipe competente',
 	'PLL_EASE_OF_COMMUNICATION' => 'Fácil comunicação',
 	'PLL_RECOMMENDABLE' => 'Recomendável',
-);
+];

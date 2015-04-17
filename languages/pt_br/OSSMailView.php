@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir Carlos Trindade and Gabriel Porto Trindade - Brazilian Language Translation - valmir#ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSMailView'        => 'E-mails Corporativos',
 	'SINGLE_OSSMailView' => 'E-mail Corporativo',
@@ -78,8 +78,8 @@ $languageStrings = array(
 	'Previous week' => 'Semana anterior',
 	'Current month' => 'Mês atual',
 	'Previous month' => 'Mês anterior',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'From' => 'A partir de',
 	'To' => 'Para',
 	'CC' => 'CC',
@@ -88,4 +88,4 @@ $jsLanguageStrings = array(
 	'Subject'=>'Assunto',
 	'Content'=>'Conteúdo',
 	'JS_BIND_CONFIRM'=>'Você tem certeza que deseja vincular as mensagens selecionadas?',
-);
+];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Services' => 'Services',
 	'Potential' => 'Potential',
 	'Invoice' => 'Invoice',
@@ -39,5 +39,5 @@ $languageStrings = array(
 'Potential renewal'=>'Renovar venda',
 'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 'LBL_ORDER_TIME' => 'Hora Pedido',
-);
+];
 ?>

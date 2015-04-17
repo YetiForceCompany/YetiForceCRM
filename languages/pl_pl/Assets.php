@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'Assets'        => 'Produkty sprzedane',
 	'SINGLE_Assets' => 'Produkt sprzedany',
@@ -46,4 +46,4 @@ $languageStrings = array(
 	'Potential'=>'Źródło sprzedaży',
 	'Potential renewal'=>'Odnowienie sprzedaży',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
-);
+];

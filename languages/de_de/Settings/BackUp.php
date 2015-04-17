@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Verwaltung von Sicherungen',
 	'LBL_SAVE_BACKUP' => 'Sicherung speichern',
 	'LBL_GENERATE_BACKUP' => 'Sicherung starten',
@@ -36,12 +36,12 @@ $languageStrings = array(
 	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird die Datensicherung im Hauptordner gespeichert',
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pflichtfelder dürfen nicht leer sein',
 	'JS_PORT_ONLY_NUMBERS' => 'In Feld Port können nur Ziffern hinterlegt werden',
 	'JS_SAVE_CHANGES' => 'Änderungen wurden gespeichert',
 	'JS_HOST_NOT_CORRECT' => 'Fehlerhafte Host Adresse',
 	'JS_CONNECTION_FAIL' => 'Fehlerhafter Login Versuch',
-);
+];

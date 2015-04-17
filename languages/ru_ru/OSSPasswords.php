@@ -10,7 +10,7 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GeneratePass' => 'Генерировать пароль',
 	'LBL_ConfigurePass'	=>	'Конфигурация пароля',
 	// Basic Strings
@@ -107,9 +107,9 @@ $languageStrings = array(
 	'LBL_CopyToClipboardTitle'	=>	'Копировать пароль в буфер обмена',
 	'LBL_NotifPassCopied'	=>	'Пароль скопирован в буфер обмена',
 	'LBL_NotifPassTitle'	=>	'Пароль',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
 	'LBL_NotifPassCopied'	=>	'Пароль скопирован в буфер обмена',
 	'LBL_NotifPassTitle'	=>	'Пароль',
@@ -122,4 +122,4 @@ $jsLanguageStrings = array(
 	'Medium'	=>	'Выше среднего',
 	'Strong'	=>	'Сильный',
 	'Very Strong'	=>	'Очень сильный',
-);
+];

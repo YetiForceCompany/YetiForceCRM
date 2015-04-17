@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Member Of' => 'Member Of',
 	'Birthdate' => 'Date of Birth',
 	'Contact Id' => 'Contact Id',
@@ -56,7 +56,7 @@ $languageStrings = array(
 	'Birthdays of contacts' => 'Birthdays of contacts',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Vendor',
-);
+];
 
-$jsLanguageStrings = array(
- );
+$jsLanguageStrings = [
+ ];

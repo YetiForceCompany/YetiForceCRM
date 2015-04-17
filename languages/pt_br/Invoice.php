@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Aprovada',
 	'AutoCreated'=> 'Requer Aprovação' ,
 	'Created'=>'Rascunho',
@@ -42,8 +42,8 @@ $languageStrings = array(
 	'Form of payment' => 'Forma de pagamento',
 	'Transfer' => 'Transferência',
 	'Cash' => 'Dinheiro',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Por favor, remova da linha o item que foi excluído',
-);
+];

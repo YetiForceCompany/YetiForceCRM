@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'End Time' => 'Время окончания',
 	'Direction' => 'Направление',
 	'Gateway' => 'Шлюз',
@@ -31,4 +31,4 @@ $languageStrings = array(
 	'Start Time' => 'Время начала звонка',
 	'Total Duration' => 'Длительность (сек)',
 	'User' => 'Пользователь',
-);
+];

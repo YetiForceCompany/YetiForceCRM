@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Webforms' => 'Webforms',
 	'SINGLE_Settings:Webforms' => 'Webformular',
 	//Basic Field Names
@@ -43,8 +43,8 @@ $languageStrings = array(
 	'LBL_ASSIGN_USERS' => 'Benutzer zuweisen',
    'LBL_ASSIGN_ROUND_ROBIN' => 'Zu Verteilerliste hinzufügen',
    'LBL_ROUNDROBIN_USERS_LIST' => 'Benutzer im Verteiler',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_WEBFORM_DELETED_SUCCESSFULLY' => 'Webformular erfolgreich gelöscht',
 	'JS_LOADING_TARGET_MODULE_FIELDS' => 'Laden der Zielmodul-Felder',
 	'JS_SELECT_AN_OPTION' => 'Wählen Sie eine Option',
@@ -53,4 +53,4 @@ $jsLanguageStrings = array(
 	'JS_REFERENCE_FIELDS_CANT_BE_MANDATORY_WITHOUT_OVERRIDE_VALUE' => 'Referenzfelder können ohne Überschreibwerte keine Pflichtfelder sein',
 	'JS_TYPE_TO_SEARCH' => 'Tippen um zu suchen',
 	"JS_WEBFORM_WITH_THIS_NAME_ALREADY_EXISTS" => 'Webformular mit diesem Namen ist bereits vorhanden',
-);
+];

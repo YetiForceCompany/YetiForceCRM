@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 21/12/2013 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'RecycleBin' => 'Lixeira',
 	'LBL_SELECT_MODULE' => 'Selecionar Módulo',
 	'LBL_EMPTY_RECYCLEBIN' => 'Limpar Lixeira',
@@ -16,12 +16,12 @@ $languageStrings = Array(
 	'LBL_NO_PERMITTED_MODULES' => 'Nenhum módulo permitido disponível',
 	'LBL_RECORDS_LIST' => 'Lista Lixeira',
 	'LBL_NO_RECORDS_FOUND' => 'Nenhum registro foi encontrado para Restaurar no módulo',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
 	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Are you sure you want to permanently remove all the deleted records from your database?',
 	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Are you sure you want to restore the records?',
 	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Tem certeza que deseja remover permanentemente, de sua base de dados, todos os registros apagados?',
 	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Tem certeza que deseja restaurar os registros?',
 	'JS_RESTORING_RECORDS' => 'Restaurando registros',
-);
+];

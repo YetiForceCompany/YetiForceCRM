@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = Array(
+$languageStrings = [
     'LBL_ADD_FEED_SOURCE' => 'RSS Feed Quelle hinzufügen',
     'LBL_ENTER_FEED_SOURCE' => 'RSS Feed Quelle eingeben',
     'LBL_FEEDS_LIST_FROM' => 'RSS Feeds Liste Von',
@@ -17,14 +17,14 @@ $languageStrings = Array(
     'LBL_SENDER' => 'Sender',
     'LBL_SET_AS_DEFAULT' => 'Als Standard festlegen',
     'SINGLE_Rss' => 'RSS Feed',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'JS_INVALID_RSS_URL' => 'Ungültige RSS Url',
     'JS_RSS_MADE_AS_DEFAULT' => 'RSS gesetzt als Standard',
 	'JS_RSS_SUCCESSFULLY_SAVED' => 'RSS erfolgreich gespeichert',
 
-);
+];
 
 
 ?>

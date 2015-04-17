@@ -7,7 +7,7 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	'No data available in table' => 'No data available in table',
 	'Translations' => 'Translations',
 	'Language editor' => 'Language editor',
@@ -57,8 +57,8 @@ $languageStrings = array(
 	'LBL_SHOW_EMPTY_VALUES' => 'Show empty values',
 	'LBL_SHOW_IN'	=> 'Show in',
 	'LBL_EDIT_HELP_ICON'	=> 'Help icons',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Translations' => 'Translations',
 	'LBL_AreYouSure'	=> 'Are you sure you want to delete this language?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
@@ -69,4 +69,4 @@ $jsLanguageStrings = array(
 	'No matching records found'	=> 'No matching records found',
 	'Search'	=> 'Search:',
 	'No data available in table'	=> 'No translations',
-);
+];

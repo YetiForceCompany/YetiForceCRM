@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PAGES_HISTORY' => 'Recently viewed pages',
 	'LBL_MARK_AS_DONE' => 'Mark as done',
 	'days later' => 'days later',
@@ -886,8 +886,8 @@ $languageStrings = array(
 	'PLL_HOLIDAY_TIME' => 'Holiday',
 	'PLL_BREAK_TIME' => 'Break from work',
 	'PLL_WORKING_TIME' => 'Working time',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
 	'JS_SAVE_NOTIFY_OK' => 'Changes have been saved',
@@ -1049,4 +1049,4 @@ $jsLanguageStrings = array(
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
 	'JS_SET_READ_RECORD' => 'You read all changes performed on this record',
 	'JS_CLEAR_HISTORY' => 'Clear recent history',
-);
+];

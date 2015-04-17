@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active'                       => 'Aktiv'                       , 
 	'Document No'                  => 'Dokumentennr.'               , 
 	'Documents'                    => 'Dokumente'                   , 
@@ -51,8 +51,8 @@ $languageStrings = array(
 	'Sprawdzono'			 => 'geprüft', 
 	'Default' => 'Default',
 	'LBL_SELECT_Documents' => 'Dokument auswählen',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_NOT_ALLOWED'	=>	'sind nicht erlaubt',
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Dateien in folgendes Verzeichnis verschieben', 
 	'JS_FOLDER'                    => 'Verzeichnis'                      , 
@@ -61,4 +61,4 @@ $jsLanguageStrings = array(
 	'JS_MOVE_DOCUMENTS'            => 'Verschieben Dokumente'              , 
 	'JS_OPERATION_DENIED'          => 'Vorgang verweigert'            , 
 	'JS_SPECIAL_CHARACTERS' => 'Spezielle Zeichen wie',
-);
+];

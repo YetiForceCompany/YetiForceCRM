@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PLL_HOLIDAY' => 'Feriado',
 	'PLL_BREAK_TIME' => 'Parada trabalho',
 	'PLL_WORKING_TIME' => 'Tempo trabalho',
@@ -89,8 +89,8 @@ $languageStrings = array(
 	'Office work'=>'Trabalho Escritório',
 	'Administrative work'=>'Trabalho Administrativo',
 	'Accounting work'=>'Trabalho Contábil',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode execeder 24 horas',
@@ -140,4 +140,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Qua',
 	'JS_WEEK' => 'Semana',
 	'JS_MORE' => 'Mais',
-);
+];

@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SAVE' => 'Save',
 	'ApiAddress' => 'Pesquisar endereço',
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
@@ -26,10 +26,10 @@ $languageStrings = array(
 	'LBL_GLOBAL_CONFIG' => 'Global configuration',
 	'LBL_SAVE_GLOBAL_SETTINGS' => 'Save the global settings',
 	'LBL_NUMBER_SEARCH_RESULTS' => 'Number of search results',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'Invalid API key' => 'Chave da API inválida',
     'JS_ERROR' => 'Erro',
     'JS_LOADING_PLEASE_WAIT' => 'Carregando, por favor aguarde.',
 	'JS_WRONG_NUMBER' => 'Caracteres permitidos: dígitos maior que 1.',
-);
+];

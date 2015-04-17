@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ADD_CONDITIONS' => 'Dodaj warunek',
 	'ADD_TASKS' => 'Dodaj zadania',
 	'Calendar' => 'Do wykonania',
@@ -144,13 +144,13 @@ $languageStrings = array(
 	'Update Closed Time' => 'Aktualizacja czasu zamknięcia',
 	'Send Notification' => 'Wyślij zaproszenie',
 	'Create Address Book' => 'Generuj książkę adresową mail',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status zmieniono poprawnie',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Zadanie usunięto poprawnie',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Obieg informacji zapisano poprawnie',
 	'LBL_STATUS_CONFIRMATION' => 'Czy na pewno chcesz zmienić statusy wszystkich zadań?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Zmiana statusu zadań...',
-);
+];

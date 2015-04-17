@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Anforderung hinzufügen',
 	'LBL_RECORDS_LIST' => 'Liste Anforderungen', 
 	'RequirementCards' => 'Anforderungen',
@@ -49,4 +49,4 @@ $languageStrings = Array(
 	'PLL_POSSIBILITY_TO_PREPAY' => 'Vorleistung möglich',
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Anpassungen möglich',
 	'PLL_NEW_ORGANIZATION_ORDER' => 'Neue Kundenbestellung',
-);
+];

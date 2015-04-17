@@ -7,9 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com ************************************************************************************/
-$mod_strings = Array (
+$mod_strings = [
 'Mobile' => 'Celular',
 
-);
+];
 
 ?>

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Users' => 'Użytkownicy',
 	'USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'LBL_COLORS' => 'Kolory',
@@ -36,8 +36,8 @@ $languageStrings = array(
 	'LBL_LDAP_USERS' => 'Autlogowanie aktywne dla użytkowników',
 	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
 	'LBL_LDAP_DOMAIN' => 'Domena (automatycznie dodawana do loginu)',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Użytkowik o podanym adresie email już istnieje',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
-);
+];

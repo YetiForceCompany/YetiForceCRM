@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
     'LBL_NEW_TPL' => 'Adicionar um novo Documento',
 	'OSSDocumentControl' => 'Controle de Documento',
@@ -43,7 +43,7 @@ $languageStrings = array(
 
     'NOT_ALLOW_TO_SAVE' => 'Você não pode salvar o registro proque os documentos obrigatórios não estão em anexo',
     'LIST_REQ_DOC' => 'Por favor, anexe os seguintes documentos',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'LBL_VIEW_EDIT2' => 'Adicionar Condições',
-);
+];

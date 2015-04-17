@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Brutto' => 'Brutto',
 	'SINGLE_OSSTimeControl' => 'Czas pracy',
 	'OSSTimeControl' => 'Czas pracy',
@@ -91,8 +91,8 @@ $languageStrings = array(
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_HOLIDAY' => 'Urlop',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
@@ -143,4 +143,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Śro',
 	'JS_WEEK' => 'Tydzień',
 	'JS_MORE' => 'więcej',
-);
+];

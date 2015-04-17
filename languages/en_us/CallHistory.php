@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'CallHistory' => 'Call history',
 	'SINGLE_CallHistory' => 'Call history',
 	'LBL_ADD_RECORD' => 'Add record',
@@ -45,4 +45,4 @@ $languageStrings = Array(
 	'Missed' => 'Incoming missed',
 	'Voicemail' => 'Incoming voicemail',
 	'Call history'	=>	'Call History',
-);
+];

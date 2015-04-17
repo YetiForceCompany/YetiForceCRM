@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Roundcube config'	=>	'Настройка Roundcube',
 	'OSSMail'	=>	'Почта',
 	'OSSMail_manual'	=>	'Почта',
@@ -62,8 +62,8 @@ $languageStrings = array(
 	'LBL_SAVE'	=>	'Сохранить конфигурацию',
 	'Mails List'	=>	'Последние письма',
 	'LBL_NOMAILSLIST'	=>	'Нет сообщений',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Project' => 'Проект',
 	'Sale'	=>	'Продажа',
 	'Calendar'	=>	'Календарь',
@@ -156,4 +156,4 @@ $jsLanguageStrings = array(
 	'NoCrmRecord'	=>	'Сообщений не найдено. Проверьте, уровень доступа.',
 	'NoFindEmailInRecord'	=>	'Запись не имеет адреса электронной почты',
 	'AddFindEmailInRecord'	=>	'Скачать письмо',
-);
+];

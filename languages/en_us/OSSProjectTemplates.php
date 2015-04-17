@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Project template',
     'SINGLE_MODULE_NAME' => 'Project template',
     'LBL_NEW_TPL' => 'New Template',
@@ -57,4 +57,4 @@ $languageStrings = array(
     'TPL_VISIBILITY' => 'What groups can use the template',
 		// help
 
-    );
+    ];

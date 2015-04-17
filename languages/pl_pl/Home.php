@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ALVT' => 'Najlepszi kontrahenci',
 	'CVLVT' => 'Tablica',
 	'GRT' => 'Przydzielone do mojej grupy',
@@ -23,8 +23,8 @@ $languageStrings = array(
 	'PLVT' => 'Najlepsze szanse sprzedaży',
 	'QLTQ' => 'Najlepsze oferty',
 	'UA' => 'Nadchodzące zdarzenia',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	//Calendar
 	'JS_ALL_DAY' => 'Całodniowe',
 	'JS_APR' => 'Kwi',
@@ -70,4 +70,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Śro',
 	'JS_WEEK' => 'Tydzień',
 	'JS_MORE' => 'więcej',
-);
+];

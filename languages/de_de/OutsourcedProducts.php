@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_RECORDS_LIST' => 'Liste Produkte',
 	'Inactive'	=>	'Inaktiv',
 	'Active'	=>	'Aktiv',
@@ -39,4 +39,4 @@ $languageStrings = array(
 	'Save' => 'Speichern',
 	'Selling proposition'=>'Gelegenheit',
 	'LBL_GENERATE_EXTENSION' => 'Generiere Verlängerung',
-);
+];

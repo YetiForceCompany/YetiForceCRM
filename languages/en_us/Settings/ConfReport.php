@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ConfReport' => 'Server configuration',
 	'LBL_CONFIGURATION' => 'Server configuration',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Allows you to verify that the main server settings are compatible with the recommended parameters.',
@@ -26,4 +26,4 @@ $languageStrings = array(
 	'NOT RECOMMENDED' => 'Not Recommended',
 	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
 	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
-);
+];

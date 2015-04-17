@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leads',
 	'LBL_OPPORTUNITIES' => 'Oportunidades',
 	'checkBox' => 'Caixa Seleção',
@@ -39,9 +39,9 @@ $languageStrings = array(
 	'url' => 'Url',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Converter para Organização',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Não é possível mapear',
 	'JS_checkBox' => 'Caixa Seleção',
 	'JS_currency' => 'Moeda',
@@ -66,4 +66,4 @@ $jsLanguageStrings = array(
 	'JS_WITH' => 'com',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'O Mapeamento de Campos foi salvo',
 
-);
+];

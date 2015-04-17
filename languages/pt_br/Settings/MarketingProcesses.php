@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CONVERSION' => '__UNTRANSLATED__',
 	'LBL_CONVERSION_TO_ACCOUNT' => '__UNTRANSLATED__',
 	'LBL_CONVERSION_TO_ACCOUNT_INFO' => '__UNTRANSLATED__',
@@ -18,5 +18,5 @@ $languageStrings = array(
 	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
 	'LBL_LEAD_STATUS' => '__UNTRANSLATED__',
 	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
-);
+];
 

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj',
     'TreesManager' => 'Zarządzanie szablonami drzew',
     'LBL_TREES_MANAGER' => 'Zarządzanie szablonami drzew',
@@ -22,8 +22,8 @@ $languageStrings = array(
 	'LBL_ADD_TO_TREES' => 'Dodaj',
 	'LBL_SAVE' => 'Zapisz',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Zamień element drzewa na:',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Szablon drzewa został usunięty',
 	'JS_JSTREE_CREATE' => 'Dodaj',
 	'JS_JSTREE_RENAME' => 'Zmień nazwę',
@@ -36,4 +36,4 @@ $jsLanguageStrings = array(
 	'JS_NO_ITEM_SELECTED' => 'Nie wybrano elementu',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Nie możesz usunąć wszystkich elementów',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Nie możesz usunąć elementu rodzica',
-);
+];

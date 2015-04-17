@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PROJECTS_LIST' => 'List of projects',
 	'LBL_SUMMARY' => 'Working time summary',
 	// Basic Strings
@@ -82,4 +82,4 @@ $languageStrings = array(
 	'delivered'=>'Delivered',
 	'archived'=>'Archived',
 	
-);
+];

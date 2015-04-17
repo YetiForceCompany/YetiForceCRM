@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'LBL_SELECT_ONE' => 'Wybierz',
     'LBL_PBXMANAGER' =>'PBXManager',
     'LBL_PBXMANAGER_CONFIG' => 'Szczegóły serwera Asterisk',
@@ -24,9 +24,9 @@ $languageStrings = array(
     'outboundcontext' => 'Wychodzące - kontekst',
     'outboundtrunk' => 'Wychodzące - Trunk',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];
 ?>  

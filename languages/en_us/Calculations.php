@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MarginP' => 'Margin Percent',
 	'LBL_Margin' => 'Margin',
 	'LBL_Purchase' => 'Purchase',
@@ -72,4 +72,4 @@ $languageStrings = array(
 	'LBL_THIS' => 'Product/service (',
 	'Conversion Rate' => 'Conversion Rate',
 	'Currency' => 'Currency',
-);
+];

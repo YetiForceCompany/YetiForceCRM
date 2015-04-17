@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_DAV_KEYS' => 'Chaves Aplicativo DAV',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Criar e gerenciar chave aplicações DAV',
 	'LBL_KEY' => 'Chave',
@@ -30,7 +30,7 @@ $languageStrings = array(
 	'LBL_SELECT_TYPE' => 'Tipo',
 	'LBL_COUNT_CARD' => 'Número de Contatos',
 	'LBL_COUNT_CAL' => 'Número de Eventos',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Adding a Key' => 'Adicionar Chave',
-);
+];

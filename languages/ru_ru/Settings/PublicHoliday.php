@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PublicHoliday' => 'Праздники',
 	'LBL_PUBLIC_HOLIDAY' => 'Праздники',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => 'Управление праздничными днями',
@@ -36,7 +36,7 @@ $languageStrings = array(
 	'Friday' => 'Пятница',
 	'Saturday' => 'Суббота',
 	'Sunday' => 'Воскресенье',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR' => 'Необходимо заполнить все поля',
-);
+];

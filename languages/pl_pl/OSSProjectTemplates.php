@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Szablon projektu',
     'SINGLE_MODULE_NAME' => 'Szablon projektu',
     'LBL_NEW_TPL' => 'Nowy szablon',
@@ -55,4 +55,4 @@ $languageStrings = array(
     'ONLY_WORK_DAY' => 'Tylko dni robocze',
     'TPL_VISIBILITY' => 'Jakie grupy mogą korzystać z szablonu',
 		// help
-);
+];

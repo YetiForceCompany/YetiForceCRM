@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Escaner Mensagem',
     'OSSMailScanner_manual' => 'Escaner Mensagem',
     'E-mail Accounts' => 'Contas E-mail',
@@ -166,4 +166,4 @@ $languageStrings = array(
 	'LBL_MAIL_LOGS' => 'Log das Mensagens',
 	'Group list' => 'Lista Grupo',
 
-);
+];

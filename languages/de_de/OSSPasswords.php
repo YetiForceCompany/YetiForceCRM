@@ -2,7 +2,7 @@
 /* OpenSaaS
 * Rules: http://opensaas.pl/rules.html
 */
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSPasswords'        => 'Passwörter',
 	'SINGLE_OSSPasswords' => 'Passwort',
@@ -118,9 +118,9 @@ $languageStrings = array(
 	'LBL_Company' => 'Firmen Information: ',
 	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
 	'Information' => 'Modul Information:' ,
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     // notification
     'LBL_NotifPassCopied' => 'Passwort wurde in die Zwischenablage kopiert',
     'LBL_NotifPassTitle' => 'Passwort',
@@ -133,4 +133,4 @@ $jsLanguageStrings = array(
     'Medium' => 'Mittel',
     'Strong' => 'Stark',
     'Very Strong' => 'Sehr stark',    
-);
+];

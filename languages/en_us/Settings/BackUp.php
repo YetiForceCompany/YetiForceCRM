@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Create file\'s backup.',
 	'LBL_SAVE_BACKUP' => 'Save backup',
 	'LBL_GENERATE_BACKUP' => 'Generate Backup',
@@ -36,12 +36,12 @@ $languageStrings = array(
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail notifications',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
 	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
 	'JS_SAVE_CHANGES' => 'Saved changes',
 	'JS_HOST_NOT_CORRECT' => 'Incorrect host address',
 	'JS_CONNECTION_FAIL' => 'Failed login attempt', 
-);
+];

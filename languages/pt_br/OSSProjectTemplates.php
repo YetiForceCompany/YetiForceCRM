@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Modelo Projeto',
     'SINGLE_MODULE_NAME' => 'Modelo Projeto',
     'LBL_NEW_TPL' => 'Novo Modelo',
@@ -57,4 +57,4 @@ $languageStrings = array(
     'TPL_VISIBILITY' => 'Quais grupos podem utilizar o modelo',
 		// help
 
-    );
+    ];

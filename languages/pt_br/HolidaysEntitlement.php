@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'HolidaysEntitlement' => 'Direito Férias Anuais',
 	'SINGLE_HolidaysEntitlement' => 'Direito Férias Anuais',
 
@@ -22,4 +22,4 @@ $languageStrings = Array(
 	'LBL_EMPLOYEE' => 'Colaborador',
 	'LBL_NUMBER' => 'Número',
 
-);
+];

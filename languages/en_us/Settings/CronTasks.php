@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
 	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
@@ -30,10 +30,10 @@ $languageStrings = array(
 	'MODULE' => 'Module',
 	'LBL_NAME' => 'Name',
 	'LBL_PATH_TO_FILE' => 'Path to file'
-);
+];
 
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',
 	'Recommended frequency for SendReminder is 15 mins' => 'Recommended frequency for SendReminder is 15 mins',
 	'Recommended frequency for RecurringInvoice is 12 hours' => 'Recommended frequency for RecurringInvoice is 12 hours',
@@ -43,4 +43,4 @@ $jsLanguageStrings = array(
 	'FREQUENCY_REQUIRED' => 'The field frequency is required',
 	'PATH_REQUIRED' => 'Path field is required',
 	'NAME_REQUIRED' => 'Name field is required'
-);
+];

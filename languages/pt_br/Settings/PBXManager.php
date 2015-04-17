@@ -8,7 +8,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br.
  * *********************************************************************************** */
-$languageStrings = array(
+$languageStrings = [
     'LBL_SELECT_ONE' => 'Selecionar',
     'LBL_PBXMANAGER' =>'Gestor PBX',
     'LBL_PBXMANAGER_CONFIG' => 'Detalhes do Servidor Asterisk',
@@ -24,9 +24,9 @@ $languageStrings = array(
     'outboundcontext' => 'Contexto Outbound',
     'outboundtrunk' => 'Tronco Outbound',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 
-);
+];
 ?>

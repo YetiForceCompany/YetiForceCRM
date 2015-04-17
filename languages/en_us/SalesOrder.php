@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Approved',
 	'Cancel' => 'Cancel',
 	'Derecognized' => 'Derecognized',
@@ -91,8 +91,8 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Last day of next month',
 	'payment:first day of +3 months' => 'First day of next quarter',
 	'payment:last day of +3 months' => 'Last day of next quarter',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Please remove line item that is deleted',
-);
+];

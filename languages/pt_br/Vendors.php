@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'to',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
@@ -37,10 +37,10 @@ $languageStrings = array(
 	'Website'=> 'Website' ,
 	'LBL_BUILDING_NUMBER' => 'Número Edifício',
 	'LBL_LOCAL_NUMBER' => 'Número Sala',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION'=> 'Ao apagar este Fornecedor serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar este Fornecedor?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Ao apagar este(s) Fornecedor(s) serão removidos os Pedidos de Compras relacionados. Tem certeza que deseja apagar os Registros selacionados?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'tem certeza que deseja apagar?',
-);
+];

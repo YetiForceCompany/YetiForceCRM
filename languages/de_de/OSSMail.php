@@ -7,7 +7,7 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'Meine Mailbox',
     'OSSMail_manual' => 'E-Mail Modul',
     'DELETE' => 'Entfernen des Moduls',
@@ -84,9 +84,9 @@ $languageStrings = array(
     'LBL_SAVE' => 'Konfiguration speichern',    
     'Mails List' => 'Neue E-Mails',
     'LBL_NOMAILSLIST' => 'Keine E-Mails',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Sale' => 'Vertrieb',
     'Calendar' => 'Kalender',
     'Service' => 'Dienstleistung',
@@ -162,4 +162,4 @@ $jsLanguageStrings = array(
 	'NoCrmRecord' => 'Keine Nachrichten gefunden. Prüfen ob Aktionen aktiviert sind.',
 	'NoFindEmailInRecord' => 'Datensatz hat keine E-Mail-Adresse',
 	'AddFindEmailInRecord' => 'Heruntergeladene E-Mail',
-);
+];

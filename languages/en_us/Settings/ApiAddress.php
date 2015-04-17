@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
  
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SAVE' => 'Save',
 	'ApiAddress' => 'Address Search',
 	'LBL_API_ADDRESS' => 'Address Search',
@@ -26,10 +26,10 @@ $languageStrings = array(
 	'LBL_GLOBAL_CONFIG' => 'Global configuration',
 	'LBL_SAVE_GLOBAL_SETTINGS' => 'Save the global settings',
 	'LBL_NUMBER_SEARCH_RESULTS' => 'Number of search results',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'Invalid API key' => 'Invalid API key',
     'JS_ERROR' => 'Error',
     'JS_LOADING_PLEASE_WAIT' => 'Loading, Please wait.',
 	'JS_WRONG_NUMBER' => 'Characters allowed: digits greater than 1.',
-);
+];

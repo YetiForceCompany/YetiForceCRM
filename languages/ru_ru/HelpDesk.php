@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Answered'	=>	'Ответил',
 	'Big Problem'                  => 'Большая проблема', 
 	'Closed'                       => 'Закрыто'              , 
@@ -98,7 +98,7 @@ $languageStrings = array(
 	'LBL_VIEW_FINDDUPLICATES' => 'Найти дубликаты',
 	'Record Id' => 'Номер записи',
 	'ticketpriorities' => 'Приоритет',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

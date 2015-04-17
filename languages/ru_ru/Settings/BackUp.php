@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PORT' => 'Порт:',
 	'BackUp'	=>	'Резервное копирование',
 	'LBL_BACKUP_DESCRIPTION'	=>	'Создание резервных копий системы',
@@ -39,12 +39,12 @@ $languageStrings = array(
 	'LBL_PATH_INFO' => 'Если поле (Путь для сохранения) пустое, резервная копия будет сохраняться в корневую папку системы',
 	'LBL_EMAIL_NOTIFICATIONS' => 'Уведомление по Почте',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Необходимо заполнить Обязательные поля',
 	'JS_PORT_ONLY_NUMBERS' => 'Поле Порт, может содержать только цифры',
 	'JS_SAVE_CHANGES' => 'Изменения успешно сохранены',
 	'JS_HOST_NOT_CORRECT' => 'Некорректный адрес Хоста',
 	'JS_CONNECTION_FAIL' => 'Неудачная попытка соединения',
-);
+];

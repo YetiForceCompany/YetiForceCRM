@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Sprache',
 	'Email'	=>	'Primäre E-Mail',
 	'Member Of' => 'Mitglied von',
@@ -58,6 +58,6 @@ $languageStrings = array(
 	//Activity Types
 	'End of support for contact' => 'Ende der Wartung für den Kontakt',
 	'Birthdays of contacts' => 'Geburtstage der Kontakte',
-);
-$jsLanguageStrings = array(
-);
+];
+$jsLanguageStrings = [
+];

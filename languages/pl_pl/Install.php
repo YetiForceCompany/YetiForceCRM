@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LANGNAME' => 'Polski',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Nie można się połączyć z bazą danych',
 	'ERR_DB_NOT_FOUND' => 'Taka baza danych nie została znaleziona. Spróbuj zmienić ustawienia bazy danych',
@@ -96,9 +96,9 @@ $languageStrings = array(
 	'LBL_WRONG_USERNAME_OR_PASSWORD'=>'Błędny login lub hasło',
 	'LBL_DESCRIPTION_CONDITIONS'=>'<strong>Uwaga: </strong>W trakcie migracji zostana bezpowrotnie utracone wszystkie dane związane z modułami: MailManager, EmailTemplates, Workflows. <br /> Migracja jest ciągle w fazie testów, więc należy wykonać wszelkie możliwe kopie i zabazpieczenia w przypadku wystąpienia nieprzewidzianych zdarzeń.',
 	'LBL_MIGRATION_IN_PROGRESS'=>'Trwa proces migracji',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_PASS_TO_SHORT' => 'hasło jest zbyt krótkie - minimalna długość to 8 znaków',
 	'LBL_PASS_TO_LONG' => 'Hasło jest zbyt długie - maksymalna długość to 32 znaki',
 	'LBL_PASS_NO_NUM' => 'Hasło musi zawierać cyfry',
@@ -111,4 +111,4 @@ $jsLanguageStrings = array(
 	'LBL_INVALID_EMAIL_ERROR' => 'Uwaga! Niepoprawny adres email.',
 		'LBL_RESOLVE_ERROR' => 'Proszę naprawić błąd przed kontynuowaniem instalacji',
 
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade / Brazilian Portuguese Translation / valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'Ideas' => 'Idéias',
 	'SINGLE_Ideas' => 'Idéia',
 
@@ -26,4 +26,4 @@ $languageStrings = Array(
 	//pick list values
 	'Draft' => 'Rascunho',
 	'Proposition' => 'Proposta',
-);
+];

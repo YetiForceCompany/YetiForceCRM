@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'NewOrders' => 'Zarządzenia',
 	'SINGLE_NewOrders' => 'Zarządzenie',
 
@@ -17,4 +17,4 @@ $languageStrings = Array(
 
 	//FIELDS
 	'LBL_SUBJECT' => 'Temat',
-);
+];

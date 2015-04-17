@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Unit Code' => 'Einheit',
 	'Mf. Country Code' => 'Hersteller Länderschlüssel',
 	'Manuf. Country' => 'Herstellerland',
@@ -79,4 +79,4 @@ $languageStrings = array(
 	'Website' => 'Webseite',	
 	'Service' => 'Service',
 	'Sales' => 'Vertrieb',
-);
+];

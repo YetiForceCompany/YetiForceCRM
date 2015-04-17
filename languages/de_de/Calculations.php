@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MarginP' => 'Seitenrand Prozent',
 	'LBL_Margin' => 'Seitenrand',
 	'LBL_Purchase' => 'Einkauf',
@@ -73,5 +73,5 @@ $languageStrings = array(
     'LBL_THIS' => 'Produkt/Dienstleistung (',
 	'Conversion Rate' => 'Umrechnungskurs',
 	'Currency' => 'Währung',
-);
+];
 

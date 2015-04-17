@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность обеда',
 	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
 	'LBL_HOLIDAYDAYS_INFO' => 'Количество дней отпуска',
@@ -71,7 +71,7 @@ $languageStrings = array(
 	'Brak danych'	=>	'Нет данных',
 
 	'LBL_DAYWORKSUM'	=>	'Время работы',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

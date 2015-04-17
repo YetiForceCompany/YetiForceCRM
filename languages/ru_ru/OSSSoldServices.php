@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Services' => 'Услуги',
 	'Potential' => 'Сделка',
 	'Invoice' => 'Счет',
@@ -39,5 +39,5 @@ $languageStrings = array(
 	'Potential renewal'	=>	'Обновить продажи',
 	'LBL_GENERATE_EXTENSION'	=>	'Создать сделку',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
-);
+];
 ?>

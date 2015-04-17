@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MENU_BUILDER' => 'Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Create and manage menu items.',
 	'LBL_DEFAULT_MENU' => 'Default menu',
@@ -57,10 +57,10 @@ $languageStrings = array(
 	'LBL_REMOVE_DESC' => 'Selected item contains submenus. All submenus will be also deleted together with this menu item.',
 	'LBL_REMOVE' => 'Remove',
 	'LBL_CANCEL' => 'Cancel',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_EDIT' => 'Edit',
 	'JS_REMOVE' => 'Remove',
 	'JS_NO_DATA' => 'No menu',
 	'JS_TEST_HOTKEY_OK' => 'Hot key works properly.',
-);
+];

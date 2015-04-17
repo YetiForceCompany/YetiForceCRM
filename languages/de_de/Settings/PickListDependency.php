@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Selected Values' => 'Selektierte Werte',
 	'Target Field'	=>	'Feld Ziel',
 	'Source Field'	=>	'Feld Quelle',
@@ -27,13 +27,13 @@ $languageStrings = array(
 	'Module' => 'Modul auswählen',
 	'LBL_TARGET_FIELD' => 'Zielfeld',
 	'LBL_UNMARK_ALL' => 'Alle Markierungen löschen',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
    'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Sie müssen mindestens einen Wert wählen für',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Abhängigkeit erfolgreich gelöscht',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Sind Sie sicher, dass Sie diese Auswahllisten-Abhängigkeit löschen möchten?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Auswahllisten-Abhängigkeit gespeichert',
 	'JS_SELECT_SOME_VALUE' => 'Wählen Sie einen Wert',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Quell- und Zielfeld dürfen nicht identisch sein',
-);
+];

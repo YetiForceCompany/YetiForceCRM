@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Selected Values' => 'Wybrano wartości',
 	'LBL_ADD_RECORD' => 'Dodaj zależność między słownikami',
 	'PickListDependency' => 'Zależności słownikowe',
@@ -28,13 +28,13 @@ $languageStrings = array(
 	'Module' => 'Moduł',
 	'Source Field' => 'Pole żródłowe',
 	'Target Field' => 'Pole docelowe',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Musisz zaznaczyć przynajmniej jedną wartość dla każdej z wartości słownika źródłowego',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Zależność pomyślnie usunięto',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Czy na pewno chcesz usunąć tą zależność',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Zależność zapisano poprawnie',
 	'JS_SELECT_SOME_VALUE' => 'Zaznacz jakąś wartość',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Słownik źródłowy i docelowy nie mogą być tym samym polem',
-);
+];

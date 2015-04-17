@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ADD_CONDITIONS' => 'Bedingungen hinzufügen',
 	'ADD_TASKS' => 'Aufgaben hinzufügen',
 	'Calendar' => 'Kalender',
@@ -143,14 +143,14 @@ $languageStrings = array(
 	'Update Closed Time' => 'Abschluss-Zeit aktualisieren',
 	'Send Notification' => ' Einladung senden',
 	'Create Address Book' => 'E-Mail-Adressbuch generieren',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Status erfolgreich geändert',
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Aufgabe erfolgreich gelöscht',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Workflow erfolgreich gespeichert',
 	'LBL_STATUS_CONFIRMATION' => 'Sind Sie sicher, dass Sie den Status aller Aufgaben ändern möchten?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Ändere Status für Aufgaben...',
-);
+];
 

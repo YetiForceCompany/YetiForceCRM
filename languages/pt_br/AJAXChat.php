@@ -9,6 +9,6 @@
  * All Rights Reserved.
  * Contributor(s):Valmir C. Trindade - Translated to Brazilian Portuguese - 22/02/2015 - www.ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'AJAXChat'  => 'Chat',
-);
+];

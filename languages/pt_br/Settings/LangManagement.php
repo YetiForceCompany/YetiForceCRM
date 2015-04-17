@@ -7,7 +7,7 @@
  *  Help/Email			: bok@opensaas.pl | Website				: www.opensaas.pl
  *  Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br*
  ********************************************************************************+*/
-$languageStrings = array(
+$languageStrings = [
 	'No data available in table' => 'No data available in table',
 	'Translations' => 'Translations',
 	'Language editor' => 'Language editor',
@@ -57,8 +57,8 @@ $languageStrings = array(
 	'LBL_SHOW_EMPTY_VALUES' => 'Exibir valores vazios',
 	'LBL_SHOW_IN'	=> 'Exibir',
 	'LBL_EDIT_HELP_ICON'	=> 'ícones de Ajuda',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Translations' => 'Traduções',
 	'LBL_AreYouSure'	=> 'Tem certeza que deseja apagar este Idioma?',
 	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Are you sure you want to change a default language?',
@@ -69,4 +69,4 @@ $jsLanguageStrings = array(
 	'No matching records found'	=> 'Nenhum registro encontrado',
 	'Search'	=> 'Pesquisar:',
 	'No data available in table'	=> 'Nenhuma tradução',
-);
+];

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess' => 'Validation of access',
 	'LBL_NONE' => '--None--',
 	'Message' => 'Message',
@@ -70,7 +70,7 @@ $languageStrings = array(
 	'LBL_BACKGROUND_COLOR' => 'Background color',
 	'LBL_TEXT_COLOR' => 'Text color',
 	'This name already exists' => 'This name already exists',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
-);
+];

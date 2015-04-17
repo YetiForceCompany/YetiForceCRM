@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): 
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PLL_HOLIDAY' => 'Holiday',
 	'PLL_BREAK_TIME' => 'Break from work',
 	'PLL_WORKING_TIME' => 'Working time',
@@ -89,8 +89,8 @@ $languageStrings = array(
 	'Office work'=>'Office work',
 	'Administrative work'=>'Administrative work',
 	'Accounting work'=>'Accounting work',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Allowed Characters: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Working time cannot exceed 24 hours',
@@ -140,4 +140,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Wed',
 	'JS_WEEK' => 'Week',
 	'JS_MORE' => 'More',
-);
+];

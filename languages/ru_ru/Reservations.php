@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'SINGLE_Reservations' => 'Бронирование',
 	'Reservations' => 'Бронирование',
 	'LBL_MAIN_INFORMATION' => 'Информация о Бронировании',
@@ -33,8 +33,8 @@ $languageStrings = array(
 	'LBL_MEETING_ROOMS' => 'Конференция',
 	'LBL_EQUIPMENT' => 'Оборудование',
 	'LBL_CARS' => 'Автомобили',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Допустимые символы: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания должна быть больше, чем Дата начала',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Количество часов должно быть меньше, чем 24 часа',
@@ -85,4 +85,4 @@ $jsLanguageStrings = array(
 	'JS_WED' => 'Ср',
 	'JS_WEEK' => 'Неделя',
 	'JS_MORE' => 'Еще',
-);
+];

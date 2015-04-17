@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 20/06/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Parent ID' => 'ID Pai',
 	'Owner' => 'Proprietário',
 	'Access Count' => 'Número Acessos',
@@ -44,4 +44,4 @@ $languageStrings = array(
 	'LBL_TO' => 'Para',
 	'SINGLE_Emails' => 'Email',
   'Time Start' => 'Hora Envio',
-);
+];

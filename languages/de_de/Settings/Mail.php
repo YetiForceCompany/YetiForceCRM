@@ -8,14 +8,14 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AUTOLOGIN' => 'Auto Login',
-	'LBL_AUTOLOGIN_DESCRIPTION' => 'Autologin für das EMail Modul konfigurieren',
+	'LBL_AUTOLOGIN_DESCRIPTION' => 'Autologin fÃ¼r das EMail Modul konfigurieren',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Allgemeine Konfiguration',
 	'LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION' => 'Allgemeine Konfiguration des EMail Moduls',
 	'LBL_RC_USER' => 'Benutzer Email Account',
 	'LBL_CRM_USER' => 'Benutzer mit Zugang zu EMail',
-	'LBL_SAVED_CHANGES' => 'Änderungen wurden gesichert',
+	'LBL_SAVED_CHANGES' => 'Ã„nderungen wurden gesichert',
 	'LBL_USER_LIST' => 'Benutzerliste',
 	'LBL_CONFIGURATION' => 'Konfiguration',
 	'LBL_SHOW_MAIL_ICON' => 'Zeige Mail Icon',
@@ -23,7 +23,7 @@ $languageStrings = array(
 	'LBL_NUMBER_UNREAD_EMAILS' => 'Zeige Anzahl der ungelesenen EMails',
 	'LBL_MAIL_ICON_CONFIG' => 'Mail Icon',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Auto login erlauben?',
-	'LBL_ADD_SIGNATURE' => 'Signature hinzufügen',
+	'LBL_ADD_SIGNATURE' => 'Signature hinzufÃ¼gen',
 	'LBL_SIGNATURE' => 'Signatur',
 	'LBL_SAVED_SIGNATURE' => 'Gespeicherte Signatur',
-);
+];

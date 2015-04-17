@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Wezwanie Szczegóły',
@@ -35,4 +35,4 @@ $languageStrings = array(
     'User' => 'Użytkownik',
     'SINGLE_PBXManager' => 'Call Record' ,
 
-);
+];

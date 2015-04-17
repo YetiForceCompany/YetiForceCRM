@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'ReasonToEdit' => 'Причина редактирования',
 	'Customer' => 'Клиент',
 	'UserId' => 'ID Пользователя',
@@ -21,7 +21,7 @@ $languageStrings = array(
 	'Comment'                      => 'Комментарий'      , 
 	'Creator'                      => 'Автор'                  , 
 	'Related To Comments'          => 'Относится к Комментарию',
-);
+];
 
-$jsLanguageStrings = array(
-);
+$jsLanguageStrings = [
+];

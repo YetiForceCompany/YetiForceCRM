@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_VIEW_PRVILIGE' => 'View',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_CHOOSE_PROFILES' => 'Choose Profiles',
@@ -61,7 +61,7 @@ $languageStrings = array(
 	'MassSendSMS' => 'Mass SMS',
 	'MassTransferOwnership' => 'Mass transfer ownership',
 	'MassMoveDocuments' => 'Mass move documents',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',
-);
+];

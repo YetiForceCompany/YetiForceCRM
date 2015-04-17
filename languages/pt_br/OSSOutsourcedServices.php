@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Brazilian Portuguese Translation - Valmir C. Trindade and Gabriel P. Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'OSSOutsourcedServices' => 'Serviços de Terceiros',
 	'SINGLE_OSSOutsourcedServices' => 'Serviço de Terceiros',
 	'LBL_INFORMATION' => 'Informação do Bloco',
@@ -35,4 +35,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Gerar extensão',
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
-);
+];

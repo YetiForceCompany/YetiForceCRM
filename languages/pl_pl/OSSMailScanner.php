@@ -9,7 +9,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Skaner wiadomości email',
     'OSSMailScanner_manual' => 'Skaner wiadomości email',
     'E-mail Accounts' => 'Konta e-mail',
@@ -167,4 +167,4 @@ $languageStrings = array(
 	'AccontDeleteOK' => 'Usunięto konto',
 	'No' => 'Lp',
 	'LBL_MAIL_LOGS' => 'Poczta logi',
-);
+];

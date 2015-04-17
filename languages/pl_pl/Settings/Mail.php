@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AUTOLOGIN' => 'Autologowanie',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Konfiguracja automatycznego logowania do modułu poczty',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Konfiguracja ogólna',
@@ -26,4 +26,4 @@ $languageStrings = array(
 	'LBL_ADD_SIGNATURE' => 'Aktywuj globalną stopkę dla wszystkich maili wychodzących',
 	'LBL_SIGNATURE' => 'Podpis globalny',
 	'LBL_SAVED_SIGNATURE' => 'Zmieniono podpis',
-);
+];

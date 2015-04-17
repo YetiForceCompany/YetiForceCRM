@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. All Rights Reserved.
 *  Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_DATAACCESS' => 'Validação de acesso',
 	'LBL_DATAACCES' => 'Validação de acesso',
 	'DataAccess' => 'Validação de acesso',
@@ -78,9 +78,9 @@ $languageStrings = array(
 	'Check for duplicate names' => 'Verificar nomes duplicados',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Verificar se todos os campos obrigatórios no Editar Rápido estão são preenchidos',
 	'Lock edit on the status' => 'Bloquear edição no status',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'DES_REQUIRED' => 'A descrição é obrigatória',
 
 	//comparators
@@ -111,4 +111,4 @@ $jsLanguageStrings = array(
  	'more than hours before' => 'mais que horas antes',
  	'more than hours later' => 'mais que horas depois',
  	'has changed' => 'Alterado',
-);
+];

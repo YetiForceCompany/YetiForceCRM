@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Project Task',
 	'Project Task' => 'Project Tasks',
@@ -37,4 +37,4 @@ $languageStrings = array(
 	'Completed' => 'Completed',
 	'Deferred' => 'Deferred',
 	'Cancelled' => 'Cancelled',
-);
+];

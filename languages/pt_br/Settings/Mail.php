@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AUTOLOGIN' => 'Autoacesso',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Descrição Autoacesso',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Configuração automática módulo de acesso de e-mail',
@@ -26,4 +26,4 @@ $languageStrings = array(
 	'LBL_ADD_SIGNATURE' => 'Adicionar Assinatura',
 	'LBL_SIGNATURE' => 'Assinatura Global_',
 	'LBL_SAVED_SIGNATURE' => 'Assinatura Salva',
-);
+];

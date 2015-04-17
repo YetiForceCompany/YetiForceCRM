@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'Password' => 'Passwort Einstellungen',
 	'LBL_PASSWORD_DESCRIPTION' => 'Kennwortkomplexität für Benutzer einstellen',
 	'LBL_Password_Header' => 'Parameter, die die Komplexität des Passworts definieren',
@@ -21,4 +21,4 @@ $languageStrings = array(
 	'LBL_ERROR' => 'Fehler beim Speichern der Datei',
 	'LBL_SAVE_OK' => 'Daten wurden gesichert',
 	'characters' => 'Zeichen',
-);
+];

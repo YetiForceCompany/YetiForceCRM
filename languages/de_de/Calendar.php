@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Not Held'	=>	'Nicht stattgefunden',
 	'Held'	=>	'Stattgefunden',
 	'Activity Type'=>'Aktivitätsart',
@@ -121,9 +121,9 @@ $languageStrings = array(
 	'LBL_IMPORT_ICS_SUCCESS' => 'Kalendereintrag hinzugefügt',
 	'Relation' => 'Relation',
 	'Process' => 'Process',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
 	'JS_NO_DELETE_PERMISSION' => 'Sie haben keine Erlaubnis, Kalendereinträge zu löschen.',
 	'JS_RECORD_DELETED'	=>	'Datensatz wurde gelöscht',
@@ -211,4 +211,4 @@ $jsLanguageStrings = array(
 	'JS_WEEK' => 'Woche',
 	'Mobile Call' => 'Mobiler Anruf',
 	'NOTIFICATION_ACCEPTED' => 'Angenommen',
-);
+];

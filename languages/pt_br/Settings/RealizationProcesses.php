@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PROJECT_CONFIGURATION' => 'Projeto',
 	'LBL_INFO' => 'Informação',
 	'LBL_TYPE' => 'Status',
@@ -16,8 +16,8 @@ $languageStrings = array(
 	'LBL_PROJECT_STATUS_INFO' => 'Os status determinam que o projeto está fechado',
 	'LBL_SAVE_CONFIG_OK' => 'Alterações salvas com sucesso.',
 	'LBL_SAVE_CONFIG_ERROR' => 'Falha ao salvar as alterações.',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	
-);
+];

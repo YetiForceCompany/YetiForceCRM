@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translantion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SALES_PROCESSES'													=> 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
 	'LBL_SAVE_CONFIG_OK'													=> 'Configurações dos processos de vendas salvo com sucesso.',
 	'LBL_SAVE_CONFIG_ERROR'													=> 'Falha ao salvar as configurações dos processos de vendas.',
 	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Fornecido para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 
-);
+];

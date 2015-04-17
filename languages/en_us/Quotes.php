@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_GENERATE_QUOTES' => 'Generate Quotes',
 	'Inventory Manager'=>'Inventory Manager',
 	'LBL_ADD_RECORD' => 'Add record',
@@ -38,8 +38,8 @@ $languageStrings = array(
 	'PLL_SENT_TO_ORGANIZATION' => 'Sent to Organization',
 	'PLL_DECLINED' => 'Declined',
 	'PLL_ACCEPTED' => 'Accepted',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Please remove line item that is deleted',
-);
+];

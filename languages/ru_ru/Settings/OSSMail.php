@@ -8,10 +8,10 @@
  *  Website				: www.opensaas.pl
    * VERSION YetiForceCRM: 1.1.0 RC
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
 	'OSSMail'	=>	'Почта',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'JS_ERROR_EMPTY' => 'Все поля должны быть заполнены',
-);
+];

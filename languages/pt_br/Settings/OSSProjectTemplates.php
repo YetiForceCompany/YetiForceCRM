@@ -9,11 +9,11 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'Modelos OSSProject',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_FILL_REQUIRED_FIELDS' => 'Preencha os campos obrigatórios',
-);
+];

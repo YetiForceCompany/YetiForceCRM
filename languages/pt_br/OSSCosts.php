@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'OSSCosts'        => 'Custos',
 	'SINGLE_OSSCosts' => 'Custo',
@@ -54,4 +54,4 @@ $languageStrings = array(
 	'Alert_desc' => 'Todas as opções abaixo modificam os arquivos do Sistema. Um backup é realizado antes de sobrescrever os arquivos e os originais serão recuperados após remover a seleção.',
 	'Module configuration' => 'Configuração do Módulo',
 	'JS_save_config_info' => 'Configuração salva',
-);
+];

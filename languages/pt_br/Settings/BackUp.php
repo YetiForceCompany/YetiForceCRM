@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Criar arquivo de backup.',
 	'LBL_SAVE_BACKUP' => 'Salvar backup',
 	'LBL_GENERATE_BACKUP' => 'Gerar Backup',
@@ -36,12 +36,12 @@ $languageStrings = array(
 	'LBL_EMAIL_NOTIFICATIONS' => 'Notificações por e-mail',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Os campos obrigatórios não podem estar vazios',
 	'JS_PORT_ONLY_NUMBERS' => 'O campo Porta somente aceita números',
 	'JS_SAVE_CHANGES' => 'Mudanças salvas',
 	'JS_HOST_NOT_CORRECT' => 'Endereço de host incorreto',	
 	'JS_CONNECTION_FAIL' => 'A tentativa de acesso falhou', 
-);
+];

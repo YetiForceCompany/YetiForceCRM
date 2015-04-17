@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Call Details',
@@ -35,4 +35,4 @@ $languageStrings = array(
     'User' => 'User',
     'SINGLE_PBXManager' => 'Call Record' ,
 
-);
+];

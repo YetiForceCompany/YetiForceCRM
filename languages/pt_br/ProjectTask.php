@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 05/01/2015 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Tarefa Projeto',
 	'Project Task' => 'Tarefas Projeto',
@@ -37,4 +37,4 @@ $languageStrings = array(
 	'Completed' => 'Concluído',
 	'Deferred' => 'Adiado',
 	'Cancelled' => 'Cancelado',
-);
+];

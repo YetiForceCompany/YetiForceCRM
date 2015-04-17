@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 'OSSEmployees' => 'Pracownicy',
 'SINGLE_OSSEmployees' => 'Pracownik',
 'LBL_INFORMATION' => 'Informacje podstawowe',
@@ -72,4 +72,4 @@ $languageStrings = array(
 'LBL_AVERAGEWORKTIME_INFO' => 'Średni czas pracy',
 'LBL_AVERAGEBREAKTIME_INFO' => 'Średni czas przerw',
 
-);
+];

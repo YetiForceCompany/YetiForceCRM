@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Project Milestone',
 	'LBL_ADD_RECORD' => 'Add record',
@@ -30,4 +30,4 @@ $languageStrings = array(
 	'PLL_EXTERNAL' => 'External',
 	'PLL_SHARED' => 'Shared',
 	
-);
+];

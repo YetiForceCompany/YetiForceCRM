@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SETUP_WEBFORMS' => 'Setup Web Forms',
 	'LBL_ORDER_TIME'=>'Order time',
 	'Big Problem'=> 'Problema Grande' ,
@@ -101,4 +101,4 @@ $languageStrings = array(
 	'LBL_NOTICE_MODIFICATION'=>'Modificação',
 	'LBL_NOTICE_CLOSE'=>'Fechado',
 	'LBL_NOTICE_FOOTER'=>'Se você não deseja receber notificações do nosso Sistema de Gestão de Projeto, por favor, nos informe enviando e-mail para <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Caso não seja o destinatário desta mensagem, por favor, nos informe e apague-a.',
-);
+];

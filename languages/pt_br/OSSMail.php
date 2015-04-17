@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translaion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
     'OSSMail' => 'Caixa Correio',
     'OSSMail_manual' => 'Módulo Correio',
     'DELETE' => 'Remover do Módulo',
@@ -84,9 +84,9 @@ $languageStrings = array(
 	'LBL_SAVE' => 'Salvar configuração',
 	'Mails List' => 'Emails mais recentes',
 	'LBL_NOMAILSLIST' => 'Nenhuma mensagem',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Sale' => 'Venda',
     'Calendar' => 'Agenda',
     'Service' => 'Serviço',
@@ -178,4 +178,4 @@ $jsLanguageStrings = array(
 	'NoCrmRecord' => 'Nenhuma mensagem foi encontrada. Verifique se as ações estão habilitadas.',
 	'NoFindEmailInRecord' => 'O registro não possui endereço de email',
 	'AddFindEmailInRecord' => 'Email baixado',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Calendar' => 'Calendar',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Activity types',
@@ -33,7 +33,7 @@ $languageStrings = array(
 	'LBL_SAVE_CHANGES' => 'Saved changes',
 	'LBL_GENERATE_COLOR' => 'Generate random color',
 	'LBL_GENERATED_COLOR' => 'Color generated',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 
-);
+];

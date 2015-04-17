@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Brazilian Portuguese Translation - Valmir Carlos Trindade e Gabriel Trindade - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Search Configuration' => 'Configurações Pesquisa',
 	'Search Setup'=>'Configurar Pesquisa',
 	'Search' => 'Procurar configuração',
@@ -25,11 +25,11 @@ $languageStrings = array(
 	'LBL_SAVE_MODULE_SEQUENCE'	=> 'Salvar sequência dos módulos',
 	'LBL_TURN_ON'	=> 'Ligar',
 	'LBL_TURN_OFF'	=> 'Desligar',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Saving changes' => 'Atualização em processo…',
 	'Update labels' => 'Atualizar',
 	'JS_MODULES_SEQUENCE_UPDATED'	=> 'Sequência dos módulos atualizada',
 	'JS_TURN_ON'	=> 'Ligar',
 	'JS_TURN_OFF'	=> 'Desligar',
-);
+];

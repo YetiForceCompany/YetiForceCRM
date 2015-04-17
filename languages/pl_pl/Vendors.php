@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'do',
 	'LBL_EXPORT_TO_PDF' => 'Eksportuj do PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informacje adresowe',
@@ -37,10 +37,10 @@ $languageStrings = array(
 	'Website' => 'Strona internetowa',
 	'LBL_BUILDING_NUMBER' => 'Numer budynku',
 	'LBL_LOCAL_NUMBER' => 'Numer lokalu',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunię również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie sprzedawcy(ów) usunie również powiązane zlecenia. Czy napewno chcesz usunać wybrane rekordy?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć?',
-);
+];

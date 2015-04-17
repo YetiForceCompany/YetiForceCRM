@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'BruteForce'  => 'Força Bruta',
     'Number of attempts' => 'Número de tentativas',
     'Time lock' => 'Tempo de bloqueio (minutos)',
@@ -30,9 +30,9 @@ $languageStrings = array(
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Ativo',
 
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     'Could not finnish reaction.' => 'Não é possível finalizar a reação.',
     'Complete the fields' => 'Preencha os campos',
     'LBL_SAVE_SUCCESS' => 'As alterações foram salvas ',
@@ -42,4 +42,4 @@ $jsLanguageStrings = array(
 	'JS_WRONG_ATTEMPS_NUMBER' => 'Você digitou um formato incorreto para o número de tentativas, corrija.',
 	'JS_WRONG_TIME_LOCK_FORMAT' => 'Você digitou um formato incorreto para o bloqueio de tempo, corrija.'
 
-);
+];

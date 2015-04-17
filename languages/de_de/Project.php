@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PROJECTS_LIST' => 'Projektliste',
 	'LBL_SUMMARY' => 'Zusammenfassung der Arbeitszeit',
 	'Add Project Task'	=>	'Projekt Aufgabe hinzufügen',
@@ -81,4 +81,4 @@ $languageStrings = array(
 	'delivered'=>'Ausgeliefert',
 	'archived'=>'Archiviert',
 	
-);
+];

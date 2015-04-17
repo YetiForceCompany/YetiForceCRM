@@ -9,8 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 // Action translation
-$languageStrings = array(
+$languageStrings = [
 	'Accounts|Account Name' => 'Pole przeznaczone na nazwę firmy',
 	'Accounts|Average profit sales order' => 'sss',
 	
-);
+];

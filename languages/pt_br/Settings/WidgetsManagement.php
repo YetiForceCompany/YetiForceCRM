@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Selecionar função',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Adicionar bloco resumo para o módulo',
 	'LBL_WIDTH' => 'Largura',
@@ -30,12 +30,12 @@ $languageStrings = array(
 	'LBL_DEFAULT_FILTER' => 'Filtro padrão',
 	'LBL_FILTERS_AVAILABLE' => 'Filtros disponíveis',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione pelo menos uma opção',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'O bloco foi adicionado com sucesso',
 	'JS_CUSTOM_FIELD_ADDED' => 'O Widget foi adicionado com sucesso no bloco',
 	'JS_CUSTOM_FIELD_DELETED' => 'O Widget foi apagado com sucesso',
 	'JS_CUSTOM_BLOCK_DELETED' => 'O bloco foi apagado com sucesso',
 	'JS_FIELD_EMPTY' => 'O campo não pode estar vazio',
 	'JS_FILTERS_AVAILABLE' => 'Filtros disponíveis',
-);
+];

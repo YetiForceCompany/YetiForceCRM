@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HTTP_ERROR' => 'The website that you are trying to open is not secure and might not open. If you still wish to view the webpage then you can click on the content blocker in the address bar and enable it.',
 	'LBL_ADD_BOOKMARK' => 'Add Bookmark',
 	'LBL_ADD_NEW_BOOKMARK' => 'Add New Bookmark',
@@ -27,8 +27,8 @@ $languageStrings = array(
 	'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Record deleted successfully',
 	'Portal' => 'Our Sites',
 	'SINGLE_Portal' => 'Our Site',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
     
-);
+];

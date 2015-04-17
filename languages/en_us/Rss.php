@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
     'LBL_ADD_FEED_SOURCE' => 'Add Feed Source',
     'LBL_ENTER_FEED_SOURCE' => 'Enter Feed Source',
     'LBL_FEEDS_LIST_FROM' => 'Feeds List From',
@@ -17,9 +17,9 @@ $languageStrings = Array(
     'LBL_SENDER' => 'Sender',
     'LBL_SET_AS_DEFAULT' => 'Set As Default',
     'SINGLE_Rss' => 'Rss Feed',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
     'JS_INVALID_RSS_URL' => 'Invalid Rss Url',
     'JS_RSS_MADE_AS_DEFAULT' => 'Rss Made as Default',
 	'JS_RSS_SUCCESSFULLY_SAVED' => 'Rss Successfully saved',
-);
+];

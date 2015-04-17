@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Approved' => 'Aprovada',
 	'Created' => 'Criada',
 	'Derecognized' => 'Baixada',
@@ -91,8 +91,8 @@ $languageStrings = array(
 	'payment:last day of next month' => 'Último dia próximo mês',
 	'payment:first day of +3 months' => 'Primeiro dia próximo trimestre',
 	'payment:last day of +3 months' => 'Último dia próximo trimestre',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_PLEASE_REMOVE_LINE_ITEM_THAT_IS_DELETED' => 'Por favor, remova o item da linha que foi excluido',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'DataAccess' => 'Walidacja dostępu',
 	'Message' => 'Komunikat',
 	'LBL_NONE' => '--Brak--',
@@ -70,7 +70,7 @@ $languageStrings = array(
 	'LBL_BACKGROUND_COLOR' => 'Kolor tła wiersza',
 	'LBL_TEXT_COLOR' => 'Kolor tekstu',
 	'This name already exists' => 'Nazwa jest już zajęta',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
-);
+];

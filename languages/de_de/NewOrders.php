@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'NewOrders' => 'Neue Beauftragung',
 	'SINGLE_NewOrders' => 'Neue Beauftragung',
 	'LBL_ADD_RECORD' => 'Beauftragung hinzufügen',
@@ -20,4 +20,4 @@ $languageStrings = Array(
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
-);
+];

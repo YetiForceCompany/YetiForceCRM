@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'HolidaysEntitlement' => 'Roczny wymiar urlopu',
 	'SINGLE_HolidaysEntitlement' => 'Roczny wymiar urlopu',
 	
@@ -22,4 +22,4 @@ $languageStrings = Array(
 	'LBL_EMPLOYEE' => 'Pracownik',
 	'LBL_NUMBER' => 'Numer',
 
-);
+];

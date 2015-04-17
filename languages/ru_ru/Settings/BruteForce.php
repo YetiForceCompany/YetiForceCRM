@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'BruteForce'	=>	'Защита от подбора пароля',
 	'Number of attempts'	=>	'Количество неудачных попыток входа',
 	'Time lock'	=>	'Время блокировки в минутах',
@@ -31,9 +31,9 @@ $languageStrings = array(
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'Could not finnish reaction.'	=>	'Изменения не сохранены',
 	'Complete the fields'	=>	'Заполните поля',
 	'LBL_SAVE_SUCCESS'	=>	'Изменения успешно сохранены',
@@ -43,4 +43,4 @@ $jsLanguageStrings = array(
 	'JS_WRONG_ATTEMPS_NUMBER' => 'Неправильный формат количества попыток',
 	'JS_WRONG_TIME_LOCK_FORMAT' => 'Неправильный формат времени блокировки',
     
-);
+];

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUMMARY' => 'Всего рабочего времени',
 	'Actual Duration'              => 'Фактическая продолжительность (в Днях)', 
 	'Contract No'                  => 'Контракт №'        , 
@@ -48,4 +48,4 @@ $languageStrings = array(
     'Related to'                   => 'Связан с',
     'Support'                      => 'Поддержка',
     'Undefined'                    => 'Неопределенно',
-);
+];

@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'QuickCreateEditor' => 'Quick Create Editor',
     'LBL_QUICK_CREATE_EDITOR'=> 'Quick Create Editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
 	'LBL_SEQUENCE' => 'Field Sequence',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Save Field Sequence',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FIELD_SEQUENCE_UPDATED' => 'Field Sequence Updated',
-);
+];

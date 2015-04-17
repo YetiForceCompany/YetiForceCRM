@@ -10,7 +10,7 @@
  * Contributor(s): 
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_RECORDS_LIST' => 'Список',
 	// Basic Strings
 	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
@@ -42,4 +42,4 @@ $languageStrings = array(
 	'LBL_GENERATE_EXTENSION' => 'Создание расширения',
 	'Active' => 'Активный',
 	'Inactive' => 'Неактивный',
-);
+];

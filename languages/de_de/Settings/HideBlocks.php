@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HideBlocks' => 'Block ausblenden',
 	'LBL_HIDEBLOCKS' => 'Block ausblenden',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Verwalte Blocks mit auszublendenden Felder',
@@ -21,4 +21,4 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Nächster',
 	'LBL_VIEW' => 'Sicht',
 	'LBL_MANDATORY_FIELDS_EXIST' => 'Dieser Block kann nicht ausgeblendet werden, da er Mussfelder enthält.',
-);
+];

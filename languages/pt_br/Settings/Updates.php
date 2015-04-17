@@ -9,7 +9,7 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Updates' => 'Atualizações',
 	'LBL_YES' => 'Sim',
 	'LBL_NO' => 'Não',
@@ -20,4 +20,4 @@ $languageStrings = array(
 	'LBL_RESULT'=>'Status',
 	'LBL_UPDATES' => 'Atualizações',
 	'LBL_UPDATES_DESCRIPTION' => 'Histórico atualizações',
-);
+];

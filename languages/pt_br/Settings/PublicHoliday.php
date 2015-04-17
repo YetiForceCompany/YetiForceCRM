@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'PublicHoliday'															=> 'Feriados Públicos',
 	'LBL_PUBLIC_HOLIDAY'													=> 'Feriado Público',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION'										=> ' ',
@@ -36,7 +36,7 @@ $languageStrings = array(
 	'Friday'																=> 'Sexta-feira',
 	'Saturday'																=> 'Sábado',
 	'Sunday'																=> 'Domingo',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR'													=> 'Você deve preencher todos os campos do formulário',
-);
+];

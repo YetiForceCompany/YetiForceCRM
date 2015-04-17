@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_SUPPORT_PROCESSES' => 'Support Processes',
 	'LBL_GENERAL_CONFIGURATION' => 'General Configuration',
 	'LBL_OTHER' => 'Other',
@@ -18,8 +18,8 @@ $languageStrings = array(
 	'LBL_SAVE_CONFIG_OK' => 'Changes has been saved',
 	'LBL_SAVE_CONFIG_ERROR'	=> 'hanges has been saved.',
 	
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	
-);
+];

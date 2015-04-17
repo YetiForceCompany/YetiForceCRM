@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 'OSSEmployees' => 'Colaboradores',
 'SINGLE_OSSEmployees' => 'Colaborador',
 'LBL_INFORMATION' => 'Detalhes do Colaborador',
@@ -63,4 +63,4 @@ $languageStrings = array(
 'Brak danych' => 'Sem dados',
 
 'LBL_DAYWORKSUM' => 'Tempo de trabalho',
-);
+];

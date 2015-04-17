@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Parent ID' => 'Übergeordnete ID',
 	'Owner' => 'Eigentümer',
 	'Access Count' => 'Anzahl Zugriffe',
@@ -47,4 +47,4 @@ $languageStrings = array(
 	'LBL_TO'                       => 'An'                          , 
 	'SINGLE_Emails'                => 'E-Mail'                       , 
 	'Time Start'                   => 'Sendezeit'                   ,
-	);
+	];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.ocm.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar',
 	'TreesManager' => 'Gerenciar Árvore',
 	'LBL_TREES_MANAGER' => 'Gerenciar Árvore',
@@ -22,8 +22,8 @@ $languageStrings = array(
 	'LBL_ADD_TO_TREES' => 'Adicionar',
 	'LBL_SAVE' => 'Salvar',
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Mudar item da Árvore para:',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'O modelo da Árvore foi apagada com sucesso',
 	'JS_JSTREE_CREATE' => 'Adicionar',
 	'JS_JSTREE_RENAME' => 'Mudar nome',
@@ -36,4 +36,4 @@ $jsLanguageStrings = array(
 	'JS_NO_ITEM_SELECTED' => 'Nenhum item foi selecionado',
 	'JS_YOU_CANNOT_DELETE_ALL_THE_ITEMS' => 'Você não pode apagar todos os itens',
 	'JS_YOU_CANNOT_DELETE_PERENT_ITEM' => 'Você não pode apagar o item pai',
-);
+];

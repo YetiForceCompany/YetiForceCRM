@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Currency'	=>	'Валюта',
 	'LBL_ADD_NEW_CURRENCY' => 'Добавить Валюту',
 	'LBL_ADD_RECORD' => 'Добавить Валюту',
@@ -156,9 +156,9 @@ $languageStrings = array(
 	'Currency Name' => 'Валюта',
 	'Symbol' => 'Символ',
 	'Conversion Rate' => 'Курс',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Валюта успешно удалена',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Данные Валюты сохранены',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array(
+$languageStrings = [
 	'RequirementCards' => 'Karty wymagań',
 	'SINGLE_RequirementCards' => 'Karta wymagań',
 	
@@ -48,4 +48,4 @@ $languageStrings = Array(
 	'PLL_POSSIBILITY_TO_ADJUST' => 'Możliwość dopasowania się',
 	'PLL_NEW_ORGANIZATION_ORDER' => 'Polecenie nowego kontrahenta',
 
-);
+];

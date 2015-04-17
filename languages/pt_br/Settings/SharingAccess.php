@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger. All Rights Reserved.
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Sharing Rules' => 'Regras de Compartilhamento',
 	'SharingAccess' => 'Regras de Compartilhamento',
 	'Accounts' => 'Organizações & Contatos',
@@ -36,11 +36,11 @@ $languageStrings = array(
 	'RoleAndSubordinates' => 'Função e Subordinados',
 	'Roles' => 'Funções',
 	'Groups' => 'Grupos',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Regra de Compartilhamento Customizada Salva com Sucesso',
 	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'O acesso a Oportunidades, Chamados, Cotações, Pedido de Venda & Fatura devem ser configurados como Particular, quando o acesso à Organização estiver configurado como Particular',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'Nova Regra de Compartilhamento Aplicada com Sucesso',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Selecionar qualquer outro usuário',
-);
+];

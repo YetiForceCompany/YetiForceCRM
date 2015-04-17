@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
   * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'--None--'                     => '--Нет--'                  , 
 	'300-Sales-Software'           => '300-Продажи-ПО'     , 
 	'301-Sales-Hardware'           => '301-Продажи-Оборудование', 
@@ -81,4 +81,4 @@ $languageStrings = array(
 	'Usage Unit'                   => 'Единица измерения', 
 	'Vendor PartNo'                => 'Код Поставщика' , 
 	'Website'                      => 'Веб-сайт'             , 
-);
+];

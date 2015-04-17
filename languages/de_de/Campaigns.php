@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Active'	=>	'Aktiv',
 	'Actual Cost'                  => 'aktuelle Kosten'             , 
 	'Actual Response Count'        => 'aktuelle Rücklaufmenge'     , 
@@ -55,4 +55,4 @@ $languageStrings = array(
 	'TargetSize'                   => 'Größe der Zielgruppe'      , 
 	'Telemarketing'                => 'Telemarketing'               , 
 	'Webinar'                      => 'Webseminar'                   , 
-);
+];

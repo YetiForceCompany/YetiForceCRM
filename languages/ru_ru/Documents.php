@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'None' => 'Нет',
 	'Default' => 'По умолчанию',
 	'LBL_SELECT_Documents' => 'Выберите документ',
@@ -53,8 +53,8 @@ $languageStrings = array(
 	'Version'                      => 'Версия'                , 
 	'ossdc_status'	=>	'Статус',
 	'LBL_EMAIL_FILE_AS_ATTACHMENT'	=>	'Отправить Документ по Почте',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Вы уверены, что хотите переместить файлы в',
 	'JS_FOLDER'                    => 'папка'                      ,
 	'JS_FOLDER_IS_NOT_EMPTY'	=>	'Папка не пуста',
@@ -63,4 +63,4 @@ $jsLanguageStrings = array(
 	'JS_NOT_ALLOWED'	=>	' ) использовать запрещено.',
 	'JS_OPERATION_DENIED'          => 'Операция запрещена'            ,
 	'JS_SPECIAL_CHARACTERS'	=>	'Специальные символы, такие как ( ',
-);
+];

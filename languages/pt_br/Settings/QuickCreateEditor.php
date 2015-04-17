@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'QuickCreateEditor' => 'Editor Criar Rápido',
     'LBL_QUICK_CREATE_EDITOR'=> 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Este módulo permite alterar o layout dos campos na janela criar rápido',
 	'LBL_SEQUENCE' => 'Sequência de Campos',
 	'LBL_SAVE_FIELD_SEQUENCE' => 'Salvar Sequência de Campos',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_FIELD_SEQUENCE_UPDATED' => 'Sequência de Campos Atualizada',
-);
+];

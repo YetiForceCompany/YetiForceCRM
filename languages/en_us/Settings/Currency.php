@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Conversion Rate' => 'Conversion Rate',
 	'Currency' => 'Currency',
 	'Symbol' => 'Symbol',
@@ -155,9 +155,9 @@ $languageStrings = array(
 	'Yemen, Rials'			=> 'Yemen, Rials',
 	'Zambia, Kwacha'		=> 'Zambia, Kwacha',
 	'Zimbabwe Dollars' 		=> 'Zimbabwe Dollars',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency Deleted Successfully',
 	'JS_CURRENCY_DETAILS_SAVED' => 'Currency Details Saved',
-);
+];

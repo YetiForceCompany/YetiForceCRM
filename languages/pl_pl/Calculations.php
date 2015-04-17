@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MarginP' => 'Margin Percent',
 	'LBL_Margin' => 'Margin',
 	'LBL_Purchase' => 'Purchase',
@@ -71,4 +71,4 @@ $languageStrings = array(
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') został/a usunięta, spróbuj zastąpić ją innym produktem/usługą.',
 	'Conversion Rate' => 'Współczynnik konwersji',
 	'Currency' => 'Waluta',
-);
+];

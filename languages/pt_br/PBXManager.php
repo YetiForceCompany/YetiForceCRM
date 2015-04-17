@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 07/05/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Detalhes Chamada',
@@ -35,4 +35,4 @@ $languageStrings = array(
     'User' => 'Usuário',
     'SINGLE_PBXManager' => 'Registro Chamada' ,
 
-);
+];

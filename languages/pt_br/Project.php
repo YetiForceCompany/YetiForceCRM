@@ -8,7 +8,7 @@
  * Contributor(s): YetiForce.com
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 13/12/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_PROJECTS_LIST' => 'Lista de Projetos',
 	'LBL_SUMMARY' => 'Resumo tempo de trabalho',
 	// Basic Strings
@@ -82,4 +82,4 @@ $languageStrings = array(
 	'delivered'=>'Entregue',
 	'archived'=>'Arquivado',
 
-);
+];

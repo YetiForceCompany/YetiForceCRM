@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'dd-mm-yyyy' => 'tt-mm-jjjj',
 	'mm-dd-yyyy' => 'mm-tt-jjjj',
 	'yyyy-mm-dd' => 'jjjj-mm-tt',
@@ -314,9 +314,9 @@ $languageStrings = array(
 	
 	'LBL_GENERATED_COLOR' => 'Farbe generiert',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'JS_ENTER_CONFIRMATION_PASSWORD'=>'Bitte Passwort bestätigen',
@@ -327,4 +327,4 @@ $jsLanguageStrings = array(
 	'JS_PASSWORD_CHANGE_FAILED_2'=>' fehlgeschlagen. Das neue Passwort muss festgelegt werden.',
 	'JS_PASSWORD_INCORRECT_OLD'=>'Falsches altes Passwort eingegeben. Passwort Eingabe wiederholen.',
 	'JS_REENTER_PASSWORDS'=>'Bitte geben Sie die Passwörter erneut ein. Das \"Neue Passwort\" und \"Kennwort bestätigen\" -Werte stimmen nicht überein.',
-);
+];

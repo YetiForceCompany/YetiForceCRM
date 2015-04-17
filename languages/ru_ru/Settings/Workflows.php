@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Send a copy to email' => 'Копия',
 	'Select e-mail address' => 'Выберите адрес электронной почты',
 	'Do you send all attachments' => 'Отправить все вложения?',
@@ -142,13 +142,13 @@ $languageStrings = array(
 	'Update Closed Time' => 'Обновить время Закрытия',
 	'Send Notification' => 'Отправить уведомление Приглашенным',
 	'Create Address Book' => 'Создать адресную книгу',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_STATUS_CHANGED_SUCCESSFULLY' => 'Статус успешно изменен', 
 	'JS_TASK_DELETED_SUCCESSFULLY' => 'Задача удалена', 
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Некоторые поля выбраны более одного раза',
 	'JS_WORKFLOW_SAVED_SUCCESSFULLY' => 'Обработчик успешно сохранен', 
 	'LBL_STATUS_CONFIRMATION' => 'Вы уверены, что хотите изменить состояние всех Задач?',
 	'JS_TASKS_STATUS_GETTING_CHANGED' => 'Изменение состояния Задач...',
-);
+];

@@ -8,7 +8,7 @@
  *  Help/Email			: bok@opensaas.pl
  *  Website				: www.opensaas.pl
  * *******************************************************************************+ */
-$languageStrings = array(
+$languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
     'E-mail Accounts' => 'E-Mail Konten',
@@ -163,4 +163,4 @@ $languageStrings = array(
 	'No' => 'Nein',
 	'LBL_MAIL_LOGS' => 'E-Mail Logbücher',
 	'Group list' => 'Gruppenliste',
-);
+];

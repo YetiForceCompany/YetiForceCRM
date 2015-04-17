@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'HideBlocks' => 'Hide blocks',
 	'LBL_HIDEBLOCKS' => 'Hide blocks',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Manage which blocks with fields to hide',
@@ -22,4 +22,4 @@ $languageStrings = array(
 	'LBL_NEXT' => 'Next',
 	'LBL_VIEW' => 'View',
 	'LBL_MANDATORY_FIELDS_EXIST' => 'This block cannot be hidden because it contains mandatory fields.',
-);
+];

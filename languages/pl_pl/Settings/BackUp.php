@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Tworzy kopie zapasową plików.',
 	'LBL_SAVE_BACKUP' => 'Zapisz backup',
 	'LBL_GENERATE_BACKUP' => 'Generuj Backup',
@@ -35,13 +35,13 @@ $languageStrings = array(
 	'LBL_PATH_INFO' => 'Jeśli pole ścieżka jest puste, backup zostanie zapisany w głównym folderze',
 	'LBL_EMAIL_NOTIFICATIONS' => 'Powiadomienia e-mail',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pola obowiązkowe nie mogą być puste',
 	'JS_PORT_ONLY_NUMBERS' => 'Pole port przyjmuje tylko liczby',
 	'JS_SAVE_CHANGES' => 'Zapisano zmiany',
 	'JS_HOST_NOT_CORRECT' => 'Nieprawidłowy adres hosta',
 	'JS_CONNECTION_FAIL' => 'Nieudana próba logowania',
-);
+];
 

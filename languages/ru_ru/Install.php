@@ -9,7 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
 	'LBL_ERROR_LOGIN' => 'Ошибка авторизации',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Невозможно соединится с Сервером БД',
 	'ERR_DB_NOT_FOUND' => 'Эта БД не найдена. Попробуйте изменить настройки БД',
@@ -105,9 +105,9 @@ $languageStrings = array(
 	'LBL_READ_LICENSE' => 'Лицензия',
 	'Short name' => 'Должность',
 	'First Name' => 'Имя',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_PASS_TO_SHORT'	=>	'Пароль слишком короткий - минимальная длина составляет 8 символов',
 	'LBL_PASS_TO_LONG'	=>	'Слишком длинный пароль - максимальная длина составляет 32 символов',
 	'LBL_PASS_NO_NUM'	=>	'Пароль должен содержать цифры',
@@ -119,4 +119,4 @@ $jsLanguageStrings = array(
 	'LBL_PASS_REENTER_ERROR'	=>	'Внимание! Пароли не совпадают.',
 	'LBL_INVALID_EMAIL_ERROR'	=>	'Внимание! Неверный адрес электронной почты.',
 	'LBL_RESOLVE_ERROR'	=>	'Пожалуйста, устраните ошибки перед продолжением установки',
-);
+];

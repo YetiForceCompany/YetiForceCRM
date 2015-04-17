@@ -9,11 +9,11 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 
-$languageStrings = array(
+$languageStrings = [
     'OSSProjectTemplates' => 'OSSProjectTemplates',
     
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_FILL_REQUIRED_FIELDS' => 'Fill required fields',
-);
+];

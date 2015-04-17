@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Users'	=>	'Пользователи',
 	'USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'LBL_USERS_COLORS' => 'User colors',
@@ -37,8 +37,8 @@ $languageStrings = array(
 	'LBL_LDAP_USERS' => 'Auto login active for users',
 	'LBL_SAVE_CONFIG' => 'Configuration has been saved',
 	'LBL_LDAP_DOMAIN' => '__UNTRANSLATED__',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
-);
+];

@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Account Name' => 'Nazwa kontrahenta',
 	'Account No' => 'Numer Kontrahenta',
 	'Accounts' => 'Kontrahenci',
@@ -85,11 +85,11 @@ $languageStrings = array(
 	'PLL_EUROPEAN_RECIPROCAL_PARTNERSHIP' => 'Europejska spółka wzajemna',
 	'PLL_EUROPEAN_ASSOCIATION' => 'Stowarzyszenie europejskie',
 	'PLL_UFCIITS' => 'Przedsiębiorstwo zbiorowego inwestowania w zbywalne papiery wartościowe',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Taki kontrahent istnieje. Czy chcesz utworzyć duplikat?',
 	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego Kontrahenta usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tego Kontrahenta?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie tych Kontrahentów usunie również przypisane szanse sprzedaży oraz Oferty. Czy jesteś pewnien, że chcesz usunąć tych Kontrahentów?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy jesteś pewien że chcesz usunąć rekordy?',
-);
+];

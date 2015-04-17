@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_to' => 'to',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address Information',
@@ -37,10 +37,10 @@ $languageStrings = array(
 	'Website' => 'Website',
 	'LBL_BUILDING_NUMBER' => 'Building number',
 	'LBL_LOCAL_NUMBER' => 'Office number',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Deleting this Vendor will remove its related PurchaseOrders. Are you sure you want to delete this Vendor?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Deleting this vendor(s) will remove its related Purchase Orders. Are you sure you want to delete the selected Records?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Are you sure you want to delete?',
-);
+];

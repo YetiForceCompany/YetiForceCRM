@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Leads' => 'Leady',
 	'LBL_OPPURTUNITIES' => 'Szanse sprzedaży',
 	'checkBox' => 'Pole zaznaczenia',
@@ -39,9 +39,9 @@ $languageStrings = array(
 	'time' => 'Pole czasu',
 	'url' => 'Adres WWW',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Konwersja na kontrahenta',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_CANT_MAP' => 'Nie można zmapować',
 	'JS_checkBox' => 'Pole zaznaczenia',
 	'JS_currency' => 'Pole waluty',
@@ -66,4 +66,4 @@ $jsLanguageStrings = array(
 	'JS_WITH' => 'z',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Zapisano mapowanie pól',
 
-);
+];

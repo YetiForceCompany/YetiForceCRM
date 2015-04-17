@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Selected Values' => 'Selected Values',
 	'LBL_ADD_RECORD' => 'Add record',
 	'PickListDependency' => 'PickList Dependency',
@@ -28,13 +28,13 @@ $languageStrings = array(
 	'Module' => 'Module',
 	'Source Field' => 'Source Field',
 	'Target Field' => 'Target Field',
-);
+];
 
-$jsLanguageStrings = array(
+$jsLanguageStrings = [
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'You need to select at least one value for',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dependency deleted successfully',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Are you sure you want to delete this picklist dependency?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Picklist Dependency Saved',
 	'JS_SELECT_SOME_VALUE' => 'Select some value',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Source field and Target field should not be same',
-);
+];
