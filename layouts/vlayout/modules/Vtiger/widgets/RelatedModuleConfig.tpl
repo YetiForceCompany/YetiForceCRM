@@ -58,6 +58,11 @@
 					<input name="action" class="span3" type="checkbox" value="1" {if $WIDGETINFO['data']['action'] == 1}checked{/if}/>
 					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
 				</div>
+				<div class="span5 marginLeftZero"><label class="">{vtranslate('Select button', $QUALIFIED_MODULE)}:</label></div>
+				<div class="span7">
+					<input name="actionSelect" class="span3" type="checkbox" value="1" {if $WIDGETINFO['data']['actionSelect'] == 1}checked{/if}/>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Select button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+				</div>
 				<div class="span5 marginLeftZero"><label class="">{vtranslate('No message', $QUALIFIED_MODULE)}:</label></div>
 				<div class="span7">
 					<input name="no_result_text" class="span3" type="checkbox" value="1" {if $WIDGETINFO['data']['no_result_text'] == 1}checked{/if}/>

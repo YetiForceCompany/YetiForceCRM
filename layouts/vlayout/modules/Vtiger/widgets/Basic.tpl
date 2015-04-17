@@ -2,7 +2,7 @@
 	<div class="widgetContainer_{$key}" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_header row-fluid">
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-			<span class="span10 margin0px">
+			<span class="span8 margin0px">
 				<div class="row-fluid">
 					<span class="span5 margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 					{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
@@ -32,11 +32,20 @@
 				{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 				{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 				{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-				<span class="span2">
+				<span class="span2 margin0px">
 					<span class="pull-right">
 						<button class="btn pull-right createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
 						{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
 							<strong>{vtranslate('LBL_ADD',$MODULE_NAME)}</strong>
+						</button>
+					</span>
+				</span>
+			{/if}
+			{if $WIDGET['data']['actionSelect'] eq 1}
+				<span class="span2" style="margin-left: 16px;">
+					<span class="pull-right">
+						<button class="btn pull-right selectRelation" type="button" data-modulename="{$WIDGET['data']['relatedmodule']}">
+							<strong>{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}</strong>
 						</button>
 					</span>
 				</span>
