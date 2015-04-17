@@ -11,6 +11,7 @@ var Colors_Js = {
 	initEvants: function() {
 		$('.UserColors .updateColor').click(Colors_Js.updateColor);
 		$('.UserColors .generateColor').click(Colors_Js.generateColor);		
+		$('.UserColors .activeColor').click(Colors_Js.activeColor);		
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);
@@ -71,7 +72,7 @@ var Colors_Js = {
 		
 		var params = {
 			module: app.getModuleName(), 
-			parent: app.getParentModuleName(), 
+		//	parent: app.getParentModuleName(), 
 			action: 'SaveAjax', 
 			mode: 'generateColor',
 			params: {id: closestTrElement.data('id'),
@@ -100,7 +101,7 @@ var Colors_Js = {
 		var params = {}
 		params.data = {
 			module: app.getModuleName(), 
-			parent: app.getParentModuleName(), 
+		//	parent: app.getParentModuleName(), 
 			action: 'SaveAjax', 
 			mode: mode,
 			params: data
@@ -121,7 +122,39 @@ var Colors_Js = {
 			function(data, err) {}
 		);
 	},
-	
+	activeColor: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');
+		var params = {}
+		params.data = {
+			module: app.getModuleName(), 
+		//	parent: app.getParentModuleName(), 
+			action: 'SaveAjax', 
+			mode: 'activeColor',
+			params: {
+				'status': target.is(':checked'),
+				'color': closestTrElement.data('color'),
+				'id':closestTrElement.data('id')
+			}
+		}
+		params.async = false;
+		params.dataType = 'json';
+        AppConnector.request(params).then(
+			function(data) {
+				var response = data['result'];
+				var params = {
+					text: response['message'],
+					animation: 'show',
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+				if( closestTrElement.data('color') == ''){
+					closestTrElement.find('.moduleColor').css('background', '#'+response['color']);
+					closestTrElement.data('color','#'+response['color']);
+				}
+			}
+        );
+	},
 	registerEvents : function() {
 		Colors_Js.initEvants();
 	}

@@ -20,8 +20,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$this->exposeMethod('editPasswords');
 		$this->exposeMethod('updateUserColor');
 		$this->exposeMethod('updateGroupColor');
+		$this->exposeMethod('updateModuleColor');
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
+		$this->exposeMethod('activeColor');
 	}
 
 	public function checkPermission(Vtiger_Request $request) {
@@ -205,6 +207,16 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		));
 		$response->emit();
 	}
+	public function updateModuleColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		Users_Colors_Model::updateModuleColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
 
 	public function generateColor(Vtiger_Request $request) {
 		$params = $request->get('params');
@@ -225,6 +237,17 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	public function activeColor(Vtiger_Request $request) {
+		$params = $request->get('params');
+		$color = Users_Colors_Model::activeColor($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
+			'message' => vtranslate('LBL_SAVE_COLOR',$request->getModule(false))
 		));
 		$response->emit();
 	}

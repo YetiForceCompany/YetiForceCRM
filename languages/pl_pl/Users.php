@@ -304,6 +304,9 @@ $languageStrings = array(
 	"Marketing Department"	=> 'Dział marketingu',
 	" "	=> 'Brak',
 	"LBL_BASIC_EXPORT"	=> 'Eksport podstawowych danych',
+	
+	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
+	'LBL_SAVE_COLOR' => 'Zapisano kolor',
 );
 
 $jsLanguageStrings = array(

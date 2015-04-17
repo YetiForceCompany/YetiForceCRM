@@ -24,7 +24,7 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 		<tbody>
 			<tr>
-				<td class="span5">
+				<td class="span4">
 					<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 				</td>
 				<td class="refresh span2" align="right">

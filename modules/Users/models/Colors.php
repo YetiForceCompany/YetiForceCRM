@@ -64,6 +64,8 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 			self::updateGroupColor($params);
 		elseif('generateColorForProcesses' == $params['mode'])
 			self::updateColorForProcesses($params);
+		elseif('generateModuleColor' == $params['mode'])
+			self::updateModuleColor($params);
 		else	
 			self::updateUserColor($params);
 		return $color;
@@ -117,6 +119,48 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 			);
 		}
 		return $groupColors;
+	}
+	public function getModulesColors($active = false) {
+		global $adb;
+		$sql_params = Array();
+		$sql = '';
+		if($active){
+			$sql = 'WHERE coloractive = ?';
+			$sql_params[] = 1;
+		}
+		$result = $adb->pquery( "SELECT * FROM vtiger_tab $sql;", $sql_params);
+        $rows = $adb->num_rows($result);
+		$modules = Array();
+        for($i=0; $i<$rows; $i++){
+			$row = $adb->query_result_rowdata($result, $i);
+			$modules[] = array(
+				'id'=> $row['tabid'], 
+				'module'=> $row['name'], 
+				'color' => $row['color'] != ''?'#'.$row['color']:'',
+				'active' => $row['coloractive'],
+			);
+        }
+		return $modules;
+	}
+	public function activeColor($params){
+		$adb = PearDatabase::getInstance();
+		$sql_params = Array();
+		$sql = '';
+		if( $params['color'] == ''){
+			$color = self::getColor();
+			$sql = ' color = ?,';
+			$sql_params[] = $color;
+		}
+		$sql_params[] = $params['status'] == 'true'?1:0;
+		$sql_params[] = $params['id'];
+		$adb->pquery("UPDATE vtiger_tab SET $sql coloractive = ? WHERE tabid = ?;", $sql_params);
+		return $color;
+	}
+	
+	public function updateModuleColor($params){
+		$adb = PearDatabase::getInstance();
+		$color = str_replace("#","",$params['color']);
+		$adb->pquery('UPDATE vtiger_tab SET color = ? WHERE tabid = ?;', array( $color, $params['id'] ));
 	}
 
 

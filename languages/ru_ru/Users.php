@@ -313,6 +313,9 @@ $languageStrings = array(
 	'Held' => 'Проведено',
 	'Not Held' => 'Не проведено',
 	'Approval for email' => 'Разрешение на отправку электронной почты',
+	
+	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_SAVE_COLOR' => 'Сохранить цвет',
 );
 
 $jsLanguageStrings = array(

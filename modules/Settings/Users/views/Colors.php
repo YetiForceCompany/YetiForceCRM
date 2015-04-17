@@ -14,7 +14,9 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View {
 		$tablesAll = Users_Colors_Model::getTablesAll();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
+		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_MODEL', $moduleModel );
 		$viewer->assign('TABLES_ALL', $tablesAll);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

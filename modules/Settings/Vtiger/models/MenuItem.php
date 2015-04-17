@@ -47,7 +47,6 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model {
 		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
 		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
 		'index.php?module=Webforms&action=index&parenttab=Settings' => 'index.php?module=Webforms&parent=Settings&view=List',
-		'index.php?module=Settings&action=MenuEditor&parenttab=Settings' => 'index.php?module=MenuEditor&parent=Settings&view=Index',
                 'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index'
 	);
 

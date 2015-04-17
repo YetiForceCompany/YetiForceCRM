@@ -311,6 +311,9 @@ $languageStrings = array(
 	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
 	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
 	'Approval for email'=>'Berechtigung zum Senden von Mails',
+	
+	'LBL_GENERATED_COLOR' => 'Farbe generiert',
+	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 );
 
 $jsLanguageStrings = array(

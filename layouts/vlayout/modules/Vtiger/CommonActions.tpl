@@ -121,7 +121,7 @@
 					</div>
 				</div>
 			{/if}
-			{assign var="MENUSCOLOR" value=Settings_MenuEditor_Module_Model::getModulesColors(true)}
+			{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
 			{if $MENUSCOLOR}
 				<div class="menusColorContainer" style="display: none;">
 					<style>
