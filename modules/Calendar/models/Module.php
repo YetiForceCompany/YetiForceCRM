@@ -466,12 +466,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 			for($i=0; $i<$rows; $i++) {
 				$recordId = $db->query_result($result, $i, 'recordid');
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
-				$parent_id = $recordModel->get('parent_id');
-				$contact_id = $recordModel->get('contact_id');
-				if( $parent_id != '' ){
-					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($parent_id)."&record=$parent_id";
-				}elseif( $contact_id != '' ){
-					$url = "index.php?module=OSSMail&view=compose&mod=Contacts&record=$contact_id";
+				$link = $recordModel->get('link');
+				if( $link != '' ){
+					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($link)."&record=$link";
 				}
 				if($url != ''){
 					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><i class='icon-envelope icon-white'></i>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
