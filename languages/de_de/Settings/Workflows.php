@@ -123,6 +123,7 @@ $languageStrings = [
 	'LBL_ALL_TASKS' => 'Alle Aufgaben',
 	'LBL_ACTIVE_TASKS' => 'Aktive Aufgaben',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Kein Datensätze dublizieren',
+	'LBL_DUPLICATE_STATUS' => '__UNTRANSLATED__',
 	
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',

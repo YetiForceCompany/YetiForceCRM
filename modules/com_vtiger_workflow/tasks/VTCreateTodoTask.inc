@@ -24,7 +24,9 @@ require_once("modules/Users/Users.php");
 class VTCreateTodoTask extends VTTask{
 	public $executeImmediately = true;
 
-	public function getFieldNames(){return array('todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate');}
+	public function getFieldNames() {
+		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus'];
+	}
 
 	function getAdmin(){
 		$user = Users::getActiveAdminUser();
@@ -39,6 +41,7 @@ class VTCreateTodoTask extends VTTask{
 			return;
 		}
 		global $adb, $log, $current_user;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$userId = $entityData->get('assigned_user_id');
 		if($userId===null){
 			$userId = vtws_getWebserviceEntityId('Users', 1);
@@ -51,7 +54,12 @@ class VTCreateTodoTask extends VTTask{
 			$entityId = $parts[1];
 			$sql = 'SELECT count(vtiger_activity.activityid) AS num FROM vtiger_activity 
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
-					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+					WHERE vtiger_crmentity.deleted = 0 AND (vtiger_activity.link = ? OR vtiger_activity.process = ?) 
+					AND vtiger_activity.activitytype = ? AND vtiger_activity.subject = ?';
+			$status = Vtiger_Functions::getArrayFromValue($this->duplicateStatus);
+			if(count($status) > 0){
+				$sql .= "AND vtiger_activity.status NOT IN ('".implode("','", $status)."')";
+			}
 			$duplicates = $adb->pquery($sql, [$entityId, $entityId, 'Task', $this->todo]);
 			$num = $adb->query_result_raw($duplicates, 0, 'num');
 			if($num > 0){
@@ -142,6 +150,7 @@ class VTCreateTodoTask extends VTTask{
 
 		global $current_user;
 		$current_user = $this->originalUser;
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}
 
 	static function conv12to24hour($timeStr){
