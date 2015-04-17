@@ -30,6 +30,7 @@ $languageStrings = array(
 	'Size'	=> 'Spalte',
 	'Label'	=> 'Bezeichnung',
 	'Add button' => 'Knopf hinzufügen',
+	'Select button' => '__NOT_TRANSLATED__',
 	'Limit entries'	=> 'Limit von Einträgen',
 	'Columns'	=> 'Spalten',
 	'No left margin' => 'Kein linker Rand',

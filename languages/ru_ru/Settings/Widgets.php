@@ -30,6 +30,7 @@ $languageStrings = array(
 	'Size'	=>	'Количество колонок',
 	'Label'	=>	'Название',
 	'Add button'	=>	'Кнопка Добавить',
+	'Select button' => '__NOT_TRANSLATED__',
 	'Limit entries'	=>	'Количество записей',
 	'Columns'	=>	'Количество колонок',
 	'No left margin'	=>	'Без левого поля',
