@@ -5519,8 +5519,6 @@ insert  into `vtiger_manufacturer`(`manufacturerid`,`manufacturer`,`presence`,`p
 
 insert  into `vtiger_manufacturer_seq`(`id`) values (4);
 
-/*Data for the table `vtiger_marketing_processes` */
-
 /*Data for the table `vtiger_mobile_alerts` */
 
 insert  into `vtiger_mobile_alerts`(`id`,`handler_path`,`handler_class`,`sequence`,`deleted`) values (1,'modules/Mobile/api/ws/models/alerts/IdleTicketsOfMine.php','Mobile_WS_AlertModel_IdleTicketsOfMine',NULL,0);
@@ -6437,6 +6435,9 @@ insert  into `vtiger_postatus_seq`(`id`) values (5);
 /*Data for the table `vtiger_proc_marketing` */
 
 insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('conversion','change_owner','false');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
+insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 
 /*Data for the table `vtiger_productcf` */
 

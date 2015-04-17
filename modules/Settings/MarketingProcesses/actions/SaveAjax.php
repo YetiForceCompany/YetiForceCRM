@@ -15,11 +15,10 @@ class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexA
 	}
 	public function updateConfig(Vtiger_Request $request) {
 		$param = $request->get('param');
-		$recordModel = Settings_MarketingProcesses_Processes_Model::getCleanInstance();
-		$recordModel->setConfig($param);
+		$moduleModel = Settings_MarketingProcesses_Processes_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		$response->setResult(array(
-			'success' => true,
+			'success' => $moduleModel->setConfig($param),
 			'message' => vtranslate('LBL_SAVE_CONFIG',$request->getModule(false))
 		));
 		$response->emit();
