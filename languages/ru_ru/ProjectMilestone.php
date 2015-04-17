@@ -23,7 +23,7 @@ $languageStrings = array(
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
 	'description' => 'Описание',
 	//PICKLIST
-	'PLL_INTERNAL' => 'Internal',
-	'PLL_EXTERNAL' => 'External',
-	'PLL_SHARED' => 'Shared',
+	'PLL_INTERNAL' => 'Внутренний',
+	'PLL_EXTERNAL' => 'Внешний',
+	'PLL_SHARED' => 'Общий',
 );
