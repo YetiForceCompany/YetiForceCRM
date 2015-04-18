@@ -14,7 +14,7 @@ class Vtiger_Processes_Model{
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Process: $process, Type: $type" );
 		$db = PearDatabase::getInstance();
 		$processList = [
-			'marketing' => 'vtiger_proc_marketing',
+			'marketing' => 'yetiforce_proc_marketing',
 		];
 		$cache = Vtiger_Cache::get('ProcessesModel',$process.$type);
 		if($cache){

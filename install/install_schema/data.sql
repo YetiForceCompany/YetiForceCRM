@@ -6432,13 +6432,6 @@ insert  into `vtiger_postatus_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_priority` */
 
-/*Data for the table `vtiger_proc_marketing` */
-
-insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('conversion','change_owner','false');
-insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
-insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
-insert  into `vtiger_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
-
 /*Data for the table `vtiger_productcf` */
 
 /*Data for the table `vtiger_productcurrencyrel` */
@@ -20955,6 +20948,13 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 /*Data for the table `yetiforce_mobile_keys` */
 
 /*Data for the table `yetiforce_mobile_pushcall` */
+
+/*Data for the table `yetiforce_proc_marketing` */
+
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','change_owner','false');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 
 /*Data for the table `yetiforce_updates` */
 

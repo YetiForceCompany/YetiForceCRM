@@ -4952,15 +4952,6 @@ CREATE TABLE `vtiger_priority` (
   UNIQUE KEY `priority_priority_idx` (`priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_proc_marketing` */
-
-CREATE TABLE `vtiger_proc_marketing` (
-  `type` varchar(20) DEFAULT NULL,
-  `param` varchar(20) DEFAULT NULL,
-  `value` varchar(200) DEFAULT NULL,
-  KEY `type` (`type`,`param`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_productcf` */
 
 CREATE TABLE `vtiger_productcf` (
@@ -7681,6 +7672,15 @@ CREATE TABLE `yetiforce_mobile_pushcall` (
   `user` int(19) NOT NULL,
   `number` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_proc_marketing` */
+
+CREATE TABLE `yetiforce_proc_marketing` (
+  `type` varchar(20) DEFAULT NULL,
+  `param` varchar(20) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  KEY `type` (`type`,`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_updates` */
