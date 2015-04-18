@@ -9,7 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_GENERAL' => 'General',
+	'FinancialProcesses' => 'Финансовый процесс',
+	'LBL_GENERAL' => 'Основное',
 ];
 
 $jsLanguageStrings = [
