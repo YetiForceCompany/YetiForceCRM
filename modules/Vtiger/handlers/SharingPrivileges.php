@@ -23,7 +23,7 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 				}
 			}
 		}
-		if ($eventName == 'vtiger.entity.link.after') {
+		if ($eventName == 'vtiger.entity.link.after' && $shared_owners == true && Vtiger_Processes_Model::getConfig('sales','popup','popup','update_shared_permissions') == 'true') {
 			$destinationModule = array('Products', 'Services');
 			if ($entityData['sourceModule'] == 'Potentials' && in_array($entityData['destinationModule'], $destinationModule)) {
 				global $adb;
