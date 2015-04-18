@@ -157,5 +157,5 @@ nav.menu{width: 80%;}
 #moreMenu > ul.dropdown-menu{
 max-height: 500px;
 overflow-x: hidden;
-top: 90%;
+top: 30px;
 }
