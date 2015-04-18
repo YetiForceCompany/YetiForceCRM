@@ -35,8 +35,8 @@ $languageStrings = [
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_HOLIDAY' => 'Праздник',
 	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
-	'LBL_GENERATE_COLOR' => 'Generate random color',
-	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
+	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 ];
 $jsLanguageStrings = [
 

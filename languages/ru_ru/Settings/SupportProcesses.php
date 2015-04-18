@@ -9,14 +9,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SUPPORT_PROCESSES' => 'Support Processes',
-	'LBL_GENERAL_CONFIGURATION' => 'General Configuration',
-	'LBL_OTHER' => 'Other',
-	'LBL_INFO' => 'Info',
-	'LBL_TYPE' => 'Type',
-	'LBL_TICKET_STATUS_INFO' => 'Ticket status indicate closing',
-	'LBL_SAVE_CONFIG_OK' => 'Changes has been saved',
-	'LBL_SAVE_CONFIG_ERROR'	=> 'hanges has been saved.',
+	'SupportProcesses' => 'Процесс поддержки',
+	'LBL_SUPPORT_PROCESSES' => 'Процесс поддержки',
+	'LBL_GENERAL_CONFIGURATION' => 'Основная конфигурация',
+	'LBL_OTHER' => 'Другое',
+	'LBL_INFO' => 'Информация',
+	'LBL_TYPE' => 'Тип',
+	'LBL_TICKET_STATUS_INFO' => 'Статус заявки обозначающий закрытие заявки',
+	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
+	'LBL_SAVE_CONFIG_ERROR' => 'Ошибка сохранения изменений',
 	
 ];
 

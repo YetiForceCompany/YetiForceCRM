@@ -127,8 +127,8 @@ $languageStrings = [
 	'LBL_DEACTIVATION_TASKS' => 'Деактивировать Задачу', 
 	'LBL_ALL_TASKS' => 'Все Задачи', 
 	'LBL_ACTIVE_TASKS' => 'Активные Задачи',
-	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Do not duplicate records',
-	'LBL_DUPLICATE_STATUS' => '__UNTRANSLATED__',
+	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Не дублировать записи',
+	'LBL_DUPLICATE_STATUS' => 'Запретить дублировать записи',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
