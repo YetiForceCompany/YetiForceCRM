@@ -18,7 +18,11 @@
 			{assign var=POPUP value=$MODULE_MODEL->getConfig('popup')}
 			<div class="row-fluid">
 				<div class="span1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service_owner']=='true'}checked=""{/if} /></div>
-				<div class="span11"><label for="limit_product_service">{vtranslate('LBL_PRODUCTS_REL_DESCRIPTION',$QUALIFIED_MODULE)}</label></div>
+				<div class="span11"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
+			</div>
+			<div class="row-fluid">
+				<div class="span1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
+				<div class="span11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
 			</div>
 		</div>
 	</div>

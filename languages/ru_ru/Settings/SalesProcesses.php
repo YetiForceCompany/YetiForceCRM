@@ -12,10 +12,7 @@ $languageStrings = [
 	'SalesProcesses' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Управление процессами продаж',
-	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
-	'LBL_SAVE_CONFIG_ERROR' => 'Изменения не сохранены',
-	'LBL_PRODUCTS_REL_DESCRIPTION' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
-];
-$jsLanguageStrings = [
-
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
+	'LBL_PRODUCTS_AND_SERVICES_POPUP' => '__NOT_TRANSLATED__',
+	'LBL_UPDATE_SHARED_PERMISSIONS' => '__NOT_TRANSLATED__',
 ];

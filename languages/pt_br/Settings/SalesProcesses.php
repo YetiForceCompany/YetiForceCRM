@@ -9,12 +9,9 @@
  * All Rights Reserved. Contirbutor: Valmir Carlos Trindade - Brazilian Portuguese Translantion - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES'													=> 'Processo de Vendas',
-	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
-	'LBL_SAVE_CONFIG_OK'													=> 'Configurações dos processos de vendas salvo com sucesso.',
-	'LBL_SAVE_CONFIG_ERROR'													=> 'Falha ao salvar as configurações dos processos de vendas.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Fornecido para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
-];
-$jsLanguageStrings = [
-
+	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Fornecido para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
+	'LBL_PRODUCTS_AND_SERVICES_POPUP' => '__NOT_TRANSLATED__',
+	'LBL_UPDATE_SHARED_PERMISSIONS' => '__NOT_TRANSLATED__',
 ];

@@ -9,12 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_SALES_PROCESSES'													=> 'Sales processes',
-	'LBL_SALES_PROCESSES_DESCRIPTION'										=> ' ',
-	'LBL_SAVE_CONFIG_OK'													=> 'Successfully saved sales processes settings.',
-	'LBL_SAVE_CONFIG_ERROR'													=> 'Failed to save sales processes settings.',
-	'LBL_PRODUCTS_REL_DESCRIPTION'											=> 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
-];
-$jsLanguageStrings = [
-
+	'LBL_SALES_PROCESSES' => 'Sales processes',
+	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Allows to choose from products list only those that are related to chosen Potential. Provided for: Calculations, Quotes, Sales Orders and Invoices.',
+	'LBL_PRODUCTS_AND_SERVICES_POPUP' => '__NOT_TRANSLATED__',
+	'LBL_UPDATE_SHARED_PERMISSIONS' => '__NOT_TRANSLATED__',
 ];
