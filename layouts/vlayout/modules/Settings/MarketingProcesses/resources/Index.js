@@ -11,7 +11,6 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{
 	registerChangeVal: function (content) {
 		var thisInstance = this;
 		content.find('.configField').change(function (e) {
-			console.log('configField');
 			var target = $(e.currentTarget);
 			var params = {};
 			params['type'] = target.data('type');
@@ -29,7 +28,6 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js",{},{
 	registerEvents: function() {
 		var content = $('#supportProcessesContainer');
 		this.registerChangeVal(content);
-		this.registerSave();
 	}
 });
 

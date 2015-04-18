@@ -9,14 +9,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_CONVERSION' => '__UNTRANSLATED__',
-	'LBL_CONVERSION_TO_ACCOUNT' => '__UNTRANSLATED__',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => '__UNTRANSLATED__',
-	'LBL_LEADS' => '__UNTRANSLATED__',
-	'LBL_INFO' => '__UNTRANSLATED__',
-	'LBL_VALUES' => '__UNTRANSLATED__',
-	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
-	'LBL_LEAD_STATUS' => '__UNTRANSLATED__',
-	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
+	'MarketingProcesses' => 'Процесс Маркетинга',
+	'LBL_CONVERSION' => 'Преобразование',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Изменение владельца записи',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Назначить владельцем, лицо выполняющее преобразование',
+	'LBL_LEADS' => 'Обращение',
+	'LBL_INFO' => 'Информация',
+	'LBL_VALUES' => 'Значение',
+	'LBL_GROUPS_INFO' => 'Информация группы',
+	'LBL_LEAD_STATUS' => 'Состояние Обращения',
+	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
 ];
 

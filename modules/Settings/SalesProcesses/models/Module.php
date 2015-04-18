@@ -8,54 +8,52 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_SalesProcesses_Module_Model extends Settings_Vtiger_Module_Model {
-
-	/**
-	 * Gets config data for sales processes
-	 * @return - array of settings success, false on failure
-	 */
-	public static function getConfig() {
-		global $log;
-		$log->debug("Entering Settings_SalesProcesses_Module_Model::getConfig() method ...");
-
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT `products_rel_potentials` FROM `vtiger_salesprocesses_settings`;';
-
-		$result = $db->query( $sql );
-		$num = $db->num_rows( $result );
-		
-		$holidays = array();
-		if ( $num == 1 ) {
-			$productsRelPotentials = $db->query_result( $result, 0, 'products_rel_potentials' );
-			$holidays['products_rel_potentials'] = $productsRelPotentials;
-		}
-		$log->debug("Exiting Settings_SalesProcesses_Module_Model::getConfig() method ...");
-		return $holidays;
+class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
+	public static function getCleanInstance() {
+		$instance = new self();
+		return $instance;
 	}
 
-	/**
-	 * Saves config data for sales processes
-	 * @param <Int> $productsRelPotentials - show only products related to potential
-	 * @return - true or false
-	 */
-	public static function saveConfig( $productsRelPotentials ) {
+	public static function getConfig($type) {
 		global $log;
-		$log->debug("Entering Settings_SalesProcesses_Module_Model::saveConfig(".$productsRelPotentials.") method ...");
-
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type" );
+		$cache = Vtiger_Cache::get('SalesProcesses',$type);
+		if($cache){
+			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+			return $cache;
+		}
 		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE `vtiger_salesprocesses_settings` SET `products_rel_potentials` = ? WHERE `id` = 1 LIMIT 1;';
-		$params = array( intval($productsRelPotentials) );
 
-		$result = $db->pquery( $sql, $params, true );
-		$num = $db->num_rows( $result );
-
-		$log->debug("Exiting Settings_SalesProcesses_Module_Model::saveConfig() method ...");
-		if ( $db->getAffectedRowCount( $result ) ) {
-			return true;
+		$result = $db->pquery('SELECT * FROM yetiforce_proc_sales WHERE type = ?;', [$type]);
+		if ($db->num_rows($result) == 0) {
+			return [];
 		}
-		else {
-			return false;
+		$config = [];
+		for ($i = 0; $i < $db->num_rows($result); ++$i) {
+			$param = $db->query_result_raw($result, $i, 'param');
+			$value = $db->query_result_raw($result, $i, 'value');
+			if (in_array($param, ['groups','status'])) {
+				$config[$param] = $value == '' ? [] : explode(',', $value);
+			} else {
+				$config[$param] = $value;
+			}
 		}
+		Vtiger_Cache::set('SalesProcesses',$type, $config);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return $config;
+	}
+	
+	public static function setConfig($param) {
+		global $log;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		$value = $param['val'];
+		if(is_array($value)){
+			$value = implode(',', $value);
+		}
+		$db->pquery('UPDATE yetiforce_proc_sales SET value = ? WHERE type = ? AND param = ?;', [$value, $param['type'], $param['param']]);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return true;
 	}
 
 	/**
@@ -65,15 +63,9 @@ class Settings_SalesProcesses_Module_Model extends Settings_Vtiger_Module_Model 
 	public static function checkRelatedToPotentialsLimit() {
 		global $log;
 		$log->debug("Entering Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");
-
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT `products_rel_potentials` FROM `vtiger_salesprocesses_settings`;';
-
-		$result = $db->pquery( $sql );
-		$productsRelPotentials = $db->query_result( $result, 0, 'products_rel_potentials' );
-
+		$popup = self::getConfig('popup');
 		$log->debug("Exiting Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");
-		if ( $productsRelPotentials == 1 ) {
+		if ( $popup['limit_product_service'] == 'true' ) {
 			return true;
 		}
 		else {
