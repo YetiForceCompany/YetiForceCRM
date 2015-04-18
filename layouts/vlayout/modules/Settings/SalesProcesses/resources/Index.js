@@ -1,4 +1,3 @@
-<?php
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -8,21 +7,26 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_SalesProcesses_Configuration_View extends Settings_Vtiger_Index_View {
-
-	public function process(Vtiger_Request $request) {
-		global $log;
-		$log->debug("Entering Settings_SalesProcesses_Configuration_View::process() method ...");
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
-		$viewer = $this->getViewer($request);
-		$config = Settings_SalesProcesses_Module_Model::getConfig();
-
-		$viewer->assign('CONFIG', $config);
-		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-
-		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		$log->debug("Exiting Settings_SalesProcesses_Configuration_View::process() method ...");
+jQuery.Class("Settings_SalesProcesses_Index_Js",{},{
+	registerChangeVal: function (content) {
+		var thisInstance = this;
+		content.find('.configField').change(function (e) {
+			var target = $(e.currentTarget);
+			var params = {};
+			params['type'] = target.data('type');
+			params['param'] = target.attr('name');
+			if (target.attr('type') == 'checkbox') {
+				params['val'] = this.checked;
+			} else {
+				params['val'] = target.val() != null ? target.val() : '';
+			}
+			app.saveAjax('updateConfig', params).then(function (data) {
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			});
+		});
+	},
+	registerEvents: function() {
+		var content = $('#salesProcessesContainer');
+		this.registerChangeVal(content);
 	}
-}
+});

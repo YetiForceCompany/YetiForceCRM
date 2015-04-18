@@ -8,13 +8,13 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View {
-
+class Settings_SalesProcesses_Index_View extends Settings_Vtiger_Index_View {
+	
 	public function process(Vtiger_Request $request) {
 		global $log;
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
-		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
+		$moduleModel = Settings_SalesProcesses_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$viewer = $this->getViewer($request);
@@ -24,7 +24,7 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View 
 		$viewer->view('Index.tpl', $qualifiedModule);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
-
+	
 	public function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();

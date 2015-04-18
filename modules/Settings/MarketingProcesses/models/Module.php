@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 	  
-class Settings_MarketingProcesses_Processes_Model extends Vtiger_Base_Model{
+class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model{
 	public static function getCleanInstance() {
 		$instance = new self();
 		return $instance;

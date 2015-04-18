@@ -6203,14 +6203,6 @@ CREATE TABLE `vtiger_salesordercf` (
   CONSTRAINT `fk_1_vtiger_salesordercf` FOREIGN KEY (`salesorderid`) REFERENCES `vtiger_salesorder` (`salesorderid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_salesprocesses_settings` */
-
-CREATE TABLE `vtiger_salesprocesses_settings` (
-  `id` int(11) NOT NULL,
-  `products_rel_potentials` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_salutationtype` */
 
 CREATE TABLE `vtiger_salutationtype` (
@@ -7677,8 +7669,17 @@ CREATE TABLE `yetiforce_mobile_pushcall` (
 /*Table structure for table `yetiforce_proc_marketing` */
 
 CREATE TABLE `yetiforce_proc_marketing` (
-  `type` varchar(20) DEFAULT NULL,
-  `param` varchar(20) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `param` varchar(30) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  KEY `type` (`type`,`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `yetiforce_proc_sales` */
+
+CREATE TABLE `yetiforce_proc_sales` (
+  `type` varchar(30) DEFAULT NULL,
+  `param` varchar(30) DEFAULT NULL,
   `value` varchar(200) DEFAULT NULL,
   KEY `type` (`type`,`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

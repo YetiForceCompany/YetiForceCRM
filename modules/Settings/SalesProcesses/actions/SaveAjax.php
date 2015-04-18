@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
+class Settings_SalesProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 	function __construct() {
 		parent::__construct();
 		$this->exposeMethod('updateConfig');
@@ -16,7 +16,7 @@ class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexA
 
 	public function updateConfig(Vtiger_Request $request) {
 		$param = $request->get('param');
-		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();
+		$moduleModel = Settings_SalesProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->setConfig($param),

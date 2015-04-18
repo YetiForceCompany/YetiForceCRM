@@ -8,15 +8,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
- <div id="supportProcessesContainer" class="container-fluid supportProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
-	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
-	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
+<div id="supportProcessesContainer" class="container-fluid supportProcessesContainer" style="margin-top:10px;">
+ 	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>
+	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;<hr>
+	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{vtranslate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
 		<li ><a href="#lead_configuration" data-toggle="tab">{vtranslate('LBL_LEADS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
-	<div class="tab-content">
-		<div class='editViewContainer tab-pane active' id="conversiontoaccount">
+	<div class="tab-content layoutContent" style="padding-top: 10px;">
+		<div class="tab-pane active" id="conversiontoaccount">
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
 			<div class="row-fluid">
 				<div class="span3"><label class="span3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</div>
-		<div class='editViewContainer tab-pane' id="lead_configuration">
+		<div class='tab-pane' id="lead_configuration">
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}
 			<table class="table table-bordered table-condensed themeTableColor userTable">
 				<thead>
