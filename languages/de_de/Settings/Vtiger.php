@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-$languageStrings = [
+$languageStrings = array(
 	'LBL_MAX_SEARCH_RESULT'	=>	'Maximale Anzahl der angezeigten Suchergebnisse',
 	'address' => 'Adresse',
 	'Allows you to Configure Cron Task' => 'Ermöglicht Ihnen die Konfiguration von CRON Aufgaben',
@@ -268,10 +268,10 @@ $languageStrings = [
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_COLORS' => 'Farbverwaltung',
 	'LBL_COLORS_DESCRIPTION' => ' ',
-	'LBL_MENU_BUILDER' => 'Menu',
+	'LBL_MENU_BUILDER' => 'Menüverwaltung',
 	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
-	'LBL_AUTHORIZATION' => 'Authorization',
-	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_AUTHORIZATION' => 'Authorisierung',
+	'LBL_AUTHORIZATION_DESCRIPTION' => 'Verwalten der Anmeldemöglichkeitne (LDAP)',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',
@@ -294,10 +294,9 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Verkaufsprozess',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Allgemeine Geschäftsbedingungen',
-	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
-];
+);
 
-$jsLanguageStrings = [
+$jsLanguageStrings = array(
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',
 	'JS_CONFIGURATION_DETAILS_SAVED' => 'Konfigurationsdetails gespeichert',
 	'JS_CONFIRM_DEFAULT_SETTINGS' => 'Sind Sie sicher, dass Sie die Serverdetails auf die Standardserverwerte zurücksetzen wollen',
@@ -319,4 +318,4 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Nicht unterstütztes Bildformat',
 	'JS_COLUMN_ADDED' => 'Feld hinzugefügt',
 	'JS_COLUMN_EXIST' => 'Fehler beim Feld hinzufügen',
-];
+);

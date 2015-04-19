@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = [
+$languageStrings = array(
 	'Not Held'	=>	'Nicht stattgefunden',
 	'Held'	=>	'Stattgefunden',
 	'Activity Type'=>'Aktivitätsart',
@@ -90,8 +90,8 @@ $languageStrings = [
 	'Task' => 'Aufgabe',
 	'All day' => 'täglich',
 	'LBL_STATE' => 'Status',
-	'PLL_OPAQUE' => 'Busy',
-	'PLL_TRANSPARENT' => 'Free',
+	'PLL_OPAQUE' => 'beschäftigt',
+	'PLL_TRANSPARENT' => 'frei',
 
 	'Sunday' => 'Sonntag',
 	'Monday' => 'Montag',
@@ -104,14 +104,12 @@ $languageStrings = [
 	'Selected Users' => 'Ausgewählte Benutzer',
 	'Send Reminder' => 'Erinnerung senden',
 	'Time Start' => 'Startzeit',
-	'End Time'=>'End Time',
+	'End Time'=>'Endzeit',
 	'Start Time' => 'Startzeit',
-	'Recurrence'=> 'Recurrence',
 	'Visibility' => 'Sichtbar',
 	'Duration' => 'Dauer',
 	'Duration Minutes' => 'Dauer in Minuten',
 	'No Time' => 'Keine Zeit',
-	
 	'Recurrence'=> 'Wiederholung',
 	'TASK_PREV' => 'Eingeplante Aufgaben von gestern',
 	'TASK_CUR' => 'Eingeplante Aufgaben für heute',
@@ -119,11 +117,11 @@ $languageStrings = [
 	'LBL_NO_DESCRIPTION'=>'Keine Beschreibung',
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD' => 'Falsche ICS-Datei',
 	'LBL_IMPORT_ICS_SUCCESS' => 'Kalendereintrag hinzugefügt',
-	'Relation' => 'Relation',
-	'Process' => 'Process',
-];
+	'Relation' => 'Beziehung',
+	'Process' => 'Prozess',
+);
 
-$jsLanguageStrings = [
+$jsLanguageStrings = array(
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
 	'JS_NO_DELETE_PERMISSION' => 'Sie haben keine Erlaubnis, Kalendereinträge zu löschen.',
 	'JS_RECORD_DELETED'	=>	'Datensatz wurde gelöscht',
@@ -211,4 +209,4 @@ $jsLanguageStrings = [
 	'JS_WEEK' => 'Woche',
 	'Mobile Call' => 'Mobiler Anruf',
 	'NOTIFICATION_ACCEPTED' => 'Angenommen',
-];
+);
