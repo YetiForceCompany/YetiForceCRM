@@ -185,6 +185,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		}
 
 		var params = {
+			hide:false,
 			sticker: false,
 			delay: '3000',
 			type: 'error',
