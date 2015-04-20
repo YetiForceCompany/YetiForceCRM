@@ -9,14 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_CONVERSION' => '__UNTRANSLATED__',
-	'LBL_CONVERSION_TO_ACCOUNT' => '__UNTRANSLATED__',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => '__UNTRANSLATED__',
-	'LBL_LEADS' => '__UNTRANSLATED__',
-	'LBL_INFO' => '__UNTRANSLATED__',
-	'LBL_VALUES' => '__UNTRANSLATED__',
-	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
+	'LBL_CONVERSION' => 'Conversion',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Change Assigned To',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'When this option is ticked, a user who converts a Lead to an Account becomes its Assigned To',
+	'LBL_LEADS' => 'Leads',
+	'LBL_INFO' => 'Information',
+	'LBL_VALUES' => 'Values',
+	'LBL_GROUPS_INFO' => 'Groups with no Assigned To',
 	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
-	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
+	'LBL_CURRENTUSER_STATUS' => 'Change Assigned To to a user who edits a record',
 ];
 
