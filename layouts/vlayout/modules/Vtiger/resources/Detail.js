@@ -209,7 +209,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	detailViewDetailsTabLabel : 'LBL_RECORD_DETAILS',
 	detailViewSummaryTabLabel : 'LBL_RECORD_SUMMARY',
 	detailViewRecentCommentsTabLabel : 'ModComments',
-	detailViewRecentActivitiesTabLabel : 'Activities',
+	detailViewRecentActivitiesTabLabel : 'Upcoming Activities',
 	detailViewRecentUpdatesTabLabel : 'LBL_UPDATES',
 	detailViewRecentDocumentsTabLabel : 'Documents',
 
