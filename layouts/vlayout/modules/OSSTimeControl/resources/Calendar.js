@@ -270,7 +270,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var moduleName = 'Calendar';
+		var moduleName = app.getModuleName();
 		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance.getQuickCreateForm(url,moduleName).then(
