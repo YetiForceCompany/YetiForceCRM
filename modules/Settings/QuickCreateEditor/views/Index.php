@@ -28,7 +28,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View {
 
 	public function showFieldLayout(Vtiger_Request $request) {
 		$sourceModule = $request->get('sourceModule');
-		$menuModelsList = Vtiger_Menu_Model::getAll(true);
+		$menuModelsList = Vtiger_Module_Model::getQuickCreateModules();
 
 		if(empty($sourceModule)) {
 			//To get the first element

@@ -84,6 +84,8 @@ jQuery.Class("Reservations_Calendar_Js",{
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
+			forceEventDuration: true,
+			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			allDaySlot: false,
 			dayClick: function(date, jsEvent, view) {
@@ -271,7 +273,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 
 	loadCalendarCreateView : function() {
 		var aDeferred  = jQuery.Deferred();
-		var moduleName = 'Reservations';
+		var moduleName = app.getModuleName();
 		var url = 'index.php?module='+moduleName+'&view=QuickCreateAjax';
 		var headerInstance = Vtiger_Header_Js.getInstance();
 		headerInstance.getQuickCreateForm(url, moduleName).then(
