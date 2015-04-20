@@ -80,4 +80,7 @@ $languageStrings = [
 	'Website' => 'Strona internetowa',
 	'Service' => 'Usługa',
 	'Sales' => 'Sprzedaż',
+	'Support Group' => 'Wsparcie',
+	'Marketing Group' => 'Marketing',
+	'Team Selling' => 'Sprzedaż',
 ];
