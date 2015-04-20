@@ -37,4 +37,7 @@ $languageStrings = [
 	'Completed' => 'Concluído',
 	'Deferred' => 'Adiado',
 	'Cancelled' => 'Cancelado',
+	'administrative' => 'internal',
+	'operative' => 'external',
+	'other' => 'shared',
 ];
