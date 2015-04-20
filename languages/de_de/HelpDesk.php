@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$languageStrings = [
+$languageStrings = array(
 	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
 	'LBL_STATUS_CLOSED' => 'Geschlossen',
 	'Big Problem' => 'grosses Problem',
@@ -91,8 +91,8 @@ $languageStrings = [
 	'Answered'		=>	'Beantwortet',
 	'P&S Sold'=>'Produkt/Dienstleistung verkauft',
 	'LBL_VIEW_FINDDUPLICATES'=> 'Dubletten finden',
-	'Record Id' => 'Record Id',
-	'ticketpriorities' => 'priority',
+	'Record Id' => 'Datensatz Id',
+	'ticketpriorities' => 'Priorität',
 	
 	//notifications translation 
 	'LBL_NOTICE_WELCOME'	=>	'Willkommen',
@@ -103,4 +103,4 @@ $languageStrings = [
 	'LBL_NOTICE_MODIFICATION'	=>	'Veränderung',
 	'LBL_NOTICE_CLOSE'	=>	'Geschlossen',
 	'LBL_NOTICE_FOOTER'	=>	'Wenn Sie keine Mitteilungen von unserem Projekt-Management-System erhalten möchten, informieren Sie uns bitte per E-Mail. Wenn Sie nicht zu den Adressaten dieser Nachricht gehören, informieren Sie uns bitte darüber und löschen die Nachricht.',
-];
+);

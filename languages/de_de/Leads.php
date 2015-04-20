@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-$languageStrings = [
+$languageStrings = array(
 	'Products' => 'Produkte',
 	'No approval for email' => 'Keine Genehmigung für EMail',
 	'No approval for phone calls' => 'Keine Genehmigung für Anrufe',
@@ -107,12 +107,12 @@ $languageStrings = [
 	'Attention' => 'Kommentare',
 	"Attorney General's Office" => "Generalstaatsanwaltschaft",
 	'Orders accepted' => 'Aufträge angenommen',
-	'LBL_RELATION' => 'Relation',
-	'LBL_LEGAL_FORM' => 'Legal form',
-];
+	'LBL_RELATION' => 'Beziehung',
+	'LBL_LEGAL_FORM' => 'Rechtsform',
+);
 
-$jsLanguageStrings = [
+$jsLanguageStrings = array(
 	'JS_SELECT_CONTACTS' => 'Wähle Kontakte zum fortführen',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Zum Konvertieren wählen Sie einen Kontakt oder eine Organisationen',
 	'JS_SELECT_ORGANIZATION' => 'Wählen Sie Organisationen zum fortführen',
-];
+);
