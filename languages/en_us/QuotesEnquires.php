@@ -18,10 +18,10 @@ $languageStrings = [
 	
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
-	'LBL_POTENTIAL' => 'Potential',
+	'LBL_POTENTIAL' => 'Opportunity',
 	'LBL_NUMBER' => 'Number',
 	'Description' => 'Description',
-	'Attention' => 'Attentions',
+	'Attention' => 'Comments',
 	'LBL_STAGE' => 'Stage',
 	'LBL_CONS' => 'Disadvantages',
 	'LBL_PROS' => 'Advantages',
