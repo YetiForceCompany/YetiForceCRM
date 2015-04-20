@@ -72,7 +72,7 @@ $languageStrings = [
 	'last day of +3 months' => 'Ostatni dzień następnego kwartału',
 	// payment duration
 	'payment:+0 day' => 'Data wystawienia faktury',
-	'payment:+1 day' => 'Po jednym dniu',
+	'payment:+1 day' => 'Po 1 dniu',
 	'payment:+7 days' => 'Po 1 tygodniu',
 	'payment:+14 days' => 'Po 2 tygodniach',
 	'payment:+21 days' => 'Po 3 tygodniach',

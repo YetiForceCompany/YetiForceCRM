@@ -72,9 +72,9 @@ $languageStrings = [
 	// payment duration
 	'payment:+0 day' => 'Sofort',
 	'payment:+1 day' => 'Nach einem Tag',
-	'payment:+7 days' => 'Nach einer Woche',
-	'payment:+14 days' => 'Nach zwei Wochen',
-	'payment:+21 days' => 'Nach drei Wochen',
+	'payment:+7 days' => 'Nach 1 Woche',
+	'payment:+14 days' => 'Nach 2 Wochen',
+	'payment:+21 days' => 'Nach 3 Wochen',
 	'payment:+30 days' => 'Netto 30 Tage',
 	'payment:+60 days' => 'Netto 60 Tage',
 	'payment:+90 days' => 'Netto 90 Tage',
