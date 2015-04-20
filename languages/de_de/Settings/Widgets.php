@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'Widgets'	=> 'Widget Modulverwaltung',
 	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget'	=> 'Widget hinzufügen',
@@ -57,9 +57,9 @@ $languageStrings = array(
 	'Columns info'	=> 'Wie viele Spalten werden von Datensätzen in der Liste angezeigt. Die Spalten werden von der ersten angezeigten Spalte des übergeordneten Moduls aus gezählt.',
 	'Add button info'	=> 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info'	=> 'Deaktiviere linken Rand im Widget.',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'Loading data'	=> 'Laden...',
 	'Saving changes'	=> 'Speichere Änderungen...',
 	'None' => 'Keine',
-);
+];

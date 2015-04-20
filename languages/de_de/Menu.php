@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = Array (
+$languageStrings = [
 	'LBL_QUICK_CREATE_MODULE' => 'Schnellerfassung',
 	'LBL_SEPARATOR' => 'Trennzeichen',
 	'LBL_OTHER' => 'Andere',
@@ -25,4 +25,4 @@ $languageStrings = Array (
 	'MEN_PRODUCTBASE' => 'Produkt Datenbank',
 	'MEN_LISTS' => 'Listen',
 	'MEN_SERVICESBASE' => 'Service Datenbank',
-);
+];
