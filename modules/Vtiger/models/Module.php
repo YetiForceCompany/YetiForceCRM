@@ -1015,11 +1015,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.".$relationField." = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-
-		$query .= Users_Privileges_Model::getNonAdminAccessControlQuery('Calendar');
-
-		$query .= " WHERE vtiger_crmentity.deleted=0
+					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0
 					AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
@@ -1038,7 +1034,11 @@ class Vtiger_Module_Model extends Vtiger_Module {
 				array_push($params, $user);
 			}
 		}
-
+		$moduleName = 'Calendar';
+		$instance = CRMEntity::getInstance($moduleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
+		if ($securityParameter != '')
+			$query .= ' ' . $securityParameter;
 		$query .= " ORDER BY date_start, time_start LIMIT ". $pagingModel->getStartIndex() .", ". ($pagingModel->getPageLimit()+1);
 
 		if ($recordId) {
@@ -1392,7 +1392,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <String>
 	 */
 	public function getNonAdminAccessControlQueryForRelation($relatedModuleName) {
-		$modulesList = array('Faq', 'PriceBook', 'Vendors', 'Users');
+		$modulesList = array('Faq', 'PriceBook', 'Users');
 
 		if (!in_array($relatedModuleName, $modulesList)) {
 			return Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleName);

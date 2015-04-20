@@ -138,10 +138,10 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 			
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
-			if ($nonAdminQuery) {
-				$query = appendFromClauseToQuery($query, $nonAdminQuery);
-			}
+			$instance = CRMEntity::getInstance($relatedModuleName);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+			if ($securityParameter != '')
+				$sql .= ' ' . $securityParameter;
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
