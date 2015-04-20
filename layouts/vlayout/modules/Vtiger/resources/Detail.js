@@ -1452,6 +1452,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 							detailViewElement.html(ajaxEditNewLable);
 							fieldnameElement.data('prevValue', ajaxEditNewValue);
 							if('Held' == ajaxEditNewValue || 'Completed' == ajaxEditNewValue){
+								var recordWidget = currentTarget.closest('.activityEntries');
+								recordWidget.find('popoverTooltip').popover('hide');
 								var widget = currentTarget.closest('.widgetContentBlock');
 								var widgetContainer = jQuery(widget);
 								thisInstance.loadWidget(widgetContainer);
