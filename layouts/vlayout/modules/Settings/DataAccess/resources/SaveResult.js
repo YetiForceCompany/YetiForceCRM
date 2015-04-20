@@ -122,6 +122,9 @@ function SaveResult() {
 		relatedParams['sourceModule'] = sourceModule;
 		relatedParams['sourceRecord'] = sourceRecord;
 		relatedParams['relationOperation'] = true;
+		if(app.getViewName() == 'Detail' && moduleName == 'OSSTimeControl' ){
+			relatedParams['name'] = jQuery('.recordLabel').attr('title');
+		}
 		quickCreateParams['callbackFunction'] = postQuickCreateSave;
 		quickCreateParams['callbackPostShown'] = preQuickCreateSave;
 		quickCreateParams['data'] = relatedParams;
