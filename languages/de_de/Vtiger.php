@@ -348,7 +348,6 @@ $languageStrings = [
 	'LBL_GUIDER' => 'Führer',
 	'LBL_HANDLER_NOT_FOUND' => 'Steuerungsprogramm nicht gefunden',
 	'LBL_HELP' => 'Hilfe',
-	'LBL_HIDE_COMPLETED_EVENTS' => 'Abgeschlossene Kalender Ereignisse ausblenden',
 	'LBL_HOME' => 'Meine Startseite',
 	'LBL_H' => 'h',
 	'LBL_HOUR' => 'Stunde',

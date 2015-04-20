@@ -334,7 +334,6 @@ $languageStrings = [
 	'LBL_GUIDER' => 'Guia',
 	'LBL_HANDLER_NOT_FOUND'=> 'Nenhum Almoxarife encontrado' ,
 	'LBL_HELP' => 'Ajuda' ,
-  	'LBL_HIDE_COMPLETED_EVENTS' => 'Ocultar Eventos Concluídos',
 	'LBL_HOME' => 'Principal',
 	'LBL_H' => 'h',
 	'LBL_HOUR' => 'hora',

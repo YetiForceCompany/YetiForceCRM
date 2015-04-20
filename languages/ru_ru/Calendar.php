@@ -114,7 +114,6 @@ $languageStrings = [
     'LBL_EDIT_COLOR'               => 'Редактировать цвет',
     'LBL_EVENT_OR_TASK'            => 'Событие / Задача',
     'LBL_FINISH'                   => 'Финиш',
-    'LBL_HIDE_COMPLETED_EVENTS'    => 'Не показывать завершенные события',
     'LBL_IMPORT_RECORDS'           => 'Импортируемые записи',
     'LBL_LAST_IMPORT_UNDONE'       => 'Импорт отменен',
     'LBL_RESULT'                   => 'Результат',

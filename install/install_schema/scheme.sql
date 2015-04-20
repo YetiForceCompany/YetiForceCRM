@@ -7186,7 +7186,6 @@ CREATE TABLE `vtiger_users` (
   `rowheight` varchar(10) DEFAULT NULL,
   `defaulteventstatus` varchar(50) DEFAULT 'Planned',
   `defaultactivitytype` varchar(50) DEFAULT NULL,
-  `hidecompletedevents` int(11) DEFAULT NULL,
   `is_owner` varchar(5) DEFAULT NULL,
   `emailoptout` varchar(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
