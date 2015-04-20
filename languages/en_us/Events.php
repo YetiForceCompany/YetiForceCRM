@@ -77,7 +77,7 @@ $languageStrings = [
 	'Yearly'=>'Year',
 	'Mobile Call' => 'Mobile call',
 	'LBL_NO_DESCRIPTION'=>'No description',
-	'All day' => '__No_Translated__',
+	'All day' => 'All day',
 	//Priority picklist values 
 	'High' => 'High', 
 	'Medium' => 'Medium', 
@@ -85,6 +85,6 @@ $languageStrings = [
 	'LBL_STATE' => 'Show as',
 	'PLL_OPAQUE' => 'Busy',
 	'PLL_TRANSPARENT' => 'Free',
-	'Relation' => '__UNTRANSLATED__',
-	'Process' => '__UNTRANSLATED__',
+	'Relation' => 'Relation',
+	'Process' => 'Process',
 ];
