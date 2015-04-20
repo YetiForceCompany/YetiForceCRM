@@ -84,6 +84,8 @@ jQuery.Class("Reservations_Calendar_Js",{
 			editable: true,
 			slotMinutes: 15,
 			defaultEventMinutes: 0,
+			forceEventDuration: true,
+			defaultTimedEventDuration: '01:00:00',
 			eventLimit: true,
 			allDaySlot: false,
 			dayClick: function(date, jsEvent, view) {
