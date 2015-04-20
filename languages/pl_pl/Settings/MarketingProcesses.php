@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_INFO' => 'Informacja',
 	'LBL_VALUES' => 'Wartości',
 	'LBL_GROUPS_INFO' => 'Grypy oznaczające brak właściciela rekordu',
-	'LBL_LEAD_STATUS' => 'Statusy',
+	'LBL_LEAD_STATUS' => 'Statusy oznaczające koniec pracy z leadem',
 	'LBL_CURRENTUSER_STATUS' => 'Ustaw właścicielem rekordu osobę dokonującą edycji',
 ];
 

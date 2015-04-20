@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_INFO' => 'Информация',
 	'LBL_VALUES' => 'Значение',
 	'LBL_GROUPS_INFO' => 'Информация группы',
-	'LBL_LEAD_STATUS' => 'Состояние Обращения',
+	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
 ];
 
