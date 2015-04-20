@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') wurde aus dem System entfernt. Versuchen Sie es mit einem anderen Produkt/Dienstleistung zu ersetzen.',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Produkt/Dienstleistung wurde aus dem System entfernt. Entfernen Sie es aus dem Datensatz.',
 	'LBL_THIS' => 'Produkt/Dienstleistung (',
+	'SINGLE_Vendors' => 'Lieferant',
 ];
 
 $jsLanguageStrings = [
