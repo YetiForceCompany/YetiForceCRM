@@ -117,7 +117,7 @@ $languageStrings = [
 	'Sales stage - Preparing calculations'	=> 'Estágio da Venda - Preparando cálculos',
 	'Sales stage - Preparing quote'	=> 'Estágio da Venda - Preparando Cotação',
 	'Sales stage - Awaiting decision'	=> 'Estágio da Venda - Aguardando decisão',
-	'New comment added to ticket from portal' => 'New comment added to ticket from portal',
+	'New comment added to ticket from portal' => 'Um novo comentário foi adicionado ao Chamado a partir do Portal',
 	'ON_SCHEDULE' => 'Defina uma agenda para execução',
 	'LBL_RUN_WORKFLOW' => 'Frequência de execução:',
 	'LBL_HOURLY' => 'Horária',
@@ -137,7 +137,7 @@ $languageStrings = [
 	'LBL_ALL_TASKS' => 'Todas as Tarefas',
 	'LBL_ACTIVE_TASKS' => 'Tarefas ativas',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Não duplicar registros',
-	'LBL_DUPLICATE_STATUS' => 'Do not duplicate if status veries',
+	'LBL_DUPLICATE_STATUS' => 'Não duplicar se o status variar',
 	
 	//workflow task
 	'EmailTempleteList' => 'Selecionar um modelo de e-mail para ser enviado',

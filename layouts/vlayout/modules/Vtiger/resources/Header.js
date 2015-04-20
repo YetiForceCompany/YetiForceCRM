@@ -459,8 +459,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			BtnLink = item[1];
 			;
 		}
-		jQuery(".breadcrumbsContainer .goBack").attr('href', BtnLink);
-		var htmlContent = '<ul class="dropdown-menu pull-left" role="menu">';
+		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
 		if (sp != null) {
 			for (var i = sp.length - 1; i >= 0; i--) {
 				item = sp[i].toString().split("|");
@@ -484,7 +483,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
 		htmlContent += '</ul>';
-		$(".breadcrumbsContainer .showHistory").after(htmlContent);
+		$(".showHistoryBtn").after(htmlContent);
 		this.registerClearHistory();
 	},
 	getHistoryLabel: function () {
@@ -495,10 +494,10 @@ jQuery.Class("Vtiger_Header_Js", {
 		return label;
 	},
 	registerClearHistory: function () {
-		$(".breadcrumbsIcon .clearHistory").click(function () {
+		$(".historyBtn .clearHistory").click(function () {
 			localStorage.history = "";
 			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
-			$(".breadcrumbsContainer .dropdown-menu").html(htmlContent);
+			$(".historyBtn .dropdown-menu").html(htmlContent);
 		});
 	},
 	registerHotKeys: function () {

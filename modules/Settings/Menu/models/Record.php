@@ -155,6 +155,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 				//'showicon' => $row['showicon'],
 				//'icon' => $row['icon'],
 				//'sizeicon' => $row['sizeicon'],
+				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
 				'childs' => $this->getChildMenu($roleId, $row['id'])
 			];
@@ -168,6 +169,10 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 		$content = '<?php'.PHP_EOL.'$menus = [';
 		foreach ($menu as $item) {
 			$content .= $this->createContentMenu($item);
+		}
+		$content .= '];'.PHP_EOL.'$parentList = [';
+		foreach ($menu as $item) {
+			$content .= $this->createParentList($item);
 		}
 		$content .= '];';
 		$file = vglobal('root_directory').'user_privileges/menu_'.$roleId.'.php';
@@ -190,6 +195,20 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 			}
 		}
 		$content = trim($content,',').'],';
+		return $content;
+	}
+	
+	public function createParentList($menu) {
+		$content = $menu['id'].'=>[';
+		$content .= "'name'=>'".$menu['name']."',";
+		$content .= "'url'=>'".$menu['dataurl']."',";
+		$content .= "'parent'=>'".$menu['parent']."'";
+		$content .= '],';
+		if(count($menu['childs'])>0){
+			foreach ($menu['childs'] as $child) {
+				$content .= $this->createParentList($child);
+			}
+		}
 		return $content;
 	}
 }
