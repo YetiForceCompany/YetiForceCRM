@@ -1,36 +1,39 @@
 <?php
 /**
  * Smarty Internal Plugin Resource Stream
- *
  * Implements the streams as resource for Smarty template
  *
- * @package Smarty
+ * @package    Smarty
  * @subpackage TemplateResources
- * @author Uwe Tews
- * @author Rodney Rehm
+ * @author     Uwe Tews
+ * @author     Rodney Rehm
  */
 
 /**
  * Smarty Internal Plugin Resource Stream
- *
  * Implements the streams as resource for Smarty template
  *
- * @link http://php.net/streams
- * @package Smarty
+ * @link       http://php.net/streams
+ * @package    Smarty
  * @subpackage TemplateResources
  */
-class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled {
-
+class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
+{
     /**
      * populate Source Object with meta data from Resource
      *
      * @param Smarty_Template_Source   $source    source object
      * @param Smarty_Internal_Template $_template template object
+     *
      * @return void
      */
-    public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template=null)
+    public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template = null)
     {
-        $source->filepath = str_replace(':', '://', $source->resource);
+        if (strpos($source->resource, '://') !== false) {
+            $source->filepath = $source->resource;
+        } else {
+            $source->filepath = str_replace(':', '://', $source->resource);
+        }
         $source->uid = false;
         $source->content = $this->getContent($source);
         $source->timestamp = false;
@@ -41,6 +44,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled {
      * Load template's source from stream into current template object
      *
      * @param Smarty_Template_Source $source source object
+     *
      * @return string template source
      * @throws SmartyException if source cannot be loaded
      */
@@ -54,23 +58,24 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled {
                 $t .= $current_line;
             }
             fclose($fp);
+
             return $t;
         } else {
             return false;
         }
     }
-    
+
     /**
      * modify resource_name according to resource handlers specifications
      *
-     * @param Smarty $smarty        Smarty instance
-     * @param string $resource_name resource_name to make unique
+     * @param Smarty   $smarty        Smarty instance
+     * @param string   $resource_name resource_name to make unique
+     * @param  boolean $is_config     flag for config resource
+     *
      * @return string unique resource name
      */
-    protected function buildUniqueResourceName(Smarty $smarty, $resource_name)
+    protected function buildUniqueResourceName(Smarty $smarty, $resource_name, $is_config = false)
     {
         return get_class($this) . '#' . $resource_name;
     }
 }
-
-?>

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-$languageStrings = [
+$languageStrings = array(
 	'LBL_PAGES_HISTORY' => 'letzte angeschaute Seiten',
 	'days later' => 'Tagen',
 	'days ago' => 'vor Tagen',
@@ -77,8 +77,6 @@ $languageStrings = [
 	'Delagated Events/To Dos' => 'Beauftragte Termine/Aufgaben',
 	'LBL_EDIT_MAILSCANNER' => 'Mail-Scanner',
 	'LBL_CRM_SETTINGS' => 'Systemkonfiguration',
-	'Terms & Conditions' => 'Geschäftsbedingungen',
-	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
 	'Dashboards'	=>	'Meine Startseite',
 	'Terms & Conditions'	=>	'Allgemeine Geschäftsbedingungen',
 	'Total margin'	=>	'Gesamtmarge',
@@ -243,7 +241,7 @@ $languageStrings = [
 	'LBL_CC' => 'Cc',
 	'LBL_CHANGED' => 'geändert',
 	'LBL_CHAT_SUPPORT' => 'Chat Support',
-	'LBL_CHOOSE_COLUMNS' => 'Spalten udn Reihenfolge auswählen',
+	'LBL_CHOOSE_COLUMNS' => 'Spalten und Reihenfolge auswählen',
 	'LBL_CHOOSE_FILTER_CONDITIONS' => 'Wählen Sie Filterbedingungen',
 	'LBL_CLEAR' => 'Löschen',
 	'LBL_CLICK_ADD' => 'Klicken Sie auf hinzufügen',
@@ -472,7 +470,7 @@ $languageStrings = [
 	'LBL_PROFILE_PASSWORD' => 'Profil / Passwort',
 	'LBL_QTY' => 'Menge',
 	'LBL_QTY_IN_STOCK' => 'Bestand',
-	'LBL_QUICK_CREATE' => 'Schnellerfassung',
+	'LBL_QUICK_CREATE' => 'Schnellerfassung', //Löschen
 	'LBL_READ_LICENSE' => 'Lizenz lesen',
 	'LBL_REASON_FOR_CHANGING_COMMENT' => 'Grund der Kommentaränderung',
 	'LBL_RECENTLY_MODIFIED' => 'Kürzlich geändert',
@@ -907,8 +905,8 @@ $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'PLL_BREAK_TIME' => 'Unterbrechung der Arbeit',
 	'PLL_WORKING_TIME' => 'Arbeitszeit',
-];
-$jsLanguageStrings = [
+);
+$jsLanguageStrings = array(
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Arbeitszeit darf 24 Stunden nicht überschreiten',
 	'JS_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',
@@ -918,7 +916,7 @@ $jsLanguageStrings = [
 	'JS_LBL_NO_TAXES' => 'Ausgewähltes Produkt beinhaltet keine Steuer',
 	'INVALID_NUMBER' => 'Ungültige Anzahl',
 	'INVALID_NUMBER_OF' => 'Ungültige Anzahl von',
-	'JS_INVALID_LENGTH' => 'Added value is incomplete',
+	'JS_INVALID_LENGTH' => 'Hinzugefügter Wert ist nicht vollständig',
 	'JS_ACCEPT_ONLY_NUMBER' => 'Akzeptiert nur Zahlen',
 	'JS_ACCEPT_POSITIVE_NUMBER' => 'Akzeptiert nur positive Zahlen',
 	'JS_ALLOWED_TO_SELECT_MAX_OF_THREE_RECORDS' => 'Sie dürfen maximal drei Datensätze auswählen',
@@ -1069,4 +1067,4 @@ $jsLanguageStrings = [
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Fehler beim Versuch die Rufnummer zu übergeben',
 	'JS_SET_READ_RECORD' => 'Sie haben alle Änderungen die auf diesem Datensatz durchgeführt wurden gelesen',
 	'JS_CLEAR_HISTORY' => 'Historie löschen',
-];
+);

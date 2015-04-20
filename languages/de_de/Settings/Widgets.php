@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = [
+$languageStrings = array(
 	'Widgets'	=> 'Widget Modulverwaltung',
 	'LBL_MODULE_DESC' => 'Widget Modulverwaltung',
 	'Add widget'	=> 'Widget hinzufügen',
@@ -30,7 +30,7 @@ $languageStrings = [
 	'Size'	=> 'Spalte',
 	'Label'	=> 'Bezeichnung',
 	'Add button' => 'Knopf hinzufügen',
-	'Select button' => 'Select button',
+	'Select button' => 'Auswahl Button',
 	'Limit entries'	=> 'Limit von Einträgen',
 	'Columns'	=> 'Spalten',
 	'No left margin' => 'Kein linker Rand',
@@ -57,9 +57,9 @@ $languageStrings = [
 	'Columns info'	=> 'Wie viele Spalten werden von Datensätzen in der Liste angezeigt. Die Spalten werden von der ersten angezeigten Spalte des übergeordneten Moduls aus gezählt.',
 	'Add button info'	=> 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info'	=> 'Deaktiviere linken Rand im Widget.',
-];
-$jsLanguageStrings = [
+);
+$jsLanguageStrings = array(
 	'Loading data'	=> 'Laden...',
 	'Saving changes'	=> 'Speichere Änderungen...',
 	'None' => 'Keine',
-];
+);

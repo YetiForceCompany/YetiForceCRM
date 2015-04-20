@@ -8,22 +8,21 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = [
-	'LBL_QUICK_CREATE_MODULE' => 'Quick create',
-	'LBL_SEPARATOR' => 'Separator',
-	'LBL_OTHER' => 'Other',
-	'MEN_VIRTUAL_DESK' => 'Virtual desk',
-	'MEN_LEADS' => 'Leads',
-	'MEN_SALES' => 'Sales',
-	'MEN_PROJECTS' => 'Projects',
+$languageStrings = Array (
+	'LBL_QUICK_CREATE_MODULE' => 'Schnellerfassung',
+	'LBL_SEPARATOR' => 'Trennzeichen',
+	'LBL_OTHER' => 'Andere',
+	'MEN_VIRTUAL_DESK' => 'Arbeitsplatz',
+	'MEN_SALES' => 'Verkauf',
+	'MEN_PROJECTS' => 'Projekte',
 	'MEN_SUPPORT' => 'Support',
-	'MEN_LEADS' => 'Firmy',
-	'MEN_BOOKKEEPING' => 'Bookkeeping',
-	'MEN_HUMAN_RESOURCES' => 'Human resources',
-	'MEN_SECRETARY' => 'Secretary',
-	'MEN_DATABESES' => 'Databases',
-	'MEN_TEAMWORK' => 'Team work',
-	'MEN_PRODUCTBASE' => 'Product database',
-	'MEN_LISTS' => 'Lists',
-	'MEN_SERVICESBASE' => 'Service database',
-];
+	'MEN_LEADS' => 'Firmen',
+	'MEN_BOOKKEEPING' => 'Buchhaltung',
+	'MEN_HUMAN_RESOURCES' => 'Mitarbeiterverwaltung',
+	'MEN_SECRETARY' => 'Sekretariat',
+	'MEN_DATABESES' => 'Datenbanken',
+	'MEN_TEAMWORK' => 'Teamarbeit',
+	'MEN_PRODUCTBASE' => 'Produkt Datenbank',
+	'MEN_LISTS' => 'Listen',
+	'MEN_SERVICESBASE' => 'Service Datenbank',
+);

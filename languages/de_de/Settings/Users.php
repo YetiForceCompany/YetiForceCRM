@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
-$languageStrings = [
+$languageStrings = array(
 	'Users' => 'Benutzer',
     'USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'LBL_COLORS' => 'Farben',
@@ -24,20 +24,19 @@ $languageStrings = [
 	'LBL_GROUPS_COLORS' => 'Farbgruppe',
 	'LBL_GROUP_NAME' => 'Gruppenname',
 	'LBL_PRIORITY' => 'Priorität',
-	'LBL_MODULE' => 'Module',
 	
 	//Auth
-	'LBL_AUTHORIZATION' => 'Authorization',
+	'LBL_AUTHORIZATION' => 'Authorisierung',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
 	'LBL_LDAP_AUTH' => 'LDAP',
-	'LBL_ACTIVE_LDAP_AUTH' => 'Authorization with LDAP',
-	'LBL_LDAP_SERVER' => 'Server address',
+	'LBL_ACTIVE_LDAP_AUTH' => 'Authorisierung mit LDAP',
+	'LBL_LDAP_SERVER' => 'Serveraddresse',
 	'LBL_LDAP_PORT' => 'Port',
-	'LBL_LDAP_USERS' => 'Auto login active for users',
-	'LBL_SAVE_CONFIG' => 'Configuration has been saved',
-	'LBL_LDAP_DOMAIN' => '__UNTRANSLATED__',
-];
-$jsLanguageStrings = [
+	'LBL_LDAP_USERS' => 'Auto login Aktiv für Benutzer',
+	'LBL_SAVE_CONFIG' => 'Konfiguration wurde gespeichert',
+	'LBL_LDAP_DOMAIN' => 'LDAP Domäne',
+);
+$jsLanguageStrings = array(
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
-];
+);
