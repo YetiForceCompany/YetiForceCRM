@@ -511,7 +511,6 @@ $languageStrings = [
 	'LBL_H' => 'ч',
 	'LBL_HANDLER_NOT_FOUND'=> 'Обработчик не найден' , 
 	'LBL_HELP'=> 'Помощь',
-	'LBL_HIDE_COMPLETED_EVENTS' => 'Скрыть завершенные события',
 	'LBL_HOME'=> 'Главная',
 	'LBL_HOUR'=> 'час', 
 	'LBL_HOURS'=> 'часов' , 

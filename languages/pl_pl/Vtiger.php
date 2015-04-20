@@ -275,7 +275,6 @@ $languageStrings = [
 	'LBL_GUIDER' => 'FAQ',
 	'LBL_HANDLER_NOT_FOUND' => 'Handler nie został odnaleziony, zgłoś to Administratorowi!',
 	'LBL_HELP' => 'Pomoc',
-	'LBL_HIDE_COMPLETED_EVENTS' => 'Ukryj zakończone terminy',
 	'LBL_HOME' => 'Strona główna',
 	'LBL_H' => 'g',
 	'LBL_HOUR' => 'godzinę',

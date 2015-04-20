@@ -334,7 +334,6 @@ $languageStrings = [
 	'LBL_GUIDER' => 'Guider',
 	'LBL_HANDLER_NOT_FOUND' => 'Handler not found',
 	'LBL_HELP' => 'Help',
-	'LBL_HIDE_COMPLETED_EVENTS' => 'Hide Completed Calendar Events',
 	'LBL_HOME' => 'My home page',
 	'LBL_H' => 'h',
 	'LBL_HOUR' => 'hour',
