@@ -78,13 +78,13 @@ class Settings_Menu_Module_Model {
 		switch ($row['type']) {
 			case 0:
 				$moduleModel = Vtiger_Module_Model::getInstance($row['module']);
-				$url = $moduleModel->getDefaultUrl();
+				$url = $moduleModel->getDefaultUrl().'&parent='.$row['parentid'];
 				break;
 			case 1: $url = $row['dataurl'];
 				break;
 			case 4: $url = addslashes($row['dataurl']);
 				break;
-			case 7: $url = 'index.php?module='.$row['name'].'&view=List&viewname='.$row['dataurl'];
+			case 7: $url = 'index.php?module='.$row['name'].'&view=List&viewname='.$row['dataurl'].'&parent='.$row['parentid'];
 				break;
 			default: $url = null;
 				break;
