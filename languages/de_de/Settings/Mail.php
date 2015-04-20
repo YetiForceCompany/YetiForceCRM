@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = array(
+$languageStrings = [
 	'LBL_AUTOLOGIN' => 'Auto Login',
 	'LBL_AUTOLOGIN_DESCRIPTION' => 'Autologin für das EMail Modul konfigurieren',
 	'LBL_MAIL_GENERAL_CONFIGURATION' => 'Allgemeine Konfiguration',
@@ -26,4 +26,4 @@ $languageStrings = array(
 	'LBL_ADD_SIGNATURE' => 'Signature hinzufügen',
 	'LBL_SIGNATURE' => 'Signatur',
 	'LBL_SAVED_SIGNATURE' => 'Gespeicherte Signatur',
-);
+];
