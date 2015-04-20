@@ -31,14 +31,9 @@
 					<span style="position:relative;">&nbsp;</span>
 				</td>
 				<td class="span5">
-					<span class="span2">
-						<span class="pull-left" style="line-height:27px;margin-right:8px;">
-							{vtranslate('Assigned To', $MODULE_NAME)}
-						</span>
-					</span>
-					<span class="span3">
+					<div class="pull-right">
 						{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-					</span>
+					</div>
 				</td>
 				<td class="widgeticons span2" align="right">
 					<div class="box pull-right">
