@@ -32,6 +32,7 @@ $languageStrings = [
 	'Notes'							=> 'Notas',
 	'Related'						=> 'Organização/Oportunidade',
 	'Contact'						=> 'Contato',
+	'Type of document' => 'Document type',
 
 	// picklist values
 	'PLL_LOCAL_PICKUP'				=> 'Coleção pessoal',

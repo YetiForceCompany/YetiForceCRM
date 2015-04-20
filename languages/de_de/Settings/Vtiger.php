@@ -294,6 +294,7 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Verkaufsprozess',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Allgemeine Geschäftsbedingungen',
+	'LBL_SAVE_CONFIG' => 'Changes have been saved',
 ];
 $jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',

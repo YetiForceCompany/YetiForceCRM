@@ -288,7 +288,7 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Processo de Vendas',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => '',
 	'INVENTORYTERMSANDCONDITIONS' => 'Prazos e Condições',
-	'LBL_SAVE_CONFIG' => '__UNTRANSLATED__',
+	'LBL_SAVE_CONFIG' => 'Changes have been saved',
 ];
 
 $jsLanguageStrings = [
