@@ -31,7 +31,7 @@ $languageStrings = [
 	'PLL_BREAK_TIME' => 'Intervalo Trabalho',
 	'PLL_HOLIDAY_TIME' => 'Feriados',
 	'LBL_SAVE_CHANGES' => 'Alterações salvas',
-	'LBL_UPDATE_EVENT' => 'Update event in the Calendar when rescheduled.',
+	'LBL_UPDATE_EVENT' => 'Atualizar o Evento na Agena quando reagendado.',
 	'LBL_GENERATE_COLOR' => 'Gerar cor aleatória',
 	'LBL_GENERATED_COLOR' => 'Cor gerada',
 ];
