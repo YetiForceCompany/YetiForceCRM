@@ -39,4 +39,7 @@ $languageStrings = [
 	'Completed' => 'Zakończone',
 	'Deferred' => 'Odroczone',
 	'Cancelled' => 'Anulowane',
+	'administrative' => 'wewnętrzny',
+	'operative' => 'zewnętrzny',
+	'other' => 'wspólny',
 ];
