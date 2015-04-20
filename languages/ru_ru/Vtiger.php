@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_VIEW_EXPORT'	=>	'Экспорт',
 	'LBL_VIEW_IMPORT'	=>	'Импорт',
 	'LBL_VIEW_LIST'	=>	'Список',
+	'LBL_VIEW_SETTINGS' => '__NOT_TRANSLATED__',
 	'OSSPasswords'	=>	'Пароли',
 	'Pdf'	=>	'Шаблоны PDF',
 	'General Configuration'	=>	'Настройка конфигурации',

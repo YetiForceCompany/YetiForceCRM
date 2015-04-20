@@ -567,6 +567,7 @@ $languageStrings = [
 	'LBL_VIEW_DETAILS' => 'Detailansicht',
 	'LBL_VIEW_NAME' => 'Namen anzeigen',
 	'LBL_VIEW_THREAD' => 'Thema anzeigen',
+	'LBL_VIEW_SETTINGS' => '__NOT_TRANSLATED__',
 	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'YetiForce CRM Open Source',
 	'LBL_WEBFORMS' => 'WebFormulare',
 	'LBL_Wed' => 'Mi',

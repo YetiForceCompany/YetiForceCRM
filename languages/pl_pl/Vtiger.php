@@ -493,6 +493,7 @@ $languageStrings = [
 	'LBL_VIEW_DETAILS' => 'Szczegóły widoku',
 	'LBL_VIEW_NAME' => 'Nazwa filtru',
 	'LBL_VIEW_THREAD' => 'Zobacz wątek',
+	'LBL_VIEW_SETTINGS' => 'Konfiguracja systemu',
 	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'YetiForce CRM Open Source',
 	'LBL_WEBFORMS' => 'Formularze WWW',
 	'LBL_Wed' => 'Śro',
