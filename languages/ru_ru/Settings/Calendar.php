@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_HOLIDAY' => 'Праздник',
 	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
+	'LBL_UPDATE_EVENT' => 'Update event in the Calendar when rescheduled.',
 	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
 	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 ];
