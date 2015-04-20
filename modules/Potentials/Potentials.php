@@ -43,7 +43,6 @@ class Potentials extends CRMEntity {
 	var $list_fields = Array(
 			'Potential'=>Array('potential'=>'potentialname'),
 			'Organization Name'=>Array('potential'=>'related_to'),
-			'Contact Name'=>Array('potential'=>'contact_id'),
 			'Sales Stage'=>Array('potential'=>'sales_stage'),
 			'Sum invoices'=>Array('potential'=>'sum_invoices'),
 			'Expected Close Date'=>Array('potential'=>'closingdate'),
@@ -53,7 +52,6 @@ class Potentials extends CRMEntity {
 	var $list_fields_name = Array(
 			'Potential'=>'potentialname',
 			'Organization Name'=>'related_to',
-			'Contact Name'=>'contact_id',
 			'Sales Stage'=>'sales_stage',
 			'Sum invoices'=>'sum_invoices',
 			'Expected Close Date'=>'closingdate',
@@ -158,7 +156,6 @@ class Potentials extends CRMEntity {
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_potential.potentialid
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id
 				LEFT JOIN vtiger_account on vtiger_potential.related_to=vtiger_account.accountid
-				LEFT JOIN vtiger_contactdetails on vtiger_potential.contact_id=vtiger_contactdetails.contactid
 				LEFT JOIN vtiger_potentialscf on vtiger_potentialscf.potentialid=vtiger_potential.potentialid
                 LEFT JOIN vtiger_groups
         	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
@@ -226,7 +223,7 @@ class Potentials extends CRMEntity {
 					vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 					vtiger_crmentity.modifiedtime , vtiger_account.accountname from vtiger_potential
 					left join vtiger_contpotentialrel on vtiger_contpotentialrel.potentialid = vtiger_potential.potentialid
-					inner join vtiger_contactdetails on ((vtiger_contactdetails.contactid = vtiger_contpotentialrel.contactid) or (vtiger_contactdetails.contactid = vtiger_potential.contact_id))
+					inner join vtiger_contactdetails on vtiger_contactdetails.contactid = vtiger_contpotentialrel.contactid
 					INNER JOIN vtiger_contactaddress ON vtiger_contactdetails.contactid = vtiger_contactaddress.contactaddressid
 					INNER JOIN vtiger_contactsubdetails ON vtiger_contactdetails.contactid = vtiger_contactsubdetails.contactsubscriptionid
 					INNER JOIN vtiger_customerdetails ON vtiger_contactdetails.contactid = vtiger_customerdetails.customerid
@@ -550,9 +547,6 @@ class Potentials extends CRMEntity {
 		if ($queryplanner->requireTable("vtiger_accountPotentials")){
 			$query .= " left join vtiger_account as vtiger_accountPotentials on vtiger_potential.related_to = vtiger_accountPotentials.accountid";
 		}
-		if ($queryplanner->requireTable("vtiger_contactdetailsPotentials")){
-			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsPotentials on vtiger_potential.contact_id = vtiger_contactdetailsPotentials.contactid";
-		}
 		if ($queryplanner->requireTable("vtiger_potentialscf")){
 			$query .= " left join vtiger_potentialscf on vtiger_potentialscf.potentialid = vtiger_potential.potentialid";
 		}
@@ -586,7 +580,6 @@ class Potentials extends CRMEntity {
 			"SalesOrder" => array("vtiger_salesorder"=>array("potentialid","salesorderid"),"vtiger_potential"=>"potentialid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_potential"=>"potentialid"),
 			"Accounts" => array("vtiger_potential"=>array("potentialid","related_to")),
-			"Contacts" => array("vtiger_potential"=>array("potentialid","contact_id")),
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -606,18 +599,6 @@ class Potentials extends CRMEntity {
 		} elseif($return_module == 'Contacts') {
 			$sql = 'DELETE FROM vtiger_contpotentialrel WHERE potentialid=? AND contactid=?';
 			$this->db->pquery($sql, array($id, $return_id));
-
-			//If contact related to potential through edit of record,that entry will be present in
-			//vtiger_potential contact_id column,which should be set to zero
-			$sql = 'UPDATE vtiger_potential SET contact_id = ? WHERE potentialid=? AND contact_id=?';
-			$this->db->pquery($sql, array(0,$id, $return_id));
-
-			// Potential directly linked with Contact (not through Account - vtiger_contpotentialrel)
-			$directRelCheck = $this->db->pquery('SELECT related_to FROM vtiger_potential WHERE potentialid=? AND contact_id=?', array($id, $return_id));
-			if($this->db->num_rows($directRelCheck)) {
-				$this->trash($this->module_name, $id);
-			}
-
 		} else {
 			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
 			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
