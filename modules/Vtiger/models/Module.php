@@ -1392,7 +1392,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <String>
 	 */
 	public function getNonAdminAccessControlQueryForRelation($relatedModuleName) {
-		$modulesList = array('Faq', 'PriceBook', 'Vendors', 'Users');
+		$modulesList = array('Faq', 'PriceBook', 'Users');
 
 		if (!in_array($relatedModuleName, $modulesList)) {
 			return Users_Privileges_Model::getNonAdminAccessControlQuery($relatedModuleName);
