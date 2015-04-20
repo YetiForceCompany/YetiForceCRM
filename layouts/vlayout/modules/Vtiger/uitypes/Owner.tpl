@@ -39,7 +39,7 @@
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 				<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_MODEL->get('fieldvalue') eq $OWNER_ID} selected {/if}
 					{if array_key_exists($OWNER_ID, $ACCESSIBLE_GROUP_LIST)} data-recordaccess=true {else} data-recordaccess=false {/if} >
-				{$OWNER_NAME}
+					{vtranslate($OWNER_NAME, $MODULE)}
 				</option>
 			{/foreach}
 		</optgroup>
