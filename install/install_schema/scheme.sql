@@ -4859,7 +4859,6 @@ CREATE TABLE `vtiger_potential` (
   `outcomeanalysis` int(19) DEFAULT '0',
   `forecast_amount` decimal(25,8) DEFAULT NULL,
   `isconvertedfromlead` varchar(3) DEFAULT '0',
-  `contact_id` int(19) DEFAULT NULL,
   `sum_time` decimal(13,2) DEFAULT '0.00',
   `sum_time_so` decimal(13,2) DEFAULT '0.00',
   `sum_time_q` decimal(13,2) DEFAULT '0.00',
