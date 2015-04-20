@@ -56,7 +56,7 @@
 				{/if}
 				<span class="span2" style="margin-left: 16px;">
 					<span class="pull-right">
-						<button class="btn pull-right selectRelation" type="button" data-modulename="{$WIDGET['data']['relatedmodule']}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
+						<button class="btn pull-right selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
 							<strong>{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}</strong>
 						</button>
 					</span>
