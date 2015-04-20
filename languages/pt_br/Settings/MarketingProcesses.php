@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_INFO' => '__UNTRANSLATED__',
 	'LBL_VALUES' => '__UNTRANSLATED__',
 	'LBL_GROUPS_INFO' => '__UNTRANSLATED__',
-	'LBL_LEAD_STATUS' => '__UNTRANSLATED__',
+	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
 	'LBL_CURRENTUSER_STATUS' => '__UNTRANSLATED__',
 ];
 
