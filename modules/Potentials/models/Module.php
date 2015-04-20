@@ -252,11 +252,11 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$query .= ' AND vtiger_activity.process = '.$recordId;
 			$relatedModuleName = $relatedModule->getName();
 			$query .= $this->getSpecificRelationQuery($relatedModuleName);
-			$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
-			if ($nonAdminQuery) {
-				$query = appendFromClauseToQuery($query, $nonAdminQuery);
-			}
-			//var_dump($query);
+			$instance = CRMEntity::getInstance($relatedModuleName);
+			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+			if ($securityParameter != '')
+				$sql .= ' ' . $securityParameter;
+
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}
