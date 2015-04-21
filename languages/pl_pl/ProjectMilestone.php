@@ -26,8 +26,12 @@ $languageStrings = [
 	'LBL_MILESTONES_LIST' => 'Lista etapów',
 	'LBL_TASKS_LIST' => 'Lista zadań',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
+	'LBL_PRIORITY' => 'Priorytet',
 	//PICKLIST
 	'PLL_INTERNAL' => 'Wewnętrzny',
 	'PLL_EXTERNAL' => 'Zewnętrzny',
 	'PLL_SHARED' => 'Wspólny',
+	'PLL_LOW'=>'Niski',
+	'PLL_NORMAL'=>'Normalny',
+	'PLL_HIGH'=>'Wysoki',
 ];
