@@ -19,4 +19,5 @@ $languageStrings = [
 	'LBL_RESULT'=>'Status',
 	'LBL_UPDATES' => 'Updates',
 	'LBL_UPDATES_DESCRIPTION' => 'Updates Historie',
+	'LBL_IMPORT_UPDATE' => 'Upload update',
 ];
