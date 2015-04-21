@@ -88,6 +88,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 				$viewer->assign("MODULEIMPORT_FILE", $uploadFile);
 				$viewer->assign("MODULEIMPORT_TYPE", $package->type());
 				$viewer->assign("MODULEIMPORT_NAME", $importModuleName);
+				$viewer->assign("MODULEIMPORT_PACKAGE", $package);
 				$viewer->assign("MODULEIMPORT_DEP_VTVERSION", $importModuleDepVtVersion);
 				$viewer->assign("MODULEIMPORT_LICENSE", $moduleLicence);
 				

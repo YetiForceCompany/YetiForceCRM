@@ -450,8 +450,14 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	function getDescription() {
 		return $this->_modulexml->description;
 	}
-        
-        
+
+	function getUpdateInfo() {
+		return [
+			'from' => $this->_modulexml->from_version,
+			'to' => $this->_modulexml->to_version,
+		];
+	}
+	
 	/**
 	 * Import Module from zip file
 	 * @param String Zip file name
