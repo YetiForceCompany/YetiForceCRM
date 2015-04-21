@@ -54,11 +54,8 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 			$sql .= ' AND '.$ownerSql;
 		}
 		if(!empty($ticketStatus)){
-			foreach ($ticketStatus as $key => $value) {
-				$ticketStatusSearch[] = "'$value'";
-			}	
-			$ticketStatusSearch = implode(',', $ticketStatusSearch);
-			$sql .=	" AND vtiger_troubletickets.status NOT IN ($ticketStatusSearch)";
+			$ticketStatusSearch = implode("','", $ticketStatus);
+			$sql .= " AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
 		if ($securityParameter != '')
 			$sql .= ' ' . $securityParameter;

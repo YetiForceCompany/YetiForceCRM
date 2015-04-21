@@ -35,11 +35,8 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 			$sql.= ' ' . $securityParameter;
 		
 		if(!empty($ticketStatus)){
-			foreach ($ticketStatus as $key => $value) {
-				$ticketStatusSearch[] = "'$value'";
-			}	
-			$ticketStatusSearch = implode(',', $ticketStatusSearch);
-			$sql .=	" AND vtiger_troubletickets.status NOT IN ($ticketStatusSearch)";
+			$ticketStatusSearch = implode("','", $ticketStatus);
+			$sql .=	" AND vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
 		}
 		$sql .= ' GROUP BY smownerid';
 		$result = $db->pquery($sql , array());
