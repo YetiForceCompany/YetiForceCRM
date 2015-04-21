@@ -13,6 +13,6 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Процессы продаж',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Управление процессами продаж',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
-	'LBL_PRODUCTS_AND_SERVICES_POPUP' => '__NOT_TRANSLATED__',
-	'LBL_UPDATE_SHARED_PERMISSIONS' => '__NOT_TRANSLATED__',
+	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Выбор Товаров и Услуг',
+	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Обновление Уровня доступа',
 ];

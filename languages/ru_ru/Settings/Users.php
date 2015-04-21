@@ -30,7 +30,7 @@ $languageStrings = [
 
 	//Auth
 	'LBL_AUTHORIZATION' => 'Авторизация',
-	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_AUTHORIZATION_DESCRIPTION' => ' Настройка способа Авторизации',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Авторизация через LDAP',
 	'LBL_LDAP_SERVER' => 'Адрес сервера',
