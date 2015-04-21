@@ -28,7 +28,7 @@ $languageStrings = [
 	'End Time' => 'End Time',
 	'Draft' => 'Draft',
 	'Achieved' => 'Achieved',
-	'Canceled' => 'Canceled',
+	'Canceled' => 'Cancelled',
 	'No.' => 'Number',
 	'LBL_SUMPRODUCTS' => 'Cost of products and services',
 	'ProductsSumCost' => 'Total cost of products: ',
@@ -65,7 +65,7 @@ $languageStrings = [
 	'Free'=>'Free',
 	'LBL_STATUS'=>'Status',
 	'LBL_PRODUCT_INFORMATION'=>'Description information',
-	'To approval'=>'To approval',
+	'To approval'=>'For approval',
 	'Accepted'=>'Accepted',
 	'Brutto' => 'Gross',
 		

@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_MODCOMMENTS_INFORMATION' => 'Comments',
 	'LBL_OTHER_INFORMATION' => 'Other Information',
 
-	'LBL_ADDING_COMMENT' => 'Adding Comment',
+	'LBL_ADDING_COMMENT' => 'Add Comment',
 	'LBL_WRITE_YOUR_COMMENT_HERE' => 'Enter comments here',
 	
 	//Field Labels
