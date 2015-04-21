@@ -130,49 +130,6 @@ class Leads_Module_Model extends Vtiger_Module_Model {
 	 * @param type $data
 	 * @return <Array>
 	 */
-	public function getLeadsByStatus($owner,$dateFilter) {
-		$db = PearDatabase::getInstance();
-
-		$ownerSql = $this->getOwnerWhereConditionForDashBoards($owner);
-		if(!empty($ownerSql)) {
-			$ownerSql = ' AND '.$ownerSql;
-		}
-		
-		$params = array();
-		if(!empty($dateFilter)) {
-			$dateFilterSql = ' AND createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start']. ' 00:00:00';
-			$params[] = $dateFilter['end']. ' 23:59:59';
-		}
-
-		$result = $db->pquery('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = "" THEN "" ELSE 
-						vtiger_leadstatus.leadstatus END AS leadstatusvalue FROM vtiger_leaddetails 
-						INNER JOIN vtiger_crmentity ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-						AND deleted=0 AND converted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql .' '.$dateFilterSql.
-						'INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus 
-						GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid', $params);
-
-		$response = array();
-		
-		for($i=0; $i<$db->num_rows($result); $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$response[$i][0] = $row['count'];
-			$leadStatusVal = $row['leadstatusvalue'];
-			if($leadStatusVal == '') {
-				$leadStatusVal = 'LBL_BLANK';
-			}
-			$response[$i][1] = vtranslate($leadStatusVal, $this->getName());
-			$response[$i][2] = $leadStatusVal;
-		}
-		return $response;
-	}
-
-	/**
-	 * Function returns Leads grouped by Status
-	 * @param type $data
-	 * @return <Array>
-	 */
 	public function getLeadsByStatusConverted($owner,$dateFilter) {
 		$db = PearDatabase::getInstance();
 
