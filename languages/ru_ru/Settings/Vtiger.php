@@ -222,7 +222,7 @@ $languageStrings = [
 	
 	
 	//YetiForce
-    'vatid'=>'VAT ID', 
+	'vatid' => 'ИНН',
 	'LBL_SECURITY_MANAGEMENT' => 'Безопасность',
 	'LBL_MAIL'	=>	'Настройка почты',
 	'LBL_PASSWORD_CONF'	=>	'Настройки пароля',

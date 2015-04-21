@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_OTHER' => 'Другое',
 	'LBL_INFO' => 'Информация',
 	'LBL_TYPE' => 'Тип',
-	'LBL_TICKET_STATUS_INFO' => 'Статус заявки обозначающий закрытие заявки',
+	'LBL_TICKET_STATUS_INFO' => 'Статус обозначающий закрытие заявки',
 	'LBL_SAVE_CONFIG_OK' => 'Изменения успешно сохранены',
 	'LBL_SAVE_CONFIG_ERROR' => 'Ошибка сохранения изменений',
 	
