@@ -544,7 +544,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 	public static function getCalendarTypes(){
 		$calendarConfig = Array(
 			'Task',
-			'Meeting'
+			'Meeting',
+			'Call'
 		);
 		return $calendarConfig;
 	}
