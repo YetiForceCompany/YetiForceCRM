@@ -12,7 +12,7 @@
 $languageStrings = [
     'OSSMailScanner' => 'Mail Scanner',
     'OSSMailScanner_manual' => 'Mail Scanner',
-    'E-mail Accounts' => 'E-mail Accounts',
+    'E-mail Accounts' => 'Email Accounts',
     'Action' => 'Action',
 	'Desc' => 'Description',
     'username' => 'Username',
@@ -103,7 +103,7 @@ $languageStrings = [
     'count' => 'Emails checked',
     'who' => 'User',
     'OK' => 'ok',
-    'In progress' => 'W realization',
+    'In progress' => 'In realization',
     'Error' => 'Error',
     'email_to_notify' => 'Notification email',
     'time_to_notify' => 'Time to notify',

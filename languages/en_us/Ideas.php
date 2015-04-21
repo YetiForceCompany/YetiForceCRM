@@ -25,5 +25,5 @@ $languageStrings = [
 	
 	//pick list values
 	'Draft' => 'Draft',
-	'Proposition' => 'Proposition',
+	'Proposition' => 'Proposal',
 ];

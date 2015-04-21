@@ -66,7 +66,7 @@ $languageStrings = [
 	'Total time [Tickets]' => 'Łączny czas<br />[Zgłoszenia]',
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
-	'Add Project Task' => 'Dodaj zadanie projectu',
+	'Add Project Task' => 'Dodaj zadanie projektu',
 	
 	'low'=>'Niski',
 	'normal'=>'Normalny',
