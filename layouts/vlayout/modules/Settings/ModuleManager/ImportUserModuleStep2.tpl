@@ -42,7 +42,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><b>{vtranslate('LBL_MODULE_NAME', $QUALIFIED_MODULE)}</b></td>
+									<td style="min-width: 100px;"><b>{vtranslate('LBL_MODULE_NAME', $QUALIFIED_MODULE)}</b></td>
 									<td>
 										{vtranslate($MODULEIMPORT_NAME, $QUALIFIED_MODULE)}
 										{if $MODULEIMPORT_EXISTS eq 'true'} <font color=red><b>{vtranslate('LBL_EXISTS', $QUALIFIED_MODULE)}</b></font> {/if}
@@ -52,18 +52,34 @@
 									<td><b>{vtranslate('LBL_REQ_YETIFORCE_VERSION', $QUALIFIED_MODULE)}</b></td>
 									<td>{$MODULEIMPORT_DEP_VTVERSION}</td>
 								</tr>
+								<tr>
+									<td><b>{vtranslate('LBL_MODULE_VERSION', $QUALIFIED_MODULE)}</b></td>
+									<td>{$MODULEIMPORT_PACKAGE->getVersion()}</td>
+								</tr>
+								{if $MODULEIMPORT_PACKAGE->isUpdateType()}
+									{assign var="INFO" value=$MODULEIMPORT_PACKAGE->getUpdateInfo()}
+									<tr>
+										<td><b>{vtranslate('LBL_UPDATE_FROM_VERSION', $QUALIFIED_MODULE)}</b></td>
+										<td>{$INFO['from']}</td>
+									</tr>
+									<tr>
+										<td><b>{vtranslate('LBL_UPDATE_TO_VERSION', $QUALIFIED_MODULE)}</b></td>
+										<td>{$INFO['to']}</td>
+									</tr>
+								{/if}
 								{assign var="need_license_agreement" value="false"}
 								{if $MODULEIMPORT_LICENSE}
 									{assign var="need_license_agreement" value="true"}
-								<tr>
-									<td width=20%><b>{vtranslate('LBL_LICENSE', $QUALIFIED_MODULE)}</b></td>
-									<td>
-										<textarea rows="10" readonly class='row-fluid'>{$MODULEIMPORT_LICENSE}</textarea><br>
+									<tr>
+										<td width=20%><b>{vtranslate('LBL_LICENSE', $QUALIFIED_MODULE)}</b></td>
+										<td>
+											<textarea rows="10" readonly class='row-fluid'>{$MODULEIMPORT_LICENSE}</textarea><br>
 											{if $MODULEIMPORT_EXISTS neq 'true'}
-												{literal}<input type="checkbox"  onclick="if(this.form.saveButton){if(this.checked){this.form.saveButton.disabled=false;}else{this.form.saveButton.disabled=true;}}">{/literal}  {vtranslate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}
+												{literal}<input type="checkbox" id="license_agreement" onclick="if(this.form.saveButton){if(this.checked){this.form.saveButton.disabled=false;}else{this.form.saveButton.disabled=true;}}">{/literal}
+												<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {vtranslate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
 											{/if}
 										</td>
-								</tr>
+									</tr>
 								{/if}
 							</tbody>
 						</table>
