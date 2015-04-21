@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_EMAILS' => 'Show the number of unread messages',
 	'LBL_MAIL_ICON_CONFIG' => 'Mail Icon',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Enable auto login?',
-	'LBL_ADD_SIGNATURE' => '__NOT_TRANSLATED__',
-	'LBL_SIGNATURE' => '__NOT_TRANSLATED__',
-	'LBL_SAVED_SIGNATURE' => '__NOT_TRANSLATED__',
+	'LBL_ADD_SIGNATURE' => 'Activate a global footer for all outgoing emails',
+	'LBL_SIGNATURE' => 'Global signature',
+	'LBL_SAVED_SIGNATURE' => 'Signature saved',
 ];
