@@ -109,6 +109,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		global $log;
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
+		if(count ($users) == 0){
+			return FALSE;
+		}
 		$sUsers = implode(',', $users);
 		$result = $adb->pquery( "SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) AND status = 1;", [$sUsers]);
 		if($adb->query_result_raw($result, 0, 'num') > 0){
