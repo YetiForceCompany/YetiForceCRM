@@ -9,14 +9,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_CONVERSION' => 'Conversion',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Change Assigned To',
-	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'When this option is ticked, a user who converts a Lead to an Account becomes its Assigned To',
+	'LBL_CONVERSION' => 'Übertragen',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Zuständigkeit übertragen',
+	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'Ist diese Option gewählt, so wird dem Benutzer die Zuständigkeit für die Organisation übertragen, der diese aus einem Lead erzeugt',
 	'LBL_LEADS' => 'Leads',
 	'LBL_INFO' => 'Information',
-	'LBL_VALUES' => 'Values',
-	'LBL_GROUPS_INFO' => 'Groups with no Assigned To',
-	'LBL_LEAD_STATUS' => 'Statuses indicating end of work with Leads',
-	'LBL_CURRENTUSER_STATUS' => 'Change Assigned To to a user who edits a record',
+	'LBL_VALUES' => 'Werte',
+	'LBL_GROUPS_INFO' => 'Gruppen ohne Zuständigkeit',
+	'LBL_LEAD_STATUS' => 'Status welche die Leadbearbeitung beenden',
+	'LBL_CURRENTUSER_STATUS' => 'Ändere die Zuständigkeit zu dem bearbeitenden Benutzer',
 ];
 
