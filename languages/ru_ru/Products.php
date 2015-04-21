@@ -81,7 +81,7 @@ $languageStrings = [
 	'Usage Unit'                   => 'Единица измерения', 
 	'Vendor PartNo'                => 'Код Поставщика' , 
 	'Website'                      => 'Веб-сайт'             , 
-	'Support Group' => 'Support',
-	'Marketing Group' => 'Marketing',
-	'Team Selling' => 'Sales',
+	'Support Group' => 'Поддержка',
+	'Marketing Group' => 'Маркетинг',
+	'Team Selling' => 'Продажи',
 ];

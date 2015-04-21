@@ -314,7 +314,7 @@ $languageStrings = [
 	'Not Held' => 'Не проведено',
 	'Approval for email' => 'Разрешение на отправку электронной почты',
 	
-	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
 ];
 

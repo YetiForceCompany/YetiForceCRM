@@ -12,7 +12,7 @@
 $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Отпуск',
 	'PLL_BREAK_TIME' => 'Обед',
-	'LBL_UPDATE_EVENT' => 'Обновление даты',
+	'LBL_UPDATE_EVENT' => 'Обновлять события в Календаре при изменении или переносе',
 	'LBL_SAVE_ACTIVE_TYPE' => 'Сохранение изменений',
 	'LBL_ACTIVE' => 'Активный',
 	'Calendar'	=>	'Календарь',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_HOLIDAY' => 'Праздник',
 	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
-	'LBL_UPDATE_EVENT' => 'Update event in the Calendar when rescheduled.',
+	'LBL_UPDATE_EVENT' => 'Обновлять события в Календаре при изменении или переносе',
 	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
 	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 ];
