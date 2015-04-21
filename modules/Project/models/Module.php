@@ -60,10 +60,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 		$idArray = substr($idArray, 0, -1);
-		$addSql='';
-		if($idArray) {
-		    $addSql=' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
-		}
+		$addSql=' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
+		
 		//TODO need to handle security
 		$result = $db->pquery('SELECT count(*) AS count, concat(vtiger_users.first_name, " " ,vtiger_users.last_name) as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
 						INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
@@ -72,11 +70,21 @@ class Project_Module_Model extends Vtiger_Module_Model {
 						. ' GROUP BY smownerid', array());
 
 		$data = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
+		$numRows = $db->num_rows($result);
+		for($i=0; $i<$numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-			$data[] = $row;
+			$data[$i]['label'] = $row['name'];
+			$ticks[$i][0] = $i;
+			$ticks[$i][1] = $row['name'];
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['time'];
+
 		}
-		return $data;
+
+		$response['ticks'] = $ticks;
+		$response['chart'] = $data;
+	
+		return $response;
 	}
 	
 	/**
@@ -120,35 +128,23 @@ class Project_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	public function getTimeProject($id) {
-		$db = PearDatabase::getInstance();
-		//TODO need to handle security
-		$result = $db->pquery('SELECT   vtiger_project.sum_time AS TIME,  vtiger_project.sum_time_h AS timehelpdesk,
-			vtiger_project.sum_time_pt AS projecttasktime FROM  vtiger_project LEFT JOIN vtiger_crmentity   ON vtiger_project.projectid = vtiger_crmentity.crmid 
-			AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE vtiger_project.projectid = ?' , array($id), true);
-
-		$response = array();
-		if($db->num_rows($result)>0){
-			$projectTime = $db->query_result($result, $i, 'time');
-			$response[0][0] = $projectTime;
-			$response[0][1] =vtranslate('Total time [h]', 'Project');
-			$response[1][0] = $db->query_result($result, $i, 'timehelpdesk');
-			$response[1][1] = vtranslate('Total time [Tickets]', $this->getName());
-			$response[2][0] = $db->query_result($result, $i, 'projecttasktime');
-			$response[2][1] =vtranslate('Total time [Project Task]', $this->getName());
-		}
-		
 		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 		$response = array();
-		$response[0][0] = $recordModel->get('sum_time');
-		$response[0][1] = vtranslate('Total time [Project]', $this->getName());
-		$response[1][0] = $recordModel->get('sum_time_pt');
-		$response[1][1] = vtranslate('Total time [Project Task]', $this->getName());
-		$response[2][0] = $recordModel->get('sum_time_h');
-		$response[2][1] = vtranslate('Total time [Tickets]', $this->getName());
-		$response[3][0] = $recordModel->get('sum_time_all');
-		$response[3][1] = vtranslate('Total time [Sum]', $this->getName());
+		$response[0]['data'][0][0] = 0;
+		$response[0]['data'][0][1] = $recordModel->get('sum_time');
+		$response[0]['label'] = vtranslate('Total time [Project]', $this->getName());
+		$response[1]['data'][0][0] = 1;
+		$response[1]['data'][0][1] = $recordModel->get('sum_time_pt');
+		$response[1]['label'] = vtranslate('Total time [Project Task]', $this->getName());
+		$response[2]['data'][0][0] = 2;
+		$response[2]['data'][0][1] = $recordModel->get('sum_time_h');
+		$response[2]['label'] = vtranslate('Total time [Tickets]', $this->getName());
+		$response[3]['data'][0][0] = 3;
+		$response[3]['data'][0][1] = $recordModel->get('sum_time_all');
+		$response[3]['label'] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
+	
 	public function getGanttProject($id) {
 		$adb = PearDatabase::getInstance();
 		$branches = $this->getGanttMileston($id);
