@@ -12,6 +12,6 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Vertriebsprozess',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu wählen. Wird von folgenden Modulen unterstützt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
-	'LBL_PRODUCTS_AND_SERVICES_POPUP' => '__NOT_TRANSLATED__',
-	'LBL_UPDATE_SHARED_PERMISSIONS' => '__NOT_TRANSLATED__',
+	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Products and Services selection list',
+	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Updates sharing permissions from product/service in opportunity when relation between opportunity and product/service is created.',
 ];

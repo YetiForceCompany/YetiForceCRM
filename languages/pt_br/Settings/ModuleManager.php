@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Erro ao Mover Arquivo Atualizado',
 	'ModuleManager' => 'Gestor de Módulo',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Importar o Módulo a partir do Arquivo',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle From File',
 	'LBL_IMPORT_MODULE' => 'Importar Módulo',
 	'LBL_IMPORTED_UPDATE' => 'O Sistema foi atualizado com sucesso.',
 	'LBL_IMPORTED_EXTENSION' => 'A Extensão foi instalada com sucesso.',
@@ -33,7 +33,7 @@ $languageStrings = [
 	'LBL_INSTALLATION_LOG' => 'Log da Instalação',
 	//Install From file labels
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Verificar Detalhes Importação',
-	'LBL_MODULE_NAME' => 'Nome Módulo',
+	'LBL_MODULE_NAME' => 'Bundle Name',
 	'LBL_REQ_YETIFORCE_VERSION' => 'Versão YetiForce',
 	'LBL_MODULE_VERSION' => 'Bundle version',
 	'LBL_UPDATE_FROM_VERSION' => 'From version',
