@@ -67,6 +67,7 @@ $languageStrings = [
 	'LBL_SUMMARY' => 'Podsumowanie czasu pracy',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
 	'Add Project Task' => 'Dodaj zadanie projektu',
+	'LBL_GANTT'=>'Gantt',
 	
 	'low'=>'Niski',
 	'normal'=>'Normalny',

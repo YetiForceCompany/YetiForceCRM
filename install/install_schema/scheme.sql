@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -2487,7 +2487,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1741 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1742 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4736,7 +4736,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -5154,9 +5154,27 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectmilestonedate` varchar(255) DEFAULT NULL,
   `projectid` int(19) DEFAULT NULL,
   `projectmilestonetype` varchar(100) DEFAULT NULL,
+  `projectmilestone_priority` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
   CONSTRAINT `vtiger_projectmilestone_ibfk_1` FOREIGN KEY (`projectmilestoneid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_projectmilestone_priority` */
+
+CREATE TABLE `vtiger_projectmilestone_priority` (
+  `projectmilestone_priorityid` int(11) NOT NULL AUTO_INCREMENT,
+  `projectmilestone_priority` varchar(200) NOT NULL,
+  `presence` int(1) NOT NULL DEFAULT '1',
+  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
+  `sortorderid` int(11) DEFAULT '0',
+  PRIMARY KEY (`projectmilestone_priorityid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_projectmilestone_priority_seq` */
+
+CREATE TABLE `vtiger_projectmilestone_priority_seq` (
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_projectmilestonecf` */

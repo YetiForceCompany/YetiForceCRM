@@ -68,6 +68,7 @@ $languageStrings = [
 	'Total time [Tickets]' => 'Gesamtzeit [Tickets]',
     
 	'LBL_CHARTS'=>'Diagramme',
+	'LBL_GANTT'=>'Gantt',
 	
 	'low'=>'niedrig',
 	'normal'=>'normal',
