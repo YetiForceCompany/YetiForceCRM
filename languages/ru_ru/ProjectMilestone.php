@@ -22,8 +22,12 @@ $languageStrings = [
 	'Related to'                   => 'Связан с'    , 
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
 	'description' => 'Описание',
+	'LBL_PRIORITY' => 'Приоритет',
 	//PICKLIST
 	'PLL_INTERNAL' => 'Внутренний',
 	'PLL_EXTERNAL' => 'Внешний',
 	'PLL_SHARED' => 'Общий',
+	'PLL_LOW' => 'Низкий',
+	'PLL_NORMAL' => 'Нормальный',
+	'PLL_HIGH' => 'Высокий',
 ];

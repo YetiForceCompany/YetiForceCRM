@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Error Move Uploaded File',
 	'ModuleManager' => 'Module Manager',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Module From File',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle From File',
 	'LBL_IMPORT_MODULE' => 'Import Module',
 	'LBL_IMPORTED_UPDATE' => 'System has been updated successfully.',
 	'LBL_IMPORTED_EXTENSION' => 'Extension has been installed successfully.',
@@ -33,7 +33,7 @@ $languageStrings = [
 	'LBL_INSTALLATION_LOG' => 'Installation Log',
 	//Install From file labels
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Verify Import Details',
-	'LBL_MODULE_NAME' => 'Module Name',
+	'LBL_MODULE_NAME' => 'Bundle Name',
 	'LBL_REQ_YETIFORCE_VERSION' => 'YetiForce Version',
 	'LBL_MODULE_VERSION' => 'Bundle version',
 	'LBL_UPDATE_FROM_VERSION' => 'From version',

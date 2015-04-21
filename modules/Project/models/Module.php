@@ -149,5 +149,79 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$response[3][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
-
+	public function getGanttProject($id) {
+		$adb = PearDatabase::getInstance();
+		$branches = $this->getGanttMileston($id);
+		$response = array();
+		if($branches){
+			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
+			$project['id'] = $id;
+			$project['text'] = $recordModel->get('projectname');
+			$project['priority'] = $recordModel->get('projectpriority');
+			$project['priority_label'] = vtranslate($recordModel->get('projectpriority'),$this->getName());
+			$project['type'] = 'project';
+			$project['module'] = $this->getName();
+			$project['open'] = true;
+			$response[] = $project;
+			$response = array_merge($response,$branches);
+		}
+		return $response;
+	}
+	public function getGanttMileston($id) {
+		$adb = PearDatabase::getInstance();
+		//TODO need to handle security
+		$response = array();
+		$focus = CRMEntity::getInstance($this->getName());
+		$relatedListMileston = $focus->get_dependents_list($id,$this->getId(),getTabid('ProjectMilestone'));
+		$resultMileston = $adb->query($relatedListMileston['query']);
+		$num = $adb->num_rows($resultMileston);
+		for($i=0;$i<$num;$i++){
+			$projectmilestone = [];
+			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$projectmilestone['id'] = $row['projectmilestoneid'];
+			$projectmilestone['text'] = $row['projectmilestonename'];
+			$projectmilestone['parent'] = $row['projectid'];
+			$projectmilestone['module'] = 'ProjectMilestone';
+			if($row['projectmilestonedate']){
+				$endDate = strtotime(date('Y-m-d',strtotime($row['projectmilestonedate'])) . ' +1 days'); 
+				$projectmilestone['start_date'] = date('d-m-Y',$endDate);
+			}
+			$projectmilestone['open'] = true;
+			$projectmilestone['type'] = 'milestone';
+			$projecttask = $this->getGanttTask($row['projectmilestoneid']);
+			$response[] = $projectmilestone;
+			$response = array_merge($response,$projecttask);
+		}
+		return $response;
+	}
+	public function getGanttTask($id) {
+		$adb = PearDatabase::getInstance();
+		//TODO need to handle security
+		$response = array();
+		$focus = CRMEntity::getInstance('ProjectMilestone');
+		$relatedListMileston = $focus->get_dependents_list($id,getTabid('ProjectMilestone'),getTabid('ProjectTask'));
+		$resultMileston = $adb->query($relatedListMileston['query']);
+		$num = $adb->num_rows($resultMileston);
+		for($i=0;$i<$num;$i++){
+			$projecttask = [];
+			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$projecttask['id'] = $row['projecttaskid'];
+			$projecttask['text'] = $row['projecttaskname'];
+			if($row['parentid']){
+				$projecttask['parent'] = $row['parentid'];
+			}else{
+				$projecttask['parent'] = $row['projectmilestoneid'];
+			}
+			$projecttask['priority'] = $row['projecttaskpriority'];
+			$projecttask['priority_label'] = vtranslate($row['projecttaskpriority'],'ProjectTask');
+			$projecttask['start_date'] = date('d-m-Y',strtotime($row['startdate']));
+			$endDate = strtotime(date('Y-m-d',strtotime($row['targetenddate'])) . ' +1 days'); 
+			$projecttask['end_date'] = date('d-m-Y',$endDate);
+			$projecttask['open'] = true;
+			$projecttask['type'] = 'task';
+			$projecttask['module'] = 'ProjectTask';
+			$response[] = $projecttask;
+		}
+		return $response;
+	}
 }
