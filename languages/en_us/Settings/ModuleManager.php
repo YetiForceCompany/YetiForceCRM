@@ -56,6 +56,7 @@ $languageStrings = [
 	'LBL_ERROR_VERSION' => 'Wrong version of module, module version __MODULEVERSION__ but it should be greater than __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Module does not contain default language (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'No Smart files',
+	'LBL_IMPORT' => 'Import',
 	
 	'LBL_CREATE_MODULE' => 'Create module',
 	'LBL_CREATING_MODULE' => 'Creating new module',

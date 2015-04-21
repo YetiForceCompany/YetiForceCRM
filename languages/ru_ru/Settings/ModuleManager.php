@@ -56,6 +56,7 @@ $languageStrings = [
 	'LBL_ERROR_VERSION' => 'Некорректная версия модуля.Версия модуля: __MODULEVERSION__ - Версия системы: __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
+	'LBL_IMPORT' => 'Import',
 	
 	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
 	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',
