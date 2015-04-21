@@ -460,14 +460,18 @@ jQuery.Class("Vtiger_Header_Js", {
 			;
 		}
 		var htmlContent = '<ul class="dropdown-menu pull-right" role="menu">';
+		var date = new Date().getTime();
 		if (sp != null) {
 			for (var i = sp.length - 1; i >= 0; i--) {
 				item = sp[i].toString().split("|");
-				htmlContent += '<li><a href="' + item[1] + '">' + item[0] + '</a></li>';
+				var d = new Date();
+				d.setTime(item[2]);
+				var format = $('#userDateFormat').val() + '' + $('#userDateFormat').val();
+				htmlContent += '<li><a href="' + item[1] + '">'+ app.formatDate(d) + ' | ' + item[0] + '</a></li>';
 			}
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1 && document.URL != BtnLink) {
-				sp.push(this.getHistoryLabel() + '|' + document.URL);
+				sp.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
 			}
 			if (sp.length >= maxValues) {
 				sp.splice(0, 1);
@@ -477,7 +481,7 @@ jQuery.Class("Vtiger_Header_Js", {
 			var stack = new Array();
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1) {
-				stack.push(this.getHistoryLabel() + '|' + document.URL);
+				stack.push(this.getHistoryLabel() + '|' + document.URL+ '|' + date);
 				localStorage.history = stack.toString();
 			}
 		}

@@ -60,6 +60,7 @@
 		<input type="hidden" id="row_type" value="{$CURRENT_USER_MODEL->get('rowheight')}" />
 		<input type="hidden" id="current_user_id" value="{$CURRENT_USER_MODEL->get('id')}" />
 		<input type="hidden" id="userDateFormat" value="{$CURRENT_USER_MODEL->get('date_format')}" />
+		<input type="hidden" id="userTimeFormat" value="{$CURRENT_USER_MODEL->get('hour_format')}" />
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
