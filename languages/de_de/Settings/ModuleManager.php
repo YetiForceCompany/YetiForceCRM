@@ -56,6 +56,7 @@ $languageStrings = [
 	'LBL_ERROR_VERSION' => 'Falsche Version vom Modul, Modulversion ist __MODULEVERSION__ , aber es sollte größer als __CRMVERSION__ sein',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Modul ist nicht in Standardsprache (__DEFAULTLANGUAGE__) enthalten.',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
+	'LBL_IMPORT' => 'Import',
 	
 	'LBL_CREATE_MODULE' => 'Modul erstellen',
 	'LBL_CREATING_MODULE' => 'Neues Modul erstellen',

@@ -9,7 +9,17 @@
 }	
 </style>
 <div class="container-fluid" style="margin-top:10px;">
-	<h3>{vtranslate('LBL_UPDATES', $MODULE)}</h3>&nbsp;{vtranslate('LBL_UPDATES_DESCRIPTION', $MODULE)}<hr>
+	<div class="row-fluid">
+		<div class="span7">
+			<h3>{vtranslate('LBL_UPDATES', $MODULE)}</h3>&nbsp;{vtranslate('LBL_UPDATES_DESCRIPTION', $MODULE)}
+		</div>
+		<div class="span5">
+			<div class="pull-right">
+				<a class="btn addMenu" href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><strong>{vtranslate('LBL_IMPORT_UPDATE', $QUALIFIED_MODULE)}</strong></a>
+			</div>
+		</div>
+	</div>
+	<hr>
 	<table class="table table-bordered table-condensed themeTableColor confTable">
 		<thead>
 			<tr class="blockHeader">
