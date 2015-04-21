@@ -30,6 +30,8 @@ function registerUserList() {
 			function(response) {
 				if( app.getModuleName() == 'OSSMail'){
 					location.reload();
+				}else{
+					window.location.href = "index.php?module=OSSMail&view=index";
 				}
 			}
 		);
