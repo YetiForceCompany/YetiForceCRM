@@ -247,13 +247,10 @@ function executeActions(action_name, param) {
     Connectorparams.data = {module: 'OSSMail', action: 'executeActions', action_name: action_name, params: param}
     Connectorparams.async = false;
     Connectorparams.dataType = 'json';
-    //console.log(param);
     AppConnector.request(Connectorparams).then(
             function(data) {
                 var response = data['result'];
-                //console.log(response['data']);
                 if (response['success']) {
-                    console.log(response['data']);
                     var notify_params = {
                         text: response['data'],
                         type: 'info',
@@ -501,9 +498,7 @@ function get_module_permissions(crm_path) {
     return resp;
 }
 function getAbsolutePath() {
-    var loc = window.location;
-    var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
-    return loc.href.substring(0, loc.href.length - ((loc.pathname + loc.search + loc.hash).length - pathName.length));
+    return jQuery('#site_URL').val();
 }
 function oss_get_config() {
     var params = {};
@@ -606,8 +601,6 @@ function loadQuickCreateForm(moduleName, params, inframe) {
             var sourceModule = 'OSSMailView';
         }
         if (params['no_rel'] != 'true') {
-            console.log(params['crmid']);
-            console.log(params['no_rel']);
             var preQuickCreateSave = function(data) {
                 var index, queryParam, queryParamComponents;
                 if (moduleName == 'Calendar') {
@@ -677,7 +670,6 @@ function get_mail_by_id(inframe, input, name_mod, ids) {
                 if (exits_emails != '') {
                     exits_emails = exits_emails + ',';
                 }
-                console.log(resp);
                 if (resp.length > 1) {
                     var getConfig = jQuery.ajax({
                         type: "GET",

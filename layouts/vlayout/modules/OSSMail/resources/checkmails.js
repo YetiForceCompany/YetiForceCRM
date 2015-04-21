@@ -30,6 +30,8 @@ function registerUserList() {
 			function(response) {
 				if( app.getModuleName() == 'OSSMail'){
 					location.reload();
+				}else{
+					window.location.href = "index.php?module=OSSMail&view=index";
 				}
 			}
 		);
@@ -60,7 +62,6 @@ function checkMails(users) {
 	};
 	AppConnector.request(params).then(
 		function (response) {
-			console.log(response);
 			if (response.success && response.success.error != true && response.result.error != true) {
 				var result = response.result;
 				$("#OSSMailBoxInfo .dropdown-menu li").each(function (index) {
