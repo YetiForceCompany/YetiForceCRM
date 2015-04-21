@@ -12,6 +12,138 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info ab
 Below you can see how we improve our project with each new version:
 
 
+#YetiForce 1.5 (under development)
+
+The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCompany/YetiForceCRM/commit/013bd1d96cd57a718a809dbc2d044c9a741e664d) revision. 
+
+
+**Bug Fixes:** 
+-	Fixed notifications for contacts when a ticket is created, modified or closed.
+-	Fixed parsing of variables in email templates.
+-	Fixed colors legend in user time widget.
+-	Fixed a missing relation of contacts to tickets.
+-	Fixed a handler and workflows of helpdesk.
+-	Fixed uitype 'Industry' field in Leads.
+-	Fixed uitype 'Was read' field.
+-	Fixed saving of fields for tasks/events in Quick Create editor. 
+-	Fixed hiding of a part of a popup window with events in the Calendar.
+-	Fixed saving of wysiwyg fields in Quick Create.
+-	Fixed checking for the amount of unread e-mails.
+-	Fixed reset of user’s password from YetiForce Customer Portal. 
+-	Fixed the pagination in the Calendar.
+-	Fixed listing of the calendar entries in summary view.
+-	Fixed the creation of events in workflow.
+-	Fixed 'change your password'.
+-	Fixed the display of date field in PDF.
+-	Fixed a bug in coding of the Portuguese language. Changed file format to utf without bom.
+-	Fixed loading of the menu.
+-	Fixed the default setting of Assigned To when a Lead is converted to an Account.
+-	Fixed the reading of data in the conversion of a lead.
+-	Fixed sending of emails in brute force.
+-	Fixed the conversion of dates.
+-	Fixed 'ticket by status' and 'open tickets' widgets.
+-	Fixed 'ticket by status' layout in smaller resolution.
+-	Fixed linking of records.
+-	Fixed bugs in code names.
+-	Fixed Calendar Reminder.
+-	Fixed a 'More' button in a Calendar widget.
+-	Fixed listing of events in a related module.
+-	Fixed permissions of related modules.
+-	Fixed QuickCreateEditor.
+-	Fixed menu items. 
+-	Fixed Quick Create for working time in a calendar view.
+-	Fixed moving of calendar entries. 
+
+
+**Improvements:**
+-	Improved the compatibility of NuSOAP library with php 5.4
+-	Improved breadcrumbs menu.
+-	Improved the appearance of edit view for the OSSMailTemplates module.
+-	Improved the management of DAV keys.
+-	Improved the display of events in the Calendar.
+-	Improved the display of history on your desktop.
+-	Improved permissions in Quick Create.
+-	Cleaned up some functions on files.
+-	Cleaned up the configuration for colors.
+-	Added a file with content for AmountPerSalesPerson widget. Changed a width of the chart.
+-	Reconstruction of the auto login and display the quantity of e-mails
+-	Added missing values for 'emailoptout' field in the database.
+-	Added checking if contact and record owner agreed to get emails.
+-	Added a possibility to remove a webdav account.
+-	Changed the order of fields in a quick create window for contacts.
+-	Added verification of duplicates in workflow 'Create To Do/Task'.
+-	Removed a field with a signature and added a global signature configuration.
+-	Turned off Signature in send_mail.
+-	Removed unnecessary graphic files.
+-	Removed jquery.hotkeys.js library.
+-	Removed the OSSMenuManager module.
+-	Updated FullCalendar v2.3.1 library.
+-	Updated jstree library. 
+-	Updated icons for modules.
+-	Updated Chart.js library to v1.0.2. 
+-	Updated Browser_compatibility.html page.
+-	Updated Credits.
+-	Updated Smart 3.1.21. library
+-	Upgraded debugging.
+-	Added new icons to the Calendar.
+-	Rebuilt relations in the Calendar module.
+-	Moved a tab with a configuration from Mail client to Server configuration settings.
+-	Moved a tab with a configuration from Module Colors to Colors.
+-	Moved user colors from the calendar configuration to colors in settings.
+-	Improved 'open tickets' widget. 
+-	Improved 'user time control' widget.
+-	Improved 'Calendar' widget.
+-	Improved the appearance of the menu.
+-	Added a safety lock for an invalid PHP version.
+-	Fixed the display of events in widgets.
+-	Fixed the display of fields when a Lead is converted to an Account.
+-	Reconstructed 'Tickets by status' chart.
+-	Added loading of the start and end of work when adding calendar entries.
+-	Changed allowed dimensions of widgets.
+-	Changed fields order in many Quick Create popups.
+-	Expanded masking with new types of fields.
+-	Added a new template for the mail module.
+-	Added selects buttons for widgets.
+-	Added an option to check the status in workflow VTCreateTodoTask.
+-	Added shared permissions with a product/service in the sales opportunity.
+-	Added a related module 'Documents' to modules: OSSSoldServices, OSSOutsourcedServices and OutsourcedProducts.
+-	Added sharing privileges in events list.
+-	Added a history of recently viewed pages. 
+-	Rebuilt Quick Create. 
+-	Rebuilt selection of the owner in convert lead.
+-	Rebuilt the sales process.
+-	Removed a 'hide completed events' field.
+-	Removed a contact field 'Potentials'.
+-	Improved a function getArrayFromValue.
+
+
+**New functionalities:**
+-	Added 'determine version of php' to htaccess.
+-	Added a configuration of auto login.
+-	Added a plugin to RC needed for auto login.
+-	Added new fields to the OSSMailTemplates module.
+-	Added a possibility to select an email account.
+-	Added a new field to Users - 'Approval for email'.
+-	Added additional actions to profiles.
+-	Added support, financial, marketing and realization processes to settings.
+-	Added 'Convert to Account' in the Marketing Processes.
+-	Added a possibility to hide dashboard view in modules.
+-	Added a global signature in the mail module.
+-	Added a random color generation for users.
+-	Added a flot library.
+-	Added jsTree v3.1.0 library.
+-	Added Mousetrap v 1.5.2 library.
+-	Added a table with menus.
+-	Added a new panel for the configuration of menu.
+-	Added keyboard shortcuts (hotkeys).
+-	Added safeAjax function to app.js
+-	Added LDAP configuration.
+-	Added Calendar Widget.
+-	Added Cache Control.
+-	Added an auto complete function for fields when a record is being created.
+-	Added an auto complete function for a subject field in Quick Create of Time Control
+
+
 #YetiForce 1.4
 
 **Bug Fixes:** 
