@@ -971,6 +971,20 @@ var app = {
         return y + "-" + m + "-" + d;
     },
 	
+	formatDate: function(date) {
+		var y = date.getFullYear(),
+			m = date.getMonth() + 1,
+			d = date.getDate(),
+			h = date.getHours(),
+			i = date.getMinutes(),
+			s = date.getSeconds();
+		return y+'-'+this.formatDateZ(m)+'-'+this.formatDateZ(d)+' '+this.formatDateZ(h)+':'+this.formatDateZ(i)+':'+this.formatDateZ(s);
+	},
+	
+    formatDateZ: function(i) {
+        return (i <= 9 ? '0'+i : i);
+    },
+	
     saveAjax: function(mode, param) {
 		var aDeferred = jQuery.Deferred();
 		var params = {};
