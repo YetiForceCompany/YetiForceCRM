@@ -62,7 +62,6 @@ function checkMails(users) {
 	};
 	AppConnector.request(params).then(
 		function (response) {
-			console.log(response);
 			if (response.success && response.success.error != true && response.result.error != true) {
 				var result = response.result;
 				$("#OSSMailBoxInfo .dropdown-menu li").each(function (index) {
