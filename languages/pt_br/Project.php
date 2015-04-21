@@ -69,6 +69,7 @@ $languageStrings = [
 
 	'LBL_CHARTS'=>'Gráficos',
 	'Add Project Task' => 'Adicionar Tarefa Projeto',
+	'LBL_GANTT'=>'Gantt',
 
 	'low'=>'baixo',
 	'normal'=>'normal',

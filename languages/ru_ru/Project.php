@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
 	'LBL_SUMMARY' => 'Всего рабочего времени',
@@ -16,6 +15,7 @@ $languageStrings = [
 	'Add Project Task'	=>	'Проектная Задача',
 	'LBL_ADD_RECORD'               => 'Добавить Проект'                 , 
 	'LBL_CHARTS'                   => 'Диаграммы'                      , 
+	'LBL_GANTT'=>'Gantt',
 	'LBL_DOWNLOAD_FILE'            => 'Скачать файл'               , 
 	'LBL_MILESTONES'               => 'Контрольные точки'                  , 
 	'LBL_MILESTONES_LIST'	=>	'Контрольные точки',
