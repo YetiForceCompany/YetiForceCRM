@@ -31,6 +31,7 @@
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
 		<link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" />
+		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-switch.min.css" type="text/css" media="screen" />
 		{foreach key=index item=cssModel from=$STYLES}
                     <link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 		{/foreach}
