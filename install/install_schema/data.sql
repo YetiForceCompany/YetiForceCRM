@@ -14672,6 +14672,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (349,59,8,'get_attachments',1,'Documents',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (350,57,8,'get_attachments',1,'Documents',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (351,58,8,'get_attachments',1,'Documents',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (352,41,42,'get_dependents_list',1,'ProjectTask',0,'ADD');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -14679,7 +14680,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (351);
+insert  into `vtiger_relatedlists_seq`(`id`) values (352);
 
 /*Data for the table `vtiger_relcriteria` */
 
