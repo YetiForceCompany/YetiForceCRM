@@ -41,6 +41,7 @@ $languageStrings = [
 	'SINGLE_Accounts' => 'Kontrahent',
 	'Ticker Symbol' => 'Symbol giełdowy',
 	'Website' => 'Strona internetowa',
+	'Payment balance' => 'Bilans płatniczy',
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Nowy',
 	'Fax' => 'Faks podstawowy',
