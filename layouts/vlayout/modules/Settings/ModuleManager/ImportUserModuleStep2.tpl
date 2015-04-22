@@ -71,7 +71,13 @@
 								{if $MODULEIMPORT_LICENSE}
 									{assign var="need_license_agreement" value="true"}
 									<tr>
-										<td width=20%><b>{vtranslate('LBL_LICENSE', $QUALIFIED_MODULE)}</b></td>
+										<td width=20%>
+											{if $MODULEIMPORT_PACKAGE->isUpdateType()}
+												<b>{vtranslate('Attention')}</b>
+											{else}
+												<b>{vtranslate('LBL_LICENSE', $QUALIFIED_MODULE)}</b>
+											{/if}
+										</td>
 										<td>
 											<textarea rows="10" readonly class='row-fluid'>{$MODULEIMPORT_LICENSE}</textarea><br>
 											{if $MODULEIMPORT_EXISTS neq 'true'}
