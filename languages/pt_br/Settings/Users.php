@@ -35,7 +35,7 @@ $languageStrings = [
 	'LBL_LDAP_PORT' => 'Porta',
 	'LBL_LDAP_USERS' => 'Acesso automático ativo para Usuários',
 	'LBL_SAVE_CONFIG' => 'A configuração foi salva',
-	'LBL_LDAP_DOMAIN' => 'Domain (automatically added to login)',
+	'LBL_LDAP_DOMAIN' => 'Domínio (adicionado automaticamente ao acessar)',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
