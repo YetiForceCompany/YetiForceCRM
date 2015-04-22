@@ -17,7 +17,6 @@ $languageStrings = [
 	'MEN_SALES' => 'Sales',
 	'MEN_PROJECTS' => 'Projects',
 	'MEN_SUPPORT' => 'Support',
-	'MEN_LEADS' => 'Firmy',
 	'MEN_BOOKKEEPING' => 'Bookkeeping',
 	'MEN_HUMAN_RESOURCES' => 'Human resources',
 	'MEN_SECRETARY' => 'Secretary',
