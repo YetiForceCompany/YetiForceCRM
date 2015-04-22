@@ -147,7 +147,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
 	public function saveLoginHistory($username, $status = 'Signed in', $browser = ''){
 		$adb = PearDatabase::getInstance();
 
-		$userIPAddress = $_SERVER['REMOTE_ADDR'];
+		$userIPAddress = Vtiger_Functions::getRemoteIP();;
 		$loginTime = date("Y-m-d H:i:s");
         $browser = (strlen($browser)) ? $browser : '-';
 		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
