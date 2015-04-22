@@ -1,11 +1,82 @@
 <style>
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
-	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png") !important;; }
+	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png") !important; }
 {/foreach}
+td{
+	padding-left:10px;
+}
+.weekend{ background: #f4f7f4 !important;}
 </style>
+<div class="gantt_task_scale menuBar" style="width: 100%; padding:5px 0px 5px 0px;">
+<table>
+	<tr >
+		<td><strong> {vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
+		<td><input name="filter" class="filter" type="radio" value="" checked="true"><span>&nbsp;{vtranslate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></td>
+		<td><input name="filter" class="filter" type="radio" value="PLL_LOW"><span>&nbsp;{vtranslate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></td>
+		<td><input name="filter" class="filter" type="radio" value="PLL_HIGH"><span>&nbsp;{vtranslate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></td>
+		<td><strong><span>| &nbsp;</span> {vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
+		<td><input name="scales" class="zoom" type="radio" value="trplweek" checked="true"><span>&nbsp;{vtranslate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></td>
+		<td><input name="scales" class="zoom" type="radio" value="year"><span>&nbsp;{vtranslate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></td>
+	</tr>
+</table>
+</div>
 <div id="gantt_here" style='width:100%; height:500px;'></div>
 <script>
+
 $(document).ready(function(){
+	// filtering
+	gantt.attachEvent("onBeforeTaskDisplay", function(id, task){
+		if (gantt_filter){
+			value = task.priority ;
+			if(typeof value == 'undefined')
+				return false;
+			var priorityOption = [value.toUpperCase(),'PLL_'+value.toUpperCase()];
+			if (jQuery.inArray(gantt_filter, priorityOption) == -1)
+				return false;
+		}
+		return true;
+	});
+	jQuery('.zoom').on('click',function(){
+		value = jQuery(this).val();
+		switch(value){
+			case "trplweek":
+				gantt.config.scale_unit = "month";
+				gantt.config.date_scale = "%F, %Y";
+				gantt.config.scale_height = 50;
+				gantt.config.subscales = [
+					{
+					unit:"day", 
+					step:1,
+					date:"%j, %D" }
+				];
+			break;
+			case "year":
+				gantt.config.scale_unit = "month"; 
+				gantt.config.date_scale = "%F"; 
+				gantt.config.scale_height = 50;
+				gantt.config.subscales = [
+					  {
+						  unit:"week",
+						  step:1,
+						  date:"#%W"
+					  }
+				];
+			break;
+		}
+		gantt.render();
+	});
+	var gantt_filter = '';
+	jQuery('.filter').on('click',function(node){
+		gantt_filter = jQuery(this).val();
+		gantt.refreshData();
+	});
+
+	// cell painting
+	gantt.templates.task_cell_class = function(item,date){
+		if(date.getDay()==0||date.getDay()==6){ 
+			return "weekend" ;
+		}
+	};
 
 	gantt.locale.date = {
 		month_full:[app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),

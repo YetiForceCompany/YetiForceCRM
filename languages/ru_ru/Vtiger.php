@@ -1131,6 +1131,15 @@ $languageStrings = [
 	'LBL_HOLIDAY' => 'Праздники',
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_WORKING_TIME' => 'Рабочее время',
+	
+	//Gantt
+	'LBL_FILTERING' => 'Filtering',
+	'LBL_ALL_PRIORITY' => 'All',
+	'LBL_LOW_PRIORITY' => 'Low priority',
+	'LBL_HIGH_PRIORITY' => 'High priority',
+	'LBL_DAYS_CHART' => 'Days',
+	'LBL_MONTHS_CHART' => 'Months',
+	'LBL_ZOOMING' => 'Zooming',
 ];
 $jsLanguageStrings = [
 	'System' => 'Сообщение',

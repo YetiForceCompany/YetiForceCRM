@@ -182,6 +182,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 				$endDate = strtotime(date('Y-m-d',strtotime($row['projectmilestonedate'])) . ' +1 days'); 
 				$projectmilestone['start_date'] = date('d-m-Y',$endDate);
 			}
+			$projectmilestone['priority'] = $row['projectmilestone_priority'];
+			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'],'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
 			$projecttask = $this->getGanttTask($row['projectmilestoneid']);
