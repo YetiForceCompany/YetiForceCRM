@@ -1086,5 +1086,23 @@ class Vtiger_Functions {
 
 		return $browser;
 	}
+	
+	public static function getRemoteIP($onlyIP = false) {
+		$address = $_SERVER['REMOTE_ADDR'];
+
+		// append the NGINX X-Real-IP header, if set
+		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+			$remote_ip[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+		}
+		// append the X-Forwarded-For header, if set
+		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$remote_ip[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+
+		if (!empty($remote_ip) && $onlyIP != false) {
+			$address .= '(' . implode(',', $remote_ip) . ')';
+		}
+		return $address;
+	}
 
 }
