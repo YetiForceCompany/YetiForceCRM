@@ -19,15 +19,14 @@ $( document ).ready(function() {
 	params['Subject'] = $('#subject').val();
 
 	$( "#previewReplyAll" ).click(function() {
-		window_open(params,'all');
+		window_open(params,'all',this);
 	});
 	$( "#previewReply" ).click(function() {
-		window_open(params,'single');
+		window_open(params,'single',this);
 	});
 });
-function window_open(params,type) {
-	var crm_path = getAbsolutePath();
-	var url = crm_path+'index.php?module=OSSMail&view=compose';
+function window_open(params,type, button) {
+	var url = $(button).data('url');
 	if(type == 'single'){
 		url = url + '&to='+params['From'];
 		url = url + '&subject='+params['Subject'];
@@ -49,11 +48,6 @@ function window_open(params,type) {
 	}
 	window.location.href = url;
 	//window.open(url, 'popUpWindow','width=1000,height=650,resizable=0,scrollbars=1');
-}
-function getAbsolutePath() {
-    var loc = window.location;
-    var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
-    return loc.href.substring(0, loc.href.length - ((loc.pathname + loc.search + loc.hash).length - pathName.length));
 }
 
 function printMail(){
@@ -97,12 +91,12 @@ function printMail(){
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll">
+								<button style="padding: 4px 7px 1px 7px;" id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
 								</button>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply">
+								<button style="padding: 4px 7px 1px 7px;" id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 								</button>
 							</span>
