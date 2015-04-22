@@ -153,10 +153,7 @@ $(document).ready(function(){
 	};
 	gantt._on_dblclick = false;
 	gantt.init('gantt_here');
-	gantt.parse({
-		data:{$DATA},
-		links:[]
-	});
+	gantt.parse({$DATA});
 });
 
 
