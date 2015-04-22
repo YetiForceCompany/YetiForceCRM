@@ -13,7 +13,7 @@ $GEBUG_CONFIG = Array(
 	'LOG4PHP_DEBUG' => FALSE,
 	
 	// show php errors (display_errors),
-	'DISPLAY_PHP_ERRORS' => TRUE,
+	'DISPLAY_PHP_ERRORS' => FALSE,
 	
 	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => FALSE,
