@@ -1561,6 +1561,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$data['Calculations']['requirementcardsid'] = array( 'RequirementCards' => array('potentialid'=>array('potentialid'),'quotesenquiresid'=>array('quotesenquiresid'),'relatedid'=>array('accountid') ) );
 		$data['Potentials']['contact_id'] = array( 'Contacts' => array('related_to'=>array('parent_id')) );
 		$data['ProjectTask']['projectmilestoneid'] = array( 'ProjectMilestone' => array('projectid'=>array('projectid')) );
+		$data['ProjectTask']['parentid'] = array( 'ProjectTask' => array('projectid'=>array('projectid'),'projectmilestoneid'=>array('projectmilestoneid')) );
 		$data['Quotes']['potential_id'] = array( 'Potentials' => array('account_id'=>array('related_to')) );
 		$data['Quotes']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
 		$data['Quotes']['requirementcards_id'] = array( 'RequirementCards' => array('potential_id'=>array('potential_id'),'account_id'=>array('accountid')) );
