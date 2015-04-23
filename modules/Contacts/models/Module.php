@@ -54,8 +54,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model {
 			$query = "SELECT * FROM vtiger_crmentity
 						INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_crmentity.crmid
 						LEFT JOIN vtiger_contpotentialrel ON vtiger_contpotentialrel.contactid = vtiger_contactdetails.contactid
-						LEFT JOIN vtiger_potential ON vtiger_potential.contact_id = vtiger_contactdetails.contactid
-						WHERE deleted = 0 AND (vtiger_contpotentialrel.potentialid = $parentId OR vtiger_potential.potentialid = $parentId)
+						WHERE deleted = 0 AND vtiger_contpotentialrel.potentialid = $parentId
 						AND label like '%$searchValue%'";
 			
 				return $query;

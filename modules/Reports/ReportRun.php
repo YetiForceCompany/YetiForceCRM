@@ -2224,9 +2224,6 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_accountPotentials')) {
 				$query .= " left join vtiger_account as vtiger_accountPotentials on vtiger_potential.related_to = vtiger_accountPotentials.accountid";
 			}
-			if ($this->queryPlanner->requireTable('vtiger_contactdetailsPotentials')) {
-				$query .= " left join vtiger_contactdetails as vtiger_contactdetailsPotentials on vtiger_potential.contact_id = vtiger_contactdetailsPotentials.contactid";
-			}
 			if ($this->queryPlanner->requireTable('vtiger_campaignPotentials')) {
 				$query .= " left join vtiger_campaign as vtiger_campaignPotentials on vtiger_potential.campaignid = vtiger_campaignPotentials.campaignid";
 			}
