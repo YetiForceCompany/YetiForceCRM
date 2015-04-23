@@ -345,10 +345,10 @@ class Contacts extends CRMEntity {
 		$query ='select case when (vtiger_users.user_name not like "") then '.$userNameSql.' else vtiger_groups.groupname end as user_name,
 		vtiger_contactdetails.parentid, vtiger_contactdetails.contactid , vtiger_potential.potentialid, vtiger_potential.potentialname,
 		vtiger_potential.potentialtype, vtiger_potential.sales_stage, vtiger_potential.sum_invoices, vtiger_potential.closingdate,
-		vtiger_potential.related_to, vtiger_potential.contact_id, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_account.accountname
+		vtiger_potential.related_to, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_account.accountname
 		from vtiger_contactdetails
 		left join vtiger_contpotentialrel on vtiger_contpotentialrel.contactid=vtiger_contactdetails.contactid
-		left join vtiger_potential on (vtiger_potential.potentialid = vtiger_contpotentialrel.potentialid or vtiger_potential.contact_id=vtiger_contactdetails.contactid)
+		left join vtiger_potential on vtiger_potential.potentialid = vtiger_contpotentialrel.potentialid
 		inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_potential.potentialid
 		left join vtiger_account on vtiger_account.accountid=vtiger_contactdetails.parentid
 		LEFT JOIN vtiger_potentialscf ON vtiger_potential.potentialid = vtiger_potentialscf.potentialid
@@ -358,7 +358,7 @@ class Contacts extends CRMEntity {
 
 		if (!$ignoreOrganizationCheck) {
 			// Restrict the scope of listing to only related contacts of the organization linked to potential via related_to of Potential
-			$query .= ' and (vtiger_contactdetails.parentid = vtiger_potential.related_to or vtiger_contactdetails.contactid=vtiger_potential.contact_id)';
+			$query .= ' and vtiger_contactdetails.parentid = vtiger_potential.related_to ';
 		}
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
