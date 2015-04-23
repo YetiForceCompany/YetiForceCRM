@@ -50,6 +50,7 @@ $languageStrings = [
 	'Active' 						=> 'Активный',
 	'SINGLE_Leads' => 'Обращение',
 	'SINGLE_Vendors' => 'Поставщик',
+	'Job title' => 'Job title',
 ];
 $jsLanguageStrings = [
 ];
