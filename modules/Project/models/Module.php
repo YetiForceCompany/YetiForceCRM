@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ************************************************************************************/
 
 class Project_Module_Model extends Vtiger_Module_Model {
@@ -188,6 +189,7 @@ class Project_Module_Model extends Vtiger_Module_Model {
 				$endDate = strtotime(date('Y-m-d',strtotime($row['projectmilestonedate'])) . ' +1 days'); 
 				$projectmilestone['start_date'] = date('d-m-Y',$endDate);
 			}
+			$projectmilestone['progress'] = (int)$row['projectmilestone_progress']/100;
 			$projectmilestone['priority'] = $row['projectmilestone_priority'];
 			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'],'ProjectMilestone');
 			$projectmilestone['open'] = true;
@@ -225,6 +227,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 				$link['source'] = $row['projectmilestoneid'];
 				$projecttask['parent'] = $row['projectmilestoneid'];
 			}
+			settype($row['projecttaskprogress'], "integer");
+			$projecttask['progress'] = $row['projecttaskprogress']/100;
 			$projecttask['priority'] = $row['projecttaskpriority'];
 			$projecttask['priority_label'] = vtranslate($row['projecttaskpriority'],'ProjectTask');
 			$projecttask['start_date'] = date('d-m-Y',strtotime($row['startdate']));

@@ -2335,7 +2335,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `dependent_on` varchar(255) DEFAULT '[]',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventhandlers_seq` */
 
@@ -2487,7 +2487,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1742 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1744 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5155,6 +5155,7 @@ CREATE TABLE `vtiger_projectmilestone` (
   `projectid` int(19) DEFAULT NULL,
   `projectmilestonetype` varchar(100) DEFAULT NULL,
   `projectmilestone_priority` varchar(255) DEFAULT NULL,
+  `projectmilestone_progress` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`projectmilestoneid`),
   KEY `projectid` (`projectid`),
   CONSTRAINT `vtiger_projectmilestone_ibfk_1` FOREIGN KEY (`projectmilestoneid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -5255,6 +5256,7 @@ CREATE TABLE `vtiger_projecttask` (
   `parentid` int(19) DEFAULT NULL,
   `projectmilestoneid` int(19) DEFAULT NULL,
   `targetenddate` date DEFAULT NULL,
+  `estimated_work_time` decimal(8,2) DEFAULT NULL,
   PRIMARY KEY (`projecttaskid`),
   KEY `parentid` (`parentid`),
   KEY `projectmilestoneid` (`projectmilestoneid`),

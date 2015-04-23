@@ -1,3 +1,14 @@
+{*<!--
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+-->*}
 <style>
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png") !important; }
@@ -113,14 +124,17 @@ $(document).ready(function(){
 			label:app.vtranslate('JS_NAME'),
 			width:"*", 
 			tree:true 
-		},/*{
+		},{
 			name:"progress", 
-			label:"Status", 
+			label:app.vtranslate('JS_PROGRESS'),
 			template:function(obj){
-				return Math.round(obj.progress*100)+"%";
+				if(typeof obj.progress != 'undefined'){
+					return Math.round(obj.progress*100)+"%";
+				}
+				return '';
 			},
 			align: "center", 
-		},*/{
+		},{
 			name:"priority",  
 			label:app.vtranslate('JS_PRIORITY'), 
 			template:function(obj){
@@ -152,6 +166,11 @@ $(document).ready(function(){
 		return "task";
 	};
 	gantt._on_dblclick = false;
+	gantt.config.drag_links = false;
+	gantt.config.drag_progress = false;
+	gantt.config.drag_move = false;
+	gantt.config.drag_resize = false;
+	
 	gantt.init('gantt_here');
 	gantt.parse({$DATA});
 });

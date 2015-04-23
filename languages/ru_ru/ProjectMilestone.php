@@ -23,6 +23,7 @@ $languageStrings = [
 	'SINGLE_ProjectMilestone'      => 'Контрольная точка', 
 	'description' => 'Описание',
 	'LBL_PRIORITY' => 'Приоритет',
+	'LBL_PROGRESS' => 'Progress',
 	//PICKLIST
 	'PLL_INTERNAL' => 'Внутренний',
 	'PLL_EXTERNAL' => 'Внешний',

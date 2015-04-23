@@ -23,6 +23,7 @@ $languageStrings = [
 	'Total time [h]'=>'Czas pracy',
 	'Project Task No'=>'Nr',
 	'Project Task Name' => 'Nazwa zadania do projektu',
+	'LBL_ESTIMATED_WORK_TIME' => 'Szacowany czas pracy',
 	// Blocks
 	'LBL_PROJECT_TASK_INFORMATION' => 'Szczegóły zadania',
 	'LBL_PROJECTS_LIST' => 'Lista projektów',
