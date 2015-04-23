@@ -33,6 +33,7 @@ $languageStrings = [
     'Support Start Date' => 'Support Start Date',
 	'Title' => 'Title',
 	'User List'=>'User List',
+	'Job title' => 'Job title',
 	
 	//Added for Picklist Values
 	'Dr.'=>'Dr.',
