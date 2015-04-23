@@ -465,9 +465,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			for (var i = sp.length - 1; i >= 0; i--) {
 				item = sp[i].toString().split("|");
 				var d = new Date();
-				d.setTime(item[2]);
+				var t = '';
+				if(item[2] != undefined){
+					d.setTime(item[2]);
+					t = app.formatDate(d) + ' | ';
+				}
 				var format = $('#userDateFormat').val() + '' + $('#userDateFormat').val();
-				htmlContent += '<li><a href="' + item[1] + '">'+ app.formatDate(d) + ' | ' + item[0] + '</a></li>';
+				htmlContent += '<li><a href="' + item[1] + '">'+ t + item[0] + '</a></li>';
 			}
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1 && document.URL != BtnLink) {
