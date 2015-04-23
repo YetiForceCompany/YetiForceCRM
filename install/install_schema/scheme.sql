@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -1443,6 +1443,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `notifilanguage` varchar(100) DEFAULT '',
   `contactstatus` varchar(255) DEFAULT '',
   `dav_status` tinyint(1) DEFAULT '1',
+  `jobtitle` varchar(100) DEFAULT '',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -2487,7 +2488,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1744 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1745 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
