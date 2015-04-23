@@ -66,7 +66,6 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model {
 		$progressInHours = 0;
 		for($i=0;$i<$num;$i++){
 			$row = $adb->query_result_rowdata($resultMileston, $i);
-			echo '<pre>', print_r($row); echo '</pre>';
 			$estimatedWorkTime += $row['estimated_work_time'];
 			$recordProgress = ($row['estimated_work_time']*(int)$row['projecttaskprogress'])/100;
 			$progressInHours += $recordProgress;
