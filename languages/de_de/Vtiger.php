@@ -907,6 +907,15 @@ $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'PLL_BREAK_TIME' => 'Unterbrechung der Arbeit',
 	'PLL_WORKING_TIME' => 'Arbeitszeit',
+	
+	//Gantt
+	'LBL_FILTERING' => 'Filtering',
+	'LBL_ALL_PRIORITY' => 'All',
+	'LBL_LOW_PRIORITY' => 'Low priority',
+	'LBL_HIGH_PRIORITY' => 'High priority',
+	'LBL_DAYS_CHART' => 'Days',
+	'LBL_MONTHS_CHART' => 'Months',
+	'LBL_ZOOMING' => 'Zooming',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

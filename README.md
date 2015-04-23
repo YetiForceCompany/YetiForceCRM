@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.172 - [#598] (https://github.com/YetiForceCompany/YetiForceCRM/commit/090ff94edbbb57ef37024b1ee78596838b8501f1) revision. 
+The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCompany/YetiForceCRM/commit/8bd836ee816b19fda230552759ce4e07727655a0) revision. 
 
 
 **Bug Fixes:** 
@@ -54,6 +54,8 @@ The following changes are up to 1.4.172 - [#598] (https://github.com/YetiForceCo
 -	Fixed Quick Create for working time in a calendar view.
 -	Fixed moving of calendar entries. 
 -	Fixed the display of entries in the Calendar.
+-	Fixed a reply function in emails.
+-	Fixed a function responsible for adding tasks in emails. 
 
 
 **Improvements:**
@@ -63,6 +65,7 @@ The following changes are up to 1.4.172 - [#598] (https://github.com/YetiForceCo
 -	Improved the management of DAV keys.
 -	Improved the display of events in the Calendar.
 -	Improved the display of history on your desktop.
+-	Improved the display of the menu.
 -	Improved permissions in Quick Create.
 -	Cleaned up some functions on files.
 -	Cleaned up the configuration for colors.
@@ -121,7 +124,10 @@ The following changes are up to 1.4.172 - [#598] (https://github.com/YetiForceCo
 -	Removed a contact field 'Potentials'.
 -	Improved a function getArrayFromValue.
 -	Improved getQuickCreateModules method.
--	Improved import of updates
+-	Improved import of updates.
+-	Improved the update system.
+-	Improved the definition of IP in Brute Force and logging history.
+-	Improved an action bar in emails. 
 -	Secured a function updating information about an email.
 
 
@@ -156,7 +162,8 @@ The following changes are up to 1.4.172 - [#598] (https://github.com/YetiForceCo
 -	Added date and time to the history of recently viewed pages.
 -	Added a function to retrieve time.
 -	Added an 'Update' button.
--	Added a releated module ProjectTask to the module ProjectMilestone
+-	Added a releated module ProjectTask to the module ProjectMilestone.
+-	Added a function which determines remote IP.
 
 
 

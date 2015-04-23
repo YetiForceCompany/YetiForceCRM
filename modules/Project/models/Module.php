@@ -148,7 +148,7 @@ class Project_Module_Model extends Vtiger_Module_Model {
 	public function getGanttProject($id) {
 		$adb = PearDatabase::getInstance();
 		$branches = $this->getGanttMileston($id);
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		if($branches){
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
@@ -158,22 +158,28 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$project['type'] = 'project';
 			$project['module'] = $this->getName();
 			$project['open'] = true;
-			$response[] = $project;
-			$response = array_merge($response,$branches);
+			$response['data'][] = $project;
+			$response['data'] = array_merge($response['data'],$branches['data']);
+			$response['links'] = array_merge($response['links'],$branches['links']);
 		}
 		return $response;
 	}
 	public function getGanttMileston($id) {
 		$adb = PearDatabase::getInstance();
 		//TODO need to handle security
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		$focus = CRMEntity::getInstance($this->getName());
 		$relatedListMileston = $focus->get_dependents_list($id,$this->getId(),getTabid('ProjectMilestone'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		for($i=0;$i<$num;$i++){
 			$projectmilestone = [];
+			$link = [];
 			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$link['id'] = $row['projectmilestoneid'];
+			$link['target'] = $row['projectmilestoneid'];
+			$link['type'] = 1;
+			$link['source'] = $row['projectid'];
 			$projectmilestone['id'] = $row['projectmilestoneid'];
 			$projectmilestone['text'] = $row['projectmilestonename'];
 			$projectmilestone['parent'] = $row['projectid'];
@@ -182,30 +188,41 @@ class Project_Module_Model extends Vtiger_Module_Model {
 				$endDate = strtotime(date('Y-m-d',strtotime($row['projectmilestonedate'])) . ' +1 days'); 
 				$projectmilestone['start_date'] = date('d-m-Y',$endDate);
 			}
+			$projectmilestone['priority'] = $row['projectmilestone_priority'];
+			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'],'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
 			$projecttask = $this->getGanttTask($row['projectmilestoneid']);
-			$response[] = $projectmilestone;
-			$response = array_merge($response,$projecttask);
+			$response['data'][] = $projectmilestone;
+			$response['links'][] = $link;
+			$response['data'] = array_merge($response['data'],$projecttask['data']);
+			$response['links'] = array_merge($response['links'],$projecttask['links']);
 		}
 		return $response;
 	}
 	public function getGanttTask($id) {
 		$adb = PearDatabase::getInstance();
 		//TODO need to handle security
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		$focus = CRMEntity::getInstance('ProjectMilestone');
 		$relatedListMileston = $focus->get_dependents_list($id,getTabid('ProjectMilestone'),getTabid('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
 		for($i=0;$i<$num;$i++){
 			$projecttask = [];
+			$link = [];
 			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$link['id'] = $row['projecttaskid'];
+			$link['target'] = $row['projecttaskid'];
 			$projecttask['id'] = $row['projecttaskid'];
 			$projecttask['text'] = $row['projecttaskname'];
 			if($row['parentid']){
+				$link['type'] = 0;
+				$link['source'] = $row['parentid'];
 				$projecttask['parent'] = $row['parentid'];
 			}else{
+				$link['type'] = 2;
+				$link['source'] = $row['projectmilestoneid'];
 				$projecttask['parent'] = $row['projectmilestoneid'];
 			}
 			$projecttask['priority'] = $row['projecttaskpriority'];
@@ -216,7 +233,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$projecttask['open'] = true;
 			$projecttask['type'] = 'task';
 			$projecttask['module'] = 'ProjectTask';
-			$response[] = $projecttask;
+			$response['data'][] = $projecttask;
+			$response['links'][] = $link;
 		}
 		return $response;
 	}

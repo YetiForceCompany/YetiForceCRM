@@ -900,6 +900,16 @@ $languageStrings = [
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_HOLIDAY_TIME' => 'Urlop',
+	
+	//Gantt
+	'LBL_FILTERING' => 'Filter',
+	'LBL_ALL_PRIORITY' => 'Wszystko',
+	'LBL_LOW_PRIORITY' => 'Niski priorytet',
+	'LBL_HIGH_PRIORITY' => 'Wysoki priorytet',
+	'LBL_DAYS_CHART' => 'Dni',
+	'LBL_MONTHS_CHART' => 'Miesiące',
+	'LBL_ZOOMING' => 'Powiększanie',
+	
 ];
 
 $jsLanguageStrings = [

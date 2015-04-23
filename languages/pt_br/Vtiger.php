@@ -900,6 +900,15 @@ $languageStrings = [
 	'Letters In'=>'Correspondências Recebidas',
 	'Letters Out'=>'Correspondências Enviadas',
         'Companies'=>'Empresas',
+		
+	//Gantt
+	'LBL_FILTERING' => 'Filtering',
+	'LBL_ALL_PRIORITY' => 'All',
+	'LBL_LOW_PRIORITY' => 'Low priority',
+	'LBL_HIGH_PRIORITY' => 'High priority',
+	'LBL_DAYS_CHART' => 'Days',
+	'LBL_MONTHS_CHART' => 'Months',
+	'LBL_ZOOMING' => 'Zooming',
 
 ];
 $jsLanguageStrings = [
