@@ -54,4 +54,5 @@ $languageStrings = [
 	'Alert_desc' => 'Wszystkie poniższe opcje modyfikują pliki systemowe. Przed nadpisaniem pliku jest robiona jego kopia zapasowa i po odznaczeniu zostają przewrócone oryginalne pliki.',
 	'Module configuration' => 'Konfiguracja modułu',
 	'JS_save_config_info' => 'Zapisano konfigurację',
+	'SINGLE_Vendors' => 'Dostawca',
 ];

@@ -54,4 +54,5 @@ $languageStrings = [
 	'Alert_desc' => 'Todas as opções abaixo modificam os arquivos do Sistema. Um backup é realizado antes de sobrescrever os arquivos e os originais serão recuperados após remover a seleção.',
 	'Module configuration' => 'Configuração do Módulo',
 	'JS_save_config_info' => 'Configuração salva',
+	'SINGLE_Vendors' => 'Fornecedor',
 ];
