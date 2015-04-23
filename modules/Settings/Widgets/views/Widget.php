@@ -20,11 +20,13 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View{
 	}
 	public function createStep1(Vtiger_Request $request) {
 		$viewer = $this->getViewer($request);
+		$sourceModule = $request->get('mod');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel );
+		$viewer->assign('SOUNRCE_MODULE', $sourceModule );
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('WidgetList.tpl', $qualifiedModuleName);
 	}
