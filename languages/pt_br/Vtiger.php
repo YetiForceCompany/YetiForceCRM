@@ -861,6 +861,7 @@ $languageStrings = [
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Número dias trabalhados',
 	'LBL_AVERAGE_WORKING_TIME' => 'Média tempo de trabalho',
 	'Employees Time Control' => 'Controle Tempo Empregados',
+	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
 
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Criar',

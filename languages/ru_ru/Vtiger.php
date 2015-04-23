@@ -1122,6 +1122,7 @@ $languageStrings = [
 	'LBL_AVERAGE_WORKING_TIME' => 'Средняя продолжительность рабочего времени',
 	'Employees Time Control' => 'Учет времени Сотрудников',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Поиск филиалов',
+	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
 	
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Последнее обновление записи',

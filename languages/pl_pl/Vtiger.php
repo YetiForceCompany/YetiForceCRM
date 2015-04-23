@@ -874,6 +874,7 @@ $languageStrings = [
 	'Employees Time Control' => 'Czas pracy użytkownika',
 	'LBL_MARK_AS_DONE' => 'Oznacz jako wykonane',
 	'LBL_PAGES_HISTORY' => 'Ostanio przeglądane strony',
+	'LBL_CURRENTLY_LOGGED_USER' => 'Aktualnie zalogowany użytkownik',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',

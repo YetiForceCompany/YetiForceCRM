@@ -728,10 +728,12 @@ class QueryGenerator {
 						}
 					}
 				} elseif (in_array($fieldName, $this->ownerFields)) {
-                    if($fieldName == 'created_user_id'){
+					if($conditionInfo['operator'] == 'om'){
+						$fieldSql .= $fieldGlue.$field->getTableName().'.'.$field->getColumnName()." $valueSql";
+					}elseif($fieldName == 'created_user_id'){
                         $concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users$fieldName.first_name",'last_name'=>"vtiger_users$fieldName.last_name"), 'Users');
                         $fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
-                    }else{
+					}else{
 						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users.first_name",'last_name'=>"vtiger_users.last_name"), 'Users');
 						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or "."vtiger_groups.groupname $valueSql)";
                     }
@@ -1036,7 +1038,10 @@ class QueryGenerator {
 				$sql[] = "LIKE ''";
 				continue;
 			}
-
+			if(trim($value) == '' && ($operator == 'om') && in_array($field->getFieldName(), $this->ownerFields) ) {
+				$sql[] = " = '".Users_Record_Model::getCurrentUserModel()->get('id')."'";
+				continue;
+			}
 			if(trim($value) == '' && ($operator == 'k') &&
 					$this->isStringType($field->getFieldDataType())) {
 				$sql[] = "NOT LIKE ''";

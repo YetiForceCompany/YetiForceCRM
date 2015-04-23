@@ -882,6 +882,7 @@ $languageStrings = [
 	'Employees Time Control' => 'Zeiterfassung Mitarbeiter',
 	'RequirementCards' => 'Anforderungen',
 	'QuotesEnquires' => 'Angebotsanalyse',
+	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Hinzufügen',
