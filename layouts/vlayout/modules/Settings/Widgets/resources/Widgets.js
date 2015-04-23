@@ -16,7 +16,8 @@ var Settings_Index_Js = {
 	},
 	addWidget: function(e) {
 		var progressIndicatorElement = jQuery.progressIndicator({'position' : 'html'});
-		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget", function(wizardContainer){
+		var module = $(".WidgetsManage select[name='ModulesList']").val();
+		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod="+module, function(wizardContainer){
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
 			form.submit(function(e){
