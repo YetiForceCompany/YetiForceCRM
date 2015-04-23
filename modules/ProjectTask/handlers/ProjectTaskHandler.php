@@ -14,7 +14,7 @@ class ProjectTaskHandler extends VTEventHandler {
 		if($eventName == 'vtiger.entity.aftersave.final' && $moduleName == 'ProjectTask'){
 			$recordId = $data->getId();
 			if($data->isNew()){
-				$recordModel = Vtiger_Module_Model::getCleanInstance('ProjectMilestone');
+				$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 				$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
 			}else{
 				vimport('include.events.VTEntityDelta');
@@ -33,10 +33,10 @@ class ProjectTaskHandler extends VTEventHandler {
 				}	
 			}			
 		}elseif($eventName == 'vtiger.entity.afterdelete' && $moduleName == 'ProjectTask'){
-			$recordModel = Vtiger_Module_Model::getCleanInstance('ProjectMilestone');
+			$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 			$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
 		}elseif($eventName == 'vtiger.entity.afterrestore' && $moduleName == 'ProjectTask'){
-			$recordModel = Vtiger_Module_Model::getCleanInstance('ProjectMilestone');
+			$recordModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 			$recordModel->updateProgressMilestone($data->get('projectmilestoneid'));
 		}
 	}
