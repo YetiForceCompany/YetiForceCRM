@@ -159,6 +159,7 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$project['type'] = 'project';
 			$project['module'] = $this->getName();
 			$project['open'] = true;
+			$project['progress'] = $branches['progress'];
 			$response['data'][] = $project;
 			$response['data'] = array_merge($response['data'],$branches['data']);
 			$response['links'] = array_merge($response['links'],$branches['links']);
@@ -173,6 +174,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$relatedListMileston = $focus->get_dependents_list($id,$this->getId(),getTabid('ProjectMilestone'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
+		$milestoneTime = 0;
+		$progressInHours = 0; 
 		for($i=0;$i<$num;$i++){
 			$projectmilestone = [];
 			$link = [];
@@ -199,6 +202,11 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$response['links'][] = $link;
 			$response['data'] = array_merge($response['data'],$projecttask['data']);
 			$response['links'] = array_merge($response['links'],$projecttask['links']);
+			$milestoneTime += $projecttask['task_time'];
+			$progressInHours += $projecttask['task_time']*$projectmilestone['progress'];
+		}
+		if($milestoneTime){
+			$response['progress'] = round($progressInHours/$milestoneTime,1);
 		}
 		return $response;
 	}
@@ -210,6 +218,7 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$relatedListMileston = $focus->get_dependents_list($id,getTabid('ProjectMilestone'),getTabid('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
+		$taskTime = 0;
 		for($i=0;$i<$num;$i++){
 			$projecttask = [];
 			$link = [];
@@ -237,9 +246,11 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$projecttask['open'] = true;
 			$projecttask['type'] = 'task';
 			$projecttask['module'] = 'ProjectTask';
+			$taskTime += $row['estimated_work_time'];
 			$response['data'][] = $projecttask;
 			$response['links'][] = $link;
 		}
+		$response['task_time'] = $taskTime;
 		return $response;
 	}
 }
