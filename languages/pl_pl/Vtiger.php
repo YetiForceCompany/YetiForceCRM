@@ -909,7 +909,6 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Dni',
 	'LBL_MONTHS_CHART' => 'Miesiące',
 	'LBL_ZOOMING' => 'Powiększanie',
-	'JS_PROGRESS' => 'Postęp',
 ];
 
 $jsLanguageStrings = [
@@ -1077,6 +1076,7 @@ $jsLanguageStrings = [
 	
 	'JS_NAME'=>'Nazwa',
 	'JS_PRIORITY'=>'Priorytet',
+	'JS_PROGRESS' => 'Postęp',
 	'JS_APR' => 'Kwi',
 	'JS_APRIL' => 'Kwiecień',
 	'JS_AUG' => 'Sie',

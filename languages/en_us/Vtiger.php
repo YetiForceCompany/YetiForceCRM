@@ -897,7 +897,7 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Days',
 	'LBL_MONTHS_CHART' => 'Months',
 	'LBL_ZOOMING' => 'Zooming',
-	'JS_PROGRESS' => 'Progress',
+	
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1064,6 +1064,7 @@ $jsLanguageStrings = [
 	
 	'JS_NAME'=>'Name',
 	'JS_PRIORITY'=>'Priority',
+	'JS_PROGRESS' => 'Progress',
 	'LBL_APR' => 'Apr',
 	'LBL_APRIL' => 'April',
 	'LBL_AUG' => 'Aug',
