@@ -1140,6 +1140,7 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Days',
 	'LBL_MONTHS_CHART' => 'Months',
 	'LBL_ZOOMING' => 'Zooming',
+	'JS_PROGRESS' => 'Progress',
 ];
 $jsLanguageStrings = [
 	'System' => 'Сообщение',
