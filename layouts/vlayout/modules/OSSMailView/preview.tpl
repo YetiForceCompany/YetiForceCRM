@@ -122,7 +122,7 @@
 				</span>
 			</div>
 			{/if}
-			<div class="row-fluid padding-bottom1per">
+			<div class="row-fluid padding-bottom1per content">
 				<span class="span12 row-fluid">
 					<span class="span2">
 						<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
@@ -178,9 +178,6 @@ $( document ).ready(function() {
 	$( "#previewReply" ).click(function() {
 		window_open(params,'single', this);
 	});
-	$( "#previewPrint" ).click(function() {
-	  alert( "Handler for .click() called." );
-	});
 });
 function window_open(params, type, button) {
 	var url = $(button).data('url');
@@ -208,24 +205,16 @@ function window_open(params, type, button) {
 }
 
 function printMail(){
-    var div_preview = $('#emailPreview').contents();
-    var subject = div_preview.find('#emailPreview_Subject').text();
-    var from = div_preview.find('#emailPreview_From').text();
-    var to = div_preview.find('#emailPreview_To').text();
-    var cc = div_preview.find('#emailPreview_Cc').text();
-    var date = jQuery('#_mailopen_date').html();
-    var body = div_preview.find('#emailPreview_Content').text();
-
     var content = window.open();
-    content.document.write("<b>"+subject+"</b><br>");
-    content.document.write("<br>From :" +from +"<br>");
-    content.document.write("To :" +to+"<br>");
-    cc == null ? '' : content.document.write("CC :" +cc+"<br>");
-    //content.document.write("Date :" + date+"<br>");
-    content.document.write("<br>"+body +"<br>");
-
+	$( ".emailPreview > div" ).each(function( index ) {
+		if( $( this ).hasClass( 'content' ) ){
+			var inframe = $( "#emailPreview_Content" ).contents();
+			content.document.write( inframe. find('body'). html() +"<br>");
+		}else{
+			content.document.write( $.trim( $( this ).text() ) +"<br>");
+		}
+	});
     content.print();
-    
 }
 </script>
 {/literal}
