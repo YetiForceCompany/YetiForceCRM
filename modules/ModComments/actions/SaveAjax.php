@@ -60,7 +60,8 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			$relatedRecordId = $recordModel->getId();
 
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+			if($relationModel)
+				$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 		return $recordModel;
 	}

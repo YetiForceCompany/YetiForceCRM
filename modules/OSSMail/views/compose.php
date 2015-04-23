@@ -63,15 +63,15 @@ class OSSMail_compose_View extends Vtiger_Index_View{
 			$UrlToCompose = OSSMail_Record_Model::getUrlToCompose( $request->get('mod'), $request->get('record') );
 			$url .= $UrlToCompose;
 		}		
-		$main_url = OSSMail_Record_Model::GetSite_URL().'modules/OSSMail/roundcube/?_task=mail&_action=compose'.$url;
-		$config = OSSMail_Record_Model::getConfig('email_list');
-		if($config['autologon'] == 'true'){
+		$mainUrl = OSSMail_Record_Model::GetSite_URL().'modules/OSSMail/roundcube/?_task=mail&_action=compose';
+		$url = $mainUrl.$url;
+		$config = Settings_Mail_Config_Model::getConfig('autologin');
+		if ($config['autologinActive'] == 'true') {
 			$account = OSSMail_Autologin_Model::getAutologinUsers();
 			if($account){
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$urlRC = OSSMail_Record_Model::GetSite_URL() . 'modules/OSSMail/roundcube/';
-				$rcl = new RoundcubeLogin($urlRC, false);
+				$rcl = new RoundcubeLogin($mainUrl, false);
 				try {
 					if ($rcl->isLoggedIn()) {
 						if($rcl->getUsername() != $rcUser['username']){
@@ -88,7 +88,7 @@ class OSSMail_compose_View extends Vtiger_Index_View{
 			}
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign( "URL", $main_url);
+		$viewer->assign( "URL", $url);
 		$viewer->view('index.tpl', 'OSSMail');
 	}
 }
