@@ -53,33 +53,32 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js",{
 	}
 });
 
-Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js",{
+Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js", {
 	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
 	 */
-	invokeValidation: function(field, rules, i, options){
+	invokeValidation: function (field, rules, i, options) {
 		var usernameInstance = new Vtiger_UserName_Validator_Js();
 		usernameInstance.setElement(field);
 		var response = usernameInstance.validate();
-		if(response != true){
+		if (response != true) {
 			return usernameInstance.getError();
 		}
 	}
 
-},{
-
+}, {
 	/**
 	 * Function to validate the User Name
 	 * @return true if validation is successfull
 	 * @return false if validation error occurs
 	 */
-	validate: function(){
+	validate: function () {
 		var fieldValue = this.getFieldValue();
-		var negativeRegex = /^[a-z0-9_]{3,16}$/;
+		var negativeRegex = /^[a-zA-Z0-9_.@]{3,32}$/;
 		var result = negativeRegex.test(fieldValue);
-		if (!result ) {
+		if (!result) {
 			var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 			this.setError(errorInfo);
 			return false;
