@@ -862,6 +862,8 @@ $languageStrings = [
 	'LBL_AVERAGE_WORKING_TIME' => 'Average working time',
 	'Employees Time Control' => 'Employees Time Control',
 	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
+	'LBL_TO_REALIZE'=>'__UNTRANSLATED__',
+	'LBL_HISTORY'=>'__UNTRANSLATED__',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',
@@ -1108,4 +1110,7 @@ $jsLanguageStrings = [
 	'LBL_WEDNESDAY' => 'Wednesday',
 	'LBL_WED' => 'Wed',
 	'LBL_WEEK' => 'Week',
+	'JS_MORE' => '__UNTRANSLATED__',
+	'JS_TO_REALIZE'=>'__UNTRANSLATED__',
+	'JS_HISTORY'=>'__UNTRANSLATED__',
 ];

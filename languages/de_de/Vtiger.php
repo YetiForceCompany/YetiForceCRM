@@ -883,6 +883,8 @@ $languageStrings = [
 	'RequirementCards' => 'Anforderungen',
 	'QuotesEnquires' => 'Angebotsanalyse',
 	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
+	'LBL_TO_REALIZE'=>'__UNTRANSLATED__',
+	'LBL_HISTORY'=>'__UNTRANSLATED__',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Hinzufügen',
@@ -1126,4 +1128,7 @@ $jsLanguageStrings = [
 	'JS_WED' => 'Mi',
 	'JS_WEEK' => 'Woche',
 	'JS_ADD_EVENT_TASK' => 'Ereignis/Aufgabe erstellen',
+	'JS_MORE' => '__UNTRANSLATED__',
+	'JS_TO_REALIZE'=>'__UNTRANSLATED__',
+	'JS_HISTORY'=>'__UNTRANSLATED__',
 ];

@@ -51,6 +51,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 		if($this->get('types')){
 			$query.= " AND vtiger_activity.activitytype IN ('".implode("','", $this->get('types'))."')";
 		}
+		if ($this->get('time') == 'current') {
+			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
+			OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+		}
+		if ($this->get('time') == 'history') {
+			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
+			OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+		}
 		if($this->get('user')){
 			if(is_array($this->get('user'))){
 				$query.= ' AND vtiger_crmentity.smownerid IN ('.implode(",", $this->get('user')).')';
