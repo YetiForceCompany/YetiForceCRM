@@ -162,7 +162,6 @@ $jsLanguageStrings = [
 	'PLL_TRANSPARENT' => 'Free',
 	'JS_Private' => 'Private',
 	'JS_Public' => 'Public',
-	'JS_ADD_EVENT_TASK' => 'Ereignis/Aufgabe erstellen',
 	'JS_ALL_DAY' => 'Jeden Tag',
 	'JS_APR' => 'Apr',
 	'JS_APRIL' => 'April',

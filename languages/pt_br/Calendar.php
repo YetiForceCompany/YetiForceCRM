@@ -176,7 +176,6 @@ $jsLanguageStrings = [
 	'JS_Private' => 'Privado',
 	'JS_Public' => 'Público',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
-	'JS_ADD_EVENT_TASK' => 'Adicionar registro',
 	//Calendar
 	'JS_ALL_DAY' => 'Todos os Dias',
 	'JS_APR' => 'Abr',

@@ -1437,4 +1437,5 @@ $jsLanguageStrings = [
 	'LBL_WED' => 'Ср',
 	'LBL_WEDNESDAY' => 'Среда',
 	'LBL_WEEK' => 'Неделя',
+	'JS_ADD_EVENT_TASK' => 'Добавить запись',
 ];
