@@ -47,6 +47,7 @@
   box-sizing: border-box;
 }
 .bootstrap-switch {
+  word-wrap: normal !important;
   display: inline-block;
   direction: ltr;
   cursor: pointer;

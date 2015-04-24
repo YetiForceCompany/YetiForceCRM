@@ -192,7 +192,6 @@ $jsLanguageStrings = [
 	'JS_APRIL' => 'Апрель',
 	'JS_APR' => 'Апр',
 	'JS_ALL_DAY' => 'Все дни',
-	'JS_ADD_EVENT_TASK' => 'Добавить запись',
 	'JS_NO_EDIT_PERMISSION' => 'Вы не имеете разрешения на изменение записей календаря',
 	'JS_NO_DELETE_PERMISSION' => 'Вы не имеете разрешения на удаление записей календаря.',
 	'JS_Activity Type'	=>	'Тип деятельности',

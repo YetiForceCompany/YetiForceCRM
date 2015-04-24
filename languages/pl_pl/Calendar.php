@@ -165,7 +165,6 @@ $jsLanguageStrings = [
 	'JS_Private' => 'Prywatne',
 	'JS_Public' => 'Publiczne',
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Nie można powiązać kontaktów z potencjalnymi klientami',
-	'JS_ADD_EVENT_TASK' => 'Dodaj rekord',
 	//Calendar
 	'JS_ALL_DAY' => 'Całodniowe',
 	'JS_APR' => 'Kwi',
@@ -210,7 +209,6 @@ $jsLanguageStrings = [
 	'JS_WEDNESDAY' => 'Środa',
 	'JS_WED' => 'Śro',
 	'JS_WEEK' => 'Tydzień',
-	'JS_MORE' => 'więcej',
 	'Mobile Call' => 'Połączenie',
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
 ];

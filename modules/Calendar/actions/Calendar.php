@@ -30,6 +30,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action {
 		$record = Calendar_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
+		$record->set('time', $request->get('time'));
 		if ($request->get('start') && $request->get('end')) {
 			$record->set('start', $request->get('start'));
 			$record->set('end', $request->get('end'));

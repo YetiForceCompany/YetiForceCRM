@@ -18,7 +18,7 @@
 			</th>
 			<th class="span2">
 				<div>
-					<select class="widgetFilter" id="historyType" name="type" style='width:100px;margin-bottom:0px'>
+					<select class="widgetFilter" id="historyType" name="type" style='margin-bottom:0px'>
 						<option value="all" >{vtranslate('LBL_ALL')}</option>
 						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
 						<option value="updates" >{vtranslate('LBL_UPDATES')}</option>

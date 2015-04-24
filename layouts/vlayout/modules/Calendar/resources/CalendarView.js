@@ -160,6 +160,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}else{
 			allEvents = true;
 		}
+		var time = jQuery('#showType').val();	
+		
 		if(allEvents == true || types != null){
 			var params = {
 				module: 'Calendar',
@@ -168,6 +170,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				start: start_date,
 				end: end_date,
 				user: user,
+				time: time,
 				types: types
 			}
 			AppConnector.request(params).then(function (events) {
@@ -341,9 +344,24 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			});
 		})
 	},
+	createAddSwitch: function () {
+		var thisInstance = this;
+		var calendarview = this.getCalendarView();
+		var switchBtn =  jQuery('<span class="pull-left"><input class="switchBtn" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="90" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
+			.prependTo(calendarview.find('.fc-toolbar .fc-right'))
+			.on('switchChange.bootstrapSwitch', function (e, state) {
+			if(state)
+				jQuery('#showType').val('current');
+			else
+				jQuery('#showType').val('history');
+			thisInstance.loadCalendarData();
+		})
+		app.showBtnSwitch(switchBtn.find('.switchBtn'));
+	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.createAddButton();
+		this.createAddSwitch();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 	}

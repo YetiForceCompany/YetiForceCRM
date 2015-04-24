@@ -875,6 +875,8 @@ $languageStrings = [
 	'LBL_MARK_AS_DONE' => 'Oznacz jako wykonane',
 	'LBL_PAGES_HISTORY' => 'Ostanio przeglądane strony',
 	'LBL_CURRENTLY_LOGGED_USER' => 'Aktualnie zalogowany użytkownik',
+	'LBL_TO_REALIZE'=>'Do realizacji',
+	'LBL_HISTORY'=>'Historia',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',
@@ -1120,4 +1122,8 @@ $jsLanguageStrings = [
 	'JS_WEDNESDAY' => 'Środa',
 	'JS_WED' => 'Śro',
 	'JS_WEEK' => 'Tydzień',
+	'JS_ADD_EVENT_TASK' => 'Dodaj rekord',
+	'JS_MORE' => 'więcej',
+	'JS_TO_REALIZE'=>'Do realizacji',
+	'JS_HISTORY'=>'Historia',
 ];
