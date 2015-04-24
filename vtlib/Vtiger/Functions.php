@@ -369,7 +369,8 @@ class Vtiger_Functions {
 				$result = $adb->pquery($sql, $ids);
 				
 				$ModuleInfo = self::getModuleFieldInfos($module);
-				while ($row = $adb->fetch_array($result)) {
+				for($i = 0; $i < $adb->num_rows($result); $i++){
+					$row = $adb->raw_query_result_rowdata($result, $i);
                     $label_name = array();
 					$label_search = array();
                     foreach($columns_name as $columnName) {
