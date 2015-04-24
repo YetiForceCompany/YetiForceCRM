@@ -15,7 +15,7 @@
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
 {/if}
 	<div>
-		<select class="widgetFilter" id="owner" name="owner" style='width:100px;margin-bottom:0px'>
+		<select class="widgetFilter" id="owner" name="owner" style='width100%;margin-bottom:0px'>
 			{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('mine', $ACCESS_OPTIONS.available)}
 				<option value="{$CURRENTUSER->getId()}" {if $ACCESS_OPTIONS.default eq 'mine'} selected {/if}>{vtranslate('LBL_MINE')}</option>
 			{/if}
