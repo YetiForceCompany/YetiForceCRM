@@ -42,17 +42,15 @@
                             </span>
                         </div>
                     </div>
-                    <div class="nav quickActions btn-toolbar span marginLeftZero">
-                        <div class="pull-right commonActionsButtonContainer">
-                            {if !empty($announcement)}
-                                <div class="btn-group cursorPointer">
-                                    <img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
-                                </div>&nbsp;
-                            {/if}
-							<div class="btn-group cursorPointer historyBtn">
-								<img width="28px" class='alignMiddle showHistoryBtn popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" data-placement="left" data-toggle="dropdown" aria-expanded="false"/>
+                    <div class="nav quickActions btn-toolbar span marginLeftZero pull-right commonActionsButtonContainer">
+						{if !empty($announcement)}
+							<div class="btn-group cursorPointer">
+								<img class='alignMiddle' src="{vimage_path('btnAnnounceOff.png')}" alt="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" title="{vtranslate('LBL_ANNOUNCEMENT',$MODULE)}" id="announcementBtn" />
 							</div>&nbsp;
-                        </div>
+						{/if}
+						<div class="btn-group cursorPointer historyBtn">
+							<img width="28px" class='alignMiddle showHistoryBtn popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" data-placement="left" data-toggle="dropdown" aria-expanded="false"/>
+						</div>&nbsp;
                     </div>
                 </div>
             </div>
