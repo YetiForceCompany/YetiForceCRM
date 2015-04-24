@@ -1125,4 +1125,5 @@ $jsLanguageStrings = [
 	'JS_WEDNESDAY' => 'Mittwoch',
 	'JS_WED' => 'Mi',
 	'JS_WEEK' => 'Woche',
+	'JS_ADD_EVENT_TASK' => 'Ereignis/Aufgabe erstellen',
 ];
