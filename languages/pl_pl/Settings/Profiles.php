@@ -62,6 +62,7 @@ $languageStrings = [
 	'MassSendSMS' => 'Masowe wysyłanie SMS-ów',
 	'MassTransferOwnership' => 'Masowa zmiana właściciela',
 	'MassMoveDocuments' => 'Masowa zmiana katalogu',
+	'ReadRecord' => 'Zapoznanie ze zmianami w rekordach',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

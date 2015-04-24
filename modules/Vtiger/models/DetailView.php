@@ -66,8 +66,9 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 
 		$detailViewLink = array();
 		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $recordPermissionToEditView) {
-			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id')) {
+			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id') && $currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
 				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
