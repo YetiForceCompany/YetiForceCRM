@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCompany/YetiForceCRM/commit/013bd1d96cd57a718a809dbc2d044c9a741e664d) revision. 
+The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCompany/YetiForceCRM/commit/8bd836ee816b19fda230552759ce4e07727655a0) revision. 
 
 
 **Bug Fixes:** 
@@ -53,6 +53,9 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Fixed menu items. 
 -	Fixed Quick Create for working time in a calendar view.
 -	Fixed moving of calendar entries. 
+-	Fixed the display of entries in the Calendar.
+-	Fixed a reply function in emails.
+-	Fixed a function responsible for adding tasks in emails. 
 
 
 **Improvements:**
@@ -62,6 +65,7 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Improved the management of DAV keys.
 -	Improved the display of events in the Calendar.
 -	Improved the display of history on your desktop.
+-	Improved the display of the menu.
 -	Improved permissions in Quick Create.
 -	Cleaned up some functions on files.
 -	Cleaned up the configuration for colors.
@@ -74,7 +78,7 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Added verification of duplicates in workflow 'Create To Do/Task'.
 -	Removed a field with a signature and added a global signature configuration.
 -	Turned off Signature in send_mail.
--	Removed unnecessary graphic files.
+-	Removed some unnecessary files.
 -	Removed jquery.hotkeys.js library.
 -	Removed the OSSMenuManager module.
 -	Updated FullCalendar v2.3.1 library.
@@ -90,17 +94,21 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Moved a tab with a configuration from Mail client to Server configuration settings.
 -	Moved a tab with a configuration from Module Colors to Colors.
 -	Moved user colors from the calendar configuration to colors in settings.
--	Improved 'open tickets' widget. 
+-	Improved 'open tickets' and 'ticket by status' widgets. 
 -	Improved 'user time control' widget.
 -	Improved 'Calendar' widget.
+-	Improved 'Leads by industry' and 'Leads by status' widgets.
 -	Improved the appearance of the menu.
 -	Added a safety lock for an invalid PHP version.
 -	Fixed the display of events in widgets.
 -	Fixed the display of fields when a Lead is converted to an Account.
 -	Reconstructed 'Tickets by status' chart.
+-	Reconstructed 'Lead by status' chart.
+-	Reconstructed charts in HelpDesk and Project modules.
 -	Added loading of the start and end of work when adding calendar entries.
 -	Changed allowed dimensions of widgets.
 -	Changed fields order in many Quick Create popups.
+-	Changed downloading of an email address.
 -	Expanded masking with new types of fields.
 -	Added a new template for the mail module.
 -	Added selects buttons for widgets.
@@ -108,13 +116,19 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Added shared permissions with a product/service in the sales opportunity.
 -	Added a related module 'Documents' to modules: OSSSoldServices, OSSOutsourcedServices and OutsourcedProducts.
 -	Added sharing privileges in events list.
--	Added a history of recently viewed pages. 
+-	Added Grantt charts to the Projects module.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
 -	Removed a 'hide completed events' field.
 -	Removed a contact field 'Potentials'.
 -	Improved a function getArrayFromValue.
+-	Improved getQuickCreateModules method.
+-	Improved import of updates.
+-	Improved the update system.
+-	Improved the definition of IP in Brute Force and logging history.
+-	Improved an action bar in emails. 
+-	Secured a function updating information about an email.
 
 
 **New functionalities:**
@@ -124,6 +138,7 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Added new fields to the OSSMailTemplates module.
 -	Added a possibility to select an email account.
 -	Added a new field to Users - 'Approval for email'.
+-	Added a new field to ProjectMilestone - 'Priority'. 
 -	Added additional actions to profiles.
 -	Added support, financial, marketing and realization processes to settings.
 -	Added 'Convert to Account' in the Marketing Processes.
@@ -133,6 +148,7 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Added a flot library.
 -	Added jsTree v3.1.0 library.
 -	Added Mousetrap v 1.5.2 library.
+-	Added a bootstrap switch library.
 -	Added a table with menus.
 -	Added a new panel for the configuration of menu.
 -	Added keyboard shortcuts (hotkeys).
@@ -141,7 +157,14 @@ The following changes are up to 1.4.172 - [#576] (https://github.com/YetiForceCo
 -	Added Calendar Widget.
 -	Added Cache Control.
 -	Added an auto complete function for fields when a record is being created.
--	Added an auto complete function for a subject field in Quick Create of Time Control
+-	Added an auto complete function for a subject field in Quick Create of Time Control.
+-	Added a history of recently viewed pages. 
+-	Added date and time to the history of recently viewed pages.
+-	Added a function to retrieve time.
+-	Added an 'Update' button.
+-	Added a releated module ProjectTask to the module ProjectMilestone.
+-	Added a function which determines remote IP.
+
 
 
 #YetiForce 1.4

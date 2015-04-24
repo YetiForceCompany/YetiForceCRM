@@ -52,4 +52,5 @@ $languageStrings = [
 	'Alert_desc' => 'Alle gewählten Optionen ändern Systemdateien. Originaldateien werden vor dem ändern gesichert und beim Abwählen wiederhergestellt.',
 	'Module configuration' => 'Modul Einstellungen',
 	'JS_save_config_info' => 'Einstellungen gespeichert',
+	'SINGLE_Vendors' => 'Lieferant',
 ];

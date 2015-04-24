@@ -805,7 +805,8 @@ class Vtiger_Field_Model extends Vtiger_Field {
 			'a' => 'LBL_AFTER',
 			'bw' => 'LBL_BETWEEN',
 			'y' => 'LBL_IS_EMPTY',
-            'ny'=> 'LBL_IS_NOT_EMPTY'
+            'ny'=> 'LBL_IS_NOT_EMPTY',
+			'om'=> 'LBL_CURRENTLY_LOGGED_USER'
 		);
 	}
 
@@ -816,7 +817,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 */
 	public static function getAdvancedFilterOpsByFieldType() {
 		return array(
-			'V' => array('e','n','s','ew','c','k','y','ny'),
+			'V' => array('e','n','s','ew','c','k','y','ny','om'),
 			'N' => array('e','n','l','g','m','h', 'y','ny'),
 			'T' => array('e','n','l','g','m','h','bw','b','a','y','ny'),
 			'I' => array('e','n','l','g','m','h','y','ny'),

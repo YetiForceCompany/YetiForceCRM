@@ -51,5 +51,33 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model {
 		$taskModel = Vtiger_Module_Model::getInstance('ProjectTask');
 		return $taskModel->getListViewUrl();
 	}
+	
+	public function updateProgressMilestone($id) {
+		$adb = PearDatabase::getInstance();
+		//TODO need to handle security
+		if(!isRecordExists($id)){
+			return;
+		}
+		$focus = CRMEntity::getInstance($this->getName());
+		$relatedListMileston = $focus->get_dependents_list($id,$this->getId(),getTabid('ProjectTask'));
+		$resultMileston = $adb->query($relatedListMileston['query']);
+		$num = $adb->num_rows($resultMileston);
+		$estimatedWorkTime = 0;
+		$progressInHours = 0;
+		for($i=0;$i<$num;$i++){
+			$row = $adb->query_result_rowdata($resultMileston, $i);
+			$estimatedWorkTime += $row['estimated_work_time'];
+			$recordProgress = ($row['estimated_work_time']*(int)$row['projecttaskprogress'])/100;
+			$progressInHours += $recordProgress;
+		}
+		if(!$estimatedWorkTime){
+			return;
+		}
+		$projectMilestoneProgress = round((100*$progressInHours)/$estimatedWorkTime);
+		$focus->retrieve_entity_info($id, $this->getName());
+		$focus->column_fields['projectmilestone_progress'] = $projectMilestoneProgress.'%';
+		$focus->column_fields['mode'] = 'edit';
+		$focus->saveentity($this->getName(), $id);
+	}
 }
 ?>

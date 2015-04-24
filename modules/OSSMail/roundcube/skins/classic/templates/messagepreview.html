@@ -7,7 +7,15 @@
 <script type="text/javascript" src="/functions.js"></script>
 </head>
 <body class="iframe">
-
+<div class="oss-header">
+	<span id="moreheaderstoggle" class="moreheaderstoggle"></span>
+	<div style="display: none;" id="message-oss-parameters">
+		<div id="message-oss-parameters-uid"></div>
+		<div id="message-oss-parameters-folder"></div>
+		<div id="message-oss-parameters-username"><roundcube:object name="plugin.yt_user" /></div>
+	</div>
+	<div id="message-oss-header"></div>
+</div>
 <div class="messageheaderbox">
   <div id="messagelinks">
     <roundcube:if condition="env:optional_format=='text'" />

@@ -45,7 +45,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getSize() {
 		return array(1,2,3);
 	}
-	public function getType($id = false) {
+	public function getType($module = false) {
 		$dir = 'modules/Vtiger/widgets/';
 		$ffs = scandir($dir);
 		foreach($ffs as $ff){
@@ -53,6 +53,9 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 			if($ff != '.' && $ff != '..' && !is_dir($dir.'/'.$ff) && $action != 'Basic'){
 				$folderFiles[$action] = $action;
 			}
+		}
+		if(Vtiger_Functions::getModuleName($module) != 'OSSMailView'){
+			unset($folderFiles['PreviewMail']);
 		}
 		return $folderFiles;
 	}

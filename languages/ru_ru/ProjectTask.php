@@ -21,6 +21,7 @@ $languageStrings = [
 	'LBL_PROJECT_TASK_INFORMATION' => 'Информация о Проектной задачи'        , 
 	'LBL_RECORDS_LIST'	=>	'Проектные задачи',
 	'LBL_TASKS_LIST'	=>	'Проектные задачи',
+	'LBL_ESTIMATED_WORK_TIME' => 'Расчетное время работы',
 	'Open' => 'Открыт',
 	'Project Task Name' => 'Наименование',
 	'Project Task No' => '№ ',

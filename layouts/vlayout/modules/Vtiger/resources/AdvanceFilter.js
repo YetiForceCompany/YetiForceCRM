@@ -205,6 +205,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 		var fieldSelected = fieldSelect.find('option:selected');
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
+		var fieldName = fieldSelected.data('field-name');
+
 		//for none in field name
 		if(typeof conditionList == 'undefined') {
 			conditionList = {};
@@ -214,7 +216,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 		var options = '';
 		for(var key in conditionList) {
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
-			if(conditionList.hasOwnProperty(key)) {
+			if(conditionList.hasOwnProperty(key) && !( conditionList[key] == 'om' && fieldName != 'assigned_user_id')) {
 				var conditionValue = conditionList[key];
 				var conditionLabel = this.getConditionLabel(conditionValue);
 				options += '<option value="'+conditionValue+'"';
@@ -347,7 +349,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 		
 		// Is Empty, today, tomorrow, yesterday conditions does not need any field input value - hide the UI
 		// re-enable if condition element is chosen.
-        var specialConditions = ["y","today","tomorrow","yesterday","ny"];
+        var specialConditions = ["y","today","tomorrow","yesterday","ny","om"];
 		if (specialConditions.indexOf(conditionSelectElement.val()) != -1) {
 			fieldUiHolder.hide();
 		} else {

@@ -13,7 +13,7 @@ $languageStrings = [
     'Support Start Date' 			=> 'Начало тех. поддержки',
     'Support End Date'   			=> 'Окончание тех. поддержки',
 	'User List'                    => 'Список Пользователей', 
-	'Title'                        => 'Должность'          , 
+	'Title' => 'Название',
 	'Secondary Email'	=>	'Доп. Почта',
 	'SINGLE_Contacts'              => 'Контакт'              , 
 	'Reports To'                   => 'Начальник:'         , 
@@ -50,6 +50,7 @@ $languageStrings = [
 	'Active' 						=> 'Активный',
 	'SINGLE_Leads' => 'Обращение',
 	'SINGLE_Vendors' => 'Поставщик',
+	'Job title' => 'Должность',
 ];
 $jsLanguageStrings = [
 ];

@@ -20,7 +20,7 @@
 				<div class="span4">{vtranslate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
 				<div class="span8">
 					<select name="type" class="select2 span3 marginLeftZero">
-					{foreach from=$MODULE_MODEL->getType() item=item key=key}
+					{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
 						<option value="{$key}" >{vtranslate($item, $QUALIFIED_MODULE)}</option>
 					{/foreach}
 					</select>

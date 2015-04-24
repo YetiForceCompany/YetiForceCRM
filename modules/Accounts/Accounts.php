@@ -283,7 +283,7 @@ class Accounts extends CRMEntity {
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
-		$query = "SELECT vtiger_potential.potentialid, vtiger_potential.related_to, vtiger_potential.potentialname, vtiger_potential.sales_stage,vtiger_potential.contact_id,
+		$query = "SELECT vtiger_potential.potentialid, vtiger_potential.related_to, vtiger_potential.potentialname, vtiger_potential.sales_stage,
 				vtiger_potential.potentialtype, vtiger_potential.sum_invoices, vtiger_potential.closingdate, vtiger_potential.potentialtype, vtiger_account.accountname,
 				case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 				FROM vtiger_potential
@@ -293,9 +293,6 @@ class Accounts extends CRMEntity {
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_potential.related_to = $id ";
-		if(!empty($entityIds)) {
-			$query .= " OR vtiger_potential.contact_id IN (".$entityIds.")";
-		}
 
 		$query .= ')';
 

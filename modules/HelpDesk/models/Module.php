@@ -114,9 +114,14 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model {
 		$data = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-			$data[] = $row;
+			$data[$i]['label'] = $row['name'];
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['time'];
 		}
-		return $data;
+
+		$response['chart'] = $data;
+	
+		return $response;
 	}
 
 }

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ************************************************************************************/
 
 class Project_Module_Model extends Vtiger_Module_Model {
@@ -60,10 +61,8 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			}
 		}
 		$idArray = substr($idArray, 0, -1);
-		$addSql='';
-		if($idArray) {
-		    $addSql=' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
-		}
+		$addSql=' WHERE vtiger_osstimecontrol.osstimecontrolid IN (' . $idArray . ') ';
+		
 		//TODO need to handle security
 		$result = $db->pquery('SELECT count(*) AS count, concat(vtiger_users.first_name, " " ,vtiger_users.last_name) as name, vtiger_users.id as id, SUM(vtiger_osstimecontrol.sum_time) as time  FROM vtiger_osstimecontrol
 						INNER JOIN vtiger_crmentity ON vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid
@@ -72,11 +71,21 @@ class Project_Module_Model extends Vtiger_Module_Model {
 						. ' GROUP BY smownerid', array());
 
 		$data = array();
-		for($i=0; $i<$db->num_rows($result); $i++) {
+		$numRows = $db->num_rows($result);
+		for($i=0; $i<$numRows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-			$data[] = $row;
+			$data[$i]['label'] = $row['name'];
+			$ticks[$i][0] = $i;
+			$ticks[$i][1] = $row['name'];
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['time'];
+
 		}
-		return $data;
+
+		$response['ticks'] = $ticks;
+		$response['chart'] = $data;
+	
+		return $response;
 	}
 	
 	/**
@@ -120,39 +129,27 @@ class Project_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	public function getTimeProject($id) {
-		$db = PearDatabase::getInstance();
-		//TODO need to handle security
-		$result = $db->pquery('SELECT   vtiger_project.sum_time AS TIME,  vtiger_project.sum_time_h AS timehelpdesk,
-			vtiger_project.sum_time_pt AS projecttasktime FROM  vtiger_project LEFT JOIN vtiger_crmentity   ON vtiger_project.projectid = vtiger_crmentity.crmid 
-			AND vtiger_crmentity.deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()).'WHERE vtiger_project.projectid = ?' , array($id), true);
-
-		$response = array();
-		if($db->num_rows($result)>0){
-			$projectTime = $db->query_result($result, $i, 'time');
-			$response[0][0] = $projectTime;
-			$response[0][1] =vtranslate('Total time [h]', 'Project');
-			$response[1][0] = $db->query_result($result, $i, 'timehelpdesk');
-			$response[1][1] = vtranslate('Total time [Tickets]', $this->getName());
-			$response[2][0] = $db->query_result($result, $i, 'projecttasktime');
-			$response[2][1] =vtranslate('Total time [Project Task]', $this->getName());
-		}
-		
 		$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 		$response = array();
-		$response[0][0] = $recordModel->get('sum_time');
-		$response[0][1] = vtranslate('Total time [Project]', $this->getName());
-		$response[1][0] = $recordModel->get('sum_time_pt');
-		$response[1][1] = vtranslate('Total time [Project Task]', $this->getName());
-		$response[2][0] = $recordModel->get('sum_time_h');
-		$response[2][1] = vtranslate('Total time [Tickets]', $this->getName());
-		$response[3][0] = $recordModel->get('sum_time_all');
-		$response[3][1] = vtranslate('Total time [Sum]', $this->getName());
+		$response[0]['data'][0][0] = 0;
+		$response[0]['data'][0][1] = $recordModel->get('sum_time');
+		$response[0]['label'] = vtranslate('Total time [Project]', $this->getName());
+		$response[1]['data'][0][0] = 1;
+		$response[1]['data'][0][1] = $recordModel->get('sum_time_pt');
+		$response[1]['label'] = vtranslate('Total time [Project Task]', $this->getName());
+		$response[2]['data'][0][0] = 2;
+		$response[2]['data'][0][1] = $recordModel->get('sum_time_h');
+		$response[2]['label'] = vtranslate('Total time [Tickets]', $this->getName());
+		$response[3]['data'][0][0] = 3;
+		$response[3]['data'][0][1] = $recordModel->get('sum_time_all');
+		$response[3]['label'] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
+	
 	public function getGanttProject($id) {
 		$adb = PearDatabase::getInstance();
 		$branches = $this->getGanttMileston($id);
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		if($branches){
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
@@ -162,22 +159,31 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$project['type'] = 'project';
 			$project['module'] = $this->getName();
 			$project['open'] = true;
-			$response[] = $project;
-			$response = array_merge($response,$branches);
+			$project['progress'] = $branches['progress'];
+			$response['data'][] = $project;
+			$response['data'] = array_merge($response['data'],$branches['data']);
+			$response['links'] = array_merge($response['links'],$branches['links']);
 		}
 		return $response;
 	}
 	public function getGanttMileston($id) {
 		$adb = PearDatabase::getInstance();
 		//TODO need to handle security
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		$focus = CRMEntity::getInstance($this->getName());
 		$relatedListMileston = $focus->get_dependents_list($id,$this->getId(),getTabid('ProjectMilestone'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
+		$milestoneTime = 0;
+		$progressInHours = 0; 
 		for($i=0;$i<$num;$i++){
 			$projectmilestone = [];
+			$link = [];
 			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$link['id'] = $row['projectmilestoneid'];
+			$link['target'] = $row['projectmilestoneid'];
+			$link['type'] = 1;
+			$link['source'] = $row['projectid'];
 			$projectmilestone['id'] = $row['projectmilestoneid'];
 			$projectmilestone['text'] = $row['projectmilestonename'];
 			$projectmilestone['parent'] = $row['projectid'];
@@ -186,32 +192,52 @@ class Project_Module_Model extends Vtiger_Module_Model {
 				$endDate = strtotime(date('Y-m-d',strtotime($row['projectmilestonedate'])) . ' +1 days'); 
 				$projectmilestone['start_date'] = date('d-m-Y',$endDate);
 			}
+			$projectmilestone['progress'] = (int)$row['projectmilestone_progress']/100;
+			$projectmilestone['priority'] = $row['projectmilestone_priority'];
+			$projectmilestone['priority_label'] = vtranslate($row['projectmilestone_priority'],'ProjectMilestone');
 			$projectmilestone['open'] = true;
 			$projectmilestone['type'] = 'milestone';
 			$projecttask = $this->getGanttTask($row['projectmilestoneid']);
-			$response[] = $projectmilestone;
-			$response = array_merge($response,$projecttask);
+			$response['data'][] = $projectmilestone;
+			$response['links'][] = $link;
+			$response['data'] = array_merge($response['data'],$projecttask['data']);
+			$response['links'] = array_merge($response['links'],$projecttask['links']);
+			$milestoneTime += $projecttask['task_time'];
+			$progressInHours += $projecttask['task_time']*$projectmilestone['progress'];
+		}
+		if($milestoneTime){
+			$response['progress'] = round($progressInHours/$milestoneTime,1);
 		}
 		return $response;
 	}
 	public function getGanttTask($id) {
 		$adb = PearDatabase::getInstance();
 		//TODO need to handle security
-		$response = array();
+		$response = ['data'=>[],'links'=>[]];
 		$focus = CRMEntity::getInstance('ProjectMilestone');
 		$relatedListMileston = $focus->get_dependents_list($id,getTabid('ProjectMilestone'),getTabid('ProjectTask'));
 		$resultMileston = $adb->query($relatedListMileston['query']);
 		$num = $adb->num_rows($resultMileston);
+		$taskTime = 0;
 		for($i=0;$i<$num;$i++){
 			$projecttask = [];
+			$link = [];
 			$row = $adb->query_result_rowdata($resultMileston, $i); 
+			$link['id'] = $row['projecttaskid'];
+			$link['target'] = $row['projecttaskid'];
 			$projecttask['id'] = $row['projecttaskid'];
 			$projecttask['text'] = $row['projecttaskname'];
 			if($row['parentid']){
+				$link['type'] = 0;
+				$link['source'] = $row['parentid'];
 				$projecttask['parent'] = $row['parentid'];
 			}else{
+				$link['type'] = 2;
+				$link['source'] = $row['projectmilestoneid'];
 				$projecttask['parent'] = $row['projectmilestoneid'];
 			}
+			settype($row['projecttaskprogress'], "integer");
+			$projecttask['progress'] = $row['projecttaskprogress']/100;
 			$projecttask['priority'] = $row['projecttaskpriority'];
 			$projecttask['priority_label'] = vtranslate($row['projecttaskpriority'],'ProjectTask');
 			$projecttask['start_date'] = date('d-m-Y',strtotime($row['startdate']));
@@ -220,8 +246,11 @@ class Project_Module_Model extends Vtiger_Module_Model {
 			$projecttask['open'] = true;
 			$projecttask['type'] = 'task';
 			$projecttask['module'] = 'ProjectTask';
-			$response[] = $projecttask;
+			$taskTime += $row['estimated_work_time'];
+			$response['data'][] = $projecttask;
+			$response['links'][] = $link;
 		}
+		$response['task_time'] = $taskTime;
 		return $response;
 	}
 }

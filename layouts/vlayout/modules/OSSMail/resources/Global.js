@@ -186,7 +186,8 @@ function load_action(inframe, params) {
     $(inframe.find('#message-oss-header .oss-add-task')).click(function() {
         params['sourceModule'] = $(this).attr('data-module');
         params['crmid'] = $(this).attr('data-crmid');
-        oss_add_task(params);
+		params['mode'] = 'task';
+		loadQuickCreateForm('Calendar', params, inframe);
     });
     $(inframe.find('#message-oss-header .oss-add-products')).click(function() {
         params['rel_new_mod'] = $(this).attr('data-module')
@@ -594,29 +595,37 @@ function get_crm_id(param) {
     return jqxhr;
 }
 function loadQuickCreateForm(moduleName, params, inframe) {
+    var quickCreateParams = {};
+    var relatedParams = {};
     if (params['crmid']) {
         if (params['sourceModule']) {
             var sourceModule = params['sourceModule'];
         } else {
             var sourceModule = 'OSSMailView';
         }
-        if (params['no_rel'] != 'true') {
-            var preQuickCreateSave = function(data) {
-                var index, queryParam, queryParamComponents;
-                if (moduleName == 'Calendar') {
-                    jQuery('<input type="hidden" name="parent_id" value="' + params['crmid'] + '">').appendTo(data);
-                }
-                jQuery('<input type="hidden" name="sourceModule" value="' + sourceModule + '" />').appendTo(data);
-                jQuery('<input type="hidden" name="sourceRecord" value="' + params['crmid'] + '" />').appendTo(data);
-                jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
-            }
-        }
+		var preQuickCreateSave = function(data) {
+			var index, queryParam, queryParamComponents;
+			if (params['mode'] == 'task') {
+				data.find('a[data-tab-name="Task"]').trigger('click');
+			}
+			if (params['no_rel'] != 'true') {
+				jQuery('<input type="hidden" name="sourceModule" value="' + sourceModule + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="sourceRecord" value="' + params['crmid'] + '" />').appendTo(data);
+				jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo(data);
+			}
+		}
+		var links = ['Leads','Contacts','Vendors','Accounts'];
+		var process = ['Campaigns','HelpDesk','Potentials','Project','ServiceContracts'];
+		if ($.inArray( params['sourceModule'], links ) > 0) {
+			relatedParams['link'] =  params['crmid'];
+		}
+		if ($.inArray( params['sourceModule'], process ) > 0) {
+			relatedParams['process'] =  params['crmid'];
+		}
     }
     var postQuickCreateSave = function(data) {
         load_all_widgets();
     }
-    var quickCreateParams = {};
-    var relatedParams = {};
     var quickcreateUrl = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
     relatedParams['email'] = params['from_email'];
     relatedParams['potentialname'] = params['title'];

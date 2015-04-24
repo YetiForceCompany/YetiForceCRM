@@ -57,6 +57,9 @@ class Project_Detail_View extends Vtiger_Detail_View {
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			'~/libraries/dhtmlxGantt/dhtmlxgantt.js',
+			'~/libraries/jquery/flot/jquery.flot.min.js',
+			'~/libraries/jquery/flot/jquery.flot.resize.js',
+			'~/libraries/jquery/flot/jquery.flot.stack.min.js',
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

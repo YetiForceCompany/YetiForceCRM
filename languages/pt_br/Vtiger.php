@@ -861,6 +861,7 @@ $languageStrings = [
 	'LBL_NUMBER_OF_DAYS_WORKED' => 'Número dias trabalhados',
 	'LBL_AVERAGE_WORKING_TIME' => 'Média tempo de trabalho',
 	'Employees Time Control' => 'Controle Tempo Empregados',
+	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
 
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Criar',
@@ -900,6 +901,16 @@ $languageStrings = [
 	'Letters In'=>'Correspondências Recebidas',
 	'Letters Out'=>'Correspondências Enviadas',
         'Companies'=>'Empresas',
+		
+	//Gantt
+	'LBL_FILTERING' => 'Filtering',
+	'LBL_ALL_PRIORITY' => 'All',
+	'LBL_LOW_PRIORITY' => 'Low priority',
+	'LBL_HIGH_PRIORITY' => 'High priority',
+	'LBL_DAYS_CHART' => 'Days',
+	'LBL_MONTHS_CHART' => 'Months',
+	'LBL_ZOOMING' => 'Zooming',
+	
 
 ];
 $jsLanguageStrings = [
@@ -1066,6 +1077,7 @@ $jsLanguageStrings = [
 	
 	'JS_NAME'=>'Name',
 	'JS_PRIORITY'=>'Prioridade',
+	'JS_PROGRESS' => 'Progress',
 	'JS_APR' => 'Abr',
 	'JS_APRIL' => 'Abril',
 	'JS_AUG' => 'Ago',

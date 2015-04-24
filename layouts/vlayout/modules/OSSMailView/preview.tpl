@@ -21,12 +21,12 @@
 			<div class='pull-right'>
 				<span class="btn-toolbar" >
 					<span class="btn-group">
-						<button id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll">
+						<button id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
 							<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
 						</button>
 					</span>
 					<span class="btn-group">
-						<button id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply">
+						<button id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
 							<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
 						</button>
 					</span>
@@ -122,7 +122,7 @@
 				</span>
 			</div>
 			{/if}
-			<div class="row-fluid padding-bottom1per">
+			<div class="row-fluid padding-bottom1per content">
 				<span class="span12 row-fluid">
 					<span class="span2">
 						<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
@@ -173,18 +173,14 @@ $( document ).ready(function() {
 	params['Content'] = div_preview.find('#emailPreview_Content').text();
 
 	$( "#previewReplyAll" ).click(function() {
-		window_open(params,'all');
+		window_open(params,'all', this);
 	});
 	$( "#previewReply" ).click(function() {
-		window_open(params,'single');
-	});
-	$( "#previewPrint" ).click(function() {
-	  alert( "Handler for .click() called." );
+		window_open(params,'single', this);
 	});
 });
-function window_open(params,type) {
-	var crm_path = getAbsolutePath();
-	var url = crm_path+'modules/OSSMail/roundcube/?_task=mail&_extwin=1&_action=compose';
+function window_open(params, type, button) {
+	var url = $(button).data('url');
 	if(type == 'single'){
 		url = url + '&to='+params['From'];
 		url = url + '&subject='+params['Subject'];
@@ -204,33 +200,21 @@ function window_open(params,type) {
 		}
 		url = url + '&subject='+params['Subject'];
 	}
-	window.open(url, 'popUpWindow','width=1000,height=650,resizable=0,scrollbars=1');
-}
-function getAbsolutePath() {
-    var loc = window.location;
-    var pathName = loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1);
-    return loc.href.substring(0, loc.href.length - ((loc.pathname + loc.search + loc.hash).length - pathName.length));
+	window.location.href = url;
+	//window.open(url, 'popUpWindow','width=1000,height=650,resizable=0,scrollbars=1');
 }
 
 function printMail(){
-    var div_preview = $('#emailPreview').contents();
-    var subject = div_preview.find('#emailPreview_Subject').text();
-    var from = div_preview.find('#emailPreview_From').text();
-    var to = div_preview.find('#emailPreview_To').text();
-    var cc = div_preview.find('#emailPreview_Cc').text();
-    var date = jQuery('#_mailopen_date').html();
-    var body = div_preview.find('#emailPreview_Content').text();
-
     var content = window.open();
-    content.document.write("<b>"+subject+"</b><br>");
-    content.document.write("<br>From :" +from +"<br>");
-    content.document.write("To :" +to+"<br>");
-    cc == null ? '' : content.document.write("CC :" +cc+"<br>");
-    //content.document.write("Date :" + date+"<br>");
-    content.document.write("<br>"+body +"<br>");
-
+	$( ".emailPreview > div" ).each(function( index ) {
+		if( $( this ).hasClass( 'content' ) ){
+			var inframe = $( "#emailPreview_Content" ).contents();
+			content.document.write( inframe. find('body'). html() +"<br>");
+		}else{
+			content.document.write( $.trim( $( this ).text() ) +"<br>");
+		}
+	});
     content.print();
-    
 }
 </script>
 {/literal}

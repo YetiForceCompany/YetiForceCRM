@@ -270,6 +270,8 @@ $languageStrings = [
 	'LBL_MENU_BUILDER_DESCRIPTION' => ' ',
 	'LBL_AUTHORIZATION' => 'Authorization',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
+	'LBL_CALENDAR_CONFIG' => 'Calendar configuration',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',

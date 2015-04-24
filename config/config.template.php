@@ -18,6 +18,9 @@ include_once('config/version.php');
 // memory limit default value = 64M
 ini_set('memory_limit','512M');
 
+// lifetime of session
+ini_set('session.gc_maxlifetime','1800'); //30 min
+
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 
 $CALENDAR_DISPLAY = 'true';

@@ -40,7 +40,7 @@ $languageStrings = [
 	'SIC Code' => 'SIC Code',
 	'SINGLE_Accounts' => 'Organization',
 	'Ticker Symbol' => 'Ticker Symbol',
-	'Website' => 'Website',
+	'Payment balance' => 'Payment balance',
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'New',
 	'Fax' => 'Fax',

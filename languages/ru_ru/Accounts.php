@@ -62,6 +62,7 @@ $languageStrings = [
 	'LBL_REGISTRATION_INFO'	=>	'Регистрационные данные',
 	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
 	'LBL_LEGAL_FORM' => 'Юридическая форма организации',
+	'Payment balance' => 'Баланс',
 
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',

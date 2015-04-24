@@ -54,4 +54,5 @@ $languageStrings = [
 	'Alert_desc' => 'All below options modify system files. Backup copy is done before overwriting and orginal files will be recovered after unsellecting.',
 	'Module configuration' => 'Module configuration',
 	'JS_save_config_info' => 'Configuration saved',
+	'SINGLE_Vendors' => 'Vendor',
 ];

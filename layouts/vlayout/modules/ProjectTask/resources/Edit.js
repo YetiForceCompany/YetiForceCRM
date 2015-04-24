@@ -15,7 +15,7 @@ Vtiger_Edit_Js("ProjectTask_Edit_Js",{},{
 	 */
 	getPopUpParams : function(container) {
 		var params = this._super(container);
-        var sourceFieldElement = jQuery('input[class="sourceField"]',container);
+		var sourceFieldElement = jQuery('input[class="sourceField"]',container);
 
 		if(sourceFieldElement.attr('name') == 'projectmilestoneid') {
 			var form = this.getForm();
@@ -25,9 +25,18 @@ Vtiger_Edit_Js("ProjectTask_Edit_Js",{},{
 				params['related_parent_id'] = parentIdElement.val();
 				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
 			} 
-        }
-        return params;
-    },
+		}
+		if(sourceFieldElement.attr('name') == 'parentid'){
+			var form = this.getForm();
+			var parentIdElement  = form.find('[name="projectmilestoneid"]');
+			if(parentIdElement.length > 0 && parentIdElement.val().length > 0 && parentIdElement.val() != 0) {
+				var closestContainer = parentIdElement.closest('td');
+				params['related_parent_id'] = parentIdElement.val();
+				params['related_parent_module'] = closestContainer.find('[name="popupReferenceModule"]').val();
+			}
+		}
+		return params;
+	},
 
 	registerEvents: function(){
 		this._super();

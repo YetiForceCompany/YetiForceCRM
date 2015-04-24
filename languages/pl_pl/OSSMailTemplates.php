@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'OSSMailTemplates' => 'Szablony email',
+	'OSSMailTemplates' => 'Szablony mailowe',
     'Blank' => 'Szablony email',
     'SINGLE_OSSMailTemplates' => 'Szablony email',
     'LBL_ADD_RECORD' => 'Dodaj rekord',

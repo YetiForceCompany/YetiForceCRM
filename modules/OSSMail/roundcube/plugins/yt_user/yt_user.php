@@ -7,18 +7,16 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
-$languageStrings = [
-	'Updates'	=>	'Обновление',
-	'LBL_YES'	=>	'Да',
-	'LBL_NO'	=>	'Нет',
-	'LBL_TIME'	=>	'Дата',
-	'LBL_USER'	=>	'Пользователь',
-	'LBL_FROM_VERSION'	=>	'Версия до обновления',
-	'LBL_TO_VERSION'	=>	'Версия после обновления',
-	'LBL_RESULT'	=>	'Статус',
-	'LBL_UPDATES'	=>	'Обновления',
-	'LBL_UPDATES_DESCRIPTION'	=>	'История обновлений',
-	'LBL_IMPORT_UPDATE' => 'Загрузить обновление',
-];
+// <--------   YetiForce Sp. z o.o.   -------->
+class yt_user extends rcube_plugin {
+	function init() {
+		$this->register_handler('plugin.yt_user', array($this, 'getUserId'));
+	}
+
+	function getUserId(){
+		$rcmail = rcmail::get_instance();
+		$user = $rcmail->user;
+		return $user->data['username'];
+	}
+}
