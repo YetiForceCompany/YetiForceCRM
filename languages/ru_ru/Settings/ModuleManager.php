@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Ошибка загрузки файла',
 	'ModuleManager'	=>	'Менеджер Модулей',
-	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle From File',
+	'LBL_IMPORT_MODULE_FROM_FILE' => 'Загрузить Модуль из файла',
 	'LBL_IMPORT_MODULE' => 'Установка модуля',
 	'LBL_IMPORTED_UPDATE' => 'Система успешно обновлена.',
 	'LBL_IMPORTED_EXTENSION' => 'Модуль успешно установлен.',
@@ -33,11 +33,11 @@ $languageStrings = [
 	'LBL_INSTALLATION_LOG' => 'Результаты установки',
 	//Install From file labels
 	'LBL_VERIFY_IMPORT_DETAILS' => 'Подтвердить',
-	'LBL_MODULE_NAME' => 'Bundle Name',
+	'LBL_MODULE_NAME' => 'Название модуля',
 	'LBL_REQ_YETIFORCE_VERSION' => 'Версия YetiForce',
-	'LBL_MODULE_VERSION' => 'Bundle version',
-	'LBL_UPDATE_FROM_VERSION' => 'From version',
-	'LBL_UPDATE_TO_VERSION' => 'To version',
+	'LBL_MODULE_VERSION' => 'Версия модуля',
+	'LBL_UPDATE_FROM_VERSION' => 'С версии',
+	'LBL_UPDATE_TO_VERSION' => 'До версии',
 	'LBL_LICENSE_ACCEPT_AGREEMENT' => 'Я принимаю лицензионные условия.',
 	'LBL_EXISTS'=>'Существует',
 	'LBL_PROCEED_WITH_IMPORT' => 'Вы хотите продолжить?',
@@ -56,7 +56,7 @@ $languageStrings = [
 	'LBL_ERROR_VERSION' => 'Некорректная версия модуля.Версия модуля: __MODULEVERSION__ - Версия системы: __CRMVERSION__',
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
-	'LBL_IMPORT' => 'Import',
+	'LBL_IMPORT' => 'Импорт',
 	
 	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
 	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',

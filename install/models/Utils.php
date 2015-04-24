@@ -57,7 +57,7 @@ class Install_Utils_Model {
 		$directiveValues = array();
 		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') !== false)
 			$directiveValues['safe_mode'] = 'On';
-		if (ini_get('display_errors') != '1' || stripos(ini_get('display_errors'), 'Off') !== false)
+		if (ini_get('display_errors') != '1' && stripos(ini_get('display_errors'), 'Off') !== false)
 			$directiveValues['display_errors'] = 'Off';
 		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads'] = 'Off';
