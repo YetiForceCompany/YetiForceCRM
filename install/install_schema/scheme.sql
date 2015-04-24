@@ -7152,7 +7152,7 @@ CREATE TABLE `vtiger_user_module_preferences` (
 
 CREATE TABLE `vtiger_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) DEFAULT NULL,
+  `user_name` varchar(32) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
   `user_hash` varchar(32) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT '#E6FAD8',
