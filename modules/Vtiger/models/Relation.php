@@ -112,7 +112,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 		$parentModuleName = $parentModuleModel->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
 		$functionName = $this->get('name');
-		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, false, $relationListView_Model);
+		$query = $parentModuleModel->getRelationQuery($parentRecord->getId(), $functionName, $relatedModuleModel, $this, $relationListView_Model);
 		if($relationListView_Model){
 			$searchParams = $relationListView_Model->get('search_params');
 			$this->addSearchConditions($query, $searchParams, $relatedModuleName);
@@ -365,14 +365,15 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
     public function getRelationFields($onlyFields = false,$association = false) {
     	$adb = PearDatabase::getInstance();
     	$relationId = $this->getId();
-    	$query = 'SELECT * FROM `vtiger_relatedlists_fields` WHERE `relation_id` = ?;';
-    	$result = $adb->pquery($query, array($relationId));
+    	$query = 'SELECT vtiger_field.columnname, vtiger_field.fieldname FROM vtiger_relatedlists_fields INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_relatedlists_fields.fieldid WHERE vtiger_relatedlists_fields.relation_id = ? AND vtiger_field.presence IN (0,2);';
+    	$result = $adb->pquery($query, [$relationId]);
     	if($onlyFields){
     		$fields = array();
     		for($i = 0; $i < $adb->num_rows($result); $i++){
-    			$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
+    			$columnname = $adb->query_result_raw($result, $i, 'columnname');
+				$fieldname = $adb->query_result_raw($result, $i, 'fieldname');
     			if($association)
-    				$fields[$fieldname] = $fieldname;
+    				$fields[$columnname] = $fieldname;
     			else 
     				$fields[] = $fieldname;
     		}
