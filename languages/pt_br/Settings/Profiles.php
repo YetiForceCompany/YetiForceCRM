@@ -61,6 +61,7 @@ $languageStrings = [
 	'MassSendSMS' => 'SMS',
 	'MassTransferOwnership' => 'Transferir propriedade',
 	'MassMoveDocuments' => 'Mover Documentos',
+	'ReadRecord' => 'Read all changes performed on records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Perfil excluído com Sucesso',

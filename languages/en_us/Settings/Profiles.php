@@ -61,6 +61,7 @@ $languageStrings = [
 	'MassSendSMS' => 'Mass SMS',
 	'MassTransferOwnership' => 'Mass transfer ownership',
 	'MassMoveDocuments' => 'Mass move documents',
+	'ReadRecord' => 'Read all changes performed on records',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',
