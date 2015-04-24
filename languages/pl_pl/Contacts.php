@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Member Of' => 'Powiązane z',
+	'Member Of' => 'Firma',
 	'Birthdate' => 'Data urodzin',
 	'Contact Id' => 'Numer',
 	'Contact Image' => 'Zdjęcie kontaktu',
