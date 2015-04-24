@@ -9,6 +9,16 @@
  *************************************************************************************/
 
 class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action {
+	
+	function checkPermission(Vtiger_Request $request) {
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+
+		if(!$currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
+			throw new AppException(vtranslate($moduleName).' '.vtranslate('LBL_NOT_ACCESSIBLE'));
+		}
+	}
 
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
