@@ -67,39 +67,7 @@ class VTCreateTodoTask extends VTTask{
 				return;
 			}
 		}
-		//
-		$baseDateStart = $entityData->get($this->datefield_start);
-		if($baseDateStart == '') {
-			$baseDateStart = date('Y-m-d');
-		}
-		$time = explode(' ',$baseDateStart);
-		if(count($time) < 2) {
-            $timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
-            $dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart.' '.$timeWithSec);
-            $time = $dbInsertDateTime->format('H:i:s');
-		} else {
-			$time = $time[1];
-		}
-		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
-		$baseDateStart = strtotime($match[0]);
-		//
-		$baseDateEnd = $entityData->get($this->datefield);
-		if($baseDateEnd == '') {
-			$baseDateEnd = date('Y-m-d');
-		}
-		$time = explode(' ',$baseDateEnd);
-		if(count($time) < 2) {
-            $timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
-            $dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd.' '.$timeWithSec);
-            $time = $dbInsertDateTime->format('H:i:s');
-		} else {
-			$time = $time[1];
-		}
-		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
-		$baseDateEnd = strtotime($match[0]);
 		
-        $date_start = strftime('%Y-%m-%d', $baseDateStart+$this->days_start*24*60*60*(strtolower($this->direction_start)=='before'?-1:1));
-		$due_date = strftime('%Y-%m-%d', $baseDateEnd+$this->days_end*24*60*60*(strtolower($this->direction_end)=='before'?-1:1));
 		// Added to check if the user/group is active
 		if(!empty($this->assigned_user_id)) {
 			$userExists = $adb->pquery('SELECT 1 FROM vtiger_users WHERE id = ? AND status = ?', array($this->assigned_user_id, 'Active'));
@@ -119,6 +87,51 @@ class VTCreateTodoTask extends VTTask{
                 }
 			}
 		}
+		
+		//
+		$baseDateStart = $entityData->get($this->datefield_start);
+		if($baseDateStart == '') {
+			$baseDateStart = date('Y-m-d');
+		}
+		$time = explode(' ',$baseDateStart);
+		if(count($time) < 2) {
+            $timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
+            $dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart.' '.$timeWithSec);
+            $time = $dbInsertDateTime->format('H:i:s');
+		} else {
+			$time = $time[1];
+		}
+		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
+		$baseDateStart = strtotime($match[0]);
+		//
+		$baseDateEnd = $entityData->get($this->datefield_end);
+		if($baseDateEnd == '') {
+			$baseDateEnd = date('Y-m-d');
+		}
+		$timeEnd = explode(' ',$baseDateEnd);
+		if(count($timeEnd) < 2) {
+			$result = $adb->pquery('SELECT `end_hour` FROM vtiger_users WHERE id = ?', array($userId));
+				if($adb->num_rows($query)) {
+					$timeEnd = $adb->query_result($result,0,'end_hour');
+					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
+					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd.' '.$timeWithSec);
+					$timeEnd = $dbInsertDateTime->format('H:i:s');
+				}
+                else{ 
+					$timeEnd = $adminUser->column_fields['end_hour'];
+					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
+					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd.' '.$timeWithSec);
+					$timeEnd = $dbInsertDateTime->format('H:i:s');
+                }
+		} else {
+			$timeEnd = $timeEnd[1];
+		}
+		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
+		$baseDateEnd = strtotime($match[0]);
+		
+        $date_start = strftime('%Y-%m-%d', $baseDateStart+$this->days_start*24*60*60*(strtolower($this->direction_start)=='before'?-1:1));
+		$due_date = strftime('%Y-%m-%d', $baseDateEnd+$this->days_end*24*60*60*(strtolower($this->direction_end)=='before'?-1:1));
+		
 
 		$fields = array(
 			'activitytype'=>'Task',
@@ -128,6 +141,7 @@ class VTCreateTodoTask extends VTTask{
 			'taskstatus'=>$this->status,
 			'assigned_user_id'=>$userId,
 			'time_start'=> $time,
+			'time_end'=> $timeEnd,
 			'sendnotification'=>($this->sendNotification!='' && $this->sendNotification!='N')?
 					true: false,
 			'date_start'=>$date_start,
