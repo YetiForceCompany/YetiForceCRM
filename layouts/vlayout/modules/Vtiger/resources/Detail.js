@@ -2503,6 +2503,20 @@ jQuery.Class("Vtiger_Detail_Js",{
 			recentActivitiesTab.trigger('click');
 		});
 
+		detailContentsHolder.on('switchChange.bootstrapSwitch','.relatedContainer .switchBtn', function(e, state){
+			var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
+			var url = recentActivitiesTab.data('url');
+			url = url.replace('&time=current', '');
+			url = url.replace('&time=history', '');
+			url += '&time=';
+			if(state)
+				url += 'current';
+			else
+				url += 'history';
+			recentActivitiesTab.data('url',url);
+			recentActivitiesTab.trigger('click');
+		});
+
 		thisInstance.getForm().validationEngine(app.validationEngineOptions);
 
 		thisInstance.loadWidgets();
