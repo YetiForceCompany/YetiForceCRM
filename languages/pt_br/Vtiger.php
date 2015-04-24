@@ -862,7 +862,9 @@ $languageStrings = [
 	'LBL_AVERAGE_WORKING_TIME' => 'Média tempo de trabalho',
 	'Employees Time Control' => 'Controle Tempo Empregados',
 	'LBL_CURRENTLY_LOGGED_USER' => '__UNTRANSLATED__',
-
+	'LBL_TO_REALIZE'=>'__UNTRANSLATED__',
+	'LBL_HISTORY'=>'__UNTRANSLATED__',
+	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Criar',
 	'LBL_VIEW_EDIT' => 'Editar',
@@ -1121,4 +1123,7 @@ $jsLanguageStrings = [
 	'JS_WED' => 'Qua',
 	'JS_WEEK' => 'Semana',
 	'JS_ADD_EVENT_TASK' => 'Adicionar registro',
+	'JS_MORE' => '__UNTRANSLATED__',
+	'JS_TO_REALIZE'=>'__UNTRANSLATED__',
+	'JS_HISTORY'=>'__UNTRANSLATED__',
 ];

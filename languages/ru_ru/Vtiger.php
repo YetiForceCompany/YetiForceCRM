@@ -1125,6 +1125,8 @@ $languageStrings = [
 	'Employees Time Control' => 'Учет времени Сотрудников',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Поиск филиалов',
 	'LBL_CURRENTLY_LOGGED_USER' => 'Текущий пользователь',
+	'LBL_TO_REALIZE'=>'__UNTRANSLATED__',
+	'LBL_HISTORY'=>'__UNTRANSLATED__',
 	
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Последнее обновление записи',
@@ -1438,4 +1440,7 @@ $jsLanguageStrings = [
 	'LBL_WEDNESDAY' => 'Среда',
 	'LBL_WEEK' => 'Неделя',
 	'JS_ADD_EVENT_TASK' => 'Добавить запись',
+	'JS_MORE' => '__UNTRANSLATED__',
+	'JS_TO_REALIZE'=>'__UNTRANSLATED__',
+	'JS_HISTORY'=>'__UNTRANSLATED__',
 ];

@@ -1015,15 +1015,25 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$query = "SELECT vtiger_crmentity.crmid, crmentity2.crmid AS parent_id, vtiger_crmentity.description as description, vtiger_crmentity.smownerid, vtiger_crmentity.smcreatorid, vtiger_crmentity.setype, vtiger_activity.* FROM vtiger_activity
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
 					INNER JOIN vtiger_crmentity AS crmentity2 ON vtiger_activity.".$relationField." = crmentity2.crmid AND crmentity2.deleted = 0 AND crmentity2.setype = ?
-					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0
-					AND (vtiger_activity.activitytype NOT IN ('Emails'))
+					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid WHERE vtiger_crmentity.deleted=0";
+		if ($recordId) 
+			$query .= ' AND vtiger_activity.'.$relationField.' = ?';
+		
+		if($mode === 'current') {
+			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status not in ('Completed','Deferred'))
+			OR (vtiger_activity.activitytype not in ('Emails','Task') and vtiger_activity.eventstatus not in ('','Held')))";
+		} elseif ($mode === 'history') {
+			$query .= " AND ((vtiger_activity.activitytype='Task' and vtiger_activity.status in ('Completed','Deferred'))
+			OR (vtiger_activity.activitytype not in ('Emails','Task') and  vtiger_activity.eventstatus in ('','Held')))";
+		} elseif ($mode === 'upcoming') {
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
 					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
 					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
-		if ($recordId) {
-			$query .= ' AND vtiger_activity.'.$relationField.' = ?';
-		} elseif ($mode === 'upcoming') {
 			$query .= " AND due_date >= '$currentDate'";
 		} elseif ($mode === 'overdue') {
+			$query .= " AND (vtiger_activity.activitytype NOT IN ('Emails'))
+					AND (vtiger_activity.status is NULL OR vtiger_activity.status NOT IN ('Completed', 'Deferred'))
+					AND (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus NOT IN ('Held'))";
 			$query .= " AND due_date < '$currentDate'";
 		}
 

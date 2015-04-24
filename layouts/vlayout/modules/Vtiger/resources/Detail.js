@@ -1335,6 +1335,24 @@ jQuery.Class("Vtiger_Detail_Js",{
 			);
 	   })
 	},
+	
+	registerChangeSwitchForWidget : function(){
+		var thisInstance = this;
+		$('.widget_header .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
+			var currentElement = jQuery(e.currentTarget);
+			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var widget = summaryWidgetContainer.find('.widgetContentBlock');
+			var url = widget.data('url');
+			url = url.replace('&type=current', '');
+			url += '&type=';
+			if(state)
+				url += 'current';
+			else
+				url += 'history';
+			widget.data('url',url);
+			thisInstance.loadWidget($(widget));
+		});
+	},
 	/**
 	 * Function to register all the events related to summary view widgets
 	 */
@@ -1342,6 +1360,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		var thisInstance = this;
 		this.registerEventForActivityWidget();
 		this.registerChangeFilterForWidget();
+		this.registerChangeSwitchForWidget();
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
 		if(Vtiger_Detail_Js.SaveResultInstance == false){
 			Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
@@ -1930,6 +1949,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 					app.registerEventForDatePickerFields(detailContentsHolder);
 					//Attach time picker event to time fields
 					app.registerEventForTimeFields(detailContentsHolder);
+					app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
 					element.progressIndicator({'mode': 'hide'});
 					thisInstance.registerHelpInfo();

@@ -487,6 +487,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$recordId = $request->get('record');
 			$pageNumber = $request->get('page');
 			$pageLimit = $request->get('limit');
+			$type = $request->get('type');
 			if(empty ($pageNumber)) {
 				$pageNumber = 1;
 			}
@@ -504,7 +505,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$recordModel = $this->record->getRecord();
 			$moduleModel = $recordModel->getModule();
 
-			$relatedActivities = $moduleModel->getCalendarActivities('', $pagingModel, 'all', $recordId);
+			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);

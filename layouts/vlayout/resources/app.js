@@ -1003,6 +1003,13 @@ var app = {
 		);
 		return aDeferred.promise();
     },
+	showBtnSwitch : function(selectElement, params) {
+		if (typeof params == 'undefined') {
+			params = {};
+		}
+		selectElement.bootstrapSwitch(params);
+		return selectElement;
+	},
 }
 
 jQuery(document).ready(function(){
@@ -1011,6 +1018,7 @@ jQuery(document).ready(function(){
 	//register all select2 Elements
 	app.showSelect2ElementView(jQuery('body').find('select.select2'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
+	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.setContentsHeight();
 	
 	//Updating row height

@@ -209,7 +209,6 @@ $jsLanguageStrings = [
 	'JS_WEDNESDAY' => 'Środa',
 	'JS_WED' => 'Śro',
 	'JS_WEEK' => 'Tydzień',
-	'JS_MORE' => 'więcej',
 	'Mobile Call' => 'Połączenie',
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
 ];
