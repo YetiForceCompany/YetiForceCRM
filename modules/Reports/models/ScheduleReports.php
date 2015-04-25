@@ -184,7 +184,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		}
 		vimport('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
-		$currentTime = date('Y-m-d H:i:s');
+		$currentTime = date('Y-m-d.H.i.s');
         Vtiger_Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
 		$reportname = decode_html($reportRecordModel->getName());
         $subject = $reportname;

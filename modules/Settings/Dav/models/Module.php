@@ -84,7 +84,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		$parent_dirid = 0;
 		@mkdir(vglobal('davStorageDir') . $path);
 		
-		$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
-			array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
+		//$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
+		//	array($user_name, $path, $parent_dirid, $dirHash, $params['user']));
 	}
 }
