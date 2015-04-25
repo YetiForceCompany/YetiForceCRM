@@ -22,6 +22,7 @@ class API_CalDAV_Model {
 	public $calendarId = false;
 	public $davUsers = [];
 	protected $crmRecords = [];
+	public $tzurl = false;
 
 	function __construct() {
 		$dbconfig = vglobal('dbconfig');
@@ -99,6 +100,9 @@ class API_CalDAV_Model {
 		if (!empty($record['description']))
 			$cal->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		$vcalendar->add($cal);
+		$dtz = date_default_timezone_get();
+		$vTimeZone = self::getVTimeZone($vcalendar,$dtz,$DTSTART->getTimestamp(),$DTEND->getTimestamp());
+		$vcalendar->add($vTimeZone);
 		$calendarData = $vcalendar->serialize();
 
 		$modifiedtime = strtotime($record['modifiedtime']);
@@ -158,6 +162,10 @@ class API_CalDAV_Model {
 					$component->TRANSP = $state;
 			}
 		}
+		unset($vcalendar->VTIMEZONE);
+		$dtz = date_default_timezone_get();
+		$vTimeZone = self::getVTimeZone($vcalendar,$dtz,$DTSTART->getTimestamp(),$DTEND->getTimestamp());
+		$vcalendar->add($vTimeZone);
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
@@ -581,6 +589,76 @@ class API_CalDAV_Model {
 			'lastOccurence' => $lastOccurence,
 			'uid' => $uid,
 		];
+	}
+	
+	function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0) {
+		if (!$from)
+			$from = time();
+		if (!$to)
+			$to = $from;
+
+		try {
+			$tz = new \DateTimeZone($tzid);
+		} catch (\Exception $e) {
+			return false;
+		}
+
+		// get all transitions for one year back/ahead
+		$year = 86400 * 360;
+		$transitions = $tz->getTransitions($from - $year, $to + $year);
+		$vt = $vcalendar->createComponent('VTIMEZONE');
+		$vt->TZID = $tz->getName();
+		if($this->tzurl){
+			$vt->TZURL = 'http://tzurl.org/zoneinfo/'.$tzid->getName();
+		}
+		$std = null;
+		$dst = null;
+		foreach ($transitions as $i => $trans) {
+			$cmp = null;
+
+			// skip the first entry...
+			if ($i == 0) {
+				// ... but remember the offset for the next TZOFFSETFROM value
+				$tzfrom = $trans['offset'] / 3600;
+				continue;
+			}
+
+			// daylight saving time definition
+			if ($trans['isdst']) {
+				$t_dst = $trans['ts'];
+				$dst = $vcalendar->createComponent('DAYLIGHT');
+				$cmp = $dst;
+			}
+			// standard time definition
+			else {
+				$t_std = $trans['ts'];
+				$std = $vcalendar->createComponent('STANDARD');
+				$cmp = $std;
+			}
+			if ($cmp) {
+				$dt = new DateTime($trans['time']);
+				$offset = $trans['offset'] / 3600;
+				$cmp->DTSTART = $dt->format('Ymd\THis');
+				$cmp->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '', floor($tzfrom), ($tzfrom - floor($tzfrom)) * 60);
+				$cmp->TZOFFSETTO = sprintf('%s%02d%02d', $offset >= 0 ? '+' : '', floor($offset), ($offset - floor($offset)) * 60);
+				// add abbreviated timezone name if available
+				if (!empty($trans['abbr'])) {
+					$cmp->TZNAME = $trans['abbr'];
+				}
+				$tzfrom = $offset;
+				$vt->add($cmp);
+			}
+			// we covered the entire date range
+			if ($std && $dst && min($t_std, $t_dst) < $from && max($t_std, $t_dst) > $to) {
+				break;
+			}
+		}
+		// add X-MICROSOFT-CDO-TZID if available
+		$microsoftExchangeMap = array_flip(Sabre\VObject\TimeZoneUtil::$microsoftExchangeMap);
+		if (array_key_exists($tz->getName(), $microsoftExchangeMap)) {
+			$vt->add('X-MICROSOFT-CDO-TZID', $microsoftExchangeMap[$tz->getName()]);
+		}
+		return $vt;
 	}
 
 }
