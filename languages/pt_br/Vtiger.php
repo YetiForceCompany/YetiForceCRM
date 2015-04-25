@@ -905,13 +905,13 @@ $languageStrings = [
         'Companies'=>'Empresas',
 		
 	//Gantt
-	'LBL_FILTERING' => 'Filtering',
-	'LBL_ALL_PRIORITY' => 'All',
-	'LBL_LOW_PRIORITY' => 'Low priority',
-	'LBL_HIGH_PRIORITY' => 'High priority',
-	'LBL_DAYS_CHART' => 'Days',
-	'LBL_MONTHS_CHART' => 'Months',
-	'LBL_ZOOMING' => 'Zooming',
+	'LBL_FILTERING' => 'Filtrando',
+	'LBL_ALL_PRIORITY' => 'Todos',
+	'LBL_LOW_PRIORITY' => 'Prioridade baixa',
+	'LBL_HIGH_PRIORITY' => 'Prioridade alta',
+	'LBL_DAYS_CHART' => 'Dias',
+	'LBL_MONTHS_CHART' => 'Meses',
+	'LBL_ZOOMING' => 'Zoom',
 	
 
 ];
@@ -1079,7 +1079,7 @@ $jsLanguageStrings = [
 	
 	'JS_NAME'=>'Name',
 	'JS_PRIORITY'=>'Prioridade',
-	'JS_PROGRESS' => 'Progress',
+	'JS_PROGRESS' => 'Progresso',
 	'JS_APR' => 'Abr',
 	'JS_APRIL' => 'Abril',
 	'JS_AUG' => 'Ago',
