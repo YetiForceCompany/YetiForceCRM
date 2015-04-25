@@ -41,7 +41,7 @@ $languageStrings = [
 	'SINGLE_Accounts' => 'Organização' ,
 	'Ticker Symbol'=> 'Cod. Bolsa',
 	'Website'=> 'Website' ,
-	'Payment balance' => 'Payment balance',
+	'Payment balance' => 'Saldo Pagamento',
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Novo',
 	'Fax' => 'Fax',
