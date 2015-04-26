@@ -28,6 +28,7 @@
 	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-modal.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-dropdown.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-popover.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-switch.min.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap/js/bootbox.min.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/app.js"></script>
