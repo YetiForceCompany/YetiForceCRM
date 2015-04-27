@@ -185,13 +185,14 @@ jQuery.Class("Vtiger_Helper_Js",{
 		}
 
 		var params = {
-			hide:false,
 			sticker: false,
 			delay: '3000',
 			type: 'error',
 			pnotify_history: false
 		}
-
+		if(typeof customParams.hide == 'undefined' || customParams.hide == false){
+			params.hide = false;
+		}
 		if(typeof userParams != 'undefined'){
 			var params = jQuery.extend(params,userParams);
 		}
