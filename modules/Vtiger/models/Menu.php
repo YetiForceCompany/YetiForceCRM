@@ -59,6 +59,7 @@ class Vtiger_Menu_Model{
 		$breadcrumbsOn = $purl = false;
 		$module = $request->get('module');
 		$view = $request->get('view');
+
 		if ($request->get('parent') != '' && $request->get('parent') != 'Settings') {
 			$parentMenu = self::getParentMenu($parentList, $request->get('parent'), $module);
 			if(count($parentMenu) > 0){
@@ -70,8 +71,10 @@ class Vtiger_Menu_Model{
 		$breadcrumbs[] = [ 'name' => vtranslate($module, $module)];
 		if ($view == 'Edit' && $request->get('record') == '') {
 			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $module) ];
-		} elseif ($view != 'index' && $view != 'Index') {
+		} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $module)];
+		} elseif ($view == '') {
+			$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $module)];
 		}
 		if ($request->get('record') != '') {
 			$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));
