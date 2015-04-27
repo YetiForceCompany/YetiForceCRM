@@ -746,7 +746,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * Function to get the list of all accessible modules for Quick Create
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getQuickCreateModules() {
+	public static function getQuickCreateModules($restrictList = false) {
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
@@ -755,6 +755,9 @@ class Vtiger_Module_Model extends Vtiger_Module {
 					FROM vtiger_field
 					INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
 					WHERE (quickcreate=0 OR quickcreate=2) AND vtiger_tab.presence != 1';
+		if($restrictList){
+			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
+		}
 		$params = array();
 		$result = $db->pquery($sql, $params);
 		$noOfModules = $db->num_rows($result);
