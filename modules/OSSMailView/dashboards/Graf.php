@@ -94,15 +94,13 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View {
 			$dateFilter['start'] = Vtiger_Date_UIType::getDBInsertedValue($dateFilter['start']);
 			$dateFilter['end'] = Vtiger_Date_UIType::getDBInsertedValue($dateFilter['end']);
 		}
-		*/
-	//	echo '<pre>';print_r($dateFilter);echo '</pre>';	
+		*/	
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = $moduleModel->getMailCount($owner, $dateFilter);
 		$listViewUrl = $moduleModel->getListViewUrl();
         for($i = 0;$i<count($data);$i++){
             $data[$i][] = $listViewUrl.$this->getSearchParams($data[$i][0],$owner,$dateFilter);
         }
-	//echo '<pre>';print_r($data);echo '</pre>';	
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 	
 		$viewer->assign('MODULE_NAME', $moduleName);

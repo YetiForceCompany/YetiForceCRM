@@ -161,22 +161,19 @@ Class Calculations_Edit_View extends Inventory_Edit_View {
 	 */
 	function getHeaderScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getHeaderScripts($request);
-//echo '<pre>'; //print_r($headerScriptInstances);
 		$moduleName = $request->getModule();
 		$modulePopUpFile = 'modules.'.$moduleName.'.resources.Popup';
 		$moduleEditFile = 'modules.'.$moduleName.'.resources.Edit';
 		unset($headerScriptInstances[$modulePopUpFile]);
 		unset($headerScriptInstances[$moduleEditFile]);
 
-
 		$jsFileNames = array(
-				'modules.Inventory.resources.Edit',
-				'modules.Inventory.resources.Popup',
-				'layouts.vlayout.modules.Calculations.resources.Edit',
+			'modules.Inventory.resources.Edit',
+			'modules.Inventory.resources.Popup',
+			'layouts.vlayout.modules.Calculations.resources.Edit',
 		);
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
-		//print_r($headerScriptInstances);exit;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

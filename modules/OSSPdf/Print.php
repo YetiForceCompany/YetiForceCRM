@@ -14,8 +14,6 @@ require_once("libraries/tcpdf/tcpdf.php");
 class Printer extends TCPDF {
     function setContent($html) {
         $this->SetFont($this->font, '', 12);
-        //var_dump($html);exit;
-        //echo '<pre>';print_r($html);echo '</pre>';exit;
         $this->writeHTML($html);
     }
 
