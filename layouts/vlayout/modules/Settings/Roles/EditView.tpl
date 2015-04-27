@@ -39,17 +39,30 @@
 				</div><br>
                 <div class="row-fluid">
 					<label class="fieldLabel span3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="row-fluid span9 fieldValue">
-						<div class="span">
-							<input type="radio" value="1"{if !$RECORD_MODEL->get('allowassignedrecordsto')} checked=""{/if} {if $RECORD_MODEL->get('allowassignedrecordsto') eq '1'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ALL_USERS',$QUALIFIED_MODULE)}</span>
+					<div class="span9 fieldValue">
+						<div>
+							<label for="allow1">
+								<input type="radio" id="allow1" value="1"{if !$RECORD_MODEL->get('allowassignedrecordsto')} checked=""{/if} {if $RECORD_MODEL->get('allowassignedrecordsto') eq '1'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_ALL_USERS',$QUALIFIED_MODULE)}
+							</label>
 						</div>
-                        <div class="span1">&nbsp;</div>
-						<div class="span">
-							<input type="radio" value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '2'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL',$QUALIFIED_MODULE)}</span>
+						<div>
+							<label for="allow2">
+								<input type="radio" id="allow2" value="2" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '2'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL',$QUALIFIED_MODULE)}
+							</label>
 						</div>
-                        <div class="span1">&nbsp;</div>
-						<div class="span">
-							<input type="radio" value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '3'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_USERS_WITH_LOWER_LEVEL',$QUALIFIED_MODULE)}</span>
+                        <div>
+							<label for="allow3">
+								<input type="radio" id="allow3" value="3" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '3'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_USERS_WITH_LOWER_LEVEL',$QUALIFIED_MODULE)}
+							</label>
+						</div>
+                        <div>
+							<label for="allow4">
+								<input type="radio" id="allow4" value="4" {if $RECORD_MODEL->get('allowassignedrecordsto') eq '4'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
+								{vtranslate('LBL_JUST_ME',$QUALIFIED_MODULE)}
+							</label>
 						</div>
 				</div>
                 </div><br>

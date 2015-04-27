@@ -30,9 +30,8 @@ $languageStrings = [
 	'Roles' => 'Rollen',
 	'SINGLE_Roles' => 'Rolle',
 	'LBL_USERS_LIST' => 'Liste der Benutzer, die dieser Rolle angehören:',
-
+	'LBL_JUST_ME' => '__UNTRANSLATED__',
 ];
-
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'keine Berechtigungen zum verschieben',
 	'JS_PERMISSION_DENIED' => 'Zugriff verweigert',
