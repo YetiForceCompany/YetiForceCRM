@@ -877,6 +877,9 @@ $languageStrings = [
 	'LBL_CURRENTLY_LOGGED_USER' => 'Aktualnie zalogowany użytkownik',
 	'LBL_TO_REALIZE'=>'Do realizacji',
 	'LBL_HISTORY'=>'Historia',
+	'LBL_WORKFLOWS_TRIGGER'=>'Wyzwalacz obiegów informacji',
+	'LBL_EXECUTE'=>'Wykonaj',
+	'BTN_WORKFLOW_TRIGGER'=>'Narzędzie umożliwiające ręczne wywołanie obiegów informacji, które uruchomi automatycznie wszystkie podpięte zadania.',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Dodawanie',
@@ -1126,4 +1129,8 @@ $jsLanguageStrings = [
 	'JS_MORE' => 'więcej',
 	'JS_TO_REALIZE'=>'Do realizacji',
 	'JS_HISTORY'=>'Historia',
+	'JS_NOT_SELECTED_WORKFLOW_TRIGGER'=>'Nie wybrano obiegu informacji do uruchomienia',
+	'JS_STARTED_PERFORM_WORKFLOW'=>'Rozpoczęto wykonywanie obiegu informacji',
+	'JS_COMPLETED_PERFORM_WORKFLOW'=>'Zakończono wykonywanie obiegu informacji',
+	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'=>'Wystąpił nieznany błąd, prosimy poinformacjować administratora',
 ];
