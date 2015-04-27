@@ -677,50 +677,57 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @param <array> $restrictedModulesList
 	 * @return <array> List of module models <Vtiger_Module_Model>
 	 */
-	public static function getAll($presence = array(), $restrictedModulesList = array()) {
+	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false) {
 		$db = PearDatabase::getInstance();
 		self::preModuleInitialize2();
-        $moduleModels = Vtiger_Cache::get('vtiger', 'modules');
+		$moduleModels = Vtiger_Cache::get('vtiger', 'modules');
 
+		if (!$moduleModels) {
+			$moduleModels = [];
 
-        if(!$moduleModels){
-            $moduleModels = array();
+			$query = 'SELECT * FROM vtiger_tab';
+			$params = [];
+			$where = [];
+			if ($presence) {
+				$where[] = 'presence IN (' . generateQuestionMarks($presence) . ')';
+				array_push($params, $presence);
+			}
+			if ($isEntityType) {
+				$where[] = 'isentitytype = ?';
+				array_push($params, 1);
+			}
+			if($where){
+				$query .= ' WHERE '.implode(' AND ', $where) ;
+			}
+			
+			$result = $db->pquery($query, $params);
+			$noOfModules = $db->num_rows($result);
+			for ($i = 0; $i < $noOfModules; ++$i) {
+				$row = $db->query_result_rowdata($result, $i);
+				$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
+				Vtiger_Cache::set('module', $row['tabid'], $moduleModels[$row['tabid']]);
+				Vtiger_Cache::set('module', $row['name'], $moduleModels[$row['tabid']]);
+			}
+			if (!$presence) {
+				Vtiger_Cache::set('vtiger', 'modules', $moduleModels);
+			}
+		}
 
-            $query = 'SELECT * FROM vtiger_tab';
-            $params = array();
-            if($presence) {
-                $query .= ' WHERE presence IN ('. generateQuestionMarks($presence) .')';
-                array_push($params, $presence);
-            }
+		if ($presence && $moduleModels) {
+			foreach ($moduleModels as $key => $moduleModel) {
+				if (!in_array($moduleModel->get('presence'), $presence)) {
+					unset($moduleModels[$key]);
+				}
+			}
+		}
 
-            $result = $db->pquery($query, $params);
-            $noOfModules = $db->num_rows($result);
-            for($i=0; $i<$noOfModules; ++$i) {
-                $row = $db->query_result_rowdata($result, $i);
-                $moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
-                Vtiger_Cache::set('module',$row['tabid'], $moduleModels[$row['tabid']]);
-                Vtiger_Cache::set('module',$row['name'], $moduleModels[$row['tabid']]);
-            }
-            if(!$presence){
-                Vtiger_Cache::set('vtiger', 'modules',$moduleModels);
-            }
-        }
-
-        if($presence && $moduleModels){
-            foreach ($moduleModels as $key => $moduleModel){
-                if(!in_array($moduleModel->get('presence'), $presence)){
-                    unset($moduleModels[$key]);
-                }
-            }
-        }
-
-        if($restrictedModulesList && $moduleModels) {
-            foreach ($moduleModels as $key => $moduleModel){
-                if(in_array($moduleModel->getName(), $restrictedModulesList)){
-                    unset($moduleModels[$key]);
-                }
-            }
-        }
+		if ($restrictedModulesList && $moduleModels) {
+			foreach ($moduleModels as $key => $moduleModel) {
+				if (in_array($moduleModel->getName(), $restrictedModulesList)) {
+					unset($moduleModels[$key]);
+				}
+			}
+		}
 
 		return $moduleModels;
 	}
