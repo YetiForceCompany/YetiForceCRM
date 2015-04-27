@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCompany/YetiForceCRM/commit/8bd836ee816b19fda230552759ce4e07727655a0) revision. 
+The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCompany/YetiForceCRM/commit/1d979c6fac66886051ee87f0bb2be85925667244) revision. 
 
 
 **Bug Fixes:** 
@@ -56,6 +56,14 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Fixed the display of entries in the Calendar.
 -	Fixed a reply function in emails.
 -	Fixed a function responsible for adding tasks in emails. 
+-	Fixed save of Project Tasks.
+-	Fixed a relation between a contact and a sales opportunity.
+-	Fixed Installation Wizard reports.
+-	Fixed the width of a widget filter.
+-	Fixed a way to create Project Tasks from a workflow level.
+-	Fixed a bug in the windows of the Scheduled Reports.
+-	Fixed a generation of CalDAV.
+-	Fixed a bug that caused problems with the installation process.
 
 
 **Improvements:**
@@ -105,10 +113,12 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Reconstructed 'Tickets by status' chart.
 -	Reconstructed 'Lead by status' chart.
 -	Reconstructed charts in HelpDesk and Project modules.
+-	Reconstructed the display of related calendar entries.
 -	Added loading of the start and end of work when adding calendar entries.
 -	Changed allowed dimensions of widgets.
 -	Changed fields order in many Quick Create popups.
 -	Changed downloading of an email address.
+-	Changed the owner input in widgets.
 -	Expanded masking with new types of fields.
 -	Added a new template for the mail module.
 -	Added selects buttons for widgets.
@@ -117,6 +127,11 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Added a related module 'Documents' to modules: OSSSoldServices, OSSOutsourcedServices and OutsourcedProducts.
 -	Added sharing privileges in events list.
 -	Added Grantt charts to the Projects module.
+-	Added session life time to the configuration file.
+-	Added a security of the displayed value in the reference to the edit view.
+-	Added a switch (completed and future) in the events and related modules for the calendar.
+-	Added support for bootstrap-switch.
+-	Added a possibility to hide a left panel in the calendar.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -128,7 +143,11 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Improved the update system.
 -	Improved the definition of IP in Brute Force and logging history.
 -	Improved an action bar in emails. 
+-	Improved printing in emails.
 -	Secured a function updating information about an email.
+-	Secured adding of linkages.
+-	Secured the management of widgets.
+-	Secured loading of record labels.
 
 
 **New functionalities:**
@@ -138,7 +157,9 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Added new fields to the OSSMailTemplates module.
 -	Added a possibility to select an email account.
 -	Added a new field to Users - 'Approval for email'.
--	Added a new field to ProjectMilestone - 'Priority'. 
+-	Added a new field to ProjecTasks - 'Estimated work time'.
+-	Added new fields to ProjectMilestone - 'Priority' and 'Progress'.
+-	Added a ReadRecord button to Profiles panel. 
 -	Added additional actions to profiles.
 -	Added support, financial, marketing and realization processes to settings.
 -	Added 'Convert to Account' in the Marketing Processes.
@@ -164,6 +185,8 @@ The following changes are up to 1.4.172 - [#607] (https://github.com/YetiForceCo
 -	Added an 'Update' button.
 -	Added a releated module ProjectTask to the module ProjectMilestone.
 -	Added a function which determines remote IP.
+-	Added 'Job title' to Contacts.
+-	Added a comparator 'currently logged on user'.
 
 
 
