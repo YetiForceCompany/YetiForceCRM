@@ -83,8 +83,6 @@
 													{/foreach}
 												</optgroup>
 											</select>
-										{else}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 										{/if}
 									{else}
 										{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
