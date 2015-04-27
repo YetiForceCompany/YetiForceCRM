@@ -85,7 +85,7 @@ class Webforms_Field_Model {
 	}
 
 	static function retrieveNeutralizedField($webformid, $fieldname) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql = "SELECT neutralizedfield FROM vtiger_webforms_field WHERE webformid=? and fieldname=?";
 		$result = $adb->pquery($sql, array($webformid, $fieldname));
 		$model = false;

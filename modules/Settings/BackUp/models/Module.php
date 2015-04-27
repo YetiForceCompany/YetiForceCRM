@@ -14,7 +14,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	static $destDir = 'backup';
 	
     public static function getBackUps($offset = null, $limit = null) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = ('SELECT * FROM vtiger_backup  ORDER BY created_at DESC');
 
         if ($offset !== null) {
@@ -29,13 +29,13 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function deleteTmpBackUpContent() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->query("DELETE  FROM `vtiger_backup_db_tmp`");
         $adb->query("DELETE  FROM `vtiger_backup_db_tmp_info`");
     }
 
     public function getTablesName() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->query('SHOW TABLES WHERE Tables_in_' . $adb->dbName . ' NOT IN (
                 SELECT table_name
                 FROM vtiger_backup_db_tmp)');
@@ -43,25 +43,25 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function getAmountAllTablesToBackup() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->query('SELECT COUNT(*) FROM vtiger_backup_db_tmp');
         return $result;
     }
 
     public function getDBTablesAmount() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = $adb->query("SELECT count( * ) AS `AllTables` FROM information_schema.TABLES WHERE table_schema = '$adb->dbName'");
         $output = $adb->query_result_rowdata($query, 0);
         return $output;
     }
 
     public function saveTableName($tableName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery("INSERT INTO vtiger_backup_db_tmp (table_name) VALUES (?)", array($tableName));
     }
 
     public function clearBackupFilesTable() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT COUNT(*) FROM `vtiger_backup_dir` WHERE backup=0;");
         $count = $adb->query_result_raw($result, 0, 0);
         if (!$count) {
@@ -72,7 +72,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function addBackupDirs($dirs) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->startTransaction();
         foreach ($dirs as $dir) {
             $dir = str_replace('\\', '/', $dir);
@@ -82,14 +82,14 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function getPercentage() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT TRUNCATE(((SELECT COUNT(*) FROM `vtiger_backup_dir` WHERE BACKUP='1') / COUNT(*)) * 100, 2) AS 'percentage' FROM `vtiger_backup_dir`");
         $percentage = $adb->query_result_raw($result, 0, 0);
         return $percentage;
     }
 
     public function getDirs() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT backup, name FROM `vtiger_backup_dir`");
         $numOfRows = $adb->num_rows($result);
         for ($i = 0; $i < $numOfRows; $i++) {
@@ -99,18 +99,18 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function setDirBackuped($source) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $dir = str_replace('\\', '/', $source);
         $result = $adb->pquery("UPDATE `vtiger_backup_dir` vd SET vd.backup='1' WHERE vd.name = '$dir'");
     }
 
     public function saveTmpBackUpTableName($tableName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery("INSERT INTO vtiger_backup_db_tmp (table_name) VALUES (?)", array($tableName));
     }
 
     public function getNotBackUpTables($limit) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = ('SELECT table_name FROM vtiger_backup_db_tmp WHERE status = ?');
         if ($limit == TRUE) {
             $query .= ' LIMIT 45';
@@ -120,24 +120,24 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function getBackUpInfo() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = $adb->query("SELECT * FROM  vtiger_backup_db_tmp_info ");
         $result = $adb->fetch_array($query);
         return $result;
     }
 
     public function setStartTmpBackupInfo($fileName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery("INSERT INTO vtiger_backup_db_tmp_info (status, file_name) VALUES (?, ?)", array('pending', $fileName));
     }
 
     public function setTablesPrepare($tablesPrepare, $backUpId) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery("Update vtiger_backup_db_tmp_info SET tables_prepare = ?  WHERE id = ? ", array($tablesPrepare, $backUpId));
     }
 
     public function updateTmpBackUpInfo($status, $time, $howMany = null) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $backUpInfo = self::getBackUpInfo();
         if ($howMany != null) {
             $howMany = (int) $backUpInfo['howmany'];
@@ -150,7 +150,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     public function getPercentageDBBackUp() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT TRUNCATE(((SELECT COUNT(*) FROM `vtiger_backup_db_tmp` WHERE status = 1) / COUNT(*)) * 100, 2) AS 'percentage' FROM `vtiger_backup_db_tmp`");
         $percentage = $adb->query_result_raw($result, 0, 0);
         return $percentage;
@@ -158,7 +158,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 
     public function setBackUp() {
         $now = date('Y-m-d H:i:s');
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $backUpInfo = self::getBackUpInfo();
         $adb->pquery("INSERT INTO vtiger_backup (file_name, created_at, create_time, how_many) VALUES (?,?,?,?)", array(
             $backUpInfo['file_name'].".zip",
@@ -169,7 +169,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
     static public function getFTPSettings() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->query("SELECT * FROM vtiger_backup_ftp", true);
         $numOfRows = $adb->num_rows($result);
 
@@ -181,7 +181,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 
 	public function saveFTPSettings($host, $login, $password, $status, $port, $active, $path) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$ftpExist = self::getFTPSettings();
 		$password = self::encrypt_decrypt('encrypt', $password);
 		if($ftpExist[0])
@@ -192,7 +192,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 	
     public function createBackUpSQLStatement($tablesName, $fileName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         foreach ($tablesName as $key => $tableName) {
             $return = '';
             $result = $adb->query('SELECT * FROM ' . $tableName[0]);
@@ -285,7 +285,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 	
     public function setTmpBackUpTables($backUpId) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $tablesName = self::getTablesName();
         $tablesNameAmount = $adb->getRowCount($tablesName);
 
@@ -313,7 +313,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
 	
     public function userBackUpCall($request) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $startCreateBackUp = microtime(TRUE);
         if ($request->get('backUpAction') == 'new') {
@@ -360,7 +360,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		*/
     }
     public function endDBBackUp($fileName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         global $log;
         self::createZip($fileName);
         self::deleteFile($fileName . '.sql');
@@ -390,7 +390,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
         }
     }
 	public function cronBackUp() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$backUpInfo = self::getBackUpInfo();
 		if ($backUpInfo != NULL) {
 			self::updateTmpBackUpInfo('pending', 0, true);
@@ -409,7 +409,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function setCronTmpBackUpTables($backUpId) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tablesName = self::getTablesName();
 		$tablesNameAmount = $adb->getRowCount($tablesName);
 
@@ -471,7 +471,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public static function updateUsersForNotifications($selectedUsers){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$deleteQuery = "DELETE FROM `vtiger_backup_users`";
 		$adb->query($deleteQuery);
 		if('null' != $selectedUsers){
@@ -485,7 +485,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public static function getUsersForNotifications(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM vtiger_backup_users", true);
 		$numRows = $adb->num_rows($result);
 		for($i = 0; $i < $numRows; $i++){

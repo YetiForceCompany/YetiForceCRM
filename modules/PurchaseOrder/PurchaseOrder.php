@@ -193,7 +193,7 @@ class PurchaseOrder extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_postatushistory(".$id.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 

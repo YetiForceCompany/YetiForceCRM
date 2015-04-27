@@ -351,7 +351,7 @@ class SMSNotifierBase extends CRMEntity {
 		$unregisterLinks = false;
 
 		if($event_type == 'module.postinstall') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$unregisterLinks = true;
 			$registerLinks = true;
 

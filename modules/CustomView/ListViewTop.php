@@ -54,7 +54,7 @@ function getKeyMetrics($maxval,$calCnt)
 	require_once('include/ListView/ListView.php');
 
 	global $app_strings;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $log;
 	global $current_language;
 	$metricviewnames = "'Hot Leads'";

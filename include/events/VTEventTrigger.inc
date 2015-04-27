@@ -20,7 +20,7 @@
 		const CACHE_LOOKUP_TYPE_ALL = 'ALL';
 
 		static function initCache($name = false, $force = false) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			if($name) {
 				$names = $name;

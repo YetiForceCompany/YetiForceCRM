@@ -197,7 +197,7 @@ Class CustomReportUtils {
 	}
 
 	public static function getEntityTypeFromName($entityName, $modules=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if($modules == false) {
 			$modules = array();

@@ -236,7 +236,7 @@ class Vtiger_PackageExport {
 	 * @access private
 	 */
 	function export_Module($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$moduleid = $moduleInstance->id;
 
@@ -352,7 +352,7 @@ class Vtiger_PackageExport {
 	 * @access private
 	 */
 	function export_Blocks($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_blocks WHERE tabid = ?", Array($moduleInstance->id));
 		$resultrows= $adb->num_rows($sqlresult);
 
@@ -396,7 +396,7 @@ class Vtiger_PackageExport {
 	 * @access private
 	 */
 	function export_Fields($moduleInstance, $blockid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$fieldresult = $adb->pquery("SELECT * FROM vtiger_field WHERE tabid=? AND block=?", Array($moduleInstance->id, $blockid));
 		$fieldcount = $adb->num_rows($fieldresult);
@@ -512,7 +512,7 @@ class Vtiger_PackageExport {
 	 * @access private
 	 */
 	function export_CustomViews($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$customviewres = $adb->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", Array($moduleInstance->name));
 		$customviewcount=$adb->num_rows($customviewres);
@@ -586,7 +586,7 @@ class Vtiger_PackageExport {
 	 * @access private
 	 */
 	function export_SharingAccess($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$deforgshare = $adb->pquery("SELECT * FROM vtiger_def_org_share WHERE tabid=?", Array($moduleInstance->id));
 		$deforgshareCount = $adb->num_rows($deforgshare);
@@ -638,7 +638,7 @@ class Vtiger_PackageExport {
 
 		if(!$moduleInstance->isentitytype) return;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
 			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
 
@@ -662,7 +662,7 @@ class Vtiger_PackageExport {
 
 		if(!$moduleInstance->isentitytype) return;
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE tabid = ?", Array($moduleInstance->id));
 		if($adb->num_rows($result)) {
 			$this->openNode('relatedlists');

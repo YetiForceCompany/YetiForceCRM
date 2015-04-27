@@ -53,7 +53,7 @@
 		}
 		
 		function sanitizeForInsert($row,$meta){
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$associatedToUser = false;
 			$parentTypeId = null;
 			if(strtolower($meta->getEntityName()) == "emails"){
@@ -233,7 +233,7 @@
 		}
 		
 		function sanitizeOwnerFields($row,$meta,$t=null){
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$ownerFields = $meta->getOwnerFields();
 			foreach($ownerFields as $index=>$field){
 				if(isset($row[$field]) && $row[$field]!=null){

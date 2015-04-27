@@ -30,7 +30,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 	 * @access private
 	 */
 	function __getRelatedListUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_relatedlists');
 	}
 
@@ -39,7 +39,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 	 * @access private
 	 */
 	function __getNextRelatedListSequence() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$max_sequence = 0;
 		$result = $adb->pquery("SELECT max(sequence) as maxsequence FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
 		if($adb->num_rows($result)) $max_sequence = $adb->query_result($result, 0, 'maxsequence');
@@ -56,7 +56,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 	 * @internal Creates table vtiger_crmentityrel if it does not exists
 	 */
 	function setRelatedList($moduleInstance, $label='', $actions=false, $function_name='get_related_list') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if(empty($moduleInstance)) return;
 		if(empty($label)) $label = $moduleInstance->name;
@@ -92,7 +92,7 @@ class Vtiger_Module extends Vtiger_ModuleBasic {
 	 * @param String Callback function name of this module to use as handler
 	 */
 	function unsetRelatedList($moduleInstance, $label='', $function_name='get_related_list') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if(empty($moduleInstance)) return;
 

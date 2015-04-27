@@ -16,7 +16,7 @@
 class Vtiger_Deprecated {
 
 	static function getFullNameFromQResult($result, $row_count, $module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
 		$entity_field_info = getEntityFieldNames($module);
 		$fieldsName = $entity_field_info['fieldname'];
@@ -54,7 +54,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getBlockId($tabid, $label) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
 		$result = $adb->pquery($query, array($tabid, $label));
 		$noofrows = $adb->num_rows($result);
@@ -85,7 +85,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function createModuleMetaFile() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sql = "select * from vtiger_tab";
 		$result = $adb->pquery($sql, array());
@@ -161,7 +161,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getTemplateDetails($templateid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$returndata = Array();
 		$result = $adb->pquery("select body, subject from vtiger_emailtemplates where templateid=?", array($templateid));
 		$returndata[] = $templateid;
@@ -171,7 +171,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getAnnouncements() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql = " select * from vtiger_announcement inner join vtiger_users on vtiger_announcement.creatorid=vtiger_users.id";
 		$sql.=" AND vtiger_users.is_admin='on' AND vtiger_users.status='Active' AND vtiger_users.deleted = 0";
 		$result = $adb->pquery($sql, array());
@@ -205,7 +205,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getIdOfCustomViewByNameAll($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		static $cvidCache = array();
 		if (!isset($cvidCache[$module])) {
@@ -217,7 +217,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function SaveTagCloudView($id = "") {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tag_cloud_status = $_REQUEST['tagcloudview'];
 		if ($tag_cloud_status == "true") {
 			$tag_cloud_view = 0;
@@ -394,7 +394,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getSettingsBlockId($label) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$blockid = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
 		$result = $adb->pquery($query, array($label));
@@ -421,7 +421,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getModuleSequenceNumber($module, $recordId) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		switch ($module) {
 			case "Invoice":
 				$res = $adb->query("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = $recordId");

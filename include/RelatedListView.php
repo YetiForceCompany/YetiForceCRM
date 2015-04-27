@@ -72,7 +72,7 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 	global $log;
 	$log->debug("Entering getPriceBookRelatedProducts(".$query.",".get_class($focus).",".$returnset.") method ...");
 
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $app_strings;
 	global $mod_strings;
 	global $current_language,$current_user;
@@ -194,7 +194,7 @@ function CheckFieldPermission($fieldname,$module) {
 
 function CheckColumnPermission($tablename, $columnname, $module)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	
 	static $cache = array();
 	

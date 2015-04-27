@@ -162,7 +162,7 @@ class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller {
 			return $filterOrAlertInstance->execute($fieldnames, $pagingModel);
 		}
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$moduleWSId = Mobile_WS_Utils::getEntityModuleWSId($module);
 		$columnByFieldNames = Mobile_WS_Utils::getModuleColumnTableByFieldNames($module, $fieldnames);

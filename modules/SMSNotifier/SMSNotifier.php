@@ -108,7 +108,7 @@ class SMSNotifier extends SMSNotifierBase {
 	}
 
 	protected function isUserOrGroup($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT 1 FROM vtiger_users WHERE id=?", array($id));
 		if($result && $adb->num_rows($result)) {
 			return 'U';
@@ -118,7 +118,7 @@ class SMSNotifier extends SMSNotifierBase {
 	}
 
 	protected function smsAssignedTo() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// Determine the number based on Assign To
 		$assignedtoid = $this->column_fields['assigned_user_id'];
@@ -156,7 +156,7 @@ class SMSNotifier extends SMSNotifierBase {
 
 		if(empty($responses)) return;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		foreach($responses as $response) {
 			$responseID = '';
@@ -182,7 +182,7 @@ class SMSNotifier extends SMSNotifierBase {
 	}
 
 	static function smsquery($record) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_status WHERE smsnotifierid = ? AND needlookup = 1", array($record));
 		if($result && $adb->num_rows($result)) {
 			$provider = SMSNotifierManager::getActiveProviderInstance();
@@ -222,7 +222,7 @@ class SMSNotifier extends SMSNotifierBase {
 	}
 
 	static function getSMSStatusInfo($record) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$results = array();
 		$qresult = $adb->pquery("SELECT * FROM vtiger_smsnotifier_status WHERE smsnotifierid=?", array($record));
 		if($qresult && $adb->num_rows($qresult)) {
@@ -242,7 +242,7 @@ class SMSNotifierManager {
 	}
 
 	static function getActiveProviderInstance() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers WHERE isactive = 1 LIMIT 1", array());
 		if($result && $adb->num_rows($result)) {
 			$resultrow = $adb->fetch_array($result);
@@ -260,7 +260,7 @@ class SMSNotifierManager {
 	}
 
 	static function listConfiguredServer($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
 		if($result) {
 			return $adb->fetch_row($result);
@@ -268,7 +268,7 @@ class SMSNotifierManager {
 		return false;
 	}
 	static function listConfiguredServers() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers", array());
 		$servers = array();
 		if($result) {
@@ -279,7 +279,7 @@ class SMSNotifierManager {
 		return $servers;
 	}
 	static function updateConfiguredServer($id, $frmvalues) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$providertype = vtlib_purify($frmvalues['smsserver_provider']);
 		$username     = vtlib_purify($frmvalues['smsserver_username']);
 		$password     = vtlib_purify($frmvalues['smsserver_password']);
@@ -309,7 +309,7 @@ class SMSNotifierManager {
 		}
 	}
 	static function deleteConfiguredServer($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
 	}
 }

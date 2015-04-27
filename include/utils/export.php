@@ -97,7 +97,7 @@ function br2nl_vt($str)
 function export($type){
     global $log,$list_max_entries_per_page;
     $log->debug("Entering export(".$type.") method ...");
-    global $adb;
+    $adb = PearDatabase::getInstance();
 
     $focus = 0;
     $content = '';
@@ -346,7 +346,7 @@ class ExportUtils{
 	 */
 	function getInformationArray($module){
 		require_once 'include/utils/utils.php';
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($module);
 		
 		$result = $adb->pquery("select * from vtiger_field where tabid=?", array($tabid));

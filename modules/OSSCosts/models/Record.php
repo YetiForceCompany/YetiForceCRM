@@ -204,7 +204,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 	function getAssociatedProducts($module,$focus,$seid='')	{
 		global $log;
 		$log->debug("Entering OSSCosts_Record_Model getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$output = '';
 		global $theme,$current_user;
 

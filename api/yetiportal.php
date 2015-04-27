@@ -421,7 +421,7 @@ function get_ticket_comments($input_array)
  * @return <Array>
  */
 function _getTicketModComments($ticketId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "SELECT * FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid AND deleted = 0
 			WHERE related_to = ? ORDER BY createdtime DESC";
@@ -640,7 +640,7 @@ function get_KBase_details($input_array)
 	*/
 function save_faq_comment($input_array)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Entering customer portal function save_faq_comment");
 	$adb->println($input_array);
 
@@ -1413,7 +1413,7 @@ function add_ticket_attachment($input_array)
  **/
 function validateSession($id, $sessionid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside function validateSession($id, $sessionid)");
 
 	if(empty($sessionid)) return false;
@@ -1476,7 +1476,7 @@ function unsetServerSessionId($id)
 }
 
 function getServerSession($id){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$id = (int) $id;
 	$session = Vtiger_Soap_YetiPortal::$_session[$id];
 	if(!$session) {
@@ -1988,7 +1988,7 @@ function updateDownloadCount($id){
 
 function get_pdf($id,$block,$customerid,$sessionid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user,$log,$current_language;
 	global $currentModule,$mod_strings,$app_strings,$app_list_strings;
 	$log->debug("Entering customer portal function get_pdf");
@@ -3518,7 +3518,7 @@ function checkModuleActive($module){
  * Return $value - Currency Symbol
  */
 function getCurrencySymbol($result,$i,$column){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$currencyid = $adb->query_result($result,$i,$column);
 	$curr = getCurrencySymbolandCRate($currencyid);
 	$value = "(".$curr['symbol'].")";
@@ -3527,7 +3527,7 @@ function getCurrencySymbol($result,$i,$column){
 }
 
 function getDefaultAssigneeId() {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Entering customer portal function getPortalUserid");
 
 	// Look the value from cache first

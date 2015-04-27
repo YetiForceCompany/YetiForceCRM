@@ -407,7 +407,7 @@ if($handle)
  */
 function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_user_roles,$parent_roles,$current_user_groups)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$mod_tabid=getTabid($module);
 
@@ -1060,7 +1060,7 @@ function getUserModuleSharingObjects($module,$userid,$def_org_share,$current_use
 function getRelatedModuleSharingArray($par_mod,$share_mod,$mod_sharingrule_members,$mod_share_read_per,$mod_share_write_per,$def_org_share)
 {
 
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$related_mod_sharing_permission=Array();
 	$mod_share_read_permission=Array();
 	$mod_share_write_permission=Array();
@@ -1375,7 +1375,7 @@ function constructSingleStringKeyAndValueArray($var)
   * @returns $code -- contains the whole array in a single string:: Type array 
  */
 function constructSingleStringKeyValueArray($var) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
     $size = sizeof($var);
     $i=1;
     if (is_array($var)) {
@@ -1538,7 +1538,7 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 
 function populateSharingtmptables($userid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	checkFileAccessForInclusion('user_privileges/sharing_privileges_'.$userid.'.php');
 	require('user_privileges/sharing_privileges_'.$userid.'.php');
 	//Deleting from the existing vtiger_tables
@@ -1592,7 +1592,7 @@ function populateSharingtmptables($userid)
  */
 function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_arr=false)
 {
-	global $adb;	
+	$adb = PearDatabase::getInstance();	
 	$tabid=getTabid($module);
 
 	if(!$var_name_arr) {
@@ -1694,7 +1694,7 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 
 function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$pertype, $var_name_arr=false)
 {
-	global $adb;	
+	$adb = PearDatabase::getInstance();	
 	$tabid=getTabid($module);
 	$reltabid=getTabid($relmodule);
 

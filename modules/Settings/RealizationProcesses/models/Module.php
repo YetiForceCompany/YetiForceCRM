@@ -36,7 +36,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 */
 	public static function getStatusNotModify(){
 		global $log;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		$sql = 'SELECT * FROM `vtiger_realization_process`;';
 		$result = $adb->query($sql);

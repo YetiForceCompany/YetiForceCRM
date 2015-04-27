@@ -71,7 +71,7 @@ class Vtiger_Functions {
 	protected static $userIdCurrencyIdCache = array();
 
 	static function userCurrencyId($userid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
 			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', array());
 			while ($row = $adb->fetch_array($result)) {
@@ -85,7 +85,7 @@ class Vtiger_Functions {
 	protected static $currencyInfoCache = array();
 
 	protected static function getCurrencyInfo($currencyid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!isset(self::$currencyInfoCache[$currencyid])) {
 			$result = $adb->pquery('SELECT * FROM vtiger_currency_info', array());
 			while ($row = $adb->fetch_array($result)) {
@@ -128,7 +128,7 @@ class Vtiger_Functions {
 			if (!isset(self::$moduleIdNameCache[$id])) {$reload = true;}
 		}
 		if ($reload) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery('SELECT tabid, name, ownedby FROM vtiger_tab', array());
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
@@ -152,7 +152,7 @@ class Vtiger_Functions {
 		}
 
 		if ($reload) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery('SELECT * FROM vtiger_tab', array());
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleIdNameCache[$row['tabid']] = $row;
@@ -189,7 +189,7 @@ class Vtiger_Functions {
 		else $name = $mixed;
 
 		if ($name && !isset(self::$moduleEntityCache[$name])) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery('SELECT fieldname,modulename,tablename,entityidfield,entityidcolumn,searchcolumn from vtiger_entityname', array());
 			while ($row = $adb->fetch_array($result)) {
 				self::$moduleEntityCache[$row['modulename']] = $row;
@@ -228,7 +228,7 @@ class Vtiger_Functions {
 	protected static $crmRecordIdMetadataCache = array();
 
 	protected static function getCRMRecordMetadata($mixedid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$multimode = is_array($mixedid);
 
@@ -297,7 +297,7 @@ class Vtiger_Functions {
 	}
 
 	static function updateCRMRecordLabel($module, $id, $label) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$labelInfo = self::computeCRMRecordLabels($module, $id);
 		if ($labelInfo) {
 			$label = decode_html($labelInfo[$id]);
@@ -337,7 +337,7 @@ class Vtiger_Functions {
 	}
 
 	static function computeCRMRecordLabels($module, $ids, $search = false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if (!is_array($ids)) $ids = array($ids);
 
@@ -401,7 +401,7 @@ class Vtiger_Functions {
 	protected static $groupIdNameCache = array();
 
 	static function getGroupName($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!self::$groupIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT groupid, groupname FROM vtiger_groups');
 			while ($row = $adb->fetch_array($result)) {
@@ -419,7 +419,7 @@ class Vtiger_Functions {
 	protected static $userIdNameCache = array();
 
 	static function getUserName($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (!self::$userIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
 			while ($row = $adb->fetch_array($result)) {
@@ -432,7 +432,7 @@ class Vtiger_Functions {
 	protected static $moduleFieldInfoByNameCache = array();
 
 	static function getModuleFieldInfos($mixed) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$moduleInfo = self::getBasicModuleInfo($mixed);
 		$module = $moduleInfo['name'];
@@ -452,7 +452,7 @@ class Vtiger_Functions {
 	}
 
 	static function getModuleFieldInfoWithId($fieldid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_field WHERE fieldid=?', array($fieldid));
 		return ($adb->num_rows($result))? $adb->fetch_array($result) : NULL;
 	}
@@ -543,7 +543,7 @@ class Vtiger_Functions {
 	}
 
 	static function getInventoryTermsAndCondition() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql = "select tandc from vtiger_inventory_tandc";
 		$result = $adb->pquery($sql, array());
 		$tandc = $adb->query_result($result, 0, "tandc");
@@ -637,7 +637,7 @@ class Vtiger_Functions {
 	}
 
 	static function getSingleFieldValue($tablename, $fieldname, $idname, $id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$fieldval = $adb->query_result($adb->pquery("select $fieldname from $tablename where $idname = ?", array($id)), 0, $fieldname);
 		return $fieldval;
 	}
@@ -728,7 +728,7 @@ class Vtiger_Functions {
 	}
 
 	static function getTicketComments($ticketid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$moduleName = getSalesEntityType($ticketid);
 		$commentlist = '';
 		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
@@ -758,7 +758,7 @@ class Vtiger_Functions {
 	}
 
 	static function getTagCloudView($id = "") {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if ($id == '') {
 			$tag_cloud_status = 1;
 		} else {
@@ -855,7 +855,7 @@ class Vtiger_Functions {
 	}
 
 	static function getPickListValuesFromTableForRole($tablename, $roleid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "select $tablename from vtiger_$tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_$tablename.picklist_valueid where roleid=? and picklistid in (select picklistid from vtiger_picklist) order by sortid";
 		$result = $adb->pquery($query, array($roleid));
 		$fldVal = Array();
@@ -866,7 +866,7 @@ class Vtiger_Functions {
 	}
 
 	static function getActivityType($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "select activitytype from vtiger_activity where activityid=?";
 		$res = $adb->pquery($query, array($id));
 		$activity_type = $adb->query_result($res, 0, "activitytype");
@@ -874,7 +874,7 @@ class Vtiger_Functions {
 	}
 
 	static function getInvoiceStatus($id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT invoicestatus FROM vtiger_invoice where invoiceid=?", array($id));
 		$invoiceStatus = $adb->query_result($result,0,'invoicestatus');
 		return $invoiceStatus;

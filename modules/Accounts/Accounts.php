@@ -1456,7 +1456,7 @@ class Accounts extends CRMEntity {
 
 	/* Function to get related contact ids for an account record*/
 	function getRelatedContactsIds($id = null) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($id ==null)
 		$id = $this->id;
 		$entityIds = array();

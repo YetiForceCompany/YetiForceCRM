@@ -1059,7 +1059,7 @@ class Products extends CRMEntity {
 	/** Function to check if the product is parent of any other product
 	*/
 	function isparent_check(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$isparent_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
 		$isparent = $adb->num_rows($isparent_query);
 		return $isparent;
@@ -1068,7 +1068,7 @@ class Products extends CRMEntity {
 	/** Function to check if the product is member of other product
 	*/
 	function ismember_check(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$ismember_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
 		$ismember = $adb->num_rows($ismember_query);
 		return $ismember;
@@ -1196,7 +1196,7 @@ class Products extends CRMEntity {
 	}
 
 	function deleteProduct2ProductRelation($record,$return_id,$is_parent){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($is_parent==0){
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? AND productid = ?";
 			$adb->pquery($sql, array($record,$return_id));

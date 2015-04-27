@@ -41,7 +41,7 @@ function vtiger_imageurl($imagename, $themename) {
  * Get module name by id.
  */
 function vtlib_getModuleNameById($tabid) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sqlresult = $adb->pquery("SELECT name FROM vtiger_tab WHERE tabid = ?",array($tabid));
 	if($adb->num_rows($sqlresult)) return $adb->query_result($sqlresult, 0, 'name');
 	return null;
@@ -52,7 +52,7 @@ function vtlib_getModuleNameById($tabid) {
  * NOTE: Ignore the standard modules which is already handled.
  */
 function vtlib_getModuleNameForSharing() {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$std_modules = array('Calendar','Leads','Accounts','Contacts','Potentials',
 			'HelpDesk','Campaigns','Quotes','PurchaseOrder','SalesOrder','Invoice','Events');
 	$modulesList = getSharingModuleList($std_modules);
@@ -75,7 +75,7 @@ function vtlib_prefetchModuleActiveInfo($force = true) {
 
 	// Initialize from DB if cache information is not available or force flag is set
 	if($tabrows === false || $force) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
 		$tabrows = array();
 		if($tabres) {
@@ -121,7 +121,7 @@ function vtlib_isModuleActive($module) {
  * Recreate user privileges files.
  */
 function vtlib_RecreateUserPrivilegeFiles() {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
 	if($userres && $adb->num_rows($userres)) {
 		while($userrow = $adb->fetch_array($userres)) {
@@ -172,7 +172,7 @@ function vtlib_toggleModuleAccess($module, $enable_disable) {
  * Get list of module with current status which can be controlled.
  */
 function vtlib_getToggleModuleInfo() {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$modinfo = Array();
 
@@ -194,7 +194,7 @@ function vtlib_getToggleModuleInfo() {
  * Get list of language and its current status.
  */
 function vtlib_getToggleLanguageInfo() {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	// The table might not exists!
 	$old_dieOnError = $adb->dieOnError;
@@ -216,7 +216,7 @@ function vtlib_getToggleLanguageInfo() {
  * Toggle the language (enable/disable)
  */
 function vtlib_toggleLanguageAccess($langprefix, $enable_disable) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	// The table might not exists!
 	$old_dieOnError = $adb->dieOnError;
@@ -235,7 +235,7 @@ function vtlib_toggleLanguageAccess($langprefix, $enable_disable) {
  */
  /*
 function vtlib_getFieldHelpInfo($module) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$fieldhelpinfo = Array();
 	if(in_array('helpinfo', $adb->getColumnNames('vtiger_field'))) {
 		$result = $adb->pquery('SELECT fieldname,helpinfo FROM vtiger_field WHERE tabid=?', Array(getTabid($module)));
@@ -470,7 +470,7 @@ function vtlib_tosingular($text) {
  * Get picklist values that is accessible by all roles.
  */
 function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$columnname =  $adb->sql_escape_string($field_columnname);
 	$tablename = "vtiger_$columnname";
@@ -516,7 +516,7 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
  * Get all picklist values for a non-standard picklist type.
  */
 function vtlib_getPicklistValues($field_columnname) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$columnname =  $adb->sql_escape_string($field_columnname);
 	$tablename = "vtiger_$columnname";

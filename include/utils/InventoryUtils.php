@@ -23,7 +23,7 @@ function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 {
 	global $log;
 	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".$ext_prod_arr.",".$module.") method ...");
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 
 	$log->debug("Inside updateStk function, module=".$module);
@@ -45,7 +45,7 @@ function getPrdQtyInStck($product_id)
 {
 	global $log;
 	$log->debug("Entering getPrdQtyInStck(".$product_id.") method ...");
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT qtyinstock FROM vtiger_products WHERE productid = ?";
 	$result=$adb->pquery($query1, array($product_id));
 	$qtyinstck= $adb->query_result($result,0,"qtyinstock");
@@ -62,7 +62,7 @@ function getPrdReOrderLevel($product_id)
 {
 	global $log;
 	$log->debug("Entering getPrdReOrderLevel(".$product_id.") method ...");
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT reorderlevel FROM vtiger_products WHERE productid = ?";
 	$result=$adb->pquery($query1, array($product_id));
 	$reorderlevel= $adb->query_result($result,0,"reorderlevel");
@@ -939,7 +939,7 @@ function getPricesForProducts($currencyid, $product_ids, $module='Products') {
  *  @return int $currencyid - id of the currency used for the given pricebook
  */
 function getPriceBookCurrency($pricebook_id) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$result = $adb->pquery("select currency_id from vtiger_pricebook where pricebookid=?", array($pricebook_id));
 	$currency_id = $adb->query_result($result,0,'currency_id');
 	return $currency_id;
@@ -947,7 +947,7 @@ function getPriceBookCurrency($pricebook_id) {
 
 // deduct products from stock - if status will be changed from cancel to other status.
 function deductProductsFromStock($recordId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->pquery("UPDATE vtiger_inventoryproductrel SET incrementondel=1 WHERE id=?",array($recordId));
 
 	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from vtiger_inventoryproductrel WHERE id=?",array($recordId));
@@ -973,7 +973,7 @@ function deductProductsFromStock($recordId) {
 
 // Add Products to stock - status changed to cancel or delete the invoice
 function addProductsToStock($recordId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$product_info = $adb->pquery("SELECT productid,sequence_no, quantity from vtiger_inventoryproductrel WHERE id=?",array($recordId));
 	$numrows = $adb->num_rows($product_info);
@@ -1002,7 +1002,7 @@ function getImportBatchLimit() {
 }
 
 function createRecords($obj) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$moduleName = $obj->module;
 
 	$moduleHandler = vtws_getModuleHandlerFromName($moduleName, $obj->user);
@@ -1181,7 +1181,7 @@ function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
 }
 
 function getImportStatusCount($obj) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$tableName = Import_Utils_Helper::getDbTableName($obj->user);
 	$result = $adb->query('SELECT temp_status FROM '.$tableName. ' GROUP BY subject');
 
@@ -1218,7 +1218,7 @@ function getImportStatusCount($obj) {
 }
 
 function undoLastImport($obj, $user) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$moduleName = $obj->get('module');
 	$ownerId = $obj->get('foruser');
 	$owner = new Users();
@@ -1264,7 +1264,7 @@ function getInventoryFieldsForExport($tableName) {
 }
 
 function getCurrencyId($fieldValue) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? AND deleted = 0';
 	$result = $adb->pquery($sql, array($fieldValue));
@@ -1281,7 +1281,7 @@ function getCurrencyId($fieldValue) {
  * @return type <array> - list of lineitem fields
  */
 function getLineItemFields(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	
 	$sql = 'SELECT DISTINCT columnname FROM vtiger_field WHERE tablename=?';
 	$result = $adb->pquery($sql, array('vtiger_inventoryproductrel'));

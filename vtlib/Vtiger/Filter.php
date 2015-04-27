@@ -37,7 +37,7 @@ class Vtiger_Filter {
 	 * @access private
 	 */
 	function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_customview');
 	}
 
@@ -58,7 +58,7 @@ class Vtiger_Filter {
 	 * @access private
 	 */
 	function __create($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$this->module = $moduleInstance;
 
 		$this->id = $this->__getUniqueId();
@@ -96,7 +96,7 @@ class Vtiger_Filter {
 	 * @access private
 	 */
 	function __delete() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_cvadvfilter WHERE cvid=?", Array($this->id));
 		$adb->pquery("DELETE FROM vtiger_cvcolumnlist WHERE cvid=?", Array($this->id));
 		$adb->pquery("DELETE FROM vtiger_customview WHERE cvid=?", Array($this->id));
@@ -138,7 +138,7 @@ class Vtiger_Filter {
 	 * @param Integer Index count to use
 	 */
 	function addField($fieldInstance, $index=0) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 
@@ -159,7 +159,7 @@ class Vtiger_Filter {
 	 * @param Integer Index count to use
 	 */
 	function addRule($fieldInstance, $comparator, $comparevalue, $index=0, $group=1, $condition='and') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if(empty($comparator)) return $this;
 
@@ -227,7 +227,7 @@ class Vtiger_Filter {
 	 * @param Vtiger_Module Instance of the module to use when filtername is used
 	 */
 	static function getInstance($value, $moduleInstance=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$instance = false;
 
 		$query = false;
@@ -252,7 +252,7 @@ class Vtiger_Filter {
 	 * @param Vtiger_Module Instance of module
 	 */
 	static function getAllForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$instances = false;
 
 		$query = "SELECT * FROM vtiger_customview WHERE entitytype=?";
@@ -272,7 +272,7 @@ class Vtiger_Filter {
 	 * @param Vtiger_Module Instance of module
 	 */
 	static function deleteForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$cvidres = $adb->pquery("SELECT cvid FROM vtiger_customview WHERE entitytype=?", Array($moduleInstance->name));
 		if($adb->num_rows($cvidres)) {

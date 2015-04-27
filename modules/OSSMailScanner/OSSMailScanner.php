@@ -15,7 +15,7 @@ require_once('include/Tracker.php');
 class OSSMailScanner {
 	function vtlib_handler($moduleName, $eventType) {
 		$registerLink = false; 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
  		if($eventType == 'module.postinstall') {
 			$this->turn_on($moduleName);
@@ -52,7 +52,7 @@ class OSSMailScanner {
 		} else if($eventType == 'module.preupdate') {
 		// TODO Handle actions before this module is updated.
 		} else if($eventType == 'module.postupdate') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$Module = Vtiger_Module::getInstance($moduleName);
 			if(version_compare($Module->version, '1.21', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
@@ -61,7 +61,7 @@ class OSSMailScanner {
 		}
  	}
     function turn_on($moduleName) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$blockid = $adb->query_result( 
 			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'",array()),
 			0, 'blockid');
@@ -82,7 +82,7 @@ class OSSMailScanner {
 			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence+1,'Mail Logs','','OSSMailScanner', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));	
     }
     function turn_off($moduleName) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Scanner'));
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Logs'));
     }

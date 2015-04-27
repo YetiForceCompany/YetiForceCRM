@@ -39,7 +39,7 @@ class VTWorkflowEventHandler extends VTEventHandler {
 	function handleEvent($eventName, $entityData, $entityCache = false) {
 		$util = new VTWorkflowUtils();
 		$user = $util->adminUser();
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$isNew = $entityData->isNew();
 
 		if (!$entityCache) {

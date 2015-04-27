@@ -12,7 +12,7 @@ require_once 'include/events/VTEventHandler.inc';
 class Vtiger_RecordLabelUpdater_Handler extends VTEventHandler {
 
 	function handleEvent($eventName, $data) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if ($eventName == 'vtiger.entity.aftersave') {
 			$labelInfo = getEntityName($data->getModuleName(), $data->getId(), true);

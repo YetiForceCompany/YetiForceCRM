@@ -88,7 +88,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 {
 	global $log;
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$output = '';
 	global $theme,$current_user;
 

@@ -331,7 +331,7 @@ class Project extends CRMEntity {
 	 */
 	function vtlib_handler($modulename, $event_type) {
 		if($event_type == 'module.postinstall') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			include_once('vtlib/Vtiger/Module.php');
 			$moduleInstance = Vtiger_Module::getInstance($modulename);
@@ -395,7 +395,7 @@ class Project extends CRMEntity {
 		} else if($event_type == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
 		} else if($event_type == 'module.postupdate') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
 			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');

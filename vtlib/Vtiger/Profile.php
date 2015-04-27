@@ -27,7 +27,7 @@ class Vtiger_Profile {
 	} 
 
 	private function create() { 
-		global $adb; 
+		$adb = PearDatabase::getInstance(); 
 		$this->id = $adb->getUniqueID('vtiger_profile'); 
 		$sql = "INSERT INTO vtiger_profile (profileid, profilename, description) 
 						VALUES (?,?,?)"; 
@@ -72,7 +72,7 @@ class Vtiger_Profile {
 	 * @access private
 	 */
 	static function initForField($fieldInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// Allow field access to all
 		$adb->pquery("INSERT INTO vtiger_def_org_field (tabid, fieldid, visible, readonly) VALUES(?,?,?,?)",
@@ -91,7 +91,7 @@ class Vtiger_Profile {
 	 * @access private
 	 */
 	static function deleteForField($fieldInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$adb->pquery("DELETE FROM vtiger_def_org_field WHERE fieldid=?", Array($fieldInstance->id));
 		$adb->pquery("DELETE FROM vtiger_profile2field WHERE fieldid=?", Array($fieldInstance->id));
@@ -102,7 +102,7 @@ class Vtiger_Profile {
 	 * @access private
 	 */
 	static function getAllIds() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$profileids = Array();
 		$result = $adb->pquery('SELECT profileid FROM vtiger_profile', array());
 		for($index = 0; $index < $adb->num_rows($result); ++$index) {
@@ -117,7 +117,7 @@ class Vtiger_Profile {
 	 * @access private
 	 */
 	static function initForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$actionids = Array();
 		$result = $adb->pquery("SELECT actionid from vtiger_actionmapping WHERE actionname IN 
@@ -153,7 +153,7 @@ class Vtiger_Profile {
 	 * @access private
 	 */
 	static function deleteForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_profile2tab WHERE tabid=?", Array($moduleInstance->id));
 		$adb->pquery("DELETE FROM vtiger_profile2standardpermissions WHERE tabid=?", Array($moduleInstance->id));
 	}

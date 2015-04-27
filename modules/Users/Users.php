@@ -457,7 +457,7 @@ class Users extends CRMEntity {
         $crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 
         // For backward compatability, we need to make sure to handle this case.
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $table_cols = $adb->getColumnNames("vtiger_users");
         if(!in_array("crypt_type", $table_cols)) {
             return $crypt_type;
@@ -595,7 +595,7 @@ class Users extends CRMEntity {
      */
 
     function retrieve_user_id($user_name) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = "SELECT id from vtiger_users where user_name=? AND deleted=0";
         $result  =$adb->pquery($query, array($user_name));
         $userid = $adb->query_result($result,0,'id');
@@ -1201,7 +1201,7 @@ class Users extends CRMEntity {
      * @returns the customized home page order in $return_array
      */
     function getHomeStuffOrder($id) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         if(!is_array($this->homeorder_array)) {
             $this->homeorder_array = array('UA', 'PA', 'ALVT','HDB','PLVT','QLTQ','CVLVT','HLT',
                     'GRT','OLTSO','ILTI','MNL','OLTPO','LTFAQ');
@@ -1247,7 +1247,7 @@ class Users extends CRMEntity {
     }
 
     function insertUserdetails($inVal) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $uid=$this->id;
         $s1=$adb->getUniqueID("vtiger_homestuff");
         $visibility=$this->getDefaultHomeModuleVisibility('ALVT',$inVal);
@@ -1440,7 +1440,7 @@ class Users extends CRMEntity {
      * @param $prev_reminder_interval -- Last Reminder Interval on which the reminder popup's were triggered.
      */
     function resetReminderInterval($prev_reminder_interval) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         if($prev_reminder_interval != $this->column_fields['reminder_interval'] ) {
             unset($_SESSION['next_reminder_interval']);
             unset($_SESSION['next_reminder_time']);
@@ -1524,7 +1524,7 @@ class Users extends CRMEntity {
      * @return Integer - Active Admin User ID
      */
     public static function getActiveAdminId() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $cache = Vtiger_Cache::getInstance();
 		if($cache->getAdminUserId()){
 			return $cache->getAdminUserId();
@@ -1557,7 +1557,7 @@ class Users extends CRMEntity {
     * @param- $_REQUEST array
     */
     public function setUserPreferences($requestArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$updateData = array();
 
 		if (isset($requestArray['about']['phone'])) $updateData['phone_mobile'] = vtlib_purify ($requestArray['about']['phone']);
@@ -1583,7 +1583,7 @@ class Users extends CRMEntity {
 	 * @param- $_FILE array
 	 */
 	public function uploadOrgLogo($requestArray, $fileArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$file = $fileArray['file'];
 		$logo_name = $file['name'];
 		$file_size = $file['size'];
@@ -1611,7 +1611,7 @@ class Users extends CRMEntity {
     * @param- $_REQUEST array
     */
 	public function updateBaseCurrency($requestArray) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (isset ($requestArray['currency_name'])) {
 			$currency_name = vtlib_purify($requestArray['currency_name']);
 
@@ -1650,7 +1650,7 @@ class Users extends CRMEntity {
    }
 
    public function triggerAfterSaveEventHandlers() {
-	   global $adb;
+	   $adb = PearDatabase::getInstance();
 		require_once("include/events/include.inc");
 
 		//In Bulk mode stop triggering events

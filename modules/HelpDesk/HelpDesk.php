@@ -149,7 +149,7 @@ class HelpDesk extends CRMEntity {
 	{
 		global $log;
 		$log->info("in insertIntoTicketCommentTable  ".$table_name."    module is  ".$module);
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_user;
 
 		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
@@ -313,7 +313,7 @@ class HelpDesk extends CRMEntity {
 	{
 		global $log;
 		$log->debug("Entering getCustomerName(".$id.") method ...");
-        	global $adb;
+        	$adb = PearDatabase::getInstance();
 	        $sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
         	$result = $adb->pquery($sql, array($id));
 	        $customername = $adb->query_result($result,0,'user_name');
@@ -376,7 +376,7 @@ class HelpDesk extends CRMEntity {
 	 */
 	function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_user;
 
 		if($mode != 'edit')//this will be updated when we create new ticket

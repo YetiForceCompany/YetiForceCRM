@@ -24,7 +24,7 @@ class Mobile_WS_TaxByType extends Mobile_WS_Controller{
 	}
     
     protected function getTaxDetails($taxType){
-       global $adb;
+       $adb = PearDatabase::getInstance();
        $tableName = $this->getTableName($taxType);
        $result = $adb->pquery("SELECT * FROM $tableName WHERE deleted = 0", array());
        $rowCount =  $adb->num_rows($result);

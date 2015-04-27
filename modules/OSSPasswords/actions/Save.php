@@ -45,7 +45,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action {
 		$recordModel = $this->getRecordModelFromRequest($request);
         $mode = $recordModel->get( 'mode' );
         
-        global $adb;            
+        $adb = PearDatabase::getInstance();            
            
         // check if encryption is enabled
         $config == false;

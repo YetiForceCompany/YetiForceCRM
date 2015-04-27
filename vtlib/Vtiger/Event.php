@@ -59,7 +59,7 @@ class Vtiger_Event {
 	static function register($moduleInstance, $eventname, $classname, $filename, $condition='', $dependent='[]') {
 		// Security check on fileaccess, don't die if it fails
 		if(Vtiger_Utils::checkFileAccess($filename, false)) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$eventsManager = new VTEventsManager($adb);
 			$eventsManager->registerHandler($eventname, $filename, $classname, $condition, $dependent);
 			$eventsManager->setModuleForHandler($moduleInstance->name, $classname);
@@ -76,7 +76,7 @@ class Vtiger_Event {
 	static function trigger($eventname, $crmid) {
 		if(!self::hasSupport()) return;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$checkres = $adb->pquery("SELECT setype, crmid, deleted FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
 		if($adb->num_rows($checkres)) {
 			$result = $adb->fetch_array($checkres, 0);
@@ -104,7 +104,7 @@ class Vtiger_Event {
 	 * @param Vtiger_Module Instance of the module to use
 	 */
 	static function getAll($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$events = false;
 		if(self::hasSupport()) {
 			// Get all events related to module

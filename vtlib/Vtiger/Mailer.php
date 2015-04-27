@@ -34,7 +34,7 @@ class Vtiger_Mailer extends PHPMailer {
 	 * @access private
 	 */
 	function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_mailer_queue');
 	}
 
@@ -45,7 +45,7 @@ class Vtiger_Mailer extends PHPMailer {
 	function initialize() {
 		$this->IsSMTP();
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_systems WHERE server_type=?", Array('email'));
 		if($adb->num_rows($result)) {
 			$this->Host = $adb->query_result($result, 0, 'server');
@@ -88,7 +88,7 @@ class Vtiger_Mailer extends PHPMailer {
 	 * @access private
 	 */
 	function initFromTemplate($emailtemplate) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_emailtemplates WHERE templatename=? AND foldername=?",
 			Array($emailtemplate, 'Public'));
 		if($adb->num_rows($result)) {
@@ -106,7 +106,7 @@ class Vtiger_Mailer extends PHPMailer {
 	*Adding signature to mail
 	*/
 	function addSignature($userId) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sign = nl2br($adb->query_result($adb->pquery("select signature from vtiger_users where id=?", array($userId)),0,"signature"));
 		$this->Signature = $sign;
 	}
@@ -182,7 +182,7 @@ class Vtiger_Mailer extends PHPMailer {
 	 */
 	function __AddToQueue($linktoid) {
 		if($this->__initializeQueue()) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$uniqueid = self::__getUniqueId();
 			$adb->pquery('INSERT INTO vtiger_mailer_queue(id,fromname,fromemail,content_type,subject,body,mailer,relcrmid) VALUES(?,?,?,?,?,?,?,?)',
 				Array($uniqueid, $this->FromName, $this->From, $this->ContentType, $this->Subject, $this->Body, $this->Mailer, $linktoid));
@@ -227,7 +227,7 @@ class Vtiger_Mailer extends PHPMailer {
 	 * Dispatch (send) email that was queued.
 	 */
 	static function dispatchQueue(Vtiger_Mailer_Listener $listener=null) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!Vtiger_Utils::CheckTable('vtiger_mailer_queue')) return;
 
 		$mailer = new self();

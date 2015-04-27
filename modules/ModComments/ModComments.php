@@ -23,7 +23,7 @@ class ModComments extends ModCommentsCore {
 		parent::vtlib_handler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
 			self::addWidgetTo(array('Leads', 'Contacts', 'Accounts', 'Potentials', 'Project', 'ProjectTask'));
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
@@ -38,7 +38,7 @@ class ModComments extends ModCommentsCore {
 	 * @param CRMID Target parent record id
 	 */
 	static function transferRecords($currentParentId, $targetParentId) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_modcomments SET related_to=? WHERE related_to=?", array($targetParentId, $currentParentId));
 	}
 

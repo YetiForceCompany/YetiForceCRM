@@ -379,7 +379,7 @@ function end_session($user_name)
  
 function unsetServerSessionId($id)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function unsetServerSessionId");
 
 	$id = (int) $id;
@@ -413,7 +413,7 @@ function validateSession($username, $sessionid)
 }
 function getServerSessionId($id)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getServerSessionId($id)");
 
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function

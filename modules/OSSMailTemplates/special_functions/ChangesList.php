@@ -12,7 +12,7 @@ class ChangesList {
     private $moduleList = array('all');
     
     function process($data){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$html = '';
 		if($data['record'] != ''){
 			$html = '<ul>';

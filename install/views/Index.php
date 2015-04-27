@@ -230,7 +230,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 			$configFile = new Install_ConfigFileUtils_Model($configParams);
 			$configFile->createConfigFile();
 
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
 			$adb->query('SET NAMES utf8');
 
@@ -307,7 +307,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$createConfig = Install_InitSchema_Model::createConfig($source_directory, $username, $password, $system);
 		if($createConfig['result']){
 			include('config/config.inc.php');
-            global $adb;
+            $adb = PearDatabase::getInstance();
             $adb->resetSettings($dbconfig['db_type'],$dbconfig['db_hostname'],$dbconfig['db_name'],$dbconfig['db_username'],$dbconfig['db_password']);
             $adb->query('SET NAMES utf8');
 			

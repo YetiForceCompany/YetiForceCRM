@@ -12,7 +12,7 @@
 class Settings_BackUp_Pagination_Action extends Settings_Vtiger_Basic_Action {
 
     public function process(Vtiger_Request $request) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $limit = 10;
 
         $backups = Settings_BackUp_Module_Model::getBackUps();

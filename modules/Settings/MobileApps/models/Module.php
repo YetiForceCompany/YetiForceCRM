@@ -29,7 +29,7 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 	
 	public function addKey($params){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery( "SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;", array( $params['user'] , $params['service'] ), true );
         $rows = $adb->num_rows($result);
 		if($rows != 0){
@@ -44,12 +44,12 @@ class Settings_MobileApps_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 	
 	public function deleteKey($params){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $params['user'] , $params['service'] ));
 	}
 	
 	public function changePrivileges($params){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($params['privileges'] != 'null'){
 			$privileges = serialize($params['privileges']);
 		}else{

@@ -223,7 +223,7 @@ function track_email($user_name,$password,$contact_ids, $date_sent, $email_subje
 	if(authentication($user_name,$password))
 	{
 		global $current_user;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $log;
 		require_once('modules/Users/Users.php');
 		require_once('modules/Emails/Emails.php');
@@ -275,7 +275,7 @@ function GetContacts($username,$password)
 {
 	if(authentication($username,$password))
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $log;
 		require_once('modules/Contacts/Contacts.php');
 	
@@ -378,7 +378,7 @@ function AddContact($user_name,$first_name, $last_name, $email_address ,$account
 {
 	if(authentication($user_name,$password))
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_user;
 		require_once('modules/Users/Users.php');
 		require_once('modules/Contacts/Contacts.php');
@@ -445,7 +445,7 @@ function AddLead($user_name, $first_name, $last_name, $email_address ,$account_n
 {
 	if(authentication($user_name,$password))
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_user;
 		require_once('modules/Users/Users.php');
 		require_once('modules/Leads/Leads.php');

@@ -26,7 +26,7 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 		if ($eventName == 'vtiger.entity.link.after' && $shared_owners == true && Vtiger_Processes_Model::getConfig('sales','popup','popup','update_shared_permissions') == 'true') {
 			$destinationModule = array('Products', 'Services');
 			if ($entityData['sourceModule'] == 'Potentials' && in_array($entityData['destinationModule'], $destinationModule)) {
-				global $adb;
+				$adb = PearDatabase::getInstance();
 				$result1 = $adb->pquery('SELECT smownerid FROM vtiger_crmentity WHERE crmid = ?;', array($entityData['destinationRecordId']));
 				$result2 = $adb->pquery('SELECT smownerid,shownerid FROM vtiger_crmentity WHERE crmid = ?;', array($entityData['sourceRecordId']));
 				if ($adb->num_rows($result1) == 1 && $adb->num_rows($result2) == 1) {

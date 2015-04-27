@@ -93,7 +93,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function getAdminUsers(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "SELECT id, user_name FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);
@@ -107,7 +107,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function updateConfig($number, $timelock, $active){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		if('true' == $active){
 			$active = TRUE;
@@ -123,7 +123,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function updateUsersForNotifications($selectedUsers){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$deleteQuery = "DELETE FROM `vtiger_bruteforce_users`";
 		$adb->query($deleteQuery);
 		if('null' != $selectedUsers){
@@ -137,7 +137,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function getUsersForNotifications(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT * FROM vtiger_bruteforce_users", true);
 		$numRows = $adb->num_rows($result);
 		$output = [];

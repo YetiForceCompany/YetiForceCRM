@@ -86,7 +86,7 @@ class ModuleName extends Vtiger_CRMEntity {
 	* @param String Event Type
 	*/
 	function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
 			// TODO Handle actions after this module is installed.
 		} else if($eventType == 'module.disabled') {

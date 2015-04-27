@@ -108,7 +108,7 @@ class PaymentsIn extends Vtiger_CRMEntity {
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'','1');

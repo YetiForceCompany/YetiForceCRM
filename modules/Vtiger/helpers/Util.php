@@ -125,7 +125,7 @@ class Vtiger_Util_Helper {
      * returns 1 if record exists else 0
 	 */
     public static function checkRecordExistance($recordId){
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $query = 'Select deleted from vtiger_crmentity where crmid=?';
         $result = $adb->pquery($query, array($recordId));
         return $adb->query_result($result, 'deleted');

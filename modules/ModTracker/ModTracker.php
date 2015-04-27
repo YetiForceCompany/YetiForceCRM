@@ -76,7 +76,7 @@ class ModTracker {
      * function gives an array of module names for which modtracking is enabled
     */
     function getModTrackerEnabledModules() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $moduleResult = $adb->pquery('SELECT * FROM vtiger_modtracker_tabs', array());
         for($i=0; $i<$adb->num_rows($moduleResult); $i++) {
             $tabId = $adb->query_result($moduleResult, $i, 'tabid');
@@ -97,7 +97,7 @@ class ModTracker {
 	 * @param Integer $tabid
 	 */
 	static function disableTrackingForModule($tabid){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!self::isModulePresent($tabid)){
 				$res=$adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)",array($tabid,0));
 				self::updateCache($tabid,0);
@@ -117,7 +117,7 @@ class ModTracker {
 	 * @param Integer $tabid
 	 */
 	static function enableTrackingForModule($tabid){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!self::isModulePresent($tabid)){
 			$res=$adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)",array($tabid,1));
 			self::updateCache($tabid,1);
@@ -138,7 +138,7 @@ class ModTracker {
 	 * @param String $modulename
 	 */
 	static function isTrackingEnabledForModule($modulename){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($modulename);
 		if(!self::getVisibilityForModule($tabid) || self::getVisibilityForModule($tabid) !== 0) {
 			$query = $adb->pquery("SELECT * FROM vtiger_modtracker_tabs WHERE vtiger_modtracker_tabs.visible = 1
@@ -165,7 +165,7 @@ class ModTracker {
 	 * @param Integer $tabid
 	 */
 	static function isModulePresent($tabid){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!self::checkModuleInModTrackerCache($tabid)){
 			$query=$adb->pquery("SELECT * FROM vtiger_modtracker_tabs WHERE tabid = ?",array($tabid));
 			$rows = $adb->num_rows($query);
@@ -185,7 +185,7 @@ class ModTracker {
 	 * @param Integer $tabid
 	 */
 	static function isModtrackerLinkPresent($tabid){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query1=$adb->pquery("SELECT * FROM vtiger_links WHERE linktype='DETAILVIEWBASIC' AND
 							  linklabel = 'View History' AND tabid = ?",array($tabid));
 		$row=$adb->num_rows($query1);
@@ -336,7 +336,7 @@ class ModTracker {
 
 
     static function getRecordFieldChanges($crmid, $time, $decodeHTML = false) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $date = date('Y-m-d H:i:s', $time);
         

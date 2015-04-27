@@ -44,7 +44,7 @@ class VTWSEntityType{
 		return new VTWSEntityType($entityTypeName, $user);
 	}
 	function getTabId(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!isset($this->tabId)){
 			$result = $adb->pquery("select tabid from vtiger_tab where name=?", 
 				array($this->entityTypeName));

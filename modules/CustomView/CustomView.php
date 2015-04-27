@@ -129,7 +129,7 @@ class CustomView extends CRMEntity {
 	}
 
 	function getViewIdByName($viewname, $module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if (isset($viewname)) {
 			$query = "select cvid from vtiger_customview where viewname=? and entitytype=?";
 			$cvresult = $adb->pquery($query, array($viewname, $module));
@@ -442,7 +442,7 @@ class CustomView extends CRMEntity {
 	 * 			 $tablenamen:$columnnamen:$fieldnamen:$module_$fieldlabeln => $fieldlabeln)
 	 */
 	function getStdCriteriaByModule($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($module);
 
 		global $current_user;
@@ -840,7 +840,7 @@ class CustomView extends CRMEntity {
 	 * $stdfilterlist = Array( 'columnname' =>  $tablename:$columnname:$fieldname:$module_$fieldlabel,'stdfilter'=>$stdfilter,'startdate'=>$startdate,'enddate'=>$enddate)
 	 */
 	function getStdFilterByCvid($cvid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
 		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
@@ -973,7 +973,7 @@ class CustomView extends CRMEntity {
 	 * @param String $tablename
 	 */
 	function isFieldPresent_ByColumnTable($columnname, $tablename) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
 			$query = 'SELECT columnname FROM vtiger_field WHERE tablename = ? and presence in (0,2)';
@@ -1003,7 +1003,7 @@ class CustomView extends CRMEntity {
 	 *
 	 */
 	function getCvColumnListSQL($cvid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
 			foreach ($columnslist as $columnname => $value) {
@@ -1055,7 +1055,7 @@ class CustomView extends CRMEntity {
 	 *
 	 */
 	function getCVStdFilterSQL($cvid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$stdfiltersql = '';
 		$stdfilterlist = array();
@@ -1334,7 +1334,7 @@ class CustomView extends CRMEntity {
 	function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname) {
 		global $log;
 		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
 		$value = '(';
@@ -1779,7 +1779,7 @@ class CustomView extends CRMEntity {
 	  'cvid'=>$custom view id)
 	 */
 	function getCustomActionDetails($cvid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
 		$sSQL .= " where vtiger_customaction.cvid=?";
@@ -1799,7 +1799,7 @@ class CustomView extends CRMEntity {
 	 */
 
 	function getCustomViewModuleInfo($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_language;
 		$current_mod_strings = return_specified_module_language($current_language, $module);
 		$block_info = Array();
@@ -1855,7 +1855,7 @@ class CustomView extends CRMEntity {
 	 * @return Array
 	 */
 	function getStatusAndUserid($viewid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if ($this->_status === false || $this->_userid === false) {
 			$query = "SELECT status, userid FROM vtiger_customview WHERE cvid=?";

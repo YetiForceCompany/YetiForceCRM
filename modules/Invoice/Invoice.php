@@ -186,7 +186,7 @@ class Invoice extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_invoicestatushistory(".$id.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 
@@ -355,7 +355,7 @@ class Invoice extends CRMEntity {
 	 * @param - $salesorder_id Salesorder ID
 	 */
 	function createRecurringInvoiceFromSO(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$salesorder_id = $this->_salesorderid;
 		$query1 = "SELECT * FROM vtiger_inventoryproductrel WHERE id=?";
 		$res = $adb->pquery($query1, array($salesorder_id));

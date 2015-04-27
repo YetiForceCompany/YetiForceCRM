@@ -16,7 +16,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public static function getTicketStatus(){
 		global $log;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_ticketstatus`;';
 		$result = $adb->query($sql);
@@ -37,7 +37,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public static function getTicketStatusNotModify(){
 		global $log;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...");
 		$sql = 'SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`;';
 		$result = $adb->query($sql);
@@ -58,7 +58,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 */
 	public function updateTicketStatusNotModify($data){
 		global $log;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
 		$adb->query($deleteQuery);

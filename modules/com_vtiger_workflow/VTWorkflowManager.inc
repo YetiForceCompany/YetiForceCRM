@@ -349,7 +349,7 @@
 		}
 
 		function isCompletedForRecord($recordId) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_activatedonce
 							WHERE entity_id=? and workflow_id=?", array($recordId, $this->id));
@@ -368,14 +368,14 @@
 		}
 
 		function markAsCompletedForRecord($recordId) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$adb->pquery("INSERT INTO com_vtiger_workflow_activatedonce (entity_id, workflow_id)
 				VALUES (?,?)", array($recordId, $this->id));
 		}
 
 		function performTasks($entityData) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$data = $entityData->getData();
 
 			require_once('modules/com_vtiger_workflow/VTTaskManager.inc');

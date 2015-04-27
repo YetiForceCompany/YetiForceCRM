@@ -56,7 +56,7 @@ function getComboArray($combofieldNames)
 }
 function getUniquePicklistID()
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	/*$sql="select id from vtiger_picklistvalues_seq";
 	$picklistvalue_id = $adb->query_result($adb->pquery($sql, array()),0,'id');
 

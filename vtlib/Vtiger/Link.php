@@ -68,7 +68,7 @@ class Vtiger_Link {
 	 * Get unique id for the insertion
 	 */
 	static function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_links');
 	}
 
@@ -104,7 +104,7 @@ class Vtiger_Link {
 	 * @param Integer Order or sequence of displaying the link
 	 */
 	static function addLink($tabid, $type, $label, $url, $iconpath='',$sequence=0, $handlerInfo=null) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		self::__initSchema();
 		$checkres = $adb->pquery('SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?',
 			Array($tabid, $type, $url, $iconpath, $label));
@@ -133,7 +133,7 @@ class Vtiger_Link {
 	 * @param String URL of link to lookup while deleting
 	 */ 
 	static function deleteLink($tabid, $type, $label, $url=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		self::__initSchema();
 		if($url) {
 			$adb->pquery('DELETE FROM vtiger_links WHERE tabid=? AND linktype=? AND linklabel=? AND linkurl=?',
@@ -151,7 +151,7 @@ class Vtiger_Link {
 	 * @param Integer Module ID.
 	 */
 	static function deleteAll($tabid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		self::__initSchema();
 		$adb->pquery('DELETE FROM vtiger_links WHERE tabid=?', Array($tabid));
 		self::log("Deleting Links ... DONE");
@@ -260,7 +260,7 @@ class Vtiger_Link {
 	 * Extract the links of module for export.
 	 */
 	static function getAllForExport($tabid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_links WHERE tabid=?', array($tabid));
 		$links  = array();
 		while($row = $adb->fetch_array($result)) {

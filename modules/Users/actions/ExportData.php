@@ -7,7 +7,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action{
    * @param Vtiger_Request $request
    */
   function ExportData(Vtiger_Request $request) {
-    global $adb;
+    $adb = PearDatabase::getInstance();
     $moduleName = $request->get('source_module');
 
     $this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);

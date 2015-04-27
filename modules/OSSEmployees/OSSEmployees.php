@@ -318,7 +318,7 @@ class OSSEmployees extends Vtiger_CRMEntity {
 	}
 	 
     function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if($event_type == 'module.postinstall') {
 			//blok z polami w podsumowaniu
 			$tabid = getTabid($modulename);
