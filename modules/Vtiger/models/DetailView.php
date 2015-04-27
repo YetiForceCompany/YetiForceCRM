@@ -68,6 +68,20 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 		$recordPermissionToEditView = Users_Privileges_Model::CheckPermissionsToEditView($moduleName, $recordId);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId) && $recordPermissionToEditView) {
+			$adb = PearDatabase::getInstance();
+			vimport('~~modules/com_vtiger_workflow/include.inc');
+			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+			$wfs = new VTWorkflowManager($adb);
+			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$MANUAL);
+			if (Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger') && count($workflows) > 0) {
+				$detailViewLinks[] = array(
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => '',
+					'linkurl' => 'Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+					'linkicon' => 'icon-plus-sign',
+					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
+				);
+			}
 			if ($recordModel->get('was_read') == 0 && $recordModel->get('assigned_user_id') == $currentUserModel->get('id') && $currentUserPriviligesModel->hasModuleActionPermission($moduleModel->getId(), 'ReadRecord')) {
 				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
