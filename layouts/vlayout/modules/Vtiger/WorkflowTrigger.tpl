@@ -21,7 +21,7 @@
 					<input type="checkbox"  id="wf_{$WORKFLOW->id}" value="{$WORKFLOW->id}"/>
 				</div>
 				<div class="span11">
-					<label for="wf_{$WORKFLOW->id}" class="span3">{vtranslate({$WORKFLOW->description},$QUALIFIED_MODULE)}</label>
+					<label for="wf_{$WORKFLOW->id}">{vtranslate({$WORKFLOW->description},$QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
 		{/foreach}
