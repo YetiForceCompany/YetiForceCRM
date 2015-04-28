@@ -209,7 +209,7 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 		$log->debug('Sharing is Public. All vtiger_users should be listed');
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$params = [];
-		//var_dump($module);
+
 		if ($module) {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
@@ -220,7 +220,7 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 			else 
 				$query .= ' AND';
 			$query .= ' groupid=?';
-			$params = [$current_user->id];
+			array_push($params, $current_user->id);
 
 			if(count($current_user_groups) != 0) {
 				$query .= ' OR vtiger_groups.groupid in ('.generateQuestionMarks($current_user_groups).')';
