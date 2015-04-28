@@ -100,6 +100,23 @@
 								<input type="hidden" name="contact_id" value="{$smarty.request.contact_id}" />
 							{/if}
 						</table>
+						<div class="row-fluid" style="margin-top: 5px;">
+							<div class="span4" id="prev_events">
+								<table class="table">
+									<tr><th>{vtranslate('TASK_PREV', $MODULE)}</th></tr>
+								</table>
+							</div>
+							<div class="span4" id="cur_events">
+								 <table class="table">
+									<tr><th>{vtranslate('TASK_CUR', $MODULE)}</th></tr>
+								</table>
+							</div>
+							<div class="span4" id="next_events">
+								<table class="table">
+									<tr><th>{vtranslate('TASK_NEXT', $MODULE)}</th></tr>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer quickCreateActions">

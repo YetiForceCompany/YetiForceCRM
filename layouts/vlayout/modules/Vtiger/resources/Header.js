@@ -221,6 +221,7 @@ jQuery.Class("Vtiger_Header_Js", {
             var moduleName = quickCreateForm.find('[name="module"]').val();
             var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
             editViewInstance.registerBasicEvents(quickCreateForm);
+			thisInstance.registerChangeNearCalendarEvent(quickCreateForm,moduleName);
             quickCreateForm.validationEngine(app.validationEngineOptions);
             if (typeof params.callbackPostShown != "undefined") {
                 params.callbackPostShown(quickCreateForm);
@@ -246,6 +247,83 @@ jQuery.Class("Vtiger_Header_Js", {
 	    });
         });
     },
+	getNearCalendarEvent: function(data,module){
+		var thisInstance = this;
+		typeActive = data.find('ul li.active a').data('tab-name');
+		data = data.find('div.active');
+		var user = data.find('[name="assigned_user_id"]');
+		var dateStartEl = data.find('[name="date_start"]');
+        var dateStartVal = dateStartEl.val();
+		var dateStartFormat = dateStartEl.data('date-format');
+		if(typeof dateStartVal == 'undefined'){ return; }
+        var validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '-1', ' ');
+        var currentDate = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, ' ', ' ');
+		var dateEndFirst = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, '+1', ' ');
+		var dateEnd = Vtiger_Helper_Js.convertToDateString(dateEndFirst, 'yyyy-mm-dd', '+1', ' ');
+
+        var params = {
+            module: 'Calendar',
+			action: 'Calendar',
+			mode: 'getEvents',
+            start: validDateFromat,
+            end: dateEnd,
+			user: user.val()
+        }
+		AppConnector.request(params).then(function (events) {
+			if(typeof events.result != 'undefined' && events.result.length>0){
+				 events = events.result;
+				for (var ev in events) { 
+					icon = 'icon-calendar';
+					linkHtml = '';
+					hidden = '';
+					if(events[ev]['set'] == 'Task'){
+						icon = 'icon-tasks';
+					}if(events[ev]['linkl']){
+						linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
+					}
+					/*if(typeActive == 'Task' && events[ev]['set'] != 'Task'){
+						hidden = 'hide';
+					}else if(typeActive == 'Event' && events[ev]['set'] == 'Task'){
+						hidden = 'hide';
+					}*/
+					if(events[ev]['start'].indexOf(validDateFromat) > -1){
+						data.find('#prev_events .table').append('<tr class="mode_'+events[ev]['set']+' '+hidden+' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="'+icon+'" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>'+linkHtml+'</td></tr>');
+					}else if(events[ev]['start'].indexOf(currentDate) > -1){
+						data.find('#cur_events .table').append('<tr class="mode_'+events[ev]['set']+' '+hidden+' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="'+icon+'" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>'+linkHtml+'</td></tr>');
+					}else if(events[ev]['start'].indexOf(dateEndFirst) > -1){
+						data.find('#next_events .table').append('<tr class="mode_'+events[ev]['set']+' '+hidden+' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="'+icon+'" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>'+linkHtml+'</td></tr>');
+					}
+				}
+			}
+		})
+	},
+	registerChangeNearCalendarEvent: function(data,module){
+		var thisInstance = this;
+		if(!data || module != 'Calendar' || typeof module == 'undefined'){
+			return;
+		}
+		var user = data.find('[name="assigned_user_id"]');
+		var dateStartEl = data.find('[name="date_start"]');
+		user.on('change',function(e){
+			var element = jQuery(e.currentTarget);
+			var data = element.closest('form');
+			data.find('.addedNearCalendarEvent').remove();
+			thisInstance.getNearCalendarEvent(data,module);
+		});
+		dateStartEl.on('change',function(e){
+			var element = jQuery(e.currentTarget);
+			var data = element.closest('form');
+			data.find('.addedNearCalendarEvent').remove();
+			thisInstance.getNearCalendarEvent(data,module);
+		});
+		data.find('ul li a').on('click',function(e){
+			var element = jQuery(e.currentTarget);
+			var data = element.closest('form');
+			data.find('.addedNearCalendarEvent').remove();
+			thisInstance.getNearCalendarEvent(data,module);
+		});
+		thisInstance.getNearCalendarEvent(data,module);
+	},
 	toggleTimesInputs: function(form){    	
 		form.find(':checkbox').change(function() {
 			var checkboxName = $(this).attr('name');
