@@ -37,7 +37,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		if($securityParameter != '')
-			$query.= ' AND '.$securityParameter;
+			$query.= $securityParameter;
 		$query.= ' ORDER BY date_start,time_start ASC';
 
 		$queryResult = $db->pquery($query,$params);

@@ -36,7 +36,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 		$instance = CRMEntity::getInstance($module);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
 		if($securityParameter != '')
-			$query.= ' '.$securityParameter;
+			$query.= $securityParameter;
 		
 		$params = array();
 		if($this->get('start') && $this->get('end')){

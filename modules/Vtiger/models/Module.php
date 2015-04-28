@@ -1058,7 +1058,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$instance = CRMEntity::getInstance($moduleName);
 		$securityParameter = $instance->getUserAccessConditionsQuerySR($moduleName, $currentUser);
 		if ($securityParameter != '')
-			$query .= ' ' . $securityParameter;
+			$query .= $securityParameter;
 		$query .= " ORDER BY date_start, time_start LIMIT ". $pagingModel->getStartIndex() .", ". ($pagingModel->getPageLimit()+1);
 
 		if ($recordId) {

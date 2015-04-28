@@ -123,7 +123,7 @@ class Campaigns_Module_Model extends Vtiger_Module_Model {
 			$instance = CRMEntity::getInstance($relatedModuleName);
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
 			if ($securityParameter != '')
-				$sql .= ' ' . $securityParameter;
+				$sql .= $securityParameter;
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}

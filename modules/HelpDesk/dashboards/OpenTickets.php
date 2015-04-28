@@ -32,7 +32,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View {
 			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0';
 		if ($securityParameter != '')
-			$sql.= ' ' . $securityParameter;
+			$sql.= $securityParameter;
 		
 		if(!empty($ticketStatus)){
 			$ticketStatusSearch = implode("','", $ticketStatus);
