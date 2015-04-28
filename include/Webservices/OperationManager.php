@@ -150,7 +150,7 @@
 						return $userDetails;
 					}else{
 						$this->sessionManager->set("authenticatedUserId", $userDetails->id);
-						global $adb;
+						$adb = PearDatabase::getInstance();
 						$webserviceObject = VtigerWebserviceObject::fromName($adb,"Users");
 						$userId = vtws_getId($webserviceObject->getEntityId(),$userDetails->id);
 						$vtigerVersion = vtws_getVtigerVersion();

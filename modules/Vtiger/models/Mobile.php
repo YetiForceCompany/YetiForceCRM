@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	public function checkPermissionForOutgoingCall() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$result = $adb->pquery( 'SELECT id FROM yetiforce_mobile_keys WHERE user = ? AND service = ?;', array( $currentUser->getId() , 'pushcall' ) );
 		if($adb->num_rows($result) > 0){
@@ -19,7 +19,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 		return false;
 	}
 	public function performCall( $record = false, $phoneNumber = false, $user = false ) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$return = false;
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryUser = $currentUser->getId();
@@ -35,7 +35,7 @@ class Vtiger_Mobile_Model extends Vtiger_Base_Model {
 	}
 	
 	public function getAllMobileKeys( $service , $userid = false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$params = array( 'Active' );
 		$sql = '';

@@ -293,7 +293,7 @@ class Documents extends CRMEntity {
 
 	function insertintonotesrel($relid,$id)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$dbQuery = "insert into vtiger_senotesrel values ( ?, ? )";
 		$dbresult = $adb->pquery($dbQuery,array($relid,$id));
 	}
@@ -461,7 +461,7 @@ class Documents extends CRMEntity {
 	 * Check the existence of folder by folderid
 	 */
 	function isFolderPresent($folderid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?", array($folderid));
 		if(!empty($result) && $adb->num_rows($result) > 0) return true;
 		return false;
@@ -471,7 +471,7 @@ class Documents extends CRMEntity {
 	 * Get Folder Default
 	 */
 	function getFolderDefault() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
@@ -488,7 +488,7 @@ class Documents extends CRMEntity {
 	function restore($modulename, $id) {
 		parent::restore($modulename, $id);
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$fresult = $adb->pquery("SELECT folderid FROM vtiger_notes WHERE notesid = ?", array($id));
 		if(!empty($fresult) && $adb->num_rows($fresult)) {
 			$folderid = $adb->query_result($fresult, 0, 'folderid');

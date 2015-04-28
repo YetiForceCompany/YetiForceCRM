@@ -14,7 +14,7 @@ require_once('include/Tracker.php');
 
 class OSSMail {
     function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if ($eventType == 'module.postinstall') {
             $this->turn_on();
             $displayLabel = 'OSSMail';
@@ -54,7 +54,7 @@ class OSSMail {
         } else if ($eventType == 'module.preupdate') {
 
         } else if ($eventType == 'module.postupdate') {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$OSSMail = Vtiger_Module::getInstance('OSSMail');
 			if(version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');

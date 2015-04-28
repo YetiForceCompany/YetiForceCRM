@@ -29,7 +29,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 	 * @access private
 	 */
 	static function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
 	}
 	
@@ -91,7 +91,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 	 * @access private
 	 */
 	function export_Language($prefix) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_language WHERE prefix = ?", array($prefix));
 		$languageresultrow = $adb->fetch_array($sqlresult);
@@ -165,7 +165,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 		$useisdefault = ($isdefault)? 1 : 0;
 		$useisactive  = ($isactive)?  1 : 0;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$checkres = $adb->pquery('SELECT * FROM '.self::TABLENAME.' WHERE prefix=?', Array($prefix));
 		$datetime = date('Y-m-d H:i:s');
 		if($adb->num_rows($checkres)) {
@@ -191,7 +191,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 
 		self::__initSchema();
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$checkres = $adb->pquery('DELETE FROM '.self::TABLENAME.' WHERE prefix=?', Array($prefix));
 		self::log("Deregistering Language $prefix ... DONE");
 	}
@@ -201,7 +201,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 	 * @param Boolean true to include in-active languages also, false (default)
 	 */
 	static function getAll($includeInActive=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$hastable = Vtiger_Utils::CheckTable(self::TABLENAME);
 
 		$languageinfo = Array();

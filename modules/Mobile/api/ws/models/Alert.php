@@ -53,13 +53,13 @@ abstract class Mobile_WS_AlertModel {
 	}
 	
 	/*function execute() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery($this->query(), $this->queryParameters());
 		return $result;
 	}*/
 	
 	function executeCount() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery($this->countQuery(), $this->queryParameters());
 		return $adb->query_result($result, 0, 'count');
 	}
@@ -70,7 +70,7 @@ abstract class Mobile_WS_AlertModel {
 	}
 	
 	static function models() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$models = array();
 		$handlerResult = $adb->pquery("SELECT * FROM vtiger_mobile_alerts WHERE deleted = 0", array());

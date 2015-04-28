@@ -48,7 +48,7 @@ class Tracker {
     {
         $this->log = LoggerManager::getLogger('Tracker');
 	// $this->db = PearDatabase::getInstance();
-	global $adb;
+	$adb = PearDatabase::getInstance();
         $this->db = $adb;
     }
 
@@ -62,7 +62,7 @@ class Tracker {
      */
     function track_view($user_id, $current_module, $item_id, $item_summary)
     {
-      global $adb;
+      $adb = PearDatabase::getInstance();
       $this->delete_history($user_id, $item_id);
       global $log;
 $log->info("in  track view method ".$current_module);

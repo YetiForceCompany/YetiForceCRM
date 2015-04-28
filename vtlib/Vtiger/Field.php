@@ -22,14 +22,14 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @access private
 	 */
 	function __getPicklistUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_picklist');
 	}
 	/**
 	 * Get picklist values from table
 	 */
 	function getPicklistValues() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$picklist_table = 'vtiger_'.$this->name;
 		$picklistValues = array();
 		$picklistResult = $adb->query("SELECT ".$this->name." FROM ".$picklist_table);
@@ -118,7 +118,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @access private
 	 */
 	function setNoRolePicklistValues($values) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         $pickListName_ids = array('recurring_frequency','payment_duration');
 		$picklist_table = 'vtiger_'.$this->name;
 		$picklist_idcol = $this->name.'id';
@@ -174,7 +174,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		}
 		// END
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		foreach($moduleNames as $relmodule) {
 			$checkres = $adb->pquery('SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=? AND module=? AND relmodule=?',
 				Array($this->id, $this->getModuleName(), $relmodule));
@@ -195,7 +195,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @param Array List of module names
 	 */
 	function unsetRelatedModules($moduleNames) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		foreach($moduleNames as $relmodule) {
 			$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=? AND module=? AND relmodule = ?',
 				Array($this->id, $this->getModuleName(), $relmodule));
@@ -211,7 +211,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @param Vtiger_Module Instance of the module if fieldname is used
 	 */
 	static function getInstance($value, $moduleInstance=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$instance = false;
 		$data = Vtiger_Functions::getModuleFieldInfo($moduleInstance->id, $value);
 		if ($data) {
@@ -231,7 +231,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 		if($cache->getBlockFields($blockInstance->id,$moduleInstance->id)){
 			return $cache->getBlockFields($blockInstance->id,$moduleInstance->id);
 		} else {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$instances = false;
 			$query = false;
 			$queryParams = false;
@@ -258,7 +258,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @param Vtiger_Module Instance of module to use
 	 */
 	static function getAllForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$instances = false;
 
 		$query = "SELECT * FROM vtiger_field WHERE tabid=? ORDER BY sequence";
@@ -279,13 +279,13 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @access private
 	 */
 	static function deleteForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_field WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting fields of the module ... DONE");
 	}
 	
 	function setTreeTemplate($tree, $moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery('INSERT INTO vtiger_trees_templates(name, module, access) VALUES (?,?,?)', Array($tree->name, $moduleInstance->id, $tree->access));
 		$templateid = $adb->getLastInsertID();
 

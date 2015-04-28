@@ -118,7 +118,7 @@ class Mobile_WS_SyncModuleRecords extends Mobile_WS_SaveRecord {
 		////////////////////////////
 		// Only when there is previous state information and is first page
 		if (!empty($lastSyncTime) && $currentPage === 0) {
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$queryDeletedParameters = array($module, date('Y-m-d H:i:s', $lastSyncTime));
 			$andsmowneridequal = "";

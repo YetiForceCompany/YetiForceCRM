@@ -333,7 +333,7 @@ class ProjectTask extends CRMEntity {
      * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
      */
     function vtlib_handler($modulename, $event_type) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
         if($event_type == 'module.postinstall') {
 			$projectTaskResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectTask'));
 			$projecttaskTabid = $adb->query_result($projectTaskResult, 0, 'tabid');

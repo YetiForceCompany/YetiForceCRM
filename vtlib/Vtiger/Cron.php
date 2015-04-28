@@ -259,7 +259,7 @@ class Vtiger_Cron {
      * Execute SQL query silently (even when table doesn't exist)
      */
     protected static function querySilent($sql, $params=false) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $old_dieOnError = $adb->dieOnError;
 
         $adb->dieOnError = false;
@@ -285,7 +285,7 @@ class Vtiger_Cron {
     }
 
     static function nextSequence() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = self::querySilent('SELECT MAX(sequence) FROM vtiger_cron_task ORDER BY SEQUENCE');
 		if ($result && $adb->num_rows($result)) {
 			$row = $adb->fetch_array($result);
@@ -301,7 +301,7 @@ class Vtiger_Cron {
      */
     static function register($name, $handler_file, $frequency, $module = 'Home', $status = 1, $sequence = 0, $description = '') {
         self::initializeSchema();
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $instance = self::getInstance($name);
         if($sequence == 0) {
             $sequence = self::nextSequence();
@@ -324,7 +324,7 @@ class Vtiger_Cron {
      * Get instances that are active (not disabled)
      */
     static function listAllActiveInstances($byStatus = 0) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $instances = array();
         if($byStatus == 0) {
@@ -346,7 +346,7 @@ class Vtiger_Cron {
      * Get instance of cron task.
      */
     static function getInstance($name) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $instance = false;
         if (isset(self::$instanceCache["$name"])) {
@@ -367,7 +367,7 @@ class Vtiger_Cron {
      * Get instance of cron job by id
      */
     static function getInstanceById($id) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $instance = false;
         if (isset(self::$instanceCache[$id])) {
             $instance = self::$instanceCache[$id];
@@ -384,7 +384,7 @@ class Vtiger_Cron {
     }
 
     static function listAllInstancesByModule($module) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $instances = array();
         $result = self::querySilent('SELECT * FROM vtiger_cron_task WHERE module=?',array($module));
@@ -402,7 +402,7 @@ class Vtiger_Cron {
 	 *  @Params <boolean> Completed - flag when then the cron is completed after long time
 	 */
 	public function log($completed = false){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		 $result = self::querySilent('SELECT id,iteration from vtiger_cron_log where start = ? AND name=?',array($this->getLastStart(),$this->getName()));
 		  if ($result && $adb->num_rows($result) > 0) {
 			  $row = $adb->fetch_array($result);
@@ -423,7 +423,7 @@ class Vtiger_Cron {
 	  *  Function to verify where the log Mail is sent are not
 	  */
 	 public function isSentLogMail(){
-		 global $adb;
+		 $adb = PearDatabase::getInstance();
 		 $result = self::querySilent('SELECT 1 from vtiger_cron_log where start = ? AND name=? AND iteration >= 4 ',array($this->getLastStart(),$this->getName()));
 		 if ($result && $adb->num_rows($result)) {
 			 return true;
@@ -437,7 +437,7 @@ class Vtiger_Cron {
 	  *		@returns <int> Iterations
 	  */
 	 public function getIterations(){
-		 global $adb;
+		 $adb = PearDatabase::getInstance();
 		 $result = self::querySilent('SELECT iteration from vtiger_cron_log where start = ? AND name=?',array($this->getLastStart(),$this->getName()));
 		 if ($result && $adb->num_rows($result)) {
 			 $row = $adb->fetch_array($result);
@@ -450,7 +450,7 @@ class Vtiger_Cron {
 	  *		@returns <string> competed time in hours and mins
 	  */
 	 public function getCompletedTime(){
-		 global $adb;
+		 $adb = PearDatabase::getInstance();
 		 $result = self::querySilent('SELECT start,end from vtiger_cron_log where start = ? AND name=?',array($this->getLastStart(),$this->getName()));
 		 if ($result && $adb->num_rows($result)) {
 			$row = $adb->fetch_array($result);

@@ -141,7 +141,7 @@ function getVisibleCriteria($recordid='')
 }
 
 function getShareInfo($recordid=''){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$member_query = $adb->pquery("SELECT vtiger_reportsharing.setype,vtiger_users.id,vtiger_users.user_name FROM vtiger_reportsharing INNER JOIN vtiger_users on vtiger_users.id = vtiger_reportsharing.shareid WHERE vtiger_reportsharing.setype='users' AND vtiger_reportsharing.reportid = ?",array($recordid));
 	$noofrows = $adb->num_rows($member_query);
 	if($noofrows > 0){

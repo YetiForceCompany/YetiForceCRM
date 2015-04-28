@@ -771,7 +771,7 @@ class Services extends CRMEntity {
 		global $log;
 		$log->debug("Entering getPriceBookRelatedServices(".$query.",".get_class($focus).",".$returnset.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $app_strings;
 		global $current_language,$current_user;
 		$current_module_strings = return_module_language($current_language, 'Services');
@@ -1045,7 +1045,7 @@ class Services extends CRMEntity {
 	function vtlib_handler($moduleName, $eventType) {
 
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			require_once('vtlib/Vtiger/Module.php');

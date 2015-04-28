@@ -101,7 +101,7 @@ class Vtiger_FieldBasic {
      * @access private
      */
     function __getUniqueId() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         return $adb->getUniqueID('vtiger_field');
     }
 
@@ -110,7 +110,7 @@ class Vtiger_FieldBasic {
      * @access private
      */
     function __getNextSequence() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT MAX(sequence) AS max_seq FROM vtiger_field WHERE tabid=? AND block=?", Array($this->getModuleId(), $this->getBlockId()));
         $maxseq = 0;
         if ($result && $adb->num_rows($result)) {
@@ -125,7 +125,7 @@ class Vtiger_FieldBasic {
      * @access private
      */
     function __getNextQuickCreateSequence() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $result = $adb->pquery("SELECT MAX(quickcreatesequence) AS max_quickcreateseq FROM vtiger_field WHERE tabid=?", Array($this->getModuleId()));
         $max_quickcreateseq = 0;
         if ($result && $adb->num_rows($result)) {
@@ -143,7 +143,7 @@ class Vtiger_FieldBasic {
     function __create($blockInstance) {
         $this->__handleVtigerCoreSchemaChanges();
 
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $this->block = $blockInstance;
 
@@ -213,7 +213,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(
      * @access private
      */
     function __delete() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         Vtiger_Profile::deleteForField($this);
 
@@ -276,7 +276,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(
 // Make sure to initialize the core tables first
         $this->__handleVtigerCoreSchemaChanges();
 
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery('UPDATE vtiger_field SET helpinfo=? WHERE fieldid=?', Array($helptext, $this->id));
         self::log("Updated help information of $this->name ... DONE");
     }
@@ -286,7 +286,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(
      * @param Integer Masseditable value
      */
     function setMassEditable($value) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $adb->pquery('UPDATE vtiger_field SET masseditable=? WHERE fieldid=?', Array($value, $this->id));
         self::log("Updated masseditable information of $this->name ... DONE");
     }
@@ -296,7 +296,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Array($this->getModuleId(
      * @param Integer Summaryfield value 
      */ 
     function setSummaryField($value) { 
-        global $adb; 
+        $adb = PearDatabase::getInstance(); 
         $adb->pquery('UPDATE vtiger_field SET summaryfield=? WHERE fieldid=?', Array($value, $this->id)); 
         self::log("Updated summaryfield information of $this->name ... DONE"); 
     } 

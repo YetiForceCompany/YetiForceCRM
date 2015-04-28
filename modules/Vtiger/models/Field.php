@@ -270,7 +270,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getModulesListValues($onlyActive = true) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$modules = array();
 		$params = array();
 		if($onlyActive){

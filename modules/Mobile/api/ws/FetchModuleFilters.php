@@ -40,7 +40,7 @@ class Mobile_WS_FetchModuleFilters extends Mobile_WS_Controller {
 		
 		$filters = array();
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql = "SELECT vtiger_customview.*, vtiger_users.user_name FROM vtiger_customview 
 			INNER JOIN vtiger_users ON vtiger_customview.userid = vtiger_users.id WHERE vtiger_customview.entitytype=?";
 		$parameters = array($moduleName);

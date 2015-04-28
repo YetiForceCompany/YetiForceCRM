@@ -43,7 +43,7 @@ class Vtiger_Menu {
 	 * @param String Menu label
 	 */
 	static function getInstance($value) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = false;
 		$instance = false;
 		return $instance;

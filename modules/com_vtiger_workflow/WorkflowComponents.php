@@ -86,7 +86,7 @@ function vtJsonOwnersList($adb) {
 	echo Zend_Json::encode($ownersList);
 }
 
-global $adb;
+$adb = PearDatabase::getInstance();
 $mode = vtlib_purify($_REQUEST['mode']);
 
 if ($mode == 'getfieldsjson') {

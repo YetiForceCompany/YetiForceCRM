@@ -78,7 +78,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	
 	private function computeAccess(){
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$active = vtlib_isModuleActive($this->getTabName());
 		if($active == false){
@@ -211,7 +211,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function hasAssignPrivilege($webserviceId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// administrator's have assign privilege
 		if(is_admin($this->user)) return true;
@@ -370,7 +370,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	
 	private function retrieveMetaForBlock($block){
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$tabid = $this->getTabId();
 		require('user_privileges/user_privileges_'.$this->user->id.'.php');
@@ -423,7 +423,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function getObjectEntityName($webserviceId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id=$idComponents[1];
@@ -454,7 +454,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	function exists($recordId){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		// Caching user existence value for optimizing repeated reads.
 		// 
@@ -493,7 +493,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 	}
 	
 	public function getNameFields(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$data = getEntityFieldNames(getTabModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';

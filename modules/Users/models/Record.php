@@ -354,6 +354,8 @@ class Users_Record_Model extends Vtiger_Record_Model {
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
 			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '4') {
+				$accessibleUser[$this->getId()] = $this->getName();
 			}
 			Vtiger_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);
 		}

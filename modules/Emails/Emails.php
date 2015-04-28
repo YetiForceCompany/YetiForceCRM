@@ -75,7 +75,7 @@ class Emails extends CRMEntity {
 	}
 
 	function save_module($module) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//Inserting into seactivityrel
 		//modified by Richie as raju's implementation broke the feature for addition of webmail to vtiger_crmentity.need to be more careful in future while integrating code
 		if ($_REQUEST['module'] == "Emails" && (!$this->plugin_save)) {
@@ -313,7 +313,7 @@ class Emails extends CRMEntity {
 	function get_users($id) {
 		global $log;
 		$log->debug("Entering get_users(" . $id . ") method ...");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 
@@ -565,7 +565,7 @@ class Emails extends CRMEntity {
 	 * @param - $mailid
 	 */
 	function setEmailAccessCountValue($mailid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$successIds = array();
 		$result = $adb->pquery('SELECT idlists FROM vtiger_emaildetails WHERE emailid=?', array($mailid));
 		$idlists = $adb->query_result($result,0,'idlists');

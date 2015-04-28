@@ -114,7 +114,7 @@ class Snoopy
 	var $_fp_timeout	=	60;					// timeout for socket connection
 	function Snoopy()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "select * from vtiger_systems where server_type=?";
 		$result = $adb->pquery($query, array('proxy'));
 		$noofrows = $adb->num_rows($result);

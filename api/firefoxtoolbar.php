@@ -392,7 +392,7 @@ function CheckRssPermission($username,$sessionid)
 function create_site_from_webform($username,$sessionid,$portalname,$portalurl)
 {
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -460,7 +460,7 @@ function create_rss_from_webform($username,$sessionid,$url)
 {
 
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -501,7 +501,7 @@ function create_rss_from_webform($username,$sessionid,$url)
 function create_note_from_webform($username,$sessionid,$subject,$desc)
 {
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -540,7 +540,7 @@ function create_note_from_webform($username,$sessionid,$subject,$desc)
 function create_product_from_webform($username,$sessionid,$productname,$code,$website)
 {
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -580,7 +580,7 @@ function create_product_from_webform($username,$sessionid,$productname,$code,$we
 function create_vendor_from_webform($username,$sessionid,$vendorname,$email,$phone,$website)
 {
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -621,7 +621,7 @@ function create_vendor_from_webform($username,$sessionid,$vendorname,$email,$pho
 function create_ticket_from_toolbar($username,$sessionid,$title,$description,$priority,$severity,$category,$user_name,$parent_id,$product_id)
 {
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -719,7 +719,7 @@ function create_lead_from_webform($username,$sessionid,$lastname,$email,$phone,$
 {
 
 	global $log;
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	global $current_user;
 	if(!validateSession($username,$sessionid))
 	return null;
@@ -867,7 +867,7 @@ function GetPicklistValues($username,$sessionid,$tablename)
 }
 function unsetServerSessionId($id)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function unsetServerSessionId");
 
 	$id = (int) $id;
@@ -901,7 +901,7 @@ function validateSession($username, $sessionid)
 }
 function getServerSessionId($id)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getServerSessionId($id)");
 
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function

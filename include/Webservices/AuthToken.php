@@ -10,7 +10,7 @@
 	
 	function vtws_getchallenge($username){
 		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$user = new Users();
 		$userid = $user->retrieve_user_id($username);

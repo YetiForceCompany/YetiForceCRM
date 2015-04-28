@@ -41,7 +41,6 @@ class oss_addressbook_backend extends rcube_addressbook
   public function list_records($cols=null, $subset=0){
 	$this->data = $this->oss_get_list_records($this->name);
 	$this->result = $this->count();
-	//var_dump($this->result);
 	foreach($this->data as $key => $row){
 		$this->result->add(array('ID' => $key, 'name' => $row['name'], 'firstname' => $row['firstname'], 'surname' => $row['surname'], 'email' => $row['email']));
 	}

@@ -99,7 +99,7 @@ class RequirementCards extends Vtiger_CRMEntity {
 	* @param String Event Type
 	*/
 	function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
 			include_once('vtlib/Vtiger/Module.php'); 
  			$moduleInstance = CRMEntity::getInstance('RequirementCards');

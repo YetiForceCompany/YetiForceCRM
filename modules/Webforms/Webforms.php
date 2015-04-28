@@ -21,7 +21,7 @@ class Webforms {
 	function vtlib_handler($moduleName, $eventType) {
 
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 
 			if($eventType == 'module.postinstall') {
@@ -48,7 +48,7 @@ class Webforms {
         }
 
 	function updateSettings(){
-			global $adb;
+			$adb = PearDatabase::getInstance();
 
 			$fieldid = $adb->getUniqueID('vtiger_settings_field');
 			$blockid = getSettingsBlockId('LBL_OTHER_SETTINGS');

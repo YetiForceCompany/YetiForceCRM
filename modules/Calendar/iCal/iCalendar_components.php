@@ -505,7 +505,7 @@ class iCalendar_event extends iCalendar_component {
     }
 
 	function iCalendar_event_attendee($activity){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$users_res = $adb->pquery("SELECT inviteeid FROM vtiger_invitees WHERE activityid=?", array($activity['id']));
 		if($adb->num_rows($users_res)>0){
 			for($i=0;$i<$adb->num_rows($users_res);$i++){
@@ -519,7 +519,7 @@ class iCalendar_event extends iCalendar_component {
     	return true;
 	}
 	function icalendar_event_organizer($activity){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$recordModel = Users_Record_Model::getInstanceById($activity['assigned_user_id'], 'Users');
 		$email = $recordModel->get('email1');
 		$organizer = 'mailto:'.$email;

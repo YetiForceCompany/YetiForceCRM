@@ -184,7 +184,7 @@ class SalesOrder extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_sostatushistory(".$id.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 

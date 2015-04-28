@@ -43,6 +43,18 @@
 		</div>
 		<div class="control-group">
 			<span class="control-label">
+				{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+			</span>
+			<div class="controls">
+				<select id="modulesList" class="row-fluid modules chzn-select" multiple="true" name="modules[]" data-validation-engine="validate[required]">
+					{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
+						<option value="{$TABID}" {if false}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
+			<span class="control-label">
 				{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 			</span>
 			<div class="controls">

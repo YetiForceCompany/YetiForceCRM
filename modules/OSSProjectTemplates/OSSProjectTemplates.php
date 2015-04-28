@@ -42,7 +42,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     }
 
     private function addLink($moduleName) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $blockid = $adb->query_result(
                 $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_OTHER_SETTINGS'", array()), 0, 'blockid');
@@ -54,7 +54,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
     }
 
     private function addRelationModue() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 
         $id = $adb->getUniqueID('vtiger_relatedlists');
         $projectTabId = getTabid('Project');

@@ -106,7 +106,7 @@ class Vtiger_ModuleBasic {
 	 * @access private
 	 */
 	function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT MAX(tabid) AS max_seq FROM vtiger_tab");
 		$maxseq = $adb->query_result($result, 0, 'max_seq');
 		return ++$maxseq;
@@ -117,7 +117,7 @@ class Vtiger_ModuleBasic {
 	 * @access private
 	 */
 	function __getNextSequence() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(tabsequence) AS max_tabseq FROM vtiger_tab", array());
 		$maxtabseq = $adb->query_result($result, 0, 'max_tabseq');
 		return ++$maxtabseq;
@@ -138,7 +138,7 @@ class Vtiger_ModuleBasic {
 	 * @access private
 	 */
 	function __create() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		self::log("Creating Module $this->name ... STARTED");
 
@@ -210,7 +210,7 @@ class Vtiger_ModuleBasic {
 		Vtiger_Module::fireEvent($this->name,
 			Vtiger_Module::EVENT_MODULE_PREUNINSTALL);
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($this->isentitytype) {
 			$this->unsetEntityIdentifier();
 			$this->deleteRelatedLists();
@@ -226,7 +226,7 @@ class Vtiger_ModuleBasic {
 	 */
 	function __updateVersion($newversion) {
 		$this->__handleVtigerCoreSchemaChanges();
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_tab SET version=? WHERE tabid=?", Array($newversion, $this->id));
 		$this->version = $newversion;
 		self::log("Updating version to $newversion ... DONE");
@@ -295,7 +295,7 @@ class Vtiger_ModuleBasic {
 	 * @param Vtiger_Field Instance of field to use
 	 */
 	function setEntityIdentifier($fieldInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if($this->basetableid) {
 			if(!$this->entityidfield) $this->entityidfield = $this->basetableid;
@@ -319,7 +319,7 @@ class Vtiger_ModuleBasic {
 	 * Unset entity identifier information
 	 */
 	function unsetEntityIdentifier() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_entityname WHERE tabid=?", Array($this->id));
 		self::log("Unsetting entity identifier ... DONE");
 	}
@@ -328,13 +328,13 @@ class Vtiger_ModuleBasic {
 	 * Delete related lists information
 	 */
 	function deleteRelatedLists() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE tabid=?", Array($this->id));
 		self::log("Deleting related lists ... DONE");
 	}
 
 	function deleteInRelatedLists() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_relatedlists WHERE related_tabid=?", Array($this->id));
 		self::log("Deleting related lists ... DONE");
 	}
@@ -343,7 +343,7 @@ class Vtiger_ModuleBasic {
 	 * Delete links information
 	 */
 	function deleteLinks() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_links WHERE tabid=?", Array($this->id));
 		self::log("Deleting links ... DONE");
 	}

@@ -415,7 +415,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
     function update_Events($modulenode, $moduleInstance) {
         if(empty($modulenode->events) || empty($modulenode->events->event))	return;
         
-        global $adb;
+        $adb = PearDatabase::getInstance();
         
         // Deleting events before importing them
         $adb->query("DELETE FROM vtiger_eventhandlers WHERE handler_class  IN (SELECT handler_class FROM vtiger_eventhandler_module  WHERE module_name = '".$moduleInstance->name."')");

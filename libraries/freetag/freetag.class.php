@@ -161,7 +161,7 @@ class freetag {
 		if(!isset($tag)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$where = "tag = ? ";
 		$params = array($tag);
@@ -208,7 +208,7 @@ class freetag {
 		if(!isset($tag)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$where = "tag = ? ";
 		$params = array($tag);
@@ -251,7 +251,7 @@ class freetag {
 		if (!isset($tagArray) || !is_array($tagArray)) {
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//$db = &$this->db;
 		$retarr = array();
 		if (count($tagArray) == 0) {
@@ -313,7 +313,7 @@ class freetag {
 		if(!isset($tag_id)) {
 			return false;
 		}		
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$where = "id = ? ";
 		$params = array($tag_id);
@@ -379,7 +379,7 @@ class freetag {
 		}
 		$prefix = $this->_table_prefix;
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$sql = "SELECT DISTINCT tag, raw_tag, tagger_id, id
 			FROM ${prefix}freetagged_objects INNER JOIN ${prefix}freetags ON (tag_id = id)
@@ -422,7 +422,7 @@ class freetag {
 			die("safe_tag argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$normalized_tag = $this->normalize_tag($tag);
 		$prefix = $this->_table_prefix;
@@ -524,7 +524,7 @@ class freetag {
 			die("delete_object_tag argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$tag_id = $this->get_raw_tag_id($tag);
 		$prefix = $this->_table_prefix;
 		if($tag_id > 0) {
@@ -552,7 +552,7 @@ class freetag {
 	 * @return boolean Returns true if successful, false otherwise. It will return true if the tagged object does not exist.
 	 */ 
 	function delete_all_object_tags($object_id) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 		if($object_id > 0) {
 			$sql = "DELETE FROM ${prefix}freetagged_objects
@@ -585,7 +585,7 @@ class freetag {
 			die("delete_all_object_tags_for_user argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 		if($object_id > 0) {
 
@@ -615,7 +615,7 @@ class freetag {
 			die("get_tag_id argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$prefix = $this->_table_prefix;
 
@@ -643,7 +643,7 @@ class freetag {
 			die("get_tag_id argument missing");
 			return false;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$prefix = $this->_table_prefix;
 
 		$sql = "SELECT id FROM ${prefix}freetags
@@ -791,7 +791,7 @@ class freetag {
 	 */
 
 	function get_most_popular_tags($tagger_id = NULL, $offset = 0, $limit = 25) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = "AND tagger_id = ?";
@@ -835,7 +835,7 @@ class freetag {
 	 * @return int Returns the count 
 	 */
 	function count_tags($tagger_id = NULL) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = "AND tagger_id = ?";
@@ -946,7 +946,7 @@ class freetag {
 	 */
 
 	function get_tag_cloud_tags($max = 100, $tagger_id = NULL,$module = "",$obj_id = NULL) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$params = array();
 		if(isset($tagger_id) && ($tagger_id > 0)) {
 			$tagger_sql = " AND tagger_id = ?";
@@ -1024,7 +1024,7 @@ class freetag {
 		if(!isset($tag)) {
 			return $retarr;
 		}
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		// This query was written using a double join for PHP. If you're trying to eke
 		// additional performance and are running MySQL 4.X, you might want to try a subselect
@@ -1077,7 +1077,7 @@ class freetag {
 	 *
 	 */
 	function similar_objects($object_id, $threshold = 1, $max_objects = 5, $tagger_id = NULL) {
-		global $adb;	
+		$adb = PearDatabase::getInstance();	
 		$retarr = array();
 
 		$object_id = intval($object_id);

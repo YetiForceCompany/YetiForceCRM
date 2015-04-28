@@ -110,7 +110,7 @@ class Quotes extends CRMEntity {
 
 	function save_module()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//in ajax save we should not call this function, because this will delete all the existing product values
 		if($_REQUEST['action'] != 'QuotesAjax' && $_REQUEST['ajxaction'] != 'DETAILVIEW'
 				&& $_REQUEST['action'] != 'MassEditSave' && $_REQUEST['action'] != 'ProcessDuplicates'
@@ -185,7 +185,7 @@ class Quotes extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_quotestagehistory(".$id.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 

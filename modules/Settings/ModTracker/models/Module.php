@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getModTrackerModules($active = false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
 		$params = Array(0, 2, 1, $restrictedModules);
 		$sql = 'SELECT vtiger_tab.name,vtiger_tab.tabid, vtiger_modtracker_tabs.visible 

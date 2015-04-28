@@ -328,7 +328,7 @@ class OSSMailView extends CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
 			include_once 'vtlib/Vtiger/Module.php';
 			$myCustomEntity = CRMEntity::getInstance($moduleName);
@@ -395,14 +395,14 @@ class OSSMailView extends CRMEntity {
 		}
  	}
     function turn_on($moduleName) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$adb->pquery("UPDATE vtiger_relatedlists SET related_tabid = ?,name = ?,actions = '',label = 'OSSMailView' WHERE name = ? ", array(Vtiger_Functions::getModuleId('OSSMailView'),'get_related_list','get_emails') );
 		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 		$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_EnabledModule', $moduleName, $user_id),false);
     }
     function turn_off($moduleName) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$adb->pquery("UPDATE vtiger_relatedlists SET related_tabid = ?,name = ?,actions = 'add',label = 'Emails' WHERE related_tabid = ? ", array(Vtiger_Functions::getModuleId('Emails'),'get_emails',Vtiger_Functions::getModuleId('OSSMailView')) );
 		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');

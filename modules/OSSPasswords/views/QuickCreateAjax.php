@@ -4,7 +4,7 @@
 */
 class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
     public function process(Vtiger_Request $request) {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         
         // get min, max, allow_chars from vtiger_passwords_config
         $result = $adb->query( "SELECT * FROM vtiger_passwords_config WHERE 1 LIMIT 1", true );

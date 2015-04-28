@@ -105,7 +105,7 @@ class Activity extends CRMEntity {
 
 	function save_module($module)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		//Handling module specific save
 		$recordId = $this->id;
 		$recur_type='';
@@ -145,7 +145,7 @@ class Activity extends CRMEntity {
  	 */
 	function insertIntoActivityReminderPopup($cbmodule) {
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$cbrecord = $this->id;
 		unset($_SESSION['next_reminder_time']);
@@ -337,7 +337,7 @@ function insertIntoRecurringTable(& $recurObj)
 
   	function insertIntoSmActivityRel($module)
   	{
-    		global $adb;
+    		$adb = PearDatabase::getInstance();
     		global $current_user;
     		if($this->mode == 'edit'){
       			$sql = "delete from vtiger_salesmanactivityrel where activityid=?";
@@ -810,7 +810,7 @@ function insertIntoRecurringTable(& $recurObj)
 	 * @return:: true if successful; false otherwise
 	 */
 	function setActivityReminder($status){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($status == "on"){
 			$flag = 0;
 		}elseif($status == "off"){

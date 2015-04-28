@@ -16,11 +16,11 @@ class ApiAddress{
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
         $registerLink = false;
  		if($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			require_once('vtlib/Vtiger/Module.php');
             $registerLink = true;
             

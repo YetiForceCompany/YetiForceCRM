@@ -113,7 +113,6 @@ class Mobile_API_TestController {
 				'_session'=> $this->session,
 				'module' => $moduleName,
 			), true);
-		//print_r($responseJSON);
 	}
 	
 	function doFilterDetailsWithCount($filterId) {
@@ -122,7 +121,6 @@ class Mobile_API_TestController {
 				'_session'=> $this->session,
 				'filterid' => $filterId,
 			), true);
-		//print_r($responseJSON);
 	}
 	
 	function doFetchAllAlerts() {
@@ -130,7 +128,6 @@ class Mobile_API_TestController {
 				'_operation' => 'fetchAllAlerts',
 				'_session'=> $this->session,
 			), true);
-		//print_r($responseJSON);
 	}
 	
 	function doAlertDetailsWithMessage($alertid) {
@@ -139,7 +136,6 @@ class Mobile_API_TestController {
 				'_session'=> $this->session,
 				'alertid' => $alertid,
 			), true);
-		//print_r($responseJSON);
 	}
 	
 	function doListModuleRecords($module) {
@@ -151,7 +147,6 @@ class Mobile_API_TestController {
 				//'filterid' => '2'
 				'search' => Zend_Json::encode(array('_sort'=>'ORDER BY modifiedtime desc')),
 			), true);
-		//print_r($responseJSON);
 	}
 	
 	function doFetchRecord($recordid, $withGrouping = false) {

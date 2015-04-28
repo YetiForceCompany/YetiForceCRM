@@ -28,7 +28,7 @@ class Vtiger_ThemeExport extends Vtiger_Package {
      * @access private
      */
     static function __getUniqueId() {
-            global $adb;
+            $adb = PearDatabase::getInstance();
             return $adb->getUniqueID(self::TABLENAME);
     }
 
@@ -89,7 +89,7 @@ class Vtiger_ThemeExport extends Vtiger_Package {
      * @access private
      */
     function export_Theme($layoutName, $themeName) {
-            global $adb;
+            $adb = PearDatabase::getInstance();
 
             $sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
             $layoutresultrow = $adb->fetch_array($sqlresult);
@@ -180,7 +180,7 @@ class Vtiger_ThemeExport extends Vtiger_Package {
             $useisdefault = ($isdefault)? 1 : 0;
             $useisactive  = ($isactive)?  1 : 0;
 
-            global $adb;
+            $adb = PearDatabase::getInstance();
             $checkres = $adb->pquery('SELECT * FROM '.self::TABLENAME.' WHERE name=?', Array($name));
             $datetime = date('Y-m-d H:i:s');
             if($adb->num_rows($checkres)) {

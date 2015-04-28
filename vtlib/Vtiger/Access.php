@@ -32,7 +32,7 @@ class Vtiger_Access {
 	 * @access private
 	 */
 	static function __getDefaultSharingAccessId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->getUniqueID('vtiger_def_org_share');
 	}
 
@@ -54,7 +54,7 @@ class Vtiger_Access {
 	 * @access private
 	 */
 	static function allowSharing($moduleInstance, $enable=true) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$ownedby = $enable? 0 : 1;
 		$adb->pquery("UPDATE vtiger_tab set ownedby=? WHERE tabid=?", Array($ownedby, $moduleInstance->id));
 		self::log(($enable? "Enabled" : "Disabled") . " sharing access control ... DONE");
@@ -67,7 +67,7 @@ class Vtiger_Access {
 	 * @internal This method is called from Vtiger_Module during creation.
 	 */
 	static function initSharing($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$result = $adb->query("SELECT share_action_id from vtiger_org_share_action_mapping WHERE share_action_name in
 			('Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private')");
@@ -86,7 +86,7 @@ class Vtiger_Access {
 	 * @internal This method is called from Vtiger_Module during deletion.
 	 */
 	static function deleteSharing($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_org_share_action2tab WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting sharing access ... DONE");
 	}
@@ -98,7 +98,7 @@ class Vtiger_Access {
 	 * @access private
 	 */
 	static function setDefaultSharing($moduleInstance, $permission_text='Public_ReadWriteDelete') {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$permission_text = strtolower($permission_text);
 
@@ -132,7 +132,7 @@ class Vtiger_Access {
 	 * @access private
 	 */
 	static function updateTool($moduleInstance, $toolAction, $flag, $profileid=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$result = $adb->pquery("SELECT actionid FROM vtiger_actionmapping WHERE actionname=?", Array($toolAction));
 		if($adb->num_rows($result)) {
@@ -173,7 +173,7 @@ class Vtiger_Access {
 	 * @param Vtiger_Module Instance of module to use
 	 */
 	static function deleteTools($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->pquery("DELETE FROM vtiger_profile2utility WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting tools ... DONE");
 	}

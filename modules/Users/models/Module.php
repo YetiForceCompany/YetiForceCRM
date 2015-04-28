@@ -237,7 +237,7 @@ class Users_Module_Model extends Vtiger_Module_Model {
    }
 
 	public static function getAdminUsers(){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' AND deleted = 0";
 		$result = $adb->query($query);
 		$numRows = $adb->num_rows($result);

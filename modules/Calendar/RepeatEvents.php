@@ -129,7 +129,7 @@ class Calendar_RepeatEvents {
 	 * Repeat Activity instance till given limit.
 	 */
 	static function repeat($focus, $recurObj) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$frequency = $recurObj->recur_freq;
 		$repeattype= $recurObj->recur_type;
 		

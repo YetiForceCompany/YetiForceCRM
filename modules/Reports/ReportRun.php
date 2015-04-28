@@ -165,7 +165,7 @@ class ReportRunQueryPlanner {
 	}
 
 	function initializeTempTables() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$oldDieOnError = $adb->dieOnError;
 		$adb->dieOnError = false; // If query planner is re-used there could be attempt for temp table...
@@ -194,7 +194,7 @@ class ReportRunQueryPlanner {
 	}
 
 	function cleanup() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$oldDieOnError = $adb->dieOnError;
 		$adb->dieOnError = false; // To avoid abnormal termination during shutdown...
@@ -293,7 +293,7 @@ class ReportRun extends CRMEntity
 			return $this->_columnslist;
 		}
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log,$current_user,$current_language;
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
@@ -393,7 +393,7 @@ class ReportRun extends CRMEntity
 
 
 	function getColumnSQL($selectedfields) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
 		list($module,$field) = split("__",$selectedfields[2]);
@@ -561,7 +561,7 @@ class ReportRun extends CRMEntity
 	 */
 	function getaccesfield($module) {
 		global $current_user;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$access_fields = Array();
 
 		$profileList = getCurrentUserProfileList();
@@ -643,7 +643,7 @@ class ReportRun extends CRMEntity
 	function getSelectedColumnsList($reportid)
 	{
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log;
 
@@ -913,7 +913,7 @@ class ReportRun extends CRMEntity
 
 	function generateAdvFilterSql($advfilterlist) {
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$advfiltersql = "";
         $customView = new CustomView();
@@ -1515,7 +1515,7 @@ class ReportRun extends CRMEntity
 
 	function getStandardCriterialSql($reportid)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log;
 
@@ -1825,7 +1825,7 @@ class ReportRun extends CRMEntity
 	}
 
 	function hasGroupingList() {
-	    global $adb;
+	    $adb = PearDatabase::getInstance();
 	    $result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
 	    return ($result && $adb->num_rows($result))? true : false;
 	}
@@ -1842,7 +1842,7 @@ class ReportRun extends CRMEntity
 
 	function getGroupingList($reportid)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log;
 
@@ -1945,7 +1945,7 @@ class ReportRun extends CRMEntity
 	function getSelectedOrderbyList($reportid)
 	{
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log;
 
@@ -3754,7 +3754,7 @@ class ReportRun extends CRMEntity
 			return $this->_columnstotallist;
 		}
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log, $current_user;
 
@@ -3909,7 +3909,7 @@ class ReportRun extends CRMEntity
 
 	function getColumnsToTotalColumns($reportid)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $modules;
 		global $log;
 
@@ -3992,7 +3992,7 @@ class ReportRun extends CRMEntity
 
 	function getAccessPickListValues()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $current_user;
 		$id = array(getTabid($this->primarymodule));
 		if($this->secondarymodule != '')
@@ -4276,7 +4276,7 @@ class ReportRun extends CRMEntity
 	}
 
     function getGroupByTimeList($reportId){
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
         $groupByTimeRes = $adb->pquery($groupByTimeQuery,array($reportId));
         $num_rows = $adb->num_rows($groupByTimeRes);
@@ -4313,7 +4313,7 @@ class ReportRun extends CRMEntity
 
     function GetFirstSortByField($reportid)
     {
-        global $adb;
+        $adb = PearDatabase::getInstance();
         $groupByField ="";
         $sortFieldQuery = "SELECT * FROM vtiger_reportsortcol
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)

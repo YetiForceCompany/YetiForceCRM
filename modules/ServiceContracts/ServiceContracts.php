@@ -367,7 +367,7 @@ class ServiceContracts extends CRMEntity {
 	function vtlib_handler($moduleName, $eventType) {
 
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			require_once('vtlib/Vtiger/Module.php');

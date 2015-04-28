@@ -661,7 +661,7 @@ function textlength_check($field_val) {
  * @return string $data - the first related module
  */
 function getFirstModule($module, $fieldname) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
 	$result = $adb->pquery($sql, array(getTabid($module), $fieldname));
 
@@ -774,7 +774,7 @@ function counterValue() {
 }
 
 function getUsersPasswordInfo(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
 	$result = $adb->pquery($sql, array(0));
 	$usersList = array();

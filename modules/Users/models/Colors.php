@@ -121,7 +121,7 @@ class Users_Colors_Model extends Vtiger_Record_Model {
 		return $groupColors;
 	}
 	public function getModulesColors($active = false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$sql_params = Array();
 		$sql = '';
 		if($active){

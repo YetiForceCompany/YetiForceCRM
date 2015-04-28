@@ -95,7 +95,7 @@ class QuotesEnquires extends Vtiger_CRMEntity {
 	* @param String Event Type
 	*/
 	function vtlib_handler($moduleName, $eventType) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
  			$ModuleInstance = CRMEntity::getInstance('QuotesEnquires');
 			$ModuleInstance->setModuleSeqNumber("configure",'QuotesEnquires','ID','1'); // co w miejsce id

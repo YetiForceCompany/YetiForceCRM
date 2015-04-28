@@ -1195,7 +1195,7 @@ if(!$moduleName){
 	$this->syntax_error = true;
 	throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "There is an syntax error in query");
 }
-global $adb;
+$adb = PearDatabase::getInstance();
 $handler = vtws_getModuleHandlerFromName($moduleName,$this->user);
 $objectMeta = $handler->getMeta();
 $this->out['moduleName'] = $moduleName;
@@ -1321,7 +1321,7 @@ $this->out['limit'][] = $this->yystack[$this->yyidx + 0]->minor;
 #line 1327 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
 #line 151 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
     function yy_r41(){
-global $adb;
+$adb = PearDatabase::getInstance();
 if(!$this->out['meta']){
 $module = $this->out['moduleName'];
 $handler = vtws_getModuleHandlerFromName($module,$this->user);

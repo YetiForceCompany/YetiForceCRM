@@ -43,7 +43,7 @@ class Vtiger_Block {
 	 * @access private
 	 */
 	function __getUniqueId() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		/** Sequence table was added from 5.1.0 */
 		$maxblockid = $adb->getUniqueID('vtiger_blocks');
@@ -55,7 +55,7 @@ class Vtiger_Block {
 	 * @access private
 	 */
 	function __getNextSequence() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT MAX(sequence) as max_sequence from vtiger_blocks where tabid = ?", Array($this->module->id));
 		$maxseq = 0;
 		if($adb->num_rows($result)) {
@@ -84,7 +84,7 @@ class Vtiger_Block {
 	 * @access private
 	 */
 	function __create($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$this->module = $moduleInstance;
 
@@ -114,7 +114,7 @@ class Vtiger_Block {
 	 * @access private
 	 */
 	function __delete() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		self::log("Deleting Block $this->label ... ", false);
 		$adb->pquery("DELETE FROM vtiger_blocks WHERE blockid=?", Array($this->id));
 		self::log("DONE");
@@ -168,7 +168,7 @@ class Vtiger_Block {
 	 * @param Vtiger_Module Instance of the module if block label is passed
 	 */
 	static function getInstance($value, $moduleInstance=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
 		if($moduleInstance && $cache->getBlockInstance($value, $moduleInstance->id)){
 			return $cache->getBlockInstance($value, $moduleInstance->id);
@@ -198,7 +198,7 @@ class Vtiger_Block {
 	 * @param Vtiger_Module Instance of the module
 	 */
 	static function getAllForModule($moduleInstance) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$instances = false;
 
 		$query = "SELECT * FROM vtiger_blocks WHERE tabid=? ORDER BY sequence";
@@ -220,7 +220,7 @@ class Vtiger_Block {
 	 * @access private
 	 */
 	static function deleteForModule($moduleInstance, $recursive=true) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if($recursive) Vtiger_Field::deleteForModule($moduleInstance);
 		$adb->pquery("DELETE FROM vtiger_blocks WHERE tabid=?", Array($moduleInstance->id));
 		self::log("Deleting blocks for module ... DONE");

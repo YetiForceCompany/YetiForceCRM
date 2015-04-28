@@ -34,7 +34,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function createBookMailsFiles() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$files = array();
 		
 		$result = $adb->query( 'SELECT * FROM vtiger_contactsbookmails;');

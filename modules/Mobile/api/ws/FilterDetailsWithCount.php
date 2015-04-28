@@ -29,7 +29,7 @@ class Mobile_WS_FilterDetailsWithCount extends Mobile_WS_FetchModuleFilters {
 	}
 	
 	protected function getModuleFilterDetails($filterid) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_customview WHERE cvid=?", array($filterid));
 		if ($result && $adb->num_rows($result)) {
 			$resultrow = $adb->fetch_array($result);

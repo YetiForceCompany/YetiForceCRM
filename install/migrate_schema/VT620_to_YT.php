@@ -488,12 +488,12 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		$log->debug("Exiting VT620_to_YT::sequanceSettingsBlocks() method ...");
 	}
 	public function countRow($table, $field){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->query("SELECT MAX(".$field.") AS max_seq  FROM ".$table." ;");
 		return $adb->query_result($result, 0, 'max_seq');
 	}
 	public function getBlockId($label){
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label = ? ;",array($label), true);
 		return $adb->query_result($result, 0, 'blockid');
 	}
@@ -504,7 +504,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 		require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
 		require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 		require_once('include/events/include.inc');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$removeClass = array('none'=>'RecurringInvoiceHandler','none1'=>'HelpDeskHandler','ModTracker'=>'ModTrackerHandler','none2'=>'PBXManagerHandler','none3'=>'PBXManagerBatchHandler','ServiceContracts'=>'ServiceContractsHandler','Invoice'=>'InvoiceHandler','PurchaseOrder'=>'PurchaseOrderHandler','none4'=>'ModCommentsHandler','Home'=>'Vtiger_RecordLabelUpdater_Handler','none5'=>'SECURE');
 
@@ -566,7 +566,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 	public function checkHandlerExists($handler){
 		global $log;
 		$log->debug("Entering VT620_to_YT::checkHandlerExists() method ...");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_eventhandlers WHERE event_name = ? AND handler_path = ? AND handler_class = ? ', array($handler[1], $handler[2], $handler[3],));
 		if(!$adb->num_rows($result)) {
 			$log->debug("Exiting VT620_to_YT::checkHandlerExists() method ...");
@@ -578,7 +578,7 @@ $settings_field[] = array(77,'LBL_INTEGRATION','LBL_DAV_KEYS',NULL,'LBL_DAV_KEYS
 	public function checkModuleExists($moduleName){
 		global $log;
 		$log->debug("Entering VT620_to_YT::checkModuleExists() method ...");
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_tab WHERE name = ?', array($moduleName));
 		if(!$adb->num_rows($result)) {
 			$log->debug("Exiting VT620_to_YT::checkModuleExists() method ...");
@@ -3846,7 +3846,7 @@ class RemoveModule {
 
 	function __construct( $module_name ) 
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$this->module_name = $module_name;
 		$take_tabid = $adb->query( "select tabid from vtiger_tab where name = '".$this->module_name."'", true, "Błąd podczas pobierania tabid w konstruktorze klasy RemoveModule - vtiger_tab" );
@@ -3900,7 +3900,7 @@ class RemoveModule {
 	
 	function DeleteAddedFields()
 	{
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	include_once('vtlib/Vtiger/Module.php');
 		if( count( $this->added_fields ) > 0 )
 		{
@@ -3936,7 +3936,7 @@ class RemoveModule {
 	}
 	function DeleteALLFields()
 	{
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	include_once('vtlib/Vtiger/Module.php');
 
 			$take_info = $adb->query( "select * from vtiger_field where tabid = '".$this->tabid."'" , true, "Błąd podczas pobierania pól w funkcji DeleteAddedFields()" );
@@ -3968,7 +3968,7 @@ class RemoveModule {
 	
 	function DeleteLinks()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if( count( $this->added_links ) > 0 )
 		{
 			foreach( $this->added_links as $single_link )
@@ -3981,7 +3981,7 @@ class RemoveModule {
 	
 	function DeleteHandlers()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		require_once( 'include/events/include.inc' );
 		if( count( $this->added_handlers ) > 0 )
 		{
@@ -3995,7 +3995,7 @@ class RemoveModule {
 	
 	function DeleteTables()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if( count( $this->table_list ) > 0 )
 		{
 			foreach( $this->table_list as $tablename )
@@ -4006,12 +4006,12 @@ class RemoveModule {
 	}
 	function DeleteEntityname()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$delete = $adb->query( "delete from vtiger_entityname where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_entityname w funkcji DeleteEntityname()" );
 	}
 	function DeleteBlocks()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$delete = $adb->query( "delete from vtiger_blocks where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_blocks w funkcji DeleteBlocks()" );
 	}
 	function DeleteCustomview()
@@ -4025,7 +4025,7 @@ class RemoveModule {
 	}
 	function DeletePicklistsTables()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		
 		
@@ -4044,7 +4044,7 @@ class RemoveModule {
 	}
 	function DeleteFromProfile2Field()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$delete = $adb->query( "delete from vtiger_profile2field where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_profile2field w funkcji DeleteFromProfile2Field()" );
 		$delete = $adb->query( "delete from vtiger_profile2standardpermissions where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_profile2standardpermissions w funkcji DeleteFromProfile2Field()" );
 		$delete = $adb->query( "delete from vtiger_profile2tab where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_profile2tab w funkcji DeleteFromProfile2Field()" );
@@ -4052,17 +4052,17 @@ class RemoveModule {
 	
 	function DeleteParenttabrel()
 	{
-		global $adb; 
+		$adb = PearDatabase::getInstance(); 
 		$delete = $adb->query( "delete from vtiger_parenttabrel where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_parenttabrel w funkcji DeleteParenttabrel()" );
 	}
 	function DeleteFromModentitynum()
 	{
-		global $adb; 
+		$adb = PearDatabase::getInstance(); 
 		$delete = $adb->query( "delete from vtiger_modentity_num where semodule = '".$this->module_name."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_profile2field w funkcji DeleteFromModentitynum()" );
 	}
 	function DeleteDefOrgInformations()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "delete from vtiger_def_org_field where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_def_org_field w funkcji DeleteDefOrgInformations()" );
 		$delete = $adb->query( "delete from vtiger_def_org_share where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_def_org_share w funkcji DeleteDefOrgInformations()" );
@@ -4071,27 +4071,27 @@ class RemoveModule {
 	
 	function DeleteFromCronTask()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "delete from vtiger_cron_task where module = '".$this->module_name."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_cron_task w funkcji DeleteFromCronTask()" );
 	}
 	
 	function DeleteFromCRMEntity()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "delete from vtiger_crmentity where setype = '".$this->module_name."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_crmentity w funkcji DeleteFromCRMEntity()" );
 	}
 	function DeleteTab()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "delete from vtiger_tab where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_tab w funkcji DeleteTab()" );
 		$delete = $adb->query( "delete from vtiger_tab_info where tabid = '".$this->tabid."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_tab_info w funkcji DeleteTab()" );
 	}
 	function DeleteWsEntity()
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "delete from vtiger_ws_entity where name = '".$this->module_name."'", true,  "Błąd podczas usuwania rekordów z tabeli vtiger_ws_entity w funkcji DeleteWsEntity()" );
 	}
@@ -4126,14 +4126,14 @@ class RemoveModule {
     }
     
     function DeleteRelatedLists() {
-        global $adb;
+        $adb = PearDatabase::getInstance();
 		
 		$delete = $adb->query( "DELETE FROM `vtiger_relatedlists` WHERE `label` = '".$this->module_name."'", true,  
         "Błąd podczas usuwania rekordów z tabeli vtiger_relatedlists w funkcji DeleteRelatedLists()" );
     }
     
     function DeleteSettingsField() {
-		 global $adb;
+		 $adb = PearDatabase::getInstance();
         if( count( $this->settings_links ) > 0 ) {
 			foreach( $this->settings_links as $setting ) { print_r($setting);
 				$delete = $adb->query( "DELETE FROM `vtiger_settings_field` WHERE `name` = '".$setting['name']."' AND `linkto` = '".$setting['linkto']."'", true,  
@@ -4144,14 +4144,14 @@ class RemoveModule {
                             "Błąd podczas usuwania rekordów z tabeli vtiger_settings_field w funkcji DeleteSettingsField()" );
     }
     function DeleteWorkflows() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->query( "DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` = '".$this->module_name."'", true,  
                             "Błąd podczas usuwania rekordów z tabeli vtiger_settings_field w funkcji DeleteWorkflows()" );
     }  
     function DeleteCrmentityrel() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->query( "DELETE FROM `vtiger_crmentityrel` WHERE `module` = '".$this->module_name."' OR `relmodule` = '".$this->module_name."'", true,  
                             "Błąd w funkcji DeleteCrmentityrel()" );
     }

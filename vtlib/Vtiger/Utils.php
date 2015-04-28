@@ -140,7 +140,7 @@ class Vtiger_Utils {
 	 */
 	static function SQLEscape($value) {
 		if($value == null) return $value;
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		return $adb->sql_escape_string($value);
 	}
 
@@ -149,7 +149,7 @@ class Vtiger_Utils {
 	 * @param String tablename to check
 	 */
 	static function CheckTable($tablename) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
 
@@ -173,7 +173,7 @@ class Vtiger_Utils {
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
 	static function CreateTable($tablename, $criteria, $suffixTableMeta=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$org_dieOnError = $adb->dieOnError;
 		$adb->dieOnError = false;
@@ -199,7 +199,7 @@ class Vtiger_Utils {
 	 * will be appended to ALTER TABLE $tablename SQL
 	 */
 	static function AlterTable($tablename, $criteria) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$adb->query("ALTER TABLE " . $tablename . $criteria);
 	}
 
@@ -210,7 +210,7 @@ class Vtiger_Utils {
 	 * @param String columntype (criteria like 'VARCHAR(100)') 
 	 */
 	static function AddColumn($tablename, $columnname, $criteria) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		if(!in_array($columnname, $adb->getColumnNames($tablename))) {
 			self::AlterTable($tablename, " ADD COLUMN $columnname $criteria");
 		}
@@ -221,7 +221,7 @@ class Vtiger_Utils {
 	 * @param String SQL query statement
 	 */
 	static function ExecuteQuery($sqlquery, $supressdie=false) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
 
 		if($supressdie) $adb->dieOnError = false;
@@ -236,7 +236,7 @@ class Vtiger_Utils {
 	 * @param String tablename for which CREATE SQL is requried
 	 */
 	static function CreateTableSql($tablename) {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		$create_table = $adb->pquery("SHOW CREATE TABLE $tablename", array());
 		$sql = decode_html($adb->query_result($create_table, 0, 1));

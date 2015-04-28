@@ -30,7 +30,7 @@ class Mobile_WS_AlertModel_NewTicketOfMine extends Mobile_WS_AlertModel_PendingT
 	}
 	
 	function executeCount() {
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery($this->countQuery(), $this->queryParameters());
 		return $adb->num_rows($result);
 	}

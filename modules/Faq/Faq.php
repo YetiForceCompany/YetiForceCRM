@@ -103,7 +103,7 @@ class Faq extends CRMEntity {
 	{
 		global $log;
 		$log->info("in insertIntoFAQCommentTable  ".$table_name."    module is  ".$module);
-        	global $adb;
+        	$adb = PearDatabase::getInstance();
 
         	$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
 

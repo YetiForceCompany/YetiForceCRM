@@ -437,7 +437,7 @@ class Campaigns extends CRMEntity {
 	 */
 	function add_status_popup($related_list, $status_column = 7, $related_module)
 	{
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
 		if(!$this->campaignrelstatus)
 		{

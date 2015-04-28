@@ -55,7 +55,7 @@ class VTWorkflowEntity{
 		$cache = Vtiger_Cache::getInstance();
 
 		if($this->moduleName==null){
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			$wsId = $this->data['id'];
 			$parts = explode('x', $wsId);
 			if($cache->getModuleName($parts[0])){

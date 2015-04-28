@@ -110,11 +110,11 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
 
  		if($eventType == 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			global $adb;
+			$adb = PearDatabase::getInstance();
 			include_once('vtlib/Vtiger/Module.php');
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));

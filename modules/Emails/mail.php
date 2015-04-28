@@ -128,7 +128,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
   */
 function getUserEmailId($name,$val)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getUserEmailId. --- ".$name." = '".$val."'");
 	if($val != '')
 	{
@@ -152,7 +152,7 @@ function getUserEmailId($name,$val)
   */
 function addSignature($contents, $fromname)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function addSignature");
 
     $sign = VTCacheUtils::getUserSignature($fromname);
@@ -191,7 +191,7 @@ function addSignature($contents, $fromname)
   */
 function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to_email,$attachment='',$emailid='',$module='',$logo='')
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function setMailerProperties");
 	$CompanyDetails = getCompanyDetails();
 	$logourl = 'storage/Logo/'.$CompanyDetails['logoname'];
@@ -272,7 +272,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
   */
 function setMailServerProperties($mail)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function setMailServerProperties");
 
 	$res = $adb->pquery("select * from vtiger_systems where server_type=?", array('email'));
@@ -389,7 +389,7 @@ function addAllAttachments($mail,$record)
   */
 function setCCAddress($mail,$cc_mod,$cc_val)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the functin setCCAddress");
 
 	if($cc_mod == 'cc')
@@ -439,7 +439,7 @@ function MailSend($mail)
   */
 function getParentMailId($parentmodule,$parentid)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getParentMailId. \n parent module and id => ".$parentmodule."&".$parentid);
 
         if($parentmodule == 'Contacts')
@@ -479,7 +479,7 @@ function getMailError($mail,$mail_status,$to)
 	connect_host, recipients_failed, from_failed
 	*/
 
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function getMailError");
 
 	$msg = array_search($mail_status,$mail->language);
@@ -513,7 +513,7 @@ function getMailError($mail,$mail_status,$to)
   */
 function getMailErrorString($mail_status_str)
 {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->println("Inside getMailErrorString function.\nMail status string ==> ".$mail_status_str);
 
 	$mail_status_str = trim($mail_status_str,"&&&");
@@ -600,7 +600,7 @@ function isUserInitiated() {
  * Function to get the group users Email ids
  */
 function getDefaultAssigneeEmailIds($groupId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$emails = Array();
 	if($groupId != '') {
 		require_once 'include/utils/GetGroupUsers.php';

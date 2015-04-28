@@ -115,7 +115,7 @@ class OSSCosts extends CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
 		require_once('include/utils/utils.php');
-		global $adb;
+		$adb = PearDatabase::getInstance();
  		if($eventType == 'module.postinstall') {
 			include_once('vtlib/Vtiger/Module.php'); 
 			$myCustomEntity = CRMEntity::getInstance($moduleName);

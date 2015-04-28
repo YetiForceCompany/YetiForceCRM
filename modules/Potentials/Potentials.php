@@ -311,7 +311,7 @@ class Potentials extends CRMEntity {
 		global $log;
 		$log->debug("Entering get_stage_history(".$id.") method ...");
 
-		global $adb;
+		$adb = PearDatabase::getInstance();
 		global $mod_strings;
 		global $app_strings;
 

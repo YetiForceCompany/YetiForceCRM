@@ -65,7 +65,7 @@ function vtws_generateRandomAccessKey($length=10){
  * get current vtiger version from the database.
  */
 function vtws_getVtigerVersion(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query = 'select * from vtiger_version';
 	$result = $adb->pquery($query, array());
 	$version = '';
@@ -77,7 +77,7 @@ function vtws_getVtigerVersion(){
 }
 
 function vtws_getUserAccessibleGroups($moduleId, $user){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	require('user_privileges/user_privileges_'.$user->id.'.php');
 	require('user_privileges/sharing_privileges_'.$user->id.'.php');
 	$tabName = getTabname($moduleId);
@@ -102,7 +102,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user){
 }
 
 function vtws_getWebserviceGroupFromGroups($groups){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$webserviceObject = VtigerWebserviceObject::fromName($adb,'Groups');
 	foreach($groups as $index=>$group){
 		$groups[$index]['id'] = vtws_getId($webserviceObject->getEntityId(),$group['id']);
@@ -124,7 +124,7 @@ function vtws_getId($objId, $elemId){
 }
 
 function getEmailFieldId($meta, $entityId){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	//no email field accessible in the module. since its only association pick up the field any way.
 	$query="SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=?
 		and uitype=13 and presence in (0,2)";
@@ -154,7 +154,7 @@ function vtws_getParameter($parameterArray, $paramName,$default=null){
 
 function vtws_getEntityNameFields($moduleName){
 
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 	$result = $adb->pquery($query, array($moduleName));
 	$rowCount = $adb->num_rows($result);
@@ -174,7 +174,7 @@ function vtws_getEntityNameFields($moduleName){
  *  @return Array modules list as array
  */
 function vtws_getModuleNameList(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$sql = "select name from vtiger_tab where isentitytype=1 and name not in ('Rss',".
 	"'Recyclebin','Events') order by tabsequence";
@@ -187,7 +187,7 @@ function vtws_getModuleNameList(){
 }
 
 function vtws_getWebserviceEntities(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$sql = "select name,id,ismodule from vtiger_ws_entity";
 	$res = $adb->pquery($sql, array());
@@ -214,7 +214,7 @@ function vtws_getModuleInstance($webserviceObject){
 }
 
 function vtws_isRecordOwnerUser($ownerId){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	
 	static $cache = array();
 	if (!array_key_exists($ownerId, $cache)) {
@@ -230,7 +230,7 @@ function vtws_isRecordOwnerUser($ownerId){
 }
 
 function vtws_isRecordOwnerGroup($ownerId){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	static $cache = array();
 	if (!array_key_exists($ownerId, $cache)) {
@@ -256,7 +256,7 @@ function vtws_getOwnerType($ownerId){
 }
 
 function vtws_runQueryAsTransaction($query,$params,&$result){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$adb->startTransaction();
 	$result = $adb->pquery($query,$params);
@@ -266,7 +266,7 @@ function vtws_runQueryAsTransaction($query,$params,&$result){
 }
 
 function vtws_getCalendarEntityType($id){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$sql = "select activitytype from vtiger_activity where activityid=?";
 	$result = $adb->pquery($sql,array($id));
@@ -286,13 +286,13 @@ function vtws_getCalendarEntityType($id){
  * Get the webservice reference Id given the entity's id and it's type name
  */
 function vtws_getWebserviceEntityId($entityName, $id){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$webserviceObject = VtigerWebserviceObject::fromName($adb,$entityName);
 	return $webserviceObject->getEntityId().'x'.$id;
 }
 
 function vtws_addDefaultModuleTypeEntity($moduleName){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$isModule = 1;
 	$moduleHandler = array('file'=>'include/Webservices/VtigerModuleOperation.php',
 		'class'=>'VtigerModuleOperation');
@@ -300,7 +300,7 @@ function vtws_addDefaultModuleTypeEntity($moduleName){
 }
 
 function vtws_addModuleTypeWebserviceEntity($moduleName,$filePath,$className){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? AND handler_path=? AND handler_class=?',
 		array($moduleName, $filePath, $className));
 	if($checkres && $adb->num_rows($checkres) == 0) {
@@ -312,7 +312,7 @@ function vtws_addModuleTypeWebserviceEntity($moduleName,$filePath,$className){
 }
 
 function vtws_deleteWebserviceEntity($moduleName) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->pquery('DELETE FROM vtiger_ws_entity WHERE name=?',array($moduleName));
 }
 
@@ -329,7 +329,7 @@ function vtws_addDefaultActorTypeEntity($actorName,$actorNameDetails,$withName =
 }
 
 function vtws_addActorTypeWebserviceEntityWithName($moduleName,$filePath,$className,$actorNameDetails){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$isModule=0;
 	$entityId = $adb->getUniqueID("vtiger_ws_entity");
 	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)',
@@ -339,7 +339,7 @@ function vtws_addActorTypeWebserviceEntityWithName($moduleName,$filePath,$classN
 }
 
 function vtws_addActorTypeWebserviceEntityWithoutName($moduleName,$filePath,$className,$actorNameDetails){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$isModule=0;
 	$entityId = $adb->getUniqueID("vtiger_ws_entity");
 	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)',
@@ -347,7 +347,7 @@ function vtws_addActorTypeWebserviceEntityWithoutName($moduleName,$filePath,$cla
 }
 
 function vtws_addActorTypeName($entityId,$fieldNames,$indexColumn,$tableName){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$adb->pquery('insert into vtiger_ws_entity_name(entity_id,name_fields,index_field,table_name) values (?,?,?,?)',
 		array($entityId,$fieldNames,$indexColumn,$tableName));
 }
@@ -384,7 +384,7 @@ function vtws_preserveGlobal($name,$value){
  * @return Integer operationId of successful or null upon failure.
  */
 function vtws_addWebserviceOperation($name,$handlerFilePath,$handlerMethodName,$requestType,$preLogin = 0){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$createOperationQuery = "insert into vtiger_ws_operation(operationid,name,handler_path,handler_method,type,prelogin)
 		values (?,?,?,?,?,?);";
 	if(strtolower($requestType) != 'get' && strtolower($requestType) != 'post'){
@@ -415,7 +415,7 @@ function vtws_addWebserviceOperation($name,$handlerFilePath,$handlerMethodName,$
  * @return Boolean true if the parameter was added successfully, false otherwise
  */
 function vtws_addWebserviceOperationParam($operationId,$paramName,$paramType,$sequence){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$supportedTypes = array('string','encoded','datetime','double','boolean');
 	if(!is_numeric($sequence)){
 		$sequence = 1;
@@ -545,7 +545,7 @@ function vtws_isRoleBasedPicklist($name) {
 }
 
 function vtws_getConvertLeadFieldMapping(){
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	$sql = "select * from vtiger_convertleadmapping";
 	$result = $adb->pquery($sql,array());
 	if($result === false){
@@ -608,7 +608,7 @@ function vtws_getRelatedNotesAttachments($id,$relatedId) {
  *	$setype - related module(Accounts/Contacts/Potentials)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$result = $adb->pquery("select * from vtiger_seproductsrel where crmid=?", array($leadId));
 	if($result === false){
@@ -631,7 +631,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype) {
  *	$setype - related module(Accounts/Contacts/Potentials)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$result = $adb->pquery("select * from vtiger_crmentityrel where crmid=?", array($leadId));
 	if($result === false){
@@ -686,7 +686,7 @@ function vtws_getRelatedActivities($leadId,$accountId,$contactId,$relatedId) {
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED,
 			"Failed to move related Activities/Emails");
 	}
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	if (!empty($accountId)) {
 		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($accountId, $leadId));
 	}
@@ -704,7 +704,7 @@ function vtws_getRelatedActivities($leadId,$accountId,$contactId,$relatedId) {
  * @return Boolean true on success, false otherwise.
  */
 function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 
 	$result = $adb->pquery("select * from vtiger_campaignleadrel where leadid=?", array($leadId));
 	if($result === false){
@@ -769,7 +769,7 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId) {
 	}
 }
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId) {
-	global $adb;
+	$adb = PearDatabase::getInstance();
 	//PBXManager
 	$adb->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", array($destinationRecordId, $sourceRecordId));
 	//OSSPasswords
