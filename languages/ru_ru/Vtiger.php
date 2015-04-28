@@ -1127,9 +1127,9 @@ $languageStrings = [
 	'LBL_CURRENTLY_LOGGED_USER' => 'Текущий пользователь',
 	'LBL_TO_REALIZE' => 'Для реализации',
 	'LBL_HISTORY' => 'История',
-	'LBL_WORKFLOWS_TRIGGER' => '__UNTRANSLATED__',
-	'LBL_EXECUTE' => '__UNTRANSLATED__',
-	'BTN_WORKFLOW_TRIGGER' => '__UNTRANSLATED__',
+	'LBL_WORKFLOWS_TRIGGER' => 'Триггер Обработчика',
+	'LBL_EXECUTE' => 'Выполнить',
+	'BTN_WORKFLOW_TRIGGER' => 'Ручное выполнение Обработчика',
 	
 	//Widget
 	'LIST_OF_LAST_UPDATED_RECORD' => 'Последнее обновление записи',
@@ -1446,8 +1446,8 @@ $jsLanguageStrings = [
 	'JS_MORE' => 'Еще',
 	'JS_TO_REALIZE' => 'Для реализации',
 	'JS_HISTORY' => 'История',
-	'JS_NOT_SELECTED_WORKFLOW_TRIGGER' => '__UNTRANSLATED__',
-	'JS_STARTED_PERFORM_WORKFLOW' => '__UNTRANSLATED__',
-	'JS_COMPLETED_PERFORM_WORKFLOW' => '__UNTRANSLATED__',
-	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => '__UNTRANSLATED__',
+	'JS_NOT_SELECTED_WORKFLOW_TRIGGER' => 'Не выбран Обработчик',
+	'JS_STARTED_PERFORM_WORKFLOW' => 'Обработчик выполняет обработку',
+	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Обработчик закончил обработку',
+	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Произошла ошибка во время обработки',
 ];
