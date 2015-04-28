@@ -416,11 +416,14 @@ var app = {
 	 */
 	formAlignmentAfterValidation : function(form){
 		// to avoid hiding of error message under the fixed nav bar
-		var destination = form.find(".formError:not('.greenPopup'):first").offset().top;
-		var resizedDestnation = destination-105;
-		jQuery('html').animate({
-			scrollTop:resizedDestnation
-		}, 'slow');
+		var formError = form.find(".formError:not('.greenPopup'):first")
+		if(formError.length > 0){
+			var destination = formError.offset().top;
+			var resizedDestnation = destination-105;
+			jQuery('html').animate({
+				scrollTop:resizedDestnation
+			}, 'slow');
+		}
 	},
 
 	convertToDatePickerFormat: function(dateFormat){
