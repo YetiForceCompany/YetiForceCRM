@@ -772,7 +772,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$quickCreateModules = array();
 		for($i=0; $i<$noOfModules; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
-			if($userPrivModel->hasModuleActionPermission($row['name'], 'EditView')) {
+			if($userPrivModel->hasModuleActionPermission($row['tabid'], 'EditView')) {
 				$moduleModel = self::getInstanceFromArray($row);
 				$quickCreateModules[$row['name']] = $moduleModel;
 			}

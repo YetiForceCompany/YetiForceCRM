@@ -278,7 +278,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model{
 			if ($fieldModel->getFieldDataType() == Vtiger_Field_Model::REFERENCE_TYPE) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $module) {
-					if (array_key_exists($module, $fieldsReferenceList)) {
+					if (array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {
 						$parentFieldModel = $fieldsReferenceList[$module];
 						$relId = $recordModel->get($parentFieldModel->getName());
 						if($relId != '' && $relId != 0){
