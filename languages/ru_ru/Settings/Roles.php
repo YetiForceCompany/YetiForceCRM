@@ -31,7 +31,7 @@ $languageStrings = [
 	'Roles' => 'Роли',
 	'SINGLE_Roles' => 'Роли',
 	'LBL_USERS_LIST' => 'Список пользователей, принадлежащих к этой роли:',
-	'LBL_JUST_ME' => '__UNTRANSLATED__',
+	'LBL_JUST_ME' => 'Только я',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',
