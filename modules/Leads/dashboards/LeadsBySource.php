@@ -40,7 +40,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View {
 			$ownerSql = ' AND '.$ownerSql;
 		}
 		if ($securityParameter != '')
-			$securityParameterSql .= ' ' . $securityParameter;	
+			$securityParameterSql .= $securityParameter;	
 		
 		$params = array();
 		if(!empty($dateFilter)) {

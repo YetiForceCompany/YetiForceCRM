@@ -58,7 +58,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View {
 					AND deleted=0 AND converted = 0 '. $ownerSql .' '.$dateFilterSql.
 				'INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus ';
 		if ($securityParameter != '')
-			$sql .= ' ' . $securityParameter;	
+			$sql .= $securityParameter;	
 
 		if(!empty($leadsClosed['status'])){
 			$leadStatusSearch = implode("','", $leadsClosed['status']);

@@ -236,7 +236,7 @@ function getListQuery($module, $where = '') {
 			$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' ";
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $current_user);
 			if($securityParameter != '')
-				$query.= ' '.$securityParameter;
+				$query.= $securityParameter;
 			$query.= ' '.$where;
 			break;
 		Case "Emails":
