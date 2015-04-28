@@ -3322,3 +3322,11 @@ td.listViewEntryValue .row-fluid input {
 .tag {
   float: right !important;
 }
+.cut-string {
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+}
