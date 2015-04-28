@@ -1610,6 +1610,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			// [target module][Source module] = ( target field => (source module field, source field) )
 			$mapping['OSSTimeControl']['HelpDesk'] = array( 'contactid' => array('Contacts','contact_id'), 'accountid' => array('Accounts','parent_id') );
 			$mapping['OutsourcedProducts']['Potentials'] = array( 'parent_id' => array('Accounts','related_to') );
+			$mapping['Calendar']['Potentials'] = array( 'link' => array('Accounts','related_to') );
 			
 			if(!$mapping[$moduleName][$sourceModule])
 				return $data;
