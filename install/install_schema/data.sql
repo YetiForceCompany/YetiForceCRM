@@ -4925,6 +4925,8 @@ insert  into `vtiger_glacct_seq`(`id`) values (9);
 
 /*Data for the table `vtiger_group2grouprel` */
 
+/*Data for the table `vtiger_group2modules` */
+
 /*Data for the table `vtiger_group2role` */
 
 insert  into `vtiger_group2role`(`groupid`,`roleid`) values (3,'H2');

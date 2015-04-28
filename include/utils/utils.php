@@ -195,7 +195,7 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	}
 	static $group_array = null;
-	if(!$module){
+	if(!$module && $_REQUEST['parent'] != 'Settings'){
         $module=$_REQUEST['module'];
     }
 
@@ -204,36 +204,44 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 		require_once('include/database/PearDatabase.php');
 		$db = PearDatabase::getInstance();
 		$temp_result = Array();
+		$tabid = getTabid($module);
 		// Including deleted vtiger_users for now.
-		$log->debug("Sharing is Public. All vtiger_users should be listed");
-		$query = "SELECT groupid, groupname from vtiger_groups";
-		$params = array();
-
+		$log->debug('Sharing is Public. All vtiger_users should be listed');
+		$query = 'SELECT groupid, groupname FROM vtiger_groups';
+		$params = [];
+		//var_dump($module);
+		if ($module) {
+			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
+			$params[] = $tabid;
+		}
 		if($private == 'private'){
-
-			$query .= " WHERE groupid=?";
-			$params = array( $current_user->id);
+			if (strpos($query, 'WHERE') === false)
+				$query .= ' WHERE';
+			else 
+				$query .= ' AND';
+			$query .= ' groupid=?';
+			$params = [$current_user->id];
 
 			if(count($current_user_groups) != 0) {
-				$query .= " OR vtiger_groups.groupid in (".generateQuestionMarks($current_user_groups).")";
+				$query .= ' OR vtiger_groups.groupid in ('.generateQuestionMarks($current_user_groups).')';
 				array_push($params, $current_user_groups);
 			}
-			$log->debug("Sharing is Private. Only the current user should be listed");
-			$query .= " union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?";
+			$log->debug('Sharing is Private. Only the current user should be listed');
+			$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
 			array_push($params, $current_user_parent_role_seq."::%");
 
 			if(count($current_user_groups) != 0) {
-				$query .= " union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in (".generateQuestionMarks($parent_roles).")";
+				$query .= ' union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in ('.generateQuestionMarks($parent_roles).')';
 				array_push($params, $parent_roles);
 			}
 
-			$query .= " union select sharedgroupid as groupid,vtiger_groups.groupname as groupname from vtiger_tmp_write_group_sharing_per inner join vtiger_groups on vtiger_groups.groupid=vtiger_tmp_write_group_sharing_per.sharedgroupid where vtiger_tmp_write_group_sharing_per.userid=?";
+			$query .= ' union select sharedgroupid as groupid,vtiger_groups.groupname as groupname from vtiger_tmp_write_group_sharing_per inner join vtiger_groups on vtiger_groups.groupid=vtiger_tmp_write_group_sharing_per.sharedgroupid where vtiger_tmp_write_group_sharing_per.userid=?';
 			array_push($params, $current_user->id);
 
-			$query .= " and vtiger_tmp_write_group_sharing_per.tabid=?";
-			array_push($params,  getTabid($module));
+			$query .= ' and vtiger_tmp_write_group_sharing_per.tabid=?';
+			array_push($params, $tabid );
 		}
-		$query .= " order by groupname ASC";
+		$query .= ' order by groupname ASC';
 
 		$result = $db->pquery($query, $params, true, "Error filling in user array: ");
 

@@ -2578,6 +2578,17 @@ CREATE TABLE `vtiger_group2grouprel` (
   CONSTRAINT `fk_2_vtiger_group2grouprel` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_group2modules` */
+
+CREATE TABLE `vtiger_group2modules` (
+  `groupid` int(19) NOT NULL,
+  `tabid` int(19) NOT NULL,
+  KEY `groupid` (`groupid`),
+  KEY `tabid` (`tabid`),
+  CONSTRAINT `vtiger_group2modules_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_group2modules_ibfk_2` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_group2role` */
 
 CREATE TABLE `vtiger_group2role` (
@@ -2605,6 +2616,7 @@ CREATE TABLE `vtiger_groups` (
   `groupname` varchar(100) DEFAULT NULL,
   `description` text,
   `color` varchar(25) DEFAULT '#E6FAD8',
+  `modules` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`groupid`),
   UNIQUE KEY `groups_groupname_idx` (`groupname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

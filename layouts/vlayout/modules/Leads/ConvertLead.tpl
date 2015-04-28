@@ -33,7 +33,7 @@
 								{if $ACCOUNT_FIELD_MODEL->isMandatory()}
 									<input type="hidden" id="oppAccMandatory" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
 								{/if}
-								{if $CONTACT_FIELD_MODEL->isMandatory()}
+								{if $CONTACT_FIELD_MODEL && $CONTACT_FIELD_MODEL->isMandatory()}
 									<input type="hidden" id="oppConMandatory" value={$CONTACT_FIELD_MODEL->isMandatory()} />
 								{/if}
 								{if $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()}

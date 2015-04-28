@@ -34,9 +34,16 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 			}
 
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-
+			$recordStructure = $recordStructureInstance->getStructure();
+			$sourceRelatedField = $moduleModel->getSourceRelatedFieldToQuickCreate($moduleName, $request->get('sourceModule'), $request->get('sourceRecord'));
+			foreach($sourceRelatedField as $field=>$value){
+				if(array_key_exists($field,$recordStructure)){
+					$recordStructure[$field]->set('fieldvalue',$value);
+					unset($sourceRelatedField[$field]);
+				}
+			}
 			$info['recordStructureModel'] = $recordStructureInstance;
-			$info['recordStructure'] = $recordStructureInstance->getStructure();
+			$info['recordStructure'] = $recordStructure;
 			$info['moduleModel'] = $moduleModel;
 			$quickCreateContents[$module] = $info;
 		}
@@ -46,6 +53,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE',Zend_Json::encode($picklistDependencyDatasource));
 		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($mappingRelatedField));
+		$viewer->assign('SOURCE_RELATED_FIELD',$sourceRelatedField);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);

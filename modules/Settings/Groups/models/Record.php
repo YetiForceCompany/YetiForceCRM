@@ -82,6 +82,26 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		}
 		return $this->members;
 	}
+	
+	/**
+	 * Function to get the Modules
+	 * @return <Array>
+	 */
+	public function getModules() {
+		if (!$this->modules) {
+			$db = PearDatabase::getInstance();
+
+			$sql = 'SELECT vtiger_tab.tabid, vtiger_tab.name FROM vtiger_group2modules INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_group2modules.tabid WHERE vtiger_group2modules.groupid=?';
+			$result = $db->pquery($sql, [$this->getId()]);
+			$modules = [];
+			for ($i = 0; $i < $db->num_rows($result); ++$i) {
+				$row = $db->query_result_rowdata($result, $i);
+				$modules[$row['tabid']] = $row['name'];
+			}
+			$this->modules = $modules;
+		}
+		return $this->modules;
+	}
 
 	/**
 	 * Function to save the role
@@ -137,6 +157,13 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 				}
 			}
 		}
+		$modules = $this->get('modules');
+		if (is_array($modules)) {
+			$db->pquery('DELETE FROM vtiger_group2modules WHERE groupid=?', array($groupId));
+			for ($i = 0; $i < count($modules); ++$i) {
+				$db->pquery('INSERT INTO vtiger_group2modules(tabid, groupid) VALUES (?,?)', array($modules[$i], $groupId));
+			}
+		}
 		$this->recalculate($oldUsersList);
 		$em = new VTEventsManager($db);
 		$em->initTriggerCache();
@@ -144,6 +171,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		$entityData['groupid'] = $groupId;
 		$entityData['group_members'] = $members;
 		$entityData['memberId'] = $memberId;
+		$entityData['modules'] = $modules;
 		$em->triggerEvent("vtiger.entity.aftergroupsave", $entityData);
 	}
 
@@ -284,7 +312,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 		$db->pquery('DELETE FROM vtiger_group2rs WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_users2group WHERE groupid=?', array($groupId));
 		$db->pquery("DELETE FROM vtiger_reportsharing WHERE shareid=? AND setype='groups'", array($groupId));
-
+		$db->pquery('DELETE FROM vtiger_group2modules WHERE groupid=?', array($groupId));
 		$db->pquery('DELETE FROM vtiger_groups WHERE groupid=?', array($groupId));
 	}
 

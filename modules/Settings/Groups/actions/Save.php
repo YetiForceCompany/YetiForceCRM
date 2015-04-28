@@ -25,6 +25,7 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Index_Action {
 			$recordModel->set('groupname', decode_html($request->get('groupname')));
 			$recordModel->set('description', $request->get('description'));
 			$recordModel->set('group_members', $request->get('members'));
+			$recordModel->set('modules', $request->get('modules'));
 			$recordModel->save();
 		}
 
