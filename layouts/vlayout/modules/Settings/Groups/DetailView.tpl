@@ -43,6 +43,20 @@
 				</div>
 				<div class="control-group">
 					<span class="control-label">
+						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
+					</span>
+					<div class="controls pushDown">
+						<div class="row-fluid">
+						<span class="span12">
+							{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules()}
+								<b>{vtranslate($MODULE,$MODULE)}, </b>
+							{/foreach}
+						</span>
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<span class="control-label">
 						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 					</span>
 					<div class="controls pushDown">
