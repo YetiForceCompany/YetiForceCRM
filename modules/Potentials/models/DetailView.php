@@ -123,6 +123,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 					'related' => 'Updates'
 			);
 		}
+		/*
 		$relatedLinks[] = array(
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
@@ -131,7 +132,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'Charts'
 		);
-
+*/
 
 		$relationModels = $parentModuleModel->getRelations();
 
