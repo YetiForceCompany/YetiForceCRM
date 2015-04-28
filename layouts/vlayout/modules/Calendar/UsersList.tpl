@@ -14,9 +14,9 @@
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
 
 	<div class="calendarUserList row-fluid" style="margin-left:10px;">
-		<div class="span10" style="margin: 10px 0;">
-			<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
-			<div>
+		<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
+		<div class="row-fluid">
+			<div class="span10" style="margin: 10px 0;">
 				<select style="width: 100%;" class="chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -31,19 +31,19 @@
 				</select>
 			</div>
 		</div>
-		<div class="span10" style="margin: 10px 0;">
-			<h4>{vtranslate('Activity Type',$MODULE)}:</h4>
-			<div>
+		<h4>{vtranslate('Activity Type',$MODULE)}:</h4>
+		<div class="row-fluid">
+			<div class="span10" style="margin: 10px 0;">
 				<select style="width: 100%;" class="chzn-select" id="calendarTypes" name="calendarTypes" multiple>
 					{foreach item=ITEM from=Calendar_Module_Model::getCalendarTypes()}
 						<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
-			<div style="margin-top: 5px;">
-				<button class="btn refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
-			</div>
 		</div>
+		<div style="margin-top: 5px;">
+			<button class="btn refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
+		</div>	
 	</div>
 <script type="text/javascript">
 jQuery(document).ready(function() {

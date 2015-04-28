@@ -15,27 +15,31 @@
 
 	<div class="calendarUserList row-fluid" style="margin-left:10px;">
 		<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
-		<div class="span10" style="margin: 10px 0;">
-		<select style="width: 100%;" class="chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
-				{/foreach}
-			</optgroup>
-			<optgroup label="{vtranslate('LBL_GROUPS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-					<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}">{$OWNER_NAME}</option>
-				{/foreach}
-			</optgroup>
-		</select>
+		<div class="row-fluid">
+			<div class="span10" style="margin: 10px 0;">
+				<select style="width: 100%;" class="chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
+					<optgroup label="{vtranslate('LBL_USERS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}" {if $USER_MODEL->id eq $OWNER_ID} selected {/if}>{$OWNER_NAME}</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label="{vtranslate('LBL_GROUPS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
+							<option class="userCol_{$OWNER_ID} marginBottom5px" value="{$OWNER_ID}">{$OWNER_NAME}</option>
+						{/foreach}
+					</optgroup>
+				</select>
+			</div>
 		</div>
-		<div class="span10" style="margin: 10px 0;">
-			<h4 style="margin-bottom: 10px;">{vtranslate('LBL_TYPE',$MODULE)}:</h4>
-			<select style="width: 100%;" class="chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
-				{foreach key=KEY item=ITEM from=Reservations_Calendar_Model::getCalendarTypes()}
-					<option value="{$KEY}" selected>{vtranslate($ITEM,$MODULE)}</option>
-				{/foreach}
-			</select>
+		<h4>{vtranslate('LBL_TYPE',$MODULE)}:</h4>
+		<div class="row-fluid">
+			<div class="span10" style="margin: 10px 0;">
+				<select style="width: 100%;" class="chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
+					{foreach key=KEY item=ITEM from=Reservations_Calendar_Model::getCalendarTypes()}
+						<option value="{$KEY}" selected>{vtranslate($ITEM,$MODULE)}</option>
+					{/foreach}
+				</select>
+			</div>
 		</div>
 		<div style="margin-top: 5px;">
 			<button class="btn refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
