@@ -44,7 +44,9 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
-			$query.= " AND (concat(date_start, ' ', time_start)  >= ? AND concat(due_date, ' ', time_end) <= ?) ";
+			$query.= " AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) )";
+			$params[] = $dbStartDateTime;
+			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 		}
