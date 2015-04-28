@@ -56,25 +56,23 @@
 									<div class="row-fluid">
 										<div class="span12">
 											{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
-												{if $MODULEMODEL->isPermitted('EditView')}
-													{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-													{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-													{if $singularLabel == 'SINGLE_Calendar'}
-														{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-													{/if}	
-													{if $quickCreateModule == '1'}
-														{if $count % 3 == 0}
-															<div class="row-fluid">
-														{/if}
-														<div class="span4">
-															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}"
-															   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">{vtranslate($singularLabel,$NAME)}</a>
-														</div>
-														{if $count % 3 == 2}
-															</div>
-														{/if}
-														{assign var='count' value=$count+1}
+												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
+												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
+												{if $singularLabel == 'SINGLE_Calendar'}
+													{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+												{/if}	
+												{if $quickCreateModule == '1'}
+													{if $count % 3 == 0}
+														<div class="row-fluid">
 													{/if}
+													<div class="span4">
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}"
+														   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">{vtranslate($singularLabel,$NAME)}</a>
+													</div>
+													{if $count % 3 == 2}
+														</div>
+													{/if}
+													{assign var='count' value=$count+1}
 												{/if}
 											{/foreach}
 										</div>
