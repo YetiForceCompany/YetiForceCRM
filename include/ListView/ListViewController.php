@@ -386,7 +386,7 @@ class ListViewController {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 					$moduleList = $referenceFieldInfoList[$fieldName];
 					if(count($moduleList) == 1) {
-						$parentModule = array_shift($moduleList);
+						$parentModule = reset($moduleList);
 					} else {
 						$parentModule = $this->typeList[$value];
 					}
