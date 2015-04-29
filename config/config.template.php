@@ -237,3 +237,6 @@ $davHistoryDir = 'storage/FilesHistory';
 
 // prod and demo
 $systemMode = 'prod';
+
+// Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
+$forceSSL = FALSE;
