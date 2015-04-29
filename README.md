@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCompany/YetiForceCRM/commit/1d979c6fac66886051ee87f0bb2be85925667244) revision. 
+The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCompany/YetiForceCRM/commit/86c5e109a8ca15dc27125a70b2f782d5bdc50b2f) revision. 
 
 
 **Bug Fixes:** 
@@ -47,6 +47,7 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Fixed bugs in code names.
 -	Fixed Calendar Reminder.
 -	Fixed a 'More' button in a Calendar widget.
+-	Fixed labels in a Calendar widget.
 -	Fixed listing of events in a related module.
 -	Fixed permissions of related modules.
 -	Fixed QuickCreateEditor.
@@ -64,6 +65,10 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Fixed a bug in the windows of the Scheduled Reports.
 -	Fixed a generation of CalDAV.
 -	Fixed a bug that caused problems with the installation process.
+-	Fixed the conversion of Leads.
+-	Fixed a function of auto complete for fields.
+-	Fixed listing of groups.
+-	Fixed queries for permission. 
 
 
 **Improvements:**
@@ -86,6 +91,7 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Added verification of duplicates in workflow 'Create To Do/Task'.
 -	Removed a field with a signature and added a global signature configuration.
 -	Turned off Signature in send_mail.
+-	Turned off inactive chart.
 -	Removed some unnecessary files.
 -	Removed jquery.hotkeys.js library.
 -	Removed the OSSMenuManager module.
@@ -110,15 +116,18 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Added a safety lock for an invalid PHP version.
 -	Fixed the display of events in widgets.
 -	Fixed the display of fields when a Lead is converted to an Account.
+-	Fixed the appearance of windows in the manual start of workflows.
 -	Reconstructed 'Tickets by status' chart.
 -	Reconstructed 'Lead by status' chart.
 -	Reconstructed charts in HelpDesk and Project modules.
 -	Reconstructed the display of related calendar entries.
+-	Reconstructed the retrieving of the list of modules.
 -	Added loading of the start and end of work when adding calendar entries.
 -	Changed allowed dimensions of widgets.
 -	Changed fields order in many Quick Create popups.
 -	Changed downloading of an email address.
 -	Changed the owner input in widgets.
+-	Changed the size of the 'Add record' icons
 -	Expanded masking with new types of fields.
 -	Added a new template for the mail module.
 -	Added selects buttons for widgets.
@@ -132,6 +141,10 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Added a switch (completed and future) in the events and related modules for the calendar.
 -	Added support for bootstrap-switch.
 -	Added a possibility to hide a left panel in the calendar.
+-	Added records to Quick Create.
+-	Added a mechanism limiting the list of groups.
+-	Added loading of data in te calendar.
+-	Added close in time Events and To Dos to the calendar when in a quick create view.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -144,6 +157,10 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Improved the definition of IP in Brute Force and logging history.
 -	Improved an action bar in emails. 
 -	Improved printing in emails.
+-	Improved the display of notifications.
+-	Improved a global variable in the database.
+-	Improved permissions to Quick Create records.
+-	Improved the reference field.
 -	Secured a function updating information about an email.
 -	Secured adding of linkages.
 -	Secured the management of widgets.
@@ -187,6 +204,8 @@ The following changes are up to 1.4.239 - [#648] (https://github.com/YetiForceCo
 -	Added a function which determines remote IP.
 -	Added 'Job title' to Contacts.
 -	Added a comparator 'currently logged on user'.
+-	Added a manual start of workflows.
+-	Added a possibility to assign owners of records only to yourself.
 
 
 
