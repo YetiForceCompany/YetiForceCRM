@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCompany/YetiForceCRM/commit/86c5e109a8ca15dc27125a70b2f782d5bdc50b2f) revision. 
+The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCompany/YetiForceCRM/commit/2de362754ded59baa9cce7bc596e95cb4f5fe5e6) revision. 
 
 
 **Bug Fixes:** 
@@ -69,6 +69,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 -	Fixed a function of auto complete for fields.
 -	Fixed listing of groups.
 -	Fixed queries for permission. 
+-	Fixed a bug occuring in some custom modules in which reference fields in List view were always empty.
 
 
 **Improvements:**
@@ -145,6 +146,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 -	Added a mechanism limiting the list of groups.
 -	Added loading of data in te calendar.
 -	Added close in time Events and To Dos to the calendar when in a quick create view.
+-	Aded security during the writing of data.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -209,7 +211,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 
 
 
-#YetiForce 1.4
+#YetiForce 1.4 (released on 25th March 2015)
 
 **Bug Fixes:** 
 -	Fixed various bugs from Vtiger’s engine that appeared when a recurring invoice was created.
@@ -322,7 +324,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 
 
 
-#YetiForce 1.3
+#YetiForce 1.3 (released on 13th January 2015)
 
 **Bug Fixes:** 
 -	Fixed an issue with a decimal separator in PDF.
@@ -405,7 +407,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 
 
 
-#YetiForce 1.2
+#YetiForce 1.2 (released on 20th January 2015)
 
 
 **Bug fixes:**
@@ -447,7 +449,7 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 
 
 
-#YetiForce 1.1 
+#YetiForce 1.1 (released on 8th January 2015)
 
 **Updates and enhancements:**
 -	Uploaded changes from Vtiger 6.2.0 rev. 14388 [only these that we considered essential, e.g. changes within their shop were ignored].
@@ -483,3 +485,4 @@ The following changes are up to 1.4.265 - [#664] (https://github.com/YetiForceCo
 -	Moved the management of calendar filters to a panel.
 -	Optimized a mechanism calculating tax.
 
+#YetiForce 1.0 was the first version reeased in 2014.
