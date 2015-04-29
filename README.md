@@ -324,7 +324,7 @@ The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCo
 
 
 
-#YetiForce 1.3 (released on 13th January 2015)
+#YetiForce 1.3 (released on 13th February 2015)
 
 **Bug Fixes:** 
 -	Fixed an issue with a decimal separator in PDF.
