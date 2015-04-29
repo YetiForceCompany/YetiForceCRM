@@ -38,6 +38,9 @@ $DEBUG_CONFIG = Array(
 	// system error reporting, sum of: 1 = log; 4 = show, 8 = trace
 	'ROUNDCUBE_DEBUG_LEVEL' => 1,
 	
+	// devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries
+	'ROUNDCUBE_DEVEL_MODE' => false,
+	
 	// Activate this option if logs should be written to per-user directories.
 	// Data will only be logged if a directry cache/logs/<username>/ exists and is writable.
 	'ROUNDCUBE_PER_USER_LOGGING' => FALSE,
