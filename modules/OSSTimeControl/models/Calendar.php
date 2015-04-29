@@ -20,7 +20,9 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
-			$query.= " AND (concat(date_start, ' ', time_start) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', time_end) <= ?) ";
+			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) )";
+			$params[] = $dbStartDateTime;
+			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 		}
