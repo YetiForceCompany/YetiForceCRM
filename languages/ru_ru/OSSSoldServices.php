@@ -10,6 +10,7 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_ADD_RECORD' => 'Услуга',
 	'Services' => 'Услуги',
 	'Potential' => 'Сделка',
 	'Invoice' => 'Счет',
@@ -37,7 +38,7 @@ $languageStrings = [
 	'Where bought'	=>	'Где купил',
 	'Number'	=>	'№',
 	'Potential renewal'	=>	'Обновить продажи',
-	'LBL_GENERATE_EXTENSION'	=>	'Создать сделку',
+	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
 ];
 ?>
