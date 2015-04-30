@@ -204,7 +204,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 				$response = new Vtiger_Response();
 				$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 				$response->setError($e->getMessage());
-				Vtiger_Functions::throwNewException($e->getMessage());
+				//Vtiger_Functions::throwNewException($e->getMessage());
 			}
 		}
 
