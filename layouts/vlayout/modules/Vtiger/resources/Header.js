@@ -250,8 +250,6 @@ jQuery.Class("Vtiger_Header_Js", {
 	getNearCalendarEvent: function(data,module){
 		var thisInstance = this;
 		typeActive = data.find('ul li.active a').data('tab-name');
-		data.find('.modal-body').css('overflow-y','scroll');
-		data = data.find('div.active');
 		var user = data.find('[name="assigned_user_id"]');
 		var dateStartEl = data.find('[name="date_start"]');
         var dateStartVal = dateStartEl.val();
@@ -272,7 +270,8 @@ jQuery.Class("Vtiger_Header_Js", {
         }
 		AppConnector.request(params).then(function (events) {
 			if(typeof events.result != 'undefined' && events.result.length>0){
-				 events = events.result;
+				events = events.result;
+				data.find('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 				for (var ev in events) { 
 					icon = 'icon-calendar';
 					linkHtml = '';
@@ -295,6 +294,8 @@ jQuery.Class("Vtiger_Header_Js", {
 						data.find('#next_events .table').append('<tr class="mode_'+events[ev]['set']+' '+hidden+' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="'+icon+'" style="vertical-align:middle; margin-bottom:4px;"></i><span> ' + events[ev]['title'] + '</span></div></a>'+linkHtml+'</td></tr>');
 					}
 				}
+			}else{
+				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
 			}
 		})
 	},
