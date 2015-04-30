@@ -9,6 +9,17 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = [
+	'BackUp' => 'Резервное копирование',
+	'HideBlocks' => 'Редактор Блоков',
+	'MobileApps' => 'Мобильные приложения',
+	'Dav' => 'Синхронизация',
+	'SalesProcesses' => 'Процесс Продаж',
+	'SupportProcesses' => 'Процесс Поддержки',
+	'RealizationProcesses' => 'Процесс Реализации',
+	'MarketingProcesses' => 'Маркетинговые процессы',
+	'FinancialProcesses' => 'Финансовые процессы',
+	'PublicHoliday' => 'Праздники',
+	'Updates' => 'Обновление системы',
 	'My Home Page' => 'Главная',
 	'Support' => 'Поддержка',
 	'LBL_MATCHED_THIS_CRITERIA' => 'Соответствующей критериям',
