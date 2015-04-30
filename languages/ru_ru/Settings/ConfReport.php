@@ -41,6 +41,6 @@ $languageStrings = [
 	'On'	=>	'Вкл.',
 	'Off'	=>	'Выкл.',
 	'NOT RECOMMENDED'	=>	'Не рекомендуется',
-	'LBL_YETIFORCE_ENGINE' => 'Движок YetiForce',
-	'LBL_CHECK_CONFIG' => 'Движок RoundCube',
+	'LBL_YETIFORCE_ENGINE' => 'Параметры Системы',
+	'LBL_CHECK_CONFIG' => 'Параметры Почты',
 ];
