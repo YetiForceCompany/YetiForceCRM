@@ -250,6 +250,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	getNearCalendarEvent: function(data,module){
 		var thisInstance = this;
 		typeActive = data.find('ul li.active a').data('tab-name');
+		data.find('.modal-body').css('overflow-y','scroll');
 		data = data.find('div.active');
 		var user = data.find('[name="assigned_user_id"]');
 		var dateStartEl = data.find('[name="date_start"]');
