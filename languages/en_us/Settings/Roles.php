@@ -30,7 +30,7 @@ $languageStrings = [
 	'Roles' => 'Roles',
 	'SINGLE_Roles' => 'Role',
 	'LBL_USERS_LIST' => 'List of users belonging to this role:',
-	'LBL_JUST_ME' => '__UNTRANSLATED__',
+	'LBL_JUST_ME' => 'Only Me',
 ];
 
 $jsLanguageStrings = [
