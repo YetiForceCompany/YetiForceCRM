@@ -15,11 +15,23 @@
     {/foreach}
 		
     <div class="modelContainer">
-        <div class="modal-header contentsBackground">
-            <button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-            <h3>{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate('LBL_EVENT_OR_TASK', $MODULE)}</h3>
-	</div>
         <form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
+			<div class="modal-header contentsBackground">
+				<div class="pull-left"><h3>{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate('LBL_EVENT_OR_TASK', $MODULE)}</h3></div>
+
+				{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
+				<div class="quickCreateActions pull-right">
+					{if $MODULE_NAME eq 'Calendar'}
+						{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
+					{else}
+						{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
+					{/if}
+					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">&times;</button>
+					<button class="btn" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
 		<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
 	{/if}
@@ -44,7 +56,6 @@
 			</li>
 		</ul>
 		<div class="tab-content overflowVisible">
-			{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 			{foreach item=MODULE_DETAILS key=MODULE_NAME from=$QUICK_CREATE_CONTENTS}
 			<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active in {/if}fade">
 				<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}Calendar{else}Events{/if}">
@@ -118,16 +129,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer quickCreateActions">
-					{if $MODULE_NAME eq 'Calendar'}
-						{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
-					{else}
-						{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
-					{/if}
-						<a class="cancelLink cancelLinkContainer pull-right" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-						<button class="btn" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>
 				</div>
 			</div>
 			{/foreach}
