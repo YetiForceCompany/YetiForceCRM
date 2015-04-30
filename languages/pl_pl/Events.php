@@ -85,7 +85,7 @@ $languageStrings = [
 	'Low' => 'Niski', 
 	'LBL_STATE' => 'Stan',
 	'PLL_OPAQUE' => 'Zajęty',
-	'PLL_TRANSPARENT' => 'Dostepny',
+	'PLL_TRANSPARENT' => 'Dostępny',
 	'Relation' => 'Powiązanie',
 	'Process' => 'Proces',
 ];
