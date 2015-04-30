@@ -15,7 +15,7 @@ $languageStrings = [
 	// Basic Strings
 	'OutsourcedProducts'        => 'Аутсорсинг Товаров',
 	'SINGLE_OutsourcedProducts' => 'Аутсорсинг Товаров',
-	'LBL_ADD_RECORD' => 'Добавить Аутсорсинг Товара',
+	'LBL_ADD_RECORD' => 'Товар',
 
 	// Blocks
 	'LBL_INFORMATION' => 'Аутсорсинг Товаров',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'Number' => 'Номер',
 	'Save' => 'Сохранить',
 	'Selling proposition'=>'Сделка',
-	'LBL_GENERATE_EXTENSION' => 'Создание расширения',
+	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'Active' => 'Активный',
 	'Inactive' => 'Неактивный',
 ];
