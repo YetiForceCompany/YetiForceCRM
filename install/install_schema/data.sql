@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.01 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -5467,8 +5468,8 @@ insert  into `vtiger_lout_dimensions_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_lout_status` */
 
-insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`) values (1,'PLL_A',1,1);
-insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`) values (2,'PLL_B',2,1);
+insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`) values (1,'PLL_NEW',1,1);
+insert  into `vtiger_lout_status`(`lout_statusid`,`lout_status`,`sortorderid`,`presence`) values (2,'PLL_SETTLED',2,1);
 
 /*Data for the table `vtiger_lout_status_seq` */
 
