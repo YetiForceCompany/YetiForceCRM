@@ -1380,7 +1380,6 @@ class Vtiger_Module_Model extends Vtiger_Module {
 
 		$result = $focus->$functionName($recordId, $this->getId(), $relatedModule->getId());
 		$query = $result['query'] .' '. $this->getSpecificRelationQuery($relatedModuleName);
-		$nonAdminQuery = $this->getNonAdminAccessControlQueryForRelation($relatedModuleName);
 
 		//modify query if any module has summary fields, those fields we are displayed in related list of that module
 		$relatedListFields = array();
@@ -1398,10 +1397,10 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$selectColumnSql = 'SELECT DISTINCT vtiger_crmentity.crmid,'.$selectColumnSql;
 			$query = $selectColumnSql.' FROM '.$newQuery[1];
 		}
-
-		if ($nonAdminQuery) {
-			$query = appendFromClauseToQuery($query, $nonAdminQuery);
-		}
+		$instance = CRMEntity::getInstance($relatedModuleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+		if ($securityParameter != '')
+			$query .= $securityParameter;
 
 		return $query;
 	}
