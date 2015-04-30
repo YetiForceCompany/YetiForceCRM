@@ -440,7 +440,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = array();
-
+		$permissionToSendEmail = vtlib_isModuleActive('OSSMail') && Users_Privileges_Model::isPermitted('OSSMail','compose');
+		
 		if($activityReminder != '' ) {
 			$currentTime = time();
 			$date = date('Y-m-d', strtotime("+$activityReminder seconds", $currentTime));
@@ -467,7 +468,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 				$recordId = $db->query_result($result, $i, 'recordid');
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
-				if( $link != '' ){
+				if( $link != '' && $link != 0 && $permissionToSendEmail ){
 					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($link)."&record=$link";
 				}
 				if($url != ''){
