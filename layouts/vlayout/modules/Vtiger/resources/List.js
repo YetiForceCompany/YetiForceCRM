@@ -1891,7 +1891,12 @@ jQuery.Class("Vtiger_List_Js",{
 	registerListViewSelect : function() {
 		var listViewContainer = this.getListViewContentContainer();
 		var select = listViewContainer.find('.listViewEntriesTable .select2noactive');
-		select.select2({closeOnSelect:true});
+		var params = {
+			placeholder: app.vtranslate('JS_SELECT_AN_OPTION'),
+			formatNoMatches: function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');},
+			closeOnSelect: true
+		};
+		select.select2(params);
 		select.on("change", function(e) { 
 			Vtiger_List_Js.triggerListSearch();
 		})

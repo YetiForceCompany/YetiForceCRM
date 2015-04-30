@@ -87,7 +87,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 
 	function process (Vtiger_Request $request) {
 		Vtiger_Session::init();
-		
+
+		if (vglobal('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
+			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+		}
+
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password 
 		if($request->get('mode') != 'reset' && $request->get('action') != 'Login')

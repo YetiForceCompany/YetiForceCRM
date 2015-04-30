@@ -83,8 +83,12 @@ var app = {
 		}else if( moduleName!= 'Install' ){
 			selectElement.data('placeholder',app.vtranslate('JS_SELECT_AN_OPTION'));
 		}
+		var params = {
+			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
+		};
+	
 		
-		var chosenElement = selectElement.chosen();
+		var chosenElement = selectElement.chosen(params);
 		var chosenSelectConainer = jQuery('.chzn-container');
 		//Fix for z-index issue in IE 7
 		if (jQuery.browser.msie && jQuery.browser.version === "7.0") {
@@ -129,6 +133,8 @@ var app = {
 		if(data != null) {
 			params = jQuery.extend(data,params);
 		}
+		params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
+		params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
 		// Sort DOM nodes alphabetically in select box.
 		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
@@ -158,6 +164,7 @@ var app = {
 		}
 		if(selectElement.attr('multiple') != 'undefined' && typeof params.closeOnSelect == 'undefined') {
 			params.closeOnSelect = false;
+			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
 
 		selectElement.select2(params)

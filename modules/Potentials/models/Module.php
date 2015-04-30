@@ -63,11 +63,18 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$params[] = $dateFilter['start'];
 			$params[] = $dateFilter['end'];
 		}
-
-		$result = $db->pquery('SELECT COUNT(*) count, sales_stage FROM vtiger_potential
-						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-						AND deleted = 0 '.Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()). $ownerSql . $dateFilterSql . ' AND sales_stage NOT IN ("Closed Won", "Closed Lost")
-							GROUP BY sales_stage ORDER BY count desc', $params);
+		$sql = 'SELECT COUNT(*) AS count, sales_stage FROM vtiger_potential 
+				INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_potential.sales_stage NOT IN ("Closed Won", "Closed Lost")'.$ownerSql . $dateFilterSql;
+		
+		$relatedModuleName = $this->getName();
+		$instance = CRMEntity::getInstance($relatedModuleName);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
+		if ($securityParameter != '')
+			$sql .= $securityParameter;
+		
+		$sql .= ' GROUP BY vtiger_potential.sales_stage ORDER BY count desc';
+		$result = $db->pquery($sql, $params);
 		
 		$response = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
