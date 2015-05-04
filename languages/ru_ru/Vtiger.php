@@ -556,6 +556,7 @@ $languageStrings = [
 	'LBL_LAST_VIEWED_RECORDS'=> 'Последние просмотренные записи', 
 	'LBL_LAST_WEEK'=> 'Предыдущая неделя', 
 	'LBL_LEFT_PANEL_SHOW_HIDE' => 'Показать/скрыть левую панель',
+	'LBL_RIGHT_PANEL_SHOW_HIDE'=>'Right Panel Show/Hide', 
 	'LBL_LESS_THAN'=> 'меньше чем',
 	'LBL_LESS_THAN_OR_EQUAL' => 'меньше или равно',
 	'LBL_LISTVIEW_PAGE_JUMP' => 'Переход к странице' , 

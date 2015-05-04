@@ -766,6 +766,7 @@ $languageStrings = [
 	'Other'=>'Pozostałe',
 	'Generate default PDF'=>'Generuj PDF',
 	'LBL_LEFT_PANEL_SHOW_HIDE'=>'Lewy panel (ukryj/pokaż)', 
+	'LBL_RIGHT_PANEL_SHOW_HIDE'=>'Prawy panel (ukryj/pokaż)', 
 	/* YetiForce */
 	'COPY_ADRESS_FROM'=>'Kopiuj adres z:',  
 	'LBL_WIDGETS_MANAGMENT'=>'Widgety',

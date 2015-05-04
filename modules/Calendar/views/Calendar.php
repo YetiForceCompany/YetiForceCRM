@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
 class Calendar_Calendar_View extends Vtiger_Index_View {
@@ -57,5 +58,12 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->view('CalendarView.tpl', $request->getModule());
-	}	
+	}
+	function postProcess(Vtiger_Request $request) {
+        $viewer = $this->getViewer ($request);
+		$moduleName = $request->getModule();
+
+		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		parent::postProcess($request);
+    }
 }

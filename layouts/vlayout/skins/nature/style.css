@@ -296,7 +296,7 @@ hr {
   .bodyContents {
     margin: 0 !important;
   }
-  #rightPanel {
+  #centerPanel {
     width: 100% !important;
   }
   .actionsContainer > .span2 {
@@ -547,6 +547,20 @@ hr {
 }
 .toggleButton .icon-chevron-right {
   background-position: -460px -72px !important;
+}
+.toggleRightPanelButton {
+  background: #eeeff2;
+  font-weight: bold;
+  padding: 5px 2px !important;
+  position: absolute;
+  top: 20px;
+  right: -1px;
+  cursor: pointer;
+  width: 10px;
+  z-index: 100;
+  border: 1px solid #dddddd;
+  border-right: 0;
+  display: inline-block;
 }
 .quickLinksDiv {
   margin: 10px 0;
