@@ -23,7 +23,6 @@ $languageStrings = [
 	'308-Sales-Books'=>'308-Verkauf Bücher',
 	'Box'=>'Schachtel',
 	'Carton'=>'Karton',
-	'Caton'=>'Caton',
 	'Commission Rate'=>'Provisionssatz',
 	'CRM Applications'=>'CRM-Anwendungen',
 	'Dozen'=>'Dutzend',
