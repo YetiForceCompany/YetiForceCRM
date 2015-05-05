@@ -30,7 +30,7 @@ $languageStrings = [
 	'Roles' => 'Funções' ,
 	'SINGLE_Roles' => 'Função',
 	'LBL_USERS_LIST' => 'Lista de Usuários pertencentes a esta Função:',
-	'LBL_JUST_ME' => 'Only Me',
+	'LBL_JUST_ME' => 'Somente eu',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Não tem Permissão para Mover',
