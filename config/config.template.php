@@ -81,6 +81,7 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
+// backslash is required at the end of URL
 $site_URL = '_SITE_URL_';
 
 // root directory path
