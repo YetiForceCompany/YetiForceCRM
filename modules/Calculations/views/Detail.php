@@ -10,9 +10,18 @@
  *************************************************************************************************************************************/
 
 class Calculations_Detail_View extends Inventory_Detail_View {
-	function showModuleBasicView($request) {
-		return $this->showModuleDetailView($request);
+	function showDetailViewByMode($request) {
+		$requestMode = $request->get('requestMode');
+		if ($requestMode == 'full') {
+			return $this->showModuleDetailView($request);
+		}
+		return $this->showModuleBasicView($request);
 	}
+
+	function showModuleBasicView($request) {
+		Vtiger_Detail_View::showModuleBasicView($request);
+	}
+
 	/**
 	 * Function returns Inventory Line Items
 	 * @param Vtiger_Request $request

@@ -1504,7 +1504,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 						Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);   
 					return;   
 					}
-					currentDiv.progressIndicator();
 					editElement.addClass('hide');
 					var params = {
 						action : 'SaveAjax',
@@ -1517,7 +1516,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 					AppConnector.request(params).then(
 						function(data) {
-							currentDiv.progressIndicator({'mode':'hide'});
 							detailViewElement.removeClass('hide');
 							currentTarget.show();
 							detailViewElement.html(ajaxEditNewLable);

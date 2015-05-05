@@ -12,5 +12,7 @@ class Calculations_Module_Model extends Inventory_Module_Model{
 	var $modules_fields_ids = Array();
 	var $widget_no_rows = 5;
 
+	public function isSummaryViewSupported() {
+		return true;
+	}
 }
-?>
