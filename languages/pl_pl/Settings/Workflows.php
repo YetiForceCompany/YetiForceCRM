@@ -121,10 +121,13 @@ $languageStrings = [
 	'LBL_NEXT_TRIGGER_TIME' => 'Następny czas uruchomienia', 
 	'LBL_ACTIVATION_TASKS' => 'Aktywuj zadania', 
 	'LBL_DEACTIVATION_TASKS' => 'Dezaktywuj zadnia', 
-	'LBL_ALL_TASKS' => 'Liczba zadań', 
+	'LBL_ALL_TASKS' => 'Liczba zadań',
 	'LBL_ACTIVE_TASKS' => 'Aktywnych zadań', 
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Nie powielaj rekordów',
 	'LBL_DUPLICATE_STATUS' => 'Nie dubluj jeśli status jest różny',
+	'LBL_VALUE_OF_FIELDS' => 'Wartość z pola',
+	'LBL_VALUE_OF_SERVER' => 'Wartość z serwera',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Data i czas uruchomienia obiegu informacji',
 	
 	//workflow task
 	'EmailTempleteList' => 'Wybierz szablon maila który ma zostać wysłany',
