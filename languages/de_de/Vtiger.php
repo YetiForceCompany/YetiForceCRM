@@ -882,12 +882,12 @@ $languageStrings = [
 	'Employees Time Control' => 'Zeiterfassung Mitarbeiter',
 	'RequirementCards' => 'Anforderungen',
 	'QuotesEnquires' => 'Angebotsanalyse',
-	'LBL_CURRENTLY_LOGGED_USER' => 'Currently logged in user',
-	'LBL_TO_REALIZE'=>'For processing',
-	'LBL_HISTORY'=>'History',
-	'LBL_WORKFLOWS_TRIGGER' => 'Workflow trigger',
-	'LBL_EXECUTE' => 'Execute',
-	'BTN_WORKFLOW_TRIGGER' => 'This tool allows to start workflows manually and automatically execute all selected tasks.',
+	'LBL_CURRENTLY_LOGGED_USER' => 'Aktueller eingeloggter User',
+	'LBL_TO_REALIZE'=>'Für Verarbeitung',
+	'LBL_HISTORY'=>'Historie',
+	'LBL_WORKFLOWS_TRIGGER' => 'Workflow Trigger',
+	'LBL_EXECUTE' => 'Ausführen',
+	'BTN_WORKFLOW_TRIGGER' => 'Diese Anwendung startet Workflows und alle selektierten Aufgaben manuell.',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Hinzufügen',
@@ -915,13 +915,13 @@ $languageStrings = [
 	'PLL_WORKING_TIME' => 'Arbeitszeit',
 	
 	//Gantt
-	'LBL_FILTERING' => 'Filtering',
-	'LBL_ALL_PRIORITY' => 'All',
-	'LBL_LOW_PRIORITY' => 'Low priority',
-	'LBL_HIGH_PRIORITY' => 'High priority',
-	'LBL_DAYS_CHART' => 'Days',
-	'LBL_MONTHS_CHART' => 'Months',
-	'LBL_ZOOMING' => 'Zooming',
+	'LBL_FILTERING' => 'Filtern',
+	'LBL_ALL_PRIORITY' => 'Alle',
+	'LBL_LOW_PRIORITY' => 'Niedrige Priorität',
+	'LBL_HIGH_PRIORITY' => 'Hohe Priorität',
+	'LBL_DAYS_CHART' => 'Tage',
+	'LBL_MONTHS_CHART' => 'Monate',
+	'LBL_ZOOMING' => 'Zoomen',
 	
 ];
 $jsLanguageStrings = [
@@ -1131,11 +1131,11 @@ $jsLanguageStrings = [
 	'JS_WED' => 'Mi',
 	'JS_WEEK' => 'Woche',
 	'JS_ADD_EVENT_TASK' => 'Ereignis/Aufgabe erstellen',
-	'JS_MORE' => 'More',
-	'JS_TO_REALIZE'=>'For processing',
-	'JS_HISTORY'=>'History',
-	'JS_NOT_SELECTED_WORKFLOW_TRIGGER' => 'No workflow selected',
-	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow started',
-	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow completed',
-	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unknown error! Please inform the administrator.',
+	'JS_MORE' => 'Mehr',
+	'JS_TO_REALIZE'=>'Für Verarbeitung',
+	'JS_HISTORY'=>'Historie',
+	'JS_NOT_SELECTED_WORKFLOW_TRIGGER' => 'Kein Workflow selektiert',
+	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow gestartet',
+	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow beendet',
+	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unbekannter Fehler! Bitte benachrichtigen Sie den Administrator.',
 ];
