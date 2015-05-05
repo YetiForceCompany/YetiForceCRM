@@ -34,7 +34,7 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="input-append searchBar span5">
+                        <div class="input-append searchBar span6">
                             <input type="text" class="" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
                             <span id="searchIcon" class="add-on search-icon"><i class="icon-white icon-search "></i></span>
                             <span class="adv-search  pull-left">
