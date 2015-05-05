@@ -107,11 +107,11 @@ class API_CalDAV_Model {
 
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$calUri = $extraData['uid'] . '.ics';
+		$calUri = date('Y-m-d\THis').'-'.$record['crmid'] ;
 		$stmt = $this->pdo->prepare('INSERT INTO dav_calendarobjects (calendarid, uri, calendardata, lastmodified, etag, size, componenttype, firstoccurence, lastoccurence, uid, crmid) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 		$stmt->execute([
 			$this->calendarId,
-			$calUri,
+			$calUri. '.ics',
 			$calendarData,
 			$modifiedtime,
 			$extraData['etag'],
@@ -119,7 +119,7 @@ class API_CalDAV_Model {
 			$extraData['componentType'],
 			$extraData['firstOccurence'],
 			$extraData['lastOccurence'],
-			$extraData['uid'],
+			$calUri,
 			$record['crmid']
 		]);
 		$this->addChange($calUri, 1);
