@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 	'List Price'                   => 'Cena sprzedażowa',
 	'PurchaseOrder No' => 'Numer',
-	'Received Shipment'=>'Dostarczone',
+	'Received Shipment'=>'Otrzymano dostawę',
 	'Requisition No' => 'Numer zamówienia',
 	'Sales Commission' => 'Prowizja',
 	'SINGLE_PurchaseOrder' => 'Zamówienie do dostawcy',
@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_THIS' => 'Produkt/usługa (',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') został/a usunięta, spróbuj zastąpić ją innym produktem/usługą.',
 	'SINGLE_Vendors' => 'Dostawca',
+	'Delivered' => 'Dostarczono',
 ];
 
 $jsLanguageStrings = [

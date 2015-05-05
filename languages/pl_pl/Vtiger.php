@@ -1084,6 +1084,7 @@ $jsLanguageStrings = [
 	'JS_NAME'=>'Nazwa',
 	'JS_PRIORITY'=>'Priorytet',
 	'JS_PROGRESS' => 'Postęp',
+	'JS_ALL_DAY' => 'Całodniowe',
 	'JS_APR' => 'Kwi',
 	'JS_APRIL' => 'Kwiecień',
 	'JS_AUG' => 'Sie',
