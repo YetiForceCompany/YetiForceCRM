@@ -546,13 +546,7 @@ class Accounts extends CRMEntity {
                 LEFT JOIN vtiger_salesordercf ON vtiger_salesordercf.salesorderid = vtiger_salesorder.salesorderid
 				LEFT JOIN vtiger_salesorderaddress ON vtiger_salesorderaddress.salesorderaddressid = vtiger_salesorder.salesorderid
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_salesorder.accountid = $id";
-
-		if(!empty ($entityIds)){
-			$query .= " OR vtiger_salesorder.contactid IN (".$entityIds."))";
-		} else {
-			$query .= ")";
-		}
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_salesorder.accountid = $id";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
