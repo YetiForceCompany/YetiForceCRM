@@ -812,6 +812,7 @@ $languageStrings = [
 	'Media'=>'Media',
     'COPY_ADRESS_FROM'=>'Copy address from:', 
     'LBL_LEFT_PANEL_SHOW_HIDE'=>'Left Panel Show/Hide', 
+	'LBL_RIGHT_PANEL_SHOW_HIDE'=>'Right Panel Show/Hide', 
 	/* modules */
     'OSSCosts' => 'Costs',
 	'Key Metrics' => 'Key Metrics',

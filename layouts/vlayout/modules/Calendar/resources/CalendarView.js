@@ -19,21 +19,44 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		}
 		return instance;
 	},
-	registerUserListWidget: function () {
+
+	
+	registerSwitches: function () {
+		var widgetContainer = jQuery('#rightPanel .quickWidget');
+		var switchesContainer = widgetContainer.find('.widgetContainer input.switchBtn');
+		app.showBtnSwitch(switchesContainer);
+		widgetContainer.find('.widgetContainer').each(function(){
+			h = jQuery(this).height();
+			if(h>250){
+				jQuery(this).find('div:first').slimScroll({
+					height: '250px'
+				});
+			};
+		});
+	},
+	
+	registerWidget: function () {
 		var thisInstance = this.getInstanceByView();
-		var widgetContainer = $('#Calendar_sideBar_LBL_ACTIVITY_TYPES');
-		widgetContainer.hover(
+		var widgetContainer = jQuery('#rightPanel .quickWidget');
+		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function(event, state) {
+			element = jQuery(this).closest('.quickWidget');
+			if(state){
+				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
+			}else{
+				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', true);
+			}
+		});
+		widgetContainer.find(".refreshCalendar").on('click',function () {
+			thisInstance.loadCalendarData();
+			return false;
+		});
+	/*	widgetContainer.find(".quickWidgetHeader").hover(
 			function () {
 				$(this).css('overflow','visible');
 			}, function () {
 				$(this).css('overflow','hidden');
 			}
-		);
-		this.registerColorField(widgetContainer.find('#calendarUserList'),'userCol');
-		this.registerColorField(widgetContainer.find('#calendarTypes'),'listCol');
-		widgetContainer.find(".refreshCalendar").click(function () {
-			thisInstance.loadCalendarData();
-		});
+		);*/
 	},
 	registerColorField : function(field, fieldClass){
 		var params = {};
@@ -150,15 +173,27 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date = view.end.format();
-		if (jQuery('#calendarUserList').length == 0) {
-			var user = jQuery('#current_user_id').val();
-		} else {
-			var user = jQuery('#calendarUserList').val();
-		}
-		if (jQuery('#calendarTypes').length > 0) {
-			var types = jQuery('#calendarTypes').val();	
+		var typesContainer = document.getElementById('calendarActivityTypeList');
+		types = [];
+		if(typesContainer){
+			jQuery(typesContainer).find('.switchBtn').each(function(){
+				if(jQuery(this).prop('checked')){
+					types.push(jQuery(this).data('value'));
+				}
+			})
 		}else{
 			allEvents = true;
+		}
+		var userContainer = document.getElementById('calendarUserList');
+		var user = [];
+		if(userContainer){
+			jQuery(userContainer).find('.switchBtn').each(function(){
+				if(jQuery(this).prop('checked')){
+					user.push(jQuery(this).data('value'));
+				}
+			})
+		}else{
+			var user = jQuery('#current_user_id').val();
 		}
 		var time = jQuery('#showType').val();	
 		

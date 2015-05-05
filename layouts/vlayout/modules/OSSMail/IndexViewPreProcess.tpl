@@ -14,4 +14,4 @@
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer row-fluid">
-		<div class=" span12 id="rightPanel">
+		<div class=" span12 id="centerPanel">

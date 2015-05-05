@@ -1226,14 +1226,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 				taskGoToFullFormButton.data('editViewUrl', taskFullFormUrl);
 				eventsGoToFullFormButton.data('editViewUrl', eventsFullFormUrl);
 
-				/*
-				 thisInstance.getPlannedEvents();
-				 jQuery('[name="date_start"]').on('change', function() {
-				 thisInstance.getPlannedEventsClearTable();
-				 thisInstance.getPlannedEvents();
-				 });
-				 jQuery('.modal-body').css({'max-height' : '500px', 'overflow-y': 'auto'});
-				 */
 			}
 
 			var callbackFunction = function () {
@@ -1264,19 +1256,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 			Vtiger_Header_Js.getInstance().quickCreateModule(referenceModuleName, QuickCreateParams);
 		});
 	},
-    getPlannedEventsClearTable: function() {
-        jQuery('#cur_events .table tr').next().remove();
-        jQuery('#prev_events .table tr').next().remove();
-        jQuery('#next_events  .table tr').next().remove();
-    },
-    getPlannedEvents: function() {
-        this.getSingleEventType('0', 'cur_events', 'MultipleEvents');
-        this.getSingleEventType('0', 'cur_events', 'Calendar');
-        this.getSingleEventType('-1', 'prev_events', 'MultipleEvents');
-        this.getSingleEventType('-1', 'prev_events', 'Calendar');
-        this.getSingleEventType('+1', 'next_events', 'MultipleEvents');
-        this.getSingleEventType('+1', 'next_events', 'Calendar');
-    },
 
     getEndDate: function(startDate) {
         var dateTab = startDate.split('-');

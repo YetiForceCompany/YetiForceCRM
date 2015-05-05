@@ -837,6 +837,7 @@ $languageStrings = [
 	
     'COPY_ADRESS_FROM'=>'Adresse kopieren von:', 
     'LBL_LEFT_PANEL_SHOW_HIDE'=>'Linken Bereich anzeigen/ausblenden', 
+	'LBL_RIGHT_PANEL_SHOW_HIDE'=>'Right Panel Show/Hide', 
 	/* modules */
     'OSSCosts' => 'Kosten',
 	'Key Metrics' => 'Schlüssel Metriken',

@@ -134,14 +134,28 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 		}
 
 		$quickWidgets = array();
+		$quickWidgetsRight = array();
 
 		if ($linkParams['ACTION'] == 'Calendar') {
-			$quickWidgets[] = array(
+			$quickWidgetsRight[] = array(
 				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_ACTIVITY_TYPES',
-				'linkurl' => 'module='.$this->get('name').'&view=UsersList&mode=getUsersList',
+				'linklabel' => 'Activity Type',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getActivityType',
 				'linkicon' => ''
 			);
+			$quickWidgetsRight[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_USERS',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getUsersList',
+				'linkicon' => ''
+			);
+			$quickWidgetsRight[] = array(
+				'linktype' => 'SIDEBARWIDGET',
+				'linklabel' => 'LBL_GROUPS',
+				'linkurl' => 'module='.$this->get('name').'&view=RightPanel&mode=getGroupsList',
+				'linkicon' => ''
+			);
+			
 		}
 
 		if ($linkParams['ACTION'] == 'SharedCalendar') {
@@ -162,6 +176,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 
 		foreach($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
+		}
+		foreach($quickWidgetsRight as $quickWidgetRight) {
+			$links['SIDEBARWIDGETRIGHT'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidgetRight);
 		}
 
 		return $links;

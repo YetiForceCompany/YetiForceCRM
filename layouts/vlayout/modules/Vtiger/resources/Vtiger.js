@@ -422,17 +422,26 @@ var Vtiger_Index_Js = {
 		jQuery('#toggleButton').click(function(e){
 			e.preventDefault();
 			var leftPanel = jQuery('#leftPanel');
-			var rightPanel = jQuery('#rightPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = document.getElementById('rightPanel');
 			var tButtonImage = jQuery('#tButtonImage');
 			if (leftPanel.attr('class').indexOf(' hide') == -1) {
                 var leftPanelshow = 1;
 				leftPanel.addClass('hide');
-				rightPanel.removeClass('span10').addClass('span12');
+				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+					centerContents.removeClass('span8').addClass('span10');
+				}else{
+					centerContents.removeClass('span10').addClass('span12');
+				}
 				tButtonImage.removeClass('icon-chevron-left').addClass("icon-chevron-right");
 			} else {
                 var leftPanelshow = 0;
 				leftPanel.removeClass('hide');
-				rightPanel.removeClass('span12').addClass('span10');
+				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
+					centerContents.removeClass('span10').addClass('span8');
+				}else{
+					centerContents.removeClass('span12').addClass('span10');
+				}
 				tButtonImage.removeClass('icon-chevron-right').addClass("icon-chevron-left");
 			}
             var params = {
@@ -442,6 +451,33 @@ var Vtiger_Index_Js = {
                 'showPanel' : leftPanelshow
             }
             AppConnector.request(params);
+		});
+	},
+	registerShowHideRightPanelEvent : function() {
+		jQuery('#toggleRightPanelButton').click(function(e){
+			e.preventDefault();
+			var leftPanel = jQuery('#leftPanel');
+			var centerContents = jQuery('#centerPanel');
+			var rightPanel = jQuery('#rightPanel');
+			var tButtonImage = jQuery('#tRightPanelButtonImage');
+			var leftPanelStatus = leftPanel.attr('class').indexOf(' hide');
+			if (rightPanel.attr('class').indexOf('hide') == -1 ) {
+				rightPanel.addClass('hide');
+				if(leftPanelStatus == -1){
+					centerContents.removeClass('span8').addClass('span10');
+				}else{
+					centerContents.removeClass('span10').addClass('span12');
+				}
+				tButtonImage.removeClass('icon-chevron-right').addClass("icon-chevron-left");
+			} else {
+				rightPanel.removeClass('hide');
+				if(leftPanelStatus == -1){
+					centerContents.removeClass('span10').addClass('span8');
+				}else{
+					centerContents.removeClass('span12').addClass('span10');
+				}
+				tButtonImage.removeClass('icon-chevron-left').addClass("icon-chevron-right");
+			}
 		});
 	},
 
@@ -457,6 +493,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerShowHideLeftPanelEvent();
+		Vtiger_Index_Js.registerShowHideRightPanelEvent();
 		Vtiger_Index_Js.registerResizeEvent();
 	},
 

@@ -19,7 +19,7 @@
 		<div class="span2{if $LEFTPANELHIDE eq '1'} hide {/if} row-fluid" id="leftPanel">
 			{include file="DetailViewSidebar.tpl"|vtemplate_path:$MODULE_NAME}
 		</div>
-		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} span10 {else} span12 {/if}marginLeftZero" id="rightPanel">
+		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} span10 {else} span12 {/if}marginLeftZero" id="centerPanel">
 			<div id="toggleButton" class="toggleButton" title="Left Panel Show/Hide"> 
 				<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
 			</div>
