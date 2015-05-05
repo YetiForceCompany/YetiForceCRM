@@ -129,9 +129,9 @@ $languageStrings = [
 	'LBL_ACTIVE_TASKS' => 'Активные Задачи',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Не дублировать записи',
 	'LBL_DUPLICATE_STATUS' => 'Запретить дублировать записи',
-	'LBL_VALUE_OF_FIELDS' => '__UNTRANSLATED__',
-	'LBL_VALUE_OF_SERVER' => '__UNTRANSLATED__',
-	'LBL_WORKFLOWS_RUN_TIME' => '__UNTRANSLATED__',
+	'LBL_VALUE_OF_FIELDS' => 'Value from field',
+	'LBL_VALUE_OF_SERVER' => 'Value from server',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
