@@ -21,7 +21,7 @@
 	<script type="text/javascript" src="libraries/jquery/jstorage.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/autosize/jquery.autosize-min.js"></script>
 
-	<script type="text/javascript" src="libraries/jquery/rochal-jQuery-slimScroll/slimScroll.min.js"></script>
+	<script type="text/javascript" src="libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/pnotify/jquery.pnotify.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery.hoverIntent.minified.js"></script>
 
