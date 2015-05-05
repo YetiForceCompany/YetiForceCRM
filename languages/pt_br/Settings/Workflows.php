@@ -138,9 +138,9 @@ $languageStrings = [
 	'LBL_ACTIVE_TASKS' => 'Tarefas ativas',
 	'LBL_DO_NOT_DUPLICATE_RECORDS' => 'Não duplicar registros',
 	'LBL_DUPLICATE_STATUS' => 'Não duplicar se o status variar',
-	'LBL_VALUE_OF_FIELDS' => '__UNTRANSLATED__',
-	'LBL_VALUE_OF_SERVER' => '__UNTRANSLATED__',
-	'LBL_WORKFLOWS_RUN_TIME' => '__UNTRANSLATED__',
+	'LBL_VALUE_OF_FIELDS' => 'Value from field',
+	'LBL_VALUE_OF_SERVER' => 'Value from server',
+	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
 	
 	//workflow task
 	'EmailTempleteList' => 'Selecionar um modelo de e-mail para ser enviado',
