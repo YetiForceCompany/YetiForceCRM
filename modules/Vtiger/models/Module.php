@@ -633,9 +633,9 @@ class Vtiger_Module_Model extends Vtiger_Module {
             if($moduleObject) {
                 $instance = self::getInstanceFromModuleObject($moduleObject);
                 Vtiger_Cache::set('module',$value,$instance);
-				if (is_string($value)) {
+				if (is_int($value)) {
 					Vtiger_Cache::set('module', $moduleObject->id, $instance);
-				} else if (is_int($value)) {
+				} else if (is_string($value)) {
 					Vtiger_Cache::set('module', $moduleObject->name, $instance);
 				}
             }
