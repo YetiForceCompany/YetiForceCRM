@@ -83,16 +83,21 @@
 			</span>
 			<span class="span marginLeftZero">
 				<select class="chzn-select" name="direction_start" style="width: 100px">
-					<option {if $TASK_OBJECT->direction eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->direction eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+					<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
 			<span class="span6">
-				<select class="chzn-select" name="datefield_start" style="width: 150px">
-					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-						<option {if $TASK_OBJECT->datefield eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
-					{/foreach}
-				</select>&nbsp;<span style="vertical-align: super">({vtranslate('LBL_THE_SAME_VALUE_IS_USED_FOR_START_DATE',$QUALIFIED_MODULE)})</span>
+				<select class="chzn-select" name="datefield_start" style="width: 300px">
+					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
+						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
+							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label='{vtranslate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
+						<option {if $TASK_OBJECT->datefield_start eq 'wfRunTime'}selected{/if} value="wfRunTime">{vtranslate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+					</optgroup>
+				</select>
 			</span>
 		</div>
 		<div class="row-fluid padding-bottom1per">
@@ -103,16 +108,21 @@
 			</span>
 			<span class="span marginLeftZero">
 				<select class="chzn-select" name="direction_end" style="width: 100px">
-					<option {if $TASK_OBJECT->direction eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-					<option {if $TASK_OBJECT->direction eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
 			<span class="span6">
-				<select class="chzn-select" name="datefield_end" style="width: 150px">
-					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-						<option {if $TASK_OBJECT->datefield eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
-					{/foreach}
-				</select>&nbsp;<span style="vertical-align: super">({vtranslate('LBL_THE_SAME_VALUE_IS_USED_FOR_START_DATE',$QUALIFIED_MODULE)})</span>
+				<select class="chzn-select" name="datefield_end" style="width: 300px">
+					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
+						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
+							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label='{vtranslate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
+						<option {if $TASK_OBJECT->datefield_end eq 'wfRunTime'}selected{/if} value="wfRunTime">{vtranslate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+					</optgroup>
+				</select>
 			</span>
 		</div>
 		<div class="row-fluid padding-bottom1per">
