@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCompany/YetiForceCRM/commit/2de362754ded59baa9cce7bc596e95cb4f5fe5e6) revision. 
+The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCompany/YetiForceCRM/commit/15ee87539ee3ccbb2918c8027f082672f953ba35) revision. 
 
 
 **Bug Fixes:** 
@@ -146,7 +146,11 @@ The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCo
 -	Added a mechanism limiting the list of groups.
 -	Added loading of data in te calendar.
 -	Added close in time Events and To Dos to the calendar when in a quick create view.
--	Aded security during the writing of data.
+-	Added security during the writing of data.
+-	Added missing allowances to profiles.
+-	Added devel mode to Roundcube.
+-	Added entitlement to a notification window in the calendar. 
+-	Added SSL force.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -163,6 +167,9 @@ The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCo
 -	Improved a global variable in the database.
 -	Improved permissions to Quick Create records.
 -	Improved the reference field.
+-	Improved the header in the calendar.
+-	Improved filtering of email content.
+-	Improved sharing permissions while associating of records.
 -	Secured a function updating information about an email.
 -	Secured adding of linkages.
 -	Secured the management of widgets.
@@ -322,167 +329,4 @@ The following changes are up to 1.4.266 - [#666] (https://github.com/YetiForceCo
 -	Added the first part of the integration with WebDav.
 -	Added a new module - Reservations.
 
-
-
-#YetiForce 1.3 (released on 13th February 2015)
-
-**Bug Fixes:** 
--	Fixed an issue with a decimal separator in PDF.
--	Fixed a bug in dynamically generated enquiries.
--	Fixed an issue related to reading ICS files.
--	Improved language files.
--	Deleted unused files.
--	Improved a mechanism responsible for saving translations.
--	Engine optimization – logical operators.
--	Fixed the display of related modules.
--	Fixed the quick edit view in the Calendar.
--	Fixed saving of tasks in workflow.
--	Fixed the display of pick list in PDF module.
--	Fixed the display of widgets.
--	Fixed relation of data in the Calendar.
--	Fixed an issue that existed when a widget was added to a Project Task.
--	Fixed report generation in PDF.
--	Fixed the system installer.
--	Fixed the display of WYSIWIG editor in quick create.
--	Fixed the display of time format in Employees.
--	Fixed the creation of tickets in the Customer Portal.
--	Fixed the setting of the main module field (Entity Identifier).
--	Fixed encoding in WYSIWYG file.
-
-
-**Improvements:**
--	Improved mechanisms verifying the actual web server configuration (during installation and configuration).
--	Added a function that tests connection with the mobile application.
--	Added support for untypical ICS files.
--	Added additional mechanism detecting errors in the email module.
--	Added new translations in language files.
--	Updated a Russian language pack.
--	Updated a German language pack.
--	Improved a mechanism responsible for a password reset in the Customer Portal.
--	Improved a mechanism responsible for a migration to a new version [Vtiger 6.1 > YetiForce 1.3]. In the new version, migration will be only available for Vtiger 6.2.
--	Developed a mechanism responsible for coloring of module names and icons in modules.
--	Optimization of calls to mobile phones.
--	Optimization of a management panel for related modules.
--	Migration of a folder field from Documents to a new filed type.
--	Optimization of ADODB.
--	Improved a mechanism responsible for making relations in mobile phone connections.
--	Added a possibility to configure the minimum time for CRON [above 15 mins].
--	Added records summary to the Employees module.
--	Improved an integrative bar in the email module.
--	Updated zend library (encoding and decoding).
--	Improved the display of displaytype in fields management.
--	Improved the authorization in the email module.
--	Added a possibility to set a primary language from the panel.
--	Improved the display of emails, added filters checking WYSIWYG displayed content.
--	Secured user creation, improved import of users.
--	Added vendors to action bar in the email module.
--	Organized file structure (data directory removed). 
--	Improved webforms.
--	Redeveloped Brute Force verification.
--	Redeveloped tag cloud and its management.
--	Redeveloped address search.
--	Improved export and import of modules.
--	Added a time stamp for records preview.
--	Added a new field: “Updated”.
--	Redeveloped a password reminder in the Customer Portal.
--	Added suggestions on buttons.
-
-
-**New functionalities:**
--	Added jsTree library.
--	Added a module for the management of jsTree templates.
--	Added new uitype for jsTree.
--	Added a panel for widget management and for defining privileges.
--	Added a panel for column management in related modules and popup windows.
--	Added a mechanism for mass enable and disable of tasks in workflow.
--	Updated the primary engine to Vtiger 6.2.0 [rev. 14427].
--	Added a mechanism that allows to duplicate users.
--	Added a panel that allows to identify modules that are registered by ModTracker.
--	Added a widget with Employee’s working time.
--	Added jquery inputmask library.
--	Added a functionality that allows to set a mask on a filed.
--	Added a possibility to search for addresses Google Maps.
--	Added a functionality that allows to unmark whether a record was read. 
--	Added a new module: Ideas.
-
-
-
-#YetiForce 1.2 (released on 20th January 2015)
-
-
-**Bug fixes:**
-- Fixed the display of errors in mail module.
-- Fixed the display of records in calendar.
-- Fixed the display of colored records.
-- Fixed search in uitype10 fields.
-- Fixed adding of menu items. 
-- Fixed coping of address data. 
-- Improved saving in language module. 
-- Fixed function responsible for sending PDF via mail using workflows. 
-- Fixed date format in validation mechanism. 
-- Fixed edit view in PDF module. 
-- Fixed function responsible for creating modules from console. 
-- Disabled a possibility to switch users. 
-- Fixed size of modal window. 
-- Improved mechanism responsible for updates and migration [FOREIGN_KEY_CHECKS].
-- Fixed issues reported at github.com
-
-**Improvements:**
-- Language files. 
-- Added new uitype (list of modules with records).
-- Added validation of separators for numbers.
-- Added api for communication with mobile devices [PushCall, DialHistory].
-- Improved login in mail module. 
-- Added validation in a mechanism responsible for creating fields. 
-- Added validation of user filter. 
-- Added a mechanism that allows to add empty module with records. 
-- Improved a mechanism responsible for updates.
-
-**New functionalities:**
-- A possibility to color module names (list view, record preview, list view in related modules, breadcrumbs menu). 
-- Added a panel allowing to manage filters in calendar. 
-- Added a new language (Russian) – special thanks to waw555 [Алексей].
-- Added a panel allowing to manage connections with API.
-- New module for mobile call history. 
-- Added a panel allowing to manage widgets.
-
-
-
-
-#YetiForce 1.1 (released on 8th January 2015)
-
-**Updates and enhancements:**
--	Uploaded changes from Vtiger 6.2.0 rev. 14388 [only these that we considered essential, e.g. changes within their shop were ignored].
--	Language updates (PL_PL, EN_US, DE_DE) and a new language in a beta version: PT_BR. We would like to thank new developers for github!
--	Optimized records coloring within lists.
--	Optimized widgets in a record summary.
--	Fixed a bug that disabled the function of generating modules from a console.
--	Fixed special functions in PDF.
--	Error logs from php server moved to the logs directory.
--	Fixed numerous minor bugs.
-
-**New functionalities:**
--	An option enabling permissions to edit comments was added to profiles.
--	Added a module for system updates.
--	Added a Backup module. 
--	Added readcrumbs menu. 
--	Added a tool for verifying the configuration of parameters and permissions on the server. 
--	Added D3js - Data-Driven Documents library.
--	Optimized data loading in uitype10 fields.
--	Added new displaytype 10.
--	Added Widget KPI [it is going to be improved and optimized].
--	iCal support! Now you can accept invitations and send them from an email client level!
--	Added a new autocomplete mechanism for email addresses within an email client.
--	Added a possibility to color some elements [adding a color in a module menu e.g. Accounts results in having the same color in a breadcrumbs menu and in a record list).
--	A possibility to manage widgets from a startup screen was added to a panel!
-
-**Security:**
--	Remote access to the following directories was blocked: api, backup, cache\addressBook, logs, session, storage.
-
-**Optimization of processes:**
--	Added new fields.
--	Changed logics of fields within Tickets module.
--	Moved the management of calendar filters to a panel.
--	Optimized a mechanism calculating tax.
-
-#YetiForce 1.0 was the first version reeased in 2014.
+The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/ideas,-changes,-bugs/changes.html).
