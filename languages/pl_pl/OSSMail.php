@@ -82,7 +82,7 @@ $languageStrings = [
     'mdn_requests_4' => 'wysłać automatycznie, jeżeli nadawca jest w książce adresowej, w przeciwnym razie ignorować',
 	'LBL_SAVE' => 'Zapisz konfigurację',
 	'Mails List' => 'Najnowsze maile',
-	'LBL_NOMAILSLIST' => 'Brak wiadomości mail',
+	'LBL_NOMAILSLIST' => 'Brak wiadomości mailowych',
 ];
 
 $jsLanguageStrings = [
