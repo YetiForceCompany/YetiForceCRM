@@ -88,11 +88,15 @@ class VTCreateTodoTask extends VTTask{
 			}
 		}
 		
-		//
-		$baseDateStart = $entityData->get($this->datefield_start);
-		if($baseDateStart == '') {
-			$baseDateStart = date('Y-m-d');
+		if( $this->datefield_start == 'wfRunTime'){
+			$baseDateStart = date('Y-m-d H:i:s');
+		}else{
+			$baseDateStart = $entityData->get($this->datefield_start);
+			if($baseDateStart == '') {
+				$baseDateStart = date('Y-m-d');
+			}
 		}
+
 		$time = explode(' ',$baseDateStart);
 		if(count($time) < 2) {
             $timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($this->time);
@@ -103,11 +107,16 @@ class VTCreateTodoTask extends VTTask{
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
 		$baseDateStart = strtotime($match[0]);
-		//
-		$baseDateEnd = $entityData->get($this->datefield_end);
-		if($baseDateEnd == '') {
-			$baseDateEnd = date('Y-m-d');
+
+		if( $this->datefield_end == 'wfRunTime'){
+			$baseDateEnd = date('Y-m-d H:i:s');
+		}else{
+			$baseDateEnd = $entityData->get($this->datefield_end);
+			if($baseDateEnd == '') {
+				$baseDateEnd = date('Y-m-d');
+			}
 		}
+		
 		$timeEnd = explode(' ',$baseDateEnd);
 		if(count($timeEnd) < 2) {
 			$result = $adb->pquery('SELECT `end_hour` FROM vtiger_users WHERE id = ?', array($userId));
