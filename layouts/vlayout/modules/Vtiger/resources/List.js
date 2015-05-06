@@ -382,7 +382,7 @@ jQuery.Class("Vtiger_List_Js",{
 
 	triggerMassEdit : function(massEditUrl) {
 		var selectedCount = this.getSelectedRecordCount();
-		if(selectedCount > 500) {
+		if(selectedCount > jQuery('#listMaxEntriesMassEdit').val()) {
 		    var params = {
 			    title : app.vtranslate('JS_MESSAGE'),
 			    text: app.vtranslate('JS_MASS_EDIT_LIMIT'),

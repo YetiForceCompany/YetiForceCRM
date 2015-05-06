@@ -244,3 +244,6 @@ $forceSSL = FALSE;
 
 // show record count in tabs related modules
 $showRecordsCount = TRUE;
+
+// Maximum number of records in a mass edition
+$listMaxEntriesMassEdit = 500;
