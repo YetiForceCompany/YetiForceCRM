@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 1.5 (under development)
 
-The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCompany/YetiForceCRM/commit/15ee87539ee3ccbb2918c8027f082672f953ba35) revision. 
+The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCompany/YetiForceCRM/commit/7a36309d62dfbf4794f5c19c0c41b82770947171) revision. 
 
 
 **Bug Fixes:** 
@@ -70,6 +70,8 @@ The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCo
 -	Fixed listing of groups.
 -	Fixed queries for permission. 
 -	Fixed a bug occuring in some custom modules in which reference fields in List view were always empty.
+-	Fixed a bug occuring while saving of field and column names.
+-	Fixed getInstance function.
 
 
 **Improvements:**
@@ -80,6 +82,7 @@ The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCo
 -	Improved the display of events in the Calendar.
 -	Improved the display of history on your desktop.
 -	Improved the display of the menu.
+-	Improved the display of sales orders.
 -	Improved permissions in Quick Create.
 -	Cleaned up some functions on files.
 -	Cleaned up the configuration for colors.
@@ -103,6 +106,7 @@ The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCo
 -	Updated Browser_compatibility.html page.
 -	Updated Credits.
 -	Updated Smart 3.1.21. library
+-	Updated slimScroll to v.1.3.0
 -	Upgraded debugging.
 -	Added new icons to the Calendar.
 -	Rebuilt relations in the Calendar module.
@@ -151,11 +155,17 @@ The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCo
 -	Added devel mode to Roundcube.
 -	Added entitlement to a notification window in the calendar. 
 -	Added SSL force.
+-	Added a right panel to the calendar.
+-	Added a summary view to Calculations.
+-	Added calculations to the configuration of the sales process.
+-	Added a widget to the desktop of calculations.
+-	Added a 'Switch' button to widgets.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
 -	Removed a 'hide completed events' field.
 -	Removed a contact field 'Potentials'.
+-	Removed an unnecessary loader.
 -	Improved a function getArrayFromValue.
 -	Improved getQuickCreateModules method.
 -	Improved import of updates.
@@ -170,10 +180,13 @@ The following changes are up to 1.4.278 - [#672] (https://github.com/YetiForceCo
 -	Improved the header in the calendar.
 -	Improved filtering of email content.
 -	Improved sharing permissions while associating of records.
+-	Improved generating of tasks in workflows.
+-	Improved generating of CalUri in CalDAV.
 -	Secured a function updating information about an email.
 -	Secured adding of linkages.
 -	Secured the management of widgets.
 -	Secured loading of record labels.
+-	Increased the width of a search bar.
 
 
 **New functionalities:**
