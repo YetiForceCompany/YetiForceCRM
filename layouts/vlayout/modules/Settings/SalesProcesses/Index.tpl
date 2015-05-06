@@ -12,6 +12,7 @@
 	&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#popup" data-toggle="tab">{vtranslate('LBL_PRODUCTS_AND_SERVICES_POPUP', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#Calculations" data-toggle="tab">{vtranslate('LBL_CALCULATIONS', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<div class="tab-content layoutContent" style="padding-top: 10px;">
 		<div class="tab-pane active" id="popup">
@@ -24,6 +25,23 @@
 				<div class="span1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
 				<div class="span11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
 			</div>
+		</div>
+		<div class="tab-pane" id="Calculations">
+			{assign var=CALCULATION value=$MODULE_MODEL->getConfig('calculation')}
+			<table class="table table-bordered table-condensed themeTableColor userTable listViewEntries">
+				<tbody>
+					<tr>
+						<td><label>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label></td>
+						<td>
+							<select class="chzn-select span8 configField" multiple data-type="calculation" name="calculationsstatus">
+								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
+									<option value="{$ITEM}" {if in_array($ITEM, $CALCULATION['calculationsstatus'])} selected {/if}  >{vtranslate($ITEM,'Calculations')}</option>
+								{/foreach}
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
