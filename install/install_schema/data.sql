@@ -21904,6 +21904,7 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','
 
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','limit_product_service','false');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','update_shared_permissions','false');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');
 
 /*Data for the table `yetiforce_updates` */
 
