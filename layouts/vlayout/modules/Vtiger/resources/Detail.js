@@ -2297,6 +2297,29 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 		);
 	},
+	
+	registerRelatedModulesRecordCount : function(){
+		var thisInstance = this;
+		$('.related .nav li').each(function (n, item) {
+			var url = $(item).data('url');
+			if ($(item).hasClass('relatedNav') && $(item).data('count') == '1') {
+				var params = {
+					'module' : app.getModuleName(),
+					'action' : 'RelationAjax',
+					'record' : thisInstance.getRecordId(),
+					'relatedModule' : $(item).data('reference'),
+					'mode' : 'getRelatedListPageCount',
+				}
+				AppConnector.request(params).then(function (response) {
+					if (response.success) {
+						$(item).find('.count').text("(" + response.result.numberOfRecords + ")");
+					}
+				});
+
+			}
+		});
+	},	
+	
 	registerEvents : function(){
 		var thisInstance = this;
 		//thisInstance.triggerDisplayTypeEvent();
@@ -2583,11 +2606,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 		});
 
 		thisInstance.getForm().validationEngine(app.validationEngineOptions);
-
 		thisInstance.loadWidgets();
 
 		app.registerEventForTextAreaFields(jQuery('.commentcontent'));
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
+		this.registerRelatedModulesRecordCount();
 	}
 });
