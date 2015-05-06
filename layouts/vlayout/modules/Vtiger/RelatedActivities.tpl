@@ -56,7 +56,9 @@
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
 								</span>
-								<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Completed" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
+								{if $DATA_TYPE != 'history'}
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Completed" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
+								{/if}
 							</div>
 						{else}
 							{assign var=MODULE_NAME value="Events"}
