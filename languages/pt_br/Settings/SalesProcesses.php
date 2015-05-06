@@ -14,6 +14,6 @@ $languageStrings = [
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Permite escolher a partir da lista de produtos, apenas aqueles que estão relacionados com a Oportunidade relacionada. Fornecido para: Cálculos, Cotações, Pedidos de Vendas e Faturas.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Lista de seleção de Produtos e Serviços',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Atualizar permissões compartilhadas do Produto/Serviço na Oportunidade quando a relação entre Produto/Serviço for criada.',
-	'LBL_CALCULATIONS' => '__UNTRANSLATED__',
-	'LBL_STATUSES_CLOSED_CALCULATION' => '__UNTRANSLATED__',
+	'LBL_CALCULATIONS' => 'Calculations',
+	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
 ];
