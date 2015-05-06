@@ -1,4 +1,4 @@
-<div  class="summaryWidgetContainer">
+<div  class="summaryWidgetContainer activityWidgetContainer">
 	<div class="widget_header row-fluid">
 		<span class="span4"><h4 class="textOverflowEllipsis">{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}</h4></span>
 		<span class="span5">

@@ -14,6 +14,7 @@ class Vtiger_Basic_Widget {
 	var $Config = array();
 	var $moduleModel = false;
 	var $dbParams = array();
+	var $allowedModules  = array();
 	
 	function __construct($Module = false, $moduleModel = false, $Record = false, $widget = array() ) {
 		$this->Module = $Module;

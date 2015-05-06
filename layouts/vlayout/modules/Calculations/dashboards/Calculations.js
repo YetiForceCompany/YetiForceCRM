@@ -9,7 +9,7 @@
  *************************************************************************************************************************************/
 jQuery.Class("Calculations_Calculations_Dashboard_Js",{},{
 	registerEvents : function(){
-		$('.dashboardWidgetHeader .calculationsSwitch').on('switchChange.bootstrapSwitch', function(e, state) {
+		$('.dashboardContainer .dashboardWidgetHeader .calculationsSwitch').on('switchChange.bootstrapSwitch', function(e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
