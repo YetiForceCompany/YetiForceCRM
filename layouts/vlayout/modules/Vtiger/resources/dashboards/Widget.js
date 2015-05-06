@@ -140,6 +140,7 @@ jQuery.Class('Vtiger_Widget_Js',{
 		this.registerFilter();
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
+		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 	},
 
 	postRefreshWidget : function() {

@@ -1,3 +1,4 @@
+<?php
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -7,27 +8,19 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-jQuery.Class("Calculations_Calculations_Dashboard_Js",{},{
-	registerEvents : function(){
-		$('.dashboardContainer .dashboardWidgetHeader .calculationsSwitch').on('switchChange.bootstrapSwitch', function(e, state) {
-			var currentElement = jQuery(e.currentTarget);
-			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
-			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
-			var url = drefresh.data('url');
-			
-			url = url.replace('&showtype=owner', '');
-			url = url.replace('&showtype=common', '');
-			url += '&showtype=';
-			if(state)
-				url += 'owner';
-			else
-				url += 'common';
-			drefresh.data('url',url);
-			drefresh.click();
-		});
+class Vtiger_Calculations_Widget extends Vtiger_Basic_Widget {
+	var $allowedModules  = ['Accounts','Potentials'];
+	
+	public function getUrl() {
+		return 'module=Calculations&view=Widget&fromModule='.$this->Module.'&record='.$this->Record.'&mode=showCalculations&page=1&limit='.$this->Data['limit'];
 	}
-});
-jQuery(document).ready(function() {
-	var calculations = new Calculations_Calculations_Dashboard_Js();
-	calculations.registerEvents();
-});
+	public function getWidget() {
+		$this->Config['url'] = $this->getUrl();
+		$this->Config['tpl'] = 'CalculationsBasic.tpl';
+		$this->Config['relatedmodule'] = 'Calculations';
+		return $this->Config;
+	}
+	public function getConfigTplName() {
+		return 'CalculationsConfig';
+	}
+}

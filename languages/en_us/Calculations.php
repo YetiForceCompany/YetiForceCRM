@@ -74,4 +74,6 @@ $languageStrings = [
 	'Currency' => 'Currency',
 	'LBL_OWNER' => '__UNTRANSLATED__',
 	'LBL_COMMON' => '__UNTRANSLATED__',
+	'LBL_OPEN' => '__UNTRANSLATED__',
+	'LBL_ARCHIVE' => '__UNTRANSLATED__',
 ];

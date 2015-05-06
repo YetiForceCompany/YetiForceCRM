@@ -513,7 +513,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$viewer->assign('PAGING_MODEL', $pagingModel);
 			$viewer->assign('PAGE_NUMBER', $pageNumber);
 			$viewer->assign('ACTIVITIES', $relatedActivities);
-
+			$viewer->assign('DATA_TYPE', $type);
 			return $viewer->view('RelatedActivities.tpl', $moduleName, true);
 		}
 	}

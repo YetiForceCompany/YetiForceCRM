@@ -1390,7 +1390,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	
 	registerChangeSwitchForWidget : function(){
 		var thisInstance = this;
-		$('.widget_header .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
+		$('.activityWidgetContainer .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
@@ -1401,6 +1401,21 @@ jQuery.Class("Vtiger_Detail_Js",{
 				url += 'current';
 			else
 				url += 'history';
+			widget.data('url',url);
+			thisInstance.loadWidget($(widget));
+		});
+		$('.calculationsWidgetContainer .calculationsSwitch').on('switchChange.bootstrapSwitch', function(e, state) {
+			var currentElement = jQuery(e.currentTarget);
+			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var widget = summaryWidgetContainer.find('.widgetContentBlock');
+			var url = widget.data('url');
+			url = url.replace('&showtype=open', '');
+			url = url.replace('&showtype=archive', '');
+			url += '&showtype=';
+			if(state)
+				url += 'open';
+			else
+				url += 'archive';
 			widget.data('url',url);
 			thisInstance.loadWidget($(widget));
 		});
