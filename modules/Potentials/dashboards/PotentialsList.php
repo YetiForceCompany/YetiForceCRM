@@ -45,8 +45,8 @@ class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
 		if(!empty($widget->get('limit'))){
 			$limit = $widget->get('limit');
 		}
-		$calculationConfig = Settings_SalesProcesses_Module_Model::getConfig('calculation');
-		$calculationsStatus = $calculationConfig['calculationsstatus'];
+		$potentialConfig = Settings_SalesProcesses_Module_Model::getConfig('potential');
+		$potentialSalesStage = $potentialConfig['salesstage'];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = 'Potentials';
 		$instance = CRMEntity::getInstance($module);
@@ -59,9 +59,9 @@ class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 		
-		if(!empty($calculationsStatus)){
-			$calculationsStatusSearch = implode("','", $calculationsStatus);
-			$sql .=	" AND vtiger_calculations.calculationsstatus NOT IN ('$calculationsStatusSearch')";
+		if(!empty($potentialSalesStage)){
+			$potentialSalesStageSearch = implode("','", $potentialSalesStage);
+			$sql .=	" AND vtiger_potential.sales_stage NOT IN ('$potentialSalesStageSearch')";
 		}
 		$showtype = $request->get('showtype');
 		if($showtype == 'common'){
