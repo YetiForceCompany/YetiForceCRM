@@ -66,3 +66,17 @@ $config['ldap_debug'] = $DEBUG_CONFIG['ROUNDCUBE_LDAP_DEBUG'];
 $config['smtp_debug'] = $DEBUG_CONFIG['ROUNDCUBE_SMTP_DEBUG'];
 $config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
 $config['devel_mode'] = $DEBUG_CONFIG['ROUNDCUBE_DEVEL_MODE'];
+
+$config['imap_conn_options'] = [
+	'ssl' => [
+		'verify_peer'       => false,
+		'verfify_peer_name' => false,
+	],
+];
+$config['smtp_timeout'] = 5;
+$config['smtp_conn_options'] = [
+	'ssl' => [
+		'verify_peer'       => false,
+		'verfify_peer_name' => false,
+	],
+];
