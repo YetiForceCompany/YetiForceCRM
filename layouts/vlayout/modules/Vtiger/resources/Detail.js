@@ -2314,7 +2314,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	},
 	
 	registerRelatedModulesRecordCount : function(){
-		var thisInstance = this;
+		var thisInstance = new Vtiger_Detail_Js();
 		$('.related .nav li').each(function (n, item) {
 			var url = $(item).data('url');
 			if ($(item).hasClass('relatedNav') && $(item).data('count') == '1') {
@@ -2627,5 +2627,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		this.registerEventForTotalRecordsCount();
 		this.registerGetAllTagCloudWidgetLoad();
 		this.registerRelatedModulesRecordCount();
+		var header = Vtiger_Header_Js.getInstance();
+		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });
