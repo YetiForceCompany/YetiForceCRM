@@ -334,28 +334,6 @@ class OSSPasswords extends CRMEntity {
 			//Add OSSPasswords Module to Customer Portal  		
             require_once 'vtlib/Vtiger/Module.php';
 
-			//Showing OSSPasswords module in the related modules in the More Information Tab
-			$OSSPasswordInstance = Vtiger_Module::getInstance('OSSPasswords');
-			$OSSPasswordLabel = 'OSSPasswords';
-
-            $assetInstance = Vtiger_Module::getInstance('Assets');
-			$assetInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-			$productInstance = Vtiger_Module::getInstance('Products');
-			$productInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $serviceInstance = Vtiger_Module::getInstance('Services');
-			$serviceInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-
-			$helpdeskInstance = Vtiger_Module::getInstance('HelpDesk');
-			$helpdeskInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
-            $vendorInstance = Vtiger_Module::getInstance('Vendors');
-			$vendorInstance->setRelatedlist($OSSPasswordInstance,$OSSPasswordLabel,array(ADD),'get_dependents_list');
-            
             // add default oss_passwords configuration
             $adb->pquery( "INSERT INTO vtiger_passwords_config values(?,?,?,?)", array('10', '15', 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,W,X,Y,Z,0,1,2,3,4,5,6,7,8,9', '0') );
             

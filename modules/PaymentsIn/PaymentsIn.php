@@ -113,17 +113,6 @@ class PaymentsIn extends Vtiger_CRMEntity {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'','1');
 
-			$Instance = Vtiger_Module::getInstance($modulename);
-			$nModule = Vtiger_Module::getInstance('Accounts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$Instance = Vtiger_Module::getInstance($modulename);
-			$nModule = Vtiger_Module::getInstance('Invoice');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';

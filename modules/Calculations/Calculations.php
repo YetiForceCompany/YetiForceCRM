@@ -223,10 +223,7 @@ class Calculations extends CRMEntity {
 			$myCustomEntity = CRMEntity::getInstance($moduleName);
 			$myCustomEntity->setModuleSeqNumber("configure",$moduleName,'','1');
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
-			
-			$targetModule = Vtiger_Module::getInstance('Quotes');
-			$targetModule->setRelatedList($myCustomEntity, $moduleName, array('ADD'),'get_related_list');	
-			
+
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
 			if($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
 				include_once('vtlib/Vtiger/Module.php');

@@ -36,3 +36,6 @@ DROP TABLE IF EXISTS `vtiger_google_oauth2`;
 DROP TABLE IF EXISTS `vtiger_google_sync_fieldmapping`;
 DROP TABLE IF EXISTS `vtiger_google_sync_settings`;
 DROP TABLE IF EXISTS `vtiger_wordtemplates`;
+DROP TABLE IF EXISTS vtiger_cntactivityrel;
+DROP TABLE IF EXISTS vtiger_seactivityrel;
+DROP TABLE IF EXISTS vtiger_seactivityrel_seq;

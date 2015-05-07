@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-13 11:38:49</exporttime>
+<exporttime>2015-05-06 07:49:16</exporttime>
 <name>HolidaysEntitlement</name>
 <label>HolidaysEntitlement</label>
-<parent>Human resources</parent>
 <dependencies>
 <vtiger_version>1.3.103 RC</vtiger_version>
 </dependencies>
@@ -58,11 +57,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>2</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -97,13 +96,13 @@
 <sequence>2</sequence>
 <maximumlength>100</maximumlength>
 <typeofdata>I~M</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreate>2</quickcreate>
+<quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>0</masseditable>
+<helpinfo></helpinfo>
+<masseditable>2</masseditable>
 <summaryfield>1</summaryfield>
 </field>
 <field>
@@ -121,11 +120,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -161,11 +160,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>4</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -188,7 +187,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -211,7 +210,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -234,7 +233,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -257,7 +256,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -277,10 +276,10 @@
 <typeofdata>C~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
+<displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -317,7 +316,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -340,7 +339,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -396,7 +395,43 @@
 <name><![CDATA[Merge]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>OSSEmployees</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>HolidaysEntitlement</label>
+<sequence>4</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <crons>
 </crons>
 </module>

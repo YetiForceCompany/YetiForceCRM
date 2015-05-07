@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-23 12:40:01</exporttime>
+<exporttime>2015-05-06 06:35:50</exporttime>
 <name>OSSMailTemplates</name>
 <label>OSSMailTemplates</label>
-<parent>Databases</parent>
 <version>1.04</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
@@ -11,11 +10,25 @@
 <tables>
 <table>
 <name>vtiger_ossmailtemplates</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_ossmailtemplates` (
+  `ossmailtemplatesid` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `oss_module_list` varchar(255) DEFAULT '',
+  `subject` varchar(255) DEFAULT '',
+  `content` text,
+  `ossmailtemplates_type` varchar(255) DEFAULT NULL,
+  KEY `ossmailtemplatesid` (`ossmailtemplatesid`),
+  KEY `oss_module_list` (`oss_module_list`),
+  CONSTRAINT `vtiger_ossmailtemplates_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_ossmailtemplatescf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_ossmailtemplatescf` (
+  `ossmailtemplatesid` int(11) NOT NULL,
+  PRIMARY KEY (`ossmailtemplatesid`),
+  CONSTRAINT `vtiger_ossmailtemplatescf_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_ossmailtemplates` (`ossmailtemplatesid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -51,7 +64,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <entityidentifier>
 <entityidfield>ossmailtemplatesid</entityidfield>
@@ -78,7 +91,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -101,7 +114,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -124,7 +137,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -147,7 +160,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -170,7 +183,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -193,8 +206,35 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
+</field>
+<field>
+<fieldname>ossmailtemplates_type</fieldname>
+<uitype>16</uitype>
+<columnname>ossmailtemplates_type</columnname>
+<columntype>varchar(255)</columntype>
+<tablename>vtiger_ossmailtemplates</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>LBL_TYPE</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>8</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<fieldparams></fieldparams>
+<helpinfo></helpinfo>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
+<picklistvalues>
+<picklistvalue>PLL_MODULE</picklistvalue>
+<picklistvalue>PLL_RECORD</picklistvalue>
+</picklistvalues>
 </field>
 </fields>
 </block>
@@ -230,7 +270,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -253,7 +293,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -290,7 +330,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -313,7 +353,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -372,7 +412,44 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<relatedlists>
+<relatedlist>
+<relatedmodule>Documents</relatedmodule>
+<function>get_attachments</function>
+<label>Documents</label>
+<sequence>1</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
+</actions>
+</relatedlist>
+</relatedlists>
 <crons>
 </crons>
 </module>

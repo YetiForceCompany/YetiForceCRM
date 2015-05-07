@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-23 13:42:59</exporttime>
+<exporttime>2015-05-06 07:30:45</exporttime>
 <name>OSSOutsourcedServices</name>
 <label>OSSOutsourcedServices</label>
-<parent>Databases</parent>
 <version>1.0.2</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
@@ -12,11 +11,29 @@
 <tables>
 <table>
 <name>vtiger_ossoutsourcedservices</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_ossoutsourcedservices` (
+  `ossoutsourcedservicesid` int(19) NOT NULL DEFAULT '0',
+  `ossoutsourcedservices_no` varchar(255) DEFAULT NULL,
+  `productname` varchar(100) DEFAULT '',
+  `osservicesstatus` varchar(50) DEFAULT NULL,
+  `pscategory` varchar(255) DEFAULT NULL,
+  `datesold` date DEFAULT NULL,
+  `dateinservice` date DEFAULT NULL,
+  `wherebought` varchar(100) DEFAULT '',
+  `potential` int(19) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  PRIMARY KEY (`ossoutsourcedservicesid`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `fk_1_vtiger_ossoutsourcedservices` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_ossoutsourcedservicescf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_ossoutsourcedservicescf` (
+  `ossoutsourcedservicesid` int(11) NOT NULL,
+  PRIMARY KEY (`ossoutsourcedservicesid`),
+  CONSTRAINT `fk_1_vtiger_ossoutsourcedservicescf` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_ossoutsourcedservices` (`ossoutsourcedservicesid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -52,7 +69,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>1</summaryfield>
+<masseditable>2</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
 <picklistvalue>Active</picklistvalue>
@@ -79,7 +96,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>1</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
 <entityidfield>ossoutsourcedservicesid</entityidfield>
@@ -129,7 +146,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>1</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
 <field>
@@ -152,7 +169,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>1</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
 <field>
@@ -175,7 +192,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -198,7 +215,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
 <relatedmodule>Potentials</relatedmodule>
@@ -224,7 +241,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>1</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
@@ -251,7 +268,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -288,7 +305,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -311,7 +328,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -334,7 +351,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -357,7 +374,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -380,7 +397,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -403,7 +420,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -440,7 +457,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -477,7 +494,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -500,7 +517,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -563,7 +580,76 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<relatedlists>
+<relatedlist>
+<relatedmodule>Documents</relatedmodule>
+<function>get_attachments</function>
+<label>Documents</label>
+<sequence>1</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
+</actions>
+</relatedlist>
+</relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSOutsourcedServices</label>
+<sequence>24</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Leads</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSOutsourcedServices</label>
+<sequence>18</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSOutsourcedServices</label>
+<sequence>16</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <crons>
 </crons>
 </module>

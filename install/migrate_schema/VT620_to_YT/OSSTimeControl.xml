@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-18 09:29:18</exporttime>
+<exporttime>2015-05-06 07:43:42</exporttime>
 <name>OSSTimeControl</name>
 <label>OSSTimeControl</label>
-<parent>Human resources</parent>
 <version>1.0.4</version>
 <dependencies>
 <vtiger_version>6.1.0</vtiger_version>
@@ -12,11 +11,65 @@
 <tables>
 <table>
 <name>vtiger_osstimecontrol</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osstimecontrol` (
+  `osstimecontrolid` int(19) NOT NULL DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
+  `osstimecontrol_no` varchar(255) DEFAULT NULL,
+  `osstimecontrol_status` varchar(128) DEFAULT NULL,
+  `date_start` date NOT NULL,
+  `time_start` varchar(50) DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `time_end` varchar(50) DEFAULT NULL,
+  `sum_time` decimal(10,2) DEFAULT '0.00',
+  `accountid` int(19) DEFAULT '0',
+  `ticketid` int(19) DEFAULT '0',
+  `projectid` int(19) DEFAULT '0',
+  `projecttaskid` int(19) DEFAULT '0',
+  `servicecontractsid` int(19) DEFAULT '0',
+  `assetsid` int(19) DEFAULT '0',
+  `salesorderid` int(19) DEFAULT '0',
+  `quoteid` int(19) DEFAULT '0',
+  `potentialid` int(19) DEFAULT '0',
+  `deleted` int(1) DEFAULT '0',
+  `calculationsid` int(19) DEFAULT '0',
+  `leadid` int(19) DEFAULT '0',
+  `timecontrol_type` varchar(255) DEFAULT NULL,
+  `requirementcardsid` int(19) DEFAULT NULL,
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  PRIMARY KEY (`osstimecontrolid`),
+  KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
+  KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
+  KEY `osstimecontrol_status_3` (`osstimecontrol_status`,`projecttaskid`),
+  KEY `osstimecontrol_status_4` (`osstimecontrol_status`,`servicecontractsid`),
+  KEY `osstimecontrol_status_5` (`osstimecontrol_status`,`assetsid`),
+  KEY `osstimecontrol_status_6` (`osstimecontrol_status`,`salesorderid`),
+  KEY `osstimecontrol_status_7` (`osstimecontrol_status`,`quoteid`),
+  KEY `osstimecontrol_status_8` (`osstimecontrol_status`,`potentialid`),
+  KEY `on_update_cascade` (`deleted`),
+  KEY `calculationsid` (`calculationsid`),
+  KEY `leadid` (`leadid`),
+  KEY `accountid` (`accountid`),
+  KEY `ticketid` (`ticketid`),
+  KEY `projectid` (`projectid`),
+  KEY `projecttaskid` (`projecttaskid`),
+  KEY `servicecontractsid` (`servicecontractsid`),
+  KEY `assetsid` (`assetsid`),
+  KEY `salesorderid` (`salesorderid`),
+  KEY `quoteid` (`quoteid`),
+  KEY `potentialid` (`potentialid`),
+  KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
+  KEY `requirementcardsid` (`requirementcardsid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
+  CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_osstimecontrolcf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osstimecontrolcf` (
+  `osstimecontrolid` int(19) NOT NULL,
+  PRIMARY KEY (`osstimecontrolid`),
+  CONSTRAINT `vtiger_osstimecontrolcf` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_osstimecontrol` (`osstimecontrolid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -51,7 +104,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -78,7 +131,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -97,11 +150,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>7</quickcreatesequence>
+<quickcreatesequence>2</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>2</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -128,7 +181,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -147,11 +200,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>D~M</typeofdata>
 <quickcreate>0</quickcreate>
-<quickcreatesequence>11</quickcreatesequence>
+<quickcreatesequence>6</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -170,11 +223,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>T~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence>9</quickcreatesequence>
+<quickcreatesequence>5</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -193,11 +246,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>T~M~OTH~GE~time_start~Time Start</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence>10</quickcreatesequence>
+<quickcreatesequence>7</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -216,11 +269,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>D~M~OTH~GE~date_start~Start Date</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence>12</quickcreatesequence>
+<quickcreatesequence>8</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -243,7 +296,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -266,7 +319,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -289,7 +342,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -312,7 +365,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -335,7 +388,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -354,11 +407,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
@@ -400,7 +453,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -426,7 +479,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -452,7 +505,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -478,7 +531,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -504,7 +557,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -530,7 +583,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -556,7 +609,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -582,7 +635,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -608,7 +661,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -634,7 +687,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -660,7 +713,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -686,7 +739,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -712,7 +765,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -748,11 +801,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>13</quickcreatesequence>
+<quickcreatesequence>9</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -775,7 +828,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -812,7 +865,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -835,7 +888,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -903,9 +956,34 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
 <relatedlists>
 <relatedlist>
+<relatedmodule>Documents</relatedmodule>
 <function>get_attachments</function>
 <label>Documents</label>
 <sequence>1</sequence>
@@ -914,9 +992,150 @@
 <action>ADD</action>
 <action>SELECT</action>
 </actions>
-<relatedmodule>Documents</relatedmodule>
 </relatedlist>
 </relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>16</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>HelpDesk</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>8</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Project</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>8</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>ProjectTask</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>2</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>ServiceContracts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>5</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Assets</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>SalesOrder</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>7</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Quotes</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>OSSEmployees</inrelatedmodule>
+<function>get_osstimecontrol</function>
+<label>OSSTimeControl</label>
+<sequence>2</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Calculations</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Leads</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>RequirementCards</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>4</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>QuotesEnquires</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSTimeControl</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <customlinks>
 <customlink>
 <linktype>DETAILVIEWWIDGET</linktype>

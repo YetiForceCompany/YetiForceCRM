@@ -124,17 +124,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 			Vtiger_Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			$assetInstance = Vtiger_Module::getInstance($moduleName);
-
-			$accountInstance = Vtiger_Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
-			$productInstance = Vtiger_Module::getInstance('Potentials');
-			$productInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
-			$InvoiceInstance = Vtiger_Module::getInstance('Leads');
-			$InvoiceInstance->setRelatedlist($assetInstance,$moduleName,array('ADD'),'get_dependents_list');
-
+			
 			$result = $adb->pquery("SELECT 1 FROM vtiger_modentity_num WHERE semodule = ? AND active = 1", array($moduleName));
 			if (!($adb->num_rows($result))) {
 				//Initialize module sequence for the module
