@@ -74,4 +74,3 @@ $languageStrings = [
 	'Conversion Rate' => 'Umrechnungskurs',
 	'Currency' => 'Währung',
 ];
-

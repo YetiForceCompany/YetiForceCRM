@@ -337,24 +337,7 @@ class LettersIn extends CRMEntity {
 				include_once 'modules/ModComments/ModComments.php';
 				if(class_exists('ModComments')) ModComments::addWidgetTo(array('LettersIn'));
 			}
-			$Instance = Vtiger_Module::getInstance($modulename);
-			$nModule = Vtiger_Module::getInstance('Accounts');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('Leads');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('Vendors');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-			$nModule = Vtiger_Module::getInstance('OSSEmployees');
-			if($nModule){
-				$nModule->setRelatedList($Instance, $modulename, array('add'),'get_dependents_list');
-			}
-
+			
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModTracker');
 			if($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
 				include_once('vtlib/Vtiger/Module.php');

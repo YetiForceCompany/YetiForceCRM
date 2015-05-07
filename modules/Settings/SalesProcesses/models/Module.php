@@ -32,7 +32,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 		for ($i = 0; $i < $db->num_rows($result); ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');
-			if (in_array($param, ['groups','status'])) {
+			if (in_array($param, ['groups','status','calculationsstatus','salesstage'])) {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {
 				$config[$param] = $value;

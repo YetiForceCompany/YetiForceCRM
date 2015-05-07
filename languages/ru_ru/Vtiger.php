@@ -1151,6 +1151,10 @@ $languageStrings = [
 	'LBL_HOLIDAY' => 'Праздники',
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_WORKING_TIME' => 'Рабочее время',
+	'LBL_OWNER' => '__UNTRANSLATED__',
+	'LBL_COMMON' => '__UNTRANSLATED__',
+	'LBL_OPEN' => '__UNTRANSLATED__',
+	'LBL_ARCHIVE' => '__UNTRANSLATED__',
 	
 	//Gantt
 	'LBL_FILTERING' => 'Фильтр',

@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-18 09:26:14</exporttime>
+<exporttime>2015-05-06 07:45:40</exporttime>
 <name>OSSSoldServices</name>
 <label>OSSSoldServices</label>
-<parent>Databases</parent>
 <version>1.0.2</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
@@ -12,11 +11,35 @@
 <tables>
 <table>
 <name>vtiger_osssoldservices</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osssoldservices` (
+  `osssoldservicesid` int(19) NOT NULL DEFAULT '0',
+  `osssoldservices_no` varchar(255) DEFAULT NULL,
+  `productname` varchar(255) DEFAULT '',
+  `ssservicesstatus` varchar(255) DEFAULT NULL,
+  `pscategory` varchar(255) DEFAULT '',
+  `datesold` date DEFAULT NULL,
+  `dateinservice` date DEFAULT NULL,
+  `invoice` varchar(255) DEFAULT '',
+  `invoiceid` int(19) DEFAULT NULL,
+  `potential` int(19) DEFAULT NULL,
+  `parent_id` int(19) DEFAULT NULL,
+  `pot_renewal` int(19) DEFAULT NULL,
+  `serviceid` int(19) DEFAULT NULL,
+  `ordertime` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`osssoldservicesid`),
+  KEY `parent_id` (`parent_id`),
+  KEY `pot_renewal` (`pot_renewal`),
+  KEY `serviceid` (`serviceid`),
+  CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_osssoldservicescf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_osssoldservicescf` (
+  `osssoldservicesid` int(11) NOT NULL,
+  PRIMARY KEY (`osssoldservicesid`),
+  CONSTRAINT `fk_1_vtiger_osssoldservicescf` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_osssoldservices` (`osssoldservicesid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -51,7 +74,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -74,11 +97,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>3</quickcreatesequence>
+<quickcreatesequence>7</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>2</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -102,11 +125,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>5</quickcreatesequence>
+<quickcreatesequence>9</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -125,11 +148,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>D~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>9</quickcreatesequence>
+<quickcreatesequence>5</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -152,7 +175,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -175,7 +198,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -198,7 +221,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -235,7 +258,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -254,11 +277,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence>11</quickcreatesequence>
+<quickcreatesequence>2</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -281,7 +304,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -304,7 +327,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -327,7 +350,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -346,11 +369,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>I~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>10</quickcreatesequence>
+<quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -376,7 +399,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -398,11 +421,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>4</quickcreatesequence>
+<quickcreatesequence>6</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -429,7 +452,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -451,11 +474,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence>2</quickcreatesequence>
+<quickcreatesequence>4</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -481,7 +504,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -504,7 +527,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -541,7 +564,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -578,7 +601,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -601,7 +624,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -669,7 +692,76 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<relatedlists>
+<relatedlist>
+<relatedmodule>Documents</relatedmodule>
+<function>get_attachments</function>
+<label>Documents</label>
+<sequence>1</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
+</actions>
+</relatedlist>
+</relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>25</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>17</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Invoice</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>OSSSoldServices</label>
+<sequence>6</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <crons>
 </crons>
 </module>

@@ -114,16 +114,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity {
         if($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
 			$ModuleInstance->setModuleSeqNumber("configure",$modulename,'UO','1'); 
-
-			include_once('vtlib/Vtiger/Module.php'); 
-			$moduleInstance = Vtiger_Module::getInstance($modulename);
-			$docelowy_Module = Vtiger_Module::getInstance('Accounts');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSOutsourcedServices', array('ADD'),'get_dependents_list');	
-        	$docelowy_Module = Vtiger_Module::getInstance('Leads');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSOutsourcedServices', array('ADD'),'get_dependents_list');	
-        	$docelowy_Module = Vtiger_Module::getInstance('Potentials');
-			$docelowy_Module->setRelatedList($moduleInstance, 'OSSOutsourcedServices', array('ADD'),'get_dependents_list');	
-        	
+      	
         } else if($event_type == 'module.disabled') {
             // TODO Handle actions when this module is disabled.
         } else if($event_type == 'module.enabled') {

@@ -105,9 +105,6 @@ class RequirementCards extends Vtiger_CRMEntity {
  			$moduleInstance = CRMEntity::getInstance('RequirementCards');
 			$moduleInstance->setModuleSeqNumber("configure",'RequirementCards','RC','1');
  			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('RequirementCards'));
-			$moduleInstance = Vtiger_Module::getInstance('RequirementCards');
-			$targetModule = Vtiger_Module::getInstance('Accounts');
-			$targetModule->setRelatedList($moduleInstance, 'RequirementCards', array('ADD'),'get_dependents_list');	
 			
 			$modcommentsModuleInstance = Vtiger_Module::getInstance('ModComments');
 			if($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {

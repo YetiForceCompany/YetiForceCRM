@@ -15,4 +15,8 @@ $languageStrings = [
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Допускается выбирать только то, что предустановлено в Товарах. Предусмотрено: Расчеты, Предложения, Счета, Заказы',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Выбор Товаров и Услуг',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Обновление Уровня доступа',
+	'LBL_CALCULATIONS' => 'Calculations',
+	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
+	'LBL_POTENTIALS' => '__UNTRANSLATED__',
+	'LBL_STATUSES_CLOSED_POTENTIAL' => '__UNTRANSLATED__',
 ];

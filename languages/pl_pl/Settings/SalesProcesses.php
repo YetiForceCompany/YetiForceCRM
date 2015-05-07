@@ -14,4 +14,8 @@ $languageStrings = [
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Ogranicz wybór produktów/usług tylko do powiązanych z aktualnie wybraną Szansą sprzedaży. Dotyczy modułów: Kalkulacje, Oferty, Zamówienia od Klienta, Faktury sprzedażowe.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Wybór produktów i usług',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Aktualizacja uprawnień współdzielonych w szansie sprzedaży z produktu/usługi, podczas powiazywania szansy sprzedaży z produktem/usługą.',
+	'LBL_CALCULATIONS' => 'Kalkulacje',
+	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statusy określające zamknięcie kalkulacji',
+	'LBL_POTENTIALS' => 'Szanse sprzedaży',
+	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Statusy określające zamknięcie szansy sprzedaży',
 ];

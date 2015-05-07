@@ -194,46 +194,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_config` (
   `value` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservices` (
-  `ossoutsourcedservicesid` int(19) NOT NULL DEFAULT '0',
-  `ossoutsourcedservices_no` varchar(255) DEFAULT NULL,
-  `productname` varchar(100) DEFAULT '',
-  `osservicesstatus` varchar(50) DEFAULT NULL,
-  `pscategory` varchar(255) DEFAULT NULL,
-  `datesold` date DEFAULT NULL,
-  `dateinservice` date DEFAULT NULL,
-  `wherebought` varchar(100) DEFAULT '',
-  `potential` int(19) DEFAULT NULL,
-  `parent_id` int(19) DEFAULT NULL,
-  PRIMARY KEY (`ossoutsourcedservicesid`),
-  KEY `parent_id` (`parent_id`),
-  CONSTRAINT `fk_1_vtiger_ossoutsourcedservices` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossoutsourcedservicescf` (
-  `ossoutsourcedservicesid` int(11) NOT NULL,
-  PRIMARY KEY (`ossoutsourcedservicesid`),
-  CONSTRAINT `fk_1_vtiger_ossoutsourcedservicescf` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_ossoutsourcedservices` (`ossoutsourcedservicesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osspasswords` (
-  `osspasswordsid` int(11) NOT NULL,
-  `osspassword_no` varchar(100) NOT NULL,
-  `passwordname` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varbinary(200) NOT NULL,
-  `link_adres` varchar(255) DEFAULT NULL,
-  `linkto` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`osspasswordsid`),
-  CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osspasswordscf` (
-  `osspasswordsid` int(19) NOT NULL,
-  PRIMARY KEY (`osspasswordsid`),
-  CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `vtiger_osspdf` (
   `osspdfid` int(11) NOT NULL DEFAULT '0',
   `oss_mod_no` varchar(255) DEFAULT NULL,
@@ -288,92 +248,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osspdfcf` (
   `osspdfid` int(11) NOT NULL,
   PRIMARY KEY (`osspdfid`),
   CONSTRAINT `fk_1_vtiger_osspdfcf` FOREIGN KEY (`osspdfid`) REFERENCES `vtiger_osspdf` (`osspdfid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osssoldservices` (
-  `osssoldservicesid` int(19) NOT NULL DEFAULT '0',
-  `osssoldservices_no` varchar(255) DEFAULT NULL,
-  `productname` varchar(255) DEFAULT '',
-  `ssservicesstatus` varchar(255) DEFAULT NULL,
-  `pscategory` varchar(255) DEFAULT '',
-  `datesold` date DEFAULT NULL,
-  `dateinservice` date DEFAULT NULL,
-  `invoice` varchar(255) DEFAULT '',
-  `invoiceid` int(19) DEFAULT NULL,
-  `potential` int(19) DEFAULT NULL,
-  `parent_id` int(19) DEFAULT NULL,
-  `pot_renewal` int(19) DEFAULT NULL,
-  `serviceid` int(19) DEFAULT NULL,
-  `ordertime` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`osssoldservicesid`),
-  KEY `parent_id` (`parent_id`),
-  KEY `pot_renewal` (`pot_renewal`),
-  KEY `serviceid` (`serviceid`),
-  CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osssoldservicescf` (
-  `osssoldservicesid` int(11) NOT NULL,
-  PRIMARY KEY (`osssoldservicesid`),
-  CONSTRAINT `fk_1_vtiger_osssoldservicescf` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_osssoldservices` (`osssoldservicesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrol` (
-  `osstimecontrolid` int(19) NOT NULL DEFAULT '0',
-  `name` varchar(128) DEFAULT NULL,
-  `osstimecontrol_no` varchar(255) DEFAULT NULL,
-  `osstimecontrol_status` varchar(128) DEFAULT NULL,
-  `date_start` date NOT NULL,
-  `time_start` varchar(50) DEFAULT NULL,
-  `due_date` date DEFAULT NULL,
-  `time_end` varchar(50) DEFAULT NULL,
-  `sum_time` decimal(10,2) DEFAULT '0.00',
-  `accountid` int(19) DEFAULT '0',
-  `ticketid` int(19) DEFAULT '0',
-  `projectid` int(19) DEFAULT '0',
-  `projecttaskid` int(19) DEFAULT '0',
-  `servicecontractsid` int(19) DEFAULT '0',
-  `assetsid` int(19) DEFAULT '0',
-  `salesorderid` int(19) DEFAULT '0',
-  `quoteid` int(19) DEFAULT '0',
-  `potentialid` int(19) DEFAULT '0',
-  `deleted` int(1) DEFAULT '0',
-  `calculationsid` int(19) DEFAULT '0',
-  `leadid` int(19) DEFAULT '0',
-  `timecontrol_type` varchar(255) DEFAULT NULL,
-  `requirementcardsid` int(19) DEFAULT NULL,
-  `quotesenquiresid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`osstimecontrolid`),
-  KEY `osstimecontrol_status` (`osstimecontrol_status`,`ticketid`),
-  KEY `osstimecontrol_status_2` (`osstimecontrol_status`,`projectid`),
-  KEY `osstimecontrol_status_3` (`osstimecontrol_status`,`projecttaskid`),
-  KEY `osstimecontrol_status_4` (`osstimecontrol_status`,`servicecontractsid`),
-  KEY `osstimecontrol_status_5` (`osstimecontrol_status`,`assetsid`),
-  KEY `osstimecontrol_status_6` (`osstimecontrol_status`,`salesorderid`),
-  KEY `osstimecontrol_status_7` (`osstimecontrol_status`,`quoteid`),
-  KEY `osstimecontrol_status_8` (`osstimecontrol_status`,`potentialid`),
-  KEY `on_update_cascade` (`deleted`),
-  KEY `calculationsid` (`calculationsid`),
-  KEY `leadid` (`leadid`),
-  KEY `accountid` (`accountid`),
-  KEY `ticketid` (`ticketid`),
-  KEY `projectid` (`projectid`),
-  KEY `projecttaskid` (`projecttaskid`),
-  KEY `servicecontractsid` (`servicecontractsid`),
-  KEY `assetsid` (`assetsid`),
-  KEY `salesorderid` (`salesorderid`),
-  KEY `quoteid` (`quoteid`),
-  KEY `potentialid` (`potentialid`),
-  KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
-  KEY `requirementcardsid` (`requirementcardsid`),
-  KEY `quotesenquiresid` (`quotesenquiresid`),
-  CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_osstimecontrolcf` (
-  `osstimecontrolid` int(19) NOT NULL,
-  PRIMARY KEY (`osstimecontrolid`),
-  CONSTRAINT `vtiger_osstimecontrolcf` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_osstimecontrol` (`osstimecontrolid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_outsourcedproducts` (
@@ -444,26 +318,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osscosts` (
   KEY `osscosts_relategid_idx` (`relategid`),
   CONSTRAINT `fk_1_vtiger_osscosts` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossmenumanager`(
-	`id` int(19) NOT NULL  auto_increment , 
-	`parent_id` int(19) DEFAULT NULL  , 
-	`tabid` int(19) DEFAULT NULL  , 
-	`label` varchar(100) DEFAULT NULL  , 
-	`sequence` int(3) DEFAULT NULL  , 
-	`visible` int(3) DEFAULT NULL  , 
-	`type` int(3) DEFAULT NULL  , 
-	`url` text DEFAULT NULL  , 
-	`new_window` int(3) DEFAULT NULL  , 
-	`permission` text DEFAULT NULL  , 
-	`locationicon` varchar(255) DEFAULT NULL  , 
-	`sizeicon` varchar(255) DEFAULT NULL  , 
-	`langfield` text DEFAULT NULL  , 
-	`paintedicon` int(1) DEFAULT 0 , 
-	PRIMARY KEY (`id`) , 
-	KEY `parent_id`(`parent_id`) 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8' COLLATE='utf8_general_ci';
-
 	
 CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol` (
   `ossdocumentcontrolid` int(19) NOT NULL AUTO_INCREMENT,
@@ -487,43 +341,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossdocumentcontrol_cnd` (
   `field_type` varchar(100) NOT NULL,
   PRIMARY KEY (`ossdocumentcontrol_cndid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossemployees` (
-  `ossemployeesid` int(19) NOT NULL DEFAULT '0',
-  `ossemployees_no` varchar(255) DEFAULT NULL,
-  `parentid` int(19) DEFAULT '0',
-  `employee_status` varchar(200) DEFAULT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `last_name` varchar(200) DEFAULT NULL,
-  `pesel` varchar(20) DEFAULT NULL,
-  `id_card` varchar(200) DEFAULT NULL,
-  `employee_education` varchar(200) DEFAULT NULL,
-  `birth_date` date DEFAULT NULL,
-  `business_phone` varchar(20) DEFAULT NULL,
-  `private_phone` varchar(25) DEFAULT NULL,
-  `business_mail` varchar(200) DEFAULT NULL,
-  `private_mail` varchar(200) DEFAULT NULL,
-  `street` varchar(200) DEFAULT NULL,
-  `code` varchar(200) DEFAULT NULL,
-  `city` varchar(200) DEFAULT NULL,
-  `state` varchar(200) DEFAULT NULL,
-  `country` varchar(200) DEFAULT NULL,
-  `ship_street` varchar(200) DEFAULT NULL,
-  `ship_code` varchar(200) DEFAULT NULL,
-  `ship_city` varchar(200) DEFAULT NULL,
-  `ship_state` varchar(200) DEFAULT NULL,
-  `ship_country` varchar(200) DEFAULT NULL,
-  `dav_status` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`ossemployeesid`),
-  CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossemployeescf` (
-  `ossemployeesid` int(19) NOT NULL,
-  PRIMARY KEY (`ossemployeesid`),
-  CONSTRAINT `fk_1_vtiger_ossemployeescf` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_ossemployees` (`ossemployeesid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
@@ -553,23 +370,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmailscanner_log_cron` (
   `laststart` int(11) unsigned DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossmailtemplates` (
-  `ossmailtemplatesid` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `oss_module_list` varchar(255) DEFAULT '',
-  `subject` varchar(255) DEFAULT '',
-  `content` text,
-  KEY `ossmailtemplatesid` (`ossmailtemplatesid`),
-  KEY `oss_module_list` (`oss_module_list`),
-  CONSTRAINT `vtiger_ossmailtemplates_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_ossmailtemplatescf` (
-  `ossmailtemplatesid` int(11) NOT NULL,
-  PRIMARY KEY (`ossmailtemplatesid`),
-  CONSTRAINT `vtiger_ossmailtemplatescf_ibfk_1` FOREIGN KEY (`ossmailtemplatesid`) REFERENCES `vtiger_ossmailtemplates` (`ossmailtemplatesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_ossmailview` (
@@ -805,7 +605,7 @@ CREATE TABLE IF NOT EXISTS `roundcube_identities` (
   `email` varchar(128) NOT NULL,
   `reply-to` varchar(128) NOT NULL DEFAULT '',
   `bcc` varchar(128) NOT NULL DEFAULT '',
-  `signature` text,
+  `signature` longtext,
   `html_signature` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`identity_id`),
   KEY `user_identities_index` (`user_id`,`del`),
@@ -854,33 +654,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_bruteforce`(
 	`active` tinyint(1) NULL  DEFAULT 1 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE IF NOT EXISTS `vtiger_calculations` (
-  `calculationsid` int(19) NOT NULL,
-  `calculations_no` varchar(30) NOT NULL,
-  `name` varchar(200) DEFAULT NULL,
-  `relatedid` int(19) DEFAULT NULL,
-  `potentialid` int(19) DEFAULT NULL,
-  `comments` text,
-  `total` decimal(25,8) DEFAULT NULL,
-  `calculationsstatus` varchar(255) DEFAULT '',
-  `total_purchase` decimal(13,2) DEFAULT NULL,
-  `total_margin` decimal(13,2) DEFAULT NULL,
-  `total_marginp` decimal(13,2) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `currency_id` int(19) unsigned NOT NULL,
-  `conversion_rate` decimal(10,3) unsigned NOT NULL,
-  `requirementcardsid` int(19) DEFAULT NULL,
-  `quotesenquiresid` int(19) DEFAULT NULL,
-  `calculations_cons` text,
-  `calculations_pros` text,
-  PRIMARY KEY (`calculationsid`),
-  KEY `calculations_relatedid_idx` (`relatedid`),
-  KEY `osscosts_potentialid_idx` (`potentialid`),
-  KEY `requirementcardsid` (`requirementcardsid`),
-  KEY `quotesenquiresid` (`quotesenquiresid`),
-  CONSTRAINT `fk_1_vtiger_calculations` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `vtiger_osscosts_config` (
   `param` varchar(100) DEFAULT NULL,
   `value` varchar(100) NOT NULL DEFAULT '0'
@@ -889,12 +662,6 @@ CREATE TABLE IF NOT EXISTS `vtiger_osscostscf` (
   `osscostsid` int(19) NOT NULL,
   PRIMARY KEY (`osscostsid`),
   CONSTRAINT `fk_1_vtiger_osscostscf` FOREIGN KEY (`osscostsid`) REFERENCES `vtiger_osscosts` (`osscostsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `vtiger_calculationscf` (
-  `calculationsid` int(19) NOT NULL,
-  PRIMARY KEY (`calculationsid`),
-  CONSTRAINT `fk_1_vtiger_calculationscf` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_calculations` (`calculationsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_calculationsproductrel` (
@@ -1131,36 +898,6 @@ CREATE TABLE IF NOT EXISTS  `vtiger_module_dashboard_blocks`(
 	PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE IF NOT EXISTS `vtiger_callhistory`(
-	`callhistoryid` int(19) NOT NULL  , 
-	`callhistorytype` varchar(255) COLLATE utf8_general_ci NULL  , 
-	`from_number` varchar(30) COLLATE utf8_general_ci NULL  , 
-	`to_number` varchar(30) COLLATE utf8_general_ci NULL  , 
-	`location` varchar(200) COLLATE utf8_general_ci NULL  , 
-	`phonecallid` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`duration` int(10) NULL  , 
-	`start_time` datetime NULL  , 
-	`end_time` datetime NULL  , 
-	`country` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`imei` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`ipaddress` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`simserial` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`subscriberid` varchar(100) COLLATE utf8_general_ci NULL  , 
-	`destination` int(19) NULL  , 
-	`source` int(19) NULL  , 
-	PRIMARY KEY (`callhistoryid`) , 
-	KEY `source`(`source`) , 
-	KEY `destination`(`destination`) , 
-	CONSTRAINT `vtiger_callhistory_ibfk_1` 
-	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-
-CREATE TABLE IF NOT EXISTS `vtiger_callhistorycf`(
-	`callhistoryid` int(19) NOT NULL  , 
-	PRIMARY KEY (`callhistoryid`) , 
-	CONSTRAINT `vtiger_callhistorycf_ibfk_1` 
-	FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
 CREATE TABLE IF NOT EXISTS `vtiger_relatedlists_fields` (
   `relation_id` int(19) DEFAULT NULL,
@@ -1200,12 +937,13 @@ CREATE TABLE IF NOT EXISTS `vtiger_blocks_hide`(
 	PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
-CREATE TABLE IF NOT EXISTS `vtiger_publicholiday`(
-	`publicholidayid` int(11) unsigned NOT NULL  auto_increment COMMENT 'id of public holiday' , 
-	`holidaydate` date NOT NULL  COMMENT 'date of holiday' , 
-	`holidayname` varchar(255) COLLATE utf8_general_ci NOT NULL  COMMENT 'name of holiday' , 
-	PRIMARY KEY (`publicholidayid`) 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
+CREATE TABLE IF NOT EXISTS `vtiger_publicholiday` (
+  `publicholidayid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of public holiday',
+  `holidaydate` date NOT NULL COMMENT 'date of holiday',
+  `holidayname` varchar(255) NOT NULL COMMENT 'name of holiday',
+  `holidaytype` varchar(25) DEFAULT NULL COMMENT 'type of holiday',
+  PRIMARY KEY (`publicholidayid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_calendar_config`(
 	`type` varchar(10) NULL  , 
@@ -1219,17 +957,6 @@ insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('co
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Task','Task','#00d4f5');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Meeting','Meeting','#FFD500');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
-
-CREATE TABLE IF NOT EXISTS `vtiger_salesprocesses_settings`(
-	`id` int(11) NOT NULL  , 
-	`products_rel_potentials` tinyint(1) NOT NULL  DEFAULT 1 , 
-	PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
-insert  into `vtiger_salesprocesses_settings`(`id`,`products_rel_potentials`) values (1,1);
-
-CREATE TABLE IF NOT EXISTS `vtiger_converttoaccount_settings`(
-	`state` tinyint(1) NOT NULL  DEFAULT 0 
-) ENGINE=InnoDB DEFAULT CHARSET='utf8';
 
 CREATE TABLE IF NOT EXISTS `vtiger_bruteforce_users`(
 	`id` int(19) NOT NULL  , 
@@ -1367,9 +1094,88 @@ CREATE TABLE IF NOT EXISTS `dav_calendarsubscriptions` (
 					  UNIQUE KEY `principaluri` (`principaluri`,`uri`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-
+CREATE TABLE IF NOT EXISTS `roundcube_users_autologin` (
+				  `rcuser_id` int(10) unsigned NOT NULL,
+				  `crmuser_id` int(19) NOT NULL,
+				  KEY `rcuser_id` (`rcuser_id`),
+				  CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `yetiforce_mail_config` (
+				  `type` varchar(50) DEFAULT NULL,
+				  `name` varchar(50) DEFAULT NULL,
+				  `value` text,
+				  UNIQUE KEY `type` (`type`,`name`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `yetiforce_mail_quantities` (
+				  `userid` int(10) unsigned NOT NULL,
+				  `num` int(10) unsigned DEFAULT '0',
+				  `status` tinyint(1) DEFAULT '0',
+				  PRIMARY KEY (`userid`),
+				  CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `vtiger_support_processes` (
+					`id` int(11) NOT NULL,
+					`ticket_status_indicate_closing` varchar(255) NOT NULL
+				  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;				
+				
+CREATE TABLE IF NOT EXISTS `vtiger_realization_process` (
+  `module_id` int(11) NOT NULL,
+  `status_indicate_closing` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `yetiforce_menu` (
+					  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+					  `role` int(19) DEFAULT NULL,
+					  `parentid` int(19) DEFAULT '0',
+					  `type` tinyint(1) DEFAULT NULL,
+					  `sequence` int(3) DEFAULT NULL,
+					  `module` int(19) DEFAULT NULL,
+					  `label` varchar(100) DEFAULT NULL,
+					  `newwindow` tinyint(1) DEFAULT '0',
+					  `dataurl` text,
+					  `showicon` tinyint(1) DEFAULT '0',
+					  `icon` varchar(255) DEFAULT NULL,
+					  `sizeicon` varchar(255) DEFAULT NULL,
+					  `hotkey` varchar(30) DEFAULT NULL,
+					  PRIMARY KEY (`id`),
+					  KEY `parent_id` (`parentid`),
+					  KEY `role` (`role`),
+					  KEY `module` (`module`),
+					  CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `yetiforce_auth` (
+					  `type` varchar(20) DEFAULT NULL,
+					  `param` varchar(20) DEFAULT NULL,
+					  `value` text,
+					  UNIQUE KEY `type` (`type`,`param`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `vtiger_group2modules` (
+				  `groupid` int(19) NOT NULL,
+				  `tabid` int(19) NOT NULL,
+				  KEY `groupid` (`groupid`),
+				  KEY `tabid` (`tabid`),
+				  CONSTRAINT `vtiger_group2modules_ibfk_1` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE,
+				  CONSTRAINT `vtiger_group2modules_ibfk_2` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `yetiforce_proc_marketing` (
+  `type` varchar(30) DEFAULT NULL,
+  `param` varchar(30) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  KEY `type` (`type`,`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+CREATE TABLE IF NOT EXISTS `yetiforce_proc_sales` (
+  `type` varchar(30) DEFAULT NULL,
+  `param` varchar(30) DEFAULT NULL,
+  `value` varchar(200) DEFAULT NULL,
+  KEY `type` (`type`,`param`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				
+				
 
 
 
