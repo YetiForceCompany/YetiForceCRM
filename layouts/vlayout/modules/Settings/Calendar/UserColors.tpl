@@ -21,6 +21,7 @@
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li><a data-toggle="tab" href="#calendarConfig"><strong>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
+				<li><a data-toggle="tab" href="#workingDays"><strong>{vtranslate('LBL_NOTWORKING_DAYS', $QUALIFIED_MODULE)}</strong></a></li>
             </ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="calendarColors">
@@ -54,6 +55,26 @@
 									<td><input type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/></td>
 								</tr>
 							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="tab-pane paddingTop20" id="workingDays">
+					<table class="table table-bordered table-condensed listViewEntriesTable workingDaysTable">	
+						<tbody>
+							<tr>
+								<td><p style="padding-top:10px;">{vtranslate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>
+								<td>
+									<select class="chzn-select workignDaysField" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays" style="width: 500px;">
+										<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_MONDAY,$QUALIFIED_MODULE)}</option>
+										<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_TUESDAY,$QUALIFIED_MODULE)}</option>
+										<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_WEDNESDAY,$QUALIFIED_MODULE)}</option>
+										<option value="4" {if in_array(4, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_THURSDAY,$QUALIFIED_MODULE)}</option>
+										<option value="5" {if in_array(5, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_FRIDAY,$QUALIFIED_MODULE)}</option>
+										<option value="6" {if in_array(6, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SATURDAY,$QUALIFIED_MODULE)}</option>
+										<option value="7" {if in_array(7, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SUNDAY,$QUALIFIED_MODULE)}</option>
+									</select>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

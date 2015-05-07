@@ -15,6 +15,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$this->exposeMethod('UpdateModuleColor');
 		$this->exposeMethod('UpdateModuleActiveType');
 		$this->exposeMethod('UpdateCalendarConfig');
+		$this->exposeMethod('updateNotWorkingDays');
 	}
 	
 	public function UpdateModuleColor(Vtiger_Request $request) {
@@ -46,6 +47,17 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_SAVE_CHANGES', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function updateNotWorkingDays(Vtiger_Request $request) {
+		$params = $request->get('param');
+		Settings_Calendar_Module_Model::updateNotWorkingDays($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
 		));
 		$response->emit();
 	}

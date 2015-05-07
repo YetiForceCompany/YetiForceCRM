@@ -18,13 +18,19 @@
 			<span class="summary-text">{$ALLDAYS}</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" data-content="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
+			<span>
+				<i style="margin-top:6px; vertical-align:top;" class="icon-calendar popoverTooltip"  data-placement="right"  data-content="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></i>
+			</span>
+			<span class="summary-text">{$WORKDAYS}</span>
+		</span>
+		<span class="summary-detail">
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" data-placement="right" data-content="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
 			<span class="summary-text">
 			{$WEEKENDDAYS}
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" data-content="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" data-placement="right" data-content="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $ECCLESIASTICAL}
 					{$ECCLESIASTICAL}
@@ -34,7 +40,7 @@
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" data-content="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+			<img class="popoverTooltip summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" data-placement="right" data-content="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $NATIONAL}
 					{$NATIONAL}
@@ -84,13 +90,13 @@
 		</span>
 	</div>
 	<div class="clearfix"></div>
-	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
 	<div class="widgetChartContainer" style="height:90%;width:98%"></div>
 {else}
 	<span class="noDataMsg">
 		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 	</span>
 {/if}
+<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATA))}' />
 <style>
 .summary-text{
 	font-size: 20px;
