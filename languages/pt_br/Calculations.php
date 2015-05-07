@@ -72,8 +72,4 @@ $languageStrings = [
 	'LBL_THIS' => 'Produto/Serviço (',
 	'Conversion Rate' => 'Taxa de Conversão',
 	'Currency' => 'Moeda',
-	'LBL_OWNER' => '__UNTRANSLATED__',
-	'LBL_COMMON' => '__UNTRANSLATED__',
-	'LBL_OPEN' => '__UNTRANSLATED__',
-	'LBL_ARCHIVE' => '__UNTRANSLATED__',
 ];

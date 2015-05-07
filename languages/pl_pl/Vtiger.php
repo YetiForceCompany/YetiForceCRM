@@ -907,6 +907,10 @@ $languageStrings = [
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_HOLIDAY_TIME' => 'Urlop',
+	'LBL_OWNER' => 'Moje',
+	'LBL_COMMON' => 'Wspólne',
+	'LBL_OPEN' => 'Otwate',
+	'LBL_ARCHIVE' => 'Archiwum',
 	
 	//Gantt
 	'LBL_FILTERING' => 'Filtr',
