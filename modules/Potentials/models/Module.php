@@ -441,4 +441,52 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$response[4][1] = vtranslate('Total time [Sum]', $this->getName());
 		return $response;
 	}
+	
+	function getPotentialsList(Vtiger_Request $request) {
+		$fromModule = $request->get('fromModule');
+		$record = $request->get('record');
+		$showtype = $request->get('showtype');
+
+		$db = PearDatabase::getInstance();
+		$fields = ['id','potentialname','sales_stage','related_to'];
+		$limit = 10;
+		$params = [];
+		if(!empty($request->get('limit'))){
+			$limit = $request->get('limit');
+		}
+		
+		$potentialConfig = Settings_SalesProcesses_Module_Model::getConfig('potential');
+		$potentialSalesStage = $potentialConfig['salesstage'];
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$module = 'Potentials';
+		$instance = CRMEntity::getInstance($module);
+		$securityParameter = $instance->getUserAccessConditionsQuerySR($module, $currentUser);
+		
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->setFields($fields);
+		$sql = $queryGenerator->getQuery();
+		
+		if ($securityParameter != '')
+			$sql.= $securityParameter;
+		
+		//$potentialSalesStageSearch = implode("','", $potentialSalesStage);
+		$showtype = $request->get('showtype');
+		if($showtype == 'archive'){
+			//$sql .=	" AND vtiger_potential.sales_stage IN ('$potentialSalesStageSearch')";
+		}else{
+			//$sql .=	" AND vtiger_potential.sales_stage NOT IN ('$potentialSalesStageSearch')";
+		}
+		
+		$sql .=	' AND vtiger_potential.related_to = ?';
+		$params[] = $record;
+
+		$sql.= ' LIMIT '.$limit;
+
+		$result = $db->pquery($sql, $params);
+		$returnData = array();
+		for($i=0; $i<$db->num_rows($result); $i++) {
+			$returnData[] = $db->query_result_rowdata($result, $i);
+		}
+		return $returnData;
+	}
 }
