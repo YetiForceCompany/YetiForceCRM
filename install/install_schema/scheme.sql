@@ -6829,7 +6829,6 @@ CREATE TABLE `vtiger_ticketcategories_seq` (
 
 CREATE TABLE `vtiger_ticketcf` (
   `ticketid` int(19) NOT NULL DEFAULT '0',
-  `from_portal` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   CONSTRAINT `fk_1_vtiger_ticketcf` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_troubletickets` (`ticketid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7100,6 +7099,7 @@ CREATE TABLE `vtiger_troubletickets` (
   `attention` text,
   `pssold_id` int(19) DEFAULT NULL,
   `ordertime` decimal(10,2) DEFAULT NULL,
+  `from_portal` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`ticketid`),
   KEY `troubletickets_ticketid_idx` (`ticketid`),
   KEY `troubletickets_status_idx` (`status`),
