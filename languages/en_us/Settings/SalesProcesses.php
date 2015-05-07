@@ -16,4 +16,6 @@ $languageStrings = [
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Updates sharing permissions from product/service in opportunity when relation between opportunity and product/service is created.',
 	'LBL_CALCULATIONS' => 'Calculations',
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
+	'LBL_POTENTIALS' => '__UNTRANSLATED__',
+	'LBL_STATUSES_CLOSED_POTENTIAL' => '__UNTRANSLATED__',
 ];
