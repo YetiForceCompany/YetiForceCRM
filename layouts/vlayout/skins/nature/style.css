@@ -1219,14 +1219,11 @@ li.ui-timepicker-selected,
   border-radius: 2px;
   padding: 10px 10px 5px;
   display: inline-block;
-  min-width: 400px;
+  min-width: 354px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-}
-.commentContainer .commentDetails .commentDiv {
-  width: 380px;
 }
 .commentContainer .commentorInfo p {
   margin-bottom: 0;
