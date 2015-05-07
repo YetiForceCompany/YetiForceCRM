@@ -448,7 +448,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$showtype = $request->get('showtype');
 
 		$db = PearDatabase::getInstance();
-		$fields = ['id','potentialname','sales_stage','related_to'];
+		$fields = ['id','potentialname','sales_stage','assigned_user_id'];
 		$limit = 10;
 		$params = [];
 		if(!empty($request->get('limit'))){
@@ -469,12 +469,12 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		if ($securityParameter != '')
 			$sql.= $securityParameter;
 		
-		//$potentialSalesStageSearch = implode("','", $potentialSalesStage);
+		$potentialSalesStageSearch = implode("','", $potentialSalesStage);
 		$showtype = $request->get('showtype');
 		if($showtype == 'archive'){
-			//$sql .=	" AND vtiger_potential.sales_stage IN ('$potentialSalesStageSearch')";
+			$sql .=	" AND vtiger_potential.sales_stage IN ('$potentialSalesStageSearch')";
 		}else{
-			//$sql .=	" AND vtiger_potential.sales_stage NOT IN ('$potentialSalesStageSearch')";
+			$sql .=	" AND vtiger_potential.sales_stage NOT IN ('$potentialSalesStageSearch')";
 		}
 		
 		$sql .=	' AND vtiger_potential.related_to = ?';
