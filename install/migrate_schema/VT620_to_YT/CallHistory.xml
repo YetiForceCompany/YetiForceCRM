@@ -1,20 +1,44 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-24 08:13:48</exporttime>
+<exporttime>2015-05-06 07:20:03</exporttime>
 <name>CallHistory</name>
 <label>CallHistory</label>
-<parent>Databases</parent>
 <dependencies>
 <vtiger_version>1.1.25 RC</vtiger_version>
 </dependencies>
 <tables>
 <table>
 <name>vtiger_callhistory</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_callhistory` (
+  `callhistoryid` int(19) NOT NULL,
+  `callhistorytype` varchar(255) DEFAULT NULL,
+  `from_number` varchar(30) DEFAULT NULL,
+  `to_number` varchar(30) DEFAULT NULL,
+  `location` varchar(200) DEFAULT NULL,
+  `phonecallid` varchar(100) DEFAULT NULL,
+  `duration` int(10) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `imei` varchar(100) DEFAULT NULL,
+  `ipaddress` varchar(100) DEFAULT NULL,
+  `simserial` varchar(100) DEFAULT NULL,
+  `subscriberid` varchar(100) DEFAULT NULL,
+  `destination` int(19) DEFAULT NULL,
+  `source` int(19) DEFAULT NULL,
+  PRIMARY KEY (`callhistoryid`),
+  KEY `source` (`source`),
+  KEY `destination` (`destination`),
+  CONSTRAINT `vtiger_callhistory_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_callhistorycf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_callhistorycf` (
+  `callhistoryid` int(19) NOT NULL,
+  PRIMARY KEY (`callhistoryid`),
+  CONSTRAINT `vtiger_callhistorycf_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_callhistory` (`callhistoryid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -575,7 +599,95 @@
 <name><![CDATA[Merge]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
 </actions>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Contacts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>26</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>26</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Leads</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>19</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Vendors</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>7</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>OSSEmployees</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>3</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>24</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>HelpDesk</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>CallHistory</label>
+<sequence>14</sequence>
+<presence>0</presence>
+<actions>
+<action> </action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <crons>
 </crons>
 </module>

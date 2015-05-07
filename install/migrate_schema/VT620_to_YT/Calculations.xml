@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-19 05:52:30</exporttime>
+<exporttime>2015-05-07 04:47:10</exporttime>
 <name>Calculations</name>
 <label>Calculations</label>
-<parent>Sales</parent>
 <version>1.0</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
@@ -12,11 +11,40 @@
 <tables>
 <table>
 <name>vtiger_calculations</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_calculations` (
+  `calculationsid` int(19) NOT NULL,
+  `calculations_no` varchar(30) NOT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `relatedid` int(19) DEFAULT NULL,
+  `potentialid` int(19) DEFAULT NULL,
+  `comments` text,
+  `total` decimal(25,8) DEFAULT NULL,
+  `calculationsstatus` varchar(255) DEFAULT '',
+  `total_purchase` decimal(13,2) DEFAULT NULL,
+  `total_margin` decimal(13,2) DEFAULT NULL,
+  `total_marginp` decimal(13,2) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `currency_id` int(19) unsigned NOT NULL,
+  `conversion_rate` decimal(10,3) unsigned NOT NULL,
+  `requirementcardsid` int(19) DEFAULT NULL,
+  `quotesenquiresid` int(19) DEFAULT NULL,
+  `calculations_cons` text,
+  `calculations_pros` text,
+  PRIMARY KEY (`calculationsid`),
+  KEY `calculations_relatedid_idx` (`relatedid`),
+  KEY `osscosts_potentialid_idx` (`potentialid`),
+  KEY `requirementcardsid` (`requirementcardsid`),
+  KEY `quotesenquiresid` (`quotesenquiresid`),
+  CONSTRAINT `fk_1_vtiger_calculations` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
 <name>vtiger_calculationscf</name>
-<sql><![CDATA[DROP TABLE]]></sql>
+<sql><![CDATA[CREATE TABLE `vtiger_calculationscf` (
+  `calculationsid` int(19) NOT NULL,
+  PRIMARY KEY (`calculationsid`),
+  CONSTRAINT `fk_1_vtiger_calculationscf` FOREIGN KEY (`calculationsid`) REFERENCES `vtiger_calculations` (`calculationsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
@@ -52,7 +80,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -75,8 +103,8 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <entityidentifier>
 <entityidfield>calculationsid</entityidfield>
 <entityidcolumn>calculationsid</entityidcolumn>
@@ -102,8 +130,8 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>Accounts</relatedmodule>
 </relatedmodules>
@@ -128,8 +156,8 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>Potentials</relatedmodule>
 </relatedmodules>
@@ -144,7 +172,7 @@
 <fieldlabel>CalculationStatus</fieldlabel>
 <readonly>1</readonly>
 <presence>2</presence>
-<defaultvalue>LBL_IN_PREPARATION</defaultvalue>
+<defaultvalue>PLL_WAITING_FOR_VERIFICATION</defaultvalue>
 <sequence>7</sequence>
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
@@ -154,8 +182,8 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_WAITING_FOR_VERIFICATION</picklistvalue>
 <picklistvalue>PLL_VERIFICATION_PROCESS</picklistvalue>
@@ -188,7 +216,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -211,7 +239,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -234,7 +262,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -257,8 +285,8 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>RequirementCards</relatedmodule>
 </relatedmodules>
@@ -279,12 +307,12 @@
 <typeofdata>M~M</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
-<displaytype>10</displaytype>
+<displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
+<summaryfield>1</summaryfield>
 <relatedmodules>
 <relatedmodule>QuotesEnquires</relatedmodule>
 </relatedmodules>
@@ -309,7 +337,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_DIFFICULT_REALIZATION</picklistvalue>
@@ -338,7 +366,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
 <picklistvalue>PLL_HIGH_MARGIN</picklistvalue>
@@ -380,7 +408,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -403,7 +431,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -426,7 +454,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -449,7 +477,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -472,7 +500,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -495,7 +523,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -532,7 +560,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -555,7 +583,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -592,7 +620,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -615,7 +643,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -638,7 +666,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -661,7 +689,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -698,7 +726,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 <field>
@@ -721,7 +749,7 @@
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
 <helpinfo></helpinfo>
-<summaryfield>0</summaryfield>
+<masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
 </fields>
@@ -784,9 +812,34 @@
 <name><![CDATA[DuplicateRecord]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
 <relatedlists>
 <relatedlist>
+<relatedmodule>Documents</relatedmodule>
 <function>get_attachments</function>
 <label>Documents</label>
 <sequence>1</sequence>
@@ -795,9 +848,9 @@
 <action>ADD</action>
 <action>SELECT</action>
 </actions>
-<relatedmodule>Documents</relatedmodule>
 </relatedlist>
 <relatedlist>
+<relatedmodule>Calculations</relatedmodule>
 <function>get_dependents_list</function>
 <label>Calculations</label>
 <sequence>2</sequence>
@@ -805,9 +858,9 @@
 <actions>
 <action>ADD</action>
 </actions>
-<relatedmodule>Calculations</relatedmodule>
 </relatedlist>
 <relatedlist>
+<relatedmodule>OSSTimeControl</relatedmodule>
 <function>get_dependents_list</function>
 <label>OSSTimeControl</label>
 <sequence>3</sequence>
@@ -815,9 +868,9 @@
 <actions>
 <action>ADD</action>
 </actions>
-<relatedmodule>OSSTimeControl</relatedmodule>
 </relatedlist>
 <relatedlist>
+<relatedmodule>Quotes</relatedmodule>
 <function>get_related_list</function>
 <label>Quotes</label>
 <sequence>4</sequence>
@@ -825,9 +878,50 @@
 <actions>
 <action> </action>
 </actions>
-<relatedmodule>Quotes</relatedmodule>
 </relatedlist>
 </relatedlists>
+<inrelatedlists>
+<inrelatedlist>
+<inrelatedmodule>Potentials</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>Calculations</label>
+<sequence>22</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Calculations</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>Calculations</label>
+<sequence>2</sequence>
+<presence>1</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Quotes</inrelatedmodule>
+<function>get_related_list</function>
+<label>Calculations</label>
+<sequence>7</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Accounts</inrelatedmodule>
+<function>get_dependents_list</function>
+<label>Calculations</label>
+<sequence>18</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+</actions>
+</inrelatedlist>
+</inrelatedlists>
 <customlinks>
 <customlink>
 <linktype>DETAILVIEWBASIC</linktype>

@@ -554,6 +554,7 @@ ALTER TABLE `vtiger_activity`
 	ADD COLUMN `state` varchar(255)  COLLATE utf8_general_ci NULL after `dav_status` , 
 	ADD KEY `activitytype`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`eventstatus`,`deleted`,`smownerid`) , 
 	ADD KEY `activitytype_2`(`activitytype`,`date_start`,`due_date`,`time_start`,`time_end`,`deleted`,`smownerid`) ;
+ALTER TABLE vtiger_activity ADD COLUMN `link` INT(19) NULL AFTER `state`, ADD COLUMN `process` INT(19) NULL AFTER `link`, ADD INDEX (`link`), ADD INDEX (`process`);
 ALTER TABLE `vtiger_activity`
 	ADD CONSTRAINT `fk_1_vtiger_activity` 
 	FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
@@ -1264,3 +1265,14 @@ ALTER TABLE `vtiger_products`
 ALTER TABLE `vtiger_troubletickets` 
 	ADD CONSTRAINT `fk_1_vtiger_troubletickets` 
 	FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
+
+ALTER TABLE `vtiger_groups` ADD COLUMN `color` varchar(25) NULL DEFAULT '#E6FAD8' after `description` 
+ALTER TABLE `vtiger_groups` ADD COLUMN `modules` varchar(255)  NULL after `color`;
+ALTER TABLE `vtiger_ticketpriorities` ADD COLUMN `color` varchar(25) NULL DEFAULT '	#E6FAD8' after `sortorderid` ;
+ALTER TABLE `vtiger_sales_stage` ADD COLUMN `color` varchar(25) DEFAULT '#E6FAD8' ;
+ALTER TABLE `vtiger_leadstatus` ADD COLUMN `color` varchar(25) DEFAULT '#E6FAD8' ;
+ALTER TABLE `vtiger_ticketstatus` ADD COLUMN `color` varchar(25) DEFAULT '#E6FAD8' ;
+ALTER TABLE `vtiger_projectstatus` ADD COLUMN `color` varchar(25) DEFAULT '#E6FAD8' ;
+ALTER TABLE `vtiger_users` CHANGE `user_name` `user_name` varchar(32) NULL after `id`;
+
+ALTER TABLE `vtiger_users` ADD COLUMN `emailoptout` varchar(3) NOT NULL DEFAULT '1' after `is_owner` ;

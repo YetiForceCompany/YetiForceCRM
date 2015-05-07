@@ -1,9 +1,8 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-03-13 11:46:51</exporttime>
+<exporttime>2015-05-06 07:50:58</exporttime>
 <name>QuotesEnquires</name>
 <label>QuotesEnquires</label>
-<parent>Sales</parent>
 <dependencies>
 <vtiger_version>1.3.29 RC</vtiger_version>
 </dependencies>
@@ -62,11 +61,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>1</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>1</summaryfield>
 <entityidentifier>
@@ -89,11 +88,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>4</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <relatedmodules>
@@ -115,11 +114,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>2</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>3</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
@@ -148,7 +147,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
@@ -179,7 +178,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <picklistvalues>
@@ -211,7 +210,7 @@
 <displaytype>10</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 <relatedmodules>
@@ -247,11 +246,11 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>2</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -274,7 +273,7 @@
 <displaytype>3</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -297,7 +296,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 </field>
@@ -320,7 +319,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>0</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -343,7 +342,7 @@
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -363,10 +362,10 @@
 <typeofdata>C~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
+<displaytype>2</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -403,7 +402,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -426,7 +425,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -463,7 +462,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -486,7 +485,7 @@
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <fieldparams></fieldparams>
-<helpinfo><![CDATA[]]></helpinfo>
+<helpinfo></helpinfo>
 <masseditable>1</masseditable>
 <summaryfield>0</summaryfield>
 </field>
@@ -542,9 +541,34 @@
 <name><![CDATA[Merge]]></name>
 <status>enabled</status>
 </action>
+<action>
+<name><![CDATA[MassEdit]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassDelete]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassAddComment]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[MassTransferOwnership]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[ReadRecord]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[WorkflowTrigger]]></name>
+<status>enabled</status>
+</action>
 </actions>
 <relatedlists>
 <relatedlist>
+<relatedmodule>Documents</relatedmodule>
 <function>get_attachments</function>
 <label>Documents</label>
 <sequence>2</sequence>
@@ -553,9 +577,9 @@
 <action>ADD</action>
 <action>SELECT</action>
 </actions>
-<relatedmodule>Documents</relatedmodule>
 </relatedlist>
 <relatedlist>
+<relatedmodule>OSSTimeControl</relatedmodule>
 <function>get_dependents_list</function>
 <label>OSSTimeControl</label>
 <sequence>3</sequence>
@@ -563,7 +587,6 @@
 <actions>
 <action>ADD</action>
 </actions>
-<relatedmodule>OSSTimeControl</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>
