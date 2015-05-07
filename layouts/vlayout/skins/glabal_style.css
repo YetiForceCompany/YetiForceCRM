@@ -162,3 +162,6 @@ max-height: 500px;
 overflow-x: hidden;
 top: 30px;
 }
+hr.widgetHr{
+margin: 4px 0 2px 0;
+}

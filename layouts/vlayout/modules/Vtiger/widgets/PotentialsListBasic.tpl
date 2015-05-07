@@ -1,13 +1,18 @@
 <div class="summaryWidgetContainer potentialsWidgetContainer">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_header row-fluid">
-			<span class="span8 margin0px">
+			<span class="span12 margin0px">
 				<div class="row-fluid">
 					<div class="span4">
 						<span class="{$span} margin0px"><h4 class="moduleColor_{$WIDGET['relatedmodule']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 					</div>
-					<div class="span8" align="right">
+					<div class="span4" align="right">
 						<input class="switchBtn potentialsSwitch" type="checkbox" checked="" data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_OPEN',$WIDGET['relatedmodule'])}" data-off-text="{vtranslate('LBL_ARCHIVE',$WIDGET['relatedmodule'])}">
+					</div>
+					<div class="span4" align="right">
+						<a class="btn createRecordFromFilter" data-url="index.php?module={$WIDGET['relatedmodule']}&view=QuickCreateAjax" data-prf="related_to">
+							<strong>{vtranslate('LBL_ADD',$MODULE_NAME)}</strong>
+						</a>
 					</div>
 				</div>
 			</span>
