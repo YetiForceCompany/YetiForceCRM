@@ -8,15 +8,19 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Vertriebsprozess',
-	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
-	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu wählen. Wird von folgenden Modulen unterstützt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
-	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Liste der Produkte und Dienstleistungen',
-	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Aktualisiert die geteilten Berechtigungen von Produkten/Dienstleistungen wenn eine Beziehung zwischen Opportunity und Produkt/Dienstleistung angelegt wird.',
-	'LBL_CALCULATIONS' => 'Calculations',
-	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
-	'LBL_POTENTIALS' => '__UNTRANSLATED__',
-	'LBL_STATUSES_CLOSED_POTENTIAL' => '__UNTRANSLATED__',
-];
-
+class Vtiger_PotentialsList_Widget extends Vtiger_Basic_Widget {
+	var $allowedModules  = ['Accounts'];
+	
+	public function getUrl() {
+		return 'module=Potentials&view=Widget&fromModule='.$this->Module.'&record='.$this->Record.'&mode=showPotentialsList&page=1&limit='.$this->Data['limit'];
+	}
+	public function getWidget() {
+		$this->Config['url'] = $this->getUrl();
+		$this->Config['tpl'] = 'PotentialsListBasic.tpl';
+		$this->Config['relatedmodule'] = 'Calculations';
+		return $this->Config;
+	}
+	public function getConfigTplName() {
+		return 'PotentialsListConfig';
+	}
+}
