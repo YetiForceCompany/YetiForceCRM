@@ -82,8 +82,4 @@ $languageStrings = [
 	'LBL_THIS'	=>	'Товар или Услуга (',
 	'Conversion Rate' => 'Обменный курс',
 	'Currency' => 'Валюта',
-	'LBL_OWNER' => '__UNTRANSLATED__',
-	'LBL_COMMON' => '__UNTRANSLATED__',
-	'LBL_OPEN' => '__UNTRANSLATED__',
-	'LBL_ARCHIVE' => '__UNTRANSLATED__',
 ];
