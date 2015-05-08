@@ -133,7 +133,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.loadWidgets();
 		this.registerRefreshWidget();
 		this.removeWidget();
-		this.registerFilterInitiater();
+		this.registerDatePickerHideInitiater();
 		this.gridsterStop();
 		this.registerShowMailBody();
 		this.registerChangeMailUser();
@@ -201,22 +201,17 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		});
 	},
 
-	registerFilterInitiater : function() {
+	registerDatePickerHideInitiater : function() {
 		var container = this.getContainer();
-		container.on('click', 'a[name="dfilter"]', function(e) {
+		container.on('click', 'input.dateRange', function(e) {
 			var widgetContainer = jQuery(e.currentTarget).closest('.dashboardWidget');
-			var filterContainer = widgetContainer.find('.filterContainer');
 			var dashboardWidgetHeader = jQuery('.dashboardWidgetHeader', widgetContainer);
 
-			filterContainer.slideToggle(500);
-
 			var callbackFunction = function() {
-				filterContainer.slideUp(500);
 				jQuery('.dateRange').DatePickerHide();
 			}
 			//adding clickoutside event on the dashboardWidgetHeader
 			Vtiger_Helper_Js.addClickOutSideEvent(dashboardWidgetHeader, callbackFunction);
-
 			return false;
 		})
 	},
