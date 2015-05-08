@@ -371,7 +371,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 					Array($attachid, $userid, $userid, $userid, $setype, $description, $usetime, $usetime, 1, 0));
 				$issaved = self::_SaveAttachmentFile($attachid, $filename, $filecontent);
 				if($issaved) {
-					$document = Vtiger_Module::getInstance('Documents'); //new Documents();
+					require_once 'modules/Documents/Documents.php';
+					$document = new Documents();
 					$document->column_fields['notes_title']      = $filename;
 					$document->column_fields['filename']         = $filename;
 					$document->column_fields['filestatus']       = 1;
