@@ -18,4 +18,6 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
 	'LBL_POTENTIALS' => '__UNTRANSLATED__',
 	'LBL_STATUSES_CLOSED_POTENTIAL' => '__UNTRANSLATED__',
+	'LBL_ASSETS' => '__UNTRANSLATED__',
+	'LBL_STATUSES_CLOSED_ASSETS' => '__UNTRANSLATED__',
 ];

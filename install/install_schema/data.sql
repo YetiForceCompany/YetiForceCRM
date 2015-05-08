@@ -21909,6 +21909,7 @@ insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','lim
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','update_shared_permissions','false');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','salesstage','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');
 
 /*Data for the table `yetiforce_updates` */
 
