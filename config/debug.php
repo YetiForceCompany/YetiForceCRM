@@ -13,13 +13,13 @@ $DEBUG_CONFIG = Array(
 	'LOG4PHP_DEBUG' => FALSE,
 	
 	// show php errors (display_errors),
-	'DISPLAY_PHP_ERRORS' => FALSE,
+	'DISPLAY_PHP_ERRORS' => true,
 	
 	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => FALSE,
 
 	// stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => FALSE,
+	'SQL_DIE_ON_ERROR' => true,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => FALSE,
