@@ -31,12 +31,10 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Generuj przedłużenie',
 
 	/*picklist values*/
-	'In Service'=>'W serwisie',
-	'Out-of-service'=>'Zakończono wsparcie',
-	'Draft'=>'Wersja robocza',
-	'Realization proceeding'=>'Procedura realizacyjna',
-	'Warranty proceeding'=>'Procedura gwarancyjna',
-	'Delivered to Organization'=>'Dostarczony kontrahentowi',
+	'PLL_DRAFT'=>'Wersja robocza',
+	'PLL_NO_SUPPORT'=>'Wsparcie gwarancyjne',
+	'PLL_POST_WARRANTY_SUPPORT'=>'Wsparcie pogwarancyjne',
+	'PLL_WARRANTY_SUPPORT'=>'Brak wsparcia',
 	
 	//YetiForce
 	'description'=>'Opis',
@@ -46,4 +44,5 @@ $languageStrings = [
 	'Potential'=>'Źródło sprzedaży',
 	'Potential renewal'=>'Odnowienie sprzedaży',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
 ];

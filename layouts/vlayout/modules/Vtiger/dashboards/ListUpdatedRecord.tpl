@@ -10,32 +10,29 @@
  ********************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span5">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
-			</th>
-			
-			<th class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</th>
-			<th class="span2">
-				<div>
-					<select class="widgetFilter" id="listUpdatedRecordLimit" name="number" style='width:100px;margin-bottom:0px'>
-						<option value="all" >{vtranslate('LBL_ALL')}</option>
-						<option value="10" >10</option>
-						<option value="25" >25</option>
-						<option value="50" >50</option>
-					</select>
-				</div>
-			</th>
-			<th class="widgeticons span1" align="right">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</b></div>
+		</div>
+		<div class="span4">
+			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row-fluid" >
+		<div class="span12">
+			<div class="pull-right">
+				<select class="widgetFilter" id="listUpdatedRecordLimit" name="number" style='width:100px;margin-bottom:0px'>
+					<option value="all" >{vtranslate('LBL_ALL')}</option>
+					<option value="10" >10</option>
+					<option value="25" >25</option>
+					<option value="50" >50</option>
+				</select>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}

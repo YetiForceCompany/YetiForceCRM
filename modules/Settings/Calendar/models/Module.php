@@ -100,4 +100,28 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model {
 		$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = ?;', array($params['color'], $params['id']));
 	}
 	
+
+	public static function updateNotWorkingDays($params) {
+		$adb = PearDatabase::getInstance();	
+		if('null' !=$params['val'] )
+			$value = implode(';', $params['val']);
+		else
+			$value = NULL;
+		$adb->pquery('UPDATE vtiger_calendar_config SET value = ? WHERE name = "notworkingdays";', [$value]);
+	}
+
+	public static function getNotWorkingDays(){
+		$adb = PearDatabase::getInstance();	
+		$result = $adb->query('SELECT value FROM vtiger_calendar_config WHERE  name = "notworkingdays";');
+		$rows = $adb->num_rows($result);
+		$return = [];
+		if($rows > 0){
+			$row = $adb->query_result_rowdata($result, 0);
+			if($row['value'])
+				$return = explode(';', $row['value']);
+		}
+		return $return;
+
+
+	}
 }

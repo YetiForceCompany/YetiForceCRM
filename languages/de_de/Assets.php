@@ -45,4 +45,5 @@ $languageStrings = [
 	'Potential renewal'=>'Verkaufschance verlängern',
 	'LBL_GENERATE_EXTENSION' => 'Folgeauftrag anlegen',
 	'LBL_ORDER_TIME'=>'Bestellzeit',
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
 ];

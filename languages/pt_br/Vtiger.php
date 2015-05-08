@@ -894,10 +894,10 @@ $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Feriado',
 	'PLL_BREAK_TIME' => 'Intervalo trabalho',
 	'PLL_WORKING_TIME' => 'Tempo trabalho',
-	'LBL_OWNER' => '__UNTRANSLATED__',
-	'LBL_COMMON' => '__UNTRANSLATED__',
-	'LBL_OPEN' => '__UNTRANSLATED__',
-	'LBL_ARCHIVE' => '__UNTRANSLATED__',
+	'LBL_OWNER' => 'Mine',
+	'LBL_COMMON' => 'Shared',
+	'LBL_OPEN' => 'Open',
+	'LBL_ARCHIVE' => 'Archive',
 
 	// Missing Fields in Top Menu
 	'Bookkeeping'=>'Escrituração',

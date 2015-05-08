@@ -9,19 +9,18 @@
  * All Rights Reserved.
  ********************************************************************************/
 -->*}
-{foreach key=index item=jsModel from=$SCRIPTS}
-	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-{/foreach}
 <div class="dashboardWidgetHeader">
 	<div class="row-fluid">
 		<div class="span8">
-			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
-				<a class="btn btn-mini" href="index.php?module={$MODULE_NAME}&view=Edit">
-					<i class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
-				</a>
+				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView')}
+					<a class="btn btn-mini" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
+						<i class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
+					</a>
+				{/if}
 				<a class="btn btn-mini" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
 					<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
 				</a>
@@ -37,11 +36,11 @@
 	<div class="row-fluid" >
 		<div class="span12">
 			<div class="pull-right">
-				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}">
+				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
 			</div>
 		</div>
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/CalculationsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/ExpiringSoldProductsContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>

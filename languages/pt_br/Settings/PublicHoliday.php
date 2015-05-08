@@ -36,6 +36,11 @@ $languageStrings = [
 	'Friday'																=> 'Sexta-feira',
 	'Saturday'																=> 'Sábado',
 	'Sunday'																=> 'Domingo',
+	'LBL_HOLIDAY_TYPE' => 'Holiday type',
+	'LBL_NATIONAL' => 'national',
+	'LBL_ECCLESIASTICAL' => 'ecclesiastical',
+	'ecclesiastical' => 'ecclesiastical',
+	'national' => 'national',
 ];
 $jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR'													=> 'Você deve preencher todos os campos do formulário',

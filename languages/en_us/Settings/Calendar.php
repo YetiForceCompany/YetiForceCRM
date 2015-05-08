@@ -34,6 +34,16 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Update event in the Calendar when rescheduled.',
 	'LBL_GENERATE_COLOR' => 'Generate random color',
 	'LBL_GENERATED_COLOR' => 'Color generated',
+	'LBL_NOTWORKING_DAYS' => 'Not working days',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Not working days',
+	'PLL_MONDAY' => 'Monday',
+	'PLL_TUESDAY' => 'Tuesday',
+	'PLL_WEDNESDAY' => 'Wednesday',
+	'PLL_THURSDAY' => 'Thursday',
+	'PLL_FRIDAY' => 'Friday',
+	'PLL_SATURDAY' => 'Saturday',
+	'PLL_SUNDAY' => 'Sunday',
+
 ];
 $jsLanguageStrings = [
 

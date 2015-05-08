@@ -155,15 +155,22 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	/**
-	 * 
+	 * @param <array> $date - start and end date to get holidays
 	 * @return - holidays count group by type if exist or false
 	 */
-	public static function getHolidayGroupType(){
+	public static function getHolidayGroupType($date = FALSE){
 		global $log;
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
 		$db = PearDatabase::getInstance();
-		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` GROUP BY `holidaytype`';
-		$result = $db->query($sql);
+		$params = [];
+		$sql = 'SELECT COUNT(`publicholidayid`) AS count, `holidaytype` FROM `vtiger_publicholiday` ';
+		if ($date){
+			$sql .= ' WHERE holidaydate BETWEEN ? AND ?';
+			$params[] = $date[0];
+			$params[] = $date[1];
+		}
+		$sql .= ' GROUP BY `holidaytype`';
+		$result = $db->pquery($sql, $params);
 		$numRows = $db->num_rows($result);
 		if(0 == $numRows)
 			$return = FALSE;

@@ -14,8 +14,10 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
+		$notWorkDays = Settings_Calendar_Module_Model::getNotWorkingDays();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('NOTWORKINGDAYS', $notWorkDays);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('UserColors.tpl', $qualifiedModuleName);

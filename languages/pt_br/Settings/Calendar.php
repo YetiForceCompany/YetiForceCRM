@@ -34,6 +34,15 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Atualizar o Evento na Agena quando reagendado.',
 	'LBL_GENERATE_COLOR' => 'Gerar cor aleatória',
 	'LBL_GENERATED_COLOR' => 'Cor gerada',
+	'LBL_NOTWORKING_DAYS' => 'Not working days',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Not working days',
+	'PLL_MONDAY' => 'Segunda',
+	'PLL_TUESDAY' => 'Terça',
+	'PLL_WEDNESDAY' => 'Quarta',
+	'PLL_THURSDAY' => 'Quinta',
+	'PLL_FRIDAY' => 'Sexta',
+	'PLL_SATURDAY' => 'Sábado',
+	'PLL_SUNDAY' => 'Domingo',
 ];
 $jsLanguageStrings = [
 

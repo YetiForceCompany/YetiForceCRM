@@ -46,4 +46,5 @@ $languageStrings = [
 	'Potential renewal'=>'Potential renewal',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME'=>'Order time',
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
 ];

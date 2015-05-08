@@ -71,5 +71,6 @@ $languageStrings = [
 'LBL_HOLIDAYDAYS_INFO' => 'Ilość dni urlopowych',
 'LBL_AVERAGEWORKTIME_INFO' => 'Średni czas pracy',
 'LBL_AVERAGEBREAKTIME_INFO' => 'Średni czas przerw',
+'LBL_WORKDAYS_INFO' => 'Dni pracownicze',
 
 ];

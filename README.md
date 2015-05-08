@@ -12,9 +12,9 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) to get real-time info ab
 Below you can see how we improve our project with each new version:
 
 
-#YetiForce 1.5 (under development)
+#YetiForce 2.0 (under development)
 
-The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCompany/YetiForceCRM/commit/7a36309d62dfbf4794f5c19c0c41b82770947171) revision. 
+The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCompany/YetiForceCRM/commit/a78b2f002e64f9dc5e98f34632c92dd071e0e5f7) revision. 
 
 
 **Bug Fixes:** 
@@ -72,18 +72,23 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Fixed a bug occuring in some custom modules in which reference fields in List view were always empty.
 -	Fixed a bug occuring while saving of field and column names.
 -	Fixed getInstance function.
+-	Fixed responsive comments in record summary.
+-	Fixed a bug with sending emails for the latest version of PHP.
+-	Fixed Time Control widget.
 
 
 **Improvements:**
 -	Improved the compatibility of NuSOAP library with php 5.4
 -	Improved breadcrumbs menu.
 -	Improved the appearance of edit view for the OSSMailTemplates module.
+-	Improved the appearance of many widgets.
 -	Improved the management of DAV keys.
 -	Improved the display of events in the Calendar.
 -	Improved the display of history on your desktop.
 -	Improved the display of the menu.
 -	Improved the display of sales orders.
 -	Improved permissions in Quick Create.
+-	Improved the migration mechanisms.
 -	Cleaned up some functions on files.
 -	Cleaned up the configuration for colors.
 -	Added a file with content for AmountPerSalesPerson widget. Changed a width of the chart.
@@ -113,6 +118,7 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Moved a tab with a configuration from Mail client to Server configuration settings.
 -	Moved a tab with a configuration from Module Colors to Colors.
 -	Moved user colors from the calendar configuration to colors in settings.
+-	Moved non custom field 'from_portal' to basic table of HelpDesk module.
 -	Improved 'open tickets' and 'ticket by status' widgets. 
 -	Improved 'user time control' widget.
 -	Improved 'Calendar' widget.
@@ -133,6 +139,7 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Changed downloading of an email address.
 -	Changed the owner input in widgets.
 -	Changed the size of the 'Add record' icons
+-	Changed statuses in Assets.
 -	Expanded masking with new types of fields.
 -	Added a new template for the mail module.
 -	Added selects buttons for widgets.
@@ -157,9 +164,11 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Added SSL force.
 -	Added a right panel to the calendar.
 -	Added a summary view to Calculations.
--	Added calculations to the configuration of the sales process.
+-	Added calculations, opportunities and sold products to the configuration of the sales process.
 -	Added a widget to the desktop of calculations.
 -	Added a 'Switch' button to widgets.
+-	Added a function that counts the number of records in a related module.
+-	Added a maximum number of records that can be mass edited.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -179,6 +188,7 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Improved the reference field.
 -	Improved the header in the calendar.
 -	Improved filtering of email content.
+-	Improved loading of widgets.
 -	Improved sharing permissions while associating of records.
 -	Improved generating of tasks in workflows.
 -	Improved generating of CalUri in CalDAV.
@@ -228,6 +238,9 @@ The following changes are up to 1.4.300 - [#688] (https://github.com/YetiForceCo
 -	Added a comparator 'currently logged on user'.
 -	Added a manual start of workflows.
 -	Added a possibility to assign owners of records only to yourself.
+-	Added new widgets to record summary view of Calculations and Opportunities.
+-	Added a new 'Expiring sold products' widget.
+-	Added a possibility to create records in Dashboard widgets.
 
 
 

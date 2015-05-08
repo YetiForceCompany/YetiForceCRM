@@ -14,17 +14,24 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 		return $instance;
 	}
 
-	public static function getConfig($type) {
+	public static function getConfig($type = false) {
 		global $log;
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type" );
-		$cache = Vtiger_Cache::get('SalesProcesses',$type);
+		$cache = Vtiger_Cache::get('SalesProcesses',$type==false?'all':$type);
 		if($cache){
 			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 			return $cache;
 		}
 		$db = PearDatabase::getInstance();
+		$params = [];
+		$returnArrayForFields = ['groups','status','calculationsstatus','salesstage','salesstage','assetstatus'];
+		$sql = 'SELECT * FROM yetiforce_proc_sales';
+		if($type){
+			$sql .= ' WHERE type = ?';
+			$params[] = $type;
+		}
 
-		$result = $db->pquery('SELECT * FROM yetiforce_proc_sales WHERE type = ?;', [$type]);
+		$result = $db->pquery($sql, $params);
 		if ($db->num_rows($result) == 0) {
 			return [];
 		}
@@ -32,13 +39,16 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 		for ($i = 0; $i < $db->num_rows($result); ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');
-			if (in_array($param, ['groups','status','calculationsstatus','salesstage'])) {
-				$config[$param] = $value == '' ? [] : explode(',', $value);
-			} else {
+			if (in_array($param, $returnArrayForFields)) {
+				$value = $value == '' ? [] : explode(',', $value);
+			}
+			if($type){
 				$config[$param] = $value;
+			}else{
+				$config[$db->query_result_raw($result, $i, 'type')][$param] = $value;
 			}
 		}
-		Vtiger_Cache::set('SalesProcesses',$type, $config);
+		Vtiger_Cache::set('SalesProcesses',$type==false?'all':$type, $config);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $config;
 	}
