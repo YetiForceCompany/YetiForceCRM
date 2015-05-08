@@ -10,15 +10,15 @@
  ********************************************************************************/
 -->*}
 {if $SETTING_EXIST}
-<a name="dfilter">
+<a class="btn btn-mini" name="dfilter">
 	<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
 </a>
 {/if}
-<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
+<a class="btn btn-mini" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
 	<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
 </a>
 {if !$WIDGET->isDefault()}
-	<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+	<a name="dclose" class="widget btn btn-mini" data-url="{$WIDGET->getDeleteUrl()}">
 		<i class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
 	</a>
 {/if}

@@ -10,13 +10,20 @@
  ********************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span4">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div>
-			</th>
-			<th class="span2">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+		</div>
+		<div class="span4">
+			<div class="box pull-right">
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row-fluid" >
+		<div class="span12">
+			<div class="pull-right">
 				<div>
 					<select class="widgetFilter" id="historyType" name="type" style='margin-bottom:0px'>
 						<option value="all" >{vtranslate('LBL_ALL')}</option>
@@ -24,13 +31,9 @@
 						<option value="updates" >{vtranslate('LBL_UPDATES')}</option>
 					</select>
 				</div>
-			</th>
-			<th class="widgeticons span1" align="right">
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/HistoryContents.tpl"|@vtemplate_path:$MODULE_NAME}

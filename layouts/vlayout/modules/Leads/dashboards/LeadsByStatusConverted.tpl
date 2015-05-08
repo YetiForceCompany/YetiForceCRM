@@ -13,27 +13,31 @@
 	Vtiger_Barchat_Widget_Js('Vtiger_Leadsbystatusconverted_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
-	<div class="row-fluid filterContainer hide" style="position:absolute;z-index:100001">
-		<div class="row-fluid">
-			<span class="span5">
-				<span class="pull-right">
-					{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
-				</span>
-			</span>
-			<span class="span4">
-				<input type="text" name="createdtime" class="dateRange widgetFilter" />
-			</span>	
+	{foreach key=index item=cssModel from=$STYLES}
+		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
+	{/foreach}
+	{foreach key=index item=jsModel from=$SCRIPTS}
+		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+	{/foreach}
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+		</div>
+		<div class="span4">
+			<div class="box pull-right">
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
-			<div class="row-fluid">	
-			<span class="span5">
-				<span class="pull-right">
-					{vtranslate('Assigned To', $MODULE_NAME)}
-				</span>
-			</span>
-			<span class="span4">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</span>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row-fluid" >
+		<div class="span6">
+			<i class="icon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></i>
+			<input type="text" name="createdtime" class="dateRange widgetFilter input-mini width90 textAlignCenter"  id="select-date" />
+		</div>
+		<div class="span6">
+			<i class="icon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></i>
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
 </div>

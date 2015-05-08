@@ -17,7 +17,7 @@ class Vtiger_PotentialsList_Widget extends Vtiger_Basic_Widget {
 	public function getWidget() {
 		$this->Config['url'] = $this->getUrl();
 		$this->Config['tpl'] = 'PotentialsListBasic.tpl';
-		$this->Config['relatedmodule'] = 'Calculations';
+		$this->Config['relatedmodule'] = 'Potentials';
 		return $this->Config;
 	}
 	public function getConfigTplName() {

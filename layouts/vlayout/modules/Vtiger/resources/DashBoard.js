@@ -132,8 +132,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		this.registerGridster();
 		this.loadWidgets();
 		this.registerRefreshWidget();
-		this.showWidgetIcons();
-		this.hideWidgetIcons();
 		this.removeWidget();
 		this.registerFilterInitiater();
 		this.gridsterStop();
@@ -155,24 +153,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var widgetInstnace = thisInstance.getWidgetInstance(parent);
 			widgetInstnace.refreshWidget();
 			return;
-		});
-	},
-
-	showWidgetIcons : function() {
-		this.getContainer().on('mouseover', 'li', function(e) {
-			var element = $(e.currentTarget);
-			var widgetIcons = element.find('.widgeticons');
-			widgetIcons.fadeIn('slow', function() {
-				widgetIcons.css('visibility', 'visible');
-			});
-		});
-	},
-
-	hideWidgetIcons : function() {
-		this.getContainer().on('mouseout', 'li', function(e) {
-			var element = $(e.currentTarget);
-			var widgetIcons = element.find('.widgeticons');
-			widgetIcons.css('visibility', 'hidden');
 		});
 	},
 
@@ -262,7 +242,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		container.on('change', '#mailUserList', function(e) {
 			var element = $(e.currentTarget);
 			var parent = element.closest('li');
-			var contentContainer = parent.find('.refresh');
+			var contentContainer = parent.find('.dashboardWidgetContent');
 			var optionSelected = $("option:selected", this);
 			var url = parent.data('url')+'&user='+optionSelected.val();
 

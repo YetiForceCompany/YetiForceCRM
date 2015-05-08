@@ -13,36 +13,33 @@
 {assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr class="row-float">
-			<th class="span3"> 
-				 <div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"> <b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle())}</b></div> 
-			</th>
-			<th class="span5 headerCalendar fc-center pinUnpinShortCut row-fluid" >
-				<div class="span2">
-				<button type="button prev fc-corner-left " data-type="fc-prev-button"><span class="fc-icon fc-icon-left-single-arrow"></span></button>
-				</div>
-				<div class="span8 month marginLeftZero" style="text-align:center">
-				</div>
-				<div class="span2">
-				<button type="button next fc-corner-left span3" data-type="fc-next-button"><span class="fc-icon fc-icon-right-single-arrow"></span></button> 
-				</div>
-			</th>
-			<th class="span3">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-			<th class="widgeticons span1" align="right">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</b></div>
+		</div>
+		<div class="span4">
+			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-		<tr>
-			<th class=" refresh" align="center">
-				<span style="position:relative;"></span>
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row-fluid" >
+		<div class="span7">
+			<div class="headerCalendar fc-center pinUnpinShortCut row-fluid" >
+				<div class="span2">
+					<button class="btn btn-mini" data-type="fc-prev-button"><i class="icon-chevron-left"></i></button>
+				</div>
+				<div class="span8 month marginLeftZero" style="text-align:center"> </div>
+				<div class="span2">
+					<button class="btn btn-mini" data-type="fc-next-button"><i class="icon-chevron-right"></i></button>
+				</div>
+			</div>
+		</div>
+		<div class="span5">
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+		</div>
+	</div>
 </div>
 <div name="history" class="dashboardWidgetContent">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}

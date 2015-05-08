@@ -162,3 +162,37 @@ max-height: 500px;
 overflow-x: hidden;
 top: 30px;
 }
+hr.widgetHr{
+margin: 4px 0 2px 0;
+}
+.dashboardWidgetHeader select{
+margin: 0px;
+padding: 0px;
+height: 18px;
+font-size: 10px;
+font-family: 'Open Sans', 'Lucida Grande', Verdana, Tahoma, Arial, sans-serif;
+}
+.dashboardWidgetHeader select option{
+margin-top: 2px;
+}
+input.input-mini{
+margin: 0px;
+height: 16px;
+padding: 0;
+}
+.width90{
+width: 90%;
+}
+.margintop3{
+margin-top: 3px;
+}
+.dashboardWidgetHeader .headerCalendar h3{
+line-height: 20px;
+}
+.paddingLR10 {
+padding-left: 10px;
+padding-right: 10px;
+}
+.dashboardWidgetContent #calendarview .fc-day-number{
+padding-right: 5px;
+}
