@@ -20,26 +20,8 @@
 {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
-
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<tbody>
-		<tr>
-			<td class="span5">
-				<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
-			</td>
-			<td class="refresh span1" align="right">
-				<span style="position:relative;"></span>
-			</td>
-			<td class="span2">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-			</td>
-			<td class="widgeticons span1" align="right">
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
-			</td>
-		</tr>
-	</tbody>
-	</table>
+	{include file="dashboards/WidgetHeadeAccessible.tpl"|@vtemplate_path:$MODULE_NAME}
 	<div class="row-fluid filterContainer hide" style="position:absolute;z-index:100001">
 		<div class="row-fluid">
 			<span class="span5">

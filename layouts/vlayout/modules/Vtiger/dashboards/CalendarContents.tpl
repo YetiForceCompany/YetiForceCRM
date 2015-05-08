@@ -24,10 +24,9 @@
 	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
 {/foreach}
 </style>
-<div class="container-fluid">
+<div class="paddingLR10">
 	<div class="row-fluid">
 		<div class="span12">
-			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>
 	</div>
