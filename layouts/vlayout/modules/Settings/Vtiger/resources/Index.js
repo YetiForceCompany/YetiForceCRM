@@ -12,7 +12,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 	showMessage : function(customParams){
 		var params = {};
 		params.animation = "show";
-		params.type = 'info';
+		params.type = 'success';
 		params.title = app.vtranslate('JS_MESSAGE');
 
 		if(typeof customParams != 'undefined') {
