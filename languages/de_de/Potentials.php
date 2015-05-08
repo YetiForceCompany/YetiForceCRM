@@ -83,5 +83,5 @@ $languageStrings = [
 	'Total price [Quotes]' => 'Gesamtwert der Angebote',
 	'Total price [Sales Order]' => 'Gesamtwert der Aufträge',
 	'Total price [Invoice]' => 'Gesamtwert der Rechnungen',
-	'PotentialsList'=>'__UNTRANSLATED__',
+	'PotentialsList'=>'Opportunities',
 ];
