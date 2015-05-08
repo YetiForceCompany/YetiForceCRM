@@ -914,10 +914,10 @@ $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'PLL_BREAK_TIME' => 'Unterbrechung der Arbeit',
 	'PLL_WORKING_TIME' => 'Arbeitszeit',
-	'LBL_OWNER' => '__UNTRANSLATED__',
-	'LBL_COMMON' => '__UNTRANSLATED__',
-	'LBL_OPEN' => '__UNTRANSLATED__',
-	'LBL_ARCHIVE' => '__UNTRANSLATED__',
+	'LBL_OWNER' => 'Mine',
+	'LBL_COMMON' => 'Shared',
+	'LBL_OPEN' => 'Open',
+	'LBL_ARCHIVE' => 'Archive',
 	
 	//Gantt
 	'LBL_FILTERING' => 'Filtern',
