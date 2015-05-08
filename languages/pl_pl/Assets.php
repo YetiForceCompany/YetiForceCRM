@@ -44,5 +44,5 @@ $languageStrings = [
 	'Potential'=>'Źródło sprzedaży',
 	'Potential renewal'=>'Odnowienie sprzedaży',
 	'LBL_ORDER_TIME'=>'Czas realizacji',
-	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produtky sprzedane',
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Wygasające produkty sprzedane',
 ];
