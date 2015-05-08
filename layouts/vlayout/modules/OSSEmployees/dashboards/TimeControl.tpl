@@ -89,7 +89,7 @@
 			<i class="icon-user iconMiddle margintop3"></i>
 			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-			<select class="widgetFilter width90" id="select-user" name="owner" style="margin-bottom:0;" >
+			<select class="widgetFilter width90" id="select-user" name="user" style="margin-bottom:0;" >
 				<optgroup label="{vtranslate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<option {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
