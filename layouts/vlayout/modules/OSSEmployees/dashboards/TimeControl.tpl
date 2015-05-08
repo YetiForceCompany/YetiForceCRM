@@ -83,7 +83,7 @@
 	<div class="row-fluid" >
 		<div class="span6">
 			<i class="icon-calendar iconMiddle margintop3"></i>
-			<input type="text" name="createdtime" class="dateRange widgetFilter input-mini width90"  id="select-date" />
+			<input type="text" name="time" class="dateRange widgetFilter input-mini width90"  id="select-date" />
 		</div>
 		<div class="span6">
 			<i class="icon-user iconMiddle margintop3"></i>
