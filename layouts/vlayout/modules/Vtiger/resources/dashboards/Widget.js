@@ -141,6 +141,7 @@ jQuery.Class('Vtiger_Widget_Js',{
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
+		this.registerWidgetSwitch();
 	},
 
 	postRefreshWidget : function() {
@@ -150,6 +151,30 @@ jQuery.Class('Vtiger_Widget_Js',{
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+	},
+
+	registerWidgetSwitch : function() {
+		$('.dashboardContainer .dashboardWidgetHeader .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
+			var currentElement = jQuery(e.currentTarget);
+			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
+			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
+			var url = drefresh.data('url');
+			var urlparams = currentElement.data('urlparams');
+			if(urlparams != ''){
+				var onval = currentElement.data('on-val');
+				var offval = currentElement.data('off-val');
+
+				url = url.replace('&'+urlparams+'='+onval, '');
+				url = url.replace('&'+urlparams+'='+offval, '');
+				url += '&'+urlparams+'=';
+				if(state)
+					url += onval;
+				else
+					url += offval;
+				drefresh.data('url',url);
+				drefresh.click();
+			}
+		});
 	},
 
 	getFilterData : function() {
