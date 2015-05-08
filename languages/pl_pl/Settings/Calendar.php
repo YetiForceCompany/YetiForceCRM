@@ -34,6 +34,15 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Aktualizować termin w kalendarzu przy przekładaniu',
 	'LBL_GENERATE_COLOR' => 'Generuj losowy kolor',
 	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
+	'LBL_NOTWORKING_DAYS' => 'Dni wolne od pracy',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Lista dni które są dniami wolnymi od pracy',
+	'PLL_MONDAY' => 'Poniedziałek',
+	'PLL_TUESDAY' => 'Wtorek',
+	'PLL_WEDNESDAY' => 'Środa',
+	'PLL_THURSDAY' => 'Czwartek',
+	'PLL_FRIDAY' => 'Piątek',
+	'PLL_SATURDAY' => 'Sobota',
+	'PLL_SUNDAY' => 'Niedziela',
 ];
 $jsLanguageStrings = [
 

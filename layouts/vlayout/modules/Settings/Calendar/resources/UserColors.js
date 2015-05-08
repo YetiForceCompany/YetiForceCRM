@@ -92,7 +92,7 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-        AppConnector.request(params).then(
+		AppConnector.request(params).then(
 			function(data) {
 				var response = data['result'];
 				var params = {
@@ -104,11 +104,32 @@ var Settings_UserColors_Js = {
 				return response;
 			},
 			function(data, err) {}
-        );
+		);
+	},
+
+	registerSaveWorkingDays: function(content){
+		var thisInstance = this;
+		content.find('.workignDaysField').change(function(e) {
+			var target = $(e.currentTarget);
+			var params = {};
+			params['type'] = target.data('type');
+			params['param'] = target.attr('name');
+			if(target.attr('type') == 'checkbox'){
+				params['val'] = this.checked;
+			}else{
+				params['val'] = target.val();
+			}
+			app.saveAjax('updateNotWorkingDays', params).then(function (data) {
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			});
+		});
+
 	},
 	
 	registerEvents : function() {
 		Settings_UserColors_Js.initEvants();
+		var content = $('.workingDaysTable');
+        this.registerSaveWorkingDays(content);
 	}
 }
 $(document).ready(function(){

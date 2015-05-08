@@ -38,6 +38,15 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Обновлять события в Календаре при изменении или переносе',
 	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
 	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
+	'LBL_NOTWORKING_DAYS' => 'Not working days',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Not working days',
+	'PLL_MONDAY' => 'Понедельник',
+	'PLL_TUESDAY' => 'Вторник',
+	'PLL_WEDNESDAY' => 'Среда',
+	'PLL_THURSDAY' => 'Четверг',
+	'PLL_FRIDAY' => 'Пятница',
+	'PLL_SATURDAY' => 'Суббота',
+	'PLL_SUNDAY' => 'Воскресенье',
 ];
 $jsLanguageStrings = [
 

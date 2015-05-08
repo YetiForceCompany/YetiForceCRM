@@ -36,6 +36,16 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Ereignis aktualisieren',
 	'LBL_GENERATE_COLOR' => 'Generiere Zufallsfarbe',
 	'LBL_GENERATED_COLOR' => 'Farbe generiert',
+	'LBL_NOTWORKING_DAYS' => 'Not working days',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Not working days',
+	'PLL_MONDAY' => 'Montag',
+	'PLL_TUESDAY' => 'Dienstag',
+	'PLL_WEDNESDAY' => 'Mittwoch',
+	'PLL_THURSDAY' => 'Donnerstag',
+	'PLL_FRIDAY' => 'Freitag',
+	'PLL_SATURDAY' => 'Samstag',
+	'PLL_SUNDAY' => 'Sonntag',
+
 ];
 $jsLanguageStrings = [
 

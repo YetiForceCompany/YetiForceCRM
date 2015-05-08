@@ -16,7 +16,6 @@
 		loadChart : function() {
 			var thisInstance = this;
 			var chartData = thisInstance.generateData();
-			console.log(chartData)
 			var options = {
 				xaxis: {
 					minTickSize: 1,
