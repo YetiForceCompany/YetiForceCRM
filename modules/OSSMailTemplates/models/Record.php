@@ -22,11 +22,24 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model {
     function getTemplete($id) {
         $db = PearDatabase::getInstance();
         $sql = "SELECT * FROM vtiger_ossmailtemplates WHERE ossmailtemplatesid = ?";
-        $result = $db->pquery($sql, array($id), TRUE);
-        $output = array();
+        $result = $db->pquery($sql, [$id], TRUE);
+        $output = [];
 		$row = $db->raw_query_result_rowdata($result);
         $output['subject'] = $row['subject'];
         $output['content'] = $row['content'];
+		
+		$query ='SELECT vtiger_seattachmentsrel.attachmentsid FROM vtiger_seattachmentsrel '
+		. 'INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid=vtiger_seattachmentsrel.crmid '
+		. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
+				. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
+		$res = $db->pquery($query, [$id]);
+		$aid = [];
+		for($i = 0; $i < $db->num_rows($res); $i++){
+			$aid[] = $db->query_result_raw($res, $i, 'attachmentsid');
+		}
+		if(count($aid) > 0){
+			$output['attachments'] = ['ids' => $aid];
+		}
         return $output;
     }
     function sendMailFromTemplate($data) {
