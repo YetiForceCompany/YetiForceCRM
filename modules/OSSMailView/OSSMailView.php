@@ -106,8 +106,8 @@ class OSSMailView extends CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'subject';
-	var $default_sort_order='ASC';
+	var $default_order_by = 'createdtime';
+	var $default_sort_order='DESC';
 
 	var $unit_price;
 
