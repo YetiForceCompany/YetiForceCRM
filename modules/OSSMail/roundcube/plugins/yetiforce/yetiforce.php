@@ -9,17 +9,86 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 // <--------   YetiForce Sp. z o.o.   -------->
-class yt_attachments extends rcube_plugin {
+class yetiforce extends rcube_plugin {
 
 	function init() {
 		$rcmail = rcmail::get_instance();
-		$this->register_action('plugin.yt_attachments.set', array($this, 'addFilesToMail'));
+		$this->add_hook('login_after', array($this, 'savePassword'));
+		$this->register_action('plugin.yetiforce.addFilesToMail', array($this, 'addFilesToMail'));
 		if ($rcmail->action == 'compose') {
-			$rcmail->output->set_env('compose_commands', 'plugin.yt_attachments');
-			$this->include_script('yt_attachments.js');
+			$rcmail->output->set_env('compose_commands', 'plugin.yetiforce');
+			$this->include_script('yetiforce.js');
+		}
+		
+		if ($rcmail->task == 'mail' && $rcmail->action == 'compose'){
+			$this->add_hook('render_page', array($this, 'loadSignature'));
+		}
+		if ($rcmail->task == 'mail' && $rcmail->action == 'show'){
+			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
 		}
 	}
 
+	//	Get user name
+	function getUserName(){
+		$rcmail = rcmail::get_instance();
+		$user = $rcmail->user;
+		return $user->data['username'];
+	}
+	
+	//	Password saving
+	function savePassword($args) {
+		$rcmail = rcmail::get_instance();
+		$pass = rcube_utils::get_input_value('_pass', rcube_utils::INPUT_POST);
+		$sql = "UPDATE " . $rcmail->db->table_name('users') . " SET password = ? WHERE user_id = ?";
+		call_user_func_array(array($rcmail->db, 'query'), array_merge(array($sql), array($pass, $rcmail->get_user_id())));
+		$rcmail->db->affected_rows();
+		return $args;
+	}
+
+	//	Loading signature
+	function loadSignature($response) {
+		global $OUTPUT;
+		if($this->checkAddSignature()){
+			return;
+		}
+		$gS = $this->getGlobalSignature();
+		if($gS['html'] == ''){
+			return;
+		}
+		$a_signatures = array();
+		foreach ($OUTPUT->get_env('signatures') as $identity_id => $signature) {
+			$a_signatures[$identity_id]['text'] = $signature['text'].PHP_EOL.$gS['text'];
+			$a_signatures[$identity_id]['html'] = $signature['html'].'<div class="pre global">'.$gS['html'].'</div>';
+		}
+		$OUTPUT->set_env('signatures', $a_signatures);
+	}
+	
+	function getGlobalSignature() {
+		global $RCMAIL;
+        $db = $RCMAIL->get_dbh();
+		$result = [];
+        $sql_result = $db->query( "SELECT * FROM yetiforce_mail_config WHERE `type` = 'signature' AND `name` = 'signature';");
+
+        while ($sql_arr = $db->fetch_assoc($sql_result)) {
+			$result['html'] = $sql_arr['value'];
+            $result['text'] = $sql_arr['value'];
+        }
+		return $result;
+	}
+	
+	function checkAddSignature() {
+		global $RCMAIL;
+        $db = $RCMAIL->get_dbh();
+		$result = [];
+        $sql_result = $db->query( "SELECT * FROM yetiforce_mail_config WHERE `type` = 'signature' AND `name` = 'addSignature';");
+
+        while ($sql_arr = $db->fetch_assoc($sql_result)) {
+			return $sql_arr['value']=='false'?true:false;
+        }
+		return true;
+	}
+	
+	//	Adding attachments
 	public function addFilesToMail() {
 		$COMPOSE_ID = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
 		$uploadid = rcube_utils::get_input_value('_uploadid', rcube_utils::INPUT_GPC);
