@@ -109,7 +109,7 @@ $('#vtmodulemenulink').ready(function() {
                     jQuery('#composebody').val(html + old_body);
                 }
 				if (data.result.hasOwnProperty("attachments")) {
-					rcmail.command('plugin.yt_attachments', data.result.attachments);
+					rcmail.command('yetiforce.addFilesToMail', data.result.attachments);
 				}
             }
         });
