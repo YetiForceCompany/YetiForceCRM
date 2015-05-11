@@ -48,12 +48,12 @@ $languageStrings = [
 	'LBL_PROS' => 'Vorteile',
 	
 	//pick list values
-	'PLL_DRAFT' => '__UNTRANSLATED__',
-	'PLL_IN_REALIZATION' => '__UNTRANSLATED__',
-	'PLL_WAITING_FOR_QUOTATION' => '__UNTRANSLATED__',
-	'PLL_WAITING_FOR_ACCEPTANCE' => '__UNTRANSLATED__',
-	'PLL_ACCEPTED' => '__UNTRANSLATED__',
-	'PLL_REQUIRES_AMENDMENTS' => '__UNTRANSLATED__',
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_IN_REALIZATION' => 'In Berarbeitung',
+	'PLL_WAITING_FOR_QUOTATION' => 'Warten auf Angebot',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'Warten auf Annahme',
+	'PLL_ACCEPTED' => 'Angenommen',
+	'PLL_REQUIRES_AMENDMENTS' => 'benötigt Anpassungen',
 	'PLL_DIFFICULT_REALIZATION' => 'Schwierige Umsetzung',
 	'PLL_DIFFICULT_ORDER' => 'Schwierige Bestellung',
 	'PLL_DIFFICULT_SHIPMENT' => 'Schwierige Lieferung',
