@@ -268,12 +268,12 @@ $languageStrings = [
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',	
 	'LBL_OSSPDF_INFO' => 'Manage PDF settings',
 	'LBL_BACKUP_DESCRIPTION' => 'Criar arquivo de backup.',
-	'LBL_SCHEDULER_DESCRIPTION' => 'Manage Scheduler',
-	'LBL_OSSMAIL_DESCRIPTION' => 'Manage mail client',
-	'LBL_PBXMANAGER_DESCRIPTION' => 'Mange phone calls list',
-	'LBL_MARKETING_PROCESSES_DESCRIPTION' => 'Manage marketing processes',
-	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => 'Manage financial processes',	
-	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Manage calendar config',
+	'LBL_SCHEDULER_DESCRIPTION' => 'Gerenciar Agendador',
+	'LBL_OSSMAIL_DESCRIPTION' => 'Gerenciar Cliente E-mail',
+	'LBL_PBXMANAGER_DESCRIPTION' => 'Gerenciar Lista Chamada Telefônica',
+	'LBL_MARKETING_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Marketing',
+	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Financeiros',
+	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Gerenciar Configuração Agenda',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
