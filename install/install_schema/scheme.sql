@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.01 (64 bit)
+SQLyog Ultimate v12.07 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -2488,7 +2488,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1745 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1746 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -4159,12 +4159,13 @@ CREATE TABLE `vtiger_ossmailview` (
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
   `attachments_exist` varchar(3) DEFAULT '0',
   `rc_user` varchar(3) DEFAULT NULL,
-  `type` int(19) DEFAULT NULL,
+  `type` tinyint(1) DEFAULT NULL,
   `from_id` int(19) DEFAULT NULL,
   `to_id` int(19) DEFAULT NULL,
   `orginal_mail` text,
   `verify` varchar(5) DEFAULT '0',
   `rel_mod` varchar(128) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   PRIMARY KEY (`ossmailviewid`),
   KEY `id` (`id`),
   KEY `message_id` (`uid`),
@@ -4180,6 +4181,18 @@ CREATE TABLE `vtiger_ossmailview_files` (
   KEY `fk_1_vtiger_ossmailview_files` (`ossmailviewid`),
   KEY `documentsid` (`documentsid`),
   CONSTRAINT `fk_1_vtiger_ossmailview_files` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_ossmailview_relation` */
+
+CREATE TABLE `vtiger_ossmailview_relation` (
+  `ossmailviewid` int(19) NOT NULL,
+  `crmid` int(19) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  KEY `ossmailviewid` (`ossmailviewid`),
+  KEY `crmid` (`crmid`,`deleted`),
+  CONSTRAINT `vtiger_ossmailview_relation_ibfk_1` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailview_sendtype` */

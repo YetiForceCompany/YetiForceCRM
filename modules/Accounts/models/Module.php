@@ -118,6 +118,8 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 		} elseif ($functionName === 'get_dependents_list' && $relatedModule->getName() == 'OutsourcedProducts') {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 			$query .= " OR potential IN (SELECT potentialid FROM vtiger_potential INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_potential.potentialid WHERE vtiger_crmentity.deleted = 0 AND related_to = '$recordId')";
+		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
+			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}

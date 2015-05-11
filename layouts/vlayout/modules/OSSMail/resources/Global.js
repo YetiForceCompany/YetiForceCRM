@@ -153,25 +153,28 @@ function load_action(inframe, params) {
         loadQuickCreateForm('HelpDesk', params, inframe);
     });
     $(inframe.find('#message-oss-header .oss-remove-relation')).click(function() {
-        params['rcrmid'] = $(this).attr('data-crmid');
-        params['rmodule'] = $(this).attr('data-module');
-        executeActions('removeRelated', params);
+		var removeParams = {
+			mailId: params['crmid'],
+			crmid: $(this).attr('data-crmid')
+		};
+        executeActions('removeRelated', removeParams);
         load_all_widgets();
     });
     $(inframe.find('#message-oss-header .oss-Related')).click(function() {
+		var relParams = {mailId: params['crmid']};
         if ($(this).attr('data-crmid')) {
-            params['rcrmid'] = $(this).attr('data-crmid');
+            relParams.crmid = $(this).attr('data-crmid');
         }
-        params['rmodule'] = $(this).attr('data-module');
+		var rmodule = $(this).attr('data-module');
         var sourceFieldElement = jQuery('input[name="temp_field"]');
         var PopupParams = {
-            'module': params['rmodule'],
-            'src_module': params['rmodule'],
+            'module': rmodule,
+            'src_module': rmodule,
             'src_field': sourceFieldElement.attr('name'),
             'src_record': '',
             'url': getAbsolutePath() + '/index.php?'
         };
-        showPopup(PopupParams, sourceFieldElement, params, inframe, true);
+        showPopup(PopupParams, sourceFieldElement, relParams, inframe, true);
     });
     $(inframe.find('#message-oss-header .oss-add-modcomments')).click(function() {
         params['rcrmid'] = $(this).attr('data-crmid');
@@ -524,7 +527,7 @@ function find_crm_detail(crm_path, _metod, _param) {
     });
     return resp;
 }
-function showPopup(params, sourceFieldElement, ActionsParams, inframe, reload_widget) {
+function showPopup(params, sourceFieldElement, actionsParams, inframe, reload_widget) {
     var prePopupOpenEvent = jQuery.Event(Vtiger_Edit_Js.preReferencePopUpOpenEvent);
     sourceFieldElement.trigger(prePopupOpenEvent);
     var data = {};
@@ -538,13 +541,13 @@ function showPopup(params, sourceFieldElement, ActionsParams, inframe, reload_wi
             }
             sourceFieldElement.val(data.id);
         }
-        ActionsParams['new_module'] = params['module'];
-        ActionsParams['new_crmid'] = data.id;
+		actionsParams['newModule'] = params['module'];
+        actionsParams['newCrmId'] = data.id;
         if (reload_widget) {
-            executeActions('addRelated', ActionsParams);
+            executeActions('addRelated', actionsParams);
             load_all_widgets();
         } else {
-            get_mail_by_id(inframe, ActionsParams['input'], params['module'], data.id);
+            get_mail_by_id(inframe, actionsParams['input'], params['module'], data.id);
         }
     });
 }
