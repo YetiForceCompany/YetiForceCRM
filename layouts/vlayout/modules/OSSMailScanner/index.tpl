@@ -328,7 +328,7 @@
 		})
         jQuery('.delate_accont').on('click', function(){
             var button = this;
-            if(window.confirm(app.vtranslate('whether_remove_accont'))){
+            if(window.confirm(app.vtranslate('whether_remove_an_identity'))){
                 var ajaxParams = {};
 				var userid = jQuery(this).data('user-id');
                 ajaxParams.data = { module: 'OSSMailScanner', action: "AccontRemove", id: userid },

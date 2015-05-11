@@ -49,13 +49,13 @@ $languageStrings = [
 	'List open email'=>'Wenn Sie auf den Knopf drücken öffnen Sie die',
 	'emailPreviewHeader'=>'Vorschau auf Ihre E-Mail',
 	'Email_list'=>'E-Mail',
-	'Email_list'=>'E-Mail',
     'LBL_CREATEMAIL' => 'E-Mail senden',
     'LBL_OUTCOMING' => 'Ausgehend',
     'LBL_INCOMING' => 'Eingehend',
     'LBL_INTERNAL' => 'Intern',
 	'LBL_REPLYALLL' => 'Allen antworten',
 	'LBL_PRINT' => 'Drucken',
+	'Date of receipt' => '__UNTRANSLATED__',
     
 
 	'LBL_VERIFY' => 'Zur Überprüfung',
