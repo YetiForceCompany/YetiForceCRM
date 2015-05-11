@@ -108,6 +108,9 @@ $('#vtmodulemenulink').ready(function() {
                     var old_body = jQuery('#composebody').val();
                     jQuery('#composebody').val(html + old_body);
                 }
+				if (data.result.hasOwnProperty("attachments")) {
+					rcmail.command('yetiforce.addFilesToMail', data.result.attachments);
+				}
             }
         });
     });

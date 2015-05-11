@@ -62,7 +62,6 @@ $languageStrings = [
 	'List open email'	=>	'Выберите, как открывать письмо',
 	'emailPreviewHeader'	=>	'Предварительный просмотр',
 	'Email_list'	=>	'Просмотр почты',
-	'Email_list'	=>	'Просмотр почты',
 	'LBL_CREATEMAIL'	=>	'Написать Письмо',
 	'LBL_OUTCOMING'	=>	'Исходящие',
 	'LBL_INCOMING'	=>	'Входящие',
@@ -79,6 +78,7 @@ $languageStrings = [
 	'Alert_ChangeType_desc'	=>	'Все виды выбранный адрес электронной почты будет изменен, без возможности отменить изменения.',
 	'LBL_ChangeTypeOK'	=>	'Изменен статус сообщения',
 	'Configuration'	=>	'Настройка просмотра почты',
+	'Date of receipt' => '__UNTRANSLATED__',
 	
 	//dashboards
 	'Graf'	=>	'Письма по статусу',

@@ -14,12 +14,12 @@ $languageStrings = [
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Erlaubt nur Produkte aus der zugeordneten Verkaufschance zu wählen. Wird von folgenden Modulen unterstützt: Kalkulationen, Angebote, Bestellungen und Rechnungen.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Liste der Produkte und Dienstleistungen',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Aktualisiert die geteilten Berechtigungen von Produkten/Dienstleistungen wenn eine Beziehung zwischen Opportunity und Produkt/Dienstleistung angelegt wird.',
-	'LBL_CALCULATIONS' => 'Calculations',
-	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statuses determining that calculation is closed',
-	'LBL_POTENTIALS' => 'Opportunities',
-	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Statuses determining that opportunity is closed',
-	'LBL_ASSETS' => 'Sold products',
-	'LBL_STATUSES_CLOSED_ASSETS' => 'Statuses determining that sold product is closed',
+	'LBL_CALCULATIONS' => 'Kalkulationen',
+	'LBL_STATUSES_CLOSED_CALCULATION' => 'Status der die Kalkulation als beendet definiert',
+	'LBL_POTENTIALS' => 'Verkaufschancen',
+	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Status der die Verkaufschance als beendet definiert',
+	'LBL_ASSETS' => 'Produktverwaltung',
+	'LBL_STATUSES_CLOSED_ASSETS' => 'Status der die Produktverwaltung als beendet definiert',
 ];
 
 

@@ -44,6 +44,8 @@ class ServiceContracts_Module_Model extends Vtiger_Module_Model {
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
 			if ($securityParameter != '')
 				$sql .= $securityParameter;
+		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
+			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {
 			$query = parent::getRelationQuery($recordId, $functionName, $relatedModule, $relationModel);
 		}

@@ -30,12 +30,10 @@ $languageStrings = [
 	'Notes' => 'Notas',
 
 	/*picklist values*/
-	'In Service'=>'Em Serviço',
-	'Out-of-service'=>'Fora Serviço',
 	'Draft'=>'Projeto',
-	'Realization proceeding'=>'Em execução',
-	'Warranty proceeding'=>'Garantia',
-	'Delivered to Organization'=>'Entregue',
+	'Realization proceeding'=>'Warranty support',
+	'Warranty proceeding'=>'Post-warranty support',
+	'Delivered to Organization'=>'No support',
 
 	//YetiForce
 	'description'=>'Descrição',
