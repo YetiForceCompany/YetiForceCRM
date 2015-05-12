@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'Jeśli pole ścieżka jest puste, backup zostanie zapisany w głównym folderze',
 	'LBL_EMAIL_NOTIFICATIONS' => 'Powiadomienia e-mail',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
+	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
 ];
 
 $jsLanguageStrings = [

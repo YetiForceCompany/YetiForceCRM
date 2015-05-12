@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'Se o campo Caminho estiver vazio, o backup será salvo na pasta principal',
 	'LBL_EMAIL_NOTIFICATIONS' => 'Notificações por e-mail',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
+	'LBL_SAVE_CHANGES' => 'Alterações salvas',
 
 ];
 
