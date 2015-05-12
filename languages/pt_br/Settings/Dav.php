@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_KEY' => 'Chave',
 	'LBL_SELECT_USER' => 'Escolha um Usuário:',
 	'LBL_ALERT_DAV_NO_ACTIVE_TITLE' => 'Aplicação DAV não está ativa',
-	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'A aplicação DAV ainda não foi ativado, por favor, ative o "DAV" no arquivo config/api.php',
+	'LBL_ALERT_DAV_NO_ACTIVE_DESC' => 'A aplicação DAV ainda não foi ativada, por favor, ative o "DAV" no arquivo config/api.php',
 	'LBL_SUCCESS_SAVE_KEY' => 'Nova chave foi adicionada',
 	'LBL_ERROR_SAVE_KEY' => 'Erro na chave adicionada',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'Alterações gravadas',
@@ -31,7 +31,7 @@ $languageStrings = [
 	'LBL_COUNT_CARD' => 'Número de Contatos',
 	'LBL_COUNT_CAL' => 'Número de Eventos',
 	
-	'LBL_VIEW_KEYS' => 'Chaves Aplicativo DAV',
+	'LBL_VIEW_KEYS' => 'Chaves DAV',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Adicionar Chave',
