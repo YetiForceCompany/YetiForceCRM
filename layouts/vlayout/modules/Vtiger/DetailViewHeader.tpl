@@ -41,22 +41,25 @@
 							</span>
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
-							<span class="btn-group">
-								<button class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
-								</button>
-								<ul class="dropdown-menu pull-right">
-									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-									{if $DETAIL_VIEW_LINK->getLabel() eq ""} 
-										<li class="divider"></li>	
-									{else}
-									<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-										<a href={$DETAIL_VIEW_LINK->getUrl()} {if $DETAIL_VIEW_LINK->linktarget}target="{$DETAIL_VIEW_LINK->linktarget}"{/if} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
-									</li>
-									{/if}
-									{/foreach}
-								</ul>
-							</span>
+								{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
+									{if $DETAIL_VIEW_LINK->getLabel() neq "" OR $DETAIL_VIEW_LINK->linkicon neq ""} 
+										<span class="btn-group">
+											<button class="btn {if $DETAIL_VIEW_LINK->linkhint neq ''}popoverTooltip{/if}" 
+												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}
+												{if strpos($DETAIL_VIEW_LINK->getUrl(),'javascript:') !== FALSE}
+													onclick="{$DETAIL_VIEW_LINK->getUrl()}">
+												{else}
+													onclick="window.open('{$DETAIL_VIEW_LINK->getUrl()}','{if $DETAIL_VIEW_LINK->linktarget}{$DETAIL_VIEW_LINK->linktarget}{else}_self{/if}')">
+												{/if}
+												{if $DETAIL_VIEW_LINK->linkicon neq ''}
+													<i class="{$DETAIL_VIEW_LINK->linkicon}"></i> 
+												{else}
+													{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}
+												{/if}
+											</button>
+										</span>
+									{/if}	
+								{/foreach}
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">

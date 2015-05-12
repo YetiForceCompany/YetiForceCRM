@@ -26,9 +26,9 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_GENERATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
+				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => ''
+				'linkicon' => 'icon-list-alt'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -37,9 +37,9 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_GENERATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
+				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-				'linkicon' => ''
+				'linkicon' => 'icon-briefcase'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
