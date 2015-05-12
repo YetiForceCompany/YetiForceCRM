@@ -14,23 +14,23 @@
 {if count($DATA) gt 0 }
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/all_days.png" alt="All days" data-placement="right" data-content="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/all_days.png" alt="All days" title="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">{$ALLDAYS}</span>
 		</span>
 		<span class="summary-detail">
 			<span>
-				<i style="margin-top:6px; vertical-align:top;" class="icon-calendar popoverTooltip"  data-placement="right"  data-content="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></i>
+				<i style="margin-top:6px; vertical-align:top;" class="icon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></i>
 			</span>
 			<span class="summary-text">{$WORKDAYS}</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" data-placement="right" data-content="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
+			<img class=" summary-img" src="layouts/vlayout/skins/images/weekend_days.png" alt="Weekend days" title="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
 			<span class="summary-text">
 			{$WEEKENDDAYS}
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" data-placement="right" data-content="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/ecclesiastical.png" alt="Ecclesiastical" title="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $ECCLESIASTICAL}
 					{$ECCLESIASTICAL}
@@ -40,7 +40,7 @@
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" data-placement="right" data-content="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img"  src="layouts/vlayout/skins/images/national.png" alt="National" title="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $NATIONAL}
 					{$NATIONAL}
@@ -53,7 +53,7 @@
 	</div>
 	<div class="summary-right pull-right" style="text-align:center;">
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/worked_days.png" alt="Worked days" data-placement="right"  data-content="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/worked_days.png" alt="Worked days" title="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $WORKEDDAYS}
 					{$WORKEDDAYS}
@@ -63,7 +63,7 @@
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/holiday_days.png" alt="Holiday days" data-content="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/holiday_days.png" alt="Holiday days" title="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $HOLIDAYDAYS}
 					{$HOLIDAYDAYS}
@@ -73,7 +73,7 @@
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/average_working_time.png" alt="Average working time" data-content="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/average_working_time.png" alt="Average working time" title="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{if $AVERAGEWORKTIME}
 					{$AVERAGEWORKTIME}
@@ -83,7 +83,7 @@
 			</span>
 		</span>
 		<span class="summary-detail">
-			<img class="popoverTooltip summary-img" src="layouts/vlayout/skins/images/average_break_time.png" alt="Average breaking time" data-content="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
+			<img class=" summary-img" src="layouts/vlayout/skins/images/average_break_time.png" alt="Average breaking time" title="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
 			<span class="summary-text">
 				{$AVERAGEBREAKTIME}
 			</span>
@@ -109,7 +109,4 @@
 	margin-right: 7px;
 }
 </style>
-<script type="text/javascript">
-	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
-</script>
 {/strip}

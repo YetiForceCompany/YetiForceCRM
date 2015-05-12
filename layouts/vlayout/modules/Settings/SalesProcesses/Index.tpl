@@ -51,6 +51,10 @@
 			<table class="table table-bordered table-condensed themeTableColor userTable listViewEntries">
 				<tbody>
 					<tr>
+						<td><label for="add_potential">{vtranslate('LBL_CREATE_POTENTIALS',$QUALIFIED_MODULE)}</label></td>
+						<td><input class="configField" type="checkbox" data-type="potential" name="add_potential" id="add_potential" value="1"  {if $POTENTIALS['add_potential']=='true'}checked=""{/if} /></td>
+					</tr>
+					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_POTENTIAL', $QUALIFIED_MODULE)}</label></td>
 						<td>
 							<select class="chzn-select span8 configField" multiple data-type="potential" name="salesstage">

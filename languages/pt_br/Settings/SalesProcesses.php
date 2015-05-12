@@ -20,4 +20,5 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Os status indicam que a Oportunidade está fechada',
 	'LBL_ASSETS' => 'Produtos Vendidos',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Os status indicam que o Produto Vendido está fechado',
+	'LBL_CREATE_POTENTIALS' => 'A criação de Oportunidades para Contas/Organizaçõe, na qual o Responsável não é um Usuário, foi bloqueada',
 ];

@@ -11,6 +11,8 @@
 class OSSMailView_Relation_Model extends Vtiger_Relation_Model {
 	public function addRelation($sourcerecordId, $destinationRecordId) {
 		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?;",  [$sourcerecordId, $destinationRecordId]);
+		$recordModel = Vtiger_Record_Model::getInstanceById( $sourcerecordId, 'OSSMailView' );
+		$date = $recordModel->get('date');
+		$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?, date=?;",  [$sourcerecordId, $destinationRecordId, $date]);
 	}
 }

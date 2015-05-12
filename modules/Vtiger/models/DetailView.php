@@ -104,32 +104,11 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 		}
-
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(),$linkTypes,$linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
-
-		if(Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId) && $recordPermissionToEditView) {
-			$deletelinkModel = array(
-					'linktype' => 'DETAILVIEW',
-					'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_'. $moduleName, $moduleName)),
-					'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
-					'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
-		}
-
-		if(Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord')) {
-			$duplicateLinkModel = array(
-						'linktype' => 'DETAILVIEWBASIC',
-						'linklabel' => 'LBL_DUPLICATE',
-						'linkurl' => $recordModel->getDuplicateRecordUrl(),
-						'linkicon' => ''
-				);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
-		}
 
 		if(!empty($detailViewBasiclinks)) {
 			foreach($detailViewBasiclinks as $linkModel) {

@@ -17,8 +17,15 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
         global $log;
         $newBackup = Settings_BackUp_Module_Model::clearBackupFilesTable();
         $log->info('Settings_BackUp_CreateFileBackUp_Action::process - Start files backup');
-        $dirs = array_filter(array_merge(glob('*'), glob('.htaccess')));
-        $dirs = array_diff($dirs, array( Settings_BackUp_Module_Model::$destDir, 'cache' ));
+		$dirsFromConfig = Settings_BackUp_Module_Model::getConfig('folder');
+		$dirsDiffConfig = '';
+		$dirs = array_filter(array_merge(glob('*'), glob('.htaccess'))); 
+		$dirs = array_diff($dirs, array('cache'));
+		if('true' != $dirsFromConfig['storage_folder'])
+			$dirs = array_diff($dirs, ['storage']);
+		if('true' != $dirsFromConfig['backup_folder'])
+			$dirs = array_diff($dirs, [Settings_BackUp_Module_Model::$destDir]);
+
         $dbDirs = Settings_BackUp_Module_Model::getDirs();
         $newDirs = array();
         $count = 0;

@@ -62,7 +62,10 @@ class OSSMail_compose_View extends Vtiger_Index_View{
 		if($url == '' && $request->get('record') != '' && $request->get('mod') != ''){
 			$UrlToCompose = OSSMail_Record_Model::getUrlToCompose( $request->get('mod'), $request->get('record') );
 			$url .= $UrlToCompose;
-		}		
+		}
+		if($url == '' && $request->get('id') != '' && $request->get('type') != ''){
+			$url .= '&crmid=' . (int)$request->get('id') . '&type=' . $request->get('type');
+		}
 		$mainUrl = OSSMail_Record_Model::GetSite_URL().'modules/OSSMail/roundcube/?_task=mail&_action=compose';
 		$url = $mainUrl.$url;
 		$config = Settings_Mail_Config_Model::getConfig('autologin');

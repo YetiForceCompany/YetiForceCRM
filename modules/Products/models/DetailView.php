@@ -27,9 +27,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 			if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
 				$basicActionLink = array(
 						'linktype' => 'DETAILVIEW',
-						'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($quotesModuleModel->getSingularLabelKey(), 'Quotes'),
+						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateQuoteUrl(),
-						'linkicon' => ''
+						'linkicon' => 'icon-briefcase'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -38,9 +38,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 			if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
 				$basicActionLink = array(
 						'linktype' => 'DETAILVIEW',
-						'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
+						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateInvoiceUrl(),
-						'linkicon' => ''
+						'linkicon' => 'icon-list-alt'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -49,9 +49,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 			if($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'EditView')) {
 				$basicActionLink = array(
 						'linktype' => 'DETAILVIEW',
-						'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
+						'linklabel' => '',
 						'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-						'linkicon' => ''
+						'linkicon' => 'icon-barcode'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -60,9 +60,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 			if($currentUserModel->hasModuleActionPermission($salesOrderModuleModel->getId(), 'EditView')) {
 				$basicActionLink = array(
 						'linktype' => 'DETAILVIEW',
-						'linklabel' =>  vtranslate('LBL_CREATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
+						'linklabel' =>  '',
 						'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-						'linkicon' => ''
+						'linkicon' => 'icon-shopping-cart'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}

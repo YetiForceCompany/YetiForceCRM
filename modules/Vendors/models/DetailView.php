@@ -28,9 +28,9 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_EMAIL',
+				'linklabel' => '',
 				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
-				'linkicon' => '',
+				'linkicon' => 'icon-envelope',
 				'linktarget' => '_blank'
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -39,9 +39,9 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($purchaseOrderModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
+				'linklabel' => '',
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-				'linkicon' => ''
+				'linkicon' => 'icon-list-alt'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

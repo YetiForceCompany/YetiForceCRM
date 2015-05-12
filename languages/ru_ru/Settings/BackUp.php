@@ -39,6 +39,12 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'Если поле (Путь для сохранения) пустое, резервная копия будет сохраняться в корневую папку системы',
 	'LBL_EMAIL_NOTIFICATIONS' => 'Уведомление по Почте',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
+	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
+	'LBL_GENERAL_SETTINGS' => 'General settings',
+	'LBL_STORAGEFOLDER_INFO' => 'Do you want to make a backup of storage folder',
+	'LBL_BACKUPFOLDER_INFO' => 'Do you want to make a backup of backup folder',
+	'LBL_VALUES' => 'Values',
+	'LBL_DETAIL' => 'Detail',
 ];
 
 $jsLanguageStrings = [

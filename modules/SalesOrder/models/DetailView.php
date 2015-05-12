@@ -26,9 +26,9 @@ class SalesOrder_DetailView_Model extends Inventory_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($invoiceModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
+				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => ''
+				'linkicon' => 'icon-list-alt'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

@@ -964,6 +964,20 @@ CREATE TABLE `vtiger_backup_ftp` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_backup_settings` */
+
+CREATE TABLE `vtiger_backup_settings` (
+  `type` varchar(100) DEFAULT NULL,
+  `param` varchar(100) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_backup_users` */
+
+CREATE TABLE `vtiger_backup_users` (
+  `id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_blocks` */
 
 CREATE TABLE `vtiger_blocks` (

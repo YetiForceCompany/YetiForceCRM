@@ -68,6 +68,7 @@ $languageStrings = [
 	'Internal'	=>	'Внутренний',
 	'LBL_REPLYALLL'	=>	'Ответить всем',
 	'LBL_PRINT'	=>	'Печатать',
+	'LBL_FORWARD' => '__UNTRANSLATED__',
 	'LBL_VERIFY'	=>	'Контроллер',
 	'LBL_REL_MOD'	=>	'Связанный модуль',
 	'LBL_BindMailsOK'	=>	'Помеченные письма на связываются, при следующем запуске обработчика сообщение будет связано с записью',

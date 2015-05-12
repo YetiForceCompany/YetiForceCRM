@@ -55,9 +55,11 @@ class Vtiger_Menu_Model{
 		if (count($menus) == 0) {
 			require('user_privileges/menu_0.php');
 		}
-
+		if($request->get('parent') == 'Settings'){
+			$moduleName = 'Settings:';
+		}
 		$breadcrumbsOn = $purl = false;
-		$module = $request->get('module');
+		$moduleName .= $module = $request->get('module');
 		$view = $request->get('view');
 
 		if ($request->get('parent') != '' && $request->get('parent') != 'Settings') {
@@ -66,15 +68,15 @@ class Vtiger_Menu_Model{
 				$breadcrumbs = array_reverse($parentMenu);
 			}
 		} elseif ($request->get('parent') == 'Settings') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_SETTINGS', $module) ];
+			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_SETTINGS', $moduleName) ];
 		}
-		$breadcrumbs[] = [ 'name' => vtranslate($module, $module)];
+		$breadcrumbs[] = [ 'name' => vtranslate($module, $moduleName)];
 		if ($view == 'Edit' && $request->get('record') == '') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $module) ];
+			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName) ];
 		} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $module)];
+			$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 		} elseif ($view == '') {
-			$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $module)];
+			$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
 		}
 		if ($request->get('record') != '') {
 			$recordLabel = Vtiger_Functions::getCRMRecordLabel($request->get('record'));

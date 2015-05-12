@@ -12,7 +12,12 @@
 class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	static $tempDir = 'cache/backup';
 	static $destDir = 'backup';
-	
+
+	public static function getCleanInstance() {
+		$instance = new self();
+		return $instance;
+	}
+
     public static function getBackUps($offset = null, $limit = null) {
         $adb = PearDatabase::getInstance();
         $query = ('SELECT * FROM vtiger_backup  ORDER BY created_at DESC');
@@ -521,5 +526,34 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		}else{
 			$log->debug('Settings_BackUp_Module_Model Users notificastions list - empty');
 		}
+	}
+
+	public function updateSettings($params){
+		global $log;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$params['val'], $params['param']]);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+		return true;
+	}
+
+	public static function getConfig($type) {
+		$db = PearDatabase::getInstance();
+
+		$result = $db->pquery('SELECT * FROM vtiger_backup_settings WHERE type = ?;', [$type]);
+		if ($db->num_rows($result) == 0) {
+			return [];
+		}
+		$config = [];
+		for ($i = 0; $i < $db->num_rows($result); ++$i) {
+			$param = $db->query_result_raw($result, $i, 'param');
+			$value = $db->query_result_raw($result, $i, 'value');
+			if ($param == 'users') {
+				$config[$param] = $value == '' ? [] : explode(',', $value);
+			} else {
+				$config[$param] = $value;
+			}
+		}
+		return $config;
 	}
 }

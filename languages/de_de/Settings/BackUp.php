@@ -36,6 +36,12 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird die Datensicherung im Hauptordner gespeichert',
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
+	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
+	'LBL_GENERAL_SETTINGS' => 'General settings',
+	'LBL_STORAGEFOLDER_INFO' => 'Do you want to make a backup of storage folder',
+	'LBL_BACKUPFOLDER_INFO' => 'Do you want to make a backup of backup folder',
+	'LBL_VALUES' => 'Values',
+	'LBL_DETAIL' => 'Detail',
 ];
 
 $jsLanguageStrings = [

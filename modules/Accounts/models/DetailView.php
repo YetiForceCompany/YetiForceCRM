@@ -29,9 +29,9 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_EMAIL',
+				'linklabel' => '',
 				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
-				'linkicon' => '',
+				'linkicon' => 'icon-envelope',
 				'linktarget' => '_blank'
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -56,39 +56,17 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => 'LBL_ADD_EVENT',
+					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => ''
+					'linkicon' => 'icon-time'
 			);
 
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => 'LBL_ADD_TASK',
+					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => ''
+					'linkicon' => 'icon-calendar'
 			);
-		}
-
-		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
-		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
-			$basicActionLink = array(
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$moduleName.'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-		
-		
-		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
-			$massActionLink = array(
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => ''
-			);
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
 
         foreach($CalendarActionLinks as $basicLink) {

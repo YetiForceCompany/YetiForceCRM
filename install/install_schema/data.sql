@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
-MySQL - 5.6.17 : Database - yetiforce
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.6.17 : Database - yetiforcecrm
 *********************************************************************
 */
 
@@ -407,6 +407,13 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 /*Data for the table `vtiger_backup_dir` */
 
 /*Data for the table `vtiger_backup_ftp` */
+
+/*Data for the table `vtiger_backup_settings` */
+
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
+
+/*Data for the table `vtiger_backup_users` */
 
 /*Data for the table `vtiger_blocks` */
 
@@ -1154,7 +1161,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5091,9 +5098,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5295,10 +5302,9 @@ insert  into `vtiger_lin_type_ship_seq`(`id`) values (14);
 
 /*Data for the table `vtiger_links` */
 
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (1,6,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','themes/images/bookMark.gif',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (2,6,'DETAILVIEWBASIC','LBL_SHOW_ACCOUNT_HIERARCHY','index.php?module=Accounts&action=AccountHierarchy&accountid=$RECORD$','',0,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (3,7,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','themes/images/bookMark.gif',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (4,4,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','themes/images/bookMark.gif',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (1,6,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','icon-file',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (3,7,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','icon-file',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (4,4,'DETAILVIEWBASIC','LBL_ADD_NOTE','index.php?module=Documents&action=EditView&return_module=$MODULE$&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','icon-file',0,'modules/Documents/Documents.php','Documents','isLinkPermitted');
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (5,0,'HEADERSCRIPT','Incoming Calls','modules/PBXManager/resources/PBXManagerJS.js','',0,'modules/PBXManager/PBXManager.php','PBXManager','checkLinkPermission');
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (11,7,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (12,4,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
@@ -5353,10 +5359,10 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (105,2,'DASHBOARDWIDGET','Funnel Amount','index.php?module=Potentials&view=ShowWidget&name=FunnelAmount','',10,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (106,3,'DASHBOARDWIDGET','Funnel Amount','index.php?module=Potentials&view=ShowWidget&name=FunnelAmount','',10,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (107,3,'DASHBOARDWIDGET','Notebook','index.php?module=Home&view=ShowWidget&name=Notebook','',18,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (110,42,'DETAILVIEWBASIC','Add Note','index.php?module=Documents&action=EditView&return_module=ProjectTask&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (110,42,'DETAILVIEWBASIC','Add Note','index.php?module=Documents&action=EditView&return_module=ProjectTask&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','icon-file',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (111,42,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (112,43,'DETAILVIEWBASIC','Add Project Task','index.php?module=ProjectTask&action=EditView&projectid=$RECORD$&return_module=Project&return_action=DetailView&return_id=$RECORD$','',0,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (113,43,'DETAILVIEWBASIC','Add Note','index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','',1,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (112,43,'DETAILVIEWBASIC','Add Project Task','index.php?module=ProjectTask&action=EditView&projectid=$RECORD$&return_module=Project&return_action=DetailView&return_id=$RECORD$','icon-tasks',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (113,43,'DETAILVIEWBASIC','Add Note','index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=$RECORD$&parent_id=$RECORD$','icon-file',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (114,43,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (115,45,'DETAILVIEWBASIC','LBL_CHECK_STATUS','javascript:SMSNotifier.checkstatus($RECORD$)','themes/images/reload.gif',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (116,45,'HEADERSCRIPT','SMSNotifierCommonJS','modules/SMSNotifier/SMSNotifierCommon.js','',0,NULL,NULL,NULL);
@@ -5413,7 +5419,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (191,43,'LISTVIEWSIDEBARWIDGET','LBL_GENERATE_FROM_TEMPLATE','module=OSSProjectTemplates&view=GenerateProject','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (192,59,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (193,60,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,'modules/ModTracker/ModTracker.php','ModTracker','isViewPermitted');
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (194,61,'DETAILVIEWBASIC','LBL_SHOW_EMPLOYEES_HIERARCHY','index.php?module=OSSEmployees&action=EmployeeHierarchy&ossemployeesid=$RECORD$','',0,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (194,61,'DETAILVIEWBASIC','LBL_SHOW_EMPLOYEES_HIERARCHY','index.php?module=OSSEmployees&action=EmployeeHierarchy&ossemployeesid=$RECORD$','icon-user',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (195,61,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (196,70,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (197,71,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,NULL,NULL,NULL);
@@ -5454,7 +5460,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (231);
+insert  into `vtiger_links_seq`(`id`) values (155);
 
 /*Data for the table `vtiger_loginhistory` */
 
@@ -15490,14 +15496,14 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (191,2,51,'get_dependents_list',7,'OSSTimeControl',0,'ADD');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (192,20,51,'get_dependents_list',6,'OSSTimeControl',0,'ADD');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (193,54,8,'get_attachments',1,'Documents',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (194,54,6,'get_related_list',2,'Accounts',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (195,54,4,'get_related_list',3,'Contacts',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (196,54,7,'get_related_list',4,'Leads',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (197,54,2,'get_related_list',5,'Potentials',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (198,54,13,'get_related_list',6,'HelpDesk',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (199,54,43,'get_related_list',7,'Project',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (200,54,34,'get_related_list',8,'ServiceContracts',0,'ADD,SELECT');
-insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (201,54,26,'get_related_list',9,'Campaigns',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (194,54,6,'get_accounts_mail',2,'Accounts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (195,54,4,'get_contacts_mail',3,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (196,54,7,'get_leads_mail',4,'Leads',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (197,54,2,'get_potentials_mail',5,'Potentials',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (198,54,13,'get_helpdesk_mail',6,'HelpDesk',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (199,54,43,'get_project_mail',7,'Project',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (200,54,34,'get_servicecontracts_mail',8,'ServiceContracts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (201,54,26,'get_campaigns_mail',9,'Campaigns',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (207,34,54,'get_related_list',6,'OSSMailView',0,'SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (208,13,54,'get_related_list',10,'OSSMailView',0,'SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (209,2,54,'get_related_list',11,'OSSMailView',0,'SELECT');
@@ -21885,6 +21891,7 @@ insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','upd
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','salesstage','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','add_potential','false');
 
 /*Data for the table `yetiforce_updates` */
 
