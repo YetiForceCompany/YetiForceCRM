@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -21885,6 +21885,7 @@ insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','upd
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','salesstage','');
 insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');
+insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','add_potential','false');
 
 /*Data for the table `yetiforce_updates` */
 

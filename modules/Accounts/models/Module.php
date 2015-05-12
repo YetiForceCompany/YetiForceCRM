@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ************************************************************************************/
 
 class Accounts_Module_Model extends Vtiger_Module_Model {
@@ -48,7 +49,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery) {
 		if (($sourceModule == 'Accounts' && $field == 'account_id' && $record)
-				|| in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails'))) {
+				|| in_array($sourceModule, array('Campaigns', 'Products', 'Services', 'Emails','Potentials'))) {
 
 			if ($sourceModule === 'Campaigns') {
 				$condition = " vtiger_account.accountid NOT IN (SELECT accountid FROM vtiger_campaignaccountrel WHERE campaignid = '$record')";
@@ -58,6 +59,21 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 				$condition = " vtiger_account.accountid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid = '$record' UNION SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid = '$record') ";
 			} elseif ($sourceModule === 'Emails') {
 				$condition = ' vtiger_account.emailoptout = 0';
+			
+			}elseif ($sourceModule === 'Potentials') {
+				$config = Settings_SalesProcesses_Module_Model::getConfig('potential');
+				if($config['add_potential']){
+					$currentUser = Users_Record_Model::getCurrentUserModel();
+					$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
+					$condition = " vtiger_crmentity.smownerid NOT IN (".  implode(',',array_keys($accessibleGroups)).")";
+					$pos = stripos($listQuery, 'where');
+					if ($pos) {
+						$overRideQuery = $listQuery. ' AND ' . $condition;
+					} else {
+						$overRideQuery = $listQuery . ' WHERE ' . $condition;
+					}
+					return $overRideQuery;
+				}
 			} else {
 				$condition = " vtiger_account.accountid != '$record'";
 			}
