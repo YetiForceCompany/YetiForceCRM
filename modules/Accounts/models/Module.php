@@ -62,17 +62,12 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 			
 			}elseif ($sourceModule === 'Potentials') {
 				$config = Settings_SalesProcesses_Module_Model::getConfig('potential');
-				if($config['add_potential']){
-					$currentUser = Users_Record_Model::getCurrentUserModel();
-					$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
+				$currentUser = Users_Record_Model::getCurrentUserModel();
+				$accessibleGroups = $currentUser->getAccessibleGroupForModule('Accounts');
+				if($config['add_potential'] && $accessibleGroups){
 					$condition = " vtiger_crmentity.smownerid NOT IN (".  implode(',',array_keys($accessibleGroups)).")";
-					$pos = stripos($listQuery, 'where');
-					if ($pos) {
-						$overRideQuery = $listQuery. ' AND ' . $condition;
-					} else {
-						$overRideQuery = $listQuery . ' WHERE ' . $condition;
-					}
-					return $overRideQuery;
+				} else {
+					return $listQuery;
 				}
 			} else {
 				$condition = " vtiger_account.accountid != '$record'";
