@@ -10,7 +10,11 @@
 						<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_OPEN',$WIDGET['relatedmodule'])}" data-off-text="{vtranslate('LBL_ARCHIVE',$WIDGET['relatedmodule'])}">
 					</div>
 					<div class="span4" align="right">
-						<a class="btn" href="index.php?module={$WIDGET['relatedmodule']}&view=Edit">
+						{assign var="RELFIELD" value=''}
+						{if $RECORD->getModuleName() == 'Potentials'}
+							{assign var="RELFIELD" value='&potentialid='|cat:$RECORD->getId()}
+						{/if}
+						<a class="btn" href="index.php?module={$WIDGET['relatedmodule']}&view=Edit&sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true{$RELFIELD}">
 							<strong>{vtranslate('LBL_ADD',$MODULE_NAME)}</strong>
 						</a>
 					</div>
