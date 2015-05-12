@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista de e-mails',
 
 	// Blocks
-	'LBL_INFORMATION' => 'Infomação geral',
+	'LBL_INFORMATION' => 'Informação geral',
 
 	//Field Labels
     'relatedid' => 'Relacionado à',
