@@ -37,8 +37,8 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'A configuração foi salva',
 	'LBL_LDAP_DOMAIN' => 'Domínio (adicionado automaticamente ao acessar)',
 	
-	'LBL_VIEW_AUTH' => 'Authorization',
-	'LBL_VIEW_COLORS' => 'Colors',
+	'LBL_VIEW_AUTH' => 'Autorização',
+	'LBL_VIEW_COLORS' => 'Cores',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',

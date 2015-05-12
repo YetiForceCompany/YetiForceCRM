@@ -57,8 +57,8 @@ $languageStrings = [
     'LBL_INTERNAL' => 'Interno',
 	'LBL_REPLYALLL' => 'Responder para todos',
 	'LBL_PRINT' => 'Impressão',
-	'Date of receipt' => 'Received date',
-	'LBL_FORWARD' => 'Forward',
+	'Date of receipt' => 'Dados recebidor',
+	'LBL_FORWARD' => 'Avançar',
 
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',

@@ -9,10 +9,10 @@
  * All Rights Reserved. Contibutor: Valmir Carlos Trindade - Brazilian Language Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'MobileApps' => 'Aplicativos Celular',
+	'MobileApps' => 'Aplicativos Dispositivos Móveis',
 	'LBL_MOBILE_CALLLISTENER' => 'Conexões escutadas',
- 	'LBL_MOBILE_KEYS' => 'Chaves aplicação Celular',
- 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves para aplicações de Celular.',
+ 	'LBL_MOBILE_KEYS' => 'Chaves aplicação Dispositivo Móvel',
+ 	'LBL_MOBILE_KEYS_DESCRIPTION' => 'Criar e gerenciar chaves de aplicações para dispositivos Móveis.',
  	'LBL_USERNAME' => 'Usuário',
  	'LBL_SERVICE' => 'Aplicação',
  	'LBL_KEY' => 'Chave',
@@ -27,15 +27,15 @@ $languageStrings = [
  	'LBL_DUPLICATE_USER_SERVICES' => 'A chave para esta aplicação já existe.',
  	'LBL_KEY_HAS_BEEN_REMOVED' => 'A chave foi apagada',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'As mudanças foram salvas com sucesso',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'A aplicação para Celular não está ativa',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'A aplicação para Celular ainda não foi ativada, por favor, habilite o arquivo "mobile" em api/config.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'A aplicação para dispositivo móvel não está ativa',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'A aplicação para dispositivo móvel ainda não foi ativada, por favor, habilite o arquivo "mobile" em api/config.php',
 
  	// Mobile services
- 	'LBL_MOBILE_HISTORYCALL' => 'Histórico chamadas Celular',
+ 	'LBL_MOBILE_HISTORYCALL' => 'Histórico chamadas Dispositivos Móveis',
  	'LBL_MOBILE_PUSHCALL' => 'Discagem automática do número',
-	'LBL_MOBILE_CALLLISTENER' => 'Destinatário chamada Celular',
+	'LBL_MOBILE_CALLLISTENER' => 'Destinatário chamada Dispositivo Móvel',
 	
-	'LBL_VIEW_MOBILEKEYS' => 'Mobile Applikation Keys',
+	'LBL_VIEW_MOBILEKEYS' => 'Chaves Aplicação Dispositivo Móvel',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Adicionar chave',

@@ -211,18 +211,22 @@ function load_action(inframe, params) {
         showPopup(PopupParams, sourceFieldElement, relParams, inframe, true);
     });
     $(inframe.find('#message-oss-header .oss-add-services')).click(function() {
-        params['rel_new_mod'] = $(this).attr('data-module')
-        params['rel_new_id'] = $(this).attr('data-crmid')
-        params['module'] = 'Services';
+		var module = 'Services';
+		var relParams = {
+			mailId: params['crmid'],
+			newModule: 'Products',
+			mod: $(this).attr('data-module'),
+			crmid: $(this).attr('data-crmid'),
+		};
         var sourceFieldElement = jQuery('input[name="temp_field"]');
         var PopupParams = {
-            'module': params['module'],
-            'src_module': params['module'],
+            'module': module,
+            'src_module': module,
             'src_field': sourceFieldElement.attr('name'),
             'src_record': '',
             'url': getAbsolutePath() + '/index.php?'
         };
-        showPopup(PopupParams, sourceFieldElement, params, inframe, true);
+        showPopup(PopupParams, sourceFieldElement, relParams, inframe, true);
     });
     $(inframe.find('#moreheaderstoggle .oss-reload-bar')).click(function() {
         load_all_widgets();
@@ -623,10 +627,10 @@ function loadQuickCreateForm(moduleName, params, inframe) {
 		}
 		var links = ['Leads','Contacts','Vendors','Accounts'];
 		var process = ['Campaigns','HelpDesk','Potentials','Project','ServiceContracts'];
-		if ($.inArray( params['sourceModule'], links ) > 0) {
+		if ($.inArray( params['sourceModule'], links ) >= 0) {
 			relatedParams['link'] =  params['crmid'];
 		}
-		if ($.inArray( params['sourceModule'], process ) > 0) {
+		if ($.inArray( params['sourceModule'], process ) >= 0) {
 			relatedParams['process'] =  params['crmid'];
 		}
     }

@@ -9,7 +9,7 @@
  * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Calendar' => 'Calendar',
+	'Calendar' => 'Agenda',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Tipos Atividades',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Gerencimaneto Tipos de Atividades.',
@@ -34,8 +34,8 @@ $languageStrings = [
 	'LBL_UPDATE_EVENT' => 'Atualizar o Evento na Agena quando reagendado.',
 	'LBL_GENERATE_COLOR' => 'Gerar cor aleatória',
 	'LBL_GENERATED_COLOR' => 'Cor gerada',
-	'LBL_NOTWORKING_DAYS' => 'Not working days',
-	'LBL_NOTWORKEDDAYS_INFO' => 'Not working days',
+	'LBL_NOTWORKING_DAYS' => 'Não é dia útil',
+	'LBL_NOTWORKEDDAYS_INFO' => 'Não são dias úteis',
 	'PLL_MONDAY' => 'Segunda',
 	'PLL_TUESDAY' => 'Terça',
 	'PLL_WEDNESDAY' => 'Quarta',
@@ -44,8 +44,8 @@ $languageStrings = [
 	'PLL_SATURDAY' => 'Sábado',
 	'PLL_SUNDAY' => 'Domingo',
 	
-	'LBL_VIEW_USERCOLORS' => 'Calendar configuration',
-	'LBL_VIEW_ACTIVITYTYPES' => 'Activity Types',
+	'LBL_VIEW_USERCOLORS' => 'Configuração Agenda',
+	'LBL_VIEW_ACTIVITYTYPES' => 'Tipos de Atividade',
 ];
 $jsLanguageStrings = [
 
