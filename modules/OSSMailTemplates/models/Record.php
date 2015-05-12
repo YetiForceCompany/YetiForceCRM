@@ -28,14 +28,13 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model {
         $output['subject'] = $row['subject'];
         $output['content'] = $row['content'];
 		
-		$query ='SELECT vtiger_seattachmentsrel.attachmentsid FROM vtiger_seattachmentsrel '
-		. 'INNER JOIN vtiger_senotesrel ON vtiger_senotesrel.notesid=vtiger_seattachmentsrel.crmid '
-		. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
-				. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
+		$query ='SELECT notesid FROM vtiger_senotesrel '
+			. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_senotesrel.notesid '
+			. 'WHERE vtiger_crmentity.deleted = 0 AND vtiger_senotesrel.crmid = ?';
 		$res = $db->pquery($query, [$id]);
 		$aid = [];
 		for($i = 0; $i < $db->num_rows($res); $i++){
-			$aid[] = $db->query_result_raw($res, $i, 'attachmentsid');
+			$aid[] = $db->query_result_raw($res, $i, 'notesid');
 		}
 		if(count($aid) > 0){
 			$output['attachments'] = ['ids' => $aid];
