@@ -14,11 +14,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-ini_set('html_errors', 1);
-ini_set('display_startup_errors', 1);	
-ini_set( 'display_errors', 'On' ); 
-error_reporting( E_ALL);
-
 $required_php_exts = array(
     'PCRE'      => 'pcre',
     'DOM'       => 'dom',

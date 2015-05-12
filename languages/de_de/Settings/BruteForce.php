@@ -29,6 +29,8 @@ $languageStrings = [
     'Unblock' => 'Entsperren',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktiv',
+	
+	'LBL_VIEW_SHOW' => 'Brute Force',
     
 ];
 

@@ -26,4 +26,7 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Включить общую подпись для всех исходящих сообщений',
 	'LBL_SIGNATURE' => 'Общая подпись',
 	'LBL_SAVED_SIGNATURE' => 'Изменить подпись',
+	
+	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
+	'LBL_VIEW_CONFIG' => 'General configuration',
 ];

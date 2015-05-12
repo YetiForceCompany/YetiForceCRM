@@ -9,9 +9,6 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-//ini_set('display_errors', 'Off');
-//error_reporting(0);
-//print_r( $_REQUEST );
 require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 require_once('modules/Users/Users.php');

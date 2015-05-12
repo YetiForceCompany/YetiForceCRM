@@ -26,4 +26,7 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Adicionar Assinatura',
 	'LBL_SIGNATURE' => 'Assinatura Global_',
 	'LBL_SAVED_SIGNATURE' => 'Assinatura Salva',
+	
+	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
+	'LBL_VIEW_CONFIG' => 'General configuration',
 ];

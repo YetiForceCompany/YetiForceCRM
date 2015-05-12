@@ -35,6 +35,9 @@ $languageStrings = [
 	'LBL_LDAP_USERS' => 'Auto login Aktiv für Benutzer',
 	'LBL_SAVE_CONFIG' => 'Konfiguration wurde gespeichert',
 	'LBL_LDAP_DOMAIN' => 'LDAP Domäne',
+	
+	'LBL_VIEW_AUTH' => 'Authorization',
+	'LBL_VIEW_COLORS' => 'Colors',
 ];
 $jsLanguageStrings = [
     'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',

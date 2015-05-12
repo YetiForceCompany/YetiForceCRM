@@ -42,6 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'kościelne',
 	'national' => 'narodowe',
 
+	'LBL_VIEW_CONFIGURATION' => 'Publiczne święta',
 ];
 $jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR'													=> 'Nie wypełniono wszystkich obowiązkowych pól',

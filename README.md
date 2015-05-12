@@ -14,7 +14,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 2.0 (under development)
 
-The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCompany/YetiForceCRM/commit/a78b2f002e64f9dc5e98f34632c92dd071e0e5f7) revision. 
+The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCompany/YetiForceCRM/commit/6727f060c65174ceca0b51f09a266c41e3e4c4c9) revision. 
 
 
 **Bug Fixes:** 
@@ -87,6 +87,7 @@ The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCo
 -	Improved the display of history on your desktop.
 -	Improved the display of the menu.
 -	Improved the display of sales orders.
+-	Improved the display of notifications.
 -	Improved permissions in Quick Create.
 -	Improved the migration mechanisms.
 -	Cleaned up some functions on files.
@@ -99,6 +100,7 @@ The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCo
 -	Changed the order of fields in a quick create window for contacts.
 -	Added verification of duplicates in workflow 'Create To Do/Task'.
 -	Removed a field with a signature and added a global signature configuration.
+-	Removed 'More' button from module detail view.
 -	Turned off Signature in send_mail.
 -	Turned off inactive chart.
 -	Removed some unnecessary files.
@@ -127,19 +129,22 @@ The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCo
 -	Added a safety lock for an invalid PHP version.
 -	Fixed the display of events in widgets.
 -	Fixed the display of fields when a Lead is converted to an Account.
+-	Fixed the display of related records in the Mail module.
 -	Fixed the appearance of windows in the manual start of workflows.
 -	Reconstructed 'Tickets by status' chart.
 -	Reconstructed 'Lead by status' chart.
 -	Reconstructed charts in HelpDesk and Project modules.
 -	Reconstructed the display of related calendar entries.
 -	Reconstructed the retrieving of the list of modules.
+-	Reconstructed relations in the Mail module.
 -	Added loading of the start and end of work when adding calendar entries.
 -	Changed allowed dimensions of widgets.
 -	Changed fields order in many Quick Create popups.
 -	Changed downloading of an email address.
 -	Changed the owner input in widgets.
 -	Changed the size of the 'Add record' icons
--	Changed statuses in Assets.
+-	Changed statuses in Assets and Calculations.
+-	Changed the license information.
 -	Expanded masking with new types of fields.
 -	Added a new template for the mail module.
 -	Added selects buttons for widgets.
@@ -188,15 +193,18 @@ The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCo
 -	Improved the reference field.
 -	Improved the header in the calendar.
 -	Improved filtering of email content.
+-	Improved filtering in Time Control widget.
 -	Improved loading of widgets.
 -	Improved sharing permissions while associating of records.
 -	Improved generating of tasks in workflows.
 -	Improved generating of CalUri in CalDAV.
+-	Improved the mechnism responsible for replying and forwarding email messages.
 -	Secured a function updating information about an email.
 -	Secured adding of linkages.
 -	Secured the management of widgets.
 -	Secured loading of record labels.
 -	Increased the width of a search bar.
+-	Merged all plugins into one.
 
 
 **New functionalities:**
@@ -241,6 +249,10 @@ The following changes are up to 1.4.322 - [#704] (https://github.com/YetiForceCo
 -	Added new widgets to record summary view of Calculations and Opportunities.
 -	Added a new 'Expiring sold products' widget.
 -	Added a possibility to create records in Dashboard widgets.
+-	Added a possibility to load attachments for email templates.
+-	Added a possibility to block the creation of Opportunities for Accounts in which Assigned To is not a user.
+-	Added a possibility to attach documents from CRM to emails.
+-	Added a possibility to enable/disable storage and backup folders.
 
 
 
