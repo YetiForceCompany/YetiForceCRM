@@ -13,7 +13,7 @@ $languageStrings = [
 	'OSSMailScanner' => 'Escaner Mensagem',
 	'Mail Scanner' => 'Escaner Mensagem',
 	
-	'LBL_VIEW_LOGS' => 'Mail Logs',
+	'LBL_VIEW_LOGS' => 'Logs Mensagem',
 
 ];
 
@@ -28,6 +28,6 @@ $jsLanguageStrings = [
     'Manually stopped' => 'Parar manualmente',
     'OK' => 'ok',
     'In progress' => 'Em andamento',
-    'whether_remove_an_identity' => 'Quer remover uma identidade',
+    'whether_remove_an_identity' => 'Deseja remover uma identidade',
     'removed_identity' => 'Identidade apagada',
 ];

@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Ativo',
 	
-	'LBL_VIEW_SHOW' => 'Brute Force',
+	'LBL_VIEW_SHOW' => 'Força Bruta',
 
 ];
 
