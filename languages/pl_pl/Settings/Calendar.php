@@ -43,6 +43,9 @@ $languageStrings = [
 	'PLL_FRIDAY' => 'Piątek',
 	'PLL_SATURDAY' => 'Sobota',
 	'PLL_SUNDAY' => 'Niedziela',
+	
+	'LBL_VIEW_USERCOLORS' => 'Konfiguracja kalendarza',
+	'LBL_VIEW_ACTIVITYTYPES' => 'Filtry kalendarza',
 ];
 $jsLanguageStrings = [
 

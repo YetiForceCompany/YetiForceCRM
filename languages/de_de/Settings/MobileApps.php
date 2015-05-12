@@ -34,6 +34,8 @@ $languageStrings = [
  	'LBL_MOBILE_HISTORYCALL' => 'Mobile Anrufhistorie',
  	'LBL_MOBILE_PUSHCALL' => 'Automatische Rufnummerwahl',
 	'LBL_MOBILE_CALLLISTENER' => 'Mobiler Gesprächspartner',
+	
+	'LBL_VIEW_MOBILEKEYS' => 'Mobile Applikation Keys',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Key hinzufügen',

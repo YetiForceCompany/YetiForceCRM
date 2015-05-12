@@ -301,6 +301,15 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
 	'INVENTORYTERMSANDCONDITIONS' => 'Allgemeine Geschäftsbedingungen',
 	'LBL_SAVE_CONFIG' => 'Änderungen wurden gesichert',
+	
+	'LBL_VIEW_LICENSE' => 'License',
+	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Configuration Editor',
+	'LBL_VIEW_TAXINDEX' => 'Tax Calculations',
+	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Customize Record Numbering',
+	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Terms and Conditions',
+	'LBL_VIEW_COMPANYDETAILS' => 'Company Details',
+	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
+	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
 ];
 $jsLanguageStrings = [
 	'JS_ANNOUNCEMENT_SAVED' => 'Bekanntmachung gespeichert',

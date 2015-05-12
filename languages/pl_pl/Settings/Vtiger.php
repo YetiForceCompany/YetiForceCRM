@@ -298,6 +298,16 @@ $languageStrings = [
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Zarządzaj procesami sprzedażowymi',
 	'INVENTORYTERMSANDCONDITIONS' => 'Warunki i ustalenia',
 	'LBL_SAVE_CONFIG' => 'Zapisano zmiany',
+	
+	// history
+	'LBL_VIEW_LICENSE' => 'Licencja',
+	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Ustawienia',
+	'LBL_VIEW_TAXINDEX' => 'Podatki',
+	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Dostosowanie prefiksów dla rekordów',
+	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Warunki i ustalenia',
+	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
+	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
+	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Serwer poczty wychodzącej',
 ];
 
 $jsLanguageStrings = [

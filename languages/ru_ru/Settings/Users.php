@@ -7,7 +7,6 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- * VERSION YetiForceCRM: 1.1.0 RC
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_COLORS_DESCRIPTION' => 'Настройка цветов пользователей',
@@ -38,6 +37,9 @@ $languageStrings = [
 	'LBL_LDAP_USERS' => 'Автовход пользователя',
 	'LBL_SAVE_CONFIG' => 'Конфигурация успешно сохранена',
 	'LBL_LDAP_DOMAIN' => 'Домен (Автоматически добавляется к логину)',
+	
+	'LBL_VIEW_AUTH' => 'Authorization',
+	'LBL_VIEW_COLORS' => 'Colors',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',

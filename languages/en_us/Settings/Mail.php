@@ -26,4 +26,7 @@ $languageStrings = [
 	'LBL_ADD_SIGNATURE' => 'Activate a global footer for all outgoing emails',
 	'LBL_SIGNATURE' => 'Global signature',
 	'LBL_SAVED_SIGNATURE' => 'Signature saved',
+	
+	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
+	'LBL_VIEW_CONFIG' => 'General configuration',
 ];
