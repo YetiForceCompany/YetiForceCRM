@@ -31,7 +31,7 @@
 <roundcube:endif />
     <roundcube:button command="send" type="link" class="buttonPas send" classAct="button send" classSel="button sendSel" title="sendmessage" content=" " />
     <roundcube:button name="addattachment" type="link" class="button attach" classAct="button attach" classSel="button attachSel" title="addattachment" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
-    <roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
+	<roundcube:button command="insert-sig" type="link" class="buttonPas insertsig" classAct="button insertsig" classSel="button insertsigSel" title="insertsignature" content=" " />
     <roundcube:button command="savedraft" type="link" class="buttonPas savedraft" classAct="button savedraft" classSel="button savedraftSel" title="savemessage" content=" " />
 <roundcube:if condition="config:enable_spellcheck" />
     <span class="dropbutton">
@@ -230,7 +230,8 @@
             </div>
             <div class="boxfooter">
                 <roundcube:button name="uploadmenulink" id="uploadmenulink" type="link" title="addattachment" class="button addgroup" onclick="rcmail_ui.show_popup('uploadmenu', true);return false" content=" " />
-            </div>
+				<roundcube:button type="input" class="button" classSel="button pressed" label="FileFromCRM" domain="yetiforce" command="yetiforce.addFilesFromCRM" tabindex="1" />
+			</div>
         </div>
         <roundcube:object name="fileDropArea" id="compose-attachments" />
     </div>

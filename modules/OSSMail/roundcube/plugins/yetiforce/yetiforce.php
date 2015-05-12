@@ -14,24 +14,24 @@ class yetiforce extends rcube_plugin {
 		$rcmail = rcmail::get_instance();
 		$this->add_hook('login_after', array($this, 'savePassword'));
 		$this->register_action('plugin.yetiforce.addFilesToMail', array($this, 'addFilesToMail'));
-		if ($rcmail->action == 'compose') {
-			$rcmail->output->set_env('compose_commands', 'plugin.yetiforce');
+
+		if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
+			$this->add_texts('localization/', false);
 			$this->include_script('yetiforce.js');
-		}
-		
-		if ($rcmail->task == 'mail' && $rcmail->action == 'compose'){
+			$rcmail->output->set_env('site_URL', $rcmail->config->get('site_URL'));
+
 			$this->add_hook('message_compose_body', array($this, 'messageComposeBody'));
 			$this->add_hook('message_compose', array($this, 'messageComposeHead'));
 			$this->add_hook('render_page', array($this, 'loadSignature'));
 		}
-		if ($rcmail->task == 'mail' && $rcmail->action == 'show'){
+		if ($rcmail->task == 'mail' && $rcmail->action == 'show') {
 			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
 		}
-		if ($rcmail->task == 'mail' && $rcmail->action == 'show'){
+		if ($rcmail->task == 'mail' && $rcmail->action == 'show') {
 			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
 		}
-		
 	}
+	
 	function messageComposeHead($args){
 		$rcmail = rcmail::get_instance();
 		$db = $rcmail->get_dbh();
@@ -305,7 +305,7 @@ if (window && window.rcmail) {
 		$ids = implode(',', $ids);
 		$userid = $rcmail->user->ID;
 		$index = 0;
-		$sql_result = $db->query("SELECT * FROM vtiger_attachments WHERE attachmentsid IN ($ids);");
+		$sql_result = $db->query("SELECT vtiger_attachments.* FROM vtiger_attachments INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid=vtiger_attachments.attachmentsid WHERE vtiger_seattachmentsrel.crmid IN ($ids);");
 		while ($row = $db->fetch_assoc($sql_result)) {
 			$orgFile = $rcmail->config->get('root_directory') . $row['path'] . $row['attachmentsid'] . '_' . $row['name'];
 			list($usec, $sec) = explode(' ', microtime());
