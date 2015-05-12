@@ -36,6 +36,11 @@ $languageStrings = [
 	'LBL_EMAIL_NOTIFICATIONS' => 'Powiadomienia e-mail',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
 	'LBL_SAVE_CHANGES' => 'Zapisano zmiany',
+	'LBL_GENERAL_SETTINGS' => 'Ustawienia ogólne',
+	'LBL_STORAGEFOLDER_INFO' => 'Czy robić kopię zapasową folderu: storage',
+	'LBL_BACKUPFOLDER_INFO' => 'Czy robić kopię zapasową folderu: backup',
+	'LBL_VALUES' => 'Wartość',
+	'LBL_DETAIL' => 'Szczegóły',
 ];
 
 $jsLanguageStrings = [
