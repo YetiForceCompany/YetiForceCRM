@@ -36,7 +36,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		$directiveValues = array (
 			'php_version' => array('prefer' => PHP_VERSION),
 			'safe_mode' => array('prefer' => 'Off'),
-			'display_errors' => array('prefer' => 'On'),
+			'display_errors' => array('prefer' => 'Off'),
 			'file_uploads' => array('prefer' => 'On'),
 			'register_globals' => array('prefer' => 'On'),
 			'output_buffering' => array('prefer' => 'On'),
@@ -68,8 +68,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		
 		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') !== false)
 			$directiveValues['safe_mode']['current'] = 'On';
-		if (ini_get('display_errors') != '1' && stripos(ini_get('display_errors'), 'Off') !== false)
-			$directiveValues['display_errors']['current'] = 'Off';
+		if (ini_get('display_errors') != '0' || stripos(ini_get('display_errors'), 'On') !== false)
+			$directiveValues['display_errors']['current'] = 'On';
 		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['current'] = 'Off';
 		if (ini_get('register_globals') == '1' || stripos(ini_get('register_globals'), 'On') !== false)
