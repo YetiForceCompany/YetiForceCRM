@@ -506,7 +506,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		
 		if($newModule == 'Products'){
 			$adb->pquery("INSERT INTO vtiger_seproductsrel SET crmid=?, productid=?, setype=?",
-			[$crmid, $newCrmId, $newModule]);
+			[$crmid, $newCrmId, $params['mod']]);
 		}else{
 			$adb->pquery("INSERT INTO vtiger_ossmailview_relation SET ossmailviewid=?, crmid=?;",  [$mailId, $newCrmId]);
 			$adb->pquery("DELETE FROM vtiger_ossmailview_relation WHERE ossmailviewid = ? AND crmid = ?", [$mailId, $crmid]);
