@@ -193,18 +193,22 @@ function load_action(inframe, params) {
 		loadQuickCreateForm('Calendar', params, inframe);
     });
     $(inframe.find('#message-oss-header .oss-add-products')).click(function() {
-        params['rel_new_mod'] = $(this).attr('data-module')
-        params['rel_new_id'] = $(this).attr('data-crmid')
-        params['module'] = 'Products';
+		var module = 'Products';
+		var relParams = {
+			mailId: params['crmid'],
+			newModule: 'Products',
+			mod: $(this).attr('data-module'),
+			crmid: $(this).attr('data-crmid'),
+		};
         var sourceFieldElement = jQuery('input[name="temp_field"]');
         var PopupParams = {
-            'module': params['module'],
-            'src_module': params['module'],
+            'module': module,
+            'src_module': module,
             'src_field': sourceFieldElement.attr('name'),
             'src_record': '',
             'url': getAbsolutePath() + '/index.php?'
         };
-        showPopup(PopupParams, sourceFieldElement, params, inframe, true);
+        showPopup(PopupParams, sourceFieldElement, relParams, inframe, true);
     });
     $(inframe.find('#message-oss-header .oss-add-services')).click(function() {
         params['rel_new_mod'] = $(this).attr('data-module')
