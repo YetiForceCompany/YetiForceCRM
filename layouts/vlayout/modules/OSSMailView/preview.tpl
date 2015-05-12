@@ -21,17 +21,26 @@
 			<div class='pull-right'>
 				<span class="btn-toolbar" >
 					<span class="btn-group">
-						<button id="previewReplyAll" type="button" name="previewReplyAll" class="btn" data-mode="emailReplyAll" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
+						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll">
+							<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png">&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
-						</button>
+						</a>
 					</span>
 					<span class="btn-group">
-						<button id="previewReply" type="button" name="previewReply" class="btn" data-mode="emailReply" data-url="{vglobal('site_URL')}/index.php?module=OSSMail&view=compose">
+						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply">
+							<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" >&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
-						</button>
+						</a>
 					</span>
 					<span class="btn-group">
-                                            <button id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn" data-mode="previewPrint">
+						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward">
+							<i class="icon-share-alt"></i>&nbsp;&nbsp;
+							<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
+						</a>
+					</span>
+					<span class="btn-group">
+                         <button id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn" data-mode="previewPrint">
+							<i class="icon-print"></i>&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_PRINT','OSSMailView')}</strong>
 						</button>
 					</span>
@@ -162,48 +171,6 @@
 <script>
 var params = {};
 $('#emailPreview_Content').css('height', document.documentElement.clientHeight - 295);
-$( document ).ready(function() {
-	var div_preview = $('#emailPreview').contents();
-	params['From'] = div_preview.find('#emailPreview_From').text();
-	params['To'] = div_preview.find('#emailPreview_To').text();
-	params['Cc'] = div_preview.find('#emailPreview_Cc').text();
-	params['Bcc'] = div_preview.find('#emailPreview_Bcc').text();
-	params['Subject'] = div_preview.find('#emailPreview_Subject').text();
-	params['attachment'] = div_preview.find('#emailPreview_attachment').text();
-	params['Content'] = div_preview.find('#emailPreview_Content').text();
-
-	$( "#previewReplyAll" ).click(function() {
-		window_open(params,'all', this);
-	});
-	$( "#previewReply" ).click(function() {
-		window_open(params,'single', this);
-	});
-});
-function window_open(params, type, button) {
-	var url = $(button).data('url');
-	if(type == 'single'){
-		url = url + '&to='+params['From'];
-		url = url + '&subject='+params['Subject'];
-	}
-	if(type == 'all'){
-		url = url + '&to='+params['From'];
-		var temp_var = '';
-		if(params['To']){
-			temp_var = params['To'];
-		}
-		if(params['Cc']){
-			if(temp_var){ temp_var += ','; }
-			temp_var += params['Cc'];
-		}
-		if(temp_var){
-			url = url + '&cc='+temp_var;
-		}
-		url = url + '&subject='+params['Subject'];
-	}
-	window.location.href = url;
-	//window.open(url, 'popUpWindow','width=1000,height=650,resizable=0,scrollbars=1');
-}
-
 function printMail(){
     var content = window.open();
 	$( ".emailPreview > div" ).each(function( index ) {

@@ -69,6 +69,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model {
 			foreach ($result->GetArray() as $row) {
 				$from = $this->findRecordsById($row['from_id']);
 				$to = $this->findRecordsById($row['to_id']);
+				$return[$row['ossmailviewid']]['id'] = $row['ossmailviewid'];
 				$return[$row['ossmailviewid']]['date'] = $row['date'];
 				$return[$row['ossmailviewid']]['subject'] = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $Config['target'] . '"> ' . $this->limit_text($row['subject']) . '</a>';
 				$return[$row['ossmailviewid']]['attachments'] = $row['attachments_exist'];

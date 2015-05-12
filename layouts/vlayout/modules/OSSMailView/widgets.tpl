@@ -41,6 +41,12 @@
 		</div>
 		<div class="span12" style="font-size:x-small;">
 			{vtranslate('To', 'OSSMailView')}: {$row['to']}
+			<div class="pull-right" >
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward" class="btn btn-mini"><i class="icon-share-alt"></i></a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</div>
 		</div>
 		<div class="span12 defaultMarginP mailBody" style="display: none;">
 			{Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), $row['body'])} 
