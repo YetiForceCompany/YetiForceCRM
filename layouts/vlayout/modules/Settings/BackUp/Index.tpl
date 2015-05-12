@@ -36,11 +36,13 @@
 <input type='hidden' value="{$NEXT_PAGE}" class='next-page'>
 <div class="container-fluid" style="margin-top:10px;">
 	<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
-	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"  id="backup_tab_btn_1" ><a href="#tab_1">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>
 		<li id="backup_tab_btn_2" ><a href="#tab_2">{vtranslate('LBL_FTP_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
 		<li id="backup_tab_btn_3" ><a href="#tab_3">{vtranslate('LBL_EMAIL_NOTIFICATIONS', $QUALIFIED_MODULE_NAME)}</a></li>
+		<li id="backup_tab_btn_4" ><a href="#tab_4"  data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
 	</ul>
+	<div class='layoutContent'></div>
 	<div id="backup_tab_1">
 		<div id="my-tab-content" class="tab-content" >
 			<div class='editViewContainer tab-panel'>
@@ -195,8 +197,8 @@
 						<td style="width:25%;"><label class="pull-right" style="margin-top:5px;">{vtranslate('LBL_USERS', $QUALIFIED_MODULE_NAME)}</label></td>
 						<td>
 							<select class="chzn-select" id="" name="selectedUsers" multiple>
-								{foreach item=USER from=$ADMIN_USERS}
-									<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if array_key_exists($USER['id'], $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']} </option>
+								{foreach key=KEY  item=USER from=$ADMIN_USERS}
+									<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']}</option>
 								{/foreach}
 							</select>
 						</td>
@@ -205,5 +207,33 @@
 			</table>
 			<input class="btn btn-success pull-right" id="saveUsersForNotifications" type="submit" value="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}">
 		</form>
-</div>
+	</div>
+	<div class="editViewContainer tab-panel" id="backup_tab_4" style="display:none;">
+			<table class="table table-bordered table-condensed settingsTable">
+				<thead>
+					<tr class="blockHeader" >
+						<th>
+							<span>{vtranslate('LBL_DETAIL', $QUALIFIED_MODULE)}</span>
+						</th>
+						<th>
+							<span>{vtranslate('LBL_VALUES', $QUALIFIED_MODULE)}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><label>{vtranslate('LBL_STORAGEFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
+						<td>
+							<input class="span1 configField" type="checkbox" name="storage_folder"  {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
+						</td>
+					</tr>
+					<tr>
+						<td><label>{vtranslate('LBL_BACKUPFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
+						<td>
+							<input class="span1 configField" type="checkbox" name="backup_folder"  {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
 {/strip}

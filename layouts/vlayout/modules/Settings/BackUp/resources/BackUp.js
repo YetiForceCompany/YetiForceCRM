@@ -324,6 +324,24 @@ var Settings_BackUp_Js = {
 		}); 
 
 	},
+	registerSaveBackupSetting: function(content){
+		var thisInstance = this;
+		content.find('.configField').change(function(e) {
+		var target = $(e.currentTarget);
+			var params = {};
+			params['type'] = target.data('type');
+			params['param'] = target.attr('name');
+			if(target.attr('type') == 'checkbox'){
+				params['val'] = this.checked;
+			}else{
+				params['val'] = target.val();
+			}
+			app.saveAjax('updateSettings', params).then(function (data) {
+				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			});
+		});
+
+	},
 	registerEvents: function () {
 		Settings_BackUp_Js.saveUserForNotifications();
 		Settings_BackUp_Js.registerSaveFTPConfigEvent();
@@ -333,30 +351,48 @@ var Settings_BackUp_Js = {
 		Settings_BackUp_Js.registerNextPagePaginationEvent();
 		Settings_BackUp_Js.registerResumeBackUpEvent();
 		Settings_BackUp_Js.registerPrevPagePaginationEvent();
+		var content = $('.settingsTable');
+		this.registerSaveBackupSetting(content);
 
 		$("#backup_tab_btn_1").click(function () {
 			$("#backup_tab_btn_2").attr('class', '');
 			$("#backup_tab_btn_3").attr('class', '');
+			$("#backup_tab_btn_4").attr('class', '');
 			$("#backup_tab_btn_1").attr('class', 'active');
 			$("#backup_tab_2").hide();
 			$("#backup_tab_3").hide();
+			$("#backup_tab_4").hide();
 			$("#backup_tab_1").show();
 		});
 		$("#backup_tab_btn_2").click(function () {
 			$("#backup_tab_btn_1").attr('class', '');
 			$("#backup_tab_btn_3").attr('class', '');
+			$("#backup_tab_btn_4").attr('class', '');
 			$("#backup_tab_btn_2").attr('class', 'active');
 			$("#backup_tab_1").hide();
 			$("#backup_tab_3").hide();
+			$("#backup_tab_4").hide();
 			$("#backup_tab_2").show();
 		});
 		$("#backup_tab_btn_3").click(function () {
 			$("#backup_tab_btn_1").attr('class', '');
 			$("#backup_tab_btn_2").attr('class', '');
+			$("#backup_tab_btn_4").attr('class', '');
 			$("#backup_tab_btn_3").attr('class', 'active');
 			$("#backup_tab_1").hide();
 			$("#backup_tab_2").hide();
+			$("#backup_tab_4").hide();
 			$("#backup_tab_3").show();
+		});
+		$("#backup_tab_btn_4").click(function () {
+			$("#backup_tab_btn_1").attr('class', '');
+			$("#backup_tab_btn_2").attr('class', '');
+			$("#backup_tab_btn_3").attr('class', '');
+			$("#backup_tab_btn_4").attr('class', 'active');
+			$("#backup_tab_1").hide();
+			$("#backup_tab_2").hide();
+			$("#backup_tab_3").hide();
+			$("#backup_tab_4").show();
 		});
 	}
 };
