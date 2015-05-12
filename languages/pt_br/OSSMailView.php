@@ -58,6 +58,7 @@ $languageStrings = [
 	'LBL_REPLYALLL' => 'Responder para todos',
 	'LBL_PRINT' => 'Impressão',
 	'Date of receipt' => '__UNTRANSLATED__',
+	'LBL_FORWARD' => '__UNTRANSLATED__',
 
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',
