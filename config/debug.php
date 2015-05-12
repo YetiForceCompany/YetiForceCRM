@@ -12,9 +12,6 @@ $DEBUG_CONFIG = Array(
 	// enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => FALSE,
 	
-	// show php errors (display_errors),
-	'DISPLAY_PHP_ERRORS' => FALSE,
-	
 	// display sql queries in the browser during triggering
 	'DISPLAY_SQL_QUERY' => FALSE,
 
@@ -39,7 +36,7 @@ $DEBUG_CONFIG = Array(
 	'ROUNDCUBE_DEBUG_LEVEL' => 1,
 	
 	// devel_mode this will print real PHP memory usage into logs/console and do not compress JS libraries
-	'ROUNDCUBE_DEVEL_MODE' => false,
+	'ROUNDCUBE_DEVEL_MODE' => FALSE,
 	
 	// Activate this option if logs should be written to per-user directories.
 	// Data will only be logged if a directry cache/logs/<username>/ exists and is writable.
@@ -66,11 +63,6 @@ $DEBUG_CONFIG = Array(
 	// Log SMTP conversation to cache/logs/smtp or to syslog
 	'ROUNDCUBE_SMTP_DEBUG' => FALSE,
 );
-if($DEBUG_CONFIG['DISPLAY_PHP_ERRORS']){
-	ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-}else{
-	ini_set('display_errors','off');version_compare(PHP_VERSION, '5.4.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-}
 class SysDebug {
 	static function get($key, $defvalue=FALSE) {
 		global $DEBUG_CONFIG;
