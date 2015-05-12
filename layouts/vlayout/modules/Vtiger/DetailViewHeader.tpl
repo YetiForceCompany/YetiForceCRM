@@ -44,19 +44,15 @@
 								{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 									{if $DETAIL_VIEW_LINK->getLabel() neq "" OR $DETAIL_VIEW_LINK->linkicon neq ""} 
 										<span class="btn-group">
-											<button class="btn {if $DETAIL_VIEW_LINK->linkhint neq ''}popoverTooltip{/if}" 
-												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}
-												{if strpos($DETAIL_VIEW_LINK->getUrl(),'javascript:') !== FALSE}
-													onclick="{$DETAIL_VIEW_LINK->getUrl()}">
-												{else}
-													onclick="window.open('{$DETAIL_VIEW_LINK->getUrl()}','{if $DETAIL_VIEW_LINK->linktarget}{$DETAIL_VIEW_LINK->linktarget}{else}_self{/if}')">
-												{/if}
+											<a class="btn {if $DETAIL_VIEW_LINK->linkhint neq ''}popoverTooltip{/if}" 
+												href='{$DETAIL_VIEW_LINK->getUrl()}'
+												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}>
 												{if $DETAIL_VIEW_LINK->linkicon neq ''}
-													<i class="{$DETAIL_VIEW_LINK->linkicon}"></i> 
+													<i class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></i> 
 												{else}
 													{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}
 												{/if}
-											</button>
+											</a>
 										</span>
 									{/if}	
 								{/foreach}
