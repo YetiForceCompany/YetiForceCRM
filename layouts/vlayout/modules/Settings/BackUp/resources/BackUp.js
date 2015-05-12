@@ -295,10 +295,10 @@ var Settings_BackUp_Js = {
 			var params = {};
 			params.data = {
 					module: 'BackUp',
-					action: 'SaveUserForNotifications',
+					action: 'SaveAjax',
+					mode: 'updateUsersForNotifications',
 					selectedUsers: selectedUsers,
 					parent: app.getParentModuleName()
-				
 			};
 			AppConnector.request(params).then(function (data) {
 				var response = data['result'];

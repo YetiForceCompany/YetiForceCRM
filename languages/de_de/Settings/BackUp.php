@@ -36,6 +36,7 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'Wenn kein Pfad gepflegt ist, wird die Datensicherung im Hauptordner gespeichert',
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
+	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
 ];
 
 $jsLanguageStrings = [

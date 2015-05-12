@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_PATH_INFO' => 'If path field is empty, backup will be saved in the main folder',
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail notifications',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
+	'LBL_SAVE_CHANGES' => 'Saved changes',
 
 ];
 

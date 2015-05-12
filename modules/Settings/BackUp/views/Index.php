@@ -25,12 +25,14 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('FTP_ACTIVE', $ftpSettings[6]);
 			$viewer->assign('FTP_PATH', $ftpSettings[7]);
 		}
+		$usersForNotifications = Settings_BackUp_Module_Model::getUsersForNotifications();
 		$adminUsers = Users_Module_Model::getAdminUsers();
 		$backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pagination = Settings_BackUp_Pagination_Action::process($request);
 		$pagination = json_decode($pagination, true);
+		$viewer->assign('USERFORNOTIFICATIONS', $usersForNotifications);
 		$viewer->assign('PREV_PAGE', $pagination['prevPage']);
 		$viewer->assign('NEXT_PAGE', $pagination['nextPage']);
 		$viewer->assign('OFFSET', $pagination['offset']);
