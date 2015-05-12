@@ -12,6 +12,8 @@ $languageStrings = [
 	'OSSMailScanner_manual' => 'Skaner mailowy',
 	'OSSMailScanner' => 'Skaner mailowy',
 	'Mail Scanner' => 'Skaner mailowy',
+	
+	'LBL_VIEW_LOGS' => 'Poczta logi',
     
 ];
 

@@ -41,6 +41,8 @@ $languageStrings = [
 	'LBL_ECCLESIASTICAL' => 'ecclesiastical',
 	'ecclesiastical' => 'ecclesiastical',
 	'national' => 'national',
+	
+	'LBL_VIEW_CONFIGURATION' => 'Public Holidays',
 ];
 $jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR'													=> 'Você deve preencher todos os campos do formulário',

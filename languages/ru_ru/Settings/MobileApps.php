@@ -34,6 +34,8 @@ $languageStrings = [
 	'LBL_MOBILE_HISTORYCALL'	=>	'Журнал Вызовов',
 	'LBL_MOBILE_PUSHCALL'	=>	'Автоматический набор номера',
 	'LBL_MOBILE_CALLLISTENER' => 'Список Звонков',
+	
+	'LBL_VIEW_MOBILEKEYS' => 'Mobile Applikation Keys',
 ];
 $jsLanguageStrings = [
 	'Adding a Key'	=>	'Добавить ключ',

@@ -29,6 +29,8 @@ $languageStrings = [
     'Unblock' => 'Unblock',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
+	
+	'LBL_VIEW_SHOW' => 'Brute Force',
     
 ];
 

@@ -30,6 +30,8 @@ $languageStrings = [
 	'LBL_SELECT_TYPE' => 'Rodzaj',
 	'LBL_COUNT_CARD' => 'Ilość kontaktów',
 	'LBL_COUNT_CAL' => 'Ilość wydarzeń',
+	
+	'LBL_VIEW_KEYS' => 'Klucze aplikacji DAV',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Dodawanie klucza',

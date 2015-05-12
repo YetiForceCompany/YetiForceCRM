@@ -29,6 +29,8 @@ $languageStrings = [
     'Unblock' => 'Odblokuj',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktywny',
+	
+	'LBL_VIEW_SHOW' => 'Brute Force',
 ];
 
 $jsLanguageStrings = [
