@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!DOCTYPE html>
-<html>
+<html  lang="{$HTMLLANG}">
 	<head>
 		<title>YetiForce</title>
 		<link REL="SHORTCUT ICON" HREF="../layouts/vlayout/skins/images/favicon.ico">

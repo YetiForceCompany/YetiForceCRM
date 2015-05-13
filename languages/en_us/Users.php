@@ -286,7 +286,7 @@ $languageStrings = [
 	'Call' => 'Call',
 	'Mobile Call' => 'Mobile Call',
 	'Planned' => 'Planned',
-	'Held' => 'Odbyte',
+	'Held' => 'Held',
 	'Not Held' => 'Not Held',
 	
 	/* Role */

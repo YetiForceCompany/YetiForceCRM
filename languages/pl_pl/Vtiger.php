@@ -708,6 +708,8 @@ $languageStrings = [
 	'RequirementCards' => 'Karty wymagań',
 	'QuotesEnquires' => 'Zapytania ofertowe',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Przeszukaj gałęzie',
+	'LBL_SELECT_SINGLE_ROW' => 'Zaznacz pojedyńczy wiersz',
+	'LBL_CUSTOM_FILTER' => 'Dodatkowe filtry',
 	
 	/* industry */
 	'Administration'=>'Administracja',
@@ -825,6 +827,7 @@ $languageStrings = [
 	'LBL_GENERATE_FROM_TEMPLATE'=>'Generuj z szablonu',
 	'Permission to perform the operation is denied'=>'Nie masz uprawnień do wykonania tej operacji',
 	'LBL_NO_FOUND_VIEW' => 'Nie znalezniono widoku',
+	'LBL_SEARCH_MODULE' => 'Wyszukaj modułu',
 	
 	"is"=>"równa się",
 	"is not"=>"nie równa się",

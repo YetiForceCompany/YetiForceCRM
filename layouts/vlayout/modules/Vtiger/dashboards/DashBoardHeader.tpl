@@ -24,7 +24,7 @@
 							{if $WIDGETS|count gt 0}
 								<button class='btn addButton dropdown-toggle' data-toggle='dropdown'>
 										<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
-										<i class="caret"></i>
+										<span class="caret"></span>
 								</button>
 
 								<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
@@ -40,7 +40,7 @@
 							{else if $MODULE_PERMISSION}
 								<button class='btn addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
 									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
-									<i class="caret"></i>
+									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu widgetsList pull-right" style="min-width:100%;text-align:left;">
 								</ul>

@@ -17,6 +17,7 @@
     {assign var="productDescription" value="productDescription"|cat:$row_no}
     {assign var="qtyInStock" value="qtyInStock"|cat:$row_no}
     {assign var="qty" value="qty"|cat:$row_no}
+    {assign var="usageUnit" value="usageUnit"|cat:$row_no}
     {assign var="listPrice" value="listPrice"|cat:$row_no}
 	{assign var="tax" value="tax"|cat:$row_no}
     {assign var="productTotal" value="productTotal"|cat:$row_no}
@@ -101,6 +102,9 @@
 			{vtranslate('Current state storage','OSSCosts')}: <span class="maxQuantity">{$data.$qtyInStock}</span>
 		</span>
 		{/if}
+	</td>
+	<td>
+		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
 	<td>
 		<div>

@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_ADD_CRON' => 'Add task',
 	'MODULE' => 'Module',
 	'LBL_NAME' => 'Name',
-	'LBL_PATH_TO_FILE' => 'Path to file'
+	'LBL_PATH_TO_FILE' => 'File path'
 ];
 
 

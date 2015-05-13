@@ -39,7 +39,7 @@
 				{assign var=title value=$USER_MODEL->get('last_name')}
 			{/if}
 				<span class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<a id="menubar_item_right_{$title}"  class="userName textOverflowEllipsis" title="{$title}"><strong>{$title}</strong>&nbsp;<i class="caret"></i> </a> </span>
+					<a id="menubar_item_right_{$title}"  class="userName textOverflowEllipsis" title="{$title}"><strong>{$title}</strong>&nbsp;<span class="caret"></span> </a> </span>
 			{/if}
 			{if !empty($childLinks)}
 				<ul class="dropdown-menu pull-right">

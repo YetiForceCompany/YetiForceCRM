@@ -23,7 +23,7 @@
                 <div class="row-fluid">
                     <div class="searchElement span11">
                         <div class="select-search span2">
-                            <select class="chzn-select" id="basicSearchModulesList" style="width:150px;">
+                            <select class="chzn-select" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" style="width:150px;">
                                 <option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
                                 {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
                                     {if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
@@ -35,8 +35,8 @@
                             </select>
                         </div>
                         <div class="input-append searchBar span6">
-                            <input type="text" class="" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
-                            <span id="searchIcon" class="add-on search-icon"><i class="icon-white icon-search "></i></span>
+                            <input type="text" class="" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+                            <span id="searchIcon" class="add-on search-icon"><span class="icon-white icon-search "></span></span>
                             <span class="adv-search  pull-left">
                                 <a class="alignMiddle" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</a>
                             </span>

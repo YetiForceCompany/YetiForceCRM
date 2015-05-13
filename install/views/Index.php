@@ -74,7 +74,7 @@ class Install_Index_view extends Vtiger_View_Controller {
         $viewer = new Vtiger_Viewer();
         $viewer->setTemplateDir('install/tpl/');
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-
+		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
         define('INSTALLATION_MODE', true);
         define('INSTALLATION_MODE_DEBUG', $this->debug);
         echo $viewer->fetch('InstallPreProcess.tpl');

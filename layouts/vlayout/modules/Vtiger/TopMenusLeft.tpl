@@ -29,7 +29,7 @@
 	<li class="dropdown" id="moreMenu">
 		<a class="dropdown-toggle" href="#moreMenu">
 			<strong>{vtranslate('LBL_OTHER', 'Menu')}&nbsp;</strong>
-			<b class="caret"></b>
+			<strong class="caret"></strong>
 		</a>
 		<ul class="dropdown-menu">
 			{assign var=TABINDEX value=-1}

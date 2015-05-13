@@ -1127,6 +1127,9 @@ $languageStrings = [
 	'LBL_VIEW_PREFERENCEEDIT' => 'Изменить настройки',
 	'Credits' => 'Благодарности',
 	'LBL_VIEW_DASHBOARD' => 'Суммирование',
+	'LBL_SEARCH_MODULE' => 'Search module',
+	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
+	'LBL_CUSTOM_FILTER' => 'Custom filters',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
