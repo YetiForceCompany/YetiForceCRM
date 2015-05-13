@@ -755,6 +755,7 @@ $languageStrings = [
 	'OSSEmployees' => 'Empregados',
 	'HolidaysEntitlement' => 'Direito férias anuais',
 	'Calculations' => 'Cálculos',
+	'LBL_SEARCH_MODULE' => 'Search module',
 
 	/* industry */
 	'Administration'=>'Administração',
