@@ -18,7 +18,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 2.0 (under development)
 
-The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCompany/YetiForceCRM/commit/6727f060c65174ceca0b51f09a266c41e3e4c4c9) revision. 
+The following changes are up to 1.4.364 - [#722] (https://github.com/YetiForceCompany/YetiForceCRM/commit/52ef9e4a062b0d2f60a1cc4e5e0b59f4f340fd02) revision. 
 
 
 **Bug Fixes:** 
@@ -79,6 +79,7 @@ The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCo
 -	Fixed responsive comments in record summary.
 -	Fixed a bug with sending emails for the latest version of PHP.
 -	Fixed Time Control widget.
+-	Fixed Fatal Error that appeared during the installation process [#710] (https://github.com/YetiForceCompany/YetiForceCRM/issues/710)
 
 
 **Improvements:**
@@ -178,9 +179,11 @@ The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCo
 -	Added a 'Switch' button to widgets.
 -	Added a function that counts the number of records in a related module.
 -	Added a maximum number of records that can be mass edited.
+-	Added a new column (Unit) to Products block in Quotes, Purchase Orders, Sales Orders, Invoices, Costs and Calculations.
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
+-	Rebuilt the validation of server requirements.
 -	Removed a 'hide completed events' field.
 -	Removed a contact field 'Potentials'.
 -	Removed an unnecessary loader.
@@ -203,6 +206,7 @@ The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCo
 -	Improved generating of tasks in workflows.
 -	Improved generating of CalUri in CalDAV.
 -	Improved the mechnism responsible for replying and forwarding email messages.
+-	Improved 'send emails' logs.
 -	Secured a function updating information about an email.
 -	Secured adding of linkages.
 -	Secured the management of widgets.
@@ -257,6 +261,8 @@ The following changes are up to 1.4.345 - [#722] (https://github.com/YetiForceCo
 -	Added a possibility to block the creation of Opportunities for Accounts in which Assigned To is not a user.
 -	Added a possibility to attach documents from CRM to emails.
 -	Added a possibility to enable/disable storage and backup folders.
+-	Added a possibility to present content in different ways without loosing information or structure.
+-	Added a variety of attributes that help visually impaired peaople to navigate around the system.
 
 
 
