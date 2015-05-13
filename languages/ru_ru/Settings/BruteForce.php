@@ -31,7 +31,7 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
 	
-	'LBL_VIEW_SHOW' => 'Brute Force',
+	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
     
 ];
 
