@@ -199,3 +199,9 @@ padding-right: 5px;
 .icon-in-button{
 	vertical-align: sub;
 }
+.quickLinksDiv h6{
+	color: #333;
+	line-height: 27px;
+	font-size: 18px;
+	text-transform: capitalize;
+}
