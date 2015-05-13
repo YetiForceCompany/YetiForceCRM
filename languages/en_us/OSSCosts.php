@@ -22,7 +22,7 @@ $languageStrings = [
 
 	//Field Labels
     'Title' => 'Title',
-	'Costs_no' => 'Nr',
+	'Costs_no' => 'No.',
 	'Potential' => 'Potential',
 	'Parent ID' => 'Parent cost',
 	'Project' => 'Project',
@@ -51,7 +51,7 @@ $languageStrings = [
 	'restrict_helpdesk' => 'Restrict list of Tickets only to selected Organization.',
 	'restrict_project' => 'Restrict list of Projects only to selected Organization.',
 	'Alert_title' => 'Information',
-	'Alert_desc' => 'All below options modify system files. Backup copy is done before overwriting and orginal files will be recovered after unsellecting.',
+	'Alert_desc' => 'All below options modify system files. Backup copy is made before overwriting and orginal files will be recovered after unsellecting.',
 	'Module configuration' => 'Module configuration',
 	'JS_save_config_info' => 'Configuration saved',
 	'SINGLE_Vendors' => 'Vendor',

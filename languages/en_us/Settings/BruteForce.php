@@ -35,7 +35,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-    'Could not finnish reaction.' => 'Could not finnish reaction.',
+    'Could not finnish reaction.' => 'Could not finnish this action.',
     'Complete the fields' => 'Complete the fields',
     'LBL_SAVE_SUCCESS' => 'Changes has been saved ',
     'LBL_FAIL' => 'Changes have not been saved', 

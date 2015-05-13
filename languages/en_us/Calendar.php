@@ -125,16 +125,16 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Calendar View added successfully',
+	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Calendar view added successfully',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Calendar view color updated successfully',
-	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this Calendar view ?',
-	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'Calendar View deleted successfully',
+	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this calendar view ?',
+	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'Calendar view deleted successfully',
 	'JS_EDIT_CALENDAR' => 'Edit Calendar',
     'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
-	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'No Calendar View to add',
+	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'No calendar view to add',
 	'JS_NO_DELETE_PERMISSION' => 'You do not have permission to delete calendar entries.',
 	'JS_NO_EDIT_PERMISSION' => 'You do not have permission to modify calendar entries.',
-	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'To Do successfully added to your Calendar',
+	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'To Do successfully added to your calendar',
 	'JS_RECORD_DELETED' => 'Calendar entry deleted successfully',
 	'JS_START_DATE'=>'Start Date',
 	'JS_END_DATE'=>'End Date',

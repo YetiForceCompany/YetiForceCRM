@@ -11,7 +11,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add Conditions',
-    'LBL_NEW_TPL' => 'Add a new document',
+    'LBL_NEW_TPL' => 'Add new document',
 	'OSSDocumentControl' => 'Document Control',
     'LBL_MODULE_NAME' => 'Module name',
     'LBL_NO_PROJECT_TPL_ADDED' => 'No new documents added',
@@ -20,12 +20,12 @@ $languageStrings = [
     'OSSProjectTemplates_manual' => 'OSS Project Templates',
     
     
-    'LBL_CREATING_TPL' => 'Create a document',
+    'LBL_CREATING_TPL' => 'Create document',
     'LBL_FILL_BASE_DATA' => 'Basic information',
     'ADD_CONDITIONS' => 'Add conditions',
-    'LBL_CONDITION_ALL' => 'All Conditions',
+    'LBL_CONDITION_ALL' => 'All conditions',
     'LBL_CONDITION_ALL_DSC' => 'All conditions in this section must be fulfilled',
-    'LBL_CONDITION_OPTION' => 'Any Conditions',
+    'LBL_CONDITION_OPTION' => 'Any conditions',
     'LBL_CONDITION_OPTION_DSC' => 'At least one of the conditions in this section must be fulfilled',
     'FOLDER_LIST' => 'List of folders',
     'DOC_NAME' => 'Name of the Document',

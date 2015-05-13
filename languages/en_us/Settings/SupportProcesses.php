@@ -14,9 +14,9 @@ $languageStrings = [
 	'LBL_OTHER' => 'Other',
 	'LBL_INFO' => 'Info',
 	'LBL_TYPE' => 'Type',
-	'LBL_TICKET_STATUS_INFO' => 'Ticket status indicate closing',
-	'LBL_SAVE_CONFIG_OK' => 'Changes has been saved',
-	'LBL_SAVE_CONFIG_ERROR'	=> 'hanges has been saved.',
+	'LBL_TICKET_STATUS_INFO' => 'Statuses determining that ticket is closed',
+	'LBL_SAVE_CONFIG_OK' => 'Changes have been saved',
+	'LBL_SAVE_CONFIG_ERROR'	=> 'Changes have been saved.',
 	
 ];
 

@@ -10,7 +10,7 @@
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ALL_USERS' => 'All Users',
-	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Assign priviliges from existing profiles',
+	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Assign privileges from existing profiles',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Assign privileges directly to Role',
 	'LBL_ASSIGN_ROLE' => 'Assign Role',
 	'LBL_CAN_ASSIGN_RECORDS_TO' => 'Can Assign Records To',

@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_GENERATE_BACKUP' => 'Generate Backup',
 	'LBL_LOADING' => 'Backup generating, please waiting...',
 	'LBL_BACKUP_ENDED' => 'Backup ended',
-	'LBL_BACKUP_PREPARE' => "Backup prepare's" ,
+	'LBL_BACKUP_PREPARE' => "Backup preparation" ,
 	'LBL_FTP_SETTINGS' => 'FTP settings',
 	'LBL_BACKUP_CREATING' => 'Backup creating',
 	'LBL_FILE_BACKUP_LOADING' => 'Creating files backup',
@@ -46,7 +46,7 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
-	'JS_PORT_ONLY_NUMBERS' => 'Field port accept only numbers',
+	'JS_PORT_ONLY_NUMBERS' => 'Field port accepts only numbers',
 	'JS_SAVE_CHANGES' => 'Saved changes',
 	'JS_HOST_NOT_CORRECT' => 'Incorrect host address',
 	'JS_CONNECTION_FAIL' => 'Failed login attempt', 
