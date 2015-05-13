@@ -289,9 +289,9 @@ $languageStrings = [
 	'LBL_COLORS' => 'Цвета',
 	'LBL_COLORS_DESCRIPTION' => ' Настройка цветов',
 	'LBL_MENU_BUILDER' => 'Редактор Меню',
-	'LBL_MENU_BUILDER_DESCRIPTION' => ' Настройка меню',
+	'LBL_MENU_BUILDER_DESCRIPTION' => 'Настройка меню',
 	'LBL_AUTHORIZATION' => 'Авторизация',
-	'LBL_AUTHORIZATION_DESCRIPTION' => ' Настройка метода авторизации',
+	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка метода авторизации',
 	'LBL_BACKUP_DESCRIPTION'	=>	'Создание резервных копий системы',
 	
 	/* Role */
@@ -317,14 +317,14 @@ $languageStrings = [
 	'INVENTORYTERMSANDCONDITIONS' => 'Сроки и условия',
 	'LBL_SAVE_CONFIG' => 'Изменения успешно сохранены',
 	
-	'LBL_VIEW_LICENSE' => 'License',
-	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Configuration Editor',
-	'LBL_VIEW_TAXINDEX' => 'Tax Calculations',
-	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Customize Record Numbering',
-	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Terms and Conditions',
-	'LBL_VIEW_COMPANYDETAILS' => 'Company Details',
-	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Announcements',
-	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Outgoing Server',
+	'LBL_VIEW_LICENSE' => 'Лицензия',
+	'LBL_VIEW_CONFIGEDITORDETAIL' => 'Редактор конфигурации',
+	'LBL_VIEW_TAXINDEX' => 'Налоги',
+	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Настройка нумерации записей',
+	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Сроки и условия',
+	'LBL_VIEW_COMPANYDETAILS' => 'Информация о компании',
+	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Сообщения',
+	'LBL_VIEW_OUTGOINGSERVERDETAIL' => 'Сервер исходящей почты',
 ];
 
 $jsLanguageStrings = [

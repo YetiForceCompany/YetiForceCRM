@@ -261,13 +261,15 @@ display: none;
 													</select>
 												</div>
 											</span>
-											<span>
-												<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-												{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-												<input type="checkbox" name="generatedtype" value="1"
-                                                {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
-												</label>
-											</span>
+											{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+												<span>
+													<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+													{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+													<input type="checkbox" name="generatedtype" value="1"
+													{if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
+													</label>
+												</span>
+											{/if}
 											</div>
                                         <div class="modal-footer" style="padding: 0px;">
                                             <span class="pull-right">
@@ -452,13 +454,15 @@ display: none;
 					</select>
 				</div>
 			</span>
-			<span>
-				<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-				{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-				<input type="checkbox" name="generatedtype" value="1"
-				{if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
-				</label>
-			</span>
+			{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+				<span>
+					<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+					{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+					<input type="checkbox" name="generatedtype" value="1"
+					{if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
+					</label>
+				</span>
+			{/if}
         </div>
         <div class="modal-footer" style="padding: 0px;">
             <span class="pull-right">
@@ -600,12 +604,14 @@ display: none;
 										</select>
 										</label>
 									</span>
-									<span>
-										<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
-										{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
-										<input type="checkbox" name="generatedtype" value="1" />
-										</label>
-									</span>
+									{if SysDeveloper::get('CHANGE_GENERATEDTYPE')}
+										<span>
+											<label class="checkbox" style="padding-left: 25px; padding-top: 5px;">
+											{vtranslate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
+											<input type="checkbox" name="generatedtype" value="1" />
+											</label>
+										</span>
+									{/if}
                                 </div>
                                 <div class="modal-footer">
                                     <span class="pull-right">

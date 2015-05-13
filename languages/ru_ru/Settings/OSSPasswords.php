@@ -9,5 +9,5 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_VIEW_CONFIGUREPASS' => 'Passwords Configuration',
+	'LBL_VIEW_CONFIGUREPASS' => 'Настройка паролей',
 ];

@@ -8,5 +8,5 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = [
-	'LBL_VIEW_CREDITS' => 'Credits',
+	'LBL_VIEW_CREDITS' => 'Благодарности',
 ];

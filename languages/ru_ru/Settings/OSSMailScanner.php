@@ -13,7 +13,7 @@ $languageStrings = [
 	'OSSMailScanner' => 'Настройка почты',
 	'OSSMailScanner_manual' => 'Настройка почты',
 	
-	'LBL_VIEW_LOGS' => 'Mail Logs',
+	'LBL_VIEW_LOGS' => 'Журнал Почты',
 ];
 
 $jsLanguageStrings = [

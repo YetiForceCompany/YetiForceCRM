@@ -40,11 +40,11 @@ $languageStrings = [
 	'LBL_EMAIL_NOTIFICATIONS' => 'Уведомление по Почте',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_SAVE_CHANGES' => 'Изменения сохранены',
-	'LBL_GENERAL_SETTINGS' => 'General settings',
-	'LBL_STORAGEFOLDER_INFO' => 'Do you want to make a backup of storage folder',
-	'LBL_BACKUPFOLDER_INFO' => 'Do you want to make a backup of backup folder',
-	'LBL_VALUES' => 'Values',
-	'LBL_DETAIL' => 'Detail',
+	'LBL_GENERAL_SETTINGS' => 'Настройки',
+	'LBL_STORAGEFOLDER_INFO' => 'Делать копию папки с данными?',
+	'LBL_BACKUPFOLDER_INFO' => 'Делать копию папки с Резервными копиями?',
+	'LBL_VALUES' => 'Значение',
+	'LBL_DETAIL' => 'Подробности',
 ];
 
 $jsLanguageStrings = [
