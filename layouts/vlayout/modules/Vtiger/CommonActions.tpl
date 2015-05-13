@@ -36,7 +36,7 @@
                         </div>
                         <div class="input-append searchBar span6">
                             <input type="text" class="" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
-                            <span id="searchIcon" class="add-on search-icon"><i class="icon-white icon-search "></i></span>
+                            <span id="searchIcon" class="add-on search-icon"><span class="icon-white icon-search "></span></span>
                             <span class="adv-search  pull-left">
                                 <a class="alignMiddle" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</a>
                             </span>
