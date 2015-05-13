@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!DOCTYPE html>
-<html>
+<html lang="{$HTMLLANG}">
 	<head>
 		<title>
 			{vtranslate($PAGETITLE, $MODULE_NAME)}
