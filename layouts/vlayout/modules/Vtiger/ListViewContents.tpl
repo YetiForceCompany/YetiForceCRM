@@ -62,7 +62,7 @@
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="5%">
-					<input type="checkbox" id="listViewEntriesMainCheckBox" />
+					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				<th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if}>
@@ -109,7 +109,7 @@
 			{/if}
             <td  width="5%" class="{$WIDTHTYPE}">
 				{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
-					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
+					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}"/>
 				{/if}
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

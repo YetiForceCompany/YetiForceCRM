@@ -41,7 +41,7 @@
 			<span class="btn-toolbar span4">
 				<span class="customFilterMainSpan btn-group">
 					{if $CUSTOM_VIEWS|@count gt 0}
-						<select id="customFilter" style="width:350px;">
+						<select id="customFilter" style="width:350px;" title="{vtranslate('LBL_CUSTOM_FILTER')}">
 							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 							<optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL)} {/if}' >
 									{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}

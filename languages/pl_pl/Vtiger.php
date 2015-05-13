@@ -708,7 +708,8 @@ $languageStrings = [
 	'RequirementCards' => 'Karty wymagań',
 	'QuotesEnquires' => 'Zapytania ofertowe',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Przeszukaj gałęzie',
-	'LBL_FILTER' => 'Filtr',
+	'LBL_SELECT_SINGLE_ROW' => 'Zaznacz pojedyńczy wiersz',
+	'LBL_CUSTOM_FILTER' => 'Dodatkowe filtry',
 	
 	/* industry */
 	'Administration'=>'Administracja',

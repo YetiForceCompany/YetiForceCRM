@@ -30,7 +30,7 @@
 									<span class="row-fluid">
 										<span class="span3 pushUpandDown2per"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
 										<span class="span4">
-											<input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGE_NUMBER}"/>
+											<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
 										</span>
 										<span class="span2 textAlignCenter pushUpandDown2per">
 											{vtranslate('LBL_OF',$moduleName)}&nbsp;
