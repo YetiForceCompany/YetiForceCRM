@@ -417,18 +417,14 @@ function setCCAddress($mail,$cc_mod,$cc_val)
 /**	Function to send the mail which will be called after set all the mail object values
   *	$mail -- reference of the mail object
   */
-function MailSend($mail)
-{
+function MailSend($mail){
 	global $log;
-         $log->info("Inside of Send Mail function.");
-	if(!$mail->Send())
-	{
-		$log->debug("Error in Mail Sending : Error log = '".$mail->ErrorInfo."'");
+	$log->info("Inside of Send Mail function.");
+	if(!$mail->Send()){
+		$log->error("Error in Mail Sending: '".$mail->ErrorInfo."'");
 		return $mail->ErrorInfo;
-	}
-	else
-	{
-		$log->info("Mail has been sent from the vtigerCRM system : Status : '".$mail->ErrorInfo."'");
+	} else {
+		$log->info("Mail has been sent from the YetiForce system: '".$mail->ErrorInfo."'");
 		return 1;
 	}
 }
@@ -478,12 +474,11 @@ function getMailError($mail,$mail_status,$to)
 	provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	connect_host, recipients_failed, from_failed
 	*/
-
-	$adb = PearDatabase::getInstance();
-	$adb->println("Inside the function getMailError");
+	global $log;
+	$log->info("Inside the function getMailError");
 
 	$msg = array_search($mail_status,$mail->language);
-	$adb->println("Error message ==> ".$msg);
+	$log->info("Error message ==> ".$msg);
 
 	if($msg == 'connect_host')
 	{
@@ -499,11 +494,11 @@ function getMailError($mail,$mail_status,$to)
 	}
 	else
 	{
-		$adb->println("Mail error is not as connect_host or from_failed or recipients_failed");
+		$log->info("Mail error is not as connect_host or from_failed or recipients_failed");
 		//$error_msg = $msg;
 	}
 
-	$adb->println("return error => ".$error_msg);
+	$log->info("return error => ".$error_msg);
 	return $error_msg;
 }
 
