@@ -70,7 +70,7 @@
 								</ul>
 							</span>
 						{/if}
-						<img class="filterImage" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+						<img class="filterImage" alt="{vtranslate('LBL_FILTER')}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
 					{else}
 						<input type="hidden" value="0" id="customFilter" />
 					{/if}

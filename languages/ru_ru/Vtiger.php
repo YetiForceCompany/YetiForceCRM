@@ -1128,6 +1128,7 @@ $languageStrings = [
 	'Credits' => 'Благодарности',
 	'LBL_VIEW_DASHBOARD' => 'Суммирование',
 	'LBL_SEARCH_MODULE' => 'Search module',
+	'LBL_FILTER' => 'Filter',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

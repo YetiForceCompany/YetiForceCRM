@@ -756,6 +756,7 @@ $languageStrings = [
 	'HolidaysEntitlement' => 'Direito férias anuais',
 	'Calculations' => 'Cálculos',
 	'LBL_SEARCH_MODULE' => 'Search module',
+	'LBL_FILTER' => 'Filter',
 
 	/* industry */
 	'Administration'=>'Administração',

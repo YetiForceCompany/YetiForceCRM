@@ -778,6 +778,7 @@ $languageStrings = [
 	'Calculations' => 'Kalkulationen',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Suche in Unterkategorien',
 	'LBL_SEARCH_MODULE' => 'Search module',
+	'LBL_FILTER' => 'Filter',
 
 	/* industry */
 	'Administration'=>'Verwaltung',
