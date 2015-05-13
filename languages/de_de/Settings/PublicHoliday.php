@@ -42,7 +42,7 @@ $languageStrings = [
 	'ecclesiastical' => 'kirchlich',
 	'national' => 'gesetzlicher',
 	
-	'LBL_VIEW_CONFIGURATION' => 'Public Holidays',
+	'LBL_VIEW_CONFIGURATION' => 'Feiertage',
 ];
 $jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR'													=> 'Es müssen alle Felder im Formular befüllt werden',
