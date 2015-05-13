@@ -17,6 +17,7 @@
     {assign var="productDescription" value="productDescription"|cat:$row_no}
     {assign var="qtyInStock" value="qtyInStock"|cat:$row_no}
     {assign var="qty" value="qty"|cat:$row_no}
+    {assign var="usageUnit" value="usageUnit"|cat:$row_no}
 	{assign var="rbh" value="rbh"|cat:$row_no}
     {assign var="listPrice" value="listPrice"|cat:$row_no}
 	{assign var="purchase" value="purchase"|cat:$row_no}
@@ -73,6 +74,9 @@
 	</td>
 	<td>
 		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
+	</td>
+	<td>
+		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
 	<td>
 		<div>

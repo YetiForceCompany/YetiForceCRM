@@ -30,7 +30,7 @@
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
             <th colspan="2"><span class="inventoryLineItemHeader">{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
-            <td colspan="1" class="chznDropDown">
+            <td colspan="2" class="chznDropDown">
                 <b>{$APP.LBL_CURRENCY}</b>&nbsp;&nbsp;
                 {assign var=SELECTED_CURRENCY value=$CURRENCINFO}
 				{* Lookup the currency information if not yet set - create mode *}
@@ -76,6 +76,7 @@
             <td><b>{vtranslate('LBL_TOOLS',$MODULE)}</b></td>
             <td><span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_QTY',$MODULE)}</b></td>
+            <td><b>{vtranslate('LBL_UNIT',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_LIST_PRICE',$MODULE)}</b></td>
             <td><b class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</b></td>
             <td><b class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</b></td>
