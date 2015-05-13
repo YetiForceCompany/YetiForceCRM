@@ -10,13 +10,13 @@
  * Contributor(s): 
  *************************************************************************************************************************************/
 $languageStrings = [
-	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность обеда',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность перерыва',
 	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
-	'LBL_HOLIDAYDAYS_INFO' => 'Количество дней отпуска',
-	'LBL_WORKEDDAYS_INFO' => 'Количество отработанных дней',
-	'LBL_NATIONAL_INFO' => 'Количество национальных праздников',
-	'LBL_ECCLESIASTICAL_INFO' => 'Количество церковных праздников',
-	'LBL_WEEKENDDAYS_INFO' => 'Выходные',
+	'LBL_HOLIDAYDAYS_INFO' => 'Всего дней отпуска',
+	'LBL_WORKEDDAYS_INFO' => 'Всего рабочих дней',
+	'LBL_NATIONAL_INFO' => 'Всего национальных праздников',
+	'LBL_ECCLESIASTICAL_INFO' => 'Всего церковных дней',
+	'LBL_WEEKENDDAYS_INFO' => 'Выходные дни',
 	'LBL_ALLDAYS_INFO' => 'Все дни',
 	'OSSEmployees'	=>	'Сотрудники',
 	'SINGLE_OSSEmployees'	=>	'Сотрудник',
@@ -71,15 +71,15 @@ $languageStrings = [
 	'Brak danych'	=>	'Нет данных',
 
 	'LBL_DAYWORKSUM'	=>	'Время работы',
-	'LBL_ALLDAYS_INFO' => 'All days',
-	'LBL_WEEKENDDAYS_INFO' => 'Weekend days',
-	'LBL_ECCLESIASTICAL_INFO' => 'Amount of ecclesiastical days',
-	'LBL_NATIONAL_INFO' => 'Amount of national holiday days',
-	'LBL_WORKEDDAYS_INFO' => 'Amount of worked days',
-	'LBL_HOLIDAYDAYS_INFO' => 'Amount of holiday days',
-	'LBL_AVERAGEWORKTIME_INFO' => 'Average working time',
-	'LBL_AVERAGEBREAKTIME_INFO' => 'Average break time',
-	'LBL_WORKDAYS_INFO' => 'Work days',
+	'LBL_ALLDAYS_INFO' => 'Все дни',
+	'LBL_WEEKENDDAYS_INFO' => 'Выходные дни',
+	'LBL_ECCLESIASTICAL_INFO' => 'Всего церковных дней',
+	'LBL_NATIONAL_INFO' => 'Всего национальных праздников',
+	'LBL_WORKEDDAYS_INFO' => 'Всего рабочих дней',
+	'LBL_HOLIDAYDAYS_INFO' => 'Всего дней отпуска',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность перерыва',
+	'LBL_WORKDAYS_INFO' => 'Рабочих дней',
 ];
 
 $jsLanguageStrings = [

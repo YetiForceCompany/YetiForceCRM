@@ -9,6 +9,10 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
+	'PLL_POST_WARRANTY_SUPPORT' => 'Послегарантийное обслуживание',
+	'PLL_WARRANTY_SUPPORT' => 'Гарантийное обслуживание',
+	'PLL_NO_SUPPORT' => 'Нет обслуживания',
+	'PLL_DRAFT' => 'Черновик',
 	'Asset Name'                   => 'Название Актива', 
 	'Asset No'                     => 'Актив №'              , 
 	'Assets'	=>	'Активы',
@@ -16,7 +20,7 @@ $languageStrings = [
 	'Customer Name'                => 'Название Клиента', 
 	'Date Sold'                    => 'Дата продажи'     , 
 	'Date in Service'              => 'Дата сервиса'     , 
-	'Delivered to Organization'	=>	'No support',
+	'Delivered to Organization' => 'Нет обслуживания',
 	'Draft'	=>	'Проект',
 	'In Service'                   => 'Обслуживается'  , 
 	'Invoice Name'                 => 'Счет'                    , 
@@ -28,14 +32,14 @@ $languageStrings = [
 	'Out-of-service'               => 'Не обслуживается',
 	'Potential renewal'	=>	'Потенциальная Сделка',
 	'Potential'	=>	'Исходная Сделка',
-	'Realization proceeding'	=>	'Warranty support',
+	'Realization proceeding' => 'Гарантийное обслуживание',
 	'SINGLE_Assets'                => 'Актив'                , 
 	'Serial Number'                => 'Серийный номер' , 
 	'Shipping Tracking Number'     => 'Номер доставки' , 
 	'Total time [h]'	=>	'Всего времени [ч]',
-	'Warranty proceeding'	=>	'Post-warranty support',
+	'Warranty proceeding' => 'Послегарантийное обслуживание',
 	'attentions'	=>	'Внимание',
 	'description'	=>	'Описание',
 	'LBL_ORDER_TIME'	=>	'Время Заказа',
-	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Expiring sold products',
+	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Товары с истекающим сроком',
 ];
