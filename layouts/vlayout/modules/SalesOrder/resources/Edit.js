@@ -174,6 +174,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 			var recordData = responseData[id];
 			var selectedName = recordData.name;
 			var unitPrice = recordData.listprice;
+			var usageUnit = recordData.usageunit;
 			var listPriceValues = recordData.listpricevalues;
 			var taxes = recordData.taxes;
 			if(referenceModule == 'Products') {
@@ -190,6 +191,7 @@ Inventory_Edit_Js("SalesOrder_Edit_Js",{},{
 				jQuery('input.selectedModuleId',parentRow).val(recordId);
 				jQuery('input.lineItemType',parentRow).val(referenceModule);
 				jQuery('input.listPrice',parentRow).val(unitPrice);
+				jQuery('span.usageUnit',parentRow).text(usageUnit);
 				var currencyId = jQuery("#currency_id").val();
 				var listPriceValuesJson  = JSON.stringify(listPriceValues);
 				if(typeof listPriceValues[currencyId]!= 'undefined') {

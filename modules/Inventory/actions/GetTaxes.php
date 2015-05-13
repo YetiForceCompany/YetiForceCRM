@@ -32,13 +32,17 @@ class Inventory_GetTaxes_Action extends Vtiger_Action_Controller {
 				}
 			}
 			$listPrice = (float)$recordModel->get('unit_price') * (float)$conversionRate;
+			if ( $recordModel->has('usageunit') )
+				$usageUnit = vtranslate($recordModel->get('usageunit'), 'Products');
+			else
+				$usageUnit = vtranslate($recordModel->get('service_usageunit'), 'Services');
 
 			$response->setResult(array(
 									$recordId => array(
 										'id'=>$recordId, 'name'=>decode_html($recordModel->getName()),
 										'taxes'=>$taxes, 'listprice'=>$listPrice, 'listpricevalues'=>$listPriceValues,
 										'description' => decode_html($recordModel->get('description')),
-										'quantityInStock' => $recordModel->get('qtyinstock')
+										'quantityInStock' => $recordModel->get('qtyinstock'), 'usageunit' => $usageUnit 
 									)));
 		} else {
 			foreach($idList as $id) {
@@ -54,12 +58,16 @@ class Inventory_GetTaxes_Action extends Vtiger_Action_Controller {
 				}
 
 				$listPrice = (float)$recordModel->get('unit_price') * (float)$conversionRate;
+				if ( $recordModel->has('usageunit') )
+					$usageUnit = vtranslate($recordModel->get('usageunit'), 'Products');
+				else
+					$usageUnit = vtranslate($recordModel->get('service_usageunit'), 'Services');
 				$info[] = array(
 							$id => array(
 								'id'=>$id, 'name'=>decode_html($recordModel->getName()),
 								'taxes'=>$taxes, 'listprice'=>$listPrice, 'listpricevalues'=>$listPriceValues,
 								'description' => decode_html($recordModel->get('description')),
-								'quantityInStock' => $recordModel->get('qtyinstock')
+								'quantityInStock' => $recordModel->get('qtyinstock'), 'usageunit' => $usageUnit 
 							));
 			}
 			$response->setResult($info);

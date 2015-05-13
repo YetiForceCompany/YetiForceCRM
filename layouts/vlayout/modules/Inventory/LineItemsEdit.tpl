@@ -30,7 +30,7 @@
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
             <th colspan="2"><span class="inventoryLineItemHeader">{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
-            <th colspan="2" class="chznDropDown">
+            <th colspan="3" class="chznDropDown">
                 <div class="row-fluid">
                     <span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
                     {assign var=SELECTED_CURRENCY value=$CURRENCINFO}
@@ -78,6 +78,7 @@
             <td><b>{vtranslate('LBL_TOOLS',$MODULE)}</b></td>
             <td><span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_QTY',$MODULE)}</b></td>
+            <td><b>{vtranslate('LBL_UNIT',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_LIST_PRICE',$MODULE)}</b></td>
             <td><b class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</b></td>
             <td><b class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</b></td>

@@ -110,7 +110,9 @@ function getAssociatedProducts($module,$focus,$seid='')
  		            case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
  		                        vtiger_inventoryproductrel.listprice,
  		                        vtiger_inventoryproductrel.description AS product_description,
- 		                        vtiger_inventoryproductrel.*,vtiger_crmentity.deleted
+ 		                        vtiger_inventoryproductrel.*,vtiger_crmentity.deleted,
+ 		                        vtiger_products.usageunit,
+ 		                        vtiger_service.service_usageunit
  	                            FROM vtiger_inventoryproductrel
 								LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_inventoryproductrel.productid
  		                        LEFT JOIN vtiger_products
@@ -127,6 +129,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        vtiger_products.productname,
  		                        vtiger_products.productcode,
  		                        vtiger_products.unit_price,
+ 		                        vtiger_products.usageunit,
  		                        vtiger_products.qtyinstock,
  		                        vtiger_seproductsrel.*,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description
@@ -145,6 +148,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        vtiger_products.productcode,
  		                        vtiger_products.productname,
  		                        vtiger_products.unit_price,
+ 		                        vtiger_products.usageunit,
  		                        vtiger_products.qtyinstock,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description,
  		                        'Products' AS entitytype
@@ -162,6 +166,7 @@ function getAssociatedProducts($module,$focus,$seid='')
  		                        'NA' AS productcode,
  		                        vtiger_service.servicename AS productname,
  		                        vtiger_service.unit_price AS unit_price,
+ 		                        vtiger_service.service_usageunit AS usageunit,
  		                        'NA' AS qtyinstock,vtiger_crmentity.deleted,
  		                        vtiger_crmentity.description AS product_description,
  		                       	'Services' AS entitytype
@@ -189,6 +194,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$unitprice=$adb->query_result($result,$i-1,'unit_price');
 		$listprice=$adb->query_result($result,$i-1,'listprice');
 		$entitytype=$adb->query_result($result,$i-1,'entitytype');
+		if ( ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Invoice') && $entitytype == 'Services' ) {
+			$usageunit=vtranslate($adb->query_result($result,$i-1,'service_usageunit'), $entitytype);
+		}
+		else {
+			$usageunit=vtranslate($adb->query_result($result,$i-1,'usageunit'), $entitytype);
+		}
 		$calculationsid=$adb->query_result($result,$i-1,'calculationsid');
 		$purchase=$adb->query_result($result,$i-1,'purchase');
 		$margin=$adb->query_result($result,$i-1,'margin');
@@ -265,6 +276,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[$i]['qty'.$i]=decimalFormat($qty);
 		$product_Detail[$i]['listPrice'.$i]=$listprice;
 		$product_Detail[$i]['unitPrice'.$i]=number_format($unitprice, $no_of_decimal_places,'.','');
+		$product_Detail[$i]['usageUnit'.$i]=$usageunit;
 		$product_Detail[$i]['productTotal'.$i]=$productTotal;
 		$product_Detail[$i]['subproduct_ids'.$i]=$subprodid_str;
 		$product_Detail[$i]['subprod_names'.$i]=$subprodname_str;
