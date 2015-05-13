@@ -17,6 +17,7 @@
     {assign var="productDescription" value="productDescription"|cat:$row_no}
     {assign var="qtyInStock" value="qtyInStock"|cat:$row_no}
     {assign var="qty" value="qty"|cat:$row_no}
+    {assign var="usageUnit" value="usageUnit"|cat:$row_no}
     {assign var="listPrice" value="listPrice"|cat:$row_no}
 	{assign var="purchase" value="purchase"|cat:$row_no}
 	{assign var="margin" value="margin"|cat:$row_no}
@@ -108,6 +109,9 @@
 			{vtranslate('LBL_MAX_QTY_SELECT',$MODULE)}&nbsp;<span class="maxQuantity">{$data.$qtyInStock}</span>
 		</span>
 		{/if}
+	</td>
+	<td>
+		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
 	<td>
 		<div>

@@ -67,9 +67,19 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linkicon' => 'icon-calendar'
 			);
 		}
-
-
 		
+		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
+		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
+			$basicActionLink = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => 'LBL_SEND_SMS',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$this->getModule()->getName().
+								'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
+				'linkicon' => '',
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+		}
+	
         foreach($CalendarActionLinks as $basicLink) {
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}

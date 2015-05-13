@@ -395,6 +395,7 @@ $languageStrings = [
 	'LBL_PRIVACY_POLICY' => 'Polityka bezpieczeństwa',
 	'LBL_PROFILE_PASSWORD' => 'Profil / Hasło',
 	'LBL_QTY' => 'Ilość',
+	'LBL_UNIT' => 'J.m.',
 	'LBL_QTY_IN_STOCK' => 'Stan magazynowy',
 	'LBL_QUICK_CREATE' => 'Szybkie tworzenie',
 	'LBL_READ_LICENSE' => 'Licencja',

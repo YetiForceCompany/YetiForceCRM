@@ -469,6 +469,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			var recordData = responseData[id];
 			var selectedName = recordData.name;
 			var unitPrice = recordData.listprice;
+			var usageUnit = recordData.usageunit;
             var listPriceValues = recordData.listpricevalues;
 			var taxes = recordData.taxes;
 			if(referenceModule == 'Products') {
@@ -480,6 +481,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			lineItemNameElment.val(selectedName);
 			lineItemNameElment.attr('disabled', 'disabled');
 			jQuery('input.listPrice',parentRow).val(unitPrice);
+			jQuery('span.usageUnit',parentRow).text(usageUnit);
 			var currencyId = jQuery("#currency_id").val();
             var listPriceValuesJson  = JSON.stringify(listPriceValues);
             if(typeof listPriceValues[currencyId]!= 'undefined') {
@@ -1546,6 +1548,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		jQuery('input.selectedModuleId',lineItemRow).val('');
 		jQuery('input.listPrice',lineItemRow).val('0');
 		jQuery('.lineItemCommentBox', lineItemRow).val('');
+		jQuery('.usageUnit', lineItemRow).text('');
 		thisInstance.quantityChangeActions(lineItemRow);
 	},
 

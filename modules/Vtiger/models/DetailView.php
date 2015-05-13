@@ -110,6 +110,26 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
+		if(Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId) && $recordPermissionToEditView) {
+			$deletelinkModel = array(
+					'linktype' => 'DETAILVIEW',
+					'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_'. $moduleName, $moduleName)),
+					'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
+					'linkicon' => 'icon-trash'
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+		}
+
+		if(Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord')) {
+			$duplicateLinkModel = array(
+						'linktype' => 'DETAILVIEWBASIC',
+						'linklabel' => 'LBL_DUPLICATE',
+						'linkurl' => $recordModel->getDuplicateRecordUrl(),
+						'linkicon' => 'icon-retweet'
+				);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
+		}
+
 		if(!empty($detailViewBasiclinks)) {
 			foreach($detailViewBasiclinks as $linkModel) {
 				// Remove view history, needed in vtiger5 to see history but not in vtiger6

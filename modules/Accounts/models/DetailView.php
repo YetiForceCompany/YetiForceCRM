@@ -69,6 +69,28 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			);
 		}
 
+		$SMSNotifierModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
+		if(!empty($SMSNotifierModuleModel) && $currentUserModel->hasModulePermission($SMSNotifierModuleModel->getId())) {
+			$basicActionLink = array(
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => 'LBL_SEND_SMS',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$moduleName.'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
+				'linkicon' => 'icon-comment'
+			);
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+		}
+		
+		
+		if($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
+			$massActionLink = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
+				'linkicon' => 'icon-random'
+ 			);
+ 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+ 		}
+
         foreach($CalendarActionLinks as $basicLink) {
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}

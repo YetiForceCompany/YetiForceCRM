@@ -15,6 +15,7 @@ $variables_list = array(
     'enable_ordinal_column' => 'Enable column with positions no. :',
     'enable_productname_column' => 'Enable column with product name :',
     'enable_amount_column' => 'Enable column with product`s amount :',
+    'enable_unit_usage' => 'Show unit usage :',
     'enable_listprice_column' => 'Enable column with product`s price :',
     'enable_netprice_column' => 'Enable column with product`s net price :',
     'enable_discount_column' => 'Enable column with product`s discount :',
@@ -72,12 +73,15 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
     $enable_gross_column = TRUE;
     // Taxes in PLN
     $enable_taxes_inPLN = TRUE;
+    // unit type
+    $enable_unit_usage = TRUE;
 
     // Column for a summary in the gray box
     $wyswietlaj = array(
         $enable_ordinal_column,
         $enable_productname_column,
         $enable_amount_column,
+		$enable_unit_usage,
         $enable_listprice_column,
         $enable_netprice_column,
         $enable_discount_column,
@@ -273,7 +277,8 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
         $qty[$i] = $associated_products[$i]['qty' . $i];
         $unit_price[$i] = number_format($associated_products[$i]['unitPrice' . $i], 2, '.', ',');
         $list_price[$i] = $associated_products[$i]['listPrice' . $i]; // number_format($associated_products[$i]['listPrice'.$i],2,'.',',');
-        $list_pricet[$i] = $associated_products[$i]['listPrice' . $i];
+        $list_pricet[$i] = $list_price[$i];
+		$usage_unit[$i] = $associated_products[$i]['usageUnit' . $i];
         $discount_total[$i] = $associated_products[$i]['discountTotal' . $i];
         $product_code[$i] = $associated_products[$i]['hdnProductcode' . $i];
         $taxable_total = $qty[$i] * $list_pricet[$i] - $discount_total[$i];
@@ -297,6 +302,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
         $product_line[$j]["Product Code"] = $product_code[$i];
         $product_line[$j]["Qty"] = $qty[$i];
         $product_line[$j]["Price"] = $list_price[$i];
+        $product_line[$j]["Unit"] = $usage_unit[$i];
         $product_line[$j]["Discount"] = $discount_total[$i];
         $product_line[$j]["Total"] = $prod_total[$i];
         $lines++;
@@ -372,20 +378,24 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
             $header[2] = vtranslate('LBL_Quantity', 'OSSPdf');
         }
 
+        if ($enable_unit_usage) {
+            $header[3] = vtranslate('LBL_UNIT', 'OSSPdf');
+        }
+
         if ($enable_listprice_column) {
-            $header[3] = vtranslate('LBL_price', 'OSSPdf');
+            $header[4] = vtranslate('LBL_price', 'OSSPdf');
         }
 
         if ($enable_netprice_column) {
-            $header[4] = vtranslate('LBL_rabat', 'OSSPdf');
+            $header[5] = vtranslate('LBL_rabat', 'OSSPdf');
         }
 
         if ($enable_discount_column) {
-            $header[5] = vtranslate('LBL_netto', 'OSSPdf');
+            $header[6] = vtranslate('LBL_netto', 'OSSPdf');
         }
 
         if ($enable_gross_column) {
-            $header[6] = vtranslate('LBL_brutto', 'OSSPdf');
+            $header[7] = vtranslate('LBL_brutto', 'OSSPdf');
         }
     } else {
         $header = Array();
@@ -402,34 +412,37 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
             $header[2] = vtranslate('LBL_Quantity', 'OSSPdf');
         }
 
-        if ($enable_listprice_column) {
-            $header[3] = vtranslate('LBL_price', 'OSSPdf');
+        if ($enable_unit_usage) {
+            $header[3] = vtranslate('LBL_UNIT', 'OSSPdf');
         }
 
+        if ($enable_listprice_column) {
+            $header[4] = vtranslate('LBL_price', 'OSSPdf');
+        }
 
 
         if ($enable_netprice_column) {
-            $header[4] = vtranslate('LBL_rabat', 'OSSPdf');
+            $header[5] = vtranslate('LBL_rabat', 'OSSPdf');
         }
 
         if ($enable_discount_column) {
-            $header[5] = vtranslate('LBL_netto', 'OSSPdf');
+            $header[6] = vtranslate('LBL_netto', 'OSSPdf');
         }
 
         if ($enable_vatpercentage_column) {
-            $header[6] = vtranslate('LBL_vat', 'OSSPdf');
+            $header[7] = vtranslate('LBL_vat', 'OSSPdf');
         }
 
         if ($enable_vatamount_column) {
-            $header[7] = vtranslate('LBL_vat_waluta', 'OSSPdf') . " (" . $currency_symbol . ")";
+            $header[8] = vtranslate('LBL_vat_waluta', 'OSSPdf') . " (" . $currency_symbol . ")";
         }
 
         if ($enable_gross_column) {
-            $header[8] = vtranslate('LBL_brutto', 'OSSPdf');
+            $header[9] = vtranslate('LBL_brutto', 'OSSPdf');
         }
 
         if ($enable_taxes_inPLN == TRUE && $printColumnWithCalculatedTax == TRUE) {
-            $header[9] = vtranslate('TAXES_IN_PLN', 'OSSPdf');
+            $header[10] = vtranslate('TAXES_IN_PLN', 'OSSPdf');
         }
     }
 
@@ -461,7 +474,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
             // $currfield->getDBInsertedValue();
             $item['Total'] = (float)$item['Total'];
 
-            $data[$i] = Array($i, $item['Product Name'], $item['Qty'], $item['Price'], $item['Discount'], $netto, $item['Total']);
+            $data[$i] = Array($i, $item['Product Name'], $item['Qty'], $item['Unit'], $item['Price'], $item['Discount'], $netto, $item['Total']);
         } else {
             $tax_pln = $item['Tax'] * $rateOfExchange;
             $total_tax_in_PLN += $tax_pln;
@@ -495,7 +508,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
             ////////////
 
 
-            $data[$i] = Array($i, $item['Product Name'], $item['Qty'], $item['Price'], $item['Discount'], $netto, $tax_percentage, $item['Tax'], $item['Total'], $tax_pln);
+            $data[$i] = Array($i, $item['Product Name'], $item['Qty'], $item['Unit'], $item['Price'], $item['Discount'], $netto, $tax_percentage, $item['Tax'], $item['Total'], $tax_pln);
         }
 
         $i++;
@@ -503,13 +516,13 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
 
     if ($final_details['taxtype'] == 'group') {
 
-        $width = array(30, 200, 50, 60, 50, 70, 70);
-        $align = array("center", "center", "center", "center", "center", "center", "center");
-        $format = array(0, "s", 0, 2, 2, 2, 2);
+        $width = array(30, 180, 50, 40, 60, 50, 70, 70);
+        $align = array("center", "center", "center", "center", "center", "center", "center", "center");
+        $format = array(0, "s", 0, "s", 2, 2, 2, 2);
     } else {
-        $width = array(30, 180, 50, 60, 50, 40, 40, 40, 40, 40);
-        $align = array("center", "center", "center", "center", "center", "center", "center", "center", "center", "center");
-        $format = array(0, "s", 0, 2, 2, 2, 2, 2, 2);
+        $width = array(30, 160, 50, 40, 60, 50, 40, 40, 40, 40, 40);
+        $align = array("center", "center", "center", "center", "center", "center", "center", "center", "center", "center", "center");
+        $format = array(0, "s", 0, "s", 2, 2, 2, 2, 2, 2);
     }
 
 	$product_table = '<table cellpadding="2">';
@@ -533,7 +546,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
         $group_sep = ' ';
     }
 
-    $align = array("center", "left", "center", "center", "center", "center", "center", "center", "center", "center");
+    $align = array("center", "left", "center", "center", "center", "center", "center", "center", "center", "center", "center");
     $i = 0;
     foreach ($data as $row) {
         $product_table .= '<tr>';
@@ -546,7 +559,7 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
                 $item = $itarr[0] . ' ' . $itarr[1];
             }
             if ($wyswietlaj[$key]) {
-                if ($key == 9) {
+                if ($key == 10) {
                     if ($printColumnWithCalculatedTax == TRUE) {
                         $currfield = new CurrencyField(0);
                         $zero = $currfield->getDisplayValue();
@@ -560,8 +573,8 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
                         }
                     }
                 } else {
-                    if ($key != 0 && $key != 1) {
-                        $product_table .= '<td style="border: 0.2mm solid black;'.($lastKey == 7 ? ' border-right: 0.2mm solid black;':'').'" width="' . $width[$key] . '" align="' . $align[$key] . '"><small>' . number_format($item, 2, $dec_sep, $group_sep) . '</small></td>';
+                    if ($key != 0 && $key != 1 && $key != 3) {
+                        $product_table .= '<td style="border: 0.2mm solid black;'.($lastKey == 8 ? ' border-right: 0.2mm solid black;':'').'" width="' . $width[$key] . '" align="' . $align[$key] . '"><small>' . number_format($item, 2, $dec_sep, $group_sep) . '</small></td>';
                     } else {
                         $product_table .= '<td style="border: 0.2mm solid black;" width="' . $width[$key] . '" align="' . $align[$key] . '"><small>' . $item . '</small></td>';
                     }
@@ -585,28 +598,31 @@ function replaceProductTable($pdftype, $id, $templateid,$content, $tcpdf) {
     if ($enable_amount_column) {
         $product_table .= '<td width="' . $width[2] . '"></td>';
     }
-    if ($enable_listprice_column) {
+    if ($enable_unit_usage) {
         $product_table .= '<td width="' . $width[3] . '"></td>';
     }
+    if ($enable_listprice_column) {
+        $product_table .= '<td width="' . $width[4] . '"></td>';
+    }
     if ($enable_netprice_column) {
-        $product_table .= '<td width="' . $width[4] . '" align="center" valign="middle" style="border: 0.2mm solid black;" ><small><b>' . number_format($total_discount, 2, $dec_sep, $group_sep) . '</b></small></td>';
+        $product_table .= '<td width="' . $width[5] . '" align="center" valign="middle" style="border: 0.2mm solid black;" ><small><b>' . number_format($total_discount, 2, $dec_sep, $group_sep) . '</b></small></td>';
     }
     if ($enable_discount_column) {
-        $product_table .= '<td width="' . $width[5] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_net_amount, 2, $dec_sep, $group_sep) . '</b></small></td>';
+        $product_table .= '<td width="' . $width[6] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_net_amount, 2, $dec_sep, $group_sep) . '</b></small></td>';
     }
     if ($enable_vatpercentage_column && $final_details['taxtype'] != 'group') {
-        $product_table .= '<td width="' . $width[6] . '"></td>';
+        $product_table .= '<td width="' . $width[7] . '"></td>';
     }
 
     if ($enable_vatamount_column && $final_details['taxtype'] != 'group') {
-        $product_table .= '<td width="' . $width[7] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($suma_vat, 2, $dec_sep, $group_sep) . '</b></small></td>';
+        $product_table .= '<td width="' . $width[8] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($suma_vat, 2, $dec_sep, $group_sep) . '</b></small></td>';
     }
 
     if ($enable_gross_column) {
-        $product_table .= '<td width="' . $width[5] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_gross_amount, 2, $dec_sep, $group_sep) . '</b></small></td>';
+        $product_table .= '<td width="' . $width[7] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_gross_amount, 2, $dec_sep, $group_sep) . '</b></small></td>';
     }
     if ($enable_gross_column && $total_tax_in_PLN != 0 && $printColumnWithCalculatedTax == TRUE) {
-        $product_table .= '<td width="' . $width[9] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_tax_in_PLN, 2, $dec_sep, $group_sep) . '</b></small></td>';
+        $product_table .= '<td width="' . $width[10] . '" align="center" valign="middle" style="border: 0.2mm solid black;"><small><b>' . number_format($total_tax_in_PLN, 2, $dec_sep, $group_sep) . '</b></small></td>';
     }
 
     $product_table .= '</tr></table><br/>';

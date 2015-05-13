@@ -672,6 +672,7 @@ $languageStrings = [
 	'LBL_PUBLIC' => 'Публичные',
 	'LBL_PURCHASE'	=>	'Себестоимость',
 	'LBL_QTY'=> 'Кол-во' ,
+	'LBL_UNIT' => 'Unit',
 	'LBL_QTY_IN_STOCK' => 'Количество в наличии',
 	'LBL_QUICK_CREATE' => 'Быстрое создание',
 	'LBL_QUICK_CREATE_EDITOR'=> 'Редактор Быстрого создания',

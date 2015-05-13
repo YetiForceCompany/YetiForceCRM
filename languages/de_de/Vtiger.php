@@ -468,6 +468,7 @@ $languageStrings = [
 	'LBL_PRIVACY_POLICY' => 'Datenschutz-Bestimmungen',
 	'LBL_PROFILE_PASSWORD' => 'Profil / Passwort',
 	'LBL_QTY' => 'Menge',
+	'LBL_UNIT' => 'Unit',
 	'LBL_QTY_IN_STOCK' => 'Bestand',
 	'LBL_QUICK_CREATE' => 'Schnellerfassung', //Löschen
 	'LBL_READ_LICENSE' => 'Lizenz lesen',

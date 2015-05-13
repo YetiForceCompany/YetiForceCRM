@@ -196,3 +196,6 @@ padding-right: 10px;
 .dashboardWidgetContent #calendarview .fc-day-number{
 padding-right: 5px;
 }
+.icon-in-button{
+	vertical-align: sub;
+}

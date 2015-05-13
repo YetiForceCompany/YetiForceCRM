@@ -12,7 +12,7 @@
 {assign var=FINAL_DETAILS value=$RELATED_PRODUCTS.1.final_details}
 <table class="table table-bordered mergeTables">
     <thead>
-    <th colspan="2" class="detailViewBlockHeader">
+    <th colspan="3" class="detailViewBlockHeader">
 	{vtranslate('LBL_ITEM_DETAILS', $MODULE_NAME)}
     </th>
     <th colspan="1" class="detailViewBlockHeader">
@@ -30,6 +30,9 @@
 	</td>
         <td>
 	    <b>{vtranslate('LBL_QTY',$MODULE_NAME)}</b>
+	</td>
+	<td>
+		<b>{vtranslate('LBL_UNIT',$MODULE_NAME)}</b>
 	</td>
         <td>
 	    <b>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</b>
@@ -76,6 +79,9 @@
 	    <td>
 		{$LINE_ITEM_DETAIL["qty$INDEX"]}
 	    </td>
+		<td>
+			{$LINE_ITEM_DETAIL["usageUnit$INDEX"]}
+		</td>
 	    <td>
 		<div>
 		    {$LINE_ITEM_DETAIL["listPrice$INDEX"]}
