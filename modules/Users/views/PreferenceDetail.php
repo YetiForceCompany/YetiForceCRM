@@ -86,7 +86,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
-			$viewer->assign('HTMLLANG', substr($currentUser->get('language'), 0, 2));
+			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			
 			if($display) {

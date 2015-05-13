@@ -153,11 +153,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$viewer->assign('STYLES',$this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		if(null == $currentUser->get('language'))
-			$htmlLang = 'en';
-		else 
-			$htmlLang = substr($currentUser->get('language'), 0, 2);
-		$viewer->assign('HTMLLANG', $htmlLang);
+		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
 		if($display) {
 			$this->preProcessDisplay($request);
