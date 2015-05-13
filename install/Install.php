@@ -2,7 +2,7 @@
 chdir(dirname(__FILE__) . '/../');
 ini_set('session.save_path','cache/session');
 // Adjust error_reporting favourable to deployment.
-
+include_once 'include/RequirementsValidation.php';
 require_once('include/main/WebUI.php');
 require_once 'libraries/csrf-magic/csrf-magic.php';
 require_once('install/views/Index.php');

@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 require_once 'config/debug.php';
+require_once 'config/developer.php';
 require_once 'config/performance.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
