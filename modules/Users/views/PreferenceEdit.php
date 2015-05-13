@@ -67,6 +67,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
+			$viewer->assign('HTMLLANG', substr($currentUser->get('language'), 0, 2));
 			$viewer->assign('LANGUAGE', $currentUser->get('language'));
 			
 			$allUsers = Users_Record_Model::getAll(true);
