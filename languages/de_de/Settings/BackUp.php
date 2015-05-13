@@ -37,9 +37,9 @@ $languageStrings = [
 	'LBL_EMAIL_NOTIFICATIONS' => 'E-mail Benachrichtigung',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',
-	'LBL_GENERAL_SETTINGS' => 'General settings',
-	'LBL_STORAGEFOLDER_INFO' => 'Do you want to make a backup of storage folder',
-	'LBL_BACKUPFOLDER_INFO' => 'Do you want to make a backup of backup folder',
+	'LBL_GENERAL_SETTINGS' => 'Allgemeine Einstellungen',
+	'LBL_STORAGEFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Speicherverzeichnissen durchführen',
+	'LBL_BACKUPFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Sicherungsverzeichnissen durchführen',
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
 ];

@@ -777,9 +777,9 @@ $languageStrings = [
 	'HolidaysEntitlement' => 'Urlaubsanspruch',
 	'Calculations' => 'Kalkulationen',
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Suche in Unterkategorien',
-	'LBL_SEARCH_MODULE' => 'Search module',
-	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
-	'LBL_CUSTOM_FILTER' => 'Custom filters',
+	'LBL_SEARCH_MODULE' => 'Durchsuche Modul',
+	'LBL_SELECT_SINGLE_ROW' => 'Wählen Sie eine einzelne Zeile',
+	'LBL_CUSTOM_FILTER' => 'eigener Filter',
 
 	/* industry */
 	'Administration'=>'Verwaltung',

@@ -20,7 +20,7 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Status der die Verkaufschance als beendet definiert',
 	'LBL_ASSETS' => 'Produktverwaltung',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Status der die Produktverwaltung als beendet definiert',
-	'LBL_CREATE_POTENTIALS' => 'Blocked the creation of Opportunities for Accounts/Organizations in which Assigned To is not a user',
+	'LBL_CREATE_POTENTIALS' => 'Anlegen von Verkaufschancen für Organisationen/Kontakte unterbinden, in denen kein User zugeordnet ist',
 ];
 
 

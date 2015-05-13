@@ -28,5 +28,5 @@ $languageStrings = [
 	'LBL_SAVED_SIGNATURE' => 'Gespeicherte Signatur',
 	
 	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
-	'LBL_VIEW_CONFIG' => 'General configuration',
+	'LBL_VIEW_CONFIG' => 'Allgemeine Konfiguration',
 ];
