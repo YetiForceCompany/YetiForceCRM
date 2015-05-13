@@ -1471,7 +1471,7 @@ class VT620_to_YT {
 	public function InactiveFields (){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::InactiveFields() method ...");
-		$fieldsInactive = array('HelpDesk'=>array('days',"hours",'from_portal'),
+		$fieldsInactive = array('HelpDesk'=>array('days',"hours"),
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
 		'Quotes'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
 		'SalesOrder'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),

@@ -1266,7 +1266,7 @@ ALTER TABLE `vtiger_troubletickets`
 	ADD CONSTRAINT `fk_1_vtiger_troubletickets` 
 	FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE ;
 
-ALTER TABLE `vtiger_groups` ADD COLUMN `color` varchar(25) NULL DEFAULT '#E6FAD8' after `description` 
+ALTER TABLE `vtiger_groups` ADD COLUMN `color` varchar(25) NULL DEFAULT '#E6FAD8' after `description` ;
 ALTER TABLE `vtiger_groups` ADD COLUMN `modules` varchar(255)  NULL after `color`;
 ALTER TABLE `vtiger_ticketpriorities` ADD COLUMN `color` varchar(25) NULL DEFAULT '	#E6FAD8' after `sortorderid` ;
 ALTER TABLE `vtiger_sales_stage` ADD COLUMN `color` varchar(25) DEFAULT '#E6FAD8' ;
