@@ -447,13 +447,14 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
 		$showtype = $request->get('showtype');
+		$rqLimit = $request->get('limit');
 
 		$db = PearDatabase::getInstance();
 		$fields = ['id','potentialname','sales_stage','assigned_user_id'];
 		$limit = 10;
 		$params = [];
-		if(!empty($request->get('limit'))){
-			$limit = $request->get('limit');
+		if(!empty($rqLimit)){
+			$limit = $rqLimit;
 		}
 		
 		$potentialConfig = Settings_SalesProcesses_Module_Model::getConfig('potential');

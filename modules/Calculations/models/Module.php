@@ -20,13 +20,14 @@ class Calculations_Module_Model extends Inventory_Module_Model{
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');
 		$showtype = $request->get('showtype');
+		$rqLimit = $request->get('limit');
 
 		$db = PearDatabase::getInstance();
 		$fields = ['id','name','calculationsstatus'];
 		$limit = 10;
 		$params = [];
-		if(!empty($request->get('limit'))){
-			$limit = $request->get('limit');
+		if(!empty($rqLimit)){
+			$limit = $rqLimit;
 		}
 		if($fromModule =='Accounts'){
 			$fields[] = 'potentialid';
