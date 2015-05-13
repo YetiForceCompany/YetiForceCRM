@@ -13,7 +13,7 @@ $languageStrings = [
 	'Users'	=>	'Пользователи',
 	'USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',
 	'LBL_USERS_COLORS' => 'Цвет пользователей',
-	'LBL_USERS_COLORS_DESCRIPTION' => ' Настройка цвета пользователя',
+	'LBL_USERS_COLORS_DESCRIPTION' => 'Настройка цвета пользователя',
 	'LBL_UPDATE_COLOR' => 'Изменить цвет',
 	'LBL_COLOR' => 'Цвет',
 	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
@@ -29,7 +29,7 @@ $languageStrings = [
 
 	//Auth
 	'LBL_AUTHORIZATION' => 'Авторизация',
-	'LBL_AUTHORIZATION_DESCRIPTION' => ' Настройка способа Авторизации',
+	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',
 	'LBL_LDAP_AUTH' => 'LDAP',
 	'LBL_ACTIVE_LDAP_AUTH' => 'Авторизация через LDAP',
 	'LBL_LDAP_SERVER' => 'Адрес сервера',
@@ -38,8 +38,8 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'Конфигурация успешно сохранена',
 	'LBL_LDAP_DOMAIN' => 'Домен (Автоматически добавляется к логину)',
 	
-	'LBL_VIEW_AUTH' => 'Authorization',
-	'LBL_VIEW_COLORS' => 'Colors',
+	'LBL_VIEW_AUTH' => 'Авторизация',
+	'LBL_VIEW_COLORS' => 'Цвета',
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST'	=>	'Пользователь с такой электронной почтой уже существует',

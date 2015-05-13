@@ -36,13 +36,13 @@ $languageStrings = [
 	'Friday' => 'Пятница',
 	'Saturday' => 'Суббота',
 	'Sunday' => 'Воскресенье',
-	'LBL_HOLIDAY_TYPE' => 'Holiday type',
-	'LBL_NATIONAL' => 'national',
-	'LBL_ECCLESIASTICAL' => 'ecclesiastical',
-	'ecclesiastical' => 'ecclesiastical',
-	'national' => 'national',
+	'LBL_HOLIDAY_TYPE' => 'Тип праздника',
+	'LBL_NATIONAL' => 'Национальный',
+	'LBL_ECCLESIASTICAL' => 'Церковный',
+	'ecclesiastical' => 'Церковный',
+	'national' => 'Национальный',
 	
-	'LBL_VIEW_CONFIGURATION' => 'Public Holidays',
+	'LBL_VIEW_CONFIGURATION' => 'Праздники',
 ];
 $jsLanguageStrings = [
 	'JS_FILL_FORM_ERROR' => 'Необходимо заполнить все поля',

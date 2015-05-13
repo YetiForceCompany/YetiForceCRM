@@ -58,12 +58,12 @@ $languageStrings = [
 	'LBL_PROS' => 'Преимущества',
 	
 	//pick list values
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
-	'PLL_WAITING_FOR_QUOTATION' => 'Waiting for quotation',
-	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_REQUIRES_AMENDMENTS' => 'Requires amendments',
+	'PLL_DRAFT' => 'Черновик',
+	'PLL_IN_REALIZATION' => 'В работе',
+	'PLL_WAITING_FOR_QUOTATION' => 'В ожидании Предложения',
+	'PLL_WAITING_FOR_ACCEPTANCE' => 'В ожидании Решения',
+	'PLL_ACCEPTED' => 'Принято',
+	'PLL_REQUIRES_AMENDMENTS' => 'Требуется исправить',
 	'PLL_DIFFICULT_REALIZATION' => 'Труднореализуемое',
 	'PLL_DIFFICULT_ORDER' => 'Сложный заказ',
 	'PLL_DIFFICULT_SHIPMENT' => 'Трудноотгружаемый',
