@@ -93,7 +93,9 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 						case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype,
 									vtiger_calculationsproductrel.listprice,
 									vtiger_calculationsproductrel.description AS product_description,
-									vtiger_calculationsproductrel.*,vtiger_crmentity.deleted
+									vtiger_calculationsproductrel.*,vtiger_crmentity.deleted,
+									vtiger_products.usageunit,
+									vtiger_service.service_usageunit
 									FROM vtiger_calculationsproductrel
 									LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_calculationsproductrel.productid
 									LEFT JOIN vtiger_products
@@ -109,6 +111,7 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 									vtiger_products.productcode,
 									vtiger_products.productname,
 									vtiger_products.unit_price,
+									vtiger_products.usageunit,
 									vtiger_products.qtyinstock,vtiger_crmentity.deleted,
 									vtiger_crmentity.description AS product_description,
 									'Products' AS entitytype
@@ -124,6 +127,7 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 									'NA' AS productcode,
 									vtiger_service.servicename AS productname,
 									vtiger_service.unit_price AS unit_price,
+									vtiger_service.service_usageunit AS usageunit,
 									'NA' AS qtyinstock,vtiger_crmentity.deleted,
 									vtiger_crmentity.description AS product_description,
 									'Services' AS entitytype
@@ -150,6 +154,12 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 			$unitprice=$adb->query_result($result,$i-1,'unit_price');
 			$listprice=$adb->query_result($result,$i-1,'listprice');
 			$entitytype=$adb->query_result($result,$i-1,'entitytype');
+			if ( $entitytype == 'Services' ) {
+				$usageunit=vtranslate($adb->query_result($result,$i-1,'service_usageunit'), $entitytype);
+			}
+			else {
+				$usageunit=vtranslate($adb->query_result($result,$i-1,'usageunit'), $entitytype);
+			}
 			$rbh=$adb->query_result($result,$i-1,'rbh');
 			$purchase=$adb->query_result($result,$i-1,'purchase');
 			$margin=$adb->query_result($result,$i-1,'margin');
@@ -218,6 +228,7 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 			$product_Detail[$i]['qty'.$i]=decimalFormat($qty);
 			$product_Detail[$i]['listPrice'.$i]=$listprice;
 			$product_Detail[$i]['unitPrice'.$i]=number_format($unitprice, $no_of_decimal_places,'.','');
+			$product_Detail[$i]['usageUnit'.$i]=$usageunit;
 			$product_Detail[$i]['productTotal'.$i]=number_format($productTotal, $no_of_decimal_places,'.','');
 			$product_Detail[$i]['subproduct_ids'.$i]=$subprodid_str;
 			$product_Detail[$i]['subprod_names'.$i]=$subprodname_str;

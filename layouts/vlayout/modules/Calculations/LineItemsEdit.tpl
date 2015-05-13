@@ -14,12 +14,13 @@
 	<input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
-            <th colspan="7"><span>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
+            <th colspan="8"><span>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
         </tr>
         <tr>
             <td><b>{vtranslate('LBL_TOOLS',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_ITEM_NAME',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_QTY',$MODULE)}</b></td>
+            <td><b>{vtranslate('LBL_UNIT',$MODULE)}</b></td>
             <td><b>{vtranslate('LBL_LIST_PRICE',$MODULE)}</b></td>
 			<td><b>{vtranslate('LBL_RBH',$MODULE)}</b></td>
             <td><b class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</b></td>
