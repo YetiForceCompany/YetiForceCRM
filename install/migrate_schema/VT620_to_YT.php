@@ -26,7 +26,7 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
 include_once('install/models/InitSchema.php');
 include_once('config/config.php');
 
-// migration to version '1.4.305 RC';
+// migration to version '1.4.349 RC';
 class VT620_to_YT {
 	var $name = 'Vtiger CRM 6.2.0';
 	var $version = '6.2.0';
@@ -1290,7 +1290,7 @@ class VT620_to_YT {
 		array("45","749","smcreatorid","vtiger_crmentity","1","52","created_user_id","Created By","1","2","","100","8","110","2","V~O","3","1","BAS","0","0","0","int(19)","LBL_SMSNOTIFIER_INFORMATION")
 		);
 
-		$setToCRM = array('OSSEmployees'=>$OSSEmployees,'Users'=>$Users,'PurchaseOrder'=>$PurchaseOrder,'Vendors'=>$Vendors,'Accounts'=>$Accounts,'Contacts'=>$Contacts,'Leads'=>$Leads,'SalesOrder'=>$SalesOrder,'Invoice'=>$Invoice,'Quotes'=>$Quotes,'OSSCosts'=>$OSSCosts,'Calculations'=>$Calculations,'Assets'=>$Assets,'HelpDesk'=>$HelpDesk,'Project'=>$Project,'OSSPasswords'=>$OSSPasswords,'OSSMailView'=>$OSSMailView,'OutsourcedProducts'=>$OutsourcedProducts,'OSSSoldServices'=>$OSSSoldServices,'OSSOutsourcedServices'=>$OSSOutsourcedServices,'Services'=>$Services,'OSSPdf'=>$OSSPdf,'ServiceContracts'=>$ServiceContracts,'Products'=>$Products,'ProjectTask'=>$ProjectTask,'Documents'=>$Documents,'Potentials'=>$Potentials,'ModComments'=>$ModComments,'ProjectMilestone'=>$ProjectMilestone,'SMSNotifier'=>$SMSNotifier,'PBXManager'=>$PBXManager,'Calendar'=>$Calendar,'Events'=>$Events);
+		$setToCRM = array('OSSEmployees'=>$OSSEmployees,'Users'=>$Users,'PurchaseOrder'=>$PurchaseOrder,'Vendors'=>$Vendors,'Accounts'=>$Accounts,'Contacts'=>$Contacts,'Leads'=>$Leads,'SalesOrder'=>$SalesOrder,'Invoice'=>$Invoice,'Quotes'=>$Quotes,'OSSCosts'=>$OSSCosts,'Calculations'=>$Calculations,'Assets'=>$Assets,'HelpDesk'=>$HelpDesk,'Project'=>$Project,'OSSPasswords'=>$OSSPasswords,'OutsourcedProducts'=>$OutsourcedProducts,'OSSSoldServices'=>$OSSSoldServices,'OSSOutsourcedServices'=>$OSSOutsourcedServices,'Services'=>$Services,'OSSPdf'=>$OSSPdf,'ServiceContracts'=>$ServiceContracts,'Products'=>$Products,'ProjectTask'=>$ProjectTask,'Documents'=>$Documents,'Potentials'=>$Potentials,'ModComments'=>$ModComments,'ProjectMilestone'=>$ProjectMilestone,'SMSNotifier'=>$SMSNotifier,'PBXManager'=>$PBXManager,'Calendar'=>$Calendar,'Events'=>$Events);
 
 		$setToCRMAfter = array();
 		foreach($setToCRM as $nameModule=>$module){
@@ -1471,7 +1471,7 @@ class VT620_to_YT {
 	public function InactiveFields (){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::InactiveFields() method ...");
-		$fieldsInactive = array('HelpDesk'=>array('days',"hours"),
+		$fieldsInactive = array('HelpDesk'=>array('days',"hours",'from_portal'),
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
 		'Quotes'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
 		'SalesOrder'=>array('bill_city',"bill_code","bill_country","bill_pobox","bill_state","bill_street","ship_city","ship_code","ship_country","ship_pobox","ship_state","ship_street"),
@@ -1624,7 +1624,7 @@ class VT620_to_YT {
 		$log->debug("Entering VT620_to_YT::picklists() method ...");
 		
 		$addPicklists = array();
-		$addPicklists['Assets'][] = array('name'=>'assetstatus','uitype'=>'15','add_values'=>array('Draft','Realization proceeding','Warranty proceeding','Delivered to Organization'),'remove_values'=>array('Out-of-service','In Service'));
+		$addPicklists['Assets'][] = array('name'=>'assetstatus','uitype'=>'15','add_values'=>array('PLL_DRAFT','PLL_WARRANTY_SUPPORT','PLL_POST_WARRANTY_SUPPORT','PLL_NO_SUPPORT'),'remove_values'=>array('Out-of-service','In Service'));
 		$addPicklists['HelpDesk'][] = array('name'=>'ticketstatus','uitype'=>'15','add_values'=>array('Answered','Rejected'),'remove_values'=>array());
 		$addPicklists['Users'][] = array('name'=>'date_format','uitype'=>'16','add_values'=>array('dd.mm.yyyy','mm.dd.yyyy','yyyy.mm.dd','dd/mm/yyyy','mm/dd/yyyy','yyyy/mm/dd'),'remove_values'=>array());
 		$addPicklists['Users'][] = array('name'=>'end_hour','add_values'=>array("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"),'remove_values'=>array());
@@ -1903,12 +1903,13 @@ class VT620_to_YT {
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Delegated project tasks', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingProjectsTasks');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Calculations', 'index.php?module=Calculations&view=ShowWidget&name=Calculations');
+		$instanceModule->addLink('DASHBOARDWIDGET','PotentialsList','index.php?module=Potentials&view=ShowWidget&name=PotentialsList');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Calendar', 'index.php?module=Home&view=ShowWidget&name=Calendar');
 		$instanceModule = Vtiger_Module::getInstance('Leads');
 		$instanceModule->addLink('DASHBOARDWIDGET', 'Leads by Status Converted', 'index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted');
-		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Note'));
-		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '' WHERE `linklabel` = ?;", array('Add Project Task'));
+		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '', `linkicon` = 'icon-file'  WHERE `linklabel` = ?;", array('Add Note'));
+		$adb->pquery("UPDATE `vtiger_links` SET `handler_path` = NULL, `handler` = '', `handler_class` = '', `linkicon` = 'icon-tasks' WHERE `linklabel` = ?;", array('Add Project Task'));
 		
 		
 		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE tabid = ? AND linktype = ? AND linklabel = ?;", array(getTabid('SalesOrder'),'DETAILVIEWWIDGET','DetailViewBlockCommentWidget'));
@@ -1981,6 +1982,12 @@ class VT620_to_YT {
 		
 		$adb->pquery("UPDATE `vtiger_calendar_user_activitytypes` SET `visible` = ? WHERE `id` > ? ;", array(0, 2));
 		
+		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE linklabel = ? ", array('LBL_SHOW_ACCOUNT_HIERARCHY'));
+		if($adb->num_rows($result) > 0){
+			$mods = Vtiger_Module::getInstance( "Accounts" );
+            $mods->deleteLink('DETAILVIEWBASIC', 'LBL_SHOW_ACCOUNT_HIERARCHY', 'index.php?module=Accounts&action=AccountHierarchy&accountid=$RECORD$');
+			$adb->pquery("UPDATE `vtiger_links` SET `linkicon` = ? WHERE `linklabel`= ? ;", array('icon-file', 'LBL_ADD_NOTE'));
+		}
 		
 		$log->debug("Exiting VT620_to_YT::updateRecords() method ...");
 	}
@@ -3833,6 +3840,9 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','limit_product_service','false');");
 		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('popup','update_shared_permissions','false');");
 		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('calculation','calculationsstatus','');");
+		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','salesstage','');");
+		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('asset','assetstatus','');");
+		$adb->query("insert  into `yetiforce_proc_sales`(`type`,`param`,`value`) values ('potential','add_potential','false');");
 		
 		$adb->pquery('UPDATE vtiger_ws_fieldtype SET uitype = ? WHERE fieldtypeid = ?;',[67,35]);
 		$adb->pquery('DELETE FROM vtiger_ws_referencetype WHERE `fieldtypeid` = ? AND `type` = ?;',[34,'Accounts']);
@@ -3897,6 +3907,19 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$adb->pquery('UPDATE `vtiger_field` SET columnname=?,tablename=?,fieldname=?,fieldlabel=?, quickcreate=?, uitype=?, quickcreatesequence=?, summaryfield=? WHERE tablename = ? AND columnname = ? AND tabid = ?;', 
 				['link','vtiger_activity','link','Relation','2','67',$quickcreatesequence,'1','vtiger_cntactivityrel','contactid',getTabid('Events')]);
 		}
+		
+		
+		// copy values from_portal in HelpDesk
+		$result = $adb->query("SHOW COLUMNS FROM `vtiger_troubletickets` LIKE 'from_portal';");
+		if($adb->num_rows($result) == 0){
+			$adb->query("ALTER TABLE `vtiger_troubletickets` ADD COLUMN `from_portal` varchar(3) NULL after `ordertime` ;");
+			$adb->query('UPDATE vtiger_troubletickets LEFT JOIN vtiger_ticketcf ON vtiger_troubletickets.ticketid = vtiger_ticketcf.ticketid SET vtiger_troubletickets.from_portal=vtiger_ticketcf.from_portal;');			
+			$adb->pquery('UPDATE `vtiger_field` SET tablename=? WHERE tablename = ? AND columnname = ? AND tabid = ?;', ['vtiger_troubletickets','vtiger_ticketcf','from_portal',getTabid('HelpDesk')]);
+			$adb->pquery('alter table vtiger_ticketcf drop column from_portal');
+			
+		}
+		
+		
 		$log->debug("Exiting VT620_to_YT::addSql() method ...");
 	}
 }

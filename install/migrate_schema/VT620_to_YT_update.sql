@@ -901,7 +901,7 @@ ALTER TABLE `vtiger_invoicecf`
 	FOREIGN KEY (`invoiceid`) REFERENCES `vtiger_invoice` (`invoiceid`) ON DELETE CASCADE ;
 	
 ALTER TABLE `vtiger_entityname` 
-	ADD COLUMN `searchcolumn` varchar(150)  COLLATE utf8_general_ci NOT NULL after `entityidcolumn` , 
+	ADD COLUMN `searchcolumn` varchar(150)  NOT NULL after `entityidcolumn` , 
 	ADD COLUMN `turn_off` int(1)   NOT NULL DEFAULT 1 after `searchcolumn` , 
 	ADD COLUMN `sequence` int(19)   NOT NULL after `turn_off` ;
 ALTER TABLE `vtiger_entityname`

@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2015-05-07 04:47:10</exporttime>
+<exporttime>2015-05-13 08:26:27</exporttime>
 <name>Calculations</name>
 <label>Calculations</label>
 <version>1.0</version>
@@ -185,15 +185,12 @@
 <masseditable>1</masseditable>
 <summaryfield>1</summaryfield>
 <picklistvalues>
-<picklistvalue>PLL_WAITING_FOR_VERIFICATION</picklistvalue>
-<picklistvalue>PLL_VERIFICATION_PROCESS</picklistvalue>
-<picklistvalue>PLL_INTERNAL_CONSULTATION_REQUIRED</picklistvalue>
-<picklistvalue>PLL_EXTERNAL_CONSULTATION_REQUIRED</picklistvalue>
-<picklistvalue>PLL_WAITING_FOR_VENDORS_QUOTE</picklistvalue>
-<picklistvalue>PLL_WAITING_FOR_CUSTOMERS_REPLY</picklistvalue>
-<picklistvalue>PLL_IN_PREPARATION</picklistvalue>
-<picklistvalue>LBL_DECLINED</picklistvalue>
-<picklistvalue>LBL_ACCEPTED</picklistvalue>
+<picklistvalue>PLL_DRAFT</picklistvalue>
+<picklistvalue>PLL_IN_REALIZATION</picklistvalue>
+<picklistvalue>PLL_WAITING_FOR_QUOTATION</picklistvalue>
+<picklistvalue>PLL_WAITING_FOR_ACCEPTANCE</picklistvalue>
+<picklistvalue>PLL_ACCEPTED</picklistvalue>
+<picklistvalue>PLL_REQUIRES_AMENDMENTS</picklistvalue>
 </picklistvalues>
 </field>
 <field>

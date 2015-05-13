@@ -388,12 +388,13 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmailview` (
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
   `attachments_exist` varchar(3) DEFAULT '0',
   `rc_user` varchar(3) DEFAULT NULL,
-  `type` int(19) DEFAULT NULL,
+  `type` tinyint(1) DEFAULT NULL,
   `from_id` int(19) DEFAULT NULL,
   `to_id` int(19) DEFAULT NULL,
   `orginal_mail` text,
   `verify` varchar(5) DEFAULT '0',
   `rel_mod` varchar(128) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   PRIMARY KEY (`ossmailviewid`),
   KEY `id` (`id`),
   KEY `message_id` (`uid`),
@@ -407,6 +408,16 @@ CREATE TABLE IF NOT EXISTS `vtiger_ossmailview_files` (
   KEY `fk_1_vtiger_ossmailview_files` (`ossmailviewid`),
   KEY `documentsid` (`documentsid`),
   CONSTRAINT `fk_1_vtiger_ossmailview_files` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `vtiger_ossmailview_relation` (
+  `ossmailviewid` int(19) NOT NULL,
+  `crmid` int(19) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  KEY `ossmailviewid` (`ossmailviewid`),
+  KEY `crmid` (`crmid`,`deleted`),
+  CONSTRAINT `vtiger_ossmailview_relation_ibfk_1` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `vtiger_ossmailviewcf` (
@@ -957,6 +968,7 @@ insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('co
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Task','Task','#00d4f5');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','Meeting','Meeting','#FFD500');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('info','notworkingdays ','LBL_NOTWORKING_DAYS',NULL);
 
 CREATE TABLE IF NOT EXISTS `vtiger_bruteforce_users`(
 	`id` int(19) NOT NULL  , 
@@ -1175,9 +1187,17 @@ CREATE TABLE IF NOT EXISTS `yetiforce_proc_sales` (
   KEY `type` (`type`,`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 				
-				
+CREATE TABLE IF NOT EXISTS `vtiger_backup_users` (
+  `id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+CREATE TABLE IF NOT EXISTS `vtiger_backup_settings` (
+  `type` varchar(100) DEFAULT NULL,
+  `param` varchar(100) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
 
 
 
