@@ -155,7 +155,6 @@ class Install_InitSchema_Model {
 		return $schemaList;
 	}
 	public static function executeMigrationSchema($system, $userName, $source) {
-		//ini_set('display_errors', 'Off');
 		include_once self::migration_schema.$system.'.php';
 		$migrationObject = new $system;
 		Vtiger_Access::syncSharingAccess();

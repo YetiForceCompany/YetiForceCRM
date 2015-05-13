@@ -211,7 +211,6 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View {
 	}
 
 	public function process(Vtiger_Request $request) {
-            ini_set('error_reporting', '6135');
 		$mode = $request->getMode();
 		if(!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);
