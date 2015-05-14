@@ -762,6 +762,7 @@ $languageStrings = [
 	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
 	'LBL_EXPAND_BLOCK' => 'Expand block',
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
+	'Sales Stage' => 'Sales stage',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',

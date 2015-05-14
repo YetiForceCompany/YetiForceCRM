@@ -56,7 +56,7 @@
                     <span class="row-fluid">
                         <span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
                         <span class="span4">
-                            <input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
+                            <input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
                         </span>
                         <span class="span2 textAlignCenter">
                             {vtranslate('LBL_OF',$moduleName)}

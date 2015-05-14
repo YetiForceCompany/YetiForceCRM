@@ -62,7 +62,7 @@
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 							<span>
-								<a class="cursorPointer replyComment"><i class="icon-share-alt"></i>{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
+								<a class="cursorPointer replyComment"><span class="icon-share-alt"></span>{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
 								{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 									&nbsp;<span style="color:black">|</span>&nbsp;
 									<a class="cursorPointer editComment feedback">

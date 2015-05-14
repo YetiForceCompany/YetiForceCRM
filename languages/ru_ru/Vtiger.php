@@ -1135,6 +1135,7 @@ $languageStrings = [
 	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
 	'LBL_EXPAND_BLOCK' => 'Expand block',
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
+	'Sales Stage' => 'Sales stage',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
