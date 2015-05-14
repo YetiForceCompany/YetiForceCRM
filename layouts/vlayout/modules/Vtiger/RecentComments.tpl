@@ -41,7 +41,7 @@
 									<div class="row-fluid">
 										<div class="span1">
 											{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-											<img class="alignMiddle pull-left" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+											<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 										</div>
 										<div class="span11 commentorInfo">
 											{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
@@ -85,7 +85,7 @@
 										{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 											<span>
 												<a class="cursorPointer replyComment feedback">
-													<i class="icon-share-alt"></i>{vtranslate('LBL_REPLY',$MODULE_NAME)}
+													<span class="icon-share-alt"></span>{vtranslate('LBL_REPLY',$MODULE_NAME)}
 												</a>
 												{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 													&nbsp;<span>|</span>&nbsp;
@@ -141,7 +141,7 @@
 		<div class="row-fluid">
 			<span class="span1">&nbsp;</span>
 			<div class="span11">
-				<textarea class="commentcontenthidden title="" fullWidthAlways" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
+				<textarea class="commentcontenthidden fullWidthAlways" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 			</div>
 		</div>
 		<div class="pull-right">

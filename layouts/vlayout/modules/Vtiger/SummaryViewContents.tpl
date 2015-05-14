@@ -38,7 +38,7 @@
                                 {/if}
                             </span>
                             <span class="summaryViewEdit cursorPointer pull-right">
-                                &nbsp;<i class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i>
+                                &nbsp;<span class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
                             </span>
                         {/if}
                     </div>

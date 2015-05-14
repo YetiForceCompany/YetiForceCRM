@@ -33,7 +33,7 @@
 									{else}
 										onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
 									{/if}>
-									{if $DETAIL_VIEW_BASIC_LINK->linkicon neq ''}<i class="{$DETAIL_VIEW_BASIC_LINK->linkicon}"></i>{if $LABEL neq ''}&nbsp;&nbsp;{/if}{/if}
+									{if $DETAIL_VIEW_BASIC_LINK->linkicon neq ''}<span class="{$DETAIL_VIEW_BASIC_LINK->linkicon}"></span>{if $LABEL neq ''}&nbsp;&nbsp;{/if}{/if}
 									{if $LABEL neq ''}
 										<strong>{vtranslate($LABEL, $MODULE_NAME)}</strong>
 									{/if}
@@ -48,7 +48,7 @@
 												href='{$DETAIL_VIEW_LINK->getUrl()}'
 												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}>
 												{if $DETAIL_VIEW_LINK->linkicon neq ''}
-													<i class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></i> 
+													<span class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></span> 
 												{else}
 													{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}
 												{/if}
@@ -59,7 +59,7 @@
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">
-									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></i>&nbsp;&nbsp;<i class="caret"></i></button>
+									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><span class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
 									<ul class="listViewSetting dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
@@ -75,8 +75,8 @@
 			{if !{$NO_PAGINATION}}
 				<div class="span2 detailViewPagingButton">
 					<span class="btn-group pull-right">
-						<button class="btn" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><i class="icon-chevron-left"></i></button>
-						<button class="btn" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><i class="icon-chevron-right"></i></button>
+						<button class="btn" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="icon-chevron-left"></span></button>
+						<button class="btn" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="icon-chevron-right"></span></button>
 					</span>
 				</div>
 			{/if}
