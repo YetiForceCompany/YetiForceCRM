@@ -760,6 +760,8 @@ $languageStrings = [
 	'LBL_ADD_TAG' => 'Add tag',
 	'LBL_CHANGE_ACTIVITY_TYPE' => 'Change activity type',
 	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
+	'LBL_EXPAND_BLOCK' => 'Expand block',
+	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',

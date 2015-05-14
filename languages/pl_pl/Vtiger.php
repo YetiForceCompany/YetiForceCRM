@@ -713,6 +713,8 @@ $languageStrings = [
 	'LBL_ADD_TAG' => 'Dodaj tag',
 	'LBL_CHANGE_ACTIVITY_TYPE' => 'Zmień rodzaj zdarzenia',
 	'LBL_CHANGE_MAIL_TYPE' => 'Zmień rodzaj emaila',
+	'LBL_EXPAND_BLOCK' => 'Rozwiń blok',
+	'LBL_COLLAPSE_BLOCK' => 'Zwiń blok',
 	
 	/* industry */
 	'Administration'=>'Administracja',
