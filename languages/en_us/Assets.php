@@ -30,10 +30,10 @@ $languageStrings = [
 	'Notes' => 'Notes',
 
 	/*picklist values*/
-	'Draft'=>'Draft',
-	'Realization proceeding'=>'Warranty support',
-	'Warranty proceeding'=>'Post-warranty support',
-	'Delivered to Organization'=>'No support',
+	'PLL_DRAFT'=>'Draft',
+	'PLL_WARRANTY_SUPPORT'=>'Warranty support',
+	'PLL_POST_WARRANTY_SUPPORT'=>'Post-warranty support',
+	'PLL_NO_SUPPORT'=>'No support',
 	
 	//YetiForce
 	'description'=>'Description',
