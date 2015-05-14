@@ -758,7 +758,7 @@ $languageStrings = [
 	'LBL_SEARCH_MODULE' => 'Search module',
 	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
 	'LBL_CUSTOM_FILTER' => 'Custom filters',
-
+	'LBL_ADD_TAG' => 'Add tag',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

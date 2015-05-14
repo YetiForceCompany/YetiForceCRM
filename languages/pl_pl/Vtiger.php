@@ -710,6 +710,7 @@ $languageStrings = [
 	'LBL_SEARCH_IN_SUBCATEGORIES' => 'Przeszukaj gałęzie',
 	'LBL_SELECT_SINGLE_ROW' => 'Zaznacz pojedyńczy wiersz',
 	'LBL_CUSTOM_FILTER' => 'Dodatkowe filtry',
+	'LBL_ADD_TAG' => 'Dodaj tag',
 	
 	/* industry */
 	'Administration'=>'Administracja',
