@@ -711,6 +711,8 @@ $languageStrings = [
 	'LBL_SELECT_SINGLE_ROW' => 'Zaznacz pojedyńczy wiersz',
 	'LBL_CUSTOM_FILTER' => 'Dodatkowe filtry',
 	'LBL_ADD_TAG' => 'Dodaj tag',
+	'LBL_CHANGE_ACTIVITY_TYPE' => 'Zmień rodzaj zdarzenia',
+	'LBL_CHANGE_MAIL_TYPE' => 'Zmień rodzaj emaila',
 	
 	/* industry */
 	'Administration'=>'Administracja',

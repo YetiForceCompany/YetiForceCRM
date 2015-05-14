@@ -1131,6 +1131,8 @@ $languageStrings = [
 	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
 	'LBL_CUSTOM_FILTER' => 'Custom filters',
 	'LBL_ADD_TAG' => 'Add tag',
+	'LBL_CHANGE_ACTIVITY_TYPE' => 'Change activity type',
+	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
