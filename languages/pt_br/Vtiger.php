@@ -754,9 +754,9 @@ $languageStrings = [
 	'OSSEmployees' => 'Empregados',
 	'HolidaysEntitlement' => 'Direito férias anuais',
 	'Calculations' => 'Cálculos',
-	'LBL_SEARCH_MODULE' => 'Search module',
-	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
-	'LBL_CUSTOM_FILTER' => 'Custom filters',
+	'LBL_SEARCH_MODULE' => 'Módulo de Pesquisa',
+	'LBL_SELECT_SINGLE_ROW' => 'Selecionar linha única',
+	'LBL_CUSTOM_FILTER' => 'Filtros customizados',
 
 	/* industry */
 	'Administration'=>'Administração',
@@ -897,10 +897,10 @@ $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Feriado',
 	'PLL_BREAK_TIME' => 'Intervalo trabalho',
 	'PLL_WORKING_TIME' => 'Tempo trabalho',
-	'LBL_OWNER' => 'Mine',
-	'LBL_COMMON' => 'Shared',
-	'LBL_OPEN' => 'Open',
-	'LBL_ARCHIVE' => 'Archive',
+	'LBL_OWNER' => 'Meu',
+	'LBL_COMMON' => 'Compartilhado',
+	'LBL_OPEN' => 'Aberto',
+	'LBL_ARCHIVE' => 'Arquivo',
 
 	// Missing Fields in Top Menu
 	'Bookkeeping'=>'Escrituração',
