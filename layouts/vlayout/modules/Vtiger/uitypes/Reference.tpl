@@ -51,7 +51,7 @@
 	<!-- Show the add button only if it is edit view  -->
 	{if (($smarty.request.view eq 'Edit') or ($MODULE_NAME eq 'Webforms')) && !in_array($REFERENCE_LIST[0],$QUICKCREATE_RESTRICTED_MODULES) && $FIELD_MODEL->get('displaytype') != 10}
 	<span class="add-on cursorPointer createReferenceRecord">
-		<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class='icon-plus' title="{vtranslate('LBL_CREATE', $MODULE)}"></i>
+		<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class='icon-plus' title="{vtranslate('LBL_CREATE', $MODULE)}"></span>
 	</span>
 	{/if}
 </div>
