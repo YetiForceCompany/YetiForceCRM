@@ -19,7 +19,7 @@
 				<div class="row-fluid">
 					<div class="span1">
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-						<img class="alignMiddle pull-left" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+						<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
 					<div class="span11 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
