@@ -35,16 +35,16 @@
 <div class="row-fluid input-prepend input-append">
 	{if $FIELD_MODEL->get('displaytype') != 10}
 		<span class="add-on clearReferenceSelection cursorPointer">
-			<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='icon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></i>
+			<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='icon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>
 		</span>
 	{/if}
-	<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" class="{if (($smarty.request.view eq 'Edit') or ($smarty.request.module eq 'Webforms'))} span7 {else} span8 {/if}	marginLeftZero autoComplete" {if !empty($displayId)}readonly="true"{/if}
+	<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{vtranslate($FIELD_MODEL->get('label'))}" class="{if (($smarty.request.view eq 'Edit') or ($smarty.request.module eq 'Webforms'))} span7 {else} span8 {/if}	marginLeftZero autoComplete" {if !empty($displayId)}readonly="true"{/if}
 	 value="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($displayId))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 	 data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}"{/if}
 	 {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}/>
 	{if $FIELD_MODEL->get('displaytype') != 10}
 		<span class="add-on relatedPopup cursorPointer">
-			<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="icon-search relatedPopup" title="{vtranslate('LBL_SELECT', $MODULE)}" ></i>
+			<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="icon-search relatedPopup" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
 		</span>
 	{/if}
 	{assign var=QUICKCREATE_RESTRICTED_MODULES value=['SalesOrder','Quotes','Invoice','PurchaseOrder']}
