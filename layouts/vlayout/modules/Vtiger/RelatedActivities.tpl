@@ -31,11 +31,11 @@
 				</div>
 				<div class="summaryViewEntries">
 					{if $RECORD->get('activitytype') == 'Task'}
-						<image src="{vimage_path('Tasks.png')}" width="12px"/>&nbsp;&nbsp;
+						<image src="{vimage_path('Tasks.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{elseif $RECORD->get('activitytype') == 'Meeting'}
-						<image src="{vimage_path('Meeting.png')}" width="12px" />&nbsp;&nbsp;
+						<image src="{vimage_path('Meeting.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{else}
-						<image src="{vimage_path('Call.png')}" width="12px" />&nbsp;&nbsp;
+						<image src="{vimage_path('Call.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{/if}
 					{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}&nbsp;-&nbsp; 
 					{if $DETAILVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getDetailViewUrl()}" >{$RECORD->get('subject')}</a>{else}{$RECORD->get('subject')}{/if}&nbsp;
