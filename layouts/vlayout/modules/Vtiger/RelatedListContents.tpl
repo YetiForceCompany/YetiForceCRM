@@ -63,7 +63,7 @@
 											<a class="markAsHeld"><i title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="icon-ok alignMiddle"></i></a>&nbsp;
 										{/if}
 										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') eq 'Held'}
-											<a class="holdFollowupOn"><i title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></i></a>&nbsp;
+											<a class="holdFollowupOn"><span title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></span></a>&nbsp;
 										{/if}
 										{if $DETAILVIEWPERMITTED eq 'yes'}
 											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></span></a>&nbsp;
