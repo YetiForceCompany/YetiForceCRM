@@ -147,6 +147,7 @@ $languageStrings = [
 	'High' => 'High',
 	'History' => 'History', //Duplicated key-value pairs
 
+
 	'In Progress' => 'In Progress',
 	'Invoice' => 'Invoice',
 	'Is Converted From Lead' => 'Is Converted From Lead',
@@ -764,6 +765,7 @@ $languageStrings = [
 	'LBL_EXPAND_BLOCK' => 'Expand block',
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
 	'Sales Stage' => 'Sales stage',
+	'LBL_HISTORY_TYPE' => 'History type',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

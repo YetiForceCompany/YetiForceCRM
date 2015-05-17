@@ -11,14 +11,14 @@
 -->*}
 {if $SETTING_EXIST}
 <a class="btn btn-mini" name="dfilter">
-	<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
+	<span class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"></span>
 </a>
 {/if}
 <a class="btn btn-mini" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
-	<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+	<span class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 </a>
 {if !$WIDGET->isDefault()}
 	<a name="dclose" class="widget btn btn-mini" data-url="{$WIDGET->getDeleteUrl()}">
-		<i class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
+		<span class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
 	</a>
 {/if}

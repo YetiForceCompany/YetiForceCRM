@@ -1136,6 +1136,7 @@ $languageStrings = [
 	'LBL_EXPAND_BLOCK' => 'Expand block',
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
 	'Sales Stage' => 'Sales stage',
+	'LBL_HISTORY_TYPE' => 'History type',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
