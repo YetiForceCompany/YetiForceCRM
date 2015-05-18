@@ -767,6 +767,7 @@ $languageStrings = [
 	'LBL_TASK' => 'Task',
 	'LBL_METTING' => 'Metting',
 	'LBL_CALL' => 'Call',
+	'LBL_MAIL_USERS_LIST' => 'Mail users list',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
