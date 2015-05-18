@@ -39,7 +39,7 @@
 	<div class="row-fluid" >
 		<div class="span12">
 			<div class="pull-right">
-				<input class="switchBtn potentialsListSwitch" type="checkbox" title="{vtranslate('LBL_POTENTIAL_SWITCH')}" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}">
+				<input class="switchBtn potentialsListSwitch" type="checkbox" title="{vtranslate('LBL_RECORD_SWITCH')}" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}">
 			</div>
 		</div>
 	</div>
