@@ -13,7 +13,7 @@
 <div class="quickLinksDiv">
 	{assign var=IMAGE value=$MODULE|cat:'.png'}
 
-	<h6 class="">{if file_exists( vimage_path($IMAGE) )}<img style="position: relative;top: 4px;margin-right: 4px;" src="{vimage_path($IMAGE)}" alt="{vtranslate($MODULE, $MODULE)}" class="summaryImg" />{/if}{vtranslate($MODULE, $MODULE)}</h6>
+	<h6 class="">{if file_exists( vimage_path($IMAGE) )}<img style="position: relative;top: 4px;margin-right: 4px;" src="{vimage_path($IMAGE)}" title="{vtranslate($MODULE, $MODULE)}" class="summaryImg" />{/if}{vtranslate($MODULE, $MODULE)}</h6>
 	<hr />
 	{foreach item=SIDEBARLINK from=$QUICK_LINKS['SIDEBARLINK']}
         {assign var=SIDE_LINK_URL value=decode_html($SIDEBARLINK->getUrl())}
