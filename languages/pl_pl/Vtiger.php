@@ -725,6 +725,8 @@ $languageStrings = [
 	'LBL_SELECT_USER' => 'Wybierz użytkownika',
 	'LBL_CHOOSE_DATE' => 'Wybierz datę',
 	'LBL_RECORDS_LIMIT' => 'Limit rekordów',
+	'LBL_EMPLOYEESTATUS' => 'Status',
+	'LBL_EDUCATION' => 'Wyszktałcenie',
 	
 	/* industry */
 	'Administration'=>'Administracja',
