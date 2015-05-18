@@ -62,6 +62,7 @@
 		<input type="hidden" id="current_user_id" value="{$CURRENT_USER_MODEL->get('id')}" />
 		<input type="hidden" id="userDateFormat" value="{$CURRENT_USER_MODEL->get('date_format')}" />
 		<input type="hidden" id="userTimeFormat" value="{$CURRENT_USER_MODEL->get('hour_format')}" />
+		<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
 		<div id="page">
 			<!-- container which holds data temporarly for pjax calls -->
 			<div id="pjaxContainer" class="hide noprint"></div>
