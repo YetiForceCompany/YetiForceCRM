@@ -764,6 +764,9 @@ $languageStrings = [
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
 	'Sales Stage' => 'Sales stage',
 	'LBL_HISTORY_TYPE' => 'History type',
+	'LBL_TASK' => 'Task',
+	'LBL_METTING' => 'Metting',
+	'LBL_CALL' => 'Call',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',

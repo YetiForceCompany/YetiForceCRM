@@ -1137,6 +1137,9 @@ $languageStrings = [
 	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
 	'Sales Stage' => 'Sales stage',
 	'LBL_HISTORY_TYPE' => 'History type',
+	'LBL_TASK' => 'Task',
+	'LBL_METTING' => 'Metting',
+	'LBL_CALL' => 'Call',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
