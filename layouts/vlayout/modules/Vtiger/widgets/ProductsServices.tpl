@@ -16,7 +16,7 @@
 		</div>
 		{foreach item=ROW from=$DATA}
 			<div class="row-fluid">
-				<div class="span3">{Vtiger_Tree_UIType::getDisplayValueByField($ROW[1],'pscategory',$RELATED_MODULE)}</div>
+				<div class="span3">{Vtiger_Tree_UIType::getDisplayValueByField($ROW[1],'pscategory',$RELATED_MODULE)}&nbsp;</div>
 				<div class="span3"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW[0]}">{$ROW[2]}</a></div>
 				<div class="span3">
 					<span>{$ROW.smownerid}</span>

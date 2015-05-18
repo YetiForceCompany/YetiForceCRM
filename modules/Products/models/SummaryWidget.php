@@ -40,7 +40,8 @@ class Products_SummaryWidget_Model{
 					. 'INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid '
 					. 'LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id '
 					. 'LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid '
-					. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_products.productid > 0';
+					. 'WHERE vtiger_crmentity.deleted=0 AND vtiger_products.productid > 0 AND vtiger_seproductsrel.setype = ?';
+			$params[] = $fromModule;
 		}elseif($mod == 'Services'){
 			$sql = 'SELECT vtiger_service.serviceid, vtiger_service.pscategory, vtiger_service.servicename, vtiger_crmentity.smownerid, vtiger_crmentity.shownerid '
 					. 'FROM vtiger_service '
@@ -57,7 +58,6 @@ class Products_SummaryWidget_Model{
 			$sql.= $securityParameter;
 
 		$sql.= ' LIMIT '.$limit;
-//echo $sql;
 		$result = $db->pquery($sql, $params);
 		$returnData = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {
