@@ -33,7 +33,8 @@
         {if !empty($RELATED_TO)}
             <span class="row-fluid">
 				<span class="muted"></span>
-				<h5><span class="">{$RECORD->getDisplayValue('related_to')}</span></h5>
+				{assign var=RELATEDTO_RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RELATED_TO)}
+				<h5><span class="">{$RECORD->getDisplayValue('related_to')}</span>&nbsp;[{strip_tags($RELATEDTO_RECORD_MODEL->getDisplayValue('assigned_user_id'))}]</h5>
             </span>
         {/if}
 		<span class="row-fluid">
