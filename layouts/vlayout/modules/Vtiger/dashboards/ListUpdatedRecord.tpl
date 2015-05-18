@@ -28,7 +28,7 @@
 					<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
 					<option title="20" value="10" >10</option>
 					<option title="25" value="25" >25</option>
-					<option title="50" >50</option>
+					<option title="50" value="50" >50</option>
 				</select>
 			</div>
 		</div>

@@ -73,7 +73,7 @@
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-mini" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
+						<span class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
 					</a>
 				{/if}
 			</div>
