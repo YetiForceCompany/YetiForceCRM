@@ -39,7 +39,7 @@ class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
 	
 	public function getData(Vtiger_Request $request, $widget) {
 		$db = PearDatabase::getInstance();
-		$fields = ['id','potentialname','sales_stage','related_to'];
+		$fields = ['id','potentialname','sales_stage','related_to','assigned_user_id'];
 		$limit = 10;
 		$params = [];
 		if(!empty($widget->get('limit'))){

@@ -14,20 +14,22 @@
 {if count($DATA) gt 0 }
 	<div style="padding:5px;">
 		<div class="row-fluid">
-			<div class="span4"><strong>{vtranslate('Title', $RELATED_MODULE)}</strong></div>
-			<div class="span4"><strong>{vtranslate('CalculationStatus', $RELATED_MODULE)}</strong></div>
+			<div class="span3"><strong>{vtranslate('Title', $RELATED_MODULE)}</strong></div>
+			<div class="span3"><strong>{vtranslate('CalculationStatus', $RELATED_MODULE)}</strong></div>
 			<div class="span3"><strong>{vtranslate('Related to', $RELATED_MODULE)}</strong></div>
+			<div class="span3"><strong>{vtranslate('Assigned To', $RELATED_MODULE)}</strong></div>
 		</div>
 		{foreach item=ROW from=$DATA}
 			<div class="row-fluid">
-				<div class="span4"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.calculationsid}">{$ROW.name}</a></div>
-				<div class="span4">{vtranslate($ROW.calculationsstatus, $RELATED_MODULE)}</div>
+				<div class="span3"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.calculationsid}">{$ROW.name}</a></div>
+				<div class="span3">{vtranslate($ROW.calculationsstatus, $RELATED_MODULE)}</div>
 				<div class="span3">
 					{if $ROW.relatedid gt 0 }
 						{assign var="CRMTYPE" value=Vtiger_Functions::getCRMRecordType($ROW.relatedid)}
 						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.relatedid}" title="{vtranslate($CRMTYPE, $CRMTYPE)}">{Vtiger_Functions::getCRMRecordLabel($ROW.relatedid)}</a>
 					{/if}
 				</div>
+				<div class="span3">{Vtiger_Functions::getOwnerRecordLabel($ROW.smownerid)}</div>
 			</div>
 		{/foreach}
 	</div>
