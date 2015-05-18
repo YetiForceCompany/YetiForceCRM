@@ -154,7 +154,7 @@ jQuery.Class('Vtiger_Widget_Js',{
 	},
 
 	registerWidgetSwitch : function() {
-		$('.dashboardContainer .dashboardWidgetHeader .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
+		$('.dashboardContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function(e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
 			var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');

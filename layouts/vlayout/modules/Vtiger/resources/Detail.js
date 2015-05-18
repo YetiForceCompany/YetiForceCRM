@@ -1390,6 +1390,27 @@ jQuery.Class("Vtiger_Detail_Js",{
 	
 	registerChangeSwitchForWidget : function(){
 		var thisInstance = this;
+		$('.summaryWidgetContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function(e, state) {
+			var currentElement = jQuery(e.currentTarget);
+			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var widget = summaryWidgetContainer.find('.widgetContentBlock');
+			var url = widget.data('url');
+			var urlparams = currentElement.data('urlparams');
+			if(urlparams != ''){
+				var onval = currentElement.data('on-val');
+				var offval = currentElement.data('off-val');
+
+				url = url.replace('&'+urlparams+'='+onval, '');
+				url = url.replace('&'+urlparams+'='+offval, '');
+				url += '&'+urlparams+'=';
+				if(state)
+					url += onval;
+				else
+					url += offval;
+				widget.data('url',url);
+				thisInstance.loadWidget($(widget));
+			}
+		});
 		$('.activityWidgetContainer .switchBtn').on('switchChange.bootstrapSwitch', function(e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
