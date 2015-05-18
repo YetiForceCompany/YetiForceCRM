@@ -174,7 +174,7 @@ $(document).ready(function(){
 		}
 		return "task";
 	};
-	gantt._on_dblclick = false;
+	gantt._on_dblclick = function(){};
 	gantt.config.drag_links = false;
 	gantt.config.drag_progress = false;
 	gantt.config.drag_move = false;
