@@ -33,32 +33,32 @@
                         {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                         data-url="{$RELATED_LINK->getUrl()}"
                     {/if}
-            {if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<i class="icon-plus icon-white"></i>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+            {if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="icon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
 			</div>
 			{/if}
 		{/foreach}
 		&nbsp;
 		<div class="btn-group" style="vertical-align: top;">
-			<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} data-size="small" data-label-width="5" data-handle-width="90" data-on-text="{vtranslate('LBL_TO_REALIZE')}" data-off-text="{vtranslate('LBL_HISTORY')}">
+			<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="small" data-label-width="5" data-handle-width="90" data-on-text="{vtranslate('LBL_TO_REALIZE')}" data-off-text="{vtranslate('LBL_HISTORY')}">
 		</div>
 </div>
 <div class="span6">
     <div class="pull-right">
         <span class="pageNumbers">
             <span class="pageNumbersText">{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_to', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
-            <span class="icon-refresh totalNumberOfRecords cursorPointer{if empty($RELATED_RECORDS)} hide{/if}"></span>
+            <span class="icon-refresh totalNumberOfRecords cursorPointer{if empty($RELATED_RECORDS)} hide{/if}" title="{vtranslate('LBL_REFRESH')}"></span>
         </span>
         <span class="btn-group">
             <button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="icon-chevron-left"></span></button>
             <button class="btn dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
-                <i class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
+                <span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
             </button>
             <ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
                 <li>
                     <span class="row-fluid">
                         <span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
                         <span class="span4">
-                            <input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
+                            <input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
                         </span>
                         <span class="span2 textAlignCenter">
                             {vtranslate('LBL_OF',$moduleName)}

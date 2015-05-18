@@ -15,21 +15,21 @@
 <div class="dashboardWidgetHeader potentialsListHeader">
 	<div class="row-fluid">
 		<div class="span8">
-			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'EditView')}
 					<a class="btn btn-mini" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
-						<i class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"/>
+						<span class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				<a class="btn btn-mini" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<i class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+					<span class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-mini" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<i class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
+						<span class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
 					</a>
 				{/if}
 			</div>
@@ -39,7 +39,7 @@
 	<div class="row-fluid" >
 		<div class="span12">
 			<div class="pull-right">
-				<input class="switchBtn potentialsListSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}">
+				<input class="switchBtn potentialsListSwitch" type="checkbox" title="{vtranslate('LBL_RECORD_SWITCH')}" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{vtranslate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{vtranslate('LBL_COMMON',$MODULE_NAME)}">
 			</div>
 		</div>
 	</div>

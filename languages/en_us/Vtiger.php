@@ -147,6 +147,7 @@ $languageStrings = [
 	'High' => 'High',
 	'History' => 'History', //Duplicated key-value pairs
 
+
 	'In Progress' => 'In Progress',
 	'Invoice' => 'Invoice',
 	'Is Converted From Lead' => 'Is Converted From Lead',
@@ -758,7 +759,21 @@ $languageStrings = [
 	'LBL_SEARCH_MODULE' => 'Search module',
 	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
 	'LBL_CUSTOM_FILTER' => 'Custom filters',
-
+	'LBL_ADD_TAG' => 'Add tag',
+	'LBL_CHANGE_ACTIVITY_TYPE' => 'Change activity type',
+	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
+	'LBL_EXPAND_BLOCK' => 'Expand block',
+	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
+	'Sales Stage' => 'Sales stage',
+	'LBL_HISTORY_TYPE' => 'History type',
+	'LBL_TASK' => 'Task',
+	'LBL_METTING' => 'Metting',
+	'LBL_CALL' => 'Call',
+	'LBL_MAIL_USERS_LIST' => 'Mail users list',
+	'LBL_RECORD_SWITCH' => 'Only my records or Share records',
+	'LBL_SELECT_USER' => 'Select user',
+	'LBL_CHOOSE_DATE' => 'Choose date',
+	'LBL_RECORDS_LIMIT' => 'Records limit',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

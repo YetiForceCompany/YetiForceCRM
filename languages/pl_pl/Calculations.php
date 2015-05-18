@@ -47,7 +47,7 @@ $languageStrings = [
 	'LBL_PROS' => 'Zalety',
 	
 	//pick list values
-	'PLL_DRAFT' => 'Wersja robocza',
+	'PLL_DRAFT' => 'Wersja wstępna',
 	'PLL_IN_REALIZATION' => 'W realizacji',
 	'PLL_WAITING_FOR_QUOTATION' => 'Oczekuje na wycenę',
 	'PLL_WAITING_FOR_ACCEPTANCE' => 'Oczekuje na akceptacje',

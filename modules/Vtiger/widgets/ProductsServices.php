@@ -8,31 +8,18 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-$languageStrings = [
+class Vtiger_ProductsServices_Widget extends Vtiger_Basic_Widget {
+	var $allowedModules  = ['Accounts','Potentials'];
 	
-    //Blocks
-    'LBL_PBXMANAGER_INFORMATION' => 'Wezwanie Szczegóły',
-    'LBL_CUSTOM_INFORMATION'=>'Informacje dodatkowe',
-    
-    // list view settings links
-    'LBL_SERVER_CONFIGURATION' => 'Konfiguracja dostawcy',
-    
-    //Detail view header title
-    'LBL_CALL_FROM' => 'Wezwanie Z',
-    'LBL_CALL_TO' => 'Wezwanie Do',
-    
-    //Incoming call pop-up 
-    'LBL_HIDDEN' => '(Ukryty)', 
-  
-    // Fields
-    'Total Duration' => 'Czas (s)',
-    'Bill Duration'  => 'Bill Czas (s)',
-    'Recording URL' => 'Nagranie',
-    'Start Time' => 'Czas rozpoczęcia',
-    'Call Status' => 'Status połączenia',
-    'Customer Number' => 'Numer klienta',
-    'Customer' => 'Klient',
-    'User' => 'Użytkownik',
-    'SINGLE_PBXManager' => 'Call Record' ,
-
-];
+	public function getUrl() {
+		return 'module=Products&view=Widget&fromModule='.$this->Module.'&record='.$this->Record.'&mode=showProductsServices&page=1&mod=Products&limit='.$this->Data['limit'];
+	}
+	public function getWidget() {
+		$this->Config['url'] = $this->getUrl();
+		$this->Config['tpl'] = 'ProductsServicesBasic.tpl';
+		return $this->Config;
+	}
+	public function getConfigTplName() {
+		return 'ProductsServicesConfig';
+	}
+}

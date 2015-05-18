@@ -15,7 +15,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row-fluid">
 		<div class="span8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</b></div>
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
@@ -28,11 +28,11 @@
 		<div class="span7">
 			<div class="headerCalendar fc-center pinUnpinShortCut row-fluid" >
 				<div class="span2">
-					<button class="btn btn-mini" data-type="fc-prev-button"><i class="icon-chevron-left"></i></button>
+					<button class="btn btn-mini" data-type="fc-prev-button"><span class="icon-chevron-left"></span></button>
 				</div>
 				<div class="span8 month marginLeftZero" style="text-align:center"> </div>
 				<div class="span2">
-					<button class="btn btn-mini" data-type="fc-next-button"><i class="icon-chevron-right"></i></button>
+					<button class="btn btn-mini" data-type="fc-next-button"><span class="icon-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 </div>
-<div name="history" class="dashboardWidgetContent">
+<div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 <script type='text/javascript'>

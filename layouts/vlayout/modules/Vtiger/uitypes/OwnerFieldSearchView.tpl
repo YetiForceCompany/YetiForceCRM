@@ -26,7 +26,7 @@
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
-	<select class="select2noactive listSearchContributor span10 {$ASSIGNED_USER_ID}" title="{vtranslate('LBL_ASSIGNED_TO')}"  name="{$ASSIGNED_USER_ID}" multiple style="width:150px;"data-fieldinfo='{$FIELD_INFO|escape}'>
+	<select class="select2noactive listSearchContributor span10 {$ASSIGNED_USER_ID}" title="{vtranslate('LBL_ASSIGNED_TO')}" title="{vtranslate($FIELD_MODEL->get('label'))}"  name="{$ASSIGNED_USER_ID}" multiple style="width:150px;"data-fieldinfo='{$FIELD_INFO|escape}'>
 		<optgroup label="{vtranslate('LBL_USERS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
                     <option value="{$OWNER_NAME}" data-picklistvalue= '{$OWNER_NAME}' {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES)} selected {/if}

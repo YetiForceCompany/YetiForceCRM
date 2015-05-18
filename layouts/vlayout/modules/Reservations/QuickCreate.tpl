@@ -103,11 +103,12 @@
 setTimeout(function(){ 
 	Vtiger_Edit_Js("Reservations_QuickCreate_Js",{},
 	{
-		sumHours : function () {	
+		/*sumHours : function () {	
 			var sumeTime = this.differenceDays();
 			var hours = (Math.round( (sumeTime/3600000) * 100 ) / 100).toFixed(2);
 			return hours
 		},	
+		*/
 		differenceDays : function(){
 			var firstDate = jQuery('input[name="date_start"]');
 			var firstDateFormat = firstDate.data('date-format');
@@ -132,7 +133,7 @@ setTimeout(function(){
 		},
 		registerRecordPreSaveEvent : function(){			
 			var differenceDays = this.differenceDays();	
-			var sumHours = this.sumHours();
+			/*var sumHours = this.sumHours();
 			
 			if(sumHours > 24){
 				var params = {
@@ -142,7 +143,7 @@ setTimeout(function(){
 				Vtiger_Helper_Js.showPnotify(params);
 				return false;
 
-			}
+			}*/
 
 			if(differenceDays == 'Error'){
 				var params = {

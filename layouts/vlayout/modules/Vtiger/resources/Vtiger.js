@@ -257,7 +257,7 @@ var Vtiger_Index_Js = {
 				<span class="span12">'+app.vtranslate('JS_START_DATE_TIME')+' : '+record.date_start+'</span>\n\
 				<span class="span12">'+app.vtranslate('JS_END_DATE_TIME')+' : '+record.due_date+'</span>'
 				+data_info+
-				'<span class="span12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-small reminder_accept"><i class="icon-ok icon-white"></i></button>&nbsp;&nbsp;'+
+				'<span class="span12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-small reminder_accept"><span class="icon-ok icon-white"></span></button>&nbsp;&nbsp;'+
 				'<button class="btn btn-small btn-primary reminder_postpone" data-time="15m">15'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
 				'<button class="btn btn-small btn-primary reminder_postpone" data-time="30m">30'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
 				'<button class="btn btn-small btn-primary reminder_postpone" data-time="1h">1'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+

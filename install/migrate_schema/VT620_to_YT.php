@@ -1982,10 +1982,9 @@ class VT620_to_YT {
 		
 		$adb->pquery("UPDATE `vtiger_calendar_user_activitytypes` SET `visible` = ? WHERE `id` > ? ;", array(0, 2));
 		
-		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE linklabel = ? ", array('LBL_SHOW_ACCOUNT_HIERARCHY'));
-		if($adb->num_rows($result) > 0){
-			$mods = Vtiger_Module::getInstance( "Accounts" );
-            $mods->deleteLink('DETAILVIEWBASIC', 'LBL_SHOW_ACCOUNT_HIERARCHY', 'index.php?module=Accounts&action=AccountHierarchy&accountid=$RECORD$');
+		$result = $adb->pquery("SELECT * FROM `vtiger_links` WHERE linklabel = ? AND linkicon = ? ; ", array('LBL_SHOW_ACCOUNT_HIERARCHY','icon-align-justify'));
+		if($adb->num_rows($result) == 0){
+			$adb->pquery("UPDATE `vtiger_links` SET `linkicon` = ? WHERE `linklabel`= ? ;", array('icon-align-justify', 'LBL_SHOW_ACCOUNT_HIERARCHY'));
 			$adb->pquery("UPDATE `vtiger_links` SET `linkicon` = ? WHERE `linklabel`= ? ;", array('icon-file', 'LBL_ADD_NOTE'));
 		}
 		
@@ -2244,14 +2243,14 @@ array('tabid'=>'SalesOrder','related_tabid'=>'OSSTimeControl','name'=>'get_depen
 array('tabid'=>'Potentials','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'7'),
 array('tabid'=>'Quotes','related_tabid'=>'OSSTimeControl','name'=>'get_dependents_list','sequence'=>'6'),
 array('tabid'=>'OSSMailView','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Accounts','name'=>'get_related_list','sequence'=>'2'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Contacts','name'=>'get_related_list','sequence'=>'3'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Leads','name'=>'get_related_list','sequence'=>'4'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Potentials','name'=>'get_related_list','sequence'=>'5'),
-array('tabid'=>'OSSMailView','related_tabid'=>'HelpDesk','name'=>'get_related_list','sequence'=>'6'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Project','name'=>'get_related_list','sequence'=>'7'),
-array('tabid'=>'OSSMailView','related_tabid'=>'ServiceContracts','name'=>'get_related_list','sequence'=>'8'),
-array('tabid'=>'OSSMailView','related_tabid'=>'Campaigns','name'=>'get_related_list','sequence'=>'9'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Accounts','name'=>'get_accounts_mail','sequence'=>'2'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Contacts','name'=>'get_contacts_mail','sequence'=>'3'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Leads','name'=>'get_leads_mail','sequence'=>'4'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Potentials','name'=>'get_potentials_mail','sequence'=>'5'),
+array('tabid'=>'OSSMailView','related_tabid'=>'HelpDesk','name'=>'get_helpdesk_mail','sequence'=>'6'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Project','name'=>'get_project_mail','sequence'=>'7'),
+array('tabid'=>'OSSMailView','related_tabid'=>'ServiceContracts','name'=>'get_servicecontracts_mail','sequence'=>'8'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Campaigns','name'=>'get_campaigns_mail','sequence'=>'9'),
 array('tabid'=>'ServiceContracts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'6'),
 array('tabid'=>'HelpDesk','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'10'),
 array('tabid'=>'Potentials','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'11'),
@@ -3748,7 +3747,6 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$params = array($restrictedRaports);
 		$result = $adb->pquery($sql, $params,true);
 		$num = $adb->num_rows($result);
-		$deleteField = array();
 		$moduleModel = Vtiger_Module_Model::getInstance('Reports');
 		for($i=0;$i<$num;$i++){
 			$reportId = $adb->query_result( $result,$i,"reportid" );
@@ -3803,9 +3801,9 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	public function removeModules(){
 		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::removeModules() method ...");
-		$removeModules = array('EmailTemplates'=>array(),'Webmails'=>array(),'FieldFormulas'=>array(),
-		'Google'=>array('added_links'=>array(array('type' => 'DETAILVIEWSIDEBARWIDGET', 'label'  => 'Google Map'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Contacts'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Calendar'))),
-		'ExtensionStore'=>array()
+		$removeModules = array('EmailTemplates'=>array('tabid'=>getTabid('EmailTemplates')),'Webmails'=>array('tabid'=>getTabid('Webmails')),'FieldFormulas'=>array('tabid'=>getTabid('FieldFormulas')),
+		'Google'=>array('added_links'=>array(array('type' => 'DETAILVIEWSIDEBARWIDGET', 'label'  => 'Google Map'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Contacts'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Calendar')),'tabid'=>getTabid('Google')),
+		'ExtensionStore'=>array('tabid'=>getTabid('ExtensionStore'))
 		);
 		foreach($removeModules as $moduleName=>$removeModule){
 			if(!self::checkModuleExists($moduleName))
@@ -3954,10 +3952,12 @@ class RemoveModule {
 			
 		}
 
-		$take_info = $adb->query( "select * from vtiger_field where tabid = '$field_tabid' and uitype = '15'" , true, "Błąd podczas pobierania pól w funkcji uitype 15" );
-		if( $adb->num_rows( $take_info ) > 0 )
-		{
-			$_SESSION['picklist_tables'][$adb->query_result( $take_info,0,"fieldname" )] = $adb->query_result( $take_info,0,"fieldname" );
+		if($this->tabid){
+			$take_info = $adb->query( "select * from vtiger_field where tabid = ".$this->tabid." and (uitype = '15' OR uitype = '16' OR uitype = '33')" , true, "Błąd podczas pobierania pól w funkcji uitype 15") ;
+			for($i=0;$i<$adb->num_rows( $take_info );$i++ )
+			{
+				$_SESSION['picklist_tables'][$adb->query_result( $take_info,$i,"fieldname" )] = $adb->query_result( $take_info,$i,"fieldname" );
+			}
 		}
 	}
 	

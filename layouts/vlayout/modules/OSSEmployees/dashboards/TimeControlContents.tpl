@@ -19,7 +19,7 @@
 		</span>
 		<span class="summary-detail">
 			<span>
-				<i style="margin-top:6px; vertical-align:top;" class="icon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></i>
+				<span style="margin-top:6px; vertical-align:top;" class="icon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
 			</span>
 			<span class="summary-text">{$WORKDAYS}</span>
 		</span>

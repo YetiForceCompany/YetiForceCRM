@@ -906,13 +906,13 @@ if (!isset($_REQUEST['soap_pdf'])) {
                     header("Content-Disposition: attachment; filename=" . $document_list[0]);
                     header("Pragma: no-cache");
                     header("Expires: 0");
-                    readfile($storage_path . "/" . $document_list[0]);
+                    readfile($storage_path . $document_list[0]);
                     exit;
                 } elseif ($_REQUEST['return_name'] == "yes") {
                     echo $document_list[0];
                 }
             } else {
-                header("Location: index.php?module=OSSMail&view=compose&pdf_path=" . urldecode($storage_path . "/" . $document_list[0]));
+                header("Location: index.php?module=OSSMail&view=compose&pdf_path=" . urldecode($storage_path . $document_list[0]));
             }
         }
     } else {

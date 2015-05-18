@@ -247,3 +247,6 @@ $showRecordsCount = TRUE;
 
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
+
+// enable closing of mondal window by clicking on the background
+$backgroundClosingModal = TRUE;

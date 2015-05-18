@@ -337,7 +337,9 @@ var app = {
 						unblockUi();
 				}
 			}
-			jQuery('.blockOverlay').click(unblockUi);
+			if( jQuery('#backgroundClosingModal').val() == 1){
+				jQuery('.blockOverlay').click(unblockUi);
+			}
 			jQuery(document).on('keyup',escapeKeyHandler);
 			jQuery('[data-dismiss="modal"]', container).click(unblockUi);
 
