@@ -975,6 +975,24 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
+		
+		thisInstance.getCalendarView().find("td.fc-day-number")
+		.mouseenter( function () {
+			jQuery('<span class="plus pull-left icon-plus"></span>')
+			.prependTo($( this ))
+		}).mouseleave( function () {
+			$( this ).find(".plus").remove();
+		});
+
+		thisInstance.getCalendarView().find("td.fc-day-number").click(function () {
+			var date = $( this ).data('date');
+			var params = {noCache: true};
+			params.data = {date_start: date, due_date: date};
+			params.callbackFunction = function() {
+				thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
+			};
+			Vtiger_Header_Js.getInstance().quickCreateModule('Calendar', params);
+		});
 	},
 	loadCalendarData: function (allEvents) {
 		var thisInstance = this;

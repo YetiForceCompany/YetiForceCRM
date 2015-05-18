@@ -208,3 +208,6 @@ padding-right: 5px;
 .dropdown-menu .quickCreateModule{
 	white-space: normal;
 }
+.dashboardWidgetCalendar .fc-content{
+margin-top: 5px;
+}

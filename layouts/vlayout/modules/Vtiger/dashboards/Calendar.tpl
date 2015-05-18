@@ -41,7 +41,7 @@
 		</div>
 	</div>
 </div>
-<div name="history" class="dashboardWidgetContent">
+<div class="dashboardWidgetContent dashboardWidgetCalendar">
 	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 <script type='text/javascript'>
