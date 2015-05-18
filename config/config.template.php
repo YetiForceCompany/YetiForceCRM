@@ -250,3 +250,6 @@ $listMaxEntriesMassEdit = 500;
 
 // enable closing of mondal window by clicking on the background
 $backgroundClosingModal = TRUE;
+
+// enable CSRF-protection
+$csrfProtection = TRUE;
