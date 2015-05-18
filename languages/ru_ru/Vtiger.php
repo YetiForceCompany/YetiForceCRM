@@ -1144,6 +1144,7 @@ $languageStrings = [
 	'LBL_POTENTIAL_SWITCH' => 'Only my records or Share records',
 	'LBL_SELECT_USER'	=>	'Пользователь',
 	'LBL_CHOOSE_DATE' => 'Choose date',
+	'LBL_RECORDS_LIMIT' => 'Records limit',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

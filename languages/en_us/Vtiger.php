@@ -773,6 +773,7 @@ $languageStrings = [
 	'LBL_POTENTIAL_SWITCH' => 'Only my records or Share records',
 	'LBL_SELECT_USER' => 'Select user',
 	'LBL_CHOOSE_DATE' => 'Choose date',
+	'LBL_RECORDS_LIMIT' => 'Records limit',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

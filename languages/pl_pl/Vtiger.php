@@ -724,6 +724,7 @@ $languageStrings = [
 	'LBL_POTENTIAL_SWITCH' => 'Rekordy moje lub wspólne',
 	'LBL_SELECT_USER' => 'Wybierz użytkownika',
 	'LBL_CHOOSE_DATE' => 'Wybierz datę',
+	'LBL_RECORDS_LIMIT' => 'Limit rekordów',
 	
 	/* industry */
 	'Administration'=>'Administracja',
