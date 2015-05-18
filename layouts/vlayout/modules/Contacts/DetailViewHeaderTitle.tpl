@@ -17,11 +17,11 @@
 				{if !empty($IMAGE_INFO.path)}
 					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
 				{else}
-					<img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
+					<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 				{/if}
 			{/foreach}
 	        {if empty($IMAGE_DETAILS)}
-	            <img src="{vimage_path('Contacts48.png')}" class="summaryImg"/>
+	            <img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 	        {/if}
 		</span>
 	</span>

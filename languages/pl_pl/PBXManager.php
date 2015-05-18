@@ -12,7 +12,7 @@ $languageStrings = [
 	
     //Blocks
     'LBL_PBXMANAGER_INFORMATION' => 'Wezwanie Szczegóły',
-    'LBL_CUSTOM_INFORMATION'=>'Informacje custom',
+    'LBL_CUSTOM_INFORMATION'=>'Informacje dodatkowe',
     
     // list view settings links
     'LBL_SERVER_CONFIGURATION' => 'Konfiguracja dostawcy',

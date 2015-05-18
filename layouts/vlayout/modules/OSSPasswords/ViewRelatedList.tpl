@@ -30,7 +30,7 @@
                                     {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                                     data-url="{$RELATED_LINK->getUrl()}"
                             {/if}
-						{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<i class="icon-plus icon-white"></i>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+						{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="icon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
 					</div>
 				{/foreach}
 				&nbsp;
@@ -53,7 +53,7 @@
 									<span class="row-fluid">
 										<span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
 										<span class="span4">
-											<input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
+											<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
 										</span>
 										<span class="span2 textAlignCenter">
 											{vtranslate('LBL_OF',$moduleName)}
@@ -117,19 +117,19 @@
 								</td><td nowrap>
 							<div class="pull-right actions"> 
                                <span class="actionImages">
-                                <a href='' class="show_pass" id="btn_{$PASS_ID}"><i title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="icon-eye-open alignMiddle"></i></a>&nbsp;
-									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
+                                <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="icon-eye-open alignMiddle"></span></a>&nbsp;
+									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></span></a>&nbsp;
 									{if $IS_EDITABLE}
-										<a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>
+										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></span></a>
 									{/if}
 									{if $IS_DELETABLE}
-										<a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+										<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></span></a>
 									{/if}
 								</span>
 							</div>
                             {* button for copying password to clipboard *}                    
                             <div class="pull-right">
-                                <a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><i class="icon-download-alt alignMiddle"></i></a>&nbsp;
+                                <a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="icon-download-alt alignMiddle"></span></a>&nbsp;
                             </div>
 								</td>
 							{/if}

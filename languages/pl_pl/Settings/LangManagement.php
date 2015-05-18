@@ -11,7 +11,7 @@
 $languageStrings = [
 	'No data available in table' => 'Brak danych w tabeli',
 	'Translations' => 'Tłumaczenia',
-	'Language editor' => 'Editor języka',
+	'Language editor' => 'Edytor języka',
 	'LangManagement'	=> 'Zarządzanie językami',
 	'LBL_Module_desc'	=> 'Narzędzie służy do modyfikacji i zarządzania tłumaczeniami językowymi w całym systemie.',
 	'LBL_TAB_LIST'	=> 'Dostępne języki',
@@ -61,8 +61,8 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',
-	'LBL_AreYouSure'	=> 'Czy na perwno chcesz usunąć język?',
-	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na perwno chcesz zmienić język domyślny?',
+	'LBL_AreYouSure'	=> 'Czy na pewno chcesz usunąć język?',
+	'JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'	=> 'Czy na pewno chcesz zmienić język domyślny?',
 	'JS_DEFAULT'	=> 'Domyślny',
 	'Delete'	=> 'Usuń',
 	'Cancel'	=> 'Anuluj',

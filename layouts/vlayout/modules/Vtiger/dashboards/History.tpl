@@ -12,7 +12,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row-fluid">
 		<div class="span8">
-			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
@@ -25,10 +25,10 @@
 		<div class="span12">
 			<div class="pull-right">
 				<div>
-					<select class="widgetFilter" id="historyType" name="type" style='margin-bottom:0px'>
-						<option value="all" >{vtranslate('LBL_ALL')}</option>
-						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
-						<option value="updates" >{vtranslate('LBL_UPDATES')}</option>
+					<select class="widgetFilter" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type" style='margin-bottom:0px'>
+						<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
+						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option title="{vtranslate('LBL_COMMENTS')}" value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
+						<option value="updates" title="{vtranslate('LBL_UPDATES')}">{vtranslate('LBL_UPDATES')}</option>
 					</select>
 				</div>
 			</div>

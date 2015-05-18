@@ -757,7 +757,16 @@ $languageStrings = [
 	'LBL_SEARCH_MODULE' => 'Search module',
 	'LBL_SELECT_SINGLE_ROW' => 'Select single row',
 	'LBL_CUSTOM_FILTER' => 'Custom filters',
-
+	'LBL_ADD_TAG' => 'Add tag',
+	'LBL_CHANGE_ACTIVITY_TYPE' => 'Change activity type',
+	'LBL_CHANGE_MAIL_TYPE' => 'Change email type',
+	'LBL_EXPAND_BLOCK' => 'Expand block',
+	'LBL_COLLAPSE_BLOCK' => 'Collapse block',
+	'Sales Stage' => 'Sales stage',
+	'LBL_HISTORY_TYPE' => 'History type',
+	'LBL_TASK' => 'Task',
+	'LBL_METTING' => 'Metting',
+	'LBL_CALL' => 'Call',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',

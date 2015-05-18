@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF' => 'Eksportuj do PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Informacje adresowe',
 	'LBL_VENDORS_ADD_TASK' => 'Dodaj zadanie',
-	'LBL_VENDORS_ADD_EVENT' => 'Dodajtermin',
+	'LBL_VENDORS_ADD_EVENT' => 'Dodaj termin',
 	'LBL_SEND_MAIL_PDF' => 'Wyślij PDF',
 	'300-Sales-Software'=>'300-Sprzedaż-Oprogramowanie',
 	'301-Sales-Hardware'=>'301-Sprzedaż-Sprzęt',
@@ -40,7 +40,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunię również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
+	'LBL_DELETE_CONFIRMATION' => 'Usunięcie tego sprzedawcy usunie również jego powiązane zlecenia. Czy napewno chcesz usunąć tego sprzedawcę?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Usunięcie sprzedawcy(ów) usunie również powiązane zlecenia. Czy napewno chcesz usunać wybrane rekordy?',
 	'LBL_RELATED_RECORD_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć?',
 ];

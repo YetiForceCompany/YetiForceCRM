@@ -23,23 +23,23 @@
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
 				<div class="row-fluid">
 					<span class="span6">
-						<strong title='{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")}'><i class="icon-time"></i>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")}'><span class="icon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="span6 rightText">
-						<strong title='{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME")}'><i class="icon-time"></i>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME")}'><span class="icon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">
 					{if $RECORD->get('activitytype') == 'Task'}
-						<image src="{vimage_path('Tasks.png')}" width="12px"/>&nbsp;&nbsp;
+						<image src="{vimage_path('Tasks.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{elseif $RECORD->get('activitytype') == 'Meeting'}
-						<image src="{vimage_path('Meeting.png')}" width="12px" />&nbsp;&nbsp;
+						<image src="{vimage_path('Meeting.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{else}
-						<image src="{vimage_path('Call.png')}" width="12px" />&nbsp;&nbsp;
+						<image src="{vimage_path('Call.png')}" width="12px" alt="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{/if}
 					{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}&nbsp;-&nbsp; 
 					{if $DETAILVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getDetailViewUrl()}" >{$RECORD->get('subject')}</a>{else}{$RECORD->get('subject')}{/if}&nbsp;
-					{if $EDITVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getEditViewUrl()}" class="fieldValue"><i class="icon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></a>{/if}
+					{if $EDITVIEW_PERMITTED == 'yes'}<a href="{$RECORD->getEditViewUrl()}" class="fieldValue"><span class="icon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></a>{/if}
 				</div>
 				<div class="row-fluid">
 					<div class="activityStatus span12">
@@ -48,8 +48,8 @@
 							<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							<div>
-								<strong><i class="icon-tags"></i>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
-								<span class="editStatus cursorPointer"><i class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></span>
+								<strong><span class="icon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+								<span class="editStatus cursorPointer"><span class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
 								<span class="1 edit hide">
 									{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('taskstatus')}
 									{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('status'))}
@@ -57,7 +57,7 @@
 									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->get('fieldvalue')}' />
 								</span>
 								{if $DATA_TYPE != 'history'}
-									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Completed" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
+									<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Completed" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="icon-ok"></span></span>
 								{/if}
 							</div>
 						{else}
@@ -66,8 +66,8 @@
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							{if $EDITVIEW_PERMITTED == 'yes'}
 								<div>
-									<strong><i class="icon-tags"></i>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
-									<span class="editStatus cursorPointer"><i class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></span>
+									<strong><span class="icon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+									<span class="editStatus cursorPointer"><span class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
 									<span class="2 edit hide">
 										{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('eventstatus')}
 										{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('eventstatus'))}
@@ -79,7 +79,7 @@
 										 {/if}
 									</span>
 									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Held" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><i class="icon-ok"></i></span>
+										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Held" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="icon-ok"></span></span>
 									{/if}
 								</div>
 							{/if}
@@ -88,14 +88,14 @@
 				</div>
 				<div class="activityDescription">					    
 					<div>
-						<span class="value"><i class="icon-align-justify"></i>&nbsp&nbsp;
+						<span class="value"><span class="icon-align-justify"></span>&nbsp&nbsp;
 						{if $RECORD->get('description') neq ''}
 							{vtranslate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
 						{else}
 							<span class="muted">{vtranslate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
 						{/if}
 						</span>&nbsp&nbsp;
-						<span class="editDescription cursorPointer"><i class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></i></span>
+						<span class="editDescription cursorPointer"><span class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
 						{if $EDITVIEW_PERMITTED == 'yes'}
 							<span class="2 edit hide">
 								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
@@ -121,11 +121,11 @@
 								{Vtiger_Functions::getOwnerRecordLabel( $USER )}
 							{/foreach}
 						{/if}" >
-							<i class="icon-info-sign"></i>
+							<span class="icon-info-sign"></span>
 						</span>
 						{if $RECORD->get('location') neq '' }
 							<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
-								<i class="icon-map-marker"></i>&nbsp
+								<span class="icon-map-marker"></span>&nbsp
 							</a>
 						{/if}
 					</div>

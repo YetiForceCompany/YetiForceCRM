@@ -24,13 +24,19 @@ label{
 <div class="gantt_task_scale" style="width: 100%; padding:5px 0px 5px 0px;">
 <table>
 	<tr style="run-in">
-		<td><strong> {vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
-		<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{vtranslate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-		<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{vtranslate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-		<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{vtranslate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-		<td><strong><span>| &nbsp;</span> {vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
-		<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{vtranslate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
-		<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{vtranslate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
+		<fieldset>
+			<legend class="hide">{vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
+			<td><strong> {vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
+			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{vtranslate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{vtranslate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{vtranslate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+		</fieldset>
+		<fieldset>
+			<legend class="hide">{vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
+			<td><strong><span>| &nbsp;</span> {vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
+			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{vtranslate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{vtranslate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
+		</fieldset>
 	</tr>
 </table>
 </div>

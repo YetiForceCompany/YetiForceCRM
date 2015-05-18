@@ -21,7 +21,7 @@
 						<span class="span3">
 							<span class="pull-right">
 								<button class="btn addButton selectRelation" type="button" data-modulename="Products" >
-									<i class="icon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></i>
+									<span class="icon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</span>
@@ -41,7 +41,7 @@
 							{if {Users_Privileges_Model::isPermitted('OutsourcedProducts', 'EditView')}}
 								<span class="pull-right">
 									<button class="btn createRecord" type="button" data-url="index.php?module=OutsourcedProducts&view=QuickCreateAjax">
-										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+										<span class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 									</button>
 								</span>
 							{/if}	
@@ -63,7 +63,7 @@
 							{if {Users_Privileges_Model::isPermitted('Assets', 'EditView')} }
 								<span class="pull-right">
 									<button class="btn createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
-										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+										<span class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 									</button>
 								</span>
 							{/if}
@@ -84,7 +84,7 @@
 						<span class="span3">
 							<span class="pull-right">
 								<button class="btn addButton selectRelation" style="margin:0 auto;" type="button" data-modulename="Services" >
-									<i class="icon-zoom-in icon-2x" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></i>
+									<span class="icon-zoom-in icon-2x" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</span>
@@ -103,7 +103,7 @@
 							{if {Users_Privileges_Model::isPermitted('OSSOutsourcedServices', 'EditView')} }
 								<span class="pull-right">
 									<button class="btn createRecord" type="button" data-url="index.php?module=OSSOutsourcedServices&view=QuickCreateAjax">
-										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+										<span class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 									</button>
 								</span>
 							{/if}
@@ -123,7 +123,7 @@
 							{if {Users_Privileges_Model::isPermitted('OSSSoldServices', 'EditView')} }
 								<span class="pull-right">
 									<button class="btn createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
-										<i class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></i>
+										<span class="icon-plus-sign" title="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 									</button>
 								</span>
 							{/if}

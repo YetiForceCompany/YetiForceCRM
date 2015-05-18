@@ -50,7 +50,7 @@ $languageStrings = [
 	//
 	'Action_check_taskstatus' => 'Sprawdź wszystkie zadania podrzędne',
 	'Action_Desc_check_taskstatus' => 'Walidacja czy zostały ukończone wszystkie zadania podrzędne',
-	'Subordinate tasks have not been completed yet' => 'Zdania podrzędne nie zostały zakończone',
+	'Subordinate tasks have not been completed yet' => 'Zadania podrzędne nie zostały zakończone',
 	//
 	'Action_unique_modules_value' => 'Wartość pola jest unikatowa w modułach',
 	'Action_Desc_unique_modules_value' => 'Sprawdz czy wprowadzona wartość pola jest unikatowa w modułach',

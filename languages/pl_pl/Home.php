@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'ALVT' => 'Najlepszi kontrahenci',
+	'ALVT' => 'Najlepsi kontrahenci',
 	'CVLVT' => 'Tablica',
 	'GRT' => 'Przydzielone do mojej grupy',
 	'HDB' => 'Wykresy strony startowej',

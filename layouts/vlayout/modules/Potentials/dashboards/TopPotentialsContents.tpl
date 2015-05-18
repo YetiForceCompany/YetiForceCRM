@@ -15,13 +15,13 @@
 		<div class='span12'>
 			<div class='row-fluid'>
 				<div class='span4'>
-					<b>{vtranslate('Potential Name', $MODULE_NAME)}</b>
+					<strong>{vtranslate('Potential Name', $MODULE_NAME)}</strong>
 				</div>
 				<div class='span4'>
-					<b>{vtranslate('Amount', $MODULE_NAME)}</b>
+					<strong>{vtranslate('Amount', $MODULE_NAME)}</strong>
 				</div>
 				<div class='span4'>
-					<b>{vtranslate('Related To', $MODULE_NAME)}</b>
+					<strong>{vtranslate('Related To', $MODULE_NAME)}</strong>
 				</div>
 			</div>
 		</div>

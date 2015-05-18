@@ -205,3 +205,6 @@ padding-right: 5px;
 	font-size: 18px;
 	text-transform: capitalize;
 }
+.dropdown-menu .quickCreateModule{
+	white-space: normal;
+}

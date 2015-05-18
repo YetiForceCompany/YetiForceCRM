@@ -30,7 +30,7 @@
 				</span>
 			</span>
 			<span class="span4">
-				<input type="text" name="expectedclosedate" class="dateRange widgetFilter" />
+				<input type="text" title="{vtranslate('Expected Close Date')}" name="expectedclosedate" class="dateRange widgetFilter" />
 			</span>
 		</div>
 	</div>
