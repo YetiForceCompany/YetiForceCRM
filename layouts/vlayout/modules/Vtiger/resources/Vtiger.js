@@ -240,8 +240,11 @@ var Vtiger_Index_Js = {
 		if(record.contact_id != '' && record.contact_id != undefined){
 			data_info += '<span class="span12">'+app.vtranslate('JS_CONTACT_NAME')+' : <b>'+record.contact_id+'</b></span>';
 		}
-		if(record.parent_id != '' && record.parent_id != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_PARENT_ID')+' : <b>'+record.parent_id+'</b></span>';
+		if(record.link != '' && record.link != undefined){
+			data_info += '<span class="span12">'+app.vtranslate('JS_RELATION')+' : <b>'+record.link+'</b></span>';
+		}
+		if(record.process != '' && record.process != undefined){
+			data_info += '<span class="span12">'+app.vtranslate('JS_PROCESS')+' : <b>'+record.process+'</b></span>';
 		}
 		if(record.location != '' && record.location != undefined){
 			data_info += '<span class="span12" style="margin-top: 5px;"><a class="btn " target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
