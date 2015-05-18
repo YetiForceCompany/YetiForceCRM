@@ -39,7 +39,7 @@ class Calculations_Calculations_Dashboard extends Vtiger_IndexAjax_View {
 	
 	public function getData(Vtiger_Request $request, $widget) {
 		$db = PearDatabase::getInstance();
-		$fields = ['id','name','calculationsstatus','relatedid','hdnGrandTotal'];
+		$fields = ['id','name','calculationsstatus','relatedid','hdnGrandTotal','assigned_user_id'];
 		$limit = 10;
 		$params = [];
 		if(!empty($widget->get('limit'))){
