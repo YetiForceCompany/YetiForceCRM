@@ -722,6 +722,8 @@ $languageStrings = [
 	'LBL_CALL' => 'Telefon',
 	'LBL_MAIL_USERS_LIST' => 'Lista użytkowników email',
 	'LBL_POTENTIAL_SWITCH' => 'Rekordy moje lub wspólne',
+	'LBL_SELECT_USER' => 'Wybierz użytkownika',
+	'LBL_CHOOSE_DATE' => 'Wybierz datę',
 	
 	/* industry */
 	'Administration'=>'Administracja',
