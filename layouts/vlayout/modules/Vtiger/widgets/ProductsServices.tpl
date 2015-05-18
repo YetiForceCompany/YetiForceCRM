@@ -29,4 +29,16 @@
 			</div>
 		{/foreach}
 	</div>
+	{if $SHOWMORE}
+		<div class="row-fluid">
+			<div class="pull-right">
+				<a onClick="showMoreRecordProductsServices()" >{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
+				<script type='text/javascript'>
+					function showMoreRecordProductsServices() {
+						jQuery('.related .mainNav[data-reference="ProductsAndServices"]').trigger('click');
+					}
+				</script>
+			</div>
+		</div>
+	{/if}
 {/if}

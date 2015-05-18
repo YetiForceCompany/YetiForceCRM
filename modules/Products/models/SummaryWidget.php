@@ -72,6 +72,7 @@ class Products_SummaryWidget_Model{
 			$row['shownerid'] = $shownerid;
 			$returnData[] = $row;
 		}
-		return $returnData;
+		$showMore = (int)$limit == count($returnData)? 1:0;
+		return ['data' => $returnData, 'showMore' => $showMore];
 	}
 }
