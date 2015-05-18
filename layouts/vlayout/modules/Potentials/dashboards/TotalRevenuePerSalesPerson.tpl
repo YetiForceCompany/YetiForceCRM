@@ -15,7 +15,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row-fluid">
 		<div class="span8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
@@ -27,8 +27,8 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<div class="pull-right">
-				<i class="icon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></i>
-				<input type="text" name="createdtime" class="dateRange widgetFilter input-mini"  id="select-date" />
+				<span class="icon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span>
+				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini"  id="select-date" />
 			</div>
 		</div>
 	</div>			
