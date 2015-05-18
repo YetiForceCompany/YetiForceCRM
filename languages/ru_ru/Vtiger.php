@@ -1141,6 +1141,7 @@ $languageStrings = [
 	'LBL_METTING' => 'Metting',
 	'LBL_CALL' => 'Call',
 	'LBL_MAIL_USERS_LIST' => 'Mail users list',
+	'LBL_POTENTIAL_SWITCH' => 'Only my records or Share records',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

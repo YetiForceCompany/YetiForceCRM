@@ -768,6 +768,7 @@ $languageStrings = [
 	'LBL_METTING' => 'Metting',
 	'LBL_CALL' => 'Call',
 	'LBL_MAIL_USERS_LIST' => 'Mail users list',
+	'LBL_POTENTIAL_SWITCH' => 'Only my records or Share records',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
