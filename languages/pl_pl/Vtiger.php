@@ -1097,7 +1097,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'g',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Osoba kontaktowa',
-	'JS_PARENT_ID' => 'Powiązany z',
+	'JS_RELATION' => 'Powiązanie',
+	'JS_PROCESS' => 'Proces',
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Numer telefonu został wysłany do telefonu',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Błąd podczas próby wysłania numeru telefonu',
