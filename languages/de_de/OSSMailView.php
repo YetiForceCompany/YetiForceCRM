@@ -55,8 +55,8 @@ $languageStrings = [
     'LBL_INTERNAL' => 'Intern',
 	'LBL_REPLYALLL' => 'Allen antworten',
 	'LBL_PRINT' => 'Drucken',
-	'Date of receipt' => 'Received date',
-    'LBL_FORWARD' => 'Forward',
+	'Date of receipt' => 'Empfangsdatum',
+    'LBL_FORWARD' => 'Weiterleiten',
 
 	'LBL_VERIFY' => 'Zur Überprüfung',
 	'LBL_REL_MOD' => 'Verknüpfte Module',
