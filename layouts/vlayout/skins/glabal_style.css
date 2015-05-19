@@ -211,3 +211,19 @@ padding-right: 5px;
 .dashboardWidgetCalendar .fc-content{
 margin-top: 5px;
 }
+.small-select .chzn-container .chzn-single{
+height: 15px;
+line-height: 15px;
+font-size: 10px;
+}
+.small-select .chzn-container .chzn-single div b{
+background-position-y: -4px;
+}
+.summaryWidgetContainer .widget_header{
+padding-bottom: 0;
+border-bottom: 0;
+}
+.summaryWidgetContainer{
+padding: 10px;
+margin-bottom: 7px;
+}

@@ -1402,11 +1402,14 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 				url = url.replace('&'+urlparams+'='+onval, '');
 				url = url.replace('&'+urlparams+'='+offval, '');
-				url += '&'+urlparams+'=';
+				
 				if(state)
-					url += onval;
+					var newUrl = onval;
 				else
-					url += offval;
+					var newUrl = offval;
+				if(newUrl != ''){
+					url += '&'+urlparams+'='+newUrl;
+				}
 				widget.data('url',url);
 				thisInstance.loadWidget($(widget));
 			}

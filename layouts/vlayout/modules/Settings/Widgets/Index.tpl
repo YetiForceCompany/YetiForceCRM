@@ -11,6 +11,7 @@
 -->*}
 {strip}
 <input type="hidden" id="filters" name="filters" value='{$FILTERS}'>
+<input type="hidden" id="checkboxs" name="checkboxs" value='{$CHECKBOXS}'>
 <div class="container-fluid WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row-fluid">
