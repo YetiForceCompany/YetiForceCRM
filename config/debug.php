@@ -9,7 +9,7 @@ $DEBUG_CONFIG = Array(
 	'DISPLAY_SQL_QUERY' => FALSE,
 
 	// stop the running process of the system if there is and error in sql query
-	'SQL_DIE_ON_ERROR' => FALSE,
+	'SQL_DIE_ON_ERROR' => true,
 	
 	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => FALSE,

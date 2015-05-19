@@ -83,3 +83,4 @@ $config['smtp_conn_options'] = [
 
 $config['root_directory'] = $root_directory;
 $config['site_URL'] = $site_URL;
+$config['imap_open_add_connection_type'] = true;
