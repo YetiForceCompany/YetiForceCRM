@@ -75,19 +75,23 @@
 
             <table class="table">
                 <tr>
-                    <td>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
+                    <td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
                     <td><input class="required" name="tpl_name" value="" type="text" /></td>
                 </tr>
                 {foreach from=$FIELD_HTML key=key item=item}
                     <tr>
-                        <td>{vtranslate($item.label, $BASE_MODULE)}</td>
+                        {if $item.mandatory}
+							<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
+						{else}
+							<td>{vtranslate($item.label, $BASE_MODULE)}</td>
+						{/if}
                         <td>{$item.html}</td>
                     </tr>
                 {/foreach}
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULE_NAME)}</a>
+            <a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
             <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
         </div>      
     </form>
@@ -113,19 +117,23 @@
 
             <table class="table">
                 <tr>
-                    <td>{vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
+                    <td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
                     <td><input class="required" name="tpl_name" value="" type="text" /></td>
                 </tr>
                 {foreach from=$FIELD_HTML key=key item=item}
                     <tr>
-                        <td>{vtranslate($item.label, $BASE_MODULE)}</td>
+                        {if $item.mandatory}
+							<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
+						{else}
+							<td>{vtranslate($item.label, $BASE_MODULE)}</td>
+						{/if}
                         <td>{$item.html}</td>
                     </tr>
                 {/foreach}
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULE_NAME)}</a>
+            <a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
             <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
         </div>      
     </form>

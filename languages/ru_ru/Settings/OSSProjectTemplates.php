@@ -15,4 +15,5 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_FILL_REQUIRED_FIELDS' => 'Заполните обязательные поля',
+	'JS_FIELD_INCORRECT' => 'Field with the amount of days is incorrect',
 ];
