@@ -20,7 +20,7 @@
 			<div class="accordion-heading accordion-toggle quickWidgetHeader" style="background: #737373; padding:10px " data-target="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
 					data-toggle="collapse" data-parent="#quickWidgets" data-label="{$SIDEBARWIDGET->getLabel()}"
 					data-widget-url="{$SIDEBARWIDGET->getUrl()}">
-				<span class="pull-left"><img class="imageElement" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" /></span>
+				<span class="pull-left"><img class="imageElement" alt="{vtranslate('LBL_SHIFT_BLOCK')}" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" /></span>
 				<h5 class="title widgetTextOverflowEllipsis pull-left" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}" style="color:white">&nbsp;&nbsp;{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}</h5>
 				<div class="pull-right">
 					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57">&nbsp;&nbsp;
