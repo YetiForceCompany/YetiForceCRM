@@ -16,4 +16,5 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_FILL_REQUIRED_FIELDS' => 'Uzupełnij wymagane pola',
+	'JS_FIELD_INCORRECT' => 'Pole z liczbą dni ma nieprawidłową wartość',
 ];

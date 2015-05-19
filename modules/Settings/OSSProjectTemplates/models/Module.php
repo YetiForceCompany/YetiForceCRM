@@ -66,9 +66,8 @@ class Settings_OSSProjectTemplates_Module_Model extends Settings_Vtiger_Module_M
             }
         }
         
-        $menuModelsList = Vtiger_Menu_Model::getAll(true);
-        
-        if(!array_key_exists('Project', $menuModelsList)){
+        $menuModelsList = Vtiger_Module_Model::getAll([1]);
+        if(array_key_exists(getTabid('Project'), $menuModelsList)){
             unset($output);
         }
 

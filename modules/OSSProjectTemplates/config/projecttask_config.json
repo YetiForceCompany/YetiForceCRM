@@ -5,9 +5,10 @@
     
     "projectid" : "ParentRecordId",
     
-    "projecttaskhours" : "Manual",
+    "estimated_work_time" : "Manual",
     "startdate" : "Date",
     "enddate" : "Date",
+    "targetenddate" : "Date",
     
     "projecttaskpriority" : "Select",
     "projecttasktype" : "Select",
