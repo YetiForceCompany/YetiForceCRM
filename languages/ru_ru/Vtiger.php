@@ -1147,6 +1147,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Records limit',
 	'LBL_EMPLOYEESTATUS' => 'Статус',
 	'LBL_EDUCATION' => 'Образование',
+	'LBL_RELATED_MODULE_TYPE' => 'Related module type',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

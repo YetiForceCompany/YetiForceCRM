@@ -23,12 +23,12 @@
                 </label>
             </td>
             <td class="fieldValue">
-                <select id="selectedUsers" class="select2" multiple name="selectedusers[]" style="width:200px;">
+                <select id="selectedUsers" class="select2" multiple name="selectedusers[]" style="width:200px;" title="{vtranslate('LBL_INVITE_USERS', $MODULE)}">
                     {foreach key=USER_ID item=USER_NAME from=$ACCESSIBLE_USERS}
                         {if $USER_ID eq $CURRENT_USER->getId()}
                             {continue}
                         {/if}
-                        <option value="{$USER_ID}" {if in_array($USER_ID,$INVITIES_SELECTED)}selected{/if}>
+                        <option value="{$USER_ID}" title="{$USER_NAME}" {if in_array($USER_ID,$INVITIES_SELECTED)}selected{/if}>
                             {$USER_NAME}
                         </option>
                     {/foreach}
