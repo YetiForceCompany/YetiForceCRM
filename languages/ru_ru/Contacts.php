@@ -51,6 +51,7 @@ $languageStrings = [
 	'SINGLE_Leads' => 'Обращение',
 	'SINGLE_Vendors' => 'Поставщик',
 	'Job title' => 'Должность',
+	'Decision maker' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 ];

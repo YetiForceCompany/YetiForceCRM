@@ -55,6 +55,7 @@ $languageStrings = [
 	'LBL_ADDRESS_MAILING_INFORMATION' => 'Adresse für Mailingzwecke',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Lieferant',
+	'Decision maker' => '__UNTRANSLATED__',
 	
 	//Activity Types
 	'End of support for contact' => 'Ende der Wartung für den Kontakt',

@@ -35,7 +35,7 @@ class Field_Model_BaseOnOtherModule extends Field_Model_Select {
 
         if (isRecordExists($relId) && 'base_on_record' === $val) {
             $recodeModel = Vtiger_Record_Model::getInstanceById($relId);
-            return $recodeModel->get('amount');
+            return $recodeModel->get('forecast_amount');
         } else {
             return '';
         }

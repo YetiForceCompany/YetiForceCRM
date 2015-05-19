@@ -43,7 +43,7 @@ function OSSProjectTemplatesEdit() {
                         if (jQuery(element).hasClass('required')) {
                             var elementVal = jQuery(element).val();
 
-                            if ('' == elementVal) {
+                            if ('' == elementVal || 'none' == elementVal) {
                                 status = false;
                             }
                         }
@@ -80,9 +80,7 @@ function OSSProjectTemplatesEdit() {
                             jQuery('[name="tpl_id"]').val(tpl_id);
 							console.log(data.result);
                             for (var val in data.result) {
-                              //  console.log(val);
-                                var isJson = thisInstance.isJsonArray(data.result[val]);
-                             //    console.log(isJson);                              
+                                var isJson = thisInstance.isJsonArray(data.result[val]);                             
                                 if (!isJson) {
                                     jQuery('[name="' + val + '"]').val(data.result[val]);
                                 } else {
@@ -169,7 +167,7 @@ function OSSProjectTemplatesEdit() {
                     })
 
                     if (!state) {
-                        var msg = "Pole z liczbą dni ma nieprawidłową wartość";
+                        var msg = "JS_FIELD_INCORRECT";
                         thisInstance.showErrorMessage(msg);
                     }
 
@@ -205,11 +203,11 @@ function OSSProjectTemplatesEdit() {
             },
             this.registerEvents = function() {
                 this.getNextStep();
-                this.validProjectForm('project_form'); //validacja po kliknieciu zapisz
+                this.validProjectForm('project_form'); //validation after save
                 this.validProjectForm('edit_project_form');
-                this.edtProjectTpl(); // sczytuje wartosci z tablicy i uzupełnia pola
-                this.isNumber('project_form'); // sprawdzenie imputow przy dacie (liczba dni)
-                this.selectDateEvent(); // ustawienie inputow i checkbox'ow aktywnych lub nie	
+                this.edtProjectTpl(); // reads values from table and fills in fields
+                this.isNumber('project_form'); // input verification in dates (amount of days)
+                this.selectDateEvent(); // input and checkbox active or not	
                 this.enableUninstallButton();
             }
 }

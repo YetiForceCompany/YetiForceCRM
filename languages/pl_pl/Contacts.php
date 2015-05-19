@@ -55,6 +55,7 @@ $languageStrings = [
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Język powiadomień',
 	'SINGLE_Leads' => 'Lead',
 	'SINGLE_Vendors' => 'Dostawca',
+	'Decision maker' => 'Osoba decyzyjna',
 
 	//Activity Types
 	'End of support for contact' => 'Koniec wsparcia kontaktu',

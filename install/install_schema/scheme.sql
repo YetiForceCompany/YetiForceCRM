@@ -1458,6 +1458,7 @@ CREATE TABLE `vtiger_contactdetails` (
   `contactstatus` varchar(255) DEFAULT '',
   `dav_status` tinyint(1) DEFAULT '1',
   `jobtitle` varchar(100) DEFAULT '',
+  `decision_maker` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -2502,7 +2503,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_displaytype_idx` (`displaytype`),
   KEY `tabid` (`tabid`,`tablename`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1746 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1747 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

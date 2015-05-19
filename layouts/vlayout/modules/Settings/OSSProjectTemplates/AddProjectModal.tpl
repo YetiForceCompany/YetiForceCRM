@@ -43,7 +43,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULE_NAME)}</a>
+            <a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
             <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
         </div>      
     </form>

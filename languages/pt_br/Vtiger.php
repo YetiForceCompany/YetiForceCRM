@@ -772,6 +772,16 @@ $languageStrings = [
 	'LBL_SELECT_USER' => 'Selecionar usuário',
 	'LBL_CHOOSE_DATE' => 'Escolher data',
 	'LBL_RECORDS_LIMIT' => 'Limite registros',
+	'LBL_EMPLOYEESTATUS' => 'Status',
+	'LBL_EDUCATION' => 'Nível Instrução',
+	'LBL_SHITF_TASK_SHOW' => 'Exibir ou ocultar tipo Atividade: Tarefa',
+	'LBL_SHITF_MEETING_SHOW' => 'Exibir ou ocultar tipo Atividade: Reunião',
+	'LBL_SHITF_CALL_SHOW' => 'Exibir ou ocultar tipo Atividade: Usuários',
+	'LBL_SHIFT_USER_SHOW' => 'Exibir ou ocultar Usuário',
+	'Activity Type_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Atividade',
+	'LBL_USERS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Usuários',
+	'LBL_GROUPS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Grupos',
+	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -1156,5 +1166,6 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow iniciado',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow concluído',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
+	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];
 

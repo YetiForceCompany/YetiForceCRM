@@ -88,11 +88,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			$port = $roundcube_config['default_port'];
 		}
 		if (empty($port)){ $port = $roundcube_config['default_port'];}
-		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
+		if (empty($port)){ $port = $roundcube_config['default_port'];}
+		if ($roundcube_config['imap_open_add_connection_type']) { $ssl_mode = '/'.$ssl_mode; }else{ $ssl_mode = ''; }
 		imap_timeout(IMAP_OPENTIMEOUT,5);
-		$log->debug("imap_open({".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
+		$log->debug("imap_open({".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
 		if($dieOnError){
-			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password) OR
+			$mbox = @imap_open("{".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder", $user , $password) OR
 			die( self::imap_open_error(imap_last_error()) );
 		}else{
 			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password );
