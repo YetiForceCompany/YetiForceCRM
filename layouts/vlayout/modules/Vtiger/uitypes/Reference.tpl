@@ -16,7 +16,7 @@
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {if {$REFERENCE_LIST_COUNT} eq 1}
-	<input name="popupReferenceModule" type="hidden" data-multi-reference="0" value="{reset($REFERENCE_LIST)}" />
+	<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
 {/if}
 {if {$REFERENCE_LIST_COUNT} gt 1}
 	{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
