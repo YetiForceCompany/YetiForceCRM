@@ -122,6 +122,14 @@ $languageStrings = [
 	'LBL_IMPORT_ICS_SUCCESS'=>'Added entry to the calendar',
 	'Relation' => 'Relation',
 	'Process' => 'Process',
+	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
+	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
+	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
+	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
+	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
+	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
+	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
+	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 ];
 
 $jsLanguageStrings = [
@@ -168,4 +176,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Public',
 	'Mobile Call' => 'Mobile Call',
     'NOTIFICATION_ACCEPTED' => 'Accept',
+    'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];

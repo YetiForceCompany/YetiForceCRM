@@ -1147,14 +1147,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Records limit',
 	'LBL_EMPLOYEESTATUS' => 'Статус',
 	'LBL_EDUCATION' => 'Образование',
-	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
-	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
-	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
-	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
-	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
-	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
-	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
@@ -1498,5 +1490,4 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Обработчик выполняет обработку',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Обработчик закончил обработку',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Произошла ошибка во время обработки',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];

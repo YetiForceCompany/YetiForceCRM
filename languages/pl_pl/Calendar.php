@@ -119,6 +119,14 @@ $languageStrings = [
 	'LBL_IMPORT_ICS_SUCCESS'=>'Dodano wpis do kalendarza',
 	'Relation' => 'Powiązanie',
 	'Process' => 'Proces',
+	'LBL_SHITF_TASK_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: zdanie',
+	'LBL_SHITF_MEETING_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: spotkanie',
+	'LBL_SHITF_CALL_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: telefon',
+	'LBL_SHIFT_USER_SHOW' => 'Pokaż lub ukryj użytkownika',
+	'Activity Type_BLOCK_SHIFT' => 'Pokaż lub ukryj blok rodzaj zdarzenia',
+	'LBL_USERS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok użytkownicy',
+	'LBL_GROUPS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok grupy',
+	'LBL_SHIFT_BLOCK' => 'Pokaż lub ukryj blok',
 ];
 
 $jsLanguageStrings = [
@@ -167,4 +175,5 @@ $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Nie można powiązać kontaktów z potencjalnymi klientami',
 	'Mobile Call' => 'Połączenie',
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
+    'JS_CHANGE_ACTIVITY_TIME' => 'Zmień czas zdarzenia na do realizacji lub historię',
 ];
