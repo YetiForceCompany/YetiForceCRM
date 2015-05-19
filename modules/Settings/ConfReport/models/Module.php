@@ -43,7 +43,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			'max_execution_time' => array('prefer' => '600'),
 			'memory_limit' => array('prefer' => '32'),
 			'error_reporting' => array('prefer' => 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED'),
-			'allow_call_time_pass_reference' => array('prefer' => 'On'),
 			'log_errors' => array('prefer' => 'Off'),
 			'short_open_tag' => array('prefer' => 'On'),
 			'max_input_vars' => array('prefer' => '5000'),
@@ -106,6 +105,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['session.gc_divisor']['current'] = ini_get('session.gc_divisor');
 		if (ini_get('session.gc_probability') < 1)
 			$directiveValues['session.gc_probability']['current'] = ini_get('session.gc_probability');
+		if (ini_get('max_input_vars') < 5000)
+			$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
 			
 		$directiveValues['error_log'] = ini_get('error_log');
 			

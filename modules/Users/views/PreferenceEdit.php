@@ -57,7 +57,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-			$viewer->assign('WORKTIME', OSSEmployees_Record_Model::getWorkTime());
 			
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));

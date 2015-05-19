@@ -62,7 +62,6 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 			$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 			$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-			$viewer->assign('WORKTIME', OSSEmployees_Record_Model::getWorkTime());
 
 			//Additional parameters
 			$recordId = $request->get('record');
