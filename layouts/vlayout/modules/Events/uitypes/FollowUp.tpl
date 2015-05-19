@@ -40,7 +40,7 @@
 			<div class="span10 row-fluid date">
 				<input name="followup_date_start" type="text" class="span9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
 					   value="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" title="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" data-validation-engine="{if $FOLLOW_UP_STATUS}validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]{else}validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}" />
-				<span class="add-on"><i class="icon-calendar"></i></span>
+				<span class="add-on"><span class="icon-calendar"></span></span>
 			</div>	
 		</div>		
 	</div>
@@ -49,7 +49,7 @@
 			<input type="text" name="followup_time_start" class="timepicker-default input-small" 
 				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}" title="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}"/>
 			<span class="add-on cursorPointer">
-				<i class="icon-time"></i>
+				<span class="icon-time"></span>
 			</span>
 		</div>	
 	</div>
