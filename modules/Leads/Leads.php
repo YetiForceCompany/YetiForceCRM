@@ -199,11 +199,8 @@ class Leads extends CRMEntity {
 		return $return_value;
 	}
 
-
-		/** Returns a list of the associated emails
-	 	 * @param  integer   $id      - leadid
-	 	 * returns related emails record in array format
-		*/
+	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
 		global $log, $singlepane_view,$currentModule,$current_user;
 		$log->debug("Entering get_emails(".$id.") method ...");
@@ -236,15 +233,12 @@ class Leads extends CRMEntity {
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query ="select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name," .
-				' vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.semodule, vtiger_activity.activitytype,' .
-				' vtiger_activity.date_start, vtiger_activity.time_start, vtiger_activity.status, vtiger_activity.priority, vtiger_crmentity.crmid,' .
-				' vtiger_crmentity.smownerid,vtiger_crmentity.modifiedtime, vtiger_users.user_name' .
-				' from vtiger_activity' .
-				' inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid' .
-				' left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid' .
-				' left join vtiger_users on  vtiger_users.id=vtiger_crmentity.smownerid' .
-				" where vtiger_activity.activitytype='Emails' and vtiger_crmentity.deleted=0 and vtiger_activity.link=".$id;
+		$query = "SELECT vtiger_ossmailview.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name FROM vtiger_ossmailview 
+			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
+			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = ".$id." ";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 

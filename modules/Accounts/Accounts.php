@@ -304,12 +304,10 @@ class Accounts extends CRMEntity {
 		$log->debug("Exiting get_opportunities method ...");
 		return $return_value;
 	}
-
-	/** Returns a list of the associated emails
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	*/
+	
+	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+	/* {[Contributor(s):							}] */
+	
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
 		global $log, $singlepane_view,$currentModule,$current_user, $adb;
 		$log->debug("Entering get_emails(".$id.") method ...");
@@ -336,24 +334,14 @@ class Accounts extends CRMEntity {
 				$button .= "<input title='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."' accessyKey='F' class='crmbutton small create' onclick='fnvshobj(this,\"sendmail_cont\");sendmail(\"$this_module\",$id);' type='button' name='button' value='". getTranslatedString('LBL_ADD_NEW')." ". getTranslatedString($singular_modname)."'></td>";
 			}
 		}
-
-		$entityIds = $this->getRelatedContactsIds();
-		array_push($entityIds, $id);
-		$entityIds = implode(',', $entityIds);
-
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-			vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.activitytype, vtiger_crmentity.modifiedtime,
-			vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.date_start,vtiger_activity.time_start
-			FROM vtiger_activity, vtiger_account, vtiger_users, vtiger_crmentity
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid
-			WHERE vtiger_activity.link IN (".$entityIds.")
-				AND vtiger_users.id=vtiger_crmentity.smownerid
-				AND vtiger_crmentity.crmid = vtiger_activity.activityid
-				AND vtiger_activity.activitytype='Emails'
-				AND vtiger_account.accountid = ".$id."
-				AND vtiger_crmentity.deleted = 0";
+		$query = "SELECT vtiger_ossmailview.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name FROM vtiger_ossmailview 
+			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid=vtiger_crmentity.smownerid 
+			LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_ossmailview_relation.crmid = ".$id." ";
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
