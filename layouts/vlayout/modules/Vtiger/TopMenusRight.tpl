@@ -92,13 +92,6 @@
 		</div>
 	</span>
 {/if}
-{if $WORKTIME}
-	<span class="pull-right headerLinksContainer headerLinksWorkTime" style="color: #ffffff;">
-		<span class="span">
-			{$WORKTIME}
-		</span>
-	</span>
-{/if}
 <div id="headerLinksCompact">
 	<span id="dropdown-headerLinksBig" class="dropdown">
 		<a class="dropdown-toggle btn-navbar" data-toggle="dropdown" href="#">
