@@ -42,6 +42,7 @@ var Settings_Index_Js = {
 			);
 			if(type == 'RelatedModule'){
 				Settings_Index_Js.loadFilters(wizardContainer);
+				Settings_Index_Js.loadCheckboxs(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").change(Settings_Index_Js.changeRelatedModule);
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -131,6 +132,7 @@ var Settings_Index_Js = {
 			);
 			if(Settings_Index_Js.getType() == 'RelatedModule'){
 				Settings_Index_Js.loadFilters(wizardContainer);
+				Settings_Index_Js.loadCheckboxs(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").change(Settings_Index_Js.changeRelatedModule);
 			}
 			var form = jQuery('form', wizardContainer);
@@ -214,10 +216,33 @@ var Settings_Index_Js = {
 		}
 		filter_field.select2();
 	},
+	loadCheckboxs: function(contener) {
+		var checkboxs = JSON.parse(jQuery('#checkboxs').val());
+		var relatedmodule = contener.find("select[name='relatedmodule'] option:selected").val();
+		var checkbox_field = contener.find("select[name='checkbox']");
+		var checkbox_selected = contener.find("input[name='checkbox_selected']").val();
+		checkbox_field.empty();
+		checkbox_field.append($('<option/>', { value: '-',text : app.vtranslate('None') }));
+		if( checkboxs[relatedmodule] !== undefined ) {
+			$.each(checkboxs[relatedmodule], function (index, value) {
+				var option = { value: index,	text : value }
+				if(checkbox_selected == index){
+					option.selected = 'selected';
+				}
+				checkbox_field.append($('<option/>', option ));
+			}); 
+		}
+		var checkboxv = jQuery("input[name='checkboxv']").val();
+		if(checkboxv != undefined){
+			checkbox_field.val(checkboxv);
+		}
+		checkbox_field.select2();
+	},
 	changeRelatedModule: function(e) {
 		var target = $(e.currentTarget);
 		var form = target.closest('.form-modalAddWidget');
-		Settings_Index_Js.loadFilters(form);	
+		Settings_Index_Js.loadFilters(form);
+		Settings_Index_Js.loadCheckboxs(form);
 	},
 	registerEvents : function() {  
 		this.loadWidgets();

@@ -19,7 +19,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View{
 			$source = Vtiger_Functions::getModuleId($sourceModule);
 		if($source == '')
 			$source = 6;
-		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$RelatedModule = $moduleModel->getRelatedModule($source);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel );
@@ -28,6 +28,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View{
 		$viewer->assign('WIDGETS', $moduleModel->getWidgets($source) );
 		$viewer->assign('RELATEDMODULES', $RelatedModule );
 		$viewer->assign('FILTERS', json_encode($moduleModel->getFiletrs($RelatedModule) ));
+		$viewer->assign('CHECKBOXS', json_encode($moduleModel->getCheckboxs($RelatedModule) ));
 		//$viewer->assign('EXCLUDEDTYPES', $moduleModel->excludedTypes($source) );
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
