@@ -227,3 +227,12 @@ border-bottom: 0;
 padding: 10px;
 margin-bottom: 7px;
 }
+.summaryWidgetContainer .widget_contents{
+padding-top: 5px;
+}
+.table.noStyle th{
+background: none;
+}
+.table.noStyle th,.table.noStyle td{
+padding: 0px!important;;
+}

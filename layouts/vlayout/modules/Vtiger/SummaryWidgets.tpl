@@ -24,7 +24,7 @@
 		<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 	-->
-		{assign var=FILENAME value="RelatedListContents.tpl"}
+		{assign var=FILENAME value="SummaryWidgetsContent.tpl"}
 		{include file=$FILENAME|vtemplate_path:$MODULE RELATED_RECORDS=$RELATED_RECORDS}
 	{elseif $PAGING_MODEL->get('nrt') == 1}
 		<div class="summaryWidgetContainer">
