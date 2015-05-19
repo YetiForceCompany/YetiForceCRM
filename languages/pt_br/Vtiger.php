@@ -774,14 +774,6 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Records limit',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Nível Instrução',
-	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
-	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
-	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
-	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
-	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
-	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
-	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -1106,8 +1098,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'h',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Nome contato',
-	'JS_RELATION' => '__UNTRANSLATED__',
-	'JS_PROCESS' => '__UNTRANSLATED__',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
 
 	'JS_MOBILE_PERFORM_CALL_OK' => 'O número do telefone foi enviado para seu telefone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Erro ao tentar enviar o número do telefone',
@@ -1166,6 +1158,5 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow iniciado',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow concluído',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];
 
