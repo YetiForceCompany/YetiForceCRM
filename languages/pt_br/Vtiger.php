@@ -1098,8 +1098,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'h',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Nome contato',
-	'JS_RELATION' => '__UNTRANSLATED__',
-	'JS_PROCESS' => '__UNTRANSLATED__',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
 
 	'JS_MOBILE_PERFORM_CALL_OK' => 'O número do telefone foi enviado para seu telefone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Erro ao tentar enviar o número do telefone',
