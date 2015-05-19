@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="toggleRightPanelButton" class="toggleRightPanelButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<i id="tRightPanelButtonImage" class="icon-chevron-right"></i>
+		<span id="tRightPanelButtonImage" class="icon-chevron-right"></span>
 	</div>
 	</div>
 	<div class="span2 row-fluid marginLeftZero" id="rightPanel" style="min-height:550px; ">
@@ -25,7 +25,7 @@
 				<div class="pull-right">
 					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57">&nbsp;&nbsp;
 					<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer ">
-						<i class="icon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+						<span class="icon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 					</a>
 				</div>
 				<div class="loadingImg hide pull-right">
