@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -1161,7 +1161,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -1568,6 +1568,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) 
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Check whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (11,'Events','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
@@ -1581,6 +1582,7 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'eventstatus','has changed','Held',1,'picklist');
 
 /*Data for the table `vtiger_datashare_grp2grp` */
 
@@ -5100,9 +5102,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
