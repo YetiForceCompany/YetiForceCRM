@@ -21,8 +21,8 @@ $enabledServices = array(
 	//'dav'
 );
 /*+********   DAV   **********/
-$enableBrowser = true;
-$enableCardDAV = true;
-$enableCalDAV = true;
-$enableWebDAV = true;
+$enableBrowser = FALSE;
+$enableCardDAV = TRUE;
+$enableCalDAV = TRUE;
+$enableWebDAV = FALSE;
 /*+***************************/
