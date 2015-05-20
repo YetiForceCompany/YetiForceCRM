@@ -792,7 +792,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
 		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange+" "+app.vtranslate('of')+" "+totalNumberOfRecords;
+		var newPagingInfo = pageRange+" ("+totalNumberOfRecords+")";
 		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 		if(listViewEntriesCount != 0){
 			jQuery('.pageNumbersText').html(newPagingInfo);
@@ -836,7 +836,7 @@ jQuery.Class("Vtiger_Popup_Js",{
 			nextPageButton.attr("disabled","disabled");
 		}
 		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" "+app.vtranslate('to')+" "+pageEndRange;
+			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {

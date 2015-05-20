@@ -140,7 +140,7 @@ Vtiger_List_Js("Portal_List_Js",{
 			nextPageButton.attr("disabled","disabled");
 		}
 		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" "+app.vtranslate('to')+" "+pageEndRange;
+			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {
