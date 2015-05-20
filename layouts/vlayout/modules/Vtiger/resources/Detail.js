@@ -2233,7 +2233,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
 		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange+" "+app.vtranslate('of')+" "+totalNumberOfRecords;
+		var newPagingInfo = pageRange+" ("+totalNumberOfRecords+")";
 		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 		if(listViewEntriesCount != 0){
 			jQuery('.pageNumbersText').html(newPagingInfo);
