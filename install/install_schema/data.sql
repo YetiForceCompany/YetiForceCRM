@@ -257,7 +257,7 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (134);
 
 /*Data for the table `roundcube_system` */
 
-insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2014042900');
+insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2015030800');
 
 /*Data for the table `roundcube_users` */
 
