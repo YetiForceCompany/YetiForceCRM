@@ -192,7 +192,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 			pnotify_history: false
 		}
 
-		if(typeof customParams.type != 'undefined' && customParams.type == 'success'){
+		if(typeof customParams.type != 'undefined' && customParams.type != 'error'){
 			params.hide = true;
 		}
 		if(typeof userParams != 'undefined'){
