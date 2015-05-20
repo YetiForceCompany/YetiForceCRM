@@ -146,14 +146,6 @@ $languageStrings = [
 	'HelpDesk' => 'Tickets',
 	'High' => 'High',
 	'History' => 'History', //Duplicated key-value pairs
-	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
-	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
-	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
-	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
-	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
-	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
-	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 
 
 	'In Progress' => 'In Progress',
@@ -784,6 +776,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Records limit',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Education',
+	'LBL_RELATED_MODULE_TYPE' => 'Related module type',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',
@@ -1095,8 +1088,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'h',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Contact Name',
-	'JS_RELATION' => '__UNTRANSLATED__',
-	'JS_PROCESS' => '__UNTRANSLATED__',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Phone number has been sent to your phone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Error while trying to send a phone number',
@@ -1201,5 +1194,4 @@ $jsLanguageStrings = [
 	'JS_WEEK' => 'Week',
 	'JS_MORE' => 'More',
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];

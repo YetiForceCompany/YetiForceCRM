@@ -121,8 +121,8 @@ nav.menu{
 }
 @media (max-width: 1320px) {
 	#OSSMailBoxInfo .mail_user_name{ font-size: 0px;}
-	#OSSMailBoxInfo .mainMail{ font-size: 0px;}
-	#OSSMailBoxInfo .mail_user_name{ background-image: url("../../../layouts/vlayout/skins/images/Emails.png");  background-position-y: -4px;  width: 23px;  display: block;}
+	#OSSMailBoxInfo .mainMail{ font-size: 0px;  height: 16px;}
+	#OSSMailBoxInfo .mail_user_name{ background-image: url("../../../layouts/vlayout/skins/images/Emails.png");  background-position: 0px -4px;  width: 23px;  display: block;}
 }
 @media (max-width: 960px) {
 	#headerLinksCompact .btn-navbar{ margin-top: -3px;  margin-right: 8px;}
@@ -210,4 +210,29 @@ padding-right: 5px;
 }
 .dashboardWidgetCalendar .fc-content{
 margin-top: 5px;
+}
+.small-select .chzn-container .chzn-single{
+height: 15px;
+line-height: 15px;
+font-size: 10px;
+}
+.small-select .chzn-container .chzn-single div b{
+background-position-y: -4px;
+}
+.summaryWidgetContainer .widget_header{
+padding-bottom: 0;
+border-bottom: 0;
+}
+.summaryWidgetContainer{
+padding: 10px;
+margin-bottom: 7px;
+}
+.summaryWidgetContainer .widget_contents{
+padding-top: 5px;
+}
+.table.noStyle th{
+background: none;
+}
+.table.noStyle th,.table.noStyle td{
+padding: 0px!important;;
 }

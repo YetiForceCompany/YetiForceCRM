@@ -119,6 +119,14 @@ $languageStrings = [
 	'LBL_IMPORT_ICS_SUCCESS' => 'Kalendereintrag hinzugefügt',
 	'Relation' => 'Beziehung',
 	'Process' => 'Prozess',
+	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
+	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
+	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
+	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
+	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
+	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
+	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
+	'LBL_SHIFT_BLOCK' => 'Show or hide block',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
@@ -164,4 +172,5 @@ $jsLanguageStrings = [
 	'JS_Public' => 'Öffentlich',
 	'Mobile Call' => 'Mobiler Anruf',
 	'NOTIFICATION_ACCEPTED' => 'Angenommen',
+	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];

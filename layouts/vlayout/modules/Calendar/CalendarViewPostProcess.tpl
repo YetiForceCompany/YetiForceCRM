@@ -24,7 +24,7 @@
 				<h5 class="title widgetTextOverflowEllipsis pull-left" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}" style="color:white">&nbsp;&nbsp;{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}</h5>
 				<div class="pull-right">
 					{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
-					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('SHIFT_BLOCK_SHOW')}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57">&nbsp;&nbsp;
+					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57">&nbsp;&nbsp;
 					<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer ">
 						<span class="icon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 					</a>

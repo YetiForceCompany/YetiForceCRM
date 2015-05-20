@@ -88,4 +88,9 @@ $languageStrings = [
 	'PLL_TRANSPARENT' => 'Dostępny',
 	'Relation' => 'Powiązanie',
 	'Process' => 'Proces',
+	'LBL_REPEAT_EACH_MONTH' => 'Powtarzaj co wybrany dzień miesiąca',
+	'LBL_REPEAT_MONTH_DAY' => 'Powtarzaj co pierwszy lub ostatni dzień miesiąca',
+	'LBL_REMAIND_DAYS' => 'Przypomnij po wybranej ilości dni',
+	'LBL_REPEAT_FOR' => 'Powtarzaj przez',
+	'LBL_RECURRING_TYPE' => 'Typ powtarzania',
 ];

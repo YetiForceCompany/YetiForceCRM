@@ -782,6 +782,7 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Usuários',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Grupos',
 	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
+	'LBL_RELATED_MODULE_TYPE' => 'Tipo módulo relacionado',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -1106,8 +1107,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'h',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Nome contato',
-	'JS_RELATION' => '__UNTRANSLATED__',
-	'JS_PROCESS' => '__UNTRANSLATED__',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
 
 	'JS_MOBILE_PERFORM_CALL_OK' => 'O número do telefone foi enviado para seu telefone',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Erro ao tentar enviar o número do telefone',
@@ -1166,6 +1167,9 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow iniciado',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow concluído',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
+<<<<<<< HEAD
 	'JS_CHANGE_ACTIVITY_TIME' => 'Mudar o status para: processando ou histórico',
+=======
+>>>>>>> upstream/master
 ];
 

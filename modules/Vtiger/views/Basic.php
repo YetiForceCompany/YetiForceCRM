@@ -46,7 +46,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$viewer->assign('ANNOUNCEMENT', $this->getAnnouncement());
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
 		$viewer->assign('CHAT_ACTIVE', vtlib_isModuleActive('AJAXChat'));
-		$viewer->assign('WORKTIME', OSSEmployees_Record_Model::getWorkTime());
 
 		if($display) {
 			$this->preProcessDisplay($request);

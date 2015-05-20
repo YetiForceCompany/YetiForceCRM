@@ -797,15 +797,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Records limit',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Ausbildung',
-	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
-	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
-	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
-	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
-	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
-	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
-	'LBL_SHIFT_BLOCK' => 'Show or hide block',
-
+	'LBL_RELATED_MODULE_TYPE' => 'Related module type',
 	/* industry */
 	'Administration'=>'Verwaltung',
 	'Construction Industry'=>'Baubranche',
@@ -1113,8 +1105,8 @@ $jsLanguageStrings = [
 	'JS_H' => 'h',
 	'JS_D' => 'd',
 	'JS_CONTACT_NAME' => 'Kontakt Name',
-	'JS_RELATION' => '__UNTRANSLATED__',
-	'JS_PROCESS' => '__UNTRANSLATED__',
+	'JS_RELATION' => 'Relation',
+	'JS_PROCESS' => 'Process',
 	
 	'JS_MOBILE_PERFORM_CALL_OK' => 'Rufnummer wurde an Ihr Mobiltelefon übergeben',
 	'JS_MOBILE_PERFORM_CALL_ERROR' => 'Fehler beim Versuch die Rufnummer zu übergeben',
@@ -1173,5 +1165,4 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow gestartet',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow beendet',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unbekannter Fehler! Bitte benachrichtigen Sie den Administrator.',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
 ];

@@ -727,14 +727,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Limit rekordów',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Wyszktałcenie',
-	'LBL_SHITF_TASK_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: zdanie',
-	'LBL_SHITF_MEETING_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: spotkanie',
-	'LBL_SHITF_CALL_SHOW' => 'Pokaż lub ukryj rodzaj zdarzenia: telefon',
-	'LBL_SHIFT_USER_SHOW' => 'Pokaż lub ukryj użytkownika',
-	'Activity Type_BLOCK_SHIFT' => 'Pokaż lub ukryj blok rodzaj zdarzenia',
-	'LBL_USERS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok użytkownicy',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok grupy',
-	'LBL_SHIFT_BLOCK' => 'Pokaż lub ukryj blok',
+	'LBL_RELATED_MODULE_TYPE' => 'Typ powiązanego modułu',
 	
 	/* industry */
 	'Administration'=>'Administracja',
@@ -1169,5 +1162,4 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW'=>'Rozpoczęto wykonywanie obiegu informacji',
 	'JS_COMPLETED_PERFORM_WORKFLOW'=>'Zakończono wykonywanie obiegu informacji',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'=>'Wystąpił nieznany błąd, prosimy poinformacjować administratora',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Zmień czas zdarzenia na do realizacji lub historię',
 ];

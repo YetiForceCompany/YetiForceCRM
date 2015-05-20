@@ -79,24 +79,44 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 		}
 		return $relation;
 	}
+	
 	public function getFiletrs( $modules ) {
         $adb = PearDatabase::getInstance();
-		$Filetrs = array();
-		$tabid = array();
+		$filetrs = [];
+		$tabid = [];
 		foreach ($modules as $key => $value){
 			if( !in_array($value['related_tabid'],$tabid) ){
 				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype in ('15','16');";
-				$result = $adb->pquery($sql, array( $value['related_tabid'] ));
+				$result = $adb->pquery($sql, [$value['related_tabid'] ]);
 				$Num = $adb->num_rows($result);
 				while ($row = $adb->fetch_array($result)) {
-					$Filetrs[ $value['related_tabid'] ][ $row['tablename'].'::'.$row['columnname'].'::'.$row['fieldname'] ] = vtranslate($row['fieldlabel'],$value['name']);
+					$filetrs[ $value['related_tabid'] ][ $row['tablename'].'::'.$row['columnname'].'::'.$row['fieldname'] ] = vtranslate($row['fieldlabel'],$value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}
 		}
 		
-		return $Filetrs;
+		return $filetrs;
 	}
+	
+	public function getCheckboxs( $modules ) {
+        $adb = PearDatabase::getInstance();
+		$checkboxs = [];
+		$tabid = [];
+		foreach ($modules as $key => $value){
+			if( !in_array($value['related_tabid'],$tabid) ){
+				$sql = "SELECT columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ? AND columnname NOT IN ('inheritsharing', 'was_read');";
+				$result = $adb->pquery($sql, [$value['related_tabid'], 56]);
+				$Num = $adb->num_rows($result);
+				while ($row = $adb->fetch_array($result)) {
+					$checkboxs[ $value['related_tabid'] ][ $row['fieldname'] ] = vtranslate($row['fieldlabel'],$value['name']);
+				}
+				$tabid[] = $value['related_tabid'];
+			}
+		}
+		return $checkboxs;
+	}
+	
 	public function getFields( $tabid, $uitype = false ) {
         $adb = PearDatabase::getInstance();
 		$fieldlabel = $fieldsList = array();

@@ -76,6 +76,14 @@
 					</select>
 					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
 				</div>
+				<div class="span5 marginLeftZero">{vtranslate('Switch', $QUALIFIED_MODULE)}:</div>
+				<div class="span7">
+					<input type="hidden" name="checkbox_selected" value="{$WIDGETINFO['data']['checkbox']}">
+					<select name="checkbox" class="select2 span3 marginLeftZero">
+						<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+					</select>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+				</div>
 			</div>
 		</div>
 	</div>
