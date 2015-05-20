@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class OSSEmployees_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
+class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View {
 
 	function getSearchParams($assignedto = '',$date) {	
 		$conditions = array();
