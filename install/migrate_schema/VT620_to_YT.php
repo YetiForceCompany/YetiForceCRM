@@ -3698,7 +3698,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 					$k=1;
 					$tree = array();
 					foreach($stem AS $storey){
-						$tree[] = array('data'=>$storey, 'attr'=>array('id'=>$k));
+						$tree[] = array('text'=>$storey, 'id'=>$k);
 						$k = $k+1;
 					}
 					$templateId = self::createTree($moduleId, $templateNames[$columnname], $tree);
