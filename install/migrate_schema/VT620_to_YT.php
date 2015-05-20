@@ -148,6 +148,7 @@ class VT620_to_YT {
 		self::customView();
 		self::addRecords();
 		self::addEmployees();
+		self::deleteRaports();
 		self::cleanInDatabase();
 		self::rebootSeq();
 		self::addSql();
@@ -644,7 +645,7 @@ class VT620_to_YT {
 
 		$workflowTask = array();
 		
-		$workflowTask[] = array(1,1,'Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:1;s:7:"summary";s:0:"";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:1;}');
+		$workflowTask[] = array(1,1,'Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:1;s:7:"summary";s:25:"Update Inventory Products";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:1;}');
 		$workflowTask[] = array(18,16,'Update Inventory Products','O:18:"VTEntityMethodTask":6:{s:18:"executeImmediately";b:1;s:10:"workflowId";i:16;s:7:"summary";s:25:"Update Inventory Products";s:6:"active";b:0;s:10:"methodName";s:15:"UpdateInventory";s:2:"id";i:18;}');
 		$workflowTask[] = array(38,34,'Weryfikacja danych','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"34";s:7:"summary";s:18:"Weryfikacja danych";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:18:"Weryfikacja danych";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"08:00";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:6:"Medium";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:38;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
 		$workflowTask[] = array(41,35,'Zapoznanie się z historią współpracy','O:16:"VTCreateTodoTask":23:{s:18:"executeImmediately";b:1;s:10:"workflowId";s:2:"35";s:7:"summary";s:40:"Zapoznanie się z historią współpracy";s:6:"active";b:0;s:7:"trigger";N;s:4:"todo";s:40:"Zapoznanie się z historią współpracy";s:11:"description";s:0:"";s:16:"sendNotification";s:0:"";s:4:"time";s:5:"09:09";s:4:"date";s:0:"";s:6:"status";s:11:"Not Started";s:8:"priority";s:4:"High";s:4:"days";s:0:"";s:9:"direction";s:5:"after";s:9:"datefield";s:12:"modifiedtime";s:16:"assigned_user_id";s:15:"copyParentOwner";s:2:"id";i:41;s:10:"days_start";s:1:"2";s:8:"days_end";s:1:"3";s:15:"direction_start";s:5:"after";s:15:"datefield_start";s:12:"modifiedtime";s:13:"direction_end";s:5:"after";s:13:"datefield_end";s:12:"modifiedtime";}');
@@ -1036,7 +1037,8 @@ class VT620_to_YT {
 		array("4","1391","notifilanguage","vtiger_contactdetails","2","32","notifilanguage","LBL_LANGUAGE_NOTIFICATIONS","1","2","","100","4","6","1","V~O","1", "","BAS","1","0","0","varchar(100)","LBL_CUSTOMER_PORTAL_INFORMATION"),
 		array("4","1332","attention","vtiger_crmentity","2","300","attention","Attention","1","2","","100","2","8","1","V~O","1","","BAS","1","0","0","text","LBL_DESCRIPTION_INFORMATION"),
 		array('4','1503','contactstatus','vtiger_contactdetails','2','15','contactstatus','Status','1','2','','100','29','4','1','V~O','1',NULL,'BAS','1','0','0',"varchar(255)","LBL_CONTACT_INFORMATION", array('Active','Inactive')),
-		array('4','1744','jobtitle','vtiger_contactdetails','1','1','jobtitle','Job title','1','2','','100','31','4','1','V~O','1',NULL,'BAS','1','','0',"varchar(100)","LBL_CONTACT_INFORMATION",array(),array())
+		array('4','1744','jobtitle','vtiger_contactdetails','1','1','jobtitle','Job title','1','2','','100','31','4','1','V~O','1',NULL,'BAS','1','','0',"varchar(100)","LBL_CONTACT_INFORMATION",array(),array()),
+		array(4,1746,'decision_maker','vtiger_contactdetails',1,'56','decision_maker','Decision maker',1,2,'',100,9,5,1,'C~O',1,NULL,'BAS',1,'',0,"tinyint(1)","LBL_CUSTOM_INFORMATION",array(),array())
 		);
 
 		$tab = 6;
@@ -1705,18 +1707,20 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::picklists() method ...");
 	}
 	public function cron(){
-		global $log;
+		global $log,$adb;
 		$log->debug("Entering VT620_to_YT::cron() method ...");
 		$removeCrons = array();
 		$removeCrons[] = 'MailScanner';
 		$addCrons = array();
-		$addCrons[] = array('Backup','cron/backup.service','43200','','','0','BackUp','11','');
+		$addCrons[] = array('Backup','cron/backup.service','43200','','','0','BackUp','11',NULL);
 		$addCrons[] = array('CardDav','modules/API/cron/CardDav.php',300,NULL,NULL,1,'Contacts',12,NULL);
 		$addCrons[] = array('CalDav','modules/API/cron/CalDav.php',300,NULL,NULL,1,'Calendar',13,NULL);
 		foreach($removeCrons as $cron)
 			Vtiger_Cron::deregister($cron);
 		foreach($addCrons as $cron)
 			Vtiger_Cron::register($cron[0],$cron[1],$cron[2],$cron[6],$cron[5],0,$cron[8]);
+		
+		$adb->pquery('UPDATE `vtiger_cron_task` SET `status` = ? WHERE `name` = ?;', [1,'Scheduled Import']);
 		
 		$log->debug("Exiting VT620_to_YT::cron() method ...");
 	}
@@ -1795,21 +1799,20 @@ class VT620_to_YT {
 		$adb->pquery($sql, $params);
 		$templateId = $adb->getLastInsertID();
 		
-		$sql = 'INSERT INTO vtiger_trees_templates_data(`templateid`, `name`, `tree`, `parenttrre`, `depth`, `label`) VALUES (?,?,?,?,?,?)';
+		/*$sql = 'INSERT INTO vtiger_trees_templates_data(`templateid`, `name`, `tree`, `parenttrre`, `depth`, `label`) VALUES (?,?,?,?,?,?)';
 		$params = array($templateId, 'Default', 'T1', 'T1', 0, 'Default');
 		$adb->pquery($sql, $params);
-		
+		*/
+		$adb->pquery("UPDATE `vtiger_field` SET `fieldparams` = ? WHERE `columnname` = ? AND `tablename` = ?;", array($templateId, 'folderid', 'vtiger_notes'));
 		$result = $adb->query("SELECT * FROM `vtiger_attachmentsfolder` ORDER BY `sequence`;");
-		
+
 		$fieldsResult = array();
 		for($i=0;$i<$adb->num_rows($result);$i++){
 			$folderid = $adb->query_result($result, $i, 'folderid');
 			$name = $adb->query_result($result, $i, 'foldername');
-			if($folderid != 1){
-				$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label) VALUES (?,?,?,?,?,?)';
-				$params = array($templateId, $name, 'T'.$folderid, 'T'.$folderid, 0, $name);
-				$adb->pquery($sql, $params);
-			}
+			$sql = 'INSERT INTO vtiger_trees_templates_data(templateid, name, tree, parenttrre, depth, label) VALUES (?,?,?,?,?,?)';
+			$params = array($templateId, $name, 'T'.$folderid, 'T'.$folderid, 0, $name);
+			$adb->pquery($sql, $params);
 			$query = "UPDATE `vtiger_notes` SET `folderid` = ? WHERE `folderid` = ? ; ";
 			$adb->pquery($query, array('T'.$folderid, $folderid));
 		}
@@ -1844,7 +1847,7 @@ class VT620_to_YT {
 		$changes[] = array('where'=>array('columnname'=>array('product_id'), 'tablename'=>array('vtiger_troubletickets')), 'setColumn'=>array('displaytype','uitype'), 'setValue'=>array(1,10));
 		$changes[] = array('where'=>array('columnname'=>array('startdate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
 		$changes[] = array('where'=>array('columnname'=>array('targetenddate'), 'tablename'=>array('vtiger_projecttask')), 'setColumn'=>array('typeofdata','quickcreate'), 'setValue'=>array('D~M',2));
-		$changes[] = array('where'=>array('columnname'=>array('folderid'), 'tablename'=>array('vtiger_notes')), 'setColumn'=>array('uitype','defaultvalue','fieldparams'), 'setValue'=>array(302,'T1','1'));
+		$changes[] = array('where'=>array('columnname'=>array('folderid'), 'tablename'=>array('vtiger_notes')), 'setColumn'=>array('uitype','defaultvalue'), 'setValue'=>array(302,'T1'));
 
 		foreach($changes as $update){
 			$setColumn = implode(' = ?, ',$update['setColumn']) . ' = ? ';
@@ -1986,6 +1989,12 @@ class VT620_to_YT {
 		if($adb->num_rows($result) == 0){
 			$adb->pquery("UPDATE `vtiger_links` SET `linkicon` = ? WHERE `linklabel`= ? ;", array('icon-align-justify', 'LBL_SHOW_ACCOUNT_HIERARCHY'));
 			$adb->pquery("UPDATE `vtiger_links` SET `linkicon` = ? WHERE `linklabel`= ? ;", array('icon-file', 'LBL_ADD_NOTE'));
+		}
+		
+		$result1 = $adb->pquery("SELECT fieldid FROM `vtiger_field` WHERE columnname = ? AND tablename = ?", array('parent_id','vtiger_assets'));
+		$result2 = $adb->pquery("SELECT * FROM `vtiger_fieldmodulerel` WHERE fieldid = ? AND relmodule = ?", array($adb->query_result($result1, 0, 'fieldid'),'Accounts'));
+		if($adb->num_rows($result2) == 0){
+			$adb->query("insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`) values (".$adb->query_result($result1, 0, 'fieldid').",'Assets','Accounts');");
 		}
 		
 		$log->debug("Exiting VT620_to_YT::updateRecords() method ...");
@@ -2137,18 +2146,18 @@ array('tabid'=>'Accounts','related_tabid'=>'Quotes','name'=>'get_quotes','sequen
 array('tabid'=>'Accounts','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'4'),
 array('tabid'=>'Accounts','related_tabid'=>'Invoice','name'=>'get_invoices','sequence'=>'5'),
 array('tabid'=>'Accounts','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'6'),
-array('tabid'=>'Accounts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'8'),
+array('tabid'=>'Accounts','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'8'),
 array('tabid'=>'Accounts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'9'),
 array('tabid'=>'Accounts','related_tabid'=>'HelpDesk','name'=>'get_tickets','sequence'=>'10'),
 array('tabid'=>'Accounts','related_tabid'=>'Products','name'=>'get_products','sequence'=>'20'),
 array('tabid'=>'Leads','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'2'),
-array('tabid'=>'Leads','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'5'),
+array('tabid'=>'Leads','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'5'),
 array('tabid'=>'Leads','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
 array('tabid'=>'Leads','related_tabid'=>'Products','name'=>'get_products','sequence'=>'9'),
 array('tabid'=>'Leads','related_tabid'=>'Campaigns','name'=>'get_campaigns','sequence'=>'7'),
 array('tabid'=>'Contacts','related_tabid'=>'Potentials','name'=>'get_opportunities','sequence'=>'1'),
 array('tabid'=>'Contacts','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'2'),
-array('tabid'=>'Contacts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'9'),
+array('tabid'=>'Contacts','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'9'),
 array('tabid'=>'Contacts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'8'),
 array('tabid'=>'Potentials','related_tabid'=>'Calendar','name'=>'get_activities','sequence'=>'1'),
 array('tabid'=>'Potentials','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'8'),
@@ -2179,7 +2188,7 @@ array('tabid'=>'PriceBooks','related_tabid'=>'Products','name'=>'get_pricebook_p
 array('tabid'=>'Vendors','related_tabid'=>'Products','name'=>'get_products','sequence'=>'1'),
 array('tabid'=>'Vendors','related_tabid'=>'PurchaseOrder','name'=>'get_purchase_orders','sequence'=>'2'),
 array('tabid'=>'Vendors','related_tabid'=>'Contacts','name'=>'get_contacts','sequence'=>'3'),
-array('tabid'=>'Vendors','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'4'),
+array('tabid'=>'Vendors','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'4'),
 array('tabid'=>'Quotes','related_tabid'=>'SalesOrder','name'=>'get_salesorder','sequence'=>'1'),
 array('tabid'=>'Quotes','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'4'),
 array('tabid'=>'Quotes','related_tabid'=>'','name'=>'get_quotestagehistory','sequence'=>'5'),
@@ -2251,11 +2260,11 @@ array('tabid'=>'OSSMailView','related_tabid'=>'HelpDesk','name'=>'get_helpdesk_m
 array('tabid'=>'OSSMailView','related_tabid'=>'Project','name'=>'get_project_mail','sequence'=>'7'),
 array('tabid'=>'OSSMailView','related_tabid'=>'ServiceContracts','name'=>'get_servicecontracts_mail','sequence'=>'8'),
 array('tabid'=>'OSSMailView','related_tabid'=>'Campaigns','name'=>'get_campaigns_mail','sequence'=>'9'),
-array('tabid'=>'ServiceContracts','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'6'),
-array('tabid'=>'HelpDesk','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'10'),
-array('tabid'=>'Potentials','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'11'),
-array('tabid'=>'Project','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'9'),
-array('tabid'=>'Campaigns','related_tabid'=>'OSSMailView','name'=>'get_related_list','sequence'=>'7'),
+array('tabid'=>'ServiceContracts','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'6'),
+array('tabid'=>'HelpDesk','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'10'),
+array('tabid'=>'Potentials','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'11'),
+array('tabid'=>'Project','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'9'),
+array('tabid'=>'Campaigns','related_tabid'=>'OSSMailView','name'=>'get_emails','sequence'=>'7'),
 array('tabid'=>'Potentials','related_tabid'=>'Project','name'=>'get_related_list','sequence'=>'10'),
 array('tabid'=>'HelpDesk','related_tabid'=>'Assets','name'=>'get_related_list','sequence'=>'11'),
 array('tabid'=>'Accounts','related_tabid'=>'OSSOutsourcedServices','name'=>'get_dependents_list','sequence'=>'24'),
@@ -2338,7 +2347,8 @@ array('tabid'=>'OSSMailTemplates','related_tabid'=>'Documents','name'=>'get_atta
 array('tabid'=>'OutsourcedProducts','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
 array('tabid'=>'OSSOutsourcedServices','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
 array('tabid'=>'OSSSoldServices','related_tabid'=>'Documents','name'=>'get_attachments','sequence'=>'1'),
-array('tabid'=>'ProjectMilestone','related_tabid'=>'ProjectTask','name'=>'get_dependents_list','sequence'=>'1'));
+array('tabid'=>'ProjectMilestone','related_tabid'=>'ProjectTask','name'=>'get_dependents_list','sequence'=>'1'),
+array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail','sequence'=>'10'));
 
 		$query = 'UPDATE vtiger_relatedlists SET ';
 		$query .=' sequence= CASE ';
@@ -3744,14 +3754,13 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$restrictedRaports = array('Contacts by Accounts', 'Contacts without Accounts', 'Contacts by Potentials', 'Lead by Source', 'Lead Status Report','Potential Pipeline','Closed Potentials','Last Month Activities','This Month Activities','Tickets by Products','Tickets by Priority','Open Tickets','Product Details','Products by Contacts','Open Quotes','Quotes Detailed Report','PurchaseOrder by Contacts','PurchaseOrder Detailed Report','Invoice Detailed Report','SalesOrder Detailed Report','Campaign Expectations and Actuals','Contacts Email Report','Accounts Email Report','Leads Email Report','Vendors Email Report');
 		
 		$sql = "SELECT * FROM `vtiger_report` WHERE reportname IN (".generateQuestionMarks($restrictedRaports).")";
-		$params = array($restrictedRaports);
-		$result = $adb->pquery($sql, $params,true);
+		$result = $adb->pquery($sql, $restrictedRaports);
 		$num = $adb->num_rows($result);
 		$moduleModel = Vtiger_Module_Model::getInstance('Reports');
 		for($i=0;$i<$num;$i++){
 			$reportId = $adb->query_result( $result,$i,"reportid" );
-			$raportInstance = Vtiger_Record_Model::getInstanceById($reportId);
-			$moduleModel->deleteRecord($raportInstance);
+			$recordModel = Reports_Record_Model::getInstanceById($reportId, 'Reports');
+			$recordModel->delete();
 		}
 		$log->debug("Exiting VT620_to_YT::deleteRaports() method ...");
 	}
@@ -3916,7 +3925,20 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 			$adb->pquery('alter table vtiger_ticketcf drop column from_portal');
 			
 		}
+		$result = $adb->pquery('SELECT * FROM `roundcube_system` WHERE name = ?;', array('roundcube-version'));
+		if($adb->num_rows($result) == 1){
+			$adb->pquery('UPDATE `roundcube_system` SET `value` = ? WHERE `name` = ?;', ['2015030800','roundcube-version']);
+		}else {
+			$adb->pquery('INSERT INTO `roundcube_system`(`name`,`value`) values (?,?);', ['2015030800','roundcube-version']);
+		}
 		
+		// improved global search
+		$result = $adb->query('SELECT * FROM `vtiger_entityname`;');
+		$num = $adb->num_rows($result);
+		for($i=0;$i<$num;$i++){
+			$tabId = $adb->query_result_raw($result, $i, 'tabid');
+			Settings_Search_Module_Model::UpdateLabels(['tabid'=>$tabId]);
+		}
 		
 		$log->debug("Exiting VT620_to_YT::addSql() method ...");
 	}

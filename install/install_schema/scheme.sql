@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.07 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -1132,7 +1132,7 @@ CREATE TABLE `vtiger_calculationsstatus` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`calculationsstatusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculationsstatus_seq` */
 
@@ -1895,7 +1895,7 @@ CREATE TABLE `vtiger_dataaccess` (
   `data` text,
   PRIMARY KEY (`dataaccessid`),
   KEY `dataaccesid` (`dataaccessid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_dataaccess_cnd` */
 
@@ -1908,7 +1908,7 @@ CREATE TABLE `vtiger_dataaccess_cnd` (
   `required` tinyint(19) NOT NULL,
   `field_type` varchar(100) NOT NULL,
   PRIMARY KEY (`dataaccess_cndid`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_datashare_grp2grp` */
 
