@@ -774,6 +774,7 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Limite registros',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Nível Instrução',
+	'LBL_RELATED_MODULE_TYPE' => 'Tipo módulo relacionado',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
