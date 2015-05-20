@@ -19,6 +19,11 @@
 		</div>
 		<div class="span4">
 			<div class="box pull-right">
+				{if Users_Privileges_Model::isPermitted('Calendar', 'EditView')}
+					<a class="btn btn-mini" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
+						<span class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
+					</a>
+				{/if}
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
