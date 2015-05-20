@@ -359,7 +359,6 @@ class OSSMailView extends CRMEntity {
 			$Module = Vtiger_Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' .$Module->version, $user_id),false);
-			$this->turn_on($moduleName);
 		} else if($eventType == 'module.disabled') {
 			$registerLink = false;
 		// TODO Handle actions when this module is disabled.
