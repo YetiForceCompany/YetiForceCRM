@@ -110,6 +110,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	 * Function to change the end time based on default call duration
 	 */
 	registerTimeStartChangeEvent: function (container) {
+		var thisInstance = this;
 		container.on('changeTime', 'input[name="time_start"]', function (e) {
 			var strtTimeElement = jQuery(e.currentTarget);
 			var endTimeElement = container.find('[name="time_end"]');
@@ -136,6 +137,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			var date = Vtiger_Helper_Js.getDateInstance(dateTime, dateFormat);
 			var endDateInstance = Date.parse(date);
 
+
 			if (container.find('[name="activitytype"]').val() == 'Call') {
 				var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
 				endDateInstance.addMinutes(defaulCallDuration);
@@ -159,13 +161,39 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 		});
         
         container.find('[name="date_start"]').on('change',function(e) {
-            var startDateElement = jQuery(e.currentTarget);
-            var result = Vtiger_Date_Validator_Js.invokeValidation(startDateElement);
-            if(result != true){
-				return;
+			var startDateElement = jQuery(e.currentTarget);
+			var endDateElement = container.find('[name="due_date"]');
+			
+			var start = thisInstance.getDateInstance(container, 'start');
+			var end = thisInstance.getDateInstance(container, 'end');
+			var dateFormat = $('#userDateFormat').val();
+			var timeFormat = $('#userTimeFormat').val();
+			if(start > end){
+				var diff = start - end;
+				end.setTime(start.getTime() + diff)
+				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
+				endDateElement.val(endDateString);
+				app.registerEventForDatePickerFields(container);
 			}
             var timeStartElement = startDateElement.closest('td.fieldValue').find('[name="time_start"]');
             timeStartElement.trigger('changeTime');
+        });
+		
+        container.find('[name="due_date"]').on('change',function(e) {
+			var endDateElement = jQuery(e.currentTarget);
+			var startDateElement = container.find('[name="date_start"]');
+			
+			var start = thisInstance.getDateInstance(container, 'start');
+			var end = thisInstance.getDateInstance(container, 'end');
+			var dateFormat = $('#userDateFormat').val();
+			var timeFormat = $('#userTimeFormat').val();
+			if(start > end){
+				var diff = start - end;
+				start.setTime(end.getTime() - diff)
+				var startDateString = app.getDateInVtigerFormat(dateFormat, start);
+				startDateElement.val(startDateString);
+				app.registerEventForDatePickerFields(container);
+			}
         });
 		
 		container.find('input[name="time_start"]').on('focus',function(e){
@@ -226,15 +254,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
     },
 	
 	/**
-	 * Function to change the Other event Duration
-	 */
-	registerActivityTypeChangeEvent : function(container) {
-		container.on('change','[name="activitytype"]',function(e) {
-			container.find('input[name="time_start"]').trigger('changeTime');
-		});
-	},
-	
-	/**
 	 * This function will register the submit event on form
 	 */
 	registerFormSubmitEvent : function() {
@@ -260,7 +279,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 	registerBasicEvents : function(container) {
 		this._super(container);
 		this.toggleTimesInputs(container)
-		this.registerActivityTypeChangeEvent(container);
 		this.registerTimeStartChangeEvent(container);
         this.registerEndDateTimeChangeLogger(container);
         //Required to set the end time based on the default ActivityType selected
@@ -281,6 +299,26 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 				}
 			}
 		});
+	},
+	
+	getDateInstance: function(container, type){
+		var startDateElement = container.find('[name="date_start"]');
+		var endDateElement = container.find('[name="due_date"]');
+		var endTimeElement = container.find('[name="time_end"]');
+		var startTimeElement = container.find('[name="time_start"]');
+		var startDate = startDateElement.val();
+		var startTime = startTimeElement.val();
+		var endTime = endTimeElement.val();
+		var endDate = endDateElement.val();
+		var dateFormat = $('#userDateFormat').val();
+		var timeFormat = $('#userTimeFormat').val();
+		if(type == 'start'){
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+		}
+		if(type == 'end'){
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+		}
+		return dateInstance;
 	},
 	
 	registerEvents : function(){
