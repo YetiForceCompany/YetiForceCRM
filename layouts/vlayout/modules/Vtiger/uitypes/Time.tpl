@@ -18,7 +18,7 @@
     <input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="text" data-format="{$TIME_FORMAT}" class="timepicker-default input-small" value="{$FIELD_VALUE}" title="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}"
 	data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} />
     <span class="add-on cursorPointer">
-        <i class="icon-time"></i>
+        <span class="icon-time"></span>
     </span>
 </div>
 {/strip}
