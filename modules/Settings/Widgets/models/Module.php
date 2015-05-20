@@ -90,7 +90,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model {
 				$result = $adb->pquery($sql, [$value['related_tabid'] ]);
 				$Num = $adb->num_rows($result);
 				while ($row = $adb->fetch_array($result)) {
-					$filetrs[ $value['related_tabid'] ][ $row['tablename'].'::'.$row['columnname'].'::'.$row['fieldname'] ] = vtranslate($row['fieldlabel'],$value['name']);
+					$filetrs[ $value['related_tabid'] ][ $row['fieldname'] ] = vtranslate($row['fieldlabel'],$value['name']);
 				}
 				$tabid[] = $value['related_tabid'];
 			}

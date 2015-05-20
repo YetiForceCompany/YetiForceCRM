@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.11 (64 bit)
-MySQL - 5.6.17 : Database - yetiforcecrm
+SQLyog Ultimate v12.07 (64 bit)
+MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
 
@@ -257,7 +257,7 @@ insert  into `com_vtiger_workflowtasks_seq`(`id`) values (134);
 
 /*Data for the table `roundcube_system` */
 
-insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2014042900');
+insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','2015030800');
 
 /*Data for the table `roundcube_users` */
 
@@ -1161,7 +1161,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -1568,6 +1568,7 @@ insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) 
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (8,'Accounts','Check for duplicate names','a:1:{i:0;a:8:{s:2:\"an\";s:20:\"Vtiger!!unique_value\";s:5:\"what1\";s:11:\"accountname\";s:6:\"where1\";a:2:{i:0;s:28:\"vtiger_account=accountname=6\";i:1;s:28:\"vtiger_leaddetails=company=7\";}s:5:\"info0\";s:24:\"This name already exists\";s:5:\"info1\";s:24:\"This name already exists\";s:5:\"info2\";s:0:\"\";s:8:\"locksave\";s:1:\"1\";s:2:\"cf\";b:1;}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (9,'All','Check whether all mandatory fields in quick edit are filled in','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:26:\"Vtiger!!validate_mandatory\";}}');
 insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (10,'HelpDesk','Lock edit on the status','a:1:{i:0;a:2:{s:2:\"cf\";b:0;s:2:\"an\";s:21:\"Vtiger!!blockEditView\";}}');
+insert  into `vtiger_dataaccess`(`dataaccessid`,`module_name`,`summary`,`data`) values (11,'Events','Adding time period to status change','a:1:{i:0;a:3:{s:2:\"an\";s:25:\"Vtiger!!show_quick_create\";s:7:\"modules\";s:14:\"OSSTimeControl\";s:2:\"cf\";b:1;}}');
 
 /*Data for the table `vtiger_dataaccess_cnd` */
 
@@ -1581,6 +1582,7 @@ insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldnam
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (49,8,'accountname','is not empty','',1,'string');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (50,10,'ticketstatus','is','Rejected',0,'picklist');
 insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (51,10,'ticketstatus','is','Closed',0,'picklist');
+insert  into `vtiger_dataaccess_cnd`(`dataaccess_cndid`,`dataaccessid`,`fieldname`,`comparator`,`val`,`required`,`field_type`) values (52,11,'eventstatus','has changed','Held',1,'picklist');
 
 /*Data for the table `vtiger_datashare_grp2grp` */
 
@@ -4404,7 +4406,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (13,1384,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,1,204,1,'V~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (4,1385,'inheritsharing','vtiger_crmentity',1,'56','inheritsharing','Copy permissions automatically',1,2,'',100,1,205,1,'C~O',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (4,1386,'shownerid','vtiger_crmentity',1,'120','shownerid','Share with users',1,2,'',100,2,205,1,'V~O',1,NULL,'BAS',1,'',0,'');
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (70,1387,'date','vtiger_calculations',2,'5','date','LBL_DATE',1,2,'',100,8,182,1,'D~O',1,NULL,'BAS',1,'',0,'');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (70,1387,'date','vtiger_calculations',2,'5','date','LBL_DATE',1,2,'',100,8,182,1,'D~M',1,NULL,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (20,1388,'form_payment','vtiger_quotes',2,'16','form_payment','Form of payment',1,2,'Transfer',100,16,49,1,'V~O',1,26,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (23,1389,'form_payment','vtiger_invoice',2,'16','form_payment','Form of payment',1,2,'Transfer',100,28,67,1,'V~O',1,28,'BAS',1,'',0,'');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`) values (22,1390,'form_payment','vtiger_salesorder',2,'16','form_payment','Form of payment',1,2,'Transfer',100,25,61,1,'V~O',1,26,'BAS',1,'',0,'');
@@ -5100,9 +5102,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5436,8 +5438,8 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (205,7,'DASHBOARDWIDGET','Leads by Status Converted','index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted',NULL,8,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (206,3,'DASHBOARDWIDGET','Leads by Status Converted','index.php?module=Leads&view=ShowWidget&name=LeadsByStatusConverted',NULL,24,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (207,2,'DASHBOARDWIDGET','KPI','index.php?module=Potentials&view=ShowWidget&name=Kpi','',11,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (208,3,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl','',12,NULL,NULL,NULL);
-insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (209,61,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl','',1,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (208,3,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl','',12,NULL,NULL,NULL);
+insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (209,61,'DASHBOARDWIDGET','Employees Time Control','index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl','',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (210,75,'DETAILVIEWBASIC','View History','javascript:ModTrackerCommon.showhistory(\'$RECORD$\')','',0,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (211,75,'DETAILVIEWWIDGET','DetailViewBlockCommentWidget','block://ModComments:modules/ModComments/ModComments.php','',1,NULL,NULL,NULL);
 insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`linkicon`,`sequence`,`handler_path`,`handler_class`,`handler`) values (212,40,'HEADERSCRIPT','ModCommentsCommonHeaderScript','modules/ModComments/ModCommentsCommon.js','',0,NULL,NULL,NULL);
@@ -15600,6 +15602,20 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (351,58,8,'get_attachments',1,'Documents',0,'ADD,SELECT');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (352,41,42,'get_dependents_list',1,'ProjectTask',0,'ADD');
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (353,54,18,'get_vendor_mail',10,'Vendors',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (354,43,4,'get_related_list',14,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (355,4,43,'get_related_list',27,'Project',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (356,20,4,'get_related_list',8,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (357,4,20,'get_related_list',28,'Quotes',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (358,70,4,'get_related_list',5,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (359,4,70,'get_related_list',29,'Calculations',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (360,77,4,'get_related_list',4,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (361,4,77,'get_related_list',30,'QuotesEnquires',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (362,22,4,'get_related_list',7,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (363,4,22,'get_related_list',31,'SalesOrder',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (364,21,4,'get_related_list',5,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (365,4,21,'get_related_list',32,'PurchaseOrder',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (366,23,4,'get_related_list',9,'Contacts',0,'ADD,SELECT');
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`) values (367,4,23,'get_related_list',33,'Invoice',0,'ADD,SELECT');
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -15607,7 +15623,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 
 /*Data for the table `vtiger_relatedlists_seq` */
 
-insert  into `vtiger_relatedlists_seq`(`id`) values (353);
+insert  into `vtiger_relatedlists_seq`(`id`) values (367);
 
 /*Data for the table `vtiger_relcriteria` */
 

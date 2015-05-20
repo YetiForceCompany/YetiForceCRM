@@ -57,9 +57,9 @@
 		{if $LINE_ITEM_DETAIL["productDeleted$INDEX"]}
 			<div class="row-fluid redColor deletedItem">
 				{if empty($LINE_ITEM_DETAIL["productName$INDEX"])}
-					{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE)}
+					{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE_NAME)}
 				{else}
-					{vtranslate('LBL_THIS',$MODULE)} {$LINE_ITEM_DETAIL["entityType$INDEX"]} {vtranslate('LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM',$MODULE)}
+					{vtranslate('LBL_THIS',$MODULE_NAME)} {vtranslate($LINE_ITEM_DETAIL["entityType$INDEX"])} {vtranslate('LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM',$MODULE_NAME)}
 				{/if}
 			</div>
 		{/if}

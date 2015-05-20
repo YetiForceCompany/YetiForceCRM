@@ -45,25 +45,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 	 */
 	function getHeaderLinks() {
 		$userModel = Users_Record_Model::getCurrentUserModel();
-
-		$headerLinks = array(
-			// Note: This structure is expected to generate side-bar feedback button.
-			array(
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_FEEDBACK',
-				'linkurl' => "javascript:','feedbackwin','height=400,width=550,top=200,left=300')",
-				'linkicon' => 'info.png',
-				'childlinks' => array(
-					array(
-						'linktype' => 'HEADERLINK',
-						'linklabel' => 'LBL_DOCUMENTATION',
-						'linkurl' => 'https://yetiforce.com',
-						'linkicon' => '',
-						'target' => '_blank'
-					)
-				)
-			)
-		);
+		$headerLinks = [];
 
 		if ($userModel->isAdminUser()) {
 			$crmSettingsLink = array(

@@ -240,10 +240,10 @@ var Vtiger_Index_Js = {
 		if(record.contact_id != '' && record.contact_id != undefined){
 			data_info += '<span class="span12">'+app.vtranslate('JS_CONTACT_NAME')+' : <b>'+record.contact_id+'</b></span>';
 		}
-		if(record.link != '' && record.link != undefined){
+		if(record.link != '0' && record.link != undefined){
 			data_info += '<span class="span12">'+app.vtranslate('JS_RELATION')+' : <b>'+record.link+'</b></span>';
 		}
-		if(record.process != '' && record.process != undefined){
+		if(record.process != '0' && record.process != undefined){
 			data_info += '<span class="span12">'+app.vtranslate('JS_PROCESS')+' : <b>'+record.process+'</b></span>';
 		}
 		if(record.location != '' && record.location != undefined){

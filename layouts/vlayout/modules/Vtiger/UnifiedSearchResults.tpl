@@ -16,7 +16,7 @@
     {assign var=modulesCount value=count($searchRecords)}
     {assign var="totalCount" value=$totalCount+$modulesCount}
 {/foreach}
-<div class="globalSearchResults" style="max-width: 280px;">
+<div class="globalSearchResults">
 	<div class="row-fluid">
 		<div class="header highlightedHeader padding1per">
 			<div class="row-fluid">

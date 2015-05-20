@@ -274,7 +274,6 @@ $languageStrings = [
 	'LBL_DISPLAY_NARROWTYPE' => 'Estreito',
 	'LBL_DISPLAY_TYPE' => 'Mostrar Tipo',
 	'LBL_DISPLAY_WIDETYPE' => 'Largo',
-	'LBL_DOCUMENTATION' => 'Documentação',
 	'LBL_DOES_NOT_CONTAIN' => 'não contém' , //Duplicated key-value pairs
 	'LBL_DRAG' => 'Arrastar',
 	'LBL_DUE' => 'vencido em' ,
@@ -297,7 +296,6 @@ $languageStrings = [
 	'LBL_EXPORT_RECORDS' => 'Exportar Registros',
 	'LBL_EXPORT_SELECTED_RECORDS'=> 'Exportar Registros Selecionados' ,
 	'LBL_Feb' => 'Fev',
-  	'LBL_FEEDBACK' => 'Feedback',
 	'LBL_FIELDS' => 'Campos',
 	'LBL_FILTER_CONDITIONS'=> 'Condições de Filtro' ,
 	'LBL_FILTER_ON_DATE' => 'Filtrar data',
@@ -774,7 +772,9 @@ $languageStrings = [
 	'LBL_RECORDS_LIMIT' => 'Limite registros',
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Nível Instrução',
-	'LBL_RELATED_MODULE_TYPE' => 'Tipo módulo relacionado',
+	'LBL_RELATED_MODULE_TYPE' => 'Tipo de módulo relacionado',
+	'LBL_DUPLICATE_RECORD' => 'Registro duplicado',
+	'LBL_DELETE_RECORD' => 'Apagar registro',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -1160,4 +1160,3 @@ $jsLanguageStrings = [
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow concluído',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
 ];
-

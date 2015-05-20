@@ -215,7 +215,6 @@ $languageStrings = [
 	'LBL_DISPLAY_NARROWTYPE' => 'Wąski',
 	'LBL_DISPLAY_TYPE' => 'Typy odstępów',
 	'LBL_DISPLAY_WIDETYPE' => 'Szeroki',
-	'LBL_DOCUMENTATION' => 'Dokumentacja',
 	'LBL_DOES_NOT_CONTAIN' => 'nie zawiera', //Duplicated key-value pairs
 	'LBL_DRAG' => 'Upust',
 	'LBL_DUE' => 'za',
@@ -238,7 +237,6 @@ $languageStrings = [
 	'LBL_EXPORT_RECORDS' => 'Eksportuj rekordy',
 	'LBL_EXPORT_SELECTED_RECORDS' => 'Eksportuj zaznaczone rekordy',
 	'LBL_Feb' => 'Lut',
-	'LBL_FEEDBACK' => 'Opinie',
 	'LBL_FIELDS' => 'Pola',
 	'LBL_FILTER' => 'Filtr',
 	'LBL_FILTER_CONDITIONS' => 'Warunki dla filtru',
@@ -728,6 +726,8 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Wyszktałcenie',
 	'LBL_RELATED_MODULE_TYPE' => 'Typ powiązanego modułu',
+	'LBL_DUPLICATE_RECORD' => 'Duplikuj rekord',
+	'LBL_DELETE_RECORD' => 'Usuń rekord',
 	
 	/* industry */
 	'Administration'=>'Administracja',

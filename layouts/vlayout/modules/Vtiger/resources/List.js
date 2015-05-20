@@ -1217,7 +1217,7 @@ jQuery.Class("Vtiger_List_Js",{
 			nextPageButton.attr("disabled","disabled");
 		}
 		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" "+app.vtranslate('JS_OF')+" "+pageEndRange;
+			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {
@@ -1841,7 +1841,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
 		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange+" "+app.vtranslate('JS_OF')+" "+totalNumberOfRecords;
+		var newPagingInfo = pageRange+" ("+totalNumberOfRecords+")";
 		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
 		if(listViewEntriesCount != 0){
 			jQuery('.pageNumbersText').html(newPagingInfo);

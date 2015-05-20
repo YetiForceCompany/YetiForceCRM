@@ -26,7 +26,8 @@ class Inventory_DetailView_Model extends Vtiger_DetailView_Model {
 			$sendEmailLink = array( 
 				'linklabel' => '', 
 				'linkurl' => 'javascript:Inventory_Detail_Js.sendEmailPDFClickHandler(\''.$recordModel->getSendEmailPDFUrl().'\')', 
-				'linkicon' => 'icon-envelope' 
+				'linkicon' => 'icon-envelope',
+				'title' => vtranslate('LBL_SEND_MAIL_PDF', $moduleName), 
 			); 
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($sendEmailLink); 
 		}

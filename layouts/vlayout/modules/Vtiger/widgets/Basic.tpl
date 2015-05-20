@@ -51,7 +51,7 @@
 						<input type="hidden" name="filter_data" value="{$filter}" />
 						<div class="row-fluid">
 							{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($WIDGET['data']['relatedmodule'])}
-							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($WIDGET['field_name'])}
+							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
 							{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
