@@ -131,14 +131,14 @@ $languageStrings = [
     'Default Activity View'=>'Padrão Visualização Atividade',
 	'Relation' => 'Relação',
 	'Process' => 'Processo',
-	'LBL_SHITF_TASK_SHOW' => 'Show or hide activity type: task',
-	'LBL_SHITF_MEETING_SHOW' => 'Show or hide activity type: metting',
-	'LBL_SHITF_CALL_SHOW' => 'Show or hide activity type: user',
-	'LBL_SHIFT_USER_SHOW' => 'Show or hide user',
-	'Activity Type_BLOCK_SHIFT' => 'Show or hide activity block type',
-	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
-	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
-	'LBL_SHIFT_BLOCK' => 'Show or hide block',
+	'LBL_SHITF_TASK_SHOW' => 'Exibir ou ocultar tipo Atividade: Tarefa',
+	'LBL_SHITF_MEETING_SHOW' => 'Exibir ou ocultar tipo Atividade: Reunião',
+	'LBL_SHITF_CALL_SHOW' => 'Exibir ou ocultar tipo Atividade: Usuário',
+	'LBL_SHIFT_USER_SHOW' => 'Exibir ou ocultar Usuário',
+	'Activity Type_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco de Atividade',
+	'LBL_USERS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco de Usuários',
+	'LBL_GROUPS_BLOCK_SHIFT' => 'Exibir ou ocultar tipo bloco Grupos',
+	'LBL_SHIFT_BLOCK' => 'Exibir ou ocultar bloco',
 ];
 
 $jsLanguageStrings = [
@@ -186,5 +186,5 @@ $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Não é possível selecionar Contato relacionado Leads',
 	'Mobile Call' => 'Ligar para Celular',
     'NOTIFICATION_ACCEPTED' => 'Aceita',
-    'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
+    'JS_CHANGE_ACTIVITY_TIME' => 'Alterar status para: processando ou histórico',
 ];
