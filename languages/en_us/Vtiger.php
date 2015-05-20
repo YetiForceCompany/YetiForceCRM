@@ -777,6 +777,8 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Education',
 	'LBL_RELATED_MODULE_TYPE' => 'Related module type',
+	'LBL_DUPLICATE_RECORD' => 'Duplicate record',
+	'LBL_DELETE_RECORD' => 'Delete record',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

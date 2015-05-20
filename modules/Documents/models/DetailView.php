@@ -27,7 +27,8 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => 'LBL_DOWNLOAD_FILE',
 					'linkurl' => $recordModel->getDownloadFileURL(),
-					'linkicon' => ''
+					'linkicon' => 'icon-download-alt',
+					'title' => vtranslate('LBL_DOWNLOAD_FILE', 'Documents')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -35,7 +36,8 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->checkFileIntegrityURL(),
-				'linkicon' => ' icon-file'
+				'linkicon' => ' icon-file',
+				'title' => vtranslate('LBL_CHECK_FILE_INTEGRITY', 'Documents') 
 		);
 		$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 
@@ -45,9 +47,10 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 			if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
 				$basicActionLink = array(
 						'linktype' => 'DETAILVIEW',
-						'linklabel' => 'LBL_EMAIL_FILE_AS_ATTACHMENT',
+						'linklabel' => '',
 						'linkurl' => "javascript:Documents_Detail_Js.triggerSendEmail('". ZEND_JSON::encode(array($recordModel->getId())) ."')",
-						'linkicon' => ''
+						'linkicon' => 'icon-envelope',
+						'title' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents')
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}

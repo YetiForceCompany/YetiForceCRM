@@ -1148,6 +1148,8 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Статус',
 	'LBL_EDUCATION' => 'Образование',
 	'LBL_RELATED_MODULE_TYPE' => 'Related module type',
+	'LBL_DUPLICATE_RECORD' => 'Duplicate record',
+	'LBL_DELETE_RECORD' => 'Delete record',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
