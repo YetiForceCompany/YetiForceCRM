@@ -553,9 +553,9 @@ $languageStrings = [
 	'LBL_VIEW_DETAILS' => 'Visualizar Datalhes',
 	'LBL_VIEW_NAME'=> 'Visualizar Nome' ,
 	'LBL_VIEW_THREAD'=> 'Visualizar Tópico' ,
-	'LBL_VIEW_SETTINGS' => 'Software configuration',
-	'LBL_VIEW_EXPORT' => 'Export',
-	'LBL_VIEW_IMPORT' => 'Import',
+	'LBL_VIEW_SETTINGS' => 'Configuração Software',
+	'LBL_VIEW_EXPORT' => 'Exportar',
+	'LBL_VIEW_IMPORT' => 'Importar',
 	'LBL_VTIGER_CRM_HONEST_OPEN_SOURCE' => 'YetiForce CRM Open Source',
 	'LBL_WEBFORMS' => 'WebForms',
 	'LBL_Wed' => 'Qua',
@@ -1166,6 +1166,6 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow iniciado',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow concluído',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
-	'JS_CHANGE_ACTIVITY_TIME' => 'Change status to: for processing or history',
+	'JS_CHANGE_ACTIVITY_TIME' => 'Mudar o status para: processando ou histórico',
 ];
 
