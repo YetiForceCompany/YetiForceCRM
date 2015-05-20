@@ -29,7 +29,8 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateQuoteUrl(),
-						'linkicon' => 'icon-briefcase'
+						'linkicon' => 'icon-briefcase',
+						'title' => vtranslate('LBL_CREATE').' '.vtranslate($quotesModuleModel->getSingularLabelKey(), 'Quotes'),
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -40,7 +41,8 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateInvoiceUrl(),
-						'linkicon' => 'icon-list-alt'
+						'linkicon' => 'icon-list-alt',
+						'title' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -51,7 +53,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-						'linkicon' => 'icon-barcode'
+						'linkicon' => 'icon-barcode',
+						'title' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
+
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
@@ -62,7 +66,9 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' =>  '',
 						'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-						'linkicon' => 'icon-shopping-cart'
+						'linkicon' => 'icon-shopping-cart',
+						'title' => vtranslate('LBL_CREATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
+
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}

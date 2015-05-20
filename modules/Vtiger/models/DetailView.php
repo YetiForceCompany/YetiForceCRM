@@ -115,7 +115,9 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_'. $moduleName, $moduleName)),
 					'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
-					'linkicon' => 'icon-trash'
+					'linkicon' => 'icon-trash',
+					'title' => vtranslate('LBL_DELETE_RECORD')
+
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
@@ -125,7 +127,8 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 						'linktype' => 'DETAILVIEWBASIC',
 						'linklabel' => 'LBL_DUPLICATE',
 						'linkurl' => $recordModel->getDuplicateRecordUrl(),
-						'linkicon' => 'icon-retweet'
+						'linkicon' => 'icon-retweet',
+						'title' => vtranslate('LBL_DUPLICATE_RECORD')
 				);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}

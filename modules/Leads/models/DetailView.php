@@ -31,7 +31,8 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linklabel' => '',
 				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
 				'linkicon' => 'icon-envelope',
-				'linktarget' => '_blank'
+				'linktarget' => '_blank',
+				'title' => vtranslate('LBL_SEND_EMAIL')
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -57,14 +58,16 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'icon-time'
+					'linkicon' => 'icon-time',
+					'title' => vtranslate('LBL_ADD_EVENT')
 			);
 
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'icon-calendar'
+					'linkicon' => 'icon-calendar',
+					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
 		
@@ -76,6 +79,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
 				'linkicon' => 'icon-comment',
+				'title' => vtranslate('LBL_SEND_SMS')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

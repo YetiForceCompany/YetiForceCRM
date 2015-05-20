@@ -28,7 +28,8 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => 'icon-list-alt'
+				'linkicon' => 'icon-list-alt',
+				'title' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -38,7 +39,8 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateQuoteUrl(),
-				'linkicon' => 'icon-briefcase'
+				'linkicon' => 'icon-briefcase',
+				'title' => vtranslate('LBL_CREATE').' '.vtranslate($quoteModuleModel->getSingularLabelKey(), 'Quotes'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -50,14 +52,16 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'icon-time'
+					'linkicon' => 'icon-time',
+					'title' => vtranslate('LBL_ADD_EVENT')
 			);
 
 			$CalendarActionLinks[] = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'icon-calendar'
+					'linkicon' => 'icon-calendar',
+					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
 		

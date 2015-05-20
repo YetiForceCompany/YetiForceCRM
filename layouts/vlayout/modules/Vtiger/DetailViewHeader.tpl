@@ -32,7 +32,11 @@
 										onclick="window.open('{$DETAIL_VIEW_BASIC_LINK->getUrl()}','{if $DETAIL_VIEW_BASIC_LINK->linktarget}{$DETAIL_VIEW_BASIC_LINK->linktarget}{else}_self{/if}')"
 									{else}
 										onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
-									{/if}>
+									{/if}
+									{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
+										title="{$DETAIL_VIEW_BASIC_LINK->title}"
+									{/if}
+									>
 									{if $DETAIL_VIEW_BASIC_LINK->linkicon neq ''}<span class="{$DETAIL_VIEW_BASIC_LINK->linkicon}"></span>{if $LABEL neq ''}&nbsp;&nbsp;{/if}{/if}
 									{if $LABEL neq ''}
 										<strong>{vtranslate($LABEL, $MODULE_NAME)}</strong>
@@ -45,7 +49,13 @@
 									{if $DETAIL_VIEW_LINK->getLabel() neq "" OR $DETAIL_VIEW_LINK->linkicon neq ""} 
 										<span class="btn-group">
 											<a class="btn {if $DETAIL_VIEW_LINK->linkhint neq ''}popoverTooltip{/if}" 
-												href='{$DETAIL_VIEW_LINK->getUrl()}'
+												href='{$DETAIL_VIEW_LINK->getUrl()}' 
+												{if $DETAIL_VIEW_LINK->title neq ''}
+													title="{$DETAIL_VIEW_LINK->title}"
+												{/if}
+												{if  $DETAIL_VIEW_LINK->linklabel eq 'LBL_ADD_NOTE' OR $DETAIL_VIEW_LINK->linklabel eq 'LBL_SHOW_ACCOUNT_HIERARCHY'}
+													title="{vtranslate($DETAIL_VIEW_LINK->linklabel, $MODULE_NAME)}"
+												{/if}
 												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}>
 												{if $DETAIL_VIEW_LINK->linkicon neq ''}
 													<span class="{$DETAIL_VIEW_LINK->linkicon} icon-in-button"></span> 
@@ -62,7 +72,10 @@
 									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><span class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
 									<ul class="listViewSetting dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
-											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
+											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if} 								{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
+													title="{$DETAILVIEW_SETTING->title}"
+												{/if}
+												>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
 										{/foreach}
 									</ul>
 								</span>

@@ -728,6 +728,8 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Status',
 	'LBL_EDUCATION' => 'Wyszktałcenie',
 	'LBL_RELATED_MODULE_TYPE' => 'Typ powiązanego modułu',
+	'LBL_DUPLICATE_RECORD' => 'Duplikuj rekord',
+	'LBL_DELETE_RECORD' => 'Usuń rekord',
 	
 	/* industry */
 	'Administration'=>'Administracja',
