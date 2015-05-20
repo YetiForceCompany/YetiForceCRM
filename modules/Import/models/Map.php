@@ -87,7 +87,7 @@ class Import_Map_Model extends Vtiger_Base_Model {
 	}
 
 	public static function getAllByModule($moduleName) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM '.self::$tableName.' WHERE deleted=0 AND module=?', array($moduleName));

@@ -102,7 +102,7 @@ class Services extends CRMEntity {
 	/**	Constructor which will set the column_fields in this object
 	 */
 	function __construct() {
-		global $log;
+		$log = vglobal('log');
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
@@ -127,7 +127,7 @@ class Services extends CRMEntity {
 	*/
 	function insertTaxInformation($tablename, $module)
 	{
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into insertTaxInformation($tablename, $module) method ...");
 		$tax_details = getAllTaxes();
 
@@ -174,7 +174,7 @@ class Services extends CRMEntity {
 	*/
 	function insertPriceInformation($tablename, $module)
 	{
-		global $adb, $log, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user'); $log = vglobal('log');
 		$log->debug("Entering into insertPriceInformation($tablename, $module) method ...");
 		//removed the update of currency_id based on the logged in user's preference : fix 6490
 
@@ -268,7 +268,7 @@ class Services extends CRMEntity {
 						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 					LEFT JOIN vtiger_users
 						ON vtiger_users.id = vtiger_crmentity.smownerid ";
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$query .= $this->getNonAdminAccessControlQuery($module,$current_user);
 		$query .= "WHERE vtiger_crmentity.deleted = 0 ".$where;
 		return $query;
@@ -278,7 +278,7 @@ class Services extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -324,7 +324,7 @@ class Services extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		include("include/utils/ExportUtils.php");
 
@@ -429,7 +429,7 @@ class Services extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_quotes($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -501,7 +501,7 @@ class Services extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_purchase_orders($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_purchase_orders(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -570,7 +570,7 @@ class Services extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_salesorder($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -643,7 +643,7 @@ class Services extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_invoices($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_invoices(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -768,13 +768,13 @@ class Services extends CRMEntity {
 	 */
 	function getPriceBookRelatedServices($query,$focus,$returnset='')
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getPriceBookRelatedServices(".$query.",".get_class($focus).",".$returnset.") method ...");
 
 		$adb = PearDatabase::getInstance();
 		global $app_strings;
-		global $current_language,$current_user;
-		$current_module_strings = return_module_language($current_language, 'Services');
+		$current_user  = vglobal('current_user');
+		$current_module_strings = return_module_language(vglobal('current_language'), 'Services');
         $no_of_decimal_places = getCurrencyDecimalPlaces();
 		global $list_max_entries_per_page;
 		global $urlPrefix;
@@ -877,7 +877,7 @@ class Services extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Quotes"=>"vtiger_inventoryproductrel","PurchaseOrder"=>"vtiger_inventoryproductrel","SalesOrder"=>"vtiger_inventoryproductrel",
@@ -916,7 +916,7 @@ class Services extends CRMEntity {
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 	function generateReportsQuery($module,$queryPlanner){
-	   	global $current_user;
+	   	$current_user  = vglobal('current_user');
 
 			$matrix = $queryPlanner->newDependencyMatrix();
 			$matrix->setDependency('vtiger_seproductsrel',array('vtiger_crmentityRelServices','vtiger_accountRelServices','vtiger_leaddetailsRelServices','vtiger_servicecf','vtiger_potentialRelServices'));
@@ -971,7 +971,7 @@ class Services extends CRMEntity {
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 	function generateReportsSecQuery($module,$secmodule, $queryPlanner) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_service',array('actual_unit_price','vtiger_currency_info','vtiger_productcurrencyrel','vtiger_servicecf','vtiger_crmentityServices'));
 		$matrix->setDependency('vtiger_crmentityServices',array('vtiger_usersServices','vtiger_groupsServices','vtiger_lastModifiedByServices'));
@@ -1031,7 +1031,7 @@ class Services extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		$this->db->pquery('DELETE from vtiger_seproductsrel WHERE productid=? or crmid=?',array($id,$id));
 
 		parent::unlinkDependencies($module, $id);
@@ -1121,7 +1121,7 @@ class Services extends CRMEntity {
 	* returns related Products record in array format
 	*/
 	function get_services($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 

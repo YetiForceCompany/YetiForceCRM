@@ -15,7 +15,7 @@ class VTWorkflowUtils {
 	static $loggedInUser;
 
 	function __construct() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty(self::$userStack)) {
 			self::$userStack = array();
 		}
@@ -39,7 +39,7 @@ class VTWorkflowUtils {
 	 */
 	function adminUser() {
         $user = Users::getActiveAdminUser();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if (empty(self::$userStack) || count(self::$userStack) == 0) {
 			self::$loggedInUser = $current_user;
 		}
@@ -54,7 +54,7 @@ class VTWorkflowUtils {
 	 */
 	function loggedInUser() {
 		$user = self::$loggedInUser;
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		array_push(self::$userStack, $current_user);
 		$current_user = $user;
 		return $user;
@@ -64,7 +64,7 @@ class VTWorkflowUtils {
 	 * Revert to the previous use on the user stack
 	 */
 	function revertUser() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if (count(self::$userStack) != 0) {
 			$current_user = array_pop(self::$userStack);
 		} else {
@@ -111,7 +111,7 @@ class VTWorkflowUtils {
 	 * Check if the current user is admin
 	 */
 	function checkAdminAccess() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		return strtolower($current_user->is_admin) === 'on';
 	}
 

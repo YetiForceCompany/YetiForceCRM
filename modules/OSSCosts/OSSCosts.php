@@ -231,7 +231,7 @@ class OSSCosts extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts' || $return_module == 'Contacts' || $return_module == 'Vendors') {
@@ -290,8 +290,8 @@ class OSSCosts extends CRMEntity {
 	* Returns Export OSSCosts Query.
 	*/
 	function create_export_query($where){
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 		include("include/utils/ExportUtils.php");
 		//To get the Permitted fields query and the permitted fields list
@@ -329,7 +329,10 @@ class OSSCosts extends CRMEntity {
 		return $query;
 	}
 	function getHierarchy($id) {
-		global $log, $adb, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+
         $log->debug("Entering getHierarchy(".$id.") method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
@@ -381,7 +384,7 @@ class OSSCosts extends CRMEntity {
 		return $hierarchy;
 	}
 	function __getParentRecord($id, &$parent_accounts, &$encountered_accounts) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getParentRecord(".$id.",".$parent_accounts.") method ...");
 		$query = "SELECT parentid FROM vtiger_osscosts " .
 				" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid" .
@@ -429,7 +432,7 @@ class OSSCosts extends CRMEntity {
 		return $parent_accounts;
 	}
 	function __getChildRecord($id, &$child_accounts, $depth) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getChildRecord(".$id.",".$child_accounts.",".$depth.") method ...");
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');

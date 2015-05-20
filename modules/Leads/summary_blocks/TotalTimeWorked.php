@@ -14,7 +14,7 @@ class TotalTimeWorked{
 	public $reference = 'OSSTimeControl';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TotalTimeWorked::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$timecontrol ='SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol

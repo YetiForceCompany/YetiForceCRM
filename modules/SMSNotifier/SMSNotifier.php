@@ -72,7 +72,7 @@ class SMSNotifier extends SMSNotifierBase {
 	 */
 	function detectRelatedModules() {
 
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 
 		// Pick the distinct modulenames based on related records.
 		$result = $adb->pquery("SELECT distinct setype FROM vtiger_crmentity WHERE crmid in (
@@ -214,7 +214,7 @@ class SMSNotifier extends SMSNotifierBase {
 
 
 	static function fireSendSMS($message, $tonumbers) {
-		global $log;
+		$log = vglobal('log');
 		$provider = SMSNotifierManager::getActiveProviderInstance();
 		if($provider) {
 			return $provider->send($message, $tonumbers);

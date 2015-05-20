@@ -211,7 +211,7 @@ class VTCacheUtils {
 	/** User currency id caching */
 	static $_usercurrencyid_cache = array();
 	static function lookupUserCurrenyId($userid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(isset($current_user) && $current_user->id == $userid) {
 			return array(
 				'currencyid' => $current_user->column_fields['currency_id']

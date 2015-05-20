@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-global $currentModule;
+$currentModule = vglobal('currentModule');
 
 $widgetName = vtlib_purify($_REQUEST['widget']);
 $criteria = vtlib_purify($_REQUEST['criteria']);

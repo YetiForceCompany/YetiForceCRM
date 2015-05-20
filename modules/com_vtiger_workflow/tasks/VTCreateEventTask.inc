@@ -36,7 +36,7 @@ class VTCreateEventTask extends VTTask{
 
 	function getAdmin(){
 		$user = Users::getActiveAdminUser();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$this->originalUser = $current_user;
 		$current_user = $user;
 		return $user;
@@ -46,7 +46,7 @@ class VTCreateEventTask extends VTTask{
 		if(!vtlib_isModuleActive('Calendar')) {
 			return;
 		}
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$userId = $entityData->get('assigned_user_id');
 		if($userId===null){
 			$userId = vtws_getWebserviceEntityId('Users', 1);
@@ -185,7 +185,7 @@ class VTCreateEventTask extends VTTask{
 			$_REQUEST['createmode'] = '';
 
 		}
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$current_user = $this->originalUser;
 	}
 

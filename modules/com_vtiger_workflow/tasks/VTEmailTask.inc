@@ -21,7 +21,7 @@ class VTEmailTask extends VTTask{
 		return array("subject", "content", "recepient", 'emailcc', 'emailbcc', 'fromEmail');
 	}
 	public function doTask($entity){
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
 		$module = $entity->getModuleName();
@@ -93,7 +93,7 @@ class VTEmailTask extends VTTask{
 	 */
 	public function getContents($entity, $entityCache=false) {
 		if (!$this->contents) {
-			global $adb, $current_user;
+			$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 			$taskContents = array();
 			$entityId = $entity->getId();
 

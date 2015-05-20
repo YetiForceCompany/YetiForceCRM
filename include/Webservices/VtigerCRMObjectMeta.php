@@ -342,7 +342,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		$current_user = vtws_preserveGlobal('current_user',$this->user);
 		$theme = vtws_preserveGlobal('theme',$this->user->theme);
 		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
-		global $current_language;
+		$current_language = vglobal('current_language');
 		if(empty($current_language)) $current_language = $default_language;
 		$current_language = vtws_preserveGlobal('current_language',$current_language);
 		

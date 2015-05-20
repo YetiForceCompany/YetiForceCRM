@@ -34,7 +34,8 @@ require_once 'modules/PickList/DependentPickListUtils.php';
 
 function getConvertSoToInvoice($focus,$so_focus,$soid)
 {
-	global $log,$current_user;
+	$log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$log->debug("Entering getConvertSoToInvoice(".get_class($focus).",".get_class($so_focus).",".$soid.") method ...");
     $log->info("in getConvertSoToInvoice ".$soid);
     $xyz=array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
@@ -86,11 +87,11 @@ function getConvertSoToInvoice($focus,$so_focus,$soid)
 
 function getAssociatedProducts($module,$focus,$seid='')
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 	$adb = PearDatabase::getInstance();
 	$output = '';
-	global $theme,$current_user;
+	global $theme;
 
 	$no_of_decimal_places = getCurrencyDecimalPlaces();
 	$theme_path="themes/".$theme."/";
@@ -465,7 +466,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 function split_validationdataArray($validationData)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering split_validationdataArray(".$validationData.") method ...");
 	$fieldName = '';
 	$fieldLabel = '';

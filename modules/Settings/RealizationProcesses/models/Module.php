@@ -15,7 +15,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 * @return - array of Project status
 	 */
 	public static function getProjectStatus(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_projectstatus`;';
 		$result = $adb->query($sql);
@@ -35,7 +35,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 * @return - array of status
 	 */
 	public static function getStatusNotModify(){
-		global $log;
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...");
 		$sql = 'SELECT * FROM `vtiger_realization_process`;';
@@ -60,7 +60,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 * @return - array of status
 	 */
 	public function updateStatusNotModify($moduleId, $status){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering Settings_RealizationProcesses_Module_Model::updateStatusNotModify() method ...");
 		$query = "UPDATE `vtiger_realization_process` SET `status_indicate_closing` = ? WHERE `module_id` = ?";
 		$data = Zend_Json::encode($status);

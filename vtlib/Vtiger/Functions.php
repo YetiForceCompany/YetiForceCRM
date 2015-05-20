@@ -20,7 +20,7 @@ class Vtiger_Functions {
 	}
 
 	static function currentUserJSDateFormat($localformat) { 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		switch ($current_user->date_format){
 			case 'dd-mm-yyyy':	$dt_popup_fmt = "%d-%m-%Y";	break;
 			case 'mm-dd-yyyy':	$dt_popup_fmt = "%m-%d-%Y";	break;
@@ -47,7 +47,7 @@ class Vtiger_Functions {
 	 * @return Date
 	 */
 	static function currentUserDisplayDate($value) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$dat_fmt = $current_user->date_format;
 		if ($dat_fmt == '') {
 			$dat_fmt = 'yyyy-mm-dd';
@@ -57,7 +57,7 @@ class Vtiger_Functions {
 	}
 
 	static function currentUserDisplayDateNew() {
-		global $log, $current_user;
+		$current_user = vglobal('current_user');
 		$date = new DateTimeField(null);
 		return $date->getDisplayDate($current_user);
 	}
@@ -605,7 +605,7 @@ class Vtiger_Functions {
 	}
 
 	static function getMergedDescription($description, $id, $parent_type) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$token_data_pair = explode('$', $description);
 		$emailTemplate = new EmailTemplate($parent_type, $description, $id, $current_user);
 		$description = $emailTemplate->getProcessedDescription();

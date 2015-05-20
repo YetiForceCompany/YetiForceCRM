@@ -14,7 +14,7 @@ class OffersAll{
 	public $reference = 'Quotes';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering OffersAll::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$quotes ='SELECT COUNT(quoteid) as count FROM vtiger_quotes

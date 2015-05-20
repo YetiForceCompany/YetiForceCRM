@@ -15,7 +15,7 @@ require_once 'include/utils/CommonUtils.php';
 Class CustomReportUtils {
 
 	public static function getCustomReportsQuery($reportid, $filterlist=null) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$reportnew = ReportRun::getInstance($reportid);
 		$groupby = $reportnew->getGroupingList($reportid);
 		$showcharts = false;
@@ -27,7 +27,7 @@ Class CustomReportUtils {
 	}
 
 	public static function getReportChart($reportid, $chartType) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$oReportRun = ReportRun::getInstance($reportid);
 		$groupBy = $oReportRun->getGroupingList($reportid);
 		foreach ($groupBy as $key => $value) {
@@ -173,7 +173,7 @@ Class CustomReportUtils {
 	}
 
 	public static function getXAxisDateFieldValue($dateFieldValue, $criteria) {
-		global $log;
+		$log = vglobal('log');
 		$timeStamp = strtotime($dateFieldValue);
 		$year = date('Y', $timeStamp);
 		$month = date('m', $timeStamp);

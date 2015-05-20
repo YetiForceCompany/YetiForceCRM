@@ -15,7 +15,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 	}
 
 	public static function getConfig($type = false) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type" );
 		$cache = Vtiger_Cache::get('SalesProcesses',$type==false?'all':$type);
 		if($cache){
@@ -54,7 +54,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 	}
 	
 	public static function setConfig($param) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$db = PearDatabase::getInstance();
 		$value = $param['val'];
@@ -71,7 +71,7 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model {
 	 * @return - true or false
 	 */
 	public static function checkRelatedToPotentialsLimit() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");
 		$popup = self::getConfig('popup');
 		$log->debug("Exiting Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit() method ...");

@@ -75,10 +75,10 @@ function getaddEventPopupTime($starttime,$endtime,$format)
  */
 function getActivityDetails($description,$user_id,$from='')
 {
-	global $log,$current_user,$current_language;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
-	$mod_strings = return_module_language($current_language, 'Calendar');
+	$mod_strings = return_module_language(vglobal('current_language'), 'Calendar');
 	$log->debug("Entering getActivityDetails(".$description.") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];
 	$created = $mod_strings['LBL_CREATED'];

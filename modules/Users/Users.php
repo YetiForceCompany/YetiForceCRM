@@ -152,7 +152,7 @@ class Users extends CRMEntity {
      * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
      */
     function getSortOrder() {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering getSortOrder() method ...");
         if(isset($_REQUEST['sorder']))
             $sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -167,7 +167,7 @@ class Users extends CRMEntity {
      * return string  $order_by    - fieldname(eg: 'subject')
      */
     function getOrderBy() {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering getOrderBy() method ...");
 
         $use_default_order_by = '';
@@ -495,7 +495,7 @@ class Users extends CRMEntity {
 
         $usr_name = $this->column_fields["user_name"];
         global $mod_strings;
-        global $current_user;
+        $current_user  = vglobal('current_user');
         $this->log->debug("Starting password change for $usr_name");
 
         if( !isset($new_password) || $new_password == "") {
@@ -793,7 +793,7 @@ class Users extends CRMEntity {
     }
 
     function createAccessKey() {
-        global $adb,$log;
+        $adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 
         $log->info("Entering Into function createAccessKey()");
         $updateQuery = "update vtiger_users set accesskey=? where id=?";
@@ -807,9 +807,9 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function insertIntoEntityTable($table_name, $module) {
-        global $log;
+        $log = vglobal('log');
         $log->info("function insertIntoEntityTable ".$module.' vtiger_table name ' .$table_name);
-        global $adb, $current_user;
+        $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
         $insertion_mode = $this->mode;
         //Checkin whether an entry is already is present in the vtiger_table to update
         if($insertion_mode == 'edit') {
@@ -924,9 +924,8 @@ class Users extends CRMEntity {
                 $languageList = Vtiger_Language::getAll();
                 $languageList = array_keys($languageList);
                 if(!in_array($fldvalue, $languageList) || $fldvalue == '') {
-                    global $default_language;
-                    if(!empty($default_language) && in_array($default_language, $languageList)) {
-                        $fldvalue = $default_language;
+                    if(!empty(vglobal('default_language')) && in_array(vglobal('default_language'), $languageList)) {
+                        $fldvalue = vglobal('default_language');
                     } else {
                         $fldvalue = $languageList[0];
                     }
@@ -988,7 +987,7 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function insertIntoAttachment($id,$module) {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
         foreach($_FILES as $fileindex => $files) {
@@ -1006,7 +1005,7 @@ class Users extends CRMEntity {
      * @param $module -- module:: Type varchar
      */
     function retrieve_entity_info($record, $module) {
-        global $adb,$log;
+        $adb = PearDatabase::getInstance(); 	$log = vglobal('log');
         $log->debug("Entering into retrieve_entity_info($record, $module) method.");
 
         if($record == '') {
@@ -1087,10 +1086,10 @@ class Users extends CRMEntity {
      * @param $file_details -- file details array:: Type array
      */
     function uploadAndSaveFile($id,$module,$file_details) {
-        global $log;
+        $log = vglobal('log');
         $log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
-        global $current_user;
+        $current_user  = vglobal('current_user');
         global $upload_badext;
 
         $date_var = date('Y-m-d H:i:s');
@@ -1155,7 +1154,7 @@ class Users extends CRMEntity {
      *
      */
     function save($module_name) {
-        global $log, $adb;
+        $adb = PearDatabase::getInstance(); $log = vglobal('log');
         if($this->mode != 'edit') {
         	$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
         	$result = $adb->pquery($sql, array($this->column_fields['user_name'] , $this->column_fields['email1']));
@@ -1375,7 +1374,7 @@ class Users extends CRMEntity {
      */
 	 function saveHomeStuffOrder($id)
 	 {
-        global $log,$adb;
+        $adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering in function saveHomeOrder($id)");
 
 		 if($this->mode == 'edit')
@@ -1480,8 +1479,6 @@ class Users extends CRMEntity {
 
     /** Function to delete an entity with given Id */
     function trash($module, $id) {
-        global $log, $current_user;
-
         $this->mark_deleted($id);
     }
 
@@ -1512,7 +1509,7 @@ class Users extends CRMEntity {
      * @param <type> $id
      */
     function mark_deleted($id) {
-        global $log, $current_user, $adb;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
         $date_var = date('Y-m-d H:i:s');
         $query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
         $adb->pquery($query, array('Inactive', $adb->formatDate($date_var, true),

@@ -74,7 +74,7 @@ class Mobile_WS_FetchRecordsWithGrouping extends Mobile_WS_FetchRecordWithGroupi
 		$adb = PearDatabase::getInstance();
 		
 		// Initialize global variable: ($alert->query() could indirectly depend if its using Module API as its base)
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if (!isset($current_user)) $current_user = $alert->getUser();
 		
 		$moduleWSID = Mobile_WS_Utils::getEntityModuleWSId($module);

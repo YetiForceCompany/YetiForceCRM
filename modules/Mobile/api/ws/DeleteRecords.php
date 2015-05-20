@@ -12,7 +12,7 @@ include_once 'include/Webservices/Delete.php';
 class Mobile_WS_DeleteRecords extends Mobile_WS_Controller {
 	
 	function process(Mobile_API_Request $request) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		
 		$current_user = $this->getActiveUser();
 		

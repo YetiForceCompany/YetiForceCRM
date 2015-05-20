@@ -33,10 +33,10 @@ require_once('include/Zend/Json.php');
  * @returns $query -- query:: Type query
  */
 function getListQuery($module, $where = '') {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 	$tab_id = getTabid($module);
@@ -587,7 +587,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 /* Function to get the Entity Id of a given Entity Name */
 
 function getEntityId($module, $entityName) {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->info("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";

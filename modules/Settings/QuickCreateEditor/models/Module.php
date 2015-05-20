@@ -13,7 +13,7 @@
 class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model {
 
     public function updateFieldSequenceNumber($blockFieldSequence) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_QuickCreateEditor_Module_Model::updateFieldSequenceNumber(".$blockFieldSequence.") method ...");
 		$fieldIdList = array();
         $db = PearDatabase::getInstance();

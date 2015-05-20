@@ -210,7 +210,7 @@ $server->wsdl->addComplexType(
 );
 function CheckLeadPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -230,7 +230,7 @@ function CheckLeadPermission($username,$sessionid)
 
 function CheckContactPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -250,7 +250,7 @@ function CheckContactPermission($username,$sessionid)
 
 function CheckAccountPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -270,7 +270,7 @@ function CheckAccountPermission($username,$sessionid)
 
 function CheckTicketPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -290,7 +290,7 @@ function CheckTicketPermission($username,$sessionid)
 
 function CheckVendorPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -310,7 +310,7 @@ function CheckVendorPermission($username,$sessionid)
 
 function CheckProductPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -330,7 +330,7 @@ function CheckProductPermission($username,$sessionid)
 
 function CheckNotePermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -350,7 +350,7 @@ function CheckNotePermission($username,$sessionid)
 
 function CheckSitePermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -370,7 +370,7 @@ function CheckSitePermission($username,$sessionid)
 
 function CheckRssPermission($username,$sessionid)
 {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -391,9 +391,9 @@ function CheckRssPermission($username,$sessionid)
     
 function create_site_from_webform($username,$sessionid,$portalname,$portalurl)
 {
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -420,7 +420,7 @@ function create_site_from_webform($username,$sessionid,$portalname,$portalurl)
 }
 function LogintoVtigerCRM($user_name,$password,$version)
 {
-	global $log,$adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	require_once('modules/Users/Users.php');
 	include('config/version.php');
 	if($version != $YetiForce_current_version)
@@ -459,9 +459,9 @@ function LogintoVtigerCRM($user_name,$password,$version)
 function create_rss_from_webform($username,$sessionid,$url)
 {
 
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -500,9 +500,9 @@ function create_rss_from_webform($username,$sessionid,$url)
 
 function create_note_from_webform($username,$sessionid,$subject,$desc)
 {
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -539,9 +539,9 @@ function create_note_from_webform($username,$sessionid,$subject,$desc)
 
 function create_product_from_webform($username,$sessionid,$productname,$code,$website)
 {
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -579,9 +579,9 @@ function create_product_from_webform($username,$sessionid,$productname,$code,$we
 
 function create_vendor_from_webform($username,$sessionid,$vendorname,$email,$phone,$website)
 {
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -620,9 +620,9 @@ function create_vendor_from_webform($username,$sessionid,$vendorname,$email,$pho
 
 function create_ticket_from_toolbar($username,$sessionid,$title,$description,$priority,$severity,$category,$user_name,$parent_id,$product_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -718,9 +718,9 @@ function create_account($username,$sessionid,$accountname,$email,$phone,$primary
 function create_lead_from_webform($username,$sessionid,$lastname,$email,$phone,$company,$country,$description,$firstname)
 {
 
-	global $log;
+	$log = vglobal('log');
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(!validateSession($username,$sessionid))
 	return null;
 	require_once("modules/Users/Users.php");
@@ -759,7 +759,7 @@ function create_lead_from_webform($username,$sessionid,$lastname,$email,$phone,$
 
 function create_contacts($user_name,$sessionid,$firstname,$lastname,$phone,$mobile,$email,$street,$city,$state,$country,$zipcode)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->DEBUG("Entering into create_contacts");
 	$birthdate = "";
 	if(!validateSession($user_name,$sessionid))
@@ -771,8 +771,9 @@ function create_contacts($user_name,$sessionid,$firstname,$lastname,$phone,$mobi
 
 function create_contact1($user_name, $first_name, $last_name, $email_address ,$account_name , $salutation , $title, $phone_mobile, $reports_to,$primary_address_street,$primary_address_city,$primary_address_state,$primary_address_postalcode,$primary_address_country,$alt_address_city,$alt_address_street,$alt_address_state,$alt_address_postalcode,$alt_address_country,$office_phone,$home_phone,$other_phone,$fax,$department,$birthdate,$assistant_name,$assistant_phone,$description='')
 {
-	global $adb,$log;
-	global $current_user;
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	require_once('modules/Users/Users.php');
 	$seed_user = new Users();
 	$user_id = $seed_user->retrieve_user_id($user_name);
@@ -878,7 +879,7 @@ function unsetServerSessionId($id)
 }
 function validateSession($username, $sessionid)
 {
-	global $adb,$current_user;
+	global $adb;
 	$adb->println("Inside function validateSession($username, $sessionid)");
 	require_once("modules/Users/Users.php");
 	$seed_user = new Users();

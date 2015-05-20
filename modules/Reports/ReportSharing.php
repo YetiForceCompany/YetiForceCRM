@@ -21,10 +21,10 @@ global $list_max_entries_per_page;
 global $urlPrefix;
 
 $log = LoggerManager::getLogger('report_type');
-global $currentModule;
+$currentModule = vglobal('currentModule');
 global $image_path;
 global $theme;
-global $current_user;
+$current_user  = vglobal('current_user');
 
 $report_std_filter = new vtigerCRM_Smarty; 
 $report_std_filter->assign("MOD", $mod_strings);
@@ -92,9 +92,10 @@ $report_std_filter->display('ReportSharing.tpl');
  */
 function getVisibleCriteria($recordid='')
 {
-	global $mod_strings; 
-	global $app_strings;
-	global $adb,$current_user;
+	$adb = PearDatabase::getInstance();
+	$current_user = vglobal('current_user');
+	$app_strings = vglobal('app_strings');
+	$mod_strings = vglobal('mod_strings');
 	//print_r("i am here");die;
 	$filter = array();
 	$selcriteria = "";

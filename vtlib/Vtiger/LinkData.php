@@ -26,7 +26,7 @@ class Vtiger_LinkData {
 	protected $module;
 
 	public function __construct($link, $user, $input = null) {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		$this->link = $link;
 		$this->user = $user;
 		$this->module = $currentModule;

@@ -71,7 +71,7 @@ class PriceBooks extends CRMEntity {
 	/* Function to Update the List prices for all the products of a current price book
 	   with its Unit price, if the Currency for Price book has changed. */
 	function updateListPrices() {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function updateListPrices...");
 		$pricebook_currency = $this->column_fields['currency_id'];
 		$prod_res = $adb->pquery("select * from vtiger_pricebookproductrel where pricebookid=? AND usedcurrency != ?",
@@ -101,7 +101,7 @@ class PriceBooks extends CRMEntity {
          *      @return array - return an array which will be returned from the function getPriceBookRelatedProducts
         **/
 	function get_pricebook_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_pricebook_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -152,7 +152,7 @@ class PriceBooks extends CRMEntity {
          *      @return array - return an array which will be returned from the function getPriceBookRelatedServices
         **/
 	function get_pricebook_services($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_pricebook_services(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -204,7 +204,7 @@ class PriceBooks extends CRMEntity {
 	 */
 	function get_pricebook_noproduct($id)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_pricebook_noproduct(".$id.") method ...");
 
 		$query = "select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0";

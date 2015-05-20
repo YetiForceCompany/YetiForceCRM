@@ -12,7 +12,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model {
 	var $ActionsDirector = false;
 	
 	function OSSMailScanner_Module_Model() {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		$this->ActionsDirector = $root_directory.'/modules/OSSMailScanner/email_actions';
 	}
 	public function getDefaultViewName() {

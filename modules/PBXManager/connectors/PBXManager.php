@@ -199,7 +199,7 @@ class PBXManager_PBXManager_Connector {
      * @param <Vtiger_Request> $details 
      */
     public function handleStartupCall($details, $userInfo, $customerInfo) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         $params = $this->prepareParameters($details, self::RINGING_TYPE);
         $direction = $details->get('Direction');
 
@@ -233,7 +233,7 @@ class PBXManager_PBXManager_Connector {
      * @param <Vtiger_Request> $details 
      */
     public function respondToIncomingCall($details) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         self::$NUMBERS = PBXManager_Record_Model::getUserNumbers();
         
         header("Content-type: text/xml; charset=utf-8");

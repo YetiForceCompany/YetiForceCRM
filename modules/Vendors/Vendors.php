@@ -86,7 +86,7 @@ class Vendors extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -143,7 +143,7 @@ class Vendors extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_purchase_orders($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_purchase_orders(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -192,8 +192,8 @@ class Vendors extends CRMEntity {
         */
         function create_export_query($where)
         {
-                global $log;
-                global $current_user;
+                $log = vglobal('log');
+                $current_user  = vglobal('current_user');
                 $log->debug("Entering create_export_query(".$where.") method ...");
 
                 include("include/utils/ExportUtils.php");
@@ -230,7 +230,7 @@ class Vendors extends CRMEntity {
 	 *	@return array - array which will be returned from the function GetRelatedList
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -290,7 +290,7 @@ class Vendors extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products"=>"vtiger_products","PurchaseOrder"=>"vtiger_purchaseorder","Contacts"=>"vtiger_vendorcontactrel");
@@ -395,7 +395,7 @@ class Vendors extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		//Deleting Vendor related PO.
 		$po_q = 'SELECT vtiger_crmentity.crmid FROM vtiger_crmentity
 			INNER JOIN vtiger_purchaseorder ON vtiger_crmentity.crmid=vtiger_purchaseorder.purchaseorderid
@@ -465,7 +465,7 @@ class Vendors extends CRMEntity {
 
     // Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
         if($return_module == 'Contacts') {
 			$sql = 'DELETE FROM vtiger_vendorcontactrel WHERE vendorid=? AND contactid=?';
@@ -478,7 +478,7 @@ class Vendors extends CRMEntity {
 	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 

@@ -124,7 +124,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $currencyInfo;
 	}
 	function getInventoryCurrencyInfo($module, $id)	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$log->debug("Entering into function OSSCosts_Record_Model getInventoryCurrencyInfo($module, $id).");
 
@@ -149,7 +149,7 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $currency_info;
 	}
 	function getInventoryTaxType($module, $id)	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
@@ -202,11 +202,12 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $relatedProducts;
 	}
 	function getAssociatedProducts($module,$focus,$seid='')	{
-		global $log;
-		$log->debug("Entering OSSCosts_Record_Model getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+		$theme = vglobal('theme');
+		$log->debug("Entering OSSCosts_Record_Model getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 		$output = '';
-		global $theme,$current_user;
 
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
 		$theme_path="themes/".$theme."/";

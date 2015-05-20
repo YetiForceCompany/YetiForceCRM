@@ -33,7 +33,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		global $title_max_length,$href_max_length;
+		$title_max_length = vglobal('title_max_length'); $href_max_length = vglobal('href_max_length');
 		$viewer->assign('NAMELENGHT', $title_max_length);
 		$viewer->assign('HREFNAMELENGHT', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');

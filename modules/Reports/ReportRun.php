@@ -11,7 +11,7 @@
 global $calpath;
 global $app_strings,$mod_strings;
 global $theme;
-global $log;
+$log = vglobal('log');
 
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
@@ -131,7 +131,7 @@ class ReportRunQueryPlanner {
 
 	function registerTempTable($query, $keyColumns) {
 		if ($this->allowTempTables && !$this->disablePlanner) {
-			global $current_user;
+			$current_user  = vglobal('current_user');
 
 			$keyColumns = is_array($keyColumns)? array_unique($keyColumns) : array($keyColumns);
 
@@ -295,7 +295,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log,$current_user,$current_language;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
 		$ssql .= " where vtiger_report.reportid = ?";
@@ -331,7 +331,7 @@ class ReportRun extends CRMEntity
 			}
 			$querycolumns = $this->getEscapedColumns($selectedfields);
 			if(isset($module) && $module!="") {
-				$mod_strings = return_module_language($current_language,$module);
+				$mod_strings = return_module_language(vglobal('current_language'),$module);
 			}
 
 			$targetTableName = $tablename;
@@ -560,7 +560,7 @@ class ReportRun extends CRMEntity
 	 *  returns permitted fields in array format
 	 */
 	function getaccesfield($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$access_fields = Array();
 
@@ -645,7 +645,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
+		$log = vglobal('log');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
@@ -862,7 +862,7 @@ class ReportRun extends CRMEntity
 	 *
 	 */
 	 function getAdvFilterList($reportid) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		$advft_criteria = array();
 
@@ -1277,7 +1277,7 @@ class ReportRun extends CRMEntity
 		if($this->_advfiltersql !== false) {
 			return $this->_advfiltersql;
 		}
-		global $log;
+		$log = vglobal('log');
 
 		$advfilterlist = $this->getAdvFilterList($reportid);
 		$advfiltersql = $this->generateAdvFilterSql($advfilterlist);
@@ -1303,7 +1303,7 @@ class ReportRun extends CRMEntity
 			return $this->_stdfilterlist;
 		}
 
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$stdfilterlist = array();
 
 		$stdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
@@ -1517,7 +1517,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
+		$log = vglobal('log');
 
 		$sreportstdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";
@@ -1844,7 +1844,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
+		$log = vglobal('log');
 
 		// Have we initialized information already?
 		if($this->_groupinglist !== false) {
@@ -1947,7 +1947,7 @@ class ReportRun extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
+		$log = vglobal('log');
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -1998,7 +1998,7 @@ class ReportRun extends CRMEntity
 
 	function getRelatedModulesQuery($module,$secmodule)
 	{
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$query = '';
 		if($secmodule!=''){
 			$secondarymodule = explode(":",$secmodule);
@@ -2086,7 +2086,8 @@ class ReportRun extends CRMEntity
 
 	function getReportsQuery($module, $type='')
 	{
-		global $log, $current_user;
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
 		$secondary_module ="'";
 		$secondary_module .= str_replace(":","','",$this->secondarymodule);
 		$secondary_module .="'";
@@ -2746,7 +2747,7 @@ class ReportRun extends CRMEntity
 
 	function sGetSQLforReport($reportid,$filtersql,$type='',$chartReport=false,$startLimit=false,$endLimit=false)
 	{
-		global $log;
+		$log = vglobal('log');
 
 		$columnlist = $this->getQueryColumnsList($reportid,$type);
 		$groupslist = $this->getGroupingList($reportid);
@@ -2756,7 +2757,7 @@ class ReportRun extends CRMEntity
 		$advfiltersql = $this->getAdvFilterSql($reportid);
 
 		$this->totallist = $columnstotallist;
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		//Fix for ticket #4915.
 		$selectlist = $columnlist;
 		//columns list
@@ -2868,7 +2869,7 @@ class ReportRun extends CRMEntity
 	{
 		global $adb,$current_user,$php_max_execution_time;
 		global $modules,$app_strings;
-		global $mod_strings,$current_language;
+		global $mod_strings;
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
@@ -3911,7 +3912,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
+		$log = vglobal('log');
 
 		$sreportstdfiltersql = "select vtiger_reportsummary.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportsummary on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid";
@@ -3958,7 +3959,7 @@ class ReportRun extends CRMEntity
 	 **/
 	function getLstringforReportHeaders($fldname)
 	{
-		global $modules,$current_language,$current_user,$app_strings;
+		global $modules,$current_user,$app_strings;
 		$rep_header = ltrim($fldname);
 		$rep_header = decode_html($rep_header);
 		$labelInfo = explode('__', $rep_header);
@@ -3993,7 +3994,7 @@ class ReportRun extends CRMEntity
 	function getAccessPickListValues()
 	{
 		$adb = PearDatabase::getInstance();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$id = array(getTabid($this->primarymodule));
 		if($this->secondarymodule != '')
 			array_push($id,  getTabid($this->secondarymodule));
@@ -4172,8 +4173,8 @@ class ReportRun extends CRMEntity
 
 	function writeReportToExcelFile($fileName, $filterlist='') {
 
-		global $currentModule, $current_language;
-		$mod_strings = return_module_language($current_language, $currentModule);
+		$currentModule = vglobal('currentModule');
+		$mod_strings = return_module_language(vglobal('current_language'), $currentModule);
 
 		require_once("libraries/PHPExcel/PHPExcel.php");
 
@@ -4252,8 +4253,8 @@ class ReportRun extends CRMEntity
 
 	function writeReportToCSVFile($fileName, $filterlist='') {
 
-		global $currentModule, $current_language;
-		$mod_strings = return_module_language($current_language, $currentModule);
+		$currentModule = vglobal('currentModule');
+		$mod_strings = return_module_language(vglobal('current_language'), $currentModule);
 
 		$reportData = $this->GenerateReport("PDF",$filterlist);
         $arr_val = $reportData['data'];

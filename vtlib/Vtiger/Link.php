@@ -172,7 +172,7 @@ class Vtiger_Link {
 	 * @param Map Key-Value pair to use for formating the link url
 	 */
 	static function getAllByType($tabid, $type=false, $parameters=false) {
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		self::__initSchema();
 
 		$multitype = false;

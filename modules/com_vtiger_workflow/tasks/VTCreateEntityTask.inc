@@ -20,7 +20,7 @@ class VTCreateEntityTask extends VTTask {
 	}
 
 	public function doTask($entity) {
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$util = new VTWorkflowUtils();
 
 		$admin = $util->adminUser();

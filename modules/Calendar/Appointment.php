@@ -302,7 +302,8 @@ function compare($a,$b)
 }
 function getRoleBasesdPickList($fldname,$exist_val)
 {
-	global $adb,$app_strings,$current_user;
+	global $adb,$app_strings;
+	$current_user = vglobal('current_user');
 	$is_Admin = $current_user->is_admin;
 		if($is_Admin == 'off' && $fldname != '')
 			{

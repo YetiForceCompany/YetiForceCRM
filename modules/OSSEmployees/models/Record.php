@@ -135,7 +135,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model {
 	}
 
 	public function getWorkTime() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$employeeID = self::checkUser( $current_user->id , true );
 		if(!$employeeID){
 			return '';

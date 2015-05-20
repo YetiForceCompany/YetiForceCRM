@@ -82,7 +82,7 @@ class CustomView extends CRMEntity {
 	 * @returns  customViewId :: Type Integer
 	 */
 	function getViewId($module) {
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$now_action = vtlib_purify($_REQUEST['action']);
 		if (empty($_REQUEST['viewname'])) {
 			if (isset($_SESSION['lvs'][$module]["viewname"]) && $_SESSION['lvs'][$module]["viewname"] != '') {
@@ -150,7 +150,7 @@ class CustomView extends CRMEntity {
 	 *                         'setmetrics'=>setmetricschk)
 	 */
 	function getCustomViewByCvid($cvid) {
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$tabid = getTabid($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -188,7 +188,7 @@ class CustomView extends CRMEntity {
 	 * @returns  $customviewCombo :: Type String
 	 */
 	function getCustomViewCombo($viewid = '', $markselected = true) {
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		global $app_strings;
 		$tabid = getTabid($this->customviewmodule);
 
@@ -278,7 +278,7 @@ class CustomView extends CRMEntity {
 		global $adb, $mod_strings, $app_strings;
 		$block_ids = explode(",", $block);
 		$tabid = getTabid($module);
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
@@ -415,7 +415,7 @@ class CustomView extends CRMEntity {
 	 * 			 $columnindexn => $columnnamen)
 	 */
 	function getColumnsListByCvid($cvid) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering getColumnsListByCvid($cvid) method ...");
 	
 		$sSQL = "select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist";
@@ -445,7 +445,7 @@ class CustomView extends CRMEntity {
 		$adb = PearDatabase::getInstance();
 		$tabid = getTabid($module);
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 		$module_info = $this->getCustomViewModuleInfo($module);
@@ -1138,7 +1138,7 @@ class CustomView extends CRMEntity {
 	// Needs to be modified according to the new advanced filter (support for grouping).
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
 	function getCVAdvFilterSQL($cvid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		$advfilter = $this->getAdvFilterByCvid($cvid);
 
@@ -1236,7 +1236,10 @@ class CustomView extends CRMEntity {
 	 */
 	function getRealValues($tablename, $fieldname, $comparator, $value, $datatype) {
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		global $adb, $mod_strings, $currentModule, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$currentModule = vglobal('currentModule');
+		$mod_strings = vglobal('mod_strings');
 		//Added for proper check of contact name in advance filter
 		if ($tablename == "vtiger_contactdetails" && $fieldname == "lastname")
 			$fieldname = "contactid";
@@ -1332,7 +1335,7 @@ class CustomView extends CRMEntity {
 	 * @returns  $value :: string
 	 */
 	function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		$adb = PearDatabase::getInstance();
 
@@ -1800,8 +1803,7 @@ class CustomView extends CRMEntity {
 
 	function getCustomViewModuleInfo($module) {
 		$adb = PearDatabase::getInstance();
-		global $current_language;
-		$current_mod_strings = return_specified_module_language($current_language, $module);
+		$current_mod_strings = return_specified_module_language(vglobal('current_language'), $module);
 		$block_info = Array();
 		$modules_list = explode(",", $module);
 		if ($module == "Calendar") {
@@ -1872,8 +1874,8 @@ class CustomView extends CRMEntity {
 
 	//Function to check if the current user is able to see the customView
 	function isPermittedCustomView($record_id, $action, $module) {
-		global $log, $adb;
-		global $current_user;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1958,8 +1960,7 @@ class CustomView extends CRMEntity {
 
 	function isPermittedChangeStatus($status) {
 		global $current_user, $log;
-		global $current_language;
-		$custom_strings = return_module_language($current_language, "CustomView");
+		$custom_strings = return_module_language(vglobal('current_language'), "CustomView");
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');

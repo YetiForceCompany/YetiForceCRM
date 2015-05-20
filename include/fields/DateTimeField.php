@@ -34,7 +34,7 @@ class DateTimeField {
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
 	function getDBInsertDateValue($user = null) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$value = explode(' ', $this->datetime);
 		if (count($value) == 2) {
@@ -58,13 +58,13 @@ class DateTimeField {
 	 * @return String
 	 */
 	public function getDBInsertDateTimeValue($user = null) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ );
 		return $this->getDBInsertDateValue($user) . ' ' . $this->getDBInsertTimeValue($user);
 	}
 
 	public function getDisplayDateTimeValue($user = null) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ );
 		return $this->getDisplayDate($user) . ' ' . $this->getDisplayTime($user);
 	}
@@ -99,7 +99,7 @@ class DateTimeField {
 	 * @return string
 	 */
 	public static function __convertToDBFormat($date, $format) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($date).' | '.$format);
 		if(empty($date)){
 			$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
@@ -166,7 +166,7 @@ class DateTimeField {
 	 * @return type
 	 */
 	public static function convertToUserFormat($date, $user = null) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -184,7 +184,7 @@ class DateTimeField {
 	 * @return type
 	 */
 	public static function __convertToUserFormat($date, $format) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($date).' | '.$format);
 		$date = self::convertToInternalFormat($date);
 		$separator = '-';
@@ -266,7 +266,7 @@ class DateTimeField {
 	 * @return DateTime
 	 */
 	public static function convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 		// TODO Caching is causing problem in getting the right date time format in Calendar module.
 		// Need to figure out the root cause for the problem. Till then, disabling caching.
@@ -274,7 +274,7 @@ class DateTimeField {
 			// create datetime object for given time in source timezone
 			$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);
 			if($time == '24:00') $time = '00:00';
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$format = $current_user->date_format;
 			if(empty($format)) {
 				$format = 'yyyy-mm-dd';
@@ -298,7 +298,7 @@ class DateTimeField {
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
 	function getDBInsertTimeValue($user = null) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$date = self::convertToDBTimeZone($this->datetime, $user);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
@@ -312,7 +312,7 @@ class DateTimeField {
 	 * @return string
 	 */
 	function getDisplayDate( $user = null ) {
-		global $log, $current_user;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 
 		$date_value = explode(' ',$this->datetime);
@@ -327,7 +327,7 @@ class DateTimeField {
 	}
 
 	function getDisplayTime( $user = null ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ . '('.$this->datetime.')');
 		$date = self::convertToUserTimeZone($this->datetime, $user);
 		$time = $date->format("H:i:s");
@@ -352,7 +352,7 @@ class DateTimeField {
 	}
 
 	static function getPHPDateFormat( $user = null) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -360,7 +360,7 @@ class DateTimeField {
 	}
 
 	private static function sanitizeDate($value, $user) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}

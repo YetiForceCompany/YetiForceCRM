@@ -143,7 +143,7 @@ class VTJsonCondition {
 			}
 		}
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$handler = vtws_getModuleHandlerFromName($entityData->getModuleName(), $current_user);
 		$moduleFields = $handler->getMeta()->getModuleFields();
 		$fieldInstance = $moduleFields[$cond['fieldname']];

@@ -18,7 +18,7 @@ global $app_list_strings;
 global $modules;
 global $blocks;
 global $adv_filter_options;
-global $log;
+$log = vglobal('log');
 
 global $report_modules;
 global $related_modules;
@@ -409,7 +409,7 @@ class Reports extends CRMEntity{
     function sgetAllRpt($fldrId,$paramsList)
     {
         $adb = PearDatabase::getInstance();
-        global $log;
+        $log = vglobal('log');
         $returndata=Array();
         $sql ="select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";
         $sql.=" inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid";
@@ -463,8 +463,9 @@ class Reports extends CRMEntity{
 	{
 		$srptdetails="";
 		$adb = PearDatabase::getInstance();
-		global $log;
-		global $mod_strings,$current_user;
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+		$mod_strings = vglobal('mod_strings');
 		$returndata = Array();
 
 		require_once('include/utils/UserInfoUtil.php');
@@ -672,8 +673,8 @@ class Reports extends CRMEntity{
 	function getColumnsListbyBlock($module,$block,$group_res_by_block=false)
 	{
 		$adb = PearDatabase::getInstance();
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 
 		if(is_string($block)) $block = explode(",", $block);
 		$skipTalbes = array('vtiger_emaildetails','vtiger_attachments');
@@ -779,7 +780,7 @@ class Reports extends CRMEntity{
 	}
 
 	function fixGetColumnsListbyBlockForInventory($module, $blockid, &$module_columnlist) {
-		global $log;
+		$log = vglobal('log');
 
 		$blockname = getBlockName($blockid);
 		if($blockname == 'LBL_RELATED_PRODUCTS' && ($module=='PurchaseOrder' || $module=='SalesOrder' || $module=='Quotes' || $module=='Invoice')){
@@ -880,8 +881,8 @@ class Reports extends CRMEntity{
 	function getStdCriteriaByModule($module)
 	{
 		$adb = PearDatabase::getInstance();
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 		$tabid = getTabid($module);
@@ -1233,7 +1234,7 @@ function getEscapedColumns($selectedfields)
 	}
 	function getaccesfield($module)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$access_fields = Array();
 
@@ -1281,7 +1282,7 @@ function getEscapedColumns($selectedfields)
 	{
 
 		$adb = PearDatabase::getInstance();
-		global $log;
+		$log = vglobal('log');
 
 		$sreportsortsql = "select vtiger_reportsortcol.* from vtiger_report";
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
@@ -1312,7 +1313,7 @@ function getEscapedColumns($selectedfields)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 
 		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
@@ -1375,8 +1376,8 @@ function getEscapedColumns($selectedfields)
 	{
 		$adb = PearDatabase::getInstance();
 		global $modules;
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 
 		$advft_criteria = array();
 
@@ -1470,7 +1471,7 @@ function getEscapedColumns($selectedfields)
 	function sgetRptFldrSaveReport()
 	{
 		$adb = PearDatabase::getInstance();
-		global $log;
+		$log = vglobal('log');
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, array());
@@ -1516,7 +1517,7 @@ function getEscapedColumns($selectedfields)
 	function sgetColumntoTotalSelected($primarymodule,$secondarymodule,$reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		global $log;
+		$log = vglobal('log');
 		$options = Array();
 		if($reportid != "")
 		{
@@ -1559,8 +1560,8 @@ function getEscapedColumns($selectedfields)
 	{
 		//retreive the vtiger_tabid
 		$adb = PearDatabase::getInstance();
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$tabid = getTabid($module);
 		$escapedchars = Array('__SUM','__AVG','__MIN','__MAX');
@@ -1773,7 +1774,7 @@ function getReportRelatedModules($module,$focus)
 
 function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups) {
 
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";
 	$idelrelcriteriasqlresult = $adb->pquery($idelrelcriteriasql, array($reportid));

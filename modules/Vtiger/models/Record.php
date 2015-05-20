@@ -444,7 +444,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
         return $summaryBlocks;
 	}
 	 public function trackView() {
-	    global $log;
+	    $log = vglobal('log');
 	    $db = PearDatabase::getInstance();
 	    $id = $this->getId();
 	    $log->debug("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");

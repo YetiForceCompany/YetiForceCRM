@@ -218,7 +218,7 @@ function get_tickets_columns($user_name, $session)
 {
 	if(!validateSession($user_name,$session))
 	return null;
-	global $current_user,$log;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
 	require_once("modules/Users/Users.php");
 	$seed_user=new Users();
 	$user_id=$seed_user->retrieve_user_id($user_name);
@@ -242,7 +242,7 @@ function get_contacts_columns($user_name, $session)
 {
 	if(!validateSession($user_name,$session))
 	return null;
-	global $current_user,$log;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
 	require_once("modules/Users/Users.php");
 	$seed_user=new Users();
 	$user_id=$seed_user->retrieve_user_id($user_name);
@@ -268,7 +268,7 @@ function get_accounts_columns($user_name, $session)
 {
 	if(!validateSession($user_name,$session))
 	return null;
-	global $current_user,$log;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
 	require_once("modules/Users/Users.php");
 	$seed_user=new Users();
 	$user_id=$seed_user->retrieve_user_id($user_name);
@@ -294,7 +294,7 @@ function get_leads_columns($user_name, $session)
 {	
 	if(!validateSession($user_name,$session))
 	return null;
-	global $current_user,$log;
+	$log = vglobal('log'); $current_user = vglobal('current_user');
 	require_once("modules/Users/Users.php");
 	$seed_user=new Users();
 	$user_id=$seed_user->retrieve_user_id($user_name);
@@ -320,7 +320,7 @@ function get_user_columns($user_name, $session)
 {
 	if(!validateSession($user_name,$session))
 	return null;
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	require_once('modules/Users/Users.php');
 	$seed_user=new Users();
 	$user_id=$seed_user->retrieve_user_id($user_name);
@@ -334,7 +334,7 @@ function get_user_columns($user_name, $session)
 
 function create_session($user_name, $password,$version)
 {
-       	global $log,$adb;
+       	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	require_once('modules/Users/Users.php');
 	include('config/version.php');
 

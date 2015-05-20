@@ -11,7 +11,7 @@
 
 require_once('config/config.php');
 require_once('vtlib/Vtiger/Cron.php');
-global $mod_strings, $app_strings, $current_language;
+global $mod_strings, $app_strings;
 global $theme;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
@@ -40,7 +40,7 @@ if(isset($_REQUEST['record']) && $_REQUEST['record']!='') {
 
 
     $smarty->assign("CRON_DETAILS",$cron);
-    $smarty->assign("MOD", return_module_language($current_language,'CronTasks'));
+    $smarty->assign("MOD", return_module_language(vglobal('current_language'),'CronTasks'));
     $smarty->assign("THEME", $theme);
     $smarty->assign("IMAGE_PATH",$image_path);
     $smarty->assign("APP", $app_strings);

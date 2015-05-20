@@ -171,7 +171,7 @@ class Invoice extends CRMEntity {
 	 */
 	function get_summary_text()
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_summary_text() method ...");
 		$log->debug("Exiting get_summary_text method ...");
 		return $this->name;
@@ -183,7 +183,7 @@ class Invoice extends CRMEntity {
 	 */
 	function get_invoicestatushistory($id)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_invoicestatushistory(".$id.") method ...");
 
 		$adb = PearDatabase::getInstance();
@@ -202,7 +202,7 @@ class Invoice extends CRMEntity {
 
 		//Getting the field permission for the current user. 1 - Not Accessible, 0 - Accessible
 		//Account Name , Amount are mandatory fields. So no need to do security check to these fields.
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		//If field is accessible then getFieldVisibilityPermission function will return 0 else return 1
 		$invoicestatus_access = (getFieldVisibilityPermission('Invoice', $current_user->id, 'invoicestatus') != '0')? 1 : 0;
@@ -335,7 +335,7 @@ class Invoice extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts' || $return_module == 'Contacts') {
@@ -471,8 +471,8 @@ class Invoice extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
 		include("include/utils/ExportUtils.php");

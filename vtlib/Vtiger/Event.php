@@ -86,7 +86,7 @@ class Vtiger_Event {
 				$moduleInstance->retrieve_entity_info($result['crmid'], $module);
 				$moduleInstance->id = $result['crmid'];
 
-				global $current_user;
+				$current_user  = vglobal('current_user');
 				if(!$current_user) {
 					$current_user = new Users();
 					$current_user->id = $moduleInstance->column_fields['assigned_user_id'];

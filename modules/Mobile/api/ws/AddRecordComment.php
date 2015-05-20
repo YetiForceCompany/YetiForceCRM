@@ -12,7 +12,7 @@ include_once dirname(__FILE__) . '/SaveRecord.php';
 class Mobile_WS_AddRecordComment extends Mobile_WS_SaveRecord {
 	
 	function saveCommentToHelpDesk($commentcontent, $record, $user) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$current_user = $user;
 		
 		$targetModule = 'HelpDesk';

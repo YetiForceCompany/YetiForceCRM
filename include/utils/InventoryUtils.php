@@ -21,10 +21,10 @@
 
 function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering updateStk(".$product_id.",".$qty.",".$mode.",".$ext_prod_arr.",".$module.") method ...");
 	$adb = PearDatabase::getInstance();
-	global $current_user;
+	$current_user  = vglobal('current_user');
 
 	$log->debug("Inside updateStk function, module=".$module);
 	$log->debug("Product Id = $product_id & Qty = $qty");
@@ -43,7 +43,7 @@ function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 */
 function getPrdQtyInStck($product_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getPrdQtyInStck(".$product_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT qtyinstock FROM vtiger_products WHERE productid = ?";
@@ -60,7 +60,7 @@ function getPrdQtyInStck($product_id)
 
 function getPrdReOrderLevel($product_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getPrdReOrderLevel(".$product_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query1 = "SELECT reorderlevel FROM vtiger_products WHERE productid = ?";
@@ -76,7 +76,7 @@ function getPrdReOrderLevel($product_id)
  */
 function getTaxId($type)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into getTaxId($type) function.");
 
 	$res = $adb->pquery("SELECT taxid FROM vtiger_inventorytaxinfo WHERE taxname=?", array($type));
@@ -92,7 +92,7 @@ function getTaxId($type)
  */
 function getTaxPercentage($type)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into getTaxPercentage($type) function.");
 
 	$taxpercentage = '';
@@ -112,7 +112,8 @@ function getTaxPercentage($type)
  */
 function getProductTaxPercentage($type,$productid,$default='')
 {
-	global $adb, $log, $current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$log->debug("Entering into getProductTaxPercentage($type,$productid) function.");
 
 	$taxpercentage = '';
@@ -146,7 +147,7 @@ function getProductTaxPercentage($type,$productid,$default='')
  */
 function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval)
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into function addInventoryHistory($module, $id, $relatedname, $total, $history_fieldvalue)");
 
 	$history_table_array = Array(
@@ -174,7 +175,7 @@ function addInventoryHistory($module, $id, $relatedname, $total, $history_fldval
  */
 function getAllTaxes($available='all', $sh='',$mode='',$id='')
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into the function getAllTaxes($available,$sh,$mode,$id)");
 	$taxtypes = Array();
 
@@ -231,7 +232,7 @@ function getAllTaxes($available='all', $sh='',$mode='',$id='')
  */
 function getTaxDetailsForProduct($productid, $available='all')
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into function getTaxDetailsForProduct($productid)");
 	if($productid != '')
 	{
@@ -394,7 +395,7 @@ function updateInventoryProductRel($entity) {
  */
 function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false', $updateDemand='')
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$id=$focus->id;
 	$log->debug("Entering into function saveInventoryProductDetails($module).");
 	//Added to get the convertid
@@ -618,7 +619,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
  */
 function getInventoryTaxType($module, $id)
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 	$log->debug("Entering into function getInventoryTaxType($module, $id).");
 
@@ -643,7 +644,7 @@ function getInventoryTaxType($module, $id)
  */
 function getInventoryCurrencyInfo($module, $id)
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 	$log->debug("Entering into function getInventoryCurrencyInfo($module, $id).");
 
@@ -672,7 +673,7 @@ function getInventoryCurrencyInfo($module, $id)
  */
 function getInventoryProductTaxValue($id, $productid, $taxname)
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into function getInventoryProductTaxValue($id, $productid, $taxname).");
 
 	$res = $adb->pquery("select $taxname from vtiger_inventoryproductrel where id = ? and productid = ?", array($id, $productid));
@@ -691,7 +692,7 @@ function getInventoryProductTaxValue($id, $productid, $taxname)
  *	return array $currency_details - return details of all the currencies as a array
  */
 function getAllCurrencies($available='available') {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into function getAllCurrencies($available)");
 
 	$sql = "select * from vtiger_currency_info";
@@ -726,7 +727,7 @@ function getAllCurrencies($available='available') {
  */
 function getPriceDetailsForProduct($productid, $unit_price, $available='available', $itemtype='Products')
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into function getPriceDetailsForProduct($productid)");
 	if($productid != '')
 	{
@@ -792,7 +793,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 	else
 	{
 		if($available == 'available') { // Create View
-			global $current_user;
+			$current_user  = vglobal('current_user');
 
 			$user_currency_id = fetchCurrency($current_user->id);
 
@@ -841,7 +842,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
  *  @return int $currencyid - id of the base currency for the given product
  */
 function getProductBaseCurrency($productid,$module='Products') {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	if ($module == 'Services') {
 		$sql = "select currency_id from vtiger_service where serviceid=?";
 	} else {
@@ -859,8 +860,8 @@ function getProductBaseCurrency($productid,$module='Products') {
  *  @return number $conversion_rate - conversion rate of the base currency for the given product based on the CRM base currency
  */
 function getBaseConversionRateForProduct($productid, $mode='edit', $module='Products') {
-	global $adb, $log, $current_user;
-
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	if ($mode == 'edit') {
 		if ($module == 'Services') {
 			$sql = "select conversion_rate from vtiger_service inner join vtiger_currency_info
@@ -887,8 +888,8 @@ function getBaseConversionRateForProduct($productid, $mode='edit', $module='Prod
  *  @return array $prices_list - List of prices for the given list of products based on the given currency in the form of 'product id' mapped to 'price value'
  */
 function getPricesForProducts($currencyid, $product_ids, $module='Products') {
-	global $adb,$log,$current_user;
-
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$price_list = array();
 	if (count($product_ids) > 0) {
 		if ($module == 'Services') {
@@ -1080,7 +1081,7 @@ function createRecords($obj) {
 }
 
 function isRecordExistInDB($fieldData, $moduleMeta, $user) {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$moduleFields = $moduleMeta->getModuleFields();
 	$isRecordExist = false;
 	if (array_key_exists('productid', $fieldData)) {
@@ -1127,7 +1128,7 @@ function isRecordExistInDB($fieldData, $moduleMeta, $user) {
 }
 
 function importRecord($obj, $inventoryFieldData, $lineItemDetails) {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$moduleName = $obj->module;
 	$fieldMapping = $obj->fieldMapping;
 

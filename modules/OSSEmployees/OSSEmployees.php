@@ -100,7 +100,10 @@ class OSSEmployees extends Vtiger_CRMEntity {
 	* returns Employees hierarchy in array format
 	*/
 	function getEmployeeHierarchy($id) {
-		global $log, $adb, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+		
         $log->debug("Entering getEmployeeHierarchy(".$id.") method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
@@ -153,7 +156,7 @@ class OSSEmployees extends Vtiger_CRMEntity {
 		return $hierarchy;
 	}
 	function __getParentEmployees($id, &$parent_accounts, &$encountered_accounts) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getParentEmployees(".$id.",".$parent_accounts.") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 				" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
@@ -201,7 +204,7 @@ class OSSEmployees extends Vtiger_CRMEntity {
 		return $parent_accounts;
 	}
 	function __getChildEmployees($id, &$child_accounts, $depth) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getChildEmployees(".$id.",".$child_accounts.",".$depth.") method ...");
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
@@ -263,7 +266,7 @@ class OSSEmployees extends Vtiger_CRMEntity {
      */
 	 
 	 function get_osstimecontrol($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_osstimecontrol(".$id.") method ...");
 		$this_module = $currentModule;
 

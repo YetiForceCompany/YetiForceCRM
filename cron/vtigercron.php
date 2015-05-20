@@ -45,7 +45,7 @@ $cronRunId = microtime(true);
 $cronStarts = date('Y-m-d H:i:s');
 
 //set global current user permissions
-global $current_user;
+$current_user  = vglobal('current_user');
 $current_user = Users::getActiveAdminUser();
 
 echo sprintf('[CRON],"%s",%s,Instance,"%s","",[STARTS]',$cronRunId,$site_URL,$cronStarts)."\n";

@@ -118,7 +118,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	}
 
 	public function verifyDashboard($moduleName) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Vtiger_DashBoard_Model::verifyDashboard() method ...");
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();

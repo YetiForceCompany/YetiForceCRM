@@ -147,10 +147,10 @@ class HelpDesk extends CRMEntity {
  	 */
 	function insertIntoTicketCommentTable($table_name, $module)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->info("in insertIntoTicketCommentTable  ".$table_name."    module is  ".$module);
 		$adb = PearDatabase::getInstance();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
 		if ($this->column_fields['from_portal'] != 1) {
@@ -177,7 +177,7 @@ class HelpDesk extends CRMEntity {
 	*/
 	function insertIntoAttachment($id,$module)
 	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -204,7 +204,7 @@ class HelpDesk extends CRMEntity {
 	 */
 	function get_ticket_history($ticketid)
 	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into get_ticket_history($ticketid) method ...");
 
 		$query="select title,update_log from vtiger_troubletickets where ticketid=?";
@@ -234,7 +234,7 @@ class HelpDesk extends CRMEntity {
 		where $i=0,1,..n & key = ticketid, title, firstname, ..etc(range_fields) & val = value of the key from db retrieved row
 	**/
 	function process_list_query($query, $row_offset, $limit = -1, $max_per_page = -1) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering process_list_query(".$query.") method ...");
 
    		$result =& $this->db->query($query,true,"Error retrieving $this->object_name list: ");
@@ -275,7 +275,7 @@ class HelpDesk extends CRMEntity {
 	**/
 	function getColumnNames_Hd()
 	{
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Hd() method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
@@ -311,7 +311,7 @@ class HelpDesk extends CRMEntity {
 	**/
 	function getCustomerName($id)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getCustomerName(".$id.") method ...");
         	$adb = PearDatabase::getInstance();
 	        $sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
@@ -327,8 +327,8 @@ class HelpDesk extends CRMEntity {
         */
         function create_export_query($where)
         {
-                global $log;
-                global $current_user;
+                $log = vglobal('log');
+                $current_user  = vglobal('current_user');
                 $log->debug("Entering create_export_query(".$where.") method ...");
 
                 include("include/utils/ExportUtils.php");
@@ -377,7 +377,7 @@ class HelpDesk extends CRMEntity {
 	function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
 	{
 		$adb = PearDatabase::getInstance();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		if($mode != 'edit')//this will be updated when we create new ticket
 		{
@@ -457,7 +457,7 @@ class HelpDesk extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments"=>"vtiger_seattachmentsrel","Documents"=>"vtiger_senotesrel");
@@ -557,7 +557,7 @@ class HelpDesk extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts') {
@@ -683,7 +683,7 @@ class HelpDesk extends CRMEntity {
 	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 

@@ -12,7 +12,7 @@
 class Mobile_WS_FetchModuleOwners extends Mobile_WS_Controller {
 
     function process(Mobile_API_Request $request) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         
         $response = new Mobile_API_Response();
         $current_user = $this->getActiveUser();

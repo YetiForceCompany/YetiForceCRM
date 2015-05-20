@@ -221,7 +221,7 @@ class iCalendar_component {
     }
 
 	function generateArray($ical_activity){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$activity = array();
 		$activitytype = $ical_activity['TYPE'];
 		if($activitytype=='VEVENT'){

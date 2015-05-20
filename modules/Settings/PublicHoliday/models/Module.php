@@ -17,7 +17,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - array of holidays success, false on failure
 	 */
 	public static function getHolidays( $date ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidays(".print_r($date,true).") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -59,7 +59,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - true on success, false on failure
 	 */
 	public static function delete( $id ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::delete(".$id.") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -85,7 +85,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - true on success, false on failure
 	 */
 	public static function save( $date, $name, $type ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::save(".$date.', '.$name.', '.$type.") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -112,7 +112,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - true on success, false on failure
 	 */
 	public static function edit( $id, $date, $name, $type ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::edit(".$id.', '.$date.', '.$name.', '.$type.") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -136,7 +136,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - true if public holiday exists, false on failure
 	 */
 	public static function checkIfHoliday( $date ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(".$date.") method ...");
 
 		$db = PearDatabase::getInstance();
@@ -159,7 +159,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model {
 	 * @return - holidays count group by type if exist or false
 	 */
 	public static function getHolidayGroupType($date = FALSE){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_PublicHoliday_Module_Model::getHolidayGroupType method ...");
 		$db = PearDatabase::getInstance();
 		$params = [];

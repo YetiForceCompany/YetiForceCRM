@@ -106,8 +106,8 @@ class Leads extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -151,7 +151,7 @@ class Leads extends CRMEntity {
 	  * @returns list of campaigns in array format
 	  */
 	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_campaigns(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -202,7 +202,7 @@ class Leads extends CRMEntity {
 	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -255,7 +255,7 @@ class Leads extends CRMEntity {
 	* returns related Products record in array format
 	*/
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -314,7 +314,7 @@ class Leads extends CRMEntity {
 	*/
 	function getColumnNames_Lead()
 	{
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Lead() method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
@@ -351,7 +351,7 @@ class Leads extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents"=>"vtiger_senotesrel","Attachments"=>"vtiger_seattachmentsrel",
@@ -448,7 +448,7 @@ class Leads extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Campaigns') {

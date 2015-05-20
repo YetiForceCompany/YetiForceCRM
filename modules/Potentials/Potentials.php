@@ -101,7 +101,7 @@ class Potentials extends CRMEntity {
 	*/
 	function create_list_query($order_by, $where)
 	{
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	        require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
         	$tab_id = getTabid("Potentials");
@@ -139,8 +139,8 @@ class Potentials extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(". $where.") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -183,7 +183,7 @@ class Potentials extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -249,7 +249,7 @@ class Potentials extends CRMEntity {
 	 * returns related Products record in array format
 	 */
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -308,7 +308,7 @@ class Potentials extends CRMEntity {
 	 */
 	function get_stage_history($id)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_stage_history(".$id.") method ...");
 
 		$adb = PearDatabase::getInstance();
@@ -327,7 +327,7 @@ class Potentials extends CRMEntity {
 
 		//Getting the field permission for the current user. 1 - Not Accessible, 0 - Accessible
 		//Sales Stage, Expected Close Dates are mandatory fields. So no need to do security check to these fields.
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		//If field is accessible then getFieldVisibilityPermission function will return 0 else return 1
 		$amount_access = (getFieldVisibilityPermission('Potentials', $current_user->id, 'sum_invoices') != '0')? 1 : 0;
@@ -366,7 +366,7 @@ class Potentials extends CRMEntity {
 	 * returns related Quotes record in array format
 	 */
 	function get_quotes($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -423,7 +423,7 @@ class Potentials extends CRMEntity {
 	 * returns related SalesOrder record in array format
 	 */
 	function get_salesorder($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -485,7 +485,7 @@ class Potentials extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Contacts"=>"vtiger_contpotentialrel","Products"=>"vtiger_seproductsrel",
@@ -585,7 +585,7 @@ class Potentials extends CRMEntity {
 	}
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts') {
@@ -628,7 +628,7 @@ class Potentials extends CRMEntity {
 	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 

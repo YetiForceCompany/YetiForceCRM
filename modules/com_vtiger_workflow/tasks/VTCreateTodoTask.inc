@@ -30,7 +30,7 @@ class VTCreateTodoTask extends VTTask{
 
 	function getAdmin(){
 		$user = Users::getActiveAdminUser();
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$this->originalUser = $current_user;
 		$current_user = $user;
 		return $user;
@@ -40,7 +40,7 @@ class VTCreateTodoTask extends VTTask{
 		if(!vtlib_isModuleActive('Calendar')) {
 			return;
 		}
-		global $adb, $log, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user'); $log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$userId = $entityData->get('assigned_user_id');
 		if($userId===null){
@@ -171,7 +171,7 @@ class VTCreateTodoTask extends VTTask{
 
 		relateEntities(CRMEntity::getInstance($moduleName), $moduleName, $entityIdDetails[1], 'Calendar', $todoIdDetails[1]);
 
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$current_user = $this->originalUser;
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}

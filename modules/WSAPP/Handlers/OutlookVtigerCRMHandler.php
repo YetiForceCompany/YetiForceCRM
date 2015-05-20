@@ -75,7 +75,7 @@ class OutlookVtigerCRMHandler extends vtigerCRMHandler{
      * Function overriden to handle duplication
      */
       public function put($recordDetails, $user) {
-        global $log;
+        $log = vglobal('log');
 		$this->user = $user;
 		$recordDetails = $this->syncToNativeFormat($recordDetails);
 		$createdRecords = $recordDetails['created'];

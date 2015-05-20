@@ -13,6 +13,7 @@
  * Contributor(s): YetiForce.com
  ********************************************************************************/
 require_once 'include/logging.php';
+require_once 'include/runtime/Globals.php';
 include_once 'libraries/adodb/adodb.inc.php';
 require_once 'libraries/adodb/adodb-xmlschema.inc.php';
 
@@ -71,7 +72,8 @@ class PearDatabase{
 	 * Manage instance usage of this class
 	 */
 	static function &getInstance() {
-		global $adb, $log;
+		global $adb; 
+		$log = vglobal('log');
 
 		if(!isset($adb)) {
 			$adb = new self();
@@ -155,7 +157,7 @@ class PearDatabase{
 
     var $req_flist;
     function checkConnection(){
-		global $log;
+		$log = vglobal('log');
 
 		if(!isset($this->database)) {
 		    $this->println("TRANS creating new connection");
@@ -396,7 +398,7 @@ class PearDatabase{
 
     function limitQuery($sql,$start,$count, $dieOnError=false, $msg='')
     {
-	global $log;
+	$log = vglobal('log');
 	//$this->println("ADODB limitQuery sql=".$sql." st=".$start." co=".$count);
 	$log->debug(' limitQuery sql = '.$sql .' st = '.$start .' co = '.$count);
 	$this->checkConnection();
@@ -479,7 +481,7 @@ class PearDatabase{
     }
 
     function getRowCount(&$result){
-		global $log;
+		$log = vglobal('log');
 		if(isset($result) && !empty($result))
 		    $rows= $result->RecordCount();
 		return $rows;
@@ -701,7 +703,7 @@ class PearDatabase{
 
 
     function getAffectedRowCount(&$result){
-		global $log;
+		$log = vglobal('log');
 		$log->debug('getAffectedRowCount');
 		$rows =$this->database->Affected_Rows();
 		$log->debug('getAffectedRowCount rows = '.$rows);
@@ -755,7 +757,7 @@ class PearDatabase{
     }
 
     function getNextRow(&$result, $encode=true){
-		global $log;
+		$log = vglobal('log');
 		$log->info('getNextRow');
 		if(isset($result)){
 	    	$row = $this->change_key_case($result->FetchRow());
@@ -803,7 +805,7 @@ class PearDatabase{
 	 * Constructor
 	 */
     function PearDatabase($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '') {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		$this->log = LoggerManager::getLogger('PearDatabase_' . $currentModule);
 		$this->resetSettings($dbtype, $host, $dbname, $username, $passwd);
 

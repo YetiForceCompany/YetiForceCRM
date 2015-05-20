@@ -17,7 +17,7 @@
  */
 function getPermittedBlocks($module, $disp_view)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into the function getPermittedBlocks($module, $disp_view)");
 
         $tabid = getTabid($module);
@@ -47,10 +47,10 @@ function getPermittedBlocks($module, $disp_view)
  */
 function getPermittedFieldsQuery($module, $disp_view)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
 
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 	//To get the permitted blocks
@@ -77,7 +77,7 @@ function getPermittedFieldsQuery($module, $disp_view)
  */
 function getFieldsListFromQuery($query)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering into the function getFieldsListFromQuery($query)");
 
 	$result = $adb->query($query);

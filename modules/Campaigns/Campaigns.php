@@ -89,7 +89,7 @@ class Campaigns extends CRMEntity {
 	 * returns related Accounts record in array format
 	 */
 	function get_accounts($id, $cur_tab_id, $rel_tab_id, $actions = false) {
-		global $log, $singlepane_view,$currentModule;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_accounts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -98,7 +98,7 @@ class Campaigns extends CRMEntity {
 		$other = new $related_module();
 
 		$is_CampaignStatusAllowed = false;
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(getFieldVisibilityPermission('Accounts', $current_user->id, 'campaignrelstatus') == '0') {
 			$other->list_fields['Status'] = array('vtiger_campaignrelstatus'=>'campaignrelstatus');
 			$other->list_fields_name['Status'] = 'campaignrelstatus';
@@ -185,7 +185,7 @@ class Campaigns extends CRMEntity {
 	 * returns related Contacts record in array format
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -194,7 +194,7 @@ class Campaigns extends CRMEntity {
 		$other = new $related_module();
 
 		$is_CampaignStatusAllowed = false;
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(getFieldVisibilityPermission('Contacts', $current_user->id, 'campaignrelstatus') == '0') {
 			$other->list_fields['Status'] = array('vtiger_campaignrelstatus'=>'campaignrelstatus');
 			$other->list_fields_name['Status'] = 'campaignrelstatus';
@@ -292,7 +292,7 @@ class Campaigns extends CRMEntity {
 		$other = new $related_module();
 
 		$is_CampaignStatusAllowed = false;
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(getFieldVisibilityPermission('Leads', $current_user->id, 'campaignrelstatus') == '0') {
 			$other->list_fields['Status'] = array('vtiger_campaignrelstatus'=>'campaignrelstatus');
 			$other->list_fields_name['Status'] = 'campaignrelstatus';
@@ -377,7 +377,7 @@ class Campaigns extends CRMEntity {
 	 * returns related potentials record in array format
 	 */
 	function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -522,7 +522,7 @@ class Campaigns extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Leads') {
@@ -584,7 +584,7 @@ class Campaigns extends CRMEntity {
 	/* {[The function is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 	/* {[Contributor(s):							}] */
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 

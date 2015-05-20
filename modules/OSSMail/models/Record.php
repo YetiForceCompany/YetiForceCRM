@@ -65,7 +65,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return $config;
 	}
 	public static function imap_connect($user , $password , $folder = 'INBOX', $dieOnError = true) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering OSSMail_Record_Model::imap_connect($user , $password , $folder) method ...");
 		$roundcube_config = self::load_roundcube_config();
 		$a_host = parse_url($roundcube_config['default_host']);
@@ -102,12 +102,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return $mbox;
 	}
 	public static function imap_open_error($error) {
-		global $log;
+		$log = vglobal('log');
 		$log->error("Error OSSMail_Record_Model::imap_connect(): ".$error); 
 		Vtiger_Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner').': '.$error);
 	}
 	public static function updateMailBoxmsgInfo($users) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if(count ($users) == 0){
@@ -138,7 +138,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return TRUE;
 	}
 	public static function getMailBoxmsgInfo($users) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$result = $adb->query( 'SELECT * FROM yetiforce_mail_quantities WHERE userid IN ('.implode(',', $users).');');

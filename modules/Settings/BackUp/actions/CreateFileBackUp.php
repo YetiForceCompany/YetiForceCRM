@@ -14,7 +14,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
     private $filename = '';
 
     public function process(Vtiger_Request $request) {
-        global $log;
+        $log = vglobal('log');
         $newBackup = Settings_BackUp_Module_Model::clearBackupFilesTable();
         $log->info('Settings_BackUp_CreateFileBackUp_Action::process - Start files backup');
 		$dirsFromConfig = Settings_BackUp_Module_Model::getConfig('folder');
@@ -73,7 +73,7 @@ class Settings_BackUp_CreateFileBackUp_Action extends Settings_Vtiger_Basic_Acti
     }
 
     public function zipData($source, $destination, $backup, $cron, $backupedDirs = array(), $fileName) {
-        global $log;
+        $log = vglobal('log');
         $log->info('Create zip');
         $newSubDirs[] = (string) $source;
         if (extension_loaded('zip')) {

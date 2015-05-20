@@ -56,7 +56,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::preProcess() method ...");
 	}
 	function postProcess() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::postProcess() method ...");
 		
 
@@ -99,7 +99,7 @@ class VT620_to_YT {
 		return true;
 	}
 	public function process() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::process() method ...");
 		self::transferLogo();
 		self::removeModules();
@@ -157,7 +157,7 @@ class VT620_to_YT {
 	}
 	
 	public function addModule(){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addModule() method ...");
 		
 		$modules = array('OSSPdf','OSSMail','OSSMailTemplates','Password','OSSTimeControl','OSSMailScanner','OSSMailView','OSSDocumentControl','OSSProjectTemplates','OSSOutsourcedServices','OSSSoldServices','OutsourcedProducts','OSSPasswords','OSSEmployees','Calculations','OSSCosts','AJAXChat','ApiAddress','CallHistory','Ideas','QuotesEnquires','RequirementCards','HolidaysEntitlement','PaymentsIn','PaymentsOut','LettersIn','LettersOut','NewOrders','Reservations');
@@ -178,7 +178,7 @@ class VT620_to_YT {
 	}
 	
 	public function load_default_menu( ) {
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		
 		$menu[] = array(44,0,0,2,1,NULL,'MEN_VIRTUAL_DESK',0,NULL,0,NULL,NULL,"");
 		$menu[] = array(45,0,44,0,0,getTabid('Home'),NULL,0,NULL,0,NULL,NULL,"");
@@ -253,7 +253,7 @@ class VT620_to_YT {
 		}
     }
 	function settingsReplace() {
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::settingsReplace() method ...");
 		//add new record
 		$settings_blocks = array();
@@ -419,7 +419,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::settingsReplace() method ...");
 	}
 	public function sequanceSettingsBlocks($blockSequence){
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::sequanceSettingsBlocks() method ...");
 		$blockList = array();
         $query = 'UPDATE vtiger_settings_blocks SET ';
@@ -446,7 +446,7 @@ class VT620_to_YT {
 		return $adb->query_result($result, 0, 'blockid');
 	}
 	public function handlers(){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::handlers() method ...");
 		require_once 'modules/com_vtiger_workflow/include.inc';
 		require_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
@@ -517,7 +517,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::handlers() method ...");
 	}
 	public function checkHandlerExists($handler){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::checkHandlerExists() method ...");
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_eventhandlers WHERE event_name = ? AND handler_path = ? AND handler_class = ? ', array($handler[1], $handler[2], $handler[3],));
@@ -529,7 +529,7 @@ class VT620_to_YT {
 		return true;
 	}
 	public function checkModuleExists($moduleName){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::checkModuleExists() method ...");
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_tab WHERE name = ?', array($moduleName));
@@ -542,7 +542,7 @@ class VT620_to_YT {
 	}
 	
 	public function worflowEnityMethod (){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::worflowEnityMethod() method ...");
 		// delete all entity method
 		$adb->query("DELETE FROM `com_vtiger_workflowtasks_entitymethod` ");
@@ -567,7 +567,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::worflowEnityMethod() method ...");
 	}
 	public function deleteWorkflow (){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::deleteWorkflow() method ...");
 		// delete all tasks
 		$adb->query('UPDATE com_vtiger_workflows SET defaultworkflow = "0";');
@@ -580,7 +580,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::deleteWorkflow() method ...");
 	}
 	public function addWorkflowType (){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addWorkflowType() method ...");
 		
 		$newTaskType = array();
@@ -597,7 +597,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::addWorkflowType() method ...");
 	}
 	public function addWorkflow (){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addWorkflow() method ...");
 		
 		$workflow = array();
@@ -760,7 +760,7 @@ class VT620_to_YT {
 	}
 
 	public function blocksTable(){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::blocksTable() method ...");
 		// add Blocks
 		$blockColumnName = array('blocklabel','sequence','show_title','visible','create_view','edit_view','detail_view','display_status','iscustom');
@@ -819,7 +819,7 @@ class VT620_to_YT {
 	}
 
 	public function addBlocks(){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addBlocks() method ...");
 		include_once('vtlib/Vtiger/Module.php'); 
 		
@@ -882,7 +882,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::addBlocks() method ...");
 	}
 	public function checkBlockExists($moduleName, $block){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::checkBlockExists() method ...");
 		
 		if($moduleName == 'Settings')
@@ -898,7 +898,7 @@ class VT620_to_YT {
 		return true;
 	}
 	public function getFieldsAll(){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::getFieldsAll() method ...");
 		$columnName = array("tabid","id","column","table","generatedtype","uitype","name","label","readonly","presence","defaultvalue","maximumlength","sequence","block","displaytype","typeofdata","quickcreate","quicksequence","info_type","masseditable","helpinfo","summaryfield","columntype","blocklabel","setpicklistvalues","setrelatedmodules");
 
@@ -1308,7 +1308,7 @@ class VT620_to_YT {
 		return $setToCRMAfter;
 	}
 	public function addFields(){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addFields() method ...");
 		include_once('vtlib/Vtiger/Module.php'); 
 		$moduleToCopyValues = array('Contacts'=>array(array('table'=>'vtiger_contactaddress','copy'=>'addresslevel8a = mailingstreet, addresslevel5a = mailingcity, addresslevel1a = mailingcountry, addresslevel2a = mailingstate, addresslevel7a = mailingzip, addresslevel8b = otherstreet, addresslevel5b = othercity, addresslevel2b = otherstate, addresslevel1b = othercountry,  addresslevel7b = otherzip'),array('table'=>'vtiger_contactdetails','copy'=>'secondary_email = secondaryemail'),array('table'=>'vtiger_contactdetails','copy'=>'parentid = accountid')),
@@ -1369,7 +1369,7 @@ class VT620_to_YT {
 	}
 	
 	public function addSharingToModules(){
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addSharingToModules() method ...");
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager','CallHistory','LettersIn','LettersOut','NewOrders','PaymentsIn','PaymentsOut','Services','Products');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
@@ -1426,7 +1426,7 @@ class VT620_to_YT {
 	}
 	
 	public function checkFieldExists($field, $moduleName){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::checkFieldExists(".$field.",".$moduleName.") method ...");
 		if($moduleName == 'Settings')
 			$result = $adb->pquery("SELECT * FROM `vtiger_settings_field` WHERE `name` = ? AND `linkto` = ? ;", array($field[2],$field[5]));
@@ -1442,7 +1442,7 @@ class VT620_to_YT {
 	
 	//copy values
 	public function copyValues($moduleName,$moduleToCopyValues){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::copyValues() method ...");
 		$adb = PearDatabase::getInstance();
 		try {
@@ -1471,7 +1471,7 @@ class VT620_to_YT {
 	}
 	// self::InactiveFields($fieldsInactive);
 	public function InactiveFields (){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::InactiveFields() method ...");
 		$fieldsInactive = array('HelpDesk'=>array('days',"hours"),
 		'Accounts'=>array('tickersymbol',"notify_owner","rating"),
@@ -1499,7 +1499,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::InactiveFields() method ...");
 	}
 	function addEmployees() {
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addEmployees() method ...");
 		$moduleName = 'OSSEmployees';
 		vimport('~~modules/' . $moduleName . '/' . $moduleName . '.php');
@@ -1532,7 +1532,7 @@ class VT620_to_YT {
 	}
 	// self::deleteFields($fieldsToDelete);
 	public function deleteFields($fieldsToDelete){
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::deleteFields() method ...");
 		require_once('include/main/WebUI.php');
 		$adb = PearDatabase::getInstance();
@@ -1622,7 +1622,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::deleteFields() method ...");
 	}
 	public function picklists(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::picklists() method ...");
 		
 		$addPicklists = array();
@@ -1707,7 +1707,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::picklists() method ...");
 	}
 	public function cron(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::cron() method ...");
 		$removeCrons = array();
 		$removeCrons[] = 'MailScanner';
@@ -1725,7 +1725,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::cron() method ...");
 	}
 	public function leadMapping(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::leadMapping() method ...");
 		$adb->query("DELETE FROM `vtiger_convertleadmapping` ");
 		$fieldsLeads = array("phone","lastname","mobile","company","fax","email","leadsource","website","industry","annualrevenue","noofemployees","description","vat_id","registration_number_2","addresslevel1a","addresslevel2a","addresslevel3a","addresslevel4a","addresslevel5a","addresslevel6a","addresslevel7a","addresslevel8a","buildingnumbera","localnumbera");
@@ -1775,7 +1775,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::leadMapping() method ...");
 	}
 	public function getFieldsId($fields, $moduleName){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::getFieldsId(".$fields.', '. $moduleName.") method ...");
 		if(!is_array($fields))
 			$fields = array($fields);
@@ -1791,7 +1791,7 @@ class VT620_to_YT {
 	}
 	
 	public function foldersToTree(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::foldersToTree() method ...");
 		
 		$sql = 'INSERT INTO vtiger_trees_templates(`name`, `module`, `access`) VALUES (?,?,?)';
@@ -2001,7 +2001,7 @@ class VT620_to_YT {
 	}
 	
 	public function addClosedtimeField(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addClosedtimeField() method ...");
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'SMSNotifier','PBXManager','CallHistory');
 		$sql = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? AND name NOT IN ('.generateQuestionMarks($restrictedModules).')';
@@ -2036,7 +2036,7 @@ class VT620_to_YT {
 	}
 	
 	public function pobox(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::pobox() method ...");
 		$sql = "SELECT * FROM `vtiger_field` WHERE `fieldname` LIKE 'addresslevel1%';";
 		$result = $adb->query($sql,true);
@@ -2069,7 +2069,7 @@ class VT620_to_YT {
 	}
 	
 	public function wasRead(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::wasRead() method ...");
 		$sql = "SELECT tabid,name FROM `vtiger_tab` WHERE `isentitytype` = '1' AND name not in ('SMSNotifier','ModComments','PBXManager','Events','Emails');";
 		$result = $adb->query($sql,true);
@@ -2102,7 +2102,7 @@ class VT620_to_YT {
 		$log->debug("Exiting VT620_to_YT::wasRead() method ...");
 	}
 	public function rebootSeq(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::rebootSeq() method ...");
 		$modules = array('Calendar','Events');
 
@@ -2361,7 +2361,7 @@ array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail
 	}
 	
 	public function actionMapping(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::actionMapping() method ...");
 		
 		$actions = ['CreateCustomFilter','DuplicateRecord','EditableComments'];
@@ -2458,7 +2458,7 @@ array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail
 	}
 	
 	public function getPicklistId($fieldName, $value){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::getPicklistId(".$fieldName.','.$value.") method ...");
 		if(Vtiger_Utils::CheckTable('vtiger_' .$fieldName)) {
 			$sql = 'SELECT * FROM vtiger_' .$fieldName. ' WHERE ' .$fieldName. ' = ? ;';
@@ -2474,7 +2474,7 @@ array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail
 	}
 	
 	public function changeOutgoingServerFile($id){
-		global $log,$adb,$root_directory;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log'); $root_directory = vglobal('root_directory');
 		$log->debug("Entering VT620_to_YT::changeOutgoingServerFile(".$id.") method ...");
 		
 		if(!$root_directory)
@@ -2494,7 +2494,7 @@ array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail
 	}
 	
 	public function updateForgotPassword($id){
-		global $log,$adb,$root_directory;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log'); $root_directory = vglobal('root_directory');
 		$log->debug("Entering VT620_to_YT::updateForgotPassword(".$id.") method ...");
 		if(!$root_directory)
 			$root_directory = getcwd();
@@ -2513,7 +2513,7 @@ array('tabid'=>'OSSMailView','related_tabid'=>'Vendors','name'=>'get_vendor_mail
 	}
 	
 	public function addRecords(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addRecords() method ...");
 		//include('config/config.inc.php');
 		global $dbconfig;
@@ -3152,7 +3152,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$log->debug("Exiting VT620_to_YT::addRecords() method ...");
 	}
 	public function customerPortal(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::customerPortal() method ...");
 		$portal_tabs[] = array(getTabid('Contacts'),1,8);
 		$portal_tabs[] = array(getTabid('Accounts'),1,9);
@@ -3188,7 +3188,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function customView(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::customView() method ...");
 		$columnList = array();
 		
@@ -3376,7 +3376,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function addSearchfield(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addSearchfield() method ...");
 		$entityName[] = array(2,'Potentials','vtiger_potential','potentialname','potentialid','potential_id','potentialname',1,0);
 		$entityName[] = array(4,'Contacts','vtiger_contactdetails','firstname,lastname','contactid','contact_id','firstname,lastname',1,0);
@@ -3444,7 +3444,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function addWidget(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addWidget() method ...");
 		$widgets[] = array(1,'Accounts','Summary',NULL,1,0,NULL,'[]');
 		$widgets[] = array(2,'Accounts','Comments','ModComments',2,6,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
@@ -3508,7 +3508,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function relatedList(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::relatedList() method ...");
 		
 		
@@ -3659,7 +3659,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function transferLogo(){
-		global $log,$adb,$root_directory;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log'); $root_directory = vglobal('root_directory');
 		$log->debug("Entering VT620_to_YT::transferLogo() method ...");
 		$result = $adb->query( "SELECT `logoname` FROM `vtiger_organizationdetails` ;");
 		$num = $adb->num_rows( $result );
@@ -3674,7 +3674,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	/////////////
 	public function changeFieldOnTree(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 			$log->debug("Entering VT620_to_YT::changeFieldOnTree() method ...");
 		$tab = array('vtiger_products'=>'pscategory',
 					'vtiger_service'=>'pscategory',	
@@ -3711,7 +3711,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		}
 	}
 	public function updateRecordsTree($tablename, $columnName, $tree ){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::updateRecordsTree(".$tablename.", ".$columnName.", ".$tree.") method ...");
 		foreach($tree AS $treeElement){
 			$query = 'UPDATE '.$tablename.' SET '.$columnName.' = ? WHERE '.$columnName.' = ?';
@@ -3724,7 +3724,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$log->debug("Exiting VT620_to_YT::updateRecordsTree() method ...");
 	}
 	public function createTree($moduleId, $nameTemplate, $tree){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::createTree(".$moduleId.", ".$nameTemplate.", ".$tree.") method ...");
 		vimport('~~modules/Settings/TreesManager/models/Record.php');
 		
@@ -3748,7 +3748,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	* Delete Reports
 	*/
 	public function deleteRaports(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::deleteRaports() method ...");
 		
 		$restrictedRaports = array('Contacts by Accounts', 'Contacts without Accounts', 'Contacts by Potentials', 'Lead by Source', 'Lead Status Report','Potential Pipeline','Closed Potentials','Last Month Activities','This Month Activities','Tickets by Products','Tickets by Priority','Open Tickets','Product Details','Products by Contacts','Open Quotes','Quotes Detailed Report','PurchaseOrder by Contacts','PurchaseOrder Detailed Report','Invoice Detailed Report','SalesOrder Detailed Report','Campaign Expectations and Actuals','Contacts Email Report','Accounts Email Report','Leads Email Report','Vendors Email Report');
@@ -3765,13 +3765,13 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$log->debug("Exiting VT620_to_YT::deleteRaports() method ...");
 	}
 	public function changeInTable(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::changeInTable() method ...");
 			$adb->query( "DELETE FROM vtiger_wsapp_handlerdetails where type IN ( 'Google_vtigerHandler', 'Google_vtigerSyncHandler');");
 		$log->debug("Exiting VT620_to_YT::changeInTable() method ...");
 	}
 	public function cleanInDatabase(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::cleanInDatabase() method ...");
 		$result = $adb->query( "SELECT vtiger_def_org_field.tabid,vtiger_def_org_field.fieldid FROM `vtiger_def_org_field` WHERE fieldid NOT IN (SELECT fieldid FROM `vtiger_field`)");
 		$num = $adb->num_rows($result);
@@ -3808,7 +3808,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	////////////
 	public function removeModules(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::removeModules() method ...");
 		$removeModules = array('EmailTemplates'=>array('tabid'=>getTabid('EmailTemplates')),'Webmails'=>array('tabid'=>getTabid('Webmails')),'FieldFormulas'=>array('tabid'=>getTabid('FieldFormulas')),
 		'Google'=>array('added_links'=>array(array('type' => 'DETAILVIEWSIDEBARWIDGET', 'label'  => 'Google Map'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Contacts'),array('type' => 'LISTVIEWSIDEBARWIDGET', 'label'  => 'Google Calendar')),'tabid'=>getTabid('Google')),
@@ -3829,7 +3829,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 	}
 	
 	public function addSql(){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering VT620_to_YT::addSql() method ...");
 		$adb->query("insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showMailAccounts','false');");
 		$adb->query("insert  into `yetiforce_mail_config`(`type`,`name`,`value`) values ('mailIcon','showNumberUnreadEmails','false');");

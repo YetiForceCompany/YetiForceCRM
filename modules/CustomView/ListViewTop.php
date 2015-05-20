@@ -55,11 +55,10 @@ function getKeyMetrics($maxval,$calCnt)
 
 	global $app_strings;
 	$adb = PearDatabase::getInstance();
-	global $log;
-	global $current_language;
+	$log = vglobal('log');
 	$metricviewnames = "'Hot Leads'";
 
-	$current_module_strings = return_module_language($current_language, "CustomView");
+	$current_module_strings = return_module_language(vglobal('current_language'), "CustomView");
 	$log = LoggerManager::getLogger('metrics');
 
 	$metriclists = getMetricList();
@@ -72,7 +71,7 @@ function getKeyMetrics($maxval,$calCnt)
 	$log->info("Metrics :: Successfully got MetricList to be displayed");
 	if(isset($metriclists))
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		foreach ($metriclists as $key => $metriclist) {
 			if($metriclist['module'] == "Calendar") {
 				$listquery = getListQuery($metriclist['module']);
@@ -140,7 +139,7 @@ function getKeyMetrics($maxval,$calCnt)
 	 */
 function getMetricList()
 {
-	global $adb, $current_user;
+	$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	
 	$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";

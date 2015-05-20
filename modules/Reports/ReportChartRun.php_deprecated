@@ -44,7 +44,7 @@ if($numOfRows > 0) {
 
 	global $primarymodule,$secondarymodule,$orderbylistsql,$orderbylistcolumns,$ogReport;
 	//added to fix the ticket #5117
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 	$ogReport = new Reports($reportid);

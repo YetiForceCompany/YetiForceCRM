@@ -73,11 +73,11 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 		return $relatedProducts;
 	}
 	function getAssociatedProducts($module,$focus,$seid='')	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Calculations_Record_Model getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
 		$adb = PearDatabase::getInstance();
 		$output = '';
-		global $theme,$current_user;
+		global $theme;
 
 		$no_of_decimal_places = getCurrencyDecimalPlaces();
 		$theme_path="themes/".$theme."/";

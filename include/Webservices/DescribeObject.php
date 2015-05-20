@@ -10,7 +10,7 @@
 	
 	function vtws_describe($elementType,$user){
 		
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$webserviceObject = VtigerWebserviceObject::fromName($adb,$elementType);
 		$handlerPath = $webserviceObject->getHandlerPath();
 		$handlerClass = $webserviceObject->getHandlerClass();

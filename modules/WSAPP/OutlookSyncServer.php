@@ -30,7 +30,7 @@ class OutlookSyncServer extends SyncServer{
      * Function overrided to deal duplication handling 
      */
      function put($key, $element, $user) {
-        global $log;
+        $log = vglobal('log');
         $db = PearDatabase::getInstance();
         $appid = parent::appid_with_key($key);
         if (empty($appid)) {

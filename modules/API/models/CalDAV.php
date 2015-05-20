@@ -46,7 +46,7 @@ class API_CalDAV_Model {
 	public function saveCalendar() {
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$current_user = $user;
 			$accessibleGroups = $user->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || array_key_exists($this->record['smownerid'], $accessibleGroups)) {
@@ -190,7 +190,7 @@ class API_CalDAV_Model {
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$current_user = $user;
 			$this->syncDavCalendar();
 		}

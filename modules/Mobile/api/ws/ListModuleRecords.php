@@ -31,7 +31,7 @@ class Mobile_WS_ListModuleRecords extends Mobile_WS_Controller {
 	}
 	
 	function processSearchRecordLabel(Mobile_API_Request $request) {
-		global $current_user; // Few core API assumes this variable availability
+		$current_user  = vglobal('current_user'); // Few core API assumes this variable availability
 		
 		$current_user = $this->getActiveUser();
 		$module = $request->get('module');

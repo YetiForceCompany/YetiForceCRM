@@ -14,7 +14,7 @@
 		
 		static $vtws_query_cache = array();	
 		
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 		// Cache the instance for re-use		
 		$moduleRegex = "/[fF][rR][Oo][Mm]\s+([^\s;]+)/";

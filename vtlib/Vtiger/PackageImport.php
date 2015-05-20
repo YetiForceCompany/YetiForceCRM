@@ -199,7 +199,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	 * @access private
 	 */
 	function checkZip($zipfile) {
-		global $YetiForce_current_version,$default_language;
+		global $YetiForce_current_version;
 		$unzip = new Vtiger_Unzip($zipfile);
 		$filelist = $unzip->getList();
 
@@ -246,12 +246,12 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 				}
 			}
 			// Language file present in en_us folder
-			$pattern = '/languages\/'.$default_language.'\/([^\/]+).php/';
+			$pattern = '/languages\/'.vglobal('default_language').'\/([^\/]+).php/';
 			preg_match($pattern, $filename, $matches);
 			if(count($matches)) { $language_modulename = $matches[1]; }
 
 			// or Language file may be present in en_us/Settings folder
-			$settingsPattern = '/languages\/'.$default_language.'\/Settings\/([^\/]+).php/';
+			$settingsPattern = '/languages\/'.vglobal('default_language').'\/Settings\/([^\/]+).php/';
 			preg_match($settingsPattern, $filename, $matches);
 			if(count($matches)) { $language_modulename = $matches[1]; }
 		}
@@ -261,7 +261,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 			$languagefile_found = true;
 		}elseif(!$updatefile_found){
 			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__',$default_language,$_errorText);
+			$_errorText = str_replace('__DEFAULTLANGUAGE__',vglobal('default_language'),$_errorText);
 			$this->_errorText = $_errorText;
 		}
 

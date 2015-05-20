@@ -68,7 +68,7 @@ define("RB_RECORD_UPDATED", 'update');
 */
 function return_name(&$row, $first_column, $last_column)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering return_name(".$row.",".$first_column.",".$last_column.") method ...");
 	$first_name = "";
 	$last_name = "";
@@ -115,9 +115,9 @@ function return_name(&$row, $first_column, $last_column)
 //used in module file
 function get_user_array($add_blank=true, $status="Active", $assigned_user="",$private="",$module=false)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering get_user_array(".$add_blank.",". $status.",".$assigned_user.",".$private.") method ...");
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(isset($current_user) && $current_user->id != '')
 	{
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
@@ -186,9 +186,9 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 
 function get_group_array($add_blank=true, $status="Active", $assigned_user="",$private="",$module = false)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering get_user_array(".$add_blank.",". $status.",".$assigned_user.",".$private.") method ...");
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	if(isset($current_user) && $current_user->id != '')
 	{
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
@@ -321,7 +321,7 @@ function get_themes() {
        */
 function set_default_config(&$defaults)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering set_default_config(".$defaults.") method ...");
 
 	foreach ($defaults as $name=>$value)
@@ -403,7 +403,7 @@ function to_html($string, $encode=true)
 
 function getTabname($tabid)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getTabname(".$tabid.") method ...");
         $log->info("tab id is ".$tabid);
         $adb = PearDatabase::getInstance();
@@ -441,7 +441,7 @@ function getTabModuleName($tabid)
 
 function getColumnFields($module)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getColumnFields(".$module.") method ...");
 	$log->debug("in getColumnFields ".$module);
 
@@ -510,7 +510,7 @@ function getColumnFields($module)
 
 function getUserEmail($userid)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getUserEmail(".$userid.") method ...");
 	$log->info("in getUserEmail ".$userid);
 
@@ -533,7 +533,7 @@ function getUserEmail($userid)
 //outlook security
 function getUserId_Ol($username)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getUserId_Ol(".$username.") method ...");
 	$log->info("in getUserId_Ol ".$username);
 	$cache = Vtiger_Cache::getInstance();
@@ -568,7 +568,7 @@ function getUserId_Ol($username)
 
 function getActionid($action)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getActionid(".$action.") method ...");
 	$adb = PearDatabase::getInstance();
 	$log->info("get Actionid ".$action);
@@ -598,7 +598,7 @@ function getActionid($action)
 
 function getActionname($actionid)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getActionname(".$actionid.") method ...");
 	$adb = PearDatabase::getInstance();
 
@@ -627,7 +627,7 @@ function getActionname($actionid)
 
 function getRecordOwnerId($record)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getRecordOwnerId(".$record.") method ...");
 	$adb = PearDatabase::getInstance();
 	$ownerArr=Array();
@@ -674,7 +674,7 @@ function getRecordOwnerId($record)
 
 function insertProfile2field($profileid)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering insertProfile2field(".$profileid.") method ...");
         $log->info("in insertProfile2field ".$profileid);
 
@@ -696,7 +696,7 @@ function insertProfile2field($profileid)
 
 function insert_def_org_field()
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering insert_def_org_field() method ...");
 	$adb = PearDatabase::getInstance();
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
@@ -719,7 +719,7 @@ function insert_def_org_field()
 
 function updateProductQty($product_id, $upd_qty)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering updateProductQty(".$product_id.",". $upd_qty.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query= "update vtiger_products set qtyinstock=? where productid=?";
@@ -735,7 +735,7 @@ function updateProductQty($product_id, $upd_qty)
   */
 function addToProductStock($productId,$qty)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering addToProductStock(".$productId.",".$qty.") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck=getProductQtyInStock($productId);
@@ -752,7 +752,7 @@ function addToProductStock($productId,$qty)
   */
 function addToProductDemand($productId,$qty)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering addToProductDemand(".$productId.",".$qty.") method ...");
 		$adb = PearDatabase::getInstance();
 	$qtyInStck=getProductQtyInDemand($productId);
@@ -769,7 +769,7 @@ function addToProductDemand($productId,$qty)
   */
 function deductFromProductStock($productId,$qty)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering deductFromProductStock(".$productId.",".$qty.") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck=getProductQtyInStock($productId);
@@ -786,7 +786,7 @@ function deductFromProductStock($productId,$qty)
   */
 function deductFromProductDemand($productId,$qty)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering deductFromProductDemand(".$productId.",".$qty.") method ...");
 	$adb = PearDatabase::getInstance();
 	$qtyInStck=getProductQtyInDemand($productId);
@@ -804,7 +804,7 @@ function deductFromProductDemand($productId,$qty)
   */
 function getProductQtyInStock($product_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getProductQtyInStock(".$product_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query1 = "select qtyinstock from vtiger_products where productid=?";
@@ -822,7 +822,7 @@ function getProductQtyInStock($product_id)
   */
 function getProductQtyInDemand($product_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getProductQtyInDemand(".$product_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query1 = "select qtyindemand from vtiger_products where productid=?";
@@ -839,7 +839,7 @@ function getProductQtyInDemand($product_id)
   */
 function getTableNameForField($module,$fieldname)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getTableNameForField(".$module.",".$fieldname.") method ...");
 	$adb = PearDatabase::getInstance();
 	$tabid = getTabid($module);
@@ -869,7 +869,7 @@ function getTableNameForField($module,$fieldname)
 
 function getParentRecordOwner($tabid,$parModId,$record_id)
  {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getParentRecordOwner(".$tabid.",".$parModId.",".$record_id.") method ...");
 	$parentRecOwner=Array();
 	$parentTabName=getTabname($parModId);
@@ -891,7 +891,7 @@ function getParentRecordOwner($tabid,$parModId,$record_id)
 
 function getPotentialsRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getPotentialsRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query="select related_to from vtiger_potential where potentialid=?";
@@ -907,7 +907,7 @@ function getPotentialsRelatedAccounts($record_id)
   */
 function getEmailsRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getEmailsRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
@@ -923,7 +923,7 @@ function getEmailsRelatedAccounts($record_id)
 
 function getEmailsRelatedLeads($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getEmailsRelatedLeads(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
@@ -940,7 +940,7 @@ function getEmailsRelatedLeads($record_id)
 
 function getHelpDeskRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getHelpDeskRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
@@ -957,7 +957,7 @@ function getHelpDeskRelatedAccounts($record_id)
 
 function getQuotesRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getQuotesRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select accountid from vtiger_quotes where quoteid=?";
@@ -974,7 +974,7 @@ function getQuotesRelatedAccounts($record_id)
 
 function getQuotesRelatedPotentials($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getQuotesRelatedPotentials(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select potentialid from vtiger_quotes where quoteid=?";
@@ -991,7 +991,7 @@ function getQuotesRelatedPotentials($record_id)
 
 function getSalesOrderRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getSalesOrderRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select accountid from vtiger_salesorder where salesorderid=?";
@@ -1008,7 +1008,7 @@ function getSalesOrderRelatedAccounts($record_id)
 
 function getSalesOrderRelatedPotentials($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getSalesOrderRelatedPotentials(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select potentialid from vtiger_salesorder where salesorderid=?";
@@ -1024,7 +1024,7 @@ function getSalesOrderRelatedPotentials($record_id)
 
 function getSalesOrderRelatedQuotes($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getSalesOrderRelatedQuotes(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select quoteid from vtiger_salesorder where salesorderid=?";
@@ -1041,7 +1041,7 @@ function getSalesOrderRelatedQuotes($record_id)
 
 function getInvoiceRelatedAccounts($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getInvoiceRelatedAccounts(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select accountid from vtiger_invoice where invoiceid=?";
@@ -1057,7 +1057,7 @@ function getInvoiceRelatedAccounts($record_id)
 
 function getInvoiceRelatedSalesOrder($record_id)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getInvoiceRelatedSalesOrder(".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
         $query="select salesorderid from vtiger_invoice where invoiceid=?";
@@ -1225,8 +1225,8 @@ function formatForSqlLike($str, $flag=0,$is_field=false) {
 **/
 function getAccessPickListValues($module)
 {
-	global $adb, $log;
-	global $current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$log->debug("Entering into function getAccessPickListValues($module)");
 
 	$id = getTabid($module);
@@ -1366,7 +1366,8 @@ function transferCurrency($old_cur, $new_cur) {
 
 // Function to transfer the users with currency $old_cur to $new_cur as currency
 function transferUserCurrency($old_cur, $new_cur) {
-	global $log, $adb, $current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$current_user  = vglobal('current_user');
 	$log->debug("Entering function transferUserCurrency...");
 
 	$sql = "update vtiger_users set currency_id=? where currency_id=?";
@@ -1378,7 +1379,7 @@ function transferUserCurrency($old_cur, $new_cur) {
 
 // Function to transfer the products with currency $old_cur to $new_cur as currency
 function transferProductCurrency($old_cur, $new_cur) {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering function updateProductCurrency...");
 	$prod_res = $adb->pquery("select productid from vtiger_products where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($prod_res);
@@ -1403,7 +1404,7 @@ function transferProductCurrency($old_cur, $new_cur) {
 // Function to transfer the pricebooks with currency $old_cur to $new_cur as currency
 // and to update the associated products with list price in $new_cur currency
 function transferPriceBookCurrency($old_cur, $new_cur) {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering function updatePriceBookCurrency...");
 	$pb_res = $adb->pquery("select pricebookid from vtiger_pricebook where currency_id = ?", array($old_cur));
 	$numRows = $adb->num_rows($pb_res);
@@ -1437,7 +1438,7 @@ function transferPriceBookCurrency($old_cur, $new_cur) {
  * @return array in format array(name=>callername, module=>module, id=>id);
   */
 function getCallerInfo($number){
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	if(empty($number)){
 		return false;
 }
@@ -1603,7 +1604,7 @@ function getRelationTables($module,$secmodule){
  * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
   */
 function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
-	global $log,$adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering DeleteEntity method ($module, $return_module, $record, $return_id)");
 	require_once("include/events/include.inc");
 	$em = new VTEventsManager($adb);
@@ -1629,7 +1630,7 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
  * Function to related two records of different entity types
   */
 function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds) {
-	global $log,$adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	require_once("include/events/include.inc");
 	$em = new VTEventsManager($adb);
@@ -1797,7 +1798,7 @@ function isRecordExists($recordId) {
   * @returns $insert_date -- insert_date :: Type string
   */
 function getValidDBInsertDateValue($value) {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getValidDBInsertDateValue(".$value.") method ...");
 	$value = trim($value);
 	$delim = array('/','.');
@@ -1960,7 +1961,7 @@ function validateEmailId($string){
 * Function to get the approximate difference between two date time values as string
 */
 function dateDiffAsString($d1, $d2) {
-	global $currentModule;
+	$currentModule = vglobal('currentModule');
 
 	$dateDiff = dateDiff($d1, $d2);
 
@@ -1998,7 +1999,7 @@ function getMinimumCronFrequency() {
 
 //Function returns Email related Modules
 function getEmailRelatedModules() {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	$handler = vtws_getModuleHandlerFromName('Emails',$current_user);
 	$meta = $handler->getMeta();
 	$moduleFields = $meta->getModuleFields();
@@ -2014,7 +2015,7 @@ function getEmailRelatedModules() {
 
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces() {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	$currency_decimal_places = $current_user->no_of_currency_decimals;
 	if(isset($currency_decimal_places)) {
 		return $currency_decimal_places;
@@ -2033,7 +2034,7 @@ function getInventoryModules() {
  * @param - $packagepath - Complete path to the zip file of the Module
  */
 function initUpdateVtlibModule($module, $packagepath) {
-	global $log;
+	$log = vglobal('log');
 	require_once('vtlib/Vtiger/Package.php');
 	require_once('vtlib/Vtiger/Module.php');
 	$Vtiger_Utils_Log = true;
@@ -2161,7 +2162,7 @@ function getSelectedRecords($input,$module,$idstring,$excludedRecords) {
 }
 
 function getSelectAllQuery($input,$module) {
-	global $adb,$current_user;
+	global $adb;
 
 	$viewid = vtlib_purify($input['viewname']);
 
@@ -2177,6 +2178,7 @@ function getSelectAllQuery($input,$module) {
 			}
 		}
 	} else {
+		$current_user  = vglobal('current_user');
 		$queryGenerator = new QueryGenerator($module, $current_user);
 		$queryGenerator->initForCustomViewById($viewid);
 
@@ -2252,13 +2254,13 @@ function dateDiff($d1, $d2){
 }
 
 function getExportRecordIds($moduleName, $viewid, $input) {
-	global $adb, $current_user, $list_max_entries_per_page;
+	global $adb, $list_max_entries_per_page;
 
 	$idstring = vtlib_purify($input['idstring']);
 	$export_data = vtlib_purify($input['export_data']);
 
 	if (in_array($moduleName, getInventoryModules()) && $export_data == 'currentpage') {
-		$queryGenerator = new QueryGenerator($moduleName, $current_user);
+		$queryGenerator = new QueryGenerator($moduleName, vglobal('current_user'));
 		$queryGenerator->initForCustomViewById($viewid);
 
 		if($input['query'] == 'true') {
