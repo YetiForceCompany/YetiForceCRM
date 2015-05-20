@@ -644,7 +644,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 	}
 
 	public static function runScheduledImport() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
 		$vtigerMailer = new Vtiger_Mailer();
 		$vtigerMailer->IsHTML(true);

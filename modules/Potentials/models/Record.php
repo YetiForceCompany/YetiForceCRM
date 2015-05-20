@@ -54,7 +54,7 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 
 
 	public function recalculatePotentials($PotentialsID) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering recalculatePotentials($PotentialsID) method ...");
 		if($PotentialsID == NULL){return false;}
 		$CalculationsStatus = 'Rejected';
@@ -84,7 +84,8 @@ class Potentials_Record_Model extends Vtiger_Record_Model {
 	}
 	
 	public function createSalesOpportunitiesFromRecords($from_module, $recordIds) {
-		global $log, $current_user;
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
 		$log->info("Entering Into createSalesOpportunitiesFromRecords( $from_module, $recordIds )");
 		$db = PearDatabase::getInstance(); 
 		

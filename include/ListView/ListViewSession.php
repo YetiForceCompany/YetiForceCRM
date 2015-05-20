@@ -28,7 +28,7 @@ class ListViewSession {
 
 	function ListViewSession()
 	{
-		global $log,$currentModule;
+		$log = vglobal('log'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering ListViewSession() method ...");
 
 		$this->module = $currentModule;

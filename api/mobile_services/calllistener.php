@@ -16,7 +16,7 @@ class CallListener{
 	public $permittedActions = array('addCallActions');
     function post($type = '', $authorization = '', $data = ''){
 		$authorization = json_decode($authorization);
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);
 		if( $authorization->phoneKey == '' || !$this->checkPermissions($authorization) ){
 			$resultData = Array('status' => 0,'message' =>  'No permission to: PushCall');
@@ -34,7 +34,7 @@ class CallListener{
 		return $resultData;
     }
 	function addCallActions($data){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| user id: ".$this->userID);
 		$data = json_decode($data);
 		$params = array($this->userID, $data->callActions->to_number, $this->getDirection($data->callActions->direction), $this->getStatus($data->callActions->action), $data->callActions->timestamp);
@@ -43,7 +43,7 @@ class CallListener{
 		return array('status' => 1);
 	}
 	function checkPermissions($authorization){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering " . __CLASS__ . "::" . __METHOD__ . "| ".print_r( $authorization,true));
 		$return = false;	
 		$result = $adb->pquery("SELECT yetiforce_mobile_keys.user FROM yetiforce_mobile_keys INNER JOIN vtiger_users ON vtiger_users.id = yetiforce_mobile_keys.user WHERE service = ? AND `key` = ? AND vtiger_users.user_name = ?",array($this->mobileKeysName, $authorization->phoneKey, $authorization->userName));

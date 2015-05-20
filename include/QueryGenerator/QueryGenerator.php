@@ -427,7 +427,7 @@ class QueryGenerator {
 	}
 
 	public function getFromClause() {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(!empty($this->query) || !empty($this->fromClause)) {
 			return $this->fromClause;
 		}
@@ -628,7 +628,7 @@ class QueryGenerator {
 	}
 
 	public function getWhereClause($onlyWhereQuery = false) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(!empty($this->query) || !empty($this->whereClause)) {
 			return $this->whereClause;
 		}

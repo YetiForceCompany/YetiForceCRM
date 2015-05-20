@@ -48,7 +48,7 @@ class Vtiger_Utils {
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccessForInclusion($filepath, $dieOnFail=true) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
 		if(empty($use_root_directory)) {
@@ -72,7 +72,7 @@ class Vtiger_Utils {
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
-				global $log;
+				$log = vglobal('log');
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				die("Sorry! Attempt to access restricted file.");
 			}
@@ -87,7 +87,7 @@ class Vtiger_Utils {
 	 * @param Boolean False to avoid die() if check fails
 	 */
 	static function checkFileAccess($filepath, $dieOnFail=true) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
@@ -107,7 +107,7 @@ class Vtiger_Utils {
 
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
-				global $log;
+				$log = vglobal('log');
 				$log->error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				die("Sorry! Attempt to access restricted file.");
 			}

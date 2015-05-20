@@ -293,9 +293,9 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
-		global $currentModule, $current_language;
+		$currentModule = vglobal('currentModule');
 		if(empty($currentModule)) $currentModule = 'Reports';
-		if(empty($current_language)) $current_language = 'en_us';
+		if(empty(vglobal('current_language'))) vglobal('current_language','en_us');
 
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {

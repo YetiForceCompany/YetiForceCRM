@@ -15,7 +15,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 * @return - array of ticket status
 	 */
 	public static function getTicketStatus(){
-		global $log;
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		$sql = 'SELECT * FROM `vtiger_ticketstatus`;';
@@ -36,7 +36,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 * @return - array of ticket status
 	 */
 	public static function getTicketStatusNotModify(){
-		global $log;
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getTicketStatusNotModify() method ...");
 		$sql = 'SELECT ticket_status_indicate_closing FROM `vtiger_support_processes`;';
@@ -57,7 +57,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	 * @return - array of ticket status
 	 */
 	public function updateTicketStatusNotModify($data){
-		global $log;
+		$log = vglobal('log');
 		$adb = PearDatabase::getInstance();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		$deleteQuery = "UPDATE `vtiger_support_processes` SET `ticket_status_indicate_closing` = NULL WHERE `id` = 1";
@@ -72,7 +72,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	}
 
 	public function getAllTicketStatus(){
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getAllTicketStatus() method ...");
 		$sql = 'SELECT `ticketstatus` FROM `vtiger_ticketstatus`';
 		$result = $adb->query($sql);
@@ -84,7 +84,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	}
 
 	public static function getOpenTicketStatus(){
-		global $log;
+		$log = vglobal('log');
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
 		$log->debug("Entering Settings_SupportProcesses_Module_Model::getOpenTicketStatus() method ...");
 		if(empty($getTicketStatusClosed)){

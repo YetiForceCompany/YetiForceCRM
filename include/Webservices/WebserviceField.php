@@ -265,7 +265,7 @@ class WebserviceField{
 				array_push($referenceTypes,$this->pearDB->query_result($result,$i,"type"));
 			}
 
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$types = vtws_listtypes(null, $current_user);
 			$accessibleTypes = $types['types'];
             //If it is non admin user or the edit and view is there for profile then users module will be accessible

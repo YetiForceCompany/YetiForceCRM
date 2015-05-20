@@ -10,7 +10,7 @@
 	
 	function vtws_revise($element,$user){
 		
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$idList = vtws_getIdComponents($element['id']);
 		
 		$webserviceObject = VtigerWebserviceObject::fromId($adb,$idList[0]);

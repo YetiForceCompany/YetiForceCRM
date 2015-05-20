@@ -353,7 +353,7 @@ function vtws_addActorTypeName($entityId,$fieldNames,$indexColumn,$tableName){
 }
 
 function vtws_getName($id,$user){
-	global $log,$adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb,$id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -440,7 +440,7 @@ function vtws_addWebserviceOperationParam($operationId,$paramName,$paramType,$se
  * @return WebserviceEntityOperation
  */
 function vtws_getModuleHandlerFromName($name,$user){
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$webserviceObject = VtigerWebserviceObject::fromName($adb,$name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -452,7 +452,7 @@ function vtws_getModuleHandlerFromName($name,$user){
 }
 
 function vtws_getModuleHandlerFromId($id,$user){
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$webserviceObject = VtigerWebserviceObject::fromId($adb,$id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -464,7 +464,7 @@ function vtws_getModuleHandlerFromId($id,$user){
 }
 
 function vtws_CreateCompanyLogoFile($fieldname) {
-	global $root_directory;
+	$root_directory = vglobal('root_directory');
 	$uploaddir = $root_directory ."/storage/Logo/";
 	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg" ,"x-png");
 	$binFile = $_FILES[$fieldname]['name'];
@@ -566,7 +566,7 @@ function vtws_getConvertLeadFieldMapping(){
  *	@param integer $relatedId -  related entity id (accountid / contactid)
  */
 function vtws_getRelatedNotesAttachments($id,$relatedId) {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 
 	$sql = "select * from vtiger_senotesrel where crmid=?";
 	$result = $adb->pquery($sql, array($id));
@@ -1002,16 +1002,12 @@ function vtws_getWebserviceTranslatedString($label) {
 }
 
 function vtws_getWebserviceCurrentLanguage() {
-	global $default_language, $current_language;
-	if(empty($current_language)) {
-		return $default_language;
+	if(empty(vglobal('current_language'))) {
+		return vglobal('default_language');
 	}
-	return $current_language;
+	return vglobal('current_language');
 }
 
 function vtws_getWebserviceDefaultLanguage() {
-	global $default_language;
-	return $default_language;
+	return vglobal('default_language');
 }
-
-?>

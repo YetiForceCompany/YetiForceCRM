@@ -14,7 +14,7 @@ class TotalPriceQuotes{
 	public $reference = 'Quotes';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TotalPriceQuotes::process() method ...");
 		$sum = $instance->get('sum_quotes')== ''? 0: $instance->get('sum_quotes');
 		$log->debug("Exiting TotalPriceQuotes::process() method ...");

@@ -116,7 +116,7 @@ class Accounts extends CRMEntity {
 	 * @returns list of campaigns in array format
 	 */
 	function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_campaigns(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -181,7 +181,7 @@ class Accounts extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_contacts(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -197,7 +197,7 @@ class Accounts extends CRMEntity {
 			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
 
 		$button = '';
-
+		$current_user = vglobal('current_user');
 		if($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id','readwrite') == '0') {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
@@ -244,7 +244,7 @@ class Accounts extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function get_opportunities($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_opportunities(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -309,7 +309,7 @@ class Accounts extends CRMEntity {
 	/* {[Contributor(s):							}] */
 	
 	function get_emails($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user, $adb;
+		global $log, $singlepane_view,$currentModule, $adb;
 		$log->debug("Entering get_emails(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -359,7 +359,7 @@ class Accounts extends CRMEntity {
 	* returns related Quotes record in array format
 	*/
 	function get_quotes($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_quotes(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -375,7 +375,7 @@ class Accounts extends CRMEntity {
 			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
 
 		$button = '';
-
+		$current_user = vglobal('current_user');
 		if($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id','readwrite') == '0') {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
@@ -422,7 +422,7 @@ class Accounts extends CRMEntity {
 	* returns related Invoices record in array format
 	*/
 	function get_invoices($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_invoices(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -438,7 +438,7 @@ class Accounts extends CRMEntity {
 			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
 
 		$button = '';
-
+		$current_user = vglobal('current_user');
 		if($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id','readwrite') == '0') {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
@@ -489,7 +489,7 @@ class Accounts extends CRMEntity {
 	* returns related SalesOrder record in array format
 	*/
 	function get_salesorder($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_salesorder(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -505,7 +505,7 @@ class Accounts extends CRMEntity {
 			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
 
 		$button = '';
-
+		$current_user = vglobal('current_user');
 		if($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'account_id','readwrite') == '0') {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
@@ -550,7 +550,7 @@ class Accounts extends CRMEntity {
 	* returns related Ticket record in array format
 	*/
 	function get_tickets($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_tickets(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -566,7 +566,7 @@ class Accounts extends CRMEntity {
 			$returnset = '&return_module='.$this_module.'&return_action=CallRelatedList&return_id='.$id;
 
 		$button = '';
-
+		$current_user = vglobal('current_user');
 		if($actions && getFieldVisibilityPermission($related_module, $current_user->id, 'parent_id','readwrite') == '0') {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('SELECT', $actions) && isPermitted($related_module,4, '') == 'yes') {
@@ -613,7 +613,7 @@ class Accounts extends CRMEntity {
 	* returns related Products record in array format
 	*/
 	function get_products($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view,$currentModule,$current_user;
+		$log = vglobal('log'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering get_products(".$id.") method ...");
 		$this_module = $currentModule;
 
@@ -672,9 +672,9 @@ class Accounts extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log;
-		global $current_user;
-                $log->debug("Entering create_export_query(".$where.") method ...");
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
+        $log->debug("Entering create_export_query(".$where.") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -716,7 +716,8 @@ class Accounts extends CRMEntity {
 	*/
 	function getColumnNames_Acnt()
 	{
-		global $log,$current_user;
+		$log = vglobal('log');
+		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Acnt() method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
@@ -753,7 +754,7 @@ class Accounts extends CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Contacts"=>"vtiger_contactdetails","Potentials"=>"vtiger_potential","Quotes"=>"vtiger_quotes",
@@ -892,7 +893,8 @@ class Accounts extends CRMEntity {
 	* returns Account hierarchy in array format
 	*/
 	function getAccountHierarchy($id) {
-		global $log, $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
+		$current_user = vglobal('current_user');
         $log->debug("Entering getAccountHierarchy(".$id.") method ...");
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
@@ -960,7 +962,7 @@ class Accounts extends CRMEntity {
 	* returns All the parent accounts of the given accountid in array format
 	*/
 	function __getParentAccounts($id, &$parent_accounts, &$encountered_accounts) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getParentAccounts(".$id.",".$parent_accounts.") method ...");
 
 		$query = "SELECT parentid FROM vtiger_account " .
@@ -1023,7 +1025,7 @@ class Accounts extends CRMEntity {
 	* returns All the child accounts of the given accountid in array format
 	*/
 	function __getChildAccounts($id, &$child_accounts, $depth) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
         $log->debug("Entering __getChildAccounts(".$id.",".$child_accounts.",".$depth.") method ...");
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
@@ -1071,7 +1073,7 @@ class Accounts extends CRMEntity {
 
 	// Function to unlink the dependent records of the given record by id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 
 		//Deleting Account related Potentials.
 		$pot_q = 'SELECT vtiger_crmentity.crmid FROM vtiger_crmentity
@@ -1146,7 +1148,7 @@ class Accounts extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Campaigns') {
@@ -1275,8 +1277,8 @@ class Accounts extends CRMEntity {
 	 */
 	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
 
-		global $currentModule, $app_strings, $singlepane_view, $current_user;
-
+		global $currentModule, $app_strings, $singlepane_view;
+		$current_user = vglobal('current_user');
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		$other = CRMEntity::getInstance($related_module);
 

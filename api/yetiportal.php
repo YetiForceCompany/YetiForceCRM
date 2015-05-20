@@ -24,8 +24,8 @@ require_once 'modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php
 ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
 
 /** Configure language for server response translation */
-global $default_language, $current_language;
-if(!isset($current_language)) $current_language = $default_language;
+$current_language = vglobal('current_language');
+if(!isset($current_language)) $current_language = vglobal('default_language');
 
 $userid = getPortalUserid();
 $user = new Users();
@@ -393,7 +393,8 @@ class Vtiger_Soap_YetiPortal {
 */
 function get_ticket_comments($input_array)
 {
-	global $adb,$log,$current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$adb = PearDatabase::getInstance();
 	$adb->println("Entering customer portal function get_ticket_comments");
 	$adb->println($input_array);
 
@@ -454,7 +455,7 @@ function _getTicketModComments($ticketId) {
 	*/
 function get_combo_values($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$adb->println("Entering customer portal function get_combo_values");
 	$adb->println($input_array);
 
@@ -548,7 +549,7 @@ function get_combo_values($input_array)
 	*/
 function get_KBase_details($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$adb->println("Entering customer portal function get_KBase_details");
 	$adb->println($input_array);
 
@@ -692,8 +693,7 @@ function get_tickets_list($input_array) {
 	require_once('modules/HelpDesk/HelpDesk.php');
 	require_once('include/utils/UserInfoUtil.php');
 
-	global $adb,$log;
-	global $current_user;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_ticket_list");
 
 	$user = new Users();
@@ -828,7 +828,7 @@ function get_tickets_list($input_array) {
 	*/
 function create_ticket($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$adb->println("Inside customer portal function create_ticket");
 	$adb->println($input_array);
 
@@ -908,7 +908,7 @@ function create_ticket($input_array)
 	*/
 function update_ticket_comment($input_array)
 {
-	global $adb,$mod_strings,$current_user;
+	global $adb,$mod_strings;
 	$adb->println("Inside customer portal function update_ticket_comment");
 	$adb->println($input_array);
 
@@ -945,7 +945,8 @@ function update_ticket_comment($input_array)
 	*/
 function close_current_ticket($input_array)
 {
-	global $adb,$mod_strings,$log,$current_user;
+	global $adb,$mod_strings,$log;
+	$current_user = vglobal('current_user');
 	require_once('modules/HelpDesk/HelpDesk.php');
 	$adb->println("Inside customer portal function close_current_ticket");
 	$adb->println($input_array);
@@ -1045,7 +1046,7 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 	*/
 function change_password($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function change_password");
 	$adb->println($input_array);
 
@@ -1079,7 +1080,7 @@ function change_password($input_array)
 	*	return string $list - empty value
 	*/
    function update_login_details($id, $sessionid, $flag) {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering customer portal function update_login_details");
 	$adb->println("INPUT ARRAY for the function update_login_details");
 
@@ -1100,7 +1101,7 @@ function change_password($input_array)
  * 	return message about the mail sending whether entered mail id is correct or not or is there any problem in mail sending
  */
 function send_mail_for_password($mailid) {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	vimport('modules.Settings.CustomerPortal.helpers.CustomerPortalPassword');
 	$log->debug("Entering customer portal function send_mail_for_password");
 	$adb->println("Inside the function send_mail_for_password($mailid).");
@@ -1161,7 +1162,7 @@ function send_mail_for_password($mailid) {
 	*/
 function get_ticket_creator($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_ticket_creator");
 	$adb->println("INPUT ARRAY for the function get_ticket_creator");
 	$adb->println($input_array);
@@ -1188,7 +1189,7 @@ function get_ticket_creator($input_array)
 	*/
 function get_picklists($input_array)
 {
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering customer portal function get_picklists");
 	$adb->println("INPUT ARRAY for the function get_picklists");
 	$adb->println($input_array);
@@ -1234,7 +1235,7 @@ function get_picklists($input_array)
 	*/
 function get_ticket_attachments($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_ticket_attachments");
 	$adb->println("INPUT ARRAY for the function get_ticket_attachments");
 	$adb->println($input_array);
@@ -1296,7 +1297,7 @@ function get_ticket_attachments($input_array)
 	*/
 function get_filecontent($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_filecontent");
 	$adb->println("INPUT ARRAY for the function get_filecontent");
 	$adb->println($input_array);
@@ -1337,7 +1338,7 @@ function get_filecontent($input_array)
 	*/
 function add_ticket_attachment($input_array)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	global $root_directory, $upload_badext;
 	$log->debug("Entering customer portal function add_ticket_attachment");
 	$adb->println("INPUT ARRAY for the function add_ticket_attachment");
@@ -1438,7 +1439,7 @@ function validateSession($id, $sessionid)
  **/
 function getServerSessionId($id)
 {
-	global $adb,$current_language;
+	global $adb;
 	$adb->println("Inside the function getServerSessionId($id)");
 
 	//To avoid SQL injection we are type casting as well as bound the id variable. In each and every function we will call this function
@@ -1463,7 +1464,7 @@ function getServerSessionId($id)
  **/
 function unsetServerSessionId($id)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function unsetServerSessionId");
 	$adb->println("Inside the function unsetServerSessionId");
 
@@ -1498,7 +1499,7 @@ function getServerSession($id){
  */
 function get_account_name($accountid)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_account_name");
 	$res = $adb->pquery("select accountname from vtiger_account where accountid=?", array($accountid));
 	$accountname=$adb->query_result($res,0,'accountname');
@@ -1512,7 +1513,7 @@ function get_account_name($accountid)
  */
 function get_contact_name($contactid)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_contact_name");
 	$contact_name = '';
 	if($contactid != '')
@@ -1535,7 +1536,7 @@ function get_contact_name($contactid)
 
 function get_check_account_id($id)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_check_account_id");
 	$res = $adb->pquery("select parentid from vtiger_contactdetails where contactid=?", array($id));
 	$accountid=$adb->query_result($res,0,'parentid');
@@ -1551,7 +1552,7 @@ function get_check_account_id($id)
 
 function get_vendor_name($vendorid)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_vendor_name");
 	$res = $adb->pquery("select vendorname from vtiger_vendor where vendorid=?", array($vendorid));
 	$name=$adb->query_result($res,0,'vendorname');
@@ -1570,7 +1571,7 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
 	checkFileAccessForInclusion('modules/'.$module.'/'.$module.'.php');
 	require_once('modules/'.$module.'/'.$module.'.php');
 	require_once('include/utils/UserInfoUtil.php');
-	global $adb,$log,$current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering customer portal function get_list_values");
 	$check = checkModuleActive($module);
 	if($check == false){
@@ -1901,7 +1902,7 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
  */
 function get_filecontent_detail($id,$folderid,$module,$customerid,$sessionid)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	global $site_URL;
 	$log->debug("Entering customer portal function get_filecontent_detail ");
 	$isPermitted = check_permission($customerid,$module,$id);
@@ -1961,7 +1962,7 @@ function get_filecontent_detail($id,$folderid,$module,$customerid,$sessionid)
  *
  */
 function updateCount($id){
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function updateCount");
 	$result = updateDownloadCount($id);
 	$log->debug("Entering customer portal function updateCount");
@@ -1973,7 +1974,7 @@ function updateCount($id){
  * Function to update the download count of a file
  */
 function updateDownloadCount($id){
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function updateDownloadCount");
 	$updateDownloadCount = "UPDATE vtiger_notes SET filedownloadcount = filedownloadcount+1 WHERE notesid = ?";
 	$countres = $adb->pquery($updateDownloadCount,array($id));
@@ -1989,7 +1990,7 @@ function updateDownloadCount($id){
 function get_pdf($id,$block,$customerid,$sessionid)
 {
 	$adb = PearDatabase::getInstance();
-	global $current_user,$log,$current_language;
+	$log = vglobal('log');
 	global $currentModule,$mod_strings,$app_strings,$app_list_strings;
 	$log->debug("Entering customer portal function get_pdf");
 	$isPermitted = check_permission($customerid,$block,$id);
@@ -2004,9 +2005,9 @@ function get_pdf($id,$block,$customerid,$sessionid)
 	$current_user = Users::getActiveAdminUser();
 
 	$currentModule = $block;
-	$app_strings = return_application_language($current_language);
-	$app_list_strings = return_app_list_strings_language($current_language);
-	$mod_strings = return_module_language($current_language, $currentModule);
+	$app_strings = return_application_language(vglobal('current_language'));
+	$app_list_strings = return_app_list_strings_language(vglobal('current_language'));
+	$mod_strings = return_module_language(vglobal('current_language'), $currentModule);
 
 	$_REQUEST['record']= $id;
 	$_REQUEST['savemode']= 'file';
@@ -2040,7 +2041,7 @@ function get_pdf($id,$block,$customerid,$sessionid)
 
 function get_salesorder_name($id)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_salesorder_name");
 	$res = $adb->pquery(" select subject from vtiger_salesorder where salesorderid=?", array($id));
 	$name=$adb->query_result($res,0,'subject');
@@ -2052,7 +2053,7 @@ function get_inventory_products($id,$module,$customerid,$sessionid)
 {
 	require_once('include/utils/UserInfoUtil.php');
 	require_once('include/utils/utils.php');
-	global $adb,$site_URL,$log,$current_user;
+	global $adb,$site_URL,$log;
 
 	$user = new Users();
 	$userid = getPortalUserid();
@@ -2073,7 +2074,7 @@ function get_invoice_detail($id,$module,$customerid,$sessionid)
 	require_once('include/utils/UserInfoUtil.php');
 	require_once('include/utils/utils.php');
 
-	global $adb,$site_URL,$log,$current_user;
+	global $adb,$site_URL,$log;
 	$log->debug("Entering customer portal function get_invoice_details $id - $module - $customerid - $sessionid");
 	$user = new Users();
 	$userid = getPortalUserid();
@@ -2164,7 +2165,7 @@ function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
 {
 	require_once('modules/Products/Products.php');
 	require_once('include/utils/UserInfoUtil.php');
-	global $current_user,$adb,$log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering customer portal function get_product_list_values ..");
 	$check = checkModuleActive($modulename);
 	if($check == false){
@@ -2299,7 +2300,7 @@ function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
  */
 function get_details($id,$module,$customerid,$sessionid)
 {
-	global $adb,$log,$current_language,$default_language,$current_user;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	require_once('include/utils/utils.php');
 	require_once('include/utils/UserInfoUtil.php');
 	$log->debug("Entering customer portal function get_details ..");
@@ -2625,7 +2626,7 @@ function get_details($id,$module,$customerid,$sessionid)
  * 			$entityid :: INT Records Id
  */
 function check_permission($customerid, $module, $entityid) {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function check_permission ..");
 	$show_all= show_all($module);
 	$allowed_contacts_and_accounts = array();
@@ -2906,7 +2907,7 @@ function check_permission($customerid, $module, $entityid) {
  */
 function get_documents($id,$module,$customerid,$sessionid)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_documents ..");
 	$check = checkModuleActive($module);
 	if($check == false){
@@ -2973,7 +2974,7 @@ function get_project_components($id,$module,$customerid,$sessionid) {
 	require_once("modules/$module/$module.php");
 	require_once('include/utils/UserInfoUtil.php');
 
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_project_components ..");
 	$check = checkModuleActive($module);
 	if($check == false) {
@@ -3051,7 +3052,7 @@ function get_project_tickets($id,$module,$customerid,$sessionid) {
 	require_once('modules/HelpDesk/HelpDesk.php');
 	require_once('include/utils/UserInfoUtil.php');
 
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_project_tickets ..");
 	$check = checkModuleActive($module);
 	if($check == false) {
@@ -3132,7 +3133,7 @@ function get_service_list_values($id,$modulename,$sessionid,$only_mine='true')
 {
 	require_once('modules/Services/Services.php');
 	require_once('include/utils/UserInfoUtil.php');
-	global $current_user,$adb,$log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering customer portal Function get_service_list_values");
 	$check = checkModuleActive($modulename);
 	if($check == false){
@@ -3287,7 +3288,7 @@ function get_service_list_values($id,$modulename,$sessionid,$only_mine='true')
  */
 function get_modules($id)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal Function get_modules");
 	getServerSessionId($id);
 	// Check if information is available in cache?
@@ -3316,7 +3317,7 @@ function get_modules($id)
  */
 function show_all($module){
 
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal Function show_all");
 	$tabid = getTabid($module);
 	if($module=='Tickets'){
@@ -3339,7 +3340,7 @@ function show_all($module){
 /* Function to get ServiceContracts information in the tickets module if the ticket is related to ServiceContracts
  */
 function getRelatedServiceContracts($crmid){
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function getRelatedServiceContracts");
 	$module = 'ServiceContracts';
 	$sc_info = array();
@@ -3370,7 +3371,7 @@ function getRelatedServiceContracts($crmid){
 
 function get_summary_widgets($id,$type)
 {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function get_summary_widgets");
 	$session = getServerSession($id);
 	$output = $allowed_contacts_and_accounts = array();
@@ -3478,7 +3479,7 @@ function get_summary_widgets($id,$type)
 
 
 function getPortalUserid() {
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 	$log->debug("Entering customer portal function getPortalUserid");
 
 	// Look the value from cache first
@@ -3497,7 +3498,7 @@ function getPortalUserid() {
 }
 
 function checkModuleActive($module){
-	global $adb,$log;
+	$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 
 	$isactive = false;
 	$modules = get_modules(true);

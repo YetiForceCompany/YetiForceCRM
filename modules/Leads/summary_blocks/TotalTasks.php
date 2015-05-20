@@ -14,7 +14,7 @@ class TotalTasks{
 	public $reference = 'Calendar';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering TotalTasks::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$activity ='SELECT COUNT(vtiger_activity.activityid) AS count

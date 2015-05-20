@@ -120,7 +120,7 @@ class VTScheduledReport extends Reports {
 	}
 
 	public function sendEmail() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		require_once 'vtlib/Vtiger/Mailer.php';
 
 		$vtigerMailer = new Vtiger_Mailer();
@@ -362,9 +362,9 @@ class VTScheduledReport extends Reports {
 		$util = new VTWorkflowUtils();
 		$adminUser = $util->adminUser();
 
-		global $currentModule, $current_language;
+		$currentModule = vglobal('currentModule');
 		if(empty($currentModule)) $currentModule = 'Reports';
-		if(empty($current_language)) $current_language = 'en_us';
+		if(empty(vglobal('current_language'))) vglobal('current_language','en_us');
 
 		$scheduledReports = self::getScheduledReports($adb, $adminUser);
 		foreach($scheduledReports as $scheduledReport) {

@@ -138,7 +138,7 @@ class Emails extends CRMEntity {
 	}
 
 	function insertIntoAttachment($id, $module) {
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -171,9 +171,9 @@ class Emails extends CRMEntity {
 	}
 
 	function saveForwardAttachments($id, $module, $file_details) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		global $upload_badext;
 		$mailbox = $_REQUEST["mailbox"];
 		$MailBox = new MailBox($mailbox);
@@ -224,7 +224,11 @@ class Emails extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
-		global $log, $singlepane_view, $currentModule, $current_user;
+		$adb = PearDatabase::getInstance();
+		$current_user = vglobal('current_user');
+		$log = vglobal('log');
+		$currentModule = vglobal('currentModule');
+		$singlepane_view = vglobal('singlepane_view');
 		$log->debug("Entering get_contacts(" . $id . ") method ...");
 		$this_module = $currentModule;
 
@@ -269,7 +273,7 @@ class Emails extends CRMEntity {
 	 * Contributor(s): Mike Crowe
 	 */
 	function getSortOrder() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -286,7 +290,7 @@ class Emails extends CRMEntity {
 	 * Contributor(s): Mike Crowe
 	 */
 	function getOrderBy() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -311,7 +315,7 @@ class Emails extends CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function get_users($id) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_users(" . $id . ") method ...");
 		$adb = PearDatabase::getInstance();
 		global $mod_strings;
@@ -340,7 +344,7 @@ class Emails extends CRMEntity {
 		$header [] = $app_strings['LBL_PHONE'];
 		while ($row = $adb->fetch_array($result)) {
 
-			global $current_user;
+			$current_user  = vglobal('current_user');
 
 			$entries = Array();
 
@@ -382,8 +386,8 @@ class Emails extends CRMEntity {
 	 * Returns a list of the Emails to be exported
 	 */
 	function create_export_query(&$order_by, &$where) {
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -425,7 +429,7 @@ class Emails extends CRMEntity {
 	 * Used to releate email and contacts -- Outlook Plugin
 	 */
 	function set_emails_contact_invitee_relationship($email_id, $contact_id) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_contact_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_contacts_table (contactid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
@@ -436,7 +440,7 @@ class Emails extends CRMEntity {
 	 * Used to releate email and salesentity -- Outlook Plugin
 	 */
 	function set_emails_se_invitee_relationship($email_id, $contact_id) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_se_invitee_relationship(" . $email_id . "," . $contact_id . ") method ...");
 		$query = "insert into $this->rel_serel_table (crmid,activityid) values(?,?)";
 		$this->db->pquery($query, array($contact_id, $email_id), true, "Error setting email to contact relationship: " . "<BR>$query");
@@ -447,7 +451,7 @@ class Emails extends CRMEntity {
 	 * Used to releate email and Users -- Outlook Plugin
 	 */
 	function set_emails_user_invitee_relationship($email_id, $user_id) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering set_emails_user_invitee_relationship(" . $email_id . "," . $user_id . ") method ...");
 		$query = "insert into $this->rel_users_table (smid,activityid) values (?,?)";
 		$this->db->pquery($query, array($user_id, $email_id), true, "Error setting email to user relationship: " . "<BR>$query");
@@ -456,7 +460,7 @@ class Emails extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 
 		$sql = 'DELETE FROM vtiger_seactivityrel WHERE activityid=? AND crmid = ?';
 		$this->db->pquery($sql, array($id, $return_id));
@@ -586,10 +590,10 @@ class Emails extends CRMEntity {
 
 //added for attach the generated pdf with email
 function pdfAttach($obj, $module, $file_name, $id) {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering into pdfAttach() method.");
 
-	global $adb, $current_user;
+	$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 	global $upload_badext;
 	$date_var = date('Y-m-d H:i:s');
 
@@ -630,7 +634,7 @@ function pdfAttach($obj, $module, $file_name, $id) {
 
 //this function check email fields profile permission as well as field access permission
 function emails_checkFieldVisiblityPermission($fieldname, $mode='readonly') {
-	global $current_user;
+	$current_user  = vglobal('current_user');
 	$ret = getFieldVisibilityPermission('Emails', $current_user->id, $fieldname, $mode);
 	return $ret;
 }

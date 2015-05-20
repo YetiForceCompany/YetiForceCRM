@@ -14,7 +14,7 @@ function HeldDeskChangeNotifyContacts($entityData) {
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
 
-	global $log;
+	$log = vglobal('log');
 	$db = PearDatabase::getInstance();
 	$log->debug("Entering HeldDeskChangeNotifyContacts");
 
@@ -70,7 +70,7 @@ function HeldDeskClosedNotifyContacts($entityData) {
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
 
-	global $log;
+	$log = vglobal('log');
 	$db = PearDatabase::getInstance();
 	$log->debug("Entering HeldDeskClosedNotifyContacts");
 

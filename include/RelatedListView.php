@@ -69,14 +69,14 @@ function GetHistoryBase($parentmodule,$query,$id)
  */
 function getPriceBookRelatedProducts($query,$focus,$returnset='')
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering getPriceBookRelatedProducts(".$query.",".get_class($focus).",".$returnset.") method ...");
 
 	$adb = PearDatabase::getInstance();
 	global $app_strings;
 	global $mod_strings;
-	global $current_language,$current_user;
-	$current_module_strings = return_module_language($current_language, 'PriceBook');
+	$current_user  = vglobal('current_user');
+	$current_module_strings = return_module_language(vglobal('current_language'), 'PriceBook');
     $no_of_decimal_places = getCurrencyDecimalPlaces();
 	global $list_max_entries_per_page;
 	global $urlPrefix;

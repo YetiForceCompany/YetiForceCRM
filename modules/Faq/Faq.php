@@ -101,7 +101,7 @@ class Faq extends CRMEntity {
  	 */
 	function insertIntoFAQCommentTable($table_name, $module)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->info("in insertIntoFAQCommentTable  ".$table_name."    module is  ".$module);
         	$adb = PearDatabase::getInstance();
 

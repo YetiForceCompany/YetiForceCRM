@@ -16,10 +16,11 @@ require_once('include/database/PearDatabase.php');
  */
 function getComboArray($combofieldNames)
 {
-	global $log,$mod_strings;
-        $log->debug("Entering getComboArray(".$combofieldNames.") method ...");
-	global $adb,$current_user;
-        $roleid=$current_user->roleid;
+	global $log, $mod_strings;
+	$log->debug("Entering getComboArray(" . $combofieldNames . ") method ...");
+	global $adb;
+	$current_user = vglobal('current_user');
+	$roleid = $current_user->roleid;
 	$comboFieldArray = Array();
 	foreach ($combofieldNames as $tableName => $arrayName)
 	{

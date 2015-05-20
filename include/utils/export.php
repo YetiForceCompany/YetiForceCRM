@@ -82,7 +82,7 @@ if ($allow_exports=='none' || ( $allow_exports=='admin' && ! is_admin($current_u
 */
 function br2nl_vt($str)
 {
-	global $log;
+	$log = vglobal('log');
 	$log->debug("Entering br2nl_vt(".$str.") method ...");
 	$str = preg_replace("/(\r\n)/", " ", $str);
 	$log->debug("Exiting br2nl_vt method ...");

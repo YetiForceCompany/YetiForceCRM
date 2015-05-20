@@ -13,7 +13,7 @@ class Settings_BackUp_SaveFTPConfig_Action extends Settings_Vtiger_Basic_Action 
 
     public function process(Vtiger_Request $request) {
         $adb = PearDatabase::getInstance();
-        global $log;
+        $log = vglobal('log');
 		$log->debug('Settings_BackUp_SaveFTPConfig_Action: process started');
 		$ftpServerName = mysql_real_escape_string($request->get('ftpservername'));
 		$ftpLogin = mysql_real_escape_string($request->get('ftplogin'));

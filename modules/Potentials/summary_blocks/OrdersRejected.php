@@ -14,7 +14,7 @@ class OrdersRejected{
 	public $reference = 'SalesOrder';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering OrdersRejected::process() method ...");
 		$adb = PearDatabase::getInstance();
 		$salesorder ='SELECT COUNT(salesorderid) as count FROM vtiger_salesorder

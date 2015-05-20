@@ -452,7 +452,7 @@
 		 * @return type
 		 */
 		function getNextTriggerTime() {
-			global $default_timezone;
+			$default_timezone = vglobal('default_timezone');
 			$admin = Users::getActiveAdminUser();
 			$adminTimeZone = $admin->time_zone;
 			@date_default_timezone_set($adminTimeZone);

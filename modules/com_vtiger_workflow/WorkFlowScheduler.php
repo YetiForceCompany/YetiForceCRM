@@ -65,7 +65,7 @@ class WorkFlowScheduler {
 	}
 
 	public function queueScheduledWorkflowTasks() {
-		global $default_timezone;
+		$default_timezone = vglobal('default_timezone');
 		$adb = $this->db;
 
 		$vtWorflowManager = new VTWorkflowManager($adb);
@@ -231,7 +231,7 @@ class WorkFlowScheduler {
 		$operation = $condition['operation'];
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
-		global $default_timezone;
+		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);

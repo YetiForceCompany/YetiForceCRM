@@ -36,7 +36,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(!is_array($fieldsName)) {
 			return $fieldValues[$fieldsName];
 		} else {
@@ -233,7 +233,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function clearSmartyCompiledFiles($path = null) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		if ($path == null) {
 			$path = $root_directory . 'cache/templates_c/';
 		}
@@ -260,7 +260,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function getSmartyCompiledTemplateFile($template_file, $path = null) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		if ($path == null) {
 			$path = $root_directory . 'cache/templates_c/';
 		}
@@ -292,7 +292,7 @@ class Vtiger_Deprecated {
 	}
 
 	static function checkFileAccessForInclusion($filepath) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
 		if (empty($use_root_directory)) {
@@ -315,7 +315,7 @@ class Vtiger_Deprecated {
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			global $log;
+			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die(Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '" . $realfilepath . "'"));
 		}
@@ -323,7 +323,7 @@ class Vtiger_Deprecated {
 
 	/** Function to check the file deletion within the deletable (safe) directories*/
 	static function checkFileAccessForDeletion($filepath) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
 		if (empty($use_root_directory)) {
@@ -346,7 +346,7 @@ class Vtiger_Deprecated {
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			global $log;
+			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
 		}
@@ -356,7 +356,7 @@ class Vtiger_Deprecated {
 	/** Function to check the file access is made within web root directory. */
 	static function checkFileAccess($filepath) {
 		if (!self::isFileAccessible($filepath)) {
-			global $log;
+			$log = vglobal('log');
 			$log->error(__CLASS__ . ':' . __FUNCTION__ . '('.$filepath.') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			die( Vtiger_Functions::throwNewException("Sorry! Attempt to access restricted file. '".$realfilepath."'") );
 		}
@@ -370,7 +370,7 @@ class Vtiger_Deprecated {
 	 * @return Boolean true if file is a valid file within vtiger root directory, false otherwise.
 	 */
 	static function isFileAccessible($filepath) {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		// Set the base directory to compare with
 		$use_root_directory = $root_directory;
 		if (empty($use_root_directory)) {

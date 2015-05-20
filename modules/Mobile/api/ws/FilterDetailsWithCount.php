@@ -14,7 +14,7 @@ include_once 'modules/CustomView/CustomView.php';
 class Mobile_WS_FilterDetailsWithCount extends Mobile_WS_FetchModuleFilters {
 	
 	function process(Mobile_API_Request $request) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		
 		$response = new Mobile_API_Response();
 

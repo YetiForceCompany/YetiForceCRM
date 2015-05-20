@@ -182,7 +182,7 @@ class Quotes extends CRMEntity {
 	 */
 	function get_quotestagehistory($id)
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering get_quotestagehistory(".$id.") method ...");
 
 		$adb = PearDatabase::getInstance();
@@ -201,7 +201,7 @@ class Quotes extends CRMEntity {
 
 		//Getting the field permission for the current user. 1 - Not Accessible, 0 - Accessible
 		//Account Name , Total are mandatory fields. So no need to do security check to these fields.
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		//If field is accessible then getFieldVisibilityPermission function will return 0 else return 1
 		$quotestage_access = (getFieldVisibilityPermission('Quotes', $current_user->id, 'quotestage') != '0')? 1 : 0;
@@ -335,7 +335,7 @@ class Quotes extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts' ) {
@@ -392,8 +392,8 @@ class Quotes extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log;
-		global $current_user;
+		$log = vglobal('log');
+		$current_user  = vglobal('current_user');
 		$log->debug("Entering create_export_query(".$where.") method ...");
 
 		include("include/utils/ExportUtils.php");

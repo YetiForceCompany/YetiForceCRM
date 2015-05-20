@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 	function SaveInventory(&$focus, $module, $update_prod_stock='false', $updateDemand='')
 {
-	global $log, $adb;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$id=$focus->id;
 	$log->debug("Entering into function SaveInventory($module).");
 	//Added to get the convertid

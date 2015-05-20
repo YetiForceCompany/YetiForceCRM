@@ -369,7 +369,7 @@ class ModTracker {
 	}
 
     static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type) {
-        global $adb, $current_user;
+        $adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
         $currentTime = date('Y-m-d H:i:s');
 
         $id = $adb->getUniqueId('vtiger_modtracker_basic');

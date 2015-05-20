@@ -12,7 +12,7 @@
 require_once('vtlib/Vtiger/Cron.php');
 require_once ('include/utils/utils.php');
 
-global $theme,$app_strings,$mod_strings,$current_language;
+global $theme,$app_strings,$mod_strings;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
 $smarty = new vtigerCRM_Smarty;
@@ -60,7 +60,7 @@ foreach ($cronTasks as $cronTask) {
 }
 
 $smarty->assign("CRON",$output);
-$smarty->assign("MOD", return_module_language($current_language,'CronTasks'));
+$smarty->assign("MOD", return_module_language(vglobal('current_language'),'CronTasks'));
 $smarty->assign("MIN_CRON_FREQUENCY",getMinimumCronFrequency());
 $smarty->assign("THEME", $theme);
 $smarty->assign("IMAGE_PATH",$image_path);

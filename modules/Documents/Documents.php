@@ -167,7 +167,7 @@ class Documents extends CRMEntity {
 	*/
 	function insertIntoAttachment($id,$module)
 	{
-		global $log, $adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -189,7 +189,7 @@ class Documents extends CRMEntity {
 	*/
 	function getSortOrder()
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getSortOrder() method ...");
 		if(isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -204,7 +204,7 @@ class Documents extends CRMEntity {
 	*/
 	function getOrderBy()
 	{
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
@@ -262,7 +262,7 @@ class Documents extends CRMEntity {
 	*/
 	function create_export_query($where)
 	{
-		global $log,$current_user;
+		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$log->debug("Entering create_export_query(". $where.") method ...");
 
 		include("include/utils/ExportUtils.php");
@@ -383,7 +383,7 @@ class Documents extends CRMEntity {
 
 	// Function to unlink all the dependent entities of the given Entity by Id
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 		/*//Backup Documents Related Records
 		$se_q = 'SELECT crmid FROM vtiger_senotesrel WHERE notesid = ?';
 		$se_res = $this->db->pquery($se_q, array($id));
@@ -403,7 +403,7 @@ class Documents extends CRMEntity {
 
 	// Function to unlink an entity with given Id from another entity
 	function unlinkRelationship($id, $return_module, $return_id) {
-		global $log;
+		$log = vglobal('log');
 		if(empty($return_module) || empty($return_id)) return;
 
 		if($return_module == 'Accounts') {
@@ -423,7 +423,7 @@ class Documents extends CRMEntity {
 // Function to get fieldname for uitype 27 assuming that documents have only one file type field
 
 	function getFileTypeFieldName(){
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = getTabid('Documents');
 		$filetype_uitype = 27;
@@ -442,7 +442,7 @@ class Documents extends CRMEntity {
 //	Function to get fieldname for uitype 28 assuming that doc has only one file upload type
 
 	function getFile_FieldName(){
-		global $adb,$log;
+		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 		$query = 'SELECT fieldname from vtiger_field where tabid = ? and uitype = ?';
 		$tabid = getTabid('Documents');
 		$filename_uitype = 28;

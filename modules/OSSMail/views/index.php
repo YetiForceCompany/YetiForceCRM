@@ -33,7 +33,7 @@ class OSSMail_index_View extends Vtiger_Index_View{
 						$rcl->login($rcUser['username'], $rcUser['password']);
 					}
 				} catch (RoundcubeLoginException $ex) {
-					global $log;
+					$log = vglobal('log');
 					$log->error('OSSMail_index_View|RoundcubeLoginException: '.$ex->getMessage());
 				}
 			}

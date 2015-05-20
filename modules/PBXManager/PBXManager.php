@@ -125,7 +125,7 @@ class PBXManager extends CRMEntity {
      * To add a phone extension field in user preferences page 
      */
     function addUserExtensionField(){
-        global $log;
+        $log = vglobal('log');
         $module = Vtiger_Module::getInstance('Users');
         if ($module) {
             $module->initTables();
@@ -146,7 +146,7 @@ class PBXManager extends CRMEntity {
      * To register phone lookup events 
      */
     function registerLookupEvents(){
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $EventManager = new VTEventsManager($adb);
         $createEvent = 'vtiger.entity.aftersave';
@@ -169,7 +169,7 @@ class PBXManager extends CRMEntity {
      * To add PBXManager module in module($this->dependentModules) related lists
     */
     function setModuleRelatedDependencies(){
-        global $log;
+        $log = vglobal('log');
         $pbxmanager = Vtiger_Module::getInstance('PBXManager');
         foreach ($this->dependentModules as $module) {
             $moduleInstance = Vtiger_Module::getInstance($module);
@@ -182,7 +182,7 @@ class PBXManager extends CRMEntity {
      * To remove PBXManager module from module($this->dependentModules) related lists
     */
     function unsetModuleRelatedDependencies(){
-        global $log;
+        $log = vglobal('log');
         $pbxmanager = Vtiger_Module::getInstance('PBXManager');
         foreach ($this->dependentModules as $module) {
             $moduleInstance = Vtiger_Module::getInstance($module);
@@ -195,7 +195,7 @@ class PBXManager extends CRMEntity {
      * To unregister phone lookup events 
      */
     function unregisterLookupEvents(){
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $EventManager = new VTEventsManager($adb);
         $className = 'PBXManagerHandler';
@@ -209,7 +209,7 @@ class PBXManager extends CRMEntity {
      * To add a link in vtiger_links which is to load our PBXManagerJS.js 
      */
      function addLinksForPBXManager() {
-         global $log;
+         $log = vglobal('log');
         $handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
             'class' => 'PBXManager',
             'method' => 'checkLinkPermission');
@@ -222,7 +222,7 @@ class PBXManager extends CRMEntity {
      * To remove link for PBXManagerJS.js from vtiger_links
      */
     function removeLinksForPBXManager() {
-        global $log;
+        $log = vglobal('log');
         //Deleting Headerscripts links
         Vtiger_Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel,'modules/PBXManager/resources/PBXManagerJS.js');
         $log->fatal('Links Removed');
@@ -232,7 +232,7 @@ class PBXManager extends CRMEntity {
      * To add Integration->PBXManager block in Settings page
     */
     function addSettingsLinks(){
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?',array('LBL_INTEGRATION'));
         $integrationBlockCount = $adb->num_rows($integrationBlock);
@@ -260,7 +260,7 @@ class PBXManager extends CRMEntity {
      * To delete Integration->PBXManager block in Settings page
     */
     function removeSettingsLinks(){
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
         $log->fatal('Settings Field Removed');
@@ -271,7 +271,7 @@ class PBXManager extends CRMEntity {
      * To enable(ReceiveIncomingCall & MakeOutgoingCall) tool in profile
      */
      function addActionMapping() {
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $module = new Vtiger_Module();
         $moduleInstance = $module->getInstance('PBXManager');
@@ -301,7 +301,7 @@ class PBXManager extends CRMEntity {
      * To remove(ReceiveIncomingCall & MakeOutgoingCall) tool from profile
      */
     function removeActionMapping() {
-        global $log;
+        $log = vglobal('log');
         $adb = PearDatabase::getInstance();
         $module = new Vtiger_Module();
         $moduleInstance = $module->getInstance('PBXManager');

@@ -168,7 +168,7 @@ class VTUpdateFieldsTask extends VTTask {
 
 	//Function use to convert the field value in to current user format
 	public function convertValueToUserFormat($fieldObj, $fieldValue) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(!empty ($fieldObj)) {
 			// handle the case for Date field
 			if($fieldObj->getFieldDataType()=="date") {

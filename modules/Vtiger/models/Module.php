@@ -1509,7 +1509,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	}
 
 	public function transferRecordsOwnership($transferOwnerId, $relatedModuleRecordIds){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$user_id = $current_user->id;
 
 		$db = PearDatabase::getInstance();

@@ -11,7 +11,7 @@
 class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();

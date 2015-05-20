@@ -33,7 +33,7 @@ class Calendar_RepeatEvents {
 	 * Based on user time format convert the YYYY-MM-DD HH:MM value.
 	 */
 	static function formattime($timeInYMDHIS) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$format_string = 'Y-m-d H:i';
 		switch($current_user->date_format) {
 			case 'dd-mm-yyyy': $format_string = 'd-m-Y H:i'; break;
@@ -177,7 +177,6 @@ class Calendar_RepeatEvents {
 	}
 
 	static function repeatFromRequest($focus) {
-		global $log, $default_charset, $current_user;
 		$recurObj = getrecurringObjValue();
 		self::repeat($focus, $recurObj);
 	}

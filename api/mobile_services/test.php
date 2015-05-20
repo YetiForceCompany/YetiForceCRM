@@ -12,7 +12,7 @@ class Test{
 	public $restler;
 	
 	function post($app_name = ''){
-		global $log,$adb;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->info('Start Test metod');
 		$return = 'false';
 		if ($app_name == 'PushCall')

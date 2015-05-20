@@ -34,7 +34,7 @@ class VTWSEntityType{
 	}
 	
 	function usingGlobalCurrentUser($entityTypeName){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		return new VTWSEntityType($entityTypeName, $current_user);
 		
 		

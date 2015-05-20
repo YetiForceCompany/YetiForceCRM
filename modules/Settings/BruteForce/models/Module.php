@@ -150,7 +150,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	}
 
 	public static function sendNotificationEmail() {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Start " . __CLASS__ . "::" . __METHOD__);
 		$usersId = self::getUsersForNotifications();
 		if (count($usersId) == 0) {

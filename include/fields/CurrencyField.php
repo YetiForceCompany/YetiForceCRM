@@ -141,7 +141,7 @@ class CurrencyField {
      * @return Formatted Currency
      */
     public function getDisplayValue($user=null, $skipConversion=false, $skipFormatting=false) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
 		if(empty($user)) {
 			$user = $current_user;
 		}
@@ -177,7 +177,7 @@ class CurrencyField {
      * @return Currency value appended with the currency symbol
      */
 	public static function appendCurrencySymbol($currencyValue, $currencySymbol, $currencySymbolPlacement='') {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if(empty($currencySymbolPlacement)) {
 			$currencySymbolPlacement = $current_user->currency_symbol_placement;
 		}
@@ -347,7 +347,7 @@ class CurrencyField {
      * @return Number
      */
     public function getDBInsertedValue($user=null, $skipConversion=false) {
-        global $current_user;
+        $current_user  = vglobal('current_user');
         if(empty($user)) {
             $user = $current_user;
         }
@@ -417,7 +417,7 @@ class CurrencyField {
 	}
 	
 	function currencyDecimalFormat($value, $user = null){
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if (!$user) {
 			$user = $current_user;
 		}

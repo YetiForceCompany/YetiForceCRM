@@ -11,7 +11,7 @@
 class Settings_FinancialProcesses_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering Settings_FinancialProcesses_Index_View::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);

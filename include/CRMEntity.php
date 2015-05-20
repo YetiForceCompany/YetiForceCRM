@@ -60,7 +60,7 @@ class CRMEntity {
 	}
 
 	function saveentity($module, $fileid = '') {
-		global $current_user, $adb; //$adb added by raju for mass mailing
+		global $adb; //$adb added by raju for mass mailing
 		$insertion_mode = $this->mode;
 
 		$columnFields = $this->column_fields;
@@ -118,12 +118,12 @@ class CRMEntity {
 	 *      return void
 	 */
 	function uploadAndSaveFile($id, $module, $file_details) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$file_details) method.");
 
-		global $adb, $current_user;
+		global $adb;
 		global $upload_badext;
-
+		$current_user  = vglobal('current_user');
 		$date_var = date("Y-m-d H:i:s");
 
 		//to get the owner id
@@ -217,8 +217,8 @@ class CRMEntity {
 	 */
 	function insertIntoCrmEntity($module, $fileid = '') {
 		$adb = PearDatabase::getInstance();
-		global $current_user;
-		global $log;
+		$current_user  = vglobal('current_user');
+		$log = vglobal('log');
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -314,7 +314,7 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function insertIntoEntityTable($table_name, $module, $fileid = '') {
-		global $log;
+		$log = vglobal('log');
 		global $current_user, $app_strings;
 		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
 		$adb = PearDatabase::getInstance();
@@ -630,7 +630,7 @@ class CRMEntity {
 	 * returns the 'filename'
 	 */
 	function getOldFileName($notesid) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("in getOldFileName  " . $notesid);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
@@ -789,7 +789,7 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function save($module_name, $fileid = '') {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("module name is " . $module_name);
 
 		//Event triggering code
@@ -922,7 +922,7 @@ class CRMEntity {
 	 * Contributor(s): ______________________________________..
 	 */
 	function mark_deleted($id) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$date_var = date("Y-m-d H:i:s");
 		$query = "UPDATE vtiger_crmentity set deleted=1,modifiedtime=?,modifiedby=? where crmid=?";
 		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
@@ -1041,7 +1041,7 @@ class CRMEntity {
 	 * @return Column value of the field.
 	 */
 	function get_column_value($columnname, $fldvalue, $fieldname, $uitype, $datatype = '') {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering function get_column_value ($columnname, $fldvalue, $fieldname, $uitype, $datatype='')");
 
 		// Added for the fields of uitype '57' which has datatype mismatch in crmentity table and particular entity table
@@ -1176,7 +1176,7 @@ class CRMEntity {
 
 	/** Function to unlink all the dependent entities of the given Entity by Id */
 	function unlinkDependencies($module, $id) {
-		global $log;
+		$log = vglobal('log');
 
 		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', array($module));
@@ -1309,7 +1309,7 @@ class CRMEntity {
 	 * Function to initialize the sortby fields array
 	 */
 	function initSortByField($module) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function initSortByField ($module)");
 		// Define the columnname's and uitype's which needs to be excluded
 		$exclude_columns = Array('parent_id', 'quoteid', 'vendorid', 'access_count');
@@ -1427,7 +1427,7 @@ class CRMEntity {
 	// END
 
 	function updateMissingSeqNumber($module) {
-        global $log, $adb;
+        $adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entered updateMissingSeqNumber function");
 
 		vtlib_setup_modulevars($module, $this);
@@ -1734,7 +1734,7 @@ class CRMEntity {
 	 * From a given Contact/Account if we need to fetch all such dependent trouble tickets, get_dependents_list function can be used.
 	 */
 	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
-		global $currentModule, $app_strings, $singlepane_view, $current_user;
+		$app_strings = vglobal('app_strings'); $current_user = vglobal('current_user'); $singlepane_view = vglobal('singlepane_view'); $currentModule = vglobal('currentModule');
 		
 		$current_module = vtlib_getModuleNameById($cur_tab_id);
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
@@ -1822,7 +1822,7 @@ class CRMEntity {
 	 * @param Integer Id of the the Record to which the related records are to be moved
 	 */
 	function transferRelatedRecords($module, $transferEntityIds, $entityId) {
-		global $adb, $log;
+		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$log->debug("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 		foreach ($transferEntityIds as $transferId) {
 
@@ -2067,7 +2067,7 @@ class CRMEntity {
 
 	function getListViewSecurityParameter($module) {
 		$tabid = getTabid($module);
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		if ($current_user) {
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
@@ -2175,8 +2175,8 @@ class CRMEntity {
 	 * @param string fieldname - the related to field name
 	 */
 	function add_related_to($module, $fieldname) {
-		global $adb, $imported_ids, $current_user;
-
+		global $adb, $imported_ids;
+		$current_user  = vglobal('current_user');
 		$related_to = $this->column_fields[$fieldname];
 
 		if (empty($related_to)) {
@@ -2387,7 +2387,7 @@ class CRMEntity {
 	}
 	function getUserAccessConditionsQuerySR($module, $current_user = false) {
 		if($current_user == false)
-			global $current_user;
+			$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 		global $shared_owners;
@@ -2567,7 +2567,7 @@ class CRMEntity {
 	 * Function to track when a new record is linked to a given record
 	 */
 	function trackLinkedInfo($module, $crmid, $with_module, $with_crmid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 
@@ -2586,7 +2586,7 @@ class CRMEntity {
 	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
 	 */
 	function getSortOrder() {
-		global $log,$currentModule;
+		$log = vglobal('log'); $currentModule = vglobal('currentModule');
 		$log->debug("Entering getSortOrder() method ...");
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -2640,7 +2640,7 @@ class CRMEntity {
 	 * Function to track when a record is unlinked to a given record
 	 */
 	function trackUnLinkedInfo($module, $crmid, $with_module, $with_crmid) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
 

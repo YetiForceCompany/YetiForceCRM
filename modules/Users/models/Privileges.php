@@ -174,7 +174,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	}
 
 	function CheckPermissionsToEditView($moduleName, $record) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("Entering Into fn CheckPermissionsToEditView($moduleName, $record)");
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currentUserId = $currentUserModel->getId();
@@ -209,7 +209,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * Function to set Shared Owner
 	 */
 	public function setAllSharedOwner($userid, $delete = false) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("Entering Into fn setAllSharedOwner($userid, $delete)");
 		$db = PearDatabase::getInstance();
 		$allSharedOwner = self::getAllSharedOwner();
@@ -231,7 +231,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * Function to get Shared Owner from record
 	 */
 	public function getSharedOwner($record) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("Entering Into fn getSharedOwner($record)");
 		$db = PearDatabase::getInstance();
 		$sharedOwner = Vtiger_Cache::get('SharedOwner',$record);
@@ -250,7 +250,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * Function to get All Shared Owner from record
 	 */
 	public function getAllSharedOwner() {
-		global $log;
+		$log = vglobal('log');
 		$log->info("Entering Into fn getAllSharedOwner()");
 		$db = PearDatabase::getInstance();
 		$result = $db->query("SHOW COLUMNS FROM `vtiger_crmentity` WHERE `Field` = 'shownerid'");
@@ -265,7 +265,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * Function to get set Shared Owner Recursively
 	 */
 	public function setSharedOwnerRecursively( $recordId , $addUser, $removeUser, $moduleName ) {
-		global $log;
+		$log = vglobal('log');
 		$db = PearDatabase::getInstance();
 		$log->info("Entering Into fn setSharedOwnerRecursively( $recordId , $addUser, $removeUser, $moduleName )");
 		$records = self::getSharedRecordsRecursively( $recordId, $moduleName );
@@ -290,7 +290,7 @@ class Users_Privileges_Model extends Users_Record_Model {
 	 * Function to get set Shared Owner Recursively
 	 */
 	public function getSharedRecordsRecursively( $recordId, $moduleName ) {
-		global $log;
+		$log = vglobal('log');
 		$log->info("Entering Into fn getSharedRecordsRecursively( $recordId, $moduleName )");
 		$db = PearDatabase::getInstance();
 		$modulesSchema = array();

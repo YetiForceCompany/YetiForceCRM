@@ -23,7 +23,7 @@ require_once('include/utils/GetGroupUsers.php');
 
 function createUserPrivilegesfile($userid)
 {
-	global $root_directory;
+	$root_directory = vglobal('root_directory');
 	$handle=@fopen($root_directory.'user_privileges/user_privileges_'.$userid.'.php',"w+");
 
 	if($handle)

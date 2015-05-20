@@ -101,7 +101,7 @@ class ModCommentsCore extends CRMEntity {
 	}
 
 	function getSortOrder() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
 		if($_REQUEST['sorder']) $sortorder = $this->db->sql_escape_string($_REQUEST['sorder']);
@@ -112,7 +112,7 @@ class ModCommentsCore extends CRMEntity {
 	}
 
 	function getOrderBy() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$use_default_order_by = '';
 		if(PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
@@ -186,7 +186,7 @@ class ModCommentsCore extends CRMEntity {
 				$joinedTables[] = $other->table_name;
 			}
 		}
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		//$query .= getNonAdminAccessControlQuery($module, $current_user);
 		$query .= "	WHERE vtiger_crmentity.deleted = 0 ";
 		if($usewhere) {
@@ -202,7 +202,7 @@ class ModCommentsCore extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -248,7 +248,7 @@ class ModCommentsCore extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 
 		include("include/utils/ExportUtils.php");
 

@@ -2,7 +2,7 @@
 include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
-global $adb, $log;
+$adb = PearDatabase::getInstance(); $log = vglobal('log');
 $log = &LoggerManager::getLogger('SendReminder');
 $log->debug(" Start SendReminder ");
 

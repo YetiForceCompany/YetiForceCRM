@@ -16,7 +16,7 @@ class RequirementCards_Record_Model extends Vtiger_Record_Model {
 	 * @param parent record model
 	 */
 	function setRecordFieldValues($parentRecordModel) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering RequirementCards_Record_Model::setRecordFieldValues() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$parentModuleName = $parentRecordModel->getModuleName();

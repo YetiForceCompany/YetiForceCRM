@@ -2,7 +2,7 @@
 include_once 'include/main/WebUI.php';
 $current_user = Users::getActiveAdminUser();
 
-global $adb, $log;
+$adb = PearDatabase::getInstance(); $log = vglobal('log');
 $log->info('Cron BackUp - Start backup');
 // Backup database
 Settings_BackUp_Module_Model::cronBackUp();

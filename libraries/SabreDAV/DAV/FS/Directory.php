@@ -128,7 +128,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota {
      * @return array
      */
     function getQuotaInfo() {
-		global $root_directory;
+		$root_directory = vglobal('root_directory');
 		$path = $root_directory.$this->path;
         return [
             disk_total_space($path)-disk_free_space($path),

@@ -11,7 +11,7 @@
 class API_CalDAV_Handler extends VTEventHandler {
 	function handleEvent($eventName, $entityData) {
 		if($eventName == 'vtiger.entity.aftersave.final') {
-			global $log, $adb;
+			$adb = PearDatabase::getInstance(); $log = vglobal('log');
 			$recordId = $entityData->getId();
 			$moduleName = $entityData->getModuleName();
 			$isNew = $entityData->isNew();

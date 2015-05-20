@@ -19,7 +19,7 @@ class VTAddressBookTask extends VTTask {
 		return array('test');
 	}
 	public function doTask($entity){
-		global $adb, $current_user;
+		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userID = $currentUserModel->getId();
 		

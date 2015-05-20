@@ -14,7 +14,7 @@ class SumTimeCalculation{
 	public $reference = 'OSSTimeControl';
 	
     public function process( $instance ) {
-		global $log;
+		$log = vglobal('log');
 		$log->debug("Entering SumTimeCalculation::process() method ...");
 		$sum_time = Vtiger_Functions::decimalTimeFormat( $instance->get('sum_time_k') );
 		$log->debug("Exiting SumTimeCalculation::process() method ...");

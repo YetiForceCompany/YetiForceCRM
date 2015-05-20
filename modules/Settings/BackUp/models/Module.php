@@ -269,7 +269,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 	
     public function newBackUp() {
-        global $log;
+        $log = vglobal('log');
         $log->info('New db backup start');
         $now = date('Ymd-His');
         self::setStartTmpBackupInfo($now);
@@ -366,7 +366,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
     }
     public function endDBBackUp($fileName) {
         $adb = PearDatabase::getInstance();
-        global $log;
+        $log = vglobal('log');
         self::createZip($fileName);
         self::deleteFile($fileName . '.sql');
         $adb->pquery("Update vtiger_backup_db_tmp_info SET backup_db  = ? WHERE file_name  = ?", array(TRUE, $fileName));
@@ -376,7 +376,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
         return $result;
     }
     public function pendingBackUp($fileName, $tablesName) {
-        global $log;
+        $log = vglobal('log');
         $log->info('Create SQL Statement');
 		self::createBackUpSQLStatement($tablesName, $fileName);
         $percentage = self::getPercentageDBBackUp();
@@ -427,7 +427,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function sendBackupToFTP($backUpPath, $backupFile){
-		global $log;
+		$log = vglobal('log');
 		$ftp = self::getFTPSettings();
 		
 		if(TRUE == $ftp['active'] && TRUE == $ftp['status']){
@@ -502,7 +502,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public static function sendNotificationEmail(){
-		global $log;
+		$log = vglobal('log');
 		$usersId = self::getUsersForNotifications();
 		if($usersId){
 			foreach ($usersId as $id) {     
@@ -529,7 +529,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 	}
 
 	public function updateSettings($params){
-		global $log;
+		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$params['val'], $params['param']]);

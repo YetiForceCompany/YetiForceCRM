@@ -29,8 +29,8 @@ require_once 'include/utils/VTCacheUtils.php';
 function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$cc='',$bcc='',$attachment='',$emailid='',$logo='', $useGivenFromEmailAddress=false, $attachmentSrc = array())
 {
 
-	global $adb, $log;
-	global $root_directory;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$root_directory = vglobal('root_directory');
 	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
 	$uploaddir = $root_directory ."/cache/upload/";
@@ -418,7 +418,7 @@ function setCCAddress($mail,$cc_mod,$cc_val)
   *	$mail -- reference of the mail object
   */
 function MailSend($mail){
-	global $log;
+	$log = vglobal('log');
 	$log->info("Inside of Send Mail function.");
 	if(!$mail->Send()){
 		$log->error("Error in Mail Sending: '".$mail->ErrorInfo."'");
@@ -474,7 +474,7 @@ function getMailError($mail,$mail_status,$to)
 	provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	connect_host, recipients_failed, from_failed
 	*/
-	global $log;
+	$log = vglobal('log');
 	$log->info("Inside the function getMailError");
 
 	$msg = array_search($mail_status,$mail->language);

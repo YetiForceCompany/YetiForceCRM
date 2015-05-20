@@ -323,7 +323,7 @@ class ListViewController {
                         $value = '<a class="urlField cursorPointer" title="'.$rawValue.'" href="http://'.$rawValue.'" target="_blank">'.textlength_check($value).'</a>';
                     }
 				} elseif ($field->getFieldDataType() == 'email') {
-					global $current_user;
+					$current_user  = vglobal('current_user');
 					if($current_user->internal_mailer == 1){
 						//check added for email link in user detailview
 						$value = "<a class='emailField' onclick=\"Vtiger_Helper_Js.getInternalMailer($recordId,".

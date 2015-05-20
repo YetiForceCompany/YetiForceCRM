@@ -194,7 +194,7 @@
 		}
 		
 		function sanitizeReferences($row,$meta){
-			global $adb,$log;
+			$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
 			$references = $meta->getReferenceFieldDetails();
 			foreach($references as $field=>$typeList){
 				if(strtolower($meta->getEntityName()) == "emails"){
@@ -246,7 +246,7 @@
 		}
 
 		function sanitizeDateFieldsForInsert($row,$meta){
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$moduleFields = $meta->getModuleFields();
 			foreach($moduleFields as $fieldName=>$fieldObj){
 				if($fieldObj->getFieldDataType()=="date"){
@@ -260,7 +260,7 @@
 		}
 
 		function sanitizeCurrencyFieldsForInsert($row,$meta){
-			global $current_user;
+			$current_user  = vglobal('current_user');
 			$moduleFields = $meta->getModuleFields();
 			foreach($moduleFields as $fieldName=>$fieldObj){
 				if($fieldObj->getFieldDataType()=="currency" && !empty($row[$fieldName])) {

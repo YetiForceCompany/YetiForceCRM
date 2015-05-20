@@ -19,7 +19,7 @@ require_once 'include/runtime/Cache.php';
  * $fieldlist = Array(Array('fieldlabel'=>$fieldlabel,'generatedtype'=>$generatedtype,'columnname'=>$columnname,'fieldname'=>$fieldname,'value'=>picklistvalues))
  */
 function getUserFldArray($fld_module,$roleid){
-	global $adb, $log;
+	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$user_fld = Array();
 	$tabid = getTabid($fld_module);
 

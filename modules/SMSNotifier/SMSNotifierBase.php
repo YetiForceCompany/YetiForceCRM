@@ -101,7 +101,7 @@ class SMSNotifierBase extends CRMEntity {
 	}
 
 	function getSortOrder() {
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
 		if($_REQUEST['sorder']) $sortorder = $_REQUEST['sorder'];
@@ -181,7 +181,7 @@ class SMSNotifierBase extends CRMEntity {
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	function getListViewSecurityParameter($module) {
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
@@ -227,7 +227,7 @@ class SMSNotifierBase extends CRMEntity {
 	 */
 	function create_export_query($where)
 	{
-		global $current_user;
+		$current_user  = vglobal('current_user');
 		$thismodule = $_REQUEST['module'];
 
 		include("include/utils/ExportUtils.php");
