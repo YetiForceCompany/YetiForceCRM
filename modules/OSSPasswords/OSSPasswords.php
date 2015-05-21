@@ -395,7 +395,7 @@ class OSSPasswords extends CRMEntity {
 				0, 'sequence') + 1;
 			$fieldid = $adb->getUniqueId('vtiger_settings_field');
 			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,$displayLabel,'migrate.gif','Update configuration file of the application', 
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,$displayLabel,'migrate.gif','LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION', 
                 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings'));
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
