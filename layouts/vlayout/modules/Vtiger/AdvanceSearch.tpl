@@ -16,7 +16,7 @@
                 <strong class="pull-right pushDown">{vtranslate('LBL_SEARCH_IN',$MODULE)}</strong>
             </div>
             <div class="span7 ">
-                <select class="chzn-select pushDown" id="searchModuleList" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
+                <select class="chzn-select pushDown" id="searchModuleList" title="{vtranslate('LBL_SELECT_MODULE')}" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
                     <option></option>
                     {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
                         <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SOURCE_MODULE}selected="selected"{/if}>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
