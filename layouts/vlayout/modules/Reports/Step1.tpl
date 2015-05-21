@@ -206,7 +206,8 @@
                                 <optgroup label="{vtranslate('Roles', 'Roles')}">
                                     {foreach key=ROLE_ID item=ROLE_OBJ from=$ROLES}
                                         {assign var=ROLEID value="ROLE::{$ROLE_ID}"}
-                                        <option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>{$ROLE_OBJ->get('rolename')}</option>
+                                        <option value="{$ROLEID}" {if is_array($recipients) && in_array($ROLEID, $recipients)} selected {/if} data-picklistvalue= '{$ROLE_OBJ->get('rolename')}'>
+										{vtranslate($ROLE_OBJ->get('rolename'))}</option>
                                     {/foreach}
                                 </optgroup>
                             </select>
