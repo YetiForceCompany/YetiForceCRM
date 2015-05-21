@@ -90,6 +90,24 @@ $languageStrings = [
 	'Office work'	=>	'Работа в офисе',
 	'Administrative work'	=>	'Административная работа',
 	'Accounting work'	=>	'Учет рабочего времени',
+	
+	//widget
+	'LBL_Holidays'	=>	'Отпуск',
+	'LBL_YEAR'	=>	'Год:',
+	'LBL_Used_Entitled'	=>	'Используется / Под названием:',
+	'LBL_DAYS'	=>	'дней',
+	'Brak danych'	=>	'Нет данных',
+
+	'LBL_DAYWORKSUM'	=>	'Время работы',
+	'LBL_ALLDAYS_INFO' => 'Все дни',
+	'LBL_WEEKENDDAYS_INFO' => 'Выходные дни',
+	'LBL_ECCLESIASTICAL_INFO' => 'Всего церковных дней',
+	'LBL_NATIONAL_INFO' => 'Всего национальных праздников',
+	'LBL_WORKEDDAYS_INFO' => 'Всего рабочих дней',
+	'LBL_HOLIDAYDAYS_INFO' => 'Всего дней отпуска',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Средняя продолжительность рабочего времени',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Средняя продолжительность перерыва',
+	'LBL_WORKDAYS_INFO' => 'Рабочих дней',
 ];
 $jsLanguageStrings = [
 	'LBL_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания не может быть меньше, чем дата начала',
