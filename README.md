@@ -18,7 +18,7 @@ Below you can see how we improve our project with each new version:
 
 #YetiForce 2.0 (under development)
 
-The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCompany/YetiForceCRM/commit/7a1c10b435fa6e782bf0eaafc6917f0b5a3882ee) revision. 
+The following changes are up to 1.4.492 - [#899] (https://github.com/YetiForceCompany/YetiForceCRM/commit/d56893646a8c882f7720cd46d826aba3877346ea) revision. 
 
 
 **Bug Fixes:** 
@@ -64,6 +64,7 @@ The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCo
 -	Fixed the display of Gantt chart.
 -	Fixed the display of page header.
 -	Fixed the display of the number of records.
+-	Fixed the display of widgets on Project summary view.
 -	Fixed a reply function in emails.
 -	Fixed a function responsible for adding tasks in emails. 
 -	Fixed save of Project Tasks.
@@ -87,6 +88,7 @@ The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCo
 -	Fixed Fatal Error that appeared during the installation process [#710] (https://github.com/YetiForceCompany/YetiForceCRM/issues/710)
 -	Fixed verification of configuration.
 -	Fixed filtering of widgets summary.
+-	Fixed saving of text fields. 
 
 
 **Improvements:**
@@ -110,8 +112,10 @@ The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCo
 -	Added checking if contact and record owner agreed to get emails.
 -	Added a possibility to remove a webdav account.
 -	Changed the order of fields in a quick create window for contacts.
+-	Changed the display of notifications.
 -	Added verification of duplicates in workflow 'Create To Do/Task'.
 -	Removed a field with a signature and added a global signature configuration.
+-	Removed 'Feedback' field.
 -	Removed 'More' button from module detail view.
 -	Turned off Signature in send_mail.
 -	Turned off inactive chart.
@@ -194,6 +198,8 @@ The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCo
 -	Added csrf configuration.
 -	Added a relation to the Contacts module.
 -	Added additional configuration parameters to IMAP connection.
+-	Added names for buttons in a detail view of a module.
+-	Added a name to the Documents widget on Calculations summary
 -	Rebuilt Quick Create. 
 -	Rebuilt selection of the owner in convert lead.
 -	Rebuilt the sales process.
@@ -230,6 +236,7 @@ The following changes are up to 1.4.459 - [#842] (https://github.com/YetiForceCo
 -	Merged all plugins into one.
 -	Disabled the validation of work time in modules: Time Control and Reservations.
 -	Diabled the suspension of the system when sql query error appears. 
+-	Deleted unnecessary function in the OSSMailViev module
 
 
 **New functionalities:**
