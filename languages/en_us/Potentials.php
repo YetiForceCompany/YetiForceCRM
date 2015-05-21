@@ -84,4 +84,6 @@ $languageStrings = [
 	'Total price [Sales Order]' => 'Total value of orders',
 	'Total price [Invoice]' => 'Total value of invoices',
 	'PotentialsList'=>'Opportunities',
+	'Payment balance' => 'Payment balance',
 ];
+

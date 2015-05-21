@@ -639,7 +639,7 @@ $languageStrings = [
 	'EmailTemplate' => 'Szablony mailowe',
 	'Support End Date' => 'Data zakończenia wsparcia',
 	'Key Metrics' => 'Podsumowanie',
-	'Open Tickets' => 'Otwartych zgłoszeń',
+	'Open Tickets' => 'Otwarte zgłoszenia',
 	'Email Templates' => 'Szablony mailowe',
 	'LBL_NO_FOUND_RECORDS' => 'Nie znaleźliśmy żadnych rekordów w module: ', //OpenSaaS
 	
@@ -731,6 +731,7 @@ $languageStrings = [
 	'LBL_CHOOSE_FIELD' => 'Wybierz pole',
 	'LBL_COMAPARATOR_TYPE' => 'Rodzaj porównania',
 	'LBL_FILTER_NAME' => 'Nazwa filtru',
+	'Leads by Status Converted' => 'Leady skonwertowane według statusu',
 	
 	/* industry */
 	'Administration'=>'Administracja',
