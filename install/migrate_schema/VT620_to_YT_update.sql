@@ -63,10 +63,12 @@ ALTER TABLE `vtiger_loginhistory`
 	ADD KEY `user_name`(`user_name`) ;
 	
 ALTER TABLE `vtiger_users` 
+	CHANGE `user_name` `user_name` varchar(32)  COLLATE utf8_general_ci NULL after `id` , 
+	CHANGE `date_entered` `date_entered` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `description` , 
+	CHANGE `date_modified` `date_modified` timestamp   NOT NULL DEFAULT '0000-00-00 00:00:00' after `date_entered` , 
 	CHANGE `email1` `email1` varchar(100)  COLLATE utf8_general_ci NULL after `modified_user_id` , 
 	CHANGE `status` `status` varchar(25)  COLLATE utf8_general_ci NULL after `email1` , 
-	CHANGE `signature` `signature` text  COLLATE utf8_general_ci NULL after `status` , 
-	CHANGE `user_preferences` `user_preferences` text  COLLATE utf8_general_ci NULL after `signature` , 
+	CHANGE `user_preferences` `user_preferences` text  COLLATE utf8_general_ci NULL after `status` , 
 	CHANGE `tz` `tz` varchar(30)  COLLATE utf8_general_ci NULL after `user_preferences` , 
 	CHANGE `holidays` `holidays` varchar(60)  COLLATE utf8_general_ci NULL after `tz` , 
 	CHANGE `namedays` `namedays` varchar(60)  COLLATE utf8_general_ci NULL after `holidays` , 
@@ -105,8 +107,7 @@ ALTER TABLE `vtiger_users`
 	CHANGE `rowheight` `rowheight` varchar(10)  COLLATE utf8_general_ci NULL after `leftpanelhide` , 
 	CHANGE `defaulteventstatus` `defaulteventstatus` varchar(50)  COLLATE utf8_general_ci NULL DEFAULT 'Planned' after `rowheight` , 
 	CHANGE `defaultactivitytype` `defaultactivitytype` varchar(50)  COLLATE utf8_general_ci NULL after `defaulteventstatus` , 
-	CHANGE `hidecompletedevents` `hidecompletedevents` int(11)   NULL after `defaultactivitytype` , 
-	CHANGE `is_owner` `is_owner` varchar(5)  COLLATE utf8_general_ci NULL after `hidecompletedevents` , 
+	CHANGE `is_owner` `is_owner` varchar(5)  COLLATE utf8_general_ci NULL after `defaultactivitytype` , 
 	ADD UNIQUE KEY `email1`(`email1`) ;
 	
 	
@@ -1278,3 +1279,23 @@ ALTER TABLE `vtiger_projectstatus` ADD COLUMN `color` varchar(25) DEFAULT '#E6FA
 ALTER TABLE `vtiger_users` CHANGE `user_name` `user_name` varchar(32) NULL after `id`;
 
 ALTER TABLE `vtiger_users` ADD COLUMN `emailoptout` varchar(3) NOT NULL DEFAULT '1' after `is_owner` ;
+
+ALTER TABLE `vtiger_announcement` 
+	CHANGE `time` `time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `title` ;
+	
+ALTER TABLE `vtiger_freetagged_objects` 
+	CHANGE `tagged_on` `tagged_on` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `object_id` ;
+
+ALTER TABLE `vtiger_import_maps` 
+	CHANGE `date_entered` `date_entered` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `deleted` , 
+	CHANGE `date_modified` `date_modified` timestamp   NOT NULL DEFAULT '0000-00-00 00:00:00' after `date_entered` ;
+
+ALTER TABLE `vtiger_loginhistory` 
+	CHANGE `logout_time` `logout_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `user_ip` , 
+	CHANGE `login_time` `login_time` timestamp   NOT NULL DEFAULT '0000-00-00 00:00:00' after `logout_time` ;
+	
+ALTER TABLE `vtiger_scheduled_reports` 
+	CHANGE `next_trigger_time` `next_trigger_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP  on update CURRENT_TIMESTAMP after `format` ;
+
+ALTER TABLE `vtiger_schedulereports` 
+	CHANGE `next_trigger_time` `next_trigger_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP after `specificemails` ;

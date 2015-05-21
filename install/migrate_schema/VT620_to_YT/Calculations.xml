@@ -206,7 +206,7 @@
 <defaultvalue></defaultvalue>
 <sequence>8</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>D~O</typeofdata>
+<typeofdata>D~M</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
@@ -876,6 +876,17 @@
 <action> </action>
 </actions>
 </relatedlist>
+<relatedlist>
+<relatedmodule>Contacts</relatedmodule>
+<function>get_related_list</function>
+<label>Contacts</label>
+<sequence>5</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
+</actions>
+</relatedlist>
 </relatedlists>
 <inrelatedlists>
 <inrelatedlist>
@@ -916,6 +927,17 @@
 <presence>0</presence>
 <actions>
 <action>ADD</action>
+</actions>
+</inrelatedlist>
+<inrelatedlist>
+<inrelatedmodule>Contacts</inrelatedmodule>
+<function>get_related_list</function>
+<label>Calculations</label>
+<sequence>29</sequence>
+<presence>0</presence>
+<actions>
+<action>ADD</action>
+<action>SELECT</action>
 </actions>
 </inrelatedlist>
 </inrelatedlists>
