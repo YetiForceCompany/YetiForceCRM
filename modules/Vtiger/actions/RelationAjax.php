@@ -48,14 +48,23 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller {
 		$sourceRecordId = $request->get('src_record');
 
 		$relatedModule = $request->get('related_module');
+		if(is_numeric($relatedModule)){
+			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
+		if(!is_array($relatedRecordIdList)){
+			$relatedRecordIdList = [$relatedRecordIdList];
+		}
 		foreach($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId,$relatedRecordId);
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
 	/**
