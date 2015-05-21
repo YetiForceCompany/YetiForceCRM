@@ -728,6 +728,8 @@ $languageStrings = [
 	'LBL_RELATED_MODULE_TYPE' => 'Typ powiązanego modułu',
 	'LBL_DUPLICATE_RECORD' => 'Duplikuj rekord',
 	'LBL_DELETE_RECORD' => 'Usuń rekord',
+	'LBL_CHOOSE_FIELD' => 'Wybierz pole',
+	'LBL_COMAPARATOR_TYPE' => 'Rodzaj porównania',
 	
 	/* industry */
 	'Administration'=>'Administracja',
