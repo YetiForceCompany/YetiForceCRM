@@ -83,4 +83,6 @@ $languageStrings = [
 	'LBL_FINANSIAL_SUMMARY' => 'Podsumowanie finansowe',
 	'Average profit sales order' => 'Średnia marża',
 	'PotentialsList'=>'Szanse sprzedaży',
+	'Payment balance' => 'Bilans płatniczy',
 ];
+

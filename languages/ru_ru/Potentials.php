@@ -79,7 +79,9 @@ $languageStrings = [
 	'LBL_GENERATED_OPPORTUNITIES_INFO' => 'Создано сделок %s',
 	'LBL_GENERATING_COMMENT' => 'Возможность генерируется из следующих действий:',
 	'PotentialsList' => 'Возможности',
+	'Payment balance' => 'Payment balance',
 ];
 
 $jsLanguageStrings = [
 ];
+

@@ -1151,6 +1151,7 @@ $languageStrings = [
 	'LBL_CHOOSE_FIELD' => 'Choose field',
 	'LBL_COMAPARATOR_TYPE' => 'Comparator type',
 	'LBL_FILTER_NAME' => 'Filter name',
+	'Leads by Status Converted' => 'Leads by Status Converted',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
