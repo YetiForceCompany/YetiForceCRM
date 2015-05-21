@@ -71,4 +71,3 @@ class OSSMail {
 		//$OSSMail->deleteLink('HEADERSCRIPT', 'OSSMailJS', 'layouts/vlayout/modules/OSSMail/resources/Global.js');
     }
 }
-?>

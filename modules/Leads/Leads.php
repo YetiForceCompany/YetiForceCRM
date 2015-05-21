@@ -560,5 +560,3 @@ class Leads extends CRMEntity {
 		return $query;
     }
 }
-
-?>

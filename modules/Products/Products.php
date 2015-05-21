@@ -1271,4 +1271,3 @@ class Products extends CRMEntity {
 	}
 
 }
-?>

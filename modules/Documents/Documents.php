@@ -524,4 +524,3 @@ class Documents extends CRMEntity {
 		return false;
 	}
 }
-?>

@@ -1175,4 +1175,3 @@ class Services extends CRMEntity {
 		return $return_value;
 	}
 }
-?>

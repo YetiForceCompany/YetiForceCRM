@@ -432,5 +432,3 @@ class Quotes extends CRMEntity {
 	}
 
 }
-
-?>

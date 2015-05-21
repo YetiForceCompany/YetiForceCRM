@@ -313,4 +313,3 @@ class SMSNotifierManager {
 		$adb->pquery("DELETE FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
 	}
 }
-?>

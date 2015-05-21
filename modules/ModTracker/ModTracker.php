@@ -392,4 +392,3 @@ class ModTracker {
         self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
     }
 }
-?>

@@ -516,5 +516,3 @@ class SalesOrder extends CRMEntity {
     }
 
 }
-
-?>

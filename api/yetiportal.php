@@ -3397,12 +3397,10 @@ function get_summary_widgets($id,$type)
 	
 	$query = "SELECT vtiger_troubletickets.*, vtiger_crmentity.smownerid,vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, '' AS setype
 		FROM vtiger_troubletickets
-		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid AND vtiger_crmentity.deleted = 0
-		WHERE (vtiger_troubletickets.contact_id IN (". generateQuestionMarks($allowed_contacts_and_accounts) .")";
+		INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid
+		WHERE vtiger_crmentity.deleted = 0";
 	if($acc_id) {
-		$query .= " OR vtiger_troubletickets.parent_id = $acc_id) ";
-	} else {
-		$query .= ')';
+		$sql .= " AND vtiger_troubletickets.parent_id = $acc_id ";
 	}
 	if( in_array('OpenTickets', $type) || in_array('all', $type)){
 		$sql = 'SELECT count(*) AS count, case when ( concat(vtiger_users.first_name, " " ,vtiger_users.last_name)  not like "") then
@@ -3411,14 +3409,12 @@ function get_summary_widgets($id,$type)
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			AND vtiger_crmentity.deleted = 0 WHERE vtiger_troubletickets.status in ("Open","In Progress","Wait For Response") AND (vtiger_troubletickets.contact_id IN ('.generateQuestionMarks($allowed_contacts_and_accounts).') ';
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_troubletickets.status in ("Open","In Progress","Wait For Response") ';
 		if($acc_id) {
-			$sql .= " OR vtiger_troubletickets.parent_id = $acc_id) ";
-		} else {
-			$sql .= ')';
+			$sql .= " AND vtiger_troubletickets.parent_id = $acc_id ";
 		}
 		$sql .= ' GROUP BY smownerid;';
-		$result = $adb->pquery($sql , array($allowed_contacts_and_accounts));
+		$result = $adb->query($sql);
 		for($i=0; $i<$adb->num_rows($result); $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['OpenTickets'][$i] = $row;
@@ -3428,14 +3424,12 @@ function get_summary_widgets($id,$type)
 		$sql = 'SELECT count(*) AS count, CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
-			WHERE vtiger_crmentity.deleted = 0 AND ( vtiger_troubletickets.contact_id IN ('.generateQuestionMarks($allowed_contacts_and_accounts).') ';
+			WHERE vtiger_crmentity.deleted = 0';
 		if($acc_id) {
-			$sql .= " OR vtiger_troubletickets.parent_id = $acc_id) ";
-		} else {
-			$sql .= ')';
+			$sql .= " AND vtiger_troubletickets.parent_id = $acc_id ";
 		}
 		$sql .= ' GROUP BY statusvalue;';
-		$result = $adb->pquery($sql , array($allowed_contacts_and_accounts));
+		$result = $adb->query($sql);
 		for($i=0; $i<$adb->num_rows($result); $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$row['statusvalue'] = Vtiger_Language_Handler::getTranslatedString( $row['statusvalue'], 'HelpDesk', $session['lang'] );
@@ -3449,14 +3443,12 @@ function get_summary_widgets($id,$type)
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			AND vtiger_crmentity.deleted = 0 WHERE (vtiger_troubletickets.contact_id IN ('.generateQuestionMarks($allowed_contacts_and_accounts).') ';
+			WHERE vtiger_crmentity.deleted = 0';
 		if($acc_id) {
-			$sql .= " OR vtiger_troubletickets.parent_id = $acc_id) ";
-		} else {
-			$sql .= ')';
+			$sql .= " AND vtiger_troubletickets.parent_id = $acc_id ";
 		}
 		$sql .= ' GROUP BY smownerid;';
-		$result = $adb->pquery($sql , array($allowed_contacts_and_accounts));
+		$result = $adb->query($sql);
 		for($i=0; $i<$adb->num_rows($result); $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$output['TicketsSumTime'][$i] = $row;

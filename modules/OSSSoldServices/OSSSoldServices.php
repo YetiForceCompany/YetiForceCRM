@@ -128,4 +128,3 @@ class OSSSoldServices extends Vtiger_CRMEntity {
         }
     }
 }
-?>

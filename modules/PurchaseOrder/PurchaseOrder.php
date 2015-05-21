@@ -422,5 +422,3 @@ class PurchaseOrder extends CRMEntity {
 	}
 
 }
-
-?>

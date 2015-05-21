@@ -124,4 +124,3 @@ class ModComments extends ModCommentsCore {
 	}
 
 }
-?>

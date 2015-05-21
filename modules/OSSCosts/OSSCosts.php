@@ -473,4 +473,3 @@ class OSSCosts extends CRMEntity {
 		return $child_accounts;
 	}
 }
-?>
