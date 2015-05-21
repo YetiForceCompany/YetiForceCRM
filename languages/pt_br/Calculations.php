@@ -71,5 +71,7 @@ $languageStrings = [
 	'Currency' => 'Moeda',
 	'LBL_SERVICE' => 'Service',
 	'LBL_PRODUCT' => 'Product',
+	'LBL_COMMENT_AREA' => 'Comment area',
+];
 ];
 
