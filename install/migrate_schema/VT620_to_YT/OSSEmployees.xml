@@ -982,7 +982,7 @@
 <customlink>
 <linktype>DASHBOARDWIDGET</linktype>
 <linklabel>Employees Time Control</linklabel>
-<linkurl><![CDATA[index.php?module=OSSEmployees&view=ShowWidget&name=TimeControl]]></linkurl>
+<linkurl><![CDATA[index.php?module=OSSTimeControl&view=ShowWidget&name=TimeControl]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
 <sequence>1</sequence>
 <handler_path><![CDATA[]]></handler_path>
