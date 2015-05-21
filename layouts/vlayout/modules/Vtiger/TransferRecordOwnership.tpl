@@ -19,8 +19,8 @@
             <div class="modal-body tabbable">
                 <div class="control-group">
                     <div class="control-label" style="width: 50;">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
-                    <div class="controls">
-                        <select class="select2-container columnsSelect" id="related_modules" data-validation-engine="validate[required]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" multiple="" name="related_modules[]" style="width: 350px;">
+                    <div class="controls"> 
+                        <select class="select2-container columnsSelect" id="related_modules" title="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-validation-engine="validate[required]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" multiple="" name="related_modules[]" style="width: 350px;">
                             {foreach item=RELATED_MODULE from=$RELATED_MODULES}
                                 {if !in_array($RELATED_MODULE->get('relatedModuleName'), $SKIP_MODULES)}
                                     <option value="{$RELATED_MODULE->get('relatedModuleName')}">{vtranslate($RELATED_MODULE->get('relatedModuleName'), $RELATED_MODULE->get('relatedModuleName'))}</option>
@@ -38,7 +38,7 @@
                         {assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
                         {assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
-                        <select class="chzn-select" data-validation-engine="validate[ required]" name="transferOwnerId" id="transferOwnerId">
+                        <select class="chzn-select" data-validation-engine="validate[ required]" title="{vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId">
                             <optgroup label="{vtranslate('LBL_USERS')}">
                                 {foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
                                     <option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if $FIELD_VALUE eq $OWNER_ID} selected {/if}
@@ -64,3 +64,4 @@
 </form>
 </div>
 {/strip}
+

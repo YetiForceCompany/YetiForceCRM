@@ -16,7 +16,7 @@
                 <strong class="pull-right pushDown">{vtranslate('LBL_SEARCH_IN',$MODULE)}</strong>
             </div>
             <div class="span7 ">
-                <select class="chzn-select pushDown" id="searchModuleList" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
+                <select class="chzn-select pushDown" id="searchModuleList" title="{vtranslate('LBL_SELECT_MODULE')}" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
                     <option></option>
                     {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
                         <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SOURCE_MODULE}selected="selected"{/if}>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
@@ -44,7 +44,7 @@
                 {if $SAVE_FILTER_PERMITTED}
                     <button class="btn hide pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
                     <button class="btn pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
-                    <input class="zeroOpacity pull-right" type="text" value="" name="viewname"/>&nbsp;
+                    <input class="zeroOpacity pull-right" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname"/>&nbsp;
                 {/if}
             </div>
         </div>

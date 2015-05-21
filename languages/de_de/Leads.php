@@ -14,7 +14,7 @@ $languageStrings = [
 	'Attempted to Contact'         => 'Kontaktierung versucht'      , 
 	'CANNOT_CONVERT'               => 'Umwandlung nicht möglich'   , 
 	'Cold'                         => 'kalt'                        , 
-	'Company'                      => 'Organisation'                , 
+	'Company'                      => 'Lead name'                , 
 	'Contacted'                    => 'kontaktiert'                 , 
 	'Contact in Future'            => 'in der Zukunft kontaktieren' , 
 	'Designation'                  => 'Funktion'                    , 
@@ -115,3 +115,4 @@ $jsLanguageStrings = [
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Zum Konvertieren wählen Sie einen Kontakt oder eine Organisationen',
 	'JS_SELECT_ORGANIZATION' => 'Wählen Sie Organisationen zum fortführen',
 ];
+

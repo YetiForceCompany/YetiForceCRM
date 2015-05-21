@@ -936,7 +936,7 @@ class Accounts extends CRMEntity {
 								$data = '<i>'.$data.'</i>';
 							}
 						} else {
-							$data = '<b>'.$data.'</b>';
+							$data = '<strong>'.$data.'</strong>';
 						}
 						// - to show the hierarchy of the Accounts
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
@@ -1459,3 +1459,4 @@ class Accounts extends CRMEntity {
 }
 
 ?>
+

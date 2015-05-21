@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_DEFAULT_FILTER' => 'Filtro padrão',
 	'LBL_FILTERS_AVAILABLE' => 'Filtros disponíveis',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione pelo menos uma opção',
+	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'O bloco foi adicionado com sucesso',
@@ -39,3 +40,4 @@ $jsLanguageStrings = [
 	'JS_FIELD_EMPTY' => 'O campo não pode estar vazio',
 	'JS_FILTERS_AVAILABLE' => 'Filtros disponíveis',
 ];
+
