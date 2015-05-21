@@ -73,5 +73,4 @@ $languageStrings = [
 	'LBL_PRODUCT' => 'Product',
 	'LBL_COMMENT_AREA' => 'Comment area',
 ];
-];
 
