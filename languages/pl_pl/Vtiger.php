@@ -730,6 +730,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD' => 'Usuń rekord',
 	'LBL_CHOOSE_FIELD' => 'Wybierz pole',
 	'LBL_COMAPARATOR_TYPE' => 'Rodzaj porównania',
+	'LBL_FILTER_NAME' => 'Nazwa filtru',
 	
 	/* industry */
 	'Administration'=>'Administracja',

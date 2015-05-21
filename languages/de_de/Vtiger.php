@@ -800,6 +800,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD' => 'Delete record',
 	'LBL_CHOOSE_FIELD' => 'Choose field',
 	'LBL_COMAPARATOR_TYPE' => 'Comparator type',
+	'LBL_FILTER_NAME' => 'Filter name',
 	/* industry */
 	'Administration'=>'Verwaltung',
 	'Construction Industry'=>'Baubranche',

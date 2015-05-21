@@ -44,7 +44,7 @@
                 {if $SAVE_FILTER_PERMITTED}
                     <button class="btn hide pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
                     <button class="btn pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
-                    <input class="zeroOpacity pull-right" type="text" value="" name="viewname"/>&nbsp;
+                    <input class="zeroOpacity pull-right" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname"/>&nbsp;
                 {/if}
             </div>
         </div>

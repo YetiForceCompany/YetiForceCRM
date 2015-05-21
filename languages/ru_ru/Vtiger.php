@@ -1150,6 +1150,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD' => 'Delete record',
 	'LBL_CHOOSE_FIELD' => 'Choose field',
 	'LBL_COMAPARATOR_TYPE' => 'Comparator type',
+	'LBL_FILTER_NAME' => 'Filter name',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
