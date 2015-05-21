@@ -89,6 +89,24 @@ $languageStrings = [
 	'Office work'=>'Trabalho Escritório',
 	'Administrative work'=>'Trabalho Administrativo',
 	'Accounting work'=>'Trabalho Contábil',
+	
+	//widget
+	'LBL_Holidays' => 'Férias',
+	'LBL_YEAR' => 'Ano:',
+	'LBL_Used_Entitled' => 'Utilizada / Direito:',
+	'LBL_DAYS' => 'dias',
+	'Brak danych' => 'Sem dados',
+
+	'LBL_DAYWORKSUM' => 'Tempo de trabalho',
+	'LBL_ALLDAYS_INFO' => 'All days',
+	'LBL_WEEKENDDAYS_INFO' => 'Weekend days',
+	'LBL_ECCLESIASTICAL_INFO' => 'Amount of ecclesiastical days',
+	'LBL_NATIONAL_INFO' => 'Amount of national holiday days',
+	'LBL_WORKEDDAYS_INFO' => 'Amount of worked days',
+	'LBL_HOLIDAYDAYS_INFO' => 'Amount of holiday days',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Average working time',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Average break time',
+	'LBL_WORKDAYS_INFO' => 'Work days',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',

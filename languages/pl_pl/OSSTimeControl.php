@@ -91,6 +91,24 @@ $languageStrings = [
 	'PLL_WORKING_TIME' => 'Czas pracy',
 	'PLL_BREAK_TIME' => 'Przerwa w pracy',
 	'PLL_HOLIDAY' => 'Urlop',
+	
+	//widget
+	'LBL_Holidays' => 'Urlopy',
+	'LBL_YEAR' => 'Rok:',
+	'LBL_Used_Entitled' => 'Wykorzystano / Przysługuje:',
+	'LBL_DAYS' => 'dni',
+	'Brak danych' => 'Brak danych',
+
+	'LBL_DAYWORKSUM' => 'Czas pracy',
+	'LBL_ALLDAYS_INFO' => 'Wszystkie dni',
+	'LBL_WEEKENDDAYS_INFO' => 'Dni weekendowe',
+	'LBL_ECCLESIASTICAL_INFO' => 'Liczba dni które są świętami kościelnymi',
+	'LBL_NATIONAL_INFO' => 'Liczba dni, które są świętami narodowymi',
+	'LBL_WORKEDDAYS_INFO' => 'Ilość dni przepracowanych',
+	'LBL_HOLIDAYDAYS_INFO' => 'Ilość dni urlopowych',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Średni czas pracy',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Średni czas przerw',
+	'LBL_WORKDAYS_INFO' => 'Dni pracownicze',
 ];
 $jsLanguageStrings = [
     'MSG_ERROR_NUMBER' => 'Dopuszczalne znaki: [0-9]',

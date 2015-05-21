@@ -69,6 +69,24 @@ $languageStrings = [
 	'SINGLE_OSSTimeControl' => 'Zeiterfassung',
 	'LBL_CALENDAR_VIEW' => 'Kalender',
 	'LBL_TIMECONTROL_TYPE' => 'Typ',
+	
+	//widget
+	'LBL_Holidays'	=>	'Ferien',
+	'LBL_YEAR'	=>	'Jahr',
+	'LBL_Used_Entitled'	=>	'verwendet / berechtigt',
+	'LBL_DAYS'	=>	'Tage',
+	'Brak danych'	=>	'Keine Daten',
+
+	'LBL_DAYWORKSUM'	=>	'Arbeitszeit',
+	'LBL_ALLDAYS_INFO' => 'Alle Tage',
+	'LBL_WEEKENDDAYS_INFO' => 'Wochenende',
+	'LBL_ECCLESIASTICAL_INFO' => 'Anzahl Kirchentage',
+	'LBL_NATIONAL_INFO' => 'Anzahl gesetzlicher Urlaubstage',
+	'LBL_WORKEDDAYS_INFO' => 'Anzahl Arbeitstage',
+	'LBL_HOLIDAYDAYS_INFO' => 'Anzahl Urlaubstage',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Durschnittliche Arbeitszeit',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Durschnittliche Pausenzeit',
+	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

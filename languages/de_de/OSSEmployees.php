@@ -54,21 +54,4 @@ $languageStrings = [
 
 	'LBL_USER_EXISTS'	=>	'Benutzer für Mitarbeiter angelegt',
 
-//widget
-	'LBL_Holidays'	=>	'Ferien',
-	'LBL_YEAR'	=>	'Jahr',
-	'LBL_Used_Entitled'	=>	'verwendet / berechtigt',
-	'LBL_DAYS'	=>	'Tage',
-	'Brak danych'	=>	'Keine Daten',
-
-	'LBL_DAYWORKSUM'	=>	'Arbeitszeit',
-	'LBL_ALLDAYS_INFO' => 'Alle Tage',
-	'LBL_WEEKENDDAYS_INFO' => 'Wochenende',
-	'LBL_ECCLESIASTICAL_INFO' => 'Anzahl Kirchentage',
-	'LBL_NATIONAL_INFO' => 'Anzahl gesetzlicher Urlaubstage',
-	'LBL_WORKEDDAYS_INFO' => 'Anzahl Arbeitstage',
-	'LBL_HOLIDAYDAYS_INFO' => 'Anzahl Urlaubstage',
-	'LBL_AVERAGEWORKTIME_INFO' => 'Durschnittliche Arbeitszeit',
-	'LBL_AVERAGEBREAKTIME_INFO' => 'Durschnittliche Pausenzeit',
-	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
 ];
