@@ -8,6 +8,8 @@
  * All Rights Reserved.
  ************************************************************************************/
 $languageStrings = [
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Отключить принятие решений',
+	'LBL_SWITCH_ON_DECISION_MAKER' => 'Включить принятие решений',
 	'Birthdays of contacts' => 'День рождения',
 	'End of support for contact' => 'Окончание поддержки',
     'Support Start Date' 			=> 'Начало тех. поддержки',
@@ -51,7 +53,7 @@ $languageStrings = [
 	'SINGLE_Leads' => 'Обращение',
 	'SINGLE_Vendors' => 'Поставщик',
 	'Job title' => 'Должность',
-	'Decision maker' => '__UNTRANSLATED__',
+	'Decision maker' => 'Принимающий решения',
 ];
 $jsLanguageStrings = [
 ];
