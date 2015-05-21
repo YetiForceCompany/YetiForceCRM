@@ -247,9 +247,9 @@ class VT620_to_YT {
 		$menu[] = array(113,0,44,0,2,getTabid('OSSMail'),NULL,0,NULL,0,NULL,NULL,"");
 		$menu[] = array(114,0,84,0,20,getTabid('Reports'),NULL,0,NULL,0,NULL,NULL,"");
 		foreach($menu AS $m){
-			if(self::checkModuleExists($m[5]) || strpos($m[6], 'MEN_') !== false ){
+			//if(self::checkModuleExists($m[5]) || strpos($m[6], 'MEN_') !== false ){
 				$adb->pquery("insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (". generateQuestionMarks($m) .");",array($m));
-			}
+			//}
 		}
     }
 	function settingsReplace() {
@@ -850,6 +850,8 @@ class VT620_to_YT {
 			$result = $adb->pquery($sql, array('LBL_ADDRESS_INFORMATION',29), true);
 			$sql = "DELETE FROM vtiger_tab WHERE `name` = ? AND `tabid` = ?;";
 			$result = $adb->pquery($sql, array('MailManager',31), true);
+			$sql = "DELETE FROM vtiger_blocks WHERE `blocklabel` = ? AND `tabid` = ?;";
+			$result = $adb->pquery($sql, array('LBL_PRODUCT_INFORMATION',getTabid('OSSCosts')));
 		} catch (Exception $e) {
 			Install_InitSchema_Model::addMigrationLog('addBlocks '.$e->getMessage(),'error');
 		}
@@ -3488,8 +3490,8 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$widgets[] = array(27,'Project','Comments','ModComments',2,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
 		$widgets[] = array(28,'Project','Updates','LBL_UPDATES',1,3,NULL,'[]');
 		$widgets[] = array(30,'Project','EmailList','Emails',1,5,NULL,'{"relatedmodule":"Emails","limit":"5"}');
-		$widgets[] = array(31,'Project','RelatedModule','ProjectTask',2,6,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectTask').'","columns":"3","action":"1","filter":"vtiger_projecttask::projecttaskstatus::projecttaskstatus"}');
-		$widgets[] = array(32,'Project','RelatedModule','ProjectMilestone',2,7,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectMilestone').'","columns":"3","action":"1","filter":"vtiger_projectmilestone::projectmilestonetype::projectmilestonetype"}');
+		$widgets[] = array(31,'Project','RelatedModule','ProjectTask',2,6,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectTask').'","columns":"3","action":"1","filter":"-","checkbox_selected":"","checkbox":"-"}');
+		$widgets[] = array(32,'Project','RelatedModule','ProjectMilestone',2,7,NULL,'{"limit":"5","relatedmodule":"'.getTabid('ProjectMilestone').'","columns":"3","action":"1","filter":"-","checkbox_selected":"","checkbox":"-"}');
 		$widgets[] = array(33,'Project','RelatedModule','HelpDesk',2,8,NULL,'{"limit":"5","relatedmodule":"13","columns":"3","action":"1","filter":"-"}');
 		$widgets[] = array(34,'HelpDesk','Summary',NULL,1,1,NULL,'[]');
 		$widgets[] = array(35,'HelpDesk','Comments','ModComments',1,2,NULL,'{"relatedmodule":"ModComments","limit":"5"}');
@@ -3508,7 +3510,7 @@ WWW: <a href="#company_website#"> #company_website#</a></span></span>','','','10
 		$widgets[] = array(51,'Reservations','Summary',NULL,1,0,NULL,'[]');
 		$widgets[] = array(52,'Reservations','Comments','',2,1,NULL,'{"relatedmodule":"ModComments","limit":"10"}');
 		$widgets[] = array(53,'Calculations','Summary',NULL,1,0,NULL,'[]');
-		$widgets[] = array(54,'Calculations','RelatedModule','',2,1,NULL,'{"limit":"5","relatedmodule":"8","columns":"3","action":"1","filter":"-"}');		
+		$widgets[] = array(54,'Calculations','RelatedModule','Documents',2,1,NULL,'{"limit":"5","relatedmodule":"8","columns":"3","action":"1","filter":"-"}');		
 		foreach($widgets as $widget){
 			if(self::checkModuleExists($widget[1])){
 				$result = $adb->pquery('SELECT * FROM vtiger_widgets WHERE tabid = ? AND `type` = ? AND `label` = ?', array(getTabid($widget[1]),$widget[2], $widget[3]));

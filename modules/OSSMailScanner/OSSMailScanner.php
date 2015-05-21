@@ -70,7 +70,7 @@ class OSSMailScanner {
 			0, 'sequence') + 1;
 		$fieldid = $adb->getUniqueId('vtiger_settings_field');
 		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,'Mail Scanner','','OSSMailScanner', 'index.php?module=OSSMailScanner&parent=Settings&view=index'));
+			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence,'Mail Scanner','','LBL_MAIL_SCANNER_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=index'));
 		$blockid = $adb->query_result( 
 			$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_SECURITY_MANAGEMENT'",array()),
 			0, 'blockid');
@@ -79,7 +79,7 @@ class OSSMailScanner {
 			0, 'sequence') + 1;
 		$fieldid = $adb->getUniqueId('vtiger_settings_field');
 		$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence+1,'Mail Logs','','OSSMailScanner', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));	
+			VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid,$sequence+1,'Mail Logs','','LBL_MAIL_LOGS_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=logs'));	
     }
     function turn_off($moduleName) {
 		$adb = PearDatabase::getInstance();

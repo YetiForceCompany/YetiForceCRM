@@ -50,7 +50,7 @@ class OSSProjectTemplates extends Vtiger_CRMEntity {
                         $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
         $fieldid = $adb->getUniqueId('vtiger_settings_field');
         $adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', $moduleName, 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
+				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Project Templates', '', 'LBL_PROJECT_TEMPLATES_DESCRIPTION', 'index.php?module=' . $moduleName . '&parent=Settings&view=Index'));
     }
 
     private function addRelationModue() {
