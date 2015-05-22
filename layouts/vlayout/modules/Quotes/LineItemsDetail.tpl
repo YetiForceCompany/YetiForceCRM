@@ -26,26 +26,26 @@
 	<tbody>
     <tr>
 	<td>
-	    <span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</b>
+	    <span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</strong>
 	</td>
         <td>
-	    <b>{vtranslate('LBL_QTY',$MODULE_NAME)}</b>
+	    <strong>{vtranslate('LBL_QTY',$MODULE_NAME)}</strong>
 	</td>
 	<td>
-		<b>{vtranslate('LBL_UNIT',$MODULE_NAME)}</b>
+		<strong>{vtranslate('LBL_UNIT',$MODULE_NAME)}</strong>
 	</td>
         <td>
-	    <b>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</b>
+	    <strong>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</strong>
 	</td>
         <td>
-	    <b>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</b>
+	    <strong>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</strong>
 	</td>
         <td>
-	    <b class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</b>
+	    <strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE_NAME)}</strong>
 	</td>
 	</td>
         <td>
-	    <b class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</b>
+	    <strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong>
 	</td>
     </tr>
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
@@ -94,15 +94,15 @@
 		    {assign var=DISCOUNT_INFO value="{if $LINE_ITEM_DETAIL["discount_type$INDEX"] == 'amount'} {vtranslate('LBL_DIRECT_AMOUNT_DISCOUNT',$MODULE_NAME)} = {$LINE_ITEM_DETAIL["discountTotal$INDEX"]}
 		    {elseif $LINE_ITEM_DETAIL["discount_type$INDEX"] == 'percentage'} {$LINE_ITEM_DETAIL["discount_percent$INDEX"]} % {vtranslate('LBL_OF',$MODULE_NAME)} {$LINE_ITEM_DETAIL["productTotal$INDEX"]} = {$LINE_ITEM_DETAIL["discountTotal$INDEX"]}
 			{/if}"}
-			(-)&nbsp; <b><a href="javascript:void(0)" class="individualDiscount inventoryLineItemDetails" data-info='{$DISCOUNT_INFO}'>{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}</a> : </b>
+			(-)&nbsp; <strong><a href="javascript:void(0)" class="individualDiscount inventoryLineItemDetails" data-info='{$DISCOUNT_INFO}'>{vtranslate('LBL_DISCOUNT',$MODULE_NAME)}</a> : </strong>
 		    </div>
 		    <div>
-			<b>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE_NAME)} :</b>
+			<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE_NAME)} :</strong>
 		    </div>
 		    {if $FINAL_DETAILS.taxtype neq 'group'}
 			<div class="individualTaxContainer">
 			    {assign var=INDIVIDUAL_TAX_INFO value="{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE_NAME)} = {$LINE_ITEM_DETAIL["totalAfterDiscount$INDEX"]}\r\n{foreach item=tax_details from=$LINE_ITEM_DETAIL["taxes"]}{$tax_details["taxlabel"]} : {$tax_details["percentage"]} % = {$tax_details["amount"]}\r\n{/foreach}\r\n{vtranslate('LBL_TOTAL_TAX_AMOUNT',$MODULE_NAME)} = {$LINE_ITEM_DETAIL["taxTotal$INDEX"]}"}
-			    (+)&nbsp;<b><a href="javascript:void(0)" class="individualTax inventoryLineItemDetails" data-info='{$INDIVIDUAL_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)} </a> : </b>
+			    (+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax inventoryLineItemDetails" data-info='{$INDIVIDUAL_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)} </a> : </strong>
 			</div>
 		    {/if}
 			{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
@@ -147,7 +147,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total Purchase',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total Purchase',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -159,12 +159,12 @@
 	    <tr>
 		<td width="83%">
 		    <div class="pull-right">
-			<b>{vtranslate('LBL_ITEMS_TOTAL',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE_NAME)}</strong>
 		    </div>
 		</td>
 		<td>
 		    <span class="pull-right">
-			<b>{$FINAL_DETAILS["hdnSubTotal"]}</b>
+			<strong>{$FINAL_DETAILS["hdnSubTotal"]}</strong>
 		    </span>
 		</td>
 	    </tr>
@@ -172,7 +172,7 @@
 		<td width="83%">
 		    <span class="pull-right">
 			{assign var=FINAL_DISCOUNT_INFO value="{vtranslate('LBL_FINAL_DISCOUNT_AMOUNT',$MODULE_NAME)} = {if $FINAL_DETAILS['discount_type_final'] == 'percentage'} {$FINAL_DETAILS['discount_percentage_final']} % {vtranslate('LBL_OF',$MODULE_NAME)} {$FINAL_DETAILS['hdnSubTotal']} = {/if}{$FINAL_DETAILS['discountTotal_final']}"}
-			(-)&nbsp;<b><a class="inventoryLineItemDetails" href="javascript:void(0)" id="finalDiscount" data-info="{$FINAL_DISCOUNT_INFO}">{vtranslate('LBL_TOTAL_DISCOUNT',$MODULE_NAME)}</a></b>
+			(-)&nbsp;<strong><a class="inventoryLineItemDetails" href="javascript:void(0)" id="finalDiscount" data-info="{$FINAL_DISCOUNT_INFO}">{vtranslate('LBL_TOTAL_DISCOUNT',$MODULE_NAME)}</a></strong>
 		    </span>
 		</td>
 		<td>
@@ -185,7 +185,7 @@
 		<tr>
 		<td width="83%">
 		    <span class="pull-right">
-			<b>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE_NAME)} </b>
+			<strong>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE_NAME)} </strong>
 		    </span>
 		</td>
 		<td>
@@ -197,7 +197,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -209,7 +209,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin Percentage',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin Percentage',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -228,8 +228,8 @@
 					{/if}
 				{/foreach}
 				\r\n{vtranslate('LBL_TOTAL_TAX_AMOUNT',$MODULE_NAME)} = {$FINAL_DETAILS['tax_totalamount']}"}
-			    (+)&nbsp;<b><a class="inventoryLineItemDetails" href="javascript:void(0)" id="finalTax"
-					   data-info='{$GROUP_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)}</a></b>
+			    (+)&nbsp;<strong><a class="inventoryLineItemDetails" href="javascript:void(0)" id="finalTax"
+					   data-info='{$GROUP_TAX_INFO}'>{vtranslate('LBL_TAX',$MODULE_NAME)}</a></strong>
 			</span>
 		    </td>
 		    <td>
@@ -242,7 +242,7 @@
 	    <tr>
 		<td width="83%">
 		    <span class="pull-right">
-			<b>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</strong>
 		    </span>
 		</td>
 		<td>
@@ -256,11 +256,11 @@
             <td width="83%">
                 {if $MODULE_NAME eq 'Invoice'}
                     <span class="pull-right">
-                        <b>{vtranslate('LBL_RECEIVED',$MODULE_NAME)}</b>
+                        <strong>{vtranslate('LBL_RECEIVED',$MODULE_NAME)}</strong>
                     </span>
                 {else}
                     <span class="pull-right">
-                        <b>{vtranslate('LBL_PAID',$MODULE_NAME)}</b>
+                        <strong>{vtranslate('LBL_PAID',$MODULE_NAME)}</strong>
                     </span>
                 {/if}
             </td>
@@ -304,3 +304,4 @@
 		-->
         {/if}
 	</table>
+	
