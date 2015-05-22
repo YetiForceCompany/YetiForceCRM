@@ -51,7 +51,7 @@
         {assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	<td>
 		<i class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></i>
-		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
+		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
 	<td>
@@ -64,8 +64,8 @@
 			<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			{if $row_no eq 0}
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
+				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
+				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
 				&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
 			{else}
 				{if !$RECORD_ID} 
@@ -78,10 +78,10 @@
                                     {/if}   
                                 {else} 
                                     {if ($entityType eq 'Services') and (!$data.$productDeleted)} 
-                                            <img class="{if $SERVICE_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/> 
+                                            <img class="{if $SERVICE_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ServicesPopup" data-module-name="Services" alt="{vtranslate('LBL_SERVICE', $MODULE)}" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/> 
                                             &nbsp;<i class="icon-remove-sign {if $SERVICE_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i> 
                                     {elseif (!$data.$productDeleted)} 
-                                            <img class="{if $PRODUCT_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/> 
+                                            <img class="{if $PRODUCT_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ProductsPopup" data-module-name="Products" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/> 
                                         &nbsp;<i class="icon-remove-sign {if $PRODUCT_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i> 
                                     {/if}   
                                 {/if} 
@@ -121,7 +121,7 @@
 			&nbsp;
 			{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 			{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
-				<img src="{vimage_path('PriceBooks.png')}" class="cursorPointer alignMiddle priceBookPopup" data-popup="Popup" data-module-name="PriceBooks" title="{vtranslate('PriceBooks',$MODULE)}"/>
+				<img src="{vimage_path('PriceBooks.png')}" class="cursorPointer alignMiddle priceBookPopup" data-popup="Popup" data-module-name="PriceBooks" alt="{vtranslate('PriceBooks',$MODULE)}" title="{vtranslate('PriceBooks',$MODULE)}"/>
 			{/if}
 		</div>
 		<div>
@@ -248,6 +248,7 @@
 		<input type="text" id="{$calculation}" name="{$calculation}" value="{$data.$calculation}" class="calculation {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" {if !empty($data.$calculation)} disabled="disabled" {/if}/>
 		<input type="hidden" id="{$calculationId}" name="{$calculationId}" value="{$data.$calculationId}" class="selectedModuleIdC"/>
 		<input type="hidden" id="lineItemType{$row_no}" name="lineItemTypeC{$row_no}" value="Calculations" class="lineItemTypeC"/>
-		<img class="lineItemPopup cursorPointer alignMiddle" data-popup="CalculationsPopup" title="{vtranslate('Calculations','Calculations')}" data-module-name="Calculations" data-field-name="calculationsid" src="{vimage_path('Mobile.png')}">
+		<img class="lineItemPopup cursorPointer alignMiddle" data-popup="CalculationsPopup" title="{vtranslate('Calculations','Calculations')}" alt="{vtranslate('Calculations','Calculations')}" data-module-name="Calculations" data-field-name="calculationsid" src="{vimage_path('Mobile.png')}">
 		&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
 	</td>
+	

@@ -51,7 +51,7 @@
         {assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	<td>
 		<i class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></i>
-		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
+		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
 	<td>
