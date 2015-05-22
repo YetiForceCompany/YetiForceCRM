@@ -21,14 +21,14 @@
 		        {if !empty($IMAGE_INFO.path)}
 		                <img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 		        {else}
-		                <img src="{vimage_path('PBXManager48.png')}" class="summaryImg"/>
+		                <img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 		        {/if}
 		    {/foreach}
 	    {else}
-		    <img src="{vimage_path('PBXManager48.png')}" class="summaryImg"/>
+		    <img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 	    {/if}
         {else}
-            <img src="{vimage_path('PBXManager48.png')}" class="summaryImg"/>
+            <img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
         {/if}
         {if $RECORD->get('direction') eq 'inbound'}
          <img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">
@@ -92,3 +92,4 @@
     </span>
 
 {/strip}
+
