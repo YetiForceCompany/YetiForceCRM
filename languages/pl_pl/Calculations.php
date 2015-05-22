@@ -71,5 +71,6 @@ $languageStrings = [
 	'LBL_SERVICE' => 'Usługa',
 	'LBL_PRODUCT' => 'Produkt',
 	'LBL_COMMENT_AREA' => 'Miejsce na Komentarz',
+	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 ];
 
