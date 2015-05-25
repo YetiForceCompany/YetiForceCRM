@@ -91,11 +91,11 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
+			<div><br><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
 		{/if}
 	</td>
 	<td>
-		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
+		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}" title="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
 		<br>
 		{if !empty($data.$qtyInStock)}
 		<span class="stockAlert" style="color: green;">
@@ -149,7 +149,7 @@
 					</td>
 					<td>
 						<span class="pull-right">&nbsp;%</span>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" title="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 					</td>
 			   </tr>
 			   <tr>
@@ -159,7 +159,7 @@
 						{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 					</td>
 					<td>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" title="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 					</td>
 			   </tr>
 			</table>

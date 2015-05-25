@@ -44,7 +44,7 @@
                         {/foreach}
                     {/if}
 
-                    <select class="chzn-select" id="currency_id" name="currency_id" style="width: 164px;">
+                    <select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
                         {foreach item=currency_details key=count from=$CURRENCIES}
                             <option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
                                 {$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
@@ -67,7 +67,7 @@
                     <div class="inventoryLineItemHeader">
                         <span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
                     </div>
-                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" style="width: 164px;">
+                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" title="{vtranslate('LBL_TAX_MODE', $MODULE)}" style="width: 164px;">
                         <OPTION value="individual" {if $IS_INDIVIDUAL_TAX_TYPE}selected{/if}>{vtranslate('LBL_INDIVIDUAL', $MODULE)}</OPTION>
                         <OPTION value="group" {if $IS_GROUP_TAX_TYPE}selected{/if}>{vtranslate('LBL_GROUP', $MODULE)}</OPTION>
                     </select>
@@ -292,9 +292,9 @@
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}"></span>
+                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}"></span>
                     {else}
-                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}"></span>
+                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}"></span>
                     {/if}
                 </td>
             </tr>

@@ -44,7 +44,7 @@
                         {/foreach}
                     {/if}
 
-                    <select class="chzn-select" id="currency_id" name="currency_id" style="width: 164px;">
+                    <select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
                         {foreach item=currency_details key=count from=$CURRENCIES}
                             <option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
                                 {$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
@@ -67,7 +67,7 @@
                     <div class="inventoryLineItemHeader">
                         <span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
                     </div>
-                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" style="width: 164px;">
+                    <select class="chzn-select lineItemTax" id="taxtype" title="{vtranslate('LBL_TAX_MODE', $MODULE)}" name="taxtype" style="width: 164px;">
                         <OPTION value="individual" {if $IS_INDIVIDUAL_TAX_TYPE}selected{/if}>{vtranslate('LBL_INDIVIDUAL', $MODULE)}</OPTION>
                         <OPTION value="group" {if $IS_GROUP_TAX_TYPE}selected{/if}>{vtranslate('LBL_GROUP', $MODULE)}</OPTION>
                     </select>
@@ -176,19 +176,19 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="zero" {if $DISCOUNT_TYPE_FINAL eq 'zero'}checked{/if} />&nbsp; {vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}</td>
+                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="zero" title="{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}" {if $DISCOUNT_TYPE_FINAL eq 'zero'}checked{/if} />&nbsp; {vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}</td>
                                 <td class="lineOnTop">
                                     <!-- Make the discount value as zero -->
                                     <input type="hidden" class="discountVal" value="0" />
                                 </td>
                             </tr>
                             <tr>
-                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="percentage" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}</td>
-                                <td><span class="pull-right">&nbsp;%</span><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" class="discount_percentage_final smallInputBox pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
+                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="percentage" title="{vtranslate('LBL_OF_PRICE',$MODULE)}" {if $DISCOUNT_TYPE_FINAL eq 'percentage'}checked{/if} />&nbsp; % {vtranslate('LBL_OF_PRICE',$MODULE)}</td>
+                                <td><span class="pull-right">&nbsp;%</span><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage_final" name="discount_percentage_final" value="{$FINAL.discount_percentage_final}" title="{$FINAL.discount_percentage_final}" class="discount_percentage_final smallInputBox pull-right discountVal {if $DISCOUNT_TYPE_FINAL neq 'percentage'}hide{/if}" /></td>
                             </tr>
                             <tr>
-                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}</td>
-                                <td><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" class="smallInputBox pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
+                                <td><input type="radio" name="discount_final" class="finalDiscounts" data-discount-type="amount" title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" {if $DISCOUNT_TYPE_FINAL eq 'amount'}checked{/if} />&nbsp;{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}</td>
+                                <td><input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"  id="discount_amount_final" name="discount_amount_final" value="{$FINAL.discount_amount_final}" title="{$FINAL.discount_amount_final}" class="smallInputBox pull-right discount_amount_final discountVal {if $DISCOUNT_TYPE_FINAL neq 'amount'}hide{/if}" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -250,7 +250,7 @@
                         {foreach item=tax_detail name=group_tax_loop key=loop_count from=$TAXES}
                             <tr>
 								<td>
-									<input type="radio" name="group_tax_option" class="group_tax_option" value="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
+									<input type="radio" name="group_tax_option" class="group_tax_option" value="{$tax_detail.taxname}" title="{$tax_detail.taxname}" {if {$FINAL['tax']} == $tax_detail.taxname}checked{/if}>
 								</td>
                                 <td align="left" class="lineOnTop">
                                     <input type="text" size="5" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$tax_detail.taxname}_group_percentage" id="group_tax_percentage{$smarty.foreach.group_tax_loop.iteration}" value="{$tax_detail.percentage}" title="{$tax_detail.percentage}" class="smallInputBox groupTaxPercentage" />&nbsp;%
@@ -295,9 +295,9 @@
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
+                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
                     {else}
-                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
+                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
                     {/if}
                 </td>
             </tr>

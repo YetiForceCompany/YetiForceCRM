@@ -779,6 +779,7 @@ $languageStrings = [
 	'LBL_COMAPARATOR_TYPE' => 'Comparator type',
 	'LBL_FILTER_NAME' => 'Filter name',
 	'Leads by Status Converted' => 'Leads by Status Converted',
+	'LBL_API_ADDRESS' => 'Pesquisar endereço',
 	
 	/* industry */
 	'Administration'=>'Administração',
