@@ -52,7 +52,7 @@
 
                 {foreach item=template from=$templates}
                     <label class="checkbox">
-                        <input id="tpl" type="checkbox" name="template[]" value="{$template.id}" {if $template.checked eq 1} CHECKED {/if}/> {$template.name}
+                        <input id="tpl" type="checkbox" name="template[]" value="{$template.id}" title="{$template.name}" {if $template.checked eq 1} CHECKED {/if}/> {$template.name}
                     </label>
                 {/foreach}
             {/if}
