@@ -60,7 +60,7 @@
         <hr />
     {if $NO_TEMPLATES eq 'yes'}{else}
         <div class="form-group" style="margin-top: 8px;">
-        <img name="{vtranslate('LBL_EXPORT')}" src="layouts/vlayout/modules/OSSPdf/pdf.png" onclick="
+        <img name="{vtranslate('LBL_EXPORT')}" alt="{vtranslate('LBL_CREATE_PDF')}" src="layouts/vlayout/modules/OSSPdf/pdf.png" onclick="
                {literal}
             jQuery('#only_generate').val('0');
             var toExport = false;
@@ -86,7 +86,7 @@
             }
                {/literal}
                " />         {if $OSS_MILE_EXISTS}
-            <img src="layouts/vlayout/modules/OSSPdf/email.png" onclick="
+            <img src="layouts/vlayout/modules/OSSPdf/email.png" alt="{vtranslate('LBL_CREATE_PDF_SEND_MAIL')}" onclick="
                 {literal}
                 jQuery('#only_generate').val('1');
                 
