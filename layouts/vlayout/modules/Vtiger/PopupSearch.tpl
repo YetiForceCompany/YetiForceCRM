@@ -25,7 +25,7 @@
     <div class="popupContainer row-fluid">
 	{if $POPUPTYPE == 1}
         <div class="logo span6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
-        <div class="span6"><b>{vtranslate($MODULE_NAME, $MODULE_NAME)}</b></div>
+        <div class="span6"><strong>{vtranslate($MODULE_NAME, $MODULE_NAME)}</strong></div>
     </div>
     <div class="row-fluid">
 	{/if}
@@ -58,7 +58,7 @@
                         </select>
                     </span>&nbsp;&nbsp;
                     <span id="popupSearchButton">
-                        <button class="btn"><i class="icon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></i></button>
+                        <button class="btn"><span class="icon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></span></button>
                     </span>
                 </div>
 			{else if $POPUPTYPE == 2}
@@ -82,7 +82,7 @@
 								<span class="btn-group pull-right">
 									<button class="btn" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if}><span class="icon-chevron-left"></span></button>
 									<button class="btn dropdown-toggle" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
-										<i class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
+										<span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
 									</button>
 									<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
 										<li>
