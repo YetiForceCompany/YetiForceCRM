@@ -740,6 +740,8 @@ $languageStrings = [
 	'LBL_SORT_ASCENDING' => 'Sortuj rosnąco',
 	'LBL_SEARCH_IN_FIELD' => 'Wyszukaj frazy w polu',
 	'LBL_SELECT_FILE' => 'Wybierz plik do dodania',
+	'LBL_ENABLE_CURRENCY' => 'Waluta zaznaczona',
+	'LBL_DISABLE_CURRENCY' => 'Waluta wyłączona',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',

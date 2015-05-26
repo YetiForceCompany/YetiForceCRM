@@ -46,7 +46,7 @@
 								<span class="span8 alignBottom">
 									<span class="pull-left">{$price.currencylabel|@getTranslatedCurrencyString} ({$price.currencysymbol})</span>
 								</span>
-								<span class="span2"><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {$check_value}></span>
+								<span class="span2"><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}></span>
 							</span>
 						</td>
 						<td>
@@ -56,7 +56,7 @@
 						</td>
 						<td>
 							<div class="row-fluid">
-								<input readonly="" type="text" size="10" class="span9 conversionRate" name="cur_conv_rate{$price.curid}" value="{$price.conversionrate}">
+								<input readonly="" type="text" size="10" class="span9 conversionRate" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
 							</div>
 						</td>
 						<td>
@@ -66,7 +66,7 @@
 						</td>
 						<td>
 							<div class="row-fluid textAlignCenter">
-								<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" value="{$price.curname}" {$base_cur_check} />
+								<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{vtranslate('LBL_BASE_CURRENCY')}" value="{$price.curname}" {$base_cur_check} />
 							</div>
 						</td>
 					</tr>

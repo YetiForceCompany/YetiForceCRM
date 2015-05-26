@@ -1156,6 +1156,8 @@ $languageStrings = [
 	'LBL_SORT_ASCENDING' => 'Sort ascending',
 	'LBL_SEARCH_IN_FIELD' => 'Search in field',
 	'LBL_SELECT_FILE' => 'Select file to upload',
+	'LBL_ENABLE_CURRENCY' => 'Currency enable',
+	'LBL_DISABLE_CURRENCY' => 'Currency disable',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
