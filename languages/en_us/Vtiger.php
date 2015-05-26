@@ -785,6 +785,8 @@ $languageStrings = [
 	'LBL_CREATE_PDF' => 'Create pdf',
 	'LBL_CREATE_PDF_SEND_MAIL' => 'Create pdf and email it',
 	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
+	'LBL_SORT_DESCENDING' => 'Sort descending',
+	'LBL_SORT_ASCENDING' => 'Sort ascending',
 	/* industry */
 	'Administration'=>'Administration',
 	'Construction Industry'=>'Construction Industry',

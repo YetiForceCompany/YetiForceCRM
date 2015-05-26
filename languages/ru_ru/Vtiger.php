@@ -1152,6 +1152,8 @@ $languageStrings = [
 	'LBL_CREATE_PDF' => 'Create pdf',
 	'LBL_CREATE_PDF_SEND_MAIL' => 'Create pdf and email it',
 	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
+	'LBL_SORT_DESCENDING' => 'Sort descending',
+	'LBL_SORT_ASCENDING' => 'Sort ascending',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
