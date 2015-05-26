@@ -15,7 +15,7 @@
 {else}
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	<input type="file" class="input-large {if $MODULE eq 'Products'}multi" maxlength="6"{else}"{/if} name="{$FIELD_MODEL->getFieldName()}[]" value="{$FIELD_MODEL->get('fieldvalue')}"
+	<input type="file" class="input-large {if $MODULE eq 'Products'}multi" title="{vtranslate('LBL_SELECT_FILE')}" maxlength="6"{else}"{/if} name="{$FIELD_MODEL->getFieldName()}[]" value="{$FIELD_MODEL->get('fieldvalue')}"
 		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true) and (empty($IMAGE_DETAILS))} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 	data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	{if $MODULE eq 'Products'}<div id="MultiFile1_wrap_list" class="MultiFile-list"></div>{/if}

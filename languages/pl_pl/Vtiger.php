@@ -739,6 +739,7 @@ $languageStrings = [
 	'LBL_SORT_DESCENDING' => 'Sortuj malejąco',
 	'LBL_SORT_ASCENDING' => 'Sortuj rosnąco',
 	'LBL_SEARCH_IN_FIELD' => 'Wyszukaj frazy w polu',
+	'LBL_SELECT_FILE' => 'Wybierz plik do dodania',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',
