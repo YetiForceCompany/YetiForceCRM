@@ -18,8 +18,8 @@
 		<thead>
 		<tr>
 				<th class="blockHeader" colspan="4">
-						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  alt="" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'>
-						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'>
+						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'>
+						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'>
 						&nbsp;&nbsp;{vtranslate('LBL_INVITE_USER_BLOCK',{$MODULE_NAME})}
 				</th>
 		</tr>
