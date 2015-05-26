@@ -132,7 +132,7 @@
 			   <!-- TODO : discount price and amount are hide by default we need to check id they are already selected if so we should not hide them  -->
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} title="{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}" {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
 						&nbsp;
 						{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}
 					</td>
@@ -143,7 +143,7 @@
 			   </tr>
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} class="discounts" data-discount-type="percentage" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} title="{vtranslate('LBL_OF_PRICE',$MODULE)}" class="discounts" data-discount-type="percentage" />
 						&nbsp; %
 						{vtranslate('LBL_OF_PRICE',$MODULE)}
 					</td>
@@ -154,7 +154,7 @@
 			   </tr>
 			   <tr>
 					<td class="LineItemDirectPriceReduction">
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} class="discounts" data-discount-type="amount" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" class="discounts" data-discount-type="amount" />
 						&nbsp;
 						{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 					</td>
