@@ -24,7 +24,6 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_EXPORT_TO_PDF' => 'Generuj do PDF',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij w mailu PDF',
 	'LBL_SO_INFORMATION' => 'Szczegóły zamówienia',
 	'Paid'=>'Zapłacona',
 	'Payment Duration' => 'Termin płatności',

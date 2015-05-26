@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Adressinformation',
 	'LBL_VENDORS_ADD_TASK' => 'Aufgabe hinzufügen',
 	'LBL_VENDORS_ADD_EVENT' => 'Ereignis hinzufügen',
-	'LBL_SEND_MAIL_PDF' => 'PDF als Mail versenden',
 	'300-Sales-Software'=>'300-Verkauf Software',
 	'301-Sales-Hardware'=>'301-Verkauf Hardware',
 	'302-Rental-Income'=>'302-Einnahmen Vermietung',

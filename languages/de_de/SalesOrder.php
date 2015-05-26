@@ -23,7 +23,6 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Kundenauftrag hinzufügen',
 	'LBL_EXPORT_TO_PDF' => 'Export als PDF',
 	'LBL_RECORDS_LIST' => 'Liste Kundeaufträge',
-	'LBL_SEND_MAIL_PDF' => 'Sende E-Mail mit PDF',
 	'LBL_SO_INFORMATION' => 'Kundenauftragsdetails',
 	'Paid'=>'Bezahlt',
 	'Payment Duration' => 'Zahlungsdauer',

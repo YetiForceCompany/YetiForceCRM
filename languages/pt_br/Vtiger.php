@@ -782,7 +782,7 @@ $languageStrings = [
 	'LBL_API_ADDRESS' => 'Pesquisar endereço',
 	'LBL_CREATE_PDF' => 'Create pdf',
 	'LBL_CREATE_PDF_SEND_MAIL' => 'Create pdf and email it',
-	
+	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',

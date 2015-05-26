@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF' => 'Generuj do PDF',
 	'LBL_QUOTE_INFORMATION' => 'Szczegóły oferty',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 	'Quote No'=>'Numer oferty',
 	'Quote Stage'=>'Etap oferty',
 //	'Rejected'=>'Odrzucona',

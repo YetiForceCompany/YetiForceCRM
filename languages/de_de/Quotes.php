@@ -14,7 +14,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF' => 'Export als PDF',
 	'LBL_QUOTE_INFORMATION' => 'Angebot',
 	'LBL_RECORDS_LIST' => 'Angebote',
-	'LBL_SEND_MAIL_PDF' => 'Mail mit PDF senden',
 	'Quote No'=>'Angebotsnr.',
 	'Quote Stage'=>'Angebotsstufe',
 	'SINGLE_Quotes' => 'Angebot',

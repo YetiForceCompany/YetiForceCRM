@@ -18,7 +18,6 @@ $languageStrings = [
 	'LBL_PAID' => 'Zapłacone',
 	'LBL_PO_INFORMATION' => 'Informacje podstawowe',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
 	'List Price'                   => 'Cena sprzedażowa',
 	'PurchaseOrder No' => 'Numer',
 	'Received Shipment'=>'Otrzymano dostawę',
