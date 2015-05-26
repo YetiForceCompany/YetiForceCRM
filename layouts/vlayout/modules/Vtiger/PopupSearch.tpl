@@ -43,11 +43,11 @@
             <form class="form-horizontal popupSearchContainer" onsubmit="return false;" method="POST">
 			{if $POPUPTYPE == 1}
                 <div class="control-group margin0px">
-                    <input class="span2" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" id="searchvalue"/>&nbsp;&nbsp;
+                    <input class="span2" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" title="{vtranslate('LBL_TYPE_SEARCH')}" id="searchvalue"/>&nbsp;&nbsp;
                     <span><strong>{vtranslate('LBL_IN')}</strong></span>&nbsp;
                     <span>
                         {assign var = defaultSearchField value = $RECORD_STRUCTURE_MODEL->getModule()->getDefaultSearchField()}
-                        <select style="width: 200px;" class="chzn-select" id="searchableColumnsList">
+                        <select style="width: 200px;" class="chzn-select" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
                             {foreach key=block item=fields from=$RECORD_STRUCTURE}
                                 {foreach key=fieldName item=fieldObject from=$fields}
                                     <optgroup>
@@ -89,7 +89,7 @@
 											<span class="row-fluid">
 												<span class="span3 pushUpandDown2per"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
 												<span class="span4">
-													<input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGE_NUMBER}"/>
+													<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
 												</span>
 												<span class="span2 textAlignCenter pushUpandDown2per">
 													{vtranslate('LBL_OF',$moduleName)}&nbsp;

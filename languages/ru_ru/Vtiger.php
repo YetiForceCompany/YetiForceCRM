@@ -1154,6 +1154,7 @@ $languageStrings = [
 	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_SORT_DESCENDING' => 'Sort descending',
 	'LBL_SORT_ASCENDING' => 'Sort ascending',
+	'LBL_SEARCH_IN_FIELD' => 'Search in field',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

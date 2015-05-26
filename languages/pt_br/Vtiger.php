@@ -785,6 +785,7 @@ $languageStrings = [
 	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'LBL_SORT_DESCENDING' => 'Sort descending',
 	'LBL_SORT_ASCENDING' => 'Sort ascending',
+	'LBL_SEARCH_IN_FIELD' => 'Search in field',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
