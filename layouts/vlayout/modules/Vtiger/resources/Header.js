@@ -621,7 +621,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.recentPageViews();
 		
 		//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
-		if(jQuery.browser.msie && jQuery.browser.version < 9.0) {
+		if(/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent)) {
 			if(app.getCookie('oldbrowser') != 'true') {
 				app.setCookie("oldbrowser",true, 365);
 				window.location.href = 'layouts/vlayout/modules/Vtiger/browsercompatibility/Browser_compatibility.html';

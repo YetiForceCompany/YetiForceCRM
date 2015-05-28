@@ -86,12 +86,14 @@ var app = {
 		var params = {
 			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
 		};
-	
-		
-		var chosenElement = selectElement.chosen(params);
+		selectElement.each(function(){
+			var width = jQuery(this).outerWidth();
+			params['width'] = width+ 'px;';
+			jQuery(this).chosen(params);
+		});
 		var chosenSelectConainer = jQuery('.chzn-container');
 		//Fix for z-index issue in IE 7
-		if (jQuery.browser.msie && jQuery.browser.version === "7.0") {
+		if (/MSIE 7.0/.test(navigator.userAgent)) {
 			var zidx = 1000;
 			chosenSelectConainer.each(function(){
 				$(this).css('z-index', zidx);
@@ -1046,7 +1048,7 @@ jQuery(document).ready(function(){
 	}
 
     // in IE resize option for textarea is not there, so we have to use .resizable() api
-    if(jQuery.browser.msie || (/Trident/).test(navigator.userAgent)) {
+    if(/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
         jQuery('textarea').resizable();
     }
     

@@ -51,4 +51,4 @@
 	{/foreach}
 
 	<!-- Added in the end since it should be after less file loaded -->
-	<script type="text/javascript" src="libraries/bootstrap/js/less.min.js"></script>
+	<script type="text/javascript" src="libraries/bootstrap/js/less.min.js"></script> 

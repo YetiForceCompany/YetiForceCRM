@@ -21,7 +21,7 @@ Bugs, issues, feature requests: <http://www.bitbucket.org/cleonello/jqplot/issue
 
 Basic Usage Instructions:
 
-jqPlot requires jQuery (1.4+ required for certain features). jQuery 1.4.4 is included in 
+jqPlot requires jQuery (1.4+ required for certain features). jQuery 1.9.1 is included in 
 the distribution.  To use jqPlot include jQuery, the jqPlot jQuery plugin, the jqPlot css file and 
 optionally the excanvas script to support IE version prior to IE 9 in your web page:
 
@@ -46,7 +46,7 @@ to get a description of the various build targets.
 
 Legal Notices:
 
-Copyright (c) 2009-2010 Chris Leonello
+Copyright (c) 2009-2013 Chris Leonello
 jqPlot is currently available for use in all personal or commercial projects 
 under both the MIT and GPL version 2.0 licenses. This means that you can 
 choose the license that best suits your project and use it accordingly. 
