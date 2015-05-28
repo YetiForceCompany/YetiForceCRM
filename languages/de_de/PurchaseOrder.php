@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_PAID' => 'Bezahlt',
 	'LBL_PO_INFORMATION' => 'Bestelldetails',
 	'LBL_RECORDS_LIST' => 'Liste Bestellungen',
-	'LBL_SEND_MAIL_PDF' => 'Email mit PDF senden',
 	'List Price' => 'Listenpreis',
 	'PurchaseOrder No' => 'Bestellnummer',
 	'Received Shipment'=>'Empfangene Lieferung',

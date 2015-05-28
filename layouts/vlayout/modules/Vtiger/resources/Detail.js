@@ -2096,10 +2096,11 @@ jQuery.Class("Vtiger_Detail_Js",{
             return;
         }
 
-        var sourcePickListNames = "";
+        var sourcePickListNames = [];
         for (var i = 0; i < sourcePicklists.length; i++) {
-            sourcePickListNames += '[name="' + sourcePicklists[i] + '"],';
+            sourcePickListNames.push('[name="'+sourcePicklists[i]+'"]');
         }
+		sourcePickListNames = sourcePickListNames.join(',');
         var sourcePickListElements = container.find(sourcePickListNames);
         sourcePickListElements.on('change', function(e) {
             var currentElement = jQuery(e.currentTarget);

@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="../libraries/jquery/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/select2/select2.min.js"></script>
-	<script type="text/javascript" src="../libraries/jquery/jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="../libraries/jquery/jquery-ui/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.class.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jstorage.min.js"></script>

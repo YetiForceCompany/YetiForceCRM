@@ -187,17 +187,19 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var userContainer = document.getElementById('calendarUserList');
 		var user = [];
 		if(userContainer){
-			jQuery(userContainer).find('.switchBtn').each(function(){
-				if(jQuery(this).prop('checked')){
-					user.push(jQuery(this).data('value'));
-				}
-			})
-		}else{
-			var user = jQuery('#current_user_id').val();
+			user = thisInstance.getValues(userContainer,user);
+			if(user.length < 1){
+				user.push('-1');
+			}
+		}else if(allEvents){
+			var user = [jQuery('#current_user_id').val()];
+		}
+		var groupContainer = document.getElementById('calendarGroupList');
+		if(groupContainer){
+			user = thisInstance.getValues(groupContainer,user);
 		}
 		var time = jQuery('#showType').val();	
-		
-		if(allEvents == true || types != null){
+		if(allEvents == true || types.length > 0 ){
 			var params = {
 				module: 'Calendar',
 				action: 'Calendar',
@@ -216,6 +218,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			thisInstance.getCalendarView().fullCalendar('removeEvents');
 			progressInstance.hide();
 		}
+	},
+	getValues: function(container, values){
+		jQuery(container).find('.switchBtn').each(function(){
+			if(jQuery(this).prop('checked')){
+				values.push(jQuery(this).data('value'));
+			}
+		});
+		return values;
 	},
 	updateEvent: function (event, delta, revertFunc) {
 		var progressInstance = jQuery.progressIndicator();

@@ -345,12 +345,12 @@ var app = {
 
 			container.closest('.blockMsg').position({
 				'of' : jQuery(window),
-				'my' : 'center top',
+				'my' : 'center top+50',
 				'at' : 'center top',
 				'collision' : 'flip none',
 				//TODO : By default the position of the container is taking as -ve so we are giving offset
 				// Check why it is happening
-				'offset' : '0 50'
+				//'offset' : '0 50'
 			});
 			//container.css({'height' : container.innerHeight()+15+'px'});
 

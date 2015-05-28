@@ -23,11 +23,11 @@
 		<label class="muted pull-right marginRight10px">
 	{/if}
 			<span class="taxLabel alignBottom">{vtranslate($tax.taxlabel, $MODULE)}<span class="paddingLeft10px"> (%)</span></span>
-			<input type="checkbox" name="{$tax.check_name}" id="{$tax.check_name}" class="taxes" data-tax-name={$tax.taxname} {$check_value}>
+			<input type="checkbox" name="{$tax.check_name}" id="{$tax.check_name}" title="{vtranslate($tax.taxlabel, $MODULE)}" class="taxes" data-tax-name={$tax.taxname} {$check_value}>
 		</label>
 	</td>
 	<td class="fieldValue">
-		<input type="text" class="detailedViewTextBox {if $show_value eq "hidden"} hide {else} show {/if}" name="{$tax.taxname}" value="{$tax.percentage}" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" />
+		<input type="text" class="detailedViewTextBox {if $show_value eq "hidden"} hide {else} show {/if}" name="{$tax.taxname}" value="{$tax.percentage}" title="{$tax.percentage}" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" />
 	</td>
 	{assign var="tax_count" value=$tax_count+1}
 	{if $COUNTER eq 2}
@@ -37,3 +37,4 @@
 		{assign var="COUNTER" value=$COUNTER+1}
 	{/if}
 {/foreach}
+

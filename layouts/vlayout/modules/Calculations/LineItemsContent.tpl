@@ -31,8 +31,8 @@
     {assign var="FINAL" value=$RELATED_PRODUCTS.1.final_details}
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
 	<td class="dragHandle">
-		<i class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></i>
-		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
+		<span class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
+		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
 	<td>
@@ -40,21 +40,21 @@
 		<input type="hidden" name="hidtax_row_no{$row_no}" id="hidtax_row_no{$row_no}" value="{$tax_row_no}"/>
 		<!-- Product Re-Ordering Feature Code Addition ends -->
 		<div>
-			<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" {if !empty($data.$productName)} readonly="readonly"="readonly="readonly"" {/if}/>
+			<input type="text" id="{$productName}" name="{$productName}" value="{$data.$productName}" class="productName {if $row_no neq 0} autoComplete {/if}" title="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" {if !empty($data.$productName)} readonly="readonly"="readonly="readonly"" {/if}/>
 			<input type="hidden" id="{$hdnProductId}" name="{$hdnProductId}" value="{$data.$hdnProductId}" class="selectedModuleId"/>
 			<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			{if $row_no eq 0}
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-				&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+				<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
+				<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
+				&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 			{else}
 				{if ($entityType eq 'Services') and (!$data.$productDeleted)}
-					<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-					&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+					<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
+					&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 				{elseif (!$data.$productDeleted)}
-					<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-					&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+					<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/>
+					&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 				{/if}
 			{/if}
 		</div>
@@ -73,28 +73,28 @@
 		{/if}
 	</td>
 	<td>
-		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
+		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}" title="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
 	</td>
 	<td>
 		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
 	<td>
 		<div>
-			<input id="{$listPrice}" name="{$listPrice}" value="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
+			<input id="{$listPrice}" name="{$listPrice}" value="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0.00{/if}" title="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
 			<br />{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
-			<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
+			<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" title="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
 			<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
-			<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
+			<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" title="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
 			<br />{vtranslate('LBL_MARGINP',$MODULE)}:<br />
-			<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
+			<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" title="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
 		</div>
 	</td>
 	<td>
-		<input id="{$rbh}" name="{$rbh}" type="text" class="rbh smallInputBox" value="{if !empty($data.$rbh)}{$data.$rbh}{else}0.00{/if}"/>
+		<input id="{$rbh}" name="{$rbh}" type="text" class="rbh smallInputBox" value="{if !empty($data.$rbh)}{$data.$rbh}{else}0.00{/if}" title="{if !empty($data.$rbh)}{$data.$rbh}{else}0.00{/if}"/>
 	</td>
 	<td>
 		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0.00{/if}</div>
 	</td>
 	<td>
-		<div style="width: 450px;"><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox {if $row_no neq 0}ckEditorSource{/if} ckEditorBasic ckEditorSmall">{$data.$comment}</textarea></div>
+		<div style="width: 450px;"><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox {if $row_no neq 0}ckEditorSource{/if} ckEditorBasic ckEditorSmall">{$data.$comment}</textarea></div>
 	</td>	

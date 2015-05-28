@@ -19,25 +19,25 @@
 	<tbody>
     <tr>
 		<td>
-			<span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</b>
+			<span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_QTY',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_QTY',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_UNIT',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_UNIT',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_RBH',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_RBH',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</b>
+			<strong>{vtranslate('LBL_TOTAL',$MODULE_NAME)}</strong>
 		</td>
 		<td>
-			<b>{vtranslate('ProductComments',$MODULE_NAME)}</b>
+			<strong>{vtranslate('ProductComments',$MODULE_NAME)}</strong>
 		</td>
     </tr>
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
@@ -111,7 +111,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</b>
+				<strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -123,7 +123,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total Purchase',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total Purchase',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -135,7 +135,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -147,7 +147,7 @@
 	    <tr>
 			<td width="83%">
 				<span class="pull-right">
-				<b>{vtranslate('Total margin Percentage',$MODULE_NAME)}</b>
+				<strong>{vtranslate('Total margin Percentage',$MODULE_NAME)}</strong>
 				</span>
 			</td>
 			<td>
@@ -157,3 +157,4 @@
 			</td>
 	    </tr>
 	</table>
+	

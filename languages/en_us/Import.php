@@ -79,5 +79,7 @@ $languageStrings = [
 	'LBL_DETAILS' => 'Details',
 	'skipped' => 'Skipped Records',
 	'failed' => 'Failed Records',
+	'LBL_SELECT_FILE' => 'Select file to import',
 	
 ];
+

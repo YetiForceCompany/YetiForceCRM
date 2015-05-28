@@ -16,9 +16,11 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 Below you can see how we improve our project with each new version:
 
 
-#YetiForce 2.0 GA [2015-05-21]
+#YetiForce 2.0 (under development)
 
-Changes: 1.4 > 2.0
+The following changes are up to 1.4.492 - [#899] (https://github.com/YetiForceCompany/YetiForceCRM/commit/d56893646a8c882f7720cd46d826aba3877346ea) revision. 
+
+
 **Bug Fixes:** 
 -	Fixed notifications for contacts when a ticket is created, modified or closed.
 -	Fixed parsing of variables in email templates.

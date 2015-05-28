@@ -1026,10 +1026,11 @@ jQuery.Class("Vtiger_Edit_Js",{
 			return;
 		}
 
-		var sourcePickListNames = "";
+		var sourcePickListNames = [];
 		for(var i=0;i<sourcePicklists.length;i++){
-			sourcePickListNames += '[name="'+sourcePicklists[i]+'"],';
+			sourcePickListNames.push('[name="'+sourcePicklists[i]+'"]');
 		}
+		sourcePickListNames = sourcePickListNames.join(',');
 		var sourcePickListElements = container.find(sourcePickListNames);
 
 		sourcePickListElements.on('change',function(e){
@@ -1336,7 +1337,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				    jQuery(this).parents('table').find('[name^="'+addressType+'"]').val(ui.item.components[key]);
 				}
 			}
-		    }).data("autocomplete")._renderItem = function (ul, item) {
+		    }).data("ui-autocomplete")._renderItem = function (ul, item) {
 			 return jQuery("<li>")
 			     .data("item.autocomplete", item)
 			     .append('<a><img style="width: 24px; height: 24px;" class="alignMiddle" src="layouts/vlayout/skins/images/' 

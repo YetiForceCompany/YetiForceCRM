@@ -732,7 +732,16 @@ $languageStrings = [
 	'LBL_COMAPARATOR_TYPE' => 'Rodzaj porównania',
 	'LBL_FILTER_NAME' => 'Nazwa filtru',
 	'Leads by Status Converted' => 'Leady skonwertowane według statusu',
-	
+	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
+	'LBL_CREATE_PDF' => 'Utwórz pdf',
+	'LBL_CREATE_PDF_SEND_MAIL' => 'Utwórz pdf i wyślij go e-mailem',
+	'LBL_SEND_MAIL_PDF' => 'Wyślij mailem PDF',
+	'LBL_SORT_DESCENDING' => 'Sortuj malejąco',
+	'LBL_SORT_ASCENDING' => 'Sortuj rosnąco',
+	'LBL_SEARCH_IN_FIELD' => 'Wyszukaj frazy w polu',
+	'LBL_SELECT_FILE' => 'Wybierz plik do dodania',
+	'LBL_ENABLE_CURRENCY' => 'Waluta zaznaczona',
+	'LBL_DISABLE_CURRENCY' => 'Waluta wyłączona',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',

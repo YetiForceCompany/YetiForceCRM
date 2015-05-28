@@ -43,8 +43,8 @@
 	
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
 	<td>
-		<i class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></i>
-		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
+		<span class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
+		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
 	<td>
@@ -57,25 +57,25 @@
 			<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" class="lineItemType"/>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			{if $row_no eq 0}
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-				&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+				<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
+				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
+				&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 			{else}
 				{if !$RECORD_ID} 
 					{if ($entityType eq 'Services') and (!$data.$productDeleted) or $PRODUCT_ACTIVE neq 'true'} 
-						<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-						&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+						<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
+						&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 					{elseif (!$data.$productDeleted)}
-							<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-							&nbsp;<i class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i>
+							<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/>
+							&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 					{/if}   
 				{else} 
 					{if ($entityType eq 'Services') and (!$data.$productDeleted)} 
-							<img class="{if $SERVICE_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/> 
-							&nbsp;<i class="icon-remove-sign {if $SERVICE_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i> 
+							<img class="{if $SERVICE_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/> 
+							&nbsp;<span class="icon-remove-sign {if $SERVICE_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
 					{elseif (!$data.$productDeleted)} 
-							<img class="{if $PRODUCT_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/> 
-						&nbsp;<i class="icon-remove-sign {if $PRODUCT_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></i> 
+							<img class="{if $PRODUCT_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/> 
+						&nbsp;<span class="icon-remove-sign {if $PRODUCT_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
 					{/if}   
 				{/if} 
 			{/if}
@@ -91,11 +91,11 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
+			<div><br><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
 		{/if}
 	</td>
 	<td>
-		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
+		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}" title="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
 		<br>
 		{if !empty($data.$qtyInStock)}
 		<span class="stockAlert" style="color: green;">
@@ -112,7 +112,7 @@
 		</div>
 		<div>
 			<span>
-				(-)&nbsp; <b><a href="javascript:void(0)" class="individualDiscount">{vtranslate('LBL_DISCOUNT',$MODULE)}</a> : </b>
+				(-)&nbsp; <strong><a href="javascript:void(0)" class="individualDiscount">{vtranslate('LBL_DISCOUNT',$MODULE)}</a> : </strong>
 			</span>
 		</div>
 		<div class="discountUI validCheck hide" id="discount_div{$row_no}">
@@ -124,7 +124,7 @@
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
 			   <tr>
 				   <!-- TODO : CLEAN : should not append product total it should added in the js because product total can change at any point of time -->
-					<th id="discount_div_title{$row_no}" nowrap><b>{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)} : {$data.$productTotal}</b></th>
+					<th id="discount_div_title{$row_no}" nowrap><strong>{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)} : {$data.$productTotal}</strong></th>
 					<th>
 						<button type="button" class="close closeDiv">x</button>
 					</th>
@@ -132,7 +132,7 @@
 			   <!-- TODO : discount price and amount are hide by default we need to check id they are already selected if so we should not hide them  -->
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} title="{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}" {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
 						&nbsp;
 						{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}
 					</td>
@@ -143,23 +143,23 @@
 			   </tr>
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} class="discounts" data-discount-type="percentage" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} title="{vtranslate('LBL_OF_PRICE',$MODULE)}" class="discounts" data-discount-type="percentage" />
 						&nbsp; %
 						{vtranslate('LBL_OF_PRICE',$MODULE)}
 					</td>
 					<td>
 						<span class="pull-right">&nbsp;%</span>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" title="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 					</td>
 			   </tr>
 			   <tr>
 					<td class="LineItemDirectPriceReduction">
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} class="discounts" data-discount-type="amount" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" class="discounts" data-discount-type="amount" />
 						&nbsp;
 						{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 					</td>
 					<td>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" title="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 					</td>
 			   </tr>
 			</table>
@@ -171,17 +171,17 @@
 			</div>
 		</div>
 		<div>
-			<b>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</b>
+			<strong>{vtranslate('LBL_TOTAL_AFTER_DISCOUNT',$MODULE)} :</strong>
 		</div>
 		<div class="individualTaxContainer {if $IS_GROUP_TAX_TYPE}hide{/if}">
-			(+)&nbsp;<b><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </b>
+			(+)&nbsp;<strong><a href="javascript:void(0)" class="individualTax">{vtranslate('LBL_TAX',$MODULE)} </a> : </strong>
 		</div>
 		<span class="taxDivContainer">
 			<div class="taxUI hide" id="tax_div{$row_no}" style="width: 35%;">
 			<!-- we will form the table with all taxes -->
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable" id="tax_table{$row_no}">
 			   <tr>
-					<th colspan="2" id="tax_div_title{$row_no}" nowrap align="left" ><b>{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : {$data.$totalAfterDiscount}</b></th>
+					<th colspan="2" id="tax_div_title{$row_no}" nowrap align="left" ><strong>{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : {$data.$totalAfterDiscount}</strong></th>
 					<th colspan="2">
 						<button type="button" class="close closeDiv">x</button>
 					</th>
@@ -224,3 +224,4 @@
 	<td>
 		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0.00{/if}</span>
 	</td>
+	

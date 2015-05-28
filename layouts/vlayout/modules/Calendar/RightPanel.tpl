@@ -51,7 +51,7 @@
 						<div class="row-fluid">
 							<div class="span4">
 								{$SHIFT_USER_TITLE="LBL_SHITF_{$ITEM|upper}_SHOW"}
-								<input id="{$OWNER_ID}" title="{vtranslate('LBL_SHIFT_USER_SHOW')}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57"/>
+								<input id="{$OWNER_ID}" data-value="{$OWNER_ID}"  title="{vtranslate('LBL_SHIFT_USER_SHOW')}" class="switchBtn label" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57"/>
 							</div>
 							<div class="span8 marginLeftZero " style=" background: White">
 								<label for="{$OWNER_ID}" class="muted" style="text-align:center;">&nbsp;{$OWNER_NAME}<span class="userCol_{$OWNER_ID} pull-right" style="width: 9px; height: 9px; margin: 5px"></span>

@@ -51,7 +51,7 @@
         {assign var="listPriceValues" value=Products_Record_Model::getListPriceValues($productId)}
 	<td>
 		<i class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></i>
-		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
+		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
 	<td>
@@ -98,11 +98,11 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><textarea id="{$comment}" name="{$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
+			<div><br><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox">{$data.$comment}</textarea>
 		{/if}
 	</td>
 	<td>
-		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
+		<input id="{$qty}" name="{$qty}" type="text" class="qty smallInputBox" data-validation-engine="validate[required,funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]" value="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}" title="{if !empty($data.$qty)}{$data.$qty}{else}1{/if}"/>
 		{if $MODULE neq 'PurchaseOrder'}
 		<br>
 		<span class="stockAlert redColor {if $data.$qty <= $data.$qtyInStock}hide{/if}" >
@@ -147,7 +147,7 @@
 			   <!-- TODO : discount price and amount are hide by default we need to check id they are already selected if so we should not hide them  -->
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_zero} title="{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}" {if empty($data)}checked{/if} class="discounts" data-discount-type="zero" />
 						&nbsp;
 						{vtranslate('LBL_ZERO_DISCOUNT',$MODULE)}
 					</td>
@@ -158,23 +158,23 @@
 			   </tr>
 			   <tr>
 					<td>
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} class="discounts" data-discount-type="percentage" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_percent} title="{vtranslate('LBL_OF_PRICE',$MODULE)}" class="discounts" data-discount-type="percentage" />
 						&nbsp; %
 						{vtranslate('LBL_OF_PRICE',$MODULE)}
 					</td>
 					<td>
 						<span class="pull-right">&nbsp;%</span>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_percentage{$row_no}" name="discount_percentage{$row_no}" value="{$data.$discount_percent}" title="{$data.$discount_percent}" class="discount_percentage smallInputBox pull-right discountVal {if empty($data.$checked_discount_percent)}hide{/if}" />
 					</td>
 			   </tr>
 			   <tr>
 					<td class="LineItemDirectPriceReduction">
-						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} class="discounts" data-discount-type="amount" />
+						<input type="radio" name="discount{$row_no}" {$data.$checked_discount_amount} title="{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}" class="discounts" data-discount-type="amount" />
 						&nbsp;
 						{vtranslate('LBL_DIRECT_PRICE_REDUCTION',$MODULE)}
 					</td>
 					<td>
-						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
+						<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" id="discount_amount{$row_no}" name="discount_amount{$row_no}" value="{$data.$discount_amount}" title="{$data.$discount_amount}" class="smallInputBox pull-right discount_amount discountVal {if empty($data.$checked_discount_amount)}hide{/if}"/>
 					</td>
 			   </tr>
 			</table>
@@ -209,7 +209,7 @@
 			   {assign var="popup_tax_rowname" value="popup_tax_row"|cat:$row_no}
 			   <tr>
 				<td>
-					<input type="radio" name="tax_option{$row_no}" class="tax_option" value="{$tax_data.taxname}" {if {$data[$tax]} == $tax_data.taxname}checked{/if}>
+					<input type="radio" name="tax_option{$row_no}" class="tax_option" value="{$tax_data.taxname}" value="{$tax_data.taxname}" {if {$data[$tax]} == $tax_data.taxname}checked{/if}>
 				</td>
 				<td>
 					<input type="text" data-validation-engine="validate[funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" name="{$taxname}" id="{$taxname}" value="{$tax_data.percentage}" class="smallInputBox taxPercentage" readonly="readonly"/>&nbsp;%

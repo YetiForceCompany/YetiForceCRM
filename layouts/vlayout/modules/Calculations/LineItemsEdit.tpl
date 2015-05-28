@@ -17,13 +17,13 @@
             <th colspan="8"><span>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
         </tr>
         <tr>
-            <td><b>{vtranslate('LBL_TOOLS',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_ITEM_NAME',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_QTY',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_UNIT',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_LIST_PRICE',$MODULE)}</b></td>
-			<td><b>{vtranslate('LBL_RBH',$MODULE)}</b></td>
-            <td><b class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</b></td>
+            <td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_QTY',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>
+			<td><strong>{vtranslate('LBL_RBH',$MODULE)}</strong></td>
+            <td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
 			<td></td>
         </tr>
         <tr id="row0" class="hide lineItemCloneCopy">
@@ -46,25 +46,25 @@
                 <div class="btn-toolbar">
                     <span class="btn-group">
                         <button type="button" class="btn addButton" id="addProduct">
-                            <i class="icon-plus icon-white"></i><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                            <span class="icon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                         </button>
                     </span>
                     <span class="btn-group">
                         <button type="button" class="btn addButton" id="addService">
-                            <i class="icon-plus icon-white"></i><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                            <span class="icon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                         </button>
                     </span>
                 </div>
             {elseif $PRODUCT_ACTIVE eq 'true'}
                 <div class="btn-group">
                     <button type="button" class="btn addButton" id="addProduct">
-                        <i class="icon-plus icon-white"></i><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                     </button>
                 </div>
             {elseif $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-group">
                     <button type="button" class="btn addButton" id="addService">
-                        <i class="icon-plus icon-white"></i><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                     </button>
                 </div>
             {/if}
@@ -73,7 +73,7 @@
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemResult">
         <tr valign="top">
             <td  width="83%">
-                <span class="pull-right"><b>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</b></span>
+                <span class="pull-right"><strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</strong></span>
             </td>
             <td>
                 <span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
@@ -82,7 +82,7 @@
             <tr valign="top">
                 <td width="83%" >
                     <div class="pull-right">
-                        <b>{vtranslate('Total Purchase',$MODULE)}</b>
+                        <strong>{vtranslate('Total Purchase',$MODULE)}</strong>
                     </div>
                 </td>
                 <td>
@@ -92,7 +92,7 @@
             <tr valign="top">
                 <td width="83%" >
                     <div class="pull-right">
-                        <b>{vtranslate('Total margin',$MODULE)}</b>
+                        <strong>{vtranslate('Total margin',$MODULE)}</strong>
                     </div>
                 </td>
                 <td>
@@ -102,7 +102,7 @@
             <tr valign="top">
                 <td width="83%" >
                     <div class="pull-right">
-                        <b>{vtranslate('Total margin Percentage',$MODULE)}</b>
+                        <strong>{vtranslate('Total margin Percentage',$MODULE)}</strong>
                     </div>
                 </td>
                 <td>

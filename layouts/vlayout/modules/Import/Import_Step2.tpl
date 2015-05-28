@@ -20,7 +20,7 @@
 		<td>&nbsp;</td>
 		<td><span>{'LBL_FILE_TYPE'|@vtranslate:$MODULE}</span></td>
 		<td>
-			<select name="type" id="type" onchange="ImportJs.handleFileTypeChange();">
+			<select name="type" id="type" title="{vtranslate('LBL_FILE_TYPE', $MODULE)}" onchange="ImportJs.handleFileTypeChange();">
 				{foreach item=_FILE_TYPE from=$SUPPORTED_FILE_TYPES}
 				<option value="{$_FILE_TYPE}">{$_FILE_TYPE|@vtranslate:$MODULE}</option>
 				{/foreach}
@@ -31,7 +31,7 @@
 		<td>&nbsp;</td>
 		<td><span>{'LBL_CHARACTER_ENCODING'|@vtranslate:$MODULE}</span></td>
 		<td>
-			<select name="file_encoding" id="file_encoding">
+			<select name="file_encoding" id="file_encoding" title="{vtranslate('{LBL_CHARACTER_ENCODING', $MODULE)}">
 				{foreach key=_FILE_ENCODING item=_FILE_ENCODING_LABEL from=$SUPPORTED_FILE_ENCODING}
 				<option value="{$_FILE_ENCODING}">{$_FILE_ENCODING_LABEL|@vtranslate:$MODULE}</option>
 				{/foreach}
@@ -42,7 +42,7 @@
 		<td>&nbsp;</td>
 		<td><span>{'LBL_DELIMITER'|@vtranslate:$MODULE}</span></td>
 		<td>
-			<select name="delimiter" id="delimiter">
+			<select name="delimiter" id="delimiter" title="{vtranslate('LBL_DELIMITER', $MODULE)}">
 				{foreach key=_DELIMITER item=_DELIMITER_LABEL from=$SUPPORTED_DELIMITERS}
 				<option value="{$_DELIMITER}">{$_DELIMITER_LABEL|@vtranslate:$MODULE}</option>
 				{/foreach}
@@ -52,6 +52,6 @@
 	<tr id="has_header_container">
 		<td>&nbsp;</td>
 		<td><span>{'LBL_HAS_HEADER'|@vtranslate:$MODULE}</span></td>
-		<td><input type="checkbox" id="has_header" name="has_header" checked /></td>
+		<td><input type="checkbox" id="has_header" name="has_header" title="{vtranslate('LBL_HAS_HEADER', $MODULE)}" checked /></td>
 	</tr>
 </table>
