@@ -15,7 +15,7 @@
 <tr>
 <td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px"><span class="redColor">*</span> {vtranslate('LBL_moduleid', 'OSSPdf')}</label></td>
 <td class="fieldValue wideWidthType">
-	<select name="moduleid" onchange="test();">
+	<select name="moduleid" title="{vtranslate('LBL_moduleid', 'OSSPdf')}" onchange="test();">
 	{foreach item=record from=$TABLIST}
 		<option value="{$record.id}" {if $record.id eq $SELECTED_MODULE} SELECTED {/if}>{$record.label}</option>
 	{/foreach}
@@ -25,7 +25,7 @@
 
 <td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
 <td class="fieldValue wideWidthType">
-	<select id='select_default_field' style="width: 200px;">	
+	<select id='select_default_field' title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" style="width: 200px;">	
 		{foreach key=name item=single_field from=$DEFAULT_FIELDS}
 				<optgroup label="{$name}">
 			{foreach item=field from=$single_field}
@@ -46,7 +46,7 @@
 		<label class="muted pull-right marginRight10px">{$LBL_RELATED_MODULE}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-		<select id='relatedmodule' onchange="newvalues();">
+		<select id='relatedmodule' title="{$LBL_RELATED_MODULE}" onchange="newvalues();">
 			{foreach item=label key=name from=$RELMODULE}
 				<option value="{$name}">{$label}</option>
 			{/foreach}
@@ -55,7 +55,7 @@
 
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{$LBL_RELATED_FIELDS}</label></td>
 	<td class="fieldValue wideWidthType">
-		<select id='select_relatedfield' style="width: 200px;">	
+		<select id='select_relatedfield' title="{$LBL_RELATED_FIELDS}" style="width: 200px;">	
 			{foreach key=name item=single_field from=$RELATEDFIELDS}
 				<optgroup label="{$name}">
 				{foreach item=field from=$single_field}
@@ -75,7 +75,7 @@
 		<label class="muted pull-right marginRight10px">{$LBL_PRODUCT_MODULE}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-		<select id='productmodule'>
+		<select title="{$LBL_PRODUCT_MODULE}" id='productmodule'>
 			{foreach item=label key=name from=$PRODMODULE}
 				<option value="{$name}">{$label}</option>
 			{/foreach}
@@ -88,7 +88,7 @@
 {/if}
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate({$LBL_COMPANY_DETAILS}, 'OSSPdf')}</label></td>
 	<td class="fieldValue wideWidthType">
-		<select id='companydata' style="width: 200px;">
+		<select id='companydata' title="{vtranslate({$LBL_COMPANY_DETAILS}, 'OSSPdf')}" style="width: 200px;">
 			{foreach item=label key=name from=$COMPANY}
 				<option value="{$name}">{$label}</option>
 			{/foreach}
@@ -102,13 +102,13 @@
 		<label class="muted pull-right marginRight10px">{$LBL_INSERTREPORT}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-		<select id='reportid'>
+		<select title="{$LBL_INSERTREPORT}" id='reportid'>
 				{foreach item=label key=name from=$REPORTS}
 			<option value="{$name}">{$label}</option>
 			{/foreach}
 		</select><br/>
 	<label style="margin: 0px 10px; float: left; color: #999999; display: block; font-size: 13px; font-weight: normal; line-height: 18px;">{$LBL_CHOSENMODULE}</label>
-	<input type="checkbox" id="ifchosen" name="ifchosen" />
+	<input type="checkbox" id="ifchosen" title="{$LBL_CHOSENMODULE}" name="ifchosen" />
 	</select>
 	<input type="hidden" value="" id="7" />
 	<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
@@ -118,7 +118,7 @@
 {/if}
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{$LBL_SET_DEFAULT_TEMPLATE}</label></td>
 	<td class="fieldValue wideWidthType">
-		<select id="templates"  style="width: 200px;">
+		<select id="templates" title="{$LBL_SET_DEFAULT_TEMPLATE}"  style="width: 200px;">
 			<option name="start">{$LBL_SET_DEFAULT_TEMPLATE}</option>
 			{foreach key=name item=value from=$TEMPLATES}
 				<option name="{$name}">{$value}</option>
@@ -286,3 +286,5 @@ clip2.on( 'complete', function(client, args) {
 
 } );
 </script>
+
+

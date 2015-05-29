@@ -468,6 +468,7 @@ $languageStrings = [
     'Document summary: show tax amount :' => 'Document summary: show tax amount :',
     'Show document summary :' => 'Show document summary :',
 	'LBL_SELECT_OPTION' => 'Option wählen',
+	'LBL_SELECT_DATE_TYPE' => 'Select date type',
 ];
 
 $jsLanguageStrings = [

@@ -494,6 +494,7 @@ $languageStrings = [
 	'LBL_OR' => 'lub',
 	'LBL_AND' => 'i',
 	'LBL_SELECT_OPTION' => 'Wybierz',
+	'LBL_SELECT_DATE_TYPE' => 'Wybierz rodzaj daty',
 ];
 $jsLanguageStrings = [
 	'Show document summary :' => 'Pokaż podsumowanie dokumentu:',
