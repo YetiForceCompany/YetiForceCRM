@@ -744,6 +744,7 @@ $languageStrings = [
 	'LBL_DISABLE_CURRENCY' => 'Waluta wyłączona',
 	'LBL_SELECT_ALL_CURRENTPAGE' => 'Wybierz wszystkie rekordy na obecnej stronie',
 	'LBL_SELECT_RECORD' => 'Wybierz rekord',
+	'LBL_SELECT_RELATED_FIELD' => 'Wybierz pole powiązanego modułu',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',
