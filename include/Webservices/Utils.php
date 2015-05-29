@@ -1002,12 +1002,14 @@ function vtws_getWebserviceTranslatedString($label) {
 }
 
 function vtws_getWebserviceCurrentLanguage() {
-	if(empty(vglobal('current_language'))) {
-		return vglobal('default_language');
+	$lang = vglobal('current_language');
+	if(empty($lang)) {
+		$lang = vglobal('default_language');
 	}
-	return vglobal('current_language');
+	return $lang;
 }
 
 function vtws_getWebserviceDefaultLanguage() {
-	return vglobal('default_language');
+	$lang = vglobal('default_language');
+	return $lang;
 }
