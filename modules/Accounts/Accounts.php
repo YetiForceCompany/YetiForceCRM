@@ -1457,6 +1457,4 @@ class Accounts extends CRMEntity {
 		return $entityIds;
 	}
 }
-
 ?>
-
