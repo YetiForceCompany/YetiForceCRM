@@ -177,10 +177,10 @@
 					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 					</select>
 					<button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
-						<i class="icon-arrow-down"></i>
+						<span class="icon-arrow-down"></span>
 					</button>
 					<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
-						<i class="icon-arrow-down"></i>
+						<span class="icon-arrow-down"></span>
 					</button>
 				</td>
 			{/if}
@@ -197,10 +197,10 @@
 						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 						</select>
 						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 						<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
@@ -216,7 +216,7 @@
 						<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
 						</select>
 						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
