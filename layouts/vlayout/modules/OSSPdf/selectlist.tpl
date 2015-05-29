@@ -34,8 +34,8 @@
 				</optgroup>
 		{/foreach}
 	</select>
-	<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>&nbsp;
-	<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+	<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>&nbsp;
+	<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
 </td>
 
 <tr id="div_2"></tr><tr id="test"></tr>
@@ -64,8 +64,8 @@
 					</optgroup>
 			{/foreach}
 		</select>
-		<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>&nbsp;
-		<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+		<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>&nbsp;
+		<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
 	</td>
 </tr>
 {/if}
@@ -81,7 +81,7 @@
 			{/foreach}
 		</select>
 		<input type="hidden" value="" id="5" />
-		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="5" id="copy5" title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="5" id="copy5" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
 	</td>
 {else}
 <tr>
@@ -93,7 +93,7 @@
 				<option value="{$name}">{$label}</option>
 			{/foreach}
 		</select>
-		<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><i class="icon-download-alt"></i> </button>
+		<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><span class="icon-download-alt"></span> </button>
 	</td>
 </tr>
 {if $ChosenModule neq '25'}
@@ -111,7 +111,7 @@
 	<input type="checkbox" id="ifchosen" title="{$LBL_CHOSENMODULE}" name="ifchosen" />
 	</select>
 	<input type="hidden" value="" id="7" />
-	<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+	<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
 	</td>
 {else}
 <tr>
