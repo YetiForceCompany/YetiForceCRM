@@ -1158,6 +1158,8 @@ $languageStrings = [
 	'LBL_SELECT_FILE' => 'Select file to upload',
 	'LBL_ENABLE_CURRENCY' => 'Currency enable',
 	'LBL_DISABLE_CURRENCY' => 'Currency disable',
+	'LBL_SELECT_ALL_CURRENTPAGE' => 'Select all records on current page',
+	'LBL_SELECT_RECORD' => 'Select record',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',

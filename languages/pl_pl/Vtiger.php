@@ -742,6 +742,8 @@ $languageStrings = [
 	'LBL_SELECT_FILE' => 'Wybierz plik do dodania',
 	'LBL_ENABLE_CURRENCY' => 'Waluta zaznaczona',
 	'LBL_DISABLE_CURRENCY' => 'Waluta wyłączona',
+	'LBL_SELECT_ALL_CURRENTPAGE' => 'Wybierz wszystkie rekordy na obecnej stronie',
+	'LBL_SELECT_RECORD' => 'Wybierz rekord',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',
