@@ -115,7 +115,7 @@
             <thead>
                 <tr class="listViewHeaders">
                     <th width="4%">
-                        <input type="checkbox" id="listViewEntriesMainCheckBox"/>
+                        <input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
                     </th>
                     {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
                         <th nowrap>
@@ -137,7 +137,7 @@
             {foreach item=RELATED_RECORD from=$RELATED_RECORDS}
                 <tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
                     <td width="4%" class="{$WIDTHTYPE}">
-                        <input type="checkbox" value="{$RELATED_RECORD->getId()}" class="listViewEntriesCheckBox"/>
+                        <input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
                     </td>
                     {foreach item=HEADER_FIELD from=$RELATED_HEADERS}
                         {assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
