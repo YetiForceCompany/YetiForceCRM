@@ -67,7 +67,7 @@ function printMail(){
 								</a>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn " data-mode="previewPrint">
+								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn " data-mode="previewPrint">
 									<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT','OSSMailView')}" title="{vtranslate('LBL_PRINT','OSSMailView')}">
 								</button>
 							</span>
@@ -85,7 +85,7 @@ function printMail(){
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 							<span class="btn-group">
-								<button class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+								<button class="btn dropdown-toggle" data-toggle="dropdown" >
 									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
