@@ -11,25 +11,25 @@
 {strip}
 	<input type="hidden" id="supportedImageFormats" value='{ZEND_JSON::encode(Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)}' />
 	<div class="padding-left1per">
-		<div class="row-fluid widget_header">
-			<div class="span8">
+		<div class="row widget_header">
+			<div class="col-md-8">
 				<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}</h3>
 				{if $DESCRIPTION}<span style="font-size:12px;color: black;"> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</span>{/if}
 			</div>
-			<div class="span3">
-				<button id="addCustomField" class="btn  pull-right" type="button">
+			<div class="col-md-3">
+				<button id="addCustomField" class="btn btn-default pull-right" type="button">
 					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
-			<div class="span1">
+			<div class="col-md-1">
 			
-			<button id="updateCompanyDetails" class="btn pull-right">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+			<button id="updateCompanyDetails" class="btn btn-default pull-right">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 		<hr>
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<div  id="CompanyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
-			<div class="row-fluid">
+			<div class="row">
 				<table class="table table-bordered">
 					<thead>
 						<tr class="blockHeader">
@@ -93,7 +93,7 @@
 								{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 							</span>
 							{if !empty($ERROR_MESSAGE)}
-								<br><br><div class="marginLeftZero span9 alert alert-error">
+								<br><br><div class="marginLeftZero col-md-9 alert alert-error">
 									{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
 								</div>
 							{/if}

@@ -18,8 +18,8 @@
 			</span>
 		</span>
 	{/if}
-	<span class="span8 margin0px">
-		<span class="row-fluid">
+	<span class="col-md-8 margin0px">
+		<span class="row">
 			<h4 class="recordLabel pushDown" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
@@ -31,12 +31,12 @@
 		</span>
 		{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
 		{if !empty($RELATED_TO)}
-		<span class="row-fluid">
+		<span class="row">
 			<span class="muted">{vtranslate('Related to',$MODULE_NAME)} - </span>
 			{$RECORD->getDisplayValue('linktoaccountscontacts')}
 		</span>
 		{/if}
-		<span class="row-fluid">
+		<span class="row">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}

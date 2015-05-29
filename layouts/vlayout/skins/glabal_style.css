@@ -1,4 +1,4 @@
-.imageHolder.bigLoading{
+﻿.imageHolder.bigLoading{
 	width: 200px;
 	margin: auto;
 }
@@ -125,9 +125,9 @@ nav.menu{
 	#OSSMailBoxInfo .mail_user_name{ background-image: url("../../../layouts/vlayout/skins/images/Emails.png");  background-position: 0px -4px;  width: 23px;  display: block;}
 }
 @media (max-width: 960px) {
-	#headerLinksCompact .btn-navbar{ margin-top: -3px;  margin-right: 8px;}
+	#headerLinksCompact .navbar-btn{ margin-top: -3px;  margin-right: 8px;}
 	#headerLinksBig{display: none;}
-	.actionsContainer > .span10 {width: 99.99999998999999%; margin-left: 0;}
+	.actionsContainer > .col-md-10 {width: 99.99999998999999%; margin-left: 0;}
 }
 #commonMoreMenu{
 	margin: 0;

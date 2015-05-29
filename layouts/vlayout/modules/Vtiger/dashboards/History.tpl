@@ -10,19 +10,19 @@
  ********************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
-		<div class="span4">
+		<div class="col-md-4">
 			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr"/>
-	<div class="row-fluid" >
-		<div class="span12">
+	<div class="row" >
+		<div class="col-md-12">
 			<div class="pull-right">
 				<div>
 					<select class="widgetFilter" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type" style='margin-bottom:0px'>

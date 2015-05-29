@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -49,11 +49,11 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		var fieldMandatoryStatus = selectedFieldOption.data('mandatory');
 		var UI = fieldInstance.getUiTypeSpecificHtml();
 		var UI = jQuery(UI);
-		var addOnElementExist = UI.find('.add-on');
-		var parentInputPrepend = addOnElementExist.closest('.input-prepend');
+		var addOnElementExist = UI.find('.input-group-addon');
+		var parentInputPrepend = addOnElementExist.closest('.input-group');
 		
 		if((parentInputPrepend.length > 0) && (selectedOptionType != "reference")){
-			parentInputPrepend.find('.add-on').addClass('overWriteAddOnStyles');
+			parentInputPrepend.find('.input-group-addon').addClass('overWriteAddOnStyles');
 		}
 
 		var webFormTargetFieldStructure = '<tr data-name="'+selectedOptionName+'" data-type="'+selectedOptionType+'" data-mandatory-field="'+fieldMandatoryStatus+'" class="listViewEntries">'+
@@ -76,7 +76,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		}
 		
 		webFormTargetFieldStructure+=	'<div class="pull-right actions">'+
-										'<span class="actionImages"><a class="removeTargetModuleField"><i class="icon-remove-sign"></i></a></span></div></td></tr>';
+										'<span class="actionImages"><a class="removeTargetModuleField"><i class="glyphicon glyphicon-remove-sign"></i></a></span></div></td></tr>';
 				
 		targetFieldsTable.append(webFormTargetFieldStructure);
 		targetFieldsTable.find('[data-name="fieldUI_'+selectedOptionName+'"]').html(UI);
@@ -309,17 +309,17 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 	
 	/**
 	 * Function to add floatNone and displayInlineBlock class for
-	 * add-on element in a form
+	 * input-group-addon element in a form
 	 */
 	addExternalStylesForElement : function(){
 		var editViewForm = this.getForm();
 		var targetModuleFieldsTable = this.getSourceModuleFieldTable();
-		var addOnElementExist = editViewForm.find('.add-on');
-		var parentInputPrepend = addOnElementExist.closest('.input-prepend');
-		if(parentInputPrepend.length > 0 && (!parentInputPrepend.hasClass('input-append'))){
-			parentInputPrepend.find('.add-on').addClass('overWriteAddOnStyles');
+		var addOnElementExist = editViewForm.find('.input-group-addon');
+		var parentInputPrepend = addOnElementExist.closest('.input-group');
+		if(parentInputPrepend.length > 0 && (!parentInputPrepend.hasClass('input-group'))){
+			parentInputPrepend.find('.input-group-addon').addClass('overWriteAddOnStyles');
 		}
-		targetModuleFieldsTable.find('input.timepicker-default').removeClass('input-small');
+		targetModuleFieldsTable.find('input.timepicker-default').removeClass('input-sm');
 		targetModuleFieldsTable.find('textarea').removeClass('input-xxlarge').css('width',"80%");
 		targetModuleFieldsTable.find('input.currencyField').css('width',"210px")
 	},

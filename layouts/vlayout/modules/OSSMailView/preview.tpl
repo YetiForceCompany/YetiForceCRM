@@ -17,7 +17,7 @@
 	<br>
 	<div class="well-large zeroPaddingAndMargin">
 		<div class="modal-header blockHeader emailPreviewHeader" style="height:30px">
-			<h3 class='span4'>{vtranslate('emailPreviewHeader','OSSMailView')}</h3>
+			<h3 class='col-md-4'>{vtranslate('emailPreviewHeader','OSSMailView')}</h3>
 			<div class='pull-right'>
 				<span class="btn-toolbar" >
 					<span class="btn-group">
@@ -48,34 +48,34 @@
 			</div>
 		</div>
 		<form class="form-horizontal emailPreview" style="overflow: overlay;">
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('From',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_From" class="row-fluid">{$FROM}</span>
+					<span class="col-md-9">
+						<span id="emailPreview_From" class="row">{$FROM}</span>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('To',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_To" class="row-fluid">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
+					<span class="col-md-9">
+						<span id="emailPreview_To" class="row">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
 					</span>
 				</span>
 			</div>
 			{if !empty($CC)}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('CC',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_Cc" class="row-fluid">
+					<span class="col-md-9">
+						<span id="emailPreview_Cc" class="row">
 							{$CC}
 						</span>
 					</span>
@@ -83,39 +83,39 @@
 			</div>
 			{/if}
 			{if !empty($BCC)}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('BCC',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_Bcc" class="row-fluid">
+					<span class="col-md-9">
+						<span id="emailPreview_Bcc" class="row">
 							{$BCC}
 						</span>
 					</span>
 				</span>
 			</div>
 			{/if}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('Subject',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_Subject" class="row-fluid">
+					<span class="col-md-9">
+						<span id="emailPreview_Subject" class="row">
 							{$SUBJECT}
 						</span>
 					</span>
 				</span>
 			</div>
 			{if !empty($ATTACHMENTS)}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('Attachments_Exist',$MODULENAME)}</span>
 					</span>
-					<span class="span9">
-						<span id="emailPreview_attachment" class="row-fluid">
+					<span class="col-md-9">
+						<span id="emailPreview_attachment" class="row">
 							{foreach item=ATTACHMENT from=$ATTACHMENTS}
                                 <a &nbsp;
                                 {if array_key_exists('docid',$ATTACHMENT)}
@@ -131,32 +131,32 @@
 				</span>
 			</div>
 			{/if}
-			<div class="row-fluid padding-bottom1per content">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per content">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
 					</span>
-					<span class="span10">
+					<span class="col-md-10">
 						<iframe id="emailPreview_Content" style="width: 100%;height: 600px;" src="{$URL}" frameborder="0"></iframe>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid">
-				<span class="span1">&nbsp;</span>
-				<span class="span10 margin0px"><hr/></span>
+			<div class="row">
+				<span class="col-md-1">&nbsp;</span>
+				<span class="col-md-10 margin0px"><hr/></span>
 			</div>
-			<div class="row-fluid">
-				<span class="span4">&nbsp;</span>
-				<span class="span4 textAlignCenter">
+			<div class="row">
+				<span class="col-md-4">&nbsp;</span>
+				<span class="col-md-4 textAlignCenter">
 					<span class="muted">
 						<small><em>{vtranslate('Sent',$MODULENAME)}</em></small>
                         <span><small><em>&nbsp;{$SENT}</em></small></span>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid">
-				<span class="span3">&nbsp;</span>
-				<span class="span5 textAlignCenter">
+			<div class="row">
+				<span class="col-md-3">&nbsp;</span>
+				<span class="col-md-5 textAlignCenter">
 					<span><strong> {vtranslate('LBL_OWNER','Emails')} : {getOwnerName($OWNER)}</strong></span>
 				</span>
 			</div>

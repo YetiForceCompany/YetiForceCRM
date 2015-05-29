@@ -7,7 +7,7 @@
 	background-color: #f2dede;
 }
 </style>
-<div class="container-fluid" style="margin-top:10px;">
+<div class="container" style="margin-top:10px;">
 	<h3>{vtranslate('LBL_CONFIGURATION', $MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -27,13 +27,13 @@
 				<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
 				<div class="controls">
 					<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
-					<div class="input-prepend input-append">
-						<span class="add-on cursorPointer" id="clearRole">
-							<i class="icon-remove-sign"></i>
+					<div class="input-group">
+						<span class="input-group-addon cursorPointer" id="clearRole">
+							<i class="glyphicon glyphicon-remove-sign"></i>
 						</span>
 						<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium" required value="">
-						<span class="add-on cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
-							<i class="icon-search"></i>
+						<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
+							<i class="glyphicon glyphicon-search"></i>
 						</span>
 					</div>
 				</div>

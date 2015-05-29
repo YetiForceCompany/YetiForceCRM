@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="importModules">
-	<div class="widget_header row-fluid">
+<div class="container" id="importModules">
+	<div class="widget_header row">
 		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
 	<div class="contents">
-		<div class="row-fluid">
+		<div class="row">
 			<div id="vtlib_modulemanager_import_div">
 				<form method="POST" action="index.php">
 					<input type="hidden" name="module" value="ModuleManager">
@@ -79,7 +79,7 @@
 											{/if}
 										</td>
 										<td>
-											<textarea rows="10" readonly class='row-fluid'>{$MODULEIMPORT_LICENSE}</textarea><br>
+											<textarea rows="10" readonly class='row'>{$MODULEIMPORT_LICENSE}</textarea><br>
 											{if $MODULEIMPORT_EXISTS neq 'true'}
 												{literal}<input type="checkbox" id="license_agreement" onclick="if(this.form.saveButton){if(this.checked){this.form.saveButton.disabled=false;}else{this.form.saveButton.disabled=true;}}">{/literal}
 												<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {vtranslate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
@@ -114,7 +114,7 @@
 								<input type="hidden" name="module_import_type" value="{$MODULEIMPORT_TYPE}">
 								<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 								<input type="hidden" name="mode" value="importUserModuleStep3">
-								<span class="span6 pull-right">
+								<span class="col-md-6 pull-right">
 									{vtranslate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}
 									<div class=" pull-right cancelLinkContainer">
 										<a class="cancelLink" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{vtranslate('LBL_NO', $MODULE)}</a>

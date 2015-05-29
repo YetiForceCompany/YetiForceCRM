@@ -36,12 +36,12 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
-		<div class="contentHeader row-fluid">
+		<div class="contentHeader row">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}
-			<span class="span8 font-x-x-large textOverflowEllipsis" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</span>
+			<span class="col-md-8 font-x-x-large textOverflowEllipsis" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</span>
 		{else}
-			<span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</span>
+			<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</span>
 		{/if}
 			<span class="pull-right">
 				<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
@@ -109,8 +109,8 @@
 				</td>
 				{if $FIELD_MODEL->get('uitype') neq "83"}
 					<td class="fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-						<div class="row-fluid">
-							<span class="span10">
+						<div class="row">
+							<span class="col-md-10">
 								{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 							</span>
 						</div>

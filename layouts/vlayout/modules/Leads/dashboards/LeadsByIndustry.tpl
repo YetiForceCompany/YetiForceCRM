@@ -40,23 +40,23 @@
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
-		<div class="span4">
+		<div class="col-md-4">
 			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr"/>
-	<div class="row-fluid" >
-		<div class="span6">
-			<span class="icon-calendar iconMiddle margintop3"></span>
+	<div class="row" >
+		<div class="col-md-6">
+			<span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span>
 			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini width90"  id="select-date" />
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<span class="icon-user iconMiddle margintop3"></span>
 			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}

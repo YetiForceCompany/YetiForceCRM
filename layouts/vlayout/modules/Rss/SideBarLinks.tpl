@@ -12,8 +12,8 @@
 {strip}
 <div class="quickLinksDiv">
     {assign var=SIDEBARLINK value=$QUICK_LINKS['SIDEBARLINK'][0]}
-    <div style="margin-bottom: 5px" class="btn-group row-fluid">
-        <button id="rssAddButton" class="btn addButton span12 rssAddButton" data-href="{$SIDEBARLINK->getUrl()}">
+    <div style="margin-bottom: 5px" class="btn-group row">
+        <button id="rssAddButton" class="btn btn-default addButton col-md-12 rssAddButton" data-href="{$SIDEBARLINK->getUrl()}">
             <img src="layouts/vlayout/skins/images/rss_add.png" />
             <strong>&nbsp;&nbsp; {vtranslate($SIDEBARLINK->getLabel(), $MODULE)}</strong>
         </button>

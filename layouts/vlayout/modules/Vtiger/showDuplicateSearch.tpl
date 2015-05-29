@@ -24,9 +24,9 @@
 				{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
 			</span>
 			<div class="controls">
-				<div class="row-fluid">
-					<span class="span10" style="max-width: 200px;">
-						<select id="fieldList" class="select2 row-fluid" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
+				<div class="row">
+					<span class="col-md-10" style="max-width: 200px;">
+						<select id="fieldList" class="select2 row" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
 							data-validation-engine="validate[required]">
 							{foreach from=$FIELDS item=FIELD}
 								{if $FIELD->isViewableInDetailView()}
@@ -36,7 +36,7 @@
 						</select>
 					</span>
 				</div>
-				<div class="row-fluid">
+				<div class="row">
 					<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label
 				</div>
 				<br><br>

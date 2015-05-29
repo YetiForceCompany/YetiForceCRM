@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -31,7 +31,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
-				'linkicon' => 'icon-envelope',
+				'linkicon' => 'glyphicon glyphicon-envelope',
 				'linktarget' => '_blank',
 				'title' => vtranslate('LBL_SEND_EMAIL')
 			);
@@ -59,7 +59,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'icon-time',
+					'linkicon' => 'glyphicon glyphicon-time',
 					'title' => vtranslate('LBL_ADD_EVENT')
 
 			);
@@ -68,7 +68,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'icon-calendar',
+					'linkicon' => 'glyphicon glyphicon-calendar',
 					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
@@ -79,7 +79,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$moduleName.'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'icon-comment',
+				'linkicon' => 'glyphicon glyphicon-comment',
 				'title' => vtranslate('LBL_SEND_SMS')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -91,7 +91,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'icon-random',
+				'linkicon' => 'glyphicon glyphicon-random',
 				'title' => vtranslate('LBL_TRANSFER_OWNERSHIP')
  			);
  			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);

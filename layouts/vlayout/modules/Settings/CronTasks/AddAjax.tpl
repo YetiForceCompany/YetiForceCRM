@@ -61,10 +61,10 @@
 				<div class="control-label">
 					{vtranslate('Frequency',$QUALIFIED_MODULE)}
 				</div>
-				<div class="controls row-fluid">
+				<div class="controls row">
 
-					<input type="text" class="span2" value="{$FIELD_VALUE}" id="frequency_value" name="frequency_value" />&nbsp;
-					<select class="chzn-select span5" id="time_format" name="time_format">
+					<input type="text" class="col-md-2" value="{$FIELD_VALUE}" id="frequency_value" name="frequency_value" />&nbsp;
+					<select class="chzn-select col-md-5" id="time_format" name="time_format">
 						<optgroup>
 							<option value="mins">{vtranslate('LBL_MINUTES',$QUALIFIED_MODULE)}</option>
 							<option value="hours">{vtranslate('LBL_HOURS',$QUALIFIED_MODULE)}</option>

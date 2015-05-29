@@ -9,19 +9,19 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
     <form id="EditView" method="POST">
-        <div class="row-fluid">
-            <span class="widget_header row-fluid">
-                <div class="row-fluid">
+        <div class="row">
+            <span class="widget_header row">
+                <div class="row">
 					<h3>{vtranslate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}</h3>
 					<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 				</div>
             </span>
         </div>
         <hr>
-        <div class="row-fluid">
-            <div class="span12">
+        <div class="row">
+            <div class="col-md-12">
                 <table id="customRecordNumbering" class="table table-bordered">
                 {assign var=DEFAULT_MODULE_DATA value=$DEFAULT_MODULE_MODEL->getModuleCustomNumberingData()}
                 {assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
@@ -33,7 +33,7 @@
                             </th>
                             <th width="70%" class="{$WIDTHTYPE}" style="border-left: none">
                             <span class="pull-right">
-                                <button type="button" class="btn" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
+                                <button type="button" class="btn btn-default" name="updateRecordWithSequenceNumber"><b>{vtranslate('LBL_UPDATE_MISSING_RECORD_SEQUENCE', $QUALIFIED_MODULE)}</b></button>
                             </span>
                             </th>
                         </tr>
@@ -80,8 +80,8 @@
             </div>
         </div>
         <br>
-        <div class="row-fluid">
-            <div class="span12 pull-right">
+        <div class="row">
+            <div class="col-md-12 pull-right">
                 <div class="pull-right">
                     <button class="btn btn-success saveButton" type="submit" disabled="disabled"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
                     <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>

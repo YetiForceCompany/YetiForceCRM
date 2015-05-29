@@ -9,13 +9,13 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
-	<div class="contents row-fluid">
+<div class="container">
+	<div class="contents row">
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<form id="OutgoingServerForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
-			<div class="widget_header row-fluid">
-				<div class="span8"><h3>{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_OUTGOING_SERVER_DESC', $QUALIFIED_MODULE)}</div>
-				<div class="span4 btn-toolbar"><div class="pull-right">
+			<div class="widget_header row">
+				<div class="col-md-8"><h3>{vtranslate('LBL_OUTGOING_SERVER', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_OUTGOING_SERVER_DESC', $QUALIFIED_MODULE)}</div>
+				<div class="col-md-4 btn-toolbar"><div class="pull-right">
 					<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 					<a type="reset" class="cancelLink" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 				</div></div>
@@ -27,7 +27,7 @@
 			<input type="hidden" name="server_type" value="email" />
 			<input type="hidden" name="id" value="{$MODEL->get('id')}" />
 
-			<div class="row-fluid hide errorMessage">
+			<div class="row hide errorMessage">
 				<div class="alert alert-error">
 				  {vtranslate('LBL_TESTMAILSTATUS', $QUALIFIED_MODULE)}<strong>{vtranslate('LBL_MAILSENDERROR', $QUALIFIED_MODULE)}</strong>  
 				</div>

@@ -1,4 +1,4 @@
-{*+***********************************************************************************
+﻿{*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<div class="editViewContainer container-fluid">
+<div class="editViewContainer container">
 	<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 		<input type="hidden" name="module" value="Groups">
 		<input type="hidden" name="action" value="Save">
@@ -15,7 +15,7 @@
 		<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 		<input type="hidden" name="mode" value="{$MODE}">
 		
-		<div class="contentHeader row-fluid">
+		<div class="contentHeader row">
 			<h3> 
 				{if !empty($MODE)}
 					{vtranslate('LBL_EDITING', $QUALIFIED_MODULE)} {vtranslate('SINGLE_'|cat:$MODULE, $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
@@ -30,7 +30,7 @@
 				<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
 			</span>
 			<div class="controls">
-				<input class="input-large" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
+				<input class="input-lg" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
 			</div>
 		</div>
 		<div class="control-group">
@@ -38,7 +38,7 @@
 				{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 			</span>
 			<div class="controls">
-				<input class="input-large" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
+				<input class="input-lg" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -46,7 +46,7 @@
 				{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 			</span>
 			<div class="controls">
-				<select id="modulesList" class="row-fluid modules select2" multiple="true" name="modules[]" data-validation-engine="validate[required]">
+				<select id="modulesList" class="row modules select2" multiple="true" name="modules[]" data-validation-engine="validate[required]">
 					{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
 						<option value="{$TABID}" {if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
 					{/foreach}
@@ -58,10 +58,10 @@
 				{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 			</span>
 			<div class="controls">
-				<div class="row-fluid">
-					<span class="span6">
+				<div class="row">
+					<span class="col-md-6">
 						{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
-						<select id="memberList" class="row-fluid members" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
+						<select id="memberList" class="row members" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
 							{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 								<optgroup label="{$GROUP_LABEL}">
 								{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -73,7 +73,7 @@
 							{/foreach}
 						</select>
 					</span>
-					<span class="span3">
+					<span class="col-md-3">
 						<span class="pull-right groupMembersColors">
 							<ul class="liStyleNone">
 								<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
@@ -86,8 +86,8 @@
 				</div>
 			</div>
 		</div>
-			<div class="row-fluid">
-				<div class="span5">
+			<div class="row">
+				<div class="col-md-5">
 					<span class="pull-right">
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>

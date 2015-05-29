@@ -11,7 +11,7 @@
 -->*}
 {strip}
 
-    <span class="span2">
+    <span class="col-md-2">
      <div style="position:relative;display:inline;">
         {if $RECORD->get('customer') and $RECORD->get('customertype') eq 'Contacts'}
             {assign var=MODULE_INSTANCE value=Vtiger_Record_Model::getInstanceById($RECORD->get('customer'),$RECORD->get('customertype'))}
@@ -41,8 +41,8 @@
        {/if}    
     </span> 
 
-    <span class="span10 margin0px">
-        <span class="row-fluid">
+    <span class="col-md-10 margin0px">
+        <span class="row">
             <span class="recordLabel pushDown" title="{$RECORD->getName()}">
                 {assign var=NAME_FIELD value=$MODULE_MODEL->getNameFields()}
                 {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
@@ -81,7 +81,7 @@
                 {/if}
             </span>
         </span>
-		<span class="row-fluid">
+		<span class="row">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}

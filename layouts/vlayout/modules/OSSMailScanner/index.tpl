@@ -24,7 +24,7 @@
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -34,7 +34,7 @@
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -55,7 +55,7 @@
                 <p>{vtranslate('Alert_no_module_desc', 'OSSMailScanner')}</p>
                 <p>
                     <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{vtranslate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{vtranslate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{vtranslate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
                 </p>
             </div>	
         {/if}
@@ -64,13 +64,13 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 		<div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr class="listViewHeaders span12">
+                <tr class="listViewHeaders col-md-12">
                     <th>{vtranslate('username', 'OSSMailScanner')}</th>
                     <th>{vtranslate('mail_host', 'OSSMailScanner')}</th>
                     <th>{vtranslate('Actions', 'OSSMailScanner')}</th>
@@ -110,7 +110,7 @@
                             </select>
                         </td>
                         <td><button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="icon-chevron-down"></i></button>
-							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="icon-trash"></i></button></td>
+							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
                     <tr style="display: none;" data-user-id="{$row['user_id']}">
                         <td colspan="5">
@@ -175,7 +175,7 @@
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_email_acconts', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_email_acconts_desc', 'OSSMailScanner')}</p>
                 <p>
-                    <a class="btn" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a>
+                    <a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a>
                 </p>
             </div>	
         {else}
@@ -183,7 +183,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
                     <div class="controls">
-                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="span6">
+                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="col-md-6">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
@@ -195,7 +195,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
                     <div class="controls">
-                        <select multiple id="folder_inputSent" name="folder_inputSent" class="span6">
+                        <select multiple id="folder_inputSent" name="folder_inputSent" class="col-md-6">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
@@ -207,7 +207,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
                     <div class="controls">
-                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="span6">
+                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="col-md-6">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
@@ -219,7 +219,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
                     <div class="controls">
-                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="span6">
+                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="col-md-6">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
@@ -231,7 +231,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
                     <div class="controls">
-                        <select multiple id="folder_inputAll" name="folder_inputAll" class="span6">
+                        <select multiple id="folder_inputAll" name="folder_inputAll" class="col-md-6">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
@@ -249,7 +249,7 @@
         <form class="form-horizontal">
             <div class="control-group">
                 <div class="controls">
-                    <select multiple id="email_search" name="email_search" class="span10">
+                    <select multiple id="email_search" name="email_search" class="col-md-10">
                         {foreach item=item key=key from=$EMAILSEARCH}
                             {if $last_value neq $item[3]}
                                 <optgroup label="{vtranslate($item[3], $item[3])}">

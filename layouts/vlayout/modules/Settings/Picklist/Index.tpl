@@ -18,9 +18,9 @@
 		</div>
 		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
 			<br>
-			<div class="row-fluid">
-				<label class="fieldLabel span3"><strong>{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
-				<div class="span6 fieldValue">
+			<div class="row">
+				<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
+				<div class="col-md-6 fieldValue">
 					<select class="chzn-select" id="pickListModules">
 						<optgroup>
 							<option value="">{vtranslate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -15,7 +15,7 @@
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 
 <input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" 
-        class="input-large {if $FIELD_MODEL->isNameField()}nameField{/if}" 
+        class="input-lg {if $FIELD_MODEL->isNameField()}nameField{/if}" 
         data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
         name="{$FIELD_MODEL->getFieldName()}" 
         {if $FIELD_NAME eq 'password' } 
@@ -36,9 +36,9 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Ze
 {if $FIELD_NAME eq 'password' && ($VIEW eq 'Edit'  || $VIEW eq 'QuickCreateAjax')} 
 &nbsp;
 {if $RECORD neq ''}
-<button class="btn btn-warning btn-mini" onclick="showPassword('{$RECORD}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE)}</button>&nbsp;
+<button class="btn btn-warning btn-xs" onclick="showPassword('{$RECORD}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE)}</button>&nbsp;
 {* button for copying password to clipboard *}
-<button class="btn btn-success btn-mini hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}"><i class="icon-download-alt"></i></button>
+<button class="btn btn-success btn-xs hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}"><i class="icon-download-alt"></i></button>
 {/if}
 <p>
     {if $FIELD_MODEL->get('fieldvalue') eq ''}

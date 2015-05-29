@@ -13,10 +13,10 @@
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups()}
 
-	<div class="calendarUserList row-fluid" style="margin-left:10px;">
+	<div class="calendarUserList row" style="margin-left:10px;">
 		<h4>{vtranslate('LBL_USERS',$MODULE)}:</h4>
-		<div class="row-fluid">
-			<div class="span10" style="margin: 10px 0;">
+		<div class="row">
+			<div class="col-md-10" style="margin: 10px 0;">
 			<select style="width: 100%;" class="chzn-select" id="calendarUserList" name="{$ASSIGNED_USER_ID}" multiple>
 				<optgroup label="{vtranslate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -32,8 +32,8 @@
 			</div>
 		</div>
 		<h4>{vtranslate('LBL_TIMECONTROL_TYPE',$MODULE)}:</h4>
-		<div class="row-fluid">
-			<div class="span10" style="margin: 10px 0;">
+		<div class="row">
+			<div class="col-md-10" style="margin: 10px 0;">
 				<select style="width: 100%;" class="chzn-select" id="timecontrolTypes" name="timecontrolTypes" multiple>
 					{foreach item=ITEM from=OSSTimeControl_Calendar_Model::getCalendarTypes()}
 						<option class="calCol_{$ITEM} marginBottom5px" value="{$ITEM}" selected>{vtranslate($ITEM,$MODULE)}</option>
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div style="margin-top: 5px;">
-			<button class="btn refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
+			<button class="btn btn-default refreshCalendar">{vtranslate('LBL_REFRESH',$MODULE)}</button>
 		</div>
 	</div>
 <script type="text/javascript">

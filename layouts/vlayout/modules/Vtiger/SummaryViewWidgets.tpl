@@ -1,5 +1,5 @@
 {strip}
-	<div class="row-fluid">
+	<div class="row">
 		{assign var=col1 value=count($DETAILVIEW_WIDGETS[1])}
 		{assign var=col2 value=count($DETAILVIEW_WIDGETS[2])}
 		{assign var=col3 value=count($DETAILVIEW_WIDGETS[3])}

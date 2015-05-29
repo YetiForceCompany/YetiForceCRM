@@ -20,10 +20,10 @@ min-width: 20px;
 {strip}
 {assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity()}
 {assign var="Fields" value=$MODULE_MODEL->getFielFromModule()}
-<div class="container-fluid SearchFieldsEdit">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class="container SearchFieldsEdit">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
 	<div class="btn-toolbar">
@@ -34,7 +34,7 @@ min-width: 20px;
 		</span>
 		<div class="clearfix"></div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
         <div class="contents tabbable">
 			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
@@ -49,13 +49,13 @@ min-width: 20px;
 					{foreach from=$ModulesEntity item=item key=key}
 						{assign var="Field" value=$Fields[$key]}
 						<tr data-tabid="{$key}">
-							<td><span class="span1">&nbsp;
+							<td><span class="col-md-1">&nbsp;
 								<a>
 									<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 								</a>&nbsp;
 							</span>{vtranslate($item['modulename'],$item['modulename'])}</td>
 							<td>
-								<select multiple class="chzn-select span4 fieldname" name="fieldname">
+								<select multiple class="chzn-select col-md-4 fieldname" name="fieldname">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
@@ -66,7 +66,7 @@ min-width: 20px;
 								</select>
 							</td>
 							<td>
-								<select multiple class="chzn-select span4 searchcolumn" name="searchcolumn">
+								<select multiple class="chzn-select col-md-4 searchcolumn" name="searchcolumn">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>

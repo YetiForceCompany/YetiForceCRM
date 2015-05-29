@@ -22,10 +22,10 @@
 	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="paddingLeftRight10px">
-	    <div class="popupContainer row-fluid">
-	        <div class="logo span6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
+	    <div class="popupContainer row">
+	        <div class="logo col-md-6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
 	    </div>
-		<div class="widget_header row-fluid">
+		<div class="widget_header row">
 			<h3>{vtranslate('LBL_SELECT_TREE_ITEM', $MODULE)} {vtranslate($FIELD_INSTANCE->get('label'), $MODULE)}</h3>
 		</div>
 		<div class="contentsBackground">

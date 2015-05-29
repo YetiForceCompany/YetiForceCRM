@@ -958,12 +958,12 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var data = currentTarget.data();
 			if(data.mode == 'show'){
 				hideHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='hide']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find('[data-mode="hide"]').removeClass('hide');
 			}else{
 				showHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='show']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
 

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
  /*+********************************************************************************
  * Terms & Conditions are placed on the: http://opensaas.pl/ruls.html
  ********************************************************************************
@@ -87,7 +87,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',
 					'linkurl' => '',
-					'linkicon' => 'icon-ok icon-white',
+					'linkicon' => 'glyphicon glyphicon-ok icon-white',
 					'linkclass' => 'btn-success setReadRecord',
 					'linkhint' => 'BTN_READ_RECORD',
 				);
@@ -96,7 +96,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'icon-pencil',
+				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
 			);
@@ -115,7 +115,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => sprintf("%s %s", getTranslatedString('LBL_DELETE', $moduleName), vtranslate('SINGLE_'. $moduleName, $moduleName)),
 					'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("'.$recordModel->getDeleteUrl().'")',
-					'linkicon' => 'icon-trash',
+					'linkicon' => 'glyphicon glyphicon-trash',
 					'title' => vtranslate('LBL_DELETE_RECORD')
 
 			);
@@ -127,7 +127,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model {
 						'linktype' => 'DETAILVIEWBASIC',
 						'linklabel' => 'LBL_DUPLICATE',
 						'linkurl' => $recordModel->getDuplicateRecordUrl(),
-						'linkicon' => 'icon-retweet',
+						'linkicon' => 'glyphicon glyphicon-retweet',
 						'title' => vtranslate('LBL_DUPLICATE_RECORD')
 				);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);

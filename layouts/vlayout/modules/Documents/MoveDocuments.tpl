@@ -25,10 +25,10 @@
             <input type="hidden" name="operator" value="{$OPERATOR}" />
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
 			<div class="modal-body">
-				<div class="row-fluid verticalBottomSpacing">
-					<span class="span4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
-					<span class="span8 row-fluid">
-						<select class="chzn-select span11" name="folderid">
+				<div class="row verticalBottomSpacing">
+					<span class="col-md-4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-8 row">
+						<select class="chzn-select col-md-11" name="folderid">
 							<optgroup label="{vtranslate('LBL_FOLDERS', $MODULE)}">
 								{foreach item=FOLDERNAME from=$FOLDERS key=FOLDERID}
 									<option value="{$FOLDERID}">{$FOLDERNAME}</option>

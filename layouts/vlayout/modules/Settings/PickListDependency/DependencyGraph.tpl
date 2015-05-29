@@ -21,7 +21,7 @@
             </ul>
         </div>
     </div>
-    <div class="row-fluid">
+    <div class="row">
         <span class="btn-toolbar">
             <button class="btn sourceValues" type="button"><strong>{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="btn unmarkAll" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
@@ -38,8 +38,8 @@
     {/foreach}
     <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($SOURCE_PICKLIST_VALUES))}' />
 
-    <div class="row-fluid depandencyTable">
-        <div class="span2">
+    <div class="row depandencyTable">
+        <div class="col-md-2">
             <table class="table-condensed themeTableColor" width="100%">
                 <thead>
                     <tr class="blockHeader"><th>{$RECORD_MODEL->getSourceFieldLabel()}</th></tr>
@@ -60,7 +60,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="span10 marginLeftZero dependencyMapping">
+        <div class="col-md-10 marginLeftZero dependencyMapping">
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
@@ -85,7 +85,7 @@
                                 class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
                             {if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
                             {if $IS_SELECTED}
-                                <i class="icon-ok pull-left"></i>
+                                <i class="glyphicon glyphicon-ok pull-left"></i>
                             {/if}
                             {vtranslate($TARGET_VALUE, $SELECTED_MODULE)}
                         </td>
@@ -102,7 +102,7 @@
         <h3>{vtranslate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
     </div>
     <div class="modal-body">
-        <table class="row-fluid" cellspacing="0" cellpadding="5">
+        <table class="row" cellspacing="0" cellpadding="5">
             <tr>
                 {foreach key=SOURCE_INDEX item=SOURCE_VALUE from=$SOURCE_PICKLIST_VALUES name=sourceValuesLoop}
                     {if $smarty.foreach.sourceValuesLoop.index % 3 == 0}
@@ -110,7 +110,7 @@
                     {/if}
                     <td>
                         <div class="control-group">
-                            <div class="controls row-fluid">
+                            <div class="controls row">
                                 <label class="checkbox"><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
                                                                data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
                                     {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>

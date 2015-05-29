@@ -15,17 +15,17 @@
 		<h3 id="myModalLabel">{vtranslate('LBL_ADD_LANG',$QUALIFIED_MODULE)}</h3>
 	</div>
 	<div class="modal-body">
-	<div class="row-fluid">
-		<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_label', $QUALIFIED_MODULE)}:</label></div>
-		<div class="span7"><input name="label" class="span3" type="text" /></div>
-		<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_name', $QUALIFIED_MODULE)}:</label></div>
-		<div class="span7"><input name="name" class="span3" type="text" /></div>
-		<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_prefix', $QUALIFIED_MODULE)}:</label></div>
-		<div class="span7"><input name="prefix" class="span3" type="text" /></div>
+	<div class="row">
+		<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_label', $QUALIFIED_MODULE)}:</label></div>
+		<div class="col-md-7"><input name="label" class="col-md-3" type="text" /></div>
+		<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_name', $QUALIFIED_MODULE)}:</label></div>
+		<div class="col-md-7"><input name="name" class="col-md-3" type="text" /></div>
+		<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_Lang_prefix', $QUALIFIED_MODULE)}:</label></div>
+		<div class="col-md-7"><input name="prefix" class="col-md-3" type="text" /></div>
 	</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
+		<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_Cancel', $QUALIFIED_MODULE)}</button>
 		<button class="btn btn-primary">{vtranslate('LBL_AddLanguage', $QUALIFIED_MODULE)}</button>
 	</div>
 </div>

@@ -8,12 +8,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 <div class="navbar" id="topMenus">
-	<div class="navbar-inner" id="nav-inner">
-		<div class="menuBar row-fluid">
-			<div class="span7" id="largeNavDiv">
+	<div class="menu-inner" id="nav-inner">
+		<div class="menuBar row">
+			<div class="col-md-7" id="largeNavDiv">
 				{include file='TopMenusLeft.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="span5 row-fluid" id="headerLinks">
+			<div class="col-md-5 row" id="headerLinks">
 				{include file='TopMenusRight.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>

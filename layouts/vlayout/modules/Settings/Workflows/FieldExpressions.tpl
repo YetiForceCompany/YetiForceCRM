@@ -16,8 +16,8 @@
 		<h3>{vtranslate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h3>
 	</div>
 	<div class="modal-body">
-		<div class="row-fluid">
-			<span class="span4">
+		<div class="row">
+			<span class="col-md-4">
 				<select class="textType">
 					<optgroup>
 						<option data-ui="textarea" value="rawtext">{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</option>
@@ -26,7 +26,7 @@
 					</optgroup>	
 				</select>
 			</span>
-			<span class="span4 hide useFieldContainer">
+			<span class="col-md-4 hide useFieldContainer">
 				<span name="{$MODULE_MODEL->get('name')}" class="useFieldElement">
 					{assign var=MODULE_FIELDS value=$MODULE_MODEL->getFields()}
 					<select class="useField" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
@@ -52,7 +52,7 @@
 					</span>
 				{/if}
 			</span>
-			<span class="span4 hide useFunctionContainer">
+			<span class="col-md-4 hide useFunctionContainer">
 				<select class="useFunction" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
 					<option></option>
 					<optgroup>
@@ -63,8 +63,8 @@
 				</select>
 			</span>
 		</div><br>
-		<div class="row-fluid fieldValueContainer">
-			<textarea data-textarea="true" class="fieldValue row-fluid hide"></textarea>
+		<div class="row fieldValueContainer">
+			<textarea data-textarea="true" class="fieldValue row hide"></textarea>
 		</div><br>
 		<div id="rawtext_help" class="alert alert-info helpmessagebox hide">
 			<p><h5>{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>

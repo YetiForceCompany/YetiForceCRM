@@ -62,7 +62,7 @@
 								{/foreach}
 							</select>
 						</td>
-						<td class="cellLabel row-fluid" name="default_value_container">&nbsp;</td>
+						<td class="cellLabel row" name="default_value_container">&nbsp;</td>
 					</tr>
 					{/foreach}
 			</tbody>

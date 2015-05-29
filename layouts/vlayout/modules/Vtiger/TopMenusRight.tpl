@@ -1,4 +1,4 @@
-<span id="headerLinksBig" class="pull-right headerLinksContainer">
+﻿<span id="headerLinksBig" class="pull-right headerLinksContainer">
 	{if $PAINTEDICON eq 1}
 		<span class="dropdown span settingIcons">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -8,16 +8,16 @@
 				<div id="themeContainer">
 					{assign var=COUNTER value=0}
 					{assign var=THEMES_LIST value=Vtiger_Theme::getAllSkins()}
-					<div class="row-fluid themeMenu">
+					<div class="row themeMenu">
 						{foreach key=SKIN_NAME item=SKIN_COLOR from=$THEMES_LIST}
 						{if $COUNTER eq 3}
 					</div>
-					<div class="row-fluid themeMenu">
+					<div class="row themeMenu">
 						{assign var=COUNTER value=1}
 						{else}
 						{assign var=COUNTER value=$COUNTER+1}
 						{/if}
-						<div class="span4 themeElement {if $USER_MODEL->get('theme') eq $SKIN_NAME}themeSelected{/if}" data-skin-name="{$SKIN_NAME}" title="{ucfirst($SKIN_NAME)}" style="background-color:{$SKIN_COLOR};"></div>
+						<div class="col-md-4 themeElement {if $USER_MODEL->get('theme') eq $SKIN_NAME}themeSelected{/if}" data-skin-name="{$SKIN_NAME}" title="{ucfirst($SKIN_NAME)}" style="background-color:{$SKIN_COLOR};"></div>
 						{/foreach}
 					</div>
 				</div>
@@ -78,9 +78,9 @@
 	<span class="pull-right headerLinksContainer headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if} style="margin-top: -5px;">
 		<div class="btn-group pull-right" style="margin-top: 0;">
 			{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-			<a class="btn btn-small mainMail" href="index.php?module=OSSMail&view=index" title="{$MAIN_MAIL.username}"><span class="mail_user_name">{$MAIN_MAIL.username}</span> <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
+			<a class="btn btn-default btn-sm mainMail" href="index.php?module=OSSMail&view=index" title="{$MAIN_MAIL.username}"><span class="mail_user_name">{$MAIN_MAIL.username}</span> <span class="noMails_{$MAIN_MAIL.rcuser_id}"></span></a>
 			{if $CONFIG['showMailAccounts']=='true'}
-				<button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+				<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
@@ -94,7 +94,7 @@
 {/if}
 <div id="headerLinksCompact">
 	<span id="dropdown-headerLinksBig" class="dropdown">
-		<a class="dropdown-toggle btn-navbar" data-toggle="dropdown" href="#">
+		<a class="dropdown-toggle navbar-btn" data-toggle="dropdown" href="#">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>

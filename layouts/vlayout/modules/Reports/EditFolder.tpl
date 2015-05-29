@@ -21,14 +21,14 @@
 			<input type="hidden" name="mode" value="save" />
 			<input type="hidden" name="folderid" value="{$FOLDER_MODEL->getId()}" />
 			<div class="modal-body">
-				<div class="row-fluid verticalBottomSpacing">
-					<span class="span4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
-					<span class="span7 row-fluid"><input data-validation-engine='validate[required]' id="foldername" name="foldername" class="span12" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
+				<div class="row verticalBottomSpacing">
+					<span class="col-md-4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" name="foldername" class="col-md-12" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
 				</div>
-				<div class="row-fluid">
-					<span class="span4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
-					<span class="span7 row-fluid">
-						<textarea class="span12" name="description" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
+				<div class="row">
+					<span class="col-md-4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
+					<span class="col-md-7 row">
+						<textarea class="col-md-12" name="description" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
 					</span>
 				</div>
 			</div>

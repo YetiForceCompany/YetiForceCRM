@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="modelContainer">
-	<div class="row-fluid">
+	<div class="row">
 		<div class="modal-header">
 			<button class="close vtButton" data-dismiss="modal">×</button>
 			<h3>{vtranslate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>

@@ -63,9 +63,9 @@
 						<div class="pull-right actions">
 							<span class="actionImages">
 								{if $REPORT_MODEL->isEditable()}
-									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>&nbsp;
+									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>&nbsp;
 									{if $LISTVIEW_ENTRY->isDefault() eq false}
-										<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+										<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
 									{/if}
 								{/if}
 							</span>

@@ -1,4 +1,4 @@
-{*/*+***********************************************************************************************************************************
+﻿{*/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -33,9 +33,9 @@ padding: 10px;
 padding: 5px;
 }
 </style>
-<div class="container-fluid" id="widgetsManagementEditorContainer">
-	<div class="widget_header row-fluid">
-		<div class="span12">
+<div class="container" id="widgetsManagementEditorContainer">
+	<div class="widget_header row">
+		<div class="col-md-12">
 			<h3>{vtranslate('LBL_PUBLIC_HOLIDAY', $QUALIFIED_MODULE)}</h3>
 			{vtranslate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
@@ -45,12 +45,12 @@ padding: 5px;
 		<div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar">
-				<button type="button" class="btn addDateWindow"><i class="icon-plus"></i>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-default addDateWindow"><i class="glyphicon glyphicon-plus"></i>&nbsp;{vtranslate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
-					<div class="row-fluid layoutBlockHeader">
-						<div class="span12" style="padding: 10px 0;">
+					<div class="row layoutBlockHeader">
+						<div class="col-md-12" style="padding: 10px 0;">
 							<span class="marginLeft20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
@@ -60,24 +60,24 @@ padding: 5px;
 							</span>
 						</div>
 					</div>
-					<div style="padding:5px;min-height: 27px" class="blockFieldsList row-fluid">
-						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="span12">
+					<div style="padding:5px;min-height: 27px" class="blockFieldsList row">
+						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="col-md-12">
 							{foreach item=HOLIDAY from=$HOLIDAYS}
 							<li>
 								<div data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}" class="opacity holidayElement marginLeftZero border1px">
-									<div class="row-fluid paddingAll5">
-										<div style="word-wrap: break-word;" class="span10 ">
-											<span class="fieldLabel marginLeft20 span2">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
-											<span class="fieldLabel marginLeft20 span2">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
-											<span class="marginLeft20 span3">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
-											<span class="marginLeft20 span3">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
+									<div class="row paddingAll5">
+										<div style="word-wrap: break-word;" class="col-md-10 ">
+											<span class="fieldLabel marginLeft20 col-md-2">{Vtiger_Functions::currentUserDisplayDate($HOLIDAY['date'])}</span>
+											<span class="fieldLabel marginLeft20 col-md-2">{vtranslate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
+											<span class="marginLeft20 col-md-3">{vtranslate($HOLIDAY['name'], $QUALIFIED_MODULE)}</span>
+											<span class="marginLeft20 col-md-3">{vtranslate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
 										</div>
 										<span class="btn-group pull-right marginRight20 actions">
 											<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
-												<i title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}" class="icon-pencil alignMiddle"></i>
+												<i title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i>
 											</a>
 											<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
-												<i title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="icon-trash alignMiddle"></i>
+												<i title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i>
 											</a>
 										</span>
 									</div>

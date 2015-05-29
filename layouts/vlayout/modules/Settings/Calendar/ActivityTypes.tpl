@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid ActivityTypes">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_ACTIVITY_TYPES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class="container ActivityTypes">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_ACTIVITY_TYPES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
+	<div class="row">
         <div class="contents tabbable">
 			<table class="table table-bordered table-condensed listViewEntriesTable">
 				<thead>
@@ -40,7 +40,7 @@
 							</td>
 							<td class="calendarColor" style="background: {$item.color};"></td>
 							<td>
-								<button class="btn marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
+								<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
 							</td>
 						</tr>
 					{/foreach}

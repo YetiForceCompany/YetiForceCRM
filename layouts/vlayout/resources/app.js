@@ -86,11 +86,12 @@ var app = {
 		var params = {
 			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
 		};
-		selectElement.each(function(){
+		/*selectElement.each(function(){
 			var width = jQuery(this).outerWidth();
-			params['width'] = width+ 'px;';
+			params['width'] = '150px;';
 			jQuery(this).chosen(params);
-		});
+		});*/
+		selectElement.chosen(params);
 		var chosenSelectConainer = jQuery('.chzn-container');
 		//Fix for z-index issue in IE 7
 		if (/MSIE 7.0/.test(navigator.userAgent)) {

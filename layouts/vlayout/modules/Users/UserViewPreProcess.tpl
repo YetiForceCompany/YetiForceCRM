@@ -15,7 +15,7 @@
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 
 <div class="bodyContents">
-	<div class="mainContainer row-fluid">
+	<div class="mainContainer row">
 			{include file="UserViewHeader.tpl"|vtemplate_path:$MODULE}
 
 {/strip}

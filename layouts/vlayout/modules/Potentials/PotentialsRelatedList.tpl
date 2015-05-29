@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -19,52 +19,52 @@
         <input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
         <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
         <div class="relatedHeader ">
-            <div class="btn-toolbar row-fluid">
-                <div class="span8">
+            <div class="btn-toolbar row">
+                <div class="col-md-8">
                     {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
                         <div class="btn-group">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-                            <button type="button" class="btn addButton
+                            <button type="button" class="btn btn-default addButton
                             {if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
                         {if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
                         {if ($RELATED_LINK->isPageLoadLink())}
                         {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                         data-url="{$RELATED_LINK->getUrl()}"
                     {/if}
-            {if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<i class="icon-plus icon-white"></i>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+            {if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<i class="glyphicon glyphicon-plus icon-white"></i>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
     </div>
 {/foreach}
 &nbsp;
 <div class="btn-group">{if $EMPTY}<button class="btn btn-success" id="generateFromTpl" type="button">{vtranslate('GENERATE_FROM_TPL', 'OSSProjectTemplates')}</button>{/if}</div>
 </div>
-<div class="span4">
-    <span class="row-fluid">
-        <span class="span7 pushDown">
+<div class="col-md-4">
+    <span class="row">
+        <span class="col-md-7 pushDown">
             <span class="pull-right pageNumbers alignTop" data-placement="bottom" data-original-title="" style="margin-top: -5px">
             {if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_to', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{/if}
         </span>
     </span>
-    <span class="span5 pull-right">
+    <span class="col-md-5 pull-right">
         <span class="btn-group pull-right">
-            <button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="icon-chevron-left"></span></button>
-            <button class="btn dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+            <button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <button class="btn btn-default dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
                 <i class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
             </button>
             <ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
                 <li>
-                    <span class="row-fluid">
-                        <span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-                        <span class="span4">
+                    <span class="row">
+                        <span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
+                        <span class="col-md-4">
                             <input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
                         </span>
-                        <span class="span2 textAlignCenter">
+                        <span class="col-md-2 textAlignCenter">
                             {vtranslate('LBL_OF',$moduleName)}
                         </span>
-                        <span class="span2" id="totalPageCount">{$PAGE_COUNT}</span>
+                        <span class="col-md-2" id="totalPageCount">{$PAGE_COUNT}</span>
                     </span>
                 </li>
             </ul>
-            <button class="btn" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="icon-chevron-right"></span></button>
+            <button class="btn btn-default" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
         </span>
     </span>
 </span>
@@ -115,10 +115,10 @@
                                     <span class="actionImages">
                                         <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
                                         {if $IS_EDITABLE}
-                                            <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>
+                                            <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>
                                         {/if}
                                         {if $IS_DELETABLE}
-                                            <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                            <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
                                         {/if}
                                     </span>
                                 </div>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -36,7 +36,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->checkFileIntegrityURL(),
-				'linkicon' => ' icon-file',
+				'linkicon' => ' glyphicon glyphicon-file',
 				'title' => vtranslate('LBL_CHECK_FILE_INTEGRITY', 'Documents') 
 		);
 		$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -49,7 +49,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => "javascript:Documents_Detail_Js.triggerSendEmail('". ZEND_JSON::encode(array($recordModel->getId())) ."')",
-						'linkicon' => 'icon-envelope',
+						'linkicon' => 'glyphicon glyphicon-envelope',
 						'title' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents')
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

@@ -16,19 +16,19 @@
 		<h3 id="AddTranslation">{vtranslate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h3>
 	</div>
 	<div class="modal-body">
-	<div class="row-fluid">
+	<div class="row">
 		<input type="hidden" name="langs" value="" />
-		<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label></div>
-		<div class="span7">
-			<select name="type" class="span3" id="translation_type">
+		<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label></div>
+		<div class="col-md-7">
+			<select name="type" class="col-md-3" id="translation_type">
 				<option value="php">{vtranslate('LBL_LangPHP', $QUALIFIED_MODULE)}</option>
 				<option value="js">{vtranslate('LBL_LangJS', $QUALIFIED_MODULE)}</option>
 			</select>
 		</div>
-		<div class="span5 marginLeftZero"><label class="">{vtranslate('LBL_variable', $QUALIFIED_MODULE)}:</label></div>
-		<div class="span7"><input name="variable" class="span3" type="text" /></div>
+		<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_variable', $QUALIFIED_MODULE)}:</label></div>
+		<div class="col-md-7"><input name="variable" class="col-md-3" type="text" /></div>
 	</div>
-	<div class="row-fluid add_translation_block">
+	<div class="row add_translation_block">
 	
 	</div>
 	</div>

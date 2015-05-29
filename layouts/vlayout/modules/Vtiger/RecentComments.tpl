@@ -15,7 +15,7 @@
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 
 <div class="commentContainer recentComments">
-	<div class="commentTitle row-fluid">
+	<div class="commentTitle row">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 			<div class="addCommentBlock">
 				<div>
@@ -34,16 +34,16 @@
 				<div class="commentDetails">
 					<div class="commentDiv">
 						<div class="singleComment">
-							<div class="commentInfoHeader row-fluid" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+							<div class="commentInfoHeader row" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 								<div class="commentTitle">
 									{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 									{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-									<div class="row-fluid">
-										<div class="span1">
+									<div class="row">
+										<div class="col-md-1">
 											{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 											<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 										</div>
-										<div class="span11 commentorInfo">
+										<div class="col-md-11 commentorInfo">
 											{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 											<div class="inner">
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
@@ -59,11 +59,11 @@
 									</div>
 								</div>
 							</div>
-							<div class="row-fluid commentActionsContainer">
+							<div class="row commentActionsContainer">
 								
 								{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-								<div class="row-fluid editStatus"  name="editStatus">
-										<span class="span6{if empty($REASON_TO_EDIT)} hide{/if}">
+								<div class="row editStatus"  name="editStatus">
+										<span class="col-md-6{if empty($REASON_TO_EDIT)} hide{/if}">
 												<p class="muted">
 													<small>
 													[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -72,7 +72,7 @@
 												</p>
 										</span>
 										{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-											<span class="{if empty($REASON_TO_EDIT)}row-fluid{else} span6{/if}">
+											<span class="{if empty($REASON_TO_EDIT)}row{else} col-md-6{/if}">
 												<p class="muted pull-right">
 													<small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 													<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
@@ -80,7 +80,7 @@
 											</span>
 										{/if}
 								</div>
-								<div class="row-fluid">
+								<div class="row">
 									<div class="pull-right commentActions">
 										{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 											<span>
@@ -113,16 +113,16 @@
 		{/if}
 	</div>
 	{if $PAGING_MODEL->isNextPageExists()}
-		<div class="row-fluid">
+		<div class="row">
 			<div class="pull-right">
 				<a href="javascript:void(0)" class="moreRecentComments">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>
 			</div>
 		</div>
 	{/if}
 	<div class="hide basicAddCommentBlock">
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<textarea class="commentcontenthidden fullWidthAlways" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 			</div>
 		</div>
@@ -132,15 +132,15 @@
 		</div>
 	</div>
 	<div class="hide basicEditCommentBlock" style="min-height: 150px;">
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level"/>
 			</div>
 		</div>
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<textarea class="commentcontenthidden fullWidthAlways" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 			</div>
 		</div>

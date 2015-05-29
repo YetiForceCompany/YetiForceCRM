@@ -16,23 +16,23 @@
 	<br>
 	<div class="well well-large zeroPaddingAndMargin">
 		<div class="modal-header blockHeader emailPreviewHeader" style="height:30px">
-			<h3 class='span4'>{vtranslate('SINGLE_Emails', $MODULE)} {vtranslate('LBL_INFO', $MODULE)}</h3>
+			<h3 class='col-md-4'>{vtranslate('SINGLE_Emails', $MODULE)} {vtranslate('LBL_INFO', $MODULE)}</h3>
 			<div class='pull-right'>
 				<span class="btn-toolbar">
 					<span class="btn-group">
-						<button type="button" name="previewForward" class="btn" data-mode="emailForward">
+						<button type="button" name="previewForward" class="btn btn-default" data-mode="emailForward">
 							<strong>{vtranslate('LBL_FORWARD',$MODULE)}</strong>
 						</button>
 					</span>
 					{if !($RECORD->isSentMail())}
 						<span class="btn-group">
-							<button type="button" name="previewEdit" class="btn" data-mode="emailEdit">
+							<button type="button" name="previewEdit" class="btn btn-default" data-mode="emailEdit">
 								<strong>{vtranslate('LBL_EDIT',$MODULE)}</strong>
 							</button>
 						</span>
 					{/if}
 					<span class="btn-group">
-						<button type="button" name="previewPrint" class="btn" data-mode="previewPrint">
+						<button type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
 							<strong>{vtranslate('LBL_PRINT',$MODULE)}</strong>
 						</button>
 					</span>
@@ -40,38 +40,38 @@
 			</div>
 		</div>
 		<form class="form-horizontal emailPreview">
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_FROM',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">{$FROM}</span>
+					<span class="col-md-9">
+						<span class="row">{$FROM}</span>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_TO',$MODULE)}</span>
 					</span>
-					<span class="span9">
+					<span class="col-md-9">
                         {if empty($TO)}
                             {assign var=TO value=array()}
                         {/if}
 						{assign var=TO_EMAILS value=","|implode:$TO}
-						<span class="row-fluid">{$TO_EMAILS}</span>
+						<span class="row">{$TO_EMAILS}</span>
 					</span>
 				</span>
 			</div>
 			{if !empty($CC)}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_CC',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">
+					<span class="col-md-9">
+						<span class="row">
 							{$CC}
 						</span>
 					</span>
@@ -79,38 +79,38 @@
 			</div>
 			{/if}
 			{if !empty($BCC)}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_BCC',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">
+					<span class="col-md-9">
+						<span class="row">
 							{$BCC}
 						</span>
 					</span>
 				</span>
 			</div>
 			{/if}
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_SUBJECT',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">
+					<span class="col-md-9">
+						<span class="row">
 							{$RECORD->get('subject')}
 						</span>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_ATTACHMENT',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">
+					<span class="col-md-9">
+						<span class="row">
 							{foreach item=ATTACHMENT_DETAILS  from=$RECORD->getAttachmentDetails()}
                                 <a &nbsp; 
                                     {if array_key_exists('docid',$ATTACHMENT_DETAILS)} 
@@ -126,25 +126,25 @@
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid padding-bottom1per">
-				<span class="span12 row-fluid">
-					<span class="span2">
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2">
 						<span class="pull-right muted">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
 					</span>
-					<span class="span9">
-						<span class="row-fluid">
+					<span class="col-md-9">
+						<span class="row">
 							{decode_html($RECORD->get('description'))}
 						</span>
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid">
-				<span class="span1">&nbsp;</span>
-				<span class="span10 margin0px"><hr/></span>
+			<div class="row">
+				<span class="col-md-1">&nbsp;</span>
+				<span class="col-md-10 margin0px"><hr/></span>
 			</div>
-			<div class="row-fluid">
-				<span class="span4">&nbsp;</span>
-				<span class="span4 textAlignCenter">
+			<div class="row">
+				<span class="col-md-4">&nbsp;</span>
+				<span class="col-md-4 textAlignCenter">
 					<span class="muted">
 						{if $RECORD->get('email_flag') eq "SAVED"}
 							<small><em>{vtranslate('LBL_DRAFTED_ON',$MODULE)}</em></small>
@@ -161,9 +161,9 @@
 					</span>
 				</span>
 			</div>
-			<div class="row-fluid">
-				<span class="span3">&nbsp;</span>
-				<span class="span5 textAlignCenter">
+			<div class="row">
+				<span class="col-md-3">&nbsp;</span>
+				<span class="col-md-5 textAlignCenter">
 					<span><strong> {vtranslate('LBL_OWNER',$MODULE)} : {getOwnerName($RECORD->get('assigned_user_id'))}</strong></span>
 				</span>
 			</div>

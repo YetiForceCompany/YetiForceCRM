@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -13,16 +13,16 @@
 	<input type="hidden" name="mode" value="Step4" />
 	<input type="hidden" name="lang" value="{$LANG}" />
 
-	<div class="row-fluid main-container">
+	<div class="row main-container">
 		<div class="inner-container">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span10">
 					<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 				</div>
 			</div>
 			<hr>
-			<div class="row-fluid">
-				<div class="row-fluid offset2">
+			<div class="row">
+				<div class="row offset2">
 					<div class="span8 pull-right">
 						<div class="button-container">
 							<a href ="#">
@@ -31,7 +31,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row-fluid offset2">
+				<div class="row offset2">
 					<div class="span8">
 						<table class="config-table">
 							<tr><th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th><th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th><th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th></tr>
@@ -72,11 +72,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="row-fluid offset2">
+			<div class="row offset2">
 				<div class="span8">
 					<div class="button-container">
-						<input type="button" class="btn btn-large" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
-						<input type="button" class="btn btn-large btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
+						<input type="button" class="btn btn-lg" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
+						<input type="button" class="btn btn-lg btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
 					</div>
 				</div>
 			</div>

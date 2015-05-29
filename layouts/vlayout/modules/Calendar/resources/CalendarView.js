@@ -135,7 +135,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					title: event.title,
 					placement: 'top',
 					html: true,
-					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
+					content: '<i class="glyphicon glyphicon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="glyphicon glyphicon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm') + '<br />' +
 							(event.lok != '' ? '<i class="icon-globe"></i> '+app.vtranslate('JS_LOCATION') + ': ' + event.lok + '<br />' : '') + (event.pri ? '<i class="icon-warning-sign"></i> '+app.vtranslate('JS_PRIORITY') + ': ' + app.vtranslate('JS_' + event.pri) + '<br />' : '')+
 							'<i class="icon-question-sign"></i> '+app.vtranslate('JS_STATUS') + ': ' + app.vtranslate('JS_' + event.sta) + '<br />' + (event.accname ? '<i class="calIcon modIcon_Accounts"></i> '+app.vtranslate('JS_ACCOUNTS') + ': ' + event.accname + '<br />' : '') +
 							(event.linkl ? '<i class="calIcon modIcon_'+event.linkm+'"></i> '+app.vtranslate('JS_RELATION') + ': ' + event.linkl + '<br />' : '') + (event.procl ? '<i class="calIcon modIcon_'+event.procm+'"></i> '+app.vtranslate('JS_PROCESS') + ': ' + event.procl + '<br />' : '') + 
@@ -379,7 +379,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	createAddButton: function () {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
-		jQuery('<span class="pull-left"><button class="btn addButton">' + app.vtranslate('JS_ADD_EVENT_TASK') + '</button></span>')
+		jQuery('<span class="pull-left"><button class="btn btn-default addButton">' + app.vtranslate('JS_ADD_EVENT_TASK') + '</button></span>')
 			.prependTo(calendarview.find('.fc-toolbar .fc-right')).on('click', 'button', function (e) {
 			thisInstance.getCalendarCreateView().then(function (data) {
 				var headerInstance = new Vtiger_Header_Js();

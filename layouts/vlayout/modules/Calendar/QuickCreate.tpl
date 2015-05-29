@@ -27,7 +27,7 @@
 						{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 					{/if}
 					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<button class="btn" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+					<button class="btn btn-default" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
 				<div class="clearfix"></div>
@@ -111,18 +111,18 @@
 								<input type="hidden" name="contact_id" value="{$smarty.request.contact_id}" />
 							{/if}
 						</table>
-						<div class="row-fluid" style="margin-top: 5px;">
-							<div class="span4" id="prev_events">
+						<div class="row" style="margin-top: 5px;">
+							<div class="col-md-4" id="prev_events">
 								<table class="table">
 									<tr><th>{vtranslate('TASK_PREV', $MODULE)}</th></tr>
 								</table>
 							</div>
-							<div class="span4" id="cur_events">
+							<div class="col-md-4" id="cur_events">
 								 <table class="table">
 									<tr><th>{vtranslate('TASK_CUR', $MODULE)}</th></tr>
 								</table>
 							</div>
-							<div class="span4" id="next_events">
+							<div class="col-md-4" id="next_events">
 								<table class="table">
 									<tr><th>{vtranslate('TASK_NEXT', $MODULE)}</th></tr>
 								</table>

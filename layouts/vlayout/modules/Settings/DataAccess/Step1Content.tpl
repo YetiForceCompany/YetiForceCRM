@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
     <form class="form-horizontal" method="post" action="index.php">
         <input type="hidden" name="view" value="Step2" />
         <input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -44,7 +44,7 @@
                 {vtranslate('DOC_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
             </div>
             <div class="controls">
-                <input type="text" name="summary" class="span5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
+                <input type="text" name="summary" class="col-md-5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
             </div>
         </div>
     </div>

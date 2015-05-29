@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -10,11 +10,11 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
 	<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
-        <div class="widget_header row-fluid"> 
-        <div class="span8"><h3>{vtranslate('LBL_CREATE_PROFILE', $QUALIFIED_MODULE)}</h3></div> 
-        <div class="span4 btn-toolbar">
+        <div class="widget_header row"> 
+        <div class="col-md-8"><h3>{vtranslate('LBL_CREATE_PROFILE', $QUALIFIED_MODULE)}</h3></div> 
+        <div class="col-md-4 btn-toolbar">
             <div class="pull-right"> 
                 <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</strong></button>
                 <a class="cancelLink" onclick="javascript:window.history.back();" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
@@ -30,16 +30,16 @@
 		<input type="hidden" name="mode" value="{$MODE}" />
 		<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"{else}value="0"{/if}  />
 		<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
-		<div class="row-fluid">
-			<div class="row-fluid">
-				<label class="span2"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong></label>
-				<input type="text" class="fieldValue span6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
+		<div class="row">
+			<div class="row">
+				<label class="col-md-2"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong></label>
+				<input type="text" class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
 			</div><br>
-			<div class="row-fluid">
-				<label class="span2"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-				<textarea class="input-xxlarge fieldValue span8" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
+			<div class="row">
+				<label class="col-md-2"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
+				<textarea class="input-xxlarge fieldValue col-md-8" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
 			</div><br>
-			<div class="row-fluid">
+			<div class="row">
 				<label class=""><strong>{vtranslate('LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE',$QUALIFIED_MODULE)}:</strong></label><br>
 				<table class="table table-bordered profilesEditView">
 					<thead>
@@ -85,9 +85,9 @@
 								{/foreach}
 								<td style="border-left: 1px solid #DDD !important;">
 									{if $PROFILE_MODULE->getFields() || $PROFILE_MODULE->isUtilityActionEnabled()}
-										<div class="row-fluid">
-											<span class="span4">&nbsp;</span>
-											<span class="span4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-mini" style="padding-right: 20px; padding-left: 20px;">
+										<div class="row">
+											<span class="col-md-4">&nbsp;</span>
+											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
 													<i class="icon-chevron-down"></i>
 												</button></span>
 										</div>
@@ -95,10 +95,10 @@
 								</td>
 							</tr>
 							<tr class="hide">
-								<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%">
-									<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
+								<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+									<div class="row hide" data-togglecontent="{$TABID}-fields">
 									{if $PROFILE_MODULE->getFields()}
-										<div class="span12">
+										<div class="col-md-12">
 											<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
 											<div class="pull-right">
 												<span class="mini-slider-control ui-slider" data-value="0">
@@ -173,9 +173,9 @@
 							</td>
 						</tr>
 						<tr class="hide">
-							<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
-								<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
-								<div class="span12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+							<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
+								<div class="row hide" data-togglecontent="{$TABID}-fields">
+								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 								<table class="table table-bordered">
 								{assign var=UTILITY_ACTION_COUNT value=0}
 								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}

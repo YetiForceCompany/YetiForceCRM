@@ -63,7 +63,7 @@
                 <div class=" pull-right cancelLinkContainer">
                     <a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
                 </div>
-                <button class="btn addButton" type="submit" name="selectfield"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>
+                <button class="btn btn-default addButton" type="submit" name="selectfield"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>
             </div>
             {if $RELATED_LOAD eq true}
                 <input type="hidden" name="relatedLoad" value={$RELATED_LOAD} />

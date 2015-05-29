@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,13 +10,13 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid main-container">
+<div class="row main-container">
 	<div class="inner-container">
 		<h2>{vtranslate('LBL_MIGRATION_HEADER', 'Install')}</h2>
 		<form class="form-horizontal" name="step1" method="post" action="Install.php">
 			<input type="hidden" name="mode" value="mStep2" />
 			<input type="hidden" name="lang" value="{$LANG}" />
-			<div class="row-fluid">
+			<div class="row">
 			<div class="span12">
 				
 				<div class="span12 inner-container">
@@ -29,10 +29,10 @@
 			</div>
 			
 			</div>
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span12">
 					<div class="button-container">
-						<input id="agree" type="submit" class="btn btn-large btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}"/>
+						<input id="agree" type="submit" class="btn btn-lg btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}"/>
 					</div>
 				</div>
 			</div>

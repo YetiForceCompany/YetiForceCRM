@@ -225,7 +225,7 @@ jQuery.Class("Emails_MassEdit_Js",{},{
 		var ccLink = jQuery('#ccLink');
 		var bccLink = jQuery('#bccLink');
 		if(ccLink.is(':hidden') && bccLink.is(':hidden')){
-			ccLink.closest('div.row-fluid').addClass('hide');
+			ccLink.closest('div.row').addClass('hide');
 		}
 	},
 

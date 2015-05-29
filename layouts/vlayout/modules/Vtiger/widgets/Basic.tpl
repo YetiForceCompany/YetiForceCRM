@@ -1,12 +1,12 @@
-<div class="summaryWidgetContainer">
+﻿<div class="summaryWidgetContainer">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_header">
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
-			<div class="row-fluid">
-				<div class="span10">
+			<div class="row">
+				<div class="col-md-10">
 					<div class="widgetTitle textOverflowEllipsis"><strong class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</strong></div>
 				</div>
-				<div class="span2">
+				<div class="col-md-2">
 					<div class="pull-right">
 						{if $WIDGET['data']['action'] eq 1}
 							{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
@@ -19,9 +19,9 @@
 							{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 							{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 							{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-							<button style="margin-left: 4px;" class="btn btn-mini pull-right createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
+							<button style="margin-left: 4px;" class="btn btn-xs pull-right btn-default createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
 							{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
-								<span class="icon-plus" border="0" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
+								<span class="glyphicon glyphicon-plus" border="0" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 							</button>
 						{/if}
 						{if $WIDGET['data']['actionSelect'] eq 1}
@@ -31,7 +31,7 @@
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
 							{/if}
-							<button class="btn btn-mini pull-right selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
+							<button class="btn btn-xs btn-default pull-right selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
 								<span class="icon-resize-small" border="0" title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}"></span>
 							</button>
 						{/if}
@@ -39,23 +39,23 @@
 				</div>
 			</div>
 			<hr class="widgetHr"/>
-			<div class="row-fluid">
+			<div class="row">
 				{if (isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-') AND (isset($WIDGET['data']['checkbox']) && $WIDGET['data']['checkbox'] neq '-')}
-					{assign var=span value='span6'}
+					{assign var=span value='col-md-6'}
 				{else}
-					{assign var=span value='span12'}
+					{assign var=span value='col-md-12'}
 				{/if}
 				{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 					<div class="{$span} small-select">
 						{assign var=filter value=$WIDGET['data']['filter']}
 						<input type="hidden" name="filter_data" value="{$filter}" />
-						<div class="row-fluid">
+						<div class="row">
 							{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($WIDGET['data']['relatedmodule'])}
 							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
 							{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-							<select class="chzn-select span12 filterField" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}'>
+							<select class="chzn-select col-md-12 filterField" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}'>
 								<option>{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}</option>
 								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 									<option value="{$PICKLIST_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE}</option>

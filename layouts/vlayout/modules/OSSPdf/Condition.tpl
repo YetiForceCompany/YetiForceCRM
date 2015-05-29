@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid conditionRow marginBottom10px" id="cnd_num_{$NUM}">
-    <span class="span4">
-        <select data-num="{$NUM}" class="select2 chzn-select chzn-done row-fluid field-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$MODULE)}">
+<div class="row conditionRow marginBottom10px" id="cnd_num_{$NUM}">
+    <span class="col-md-4">
+        <select data-num="{$NUM}" class="select2 chzn-select chzn-done row field-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$MODULE)}">
             {foreach key=MODULE_NAME item=FIELD from=$FIELD_LIST}
                 <optgroup label='{vtranslate($MODULE_NAME, $MODULE_NAME)}'>
                     {foreach from=$FIELD key=key item=item}
@@ -22,18 +22,18 @@
             {/foreach}
         </select>
     </span>
-    <span class="span3">
-        <select data-num="{$NUM}" class="select2 chzn-select row-fluid" name="comparator">
+    <span class="col-md-3">
+        <select data-num="{$NUM}" class="select2 chzn-select row" name="comparator">
             {assign var=CONDITION_LIST value=Conditions::getConditionByType($item['info']['type'])}
             {foreach from=$CONDITION_LIST item=item key=key}
                 <option value="{$item}">{Conditions::translateType($item,$MODULE)}</option>
             {/foreach}
         </select>
     </span>
-    <span class="span4 fieldUiHolder">
-        <input name="val" data-value="value" class="row-fluid" type="text" value="{$CONDITION_INFO['value']|escape}" />
+    <span class="col-md-4 fieldUiHolder">
+        <input name="val" data-value="value" class="row" type="text" value="{$CONDITION_INFO['value']|escape}" />
     </span>
-    <span class="span1">
-        <i class="deleteCondition icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$NUM}').remove()"></i>
+    <span class="col-md-1">
+        <i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$NUM}').remove()"></i>
     </span>
 </div>

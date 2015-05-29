@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -19,7 +19,7 @@
 			 <div class="control-group margin0px padding1per">
 				<label class="control-label">{vtranslate('LBL_NOTEPAD_NAME', $MODULE)}<span class="redColor">*</span> </label>
 				<div class="controls">
-					<input type="text" name="notePadName" class="input-large" data-validation-engine="validate[required]" />
+					<input type="text" name="notePadName" class="input-lg" data-validation-engine="validate[required]" />
 				</div>
 			</div>
 			<div class="control-group margin0px padding1per">

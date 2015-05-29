@@ -69,7 +69,7 @@ hr{
     border: 1px solid #ddd;
     margin: 13px 0;
 }
-.row-fluid .group-container{
+.row .group-container{
     background: #eee;
     border: 1px solid #ddd;
     border-radius: 3px;

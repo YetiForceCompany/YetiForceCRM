@@ -12,16 +12,16 @@
 {strip}
 <div class="commentDiv">
 	<div class="singleComment">
-		<div class="commentInfoHeader row-fluid" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
+		<div class="commentInfoHeader row" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 			<div class="commentTitle" id="{$COMMENT->getId()}">
 				{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 				{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-				<div class="row-fluid">
-					<div class="span1">
+				<div class="row">
+					<div class="col-md-1">
 						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 						<img class="alignMiddle pull-left" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
-					<div class="span11 commentorInfo">
+					<div class="col-md-11 commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<div class="inner">
 							<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
@@ -37,16 +37,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="row-fluid commentActionsContainer">
+		<div class="row commentActionsContainer">
 			
 			{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
-			<div class="row-fluid editedStatus"  name="editStatus">
-				<div class="row-fluid">
-					<span class="{if empty($REASON_TO_EDIT)}hide{/if} span6 editReason">
+			<div class="row editedStatus"  name="editStatus">
+				<div class="row">
+					<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-md-6 editReason">
 						<p><small>[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
 					</span>
 					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
-						<span class="{if empty($REASON_TO_EDIT)}row-fluid{else} span6{/if}">
+						<span class="{if empty($REASON_TO_EDIT)}row{else} col-md-6{/if}">
 							<span class="pull-right">
 								<p class="muted"><small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
 							</span>
@@ -54,7 +54,7 @@
 					{/if}
 				</div>
 			</div>
-			<div class="row-fluid commentActionsDiv">
+			<div class="row commentActionsDiv">
 				{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
 					<div class="pull-right commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}

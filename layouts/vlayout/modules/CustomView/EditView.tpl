@@ -11,7 +11,7 @@
 -->*}
 {strip}
     {assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
-    <div class="container-fluid">
+    <div class="container">
         <form class="form-inline" id="CustomView" name="CustomView" method="post" action="index.php">
             <input type="hidden" name="record" id="record" value="{$RECORD_ID}" />
             <input type="hidden" name="module" value="{$MODULE}" />
@@ -28,11 +28,11 @@
             <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
             <div class="filterBlocksAlignment">
 				<br>
-                <div class="row-fluid">
+                <div class="row">
                     <h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
                 </div>
 				<br>
-                <div class="row-fluid">
+                <div class="row">
                     <label><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}&nbsp;</label>
                     <input type="text" id="viewname" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">&nbsp;&nbsp;&nbsp;
                     <label class="checkbox"><input id="setdefault" type="checkbox" name="setdefault" value="1" {if $CUSTOMVIEW_MODEL->isDefault()} checked="checked"{/if}>{vtranslate('LBL_SET_AS_DEFAULT',$MODULE)}</label>&nbsp;&nbsp;&nbsp;
@@ -86,8 +86,8 @@
             <h4 class="filterHeaders">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)} :</h4>
             <br>
 			<div class="filterConditionsDiv">
-                <div class="row-fluid">
-                    <span class="span12">
+                <div class="row">
+                    <span class="col-md-12">
                         {include file='AdvanceFilter.tpl'|@vtemplate_path}
                     </span>
                 </div>

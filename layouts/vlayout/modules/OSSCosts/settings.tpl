@@ -25,11 +25,11 @@
 			<p>{vtranslate('Alert_desc', $MODULENAME)}</p>
 		</div>	
 		{foreach item=item key=key from=$CONFIG}
-			<div class="row-fluid">
-				<div class="span6">
+			<div class="row">
+				<div class="col-md-6">
 					<h5>{vtranslate($key, $MODULENAME)}</h5>
 				</div>
-				<div class="span6">
+				<div class="col-md-6">
 					<input id="{$key}" name="{$key}" type="checkbox" value="1" {if $item eq 1} checked {/if}/>
 				</div>
 			</div>

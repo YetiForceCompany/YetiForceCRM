@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -14,14 +14,14 @@
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE_NAME}
 
 <div class="bodyContents">
-	<div class="mainContainer row-fluid">
+	<div class="mainContainer row">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="span2{if $LEFTPANELHIDE eq '1'} hide {/if} row-fluid" id="leftPanel">
+		<div class="col-md-2{if $LEFTPANELHIDE eq '1'} hide {/if} row" id="leftPanel">
 			{include file="DetailViewSidebar.tpl"|vtemplate_path:$MODULE_NAME}
 		</div>
-		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} span10 {else} span12 {/if}marginLeftZero" id="centerPanel">
+		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-10 {else} col-md-12 {/if}marginLeftZero" id="centerPanel">
 			<div id="toggleButton" class="toggleButton" title="Left Panel Show/Hide"> 
-				<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
+				<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></i>
 			</div>
 				{include file="DetailViewHeader.tpl"|vtemplate_path:'OSSMailView'}
 

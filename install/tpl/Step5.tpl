@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -13,16 +13,16 @@
 	<input type="hidden" name="mode" value="Step7" />
 	<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 	<input type="hidden" name="lang" value="{$LANG}" />
-	<div class="row-fluid main-container">
+	<div class="row main-container">
 		<div class="inner-container">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span10">
 					<h4>{vtranslate('LBL_CONFIRM_CONFIGURATION_SETTINGS','Install')}</h4>
 				</div>
 			</div>
 		    <hr>
 			{if $DB_CONNECTION_INFO['flag'] neq true}
-				<div class="offset2 row-fluid" id="errorMessage">
+				<div class="offset2 row" id="errorMessage">
 					<div class="span8">
 						<div class="alert alert-error">
 							{$DB_CONNECTION_INFO['error_msg']}
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 			{/if}
-			<div class="offset2 row-fluid">
+			<div class="offset2 row">
 				<div class="span8">
 					<table class="config-table input-table">
 						<thead>
@@ -124,12 +124,12 @@
 					</table>
 				</div>
 			</div>
-			<div class="row-fluid offset2">
+			<div class="row offset2">
 				<div class="span8">
 					<div class="button-container">
-						<input type="button" class="btn btn-large" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
+						<input type="button" class="btn btn-lg" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
 						{if $DB_CONNECTION_INFO['flag'] eq true}
-							<input type="button" class="btn btn-large btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
+							<input type="button" class="btn btn-lg btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
 						{/if}
 					</div>
 				</div>
@@ -137,10 +137,10 @@
 		</div>
 	</div>
 </form>
-<div id="progressIndicator" class="row-fluid main-container hide">
+<div id="progressIndicator" class="row main-container hide">
 	<div class="inner-container">
 		<div class="inner-container">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span12 welcome-div alignCenter">
 					<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
 					<img src="../layouts/vlayout/skins/images/install_loading.gif"/>

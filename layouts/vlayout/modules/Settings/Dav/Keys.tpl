@@ -10,10 +10,10 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid" id="DavKeysContainer">
-		<div class="widget_header row-fluid">
-			<div class="span8"><h3>{vtranslate('LBL_DAV_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="span4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+	<div class="container" id="DavKeysContainer">
+		<div class="widget_header row">
+			<div class="col-md-8"><h3>{vtranslate('LBL_DAV_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<hr>
 		<div class="contents">
@@ -24,7 +24,7 @@
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row-fluid">
+			<div class="row">
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
@@ -78,7 +78,7 @@
 						<div class="control-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
-								<select class="select span4 user" name="user" data-validation-engine="validate[required]">
+								<select class="select col-md-4 user" name="user" data-validation-engine="validate[required]">
 								{foreach from=$USERS item=item key=key}
 									<option value="{$key}">{$item->getDisplayName()}</option>
 								{/foreach}
@@ -88,7 +88,7 @@
 						<div class="control-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
-								<select multiple="" class="select span4 type" name="type">
+								<select multiple="" class="select col-md-4 type" name="type">
 								{foreach from=$MODULE_MODEL->getTypes() item=item}
 									<option selected="" value="{$item}">{$item}</option>
 								{/foreach}

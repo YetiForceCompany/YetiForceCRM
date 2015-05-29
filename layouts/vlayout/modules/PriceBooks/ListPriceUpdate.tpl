@@ -12,7 +12,7 @@
 {strip}
 <div id="listPriceUpdateContainer">
 	<div class="modal-header">
-		<button data-dismiss="modal" class="pull-right"><i class="icon-remove alignMiddle"></i></button>
+		<button data-dismiss="modal" class="pull-right"><i class="glyphicon glyphicon-remove alignMiddle"></i></button>
 		<h3>{vtranslate('LBL_EDIT_LIST_PRICE', $MODULE)}</h3>
 	</div>	
 	<form class="form-horizontal" id="listPriceUpdate" method="post" action="index.php">

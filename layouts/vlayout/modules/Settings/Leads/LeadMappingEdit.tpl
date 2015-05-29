@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,13 +9,13 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid">
+	<div class="container">
 		<form id="leadsMapping" method="POST">
-			<div class="row-fluid settingsHeader padding1per">
-				<span class="span8">
+			<div class="row settingsHeader padding1per">
+				<span class="col-md-8">
 					<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>
 				</span>
-				<span class="span4">
+				<span class="col-md-4">
 					<span class="pull-right">
 						<button type="submit" class="btn btn-success"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">Cancel</a>
@@ -95,7 +95,7 @@
 										{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 											<div class="pull-right actions">
 												<span class="actionImages">
-													<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="icon-trash alignMiddle deleteMapping"></i></a>
+													<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></i></a>
 												</span>
 											</div>
 										{/foreach}
@@ -155,7 +155,7 @@
 								{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 									<div class="pull-right actions">
 										<span class="actionImages">
-											<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="icon-trash alignMiddle deleteMapping"></i></a>
+											<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></i></a>
 										</span>
 									</div>
 								{/foreach}
@@ -164,13 +164,13 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="row-fluid">
-				<span class="span4">
-					<button id="addMapping" class="btn addButton" type="button">
-						<i class="icon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
+			<div class="row">
+				<span class="col-md-4">
+					<button id="addMapping" class="btn btn-default addButton" type="button">
+						<i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
-				<span class="span8">
+				<span class="col-md-8">
 					<span class="pull-right">
 						<button type="submit" class="btn btn-success"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<a class="cancelLink" type="reset" onclick="javascript:window.history.back();">Cancel</a>

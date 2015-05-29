@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -13,9 +13,9 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="row-fluid padding1per">
-		<span class="span2"><h4>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</h4></span>
-		<span class="span6">
+	<div class="row padding1per">
+		<span class="col-md-2"><h4>{vtranslate('LBL_COPY_PRIVILEGES_FROM',"Settings:Roles")}</h4></span>
+		<span class="col-md-6">
 			<select class="select2" id="directProfilePriviligesSelect" style="min-width : 200px" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}">
 				<option></option>
 				{foreach from=$ALL_PROFILES item=PROFILE}
@@ -91,9 +91,9 @@
 					{/foreach}
 					<td style="border-left: 1px solid #DDD !important;">
 						{if $PROFILE_MODULE->getFields()}
-							<div class="row-fluid">
-								<span class="span4">&nbsp;</span>
-								<span class="span4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-mini" style="padding-right: 20px; padding-left: 20px;">
+							<div class="row">
+								<span class="col-md-4">&nbsp;</span>
+								<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
 										<i class="icon-chevron-down"></i>
 									</button></span>
 							</div>
@@ -101,10 +101,10 @@
 					</td>
 				</tr>
 				<tr class="hide">
-					<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%">
-						<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
+					<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
+						<div class="row hide" data-togglecontent="{$TABID}-fields">
 							{if $PROFILE_MODULE->getFields()}
-								<div class="span12">
+								<div class="col-md-12">
 									<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
 									<div class="pull-right">
 										<span class="mini-slider-control ui-slider" data-value="0">
@@ -179,9 +179,9 @@
 				</td>
 			</tr>
 			<tr class="hide">
-				<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
-					<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
-						<div class="span12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+				<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
+					<div class="row hide" data-togglecontent="{$TABID}-fields">
+						<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 						<table class="table table-bordered">
 							{assign var=UTILITY_ACTION_COUNT value=0}
 							{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}

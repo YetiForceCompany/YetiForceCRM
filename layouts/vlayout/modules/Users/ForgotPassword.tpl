@@ -99,7 +99,7 @@
 								<tr><td></td></tr>
 								<tr>
 									<td></td>
-									<td><input type="submit" id="btn" value="{vtranslate('LBL_SEND', $MODULE)}" onclick="return checkPassword();"/></td>
+									<td><input type="submit" id="btn btn-default" value="{vtranslate('LBL_SEND', $MODULE)}" onclick="return checkPassword();"/></td>
 								</tr>
 							</table>
 						</form>

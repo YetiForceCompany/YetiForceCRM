@@ -96,11 +96,11 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 						AppConnector.request(params).then(function(data){
 //							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
                                                         var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
-                                                        var existingDivBlock=jQuery('#settingsShortCutsContainer div.row-fluid:last');
-                                                        var count=jQuery('#settingsShortCutsContainer div.row-fluid:last').children("span").length;
+                                                        var existingDivBlock=jQuery('#settingsShortCutsContainer div.row:last');
+                                                        var count=jQuery('#settingsShortCutsContainer div.row:last').children("span").length;
                                                         if(count==3){
                                                            
-                                                            var newBlock =jQuery('#settingsShortCutsContainer').append('<div class="row-fluid">'+data);
+                                                            var newBlock =jQuery('#settingsShortCutsContainer').append('<div class="row">'+data);
                                                         }
                                                         else{
                                                             var newBlock = jQuery(data).appendTo(existingDivBlock);

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid">
+<div class="row">
     <form class="form-horizontal" method="post" action="index.php">
         <input type="hidden" name="view" value="Edit2" />
         <input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -44,7 +44,7 @@
                 {vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}<span class="redColor">*</span>
             </div>
             <div class="controls">
-                <input type="text" name="summary" class="span5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
+                <input type="text" name="summary" class="col-md-5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
             </div>
         </div>
     </div>

@@ -10,13 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="row-fluid">
-		<div class="span3" style="position:relative;top:4px;">
+	<div class="row">
+		<div class="col-md-3" style="position:relative;top:4px;">
 			<strong>{vtranslate('LBL_MODULES_TO_CREATE_RECORD',$QUALIFIED_MODULE)}
 				<span class="redColor">*</span>
 			</strong>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
 			{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
 			{assign var=RELATED_MODULE_MODEL_NAME value=$TASK_OBJECT->entity_type}

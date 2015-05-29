@@ -9,15 +9,15 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid">
-    <span class="span4 btn-toolbar">
-        <a class="btn addButton" href="" data-toggle="modal" data-target="#step_2_modal">
+<div class="row">
+    <span class="col-md-4 btn-toolbar">
+        <a class="btn btn-default addButton" href="" data-toggle="modal" data-target="#step_2_modal">
             <strong>{vtranslate('ADD_TASKS', $MODULE_NAME)}</strong>
         </a>
     </span>
 </div>
 
-<div class="row-fluid">
+<div class="row">
     <table class="table table-bordered table-condensed listViewEntriesTable">
         <thead>
             <tr class="listViewHeaders">
@@ -34,10 +34,10 @@
                     <td>{$item.projecttaskname}</td>
                     <td>
                         <a data-toggle="modal" data-target="#step_2_modal_edit" class="pull-right edit_tpl">
-                            <i title="{vtranslate('LBL_EDIT')}" class="icon-pencil alignMiddle"></i>
+                            <i title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></i>
                         </a>
                         <a href='index.php?module=OSSProjectTemplates&parent=Settings&action=DeleteTemplate&tpl_id={$key}&base_module={$BASE_MODULE}&parent_tpl_id={$PARENT_TPL_ID}&back_view=Edit2' 
-                           class="pull-right marginRight10px"><i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="icon-trash alignMiddle"></i></a>
+                           class="pull-right marginRight10px"><i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
                     </td>
                 <tr>
                 {/foreach}
@@ -91,7 +91,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
+            <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
             <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
         </div>      
     </form>

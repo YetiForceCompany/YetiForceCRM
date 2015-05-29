@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -76,13 +76,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model {
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'icon-pencil'
+					'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_DELETE',
 					'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'".$this->getDeleteUrl()."');",
-					'linkicon' => 'icon-trash'
+					'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
 		foreach($recordLinks as $recordLink) {

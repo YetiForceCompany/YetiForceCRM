@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -40,31 +40,31 @@
             </tr>
         {/if}
     </table>
-    <div class="row-fluid verticalBottomSpacing">
+    <div class="row verticalBottomSpacing">
         <div>
             {if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-toolbar">
                     <span class="btn-group">
-                        <button type="button" class="btn addButton" id="addProduct">
-                            <span class="icon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                        <button type="button" class="btn btn-default addButton" id="addProduct">
+                            <span class="glyphicon glyphicon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                         </button>
                     </span>
                     <span class="btn-group">
-                        <button type="button" class="btn addButton" id="addService">
-                            <span class="icon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                        <button type="button" class="btn btn-default addButton" id="addService">
+                            <span class="glyphicon glyphicon-plus icon-white"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                         </button>
                     </span>
                 </div>
             {elseif $PRODUCT_ACTIVE eq 'true'}
                 <div class="btn-group">
-                    <button type="button" class="btn addButton" id="addProduct">
-                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                    <button type="button" class="btn btn-default addButton" id="addProduct">
+                        <span class="glyphicon glyphicon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                     </button>
                 </div>
             {elseif $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-group">
-                    <button type="button" class="btn addButton" id="addService">
-                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                    <button type="button" class="btn btn-default addButton" id="addService">
+                        <span class="glyphicon glyphicon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                     </button>
                 </div>
             {/if}

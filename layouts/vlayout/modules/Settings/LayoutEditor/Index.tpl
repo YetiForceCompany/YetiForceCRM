@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -14,15 +14,15 @@ display: none;
 }
 </style>
 {strip}
-    <div class="container-fluid" id="layoutEditorContainer">
+    <div class="container" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row-fluid">
-            <div class="span8">
+        <div class="widget_header row">
+            <div class="col-md-8">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="span4">
+            <div class="col-md-4">
                 <div class="pull-right">
-                    <select class="select2 span3" name="layoutEditorModules">
+                    <select class="select2 col-md-3" name="layoutEditorModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
                         {/foreach}
@@ -44,8 +44,8 @@ display: none;
                     {assign var=ALL_BLOCK_LABELS value=[]}
                     {if $IS_SORTABLE}
                         <div class="btn-toolbar">
-                            <button class="btn addButton addCustomBlock" type="button">
-                                <i class="icon-plus"></i>&nbsp;
+                            <button class="btn btn-default addButton addCustomBlock" type="button">
+                                <i class="glyphicon glyphicon-plus"></i>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
                             <span class="pull-right">
@@ -61,28 +61,28 @@ display: none;
                             {assign var=BLOCK_ID value=$BLOCK_MODEL->get('id')}
                             {$ALL_BLOCK_LABELS[$BLOCK_ID] = $BLOCK_LABEL_KEY}
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px 4px 0px 0px;background: white;">
-                                <div class="row-fluid layoutBlockHeader">
-                                    <div class="blockLabel span5 padding10 marginLeftZero">
+                                <div class="row layoutBlockHeader">
+                                    <div class="blockLabel col-md-5 padding10 marginLeftZero">
                                         <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
-                                    <div class="span6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+                                    <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
-                                                    <button class="btn addCustomField" type="button">
+                                                    <button class="btn btn-default addCustomField" type="button">
                                                         <strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
                                                     </button>
                                                 </div>
                                             {/if}
                                             {if $BLOCK_MODEL->isActionsAllowed()}
-                                                <div class="btn-group"><button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <div class="btn-group"><button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <i class="caret"></i>
                                                     </button>
                                                     <ul class="dropdown-menu pull-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
-                                                                <i class="icon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></i>&nbsp;
+                                                                <i class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></i>&nbsp;
                                                                 {vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                                                             </a>
                                                         </li>
@@ -100,29 +100,29 @@ display: none;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="blockFieldsList {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}blockFieldsSortable {/if} row-fluid" style="padding:5px;min-height: 27px">
-                                    <ul name="sortable1" class="connectedSortable span6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
+                                <div class="blockFieldsList {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}blockFieldsSortable {/if} row" style="padding:5px;min-height: 27px">
+                                    <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
                                         {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
                                             {if $smarty.foreach.fieldlist.index % 2 eq 0}
                                                 <li>
                                                     <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-                                                        <div class="row-fluid padding1per">
+                                                        <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="span1">&nbsp;
+                                                            <span class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </span>
-                                                            <div class="span11 marginLeftZero" style="word-wrap: break-word;">
+                                                            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
                                                                 {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
                                                             <span class="btn-group pull-right actions">
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                                                                        <i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                                                                        <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
                                                                     </a>
                                                                     <div class="basicFieldOperations pull-right hide" style="width : 250px;">
                                                                         <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -182,7 +182,7 @@ display: none;
                                                         {if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
                                                             {if $FIELD_MODEL->getFieldDataType() eq "picklist"}
                                                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-                                                                <select class="span2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
+                                                                <select class="col-md-2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                                                     {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
                                                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
                                                                     {/foreach}
@@ -190,7 +190,7 @@ display: none;
                                                             {elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
                                                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
                                                                 {assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
-                                                                <select multiple class="span2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
+                                                                <select multiple class="col-md-2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                                                     {foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                                                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
                                                                     {/foreach}
@@ -200,30 +200,30 @@ display: none;
                                                                 <input type="checkbox" name="fieldDefaultValue" value="1"
                                                                 {if $FIELD_MODEL->get('defaultvalue') eq 1} checked {/if} data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' />
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "time"}
-                                                            <div class="input-append time">
-                                                                <input type="text" class="input-small" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
-                                                                <span class="add-on cursorPointer">
-                                                                    <i class="icon-time"></i>
+                                                            <div class="input-group time">
+                                                                <input type="text" class="input-sm" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
+                                                                <span class="input-group-addon cursorPointer">
+                                                                    <i class="glyphicon glyphicon-time"></i>
                                                                 </span>
                                                             </div>
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-                                                            <div class="input-append date">
+                                                            <div class="input-group date">
                                                                 {assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
                                                                 <input type="text" class="input-medium" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'
                                                                        value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
-                                                                <span class="add-on">
-                                                                    <i class="icon-calendar"></i>
+                                                                <span class="input-group-addon">
+                                                                    <i class="glyphicon glyphicon-calendar"></i>
                                                                 </span>
                                                             </div>
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
-                                                            <div class="input-append">
+                                                            <div class="input-group">
                                                                 <input type="number" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  class="input-medium" name="fieldDefaultValue"
                                                                        value="{$FIELD_MODEL->get('defaultvalue')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' step="any" />
-                                                                <span class="add-on">%</span>
+                                                                <span class="input-group-addon">%</span>
                                                             </div>
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "currency"}
-                                                            <div class="input-prepend">
-                                                                <span class="add-on">{$USER_MODEL->get('currency_symbol')}</span>
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
                                                                 <input type="text" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  class="input-medium" name="fieldDefaultValue"
                                                                        data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}"
                                                                        data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
@@ -241,9 +241,9 @@ display: none;
 												<span style="padding-left: 5px;">
 													{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 													<span style="margin-left: 26px;display: block;">
-													<span class="input-append">
+													<span class="input-group">
 														<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-														<span class="add-on"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+														<span class="input-group-addon"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
 													</span></span>
 												</span>
 											{/if}
@@ -254,7 +254,7 @@ display: none;
 												{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 												</label>
 												<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-													<select style="margin-left: 10px;" name="displaytype" class="span2">
+													<select style="margin-left: 10px;" name="displaytype" class="col-md-2">
 														{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 															<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 														{/foreach}
@@ -284,7 +284,7 @@ display: none;
                             {/if}
                             {if $FIELD_MODEL->isCustomField() eq 'true'}
                                 <a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$FIELD_MODEL->get('id')}">
-                                    <i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+                                    <i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
                                 </a>
                             {/if}
                         </span>
@@ -295,22 +295,22 @@ display: none;
     {/if}
 {/foreach}
 </ul>
-<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable span6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
+<ul {if $SELECTED_MODULE_MODEL->isFieldsSortableAllowed($BLOCK_LABEL_KEY)}name="sortable2"{/if} class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; float: left;min-height: 1px;padding:2px;">
     {foreach item=FIELD_MODEL from=$FIELDS_LIST name=fieldlist1}
         {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
         {if $smarty.foreach.fieldlist1.index % 2 neq 0}
             <li>
                 <div class="opacity editFields marginLeftZero border1px" data-block-id="{$BLOCK_ID}" data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
-                    <div class="row-fluid padding1per">
+                    <div class="row padding1per">
                         {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                        <span class="span1">&nbsp;
+                        <span class="col-md-1">&nbsp;
                             {if $FIELD_MODEL->isEditable()}
                                 <a>
                                     <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                 </a>
                             {/if}
                         </span>
-                        <div class="span11 marginLeftZero" style="word-wrap: break-word;">
+                        <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
                             <span class="fieldLabel">
                                 {if $IS_MANDATORY}
                                     <span class="redColor">*</span>
@@ -320,7 +320,7 @@ display: none;
                             <span class="btn-group pull-right actions">
                                 {if $FIELD_MODEL->isEditable()}
                                     <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                                        <i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                                        <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
                                     </a>
                                     <div class="basicFieldOperations pull-right hide" style="width : 250px;">
                                         <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -379,7 +379,7 @@ display: none;
                         {if $FIELD_MODEL->isDefaultValueOptionDisabled() neq "true"}
                             {if $FIELD_MODEL->getFieldDataType() eq "picklist"}
                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-                                <select class="span2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
+                                <select class="col-md-2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                     {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
                                     {/foreach}
@@ -387,7 +387,7 @@ display: none;
                             {elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
                                 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
                                 {assign var="FIELD_VALUE_LIST" value=explode(' |##| ',$FIELD_MODEL->get('defaultvalue'))}
-                                <select multiple class="span2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
+                                <select multiple class="col-md-2" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'>
                                     {foreach item=PICKLIST_VALUE from=$PICKLIST_VALUES}
                                         <option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" {if in_array(Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE), $FIELD_VALUE_LIST)} selected {/if}>{vtranslate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
                                     {/foreach}
@@ -397,30 +397,30 @@ display: none;
                                 <input type="checkbox" name="fieldDefaultValue" value="1"
                                 {if $FIELD_MODEL->get('defaultvalue') eq 1} checked {/if} data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' />
                         {elseif $FIELD_MODEL->getFieldDataType() eq "time"}
-                            <div class="input-append time">
-                                <input type="text" class="input-small" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
-                                <span class="add-on cursorPointer">
-                                    <i class="icon-time"></i>
+                            <div class="input-group time">
+                                <input type="text" class="input-sm" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
+                                <span class="input-group-addon cursorPointer">
+                                    <i class="glyphicon glyphicon-time"></i>
                                 </span>
                             </div>
                         {elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-                            <div class="input-append date">
+                            <div class="input-group date">
                                 {assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
                                 <input type="text" class="input-medium" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'
                                        value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
-                                <span class="add-on">
-                                    <i class="icon-calendar"></i>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
                                 </span>
                             </div>
                         {elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
-                            <div class="input-append">
+                            <div class="input-group">
                                 <input type="number" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  class="input-medium" name="fieldDefaultValue"
                                        value="{$FIELD_MODEL->get('defaultvalue')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' step="any" />
-                                <span class="add-on">%</span>
+                                <span class="input-group-addon">%</span>
                             </div>
                         {elseif $FIELD_MODEL->getFieldDataType() eq "currency"}
-                            <div class="input-prepend">
-                                <span class="add-on">{$USER_MODEL->get('currency_symbol')}</span>
+                            <div class="input-group">
+                                <span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
                                 <input type="text" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  class="input-medium" name="fieldDefaultValue"
                                        data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}"
                                        data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
@@ -434,9 +434,9 @@ display: none;
 			{if in_array($FIELD_MODEL->getFieldDataType(),['string','phone','currency','url'])}
 				<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
 					{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
-					<span class="input-append">
+					<span class="input-group">
 						<input type="text" class="input-medium" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-						<span class="add-on"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+						<span class="input-group-addon"><i class="icon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
 					</span>
 				</div>
 			{/if}
@@ -447,7 +447,7 @@ display: none;
 				{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 				</label>
 				<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-					<select style="margin-left: 10px;" name="displaytype" class="span2">
+					<select style="margin-left: 10px;" name="displaytype" class="col-md-2">
 						{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 							<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 						{/foreach}
@@ -477,7 +477,7 @@ display: none;
 {/if}
 {if $FIELD_MODEL->isCustomField() eq 'true'}
     <a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$FIELD_MODEL->get('id')}">
-        <i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+        <i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
     </a>
 {/if}
 </span>
@@ -495,26 +495,26 @@ display: none;
 <input type="hidden" class="inActiveFieldsArray" value='{ZEND_JSON::encode($IN_ACTIVE_FIELDS)}' />
 
 <div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px;">
-    <div class="row-fluid layoutBlockHeader">
-        <div class="span6 blockLabel padding10">
+    <div class="row layoutBlockHeader">
+        <div class="col-md-6 blockLabel padding10">
             <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
         </div>
-        <div class="span6 marginLeftZero">
+        <div class="col-md-6 marginLeftZero">
             <div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
                 <div class="btn-group">
-                    <button class="btn addCustomField hide" type="button">
+                    <button class="btn btn-defaultaddCustomField hide" type="button">
                         <strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
                     </button>
                 </div>
                 <div class="btn-group">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                         <i class="caret"></i>
                     </button>
                     <ul class="dropdown-menu pull-right">
                         <li class="blockVisibility" data-visible="1" data-block-id="">
                             <a href="javascript:void(0)">
-                                <i class="icon-ok"></i>&nbsp;{vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+                                <i class="glyphicon glyphicon-ok"></i>&nbsp;{vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                             </a>
                         </li>
                         <li class="inActiveFields">
@@ -528,28 +528,28 @@ display: none;
             </div>
         </div>
     </div>
-    <div class="blockFieldsList row-fluid blockFieldsSortable" style="padding:5px;min-height: 27px">
-        <ul class="connectedSortable span6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
-        <ul class="connectedSortable span6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
+    <div class="blockFieldsList row blockFieldsSortable" style="padding:5px;min-height: 27px">
+        <ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; float: left;min-height:1px;padding:2px;" name="sortable1"></ul>
+        <ul class="connectedSortable col-md-6 ui-sortable" style="list-style-type: none; margin: 0;float: left;min-height:1px;padding:2px;" name="sortable2"></ul>
     </div>
 </div>
 
 <li class="newCustomFieldCopy hide">
     <div class="marginLeftZero border1px" data-field-id="" data-sequence="">
-        <div class="row-fluid padding1per">
-            <span class="span1">&nbsp;
+        <div class="row padding1per">
+            <span class="col-md-1">&nbsp;
                 {if $IS_SORTABLE}
                     <a>
                         <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                     </a>
                 {/if}
             </span>
-            <div class="span11 marginLeftZero" style="word-wrap: break-word;">
+            <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
                 <span class="fieldLabel"></span>
                 <span class="btn-group pull-right actions">
                     {if $IS_SORTABLE}
                         <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                            <i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                            <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
                         </a>
                         <div class="basicFieldOperations hide pull-right" style="width: 250px;">
                             <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -597,7 +597,7 @@ display: none;
 									<span>
 										<label class="checkbox" style="padding-left: 5px;">
 										{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-										<select style="margin-left: 10px;" name="displaytype" class="span1">
+										<select style="margin-left: 10px;" name="displaytype" class="col-md-1">
 											{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
 												<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 											{/foreach}
@@ -622,7 +622,7 @@ display: none;
                             </form>
                         </div>
                     {/if}
-                    <a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
+                    <a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
                 </span>
             </div>
         </div>
@@ -642,7 +642,7 @@ display: none;
                     <span>{vtranslate('LBL_BLOCK_NAME', $QUALIFIED_MODULE)}</span>
                 </span>
                 <div class="controls">
-                    <input type="text" name="label" class="span3" data-validation-engine="validate[required]" />
+                    <input type="text" name="label" class="col-md-3" data-validation-engine="validate[required]" />
                 </div>
             </div>
             <div class="control-group">
@@ -650,8 +650,8 @@ display: none;
                     {vtranslate('LBL_ADD_AFTER', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-                    <span class="row-fluid">
-                        <select class="span8" name="beforeBlockId">
+                    <span class="row">
+                        <select class="col-md-8" name="beforeBlockId">
                             {foreach key=BLOCK_ID item=BLOCK_LABEL from=$ALL_BLOCK_LABELS}
                                 <option value="{$BLOCK_ID}" data-label="{$BLOCK_LABEL}">{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}</option>
                             {/foreach}
@@ -676,8 +676,8 @@ display: none;
                     {vtranslate('LBL_SELECT_FIELD_TYPE', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-                    <span class="row-fluid">
-                        <select class="fieldTypesList span7" name="fieldType">
+                    <span class="row">
+                        <select class="fieldTypesList col-md-7" name="fieldType">
                             {foreach item=FIELD_TYPE from=$ADD_SUPPORTED_FIELD_TYPES}
                                 <option value="{$FIELD_TYPE}"
                                         {foreach key=TYPE_INFO item=TYPE_INFO_VALUE from=$FIELD_TYPE_INFO[$FIELD_TYPE]}
@@ -716,7 +716,7 @@ display: none;
                     {vtranslate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-					<select class="marginLeftZero span3" name="fieldTypeList">
+					<select class="marginLeftZero col-md-3" name="fieldTypeList">
 						<option value="0">{vtranslate('LBL_FIELD_TYPE0', $QUALIFIED_MODULE)}</option>
 						<option value="1">{vtranslate('LBL_FIELD_TYPE1', $QUALIFIED_MODULE)}</option>
 					</select>
@@ -746,8 +746,8 @@ display: none;
                     {vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-                    <div class="row-fluid">
-                        <input type="hidden" id="picklistUi" class="span7 select2" name="pickListValues"
+                    <div class="row">
+                        <input type="hidden" id="picklistUi" class="col-md-7 select2" name="pickListValues"
                                placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])} />
                     </div>
                 </div>
@@ -758,8 +758,8 @@ display: none;
                     {vtranslate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-                    <div class="row-fluid">
-                        <select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="ModuleList span7" name="ModuleList">
+                    <div class="row">
+                        <select {if $FIELD_TYPE_INFO['Related1M']['ModuleListMultiple'] eq true}multiple{/if} class="ModuleList col-md-7" name="ModuleList">
 							{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 								<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 							{/foreach}
@@ -772,7 +772,7 @@ display: none;
                     &nbsp;
                 </span>
                 <div class="controls">
-                    <label class="checkbox span3" style="margin-left: 0px;">
+                    <label class="checkbox col-md-3" style="margin-left: 0px;">
                         <input type="checkbox" class="checkbox" name="isRoleBasedPickList" value="1" >&nbsp;{vtranslate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
                     </label>
                 </div>
@@ -783,8 +783,8 @@ display: none;
                     {vtranslate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
                 </span>
                 <div class="controls">
-                    <div class="row-fluid">
-                        <select class="TreeList span7" name="TreeList">
+                    <div class="row">
+                        <select class="TreeList col-md-7" name="TreeList">
 							{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
 								<option value="{$key}">{vtranslate($item, $SELECTED_MODULE_NAME)}</option>
 							{foreachelse}
@@ -807,7 +807,7 @@ display: none;
     </div>
     <form class="form-horizontal inactiveFieldsForm" method="POST">
         <div class="modal-body">
-            <div class="row-fluid inActiveList"></div>
+            <div class="row inActiveList"></div>
         </div>
         <div class="modal-footer">
             <div class=" pull-right cancelLinkContainer">

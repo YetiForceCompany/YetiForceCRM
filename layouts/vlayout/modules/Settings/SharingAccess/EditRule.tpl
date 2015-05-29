@@ -24,7 +24,7 @@
             <input type="hidden" name="for_module" value="{$MODULE_MODEL->get('name')}" />
             <input type="hidden" name="record" value="{$RULE_ID}" />
             <div class="modal-body">
-                <div class="row-fluid">
+                <div class="row">
                     <div class="control-group">
                         <label class="control-label">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
                         <div class="controls">

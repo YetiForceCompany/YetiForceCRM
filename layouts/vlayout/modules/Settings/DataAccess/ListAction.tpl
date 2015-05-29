@@ -25,7 +25,7 @@
 			<td>{Settings_DataAccess_Module_Model::getActionName($item['an'],false)}</td>
 			<td>
 				<a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteAction&id={$TPL_ID}&a={$key}&m={$BASE_MODULE}'  class="pull-right marginRight10px">
-					<i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="icon-trash alignMiddle"></i>
+					<i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></i>
 				</a>
 				{if $item['cf'] != 0}
 					<a href='index.php?module={$MODULE_NAME}&parent=Settings&view=ActionConfig&did={$TPL_ID}&aid={$key}&an={$item['an']}&m={$BASE_MODULE}'  class="pull-right edit_tpl">

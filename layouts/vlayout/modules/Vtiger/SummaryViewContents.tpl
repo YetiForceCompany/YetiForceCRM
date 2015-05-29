@@ -24,7 +24,7 @@
 						<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-left" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><i class="icon-info-sign"></i></a>
 					{/if}
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
-                    <div class="row-fluid">
+                    <div class="row">
                         <span class="value" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
                             {include file=$FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()|@vtemplate_path FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
                         </span>
@@ -38,7 +38,7 @@
                                 {/if}
                             </span>
                             <span class="summaryViewEdit cursorPointer pull-right">
-                                &nbsp;<span class="icon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+                                &nbsp;<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
                             </span>
                         {/if}
                     </div>
@@ -49,16 +49,16 @@
 	</tbody>
 </table>
 <hr>
-<div class="row-fluid">
-	<div class="span4 toggleViewByMode">
+<div class="row">
+	<div class="col-md-4 toggleViewByMode">
 		{assign var="CURRENT_VIEW" value="full"}
 		{assign var="CURRENT_MODE_LABEL" value="{vtranslate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-		<button type="button" class="btn changeDetailViewMode cursorPointer"><strong>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
+		<button type="button" class="btn btn-default changeDetailViewMode cursorPointer"><strong>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
 		{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}"
 			data-full-url="{$FULL_MODE_URL}"  />
 	</div>
-	<div class="span8">
+	<div class="col-md-8">
 		<div class="pull-right">
 			<div>
 				<p>

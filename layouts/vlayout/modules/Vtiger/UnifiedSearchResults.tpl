@@ -17,12 +17,12 @@
     {assign var="totalCount" value=$totalCount+$modulesCount}
 {/foreach}
 <div class="globalSearchResults">
-	<div class="row-fluid">
+	<div class="row">
 		<div class="header highlightedHeader padding1per">
-			<div class="row-fluid">
-				<span class="span6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
+			<div class="row">
+				<span class="col-md-6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
 				{if $IS_ADVANCE_SEARCH }
-				<span class="span6">
+				<span class="col-md-6">
 					<span class="pull-right">
 						<a href="javascript:void(0);" id="showFilter">{vtranslate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
 					</span>

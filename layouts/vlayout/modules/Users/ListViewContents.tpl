@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -76,7 +76,7 @@
 		</thead>
 		{if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><i class="icon-search"></i></a></td><td></td>
+            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><i class="glyphicon glyphicon-search"></i></a></td><td></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 				<td>
 					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -85,7 +85,7 @@
 				</td>
 			{/foreach}
 			<td width="5%">
-				<button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
 			</td>
         </tr>
         {/if}
@@ -106,17 +106,17 @@
 				{/if}
 			</td>
 			<td width="5%" class="{$WIDTHTYPE}">
-				<div class='row-fluid'>
+				<div class='row'>
 					{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 					{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
-						<div class='span6'>
+						<div class='col-md-6'>
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 							{/if}
 						</div>
 					{/foreach}
 					{if $IMAGE_DETAILS[0]['id'] eq null}
-						<div class='span6'>
+						<div class='col-md-6'>
 							<img src="{vimage_path('DefaultUserIcon.png')}">
 						</div>
 					{/if}
@@ -130,16 +130,16 @@
 				{if $LISTVIEW_HEADER@last}
 					<div class="pull-right actions">
 						<span class="actionImages">
-							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><i title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="icon-plus alignMiddle"></i></a>&nbsp;
+							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><i title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></i></a>&nbsp;
 							{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>&nbsp;
+								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>&nbsp;
 							{/if}
 							{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
                                                             {if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
                                                             {else}
-                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="icon-refresh alignMiddle"></i></a>&nbsp;
-                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></i></a>&nbsp;
+                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
                                                             {/if}
 							{/if}
 						</span>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -11,22 +11,22 @@
 -->*}
 {strip}
 	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
+		<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></i>
 	</div>
-    <div class="container-fluid">
-        <div class="row-fluid reportsDetailHeader">
+    <div class="container">
+        <div class="row reportsDetailHeader">
 			<input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
             <form id="detailView" onSubmit="return false;">
             <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
             <br>
-            <div class="reportHeader row-fluid">
-                <div class="span3">
+            <div class="reportHeader row">
+                <div class="col-md-3">
                     <div class="btn-toolbar">
                         {if $REPORT_MODEL->isEditable() eq true}
                             <div class="btn-group">
                                 <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <i class="icon-pencil"></i>
+                                    <i class="glyphicon glyphicon-pencil"></i>
                                 </button>
                             </div>
                         {/if}
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class='span5 textAlignCenter'>
+                <div class='col-md-5 textAlignCenter'>
                     <h3>{$REPORT_MODEL->getName()}</h3>
                     <div id="noOfRecords">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
 						{if $COUNT > 1000}
@@ -47,7 +47,7 @@
                     {/if}
                     </div>
                 </div>
-                <div class='span4'>
+                <div class='col-md-4'>
                     <span class="pull-right">
                         <div class="btn-toolbar">
                             {foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
@@ -63,7 +63,7 @@
                 </div>
             </div>
 			<br>
-            <div class="row-fluid">
+            <div class="row">
                 <input type="hidden" id="recordId" value="{$RECORD_ID}" />
                 {assign var=RECORD_STRUCTURE value=array()}
                 {assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
@@ -85,7 +85,7 @@
                     {/foreach}
                 {/foreach}
                 {include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
-                <div class="row-fluid">
+                <div class="row">
                     <div class="textAlignCenter">
                         <button class="btn generateReport" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
                             <strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -56,8 +56,8 @@
 				</td>
 				{/foreach}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
-					<div class="row-fluid">
-						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible span10 zeroPaddingAndMargin" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+					<div class="row">
+						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 							   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}'/>
 					</div>
 				</td>
@@ -67,7 +67,7 @@
 	</div>
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
-		<div class="row-fluid">
+		<div class="row">
 			<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE_NAME)} {vtranslate($MODULE_NAME, $MODULE_NAME)} {vtranslate('LBL_FOUND', $MODULE_NAME)}.</div>
 		</div>
 	{/if}
@@ -75,7 +75,7 @@
 {if $LISTVIEW_ENTRIES_COUNT neq '0'}
     <div class="clearfix form-actions" style="border: 1px solid #DDDDDD;">
 	<a class="cancelLink pull-right">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-	<button class="btn addButton select pull-right"><i class="icon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
+	<button class="btn btn-default addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
 </div>
 {/if}
 {/strip}

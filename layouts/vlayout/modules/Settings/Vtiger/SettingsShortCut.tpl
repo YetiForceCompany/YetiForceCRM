@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="span3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}">
+	<span id="shortcut_{$SETTINGS_SHORTCUT->getId()}" data-actionurl="{$SETTINGS_SHORTCUT->getPinUnpinActionUrl()}" class="col-md-3 contentsBackground well cursorPointer moduleBlock" data-url="{$SETTINGS_SHORTCUT->getUrl()}">
 		<button data-id="{$SETTINGS_SHORTCUT->getId()}" title="{vtranslate('LBL_REMOVE',$MODULE)}" style="margin-right: -2%;margin-top: -5%;" title="Close" type="button" class="unpin close hide">x</button>
 		<h5 class="themeTextColor">{vtranslate($SETTINGS_SHORTCUT->get('name'),$MODULE)}</h5>
 		<div>{vtranslate($SETTINGS_SHORTCUT->get('description'),$MODULE)}</div>

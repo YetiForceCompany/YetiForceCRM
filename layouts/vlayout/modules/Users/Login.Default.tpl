@@ -20,7 +20,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 {assign var="CompanyDetails" value=getCompanyDetails()}
 {assign var="MODULE" value='Users'}
 <div class="login_page login_blue">
-	<div class="container-fluid login-container">
+	<div class="container login-container">
 		<div id="login-area" class="login-area">
 			<div class="visible-phone">
 				<div class="alert alert-block">
@@ -39,8 +39,8 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 			</div>
 			<div class="login-box bg-div" id="loginDiv">
 				<div class="login-form-content">
-					<form class="form-horizontal row-fluid login-form" style="margin:0;" action="index.php?module=Users&action=Login" method="POST">
-						<div class="span9 main-panel">
+					<form class="form-horizontal row login-form" style="margin:0;" action="index.php?module=Users&action=Login" method="POST">
+						<div class="col-md-9 main-panel">
 							<div class="username">
 								<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
 								<input type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
@@ -50,18 +50,18 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 								<input type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="dBHec0de"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 							</div>
 						</div>
-						<div class="span3 main-panel">
+						<div class="col-md-3 main-panel">
 							<button type="submit" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Sign in</button>
 						</div>
 					</form>
 				</div>
-				<div class="row-fluid">
+				<div class="row">
 					<div class="forgotpass">
 						<div class="">
 							<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
 						</div>
 					</div>
-					<div class="span12 nomargin">
+					<div class="col-md-12 nomargin">
 						{if isset($smarty.request.error) && $smarty.request.error eq 1}
 							<div class="alert alert-error">
 								<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
@@ -90,10 +90,10 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 					</div>
 				</div>
 			</div>
-			<div class="login-box hide row-fluid bg-div" id="forgotPasswordDiv">
+			<div class="login-box hide row bg-div" id="forgotPasswordDiv">
 				<div class="login-form-content">
-					<form class="form-horizontal row-fluid login-form" style="margin:0;" action="modules/Users/actions/ForgotPassword.php" method="POST">
-						<div class="span9 main-panel">
+					<form class="form-horizontal row login-form" style="margin:0;" action="modules/Users/actions/ForgotPassword.php" method="POST">
+						<div class="col-md-9 main-panel">
 							<div class="username">
 								<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
 								<input type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
@@ -103,14 +103,14 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 								<input type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="emailId" placeholder="Email">
 							</div>
 						</div>
-						<div class="span3 main-panel">
+						<div class="col-md-3 main-panel">
 							<button type="submit" id="retrievePassword" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Retrieve Password</button>
 						</div>
 					</form>
-					<div class="span12 backButtonBox">
+					<div class="col-md-12 backButtonBox">
 						<a href="#" id="backButton" >{vtranslate('LBL_TO_CRM',$MODULE)}</a>
 					</div>
-					<div class="span12 nomargin"></div>
+					<div class="col-md-12 nomargin"></div>
 				</div>
 			</div>
 		</div>

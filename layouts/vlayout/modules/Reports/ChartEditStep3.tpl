@@ -27,7 +27,7 @@
 		<input type="hidden" name='charttype' value={$CHART_MODEL->getChartType()}>
 
 		<div class="padding1per border1px">
-			<div class="row-fluid">
+			<div class="row">
 				<div>
 					<div><h4><strong>{vtranslate('LBL_SELECT_CHART_TYPE',$MODULE)}</strong></h4></div><br>
 					<div>
@@ -60,24 +60,24 @@
 							</ul>
 							<div class='tab-content contentsBackground' style="height:auto;padding:4%;border:1px solid #ccc;">
 								<br>
-								<div class="row-fluid tab-pane active">
+								<div class="row tab-pane active">
 									<div>
-										<span class="span4">
+										<span class="col-md-4">
 											<div><span>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
-											<div class="row-fluid">
-												<select id='groupbyfield' name='groupbyfield' class="span10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'></select>
+											<div class="row">
+												<select id='groupbyfield' name='groupbyfield' class="col-md-10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'></select>
 											</div>
 										</span>
-										<span class="span2">&nbsp;</span>
-										<span class="span4">
+										<span class="col-md-2">&nbsp;</span>
+										<span class="col-md-4">
 											<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
-											<div class="row-fluid">
-												<select id='datafields' name='datafields[]' class="span10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'>
+											<div class="row">
+												<select id='datafields' name='datafields[]' class="col-md-10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'>
 											</select></div>
 										</span>
 									</div>
 								</div>
-								<div class='row-fluid alert-info well' style="position: relative; top: 50px;width:95%">
+								<div class='row alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
 											<i class="icon-info-sign"></i>&nbsp;&nbsp;

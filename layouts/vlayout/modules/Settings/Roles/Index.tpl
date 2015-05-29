@@ -1,4 +1,4 @@
-{*+***********************************************************************************
+﻿{*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,9 +7,9 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<div class="container-fluid">
-	<div class="widget_header row-fluid">
-		<div class="span8">
+<div class="container">
+	<div class="widget_header row">
+		<div class="col-md-8">
 			<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>	
 	</div>
@@ -20,7 +20,7 @@
 				<div class="toolbar-handle">
 					<a href="javascript:;" class="btn btn-inverse draggable droppable">{vtranslate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
 					<div class="toolbar" title="{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
-						&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="icon-plus-sign"></span></a>
+						&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="glyphicon glyphicon-plus-sign"></span></a>
 					</div>
 				</div>
 				{assign var="ROLE" value=$ROOT_ROLE}

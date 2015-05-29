@@ -12,15 +12,15 @@
 			{foreach item=item key=key from=$WIDGET['data']['FastEdit']}
 				{assign var=FIELD value=Vtiger_Field_Model::getInstance($item,$MODULEINSTANCE)}
 				{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
-				<div class="row-fluid marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
-					<div class="span5 margin0px">
+				<div class="row marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
+					<div class="col-md-5 margin0px">
 						<h4>{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)}</h4>
 					</div>
-					<div class="span7">
+					<div class="col-md-7">
 						{assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
 						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-						<select class="chzn-select {if $OCCUPY_COMPLETE_WIDTH} row-fluid {/if}" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
+						<select class="chzn-select {if $OCCUPY_COMPLETE_WIDTH} row {/if}" name="q_{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
 							{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}
 								<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''} disabled{/if}>{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
 							{/if}

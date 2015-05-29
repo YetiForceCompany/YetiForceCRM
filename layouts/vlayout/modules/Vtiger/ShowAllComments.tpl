@@ -14,7 +14,7 @@
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 
 <div class="commentContainer">
-	<div class="commentTitle row-fluid">
+	<div class="commentTitle row">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 			<div class="addCommentBlock">
 				<div>
@@ -31,9 +31,9 @@
 		{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 	</div>
 	<div class="hide basicAddCommentBlock">
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<textarea class="commentcontenthidden fullWidthAlways" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 			</div>
 		</div>
@@ -43,15 +43,15 @@
 		</div>
 	</div>
 		<div class="hide basicEditCommentBlock" style="min-height: 150px;">
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<input type="text" name="reasonToEdit" title="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}"" placeholder="{vtranslate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level"/>
 			</div>
 		</div>
-		<div class="row-fluid">
-			<span class="span1">&nbsp;</span>
-			<div class="span11">
+		<div class="row">
+			<span class="col-md-1">&nbsp;</span>
+			<div class="col-md-11">
 				<textarea class="commentcontenthidden fullWidthAlways" name="commentcontent" title="{vtranslate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}"></textarea>
 			</div>
 		</div>

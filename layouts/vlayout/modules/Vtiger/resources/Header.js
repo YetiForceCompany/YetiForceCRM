@@ -273,7 +273,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				events = events.result;
 				data.find('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 				for (var ev in events) { 
-					icon = 'icon-calendar';
+					icon = 'glyphicon glyphicon-calendar';
 					linkHtml = '';
 					hidden = '';
 					if(events[ev]['set'] == 'Task'){
@@ -523,7 +523,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		
 		jQuery(".mainContainer").css('min-height', bodyHeight);
-		jQuery(".mainContainer > .span2 ").css('min-height', bodyHeight);
+		jQuery(".mainContainer > .col-md-2 ").css('min-height', bodyHeight);
 		jQuery(".contentsDiv").css('min-height', bodyHeight);
 	},
 	

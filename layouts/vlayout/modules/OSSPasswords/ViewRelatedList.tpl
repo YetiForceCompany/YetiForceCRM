@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -18,8 +18,8 @@
 	<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 	<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
 	<div class="relatedHeader ">
-		<div class="btn-toolbar row-fluid">
-			<div class="span8">
+		<div class="btn-toolbar row">
+			<div class="col-md-8">
 				{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 					<div class="btn-group">
 						{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
@@ -30,39 +30,39 @@
                                     {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                                     data-url="{$RELATED_LINK->getUrl()}"
                             {/if}
-						{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="icon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+						{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
 					</div>
 				{/foreach}
 				&nbsp;
 			</div>
-			<div class="span4">
-				<span class="row-fluid">
-					<span class="span7 pushDown">
+			<div class="col-md-4">
+				<span class="row">
+					<span class="col-md-7 pushDown">
 						<span class="pull-right">
 						{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{if $TOTAL_ENTRIES} {vtranslate('LBL_OF', $RELATED_MODULE->get('name'))} {$TOTAL_ENTRIES}{/if}{/if}
 						</span>
 					</span>
-					<span class="span5 pull-right">
+					<span class="col-md-5 pull-right">
 						<span class="btn-group pull-right">
-							<button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="icon-chevron-left"></span></button>
+							<button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 							<button class="btn dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 								<span><img src="{vimage_path('ListViewJump.png')}" alt="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}" /></span>
 							</button>
 							<ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
 								<li>
-									<span class="row-fluid">
-										<span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-										<span class="span4">
+									<span class="row">
+										<span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
+										<span class="col-md-4">
 											<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
 										</span>
-										<span class="span2 textAlignCenter">
+										<span class="col-md-2 textAlignCenter">
 											{vtranslate('LBL_OF',$moduleName)}
 										</span>
-										<span class="span2" id="totalPageCount"></span>
+										<span class="col-md-2" id="totalPageCount"></span>
 									</span>
 								</li>
 							</ul>
-							<button class="btn" id="relatedListNextPageButton" {if !$PAGING->isNextPageExists()} disabled {/if} type="button"><span class="icon-chevron-right"></span></button>
+							<button class="btn" id="relatedListNextPageButton" {if !$PAGING->isNextPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 						</span>
 					</span>
 				</span>
@@ -120,10 +120,10 @@
                                 <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="icon-eye-open alignMiddle"></span></a>&nbsp;
 									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></span></a>&nbsp;
 									{if $IS_EDITABLE}
-										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></span></a>
+										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 									{/if}
 									{if $IS_DELETABLE}
-										<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></span></a>
+										<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 									{/if}
 								</span>
 							</div>

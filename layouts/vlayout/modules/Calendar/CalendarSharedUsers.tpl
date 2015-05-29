@@ -66,8 +66,8 @@
 			<label class="checkbox addedCalendars" style="text-shadow: none">
 				<input type="checkbox" />
 				&nbsp;<span class="label" style="text-shadow: none"></span>
-				&nbsp;<i class="icon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
-				&nbsp;<i class="icon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
+				&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
+				&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
 			</label>
 		</div>
 		
@@ -76,7 +76,7 @@
 			<input type="checkbox" data-calendar-sourcekey="Events33_{$CURRENT_USER_ID}" data-calendar-feed="Events" 
 				   data-calendar-userid="{$CURRENT_USER_ID}" data-calendar-feed-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}" >
 			&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']};">{vtranslate('LBL_MINE',$MODULE)}</span>
-			&nbsp;<i class="icon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
+			&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
 		</label>
 		{assign var=INVISIBLE_CALENDAR_VIEWS_EXISTS value='false'}
 		{foreach key=ID item=USER from=$SHAREDUSERS}
@@ -84,8 +84,8 @@
 				<label class="checkbox addedCalendars">
 					<input type="checkbox" data-calendar-sourcekey="Events33_{$ID}" data-calendar-feed="Events" data-calendar-userid="{$ID}" data-calendar-feed-color="{$SHAREDUSERS_INFO[$ID]['color']}"> 
 					&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$ID]['color']};">{$USER}</span>
-					&nbsp;<i class="icon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
-					&nbsp;<i class="icon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
+					&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
+					&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
 				</label>
 			{else}
 				{assign var=INVISIBLE_CALENDAR_VIEWS_EXISTS value='true'}

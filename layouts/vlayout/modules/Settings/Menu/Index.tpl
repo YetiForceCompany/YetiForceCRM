@@ -7,14 +7,14 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="container-fluid menuContainer" style="margin-top:10px;">
-	<div class="row-fluid">
-		<div class="span7">
+<div class="container menuContainer" style="margin-top:10px;">
+	<div class="row">
+		<div class="col-md-7">
 			<h3>{vtranslate('LBL_MENU_BUILDER', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
-		<div class="span5">
+		<div class="col-md-5">
 			<div class="pull-right">
-				<select class="select2 span3" name="roleMenu">
+				<select class="select2 col-md-3" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{vtranslate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
 						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{vtranslate($ROLE->getName())}</option>
@@ -22,7 +22,7 @@
 				</select>
 			</div>
 			<div class="pull-right">
-				<a class="btn addMenu"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></a>
+				<a class="btn btn-default addMenu"><strong>{vtranslate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></a>
 			</div>
 		</div>
 	</div>

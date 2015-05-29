@@ -200,9 +200,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 			thisInstance.getContainer().remove();
 		}
 
-		var html = '<div class="row-fluid">'+
-						'<span class="span4 searchHolder"></span>'+
-						'<span class="span8 filterHolder marginLeftZero hide"></span>'+
+		var html = '<div class="row">'+
+						'<span class="col-md-4 searchHolder"></span>'+
+						'<span class="col-md-8 filterHolder marginLeftZero hide"></span>'+
 					'</div>';
 		var jQhtml = jQuery(html);
 		jQuery('.searchHolder',jQhtml).html(data);
@@ -308,7 +308,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var searchHolder = jQuery('.searchHolder', modalData);
 		var filterHolder = jQuery('.filterHolder', modalData);
 		filterHolder.removeClass('hide').html(this.getContainer());
-		//searchHolder.removeClass('span12').css('width' , '35%');;
+		//searchHolder.removeClass('col-md-12').css('width' , '35%');;
 		modalData.closest('.blockMsg').css('width' , '70%');
 	},
 

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -12,8 +12,8 @@
 {strip}
 <div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-		<div class="listViewActionsDiv row-fluid">
-			<span class="btn-toolbar span4">
+		<div class="listViewActionsDiv row">
+			<span class="btn-toolbar col-md-4">
 				<span class="btn-group listViewMassActions">
 					<button class="btn dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<i class="caret"></i></button>
 					<ul class="dropdown-menu">
@@ -33,7 +33,7 @@
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						<span class="btn-group">
 							<button class="btn dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
-								<i class="icon-plus"></i>&nbsp;
+								<i class="glyphicon glyphicon-plus"></i>&nbsp;
 								<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
 								<i class="caret icon-white"></i></button>
 							<ul class="dropdown-menu">
@@ -46,13 +46,13 @@
 						</span>
 					{else}
 						<span class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><i class="icon-plus"></i>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
 						</span>
 					{/if}
 				{/foreach}
 			</span>
-			<span class="foldersContainer btn-toolbar span4">{include file='ListViewFolders.tpl'|@vtemplate_path:$MODULE}</span>
-			<span class="span4 btn-toolbar">
+			<span class="foldersContainer btn-toolbar col-md-4">{include file='ListViewFolders.tpl'|@vtemplate_path:$MODULE}</span>
+			<span class="col-md-4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path:$MODULE}
 			</span>
 		</div>

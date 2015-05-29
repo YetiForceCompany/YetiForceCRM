@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -328,13 +328,13 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'icon-pencil'
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'".$this->getDeleteActionUrl()."')",
-				'linkicon' => 'icon-trash'
+				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
 		foreach ($recordLinks as $recordLink) {

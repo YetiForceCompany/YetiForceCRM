@@ -1,4 +1,4 @@
-
+﻿
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -31,7 +31,7 @@
         <tr>
             <th colspan="2"><span class="inventoryLineItemHeader">{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
             <th colspan="3" class="chznDropDown">
-                <div class="row-fluid">
+                <div class="row">
                     <span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
                     {assign var=SELECTED_CURRENCY value=$CURRENCINFO}
                     {* Lookup the currency information if not yet set - create mode *}
@@ -63,7 +63,7 @@
                 </div>
             </th>
             <th colspan="2" class="chznDropDown">
-                <div class="row-fluid">
+                <div class="row">
                     <div class="inventoryLineItemHeader">
                         <span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
                     </div>
@@ -100,31 +100,31 @@
     </table>
 
 
-    <div class="row-fluid verticalBottomSpacing">
+    <div class="row verticalBottomSpacing">
         <div>
             {if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-toolbar">
                     <span class="btn-group">
-                        <button type="button" class="btn addButton" id="addProduct">
-                            <span class="icon-plus"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                        <button type="button" class="btn btn-default addButton" id="addProduct">
+                            <span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                         </button>
                     </span>
                     <span class="btn-group">
-                        <button type="button" class="btn addButton" id="addService">
-                            <span class="icon-plus"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                        <button type="button" class="btn btn-default addButton" id="addService">
+                            <span class="glyphicon glyphicon-plus"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                         </button>
                     </span>
                 </div>
             {elseif $PRODUCT_ACTIVE eq 'true'}
                 <div class="btn-group">
-                    <button type="button" class="btn addButton" id="addProduct">
-                        <span class="icon-plus"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                    <button type="button" class="btn btn-default addButton" id="addProduct">
+                        <span class="glyphicon glyphicon-plus"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                     </button>
                 </div>
             {elseif $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-group">
-                    <button type="button" class="btn addButton" id="addService">
-                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                    <button type="button" class="btn btn-default addButton" id="addService">
+                        <span class="glyphicon glyphicon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                     </button>
                 </div>
             {/if}

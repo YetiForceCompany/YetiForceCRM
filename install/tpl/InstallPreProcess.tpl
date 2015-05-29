@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {include file='Header.tpl'}
-<div class="container-fluid page-container">
-	<div class="row-fluid">
+<div class="container page-container">
+	<div class="row">
 		<div class="span6">
 			<div class="logo">
 				<img src="../storage/Logo/logo_yetiforce.png" style="height: 70px;" />

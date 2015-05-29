@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -136,27 +136,27 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model {
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().',true);',
-				'linkicon' => 'icon-ok',
+				'linkicon' => 'glyphicon glyphicon-ok',
 				'class' => 'activeTasks'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,'.$this->getId().', false);',
-				'linkicon' => 'icon-remove',
+				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'icon-pencil'
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord('.$this->getId().');',
-				'linkicon' => 'icon-trash'
+				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
 		foreach($recordLinks as $recordLink) {

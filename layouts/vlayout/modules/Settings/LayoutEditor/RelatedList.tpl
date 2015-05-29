@@ -11,18 +11,18 @@
 -->*}
 {strip}
     <div id="relatedTabOrder">
-    <div class="container-fluid" id="layoutEditorContainer">
+    <div class="container" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row-fluid">
-            <div class="span8">
+        <div class="widget_header row">
+            <div class="col-md-8">
                 <h3>{vtranslate('LBL_REL_MODULE_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="span4">
+            <div class="col-md-4">
 				<div class="pull-left">
-					<button style="margin: 0;" class="btn addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+					<button style="margin: 0;" class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
 				</div>
                 <div class="pull-right">
-                    <select class="select2 span3" name="layoutEditorRelModules">
+                    <select class="select2 col-md-3" name="layoutEditorRelModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
                         {/foreach}
@@ -53,19 +53,19 @@
 							{/if}
 							{assign var=SELECTED_FIELDS value=$MODULE_MODEL->getRelationFields(true)}
 							<div class="relatedModule mainBlockTable marginBottom10px border1px" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}" style="border-radius: 4px 4px 0px 0px;background: white;">
-                                <div class="row-fluid mainBlockTableHeader">
-                                    <div class="relatedModuleLabel mainBlockTableLabel padding10 span6 marginLeftZero">
+                                <div class="row mainBlockTableHeader">
+                                    <div class="relatedModuleLabel mainBlockTableLabel padding10 col-md-6 marginLeftZero">
                                         <a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
                                         <strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
                                     </div>
 			                        <div class="btn-toolbar pull-right">
-			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><i class="icon-ok icon-white"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
-			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><i class="icon-remove icon-white"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-ok icon-white"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-remove icon-white"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
 										<!-- <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button> -->
 			                        </div>
                                 </div>
 								<div class="relatedModuleFieldsList mainBlockTableContent">
-									<div class="row-fluid">
+									<div class="row">
 										<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
@@ -105,53 +105,53 @@
 			</div>
 			<div class="modal-body" style="width: 420px;">
 				<form class="modal-Fields">
-					<div class="row-fluid">
-						<div class="span5 marginLeftZero">{vtranslate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</div>
-						<div class="span7">
-							<select name="type" class="span3">
+					<div class="row">
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7">
+							<select name="type" class="col-md-3">
 								{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
 									<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
 								{/foreach}
 							</select>
 						</div>
 						<br /><br />
-						<div class="span5 marginLeftZero">{vtranslate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</div>
-						<div class="span7 marginTop">
-							<select multiple name="actions" class="span3">
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7 marginTop">
+							<select multiple name="actions" class="col-md-3">
 								{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
 									<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
 								{/foreach}
 							</select>
 						</div>
 						<br /><br />
-						<div class="span5 marginLeftZero">{vtranslate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</div>
-						<div class="span7 marginTop">
-							<select name="source" class="span3">
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7 marginTop">
+							<select name="source" class="col-md-3">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 								{/foreach}
 							</select>
 						</div>
 						<br /><br />
-						<div class="span5 marginLeftZero">{vtranslate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</div>
-						<div class="span7 marginTop">
-							<select name="target" class="span3 target">
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7 marginTop">
+							<select name="target" class="col-md-3 target">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 								{/foreach}
 							</select>
 						</div>
 						<br /><br />
-						<div class="span5 marginLeftZero">{vtranslate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</div>
-						<div class="span7">
-							<input name="label" style="margin-left: 20px;" type="text" class="span3 relLabel"/>
+						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</div>
+						<div class="col-md-7">
+							<input name="label" style="margin-left: 20px;" type="text" class="col-md-3 relLabel"/>
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button class="btn" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
-				<button class="btn addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-default" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
+				<button class="btn btn-default addButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
 			</div>
 		</div>	
     </div>	

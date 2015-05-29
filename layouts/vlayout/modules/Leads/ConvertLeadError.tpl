@@ -28,8 +28,8 @@
 				}
 			</style>
 	</head>
-	<body class="row-fluid">
-		<div style="margin-top: 10px;" class="span6 alert alert-error shadow">
+	<body class="row">
+		<div style="margin-top: 10px;" class="col-md-6 alert alert-error shadow">
 			<div style="position: relative;" >
 				<div>
 					<h2 class="alert-heading">{vtranslate('CANNOT_CONVERT', $MODULE)}</h2>

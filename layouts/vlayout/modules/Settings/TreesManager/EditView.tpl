@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid editViewContainer">
+<div class="container editViewContainer">
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="TreesManager"/>
 	<input type="hidden" name="parent" value="Settings"/>
@@ -20,7 +20,7 @@
 	<input type="hidden" id="access" value="{$ACCESS}" />
 	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
 	<input type="hidden" name="replace" id="replaceIds" value="" />
-	<div class="widget_header row-fluid">
+	<div class="widget_header row">
 		{if $MODE eq 'edit'}
 			<h3>{vtranslate('LBL_EDIT_TEMPLATE_TREES', $QUALIFIED_MODULE)}</h3>
 		{else}
@@ -28,16 +28,16 @@
 		{/if}
 	</div>
 	<hr>
-	<div class="row-fluid">
-		<label class="span3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
-		<div class="input-append span7">
-			<input type="text" class="fieldValue span7 " name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
+	<div class="row">
+		<label class="col-md-3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
+		<div class="input-group col-md-7">
+			<input type="text" class="fieldValue col-md-7 " name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
 		</div>
 	</div>
 	<br>
-	<div class="row-fluid">
-		<label class="span3"><strong>{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}: </strong></label>
-		<div class="span8 fieldValue">
+	<div class="row">
+		<label class="col-md-3"><strong>{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}: </strong></label>
+		<div class="col-md-8 fieldValue">
 			{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
 			<select class="select2" name="templatemodule" {if !$ACCESS} disabled {/if} style="width: 300px;">
 				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
@@ -56,12 +56,12 @@
 		</div>
 	</div>
 	<hr>
-	<div class="row-fluid">
-		<label class="span3"><strong>{vtranslate('LBL_ADD_ITEM_TREE', $QUALIFIED_MODULE)}</strong></label>
-		<div class="span5">
-			<div class="input-append">
-				<input type="text" class="fieldValue span4 addNewElement">
-				<a class="btn addNewElementBtn"><strong>{vtranslate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
+	<div class="row">
+		<label class="col-md-3"><strong>{vtranslate('LBL_ADD_ITEM_TREE', $QUALIFIED_MODULE)}</strong></label>
+		<div class="col-md-5">
+			<div class="input-group">
+				<input type="text" class="fieldValue col-md-4 addNewElement">
+				<a class="btn btn-default addNewElementBtn"><strong>{vtranslate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
 			</div>
 		</div>
 	</div>

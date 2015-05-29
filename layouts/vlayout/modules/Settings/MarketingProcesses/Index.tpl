@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
-<div id="supportProcessesContainer" class="container-fluid supportProcessesContainer" style="margin-top:10px;">
+<div id="supportProcessesContainer" class="container supportProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>
 	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
@@ -18,10 +18,10 @@
 	<div class="tab-content layoutContent" style="padding-top: 10px;">
 		<div class="tab-pane active" id="conversiontoaccount">
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
-			<div class="row-fluid">
-				<div class="span3"><label class="span3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
-				<div class="span1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
-				<div class="span8">
+			<div class="row">
+				<div class="col-md-3"><label class="col-md-3">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
+				<div class="col-md-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
+				<div class="col-md-8">
 					<span class="alert alert-info pull-right">
 						{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
 					</span>
@@ -46,7 +46,7 @@
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td>
 							{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Leads')}
-							<select class="chzn-select span8 configField" name="groups" data-type="lead" multiple>
+							<select class="chzn-select col-md-8 configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
 									{$OWNER_NAME}
@@ -58,7 +58,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<select class="chzn-select span8 configField" multiple data-type="lead" name="status">
+							<select class="chzn-select col-md-8 configField" multiple data-type="lead" name="status">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
 								{/foreach}
@@ -68,7 +68,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_CURRENTUSER_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<input class="span1 configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
+							<input class="col-md-1 configField" type="checkbox" data-type="lead" name="currentuser_status"  {if $LEAD['currentuser_status'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 				</tbody>

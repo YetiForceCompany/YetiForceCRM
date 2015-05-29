@@ -63,7 +63,7 @@
 							</li>
 						{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 							<li>
-								<div class="row-fluid">
+								<div class="row">
 									{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 									<span>{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span> <span>
 											{if $RECENT_ACTIVITY->isRelationLink()}
@@ -95,7 +95,7 @@
 				</div>
 		{/if}
 	</div>
-		<div class="row-fluid" id="moreLink">
+		<div class="row" id="moreLink">
 		    {if $PAGING_MODEL->isNextPageExists()}
 			<div class="pull-right">
 				<a href="javascript:void(0)" class="moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</a>

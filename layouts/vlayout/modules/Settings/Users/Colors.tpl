@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid UserColors">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_COLORS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class="container UserColors">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_COLORS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{vtranslate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
@@ -47,8 +47,8 @@
 									<td>{$item.last}</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-default updateColor" data-metod="updateUserColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-default generateColor" data-metod="generateUserColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -70,8 +70,8 @@
 									<td>{$item.groupname}</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-default updateColor" data-metod="updateGroupColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-default generateColor" data-metod="generateGroupColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -99,8 +99,8 @@
 									</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button class="btn updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-default updateColor" data-metod="updateModuleColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-default generateColor" data-metod="generateModuleColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -141,8 +141,8 @@
 															<td>{vtranslate($INNER_ITEM['value'], $MODULE_NAME)}</td>
 															<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 															<td>
-																<button class="btn updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-																<button class="btn generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+																<button class="btn btn-default updateColor" data-metod="updateColorForProcesses">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+																<button class="btn btn-default generateColor" data-metod="generateColorForProcesses">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 															</td>
 														</tr>
 													{/foreach}

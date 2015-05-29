@@ -15,26 +15,26 @@
 }
 </style>
 <div style="padding:20px">	  
-   <h3 class="span8 ">{vtranslate('Import', $MODULENAME)}</h3>
+   <h3 class="col-md-8 ">{vtranslate('Import', $MODULENAME)}</h3>
 </div>
 
 <div class="container" style="margin-top:20px">
 	<form method="POST" action="index.php?module=PaymentsIn&view=step1" name="ical_import"  enctype="multipart/form-data">
-		<div class="row-fluid" >
-			<div class="span12">
+		<div class="row" >
+			<div class="col-md-12">
 
-				<div class="row-fluid" >
-					<div class="span6 " style="text-align:center ">
+				<div class="row" >
+					<div class="col-md-6 " style="text-align:center ">
 						<div class="alert alert-info">
 							{vtranslate('Import wyciągów bankowych', $MODULENAME)}
 						</div>
 					</div>
-					<div class="span5 well">
-						<div class="row-fluid" >
-							<div class="span2 verticalText" >
+					<div class="col-md-5 well">
+						<div class="row" >
+							<div class="col-md-2 verticalText" >
 								{vtranslate('Typ', $MODULENAME)}
 							</div>
-							<div class="span10" >
+							<div class="col-md-10" >
 								<select  name="type"  >
 									{foreach from=$TYP item=item}
 										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
@@ -42,11 +42,11 @@
 								</select>
 							</div>
 						</div>	
-						<div class="row-fluid" >	
-							<div class="span2 verticalText">
+						<div class="row" >	
+							<div class="col-md-2 verticalText">
 								{vtranslate('Bank', $MODULENAME)}
 							</div>
-							<div class="span10">
+							<div class="col-md-10">
 								<select   name="bank" >
 									{foreach from=$BANK item=item}
 										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
@@ -55,11 +55,11 @@
 							</div>
 							
 						</div>	
-						<div class="row-fluid" >	
-							{*<div class="span2 verticalText" >
+						<div class="row" >	
+							{*<div class="col-md-2 verticalText" >
 								{vtranslate('Plik', $MODULENAME)}
 							</div>
-							<div class="span10">
+							<div class="col-md-10">
 							</div>
 							*}
 								<input name="file" type="file" class="filestyle" data-input="false" style="margin-left:68px">

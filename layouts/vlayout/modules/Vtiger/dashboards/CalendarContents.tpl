@@ -25,8 +25,8 @@
 {/foreach}
 </style>
 <div class="paddingLR10">
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="row">
+		<div class="col-md-12">
 			<div id="calendarview"></div>
 		</div>
 	</div>

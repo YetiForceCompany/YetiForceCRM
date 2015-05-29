@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -24,14 +24,14 @@
 </div>
 <div class="mailRows">
 	{foreach from=$RECOLDLIST item=row}
-	<div class="row-fluid mailRow">
-		<div class="span12" style="font-size:x-small;">
+	<div class="row mailRow">
+		<div class="col-md-12" style="font-size:x-small;">
 			<div class="pull-right muted" style="font-size:x-small;">
 				<small title="{$row['date']}">{Vtiger_Util_Helper::formatDateDiffInStrings($row['date'])}</small>   
 			</div>
 			<h5 style="margin-left:2%;">{if $row['type'] eq 0}<img src="layouts/vlayout/modules/OSSMailView/wychodzaca.png" />{elseif $row['type'] eq 1}<img src="layouts/vlayout/modules/OSSMailView/przychodzaca.png" />{elseif $row['type'] eq 2} <img src="layouts/vlayout/modules/OSSMailView/wewnetrzna.png" />{/if}{$row['subject']} {if $row['attachments'] eq 1}<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/zalacznik.png" />{/if}<h5>
 		</div>
-		<div class="span12">
+		<div class="col-md-12">
 			<div class="pull-right" >
 				<a class="showMailBody" >
 					<i class="body-icon icon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -39,16 +39,16 @@
 			</div>
 			<span class="pull-left" style="font-size:x-small;">{vtranslate('From', 'OSSMailView')}: {$row['from']}</span>
 		</div>
-		<div class="span12" style="font-size:x-small;">
+		<div class="col-md-12" style="font-size:x-small;">
 			{vtranslate('To', 'OSSMailView')}: {$row['to']}
 			<div class="pull-right" >
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward" class="btn btn-mini"><i class="icon-share-alt"></i></a>
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply" class="btn btn-xs"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll" class="btn btn-xs"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
+				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward" class="btn btn-xs"><i class="icon-share-alt"></i></a>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 		</div>
-		<div class="span12 defaultMarginP mailBody" style="display: none;">
+		<div class="col-md-12 defaultMarginP mailBody" style="display: none;">
 			{Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), $row['body'])} 
 		</div>
 	</div><hr/>

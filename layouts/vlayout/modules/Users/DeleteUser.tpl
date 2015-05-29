@@ -29,7 +29,7 @@
                             <tr>
                                 <td class="fieldLabel alignMiddle">{vtranslate('Transfer records to user', $MODULE)}</td>
                                 <td class="fieldValue">
-                                    <select class="chzn-select {if $OCCUPY_COMPLETE_WIDTH} row-fluid {/if}" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
+                                    <select class="chzn-select {if $OCCUPY_COMPLETE_WIDTH} row {/if}" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
                                         {foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
                                             <option value="{$USER_ID}" >{$USER_MODEL->getName()}</option>
                                         {/foreach}

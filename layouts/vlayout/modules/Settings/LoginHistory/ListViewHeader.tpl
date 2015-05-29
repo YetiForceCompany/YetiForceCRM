@@ -10,13 +10,13 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
-	<div class="widget_header row-fluid">
+<div class="container">
+	<div class="widget_header row">
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-	<div class="row-fluid">
-		<span class="span8 btn-toolbar">
+	<div class="row">
+		<span class="col-md-8 btn-toolbar">
 				<select class="chzn-select" id="usersFilter" >
 					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=USERNAME key=USER from=$USERSLIST}
@@ -24,7 +24,7 @@
 					{/foreach}
 				</select>
 		</span>
-		<span class="span4 btn-toolbar">
+		<span class="col-md-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</span>
 	</div>

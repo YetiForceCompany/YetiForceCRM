@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+*******************************************************************************
  *  The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -373,7 +373,7 @@ class ListViewController {
 						$value = '<a class="phoneField" data-phoneNumber="'.$phoneNumber.'" record="'.$recordId.'" onclick="Vtiger_Mobile_Js.registerOutboundCall(\''.$phoneNumber.'\', '.$recordId.')">'.textlength_check($value).'</a>';
 						$callUsers = Vtiger_Mobile_Model::getPrivilegesUsers();
 						if($callUsers){
-							$value .= '  <a class="btn btn-mini noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\''.$phoneNumber.'\','.$recordId.')" data-placement="right" data-original-title="'.vtranslate('LBL_SELECT_USER_TO_CALL',$module).'" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
+							$value .= '  <a class="btn btn-xs noLinkBtn" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,\''.$phoneNumber.'\','.$recordId.')" data-placement="right" data-original-title="'.vtranslate('LBL_SELECT_USER_TO_CALL',$module).'" data-content=\'<select class="select sesectedUser" name="sesectedUser">';
 							foreach($callUsers as $key => $item) {
 								$value .= '<option value="'.$key.'">'.$item.'</option>';
 							}

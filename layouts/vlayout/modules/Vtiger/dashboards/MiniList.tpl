@@ -14,10 +14,10 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<th class="span6">
+			<th class="col-md-6">
 				<div class="dashboardTitle" title="{$WIDGET->getTitle()}"><b>&nbsp;&nbsp;{$WIDGET->getTitle()}</b></div>
 			</th>
-			<th class="span5">
+			<th class="col-md-5">
 				<div>
 					{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 				</div>
@@ -27,7 +27,7 @@
 			</th>
 		</tr>
 		<tr>
-			<th class="span12 refresh" align="center">
+			<th class="col-md-12 refresh" align="center">
 				<span style="position:relative;"></span>
 			</th>
 		</tr>

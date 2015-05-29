@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -20,7 +20,7 @@
 		{assign var=CALLTOUSERS value=Vtiger_Mobile_Model::getPrivilegesUsers()}
 		<a class="phoneField" data-phoneNumber="{$PHONE_NUMBER}" record="{$RECORD->getId()}" onclick="Vtiger_Mobile_Js.registerOutboundCall('{$PHONE_NUMBER}',{$RECORD->getId()})">{$FIELD_MODEL->get('fieldvalue')}</a>
 		{if $CALLTOUSERS}
-			<a class="btn btn-mini btnNoFastEdit" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,'{$PHONE_NUMBER}',{$RECORD->getId()})" data-placement="right" data-original-title="{vtranslate('LBL_SELECT_USER_TO_CALL',$MODULE)}" data-content='
+			<a class="btn btn-xs btn-default btnNoFastEdit" onclick="Vtiger_Mobile_Js.registerOutboundCallToUser(this,'{$PHONE_NUMBER}',{$RECORD->getId()})" data-placement="right" data-original-title="{vtranslate('LBL_SELECT_USER_TO_CALL',$MODULE)}" data-content='
 			<select class="select sesectedUser" name="sesectedUser">
 				{foreach from=$CALLTOUSERS item=item key=key}
 					<option value="{$key}">{$item}</option>

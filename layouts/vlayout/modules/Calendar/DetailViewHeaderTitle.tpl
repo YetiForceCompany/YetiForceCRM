@@ -18,8 +18,8 @@
 			</span>
 		</span>
 	{/if}
-	<span class="span10 margin0px">
-		<span class="row-fluid">
+	<span class="col-md-10 margin0px">
+		<span class="row">
 			<span class="recordLabel font-x-x-large textOverflowEllipsis span" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
@@ -31,17 +31,17 @@
 		</span>
         {assign var=LINK value=$RECORD->get('link')}
         {if !empty($LINK)}
-            <span class="row-fluid">
+            <span class="row">
 				<span class="muted">{vtranslate('Relation',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
             </span>
         {/if}
         {assign var=PROCESS value=$RECORD->get('process')}
         {if !empty($PROCESS)}
-            <span class="row-fluid">
+            <span class="row">
 				<span class="muted">{vtranslate('Process',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
             </span>
         {/if}
-		<span class="row-fluid">
+		<span class="row">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}

@@ -9,12 +9,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
 	<div class="contents">
 		<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
-			<div class="widget_header row-fluid">
-				<div class="span8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-				<div class="span4 btn-toolbar">
+			<div class="widget_header row">
+				<div class="col-md-8"><h3>{vtranslate('LBL_CONFIG_EDITOR', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right">
 						<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<a type="reset" class="cancelLink" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
@@ -36,10 +36,10 @@
 					{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
 						<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
-							<td style="border-left: none;" class="row-fluid {$WIDTHTYPE}">
+							<td style="border-left: none;" class="row {$WIDTHTYPE}">
 								{if $FIELD_DETAILS['fieldType'] == 'picklist'}
-									<span class="span3">
-									<select class="select2 row-fluid" name="{$FIELD_NAME}">
+									<span class="col-md-3">
+									<select class="select2 row" name="{$FIELD_NAME}">
 										{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
 											{if $FIELD_NAME != 'default_module'}
 												<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $QUALIFIED_MODULE)}</option>

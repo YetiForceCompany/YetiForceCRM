@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -43,7 +43,7 @@
 	
 	{assign var="productDeleted" value="productDeleted"|cat:$row_no}
 	<td>
-		<span class="icon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
+		<span class="glyphicon glyphicon-trash deleteRow cursorPointer" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
 		&nbsp;<a><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 		<input type="hidden" class="rowNumber" value="{$row_no}" />
 	</td>
@@ -59,23 +59,23 @@
 			{if $row_no eq 0}
 				<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" title="{vtranslate('Services',$MODULE)}" data-module-name="Services" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
 				<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-				&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
+				&nbsp;<span class="glyphicon glyphicon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 			{else}
 				{if !$RECORD_ID} 
 					{if ($entityType eq 'Services') and (!$data.$productDeleted) or $PRODUCT_ACTIVE neq 'true'} 
 						<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/>
-						&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
+						&nbsp;<span class="glyphicon glyphicon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 					{elseif (!$data.$productDeleted)}
 							<img class="lineItemPopup cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/>
-							&nbsp;<span class="icon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
+							&nbsp;<span class="glyphicon glyphicon-remove-sign clearLineItem cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span>
 					{/if}   
 				{else} 
 					{if ($entityType eq 'Services') and (!$data.$productDeleted)} 
 							<img class="{if $SERVICE_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" alt="{vtranslate('LBL_SERVICE', $MODULE)}" data-popup="ServicesPopup" data-module-name="Services" title="{vtranslate('Services',$MODULE)}" data-field-name="serviceid" src="{vimage_path('Services.png')}"/> 
-							&nbsp;<span class="icon-remove-sign {if $SERVICE_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
+							&nbsp;<span class="glyphicon glyphicon-remove-sign {if $SERVICE_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
 					{elseif (!$data.$productDeleted)} 
 							<img class="{if $PRODUCT_ACTIVE}lineItemPopup{/if} cursorPointer alignMiddle" alt="{vtranslate('LBL_PRODUCT', $MODULE)}" data-popup="ProductsPopup" data-module-name="Products" title="{vtranslate('Products',$MODULE)}" data-field-name="productid" src="{vimage_path('Products.png')}"/> 
-						&nbsp;<span class="icon-remove-sign {if $PRODUCT_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
+						&nbsp;<span class="glyphicon glyphicon-remove-sign {if $PRODUCT_ACTIVE}clearLineItem{/if} cursorPointer" title="{vtranslate('LBL_CLEAR',$MODULE)}" style="vertical-align:middle"></span> 
 					{/if}   
 				{/if} 
 			{/if}
@@ -83,7 +83,7 @@
 		<input type="hidden" value="{$data.$subproduct_ids}" id="{$subproduct_ids}" name="{$subproduct_ids}" class="subProductIds" />
 		<div id="{$subprod_names}" name="{$subprod_names}" class="subInformation"><span class="subProductsContainer">{$data.$subprod_names}</span></div>
 		{if $data.$productDeleted}
-			<div class="row-fluid deletedItem redColor">
+			<div class="row deletedItem redColor">
 				{if empty($data.$productName)}
 					{vtranslate('LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM',$MODULE_NAME)}
 				{else}

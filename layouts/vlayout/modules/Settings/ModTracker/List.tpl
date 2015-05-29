@@ -10,14 +10,14 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid" id="modTrackerContainer">
-		<div class="widget_header row-fluid">
-			<div class="span10"><h3>{vtranslate('LBL_MODTRACKER_SETTINGS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="span2"></div>
+	<div class="container" id="modTrackerContainer">
+		<div class="widget_header row">
+			<div class="col-md-10"><h3>{vtranslate('LBL_MODTRACKER_SETTINGS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+			<div class="col-md-2"></div>
 		</div>
 		<hr>
 		<div class="contents">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>

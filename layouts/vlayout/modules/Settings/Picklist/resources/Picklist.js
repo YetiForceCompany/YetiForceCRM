@@ -161,10 +161,10 @@ var Settings_Picklist_Js = {
 			var pickListVaue = jQuery(e.currentTarget)
 			if(pickListVaue.hasClass('selectedCell')) {
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
-				pickListVaue.find('.icon-ok').remove();
+				pickListVaue.find('.glyphicon glyphicon-ok').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
-				pickListVaue.prepend('<i class="icon-ok pull-left"></i>');
+				pickListVaue.prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
 			}
 		});
 	},

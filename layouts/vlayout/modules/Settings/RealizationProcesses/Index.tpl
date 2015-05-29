@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
- <div class="container-fluid supportProcessesContainer" style="margin-top:10px;">
+ <div class="container supportProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
 	
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">

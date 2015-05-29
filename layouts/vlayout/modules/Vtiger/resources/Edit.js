@@ -1097,8 +1097,8 @@ jQuery.Class("Vtiger_Edit_Js",{
         var row = jQuery('.ckEditorSource').parents('tr');
         var td = jQuery('.ckEditorSource').parent();
         jQuery(row).find('.fieldLabel').remove();
-        jQuery(td).removeClass('span10');
-        jQuery(td).addClass('span12');
+        jQuery(td).removeClass('col-md-10');
+        jQuery(td).addClass('col-md-12');
     },
     
     	/**
@@ -1153,15 +1153,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 				bodyContents.show();
 				app.cacheSet(module+'.'+blockId, 1)
 			}
-
 			if(data.mode == 'show'){
 				hideHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='hide']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find('[data-mode="hide"]').removeClass('hide');
 			}else{
 				showHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='show']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
 

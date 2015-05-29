@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid UserColors">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class="container UserColors">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
+	<div class="row">
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
                	<li class="active"><a data-toggle="tab" href="#calendarColors"><strong>{vtranslate('LBL_CALENDAR_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
@@ -39,7 +39,7 @@
 									<td>{vtranslate($item.label,$QUALIFIED_MODULE)}</td>
 									<td class="calendarColor" style="background: {$item.value};"></td>
 									<td>
-										<button class="btn marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button class="btn btn-default marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}

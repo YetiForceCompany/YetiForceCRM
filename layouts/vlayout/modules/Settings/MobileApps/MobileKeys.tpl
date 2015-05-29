@@ -10,10 +10,10 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid" id="MobileKeysContainer">
-		<div class="widget_header row-fluid">
-			<div class="span8"><h3>{vtranslate('LBL_MOBILE_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MOBILE_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="span4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+	<div class="container" id="MobileKeysContainer">
+		<div class="widget_header row">
+			<div class="col-md-8"><h3>{vtranslate('LBL_MOBILE_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MOBILE_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<hr>
 		<div class="contents">
@@ -24,7 +24,7 @@
 					<p>{vtranslate('LBL_ALERT_MOBILE_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row-fluid">
+			<div class="row">
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
@@ -44,7 +44,7 @@
 									<td>{$item.key}</td>
 									<td>
 										{if $item.service == 'pushcall'}
-										<select multiple class="chzn-select span5 privileges_users" name="privileges_users" data-validation-engine="validate[required]">
+										<select multiple class="chzn-select col-md-5 privileges_users" name="privileges_users" data-validation-engine="validate[required]">
 											{assign var=ALLUSERS value=Users_Record_Model::getAll()}
 											{foreach from=$ALLUSERS item=item2 key=key2}
 												<option value="{$key2}" {if in_array($key2,$item.privileges_users)}selected{/if}>{$item2->getDisplayName()}</option>
@@ -72,7 +72,7 @@
 						<div class="control-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
-								<select class="select span4 user" name="user" data-validation-engine="validate[required]">
+								<select class="select col-md-4 user" name="user" data-validation-engine="validate[required]">
 								{foreach from=$USERS item=item key=key}
 									<option value="{$key}">{$item->getDisplayName()}</option>
 								{/foreach}
@@ -82,7 +82,7 @@
 						<div class="control-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_SERVICE', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
-								<select class="select span4 service" name="service" data-validation-engine="validate[required]">
+								<select class="select col-md-4 service" name="service" data-validation-engine="validate[required]">
 								{foreach from=$MODULE_MODEL->getAllService() item=item key=key}
 									<option value="{$key}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
 								{/foreach}

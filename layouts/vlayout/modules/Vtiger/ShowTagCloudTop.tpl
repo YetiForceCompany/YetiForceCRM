@@ -14,7 +14,7 @@
 	<div class="tagCloudContainer" style="margin-top: 4px;">
 		<input type="hidden" id="maxTagLength" value="{$MAX_TAG_LENGTH}" />	
 		<input type="hidden" id="maxTag" value="{if isset($MAX_TAG)}{$MAX_TAG}{else}5{/if}" />	
-		<div class="span2 marginLeftZero " style="min-width: 140px;float: right;">				
+		<div class="col-md-2 marginLeftZero " style="min-width: 140px;float: right;">				
 			<input placeholder="{vtranslate('TAG_PLACEHOLDER')}" style="padding: 0px; width: 85%;margin-bottom: 0px;" type="text" title="{vtranslate('TAG_PLACEHOLDER')}" id="tagRecordText"/>
 			<img id="tagRecord" alt="{vtranslate('LBL_ADD_TAG')}" class="cursorPointer" src="layouts/vlayout/skins/images/btnAdd.png" style="width: 10%; margin-left: 1%;vertical-align: middle;"/>		    
 		</div>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -36,20 +36,20 @@
 {$FIELD_INFO['label'] = {$FOLLOW_UP_LABEL}}
 <td class="fieldValue {if !($SHOW_FOLLOW_UP)}hide {/if}followUpContainer massEditActiveField">
 	<div>
-		<div class="input-append row-fluid">
-			<div class="span10 row-fluid date">
-				<input name="followup_date_start" type="text" class="span9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
+		<div class="input-group row">
+			<div class="col-md-10 row date">
+				<input name="followup_date_start" type="text" class="col-md-9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
 					   value="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" title="{if !empty($FOLLOW_UP_DATE)}{$FOLLOW_UP_DATE}{else}{$currentDate}{/if}" data-validation-engine="{if $FOLLOW_UP_STATUS}validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation]]{else}validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]{/if}" />
-				<span class="add-on"><span class="icon-calendar"></span></span>
+				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			</div>	
 		</div>		
 	</div>
 	<div>
-		<div class="input-append time">
-			<input type="text" name="followup_time_start" class="timepicker-default input-small" 
+		<div class="input-group time">
+			<input type="text" name="followup_time_start" class="timepicker-default input-sm" 
 				   value="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}" title="{if !empty($FOLLOW_UP_TIME)}{$FOLLOW_UP_TIME}{else}{$time}{/if}"/>
-			<span class="add-on cursorPointer">
-				<span class="icon-time"></span>
+			<span class="input-group-addon cursorPointer">
+				<span class="glyphicon glyphicon-time"></span>
 			</span>
 		</div>	
 	</div>

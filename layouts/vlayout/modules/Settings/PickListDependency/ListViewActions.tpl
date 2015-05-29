@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <span class="pull-right listViewActions">
-	<select class="chzn-select span3 pickListSupportedModules">
+	<select class="chzn-select col-md-3 pickListSupportedModules">
 		<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 		{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 			{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}

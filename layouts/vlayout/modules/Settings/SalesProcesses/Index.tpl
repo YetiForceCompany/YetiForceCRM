@@ -7,7 +7,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="container-fluid" id="salesProcessesContainer" style="margin-top:10px;">
+<div class="container" id="salesProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_SALES_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 	&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
@@ -20,13 +20,13 @@
 	<div class="tab-content layoutContent" style="padding-top: 10px;">
 		<div class="tab-pane active" id="popup">
 			{assign var=POPUP value=$CONFIG['popup']}
-			<div class="row-fluid">
-				<div class="span1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service_owner']=='true'}checked=""{/if} /></div>
-				<div class="span11"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
+			<div class="row">
+				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service_owner']=='true'}checked=""{/if} /></div>
+				<div class="col-md-11"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
 			</div>
-			<div class="row-fluid">
-				<div class="span1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
-				<div class="span11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
+			<div class="row">
+				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="update_shared_permissions" id="update_shared_permissions" value="1"  {if $POPUP['update_shared_permissions']=='true'}checked=""{/if} /></div>
+				<div class="col-md-11"><label for="update_shared_permissions">{vtranslate('LBL_UPDATE_SHARED_PERMISSIONS',$QUALIFIED_MODULE)}</label></div>
 			</div>
 		</div>
 		<div class="tab-pane" id="Calculations">
@@ -36,7 +36,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_CALCULATION', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<select class="chzn-select span8 configField" multiple data-type="calculation" name="calculationsstatus">
+							<select class="chzn-select col-md-8 configField" multiple data-type="calculation" name="calculationsstatus">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('calculationsstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $CALCULATION['calculationsstatus'])} selected {/if}  >{vtranslate($ITEM,'Calculations')}</option>
 								{/foreach}
@@ -57,7 +57,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_POTENTIAL', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<select class="chzn-select span8 configField" multiple data-type="potential" name="salesstage">
+							<select class="chzn-select col-md-8 configField" multiple data-type="potential" name="salesstage">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('sales_stage')}
 									<option value="{$ITEM}" {if in_array($ITEM, $POTENTIALS['salesstage'])} selected {/if}  >{vtranslate($ITEM,'Potentials')}</option>
 								{/foreach}
@@ -74,7 +74,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_STATUSES_CLOSED_ASSETS', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<select class="chzn-select span8 configField" multiple data-type="asset" name="assetstatus">
+							<select class="chzn-select col-md-8 configField" multiple data-type="asset" name="assetstatus">
 								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('assetstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $ASSETS['assetstatus'])} selected {/if}>{vtranslate($ITEM,'Assets')}</option>
 								{/foreach}

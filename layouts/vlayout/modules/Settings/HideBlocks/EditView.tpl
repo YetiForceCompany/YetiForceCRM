@@ -13,7 +13,7 @@
 <div class="targetFieldsTableContainer">
 	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
 	<input type="hidden" name="record" value="{$RECORD_ID}"/>
-	<div class="widget_header row-fluid">
+	<div class="widget_header row">
 		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<br>	
-	<div class="row-fluid">
+	<div class="row">
 		 <div class="pull-right">
 			 <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
 			 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>

@@ -27,7 +27,7 @@ class Vtiger_Theme_UIType extends Vtiger_Base_UIType {
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
 		$value = ucfirst($value);
-		return "<div class='span4' style='width:230px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
+		return "<div class='col-md-4' style='width:230px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 
 }

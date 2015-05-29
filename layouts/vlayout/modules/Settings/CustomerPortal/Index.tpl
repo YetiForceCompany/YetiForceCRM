@@ -10,21 +10,21 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
 	<div class="widget_header">
 		<h3>{vtranslate('CustomerPortal', $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-    <div class="contents row-fluid">
+    <div class="contents row">
         <form id="customerPortalForm" class="form-horizontal"  method="POST">
-            <div class="row-fluid">
-                <div class="span6">
+            <div class="row">
+                <div class="col-md-6">
                     <input type="hidden" name="portalModulesInfo" value="" />
                     <div class="control-group">
                         <label class="control-label">{vtranslate('LBL_PRIVILEGES', $QUALIFIED_MODULE)}</label>
                         <div class="controls">
-                            <span class="row-fluid">
-                                <select name="privileges" class="select2 span7">
+                            <span class="row">
+                                <select name="privileges" class="select2 col-md-7">
                                     {foreach item=USER_MODEL from=$USER_MODELS}
                                         {assign var=USER_ID value=$USER_MODEL->getId()}
                                         <option value="{$USER_ID}" {if $CURRENT_PORTAL_USER eq $USER_ID} selected {/if}>{$USER_MODEL->getName()}</option>
@@ -37,8 +37,8 @@
                     <div class="control-group">
                         <label class="control-label">{vtranslate('LBL_DEFAULT_ASSIGNEE', $QUALIFIED_MODULE)}</label>
                         <div class="controls">
-                            <span class="row-fluid">
-                                <select name="defaultAssignee" class="select2 span7">
+                            <span class="row">
+                                <select name="defaultAssignee" class="select2 col-md-7">
                                     <optgroup style="border: none" label="{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}" >
                                         {foreach item=USER_MODEL from=$USER_MODELS}
                                             {assign var=USER_ID value=$USER_MODEL->getId()}
@@ -64,7 +64,7 @@
 
                 </div>
 
-                <div class="span6">
+                <div class="col-md-6">
                     <div class="alert alert-info">
                         <p>{vtranslate('LBL_PRIVILEGES_MESSAGE', $QUALIFIED_MODULE)}</p>
 
@@ -75,12 +75,12 @@
                 </div>
             </div>
 
-            <div class="row-fluid">
+            <div class="row">
                 <i class="icon-info-sign alignMiddle"></i>&nbsp;
                 {vtranslate('LBL_DRAG_AND_DROP_MESSAGE', $QUALIFIED_MODULE)}
             </div>
             <br>
-            <div class="row-fluid">
+            <div class="row">
                 <table id="portalModulesTable" class="table table-bordered table-condensed themeTableColor">
                     <thead>
                         <tr class="blockHeader">
@@ -101,9 +101,9 @@
                             <tr class="portalModuleRow" data-id="{$TAB_ID}" data-sequence="{$MODEL->get('sequence')}" data-module="{$MODULE_NAME}">
                         <input type="hidden" name="portalModulesInfo[{$TAB_ID}][sequence]" value="{$MODEL->get('sequence')}" />
                         <td>
-                            <div class="row-fluid">
-                                <span class="span1"><a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a></span>
-                                <span class="span11">{vtranslate($MODULE_NAME, $MODULE_NAME)}</span>
+                            <div class="row">
+                                <span class="col-md-1"><a><img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$MODULE)}"/></a></span>
+                                <span class="col-md-11">{vtranslate($MODULE_NAME, $MODULE_NAME)}</span>
                             </div>
                         </td>
                         <td class="textAlignCenter">
@@ -126,11 +126,11 @@
                 </table>
             </div>
 
-            <div class="row-fluid">
-                <div class="span6 padding1per">
+            <div class="row">
+                <div class="col-md-6 padding1per">
                     <button class="btn btn-success pull-right" type="submit" disabled="true" name="savePortalInfo"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
                 </div>
-                <div class="span6">&nbsp;</div>
+                <div class="col-md-6">&nbsp;</div>
             </div>
         </form>
     </div>

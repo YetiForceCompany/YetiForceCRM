@@ -1,3 +1,3 @@
-<div class="summaryView row-fluid">
+<div class="summaryView row">
 	{$MODULE_SUMMARY}
 </div>

@@ -10,11 +10,11 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
-			<div class="widget_header row-fluid">
-				<div class="span8"><h3>{vtranslate($MODULE, $MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $MODULE)}</div>
+			<div class="widget_header row">
+				<div class="col-md-8"><h3>{vtranslate($MODULE, $MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $MODULE)}</div>
 			</div>
 			<hr>
 			<table class="table table-bordered table-condensed themeTableColor">

@@ -11,8 +11,8 @@
 -->*}
 {strip}	
 	<div class="well contentsBackground">
-		<div class="row-fluid">
-			<span class="span12">
+		<div class="row">
+			<span class="col-md-12">
 					{foreach item=MODULE_MODEL key=MODULE_ID from=$ALL_MODULES}
 						{$MODULE_MODEL->get('name')}  &nbsp;&nbsp;
 						{if $MODULE_MODEL->isEntityModule() eq true}

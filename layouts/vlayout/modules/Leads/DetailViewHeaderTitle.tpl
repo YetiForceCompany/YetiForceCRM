@@ -19,8 +19,8 @@
 			</span>
 		</span>
 	{/if}
-    <span class="span8 margin0px">
-        <span class="row-fluid">
+    <span class="col-md-8 margin0px">
+        <span class="row">
             <h4 class="recordLabel pushDown" title="{$RECORD->getName()}"> &nbsp;
                 {assign var=COUNTER value=0}
                 {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
@@ -32,14 +32,14 @@
             {/foreach}
             </h4>
         </span>
-        <span class="row-fluid">
+        <span class="row">
             <span class="designation_label">&nbsp;{$RECORD->getDisplayValue('designation')}</span>
             {if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
                 &nbsp;{vtranslate('LBL_AT')}&nbsp;
             {/if}
             <span class="company_label">{$RECORD->get('company')}</span>
         </span>
-		<span class="row-fluid">
+		<span class="row">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}

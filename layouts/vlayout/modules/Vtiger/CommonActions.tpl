@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -15,14 +15,14 @@
     {assign var='count' value=0}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
     <div class="navbar commonActionsContainer noprint">
-        <div class="actionsContainer row-fluid">
-            <div id="companyLogo-container" class="span2">
+        <div class="actionsContainer row">
+            <div id="companyLogo-container" class="col-md-2">
                 <span class="companyLogo"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>&nbsp;</span>
             </div>
-            <div class="span10">
-                <div class="row-fluid">
-                    <div class="searchElement span11">
-                        <div class="select-search span2">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="searchElement col-md-11">
+                        <div class="select-search col-md-2">
                             <select class="chzn-select" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" style="width:150px;">
                                 <option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
                                 {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
@@ -34,9 +34,9 @@
                                 {/foreach}
                             </select>
                         </div>
-                        <div class="input-append searchBar span6">
-                            <input type="text" class="" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
-                            <span id="searchIcon" class="add-on search-icon"><span class="icon-white icon-search "></span></span>
+                        <div class="input-group searchBar col-md-6">
+                            <input type="text" class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+                            <span id="searchIcon" class="input-group-addon search-icon"><span class="icon-white glyphicon glyphicon-search "></span></span>
                             <span class="adv-search  pull-left">
                                 <a class="alignMiddle" id="globalSearch">{vtranslate('LBL_ADVANCE_SEARCH')}</a>
                             </span>
@@ -53,8 +53,8 @@
 							<ul class="dropdown-menu dropdownStyles commonActionsButtonDropDown">
 								<li class="title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></li><hr/>
 								<li id="quickCreateModules">
-									<div class="row-fluid">
-										<div class="span12">
+									<div class="row">
+										<div class="col-md-12">
 											{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
 												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
@@ -63,9 +63,9 @@
 												{/if}	
 												{if $quickCreateModule == '1'}
 													{if $count % 3 == 0}
-														<div class="row-fluid">
+														<div class="row">
 													{/if}
-													<div class="span4">
+													<div class="col-md-4">
 														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}"
 														   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">{vtranslate($singularLabel,$NAME)}</a>
 													</div>
@@ -88,7 +88,7 @@
             </div>
 			{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 			{if $BREADCRUMBS}
-				<div class="breadcrumbsContainer span12" style="display: none;">
+				<div class="breadcrumbsContainer col-md-12" style="display: none;">
 					<div class="breadcrumbsLinks">
 					{foreach key=key item=item from=$BREADCRUMBS}
 						{if $key != 0}

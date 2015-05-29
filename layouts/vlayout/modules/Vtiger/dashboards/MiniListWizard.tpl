@@ -25,7 +25,7 @@
 					<tr>
 						<td class="fieldLabel alignMiddle">{'LBL_SELECT_MODULE'|vtranslate}</td>
 						<td class="fieldValue">
-							<select class="span4" name="module">
+							<select class="col-md-4" name="module">
 								<option></option>
 								{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
 								<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
@@ -36,7 +36,7 @@
 					<tr>
 						<td class="fieldLabel alignMiddle">{'LBL_FILTER'|vtranslate}</td>
 						<td class="fieldValue">
-							<select class="span4" name="filterid">
+							<select class="col-md-4" name="filterid">
 								<option></option>
 							</select>
 						</td>
@@ -44,7 +44,7 @@
 					<tr>
 						<td class="fieldLabel alignMiddle">{'LBL_EDIT_FIELDS'|vtranslate}</td>
 						<td class="fieldValue">
-							<select class="span4" name="fields" size="2" multiple="true">
+							<select class="col-md-4" name="fields" size="2" multiple="true">
 								<option></option>
 							</select>
 						</td>

@@ -9,16 +9,16 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="TermsAndConditionsContainer">
-	<div class="widget_header row-fluid">
-		<div class="row-fluid"><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
+<div class="container" id="TermsAndConditionsContainer">
+	<div class="widget_header row">
+		<div class="row"><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
 	</div>
 	<hr>
 
-    <div class="contents row-fluid">
+    <div class="contents row">
 		<br>
         <textarea class="input-xxlarge TCContent textarea-autosize" rows="3" placeholder="{vtranslate('LBL_INV_TANDC_DESCRIPTION', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
-        <div class="row-fluid textAlignCenter">
+        <div class="row textAlignCenter">
             <br>
 			<button class="btn btn-success saveTC hide"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
         </div>

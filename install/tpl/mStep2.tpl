@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,10 +10,10 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************************************************************/
 -->*}
-<div id="progressIndicator" class="row-fluid main-container hide">
+<div id="progressIndicator" class="row main-container hide">
 	<div class="inner-container">
 		<div class="span12 inner-container">
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span12 welcome-div alignCenter">
 					<h3>{vtranslate('LBL_MIGRATION_IN_PROGRESS','Install')}...</h3><br>
 					<img src="../layouts/vlayout/skins/images/install_loading.gif"/>
@@ -23,13 +23,13 @@
 		</div>
 	</div>
 </div>
-<div id="mainContainer" class="row-fluid main-container">
+<div id="mainContainer" class="row main-container">
 	<div class="inner-container">
 		<h2>{vtranslate('LBL_MIGRATION_HEADER', 'Install')}</h2>
 		<form class="form-horizontal" name="step2" method="post" action="Install.php">
 			<input type="hidden" name="mode" value="mStep3" />
 			<input type="hidden" name="lang" value="{$LANG}" />
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span12 inner-container">
 					<p>{vtranslate('LBL_MIGRATION_DESC', 'Install')}</p>
 					<div>
@@ -40,7 +40,7 @@
 						<input type="checkbox" id="checkBox2" name="checkBox2" required /><div class="chkbox"></div> {vtranslate('LBL_HAVE_BACKUP_FILES', 'Install')}</a>
 					</div>
 					<br />
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span2">{vtranslate('LBL_SYSTEM_FOR_MIGRATION', 'Install')}</div>
 						<div class="span5">
 							<select class="span5" name="system" id="old_version" required>
@@ -52,27 +52,27 @@
 						</div>
 					</div>
 					<br />
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span2">{vtranslate('LBL_SOURCE_DIRECTORY', 'Install')}</div>
 						<div class="span5"><input type="text" value="" name="source_directory" id="source_directory" class="span5" required placeholder="{vtranslate('LBL_EXAMPLE_DIRECTORY', 'Install')}: {$EXAMPLE_DIRECTORY}"/></div>		
 					</div>
 					<br />
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span2">{vtranslate('LBL_ADMIN_LOGIN', 'Install')}</div>
 						<div class="span5"><input type="text" value="" name="username" id="username" class="span5" required /></div>
 					</div>
 					<br />
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span2">{vtranslate('LBL_ADMIN_PASSWORD', 'Install')}</div>
 						<div class="span5"><input type="password" value="" name="password" id="password" class="span5" required /></div>
 					</div>
 					<br />
 				</div>
 			</div>
-			<div class="row-fluid">
+			<div class="row">
 				<div class="span12">
 					<div class="button-container">
-						<input id="agree" type="submit" class="btn btn-large btn-primary" value="{vtranslate('LBL_START_MIGRATION', 'Install')}"/>
+						<input id="agree" type="submit" class="btn btn-lg btn-primary" value="{vtranslate('LBL_START_MIGRATION', 'Install')}"/>
 					</div>
 				</div>
 			</div>

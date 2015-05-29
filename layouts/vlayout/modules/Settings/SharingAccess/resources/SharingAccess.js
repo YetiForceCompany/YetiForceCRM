@@ -49,7 +49,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 
 	showCustomRulesNextToElement : function(parentElement, rulesListElement) {
 		var moduleName = parentElement.data('moduleName')
-		var trElementForRuleList = jQuery('<tr class="'+this.getCustomRuleContainerClassName(moduleName)+'"><td class="customRuleContainer row-fluid" colspan="6"></td></tr>');
+		var trElementForRuleList = jQuery('<tr class="'+this.getCustomRuleContainerClassName(moduleName)+'"><td class="customRuleContainer row" colspan="6"></td></tr>');
 		jQuery('td',trElementForRuleList).append(rulesListElement);
 		jQuery('.ruleListContainer', trElementForRuleList).css('display', 'none');
 		parentElement.after(trElementForRuleList).addClass('collapseRow');

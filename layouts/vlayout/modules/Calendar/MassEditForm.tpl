@@ -33,14 +33,14 @@
         <input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($massEditFields))}' />
         
 		<div class="controlElements padding20px">
-			<div class="row-fluid">
+			<div class="row">
 				{assign var=FIELD_MODEL value=$RECORD_STRUCTURE_MODEL->getModule()->getField('assigned_user_id')}
-				<span class="span3">
+				<span class="col-md-3">
 					{vtranslate($FIELD_MODEL->get('label'),$MODULE)}
 				</span>
 				<span class="">
 				</span>
-				<span class="span9 offset2">
+				<span class="col-md-9 col-md-offset-2">
 				<input type="hidden" name="assigned_user_id_mass_edit_check" value="on"/>
 					{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) FIELD_MODEL=$FIELD_MODEL}
 				</span>

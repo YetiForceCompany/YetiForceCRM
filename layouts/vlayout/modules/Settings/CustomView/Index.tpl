@@ -1,11 +1,11 @@
 {strip}
-<div class="container-fluid CustomViewList">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class="container CustomViewList">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
+	<div class="row">
         <div class="contents tabbable">
 			<table class="table table-striped table-bordered table-condensed listViewEntriesTable">
 				<thead>

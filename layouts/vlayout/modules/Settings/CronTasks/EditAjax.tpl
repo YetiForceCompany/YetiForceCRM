@@ -39,7 +39,7 @@
 				<div class="control-label">
 					{vtranslate('Frequency',$QUALIFIED_MODULE)}
 				</div>
-				<div class="controls row-fluid">
+				<div class="controls row">
 					{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}
 					{if $VALUES[0] == '00' && $VALUES[1] == '00'}
 						{assign var=MINUTES value="true"}
@@ -54,8 +54,8 @@
 						{assign var=MINUTES value="true"}
 						{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 					{/if}
-					<input type="text" class="span2" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/>&nbsp;
-					<select class="chzn-select span5" id="time_format">
+					<input type="text" class="col-md-2" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/>&nbsp;
+					<select class="chzn-select col-md-5" id="time_format">
 						<optgroup>
 							<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
 							<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>

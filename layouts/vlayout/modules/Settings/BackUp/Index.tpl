@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -34,7 +34,7 @@
 <input type='hidden' value="{$FTP_CONNECTION_STATUS}" class='ftp-connection-status'>
 <input type='hidden' value="{$PREV_PAGE}" class='prev-page'>
 <input type='hidden' value="{$NEXT_PAGE}" class='next-page'>
-<div class="container-fluid" style="margin-top:10px;">
+<div class="container" style="margin-top:10px;">
 	<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"  id="backup_tab_btn_1" ><a href="#tab_1">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>
@@ -64,7 +64,7 @@
 					</div>  
 				</div>
 				<div class="btn-group pull-right">
-					<button class="btn pull-left" id="listViewPreviousPageButton" ><span class="icon-chevron-left"></span></button>
+					<button class="btn pull-left" id="listViewPreviousPageButton" ><span class="glyphicon glyphicon-chevron-left"></span></button>
 					<!--
 					<p class="pull-left go-to-pages-title" >{vtranslate('LBL_PAGE',$QUALIFIED_MODULE_NAMEName)}</p>
 					<input class="pull-left" type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGE}"/>
@@ -72,7 +72,7 @@
 					<p class="pull-left pushUpandDown2per" id="totalPageCount">{$ALL_PAGES}</p>
 					 <button class="btn pull-left goToPage" id="goToPage" > {vtranslate('LBL_GO_TO_PAGE',$QUALIFIED_MODULE_NAMEName)}</button>
 					-->
-					<button class="btn pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="icon-chevron-right"></span></button>
+					<button class="btn pull-left" id="listViewNextPageButton" {if ($NEXT_PAGE eq false) or (ALL_PAGES eq 1)} disabled {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 				<table class="table table-bordered table-condensed themeTableColor brute_force_form" style="margin-top:50px; margin-bottom: 50px;">
 					<thead>
@@ -224,13 +224,13 @@
 					<tr>
 						<td><label>{vtranslate('LBL_STORAGEFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<input class="span1 configField" type="checkbox" name="storage_folder"  {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
+							<input class="col-md-1 configField" type="checkbox" name="storage_folder"  {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 					<tr>
 						<td><label>{vtranslate('LBL_BACKUPFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td>
-							<input class="span1 configField" type="checkbox" name="backup_folder"  {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+							<input class="col-md-1 configField" type="checkbox" name="backup_folder"  {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
 						</td>
 					</tr>
 				</tbody>

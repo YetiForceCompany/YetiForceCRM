@@ -11,7 +11,7 @@
 -->*}
 
 {strip}
-<div class='container-fluid editViewContainer'>
+<div class='container editViewContainer'>
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -38,12 +38,12 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
-		<div class="contentHeader row-fluid">
+		<div class="contentHeader row">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}
-			<h3 class="span8 textOverflowEllipsis" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
+			<h3 class="col-md-8 textOverflowEllipsis" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
 		{else}
-			<h3 class="span8 textOverflowEllipsis">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+			<h3 class="col-md-8 textOverflowEllipsis">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
 		{/if}
 			<span class="pull-right">
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
@@ -119,8 +119,8 @@
 					</td>
 					{if $FIELD_MODEL->get('uitype') neq "83"}
 						<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-							<div class="row-fluid">
-								<span class="span10">
+							<div class="row">
+								<span class="col-md-10">
 									{if $FIELD_MODEL->get('uitype') eq "300"}
 										<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 									{/if}

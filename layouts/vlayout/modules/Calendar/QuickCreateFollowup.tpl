@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -41,20 +41,20 @@
                     </label>
                 </div>
                 <div class="controls">
-                        <div class="input-append row-fluid">
-                            <div class="span10 row-fluid date">
-                                <input name="followup_date_start" type="text" class="span9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
+                        <div class="input-group row">
+                            <div class="col-md-10 row date">
+                                <input name="followup_date_start" type="text" class="col-md-9 dateField" data-date-format="{$dateFormat}" type="text"  data-fieldinfo= '{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($FIELD_INFO))}'
                                        value="{$currentDate}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]] validate[funcCall[Vtiger_greaterThanDependentField_Validator_Js.invokeValidation,]]" />
-                                <span class="add-on"><i class="icon-calendar"></i></span>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>	
                         </div>		
                 </div>
                 <div class="controls">
-                    <div class="input-append time">
-                        <input type="text" name="followup_time_start" class="timepicker-default input-small" 
+                    <div class="input-group time">
+                        <input type="text" name="followup_time_start" class="timepicker-default input-sm" 
                                value="{$currentTimeInVtigerFormat}" data-format="{$timeformat}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-                        <span class="add-on cursorPointer">
-                            <i class="icon-time"></i>
+                        <span class="input-group-addon cursorPointer">
+                            <i class="glyphicon glyphicon-time"></i>
                         </span>
                     </div>
                 </div>

@@ -370,9 +370,9 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				thisInstance.updatedSourceValues.push(sourceValue);
 			}
 			if(currentTarget.hasClass('selectedCell')) {
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.icon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon glyphicon-ok').remove();
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="icon-ok pull-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
 			}
 		});
 	},
@@ -386,7 +386,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 				if(jQuery.inArray(sourceValue, thisInstance.updatedSourceValues) == -1) {
 					thisInstance.updatedSourceValues.push(sourceValue);
 				}
-				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.icon-ok').remove();
+				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon glyphicon-ok').remove();
 			});
 		});
 	},	

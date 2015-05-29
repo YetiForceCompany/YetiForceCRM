@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	
-	<button type="button" class="btn addButton addCron"><i class="icon-plus"></i> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
+	<button type="button" class="btn btn-default addButton addCron"><i class="glyphicon glyphicon-plus"></i> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
 	<br />
 	<br />
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />

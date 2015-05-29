@@ -10,18 +10,18 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="container">
     {assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
     <form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
-        <div class="widget_header row-fluid">
-                <div class="span8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
-                <div class="span4 btn-toolbar"><div class="pull-right">
+        <div class="widget_header row">
+                <div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
+                <div class="col-md-4 btn-toolbar"><div class="pull-right">
                         <button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
                         <a type="reset" class="cancelLink" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
                 </div></div>
         </div>
         <hr>
-        <div class="contents row-fluid">
+        <div class="contents row">
             <table class="table table-bordered table-condensed themeTableColor">
                     <thead>
                             <tr class="blockHeader">
@@ -45,7 +45,7 @@
         </div>
     </form>
 </div><br>
-<div class="span5 alert alert-info container-fluid">
+<div class="col-md-5 alert alert-info container">
     {vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
     {vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
     {vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br>

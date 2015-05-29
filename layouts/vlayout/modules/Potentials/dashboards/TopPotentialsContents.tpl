@@ -11,30 +11,30 @@
 -->*}
 <div style='padding:5px'>
 {if count($MODELS) > 0}
-	<div class='row-fluid'>
-		<div class='span12'>
-			<div class='row-fluid'>
-				<div class='span4'>
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='row'>
+				<div class='col-md-4'>
 					<strong>{vtranslate('Potential Name', $MODULE_NAME)}</strong>
 				</div>
-				<div class='span4'>
+				<div class='col-md-4'>
 					<strong>{vtranslate('Amount', $MODULE_NAME)}</strong>
 				</div>
-				<div class='span4'>
+				<div class='col-md-4'>
 					<strong>{vtranslate('Related To', $MODULE_NAME)}</strong>
 				</div>
 			</div>
 		</div>
 		<hr>
 		{foreach item=MODEL from=$MODELS}
-		<div class='row-fluid'>
-			<div class='span4'>
+		<div class='row'>
+			<div class='col-md-4'>
 				<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
 			</div>
-			<div class='span4'>
+			<div class='col-md-4'>
 				{$MODEL->getDisplayValue('sum_invoices')}
 			</div>
-			<div class='span4'>
+			<div class='col-md-4'>
 				{$MODEL->getDisplayValue('related_to')}
 			</div>
 		</div>
