@@ -38,7 +38,7 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Ze
 {if $RECORD neq ''}
 <button class="btn btn-warning btn-mini" onclick="showPassword('{$RECORD}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE)}</button>&nbsp;
 {* button for copying password to clipboard *}
-<button class="btn btn-success btn-mini hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}"><i class="icon-download-alt"></i></button>
+<button class="btn btn-success btn-mini hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}"><span class="icon-download-alt"></span></button>
 {/if}
 <p>
     {if $FIELD_MODEL->get('fieldvalue') eq ''}
