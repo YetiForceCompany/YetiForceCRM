@@ -354,46 +354,6 @@ var Settings_BackUp_Js = {
 		var content = $('.settingsTable');
 		this.registerSaveBackupSetting(content);
 
-		$("#backup_tab_btn_1").click(function () {
-			$("#backup_tab_btn_2").attr('class', '');
-			$("#backup_tab_btn_3").attr('class', '');
-			$("#backup_tab_btn_4").attr('class', '');
-			$("#backup_tab_btn_1").attr('class', 'active');
-			$("#backup_tab_2").hide();
-			$("#backup_tab_3").hide();
-			$("#backup_tab_4").hide();
-			$("#backup_tab_1").show();
-		});
-		$("#backup_tab_btn_2").click(function () {
-			$("#backup_tab_btn_1").attr('class', '');
-			$("#backup_tab_btn_3").attr('class', '');
-			$("#backup_tab_btn_4").attr('class', '');
-			$("#backup_tab_btn_2").attr('class', 'active');
-			$("#backup_tab_1").hide();
-			$("#backup_tab_3").hide();
-			$("#backup_tab_4").hide();
-			$("#backup_tab_2").show();
-		});
-		$("#backup_tab_btn_3").click(function () {
-			$("#backup_tab_btn_1").attr('class', '');
-			$("#backup_tab_btn_2").attr('class', '');
-			$("#backup_tab_btn_4").attr('class', '');
-			$("#backup_tab_btn_3").attr('class', 'active');
-			$("#backup_tab_1").hide();
-			$("#backup_tab_2").hide();
-			$("#backup_tab_4").hide();
-			$("#backup_tab_3").show();
-		});
-		$("#backup_tab_btn_4").click(function () {
-			$("#backup_tab_btn_1").attr('class', '');
-			$("#backup_tab_btn_2").attr('class', '');
-			$("#backup_tab_btn_3").attr('class', '');
-			$("#backup_tab_btn_4").attr('class', 'active');
-			$("#backup_tab_1").hide();
-			$("#backup_tab_2").hide();
-			$("#backup_tab_3").hide();
-			$("#backup_tab_4").show();
-		});
 	}
 };
 jQuery(document).ready(function () {
