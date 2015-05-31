@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <span class="customFilterMainSpan btn-group">
-	<select id="customFilter"  style="width:350px;">
+	<select id="customFilter"  style="width:350px;" title="{vtranslate('LBL_SELECT_REPORT', $MODULE)}">
 		<optgroup id="foldersBlock" label="{vtranslate('LBL_FOLDERS', $MODULE)}">
 			<option value="All" data-id="All">{vtranslate('LBL_ALL_REPORTS', $MODULE)}</option>
 			{foreach item=FOLDER from=$FOLDERS}
