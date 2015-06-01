@@ -118,7 +118,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 						var params = app.validationEngineOptions;
 						params.onValidationComplete = function(form, valid){
 							if(valid){
-								thisInstance.transferOwnershipSave(form)
+								if (form.attr("name") == "changeOwner") {
+									thisInstance.transferOwnershipSave(form)
+								}
 							}
 							return false;
 						}
@@ -158,6 +160,15 @@ jQuery.Class("Vtiger_Detail_Js",{
 						animation: 'show',
 						type: 'info'
 					};
+					var oldvalue = jQuery('.assigned_user_id').val();
+					var element = jQuery(".assigned_user_id ");
+
+					element.find('option[value="' + oldvalue + '"]').removeAttr("selected");
+					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
+					element.trigger("liszt:updated");
+					var Fieldname = element.find('option[value="' + transferOwner + '"]').data("picklistvalue");
+					element.closest(".row-fluid").find(".value").html('<a href="index.php?module=Users&amp;parent=Settings&amp;view=Detail&amp;record=' + transferOwner + '">' + Fieldname + '</a>');
+
 					Vtiger_Helper_Js.showPnotify(params);
 				}
 			}

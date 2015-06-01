@@ -1477,7 +1477,12 @@ jQuery.Class("Vtiger_List_Js",{
 				var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var approveUrl = currentOptionElement.data('approveurl');
-				window.location.href = approveUrl;
+				var newEle = '<form action=' + approveUrl + ' method="POST">' +
+						'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
+						'</form>';
+				var formElement = jQuery(newEle);
+                                              
+                formElement.appendTo('body').submit(); 
 				event.stopPropagation();
 			});
 		}

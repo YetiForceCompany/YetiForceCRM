@@ -310,6 +310,7 @@ $languageStrings = [
 	'LBL_GENERATED_COLOR' => 'Color generated',
 	'LBL_SAVE_COLOR' => 'Color saved',
 	'LBL_EMAIL' => 'e-mail',
+	'LBL_SPACE' => 'Space',
 ];
 
 $jsLanguageStrings = [
