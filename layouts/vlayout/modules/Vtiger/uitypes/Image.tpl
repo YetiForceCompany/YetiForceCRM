@@ -23,7 +23,7 @@
 	{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 		<div class="row-fluid">
 			{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-				<span class="span8" name="existingImages"><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}"></span>
+				<span class="span8" name="existingImages"><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}"></span>
 				<span class="span3 row-fluid">
 					<span class="row-fluid">[{$IMAGE_INFO.name}]</span>
 					<span class="row-fluid"><input type="button" id="file_{$ITER}" value="{vtranslate('LBL_DELETE', $MODULE)}" class="imageDelete"></span>

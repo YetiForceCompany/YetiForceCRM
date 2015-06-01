@@ -35,25 +35,25 @@
 							<ul class="nav nav-tabs" name="charttab" style="text-align:center;font-size:14px;font-weight: bold;margin:0 3%;border:0px">
 								<li class="active marginRight5px" >
 									<a data-type="pieChart" data-toggle="tab">
-										<div><img src="{vimage_path('pie.png')}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('pie.png')}" alt="{vtranslate('LBL_PIE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
 										<div>{vtranslate('LBL_PIE_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="verticalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('vbar.png')}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('vbar.png')}" alt="{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
 										<div>{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="horizontalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('hbar.png')}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('hbar.png')}" alt="{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
 										<div>{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px" >
 									<a data-type="lineChart" data-toggle="tab">
-										<div><img src="{vimage_path('line.png')}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('line.png')}" alt="{vtranslate('LBL_LINE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
 										<div>{vtranslate('LBL_LINE_CHART', $MODULE)}</div>
 									</a>
 								</li>
@@ -80,7 +80,7 @@
 								<div class='row-fluid alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
-											<i class="icon-info-sign"></i>&nbsp;&nbsp;
+											<span class="icon-info-sign"></span>&nbsp;&nbsp;
 											{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
 										<br>

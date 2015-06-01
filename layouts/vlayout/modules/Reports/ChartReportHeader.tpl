@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></i>
+		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></span>
 	</div>
     <div class="container-fluid">
         <div class="row-fluid reportsDetailHeader">
@@ -27,7 +27,7 @@
                             <div class="btn-group">
                                 <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <i class="icon-pencil"></i>
+                                    <span class="icon-pencil"></span>
                                 </button>
                             </div>
                         {/if}
@@ -101,7 +101,7 @@
 							{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 							<button class="btn" name="modify_condition" data-val="{$filterConditionNotExists}">
 								<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-								<i class="{if $filterConditionNotExists eq true} icon-chevron-right {else} icon-chevron-down {/if}"></i>
+								<span class="{if $filterConditionNotExists eq true} icon-chevron-right {else} icon-chevron-down {/if}"></span>
 							</button>
 						</div>
 						<br>

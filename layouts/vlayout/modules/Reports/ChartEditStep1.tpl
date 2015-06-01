@@ -88,7 +88,7 @@
 				</div>
 				<div class="row-fluid padding1per">
 					<span class="span3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
-					<span class="span7"><textarea class="span6" type="text" name="description" >{$REPORT_MODEL->get('description')}</textarea></span>
+					<span class="span7"><textarea class="span6" type="text" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></span>
 				</div>
 			</div>
 			<div class="pull-right">
@@ -98,3 +98,4 @@
 		</form>
 	</div>
 {/strip}
+

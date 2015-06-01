@@ -745,6 +745,7 @@ $languageStrings = [
 	'LBL_SELECT_ALL_CURRENTPAGE' => 'Wybierz wszystkie rekordy na obecnej stronie',
 	'LBL_SELECT_RECORD' => 'Wybierz rekord',
 	'LBL_SELECT_RELATED_FIELD' => 'Wybierz pole powiązanego modułu',
+	'LBL_COMPARISON_VALUE' => 'Wartość porównania',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',

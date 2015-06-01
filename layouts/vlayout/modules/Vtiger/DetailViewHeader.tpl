@@ -52,8 +52,7 @@
 												href='{$DETAIL_VIEW_LINK->getUrl()}' 
 												{if $DETAIL_VIEW_LINK->title neq ''}
 													title="{$DETAIL_VIEW_LINK->title}"
-												{/if}
-												{if  $DETAIL_VIEW_LINK->linklabel eq 'LBL_ADD_NOTE' OR $DETAIL_VIEW_LINK->linklabel eq 'LBL_SHOW_ACCOUNT_HIERARCHY'}
+												{else}
 													title="{vtranslate($DETAIL_VIEW_LINK->linklabel, $MODULE_NAME)}"
 												{/if}
 												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}>
@@ -102,3 +101,4 @@
                     {/if} 
 					<div class="contents">
 {/strip}
+
