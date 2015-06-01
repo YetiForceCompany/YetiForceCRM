@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -1505,7 +1505,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			if (thisInstance.tempData.indexOf(activityId) < 0) {
 				thisInstance.tempData.push(activityId);
 				editStatusElement.trigger("click");
-				fieldElement.val(currentTarget.data('status')).trigger("liszt:updated");
+				fieldElement.val(currentTarget.data('status')).trigger("chosen:updated");
 				editStatusElement.trigger("clickoutside");
 			}
 		});
@@ -2158,7 +2158,7 @@ jQuery.Class("Vtiger_Detail_Js",{
                 if (targetPickListMap.length == 1) {
                     targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present. 
                 }
-                targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("liszt:updated");
+                targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
             })
 
         });

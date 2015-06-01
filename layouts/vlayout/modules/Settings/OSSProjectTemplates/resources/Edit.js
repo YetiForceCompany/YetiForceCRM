@@ -1,4 +1,4 @@
-/*+***********************************************************************************************************************************
+﻿/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -85,7 +85,7 @@ function OSSProjectTemplatesEdit() {
                                     jQuery('[name="' + val + '"]').val(data.result[val]);
                                 } else {
                                     var tabValue = JSON.parse(data.result[val]);
-                                    jQuery('#' + val + '_edit').val(tabValue).trigger('liszt:updated');
+                                    jQuery('#' + val + '_edit').val(tabValue).trigger('chosen:updated');
                                 }
                                 var dateIntervalCheckbox = jQuery('[name="' + val + '_day_type"]');
 

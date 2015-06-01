@@ -218,7 +218,7 @@ function DataAccessConditions() {
 				}));
 			});
 
-			comparator.trigger("liszt:updated");
+			comparator.trigger("chosen:updated");
 		})
 	},
 	this.fieldTypeHasChanged = function() {

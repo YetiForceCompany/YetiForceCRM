@@ -1080,7 +1080,7 @@ li.ui-timepicker-selected,
   margin-bottom: 2px;
 }
 .fieldLabel {
-  width: 20%;
+  //width: 20%;
   background: #f7f7f9;
   text-align:right;
 }
@@ -1104,7 +1104,7 @@ li.ui-timepicker-selected,
 }
 .summaryView .summaryViewEntries .fieldLabel {
   vertical-align: top;
-  padding: 5px 0 5px 5%;
+ // padding: 5px 0 5px 5%;
   border-top: 1px solid #dddddd;
   border-right: 1px solid #dddddd;
 }
@@ -2531,12 +2531,7 @@ th.htColHeader,
 .listViewSetting.dropdown-menu {
   left: -150px;
 }
-.btn {
-  font-weight: bold;
-  background-color: none ;
-  background-image: none;
-  border-radius: 0 !important;
-}
+
 .btn:focus {
   outline: 0;
 }
@@ -3280,7 +3275,7 @@ td.listViewEntryValue.wide {
 .table td.medium, 
 .listViewEntries td.medium, 
 td.listViewEntryValue.medium { 
-    padding: 5px 6px!important; 
+   // padding: 5px 6px!important; 
 } 
 .narrow, 
 .table td.narrow, 

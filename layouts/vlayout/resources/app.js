@@ -88,7 +88,7 @@ var app = {
 		};
 		/*selectElement.each(function(){
 			var width = jQuery(this).outerWidth();
-			params['width'] = '150px;';
+			params['width'] = width+'px';
 			jQuery(this).chosen(params);
 		});*/
 		selectElement.chosen(params);

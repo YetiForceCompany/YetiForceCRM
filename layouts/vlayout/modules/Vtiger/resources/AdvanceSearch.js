@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -155,12 +155,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
             var conditionRow = anyConditionContainer.find('.conditionList').find('.conditionRow:last');
             var fieldSelectElemnt = conditionRow.find('select[name="columnname"]');
             fieldSelectElemnt.find('option[data-field-name="'+ labelFieldName +'"]').attr('selected','selected');
-            fieldSelectElemnt.trigger('change').trigger('liszt:updated');
+            fieldSelectElemnt.trigger('change').trigger('chosen:updated');
 
             var comparatorSelectElemnt = conditionRow.find('select[name="comparator"]');
             //select the contains value
             comparatorSelectElemnt.find('option[value="c"]').attr('selected','selected');
-            comparatorSelectElemnt.trigger('liszt:updated');
+            comparatorSelectElemnt.trigger('chosen:updated');
 
             var valueElement = conditionRow.find('[name="value"]');
             valueElement.val(value);

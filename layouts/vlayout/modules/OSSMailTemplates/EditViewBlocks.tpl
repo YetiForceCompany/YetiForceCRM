@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-    <div class='container editViewContainer'>
+    <div class='editViewContainer'>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -149,12 +149,12 @@
             {if $FIELD_MODEL->get('uitype') neq "83"}
                 <td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
                     <div class="row">
-                        <span class="col-md-10">
+                        <div class="col-md-10">
 							{if $FIELD_MODEL->get('uitype') eq "300"}
 								<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 							{/if}
                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-                        </span>
+                        </div>
                     </div>
                 </td>
             {/if}
@@ -174,14 +174,20 @@
 				{assign var=COUNTER value=$COUNTER+1}
 				<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
 				<td class="fieldValue {$WIDTHTYPE}">
-					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-					</select>
-					<button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
-						<i class="icon-arrow-down"></i>
-					</button>
-					<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
-						<i class="icon-arrow-down"></i>
-					</button>
+					<div class="row">
+						<div class="col-md-8">
+							<select class="chzn-select form-control" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<button type="button" aria-hidden="true" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
+								<span class="glyphicon glyphicon-arrow-down icon-black"></span>
+							</button>
+							<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
+								<span class="glyphicon glyphicon-arrow-down"></span>
+							</button>
+						</div>	
+					</div>	
 				</td>
 			{/if}
 
@@ -194,14 +200,20 @@
 				
 					<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
 					<td class="fieldValue {$WIDTHTYPE}">
-						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-						</select>
-						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
-						</button>
-						<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
-							<i class="icon-arrow-down"></i>
-						</button>
+						<div class="row">
+							<div class="col-md-8">
+								<select class="chzn-select" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
+									<span class="glyphicon glyphicon-arrow-down"></span>
+								</button>
+								<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
+									<span class="glyphicon glyphicon-arrow-down"></span>
+								</button>
+							</div>
+						</div>	
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
 				
@@ -213,11 +225,17 @@
 					
 					<td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
 					<td class="fieldValue {$WIDTHTYPE}">
-						<select class="chzn-select" name="oss_special_function_list" style="width: 190px;">
-						</select>
-						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
-						</button>
+						<div class="row">
+							<div class="col-md-8">
+								<select class="chzn-select" name="oss_special_function_list" style="width: 190px;">
+								</select>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
+									<span class="glyphicon glyphicon-arrow-down"></span>
+								</button>
+							</div>
+						</div>	
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
 					{if $COUNTER eq '1'}

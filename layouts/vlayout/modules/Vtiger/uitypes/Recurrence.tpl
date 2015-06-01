@@ -14,9 +14,9 @@
 	<div class="span">
 		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}title="1" {else}title="0"{/if}/>&nbsp;&nbsp;
 	</div>
-	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if} span" id="repeatUI" style="width:90%;">
+	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if} span" id="repeatUI" >
 		<div class="row">
-			<span class="span" style="width:150px;">
+			<span class="span">
 				<span class="alignMiddle" style="margin-right: 6%">{vtranslate('LBL_REPEATEVENT', $MODULE)}</span>
 				<select class="select2 input-mini" name="repeat_frequency" title="{vtranslate('LBL_REPEAT_FOR')}">
 					{for $FREQUENCY = 1 to 14}
@@ -25,7 +25,7 @@
 				</select>
 			</span>
 			<span class="span">
-				<select class="select2 input-medium" style="width:100px;" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE')}">
+				<select class="select2 input-medium" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE')}">
 					<option title="{vtranslate('LBL_DAYS_TYPE', $MODULE)}" value="Daily" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
 					<option title="{vtranslate('LBL_WEEKS_TYPE', $MODULE)}" value="Weekly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
 					<option title="{vtranslate('LBL_MONTHS_TYPE', $MODULE)}" value="Monthly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>

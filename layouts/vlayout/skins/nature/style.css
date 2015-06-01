@@ -2534,12 +2534,7 @@ th.htColHeader,
 .listViewSetting.dropdown-menu {
   left: -150px;
 }
-.btn {
-  font-weight: bold;
-  background-color: none ;
-  background-image: none;
-  border-radius: 0 !important;
-}
+
 .btn:focus {
   outline: 0;
 }

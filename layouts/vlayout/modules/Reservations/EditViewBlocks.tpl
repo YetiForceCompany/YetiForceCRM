@@ -11,7 +11,7 @@
 -->*}
 
 {strip}
-<div class='container editViewContainer'>
+<div class='editViewContainer'>
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -120,12 +120,12 @@
 					{if $FIELD_MODEL->get('uitype') neq "83"}
 						<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 							<div class="row">
-								<span class="col-md-10">
+								<div class="col-md-10">
 									{if $FIELD_MODEL->get('uitype') eq "300"}
 										<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 									{/if}
 									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-								</span>
+								</div>
 							</div>
 						</td>
 					{/if}

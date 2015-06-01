@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -45,7 +45,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
 
 		//change in to chosen elements
 		app.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('liszt:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('chosen:updated').trigger('change');
 		return this;
 	},
 
@@ -93,7 +93,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
                 }
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("liszt:updated");
+		conditionSelectElement.empty().html(options).trigger("chosen:updated");
 		return conditionSelectElement;
 	},
 

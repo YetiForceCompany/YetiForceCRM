@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -28,7 +28,7 @@ Vtiger_Edit_Js("Users_Edit_Js",{
 				var previousSelectedValue = element.data('selectedValue');
 				element.find('option').removeAttr('selected');
 				element.find('option[value="'+previousSelectedValue+'"]').attr('selected','selected');
-				element.trigger("liszt:updated");
+				element.trigger("chosen:updated");
 			}else{
 				element.data('selectedValue',selectedValue);
 			}
@@ -47,7 +47,7 @@ Vtiger_Edit_Js("Users_Edit_Js",{
 				var previousSelectedValue = element.data('selectedValue');
 				element.find('option').removeAttr('selected');
 				element.find('option[value="'+previousSelectedValue+'"]').attr('selected','selected');
-				element.trigger("liszt:updated");
+				element.trigger("chosen:updated");
 			}else{
 				element.data('selectedValue',selectedValue);
 			}
@@ -101,7 +101,7 @@ Vtiger_Edit_Js("Users_Edit_Js",{
 					options += '>'+conditionValue+'</option>';
 				}
 			}
-			startHourElement.html(options).trigger("liszt:updated");
+			startHourElement.html(options).trigger("chosen:updated");
 		});
 		
 		

@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -380,7 +380,7 @@ Vtiger_Detail_Js("Leads_Detail_Js",{
 					var oldvalue= contextElem.val();
 					contextElem.find('option[value="'+oldvalue+'"]').removeAttr("selected");
 					contextElem.find('option[value="'+ ajaxnewValue +'"]').attr("selected","selected");
-					contextElem.trigger("liszt:updated");
+					contextElem.trigger("chosen:updated");
 				}else{
 					contextElem.attr("value",ajaxnewValue);
 				}

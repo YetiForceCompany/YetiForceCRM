@@ -32,7 +32,7 @@
 {/if}
 <input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-displayvalue='{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}' data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} />
 {assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}
-<div class="row input-group">
+<div class="input-group">
 	{if $FIELD_MODEL->get('displaytype') != 10}
 		<span class="input-group-addon clearReferenceSelection cursorPointer">
 			<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='glyphicon glyphicon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>

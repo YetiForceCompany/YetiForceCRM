@@ -1,4 +1,4 @@
-/*+***********************************************************************************************************************************
+﻿/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 					jQuery(tabField).each(function(index, item) {
 						jQuery(listSpecialFunctionSelect).append('<option value="' + item.filename + '">' + item.label + '</option>');
 					});
-					listSpecialFunctionSelect.trigger('liszt:updated');
+					listSpecialFunctionSelect.trigger('chosen:updated');
 				}
 			}
 		);
@@ -70,12 +70,11 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 					var fieldListSelect = jQuery('[name="oss_fields_list"]'),
 							tabField = data.result;
 					fieldListSelect.find('option').remove();
-
 					jQuery(tabField).each(function(index, item) {
 						jQuery(fieldListSelect).append('<option value="' + item.id + '">' + item.label + '</option>');
 					});
 
-					fieldListSelect.trigger('liszt:updated');
+					fieldListSelect.trigger('chosen:updated');
 				}
 			}
 		);
@@ -110,7 +109,7 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 								jQuery(fieldRelatedListSelect).append(html);
 							}
 						});
-						fieldRelatedListSelect.trigger('liszt:updated');
+						fieldRelatedListSelect.trigger('chosen:updated');
 					}
 				}
 		);
@@ -155,14 +154,14 @@ Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 		type.on("change", function() {
 			var value = jQuery(this).val();
 			if(value == 'PLL_MODULE'){
-				fieldsList.prop('disabled', true).trigger('liszt:updated');
+				fieldsList.prop('disabled', true).trigger('chosen:updated');
 				fieldsButtons.addClass('hide');
-				relatedFieldsList.prop('disabled', true).trigger('liszt:updated');
+				relatedFieldsList.prop('disabled', true).trigger('chosen:updated');
 				relatedFieldsListButtons.addClass('hide');
 			} else {
-				fieldsList.prop('disabled', false).trigger('liszt:updated');
+				fieldsList.prop('disabled', false).trigger('chosen:updated');
 				fieldsButtons.removeClass('hide');
-				relatedFieldsList.prop('disabled', false).trigger('liszt:updated');
+				relatedFieldsList.prop('disabled', false).trigger('chosen:updated');
 				relatedFieldsListButtons.removeClass('hide');
 			}
 		});

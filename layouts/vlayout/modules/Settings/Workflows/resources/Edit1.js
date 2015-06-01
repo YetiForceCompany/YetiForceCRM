@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -114,12 +114,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 						html += '<option selected value='+thisInstance.DateToYMD(date)+'>'+thisInstance.DateToYMD(date)+'</option>';
 					}
 					annualDatesEle.append(html);
-					annualDatesEle.trigger("liszt:updated");
+					annualDatesEle.trigger("chosen:updated");
 				}
 			});
 			var annualDatesEle = jQuery('#annualDates');
 			thisInstance.updateAnnualDates(annualDatesEle);
-			annualDatesEle.trigger("liszt:updated");
+			annualDatesEle.trigger("chosen:updated");
 	},
 
 	removeYearInAnnualWorkflow : function() {

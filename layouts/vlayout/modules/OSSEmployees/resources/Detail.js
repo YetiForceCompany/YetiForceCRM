@@ -1,4 +1,4 @@
-/*+***********************************************************************************************************************************
+﻿/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -128,7 +128,7 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js",{
                         };
                         Vtiger_Helper_Js.showPnotify(params);
 						end = true;
-						jQuery('[name="assigned_user_id"]').val(userId).trigger('liszt:updated');
+						jQuery('[name="assigned_user_id"]').val(userId).trigger('chosen:updated');
 						return false;
 						
                     }

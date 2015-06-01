@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class='container editViewContainer'>
+    <div class='editViewContainer'>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -76,13 +76,24 @@
 						<th class="blockHeader" colspan="4">
 					<div class="row">
 						<div class="col-md-4">
+							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+								{assign var=APIADDRESFIELD value=TRUE}
+							{else}
+								{assign var=APIADDRESFIELD value=FALSE}
+							{/if}
+							<div class="row">
+								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
 							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-							&nbsp;&nbsp;
-							{vtranslate($BLOCK_LABEL, $MODULE)}
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete pull-right input " style="width: 50%;" />
+							&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+								</div>
+								
+							{if $APIADDRESFIELD}
+								<div class="col-md-5">
+									<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " />
+								</div>
 							{/if}
+							</div>
 						</div>
 						<div class="col-md-8">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
@@ -133,7 +144,7 @@
                                     {/if}
                                     <span class="pull-right">
                                     {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-                                    <select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" style="width:160px;">
+                                    <select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
                                         <optgroup>
                                             {foreach key=index item=value from=$REFERENCE_LIST}
                                                 <option value="{$value}" title="{vtranslate($value, $MODULE)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
@@ -154,12 +165,12 @@
             {if $FIELD_MODEL->get('uitype') neq "83"}
                 <td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
                     <div class="row">
-                        <span class="col-md-10">
+                        <div class="col-md-10">
 							{if $FIELD_MODEL->get('uitype') eq "300"}
 								<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 							{/if}
                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-                        </span>
+                        </div>
                     </div>
                 </td>
             {/if}

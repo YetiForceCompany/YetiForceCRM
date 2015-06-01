@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -194,7 +194,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 								mapFieldDisplayElement.val(response[value[0]+'_label']).attr('readonly',true);
 								var referenceModulesList = formElement.find('#'+app.getModuleName()+'_editView_fieldName_'+key+'_dropDown');
 								if(referenceModulesList.length > 0){
-									referenceModulesList.val( value[1] ).trigger("liszt:updated");
+									referenceModulesList.val( value[1] ).trigger("chosen:updated");
 								}
 							}
 						}
@@ -1076,7 +1076,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				})
 				var targetPickListSelectedValue = '';
 				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("liszt:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
 			})
 		});
 
@@ -1150,6 +1150,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
+				bodyContents.removeClass('hide');
 				bodyContents.show();
 				app.cacheSet(module+'.'+blockId, 1)
 			}

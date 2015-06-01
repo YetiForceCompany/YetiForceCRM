@@ -196,7 +196,7 @@ function OSSCondition() {
 							text: app.vtranslate('LBL_'+item.replace(" ", "_").replace(" ", "_").replace(" ", "_").replace(" ", "_").replace(" ", "_").toUpperCase())
 						}));
 					});
-					comparator.trigger("liszt:updated");
+					comparator.trigger("chosen:updated");
                 })
             },
             this.fieldTypeHasChanged = function() {

@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -133,9 +133,9 @@ jQuery.Class("Settings_LeadMapping_Js",{
 				potentialFieldsSelectElement.prepend('<option data-type="'+noneValue+'" label="'+noneValue+'" value="0" selected>'+noneValue+'</option>');
 			}
 			
-			accountFieldsSelectElement.trigger("liszt:updated").trigger('change',false);
-			contactFieldsSelectElement.trigger("liszt:updated").trigger('change',false);
-			potentialFieldsSelectElement.trigger("liszt:updated").trigger('change',false);
+			accountFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
+			contactFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
+			potentialFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
 		})
 	},
 	
