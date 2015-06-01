@@ -326,4 +326,3 @@ class PriceBooks extends CRMEntity {
 	}
 
 }
-?>

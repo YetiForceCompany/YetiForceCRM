@@ -118,9 +118,4 @@ class OSSDocumentControl extends Vtiger_CRMEntity {
         $db->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
 				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Document Control', '', 'LBL_DOCUMENT_CONTROL_DESCRIPTION', 'index.php?module=OSSDocumentControl&parent=Settings&view=Index'));
     }
-    
-
-    
-
-
 }

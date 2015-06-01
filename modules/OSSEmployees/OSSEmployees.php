@@ -350,4 +350,3 @@ class OSSEmployees extends Vtiger_CRMEntity {
         }
     }
 }
-?>

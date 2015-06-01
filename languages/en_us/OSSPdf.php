@@ -105,7 +105,7 @@ $languageStrings = [
     'users' => 'Users',
 
     'LBL_TEMPLATES' => 'Select PDF template',
-    'LBL_NO_TEMPLATES' => 'Lack of available templates!',
+    'LBL_NO_TEMPLATES' => 'No active templates',
     'company_name' => 'OpenSaaS Sp. z o.o.',
     'street' => 'ul. Kasprzaka 29/31',
     'city' => '01-234 Warszawa',

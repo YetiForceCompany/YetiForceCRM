@@ -87,4 +87,3 @@ class OSSMailScanner {
 		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Logs'));
     }
 }
-?>

@@ -227,5 +227,3 @@ class Mobile_WS_Operation {
 		}
 	}
 }
-	
-?>

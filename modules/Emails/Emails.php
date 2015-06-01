@@ -638,5 +638,3 @@ function emails_checkFieldVisiblityPermission($fieldname, $mode='readonly') {
 	$ret = getFieldVisibilityPermission('Emails', $current_user->id, $fieldname, $mode);
 	return $ret;
 }
-
-?>

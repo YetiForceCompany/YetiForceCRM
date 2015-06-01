@@ -428,4 +428,3 @@ class OSSPasswords extends CRMEntity {
 		}
  	}
 }
-?>

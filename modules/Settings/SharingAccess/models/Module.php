@@ -148,7 +148,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 	 * Function recalculate the sharing rules
 	 */
 	public static function recalculateSharingRules() {
-		set_time_limit(vglobal('php_max_execution_time'));
+		$php_max_execution_time = vglobal('php_max_execution_time');
+		set_time_limit($php_max_execution_time);
 		$db = PearDatabase::getInstance();
 
 		require_once('modules/Users/CreateUserPrivilegeFile.php');

@@ -511,5 +511,3 @@ class Invoice extends CRMEntity {
 	}
 
 }
-
-?>

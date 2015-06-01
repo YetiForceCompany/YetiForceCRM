@@ -1636,12 +1636,12 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	$em = new VTEventsManager($adb);
 	$em->initTriggerCache();
 	if(!is_array($destinationRecordIds)) $destinationRecordIds = Array($destinationRecordIds);
+	$data = array();
+	$data['focus'] = $focus;
+	$data['sourceModule'] = $sourceModule;
+	$data['sourceRecordId'] = $sourceRecordId;
+	$data['destinationModule'] = $destinationModule;
 	foreach($destinationRecordIds as $destinationRecordId) {
-		$data = array();
-		$data['focus'] = $focus;
-		$data['sourceModule'] = $sourceModule;
-		$data['sourceRecordId'] = $sourceRecordId;
-		$data['destinationModule'] = $destinationModule;
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.link.before', $data);
 		

@@ -1855,4 +1855,3 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$irelcriteriagroupresult = $adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
 	}
 }
-?>

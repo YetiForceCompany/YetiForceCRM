@@ -31,7 +31,6 @@
 			{if $PROCEED}
 				<div class="row-fluid">
 					<div class='span1'>
-						
 						{if vimage_path($MOD_NAME|cat:'.png')}
 							<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 						{else}

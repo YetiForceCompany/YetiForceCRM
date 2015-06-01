@@ -465,4 +465,3 @@ class Assets extends CRMEntity {
 		$log->debug("Exiting transferRelatedRecords...");
 	}
 }
-?>

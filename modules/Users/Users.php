@@ -924,7 +924,8 @@ class Users extends CRMEntity {
                 $languageList = Vtiger_Language::getAll();
                 $languageList = array_keys($languageList);
                 if(!in_array($fldvalue, $languageList) || $fldvalue == '') {
-                    if(!empty(vglobal('default_language')) && in_array(vglobal('default_language'), $languageList)) {
+					$default_language = vglobal('default_language');
+                    if(!empty($default_language) && in_array($default_language, $languageList)) {
                         $fldvalue = vglobal('default_language');
                     } else {
                         $fldvalue = $languageList[0];

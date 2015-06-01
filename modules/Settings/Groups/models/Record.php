@@ -180,7 +180,8 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model {
 	 * @param <Array> $oldUsersList
 	 */
 	public function recalculate($oldUsersList) {
-		set_time_limit(vglobal('php_max_execution_time'));
+		$php_max_execution_time = vglobal('php_max_execution_time');
+		set_time_limit($php_max_execution_time);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
 		$userIdsList = array();

@@ -180,4 +180,3 @@ class OutsourcedProducts extends Vtiger_CRMEntity {
 		$log->debug("Exiting transferRelatedRecords...");
 	}
 }
-?>

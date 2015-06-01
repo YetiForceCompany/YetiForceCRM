@@ -1337,5 +1337,3 @@ function get_contactsforol($user_name)
 		return $list_buttons;
 	}
 }
-
-?>
