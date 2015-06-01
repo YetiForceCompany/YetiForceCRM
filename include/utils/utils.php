@@ -1606,24 +1606,24 @@ function getRelationTables($module,$secmodule){
 function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
 	$adb = PearDatabase::getInstance(); $log = vglobal('log');
 	$log->debug("Entering DeleteEntity method ($module, $return_module, $record, $return_id)");
-	require_once("include/events/include.inc");
-	$em = new VTEventsManager($adb);
-	$em->initTriggerCache();
-	$entityData = VTEntityData::fromEntityId($adb, $record);
-	$em->triggerEvent("vtiger.entity.beforeunlink", $entityData);
-
+	require_once('include/events/include.inc');
 	if ($module != $return_module && !empty($return_module) && !empty($return_id)) {
+		$em = new VTEventsManager($adb);
+		$em->initTriggerCache();
+		$entityData = VTEntityData::fromEntityId($adb, $record);
+		$em->triggerEvent('vtiger.entity.unlink.before', $entityData);
+
 		$focus->unlinkRelationship($record, $return_module, $return_id);
 		$focus->trackUnLinkedInfo($return_module, $return_id, $module, $record);
+		
+		if($em){
+			$entityData = VTEntityData::fromEntityId($adb, $record);
+			$em->triggerEvent('vtiger.entity.unlink.after', $entityData);
+		}
 	} else {
 		$focus->trash($module, $record);
 	}
-
-	if($em){
-		$entityData = VTEntityData::fromEntityId($adb, $record);
-		$em->triggerEvent("vtiger.entity.afterunlink", $entityData);
-	}
-	$log->debug("Exiting DeleteEntity method ...");
+	$log->debug('Exiting DeleteEntity method ...');
 }
 
 /**
