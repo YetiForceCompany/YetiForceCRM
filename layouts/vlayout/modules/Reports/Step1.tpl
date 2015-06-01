@@ -27,7 +27,7 @@
 				<div class="row-fluid padding1per">
 					<span class="span3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></span>
 					<span class="span7 row-fluid">
-						<select class="chzn-select span6" name="folderid">
+						<select class="chzn-select span6" name="folderid" title="{vtranslate('LBL_REPORT_FOLDER',$MODULE)}">
 							<optgroup>
 
 								{foreach item=REPORT_FOLDER from=$REPORT_FOLDERS}
