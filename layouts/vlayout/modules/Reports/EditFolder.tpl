@@ -28,7 +28,7 @@
 				<div class="row-fluid">
 					<span class="span4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
 					<span class="span7 row-fluid">
-						<textarea class="span12" name="description" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
+						<textarea class="span12" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
 					</span>
 				</div>
 			</div>
