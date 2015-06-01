@@ -108,7 +108,13 @@
 	</td>
 	<td>
 		<div>
-			<input id="{$listPrice}" name="{$listPrice}" value="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
+			{if !empty($data.$listPrice)}
+				{assign var="LIST_PRICE_VALUE" value=$data.$listPrice}
+				{$data.$listPrice}
+			{else}
+				{assign var="LIST_PRICE_VALUE" value=0}
+			{/if}
+			<input id="{$listPrice}" name="{$listPrice}" value="{LIST_PRICE_VALUE}" title="{$LIST_PRICE_VALUE}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
 		</div>
 		<div>
 			<span>
