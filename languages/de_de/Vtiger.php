@@ -812,6 +812,9 @@ $languageStrings = [
 	'LBL_SELECT_FILE' => 'Select file to upload',
 	'LBL_ENABLE_CURRENCY' => 'Currency enable',
 	'LBL_DISABLE_CURRENCY' => 'Currency disable',
+	'LBL_SELECT_ALL_CURRENTPAGE' => 'Select all records on current page',
+	'LBL_SELECT_RECORD' => 'Select record',
+	'LBL_SELECT_RELATED_FIELD' => 'Select related module field',
 	/* industry */
 	'Administration'=>'Verwaltung',
 	'Construction Industry'=>'Baubranche',

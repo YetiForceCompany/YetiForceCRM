@@ -467,6 +467,7 @@ $languageStrings = [
 	'Content' => 'Conteúdo',
 	'Field' => 'Campo',
 	'Label' => 'Rótulo',
+	'LBL_SELECT_DATE_TYPE' => 'Select date type',
 ];
 
 $jsLanguageStrings = [
@@ -540,3 +541,4 @@ $jsLanguageStrings = [
     'Current date (yyyy-mm-dd)' => 'Data atual (yyyy-mm-dd)',
         //
 ];
+

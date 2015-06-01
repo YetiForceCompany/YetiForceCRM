@@ -42,7 +42,7 @@
 			<tr class="listViewHeaders">
 				{if $MULTI_SELECT}
 				<th class="{$WIDTHTYPE}">
-					<input type="checkbox"  class="selectAllInCurrentPage" />
+					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
 				</th>
 				{/if}
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -73,7 +73,7 @@
 			{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 			{if $MULTI_SELECT}
 			<td class="{$WIDTHTYPE}">
-				<input class="entryCheckBox" type="checkbox" />
+				<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
 			</td>
 			{/if}
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
