@@ -96,5 +96,5 @@
 		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0.00{/if}</div>
 	</td>
 	<td>
-		<div style="width: 450px;"><textarea id="{$comment}" name="{$comment}" title="{vtranslate('LBL_COMMENT_AREA', $MODULE)}" class="lineItemCommentBox {if $row_no neq 0}ckEditorSource{/if} ckEditorBasic ckEditorSmall">{$data.$comment}</textarea></div>
+		<div style="width: 450px;"><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox {if $row_no neq 0}ckEditorSource{/if} ckEditorBasic ckEditorSmall">{$data.$comment}</textarea></div>
 	</td>	

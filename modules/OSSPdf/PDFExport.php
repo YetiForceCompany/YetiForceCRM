@@ -23,7 +23,7 @@ require_once('modules/OSSPdf/ModulesQueries.php');
 global $allow_exports, $app_strings, $adb, $current_user;
 $current_language = vglobal('current_language');
 if (!isset($current_language))
-    $current_language = vglobal('default_language');
+	$current_language = vglobal('default_language');
 session_start();
 $current_user = new Users();
 if (isset($_SESSION['authenticated_user_id'])) {

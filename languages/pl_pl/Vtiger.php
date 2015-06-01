@@ -732,7 +732,9 @@ $languageStrings = [
 	'LBL_COMAPARATOR_TYPE' => 'Rodzaj porównania',
 	'LBL_FILTER_NAME' => 'Nazwa filtru',
 	'Leads by Status Converted' => 'Leady skonwertowane według statusu',
-	
+	'LBL_API_ADDRESS' => 'Wyszukiwarka adresów',
+	'LBL_CREATE_PDF' => 'Utwórz pdf',
+	'LBL_CREATE_PDF_SEND_MAIL' => 'Utwórz pdf i wyślij go e-mailem',
 	/* industry */
 	'Administration'=>'Administracja',
 	'Construction Industry'=>'Budownictwo',

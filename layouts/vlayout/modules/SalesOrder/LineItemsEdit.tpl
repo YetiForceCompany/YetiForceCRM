@@ -44,7 +44,7 @@
                         {/foreach}
                     {/if}
 
-                    <select class="chzn-select" id="currency_id" name="currency_id" style="width: 164px;">
+                    <select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
                         {foreach item=currency_details key=count from=$CURRENCIES}
                             <option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
                                 {$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
@@ -67,7 +67,7 @@
                     <div class="inventoryLineItemHeader">
                         <span class="alignTop">{vtranslate('LBL_TAX_MODE', $MODULE)}</span>
                     </div>
-                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" style="width: 164px;">
+                    <select class="chzn-select lineItemTax" id="taxtype" name="taxtype" title="{vtranslate('LBL_TAX_MODE', $MODULE)}" style="width: 164px;">
                         <OPTION value="individual" {if $IS_INDIVIDUAL_TAX_TYPE}selected{/if}>{vtranslate('LBL_INDIVIDUAL', $MODULE)}</OPTION>
                         <OPTION value="group" {if $IS_GROUP_TAX_TYPE}selected{/if}>{vtranslate('LBL_GROUP', $MODULE)}</OPTION>
                     </select>
@@ -75,14 +75,14 @@
             </th>
         </tr>
         <tr>
-            <td><b>{vtranslate('LBL_TOOLS',$MODULE)}</b></td>
-            <td><span class="redColor">*</span><b>{vtranslate('LBL_ITEM_NAME',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_QTY',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_UNIT',$MODULE)}</b></td>
-            <td><b>{vtranslate('LBL_LIST_PRICE',$MODULE)}</b></td>
-            <td><b class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</b></td>
-            <td><b class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</b></td>
-			<td><b class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</b></td>
+            <td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
+            <td><span class="redColor">*</span><strong>{vtranslate('LBL_ITEM_NAME',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_QTY',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
+            <td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>
+            <td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
+            <td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
+			<td><strong class="pull-right">{vtranslate('SINGLE_Calculations','Calculations')}</strong></td>
         </tr>
         <tr id="row0" class="hide lineItemCloneCopy">
             {include file="LineItemsContent.tpl"|@vtemplate_path:$MODULE row_no=0 data=[]}
@@ -107,25 +107,25 @@
                 <div class="btn-toolbar">
                     <span class="btn-group">
                         <button type="button" class="btn addButton" id="addProduct">
-                            <i class="icon-plus"></i><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                            <span class="icon-plus"></span><strong>{vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                         </button>
                     </span>
                     <span class="btn-group">
                         <button type="button" class="btn addButton" id="addService">
-                            <i class="icon-plus"></i><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                            <span class="icon-plus"></span><strong>{vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                         </button>
                     </span>
                 </div>
             {elseif $PRODUCT_ACTIVE eq 'true'}
                 <div class="btn-group">
                     <button type="button" class="btn addButton" id="addProduct">
-                        <i class="icon-plus"></i><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
+                        <span class="icon-plus"></span><strong> {vtranslate('LBL_ADD_PRODUCT',$MODULE)}</strong>
                     </button>
                 </div>
             {elseif $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-group">
                     <button type="button" class="btn addButton" id="addService">
-                        <i class="icon-plus icon-white"></i><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
+                        <span class="icon-plus icon-white"></span><strong> {vtranslate('LBL_ADD_SERVICE',$MODULE)}</strong>
                     </button>
                 </div>
             {/if}
@@ -135,7 +135,7 @@
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
-					<b>{vtranslate('Total Purchase',$MODULE)}</b>
+					<strong>{vtranslate('Total Purchase',$MODULE)}</strong>
 				</div>
 			</td>
 			<td>
@@ -152,7 +152,7 @@
         </tr>
         <tr>
             <td width="83%">
-                <span class="pull-right">(-)&nbsp;<b><a href="javascript:void(0)"  id="finalDiscount">{vtranslate('LBL_TOTAL_DISCOUNT',$MODULE)}</a></b></span>
+                <span class="pull-right">(-)&nbsp;<strong><a href="javascript:void(0)"  id="finalDiscount">{vtranslate('LBL_TOTAL_DISCOUNT',$MODULE)}</a></strong></span>
             </td>
             <td>
                 <span id="discountTotal_final" class="pull-right discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0.00{/if}</span>
@@ -167,7 +167,7 @@
                     <table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
                         <thead>
                             <tr>
-                                <th id="discount_div_title_final"><b>{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)}:{$data.$productTotal}</b></th>
+                                <th id="discount_div_title_final"><strong>{vtranslate('LBL_SET_DISCOUNT_FOR',$MODULE)}:{$data.$productTotal}</strong></th>
                                 <th>
                                     <button type="button" class="close closeDiv">x</button>
                                 </th>
@@ -203,7 +203,7 @@
         </tr>
 		<tr>
 			<td width="83%">
-				<span class="pull-right"><b>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE_NAME)} </b></span>
+				<span class="pull-right"><strong>{vtranslate('LBL_PRE_TAX_TOTAL', $MODULE_NAME)} </strong></span>
 			</td>
 			<td>
 				{assign var=PRE_TAX_TOTAL value=$FINAL.preTaxTotal}
@@ -214,7 +214,7 @@
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
-					<b>{vtranslate('Total margin',$MODULE)}</b>
+					<strong>{vtranslate('Total margin',$MODULE)}</strong>
 				</div>
 			</td>
 			<td>
@@ -224,7 +224,7 @@
 		<tr valign="top">
 			<td width="83%" >
 				<div class="pull-right">
-					<b>{vtranslate('Total margin Percentage',$MODULE)}</b>
+					<strong>{vtranslate('Total margin Percentage',$MODULE)}</strong>
 				</div>
 			</td>
 			<td>
@@ -234,7 +234,7 @@
 		<!-- Group Tax - starts -->
         <tr id="group_tax_row" valign="top" class="{if $IS_INDIVIDUAL_TAX_TYPE}hide{/if}">
             <td width="83%">
-                <span class="pull-right">(+)&nbsp;<b><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></b></span>
+                <span class="pull-right">(+)&nbsp;<strong><a href="javascript:void(0)" id="finalTax">{vtranslate('LBL_TAX',$MODULE)}</a></strong></span>
                 <!-- Pop Div For Group TAX -->
                 <div class="hide finalTaxUI validCheck" id="group_tax_div">
                     <table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable">
@@ -254,7 +254,7 @@
                                 </td>
                                 <td align="center" class="lineOnTop"><div class="textOverflowEllipsis">{$tax_detail.taxlabel}</div></td>
                                 <td align="right" class="lineOnTop">
-                                    <input type="text" size="6" name="{$tax_detail.taxname}_group_amount" id="group_tax_amount{$smarty.foreach.group_tax_loop.iteration}" style="cursor:pointer;" value="{$tax_detail.amount}" readonly class="cursorPointer smallInputBox groupTaxTotal" />
+                                    <input type="text" size="6" name="{$tax_detail.taxname}_group_amount" id="group_tax_amount{$smarty.foreach.group_tax_loop.iteration}" style="cursor:pointer;" value="{$tax_detail.amount}" title="{$tax_detail.amount}" readonly class="cursorPointer smallInputBox groupTaxTotal" />
                                 </td>
                             </tr>
                         {/foreach}
@@ -273,7 +273,7 @@
         </tr>
         <tr valign="top">
             <td  width="83%">
-                <span class="pull-right"><b>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</b></span>
+                <span class="pull-right"><strong>{vtranslate('LBL_GRAND_TOTAL',$MODULE)}</strong></span>
             </td>
             <td>
                 <span id="grandTotal" name="grandTotal" class="pull-right grandTotal">{$FINAL.grandTotal}</span>
@@ -284,17 +284,17 @@
                 <td width="83%" >
                     <div class="pull-right">
                         {if $MODULE eq 'Invoice'}
-                            <b>{vtranslate('LBL_RECEIVED',$MODULE)}</b>
+                            <strong>{vtranslate('LBL_RECEIVED',$MODULE)}</strong>
                         {else}
-                            <b>{vtranslate('LBL_PAID',$MODULE)}</b>
+                            <strong>{vtranslate('LBL_PAID',$MODULE)}</strong>
                         {/if}
                     </div>
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}"></span>
+                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('received')}{else}0.00{/if}"></span>
                     {else}
-                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}"></span>
+                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{$RECORD->getDisplayValue('paid')}{else}0.00{/if}"></span>
                     {/if}
                 </td>
             </tr>

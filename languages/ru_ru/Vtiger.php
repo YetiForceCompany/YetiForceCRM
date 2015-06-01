@@ -1148,6 +1148,9 @@ $languageStrings = [
 	'LBL_RELATED_MODULE_TYPE' => 'Тип связанного модуля',
 	'LBL_DUPLICATE_RECORD' => 'Повторяющиеся записи',
 	'LBL_DELETE_RECORD' => 'Удалить запись',
+	'LBL_API_ADDRESS' => 'Поиск адресов',
+	'LBL_CREATE_PDF' => 'Create pdf',
+	'LBL_CREATE_PDF_SEND_MAIL' => 'Create pdf and email it',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
