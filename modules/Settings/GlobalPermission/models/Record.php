@@ -41,7 +41,8 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		self::recalculate();
 	}
 	public function recalculate() {
-		set_time_limit(vglobal('php_max_execution_time'));
+		$php_max_execution_time = vglobal('php_max_execution_time');
+		set_time_limit($php_max_execution_time);
 		vimport('~~modules/Users/CreateUserPrivilegeFile.php');
 		$userIdsList = Settings_Profiles_Record_Model::getUsersList(true);
 		if ($userIdsList) {

@@ -19,7 +19,8 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	}
 
 	public function process(Vtiger_Request $request) {
-		if(vglobal('systemMode') == 'demo'){
+		$systemMode = vglobal('systemMode');
+		if($systemMode == 'demo'){
 			die( Vtiger_Functions::throwNewException('Demo mode is enabled, the installation of modules is disabled') );
 		}
 		

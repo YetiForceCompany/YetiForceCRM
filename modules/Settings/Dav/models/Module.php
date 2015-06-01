@@ -68,7 +68,8 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name =  $user->get('user_name');
-		Vtiger_Functions::recurseDelete(vglobal('davStorageDir') . '/' . $user_name);
+		$davStorageDir = vglobal('davStorageDir');
+		Vtiger_Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
 	public function getTypes() {
@@ -82,7 +83,8 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model {
 		$path = '/' . $user_name . '/';
 		$dirHash = sha1($path);
 		$parent_dirid = 0;
-		@mkdir(vglobal('davStorageDir') . $path);
+		$davStorageDir = vglobal('davStorageDir');
+		@mkdir($davStorageDir . $path);
 		
 		//$adb->pquery('INSERT INTO vtiger_files_dir (name,path,parent_dirid,hash,mtime,userid) VALUES (?,?,?,?, NOW(),?);', 
 		//	array($user_name, $path, $parent_dirid, $dirHash, $params['user']));

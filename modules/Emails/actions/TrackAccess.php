@@ -29,7 +29,8 @@ vimport ('include.runtime.Controller');
 class Emails_TrackAccess_Action extends Vtiger_Action_Controller {
 
 	public function process(Vtiger_Request $request) {
-		if (vglobal('application_unique_key') !== $request->get('applicationKey')) {
+		$application_unique_key = vglobal('application_unique_key');
+		if ($application_unique_key !== $request->get('applicationKey')) {
 			exit;
 		}
 

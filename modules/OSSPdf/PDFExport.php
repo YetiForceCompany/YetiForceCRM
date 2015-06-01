@@ -21,7 +21,8 @@ require_once('modules/OSSPdf/ModulesQueries.php');
 // Set the current language and the language strings, if not already set.
 //setCurrentLanguage();
 global $allow_exports, $app_strings, $adb, $current_user;
-if (!isset(vglobal('current_language')))
+$current_language = vglobal('current_language');
+if (!isset($current_language))
     $current_language = vglobal('default_language');
 session_start();
 $current_user = new Users();
