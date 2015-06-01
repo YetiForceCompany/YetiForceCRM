@@ -80,7 +80,7 @@
 								<div class='row-fluid alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
-											<i class="icon-info-sign"></i>&nbsp;&nbsp;
+											<span class="icon-info-sign"></span>&nbsp;&nbsp;
 											{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
 										<br>
