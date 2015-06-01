@@ -77,4 +77,6 @@ $languageStrings = [
 	'Skip'			       => 'Überspringen',
 	'Overwrite'			=> 'Überschreiben',
 	'Merge'				=> 'Zusammenführen',
+	'LBL_SELECT_FILE' => 'Select file to import',
 ];
+

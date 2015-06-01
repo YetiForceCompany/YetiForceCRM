@@ -79,5 +79,7 @@ $languageStrings = [
 	'LBL_DETAILS' => 'Szczegóły',
 	'skipped' => 'Pominięte rekordy',
 	'failed' => 'Niepoprawne rekordy',
+	'LBL_SELECT_FILE' => 'Wybierz plik do zaimportowania',
 	
 ];
+
