@@ -31,7 +31,11 @@
 			{if $PROCEED}
 				<div class="row-fluid">
 					<div class='span1'>
-						<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+						{if vimage_path($MOD_NAME|cat:'.png')}
+							<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+						{else}
+							{$TRANSLATED_MODULE_NAME}
+						{/if}
 					</div>
 					<div class="span11">
 					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$TIME")}</small></p>
