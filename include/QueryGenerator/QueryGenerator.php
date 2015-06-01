@@ -715,10 +715,10 @@ class QueryGenerator {
 								if(isset($moduleTableIndexList[$referenceTable])) {
 									$referenceTable = "$referenceTable$fieldName";
 								}
-								$columnList[] = "$referenceTable.$column";
+								$columnList[$column] = "$referenceTable.$column";
 							}
 							if(count($columnList) > 1) {
-								$columnSql = getSqlForNameInDisplayFormat(array('first_name'=>$columnList[0],'last_name'=>$columnList[1]),'Users');
+								$columnSql = getSqlForNameInDisplayFormat($columnList,$module);
 							} else {
 								$columnSql = implode('', $columnList);
 							}
