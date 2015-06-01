@@ -18,7 +18,11 @@ class ModTrackerHandler extends VTEventHandler {
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
 		$current_module = vglobal('current_module');
-		$moduleName = $data->getModuleName();
+		if ($eventName == 'vtiger.entity.link.after' || $eventName == 'vtiger.entity.unlink.after') {
+			$moduleName = $data['sourceModule'];
+		}else{
+			$moduleName = $data->getModuleName();
+		}
 
 		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
 
