@@ -1387,6 +1387,10 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			$relatedListFields = $relationModel->getRelationFields(true,true);
 		if(count($relatedListFields) == 0) {
 			$relatedListFields = $relatedModule->getConfigureRelatedListFields();
+			if ($relatedModuleName == 'Documents') {
+				$relatedListFields['filelocationtype'] = 'filelocationtype';
+				$relatedListFields['filestatus'] = 'filestatus';
+			}
 		}
 		if(count($relatedListFields) > 0) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();

@@ -439,6 +439,11 @@ class Vtiger_Util_Helper {
 
 		$date = $dateTimeField->getDisplayDate($userModel);
 		$time = $dateTimeField->getDisplayTime($userModel);
+		
+		//Convert time to user preferred value
+		if($userModel->get('hour_format') == '12'){
+				$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
+		}
 		return $date . ' ' .$time;
 	}
 
@@ -517,24 +522,27 @@ class Vtiger_Util_Helper {
             $groupColumnsInfo = array();
             $groupConditionGlue = $glueOrder[$groupIterator];
             foreach($groupInfo as $fieldSearchInfo){
-                   $advFilterFieldInfoFormat = array();
-                   $fieldName = $fieldSearchInfo[0];
-                   $operator = $fieldSearchInfo[1];
-                   $fieldValue = $fieldSearchInfo[2];
-                   $specialOption = $fieldSearchInfo[3];
-                   $fieldInfo = $moduleModel->getField($fieldName);
+				$advFilterFieldInfoFormat = array();
+				$fieldName = $fieldSearchInfo[0];
+				$operator = $fieldSearchInfo[1];
+				$fieldValue = $fieldSearchInfo[2];
+				$specialOption = $fieldSearchInfo[3];
+				$fieldInfo = $moduleModel->getField($fieldName);
 
-				   if($fieldInfo->getFieldDataType() == "tree" && $specialOption){
-					   $fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue,$fieldName,$moduleModel);
-				   }
-                   //Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
- 		            //Database format
+				if ($fieldInfo->getFieldDataType() == "tree" && $specialOption) {
+					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
+				}
+				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
+				//Database format
 
-                    if($fieldInfo->getFieldDataType() == "time") {
- 		                $fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
- 		            }
+				if ($fieldInfo->getFieldDataType() == "time") {
+					$fieldValue = Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+				}
+				if ($fieldInfo->getFieldDataType() == 'currency') {
+					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
+				}
 
-                    if($fieldName == 'date_start' || $fieldName == 'due_date' || $fieldInfo->getFieldDataType() == "datetime" ) {
+				if($fieldName == 'date_start' || $fieldName == 'due_date' || $fieldInfo->getFieldDataType() == "datetime" ) {
 	 	                $dateValues = explode(',', $fieldValue);
 	 	                //Indicate whether it is fist date in the between condition
      	                $isFirstDate = true;

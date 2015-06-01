@@ -118,6 +118,18 @@ class VTJsonCondition {
 
 		$condition = $cond['operation'];
 		if(empty($condition)) return false;
+          if ($cond['fieldname'] == 'date_start' || $cond['fieldname'] == 'due_date') {
+			$fieldName = $cond['fieldname'];
+			$dateTimePair = array('date_start' => 'time_start', 'due_date' => 'time_end');
+			if (array_key_exists($dateTimePair[$fieldName], $data)) {
+				$fieldValue = $data[$fieldName] . " " . $data[$dateTimePair[$fieldName]];
+			} else {
+				$fieldValue = $data[$fieldName];
+			}
+			$rawFieldValue = $fieldValue;
+		} else {
+			$fieldValue = $data[$cond['fieldname']];
+		}
 
 		$fieldValue = $data[$cond['fieldname']];
 		$value = trim(html_entity_decode($cond['value']));
@@ -150,12 +162,13 @@ class VTJsonCondition {
 
 		if($fieldInstance && $fieldInstance->getFieldDataType() == 'datetime') {
 			//Convert the DB Date Time Format to User Date Time Format
+			$rawFieldValue = $fieldValue;
 			$date = new DateTimeField($fieldValue);
 			$fieldValue = $date->getDisplayDateTimeValue();
 			$valueArray = explode(' ', $value);
 			if(count($valueArray) == 1) {
 				$fieldValueArray = explode(' ', $fieldValue);
-				$fieldValue = $fieldValueArray[0];
+				$fieldValue = getValidDBInsertDateValue($fieldValueArray[0]);
 			}
 		}
 		//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.
@@ -342,42 +355,42 @@ class VTJsonCondition {
 				return false;
 
 			case 'less than hours before':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
 				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($olderDateTime <= $fieldValue && $fieldValue <= $currentTime) {
+				if($olderDateTime <= $rawFieldValue && $rawFieldValue <= $currentTime) {
 					return true;
 				}
 				return false;
 
 			case 'less than hours later':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$currentTime = date('Y-m-d H:i:s');
 				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($currentTime <= $fieldValue && $fieldValue <= $futureDateTime) {
+				if($currentTime <= $rawFieldValue && $rawFieldValue <= $futureDateTime) {
 					return true;
 				}
 				return false;
 
 			case 'more than hours before':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$olderDateTime = date('Y-m-d H:i:s', strtotime('-'.$value.' hours'));
-				if($fieldValue <= $olderDateTime) {
+				if($rawFieldValue <= $olderDateTime) {
 					return true;
 				}
 				return false;
 			case 'more than hours later':
-				if(empty($fieldValue) || empty($value)) {
+				if(empty($rawFieldValue) || empty($value)) {
 					return false;
 				}
 				$futureDateTime = date('Y-m-d H:i:s', strtotime('+'.$value.' hours'));
-				if($fieldValue >= $futureDateTime) {
+				if($rawFieldValue >= $futureDateTime) {
 					return true;
 				}
 				return false;
