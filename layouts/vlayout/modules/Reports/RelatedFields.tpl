@@ -12,7 +12,7 @@
 {strip}
 	<span class="span6">
 		<div class="row-fluid">
-			<select class="chzn-select span11 selectedSortFields">
+			<select class="chzn-select span11 selectedSortFields" title="{vtranslate('LBL_GROUP_BY',$MODULE)}">
 				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 				{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 					{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
@@ -39,8 +39,8 @@
 		<div class="row-fluid">
 			<span class="span6">
 				{assign var=ROW value='row_'|cat:$ROW_VAL}
-				<input style='margin:5px;' type="radio" name="{$ROW}" class="sortOrder" value="Ascending" {if $SELECTED_SORT_FIELD_VALUE eq Ascending} checked="" {/if} />&nbsp;<span>{vtranslate('LBL_ASCENDING',$MODULE)}</span>&nbsp;&nbsp;
-				<input style='margin:5px;'type="radio" name="{$ROW}" class="sortOrder" value="Descending" {if $SELECTED_SORT_FIELD_VALUE eq Descending} checked="" {/if}/>&nbsp;<span>{vtranslate('LBL_DESCENDING',$MODULE)}</span>
+				<input style='margin:5px;' type="radio" name="{$ROW}" class="sortOrder" value="Ascending" {if $SELECTED_SORT_FIELD_VALUE eq Ascending} checked="" {/if} title="{vtranslate('LBL_ASCENDING',$MODULE)}" />&nbsp;<span>{vtranslate('LBL_ASCENDING',$MODULE)}</span>&nbsp;&nbsp;
+				<input style='margin:5px;'type="radio" name="{$ROW}" class="sortOrder" value="Descending" {if $SELECTED_SORT_FIELD_VALUE eq Descending} checked="" {/if} title="{vtranslate('LBL_DESCENDING',$MODULE)}" />&nbsp;<span>{vtranslate('LBL_DESCENDING',$MODULE)}</span>
 			</span>
 	</div>
 	</span>
