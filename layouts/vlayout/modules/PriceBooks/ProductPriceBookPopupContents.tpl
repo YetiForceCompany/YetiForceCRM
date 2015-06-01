@@ -28,7 +28,7 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th class="{$WIDTHTYPE}">
-						<input type="checkbox"  class="selectAllInCurrentPage" />
+						<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}"  class="selectAllInCurrentPage" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th class="{$WIDTHTYPE}">
@@ -44,7 +44,7 @@
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-currency='{$LISTVIEW_ENTRY->get('currency_id')}'
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if} id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 				<td class="{$WIDTHTYPE}">
-					<input class="entryCheckBox" type="checkbox" />
+					<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

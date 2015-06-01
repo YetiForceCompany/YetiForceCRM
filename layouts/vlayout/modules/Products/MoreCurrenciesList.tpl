@@ -20,11 +20,11 @@
 		<div class="modal-body">
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-bordered">
 				<tr class="detailedViewHeader">
-					<td><b>{vtranslate('LBL_CURRENCY',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_PRICE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_CONVERSION_RATE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_RESET_PRICE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_BASE_CURRENCY',$MODULE)}</b></td>
+					<td><strong>{vtranslate('LBL_CURRENCY',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_PRICE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_CONVERSION_RATE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_RESET_PRICE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_BASE_CURRENCY',$MODULE)}</strong></td>
 				</tr>
 				{foreach item=price key=count from=$PRICE_DETAILS}
 					<tr data-currency-id={$price.curname}>
@@ -51,7 +51,7 @@
 						</td>
 						<td>
 							<div class="row">
-								<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+								<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 							</div>
 						</td>
 						<td>

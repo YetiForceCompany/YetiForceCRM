@@ -18,9 +18,8 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 			$recordId = $entityData->getId();
 			$vtEntityDelta = new VTEntityDelta();
 			$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-			$shownerids = $recordModel->get('shownerid');
-			$inheritsharing = $recordModel->get('inheritsharing');
+			$shownerids = $entityData->get('shownerid');
+			$inheritsharing = $entityData->get('inheritsharing');
 			if(array_key_exists("shownerid", $delta)){
 				$usersUpadated = TRUE;
 				$oldValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['oldValue']);
@@ -29,7 +28,6 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 				$removeUser = array_diff($oldValue, $currentValue);
 			}else{
 				$usersUpadated = FALSE;
-				$addUsers = explode(',', $shownerids);
 			}
 			$updateRelatedRecords = TRUE;
 			if(array_key_exists("inheritsharing", $delta)){
@@ -41,7 +39,7 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 				}
 			}else{
 				$inheritsharingUpdated = FALSE;
-				$inheritsharing = $recordModel->get('inheritsharing');
+				$inheritsharing = $entityData->get('inheritsharing');
 				if(!$inheritsharing)
 					$updateRelatedRecords = FALSE;
 			}

@@ -23,12 +23,12 @@
 			<div class="modal-body">
 				<div class="row verticalBottomSpacing">
 					<span class="col-md-4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" name="foldername" class="col-md-12" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
+					<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{vtranslate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="col-md-12" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
 				</div>
 				<div class="row">
 					<span class="col-md-4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
 					<span class="col-md-7 row">
-						<textarea class="col-md-12" name="description" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
+						<textarea class="col-md-12" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
 					</span>
 				</div>
 			</div>

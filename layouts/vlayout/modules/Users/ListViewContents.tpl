@@ -102,7 +102,7 @@
 			<td  width="2%" class="{$WIDTHTYPE}">
 				<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
 				{if $LISTVIEW_ENTRY->PermissionsToEditView eq true}
-					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox"/>
+					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 				{/if}
 			</td>
 			<td width="5%" class="{$WIDTHTYPE}">

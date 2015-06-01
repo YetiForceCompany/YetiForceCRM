@@ -58,9 +58,10 @@ foreach ($cronTasks as $cronTask) {
 
 	$output [] = $out;
 }
+$current_language = vglobal('current_language');
 
 $smarty->assign("CRON",$output);
-$smarty->assign("MOD", return_module_language(vglobal('current_language'),'CronTasks'));
+$smarty->assign("MOD", return_module_language($current_language,'CronTasks'));
 $smarty->assign("MIN_CRON_FREQUENCY",getMinimumCronFrequency());
 $smarty->assign("THEME", $theme);
 $smarty->assign("IMAGE_PATH",$image_path);

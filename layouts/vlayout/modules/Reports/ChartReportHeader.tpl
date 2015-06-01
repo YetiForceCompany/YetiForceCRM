@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-		<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></i>
+		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 	</div>
     <div class="container">
         <div class="row reportsDetailHeader">
@@ -27,7 +27,7 @@
                             <div class="btn-group">
                                 <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </div>
                         {/if}
@@ -101,7 +101,7 @@
 							{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 							<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
 								<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-								<i class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} icon-chevron-down {/if}"></i>
+								<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} icon-chevron-down {/if}"></span>
 							</button>
 						</div>
 						<br>

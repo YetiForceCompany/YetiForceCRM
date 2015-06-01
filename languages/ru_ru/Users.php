@@ -316,6 +316,7 @@ $languageStrings = [
 	
 	'LBL_GENERATED_COLOR' => 'Генерировать цвет',
 	'LBL_SAVE_COLOR' => 'Сохранить цвет',
+	'LBL_EMAIL' => 'e-mail',
 ];
 
 $jsLanguageStrings = [
@@ -329,3 +330,4 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD'=>'Указан неверно старый пароль. Введите пароль повторно.',
 	'JS_REENTER_PASSWORDS'=>'Пожалуйста, введите пароли заново. Значения полей \"Новый пароль\" и \"Подтверждение пароля\" не совпадают.',
 ];
+

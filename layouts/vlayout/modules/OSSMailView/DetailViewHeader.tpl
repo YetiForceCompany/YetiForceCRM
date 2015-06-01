@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -63,11 +63,11 @@ function printMail(){
 							</span>
 							<span class="btn-group">
 								<a style="padding: 4px 7px 1px 7px;" class="btn btn-default" href="index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply">
-									<i class="icon-share-alt" alt="{vtranslate('LBL_FORWARD','OSSMailView')}" title="{vtranslate('LBL_FORWARD','OSSMailView')}"></i>
+									<span class="icon-share-alt" alt="{vtranslate('LBL_FORWARD','OSSMailView')}" title="{vtranslate('LBL_FORWARD','OSSMailView')}"></span>
 								</a>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
 									<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT','OSSMailView')}" title="{vtranslate('LBL_PRINT','OSSMailView')}">
 								</button>
 							</span>
@@ -85,8 +85,8 @@ function printMail(){
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 							<span class="btn-group">
-								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
+								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
 									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
@@ -99,7 +99,7 @@ function printMail(){
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">
-									<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></i>&nbsp;&nbsp;<i class="caret"></i></button>
+									<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
 									<ul class="listViewSetting dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
@@ -108,8 +108,8 @@ function printMail(){
 								</span>
 							{/if}
 							<span class="btn-group">
-								<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><i class="glyphicon glyphicon-chevron-left"></i></button>
-								<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><i class="glyphicon glyphicon-chevron-right"></i></button>
+								<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
+								<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
 							</span>
 							</div>
 						</div>

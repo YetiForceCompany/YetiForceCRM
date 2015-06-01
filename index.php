@@ -17,7 +17,11 @@ include_once 'include/RequirementsValidation.php';
 include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
 include_once 'vtlib/Vtiger/Module.php';
-ini_set('session.save_path',vglobal('root_directory').'cache/session');
+$rootDirectory = vglobal('root_directory');
+if(empty($root_directory)){
+	$rootDirectory = dirname(__FILE__) . '/';
+}
+session_save_path($rootDirectory.'cache/session');
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));

@@ -363,8 +363,9 @@ class VTScheduledReport extends Reports {
 		$adminUser = $util->adminUser();
 
 		$currentModule = vglobal('currentModule');
+		$current_language = vglobal('current_language');
 		if(empty($currentModule)) $currentModule = 'Reports';
-		if(empty(vglobal('current_language'))) vglobal('current_language','en_us');
+		if(empty($current_language)) vglobal('current_language','en_us');
 
 		$scheduledReports = self::getScheduledReports($adb, $adminUser);
 		foreach($scheduledReports as $scheduledReport) {

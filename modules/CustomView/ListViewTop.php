@@ -57,8 +57,8 @@ function getKeyMetrics($maxval,$calCnt)
 	$adb = PearDatabase::getInstance();
 	$log = vglobal('log');
 	$metricviewnames = "'Hot Leads'";
-
-	$current_module_strings = return_module_language(vglobal('current_language'), "CustomView");
+	$current_language = vglobal('current_language');
+	$current_module_strings = return_module_language($current_language, "CustomView");
 	$log = LoggerManager::getLogger('metrics');
 
 	$metriclists = getMetricList();

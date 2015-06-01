@@ -88,14 +88,15 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 
 	function process (Vtiger_Request $request) {
 		Vtiger_Session::init();
-
-		if (vglobal('forceSSL') && !Vtiger_Functions::getBrowserInfo()->https) {
+		$forceSSL = vglobal('forceSSL');
+		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 		}
 
 		// Better place this here as session get initiated
-		//skipping the csrf checking for the forgot(reset) password 
-		if (vglobal('csrfProtection')) {
+		//skipping the csrf checking for the forgot(reset) password
+		$csrfProtection = vglobal('csrfProtection');
+		if ($csrfProtection) {
 			if ($request->get('mode') != 'reset' && $request->get('action') != 'Login')
 				require_once 'libraries/csrf-magic/csrf-magic.php';
 		}
@@ -163,7 +164,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 			$handler = new $handlerClass();
             if ($handler) {
                 vglobal('currentModule', $module);
-                if (vglobal('csrfProtection')) {
+				$csrfProtection = vglobal('csrfProtection');
+                if ($csrfProtection) {
 					// Ensure handler validates the request
 					$handler->validateRequest($request);
 				}

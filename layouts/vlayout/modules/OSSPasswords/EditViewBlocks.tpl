@@ -89,7 +89,7 @@
 								{/if}
 								<span class="pull-right">
 									{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-									<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:140px;">
+									<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" style="width:140px;">
 										<optgroup>
 											{foreach key=index item=value from=$REFERENCE_LIST}
 												<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>

@@ -70,7 +70,7 @@ $languageStrings = [
 	'LBL_REPORTS' => 'Lista raportów',
 	'LBL_RUN_REPORT' =>'Uruchom raport',
 	'LBL_SAME_LEVEL_ROLES' => 'Taki sam poziom Roli',
-	'LBL_SCHEDULE_REPORTS' => 'Hormonogram raportów',
+	'LBL_SCHEDULE_REPORTS' => 'Harmonogram raportów',
 	'LBL_SELECT_COLUMNS' => 'Wybierz kolumny',
 	'LBL_SELECTED_DATES' => 'Wybrane daty',
 	'LBL_SELECT_MONTH_AND_DAY' => 'Wybierz miesiąc i dzień',
@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Podaj opis',
 	'LBL_YEARLY' => 'Rocznie',
 	'LBL_MAIN' => 'Główny',
+	'LBL_SELECT_REPORT' => 'Wybierz raport',
 	
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wybierz rodzaj wykresu',

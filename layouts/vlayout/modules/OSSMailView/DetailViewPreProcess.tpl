@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -21,7 +21,7 @@
 		</div>
 		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-10 {else} col-md-12 {/if}marginLeftZero" id="centerPanel">
 			<div id="toggleButton" class="toggleButton" title="Left Panel Show/Hide"> 
-				<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></i>
+				<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 			</div>
 				{include file="DetailViewHeader.tpl"|vtemplate_path:'OSSMailView'}
 

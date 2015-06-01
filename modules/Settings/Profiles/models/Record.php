@@ -800,7 +800,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model {
 	 * Function recalculate the sharing rules
 	 */
 	public function recalculate() {
-		set_time_limit(vglobal('php_max_execution_time'));
+		$php_max_execution_time = vglobal('php_max_execution_time');
+		set_time_limit($php_max_execution_time);
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
 		$userIdsList = $this->getUsersList();

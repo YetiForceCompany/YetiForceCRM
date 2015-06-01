@@ -915,7 +915,8 @@ function update_ticket_comment($input_array)
 {
 	global $mod_strings; 
 	$adb = PearDatabase::getInstance();
-	$mod_strings = return_module_language(vglobal('current_language'), 'HelpDesk');
+	$current_language = vglobal('current_language');
+	$mod_strings = return_module_language($current_language, 'HelpDesk');
 	$adb->println("Inside customer portal function update_ticket_comment");
 	$adb->println($input_array);
 
