@@ -99,8 +99,8 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 								<input type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
 							</div>
 							<div class="password">
-								<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/email.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
-								<input type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="emailId" placeholder="Email">
+								<img title="{vtranslate('LBL_EMAIL',$MODULE)}" src="layouts/vlayout/skins/images/email.png?{uniqid()}" alt="{vtranslate('LBL_EMAIL',$MODULE)}">
+								<input type="text" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="password" name="emailId" placeholder="Email">
 							</div>
 						</div>
 						<div class="span3 main-panel">

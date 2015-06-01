@@ -307,6 +307,7 @@ $languageStrings = [
 	
 	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
 	'LBL_SAVE_COLOR' => 'Zapisano kolor',
+	'LBL_EMAIL' => 'e-mail',
 ];
 
 $jsLanguageStrings = [
@@ -321,3 +322,4 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD'=>'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS'=>'Wpisz hasła ponownie.  Nowe hasło i potwierdzenie hasła nie są identyczne.',
 ];
+
