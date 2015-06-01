@@ -196,7 +196,7 @@
 			<!-- we will form the table with all taxes -->
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-nobordered popupTable" id="tax_table{$row_no}">
 			   <tr>
-					<th colspan="2" id="tax_div_title{$row_no}" nowrap align="left" ><b>{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : {$data.$totalAfterDiscount}</b></th>
+					<th colspan="2" id="tax_div_title{$row_no}" nowrap align="left" ><strong>{vtranslate('LBL_SET_TAX_FOR',$MODULE)} : {$data.$totalAfterDiscount}</strong></th>
 					<th colspan="2">
 						<button type="button" class="close closeDiv">x</button>
 					</th>
