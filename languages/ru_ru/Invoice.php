@@ -29,7 +29,6 @@ $languageStrings = [
 	'LBL_NOT_A_BUNDLE'	=>	'Не комплект',
 	'LBL_RECEIVED'                 => 'Получено'                    ,
 	'LBL_RECORDS_LIST'             => 'Список Счетов'   ,
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_SUB_PRODUCTS'	=>	'Субпродукты',
 	'LBL_THIS'	=>	'Товар / Услуга (',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM'	=>	'Товар / Услуга были удалены из системы. Удалите их из записей.',

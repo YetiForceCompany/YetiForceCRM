@@ -24,7 +24,6 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
 	'LBL_RECORDS_LIST' => 'Sales Order List',
-	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'LBL_SO_INFORMATION' => 'Sales Order Details',
 	'Paid'=>'Paid',
 	'Payment Duration' => 'Payment Duration',

@@ -25,7 +25,6 @@ $languageStrings = [
 	'LBL_NOT_A_BUNDLE' => 'Não é um pacote',
 	'LBL_RECEIVED' => 'Recebida',
 	'LBL_RECORDS_LIST' => 'Lista Faturas' ,
-  'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'LBL_SUB_PRODUCTS'	=> 'Sub Produtos',
 	'Paid' => 'Paga',
 	'Purchase Order' => 'Pedido Compra',

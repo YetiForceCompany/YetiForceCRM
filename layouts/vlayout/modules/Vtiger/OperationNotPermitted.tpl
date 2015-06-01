@@ -18,6 +18,7 @@
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen">
 			<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
+			<script type="text/javascript" src="libraries/jquery/jquery-migrate-1.2.1.js"></script>
 			<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-alert.js"></script>
 			<style>
 				.shadow{

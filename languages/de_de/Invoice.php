@@ -26,7 +26,6 @@ $languageStrings = [
 	'LBL_NOT_A_BUNDLE' 		       => 'Nicht ein Bundle',
 	'LBL_RECEIVED'                 => 'Empfangen'                    , 
 	'LBL_RECORDS_LIST'             => 'Liste Rechnungen'              , 
-	'LBL_SEND_MAIL_PDF'            => 'Email als PDF senden'         , 
 	'LBL_SUB_PRODUCTS'		       => 'Unter Produkte',
 	'LBL_THIS' 			           => 'Produkt/Service (',
 	'Paid'                         => 'bezahlt'                     , 

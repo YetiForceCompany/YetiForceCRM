@@ -29,7 +29,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
 	'LBL_RECORDS_LIST'             => 'Список Заказов' ,
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_SO_INFORMATION'           => 'Заказ', 
 	'LBL_THIS' => 'Товар или Услуга (',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар или Услуга были удалены из системы. Попробуйте заменить на другой Товар или Услугу',

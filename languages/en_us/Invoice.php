@@ -25,7 +25,6 @@ $languageStrings = [
 	'LBL_NOT_A_BUNDLE' => 'Not a Bundle',
 	'LBL_RECEIVED' => 'Received',
 	'LBL_RECORDS_LIST' => 'Invoice List',
-	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'LBL_SUB_PRODUCTS'	=> 'Sub Products',
 	'Paid'=>'Paid',
 	'Purchase Order' => 'Purchase Order',
