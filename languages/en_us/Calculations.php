@@ -69,4 +69,7 @@ $languageStrings = [
 	'LBL_THIS' => 'Product/service (',
 	'Conversion Rate' => 'Conversion Rate',
 	'Currency' => 'Currency',
+	'LBL_SERVICE' => 'Service',
+	'LBL_PRODUCT' => 'Product',
 ];
+
