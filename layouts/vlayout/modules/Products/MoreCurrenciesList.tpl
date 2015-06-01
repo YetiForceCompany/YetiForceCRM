@@ -51,7 +51,7 @@
 						</td>
 						<td>
 							<div class="row-fluid">
-								<input {$disable_value} type="text" size="10" class="span9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+								<input {$disable_value} type="text" size="10" class="span9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 							</div>
 						</td>
 						<td>

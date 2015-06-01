@@ -28,8 +28,9 @@
 				<span class="add-on row-fluid">{$BASE_CURRENCY_SYMBOL}</span>
 			</span>
 			<span class="span10 row-fluid">
+				{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 				<input id="{$MODULE}-editview-fieldname-{$FIELD_NAME}" type="text" class="span6 unitPrice currencyField" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-			data-fieldinfo='{$FIELD_INFO}'  value="{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
+			data-fieldinfo='{$FIELD_INFO}'  value="{$DISPLAY_FIELD_VALUE}" title="{$DISPLAY_FIELD_VALUE}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if}
 			data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' data-number-of-decimal-places='{$USER_MODEL->get('no_of_currency_decimals')}'
 			{if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}/>
 				{if $smarty.request.view eq 'Edit'}
@@ -46,8 +47,9 @@
 <div class="input-prepend">
 	<div class="row-fluid">
 		<span class="span1"><span class="add-on row-fluid">{$USER_MODEL->get('currency_symbol')}</span></span>
+		{assign var="DISPLAY_FIELD_VALUE" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 		<span class="span7"><input type="text" class="row-fluid currencyField" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-		data-fieldinfo='{$FIELD_INFO}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} /></span>
+		data-fieldinfo='{$FIELD_INFO}' value="{$DISPLAY_FIELD_VALUE}" title="{$DISPLAY_FIELD_VALUE}" {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if} /></span>
 	</div>
 </div>
 {/if}
