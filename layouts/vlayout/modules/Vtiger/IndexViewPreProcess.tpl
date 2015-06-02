@@ -12,9 +12,9 @@
 {include file="Header.tpl"|vtemplate_path:$MODULE}
 {include file="BasicHeader.tpl"|vtemplate_path:$MODULE}
 <div class="bodyContents">
-	<div class="mainContainer row">
+	<div class="mainContainer">
 		{assign var=LEFTPANELHIDE value=$CURRENT_USER_MODEL->get('leftpanelhide')}
-		<div class="col-md-2 row {if $LEFTPANELHIDE eq '1'} hide {/if}" id="leftPanel" style="min-height:550px;">
+		<div class="col-md-2{if $LEFTPANELHIDE eq '1'} hide {/if}" id="leftPanel" style="min-height:550px;">
 			{include file="ListViewSidebar.tpl"|vtemplate_path:$MODULE}
 		</div>
 		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-10 {else} col-md-12 {/if}marginLeftZero" id="centerPanel" style="min-height:550px;">

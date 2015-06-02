@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div class="bodyContents">
-	<div class="mainContainer row">
-		<div class="col-md-2 row noprint">
-			<div class="row">{include file='SideBar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
+	<div class="mainContainer">
+		<div class="col-md-2 noprint">
+			<div class="">{include file='SideBar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
 		</div>
 		<div class="contentsDiv col-md-10 marginLeftZero">
 {/strip}

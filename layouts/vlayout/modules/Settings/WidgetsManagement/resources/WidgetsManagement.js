@@ -59,7 +59,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var callBackFunction = function(data) {
 				data.find('.addBlockDashBoardModal').removeClass('hide');
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				app.changeSelectElementView(data.find('select'));
 				
 				var form = data.find('.addBlockDashBoardForm');
 				var params = app.validationEngineOptions;
@@ -188,15 +188,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			
 			var callBackFunction = function(data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				app.changeSelectElementView(data.find('select'));
 				var elementsToFilter = data.find('.widgetFilter');
 				data.find('select.widgets').on('change', function(){
 					if(jQuery.inArray(jQuery(this).find(':selected').data('name'),thisInstance.widgetWithFilterUsers) != -1){
-						elementsToFilter.removeClass('hide').find('select').select2('destroy').removeAttr('disabled');
-						app.showSelect2ElementView(elementsToFilter.find('select'));
+						elementsToFilter.removeClass('hide').find('select').removeAttr('disabled');
+						app.changeSelectElementView(elementsToFilter.find('select'));
 					}else{
-						elementsToFilter.addClass('hide').find('select').select2('destroy').attr('disabled', 'disabled');
-						app.showSelect2ElementView(elementsToFilter.find('select'));
+						elementsToFilter.addClass('hide').find('select').attr('disabled', 'disabled');
+						app.changeSelectElementView(elementsToFilter.find('select'));
 					}
 				});
 				
@@ -766,7 +766,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		var container = jQuery('#widgetsManagementEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="widgetsManagementEditorModules"]'), {dropdownCss : {'z-index' : 0}});
+		app.changeSelectElementView(container.find('[name="widgetsManagementEditorModules"]'), {dropdownCss : {'z-index' : 0}});
 
 		container.on('change', '[name="widgetsManagementEditorModules"]', function(e) {
 			var currentTarget = jQuery(e.currentTarget);

@@ -29,7 +29,7 @@
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap-switch.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2.min.css" />
 		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
