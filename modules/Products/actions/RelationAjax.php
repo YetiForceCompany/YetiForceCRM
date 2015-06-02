@@ -24,8 +24,10 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$sourceRecordId = $request->get('src_record');
 
 		$relatedModule = $request->get('related_module');
+		if(is_numeric($relatedModule)){
+			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+		}
 		$relatedRecordIdList = $request->get('related_record_list');
-
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
@@ -38,7 +40,10 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 					$recordModel->updateListPrice($sourceRecordId, $parentRecordModel->get('unit_price'));
 				}
 			}
-		}		
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 	
 	/**

@@ -46,6 +46,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		$sourceRecordId = $request->get('src_record');
 
 		$relatedModule = $request->get('related_module');
+		if(is_numeric($relatedModule)){
+			$relatedModule = Vtiger_Functions::getModuleName($relatedModule);
+		}
 		$relatedRecordIdList = $request->get('related_record_list');
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
@@ -54,6 +57,9 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action {
 		foreach($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->addRelation($sourceRecordId,$relatedRecordId,$listPrice);
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
 	/**
