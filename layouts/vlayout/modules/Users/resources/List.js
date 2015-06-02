@@ -188,7 +188,7 @@ Vtiger_List_Js("Settings_Users_List_Js",{
 				'value': csrfMagicToken,
 				'type': 'hidden'
 			}));
-			newForm.submit();
+			jQuery(newForm).appendTo('body')[0].submit();
 		},
 
 	triggerEditPasswords : function (CHPWActionUrl, module){
