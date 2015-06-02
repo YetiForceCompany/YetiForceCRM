@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container ActivityTypes">
+<div class=" ActivityTypes">
 	<div class="widget_header row">
 		<div class="col-md-10"><h3>{vtranslate('LBL_ACTIVITY_TYPES', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_ACTIVITY_TYPES_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 		<div class="col-md-2"></div>

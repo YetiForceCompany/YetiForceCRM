@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<div class="container">
+<div class="">
 	<div class="widget_header row">
 		<div class="col-md-8">
 			<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>

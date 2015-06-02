@@ -9,11 +9,11 @@
  *************************************************************************************************************************************/*}
 <div class="navbar" id="topMenus">
 	<div class="menu-inner" id="nav-inner">
-		<div class="menuBar row">
+		<div class="menuBar">
 			<div class="col-md-7" id="largeNavDiv">
 				{include file='TopMenusLeft.tpl'|@vtemplate_path:$MODULE}
 			</div>
-			<div class="col-md-5 row" id="headerLinks">
+			<div class="col-md-5" id="headerLinks">
 				{include file='TopMenusRight.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>

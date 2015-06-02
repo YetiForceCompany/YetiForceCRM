@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
     <form id="EditView" method="POST">
         <div class="row">
             <span class="widget_header row">

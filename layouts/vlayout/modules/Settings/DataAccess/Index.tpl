@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="container" id="menuEditorContainer">
+<div class="" id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-8"><h3>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</h3></div>
     </div>

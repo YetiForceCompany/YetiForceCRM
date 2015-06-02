@@ -29,7 +29,7 @@
 	.modIcon_{$MODULE->get('name')}{ background-image: url("layouts/vlayout/skins/images/{$MODULE->get('name')}.png"); }
 {/foreach}
 </style>
-<div class="container">
+<div class="">
 	<div class="row">
 		<div class="col-md-12">
 			<p><!-- Divider --></p>

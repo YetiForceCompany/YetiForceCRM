@@ -15,7 +15,7 @@
 		<div style="padding:20px">	  
         <h4>{vtranslate('Summary', $MODULENAME)}	</h4>
 		</div>
-		<div class="container" style="margin-top:20px">
+		<div class="" style="margin-top:20px">
 				<div class="row" >
 					<div class="col-md-5" style="text-align:right">
 						<b>{vtranslate('Liczba transakcji:', $MODULENAME)}</b>

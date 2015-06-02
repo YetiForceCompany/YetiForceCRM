@@ -1,4 +1,4 @@
-<div class="container autologinContainer" style="margin-top:10px;">
+<div class=" autologinContainer" style="margin-top:10px;">
 	<h3>{vtranslate('LBL_AUTOLOGIN', $QUALIFIED_MODULE)}</h3>&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}<hr>
 	{assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">

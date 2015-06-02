@@ -1,5 +1,5 @@
 {strip}
-	<div class="container settingsIndexPage">
+	<div class="settingsIndexPage">
 		<div class="widget_header row">
 			<h3>{vtranslate('LBL_SUMMARY',$MODULE)}</h3>
 		</div>

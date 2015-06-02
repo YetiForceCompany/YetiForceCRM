@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
         <div class="widget_header row"> 
         <div class="col-md-8"><h3>{vtranslate('LBL_CREATE_PROFILE', $QUALIFIED_MODULE)}</h3></div> 

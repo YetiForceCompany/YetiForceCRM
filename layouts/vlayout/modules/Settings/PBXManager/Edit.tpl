@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
     {assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
     <form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
         <div class="widget_header row">

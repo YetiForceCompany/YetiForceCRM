@@ -17,7 +17,7 @@
     {assign var="totalCount" value=$totalCount+$modulesCount}
 {/foreach}
 <div class="globalSearchResults">
-	<div class="row">
+	<div class="">
 		<div class="header highlightedHeader padding1per">
 			<div class="row">
 				<span class="col-md-6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>

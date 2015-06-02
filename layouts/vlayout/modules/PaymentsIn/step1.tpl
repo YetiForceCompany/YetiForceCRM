@@ -33,7 +33,7 @@
 		<div style="padding:20px">	  
         <h3 class="col-md-8 ">{vtranslate('Summary', $MODULENAME)}	</h3>
 		</div>
-		<div class="container" style="margin-top:20px">
+		<div class="" style="margin-top:20px">
 				<div class="row " style="padding:20px" >
 					<div  style="text-align:center">
 						<b>{vtranslate('Liczba transakcji:', $MODULENAME)}</b>&nbsp&nbsp&nbsp

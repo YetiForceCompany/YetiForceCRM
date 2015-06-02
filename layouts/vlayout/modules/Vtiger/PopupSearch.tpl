@@ -40,14 +40,17 @@
 			{if $POPUPTYPE == 2}
 				<h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
 			{/if}
-            <form class="form-horizontal popupSearchContainer" onsubmit="return false;" method="POST">
+            <form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
 			{if $POPUPTYPE == 1}
-                <div class="form-group margin0px form-inline">
-                    <input class="col-md-2 form-control" type="text" placeholder="{vtranslate('LBL_TYPE_SEARCH')}" title="{vtranslate('LBL_TYPE_SEARCH')}" id="searchvalue"/>&nbsp;&nbsp;
-                    <span><strong>{vtranslate('LBL_IN')}</strong></span>&nbsp;
-                    <span>
+					<div class="form-group">
+						<label class="sr-only" for="searchvalue">{vtranslate('LBL_TYPE_SEARCH')}</label>
+						<input type="text" class="form-control" id="searchvalue" title="{vtranslate('LBL_TYPE_SEARCH')}" placeholder="{vtranslate('LBL_TYPE_SEARCH')}">
+					</div>
+					<span><strong>&nbsp;{vtranslate('LBL_IN')}&nbsp;</strong></span>
+					<div class="form-group ">
+						<label class="sr-only" for="searchableColumnsList">{vtranslate('LBL_SEARCH_IN_FIELD')}</label>
                         {assign var = defaultSearchField value = $RECORD_STRUCTURE_MODEL->getModule()->getDefaultSearchField()}
-                        <select style="width: 200px;" class="chzn-select" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
+                        <select class="chzn-select form-control" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
                             {foreach key=block item=fields from=$RECORD_STRUCTURE}
                                 {foreach key=fieldName item=fieldObject from=$fields}
                                     <optgroup>
@@ -56,11 +59,13 @@
                                 {/foreach}
                             {/foreach}
                         </select>
-                    </span>&nbsp;&nbsp;
-                    <span id="popupSearchButton">
+					</div> 
+						&nbsp;
+					<div id="popupSearchButton" class=' form-group '>
                         <button class="btn btn-default"><span class="glyphicon glyphicon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></span></button>
-                    </span>
-                </div>
+                    </div>
+               
+				
 			{else if $POPUPTYPE == 2}
 				<input class="col-md-2" type="hidden" id="searchfield"/>
 				<input class="col-md-2" type="hidden" id="searchvalue"/>

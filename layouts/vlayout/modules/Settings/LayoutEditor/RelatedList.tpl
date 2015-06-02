@@ -11,7 +11,7 @@
 -->*}
 {strip}
     <div id="relatedTabOrder">
-    <div class="container" id="layoutEditorContainer">
+    <div class="" id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-8">

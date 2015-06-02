@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="container" id="importModules">
+<div class="" id="importModules">
 	<div class="widget_header row">
 		<h3>{vtranslate('LBL_UPDATE_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>

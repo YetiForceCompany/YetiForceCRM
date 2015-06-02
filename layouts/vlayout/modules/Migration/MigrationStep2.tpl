@@ -10,7 +10,7 @@
 -->*}
 {strip}
 	{include file="Header.tpl"|vtemplate_path:$MODULE}
-	<div class="container page-container">
+	<div class=" page-container">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="logo">

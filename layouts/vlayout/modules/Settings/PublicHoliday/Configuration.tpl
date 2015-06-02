@@ -33,7 +33,7 @@ padding: 10px;
 padding: 5px;
 }
 </style>
-<div class="container" id="widgetsManagementEditorContainer">
+<div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
 			<h3>{vtranslate('LBL_PUBLIC_HOLIDAY', $QUALIFIED_MODULE)}</h3>

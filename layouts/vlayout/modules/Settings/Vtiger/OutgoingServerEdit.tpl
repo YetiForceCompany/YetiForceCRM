@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<div class="contents row">
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<form id="OutgoingServerForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">

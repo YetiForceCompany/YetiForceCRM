@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container" id="TermsAndConditionsContainer">
+<div class="" id="TermsAndConditionsContainer">
 	<div class="widget_header row">
 		<div class="row"><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
 	</div>

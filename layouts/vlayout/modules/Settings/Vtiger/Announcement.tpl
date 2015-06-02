@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container" id="AnnouncementContainer">
+<div class="" id="AnnouncementContainer">
 	<div class="widget_header row">
 		<div class="row"><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
 	</div>

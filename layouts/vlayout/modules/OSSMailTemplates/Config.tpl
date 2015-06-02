@@ -40,7 +40,7 @@
     }
 </style>
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
-<div class="container" id="layoutEditorContainer">
+<div class="" id="layoutEditorContainer">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-left:30px;">
         <li class="active"><a href="#help" data-toggle="tab">{vtranslate('LBL_HELP', $MODULENAME)}</a></li>
         <li><a href="#delete" data-toggle="tab">{vtranslate('LBL_DeleteModule', $MODULENAME)}</a></li>

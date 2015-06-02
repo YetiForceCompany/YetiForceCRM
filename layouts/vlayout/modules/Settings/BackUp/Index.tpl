@@ -34,7 +34,7 @@
 	<input type='hidden' value="{$FTP_CONNECTION_STATUS}" class='ftp-connection-status'>
 	<input type='hidden' value="{$PREV_PAGE}" class='prev-page'>
 	<input type='hidden' value="{$NEXT_PAGE}" class='next-page'>
-	<div class="container" style="margin-top:10px;">
+	<div class="" style="margin-top:10px;">
 		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 		<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 			<li class="active"><a href="#tab_1" data-toggle="tab">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>

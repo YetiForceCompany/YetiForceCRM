@@ -118,7 +118,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$cssFileNames = array(
 			'~/libraries/jquery/timepicker/jquery.timepicker.css',
 			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
-			'~/layouts/vlayout/skins/glabal_style.css',
+			//'~/layouts/vlayout/skins/glabal_style.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

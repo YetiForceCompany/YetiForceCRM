@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="container">
+	<div class="">
 		<br>
 		<h3 class="themeTextColor">{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 		<hr>

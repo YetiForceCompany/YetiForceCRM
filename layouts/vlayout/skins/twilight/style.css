@@ -187,15 +187,7 @@ hr {
   right: 15px;
   left: auto;
 }
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu {
-  left: -132px;
-  top: 30px;
-}
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu:after,
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu:before {
-  right: 15px;
-  left: auto;
-}
+
 #headerLinks .headerLinksContainer > span a img,
 #headerLinks .headerLinksContainer > span a.userName {
   color: #ffffff;
@@ -214,15 +206,6 @@ hr {
 .navbar .dropdown-menu,
 .dropdown-menu {
   border-radius: 2px !important;
-}
-.navbar .dropdown-menu li a,
-.dropdown-menu li a {
-
-}
-.navbar .dropdown-menu li a:hover,
-.dropdown-menu li a:hover {
-  background: #404952;
-  text-shadow: none;
 }
 .themeMenuContainer {
   min-width: 110px;
@@ -423,6 +406,7 @@ hr {
 .commonActionsContainer .searchElement {
   margin-top: 2px;
 }
+/*
 .commonActionsContainer .searchElement .searchBar,
 .commonActionsContainer .searchElement .select-search {
   display: inline-block;
@@ -476,6 +460,7 @@ hr {
 .commonActionsContainer .searchElement .select-search #globalSearchValue {
   border-radius: 0;
 }
+*/
 .commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown {
   left: -450px !important;
   min-width: 450px;
@@ -941,9 +926,7 @@ hr {
 .select2-drop {
   border-color: #dddddd;
 }
-.select2-drop .select2-no-results {
-  padding: 1px 10px;
-}
+
 .select2-drop ul.filterActions {
   list-style: none !important;
 }
@@ -1508,9 +1491,7 @@ td.fieldValue .input-group {
   padding-bottom: 20px;
   overflow: hidden;
 }
-.select2-container.select2-container-multi.columnsSelect {
-  width: 100% !important;
-}
+
 .filterConditionsDiv {
   padding-bottom: 0;
 }
@@ -2542,6 +2523,7 @@ th.htColHeader,
 .btn-primary:hover {
   background: #1e2327;
 }
+/*
 .addButton {
   background: #ffffff;
   text-shadow: none;
@@ -2555,6 +2537,7 @@ th.htColHeader,
 .addButton span.caret {
   background-size: 0;
 }
+*/
 .saveButton,
 .btn-success {
   margin-right: 5px;
@@ -2877,19 +2860,14 @@ textarea.col-md-11 {
 .select2-results .select2-highlighted {
   background: #404952;
 }
-.select2-result-label .filterActionImgs {
-  margin-top: 3px;
-}
+
 .select2-result-label i {
   background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings-white.png");
 }
 .select2-container-multi .select2-choices .select2-search-choice {
   cursor: move;
 }
-.select2-search-field {
-  display: block;
-  width: 100%;
-}
+
 .ui-autocomplete-loading {
   background: url('../images/load.gif') no-repeat right center;
 }

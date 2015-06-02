@@ -25,7 +25,7 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
 {/foreach}
 </style>
-<div class="container">
+<div class="">
 	<div class="row">
 		<div class="col-md-12">
 			<p><!-- Divider --></p>

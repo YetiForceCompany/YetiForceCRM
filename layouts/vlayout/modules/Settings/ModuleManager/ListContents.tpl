@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container" id="moduleManagerContents">
+	<div class="" id="moduleManagerContents">
 		<div class="widget_header row">
 			<div class="col-md-6"><h3>{vtranslate('LBL_MODULE_MANAGER', $QUALIFIED_MODULE)}</h3></div>
 			<div class="col-md-6">
@@ -67,7 +67,7 @@
 							{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 								<span class="col-md-3">
 									<span class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
-										<button class="btn dropdown-toggle" data-toggle="dropdown">
+										<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
 											<strong>{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 										</button>
 										<ul class="dropdown-menu pull-right">

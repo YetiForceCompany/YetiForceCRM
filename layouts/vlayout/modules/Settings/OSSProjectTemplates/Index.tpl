@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="container" id="menuEditorContainer">
+<div class="" id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-8"><h3>{vtranslate('OSSProjectTemplates', $MODULE_NAME)}</h3></div>
     </div>

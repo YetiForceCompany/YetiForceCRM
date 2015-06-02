@@ -21,8 +21,10 @@
 		<div class="quickWidget">
 			<div class="accordion-heading accordion-toggle quickWidgetHeader" data-parent="#settingsQuickWidgetContainer" data-target="#Settings_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($MENU->getLabel())}"
 				data-toggle="collapse" data-parent="#quickWidgets">
-				<span class="pull-left"><img class="imageElement" title="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" /></span>
-				<h5 class="title paddingLeft10px widgetTextOverflowEllipsis" title="{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}">{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}</h5>
+				<span class="pull-left padding10"><img class="imageElement" title="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" /></span>
+				<h6 class="title paddingLeft10px widgetTextOverflowEllipsis" title="{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}">
+					{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}
+				</h6>
 				<div class="clearfix"></div>
 			</div>
 			<div  style="border-bottom: 1px solid black;" class="widgetContainer accordion-body {if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid')  && !empty($SELECTED_FIELDID)} in {/if} collapse" id="Settings_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($MENU->getLabel())}">

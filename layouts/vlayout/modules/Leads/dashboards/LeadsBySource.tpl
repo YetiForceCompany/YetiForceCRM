@@ -59,7 +59,7 @@
 		<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini width90"  id="select-date" />
 	</div>
 	<div class="col-md-6">
-		<span class="icon-user iconMiddle margintop3"></span>
+		<span class="glyphicon glyphicon-user iconMiddle margintop3"></span>
 		{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 		{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
 		<select class="widgetFilter width90" id="select-user" title="{vtranslate('LBL_OWNER')}" name="owner" >

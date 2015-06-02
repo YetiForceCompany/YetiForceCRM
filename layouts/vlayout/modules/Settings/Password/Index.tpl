@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
 			<div class="widget_header row">

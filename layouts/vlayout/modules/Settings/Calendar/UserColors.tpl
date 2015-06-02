@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container UserColors">
+<div class=" UserColors">
 	<div class="widget_header row">
 		<div class="col-md-10"><h3>{vtranslate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_CALENDAR_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 		<div class="col-md-2"></div>

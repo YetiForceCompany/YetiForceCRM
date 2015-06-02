@@ -28,7 +28,7 @@ margin-left: 20px;
 padding: 20px 20px 20px 20px;
 }
 </style>
-<div class="container" id="widgetsManagementEditorContainer">
+<div class="" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<div class="widget_header row">
 			<div class="col-md-8">

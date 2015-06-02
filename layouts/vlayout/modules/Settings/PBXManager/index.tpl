@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container" id="AsteriskServerDetails">
+<div class="" id="AsteriskServerDetails">
 	<div class="widget_header row">
 		<div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
                 {assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}

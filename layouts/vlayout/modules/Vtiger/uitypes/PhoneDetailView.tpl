@@ -26,7 +26,7 @@
 					<option value="{$key}">{$item}</option>
 				{/foreach}
 			</select><br /><a class="btn btn-success popoverCallOK">{vtranslate('LBL_BTN_CALL',$MODULE)}</a>   <a class="btn btn-inverse popoverCallCancel">{vtranslate('LBL_CANCEL',$MODULE)}</a>
-			' data-trigger="manual"><i class="icon-user"></i></a>
+			' data-trigger="manual"><i class="glyphicon glyphicon-user"></i></a>
 		{/if}
 	{else}
 		{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}

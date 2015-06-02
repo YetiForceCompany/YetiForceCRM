@@ -36,7 +36,7 @@
 			<input type="text" name="createdtime" class="dateRange widgetFilter input-mini width90 textAlignCenter"  id="select-date" />
 		</div>
 		<div class="col-md-6">
-			<i class="icon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></i>
+			<i class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></i>
 			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>

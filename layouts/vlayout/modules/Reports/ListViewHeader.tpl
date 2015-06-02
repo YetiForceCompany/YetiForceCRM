@@ -15,7 +15,7 @@
 		<div class="listViewActionsDiv row">
 			<span class="btn-toolbar col-md-4">
 				<span class="btn-group listViewMassActions">
-					<button class="btn dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS}
 							<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -32,7 +32,7 @@
 					{if $LISTVIEW_BASICACTION->getLabel() eq 'LBL_ADD_RECORD'}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						<span class="btn-group">
-							<button class="btn dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
+							<button class="btn btn-default dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 								<span class="glyphicon glyphicon-plus"></span>&nbsp;
 								<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
 								<span class="caret icon-white"></span></button>

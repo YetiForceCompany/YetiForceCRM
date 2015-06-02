@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container">
+	<div class="">
 		<div class="row settingsHeader padding1per">
 			<span class="col-md-8">
 				<span class="font-x-x-large">{vtranslate('LBL_CONVERT_LEAD_FIELD_MAPPING', $QUALIFIED_MODULE)}</span>

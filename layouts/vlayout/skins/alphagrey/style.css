@@ -187,15 +187,7 @@ hr {
   right: 15px;
   left: auto;
 }
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu {
-  left: -132px;
-  top: 30px;
-}
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu:after,
-#headerLinks .headerLinksContainer .settingIcons ul.dropdown-menu:before {
-  right: 15px;
-  left: auto;
-}
+
 #headerLinks .headerLinksContainer > span a img,
 #headerLinks .headerLinksContainer > span a.userName {
   color: #ffffff;
@@ -215,15 +207,7 @@ hr {
 .dropdown-menu {
   border-radius: 2px !important;
 }
-.navbar .dropdown-menu li a,
-.dropdown-menu li a {
 
-}
-.navbar .dropdown-menu li a:hover,
-.dropdown-menu li a:hover {
-  background: #666666;
-  text-shadow: none;
-}
 .themeMenuContainer {
   min-width: 110px;
   width: 110px;

@@ -1,5 +1,5 @@
 {strip}
-<div class="container CustomViewList">
+<div class=" CustomViewList">
 	<div class="widget_header row">
 		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
 		<div class="col-md-2"></div>

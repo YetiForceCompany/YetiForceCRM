@@ -21,7 +21,7 @@
     <![endif]-->
 {/literal}
 {$i=1}
-<div class="container" id="importModules">    
+<div class="" id="importModules">    
     <ul class="nav nav-tabs layoutTabs margin0px" style="border-bottom: 0px;">
         <li class="active"><a data-toggle="tab" href="#general"><strong>{vtranslate('LBL_GeneralConfiguration', 'OSSPdf')}</strong></a></li>
         <li class="relatedListTab"><a data-toggle="tab" href="#function"><strong>{vtranslate('LBL_specialfunctions_config', 'OSSPdf')}</strong></a></li>

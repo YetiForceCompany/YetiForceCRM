@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container" id="sharingAccessContainer">
+<div class="" id="sharingAccessContainer">
 	<div class="contents">
 		<form name="EditSharingAccess" action="index.php" method="post" class="form-horizontal" id="EditSharingAccess">
 			<input type="hidden" name="module" value="SharingAccess" />

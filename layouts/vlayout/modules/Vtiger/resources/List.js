@@ -1758,7 +1758,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var filterSelectElement = this.getFilterSelectElement();
 		if(filterSelectElement.length > 0 && filterSelectElement.is("select")) {
 			app.showSelect2ElementView(filterSelectElement,{
-				formatSelection : function(data, contianer){
+				templateSelection : function(data){
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
 					resultContainer.append(data.text);
@@ -1768,7 +1768,8 @@ jQuery.Class("Vtiger_List_Js",{
 			});
 
 			var select2Instance = filterSelectElement.data('select2');
-            jQuery('span.filterActionsDiv').appendTo(select2Instance.dropdown).removeClass('hide');
+			// To Do - adding filter
+            //jQuery('span.filterActionsDiv').appendTo(select2Instance.dropdown).removeClass('hide');
 		}
 	},
 

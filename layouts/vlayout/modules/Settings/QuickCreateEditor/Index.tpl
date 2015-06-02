@@ -21,7 +21,7 @@ padding: 0 20px 20px 20px;
 }
 </style>
 {strip}
-    <div class="container" id="quickCreateEditorContainer">
+    <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-8">

@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<div class="widget_header row">
 		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}

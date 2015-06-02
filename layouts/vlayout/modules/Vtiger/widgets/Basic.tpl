@@ -3,10 +3,10 @@
 		<div class="widget_header">
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 			<div class="row">
-				<div class="col-md-10">
+				<div class="col-md-9">
 					<div class="widgetTitle textOverflowEllipsis"><strong class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</strong></div>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<div class="pull-right">
 						{if $WIDGET['data']['action'] eq 1}
 							{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
@@ -19,7 +19,7 @@
 							{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 							{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 							{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-							<button style="margin-left: 4px;" class="btn btn-xs pull-right btn-default createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
+							<button style="margin-left: 4px;" class="btn btn-sm pull-right btn-default createRecordFromFilter {if $ADD_BUTTON } hide {/if}" type="button" data-url="{$WIDGET['actionURL']}"
 							{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{Zend_Json::encode($AUTOCOMPLETE_FIELD)}'{/if}>
 								<span class="glyphicon glyphicon-plus" border="0" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}"></span>
 							</button>
@@ -31,8 +31,8 @@
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
 							{/if}
-							<button class="btn btn-xs btn-default pull-right selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
-								<span class="icon-resize-small" border="0" title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}"></span>
+							<button class="btn btn-sm btn-default pull-right selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{Zend_Json::encode($RESTRICTIONS_FIELD)}'{/if}>
+								<span class="glyphicon glyphicon-resize-small" border="0" title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}"></span>
 							</button>
 						{/if}
 					</div>

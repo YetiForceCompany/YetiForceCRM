@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<div class="widget_header row">
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>

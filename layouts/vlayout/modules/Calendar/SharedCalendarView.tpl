@@ -18,7 +18,7 @@
 <input type="hidden" id="time_format" value="{$CURRENT_USER->get('hour_format')}" />
 <input type="hidden" id="start_hour" value="{$CURRENT_USER->get('start_hour')}" />
 <input type="hidden" id="date_format" value="{$CURRENT_USER->get('date_format')}" />
-	<div class="container">
+	<div class="">
 		<div class="row">
 			<div class="col-md-12">
 				<p><!-- Divider --></p>

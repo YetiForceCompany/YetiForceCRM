@@ -20,7 +20,7 @@ min-width: 20px;
 {strip}
 {assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity()}
 {assign var="Fields" value=$MODULE_MODEL->getFielFromModule()}
-<div class="container SearchFieldsEdit">
+<div class=" SearchFieldsEdit">
 	<div class="widget_header row">
 		<div class="col-md-10"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}</div>
 		<div class="col-md-2"></div>

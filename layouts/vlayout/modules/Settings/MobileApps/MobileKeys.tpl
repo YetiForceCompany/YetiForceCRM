@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<div class="container" id="MobileKeysContainer">
+	<div class="" id="MobileKeysContainer">
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('LBL_MOBILE_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MOBILE_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>

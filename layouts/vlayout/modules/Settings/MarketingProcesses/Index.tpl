@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
-<div id="supportProcessesContainer" class="container supportProcessesContainer" style="margin-top:10px;">
+<div id="supportProcessesContainer" class=" supportProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>
 	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">

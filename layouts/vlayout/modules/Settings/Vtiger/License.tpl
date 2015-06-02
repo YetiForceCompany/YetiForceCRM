@@ -1,6 +1,6 @@
 {strip}
-	<div class="container settingsIndexPage">
-		<div class="widget_header row">
+	<div class="settingsIndexPage">
+		<div class="widget_header">
 			<h3>{vtranslate('LBL_SUMMARY_LICENSE',$MODULE)}</h3>
 		</div>
 		<hr>

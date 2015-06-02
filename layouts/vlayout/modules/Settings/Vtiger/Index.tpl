@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container settingsIndexPage">
-		<div class="widget_header row">
+	<div class="settingsIndexPage">
+		<div class="widget_header ">
 			<h3>{vtranslate('LBL_SUMMARY',$MODULE)}</h3>
 		</div>
 		<hr>
-		<div class="row">
+		<div class="">
 			<span class="col-md-4 settingsSummary">
 				<a href="index.php?module=Users&parent=Settings&view=List">
 					 <h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2> 

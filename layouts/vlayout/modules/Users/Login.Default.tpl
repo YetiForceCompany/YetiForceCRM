@@ -20,7 +20,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 {assign var="CompanyDetails" value=getCompanyDetails()}
 {assign var="MODULE" value='Users'}
 <div class="login_page login_blue">
-	<div class="container login-container">
+	<div class=" login-container">
 		<div id="login-area" class="login-area">
 			<div class="visible-phone">
 				<div class="alert alert-block">

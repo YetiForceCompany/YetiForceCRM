@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="container">
+	<div class="">
 		<form id="leadsMapping" method="POST">
 			<div class="row settingsHeader padding1per">
 				<span class="col-md-8">

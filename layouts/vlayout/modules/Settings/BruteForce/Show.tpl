@@ -16,7 +16,7 @@
     margin-bottom:0px !important;
 }
 </style>
-<div class="container" style="margin-top:10px;">
+<div class="" style="margin-top:10px;">
 	<h3>{vtranslate('BruteForce', $MODULE)}</h3>&nbsp;{vtranslate('LBL_BRUTEFORCE_DESCRIPTION', $MODULE)}<hr>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 		<li class="active" id="brutalforce_tab_btn_1" ><a href="#tab_1">{vtranslate('Settings', $MODULE)}</a></li>

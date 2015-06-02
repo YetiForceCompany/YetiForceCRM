@@ -18,7 +18,7 @@
    <h3 class="col-md-8 ">{vtranslate('Import', $MODULENAME)}</h3>
 </div>
 
-<div class="container" style="margin-top:20px">
+<div class="" style="margin-top:20px">
 	<form method="POST" action="index.php?module=PaymentsIn&view=step1" name="ical_import"  enctype="multipart/form-data">
 		<div class="row" >
 			<div class="col-md-12">

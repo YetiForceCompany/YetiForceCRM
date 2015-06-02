@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container">
+<div class="">
 	<br>
 	<div class="row">
 		<div class="col-md-10"><h3>{vtranslate('LBL_PROFILE_VIEW', $QUALIFIED_MODULE)}</h3></div>

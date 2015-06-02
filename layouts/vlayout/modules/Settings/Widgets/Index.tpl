@@ -12,7 +12,7 @@
 {strip}
 <input type="hidden" id="filters" name="filters" value='{$FILTERS}'>
 <input type="hidden" id="checkboxs" name="checkboxs" value='{$CHECKBOXS}'>
-<div class="container WidgetsManage">
+<div class=" WidgetsManage">
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
 		<div class="col-md-8"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>

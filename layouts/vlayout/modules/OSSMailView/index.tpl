@@ -18,7 +18,7 @@
     }
 </style>
 
-<div class="container">
+<div class="">
 	<div class="clearfix treeView">
 		<div class="widget_header row">
 			<div class="col-md-8"><h3>{vtranslate('Configuration', 'OSSMailView')}</h3></div>

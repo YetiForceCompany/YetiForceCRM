@@ -8,7 +8,7 @@
     vertical-align:middle !important; 
 }	
 </style>
-<div class="container" style="margin-top:10px;">
+<div class="" style="margin-top:10px;">
 	<div class="row">
 		<div class="col-md-7">
 			<h3>{vtranslate('LBL_UPDATES', $MODULE)}</h3>&nbsp;{vtranslate('LBL_UPDATES_DESCRIPTION', $MODULE)}
