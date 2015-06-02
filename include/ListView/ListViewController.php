@@ -193,7 +193,7 @@ class ListViewController {
 				$uitype = $field->getUIType();
 				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
 
-				if($uitype != 8){
+				if(in_array($uitype,array(15,33,16))){
 					$value = html_entity_decode($rawValue,ENT_QUOTES,$default_charset);
 				} else {
 					$value = $rawValue;
