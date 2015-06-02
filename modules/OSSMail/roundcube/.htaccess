@@ -5,7 +5,6 @@ AddType text/x-component .htc
 # php_value    error_log    logs/errors
 
 php_flag    register_globals            Off
-php_flag    suhosin.session.encrypt     Off
 
 #php_value   session.cookie_path     /
 php_value   session.gc_maxlifetime   21600
