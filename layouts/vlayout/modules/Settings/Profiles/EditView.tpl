@@ -175,8 +175,6 @@
 						<tr class="hide">
 							<td colspan="6" class="row-fluid" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 								<div class="row-fluid hide" data-togglecontent="{$TABID}-fields">
-								<div class="span12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
-								<table class="table table-bordered">
 								{assign var=UTILITY_ACTION_COUNT value=0}
 								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
 								{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
@@ -184,24 +182,28 @@
 										{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}
 									{/if}
 								{/foreach}
-								{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
-									{if $smarty.foreach.actions.index % 3 == 0}
-										<tr>
-									{/if}
-									{assign var=ACTIONID value=$ACTION_MODEL->get('actionid')}
-									<td {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
-										{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
-										{assign var="colspan" value=4-$index}
-										colspan="{$colspan}"
-										{else}
-											style="border-right: 1px solid #DDD !important;"
-										{/if}>
-									<input type="checkbox" class="alignTop"  name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true" {elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} checked="true" {/if}> {vtranslate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
-									{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
-										</div>
-									{/if}
-								{/foreach}
-								</table>
+								{if $ALL_UTILITY_ACTIONS_ARRAY}
+									<div class="span12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+									<table class="table table-bordered">
+									{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
+										{if $smarty.foreach.actions.index % 3 == 0}
+											<tr>
+										{/if}
+										{assign var=ACTIONID value=$ACTION_MODEL->get('actionid')}
+										<td {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
+											{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
+											{assign var="colspan" value=4-$index}
+											colspan="{$colspan}"
+											{else}
+												style="border-right: 1px solid #DDD !important;"
+											{/if}>
+										<input type="checkbox" class="alignTop"  name="permissions[{$TABID}][actions][{$ACTIONID}]" {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true" {elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)} checked="true" {/if}> {vtranslate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
+										{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
+											</div>
+										{/if}
+									{/foreach}
+									</table>
+								{/if}
 								</div>
 							</td>
 						</tr>

@@ -1505,9 +1505,9 @@ class Users extends CRMEntity {
 
 		vtws_transferOwnership($userId, $transformToUserId);
 
-		//delete from user vtiger_table;
-		$sql = "delete from vtiger_users where id=?";
-		$adb->pquery($sql, array($userId));
+		//updating the vtiger_users table;
+		$sql = "UPDATE vtiger_users SET status=?,deleted=? where id=?";
+		$adb->pquery($sql, array('Inactive', true, $userId));
 	}
 
     /**

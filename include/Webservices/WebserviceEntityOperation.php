@@ -63,6 +63,12 @@ abstract class WebserviceEntityOperation{
 		"Operation describe is not supported for this entity");
 	}
 	
+	public function relatedIds($id, $relatedModule, $relatedLabel, $relatedHandler=null) {
+		throw new WebServiceException(WebServiceErrorCode::$OPERATIONNOTSUPPORTED,
+		"Operation relatedIds is not supported for this entity");
+	}
+	
+	
 	function getFieldTypeDetails($webserviceField){
 		global $upload_maxsize;
 		$typeDetails = array();
