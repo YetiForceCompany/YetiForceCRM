@@ -733,10 +733,20 @@ class QueryGenerator {
 					}elseif($fieldName == 'created_user_id'){
                         $concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users$fieldName.first_name",'last_name'=>"vtiger_users$fieldName.last_name"), 'Users');
                         $fieldSql .= "$fieldGlue (trim($concatSql) $valueSql)";
-					}else{
-						$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users.first_name",'last_name'=>"vtiger_users.last_name"), 'Users');
-						$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or "."vtiger_groups.groupname $valueSql)";
-                    }
+					} else {
+						$entityFields = Vtiger_Functions::getEntityModuleInfoFieldsFormatted('Users');
+						if (count($entityFields['fieldname']) > 1) {
+							$columns = [];
+							foreach ($entityFields['fieldname'] as $i => $fieldname) {
+								$columns[$fieldname] = $entityFields['tablename'] . '.' . $fieldname;
+							}
+							$concatSql = getSqlForNameInDisplayFormat($columns, 'Users');
+							$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql OR " . "vtiger_groups.groupname $valueSql)";
+						} else {
+							$columnSql = $entityFields['tablename'] . '.' . $entityFields['fieldname'];
+							$fieldSql .= "$fieldGlue (trim($columnSql) $valueSql OR " . "vtiger_groups.groupname $valueSql)";
+						}
+					}
 				} elseif($field->getFieldDataType() == 'date' && ($baseModule == 'Events' || $baseModule == 'Calendar') && ($fieldName == 'date_start' || $fieldName == 'due_date')) {
 					$value = $conditionInfo['value'];
 					$operator = $conditionInfo['operator'];
