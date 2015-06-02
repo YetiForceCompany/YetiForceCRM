@@ -193,7 +193,7 @@
 								<td>
 									<select class="chzn-select" id="" name="selectedUsers" multiple>
 										{foreach key=KEY  item=USER from=$ADMIN_USERS}
-											<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']}</option>
+											<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if array_key_exists($USER['id'], $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']}</option>
 										{/foreach}
 									</select>
 								</td>

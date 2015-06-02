@@ -411,7 +411,7 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 /*Data for the table `vtiger_backup_settings` */
 
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
-insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','backup_folder','false');
 
 /*Data for the table `vtiger_backup_users` */
 
