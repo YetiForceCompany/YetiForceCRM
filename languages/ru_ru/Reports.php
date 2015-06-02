@@ -114,6 +114,7 @@ $languageStrings = [
 	'Report Name'                  => 'Название Отчета',
 	'Reports'                      => 'Отчеты'                , 
 	'SINGLE_Reports'               => 'Отчет'                  , 
+	'LBL_SELECT_REPORT' => 'Select report',
 ];
 
 $jsLanguageStrings = [
@@ -121,3 +122,4 @@ $jsLanguageStrings = [
 	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Ограничение: Поля товарной части(Розничная цена, Скидка и Кол-во) могут использоваться только когда другие расчетные поля не выбраны.',
     'JS_NO_CHART_DATA_AVAILABLE' => 'Нет данных',
 ];
+

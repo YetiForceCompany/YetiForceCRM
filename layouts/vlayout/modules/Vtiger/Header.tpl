@@ -21,7 +21,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="robots" content="noindex">
 		<link rel="stylesheet" href="libraries/jquery/chosen/chosen.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
@@ -45,6 +45,7 @@
 
 		{* This is needed as in some of the tpl we are using jQuery.ready *}
 		<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="libraries/jquery/jquery-migrate-1.2.1.js"></script>
 		<!--[if IE]>
 		<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 		<script type="text/javascript" src="libraries/html5shim/respond.js"></script>

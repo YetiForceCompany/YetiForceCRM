@@ -42,7 +42,7 @@
 				{if file_exists( vimage_path($IMAGE) )}
 					<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
 						<span class="moduleIcon">
-							<img src="{vimage_path($IMAGE)}" class="summaryImg" />
+							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
 						</span>
 					</span>
 				{/if}
@@ -69,12 +69,12 @@
 						<th class="blockHeader" colspan="4">
 					<div class="row-fluid">
 						<div class="span4">
-							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							&nbsp;&nbsp;
 							{vtranslate($BLOCK_LABEL, $MODULE)}
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<input value="" type="text" class="api_address_autocomplete pull-right input " style="width: 50%;" />
+								<input value="" type="text" class="api_address_autocomplete pull-right input " title="{vtranslate('LBL_ADDRESS_INFORMATION')}" style="width: 50%;" />
 							{/if}
 						</div>
 						<div class="span8">
@@ -174,13 +174,13 @@
 				{assign var=COUNTER value=$COUNTER+1}
 				<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
 				<td class="fieldValue {$WIDTHTYPE}">
-					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+					<select class="chzn-select" style="width: 190px;" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 					</select>
 					<button type="button"  class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
-						<i class="icon-arrow-down"></i>
+						<span class="icon-arrow-down"></span>
 					</button>
 					<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
-						<i class="icon-arrow-down"></i>
+						<span class="icon-arrow-down"></span>
 					</button>
 				</td>
 			{/if}
@@ -194,13 +194,13 @@
 				
 					<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
 					<td class="fieldValue {$WIDTHTYPE}">
-						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+						<select class="chzn-select" style="width: 190px;" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
 						</select>
 						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 						<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
@@ -213,10 +213,10 @@
 					
 					<td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
 					<td class="fieldValue {$WIDTHTYPE}">
-						<select class="chzn-select" name="oss_special_function_list" style="width: 190px;">
+						<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
 						</select>
 						<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
-							<i class="icon-arrow-down"></i>
+							<span class="icon-arrow-down"></span>
 						</button>
 					</td>
 					{assign var=COUNTER value=$COUNTER+1}
@@ -231,3 +231,4 @@
 		{/if}
 	{/foreach}
 {/strip}
+

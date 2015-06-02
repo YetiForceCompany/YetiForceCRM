@@ -1803,7 +1803,8 @@ class CustomView extends CRMEntity {
 
 	function getCustomViewModuleInfo($module) {
 		$adb = PearDatabase::getInstance();
-		$current_mod_strings = return_specified_module_language(vglobal('current_language'), $module);
+		$current_language = vglobal('current_language');
+		$current_mod_strings = return_specified_module_language($current_language, $module);
 		$block_info = Array();
 		$modules_list = explode(",", $module);
 		if ($module == "Calendar") {
@@ -1960,7 +1961,8 @@ class CustomView extends CRMEntity {
 
 	function isPermittedChangeStatus($status) {
 		global $current_user, $log;
-		$custom_strings = return_module_language(vglobal('current_language'), "CustomView");
+		$current_language = vglobal('current_language');
+		$custom_strings = return_module_language($current_language, "CustomView");
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');

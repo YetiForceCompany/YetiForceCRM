@@ -20,11 +20,11 @@
 		<div class="modal-body">
 			<table width="100%" border="0" cellpadding="5" cellspacing="0" class="table table-bordered">
 				<tr class="detailedViewHeader">
-					<td><b>{vtranslate('LBL_CURRENCY',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_PRICE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_CONVERSION_RATE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_RESET_PRICE',$MODULE)}</b></td>
-					<td><b>{vtranslate('LBL_BASE_CURRENCY',$MODULE)}</b></td>
+					<td><strong>{vtranslate('LBL_CURRENCY',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_PRICE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_CONVERSION_RATE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_RESET_PRICE',$MODULE)}</strong></td>
+					<td><strong>{vtranslate('LBL_BASE_CURRENCY',$MODULE)}</strong></td>
 				</tr>
 				{foreach item=price key=count from=$PRICE_DETAILS}
 					<tr data-currency-id={$price.curname}>
@@ -46,17 +46,17 @@
 								<span class="span8 alignBottom">
 									<span class="pull-left">{$price.currencylabel|@getTranslatedCurrencyString} ({$price.currencysymbol})</span>
 								</span>
-								<span class="span2"><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {$check_value}></span>
+								<span class="span2"><input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{vtranslate('LBL_ENABLE_CURRENCY')}" {else} title="{vtranslate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}></span>
 							</span>
 						</td>
 						<td>
 							<div class="row-fluid">
-								<input {$disable_value} type="text" size="10" class="span9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+								<input {$disable_value} type="text" size="10" class="span9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 							</div>
 						</td>
 						<td>
 							<div class="row-fluid">
-								<input readonly="" type="text" size="10" class="span9 conversionRate" name="cur_conv_rate{$price.curid}" value="{$price.conversionrate}">
+								<input readonly="" type="text" size="10" class="span9 conversionRate" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
 							</div>
 						</td>
 						<td>
@@ -66,7 +66,7 @@
 						</td>
 						<td>
 							<div class="row-fluid textAlignCenter">
-								<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" value="{$price.curname}" {$base_cur_check} />
+								<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{vtranslate('LBL_BASE_CURRENCY')}" value="{$price.curname}" {$base_cur_check} />
 							</div>
 						</td>
 					</tr>

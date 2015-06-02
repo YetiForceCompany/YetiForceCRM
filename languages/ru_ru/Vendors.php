@@ -23,7 +23,6 @@ $languageStrings = [
 	'GL Account'                   => 'Счет в главной книге', 
 	'LBL_ADD_RECORD'               => 'Добавить Поставщика'                  , 
 	'LBL_RECORDS_LIST'             => 'Список Поставщиков'                , 
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_VENDORS_ADD_EVENT' 		=> 'Добавить Событие',
 	'LBL_VENDORS_ADD_TASK'   		=> 'Добавить Задачу',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Адресная информация', 

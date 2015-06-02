@@ -63,25 +63,25 @@ ul > li.blockHeader {
 		<div class="">
 			<ul id="tabs" class="nav" style="list-style-type: none;border-radius: 10px;">
 				<li class="{$BLOCK_LABEL} blockHeader font" style=" margin:0px 10px 0px 10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate({$BLOCK_LABEL}, {$MODULE})} &nbsp;&nbsp;
 				</li>
 				<li class="CONTENT blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
 					{vtranslate('CONTENT', {$MODULE})} &nbsp;&nbsp;
 				</li>
 				<li class="FOOTER blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate('FOOTER', {$MODULE})} &nbsp;&nbsp;
 				</li>
 				<li class="CONDITIONS blockHeader font" style="" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate('CONDITIONS', {$MODULE})} &nbsp;&nbsp;
 				</li>
@@ -179,7 +179,7 @@ ul > li.blockHeader {
 					<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
 						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 					{if $FIELD_MODEL->getName() eq 'filename'}
-								<select id="addFieldName" style="width:180px;  padding-left:0px;margin-left: 10px;">
+								<select id="addFieldName" style="width:180px;  padding-left:0px;margin-left: 10px;" title="{vtranslate('LBL_SELECT_DATE_TYPE', $MODULE)}">
 									<option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
 									<option value="#dd-mm-yyyy#">{vtranslate('Current date (dd-mm-yyyy)', $MODULE)}</option>
 									<option value="#mm-dd-yyyy#">{vtranslate('Current date (mm-dd-yyyy)', $MODULE)}</option>
@@ -197,7 +197,7 @@ ul > li.blockHeader {
 			{if $BLOCK_LABEL eq 'LBL_FOOTER_HEADER'}
 			<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
 			<td class="fieldValue wideWidthType">
-				<select id='select_default_field' style="width: 200px;">	
+				<select title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" id='select_default_field' style="width: 200px;">	
 					{foreach key=name item=single_field from=$DEFAULT_FIELDS}
 							<optgroup label="{$name}">
 						{foreach item=field from=$single_field}
@@ -206,8 +206,8 @@ ul > li.blockHeader {
 							</optgroup>
 					{/foreach}
 				</select>
-				<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>&nbsp;
-				<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><i class="icon-download-alt"></i> </button>
+				<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>&nbsp;
+				<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
 			</td>
             {/if}
 			{/foreach}
@@ -278,3 +278,4 @@ ul > li.blockHeader {
         });	
     });
 </script>
+

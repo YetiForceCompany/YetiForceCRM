@@ -72,9 +72,9 @@
 						<div class='rof-fluid' style="margin-right:20%">
 						<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
 							data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-							<i class="icon-info-sign"></i>
+							<span class="icon-info-sign"></span>
 						</span>
-						<input type="checkbox" id="searchInSubcategories"  name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if})>
+						<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
 						</div>
 					{/if}
 				</th>
@@ -174,3 +174,4 @@
 </div>
 </div>
 {/strip}
+

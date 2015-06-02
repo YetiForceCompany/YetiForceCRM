@@ -250,7 +250,6 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		if($this->getName() == 'hdnTaxType') return null;
 
         if($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
-            $currentUser = Users_Record_Model::getCurrentUserModel();
             if($this->isRoleBased()) {
                 $userModel = Users_Record_Model::getCurrentUserModel();
                 $picklistValues = Vtiger_Util_Helper::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));

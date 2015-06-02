@@ -2556,7 +2556,7 @@ th.htColHeader,
   background-position: 0 0;
   background: #ffffff;
 }
-.addButton i.caret {
+.addButton span.caret {
   background-size: 0;
 }
 .saveButton,

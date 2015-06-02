@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <span class="customFilterMainSpan btn-group">
-	<select id="customFilter"  style="width:350px;">
+	<select id="customFilter"  style="width:350px;" title="{vtranslate('LBL_SELECT_REPORT', $MODULE)}">
 		<optgroup id="foldersBlock" label="{vtranslate('LBL_FOLDERS', $MODULE)}">
 			<option value="All" data-id="All">{vtranslate('LBL_ALL_REPORTS', $MODULE)}</option>
 			{foreach item=FOLDER from=$FOLDERS}
@@ -21,7 +21,7 @@
 	</select>
 </span>
 <span class="hide filterActionImages pull-right">
-	<i title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="icon-trash alignMiddle deleteFilter filterActionImage pull-right"></i>
-	<i title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="icon-pencil alignMiddle editFilter filterActionImage pull-right"></i>
+	<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="icon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
+	<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="icon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
 </span>
 {/strip}

@@ -29,7 +29,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_OR_REPLACE_THIS_ITEM' => ') были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
 	'LBL_RECORDS_LIST'             => 'Список Заказов' ,
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'LBL_SO_INFORMATION'           => 'Заказ', 
 	'LBL_THIS' => 'Товар или Услуга (',
 	'LBL_THIS_LINE_ITEM_IS_DELETED_FROM_THE_SYSTEM_PLEASE_REMOVE_THIS_LINE_ITEM' => 'Товар или Услуга были удалены из системы. Попробуйте заменить на другой Товар или Услугу',
@@ -90,6 +89,8 @@ $languageStrings = [
 	'payment:last day of next month' => 'Последний день следующего месяца',
 	'payment:first day of +3 months' => 'Первый день следующего квартала',
 	'payment:last day of +3 months' => 'Последний день следующего квартала',
+	'LBL_SERVICE' => 'Service',
+	'LBL_PRODUCT' => 'Product',
 ];
 
 $jsLanguageStrings = [

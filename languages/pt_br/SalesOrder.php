@@ -24,7 +24,6 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Adicionar Pedido Vendas' ,
 	'LBL_EXPORT_TO_PDF'=> 'Exportar para PDF' ,
 	'LBL_RECORDS_LIST' => 'Lista Pedidos Vendas',
-  'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'LBL_SO_INFORMATION' => 'Detalhes do Pedido Vendas',
 	'Paid'=>'Pago',
 	'Payment Duration' => 'Intervalo Pagamento' ,
@@ -91,6 +90,8 @@ $languageStrings = [
 	'payment:last day of next month' => 'Último dia próximo mês',
 	'payment:first day of +3 months' => 'Primeiro dia próximo trimestre',
 	'payment:last day of +3 months' => 'Último dia próximo trimestre',
+	'LBL_SERVICE' => 'Service',
+	'LBL_PRODUCT' => 'Product',
 ];
 
 $jsLanguageStrings = [

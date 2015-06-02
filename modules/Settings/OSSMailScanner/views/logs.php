@@ -19,6 +19,7 @@ class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View {
         $viewer = $this->getViewer($request);
         $viewer->assign('RecordModel', $OSSMailScanner_Record_Model);
         $viewer->assign('MODULENAME', $moduleName);
+		$viewer->assign('WIDGET_CFG', $OSSMailScanner_Record_Model->getConfig(''));
         $viewer->assign('HISTORYACTIONLIST', $cron_history_action_list);
         $viewer->assign('HISTORYACTIONLIST_NUM', $this->getNumLog());
 

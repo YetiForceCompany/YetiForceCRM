@@ -16,21 +16,39 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 		if ($eventName == 'vtiger.entity.aftersave.final' && $shared_owners == true) {
 			$moduleName = $entityData->getModuleName();
 			$recordId = $entityData->getId();
-			if ($entityData->get('inheritsharing') != NULL && $entityData->get('inheritsharing') !== 0) {
-				$vtEntityDelta = new VTEntityDelta();
-				$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-				if (array_key_exists("shownerid", $delta)) {
-					$oldValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['oldValue']);
-					$currentValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['currentValue']);
-					if (count($oldValue) == 0) {
-						$addUser = $currentValue;
-						$removeUser = array();
-					} else {
-						$removeUser = array_diff($oldValue, $currentValue);
-						$addUser = array_diff($currentValue, $oldValue);
-					}
-					Users_Privileges_Model::setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName);
+			$vtEntityDelta = new VTEntityDelta();
+			$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
+			$shownerids = $entityData->get('shownerid');
+			$inheritsharing = $entityData->get('inheritsharing');
+			if(array_key_exists("shownerid", $delta)){
+				$usersUpadated = TRUE;
+				$oldValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['oldValue']);
+				$currentValue = Vtiger_Functions::getArrayFromValue($delta['shownerid']['currentValue']);
+				$addUsers = $currentValue;
+				$removeUser = array_diff($oldValue, $currentValue);
+			}else{
+				$usersUpadated = FALSE;
+			}
+			$updateRelatedRecords = TRUE;
+			if(array_key_exists("inheritsharing", $delta)){
+				$inheritsharing = $delta['inheritsharing']['currentValue'];
+				$inheritsharingUpdated = TRUE;
+				if('0' === $delta['inheritsharing']['currentValue']){
+					$updateRelatedRecords = FALSE;
+					$removedShared = TRUE;
 				}
+			}else{
+				$inheritsharingUpdated = FALSE;
+				$inheritsharing = $entityData->get('inheritsharing');
+				if(!$inheritsharing)
+					$updateRelatedRecords = FALSE;
+			}
+			
+			if ($usersUpadated || $inheritsharingUpdated) {
+				if($updateRelatedRecords)
+					Users_Privileges_Model::setSharedOwnerRecursively($recordId, $addUsers, $removeUser, $moduleName);
+				if($removedShared)
+					Users_Privileges_Model::setSharedOwnerRecursively($recordId, [] , $addUsers, $moduleName);
 			}
 		}
 
@@ -51,3 +69,4 @@ class Vtiger_SharingPrivileges_Handler extends VTEventHandler {
 	}
 
 }
+

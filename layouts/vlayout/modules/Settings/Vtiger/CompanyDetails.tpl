@@ -151,7 +151,7 @@
 					<div class="control-group">
 						<div class="control-label">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
 						<div class="controls">
-							<input type="text" name="field name" id="fieldName" />
+							<input type="text" name="field name" id="fieldName" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
 						</div>
 					</div>
 				</div>

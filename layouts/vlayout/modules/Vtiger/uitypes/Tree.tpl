@@ -19,7 +19,7 @@
 <div class="row-fluid input-prepend input-append">
 	{if $FIELD_MODEL->get('displaytype') != 10}
 		<span class="add-on clearTreeSelection cursorPointer">
-			<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='icon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></i>
+			<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class='icon-remove-sign' title="{vtranslate('LBL_CLEAR', $MODULE)}"></span>
 		</span>
 	{/if}
 	<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" class="{if (($smarty.request.view eq 'Edit') or ($smarty.request.module eq 'Webforms'))} span7 {else} span8 {/if}	marginLeftZero treeAutoComplete" {if !empty($displayId)}readonly="true"{/if}
@@ -28,7 +28,7 @@
 	 {if !empty($SPECIAL_VALIDATOR)}data-validator='{Zend_Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}/>
 	{if $FIELD_MODEL->get('displaytype') != 10}
 		<span class="add-on treePopup cursorPointer">
-			<i id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="icon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></i>
+			<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="icon-search" title="{vtranslate('LBL_SELECT', $MODULE)}" ></span>
 		</span>
 	{/if}
 </div>

@@ -15,7 +15,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF' => 'Exporta para PDF',
 	'LBL_QUOTE_INFORMATION' => 'Detalhes da Cotação',
 	'LBL_RECORDS_LIST' => 'Lista de Cotações',
-	'LBL_SEND_MAIL_PDF' => 'Enviar Email com PDF',
 	'Quote No'=>'No. Cotação',
 	'Quote Stage'=>'Estágio da Cotação',
 	'SINGLE_Quotes' => 'Cotação',

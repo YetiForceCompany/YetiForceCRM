@@ -105,7 +105,7 @@ $languageStrings = [
     'users' => 'Users',
 
     'LBL_TEMPLATES' => 'Select PDF template',
-    'LBL_NO_TEMPLATES' => 'Lack of available templates!',
+    'LBL_NO_TEMPLATES' => 'No active templates',
     'company_name' => 'OpenSaaS Sp. z o.o.',
     'street' => 'ul. Kasprzaka 29/31',
     'city' => '01-234 Warszawa',
@@ -467,6 +467,7 @@ $languageStrings = [
 	'Content' => 'Content',
 	'Field' => 'Field',
 	'Label' => 'Label',
+	'LBL_SELECT_DATE_TYPE' => 'Select date type',
 ];
 
 $jsLanguageStrings = [
@@ -540,3 +541,4 @@ $jsLanguageStrings = [
     'Current date (yyyy-mm-dd)' => 'Current data (yyyy-mm-dd)',
         //
 ];
+

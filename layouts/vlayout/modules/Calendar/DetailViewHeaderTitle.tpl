@@ -14,7 +14,7 @@
 	{if file_exists( vimage_path($IMAGE) )}
 		<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" />
+				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
 			</span>
 		</span>
 	{/if}
@@ -52,3 +52,4 @@
 
 	</span>
 {/strip}
+

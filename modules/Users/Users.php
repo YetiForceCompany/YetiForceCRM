@@ -878,8 +878,13 @@ class Users extends CRMEntity {
                     else {
                         $fldvalue = $this->column_fields[$fieldname];
                     }
-                }
-                elseif($uitype == 33) {
+                } elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
+					if (isset($current_user->date_format)) {
+						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
+					} else {
+						$fldvalue = $this->column_fields[$fieldname];
+					}
+				}elseif($uitype == 33) {
                     if(is_array($this->column_fields[$fieldname])) {
                         $field_list = implode(' |##| ',$this->column_fields[$fieldname]);
                     }else {
@@ -924,7 +929,8 @@ class Users extends CRMEntity {
                 $languageList = Vtiger_Language::getAll();
                 $languageList = array_keys($languageList);
                 if(!in_array($fldvalue, $languageList) || $fldvalue == '') {
-                    if(!empty(vglobal('default_language')) && in_array(vglobal('default_language'), $languageList)) {
+					$default_language = vglobal('default_language');
+                    if(!empty($default_language) && in_array($default_language, $languageList)) {
                         $fldvalue = vglobal('default_language');
                     } else {
                         $fldvalue = $languageList[0];

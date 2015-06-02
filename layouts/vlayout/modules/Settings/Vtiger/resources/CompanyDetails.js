@@ -22,8 +22,9 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js",{},{
 	registerAddFieldEvent : function(){
 		jQuery('#addCustomField').on('click',function(e){
 			var modalData = $( ".addCustomFieldModal" ).html();
-			app.showModalWindow(modalData);
-		
+			app.showModalWindow(modalData, function(data){
+				data.find('form').validationEngine();
+			});
 		});
 	},
 

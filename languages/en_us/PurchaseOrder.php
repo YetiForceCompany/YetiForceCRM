@@ -18,7 +18,6 @@ $languageStrings = [
 	'LBL_PAID' => 'Paid',
 	'LBL_PO_INFORMATION' => 'Purchase Order Details',
 	'LBL_RECORDS_LIST' => 'Purchase Order List',
-	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'List Price'                   => 'List Price',
 	'PurchaseOrder No' => 'Purchase Order Number',
 	'Received Shipment'=>'Received Shipment',

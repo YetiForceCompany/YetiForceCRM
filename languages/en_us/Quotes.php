@@ -15,7 +15,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
 	'LBL_QUOTE_INFORMATION' => 'Quote Details',
 	'LBL_RECORDS_LIST' => 'Quotes List',
-	'LBL_SEND_MAIL_PDF' => 'Send Email with PDF',
 	'Quote No'=>'Quote Number',
 	'Quote Stage'=>'Quote Stage',
 	'SINGLE_Quotes' => 'Quote',

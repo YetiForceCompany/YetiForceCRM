@@ -76,7 +76,8 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 	global $app_strings;
 	global $mod_strings;
 	$current_user  = vglobal('current_user');
-	$current_module_strings = return_module_language(vglobal('current_language'), 'PriceBook');
+	$current_language = vglobal('current_language');
+	$current_module_strings = return_module_language($current_language, 'PriceBook');
     $no_of_decimal_places = getCurrencyDecimalPlaces();
 	global $list_max_entries_per_page;
 	global $urlPrefix;

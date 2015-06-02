@@ -12,7 +12,7 @@
 {strip}
 <div class="row-fluid">
 	<div class="span">
-		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}title="1" {else}title="0"{/if}/>&nbsp;&nbsp;
+		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} title="{vtranslate('Recurrence', $MODULE)}"/>&nbsp;&nbsp;
 	</div>
 	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if} span" id="repeatUI" style="width:90%;">
 		<div class="row-fluid">
@@ -36,8 +36,7 @@
 				<span class="alignMiddle displayInlineBlock" style="margin-right:10px;">{vtranslate('LBL_UNTIL', $MODULE)}</span>
 				<span class="input-append date pull-right">
 					<input type="text" id="calendar_repeat_limit_date" class="dateField input-small" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
-						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
-							title="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
+						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" title="{vtranslate('LBL_UNTIL', $MODULE)}"
 						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]' style="width:100px;"/>
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				</span>

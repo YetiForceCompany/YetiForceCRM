@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ********************************************************************************/
-// -ve timestamp before release, +ve timestamp after release.
-$patch_version = '20150521';  
-$YetiForce_current_version = '2.0.1';
+$patch_version = '20150602';  
+$YetiForce_current_version = '2.0.72';
 $_SESSION['yetiforce_version'] = $YetiForce_current_version;

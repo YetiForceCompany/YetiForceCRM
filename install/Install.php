@@ -1,6 +1,8 @@
 <?php
-chdir(dirname(__FILE__) . '/../');
-ini_set('session.save_path','cache/session');
+$rootDirectory = dirname(__FILE__) . '/../';
+chdir($rootDirectory);
+session_save_path($rootDirectory.'cache/session');
+
 // Adjust error_reporting favourable to deployment.
 include_once 'include/RequirementsValidation.php';
 require_once('include/main/WebUI.php');

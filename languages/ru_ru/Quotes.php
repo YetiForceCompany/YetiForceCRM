@@ -20,7 +20,6 @@ $languageStrings = [
 	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
 	'LBL_QUOTE_INFORMATION' => 'Информация',
 	'LBL_RECORDS_LIST' => 'Список Предложений',
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'Quote No'=>'Предложение №',
 	'Quote Stage'=>'Стадия',
 	'SINGLE_Quotes' => 'Предложение',

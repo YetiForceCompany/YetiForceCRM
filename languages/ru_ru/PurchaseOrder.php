@@ -20,7 +20,6 @@ $languageStrings = [
 	'LBL_PAID' => 'Оплачено',
 	'LBL_PO_INFORMATION' => 'Закупка',
 	'LBL_RECORDS_LIST' => 'Список Закупок',
-	'LBL_SEND_MAIL_PDF'	=>	'Отправить по Почте:',
 	'List Price'                   => 'Прайс лист',
 	'PurchaseOrder No' => 'Закупка №',
 	'Received Shipment'=>'Получено с доставкой',

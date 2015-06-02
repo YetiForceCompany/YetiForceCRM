@@ -26,7 +26,7 @@
 							<div class="btn-toolbar">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
-								<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}popoverTooltip{/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
+								<button {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_BASIC_LINK->linkhint, $MODULE_NAME)}" {/if} class="btn {$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())} {if $DETAIL_VIEW_BASIC_LINK->linkhint neq ''}popoverTooltip{/if} {$DETAIL_VIEW_BASIC_LINK->getClassName()}"
 									{assign var="LABEL" value=$DETAIL_VIEW_BASIC_LINK->getLabel()}
 									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
 										onclick="window.open('{$DETAIL_VIEW_BASIC_LINK->getUrl()}','{if $DETAIL_VIEW_BASIC_LINK->linktarget}{$DETAIL_VIEW_BASIC_LINK->linktarget}{else}_self{/if}')"
@@ -52,8 +52,7 @@
 												href='{$DETAIL_VIEW_LINK->getUrl()}' 
 												{if $DETAIL_VIEW_LINK->title neq ''}
 													title="{$DETAIL_VIEW_LINK->title}"
-												{/if}
-												{if  $DETAIL_VIEW_LINK->linklabel eq 'LBL_ADD_NOTE' OR $DETAIL_VIEW_LINK->linklabel eq 'LBL_SHOW_ACCOUNT_HIERARCHY'}
+												{else}
 													title="{vtranslate($DETAIL_VIEW_LINK->linklabel, $MODULE_NAME)}"
 												{/if}
 												{if $DETAIL_VIEW_LINK->linkhint neq ''}data-content="{vtranslate($DETAIL_VIEW_LINK->linkhint, $MODULE_NAME)}" {/if}>
@@ -102,3 +101,4 @@
                     {/if} 
 					<div class="contents">
 {/strip}
+

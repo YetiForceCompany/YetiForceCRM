@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Digitar Descrição' ,
 	'LBL_YEARLY' => 'Anualmente',
 	'LBL_MAIN' => 'Principal',
+	'LBL_SELECT_REPORT' => 'Select report',
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Selecionar tipo de Gráfico',
@@ -122,3 +123,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICATE_RECORD' => 'Duplicar Relatório',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Dados não disponíveis, por favor, verifique os campos selecionados',
 ];
+

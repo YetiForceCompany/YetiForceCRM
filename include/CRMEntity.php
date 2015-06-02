@@ -226,6 +226,7 @@ class CRMEntity {
 		}
 
 		$date_var = date("Y-m-d H:i:s");
+		$insertion_mode = $this->mode;
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if(empty($ownerid)) {
@@ -2572,13 +2573,6 @@ class CRMEntity {
 		$currentTime = date('Y-m-d H:i:s');
 
 		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
-
-		// @Note: We should extend this to event handlers
-		if(vtlib_isModuleActive('ModTracker')) {
-			// Track the time the relation was added
-			require_once 'modules/ModTracker/ModTracker.php';
-			ModTracker::linkRelation($module, $crmid, $with_module, $with_crmid);
-		}
 	}
 
 	/**
@@ -2645,13 +2639,6 @@ class CRMEntity {
 		$currentTime = date('Y-m-d H:i:s');
 
 		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
-
-		// @Note: We should extend this to event handlers
-		if(vtlib_isModuleActive('ModTracker')) {
-			//Track the time the relation was deleted
-			require_once 'modules/ModTracker/ModTracker.php';
-			ModTracker::unLinkRelation($module, $crmid, $with_module, $with_crmid);
-		}
 	}
 
 	/**

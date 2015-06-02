@@ -32,26 +32,29 @@
                 <div class="span8">
                     <h4>{vtranslate('LBL_EXPORT_RECORDS',$MODULE)}</h4>
                     <div class="well exportContents marginLeftZero">
-                        <div class="row-fluid">
+                        <fieldset>
+                            <legend class="hide">{vtranslate('LBL_EXPORT_RECORDS',$MODULE)}</legend>
+                            <div class="row-fluid">
+                                <div class="row-fluid" style="height:30px">
+                                    <div class="span6 textAlignRight row-fluid">
+                                        <div class="span8">{vtranslate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
+                                        <div class="span3"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_SELECTED_RECORDS')}" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/></div>
+                                    </div>
+                                {if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
+                            </div>
                             <div class="row-fluid" style="height:30px">
                                 <div class="span6 textAlignRight row-fluid">
-                                    <div class="span8">{vtranslate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}&nbsp;</div>
-                                    <div class="span3"><input type="radio" name="mode" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}/></div>
+                                    <div class="span8">{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}&nbsp;</div>
+                                    <div class="span3"><input type="radio" name="mode" title="{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}" value="ExportCurrentPage" /></div>
                                 </div>
-                            {if empty($SELECTED_IDS)}&nbsp; <span class="redColor">{vtranslate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
-                        </div>
-                        <div class="row-fluid" style="height:30px">
-                            <div class="span6 textAlignRight row-fluid">
-                                <div class="span8">{vtranslate('LBL_EXPORT_DATA_IN_CURRENT_PAGE',$MODULE)}&nbsp;</div>
-                                <div class="span3"><input type="radio" name="mode" value="ExportCurrentPage" /></div>
                             </div>
-                        </div>
-                        <div class="row-fluid" style="height:30px">
-                            <div class="span6 textAlignRight row-fluid">
-                                <div class="span8">{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
-                                <div class="span3"><input type="radio"  name="mode" value="ExportAllData"  {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
+                            <div class="row-fluid" style="height:30px">
+                                <div class="span6 textAlignRight row-fluid">
+                                    <div class="span8">{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}&nbsp;</div>
+                                    <div class="span3"><input type="radio"  name="mode" value="ExportAllData" title="{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}" {if empty($SELECTED_IDS)} checked="checked" {/if} /></div>
+                                </div>
                             </div>
-                        </div>
+                        </fieldset>
                     </div>
                     <br>
                     <div class="textAlignCenter">
@@ -64,3 +67,4 @@
     </form>
 </div>
 {/strip}
+

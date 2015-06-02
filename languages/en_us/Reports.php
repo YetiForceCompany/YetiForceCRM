@@ -88,6 +88,7 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Enter Description',
 	'LBL_YEARLY' => 'Yearly',
 	'LBL_MAIN' => 'Main',
+	'LBL_SELECT_REPORT' => 'Select report',
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Select chart type',
@@ -122,3 +123,4 @@ $jsLanguageStrings = [
 	'JS_DUPLICATE_RECORD' => 'Duplicate Report',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Data not available, please check the selected fields',
 ];
+

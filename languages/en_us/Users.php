@@ -309,6 +309,8 @@ $languageStrings = [
 	
 	'LBL_GENERATED_COLOR' => 'Color generated',
 	'LBL_SAVE_COLOR' => 'Color saved',
+	'LBL_EMAIL' => 'e-mail',
+	'LBL_SPACE' => 'Space',
 ];
 
 $jsLanguageStrings = [
@@ -323,3 +325,4 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD'=>'Incorrect old password specified. Re-enter password information.',
 	'JS_REENTER_PASSWORDS'=>'Please re-enter passwords.  The \"new password\" and \"confirm password\" values do not match.',
 ];
+

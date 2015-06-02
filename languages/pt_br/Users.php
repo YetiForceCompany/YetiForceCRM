@@ -315,6 +315,8 @@ $languageStrings = [
 		
 	'LBL_GENERATED_COLOR' => 'Cor gerada',
 	'LBL_SAVE_COLOR' => 'Cor salva',
+	'LBL_EMAIL' => 'e-mail',
+	'LBL_SPACE' => 'Space',
 ];
 
 $jsLanguageStrings = [
@@ -329,3 +331,4 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD'=>'A senha antiga está incorreta. Redigite a senha.',
 	'JS_REENTER_PASSWORDS'=>'Por favor, redigite suas senhas.  Os valores da \"nova senha\" e \"senha de confirmação\" não combinam.',
 ];
+

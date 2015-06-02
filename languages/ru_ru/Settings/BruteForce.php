@@ -30,11 +30,9 @@ $languageStrings = [
 	'Unblock'	=>	'Разблокирован',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
-	
+	'LBL_SAVE' => 'Save',
 	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
-    
 ];
-
 $jsLanguageStrings = [
 	'Could not finnish reaction.'	=>	'Изменения не сохранены',
 	'Complete the fields'	=>	'Заполните поля',
@@ -44,5 +42,4 @@ $jsLanguageStrings = [
 	'LBL_UNBLOCK_SUCCESS'	=>	'IP адрес разблокирован',
 	'JS_WRONG_ATTEMPS_NUMBER' => 'Неправильный формат количества попыток',
 	'JS_WRONG_TIME_LOCK_FORMAT' => 'Неправильный формат времени блокировки',
-    
 ];

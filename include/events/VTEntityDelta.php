@@ -23,7 +23,7 @@ class VTEntityDelta extends VTEventHandler {
 		$adb = PearDatabase::getInstance();
 		$moduleName = $entityData->getModuleName();
 		$recordId = $entityData->getId();
-		if($eventName == 'vtiger.entity.beforesave' || $eventName == 'vtiger.entity.beforeunlink') {
+		if($eventName == 'vtiger.entity.beforesave' || $eventName == 'vtiger.entity.unlink.before') {
 			if(!empty($recordId)) {
 				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
 				if($moduleName == 'HelpDesk') {
@@ -34,7 +34,7 @@ class VTEntityDelta extends VTEventHandler {
 				self::$oldEntity[$moduleName][$recordId] = $entityData;
 			}
 		}
-		if($eventName == 'vtiger.entity.aftersave' || $eventName == 'vtiger.entity.afterunlink'){
+		if($eventName == 'vtiger.entity.aftersave' || $eventName == 'vtiger.entity.unlink.after'){
 			$this->fetchEntity($moduleName, $recordId);
 			$this->computeDelta($moduleName, $recordId);
 		}
@@ -117,6 +117,4 @@ class VTEntityDelta extends VTEventHandler {
 		}
 		return $result;
 	}
-
 }
-?>

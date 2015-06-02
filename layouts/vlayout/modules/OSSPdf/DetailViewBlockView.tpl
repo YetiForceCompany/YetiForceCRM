@@ -40,25 +40,25 @@ ul > li.blockHeader {
 		<div class="">
 			<ul id="tabs" class="nav" style="list-style-type: none;border-radius: 10px;">
 				<li class="{$BLOCK_LABEL_KEY} blockHeader font" style=" margin:0px 10px 0px 10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs " alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate({$BLOCK_LABEL_KEY}, {$MODULE_NAME})} &nbsp;&nbsp;
 				</li>
 				<li class="CONTENT blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs " alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
 					{vtranslate('CONTENT', {$MODULE_NAME})} &nbsp;&nbsp;
 				</li>
 				<li class="FOOTER blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs " alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate('FOOTER', {$MODULE_NAME})} &nbsp;&nbsp;
 				</li>
 				<li class="CONDITIONS blockHeader font" style="" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  src="{vimage_path('arrowDown.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
+					<img class="cursorPointer alignMiddle blockToggle hide pngs " alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
 					&nbsp;&nbsp;
 					{vtranslate('CONDITIONS', {$MODULE})} &nbsp;&nbsp;
 				</li>
@@ -97,8 +97,8 @@ ul > li.blockHeader {
 				<thead>
 				<tr>
 				<th class="blockHeader" colspan="4">
-						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
-						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
+						<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
+						<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}>
 						&nbsp;&nbsp;{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}
 				</th>
 				</tr>

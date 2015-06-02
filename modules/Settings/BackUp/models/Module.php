@@ -479,7 +479,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		$adb = PearDatabase::getInstance();
 		$deleteQuery = "DELETE FROM `vtiger_backup_users`";
 		$adb->query($deleteQuery);
-		if('null' != $selectedUsers){
+		if('' != $selectedUsers){
 			$insertQuery = "INSERT INTO `vtiger_backup_users` (id) VALUES(?)";
 			foreach ($selectedUsers as $userId) {
 				$adb->pquery($insertQuery, array($userId));

@@ -145,12 +145,14 @@ class Vtiger_Language_Handler {
     public static function getLanguage() {
         $userModel = Users_Record_Model::getCurrentUserModel();
         $language = '';
-        if (vglobal('translated_language') != '') {
+		$translated_language = vglobal('translated_language');
+        if ($translated_language != '') {
 			$language = vglobal('translated_language');
         }elseif(!empty($userModel)){
 			$language = $userModel->get('language');
 		}
-        return empty($language) ? vglobal('default_language') : $language;
+		$language = empty($language) ? vglobal('default_language') : $language;
+        return $language;
     }
 
     /**

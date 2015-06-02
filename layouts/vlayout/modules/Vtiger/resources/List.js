@@ -1420,7 +1420,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var thisInstance = this;
 		var listViewFilterBlock = this.getFilterBlock();
 		if(listViewFilterBlock != false){
-			listViewFilterBlock.on('mouseup','li i.editFilter',function(event){
+			listViewFilterBlock.on('mouseup','li span.editFilter',function(event){
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
@@ -1440,7 +1440,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var listViewFilterBlock = this.getFilterBlock();
 		if(listViewFilterBlock != false){
 			//used mouseup event to stop the propagation of customfilter select change event.
-			listViewFilterBlock.on('mouseup','li i.deleteFilter',function(event){
+			listViewFilterBlock.on('mouseup','li span.deleteFilter',function(event){
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
@@ -1471,13 +1471,18 @@ jQuery.Class("Vtiger_List_Js",{
 		var listViewFilterBlock = this.getFilterBlock();
 
 		if(listViewFilterBlock != false){
-			listViewFilterBlock.on('mouseup','li i.approveFilter',function(event){
+			listViewFilterBlock.on('mouseup','li span.approveFilter',function(event){
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var approveUrl = currentOptionElement.data('approveurl');
-				window.location.href = approveUrl;
+				var newEle = '<form action=' + approveUrl + ' method="POST">' +
+						'<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>' +
+						'</form>';
+				var formElement = jQuery(newEle);
+                                              
+                formElement.appendTo('body').submit(); 
 				event.stopPropagation();
 			});
 		}
@@ -1491,7 +1496,7 @@ jQuery.Class("Vtiger_List_Js",{
 		var listViewFilterBlock = this.getFilterBlock();
 
 		if(listViewFilterBlock != false){
-			listViewFilterBlock.on('mouseup','li i.denyFilter',function(event){
+			listViewFilterBlock.on('mouseup','li span.denyFilter',function(event){
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
 				var liElement = jQuery(event.currentTarget).closest('.select2-result-selectable');

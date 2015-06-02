@@ -331,7 +331,8 @@ class ReportRun extends CRMEntity
 			}
 			$querycolumns = $this->getEscapedColumns($selectedfields);
 			if(isset($module) && $module!="") {
-				$mod_strings = return_module_language(vglobal('current_language'),$module);
+				$current_language = vglobal('current_language');
+				$mod_strings = return_module_language($current_language,$module);
 			}
 
 			$targetTableName = $tablename;
@@ -4174,7 +4175,8 @@ class ReportRun extends CRMEntity
 	function writeReportToExcelFile($fileName, $filterlist='') {
 
 		$currentModule = vglobal('currentModule');
-		$mod_strings = return_module_language(vglobal('current_language'), $currentModule);
+		$current_language = vglobal('current_language');
+		$mod_strings = return_module_language($current_language, $currentModule);
 
 		require_once("libraries/PHPExcel/PHPExcel.php");
 
@@ -4254,7 +4256,8 @@ class ReportRun extends CRMEntity
 	function writeReportToCSVFile($fileName, $filterlist='') {
 
 		$currentModule = vglobal('currentModule');
-		$mod_strings = return_module_language(vglobal('current_language'), $currentModule);
+		$current_language = vglobal('current_language');
+		$mod_strings = return_module_language($current_language, $currentModule);
 
 		$reportData = $this->GenerateReport("PDF",$filterlist);
         $arr_val = $reportData['data'];
