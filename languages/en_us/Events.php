@@ -92,4 +92,6 @@ $languageStrings = [
 	'LBL_REMAIND_DAYS' => 'Remaind after defined number of days',
 	'LBL_REPEAT_FOR' => 'Repeat for',
 	'LBL_RECURRING_TYPE' => 'Recurring type',
+	'Time Start'=>'Time start',
 ];
+

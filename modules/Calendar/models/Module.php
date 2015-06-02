@@ -489,7 +489,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($link)."&record=$link";
 				}
 				if($url != ''){
-					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><i class='icon-envelope icon-white'></i>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
+					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><span class='icon-envelope icon-white'></span>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
 				}
 				$recordModels[] = $recordModel;
 			}

@@ -92,4 +92,6 @@ $languageStrings = [
 	'LBL_REMAIND_DAYS' => 'Lembrar após determinado número de dias',
 	'LBL_REPEAT_FOR' => 'Repetir para',
 	'LBL_RECURRING_TYPE' => 'Tipo recorrente',
+	'Time Start'=>'Time start',
 ];
+

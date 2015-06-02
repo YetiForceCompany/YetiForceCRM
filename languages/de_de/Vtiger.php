@@ -816,6 +816,8 @@ $languageStrings = [
 	'LBL_SELECT_RECORD' => 'Select record',
 	'LBL_SELECT_RELATED_FIELD' => 'Select related module field',
 	'LBL_COMPARISON_VALUE' => 'Comparison value',
+	'Website' => 'Webseite',
+
 	/* industry */
 	'Administration'=>'Verwaltung',
 	'Construction Industry'=>'Baubranche',

@@ -24,7 +24,7 @@
 <div>
 	<div style="float:left">
 		<input type="hidden" name=set_reminder value=0 />
-		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} {if $REMINDER_VALUES neq ''} title="1" {else} title="0" {/if} value=1 />&nbsp;&nbsp;
+		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
 	</div>
 	<div style="float:left" class="{if $REMINDER_VALUES neq ''}show{else}hide{/if}">
 		<div style="float:left">
