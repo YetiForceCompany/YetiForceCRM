@@ -29,7 +29,7 @@ $languageStrings = [
     'Unblock' => 'Desbloquear',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuários para notificações',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Ativo',
-	'LBL_SAVE' => 'Save',
+	'LBL_SAVE' => 'Salvar',
 	'LBL_VIEW_SHOW' => 'Força Bruta',
 ];
 $jsLanguageStrings = [
