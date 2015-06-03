@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -12,7 +12,7 @@
 {strip}
 <div class="row">
 	<div class="span">
-		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}title="1" {else}title="0"{/if}/>&nbsp;&nbsp;
+		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} title="{vtranslate('Recurrence', $MODULE)}"/>&nbsp;&nbsp;
 	</div>
 	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if} span" id="repeatUI" >
 		<div class="row">
@@ -36,8 +36,7 @@
 				<span class="alignMiddle displayInlineBlock" style="margin-right:10px;">{vtranslate('LBL_UNTIL', $MODULE)}</span>
 				<span class="input-group date pull-right">
 					<input type="text" id="calendar_repeat_limit_date" class="dateField input-sm" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
-						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
-							title="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" 
+						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" title="{vtranslate('LBL_UNTIL', $MODULE)}"
 						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]' style="width:100px;"/>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 				</span>

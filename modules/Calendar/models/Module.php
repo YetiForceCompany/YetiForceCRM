@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -489,7 +489,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model {
 					$url = "index.php?module=OSSMail&view=compose&mod=".Vtiger_Functions::getCRMRecordType($link)."&record=$link";
 				}
 				if($url != ''){
-					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><i class='glyphicon glyphicon-envelope icon-white'></i>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
+					$recordModel->set('mailUrl',"<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;".vtranslate('LBL_SEND_MAIL')."</a>");
 				}
 				$recordModels[] = $recordModel;
 			}

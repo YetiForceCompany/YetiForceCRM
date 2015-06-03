@@ -175,6 +175,16 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action {
 			}
 			$recordModel->set('visibility', ucfirst($sharedType));
 		}
+		
+        $time = (strtotime($endTime)) - (strtotime($startTime));
+		$diffinSec = (strtotime($endDate)) - (strtotime($startDate));
+		$diff_days = floor($diffinSec / (60 * 60 * 24));
+
+		$hours = ((float) $time / 3600) + ($diff_days * 24);
+		$minutes = ((float) $hours - (int) $hours) * 60;
+
+		$recordModel->set('duration_hours', (int) $hours);
+		$recordModel->set('duration_minutes', round($minutes, 0));
 
 		return $recordModel;
 	}

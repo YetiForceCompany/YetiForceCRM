@@ -165,6 +165,23 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 		return $data;
 	}
 
+	 /**
+	 * Function returns Top Potentials Header
+	 * 
+	 */
+	function getTopPotentialsHeader() {
+		$headerArray = array('potentialname' => 'Potential Name');
+		$fieldsToDisplay = array('sum_invoices', 'related_to');
+		$moduleModel = Vtiger_Module_Model::getInstance('Potentials');
+		foreach ($fieldsToDisplay as $value) {
+			$fieldInstance = Vtiger_Field_Model::getInstance($value, $moduleModel);
+			if ($fieldInstance->isViewable()) {
+				$headerArray = array_merge($headerArray, array($value => $fieldInstance->label));
+			}
+		}
+		return $headerArray;
+	}
+
 	/**
 	 * Function returns Top Potentials
 	 * @return <Array of Vtiger_Record_Model>
@@ -172,12 +189,22 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 	function getTopPotentials($pagingModel) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$db = PearDatabase::getInstance();
-		$query = "SELECT crmid, sum_invoices, potentialname, related_to FROM vtiger_potential
+        $moduleModel = Vtiger_Module_Model::getInstance('Potentials');
+        $fieldsToDisplay=  array("sum_invoices","related_to");
+         
+        $query = "SELECT crmid , potentialname ";
+		foreach ($fieldsToDisplay as $value) {
+			$fieldInstance = Vtiger_Field_Model::getInstance($value, $moduleModel);
+			if ($fieldInstance->isViewable()) {
+				$query = $query . ', ' . $value;
+			}
+		}
+		$query = $query . ' FROM vtiger_potential
 						INNER JOIN vtiger_crmentity ON vtiger_potential.potentialid = vtiger_crmentity.crmid
-							AND deleted = 0 ".Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName())."
+							AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . "
 						WHERE sales_stage NOT IN ('Closed Won', 'Closed Lost') AND sum_invoices > 0
-						ORDER BY sum_invoices DESC LIMIT ".$pagingModel->getStartIndex().", ".$pagingModel->getPageLimit()."";
-		$result = $db->pquery($query, array());
+						ORDER BY sum_invoices DESC LIMIT " . $pagingModel->getStartIndex() . ', ' . $pagingModel->getPageLimit();
+		$result = $db->pquery($query, []);
 
 		$models = array();
 		for($i=0; $i<$db->num_rows($result); $i++) {

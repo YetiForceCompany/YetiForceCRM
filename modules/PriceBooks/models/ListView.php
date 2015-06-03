@@ -9,14 +9,6 @@
  *************************************************************************************/
 
 class PriceBooks_ListView_Model extends Vtiger_ListView_Model {
-	/*
-	 * Function to give advance links of a module
-	 *	@RETURN array of advanced links
-	*/
-	public function getAdvancedLinks() {
-		return array();
-	}
-
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel

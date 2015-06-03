@@ -201,7 +201,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 			$relatedColumnFields['listprice'] = 'listprice';
 			$relatedColumnFields['currency_id'] = 'currency_id';
 		}
-		
+        if ($relationModuleName == 'Documents') {
+			$relatedColumnFields['filelocationtype'] = 'filelocationtype';
+			$relatedColumnFields['filestatus'] = 'filestatus';
+		}
+
 		$query = $this->getRelationQuery();
 
 		if ($this->get('whereCondition')) {
@@ -245,11 +249,39 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		for($i=0; $i< $db->num_rows($result); $i++ ) {
 			$row = $db->fetch_row($result,$i);
+			$recordId = $db->query_result($result,$i,'crmid');
 			$newRow = array();
 			foreach($row as $col=>$val){
 				if(array_key_exists($col,$relatedColumnFields)){
-                    $newRow[$relatedColumnFields[$col]] = $val;
-                }
+					if ($relationModuleName == 'Documents' && $col == 'filename') {
+						$fileName = $db->query_result($result, $i, 'filename');
+						$downloadType = $db->query_result($result, $i, 'filelocationtype');
+						$status = $db->query_result($result, $i, 'filestatus');
+						$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
+
+						$fileIdRes = $db->pquery($fileIdQuery, array($recordId));
+						$fileId = $db->query_result($fileIdRes, 0, 'attachmentsid');
+
+						if ($fileName != '' && $status == 1) {
+							if ($downloadType == 'I') {
+								$val = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
+										' href="index.php?module=Documents&action=DownloadFile&record=' . $recordId . '&fileid=' . $fileId . '"' .
+										' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $relationModuleName) .
+										'" >' . textlength_check($val) .
+										'</a>';
+							} elseif ($downloadType == 'E') {
+								$val = '<a onclick="Javascript:Documents_Index_Js.updateDownloadCount(\'index.php?module=Documents&action=UpdateDownloadCount&record=' . $recordId . '\');"' .
+										' href="' . $fileName . '" target="_blank"' .
+										' title="' . getTranslatedString('LBL_DOWNLOAD_FILE', $relationModuleName) .
+										'" >' . textlength_check($val) .
+										'</a>';
+							} else {
+								$val = ' --';
+							}
+						}
+					}
+					$newRow[$relatedColumnFields[$col]] = $val;
+				}
             }
 			//To show the value of "Assigned to"
 			$ownerId = $row['smownerid'];

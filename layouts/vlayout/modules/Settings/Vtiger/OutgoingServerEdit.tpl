@@ -50,7 +50,7 @@
 				</tbody>
 			</table>
 			<br>	
-			<div class="alert alert-info">{vtranslate('LBL_OUTGOING_SERVER_FROM_FIELD', $QUALIFIED_MODULE)}</div>
+			<div class="alert alert-info">{vtranslate('LBL_OUTGOING_SERVER_NOTE', $QUALIFIED_MODULE)}</div>
 		</form>
 	</div>
 </div>

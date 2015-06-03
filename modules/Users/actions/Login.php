@@ -66,9 +66,14 @@ class Users_Login_Action extends Vtiger_Action_Controller {
 			//Track the login History
 			$moduleModel->saveLoginHistory($user->column_fields['user_name']);
 			//End
-
-			header ('Location: index.php');
-			exit();
+			if(isset($_SESSION['return_params'])) {
+                $return_params = urldecode($_SESSION['return_params']);
+                header("Location: index.php?$return_params");
+                exit();
+            } else {
+                header('Location: index.php');
+                exit();
+            }
 		} else {
 			//Track the login History
 			$browser = Settings_BruteForce_Module_Model::browserDetect();

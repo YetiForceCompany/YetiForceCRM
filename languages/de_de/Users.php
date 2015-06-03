@@ -315,6 +315,7 @@ $languageStrings = [
 	'LBL_GENERATED_COLOR' => 'Farbe generiert',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'LBL_EMAIL' => 'e-mail',
+	'LBL_SPACE' => 'Space',
 ];
 
 $jsLanguageStrings = [

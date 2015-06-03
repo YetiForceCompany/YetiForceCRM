@@ -878,8 +878,13 @@ class Users extends CRMEntity {
                     else {
                         $fldvalue = $this->column_fields[$fieldname];
                     }
-                }
-                elseif($uitype == 33) {
+                } elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
+					if (isset($current_user->date_format)) {
+						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
+					} else {
+						$fldvalue = $this->column_fields[$fieldname];
+					}
+				}elseif($uitype == 33) {
                     if(is_array($this->column_fields[$fieldname])) {
                         $field_list = implode(' |##| ',$this->column_fields[$fieldname]);
                     }else {
@@ -1500,9 +1505,9 @@ class Users extends CRMEntity {
 
 		vtws_transferOwnership($userId, $transformToUserId);
 
-		//delete from user vtiger_table;
-		$sql = "delete from vtiger_users where id=?";
-		$adb->pquery($sql, array($userId));
+		//updating the vtiger_users table;
+		$sql = "UPDATE vtiger_users SET status=?,deleted=? where id=?";
+		$adb->pquery($sql, array('Inactive', true, $userId));
 	}
 
     /**

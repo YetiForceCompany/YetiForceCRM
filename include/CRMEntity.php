@@ -226,6 +226,7 @@ class CRMEntity {
 		}
 
 		$date_var = date("Y-m-d H:i:s");
+		$insertion_mode = $this->mode;
 
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if(empty($ownerid)) {

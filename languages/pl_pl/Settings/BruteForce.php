@@ -29,10 +29,9 @@ $languageStrings = [
     'Unblock' => 'Odblokuj',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Użytkownicy dla powiadomień',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktywny',
-	
+	'LBL_SAVE' => 'Zapisz',
 	'LBL_VIEW_SHOW' => 'Brute Force',
 ];
-
 $jsLanguageStrings = [
     'Could not finnish reaction.' => 'Nie można było dokończyć akcji.',
     'Complete the fields' => 'Uzupełnij pola',

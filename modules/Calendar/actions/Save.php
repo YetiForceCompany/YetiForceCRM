@@ -162,11 +162,15 @@ class Calendar_Save_Action extends Vtiger_Save_Action {
 			$_REQUEST['set_reminder'] = 'No';
 		}
 
-		$time = strtotime($request->get('due_date'))-strtotime($request->get('date_start'));
-		$hours = (float)$time/3600;
-		$minutes = ((float)$hours-(int)$hours)*60;
-		$recordModel->set('duration_hours', (int)$hours);
-		$recordModel->set('duration_minutes', $minutes);
+		$time = (strtotime($request->get('time_end')))- (strtotime($request->get('time_start')));
+        $diffinSec=  (strtotime($request->get('due_date')))- (strtotime($request->get('date_start')));
+        $diff_days=floor($diffinSec/(60*60*24));
+       
+        $hours=((float)$time/3600)+($diff_days*24);
+        $minutes = ((float)$hours-(int)$hours)*60;  
+        
+        $recordModel->set('duration_hours', (int)$hours);
+		$recordModel->set('duration_minutes', round($minutes,0));
 
 		return $recordModel;
 	}

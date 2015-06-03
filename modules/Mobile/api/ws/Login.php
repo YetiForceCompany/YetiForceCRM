@@ -48,6 +48,7 @@ class Mobile_WS_Login extends Mobile_WS_Controller {
 				'userid' => $current_user->id,
 				'crm_tz' => DateTimeField::getDBTimeZone(),
 				'user_tz' => $current_user->time_zone,
+				'user_currency' => $current_user->currency_code,
 				'session'=> $sessionid,
 				'yetiforce_version' => Mobile_WS_Utils::getVtigerVersion(),
 				'date_format' => $current_user->date_format, 

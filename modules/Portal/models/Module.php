@@ -48,8 +48,7 @@ class Portal_Module_Model extends Vtiger_Module_Model {
         return $data;
     }
     
-    public function deleteRecord($recordModel) {
-        $recordId = $recordModel->getId();
+    public function deleteRecord($recordId) {
         $db = PearDatabase::getInstance();
         $db->pquery('DELETE FROM vtiger_portal WHERE portalid = ?', array($recordId));
     }

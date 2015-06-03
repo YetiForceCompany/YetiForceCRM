@@ -27,10 +27,15 @@
         {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
         {if $FIELD_MODEL->get('name') eq 'defaulteventstatus' || $FIELD_MODEL->get('name') eq 'defaultactivitytype' }<option value="{vtranslate('LBL_SELECT_OPTION','Vtiger')}">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
         {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			{if $FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator'}
-				<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE}</option>
+			{assign var=OPTION_VALUE value=Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}
+			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
+				{assign var=PICKLIST_VALUE value=vtranslate('LBL_SPACE', 'Users')}
+				{assign var=OPTION_VALUE value='&nbsp;'}
+				<option value="{$OPTION_VALUE}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq decode_html($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
+			{elseif $FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator'}
+				<option value="{$OPTION_VALUE}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq decode_html($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{else}
-				<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
+				<option value="{$OPTION_VALUE}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim(decode_html($OPTION_VALUE))} selected {/if}>{$PICKLIST_VALUE}</option>
 			{/if}
         {/foreach}
     </select>

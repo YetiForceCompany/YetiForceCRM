@@ -14,18 +14,28 @@
 	<div class='row'>
 		<div class='col-md-12'>
 			<div class='row'>
-				<div class='col-md-4'>
-					<strong>{vtranslate('Potential Name', $MODULE_NAME)}</strong>
-				</div>
-				<div class='col-md-4'>
-					<strong>{vtranslate('Amount', $MODULE_NAME)}</strong>
-				</div>
-				<div class='col-md-4'>
-					<strong>{vtranslate('Related To', $MODULE_NAME)}</strong>
-				</div>
+				{foreach item=HEADER from=$MODULE_HEADER}
+					<div class='col-md-4'>
+						<strong>{vtranslate({$HEADER}, $MODULE_NAME)}</strong>
+					</div>
+                {/foreach}
 			</div>
 		</div>
 		<hr>
+       {foreach item=MODEL from=$MODELS}
+		    <div class='row'>
+			{foreach item=HEADER key=KEY_VALUE from=$MODULE_HEADER}
+				<div class='col-md-4'>
+					{if $KEY_VALUE eq 'potentialname'}
+						<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
+					{else}  
+						{$MODEL->getDisplayValue({$KEY_VALUE})}
+					{/if}
+				 </div>
+			{/foreach}
+			</div>
+		</div>
+		{/foreach}
 		{foreach item=MODEL from=$MODELS}
 		<div class='row'>
 			<div class='col-md-4'>

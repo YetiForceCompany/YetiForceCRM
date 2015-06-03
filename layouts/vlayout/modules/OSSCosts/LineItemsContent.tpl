@@ -114,7 +114,7 @@
 			{else}
 				{assign var="LIST_PRICE_VALUE" value=0}
 			{/if}
-			<input id="{$listPrice}" name="{$listPrice}" value="{LIST_PRICE_VALUE}" title="{$LIST_PRICE_VALUE}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
+			<input id="{$listPrice}" name="{$listPrice}" value="{$LIST_PRICE_VALUE}" title="{$LIST_PRICE_VALUE}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
 		</div>
 		<div>
 			<span>

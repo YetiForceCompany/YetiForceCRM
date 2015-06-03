@@ -29,11 +29,10 @@ $languageStrings = [
     'Unblock' => 'Unblock',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
-	
+	'LBL_SAVE' => 'Save',
 	'LBL_VIEW_SHOW' => 'Brute Force',
     
 ];
-
 $jsLanguageStrings = [
     'Could not finnish reaction.' => 'Could not finnish this action.',
     'Complete the fields' => 'Complete the fields',
@@ -43,5 +42,4 @@ $jsLanguageStrings = [
     'LBL_UNBLOCK_SUCCESS' => 'IP address has been unblocked',   
 	'JS_WRONG_ATTEMPS_NUMBER' => 'You have entered an incorrect format for a number of attempts, correct it.',
 	'JS_WRONG_TIME_LOCK_FORMAT' => 'You have entered an incorrect format for a time lock, correct it.'     
-    
 ];

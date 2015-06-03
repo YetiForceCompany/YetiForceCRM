@@ -863,6 +863,7 @@ $languageStrings = [
 	'Permission to perform the operation is denied'=>'Nie masz uprawnień do wykonania tej operacji',
 	'LBL_NO_FOUND_VIEW' => 'Nie znalezniono widoku',
 	'LBL_SEARCH_MODULE' => 'Wyszukaj modułu',
+	'Website' => 'Strona internetowa',
 	
 	"is"=>"równa się",
 	"is not"=>"nie równa się",
