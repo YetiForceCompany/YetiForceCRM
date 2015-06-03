@@ -69,17 +69,17 @@ ul > li.blockHeader {
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELD_MODEL_LIST}
 				<tr>
 				<td id="DOC_{$BLOCK_LABEL_KEY}" style="display: none;" colspan="12" >
-					<iframe id="emailPreview_Content" style="width: 100%;height: 300px;" src="{$URL_{$BLOCK_LABEL_KEY}}" frameborder="0"></iframe>
+					<iframe class="pdfPreview_Content" style="width: 100%;height: 300px;" src="{$URL_{$BLOCK_LABEL_KEY}}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>
 				<td id="DOC_CONTENT" style="display: none;" colspan="12" >
-					<iframe id="emailPreview_Content" style="width: 100%; height: 600px;" src="{$URL_CONTENT}" frameborder="0"></iframe>
+					<iframe class="pdfPreview_Content" style="width: 100%; height: 600px;" src="{$URL_CONTENT}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>
 				<td id="DOC_FOOTER" style="display: none;" colspan="12">
-					<iframe id="emailPreview_Content" style="width: 100%;height: 300px;" src="{$URL_FOOTER}" frameborder="0"></iframe>
+					<iframe class="pdfPreview_Content" style="width: 100%;height: 300px;" src="{$URL_FOOTER}" frameborder="0"></iframe>
 				</td>
 				</tr>
 				<tr>		
@@ -243,3 +243,4 @@ jQuery(function(){
 
 
 </script>
+
