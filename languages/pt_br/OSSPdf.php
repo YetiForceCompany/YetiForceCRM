@@ -467,7 +467,7 @@ $languageStrings = [
 	'Content' => 'Conteúdo',
 	'Field' => 'Campo',
 	'Label' => 'Rótulo',
-	'LBL_SELECT_DATE_TYPE' => 'Select date type',
+	'LBL_SELECT_DATE_TYPE' => 'Selecionar tipo data',
 ];
 
 $jsLanguageStrings = [
