@@ -155,6 +155,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
+		$viewer->assign('MINCSS', Vtiger_Functions::getCompressInfo('css'));
+		$viewer->assign('MINJS', Vtiger_Functions::getCompressInfo('js'));
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -214,6 +216,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 	function checkAndConvertJsScripts($jsFileNames) {
 		$fileExtension = 'js';
+		$min = Vtiger_Functions::getCompressInfo('js');
 
 		$jsScriptInstances = array();
 		foreach($jsFileNames as $jsFileName) {
@@ -241,6 +244,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 			} else {
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName.$min, 'js');
+				if(file_exists($fallBackFilePath)) {
+					$filePath = str_replace('.','/', $jsFileName) . $min. '.js';
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
+				}
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName, 'js');
 				if(file_exists($fallBackFilePath)) {
 					$filePath = str_replace('.','/', $jsFileName) . '.js';

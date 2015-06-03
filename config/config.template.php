@@ -253,3 +253,8 @@ $backgroundClosingModal = TRUE;
 
 // enable CSRF-protection
 $csrfProtection = TRUE;
+
+
+$compressCSS = TRUE;
+
+$compressJS = TRUE;
