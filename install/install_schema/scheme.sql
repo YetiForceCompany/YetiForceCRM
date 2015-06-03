@@ -921,18 +921,20 @@ CREATE TABLE `vtiger_backup` (
   PRIMARY KEY (`backupid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_backup_db_tmp` */
+/*Table structure for table `vtiger_backup_db` */
 
-CREATE TABLE `vtiger_backup_db_tmp` (
-  `tmpbackupid` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vtiger_backup_db` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
   `table_name` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`tmpbackupid`)
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `num` int(19) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_backup_db_tmp_info` */
+/*Table structure for table `vtiger_backup_info` */
 
-CREATE TABLE `vtiger_backup_db_tmp_info` (
+CREATE TABLE `vtiger_backup_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_name` varchar(50) NOT NULL,
   `status` varchar(20) NOT NULL,
@@ -943,11 +945,14 @@ CREATE TABLE `vtiger_backup_db_tmp_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_backup_dir` */
+/*Table structure for table `vtiger_backup_files` */
 
-CREATE TABLE `vtiger_backup_dir` (
-  `name` varchar(200) NOT NULL,
-  `backup` int(11) NOT NULL
+CREATE TABLE `vtiger_backup_files` (
+  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `backup` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `backup` (`backup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_backup_ftp` */

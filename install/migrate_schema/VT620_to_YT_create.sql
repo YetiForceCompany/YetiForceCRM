@@ -771,14 +771,14 @@ CREATE TABLE IF NOT EXISTS `vtiger_backup` (
 PRIMARY KEY (`backupid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_backup_db_tmp` (
+CREATE TABLE IF NOT EXISTS `vtiger_backup_db` (
 `tmpbackupid` int(11) NOT NULL AUTO_INCREMENT,
 `table_name` varchar(100) NOT NULL,
 `status` tinyint(1) NOT NULL,
 PRIMARY KEY (`tmpbackupid`)) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_backup_db_tmp_info` (
+CREATE TABLE IF NOT EXISTS `vtiger_backup_info` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `file_name` varchar(50) NOT NULL,
 `status` varchar(20) NOT NULL,
@@ -789,7 +789,7 @@ CREATE TABLE IF NOT EXISTS `vtiger_backup_db_tmp_info` (
 PRIMARY KEY (`id`))
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `vtiger_backup_dir` (
+CREATE TABLE IF NOT EXISTS `vtiger_backup_files` (
 `name` varchar (200) NOT NULL,
 `backup` int (11) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
