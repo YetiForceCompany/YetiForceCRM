@@ -15,7 +15,7 @@ class Vtiger_TagCloud_Dashboard extends Vtiger_IndexAjax_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getHeaderScripts(Vtiger_Request $request) {
+	public function getFooterScripts(Vtiger_Request $request) {
 
 		$jsFileNames = array(
 			'~/libraries/jquery/jquery.tagcloud.js'
@@ -37,7 +37,7 @@ class Vtiger_TagCloud_Dashboard extends Vtiger_IndexAjax_View {
 		$tags = Vtiger_Tag_Model::getAll($currentUser->id);
 
 		//Include special script and css needed for this widget
-		$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
+		$viewer->assign('SCRIPTS',$this->getFooterScripts($request));
 
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('TAGS', $tags);

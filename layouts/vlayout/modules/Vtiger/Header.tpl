@@ -38,7 +38,11 @@
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 		{/foreach}
-
+		{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
+				<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+		{/foreach}
+		
+		
 		{* For making pages - print friendly *}
 		<style type="text/css">
 		@media print {
@@ -46,9 +50,6 @@
 		}
 		</style>
 
-		{* This is needed as in some of the tpl we are using jQuery.ready *}
-		<script type="text/javascript" src="libraries/jquery/jquery{$MINJS}.js"></script>
-		<script type="text/javascript" src="libraries/jquery/jquery-migrate-1.2.1.js"></script>
 		<!--[if IE]>
 		<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 		<script type="text/javascript" src="libraries/html5shim/respond.js"></script>

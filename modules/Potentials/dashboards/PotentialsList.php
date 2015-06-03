@@ -11,7 +11,7 @@
  *************************************************************************************************************************************/
 
 class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
-	function getHeaderScripts() {
+	function getScripts() {
 		return $this->checkAndConvertJsScripts(array('modules.Potentials.dashboards.PotentialsList'));
 	}
 	public function process(Vtiger_Request $request) {
@@ -25,7 +25,7 @@ class Potentials_PotentialsList_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('RELATED_MODULE', 'Potentials');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', self::getData($request, $widget));
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts());
+		$viewer->assign('SCRIPTS', $this->getScripts());
         
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);

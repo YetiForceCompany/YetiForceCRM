@@ -9,8 +9,6 @@
   *
  ********************************************************************************/
 -->*}
-
-
 {* <script> resources below *}
 	<script type="text/javascript" src="libraries/jquery/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libraries/jquery/chosen/chosen.jquery.min.js"></script>
@@ -57,7 +55,7 @@
 	<script type="text/javascript" src="libraries/jquery/jquery.ba-outside-events.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery.placeholder.js"></script>
 
-	{foreach key=index item=jsModel from=$SCRIPTS}
+	{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
             <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
 	{/foreach}
 

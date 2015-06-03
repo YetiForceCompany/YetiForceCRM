@@ -40,8 +40,8 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View {
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 	
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

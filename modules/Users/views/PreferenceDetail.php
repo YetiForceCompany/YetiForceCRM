@@ -80,7 +80,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 			$linkModels = $detailViewModel->getSideBarLinks($linkParams);
 			$viewer->assign('QUICK_LINKS', $linkModels);
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
+			$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
 			$viewer->assign('STYLES',$this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
@@ -114,8 +114,8 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View {
 		return parent::process($request);
 	}
 
-    public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+    public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
         $moduleDetailFile = 'modules.'.$moduleName.'.resources.PreferenceDetail';
         unset($headerScriptInstances[$moduleDetailFile]);

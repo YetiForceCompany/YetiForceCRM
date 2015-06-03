@@ -18,8 +18,8 @@ class Calendar_SharedCalendar_View extends Calendar_Calendar_View {
 		$viewer->view('SharedCalendarView.tpl', $request->getModule());
 	}
 	
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
 			"modules.Calendar.resources.SharedCalendarView",
 		);

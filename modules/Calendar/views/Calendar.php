@@ -25,8 +25,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 		return 'CalendarViewPreProcess.tpl';
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
 			'~/libraries/fullcalendar/moment.min.js',
 			'~/libraries/fullcalendar/fullcalendar.js',

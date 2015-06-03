@@ -107,8 +107,8 @@ class OSSPdf_Edit_View extends Vtiger_Edit_View {
      * @param Vtiger_Request $request
      * @return <Array> - List of Vtiger_JsScript_Model instances
      */
-    function getHeaderScripts(Vtiger_Request $request) {
-        $headerScriptInstances = parent::getHeaderScripts($request);
+    function getFooterScripts(Vtiger_Request $request) {
+        $headerScriptInstances = parent::getFooterScripts($request);
         $moduleName = $request->getModule();
         
         $jsFileNames = array(

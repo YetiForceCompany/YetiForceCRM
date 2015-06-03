@@ -28,8 +28,8 @@ Class Settings_DataAccess_Index_View extends Settings_Vtiger_Index_View {
         
         echo $viewer->view('Index.tpl', $qualifiedModuleName, true);
     }
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

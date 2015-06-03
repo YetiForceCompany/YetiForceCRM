@@ -11,7 +11,7 @@
  *************************************************************************************************************************************/
 
 class Calculations_Calculations_Dashboard extends Vtiger_IndexAjax_View {
-	function getHeaderScripts() {
+	function getFooterScripts() {
 		return $this->checkAndConvertJsScripts(array('modules.Calculations.dashboards.Calculations'));
 	}
 	public function process(Vtiger_Request $request) {
@@ -25,7 +25,7 @@ class Calculations_Calculations_Dashboard extends Vtiger_IndexAjax_View {
 		$viewer->assign('RELATED_MODULE', 'Calculations');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', self::getData($request, $widget));
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts());
+		$viewer->assign('SCRIPTS', $this->getFooterScripts());
         
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);

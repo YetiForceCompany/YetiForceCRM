@@ -58,7 +58,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
+		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		$viewer->view('QuickCreate.tpl', $moduleName);
 	}

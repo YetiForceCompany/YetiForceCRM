@@ -64,8 +64,8 @@ class EmailTemplates_Detail_View extends Vtiger_Index_View {
 		$viewer->view('DetailViewFullContents.tpl', $moduleName);
 	}
 	
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Detail',

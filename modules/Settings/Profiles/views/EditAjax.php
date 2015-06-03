@@ -27,7 +27,7 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View {
 		
         $qualifiedModuleName = $request->getModule(false);
         $viewer = $this->getViewer ($request);
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
+		$viewer->assign('SCRIPTS', $this->getScripts($request));
         return $viewer->view('EditViewContents.tpl',$qualifiedModuleName,true);
     }
 	
@@ -36,7 +36,7 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getScripts(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
