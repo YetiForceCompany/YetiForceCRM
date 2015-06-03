@@ -26,7 +26,6 @@
 		{*<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />*}
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/chosen.bootstrap.min.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2-bootstrap.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap-switch.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />

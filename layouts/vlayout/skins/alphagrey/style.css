@@ -1365,7 +1365,7 @@ li.ui-timepicker-selected,
   width: 30%;
 }
 td.fieldValue input,
-td.fieldValue .input-append {
+td.fieldValue .input-group {
   margin-bottom: 0;
 }
 .actionImage,
@@ -2925,52 +2925,6 @@ img {
 }
 form {
   margin: 0;
-}
-.input-prepend .add-on,
-.input-append .add-on,
-.input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child {
-  line-height: 22px;
-  border-radius: 1px !important;
-}
-input,
-textarea,
-select,
-.uneditable-input,
-input[type="text"],
-input[type="password"],
-.ui-autocomplete-input,
-textarea,
-.uneditable-input,
-.chzn-container-single .chzn-single,
-.chzn-container-single .chzn-single div,
-.input-prepend .add-on,
-.input-append .add-on {
-  border-radius: 1px;
-}
-.fc-state-default .fc-button-effect span {
-  background: none;
-}
-.input-prepend.input-append input,
-.input-prepend.input-append select,
-.input-prepend.input-append .uneditable-input {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-.input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child {
-  margin-right: -1px;
-  -webkit-border-radius: 3px 0 0 3px;
-  -moz-border-radius: 3px 0 0 3px;
-  border-radius: 3px 0 0 3px;
-}
-.input-prepend.input-append .add-on:last-child,
-.input-prepend.input-append .btn:last-child {
-  margin-left: -1px;
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
 }
 .dateField {
   width: 183px;
