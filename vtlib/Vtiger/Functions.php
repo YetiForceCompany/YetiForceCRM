@@ -1109,7 +1109,7 @@ class Vtiger_Functions {
 		return $address;
 	}
 
-	public static function getCompressStatus($type = 'js') {
+	public static function getCompressInfo($type = 'js') {
 		switch ($type) {
 			case 'js':
 				$return =  vglobal('compressJS')?'.min':'';
