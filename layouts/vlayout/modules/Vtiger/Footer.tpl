@@ -11,7 +11,7 @@
 -->*}
 {strip}
 		<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
-		<footer class="noprint">
+		<footer class="navbar-default navbar-fixed-bottom noprint">
 			<div class="vtFooter">
 				{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('Start_time'), 3)}
 				{if $USER_MODEL->is_admin == 'on'}

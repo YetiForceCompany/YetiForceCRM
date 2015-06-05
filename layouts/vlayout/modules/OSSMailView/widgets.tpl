@@ -11,7 +11,7 @@
 -->*}
 <div id="mail_btn" style="overflow: auto;">	
 	<span class="pull-right" style="text-align:right;">
-		<button onclick="return false;" data-url="{$SENDURLDDATA}" data-mod="{$SMODULENAME}" data-record="{$SRECORD}" id="send_button" type="button" class="btn addButton"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></button>
+		<button onclick="return false;" data-url="{$SENDURLDDATA}" data-mod="{$SMODULENAME}" data-record="{$SRECORD}" id="send_button" type="button" class="btn btn-default addButton"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></button>
 	</span>
     <span class="pull-right" title="{vtranslate('LBL_ChangeType', 'OSSMailView')}" style="font-weight:normal; font-size:small;">
 		<select name="mail-type" title="{vtranslate('LBL_CHANGE_MAIL_TYPE')}" style="margin-right:5px; width:130px;">

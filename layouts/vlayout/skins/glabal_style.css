@@ -120,9 +120,9 @@ nav.menu{
 	height: 40px;
 }
 @media (max-width: 1320px) {
-	#OSSMailBoxInfo .mail_user_name{ font-size: 0px;}
-	#OSSMailBoxInfo .mainMail{ font-size: 0px;  height: 16px;}
-	#OSSMailBoxInfo .mail_user_name{ background-image: url("../../../layouts/vlayout/skins/images/Emails.png");  background-position: 0px -4px;  width: 23px;  display: block;}
+	//#OSSMailBoxInfo .mail_user_name{ font-size: 0px;}
+	//#OSSMailBoxInfo .mainMail{ font-size: 0px;  height: 16px;}
+	#OSSMailBoxInfo .mail_user_name{ background-image: url("../../../layouts/vlayout/skins/images/Emails.png"); } //background-position: 0px -4px;  width: 23px;  display: block;}
 }
 @media (max-width: 960px) {
 	#headerLinksCompact .navbar-btn{ margin-top: -3px;  margin-right: 8px;}
