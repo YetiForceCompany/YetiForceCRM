@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -401,11 +400,11 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 
 /*Data for the table `vtiger_backup` */
 
-/*Data for the table `vtiger_backup_db_tmp` */
+/*Data for the table `vtiger_backup_db` */
 
-/*Data for the table `vtiger_backup_db_tmp_info` */
+/*Data for the table `vtiger_backup_info` */
 
-/*Data for the table `vtiger_backup_dir` */
+/*Data for the table `vtiger_backup_files` */
 
 /*Data for the table `vtiger_backup_ftp` */
 
