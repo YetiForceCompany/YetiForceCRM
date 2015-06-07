@@ -8,9 +8,8 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-/*
-List of active services. To enable you must uncomment the appropriate line.
-*/
+
+//List of active services. To enable you must uncomment the appropriate line.
 $enabledServices = array(
 	//'customerportal',
 	//'mobile',
@@ -20,6 +19,7 @@ $enabledServices = array(
 	//'thunderbird',
 	//'dav'
 );
+
 /*+********   DAV   **********/
 $enableBrowser = FALSE;
 $enableCardDAV = TRUE;
