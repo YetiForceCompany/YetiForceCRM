@@ -70,8 +70,8 @@ $languageStrings = [
     'LBL_THIS' => 'Produkt/Dienstleistung (',
 	'Conversion Rate' => 'Umrechnungskurs',
 	'Currency' => 'Währung',
-	'LBL_SERVICE' => 'Service',
-	'LBL_PRODUCT' => 'Product',
-	'LBL_COMMENT_AREA' => 'Comment area',
+	'LBL_SERVICE' => 'Dienstleistung',
+	'LBL_PRODUCT' => 'Produkt',
+	'LBL_COMMENT_AREA' => 'Kommentarbereich',
 ];
 
