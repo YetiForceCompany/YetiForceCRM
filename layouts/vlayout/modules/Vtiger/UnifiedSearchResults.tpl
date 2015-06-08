@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -47,7 +47,7 @@
 				<input type="hidden" id="recordList" name="searchResult" value="{Zend_Json::encode(array_keys($searchRecords))}" />
 				<label class="clearfix">
 					<span onclick="form_{$module}.submit()"><i class="icon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
-					<!-- &nbsp;&nbsp;<i title="" class="icon-th-list alignMiddle"></i> -->
+					<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
 					{if {$smarty.foreach.matchingRecords.index+1} eq 1}
 						<span class="pull-right"><p class="muted">{vtranslate('LBL_CREATED_ON', $MODULE)}</small></p></span>
 					{/if}

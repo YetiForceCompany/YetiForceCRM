@@ -92,9 +92,10 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_CONVERT_LEAD',
-				'linkurl' => 'Javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
-				'linkicon' => '',
+				'linklabel' => '',
+				'title' => vtranslate('LBL_CONVERT_LEAD',$moduleName),
+				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
+				'linkicon' => 'glyphicon glyphicon-transfer',
 				'linkgrupclass' => (!in_array($recordModel->get('leadstatus'), $moduleInstance->conversion_available_status))? 'hide':'',
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);    

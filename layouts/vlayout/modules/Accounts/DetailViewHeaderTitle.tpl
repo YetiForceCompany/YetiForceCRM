@@ -12,11 +12,11 @@
 {strip}
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
-		<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+		<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
 				<img src="{vimage_path($IMAGE)}" class="summaryImg " alt="{vtranslate($MODULE, $MODULE)}"/>
 			</span>
-		</span>
+		</div>
 	{/if}
 	<span class="col-md-10 margin0px">
 		<span class="row">

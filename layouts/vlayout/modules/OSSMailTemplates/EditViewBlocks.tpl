@@ -40,7 +40,7 @@
             <div class="contentHeader row">
 				{assign var=IMAGE value=$MODULE|cat:'48.png'}
 				{if file_exists( vimage_path($IMAGE) )}
-					<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+					<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 						<span class="moduleIcon">
 							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
 						</span>

@@ -11,7 +11,7 @@
     ********************************************************************************/
     -->*}
     {strip}		
-	<div class="tagCloudContainer" style="margin-top: 4px;">
+	<div class="tagCloudContainer col-md-2 pull-right" style="margin-top: 4px;">
 		<input type="hidden" id="maxTagLength" value="{$MAX_TAG_LENGTH}" />	
 		<input type="hidden" id="maxTag" value="{if isset($MAX_TAG)}{$MAX_TAG}{else}5{/if}" />	
 		<div class="col-md-2 marginLeftZero " style="min-width: 140px;float: right;">				

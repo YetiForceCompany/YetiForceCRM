@@ -111,10 +111,10 @@ Reports_Detail_Js("Reports_ChartDetail_Js",{
 			var icon = jQuery(this).find('i');
 			var classValue = icon.attr('class');
 			if(classValue == 'glyphicon-chevron-right') {
-				icon.removeClass('glyphicon-chevron-right').addClass('icon-chevron-down');
+				icon.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
 				filter.show('slow');
 			} else {
-				icon.removeClass('icon-chevron-down').addClass('glyphicon-chevron-right');
+				icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
 				filter.hide('slow');
 			}
 			return false;

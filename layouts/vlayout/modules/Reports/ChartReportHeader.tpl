@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -101,7 +101,7 @@
 							{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 							<button class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
 								<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-								<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} icon-chevron-down {/if}"></span>
+								<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 							</button>
 						</div>
 						<br>

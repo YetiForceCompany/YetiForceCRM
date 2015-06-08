@@ -14,15 +14,15 @@
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="detailViewContainer">
 		<div class="row detailViewTitle">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if}">
+			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} pull-left">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="row">
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
-					<div class="col-md-6 detailViewToolbar" style="text-align: right;">
-						<div>
+					<div class="col-md-12 detailViewToolbar" style="text-align: right;">
+						<div class="col-md-10 pull-left">
 							<div class="btn-toolbar">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">
@@ -31,7 +31,7 @@
 									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
 										onclick="window.open('{$DETAIL_VIEW_BASIC_LINK->getUrl()}','{if $DETAIL_VIEW_BASIC_LINK->linktarget}{$DETAIL_VIEW_BASIC_LINK->linktarget}{else}_self{/if}')"
 									{else}
-										onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
+										onclick="{$DETAIL_VIEW_BASIC_LINK->getUrl()}"
 									{/if}
 									{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
 										title="{$DETAIL_VIEW_BASIC_LINK->title}"
@@ -67,9 +67,9 @@
 								{/foreach}
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
-								<span class="btn-group">
-									<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
-									<ul class="listViewSetting dropdown-menu">
+								<div class="btn-group">
+									<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span><span class="caret"></span></button>
+									<ul class="dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()} {if $DETAILVIEW_SETTING->linktarget}target="{$DETAILVIEW_SETTING->linktarget}"{/if} 								{if $DETAIL_VIEW_BASIC_LINK->title neq ''}
 													title="{$DETAILVIEW_SETTING->title}"
@@ -77,7 +77,7 @@
 												>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
 										{/foreach}
 									</ul>
-								</span>
+								</div>
 							{/if}
 							</div>
 						</div>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 			{if !{$NO_PAGINATION}}
-				<div class="col-md-2 detailViewPagingButton">
+				<div class="col-md-2 detailViewPagingButton pull-right">
 					<span class="btn-group pull-right">
 						<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
 						<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>

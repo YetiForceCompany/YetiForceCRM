@@ -118,7 +118,7 @@
 							<div class="pull-right actions"> 
                                <span class="actionImages">
                                 <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="icon-eye-open alignMiddle"></span></a>&nbsp;
-									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></span></a>&nbsp;
+									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 									{if $IS_EDITABLE}
 										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 									{/if}
