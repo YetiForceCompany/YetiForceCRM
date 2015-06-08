@@ -28,8 +28,8 @@ $languageStrings = [
 	'Dozen'=>'Dutzend',
 	'Each'=>'Pro Stück',
 	'GL Account' => 'Buchhaltungskonto',
-	'Handler'=>'Assigned To',
-	'Share with users' => 'Shared With',
+	'Handler'=>'zuständig',
+	'Share with users' => 'Teilen mit Benutzern',
 	'Hardware'=>'Hardware',
 	'Hours'=>'Stunden',
 	'Impressions'=>'Impressionen',
@@ -81,5 +81,5 @@ $languageStrings = [
 	'Sales' => 'Vertrieb',
 	'Support Group' => 'Support',
 	'Marketing Group' => 'Marketing',
-	'Team Selling' => 'Sales',
+	'Team Selling' => 'Verkauf',
 ];

@@ -29,10 +29,10 @@ $languageStrings = [
 	'Notes' => 'Beschreibung',
 
 	/*picklist values*/
-	'PLL_DRAFT'=>'Draft',
-	'PLL_WARRANTY_SUPPORT'=>'Warranty support',
-	'PLL_POST_WARRANTY_SUPPORT'=>'Post-warranty support',
-	'PLL_NO_SUPPORT'=>'No support',
+	'PLL_DRAFT'=>'Entwurf',
+	'PLL_WARRANTY_SUPPORT'=>'Gewährleistung',
+	'PLL_POST_WARRANTY_SUPPORT'=>'verlängerte Garantie',
+	'PLL_NO_SUPPORT'=>'Kein Support',
 	
 	//YetiForce
 	'description'=>'Beschreibung',
