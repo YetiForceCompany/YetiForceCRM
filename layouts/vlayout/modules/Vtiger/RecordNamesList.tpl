@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="recordNamesList">
-	<div class="row">
+	<div>
 		<div class="">
 			<ul class="nav list-group">
 				{foreach item=recordsModel from=$RECORDS}

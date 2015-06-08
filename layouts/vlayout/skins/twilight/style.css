@@ -286,9 +286,15 @@ hr {
 }
 .commonActionsContainer .quickActions {
   height: 3em;
+  
 }
 .commonActionsContainer .quickActions img {
-  height: 98%
+  height: 60%;
+  margin: 40% auto;
+}
+.commonActionsContainer .quickActions #companyLogo-container img {
+  height: 98%;
+  margin: 0 auto;
 }
 .commonActionsContainer .actionsContainer {
   background: #f3f3f3;
@@ -380,7 +386,7 @@ hr {
 }
 .quickLinksDiv {
   margin: 10px 0;
-}
+}/*
 .quickLinksDiv p {
   font-size: 1.2em;
   padding: 5% 0 0 11%;
@@ -407,7 +413,7 @@ hr {
 }
 .quickLinksDiv p a:hover {
   text-decoration: none;
-}
+}*//*//
 .quickLinksDiv p.selectedQuickLink {
   background-color: #2a2f35;
   background-image: -moz-linear-gradient(top, #2a2f35, #2a2f35);
@@ -437,7 +443,7 @@ hr {
   position: absolute;
   left: 100%;
   top: 0;
-}
+}*/
 .quickWidgetContainer li a {
   overflow: hidden;
   white-space: normal;
@@ -804,11 +810,12 @@ li.ui-timepicker-selected,
 }
 .pageNumbers .totalNumberOfRecords {
   margin: 0 5px;
-}
+}/*//
 .listSearchContributor {
   min-width: 100px;
   margin-bottom: 0 !important;
 }
+ */
 .contents-topscroll,
 #reportDetails {
   overflow-x: auto !important;
@@ -875,15 +882,18 @@ li.ui-timepicker-selected,
   box-shadow: 0 -4px 4px -4px #959595;
   margin-top: 10px;
 }
+/*//
 .detailViewInfo .contents {
-  padding: 2.2% 0 0 2.2%;
-  min-height: 450px;
+ // padding: 2.2% 0 0 2.2%;
+ // min-height: 450px;
 }
+*/
 .detailViewInfo .details {
-  min-height: 600px;
+ // min-height: 600px;
   padding-right: 1.5%;
   border-right: 4px solid #404952;
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 .detailViewInfo .related .nav-pills .active > a,
 .detailViewInfo .related .nav-pills .active > a:hover {
@@ -942,8 +952,13 @@ li.ui-timepicker-selected,
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
 }
+
 .summaryView .toggleViewByMode {
   margin: 8px 0;
+  padding-right: 0px;
+}
+.summaryView .toggleViewByMode .changeDetailViewMode {
+  white-space: normal !important;
 }
 .summaryWidgetContainer {
   border-radius: 2px;
@@ -955,6 +970,7 @@ li.ui-timepicker-selected,
   margin-bottom: 10px;
   padding: 15px;
 }
+/*//
 .summaryWidgetContainer .widget_header {
   padding-bottom: 10px;
   padding-top: 0;
@@ -974,6 +990,7 @@ li.ui-timepicker-selected,
 .summaryWidgetContainer .widget_contents .col-md-4 {
   width: 40.4255%;
 }
+*/
 .commentContainer .commentTitle {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1164,29 +1181,31 @@ li.ui-timepicker-selected,
   text-shadow: 0px 1px #ffffff;
   color: #444444;
 }
-.listViewEntriesTable.table-bordered th + th,
-.listViewEntriesTable.table-bordered td + td,
-.listViewEntriesTable.table-bordered th + td,
-.listViewEntriesTable.table-bordered td + th {
+.listViewEntriesTable.table-bordered th,
+.listViewEntriesTable.table-bordered td,
+.listViewEntriesTable.table-bordered th,
+.listViewEntriesTable.table-bordered td{
   border-left: 0;
+  border-right: 0;
 }
-/*
+/*//
 .table-bordered th + th, .table-bordered td + td, .table-bordered th + td, .table-bordered td + th{
 	border-left-color: @lightColorBorder;
 }
 .listViewEntriesTable tbody tr td{
 	border-left: 1px solid @lightColorBorder;
-}
+}*/
 .listViewEntriesTable tbody tr td:first-child{
 	border-left: 0 none;
 }
+/*
 .listViewEntriesTable tbody td:last-child{
 	border-left: 0;
-}*/
+}
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
   border-radius: 1px 0 0;
-}
+}*/
 .equalSplit td:nth-child(odd) {
   width: 20%;
 }
@@ -1232,8 +1251,8 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
   text-decoration: none;
 }
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .icon-chevron-down.icon-white,
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .icon-chevron-up.icon-white {
+.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .glyphicon-chevron-down.icon-white,
+.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .glyphicon-chevron-up.icon-white {
   background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings.png");
   opacity: 0.7;
   margin-top: 1px;
@@ -1556,6 +1575,8 @@ th.htColHeader,
 #settingsShortCutsContainer .col-md-3.moduleBlock:hover .unpin:hover {
   opacity: 0.8;
 }
+
+/*//
 .widget_header {
   padding: 12px 0 3px;
 }
@@ -1566,7 +1587,7 @@ th.htColHeader,
 .widget_header h3.btn-success,
 .widget_header button.btn-success {
   margin-top: 0;
-}
+}*/
 .settingsIndexPage .settingsSummary {
   text-align: center;
   margin-top: 10px;
@@ -2341,10 +2362,6 @@ th.htColHeader,
 .fc-content td:hover {
   background: #f3f3f3;
 }
-.listViewSetting.dropdown-menu {
-  left: -150px;
-}
-
 .btn:focus {
   outline: 0;
 }
@@ -2369,8 +2386,7 @@ th.htColHeader,
   background-size: 0;
 }
 */
-.saveButton,
-.btn-success {
+.saveButton {
   margin-right: 5px;
 }
 .cancelLink {
@@ -3096,4 +3112,11 @@ td.listViewEntryValue .row input {
 	width: 200px;
 	white-space: nowrap;
 	overflow: hidden;
+}
+.paddingLRZero {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.detailViewToolbar {
+	margin-top: 5px;
 }

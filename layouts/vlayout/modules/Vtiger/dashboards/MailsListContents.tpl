@@ -1,4 +1,4 @@
-{if $ACCOUNTSLIST}
+﻿{if $ACCOUNTSLIST}
 {assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
 <div>
 	{foreach from=$MAILS item=item key=key}
@@ -12,7 +12,7 @@
 		<div class="col-md-12 marginLeftZero">
 			<div class="pull-right" >
 				<a class="showMailBody" >
-					<span class="body-icon icon-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="body-icon glyphicon glyphicon-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
 			<span class="pull-left" style="margin-left:2%;">{vtranslate('From', 'OSSMailView')}: {$item['fromaddress']}</span>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -88,7 +88,7 @@
 										<div class="row">
 											<span class="col-md-4">&nbsp;</span>
 											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
-													<i class="icon-chevron-down"></i>
+													<i class="glyphicon glyphicon-chevron-down"></i>
 												</button></span>
 										</div>
 									{/if}

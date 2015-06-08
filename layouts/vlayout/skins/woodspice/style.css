@@ -1229,7 +1229,7 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues:hover {
   text-decoration: none;
 }
-.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .icon-chevron-down.icon-white,
+.listViewEntriesTable .listViewHeaders a.listViewHeaderValues .glyphicon-chevron-down.icon-white,
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues .icon-chevron-up.icon-white {
   background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings.png");
   opacity: 0.7;
@@ -2340,10 +2340,6 @@ th.htColHeader,
 .fc-content td:hover {
   background: #f3f3f3;
 }
-.listViewSetting.dropdown-menu {
-  left: -150px;
-}
-
 .btn:focus {
   outline: 0;
 }

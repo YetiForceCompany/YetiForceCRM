@@ -34,7 +34,7 @@
 		<div class="col-md-12">
 			<div class="pull-right" >
 				<a class="showMailBody" >
-					<i class="body-icon icon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="body-icon glyphicon glyphicon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
 			<span class="pull-left" style="font-size:x-small;">{vtranslate('From', 'OSSMailView')}: {$row['from']}</span>
@@ -64,10 +64,10 @@
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if( mailBody.css( "display" ) == 'none'){
 				mailBody.show();
-				bodyIcon.removeClass( "icon-chevron-down" ).addClass( "icon-chevron-up" );
+				bodyIcon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" );
 			}else{
 				mailBody.hide();
-				bodyIcon.removeClass( "icon-chevron-up" ).addClass( "icon-chevron-down" );
+				bodyIcon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );
 			}
 		});
 		jQuery('[name="mail-type"]').change( function(e) {

@@ -14,7 +14,7 @@
 		<span id="tRightPanelButtonImage" class="glyphicon glyphicon-chevron-right"></span>
 	</div>
 	</div>
-	<div class="col-md-2 row marginLeftZero" id="rightPanel" style="min-height:550px; ">
+	<div class="col-md-2 marginLeftZero" id="rightPanel" style="min-height:550px; ">
 	{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 		<div class="quickWidget">
 			<div class="accordion-heading accordion-toggle quickWidgetHeader" style="background: #737373; padding:10px " data-target="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"

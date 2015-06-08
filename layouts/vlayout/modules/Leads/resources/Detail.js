@@ -199,10 +199,10 @@ Vtiger_Detail_Js("Leads_Detail_Js",{
 		//Trigger Event to change the icon while shown and hidden the accordion body 
 		container.on('hidden', '.accordion-body', function(e){
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
 		}).on('shown', '.accordion-body', function(e){
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+			currentTarget.closest('.convertLeadModules').find('.iconArrow').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 		});
 		
 		//Trigger Event on click of Transfer related records modules

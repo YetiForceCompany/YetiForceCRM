@@ -34,7 +34,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-2 row">
+			<div class="col-md-2">
 				{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<button class="btn col-md-10 marginLeftZero" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button><br><br>
