@@ -32,14 +32,14 @@
 		{assign var="childLinks" value=$obj->getChildLinks()}
 		<span class="dropdown span{if !empty($src)} settingIcons {/if}">
 			{if !empty($src)}
-				<a id="menubar_item_right_{$title}" class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="{$src}" alt="{vtranslate($title,$MODULE)}" title="{vtranslate($title,$MODULE)}" /></a>
+				<a class="dropdown-toggle menubar_item_right_{$title}" data-toggle="dropdown" href="#"><img src="{$src}" alt="{vtranslate($title,$MODULE)}" title="{vtranslate($title,$MODULE)}" /></a>
 				{else}
 					{assign var=title value=$USER_MODEL->get('first_name')}
 					{if empty($title)}
 				{assign var=title value=$USER_MODEL->get('last_name')}
 			{/if}
 				<span class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<a id="menubar_item_right_{$title}"  class="userName textOverflowEllipsis" title="{$title}"><strong>{$title}</strong>&nbsp;<span class="caret"></span> </a> </span>
+					<a class="userName textOverflowEllipsis menubar_item_right_{$title}" title="{$title}"><strong>{$title}</strong>&nbsp;<span class="caret"></span> </a> </span>
 			{/if}
 			{if !empty($childLinks)}
 				<ul class="dropdown-menu pull-right">
@@ -56,7 +56,7 @@
 								{assign var="href" value="javascript:;"}
 							{/if}
 							<li>
-								<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+								<a target="{$obj->target}" class="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
 							</li>
 						{/if}
 					{/foreach}
@@ -118,7 +118,7 @@
 						{assign var="href" value="javascript:;"}
 					{/if}
 					<li>
-						<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+						<a target="{$obj->target}" class="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
 					</li>
 				{/foreach}
 			{/foreach}
