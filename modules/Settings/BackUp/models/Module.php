@@ -356,10 +356,22 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 	
 	public function postBackup() {
 		$start = self::getTime();
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
 		$zip = new ZipArchive();
 		$zip->open($this->destDir . '/' . $this->get('filename') . '.zip', ZipArchive::CREATE);
 		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.db.zip', "db.zip");
 		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.files' . '.zip', "files.zip");
+		
+		if(vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0){
+			$code = $zip->setPassword(vglobal('backupPassword'));
+			if ($code === true)
+				$log->debug('Backup files password protection is enabled');
+			else
+				$log->error('Has not been possible password protect your backup files');
+		}
+		
 		$zip->close();
 		$this->updateProgress('6', 100, self::getTime() - $start);
 		
@@ -373,6 +385,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		}
 		$adb->pquery('UPDATE vtiger_backup SET endtime = ?, status = ?, backuptime = ? WHERE id = ?;', [date('Y-m-d H:i:s'), 1, $time, $this->get('id')]);
 		$this->updateProgress('9', 100, self::getTime() - $start);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	public function addToSQLFiles($content = '') {

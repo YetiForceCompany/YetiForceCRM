@@ -253,3 +253,6 @@ $backgroundClosingModal = TRUE;
 
 // enable CSRF-protection
 $csrfProtection = TRUE;
+
+// enable encrypt backup, Support from PHP 5.6.x
+$encryptBackup = false;
