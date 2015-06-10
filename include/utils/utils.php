@@ -356,8 +356,8 @@ function to_html($string, $encode=true)
 	global $log,$default_charset;
 	//$log->debug("Entering to_html(".$string.",".$encode.") method ...");
 	global $toHtml;
-	$action = $_REQUEST['action'];
-	$search = $_REQUEST['search'];
+	$action = isset($_REQUEST['action']);
+	$search = isset($_REQUEST['search']);
 
 	$doconvert = false;
 
@@ -367,12 +367,12 @@ function to_html($string, $encode=true)
 		$inUTF8 = (strtoupper($default_charset) == 'UTF-8');
 	}
 
-	if($_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
-		$ajax_action = $_REQUEST['module'].'Ajax';
+	if(isset($_REQUEST['module']) != 'Settings' && isset($_REQUEST['file']) != 'ListView' && isset($_REQUEST['module']) != 'Portal' && isset($_REQUEST['module']) != "Reports")// && $_REQUEST['module'] != 'Emails')
+		$ajax_action = isset($_REQUEST['module']).'Ajax';
 
 	if(is_string($string))
 	{
-		if($action != 'CustomView' && $action != 'Export' && $action != $ajax_action && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode'])) )
+		if(isset($action) != 'CustomView' && isset($action) != 'Export' && isset($action) != $ajax_action && isset($action) != 'LeadConvertToEntities' && isset($action) != 'CreatePDF' && isset($action) != 'ConvertAsFAQ' && isset($_REQUEST['module']) != 'Dashboard' && isset($action) != 'CreateSOPDF' && isset($action) != 'SendPDFMail' && (!isset($_REQUEST['submode'])) )
 		{
 			$doconvert = true;
 		}
