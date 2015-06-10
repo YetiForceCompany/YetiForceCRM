@@ -1,27 +1,14 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Create file\'s backup.',
 	'LBL_SAVE_BACKUP' => 'Save backup',
-	'LBL_GENERATE_BACKUP' => 'Generate Backup',
+	'LBL_SCHEDULE_BACKUP' => 'Generate Backup',
 	'LBL_LOADING' => 'Backup generating, please waiting...',
-	'LBL_BACKUP_ENDED' => 'Backup ended',
-	'LBL_BACKUP_PREPARE' => "Backup preparation" ,
 	'LBL_FTP_SETTINGS' => 'FTP settings',
 	'LBL_BACKUP_CREATING' => 'Backup creating',
-	'LBL_FILE_BACKUP_LOADING' => 'Creating files backup',
-	'LBL_DB_BACKUP_LOADING' => 'Creating a database backup',
 	'LBL_RESUME_BACKUP' => 'Resume backup',
-	'LBL_CREATED_AT' => 'Created at',
+	'LBL_START_TIME' => 'Created at',
 	'LBL_FILE_NAME' => 'File name',
 	'LBL_ACTION' => 'Action',
 	'LBL_FTP_SAVE_CONFIG' => 'Save configuration',
@@ -41,9 +28,28 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Do you want to make a backup of backup folder',
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
+	
+	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => '__UNTRANSLATED__',
+	'LBL_END_TIME' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_TIME' =>'__UNTRANSLATED__',
+	'LBL_LOGS' =>'__UNTRANSLATED__',
+	'Completed' =>'__UNTRANSLATED__',
+	'In progress' =>'__UNTRANSLATED__',
+	'LBL_SET_SCHEDULE_BACKUP' => '__UNTRANSLATED__',
 
+	'LBL_STAGE_1' =>'__UNTRANSLATED__',
+	'LBL_STAGE_2' =>'__UNTRANSLATED__',
+	'LBL_STAGE_3' =>'__UNTRANSLATED__',
+	'LBL_STAGE_4' =>'__UNTRANSLATED__',
+	'LBL_STAGE_5' =>'__UNTRANSLATED__',
+	'LBL_STAGE_6' =>'__UNTRANSLATED__',
+	'LBL_STAGE_7' =>'__UNTRANSLATED__',
+	'LBL_STAGE_8' =>'__UNTRANSLATED__',
+	'LBL_STAGE_9' =>'__UNTRANSLATED__',
 ];
-
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Mandatory fields cannot be empty',
 	'JS_PORT_ONLY_NUMBERS' => 'Field port accepts only numbers',

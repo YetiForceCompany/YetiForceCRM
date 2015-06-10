@@ -1,29 +1,16 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_PORT' => 'Порт:',
 	'BackUp'	=>	'Резервное копирование',
 	'LBL_BACKUP_DESCRIPTION'	=>	'Создание резервных копий системы',
 	'LBL_SAVE_BACKUP'	=>	'Сохранить резервную копию',
-	'LBL_GENERATE_BACKUP'	=>	'Создать резервную копию',
+	'LBL_SCHEDULE_BACKUP'	=>	'Создать резервную копию',
 	'LBL_LOADING'	=>	'Создается резервная копия, пожалуйста ждите...',
-	'LBL_BACKUP_ENDED'	=>	'Состав резервной копии',
-	'LBL_BACKUP_PREPARE'	=>	'Подготовка к резервному копированию',
 	'LBL_FTP_SETTINGS'	=>	'Настройки FTP',
 	'LBL_BACKUP_CREATING'	=>	'Резервное копирование',
-	'LBL_FILE_BACKUP_LOADING'	=>	'Создание резервной копии файлов',
-	'LBL_DB_BACKUP_LOADING'	=>	'Создание резервной копии базы данных',
 	'LBL_RESUME_BACKUP'	=>	'Продолжить резервное копирование',
-	'LBL_CREATED_AT'	=>	'Создано',
+	'LBL_START_TIME'	=>	'Создано',
 	'LBL_FILE_NAME'	=>	'Имя файла',
 	'LBL_ACTION'	=>	'Действия',
 	'LBL_ATTEMPTS'	=>	'Попыток создания',
@@ -45,8 +32,29 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Делать копию папки с Резервными копиями?',
 	'LBL_VALUES' => 'Значение',
 	'LBL_DETAIL' => 'Подробности',
-];
+	
+	
+	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => '__UNTRANSLATED__',
+	'LBL_END_TIME' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_TIME' =>'__UNTRANSLATED__',
+	'LBL_LOGS' =>'__UNTRANSLATED__',
+	'Completed' =>'__UNTRANSLATED__',
+	'In progress' =>'__UNTRANSLATED__',
+	'LBL_SET_SCHEDULE_BACKUP' => '__UNTRANSLATED__',
 
+	'LBL_STAGE_1' =>'__UNTRANSLATED__',
+	'LBL_STAGE_2' =>'__UNTRANSLATED__',
+	'LBL_STAGE_3' =>'__UNTRANSLATED__',
+	'LBL_STAGE_4' =>'__UNTRANSLATED__',
+	'LBL_STAGE_5' =>'__UNTRANSLATED__',
+	'LBL_STAGE_6' =>'__UNTRANSLATED__',
+	'LBL_STAGE_7' =>'__UNTRANSLATED__',
+	'LBL_STAGE_8' =>'__UNTRANSLATED__',
+	'LBL_STAGE_9' =>'__UNTRANSLATED__',
+];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Необходимо заполнить Обязательные поля',
 	'JS_PORT_ONLY_NUMBERS' => 'Поле Порт, может содержать только цифры',

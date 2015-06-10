@@ -913,36 +913,27 @@ CREATE TABLE `vtiger_audit_trial` (
 /*Table structure for table `vtiger_backup` */
 
 CREATE TABLE `vtiger_backup` (
-  `backupid` int(11) NOT NULL AUTO_INCREMENT,
-  `file_name` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `create_time` varchar(40) NOT NULL,
-  `how_many` int(11) NOT NULL,
-  PRIMARY KEY (`backupid`)
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
+  `filename` varchar(20) NOT NULL,
+  `starttime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `endtime` datetime DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `backuptime` decimal(8,3) unsigned NOT NULL DEFAULT '0.000',
+  `backupcount` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_backup_db` */
 
 CREATE TABLE `vtiger_backup_db` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `table_name` varchar(100) NOT NULL,
+  `tablename` varchar(50) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `num` int(19) DEFAULT NULL,
+  `offset` int(19) DEFAULT '0',
+  `count` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_backup_info` */
-
-CREATE TABLE `vtiger_backup_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `file_name` varchar(50) NOT NULL,
-  `status` varchar(20) NOT NULL,
-  `time` varchar(40) DEFAULT '0',
-  `howmany` int(11) NOT NULL DEFAULT '0',
-  `tables_prepare` tinyint(1) NOT NULL,
-  `backup_db` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  KEY `status` (`status`),
+  KEY `tablename` (`tablename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_backup_files` */
@@ -955,32 +946,41 @@ CREATE TABLE `vtiger_backup_files` (
   KEY `backup` (`backup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_backup_ftp` */
-
-CREATE TABLE `vtiger_backup_ftp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `host` varchar(50) NOT NULL,
-  `login` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `port` int(11) DEFAULT NULL,
-  `active` tinyint(1) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_backup_settings` */
 
 CREATE TABLE `vtiger_backup_settings` (
-  `type` varchar(100) DEFAULT NULL,
-  `param` varchar(100) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL
+  `type` varchar(20) DEFAULT NULL,
+  `param` varchar(20) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  KEY `param` (`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_backup_users` */
+/*Table structure for table `vtiger_backup_tmp` */
 
-CREATE TABLE `vtiger_backup_users` (
-  `id` int(11) DEFAULT NULL
+CREATE TABLE `vtiger_backup_tmp` (
+  `id` int(19) unsigned NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `b1` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b2` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b3` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b4` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b5` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b6` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b7` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b8` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `b9` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `t1` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t2` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t3` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t4` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t5` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t6` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t7` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t8` decimal(8,3) NOT NULL DEFAULT '0.000',
+  `t9` decimal(8,3) NOT NULL DEFAULT '0.000',
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`),
+  CONSTRAINT `vtiger_backup_tmp_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_backup` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks` */

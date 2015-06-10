@@ -1,27 +1,14 @@
 <?php
-
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Tworzy kopie zapasową plików.',
 	'LBL_SAVE_BACKUP' => 'Zapisz backup',
-	'LBL_GENERATE_BACKUP' => 'Generuj Backup',
+	'LBL_SCHEDULE_BACKUP' => 'Wykonaj kopię systemu',
 	'LBL_LOADING' => 'Trwa generowanie backupu...',
-	'LBL_BACKUP_ENDED' => 'Backup zakończony',
-	'LBL_BACKUP_PREPARE' => 'Trwa przygotowanie backupu',
 	'LBL_FTP_SETTINGS' => 'Ustawienia FTP',
 	'LBL_BACKUP_CREATING' => 'Tworzenie backupu',
-	'LBL_FILE_BACKUP_LOADING' => 'Tworzenie backupu plików',
-	'LBL_DB_BACKUP_LOADING' => 'Tworzenie backupu bazy danych',
 	'LBL_RESUME_BACKUP' => 'Wznów backup',
-	'LBL_CREATED_AT' => 'Data utworzenia',
+	'LBL_START_TIME' => 'Data utworzenia',
 	'LBL_FILE_NAME' => 'Nazwa pliku',
 	'LBL_ACTION' => 'Akcja',
 	'LBL_FTP_SAVE_CONFIG' => 'Zapisz konfiguracje',
@@ -41,8 +28,27 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Czy robić kopię zapasową folderu: backup',
 	'LBL_VALUES' => 'Wartość',
 	'LBL_DETAIL' => 'Szczegóły',
-];
+	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => 'Nie znaleziono aktywnej biblioteki ZIP',
+	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'Nie jest mozliwa pełna kopia systemu, kopia zapasowa utworzy tylko kopię bazy i nie zostanie ona skompresowana.',
+	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => 'Harmonogram - Kopia danych nie jest aktywna',
+	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => 'Wykonanie kopii zapasowej nie będzie możliwe, aby włączyć należy przejść do <a href="index.php?module=CronTasks&parent=Settings&view=List" target="_blank">Harmonogram</a> i aktywować zadanie Backup.',
+	'LBL_END_TIME' =>'Czas zakończenia',
+	'LBL_BACKUP_TIME' =>'Czas wykonywania kopii',
+	'LBL_LOGS' =>'Logi',
+	'Completed' =>'Poprawny',
+	'In progress' =>'W trakcie realizacji',
+	'LBL_SET_SCHEDULE_BACKUP' => 'Kopia zapasowa została zaplanowana',
 
+	'LBL_STAGE_1' =>'Tworzenie pustego pliku SQL',
+	'LBL_STAGE_2' =>'Generowanie struktury bazy danych',
+	'LBL_STAGE_3' =>'Tworzenie kopii bazy danych',
+	'LBL_STAGE_4' =>'Generowanie struktury plików i folderów',
+	'LBL_STAGE_5' =>'Tworzenie kopii plików i folderów',
+	'LBL_STAGE_6' =>'Scalanie plików kopii',
+	'LBL_STAGE_7' =>'Czyszczenie danych tymczasowych',
+	'LBL_STAGE_8' =>'Wysyłanie danych na FTP',
+	'LBL_STAGE_9' =>'Kończenie kopii zapasowej',
+];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pola obowiązkowe nie mogą być puste',
 	'JS_PORT_ONLY_NUMBERS' => 'Pole port przyjmuje tylko liczby',
@@ -50,4 +56,3 @@ $jsLanguageStrings = [
 	'JS_HOST_NOT_CORRECT' => 'Nieprawidłowy adres hosta',
 	'JS_CONNECTION_FAIL' => 'Nieudana próba logowania',
 ];
-
