@@ -18,7 +18,7 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.73 from 3rd June 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.80 from 10th June 2015.
 
 
 **Bug Fixes:** 
@@ -43,11 +43,15 @@ Below you can see how we improve our project:
 -	Updated jQuery to v2.1.4 and jQuery-ui to v1.11.4 and made changes in javascript files.
 -	Improved the compatibility with PHP version 5.4.
 -	Improved the display of text fields.
+-	Improved the display of logs in cron.
 -	Improved the global variables.
 -	Improved the titles of buttons in Details view.
 -	Improved the generation of queries for reference fields.
+-	Improved icons of filters.
+-	Improved error reporting during the verification of configuration.
 -	Added changes from Vtiger rev. 14461, 14484 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
+-	Optimized backup files.
 
 
 
