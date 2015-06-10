@@ -28,7 +28,7 @@ class Vtiger_Base_Model {
 	 * @return Value for the given key
 	 */
 	public function get($key){
-		return $this->valueMap[$key];
+		return @$this->valueMap[$key];
 	}
 
 	/**

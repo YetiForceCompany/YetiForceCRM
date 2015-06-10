@@ -112,7 +112,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 
 	if($mail_status != 1)
 	{
-		$mail_error = getMailError($mail,$mail_status,$mailto);
+		$mail_error = getMailError($mail,$mail_status);
 	}
 	else
 	{
@@ -497,7 +497,7 @@ function getMailError($mail,$mail_status,$to)
 		$log->info("Mail error is not as connect_host or from_failed or recipients_failed");
 		//$error_msg = $msg;
 	}
-
+	$error_msg = $msg;
 	$log->info("return error => ".$error_msg);
 	return $error_msg;
 }
@@ -587,8 +587,8 @@ function parseEmailErrorString($mail_error_str)
 }
 
 function isUserInitiated() {
-	return (($_REQUEST['module'] == 'Emails') &&
-			($_REQUEST['action'] == 'mailsend' || $_REQUEST['action'] == 'Save'));
+	return ((isset($_REQUEST['module']) == 'Emails') &&
+			(isset($_REQUEST['action']) == 'mailsend' || isset($_REQUEST['action']) == 'Save'));
 }
 
 /**

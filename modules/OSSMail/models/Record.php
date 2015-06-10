@@ -25,7 +25,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			$where .= " AND crm_user_id = ?";
 			$param[] = $currentUserModel->getId();
 		}	
-		if( $where ){
+		if( isset($where) ){
 			$sql .= ' WHERE'.substr($where, 4);
 		}		
 		$result = $adb->pquery( $sql, $param, true);

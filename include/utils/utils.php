@@ -2315,7 +2315,7 @@ function getCompanyDetails() {
 	$result = $adb->pquery($sql, array());
 	
 	$companyDetails = array();
-	$companyDetails = $adb->query_result_rowdata($result, $i);
+	$companyDetails = $adb->query_result_rowdata($result);
 	
 	return $companyDetails;
 }
