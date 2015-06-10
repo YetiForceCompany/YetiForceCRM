@@ -25,6 +25,8 @@
 	<input type='hidden' value="{$PREV_PAGE}" class='prev-page'>
 	<input type='hidden' value="{$NEXT_PAGE}" class='next-page'>
 	<input type='hidden' value="{$BACKUP_INFO['id']}" class='backupID'>
+	{assign var=CHECK_CRON value=$BACKUP_MODEL->checkCron()}
+	{assign var=CHECK_MAIL value=$BACKUP_MODEL->checkMail()}
 	<div class="container-fluid" style="margin-top:10px;">
 		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 		{if !extension_loaded('zip')}
@@ -34,18 +36,29 @@
 				<p>{vtranslate('LBL_ALERT_NO_ZIP_EXTENSION_DESC', $QUALIFIED_MODULE)}</p>
 			</div>	
 		{/if}
-		{if !$BACKUP_MODEL->checkCron()}
+		{if !$CHECK_CRON}
 			<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{vtranslate('LBL_ALERT_CRON_NOT_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
 				<p>{vtranslate('LBL_ALERT_CRON_NOT_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 			</div>	
 		{/if}
+		{if !$CHECK_MAIL}
+			<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4 class="alert-heading">{vtranslate('LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE', $QUALIFIED_MODULE)}</h4>
+				<p>{vtranslate('LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC', $QUALIFIED_MODULE)}</p>
+			</div>
+		{/if}
 		<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 			<li class="active"><a href="#tab_0" data-toggle="tab">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>
 			<li><a href="#tab_1" data-toggle="tab">{vtranslate('LBL_LOGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			<li><a href="#tab_2" data-toggle="tab">{vtranslate('LBL_FTP_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			<li><a href="#tab_3" data-toggle="tab">{vtranslate('LBL_EMAIL_NOTIFICATIONS', $QUALIFIED_MODULE_NAME)}</a></li>
+			{if function_exists('ftp_connect')}
+				<li><a href="#tab_2" data-toggle="tab">{vtranslate('LBL_FTP_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
+			{/if}
+			{if $CHECK_MAIL}
+				<li><a href="#tab_3" data-toggle="tab">{vtranslate('LBL_EMAIL_NOTIFICATIONS', $QUALIFIED_MODULE_NAME)}</a></li>
+			{/if}
 			<li><a href="#tab_4" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content layoutContent" style="padding-top: 5px;">

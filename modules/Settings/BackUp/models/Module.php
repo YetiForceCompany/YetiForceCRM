@@ -684,6 +684,16 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		return $db->query_result_raw($result, 0, 'status');
 	}
 	
+	public function checkMail() {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT 1 FROM vtiger_systems WHERE server_type = ?', ['email']);
+		if($db->num_rows($result)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static function scheduleBackup() {
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE `vtiger_cron_task` SET `laststart` = ? WHERE `module` = ?;', [0, 'BackUp']);

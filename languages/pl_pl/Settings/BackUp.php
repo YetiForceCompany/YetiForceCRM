@@ -32,6 +32,8 @@ $languageStrings = [
 	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'Nie jest mozliwa pełna kopia systemu, kopia zapasowa utworzy tylko kopię bazy i nie zostanie ona skompresowana.',
 	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => 'Harmonogram - Kopia danych nie jest aktywna',
 	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => 'Wykonanie kopii zapasowej nie będzie możliwe, aby włączyć należy przejść do <a href="index.php?module=CronTasks&parent=Settings&view=List" target="_blank">Harmonogram</a> i aktywować zadanie Backup.',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => 'Serwer poczty wychodzącej nie jest ustawiony',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC' => 'Wszystkie powiadomienia mailowe wysyłanie po zakończeniu kopii nie będą wysyłane.',
 	'LBL_END_TIME' =>'Czas zakończenia',
 	'LBL_BACKUP_TIME' =>'Czas wykonywania kopii',
 	'LBL_LOGS' =>'Logi',
