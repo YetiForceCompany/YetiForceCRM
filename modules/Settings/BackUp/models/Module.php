@@ -414,7 +414,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 	public function clearTmpFiles() {
 		$start = self::getTime();
 		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.db.zip');
-		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.files.zip' . '.zip');
+		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.files.zip');
 		$this->updateProgress('7', 100, self::getTime() - $start);
 	}
 
