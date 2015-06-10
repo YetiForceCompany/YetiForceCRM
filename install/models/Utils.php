@@ -103,13 +103,8 @@ class Install_Utils_Model {
 			if ( ini_get('suhosin.post.max_value_length') < 1500000 )
 				$directiveValues['suhosin.post.max_value_length'] = ini_get('suhosin.post.max_value_length');
 		}
-		$errorReportingValue = E_WARNING & ~E_NOTICE;
-		if(version_compare(PHP_VERSION, '5.4.0') >= 0){
-			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
-		}
-		else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
-		}
+		
+		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 
 		if (ini_get('error_reporting') != $errorReportingValue && ini_get('error_reporting') != 22519)
 			$directiveValues['error_reporting'] = 'NOT RECOMMENDED';
@@ -133,7 +128,7 @@ class Install_Utils_Model {
 		'max_execution_time' => '600',
 		'max_input_time' => '600',
 		'memory_limit' => '64',
-		'error_reporting' => 'E_WARNING & ~E_NOTICE',
+		'error_reporting' => 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT',
 		'log_errors' => 'Off',
 		'short_open_tag' => 'On',
 		'max_input_vars' => '5000',
@@ -157,12 +152,6 @@ class Install_Utils_Model {
 	 * @return type
 	 */
 	function getRecommendedDirectives(){
-		if(version_compare(PHP_VERSION, '5.4.0') >= 0){
-			self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
-		}
-	    else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			self::$recommendedDirectives['error_reporting'] = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED';
-		}
 		return self::$recommendedDirectives;
 	}
 
