@@ -252,7 +252,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 		$focus = CRMEntity::getInstance($moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
-		return $instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		return @$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
 	}
 
 	/**
