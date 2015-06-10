@@ -51,7 +51,8 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller {
 			$relatedRecordId = $recordModel->getId();
 
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+			if($relationModel)
+				$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
         if($request->get('imgDeleted')) {
             $imageIds = $request->get('imageid');
