@@ -40,7 +40,7 @@
             </tr>
         {/if}
     </table>
-    <div class="row verticalBottomSpacing">
+    <div class="verticalBottomSpacing">
         <div>
             {if $PRODUCT_ACTIVE eq 'true' && $SERVICE_ACTIVE eq 'true'}
                 <div class="btn-toolbar">

@@ -151,7 +151,7 @@ Inventory_Edit_Js("Calculations_Edit_Js",{},{
 		var lineItemTable = this.getLineItemContentsContainer();
 		jQuery('#addProduct').on('click',function(){
 			var newRow = thisInstance.getBasicRow().addClass(thisInstance.rowClass);
-			jQuery('.lineItemPopup[data-module-name="Services"]',newRow).remove();
+			jQuery('.lineItemPopup[data-module-name="Services"]',newRow).closest('span.input-group-addon').remove();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			newRow = newRow.appendTo(lineItemTable);
 			thisInstance.checkLineItemRow();
@@ -164,7 +164,7 @@ Inventory_Edit_Js("Calculations_Edit_Js",{},{
 		});
 		jQuery('#addService').on('click',function(){
 			var newRow = thisInstance.getBasicRow().addClass(thisInstance.rowClass);
-			jQuery('.lineItemPopup[data-module-name="Products"]',newRow).remove();
+			jQuery('.lineItemPopup[data-module-name="Products"]',newRow).closest('span.input-group-addon').remove();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			newRow = newRow.appendTo(lineItemTable);
 			thisInstance.checkLineItemRow();
