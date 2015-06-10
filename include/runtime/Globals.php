@@ -18,5 +18,5 @@ function vglobal($key, $value=null) {
 	if($value !== null) {
 		$GLOBALS[$key] = $value;
 	}
-	return $GLOBALS[$key];
+	return @$GLOBALS[$key];
 }
