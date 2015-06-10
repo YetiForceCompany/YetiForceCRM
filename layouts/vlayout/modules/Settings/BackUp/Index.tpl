@@ -76,9 +76,79 @@
 						</div>
 					</div>
 					<hr /><br/>
-					{for $NUM=1 to 9}
-						<div class="row-fluid row-bar b{$NUM}">
-							<div class="span4">{vtranslate('LBL_STAGE_'|cat:$NUM, $QUALIFIED_MODULE_NAME)}
+					<div class="row-fluid row-bar b1">
+						<div class="span4">{vtranslate('LBL_STAGE_1', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b2">
+						<div class="span4">{vtranslate('LBL_STAGE_2', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b3">
+						<div class="span4">{vtranslate('LBL_STAGE_3', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b4">
+						<div class="span4">{vtranslate('LBL_STAGE_4', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b5">
+						<div class="span4">{vtranslate('LBL_STAGE_5', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b6">
+						<div class="span4">{vtranslate('LBL_STAGE_6', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid row-bar b7">
+						<div class="span4">{vtranslate('LBL_STAGE_7', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
+					{if $FTP_ACTIVE}
+						<div class="row-fluid row-bar b8">
+							<div class="span4">{vtranslate('LBL_STAGE_8', $QUALIFIED_MODULE_NAME)}
 								<span class="pull-right"><span class="precent">0.00</span> %</span>
 							</div>
 							<div class="span8">
@@ -87,7 +157,17 @@
 								</div>
 							</div>
 						</div>
-					{/for}
+					{/if}
+					<div class="row-fluid row-bar b9">
+						<div class="span4">{vtranslate('LBL_STAGE_9', $QUALIFIED_MODULE_NAME)}
+							<span class="pull-right"><span class="precent">0.00</span> %</span>
+						</div>
+						<div class="span8">
+							<div class="progress progress-striped progress-info active">
+								<div class="bar " style="width: 0%;"> </div>
+							</div>
+						</div>
+					</div>
 				{else}
 					<div class="textAlignCenter">
 						<button class="runBackup btn btn-success" style="margin-top: 10px;">{vtranslate('LBL_SCHEDULE_BACKUP', $QUALIFIED_MODULE_NAME)}</button>

@@ -16,13 +16,24 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 
 	public function getProgress($id) {
 		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT value FROM vtiger_backup_settings WHERE type = ? AND param = ?',['ftp','active']);
+		$ftpActive = $db->query_result_raw($result, 0, 'value');
+		if($ftpActive){
+			
+		}
+		
 		$result = $db->pquery('SELECT * FROM vtiger_backup_tmp WHERE id = ?',[$id]);
 		if($db->num_rows($result) > 0){
 			$progress = $db->raw_query_result_rowdata($result, 0);
 			$mainBar = $progress['b1'] * 0.025 + $progress['b2'] * 0.05 + $progress['b3'] * 0.35 + 
-					$progress['b4'] * 0.05 +  + $progress['b5'] * 0.35 + $progress['b6'] * 0.025 + 
-					$progress['b7'] * 0.025 + $progress['b8'] * 0.025 + $progress['b9'] * 0.10;
-
+					$progress['b4'] * 0.05 + $progress['b6'] * 0.025 + 
+					$progress['b7'] * 0.025 + $progress['b9'] * 0.025;
+			if($ftpActive){
+				$mainBar += $progress['b5'] * 0.35;
+				$mainBar += $progress['b8'] * 0.10;
+			}else{
+				$mainBar += $progress['b5'] * 0.45;
+			}
 			return [
 				'b1' => $progress['b1']!=null?$progress['b1']:0,
 				'b2' => $progress['b2']!=null?$progress['b2']:0,
