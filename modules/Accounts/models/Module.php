@@ -122,7 +122,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model {
 			$instance = CRMEntity::getInstance($relatedModuleName);
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
 			if ($securityParameter != '')
-				$sql .= $securityParameter;
+				$query .= $securityParameter;
 
 			// There could be more than one contact for an activity.
 			$query .= ' GROUP BY vtiger_activity.activityid';
