@@ -1,241 +1,230 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
+class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 	var $tempDir = 'cache/backup';
 	var $destDir = 'backup';
-	var $ajaxLimit = 100;
+	var $backupInfo = false;
+	var $ajaxFilesLimit = 100;
+	var $ajaxDBLimit = 100;
+	var $cron = false;
 
 	public static function getCleanInstance() {
 		$instance = new self();
 		return $instance;
 	}
 
-	public static function getBackUps($offset = null, $limit = null) {
+	public function getProgress($id) {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT value FROM vtiger_backup_settings WHERE type = ? AND param = ?',['ftp','active']);
+		$ftpActive = $db->query_result_raw($result, 0, 'value');
+		if($ftpActive){
+			
+		}
+		
+		$result = $db->pquery('SELECT * FROM vtiger_backup_tmp WHERE id = ?',[$id]);
+		if($db->num_rows($result) > 0){
+			$progress = $db->raw_query_result_rowdata($result, 0);
+			$mainBar = $progress['b1'] * 0.025 + $progress['b2'] * 0.05 + $progress['b3'] * 0.35 + 
+					$progress['b4'] * 0.05 + $progress['b6'] * 0.025 + 
+					$progress['b7'] * 0.025 + $progress['b9'] * 0.025;
+			if($ftpActive){
+				$mainBar += $progress['b5'] * 0.35;
+				$mainBar += $progress['b8'] * 0.10;
+			}else{
+				$mainBar += $progress['b5'] * 0.45;
+			}
+			return [
+				'b1' => $progress['b1']!=null?$progress['b1']:0,
+				'b2' => $progress['b2']!=null?$progress['b2']:0,
+				'b3' => $progress['b3']!=null?$progress['b3']:0,
+				'b4' => $progress['b4']!=null?$progress['b4']:0,
+				'b5' => $progress['b5']!=null?$progress['b5']:0,
+				'b6' => $progress['b6']!=null?$progress['b6']:0,
+				'b7' => $progress['b7']!=null?$progress['b7']:0,
+				'b8' => $progress['b8']!=null?$progress['b8']:0,
+				'b9' => $progress['b9']!=null?$progress['b9']:0,
+				'mainBar' => round($mainBar,2)
+			];
+		}else{
+			return false;	
+		}
+	}
+	
+	public function updateProgress($stage, $value, $time = 0) {
 		$adb = PearDatabase::getInstance();
-		$query = ('SELECT * FROM vtiger_backup  ORDER BY created_at DESC');
+		$adb->pquery('UPDATE vtiger_backup_tmp SET b'.$stage.' = ?,t'.$stage.' = t'.$stage.' + '.$time.' WHERE id = ?;', [ $value, $this->get('id')]);
+	}
+	
+	public function runBackup() {
+		$this->getBackupInfo();
+		$this->backupInit();
+		
+		$this->performDBBackup();
+		$this->performBackupFiles();
 
-		if ($offset !== null) {
-			$query .= " LIMIT $offset, $limit";
+		$this->sendBackupToFTP();
+		$this->sendNotification();
+		$this->postBackup();
+		$this->clearStructure();
+		$this->clearTmpFiles();
+	}
+	
+	public function backupInit() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		if ($this->get('id') == NULL) {
+			$name = date('Ymd_Hi');
+			$db->pquery('INSERT INTO vtiger_backup (filename, starttime) VALUES (?,?)', 
+				[ $name, date('Y-m-d H:i:s')]);
+			$this->set('id',$db->database->Insert_ID());
+			$db->pquery('INSERT INTO vtiger_backup_tmp (id) VALUES (?)', [$this->get('id')]);
+			$this->set('filename', $name);
+		} else {
+			$db->pquery('UPDATE vtiger_backup SET backupcount = backupcount + 1 WHERE id = ?;', [ $this->get('id')]);
 		}
-		$result = $adb->query($query, true);
-
-		foreach ($result as $value) {
-			$output[] = $value;
-		}
-		return $output;
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}
 
-	public function deleteTmpBackUpContent() {
-		$adb = PearDatabase::getInstance();
-		$adb->query("DELETE  FROM `vtiger_backup_db`");
-		$adb->query("DELETE  FROM `vtiger_backup_info`");
+	public function performDBBackup() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		if ($this->get('b1') == 0) {
+			$this->createEmptySQLFile();
+		}
+		if ($this->get('b2') == 0) {
+			$this->createTablesStructure();
+		}
+		$tablesName = $this->getTablesStructure();
+		if ($db->getRowCount($tablesName) > 0) {
+			$this->backupTable($tablesName);
+			$this->createEndSQLFile();
+		}
+		$this->postDBBackup();
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}
+	
+	public function createTablesStructure() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		$result = $this->getTablesName();
+		$count = $db->getRowCount($result);
 
+		if ($count > 0) {
+			for($i = 0; $i < $count; $i++){
+				$start = self::getTime();
+				$tableName = $db->query_result($result, $i, '0');
+				$this->addTableToBackup($tableName);
+				$this->updateProgress('2', (($i+1)/$count)*100, self::getTime() - $start);
+			}
+		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+	}
+	
 	public function getTablesName() {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SHOW TABLES WHERE `Tables_in_' . $adb->dbName . '` NOT IN ( SELECT table_name FROM vtiger_backup_db)');
+		$result = $adb->query('SHOW TABLES WHERE `Tables_in_' . $adb->dbName . '` NOT IN ( SELECT \'vtiger_backup_files\' UNION SELECT \'vtiger_backup_db\' UNION SELECT tablename FROM vtiger_backup_db)');
 		return $result;
 	}
+	
+	public function addTableToBackup($tableName) {
+		$db = PearDatabase::getInstance();
+		$countResult = $db->query('SELECT COUNT(*) AS count FROM '.$tableName );
+		$count = $db->query_result_raw($countResult, 0, 'count');
+		$db->pquery('INSERT INTO vtiger_backup_db (tablename,count) VALUES (?,?);', [$tableName, $count]);
+	}
 
-	public function getAmountAllTablesToBackup() {
+	public function getTablesStructure($status = false) {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT COUNT(*) FROM vtiger_backup_db');
+		$result = $adb->pquery('SELECT tablename, offset, count FROM vtiger_backup_db WHERE status = ?', [$status]);
 		return $result;
 	}
+	
+	public function backupTable($result) {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$db = PearDatabase::getInstance();
+		$rowLimit = 1000;
+		
+		for($a = 0; $a < $db->num_rows($result); $a++){
+			$limit = '';
+			$tableName = $db->query_result_raw($result, $a, 'tablename');
+			$dbOffset = $db->query_result_raw($result, $a, 'offset');
+			$count = $db->query_result_raw($result, $a, 'count');
+			$parcels = (int)($count/$rowLimit);
+			$numRows = 0;
 
-	public function getDBTablesAmount() {
-		$adb = PearDatabase::getInstance();
-		$query = $adb->query("SELECT count( * ) AS `AllTables` FROM information_schema.TABLES WHERE table_schema = '$adb->dbName'");
-		$output = $adb->query_result_rowdata($query, 0);
-		return $output;
-	}
+			for($k = 0; $k <= $parcels; $k++){
+				$start = self::getTime();
+				$offset = $dbOffset + ($k * $rowLimit);
+				$sqlLimit = " LIMIT $offset, $rowLimit";
+				$numRows = $offset;
 
-	public function saveTableName($tableName) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT INTO vtiger_backup_db (table_name) VALUES (?)", array($tableName));
-	}
-
-	public function clearBackupFilesTable() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT COUNT(*) FROM `vtiger_backup_files` WHERE backup=0;");
-		$count = $adb->query_result_raw($result, 0, 0);
-		if (!$count) {
-			$result = $adb->pquery("DELETE FROM `vtiger_backup_files`");
-			return 1;
-		}
-		return 0;
-	}
-
-	public function addFileToBackup($file) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT IGNORE INTO `vtiger_backup_files` (`name`, `backup`) VALUES (?, ?);", [$file, 0]);
-	}
-
-	public function getPercentage() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT TRUNCATE(((SELECT COUNT(*) FROM `vtiger_backup_files` WHERE backup = 1) / COUNT(*)) * 100, 2) AS 'percentage' FROM `vtiger_backup_files`");
-		$percentage = $adb->query_result_raw($result, 0, 0);
-		return $percentage;
-	}
-
-	public function getFilesStructure() {
-		$adb = PearDatabase::getInstance();
-		$files = [];
-		$result = $adb->pquery('SELECT id, backup, name FROM `vtiger_backup_files` WHERE backup=?', [0]);
-		for ($i = 0; $i < $adb->num_rows($result); $i++) {
-			$files[$adb->query_result($result, $i, 'id')] = $adb->query_result($result, $i, 'name');
-		}
-		return $files;
-	}
-
-	public function markFile($id) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_backup_files SET backup=? WHERE id = ?", [1, $id]);
-	}
-
-	public function saveTmpBackUpTableName($tableName) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT INTO vtiger_backup_db (table_name) VALUES (?)", array($tableName));
-	}
-
-	public function getNotBackUpTables($limit) {
-		$adb = PearDatabase::getInstance();
-		$query = ('SELECT table_name FROM vtiger_backup_db WHERE status = ?');
-		if ($limit == TRUE) {
-			$query .= ' LIMIT 45';
-		}
-		$result = $adb->pquery($query, array(FALSE));
-		return $result;
-	}
-
-	public function getBackUpInfo() {
-		$adb = PearDatabase::getInstance();
-		$query = $adb->query("SELECT * FROM  vtiger_backup_info ");
-		$result = $adb->fetch_array($query);
-		return $result;
-	}
-
-	public function setStartTmpBackupInfo($fileName) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT INTO vtiger_backup_info (status, file_name) VALUES (?, ?)", array('pending', $fileName));
-	}
-
-	public function setTablesPrepare($tablesPrepare, $backUpId) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("Update vtiger_backup_info SET tables_prepare = ?  WHERE id = ? ", array($tablesPrepare, $backUpId));
-	}
-
-	public function updateTmpBackUpInfo($status, $time, $howMany = null) {
-		$adb = PearDatabase::getInstance();
-		$backUpInfo = self::getBackUpInfo();
-		if ($howMany != null) {
-			$howMany = (int) $backUpInfo['howmany'];
-			$howMany++;
-		} else {
-			$howMany = (int) $backUpInfo['howmany'];
-		}
-		$time = $backUpInfo['time'] + $time;
-		$adb->pquery("Update vtiger_backup_info SET status = ?, time = ?, howmany = ? WHERE id = ?", array($status, $time, $howMany, $backUpInfo['id']));
-	}
-
-	public function getPercentageDBBackUp() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT TRUNCATE(((SELECT COUNT(*) FROM `vtiger_backup_db` WHERE status = 1) / COUNT(*)) * 100, 2) AS 'percentage' FROM `vtiger_backup_db`");
-		$percentage = $adb->query_result_raw($result, 0, 0);
-		return $percentage;
-	}
-
-	public function setBackUp() {
-		$now = date('Y-m-d H:i:s');
-		$adb = PearDatabase::getInstance();
-		$backUpInfo = self::getBackUpInfo();
-		$adb->pquery("INSERT INTO vtiger_backup (file_name, created_at, create_time, how_many) VALUES (?,?,?,?)", array(
-			$backUpInfo['file_name'] . ".zip",
-			$now,
-			$backUpInfo['time'],
-			$backUpInfo['howmany'])
-		);
-	}
-
-	static public function getFTPSettings() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_backup_ftp", true);
-		$numOfRows = $adb->num_rows($result);
-
-		if ($numOfRows == 0)
-			return false;
-
-		$output = $adb->query_result_rowdata($result, 0);
-		return $output;
-	}
-
-	public function saveFTPSettings($host, $login, $password, $status, $port, $active, $path) {
-		$adb = PearDatabase::getInstance();
-		$ftpExist = self::getFTPSettings();
-		$password = self::encrypt_decrypt('encrypt', $password);
-		if ($ftpExist[0])
-			$adb->pquery("UPDATE vtiger_backup_ftp SET host=?, login=?, password=?, status=?, port=?, active=?, path=? WHERE id=?", array($host, $login, $password, $status, $port, $active, $path, $ftpExist[0]));
-		else
-			$adb->pquery("INSERT INTO vtiger_backup_ftp (host, login, password, status, port, active, path) VALUES(?,?,?,?,?,?,?)", array($host, $login, $password, $status, $port, $active, $path));
-	}
-
-	public function createBackUpSQLStatement($tablesName, $fileName) {
-		$adb = PearDatabase::getInstance();
-		foreach ($tablesName as $key => $tableName) {
-			$return = '';
-			$result = $adb->query('SELECT * FROM ' . $tableName[0]);
-			$numFields = $adb->num_fields($result);
-			$fields = $adb->getFieldsArray($result);
-			$fieldsList = '';
-			foreach ($fields as $key => $field) {
-				if ($key == 0) {
-					$fieldsList .= '(';
-				}
-				$fieldsList .= "`$field`";
-				if ($key < ($numFields - 1)) {
-					$fieldsList.= ',';
-				}
-				if (($numFields - 1) == $key) {
-					$fieldsList .= ')';
-				}
-			}
-			$tableSchema = $adb->query('SHOW CREATE TABLE ' . $tableName[0]);
-			$tableSchemaRowData = $adb->raw_query_result_rowdata($tableSchema);
-			$createSchema = self::strInsert($tableSchemaRowData[1], 'CREATE TABLE', ' IF NOT EXISTS ');
-			$return.= "\n" . $createSchema . ";\n";
-
-			for ($i = 0; $i < $adb->num_rows($result); $i++) {
-				$return.= 'INSERT INTO `' . $tableName[0] . '` ' . $fieldsList . ' VALUES(';
-				for ($j = 0; $j < $numFields; $j++) {
-					$row = $adb->raw_query_result_rowdata($result, $i);
-					if (isset($row[$j])) {
-						$row[$j] = self::clean_sql_val($row[$j]);
-						$return.= '"' . $row[$j] . '"';
-					} else {
-						$return.= "NULL";
+				$contentResult = $db->query('SELECT * FROM '.$tableName.$sqlLimit );
+				$numFields = $db->num_fields($contentResult);
+				$fields = $db->getFieldsArray($contentResult);
+				$fieldsList = '';
+				
+				foreach ($fields as $key => $field) {
+					if ($key == 0) {
+						$fieldsList .= '(';
 					}
-					if ($j < ($numFields - 1)) {
-						$return.= ',';
+					$fieldsList .= "`$field`";
+					if ($key < ($numFields - 1)) {
+						$fieldsList.= ',';
+					}
+					if (($numFields - 1) == $key) {
+						$fieldsList .= ')';
 					}
 				}
-				$return.= ");\n";
-			}
-			$return.="\n";
-			self::saveSQLStatementIntoFile($fileName, $return);
-			$adb->pquery("Update vtiger_backup_db SET status = ? WHERE table_name = ?", array(TRUE, $tableName[0]));
-		}
-	}
 
-	public function clean_sql_val($str) {
+				if($offset == 0){
+					$tableSchema = $db->query('SHOW CREATE TABLE ' . $tableName);
+					$tableSchemaRowData = $db->raw_query_result_rowdata($tableSchema);
+					$createSchema = $this->strInsert($tableSchemaRowData[1], 'CREATE TABLE', ' IF NOT EXISTS ');
+					$content = $createSchema . ";\n";
+					$this->addToSQLFiles($content);
+				}
+				for ($i = 0; $i < $db->num_rows($contentResult); $i++) {
+					$content = 'INSERT INTO `' . $tableName . '` ' . $fieldsList . ' VALUES(';
+					for ($j = 0; $j < $numFields; $j++) {
+						$row = $db->raw_query_result_rowdata($contentResult, $i);
+						if (isset($row[$j])) {
+							$row[$j] = $this->cleanSqlVal($row[$j]);
+							$content.= '"' . $row[$j] . '"';
+						} else {
+							$content.= "NULL";
+						}
+						if ($j < ($numFields - 1)) {
+							$content.= ',';
+						}
+					}
+					$content.= ");\n";
+					$this->addToSQLFiles($content);
+					$numRows++;
+					$db->pquery("Update vtiger_backup_db SET offset = ? WHERE tablename = ?", [$numRows, $tableName]);
+				}
+				if( $numRows == $count){
+					$db->pquery("Update vtiger_backup_db SET status = ? WHERE tablename = ?", [true, $tableName]);
+				}
+				$this->updateDBPrecent(self::getTime() - $start);
+			}
+		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+	}
+	
+	public function strInsert($str, $search, $insert) {
+		$index = strpos($str, $search);
+		if ($index === false) {
+			return $str;
+		}
+		return substr_replace($str, $search . $insert, $index, strlen($search));
+	}
+	
+	public function cleanSqlVal($str) {
 		if (@isset($str)) {
 			$sqlstr = addslashes($str);
 			$sqlstr = ereg_replace("\n", "\\n", $sqlstr);
@@ -245,290 +234,272 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 			return 'NULL';
 		}
 	}
-
-	public function strInsert($str, $search, $insert) {
-		$index = strpos($str, $search);
-		if ($index === false) {
-			return $str;
+	
+	public function updateDBPrecent($time) {
+		$db = PearDatabase::getInstance();
+		if ($this->get('allCountTables') == null) {
+			$result = $db->pquery('SELECT SUM(`count`) AS `count` FROM vtiger_backup_db');
+			$allCount = $db->query_result_raw($result, 0, 'count');
+			$this->set('allCountTables',$allCount);
+			
 		}
-		return substr_replace($str, $search . $insert, $index, strlen($search));
+		$allCount = $this->get('allCountTables');
+		$result = $db->pquery('SELECT SUM(`count`) AS `count` FROM vtiger_backup_db WHERE status = ?',[1]);
+		$count = $db->query_result_raw($result, 0, 'count');
+		$count = ($count/$allCount)*100;
+		$this->updateProgress('3', $count, $time);
 	}
-
-	public function saveSQLStatementIntoFile($fileName, $content) {
-		if (empty($content)) {
-			$content = ' ';
-		}
-		@file_put_contents($this->tempDir . "/$fileName.sql", $content, FILE_APPEND);
-	}
-
-	public function newBackUp() {
+	
+	public function postDBBackup() {
+		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
-		$log->info('New db backup start');
-		$now = date('Ymd-His');
-		self::setStartTmpBackupInfo($now);
-		self::setStartingSQLFileContent($now);
-		$backUpInfo = self::getBackUpInfo();
-		return $backUpInfo;
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		if (extension_loaded('zip')) {
+			$zip = new ZipArchive();
+			$zip->open($this->tempDir . '/' . $this->get('filename') . '.db.zip', ZipArchive::CREATE);
+			$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.sql', $this->get('filename') . '.sql');
+			$zip->close();
+
+			if (file_exists($this->tempDir . '/' . $this->get('filename') . '.sql')) {
+				unlink($this->tempDir . '/' . $this->get('filename') . '.sql');
+			}
+		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+	}
+	
+	public function performBackupFiles() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		if (!extension_loaded('zip')) {
+			$log->warn('ZIP library was not found');
+			return false;
+		}
+		$db = PearDatabase::getInstance();
+		$this->generateFilesStructure();
+		$this->zipData();
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 	}
 
-	public function setStartingSQLFileContent($fileName) {
-		$result = "/*!40101 SET NAMES utf8 */;
+	public function clearBackupFilesTable() {
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT COUNT(*) FROM vtiger_backup_files WHERE backup = ?;',[0]);
+		$count = $adb->query_result_raw($result, 0, 0);
+		if (!$count) {
+			$result = $adb->pquery("DELETE FROM `vtiger_backup_files`");
+			return 1;
+		}
+		return 0;
+	}
+	
+	public function generateFilesStructure() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		
+		$configFolder = $this->getConfig('folder');
+		$newBackup = $this->clearBackupFilesTable();
+		$dirs = array_filter(array_merge(glob('*'), glob('.htaccess'))); 
+		$dirs = array_diff($dirs, array('cache'));
+		if('true' != $configFolder['storage_folder'])
+			$dirs = array_diff($dirs, ['storage']);
+		if('true' != $configFolder['backup_folder'])
+			$dirs = array_diff($dirs, [$this->destDir]);
+
+		if ($newBackup) {
+			$log->debug('Cron BackUp - New files backup');
+			$allFiles = count($dirs);
+			$count = 1;
+			foreach ($dirs as $dir) {
+				$start = self::getTime();
+				if (is_dir($dir)) {
+					$this->addFileToBackup($dir);
+					$flags = RecursiveIteratorIterator::SELF_FIRST || FilesystemIterator::KEY_AS_PATHNAME;
+					$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), $flags);
+					foreach ($iterator as $path => $file) {
+						$this->addFileToBackup($path);
+					}
+				} else {
+					$this->addFileToBackup($dir);
+				}
+				$this->updateProgress('4', ($count/$allFiles)*100, self::getTime() - $start);
+				$count++;
+			}
+		}else{
+			$this->updateProgress('4', 100);
+		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+	}
+	
+	public function getFilesStructure() {
+		$adb = PearDatabase::getInstance();
+		$files = [];
+		$result = $adb->pquery('SELECT id, backup, name FROM `vtiger_backup_files` WHERE backup=?', [0]);
+		for ($i = 0; $i < $adb->num_rows($result); $i++) {
+			$files[$adb->query_result($result, $i, 'id')] = $adb->query_result($result, $i, 'name');
+		}
+		return $files;
+	}
+	
+	public function zipData() {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		$dbFiles = $this->getFilesStructure();
+
+		$zip = new ZipArchive();
+		$destination = $this->tempDir . '/' . $this->get('filename') . '.files.zip';
+		$count = 1;
+		$allFiles = count($dbFiles);
+		foreach ($dbFiles as $id => $path) {
+			$start = self::getTime();
+			if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
+				if (is_dir($path)) {
+					$zip->addEmptyDir($path . '/');
+				} elseif (is_file($path)) {
+					$zip->addFile($path, $path);
+				}
+				$this->markFile($id);
+				$zip->close();
+			}
+			$this->updateProgress('5', ($count/$allFiles)*100, self::getTime() - $start);
+			$count++;
+		}
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+	}
+	
+	public function postBackup() {
+		$start = self::getTime();
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		
+		$zip = new ZipArchive();
+		$zip->open($this->destDir . '/' . $this->get('filename') . '.zip', ZipArchive::CREATE);
+		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.db.zip', "db.zip");
+		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.files' . '.zip', "files.zip");
+		
+		if(vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0){
+			$code = $zip->setPassword(vglobal('backupPassword'));
+			if ($code === true)
+				$log->debug('Backup files password protection is enabled');
+			else
+				$log->error('Has not been possible password protect your backup files');
+		}
+		
+		$zip->close();
+		$this->updateProgress('6', 100, self::getTime() - $start);
+		
+		$start = self::getTime();
+		$adb = PearDatabase::getInstance();
+		$adb->pquery('UPDATE vtiger_backup_tmp SET status = ? WHERE id = ?;', [1,$this->get('id')]);
+
+		$this->getBackupInfo(true);
+		for ($i = 1; $i <= 9; $i++) {
+			$time += $this->get('t'.$i);
+		}
+		$adb->pquery('UPDATE vtiger_backup SET endtime = ?, status = ?, backuptime = ? WHERE id = ?;', [date('Y-m-d H:i:s'), 1, $time, $this->get('id')]);
+		$this->updateProgress('9', 100, self::getTime() - $start);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+	}
+
+	public function addToSQLFiles($content = '') {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ );
+		$fileName = $this->get('filename');
+		@file_put_contents($this->tempDir . "/$fileName.sql", $content, FILE_APPEND);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
+	}
+
+	public function createEmptySQLFile() {
+		$start = self::getTime();
+		$content = "/*!40101 SET NAMES utf8 */;
 /*!40101 SET SQL_MODE=''*/;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;";
-		$result.= "\n";
-		self::saveSQLStatementIntoFile($fileName, $result);
+		$content.= "\n";
+		$this->addToSQLFiles($content);
+		$this->updateProgress('1', 100, self::getTime() - $start);
+	}
+	
+	public function createEndSQLFile() {
+		$content = "/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;";
+		$content.= "\n";
+		$this->addToSQLFiles($content);
 	}
 
-	public function setTmpBackUpTables($backUpId) {
+	public function clearStructure() {
 		$adb = PearDatabase::getInstance();
-		$tablesName = self::getTablesName();
-		$tablesNameAmount = $adb->getRowCount($tablesName);
-
-		if ($tablesNameAmount > 0) {
-			$counter = 0;
-			foreach ($tablesName as $tableName) {
-				self::saveTmpBackUpTableName($tableName);
-				if ($counter > 50) {
-					$allDBTablesAmount = self::getDBTablesAmount();
-					$allDBTablesAmountInt = (int) $allDBTablesAmount[0];
-					$tmpTablesAmount = self::getAmountAllTablesToBackup();
-					$tmpTablesAmountInt = (int) $tmpTablesAmount->fields[0];
-					$percentage = ($tmpTablesAmountInt * 100) / $allDBTablesAmountInt;
-
-					exit(json_encode(array('success' => true, 'status' => 'prepare', 'percentage' => $percentage)));
-				}
-				$counter++;
-			}
-		} else {
-			self::setTablesPrepare(true, $backUpId);
-			exit(json_encode(array('success' => true, 'status' => 'pending', 'percentage' => 0)));
-		}
-		self::setTablesPrepare(true, $backUpId);
-		exit(json_encode(array('success' => true, 'status' => 'prepare', 'percentage' => 100)));
+		$adb->query("TRUNCATE TABLE `vtiger_backup_db`");
+		$adb->query("TRUNCATE TABLE `vtiger_backup_files`");
 	}
 
-	public function userBackUpCall($request) {
-		$adb = PearDatabase::getInstance();
-
-		$startCreateBackUp = microtime(TRUE);
-		if ($request->get('backUpAction') == 'new') {
-			self::deleteOldBackUpFiles();
-			self::deleteTmpBackUpContent();
-		}
-
-		$backUpInfo = self::getBackUpInfo();
-		if ($backUpInfo['backup_db'] != TRUE) {
-			if ($request->get('backUpAction') == 'new') {
-				$backUpInfo = self::newBackUp();
-			}
-			if ($request->get('backUpAction') == 'resume') {
-				self::updateTmpBackUpInfo('pending', 0, true);
-			}
-			if ($backUpInfo['tables_prepare'] != TRUE) {
-				self::setTmpBackUpTables($backUpInfo['id']);
-			}
-
-			$tablesName = self::getNotBackUpTables(TRUE);
-			$rowsNum = $adb->getRowCount($tablesName);
-
-			if ($rowsNum == 0) {
-				$result = self::endDBBackUp($backUpInfo['file_name']);
-			} else {
-				$result = self::pendingBackUp($backUpInfo['file_name'], $tablesName);
-			}
-			$endCreateBackUp = microtime(TRUE);
-			$executeTime = $endCreateBackUp - $startCreateBackUp;
-			self::updateTmpBackUpInfo('pending', $executeTime);
-		} else {
-			$result = array('success' => true, 'status' => 'end');
-		}
-		exit(json_encode($result));
+	public function clearTmpFiles() {
+		$start = self::getTime();
+		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.db.zip');
+		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.files.zip');
+		$this->updateProgress('7', 100, self::getTime() - $start);
 	}
 
-	public function deleteOldBackUpFiles() {
-		/*
-		  $deleteFiles = array_filter(array_merge(glob(self::$tempDir.'/backup*.zip'), glob(self::$tempDir.'/*.sql')));
-		  foreach ($deleteFiles as $file) {
-		  if (file_exists($file)) {
-		  unlink($file);
-		  }
-		  }
-		 */
-	}
-
-	public function endDBBackUp($fileName) {
-		$adb = PearDatabase::getInstance();
-		$log = vglobal('log');
-
-		if (extension_loaded('zip')) {
-			$zip = new ZipArchive();
-			$zip->open($this->tempDir . '/' . $fileName . '.db.zip', ZipArchive::CREATE);
-			$zip->addFile($this->tempDir . '/' . $fileName . '.sql', $fileName . '.sql');
-			$zip->close();
-
-			if (file_exists($this->tempDir . '/' . $fileName . '.sql')) {
-				unlink($this->tempDir . '/' . $fileName . '.sql');
-			}
-		}
-		$adb->pquery("Update vtiger_backup_info SET backup_db  = ? WHERE file_name  = ?", array(TRUE, $fileName));
-
-		$log->info('Finished db backup');
-		$result = array('success' => true, 'status' => 'end');
-		return $result;
-	}
-
-	public function pendingBackUp($fileName, $tablesName) {
-		$log = vglobal('log');
-		$log->info('Create SQL Statement');
-		self::createBackUpSQLStatement($tablesName, $fileName);
-		$percentage = self::getPercentageDBBackUp();
-		$result = array('success' => true, 'status' => 'pending', 'percentage' => $percentage);
-		return $result;
-	}
-
-	public function cronBackUp() {
-		$adb = PearDatabase::getInstance();
-		$backUpInfo = $this->getBackUpInfo();
-		if ($backUpInfo != NULL) {
-			$this->updateTmpBackUpInfo('pending', 0, true);
-		} else {
-			$backUpInfo = $this->newBackUp();
-		}
-		if ($backUpInfo['tables_prepare'] != TRUE) {
-			$this->setCronTmpBackUpTables($backUpInfo['id']);
-		}
-		$tablesName = $this->getNotBackUpTables(FALSE);
-		$rowsNum = $adb->getRowCount($tablesName);
-		if ($rowsNum > 0) {
-			$this->pendingBackUp($backUpInfo['file_name'], $tablesName);
-		}
-		$this->endDBBackUp($backUpInfo['file_name']);
-	}
-
-	public function setCronTmpBackUpTables($backUpId) {
-		$adb = PearDatabase::getInstance();
-		$tablesName = self::getTablesName();
-		$tablesNameAmount = $adb->getRowCount($tablesName);
-
-		if ($tablesNameAmount > 0) {
-			foreach ($tablesName as $tableName) {
-				self::saveTmpBackUpTableName($tableName);
-			}
-		}
-		self::setTablesPrepare(true, $backUpId);
-	}
-
-	public function sendBackupToFTP($backUpPath, $backupFile) {
-		$log = vglobal('log');
-		$ftp = self::getFTPSettings();
-
-		if (TRUE == $ftp['active'] && TRUE == $ftp['status']) {
-			$log->debug('Start sending backup to ftp');
-			$password = self::encrypt_decrypt('decrypt', $ftp['password']);
-
-			if ($ftp['port'])
-				$connection = ftp_connect($ftp['host'], $ftp['port']);
-			else
-				$connection = ftp_connect($ftp['host']);
-
-			ftp_login($connection, $ftp['login'], $password);
-			ftp_pasv($connection, true);
-
-			if ($ftp['path']) {
-				@ftp_mkdir($connection, $ftp['path']);
-				$fileTo = $ftp['path'] . '/' . $backupFile;
-			} else {
-				$fileTo = $backupFile;
-			}
-			$log->debug('Sending backup to ftp');
-			$upload = ftp_put($connection, $fileTo, $backUpPath . '/' . $backupFile, FTP_BINARY);
-			ftp_close($connection);
-			$log->debug('Closing connection after send backup to ftp');
-		}
-	}
-
-	public function encrypt_decrypt($action, $string) {
-		$output = false;
-
-		$encrypt_method = "AES-256-CBC";
-		$secret_key = 'This is my secret key';
-		$secret_iv = 'This is my secret iv';
-		$key = hash('sha256', $secret_key);
-		$iv = substr(hash('sha256', $secret_iv), 0, 16);
-
-		if ($action == 'encrypt') {
-			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-			$output = base64_encode($output);
-		} else if ($action == 'decrypt') {
-			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-		}
-
-		return $output;
-	}
-
-	public static function updateUsersForNotifications($selectedUsers) {
-		$adb = PearDatabase::getInstance();
-		$deleteQuery = "DELETE FROM `vtiger_backup_users`";
-		$adb->query($deleteQuery);
-		if ('' != $selectedUsers) {
-			$insertQuery = "INSERT INTO `vtiger_backup_users` (id) VALUES(?)";
-			foreach ($selectedUsers as $userId) {
-				$adb->pquery($insertQuery, array($userId));
-			}
-		}
-
-		return TRUE;
-	}
-
-	public static function getUsersForNotifications() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query("SELECT * FROM vtiger_backup_users", true);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$id = $adb->query_result($result, $i, 'id');
-			$output[$id] = $id;
-		}
-
-		return $output;
-	}
-
-	public static function sendNotificationEmail() {
-		$log = vglobal('log');
-		$usersId = self::getUsersForNotifications();
-		if ($usersId) {
-			foreach ($usersId as $id) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users');
-				$userEmail = $recordModel->get('email1');
-				$emails[] = $userEmail;
-			}
-			$emailsList = implode(',', $emails);
-			$data = array(
-				'id' => 108,
-				'to_email' => $emailsList,
-				'module' => 'Contacts',
-			);
-			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-			$mail_status = $recordModel->sendMailFromTemplate($data);
-
-			if ($mail_status != 1) {
-				$log->debug('Settings_BackUp_Module_Model Error occurred while sending mail');
-				throw new Exception('Error occurred while sending mail');
-			}
-		} else {
-			$log->debug('Settings_BackUp_Module_Model Users notificastions list - empty');
-		}
-	}
-
-	public function updateSettings($params) {
-		$log = vglobal('log');
-		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+	public function getBackupList($offset = null, $limit = null) {
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$params['val'], $params['param']]);
-		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
-		return true;
+		$query = 'SELECT * FROM vtiger_backup ORDER BY endtime DESC';
+
+		if ($offset !== null) {
+			$query .= " LIMIT $offset, $limit";
+		}
+		$result = $db->query($query);
+		$return = [];
+		$moduleName = 'Settings::BackUp';
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$return[] = [
+				'id' => $db->query_result_raw($result,$i, 'id'),
+				'starttime' => $db->query_result_raw($result,$i, 'starttime'),
+				'endtime' => $db->query_result_raw($result,$i, 'endtime')!=null?$db->query_result_raw($result,$i, 'endtime'):'',
+				'filename' => $db->query_result_raw($result,$i, 'filename'). '.zip',
+				'status' => vtranslate(self::getStatusName($db->query_result_raw($result,$i, 'status')), $moduleName),
+				'backuptime' => Settings_BackUp_Module_Model::formatBackupTime($db->query_result_raw($result,$i, 'backuptime')),
+			];
+		}
+		return $return;
+	}
+
+	public function getBackupCount() {
+		$adb = PearDatabase::getInstance();
+		$result = $adb->query('SELECT COUNT(*) AS num FROM vtiger_backup;');
+		return $adb->query_result($result, 0, 'num');
+	}
+
+	public function addFileToBackup($file) {
+		$adb = PearDatabase::getInstance();
+		$adb->pquery("INSERT IGNORE INTO `vtiger_backup_files` (`name`, `backup`) VALUES (?, ?);", [$file, 0]);
+	}
+	
+	public function markFile($id) {
+		$adb = PearDatabase::getInstance();
+		$adb->pquery("UPDATE vtiger_backup_files SET backup=? WHERE id = ?", [1, $id]);
+	}
+	
+	public function getBackupInfo($type = false) {
+		$adb = PearDatabase::getInstance();
+		if($type){
+			$where = 'vtiger_backup_tmp.id = '.$this->get('id');
+		}else{
+			$where = 'vtiger_backup_tmp.status = 0';
+		}
+		
+		$query = $adb->query('SELECT vtiger_backup_tmp.*, vtiger_backup.filename FROM vtiger_backup_tmp LEFT JOIN vtiger_backup ON vtiger_backup.id = vtiger_backup_tmp.id WHERE '.$where );
+		$result = $adb->fetch_array($query);
+		if(!$result){
+			return;
+		}
+		$data = [];
+		foreach ($result as $index => $value) {
+			$this->set($index,$value);
+			$data[$index] = $value;
+		}
+		return $data;
 	}
 
 	public static function getConfig($type) {
@@ -550,44 +521,211 @@ class Settings_BackUp_Module_Model extends Vtiger_Module_Model {
 		}
 		return $config;
 	}
+	
+	public function sendNotification() {
+		$log = vglobal('log');
+		$usersId = $this->getUsersForNotifications();
+		if ($usersId) {
+			foreach ($usersId as $id) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users');
+				$userEmail = $recordModel->get('email1');
+				$emails[] = $userEmail;
+			}
+			$emailsList = implode(',', $emails);
+			$data = array(
+				'id' => 108,
+				'to_email' => $emailsList,
+				'module' => 'Contacts',
+			);
+			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
+			$mail_status = $recordModel->sendMailFromTemplate($data);
 
-	public function generateFilesStructure($source) {
-		if (is_dir($source)) {
-			$this->addFileToBackup($source);
-			$flags = RecursiveIteratorIterator::SELF_FIRST || FilesystemIterator::KEY_AS_PATHNAME;
-			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), $flags);
-			foreach ($iterator as $path => $file) {
-				$this->addFileToBackup($path);
+			if ($mail_status != 1) {
+				$log->error('Settings_BackUp_Module_Model Error occurred while sending mail');
 			}
 		} else {
-			$this->addFileToBackup($source);
+			$log->debug('Settings_BackUp_Module_Model Users notificastions list - empty');
 		}
 	}
+	
 
-	public function zipData($zipFile, $cron) {
+	public static function getUsersForNotifications() {
+		$adb = PearDatabase::getInstance();
+		$result = $adb->pquery('SELECT * FROM vtiger_backup_settings WHERE param = ?',['users']);
+		$value = $adb->query_result($result, 0, 'value');
+		return explode(',',$value);
+	}
+	
+	public function sendBackupToFTP() {
+		$start = self::getTime();
+		$log = vglobal('log');
+		$ftp = $this->getFTPSettings();
+
+		$backupFile = $this->get('filename') . '.zip';
+		if ($ftp['active'] == 1) {
+			$log->debug('Start sending backup to ftp');
+			$password = $this->encrypt_decrypt('decrypt', $ftp['password']);
+
+			if ($ftp['port'])
+				$connection = ftp_connect($ftp['host'], $ftp['port']);
+			else
+				$connection = ftp_connect($ftp['host']);
+
+			ftp_login($connection, $ftp['login'], $password);
+			ftp_pasv($connection, true);
+
+			if ($ftp['path']) {
+				@ftp_mkdir($connection, $ftp['path']);
+				$fileTo = $ftp['path'] . '/' . $backupFile;
+			} else {
+				$fileTo = $backupFile;
+			}
+			$log->debug('Sending backup to ftp');
+			$upload = ftp_put($connection, $fileTo, $this->destDir . '/' . $backupFile, FTP_BINARY);
+			ftp_close($connection);
+			$this->updateProgress('8', 100, self::getTime() - $start);
+			$log->debug('Closing connection after send backup to ftp');
+		}
+	}
+	
+	static public function getFTPSettings() {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT * FROM vtiger_backup_settings WHERE type = ?', ['ftp']);
+		$numRows = $db->num_rows($result);
+		$output = [];
+		for ($i = 0; $i < $numRows; $i++) {
+			$output[$db->query_result_raw($result, $i, 'param')] = $db->query_result_raw($result, $i, 'value');
+		}
+		return $output;
+	}
+	
+	public function encrypt_decrypt($action, $string) {
+		$output = false;
+
+		$encrypt_method = "AES-256-CBC";
+		$secret_key = 'This is my secret key';
+		$secret_iv = 'This is my secret iv';
+		$key = hash('sha256', $secret_key);
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+		if ($action == 'encrypt') {
+			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+			$output = base64_encode($output);
+		} else if ($action == 'decrypt') {
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+		return $output;
+	}
+	
+	public function saveFTPSettings($host, $login, $password, $status, $port, $active, $path) {
+		$password = self::encrypt_decrypt('encrypt', $password);
+
+		self::updateSettings(['param' => 'host', 'val'=> $host]);
+		self::updateSettings(['param' => 'login', 'val'=> $login]);
+		self::updateSettings(['param' => 'password', 'val'=> $password]);
+		self::updateSettings(['param' => 'active', 'val'=> $status]);
+		self::updateSettings(['param' => 'port', 'val'=> $port]);
+		self::updateSettings(['param' => 'active', 'val'=> $active]);
+		self::updateSettings(['param' => 'path', 'val'=> $path]);
+	}
+	
+	public function updateSettings($params) {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		$db = PearDatabase::getInstance();
+		$val = $params['val'];
+		if(is_array($val)){
+			$val = implode(",", $val);
+		}
+		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$val, $params['param']]);
+		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
+		return true;
+	}
+	
+	public function tarData($tarFile, $cron) {
 		$log = vglobal('log');
 		$log->info('BackUp - Start ZipArchive');
 		$dbFiles = $this->getFilesStructure();
 
-		$zip = new ZipArchive();
-		$destination = $this->tempDir . '/' . $zipFile . '.zip';
+		$destination = $this->tempDir . '/' . $tarFile . '.tar';
+		$tar = new PharData($destination);
+		
 		$count = 0;
 		foreach ($dbFiles as $id => $path) {
-			if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
-				if (is_dir($path)) {
-					$zip->addEmptyDir($path . '/');
-				} elseif (is_file($path)) {
-					$zip->addFile($path, $path);
-				}
-				$this->markFile($id);
+			if (is_dir($path)) {
+				$tar->addEmptyDir($path . '/');
+			} elseif (is_file($path)) {
+				$tar->addFile($path, $path);
 			}
-			if ($count == $this->ajaxLimit && $cron == FALSE) {
+			$this->markFile($id);
+			if ($count == $this->ajaxFilesLimit && $cron == FALSE) {
 				$percentage = $this->getPercentage();
 				exit(json_encode(['percentage' => $percentage]));
 			}
-			$zip->close();
 			$count++;
 		}
+		//$tar->compress(Phar::GZ);
+	}
+	
+	public function getStatusName($id) {
+		switch ($id) {
+			case 0:
+				$return = 'In progress';
+				break;
+			case 1:
+				$return = 'Completed';
+				break;
+			case 2:
+				$return = 'Aborted by user';
+				break;
+		}
+		return $return;
+	}
+	
+	public function formatBackupTime($time) {
+		$days = floor($time/86400); 
+		$hours = floor($time/60/60); 
+		$mins = floor($time/60);
+		$return = '';
+		if($days){
+			$return .= $days.' ';
+			$return .= vtranslate('LBL_DAYS').' ';
+		}
+		if($hours){
+			$return .= $hours-($days*24).' ';
+			$return .= vtranslate('LBL_HOURS').' ';
+		}
+		if($mins){
+			$return .= $mins-($hours*60).' ';
+			$return .= vtranslate('LBL_MINUTES');
+		}
+		return $return;
+	}
+	
+	public function checkCron() {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT status FROM vtiger_cron_task WHERE module = ?;', ['BackUp']);
+		return $db->query_result_raw($result, 0, 'status');
+	}
+	
+	public function checkMail() {
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SELECT 1 FROM vtiger_systems WHERE server_type = ?', ['email']);
+		if($db->num_rows($result)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static function scheduleBackup() {
+		$db = PearDatabase::getInstance();
+		$db->pquery('UPDATE `vtiger_cron_task` SET `laststart` = ? WHERE `module` = ?;', [0, 'BackUp']);
+	}
+	
+	function getTime(){
+		$a = explode (' ',microtime());
+		return (double) $a[0] + $a[1];
 	}
 
 }

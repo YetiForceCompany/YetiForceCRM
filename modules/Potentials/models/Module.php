@@ -291,7 +291,7 @@ class Potentials_Module_Model extends Vtiger_Module_Model {
 			$instance = CRMEntity::getInstance($relatedModuleName);
 			$securityParameter = $instance->getUserAccessConditionsQuerySR($relatedModuleName);
 			if ($securityParameter != '')
-				$sql .= $securityParameter;
+				$query .= $securityParameter;
 		} elseif ($functionName === 'get_mails' && $relatedModule->getName() == 'OSSMailView') {
 			$query = OSSMailView_Record_Model::getMailsQuery($recordId, $relatedModule->getName());
 		} else {

@@ -21,10 +21,10 @@ $languageStrings = [
 	'LBL_SHOW_MAIL_ICON' => 'Exibir ícone do e-mail',
 	'LBL_SHOW_MAIL_ACCOUNTS' => 'Mostrar lista de e-mail contas associadas com o usuário atual',
 	'LBL_NUMBER_UNREAD_EMAILS' => 'Exibir a quantidade de mensagens não lidas',
-	'LBL_MAIL_ICON_CONFIG' => 'Ícone Mensagem',
+	'LBL_MAIL_ICON_CONFIG' => 'Ícone E-mail',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Ativar o acesso automático para seu e-mail?',
 	'LBL_ADD_SIGNATURE' => 'Ativar um rodapé geral para todos os emails enviados',
-	'LBL_SIGNATURE' => 'Assinatura Global_',
+	'LBL_SIGNATURE' => 'Assinatura Global',
 	'LBL_SAVED_SIGNATURE' => 'Assinatura Salva',
 	
 	'LBL_VIEW_AUTOLOGIN' => 'Acesso automático',

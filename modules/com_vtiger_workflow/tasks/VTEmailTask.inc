@@ -39,28 +39,6 @@ class VTEmailTask extends VTTask{
 			//Storing the details of emails
 			$entityIdDetails = vtws_getIdComponents($entity->getId());
 			$entityId = $entityIdDetails[1];
-			$moduleName = 'Emails';
-			$userId = $current_user->id;
-			$emailFocus = CRMEntity::getInstance($moduleName);
-			$emailFieldValues = array(
-					'assigned_user_id' => $userId,
-					'subject' => $subject,
-					'description' => $content,
-					'from_email' => $from_email,
-					'saved_toid' => $to_email,
-					'ccmail' => $cc,
-					'bccmail' => $bcc,
-					'parent_id' => $entityId."@$userId|",
-					'email_flag' => 'SENT',
-					'activitytype' => $moduleName,
-					'date_start' => date('Y-m-d'),
-					'time_start' => date('H:i:s'),
-					'mode' => '',
-					'id' => ''
-			);
-			$emailFocus->column_fields = $emailFieldValues;
-			$emailFocus->save($moduleName);
-
 
 			//Including email tracking details
 			global $site_URL, $application_unique_key;

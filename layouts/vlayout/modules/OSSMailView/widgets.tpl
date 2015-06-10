@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -48,9 +48,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 		</div>
-		<div class="col-md-12 defaultMarginP mailBody" style="display: none;">
-			{Vtiger_Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script'), $row['body'])} 
-		</div>
+		<div class="col-md-12 defaultMarginP mailBody" style="display: none;">{$row['body']}</div>
 	</div><hr/>
 	{/foreach}
 </div>

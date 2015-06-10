@@ -402,18 +402,22 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 
 /*Data for the table `vtiger_backup_db` */
 
-/*Data for the table `vtiger_backup_info` */
-
 /*Data for the table `vtiger_backup_files` */
-
-/*Data for the table `vtiger_backup_ftp` */
 
 /*Data for the table `vtiger_backup_settings` */
 
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','backup_folder','false');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('notifications','users','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','host','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','login','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','password','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','port','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','path','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','active','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','status','');
 
-/*Data for the table `vtiger_backup_users` */
+/*Data for the table `vtiger_backup_tmp` */
 
 /*Data for the table `vtiger_blocks` */
 
