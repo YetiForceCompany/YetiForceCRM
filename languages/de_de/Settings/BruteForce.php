@@ -29,7 +29,7 @@ $languageStrings = [
     'Unblock' => 'Entsperren',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktiv',
-	'LBL_SAVE' => 'Save',
+	'LBL_SAVE' => 'Speichern',
 	'LBL_VIEW_SHOW' => 'Brute Force',
 ];
 $jsLanguageStrings = [
