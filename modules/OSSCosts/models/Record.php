@@ -182,23 +182,24 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		return $taxDetails;
 	}
 	function getProducts() {
+		$numOfCurrencyDecimalPlaces = getCurrencyDecimalPlaces();
 		$relatedProducts = $this->getAssociatedProducts($this->getModuleName(), $this->getEntity());
-		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), $numOfCurrencyDecimalPlaces,'.','');
 
 		//Updating Pre tax total
 		$preTaxTotal = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 						- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 
-		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['preTaxTotal'] = number_format($preTaxTotal, $numOfCurrencyDecimalPlaces,'.','');
 		
 		//Updating Total After Discount
 		$totalAfterDiscount = (float)$relatedProducts[1]['final_details']['hdnSubTotal']
 								- (float)$relatedProducts[1]['final_details']['discountTotal_final'];
 		
-		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['totalAfterDiscount'] = number_format($totalAfterDiscount, $numOfCurrencyDecimalPlaces,'.','');
 		return $relatedProducts;
 	}
 	function getAssociatedProducts($module,$focus,$seid='')	{

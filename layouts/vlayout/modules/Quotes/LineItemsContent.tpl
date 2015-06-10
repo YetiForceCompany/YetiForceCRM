@@ -230,20 +230,20 @@
 			</div>
 		</span>
 		{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
-		<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
+		<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
 		<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
-		<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
+		<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
 		<br />{vtranslate('LBL_MARGINP',$MODULE)}:<br />
-		<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
+		<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
 	</td>
 	<td>
-		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0.00{/if}</div>
-		<div id="discountTotal{$row_no}" align="right" class="discountTotal">{if $data.$discountTotal}{$data.$discountTotal}{else}0.00{/if}</div>
-		<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount">{if $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0.00{/if}</div>
-		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if}">{if $data.$taxTotal}{$data.$taxTotal}{else}0.00{/if}</div>
+		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
+		<div id="discountTotal{$row_no}" align="right" class="discountTotal">{if $data.$discountTotal}{$data.$discountTotal}{else}0{/if}</div>
+		<div id="totalAfterDiscount{$row_no}" align="right" class="totalAfterDiscount">{if $data.$totalAfterDiscount}{$data.$totalAfterDiscount}{else}0{/if}</div>
+		<div id="taxTotal{$row_no}" align="right" class="productTaxTotal {if $IS_GROUP_TAX_TYPE}hide{/if}">{if $data.$taxTotal}{$data.$taxTotal}{else}0{/if}</div>
 	</td>
 	<td>
-		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0.00{/if}</span>
+		<span id="netPrice{$row_no}" class="pull-right netPrice">{if $data.$netPrice}{$data.$netPrice}{else}0{/if}</span>
 	</td>
 	<td>
 		<input type="text" id="{$calculation}" name="{$calculation}" value="{$data.$calculation}" class="calculation {if $row_no neq 0} autoComplete {/if}" placeholder="{vtranslate('LBL_TYPE_SEARCH',$MODULE)}" {if !empty($data.$calculation)} disabled="disabled" {/if}/>

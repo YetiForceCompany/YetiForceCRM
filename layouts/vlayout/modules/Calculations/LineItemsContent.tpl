@@ -80,20 +80,20 @@
 	</td>
 	<td>
 		<div>
-			<input id="{$listPrice}" name="{$listPrice}" value="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0.00{/if}" title="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
+			<input id="{$listPrice}" name="{$listPrice}" value="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0{/if}" title="{if !empty($data.$listPrice)}{$data.$listPrice}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="listPrice smallInputBox" />
 			<br />{vtranslate('LBL_PURCHASE',$MODULE)}:<br />
-			<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" title="{if !empty($data.$purchase)}{$data.$purchase}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
+			<input id="{$purchase}" name="{$purchase}" value="{if !empty($data.$purchase)}{$data.$purchase}{else}0{/if}" title="{if !empty($data.$purchase)}{$data.$purchase}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="purchase smallInputBox" />
 			<br />{vtranslate('LBL_MARGIN',$MODULE)}:<br />
-			<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" title="{if !empty($data.$margin)}{$data.$margin}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
+			<input id="{$margin}" name="{$margin}" value="{if !empty($data.$margin)}{$data.$margin}{else}0{/if}" title="{if !empty($data.$margin)}{$data.$margin}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="margin smallInputBox" readonly="readonly"/>
 			<br />{vtranslate('LBL_MARGINP',$MODULE)}:<br />
-			<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" title="{if !empty($data.$marginp)}{$data.$marginp}{else}0.00{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
+			<input id="{$marginp}" name="{$marginp}" value="{if !empty($data.$marginp)}{$data.$marginp}{else}0{/if}" title="{if !empty($data.$marginp)}{$data.$marginp}{else}0{/if}" type="text" data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]" class="marginp smallInputBox" readonly="readonly"/>
 		</div>
 	</td>
 	<td>
-		<input id="{$rbh}" name="{$rbh}" type="text" class="rbh smallInputBox" value="{if !empty($data.$rbh)}{$data.$rbh}{else}0.00{/if}" title="{if !empty($data.$rbh)}{$data.$rbh}{else}0.00{/if}"/>
+		<input id="{$rbh}" name="{$rbh}" type="text" class="rbh smallInputBox" value="{if !empty($data.$rbh)}{$data.$rbh}{else}0{/if}" title="{if !empty($data.$rbh)}{$data.$rbh}{else}0{/if}"/>
 	</td>
 	<td>
-		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0.00{/if}</div>
+		<div id="productTotal{$row_no}" align="right" class="productTotal">{if $data.$productTotal}{$data.$productTotal}{else}0{/if}</div>
 	</td>
 	<td>
 		<div style="width: 450px;"><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox {if $row_no neq 0}ckEditorSource{/if} ckEditorBasic ckEditorSmall">{$data.$comment}</textarea></div>

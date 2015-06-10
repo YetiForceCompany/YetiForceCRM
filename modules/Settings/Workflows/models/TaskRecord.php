@@ -69,10 +69,12 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model {
 	}
 
 	public function getTaskType() {
-		if(!$this->task_type) {
+		if (!$this->task_type) {
 			$taskObject = $this->getTaskObject();
-			$taskClass = get_class($taskObject);
-			$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
+			if (!empty($taskObject)) {
+				$taskClass = get_class($taskObject);
+				$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
+			}
 		}
 		return $this->task_type;
 	}

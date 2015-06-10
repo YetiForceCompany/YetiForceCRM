@@ -5673,6 +5673,8 @@ insert  into `vtiger_modtracker_tabs`(`tabid`,`visible`) values (82,1);
 
 /*Data for the table `vtiger_no_of_currency_decimals` */
 
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (0,'0',0,1);
+insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (1,'1',1,1);
 insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (2,'2',2,1);
 insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (3,'3',3,1);
 insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of_currency_decimals`,`sortorderid`,`presence`) values (4,'4',4,1);

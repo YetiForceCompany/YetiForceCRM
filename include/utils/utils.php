@@ -2015,14 +2015,14 @@ function getEmailRelatedModules() {
 
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces() {
-	$current_user  = vglobal('current_user');
+	$current_user = vglobal('current_user');
 	$currency_decimal_places = $current_user->no_of_currency_decimals;
-	if(isset($currency_decimal_places)) {
+	if (isset($currency_decimal_places)) {
 		return $currency_decimal_places;
-		} else {
+	} else {
 		return 2;
-			}
-		}
+	}
+}
 
 function getInventoryModules() {
 	$inventoryModules = array('Invoice','Quotes','PurchaseOrder','SalesOrder');
