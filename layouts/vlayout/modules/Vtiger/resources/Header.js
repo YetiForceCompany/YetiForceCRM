@@ -530,11 +530,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		bodyHeight = (parseInt(bodyHeight)+parseInt(navTop))+'px';
 		var styles = {
 			'min-height' : bodyHeight,
-			'margin-bottom': navBottom+'px'
+			'margin-bottom': navBottom+'px',
+			'margin-top': navTop+'px'
 		}
 		jQuery(".mainContainer").css(styles);
-		jQuery(".mainContainer > .col-md-2 ").css(styles);
-		jQuery(".contentsDiv").css(styles);
+		jQuery(".mainContainer > .col-md-2 ").css({'margin-bottom': navBottom+'px',});
+		jQuery(".contentsDiv").css({'margin-bottom': navBottom+'px',});
 	},
 	
 	recentPageViews: function () {

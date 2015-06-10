@@ -369,7 +369,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var lineItemTable = this.getLineItemContentsContainer();
 		jQuery('#addProduct').on('click',function(){
 			var newRow = thisInstance.getBasicRow().addClass(thisInstance.rowClass);
-			jQuery('.lineItemPopup[data-module-name="Services"]',newRow).remove();
+			jQuery('.lineItemPopup[data-module-name="Services"]',newRow).closest('span.input-group-addon').remove();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			newRow = newRow.appendTo(lineItemTable);
 			thisInstance.checkLineItemRow();
@@ -380,7 +380,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		});
 		jQuery('#addService').on('click',function(){
 			var newRow = thisInstance.getBasicRow().addClass(thisInstance.rowClass);
-			jQuery('.lineItemPopup[data-module-name="Products"]',newRow).remove();
+			jQuery('.lineItemPopup[data-module-name="Products"]',newRow).closest('span.input-group-addon').remove();
 			var sequenceNumber = thisInstance.getNextLineItemRowNumber();
 			newRow = newRow.appendTo(lineItemTable);
 			thisInstance.checkLineItemRow();
@@ -618,7 +618,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		var discountRow = element.closest('tr');
 
 		jQuery('input.discount_type',discountContianer).val(discountType);
-		var rowPercentageField = jQuery('input.discount_percentage',discountContianer);
+		var rowPercentageField = jQuery('input.discount_percentage',discountContianer).closest('div.input-group');
 		var rowAmountField = jQuery('input.discount_amount',discountContianer);
 
 		//intially making percentage and amount discount fields as hidden
@@ -727,7 +727,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
         var numberOfDecimal = parseInt(jQuery('.numberOfCurrencyDecimal').val());
 
 		jQuery('#discount_type_final').val(discountType);
-		var rowPercentageField = discountContainer.find('input.discount_percentage_final');
+		var rowPercentageField = discountContainer.find('input.discount_percentage_final').closest('div.input-group');
 		var rowAmountField = discountContainer.find('input.discount_amount_final');
         
 		//intially making percentage and amount discount fields as hidden
