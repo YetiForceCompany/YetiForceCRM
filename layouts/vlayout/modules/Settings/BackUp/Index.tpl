@@ -2,8 +2,8 @@
 {strip}	
 	<style>
 		#connection-status{
-			width: 15px;
-			height: 15px;
+			width: 22px;
+			height: 22px;
 		}
 		.go-to-pages-title,
 		.lbl-of,
@@ -205,7 +205,7 @@
 								<td>
 									<select class="chzn-select configField" data-type="notifications" id="" name="users" multiple>
 										{foreach key=KEY  item=USER from=$ADMIN_USERS}
-											<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if array_key_exists($USER['id'], $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']}</option>
+											<option name="selectedUsers" value="{$USER['id']}" {if $USERFORNOTIFICATIONS } {if in_array($USER['id'], $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER['user_name']}</option>
 										{/foreach}
 									</select>
 								</td>

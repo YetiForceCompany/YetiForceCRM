@@ -346,8 +346,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 					$zip->addFile($path, $path);
 				}
 				$this->markFile($id);
+				$zip->close();
 			}
-			$zip->close();
 			$this->updateProgress('5', ($count/$allFiles)*100, self::getTime() - $start);
 			$count++;
 		}
@@ -447,6 +447,16 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		return $adb->query_result($result, 0, 'num');
 	}
 
+	public function addFileToBackup($file) {
+		$adb = PearDatabase::getInstance();
+		$adb->pquery("INSERT IGNORE INTO `vtiger_backup_files` (`name`, `backup`) VALUES (?, ?);", [$file, 0]);
+	}
+	
+	public function markFile($id) {
+		$adb = PearDatabase::getInstance();
+		$adb->pquery("UPDATE vtiger_backup_files SET backup=? WHERE id = ?", [1, $id]);
+	}
+	
 	public function getBackupInfo($type = false) {
 		$adb = PearDatabase::getInstance();
 		if($type){
@@ -517,13 +527,9 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 
 	public static function getUsersForNotifications() {
 		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT * FROM vtiger_backup_users');
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$id = $adb->query_result($result, $i, 'id');
-			$output[$id] = $id;
-		}
-		return $output;
+		$result = $adb->pquery('SELECT * FROM vtiger_backup_settings WHERE param = ?',['users']);
+		$value = $adb->query_result($result, 0, 'value');
+		return explode(',',$value);
 	}
 	
 	public function sendBackupToFTP() {
@@ -532,7 +538,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$ftp = $this->getFTPSettings();
 
 		$backupFile = $this->get('filename') . '.zip';
-		if (TRUE == $ftp['active'] && TRUE == $ftp['status']) {
+		if ($ftp['active'] == 1) {
 			$log->debug('Start sending backup to ftp');
 			$password = $this->encrypt_decrypt('decrypt', $ftp['password']);
 
@@ -603,7 +609,11 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$params['val'], $params['param']]);
+		$val = $params['val'];
+		if(is_array($val)){
+			$val = implode(",", $val);
+		}
+		$db->pquery('UPDATE `vtiger_backup_settings` SET `value` = ? WHERE `param` = ?;', [$val, $params['param']]);
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 		return true;
 	}
