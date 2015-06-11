@@ -61,10 +61,10 @@ function vtws_convertlead($entityvalues, $user) {
 	// Initialize Event trigger cache
 	$em->initTriggerCache();
 	$entityData = VTEntityData::fromEntityId($adb, $id);
-	$em->triggerEvent("entity.convertlead.before", [$entityvalues, $user, $leadInfo]);
+	$em->triggerEvent('entity.convertlead.before', [$entityvalues, $user, $leadInfo]);
 
-	$entityIds = array();
-	$availableModules = array('Accounts', 'Contacts', 'Potentials');
+	$entityIds = [];
+	$availableModules = ['Accounts', 'Contacts', 'Potentials'];
 
 	if (!(($entityvalues['entities']['Accounts']['create']) || ($entityvalues['entities']['Contacts']['create']))) {
 		return null;
@@ -147,7 +147,7 @@ function vtws_convertlead($entityvalues, $user) {
 		vtws_getRelatedActivities($leadIdComponents[1], $accountId, $contactId, $relatedIdComponents[1]);
 		vtws_updateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
 		if ($em) {
-			$em->triggerEvent("entity.convertlead.after", [$entityvalues, $user, $leadInfo, $entityIds]);
+			$em->triggerEvent('entity.convertlead.after', [$entityvalues, $user, $leadInfo, $entityIds]);
 		}
 	} catch (Exception $e) {
 		$log->error('Error converting a lead: ' . $e->getMessage());
