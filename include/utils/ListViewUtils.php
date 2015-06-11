@@ -622,7 +622,8 @@ function decode_html($str) {
 	if(empty($default_charset))
 		$default_charset='UTF-8';
 	// Direct Popup action or Ajax Popup action should be treated the same.
-	if ($_REQUEST['action'] == 'Popup' || $_REQUEST['file'] == 'Popup')
+	if (isset($_REQUEST['action']) == 'Popup' || isset($_REQUEST['file']) == 'Popup') //Fix PHP Notice
+	/*if ($_REQUEST['action'] == 'Popup' || $_REQUEST['file'] == 'Popup')*/
 		return html_entity_decode($str);
 	else
 		return html_entity_decode($str, ENT_QUOTES, $default_charset);
