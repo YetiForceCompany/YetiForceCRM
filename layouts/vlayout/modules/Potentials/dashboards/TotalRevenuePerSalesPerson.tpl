@@ -28,7 +28,7 @@
 		<div class="span12">
 			<div class="pull-right">
 				<span class="icon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span>
-				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini"  id="select-date" />
+				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini" />
 			</div>
 		</div>
 	</div>			
@@ -36,3 +36,4 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+
