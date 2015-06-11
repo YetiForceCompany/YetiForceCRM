@@ -41,7 +41,7 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Nowe zasady dostępu zostały zapisane',
-	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Szanse sprzedaży, Zgłoszenia, Oferty, Zamówienia od klientów & Faktury muszą zostać zdefiniowane jako prywatne, jeżeli ustawiłeś Kontrahentów jako prywatnych.',
+	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Szanse sprzedaży, Zgłoszenia, Oferty, Zamówienia od klientów oraz Faktury muszą zostać zdefiniowane jako prywatne, jeżeli ustawiłeś Kontrahentów jako prywatnych.',
 	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'Nowe zasady udostępnianie zapisano poprawnie',
 	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Wybierz przynajmniej jednego użytkownika',
 ];
