@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -18,7 +18,7 @@
 		<hr>
 		<div class="contents">
 			{if $ENABLEDAV }
-				<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+				<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>

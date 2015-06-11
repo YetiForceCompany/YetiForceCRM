@@ -461,7 +461,7 @@ hr {
   -webkit-box-shadow: 0 0 3px -1px #dddddd;
   -moz-box-shadow: 0 0 3px -1px #dddddd;
   box-shadow: 0 0 3px -1px #dddddd;
-}
+}/*//
 .quickWidgetContainer .quickWidget .quickWidgetHeader {
   background-color: #f5f5f5;
   background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
@@ -489,6 +489,7 @@ hr {
 .quickWidgetContainer .quickWidget .widgetContainer {
   background-color: #ffffff;
 }
+
 .quickWidgetContainer .quickWidget .widgetContainer > div {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -496,6 +497,7 @@ hr {
   word-wrap: break-word;
   padding: 7px 0;
 }
+*/
 .sidebarTitleBlock {
   padding: 12px 0;
 }
@@ -1537,6 +1539,7 @@ th.htColHeader,
 #settingsQuickWidgetContainer .widgetContainer.accordion-body > div:hover {
   background: #eeeff2;
 }
+/*//
 #settingsQuickWidgetContainer .widgetContainer.accordion-body .selectedMenuItem {
   background-color: #eeeff2;
   border-bottom: 1px solid #dddddd !important;
@@ -1546,20 +1549,21 @@ th.htColHeader,
 #settingsQuickWidgetContainer .widgetContainer.accordion-body .selectedMenuItem a {
   color: #444444;
 }
+
 #settingsQuickWidgetContainer .widgetContainer.accordion-body .menuItem a {
   color: #444444;
 }
 #settingsQuickWidgetContainer .widgetContainer.accordion-body .menuItem a:hover {
   text-decoration: none;
 }
-#settingsQuickWidgetContainer .widgetContainer.accordion-body .menuItem:hover .pinUnpinShortCut {
+#settingsQuickWidgetContainer .widgetContainer .menuItem:hover .pinUnpinShortCut {
   display: inline-block;
   margin-top: 3px;
   opacity: 0.8;
 }
-#settingsQuickWidgetContainer .widgetContainer.accordion-body .menuItem:hover .pinUnpinShortCut:hover {
+#settingsQuickWidgetContainer .widgetContainer .menuItem:hover .pinUnpinShortCut:hover {
   opacity: 1;
-}
+}*/
 #settingsShortCutsContainer {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -3133,4 +3137,11 @@ table tr td .input-sm{
 }
 .modal-footer.backgroundColor{
 	background-color: #f5f5f5;
+}
+.panel-title{
+	font-size: 14px;
+}
+.quickWidgetContainer .panel-body{
+	padding-bottom: 0;
+	padding-top: 0;
 }

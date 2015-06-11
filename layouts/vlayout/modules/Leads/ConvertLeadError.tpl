@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -29,7 +29,7 @@
 			</style>
 	</head>
 	<body class="row">
-		<div style="margin-top: 10px;" class="col-md-6 alert alert-error shadow">
+		<div style="margin-top: 10px;" class="col-md-6 alert alert-warning shadow">
 			<div style="position: relative;" >
 				<div>
 					<h2 class="alert-heading">{vtranslate('CANNOT_CONVERT', $MODULE)}</h2>

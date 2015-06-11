@@ -46,7 +46,7 @@
         <li><a href="#delete" data-toggle="tab">{vtranslate('LBL_DeleteModule', $MODULENAME)}</a></li>
     </ul>
     {if $ERROR neq ''}
-        <div class="alert alert-error">
+        <div class="alert alert-warning">
             <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
         </div>
     {/if}

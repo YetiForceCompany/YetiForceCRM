@@ -13,7 +13,7 @@
 {if $ISADMIN eq 1}
 
 {if $ERROR|count_characters:true gt 0}
-    <div class="alert alert-error" style="margin:10px 15px;">
+    <div class="alert alert-warning" style="margin:10px 15px;">
         <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
     </div>
 {elseif $INFO|count_characters:true gt 0}
@@ -350,7 +350,7 @@
   </div>
 </div>
 {else}
-    <div class="alert alert-error" style="margin:10px 15px;">
+    <div class="alert alert-warning" style="margin:10px 15px;">
         <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate('Access denied!', $MODULENAME)}
     </div>
 {/if}

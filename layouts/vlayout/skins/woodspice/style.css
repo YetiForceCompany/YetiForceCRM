@@ -476,6 +476,7 @@ hr {
   margin-left: 15px;
   float: left !important;
 }
+/*//
 .quickWidgetContainer .quickWidget .widgetContainer {
   background-color: #ffffff;
 }
@@ -486,6 +487,7 @@ hr {
   word-wrap: break-word;
   padding: 7px 0;
 }
+*/
 .sidebarTitleBlock {
   padding: 12px 0;
 }
@@ -1508,6 +1510,7 @@ th.htColHeader,
 .contentsDiv > div {
   padding: 0 20px;
 }
+/*//
 #settingsQuickWidgetContainer .widgetContainer.accordion-body {
   border-bottom: none !important;
   border-bottom: 3px solid #dddddd;
@@ -1538,6 +1541,7 @@ th.htColHeader,
 #settingsQuickWidgetContainer .widgetContainer.accordion-body .menuItem:hover .pinUnpinShortCut:hover {
   opacity: 1;
 }
+*/
 #settingsShortCutsContainer {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

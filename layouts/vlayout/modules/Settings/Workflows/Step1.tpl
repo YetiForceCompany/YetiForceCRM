@@ -64,7 +64,7 @@
                             <div>
                                 <label><input type="radio" class="alignTop" name="execution_condition" {if $WORKFLOW_MODEL_OBJ->executionCondition eq $LABEL_ID} checked="" {/if} value="{$LABEL_ID}" {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6} disabled {/if} />&nbsp;&nbsp;{vtranslate($LABEL,$QUALIFIED_MODULE)}
                                     {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6}
-                                        <span class='alert alert-error' style="position:relative;left:100px">{vtranslate('LBL_EXCEEDING_MAXIMUM_LIMIT', $QUALIFIED_MODULE)} : {$MAX_ALLOWED_SCHEDULED_WORKFLOWS}</span>
+                                        <span class='alert alert-warning' style="position:relative;left:100px">{vtranslate('LBL_EXCEEDING_MAXIMUM_LIMIT', $QUALIFIED_MODULE)} : {$MAX_ALLOWED_SCHEDULED_WORKFLOWS}</span>
                                     {/if}
                                     </label><br>
                                 <div class="clearfix"></div>

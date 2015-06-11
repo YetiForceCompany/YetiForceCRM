@@ -10,6 +10,40 @@
  ********************************************************************************/
 -->*}
 {strip}
+
+	
+	
+<div class="quickWidgetContainer panel-group" id="accordionSidebarWidget">
+	{assign var=val value=1}
+	{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGET']}
+		<div class="panel panel-default quickWidget">
+            <div class="panel-heading quickWidgetHeader">
+                <h4 class="panel-title" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+					<a data-toggle="collapse" href="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-label="{$SIDEBARWIDGET->getLabel()}" data-widget-url="{$SIDEBARWIDGET->getUrl()}">{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}
+						<span class="pull-left"><img class="imageElement" alt="{vtranslate('LBL_SHIFT_BLOCK')}" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" />&nbsp;</span>
+					</a>
+				</h4>
+				<div class="loadingImg hide pull-right">
+					<div class="loadingWidgetMsg"><strong>{vtranslate('LBL_LOADING_WIDGET', $MODULE)}</strong></div>
+				</div>
+            </div>
+            <div id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}" class="panel-collapse collapse widgetContainer">
+                <div class="panel-body">
+
+					
+                </div>
+            </div>
+        </div>
+	{/foreach}
+</div>		
+
+	
+	
+	
+	
+	
+	
+	{*
 <div class="quickWidgetContainer accordion">
 	{assign var=val value=1}
 	{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGET']}
@@ -29,4 +63,5 @@
 		</div>
 	{/foreach}
 </div>
+*}
 {/strip}

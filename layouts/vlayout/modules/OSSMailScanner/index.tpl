@@ -19,7 +19,7 @@
     }
 </style>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
-	<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
@@ -29,7 +29,7 @@
 	</div>	
 {/if}
 {if ( $CHECKCRON[1]['frequency'] * 2) > $CHECKCRON[0]['frequency']}
-	<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
@@ -49,7 +49,7 @@
     <div class='editViewContainer tab-pane active' id="tab_accounts">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
         {if $ERRORNOMODULE}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_module_title', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_module_desc', 'OSSMailScanner')}</p>
@@ -60,7 +60,7 @@
             </div>	
         {/if}
         {if $ACCOUNTLIST eq false}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
@@ -170,7 +170,7 @@
     <div class='editViewContainer tab-pane' id="tab_folder">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_folder', 'OSSMailScanner')}</div>
         {if $FOLDERMAILBOXES eq false}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_email_acconts', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_email_acconts_desc', 'OSSMailScanner')}</p>

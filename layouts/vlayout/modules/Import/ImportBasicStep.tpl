@@ -27,7 +27,7 @@
             {if $ERROR_MESSAGE neq ''}
                 <tr>
                     <td class="style1" align="left" colspan="2">
-                        <span class="alert-error">{$ERROR_MESSAGE}</span>
+                        <span class="alert-warning">{$ERROR_MESSAGE}</span>
                     </td>
                 </tr>
             {/if}

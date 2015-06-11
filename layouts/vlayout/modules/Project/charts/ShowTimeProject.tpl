@@ -1,4 +1,4 @@
-{if count($DATA2)}
+﻿{if count($DATA2)}
 {literal}
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -49,7 +49,7 @@
 		<div id="timeProject" style="height:400px;width:100%;"></div>
 	</div>
 {else}
-	<div class="alert alert-error">
+	<div class="alert alert-warning">
 		<p>{vtranslate('LBL_TOTAL_TIME')} {vtranslate('LBL_SUMMARY')} </p>
 		{vtranslate('LBL_RECORDS_NO_FOUND')}
 	</div>	

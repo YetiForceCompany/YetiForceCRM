@@ -10,35 +10,42 @@
  ********************************************************************************/
 -->*}
 {strip}
+		
 	<div id="toggleRightPanelButton" class="toggleRightPanelButton" title="{vtranslate('LBL_RIGHT_PANEL_SHOW_HIDE', 'Vtiger')}">
 		<span id="tRightPanelButtonImage" class="glyphicon glyphicon-chevron-right"></span>
 	</div>
 	</div>
-	<div class="col-md-2 marginLeftZero" id="rightPanel" style="min-height:550px; ">
+	<div class="col-md-2 panel-group" id="rightPanel" style="min-height:550px; ">
 	{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
-		<div class="quickWidget">
-			<div class="accordion-heading accordion-toggle quickWidgetHeader" style="background: #737373; padding:10px " data-target="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
-					data-toggle="collapse" data-parent="#quickWidgets" data-label="{$SIDEBARWIDGET->getLabel()}"
+		<div class="panel panel-defaul quickWidget">
+			<div class="panel-heading quickWidgetHeader" style="background: #737373;">
+				<h4 class="panel-title" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}" >
+					<a data-toggle="collapse" href="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-label="{$SIDEBARWIDGET->getLabel()}" style="color:white"
 					data-widget-url="{$SIDEBARWIDGET->getUrl()}">
-				<span class="pull-left"><img class="imageElement" alt="{vtranslate('LBL_SHIFT_BLOCK')}" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" /></span>
-				<h5 class="title widgetTextOverflowEllipsis pull-left" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}" style="color:white">&nbsp;&nbsp;{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}</h5>
-				<div class="pull-right">
-					{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
-					<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="57">&nbsp;&nbsp;
-					<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer ">
-						<span class="glyphicon glyphicon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+						<span class="pull-left"><img class="imageElement" alt="{vtranslate('LBL_SHIFT_BLOCK')}" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" />&nbsp;</span>{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}
 					</a>
-				</div>
+					<div class="pull-right">
+						{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
+						<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="20">&nbsp;&nbsp;
+						<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer ">
+							<span class="glyphicon glyphicon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+						</a>
+					</div>
+				</h4>
+				
 				<div class="loadingImg hide pull-right">
 					<div class="loadingWidgetMsg"><strong>{vtranslate('LBL_LOADING_WIDGET', $MODULE)}</strong></div>
 				</div>
-				<div class="clearfix"></div>
 			</div>
-			<div class="widgetContainer accordion-body collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}" style=" padding-top: 5px;">
+			<div class="widgetContainer panel-collapse collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}" style=" padding-top: 5px;">
+				<div class="panel-body">
+
+					
+                </div>
 			</div>
 		</div>
 	{/foreach}
-	</div>
+	</div>		
 </div>
 </div>
 <script type="text/javascript">

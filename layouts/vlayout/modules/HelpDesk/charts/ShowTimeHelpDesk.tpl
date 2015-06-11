@@ -1,4 +1,4 @@
-{if $DATA['chart']}
+﻿{if $DATA['chart']}
 	{literal}
 		<script>  
 			$(document).ready(function(){
@@ -50,7 +50,7 @@
 		<div id="timeHelpDesk" style="height:400px;width:100%;"></div>
 	</div>
 {else}
-	<div class="alert alert-error">
+	<div class="alert alert-warning">
 		{vtranslate('LBL_RECORDS_NO_FOUND')}
 	</div>	
 {/if}

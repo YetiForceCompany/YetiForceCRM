@@ -153,21 +153,19 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 
 	registerWidgetsEvents : function() {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on({
-			shown: function(e) {
-				var widgetContainer = jQuery(e.currentTarget);
-				var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
-				var imageEle = quickWidgetHeader.find('.imageElement')
-				var imagePath = imageEle.data('downimage');
-				imageEle.attr('src',imagePath);
-			},
-			hidden: function(e) {
-				var widgetContainer = jQuery(e.currentTarget);
-				var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
-				var imageEle = quickWidgetHeader.find('.imageElement')
-				var imagePath = imageEle.data('rightimage');
-				imageEle.attr('src',imagePath);
-			}
+		widgets.on('shown.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
+			var imageEle = quickWidgetHeader.find('.imageElement')
+			var imagePath = imageEle.data('downimage');
+			imageEle.attr('src',imagePath);
+		});
+		widgets.on('hidden.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			var quickWidgetHeader = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader');
+			var imageEle = quickWidgetHeader.find('.imageElement')
+			var imagePath = imageEle.data('rightimage');
+			imageEle.attr('src',imagePath);
 		});
 	},
 

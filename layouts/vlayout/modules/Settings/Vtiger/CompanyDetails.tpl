@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -93,7 +93,7 @@
 								{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 							</span>
 							{if !empty($ERROR_MESSAGE)}
-								<br><br><div class="marginLeftZero col-md-9 alert alert-error">
+								<br><br><div class="marginLeftZero col-md-9 alert alert-warning">
 									{vtranslate($ERROR_MESSAGE,$QUALIFIED_MODULE)}
 								</div>
 							{/if}

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -28,7 +28,7 @@
 			<input type="hidden" name="id" value="{$MODEL->get('id')}" />
 
 			<div class="row hide errorMessage">
-				<div class="alert alert-error">
+				<div class="alert alert-warning">
 				  {vtranslate('LBL_TESTMAILSTATUS', $QUALIFIED_MODULE)}<strong>{vtranslate('LBL_MAILSENDERROR', $QUALIFIED_MODULE)}</strong>  
 				</div>
 			</div>

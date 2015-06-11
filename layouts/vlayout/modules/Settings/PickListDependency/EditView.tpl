@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -66,7 +66,7 @@
 					</div>
 				</div>
 				<div class="row hide errorMessage">
-					<div class="alert alert-error">
+					<div class="alert alert-warning">
 					  <strong>{vtranslate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>  
 					</div>
 				</div>

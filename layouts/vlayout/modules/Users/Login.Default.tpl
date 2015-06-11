@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -63,17 +63,17 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 					</div>
 					<div class="col-md-12 nomargin">
 						{if isset($smarty.request.error) && $smarty.request.error eq 1}
-							<div class="alert alert-error">
+							<div class="alert alert-warning">
 								<p>{vtranslate('Invalid username or password.',$MODULE)}</p>
 							</div>
 						{/if}
 						{if isset($smarty.request.error) && $smarty.request.error eq 2}
-							<div class="alert alert-error">
+							<div class="alert alert-warning">
 								<p>{vtranslate('Too many failed login attempts.',$MODULE)}</p>
 							</div>
 						{/if}
 						{if isset($smarty.request.fpError)}
-							<div class="alert alert-error">
+							<div class="alert alert-warning">
 								<p>{vtranslate('Invalid Username or Email address.',$MODULE)}</p>
 							</div>
 						{/if}
@@ -83,7 +83,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 							</div>
 						{/if}
 						{if isset($smarty.request.statusError)}
-							<div class="alert alert-error">
+							<div class="alert alert-warning">
 								<p>{vtranslate('Outgoing mail server was not configured.',$MODULE)}</p>
 							</div>
 						{/if}

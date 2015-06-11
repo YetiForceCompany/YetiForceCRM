@@ -27,21 +27,19 @@ var Vtiger_Index_Js = {
 
 	registerWidgetsEvents : function() {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on({
-				shown: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					Vtiger_Index_Js.loadWidgets(widgetContainer);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 1);
-			},
-				hidden: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('rightimage');
-					imageEle.attr('src',imagePath);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 0);
-			}
+		widgets.on('shown.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			Vtiger_Index_Js.loadWidgets(widgetContainer);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 1);
+		});
+		widgets.on('hidden.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			var imageEle = widgetContainer.parent().find('.imageElement');
+			var imagePath = imageEle.data('rightimage');
+			imageEle.attr('src',imagePath);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 0);
 		});
 	},
 
@@ -52,8 +50,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets : function(widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-
-		if(widgetContainer.html() != '') {
+		if(widgetContainer.find('.panel-body').html() != '') {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src',imagePath);
@@ -63,7 +60,6 @@ var Vtiger_Index_Js = {
 
 		widgetContainer.progressIndicator({'message' : message});
 		var url = widgetContainer.data('url');
-
 		var listViewWidgetParams = {
 			"type":"GET", "url":"index.php",
 			"dataType":"html", "data":url
@@ -91,6 +87,8 @@ var Vtiger_Index_Js = {
 			var widgetContainer = jQuery(element);
 			var key = widgetContainer.attr('id');
 			var value = app.cacheGet(key);
+			console.log(app.cacheGet(key))
+			console.log(key)
 			if(value != null){
 				if(value == 1) {
 					Vtiger_Index_Js.loadWidgets(widgetContainer);
@@ -101,9 +99,7 @@ var Vtiger_Index_Js = {
 					imageEle.attr('src',imagePath);
 				}
 			}
-
 		});
-
 	},
 
 	/**
