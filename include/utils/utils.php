@@ -346,14 +346,13 @@ $toHtml = array(
 );
 
 /** Function to convert the given string to html
-  * @param $string -- string:: Type string
-  * @param $ecnode -- boolean:: Type boolean
-    * @returns $string -- string:: Type string
-      *
-       */
-function to_html($string, $encode=true)
-{
-	global $log,$default_charset;
+ * @param $string -- string:: Type string
+ * @param $encode -- boolean:: Type boolean
+ * @returns $string -- string:: Type string
+ *
+ */
+function to_html($string, $encode = true) {
+	global $log, $default_charset;
 	//$log->debug("Entering to_html(".$string.",".$encode.") method ...");
 	global $toHtml;
 	$action = $_REQUEST['action'];
@@ -367,25 +366,20 @@ function to_html($string, $encode=true)
 		$inUTF8 = (strtoupper($default_charset) == 'UTF-8');
 	}
 
-	if($_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
-		$ajax_action = $_REQUEST['module'].'Ajax';
+	if (isset($_REQUEST['module']) && isset($_REQUEST['file']) && $_REQUEST['module'] != 'Settings' && $_REQUEST['file'] != 'ListView' && $_REQUEST['module'] != 'Portal' && $_REQUEST['module'] != "Reports")// && $_REQUEST['module'] != 'Emails')
+		$ajax_action = $_REQUEST['module'] . 'Ajax';
 
-	if(is_string($string))
-	{
-		if($action != 'CustomView' && $action != 'Export' && $action != $ajax_action && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode'])) )
-		{
+	if (is_string($string)) {
+		if ($action != 'CustomView' && $action != 'Export' && $action != $ajax_action && $action != 'LeadConvertToEntities' && $action != 'CreatePDF' && $action != 'ConvertAsFAQ' && $_REQUEST['module'] != 'Dashboard' && $action != 'CreateSOPDF' && $action != 'SendPDFMail' && (!isset($_REQUEST['submode']))) {
 			$doconvert = true;
-		}
-		else if($search == true)
-		{
+		} else if ($search == true) {
 			// Fix for tickets #4647, #4648. Conversion required in case of search results also.
 			$doconvert = true;
 		}
 
 		// In vtiger5 ajax request are treated specially and the data is encoded
-		if ($doconvert == true)
-		{
-			if($inUTF8)
+		if ($doconvert == true) {
+			if ($inUTF8)
 				$string = htmlentities($string, ENT_QUOTES, $default_charset);
 			else
 				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
@@ -2311,12 +2305,12 @@ function getCombinations($array, $tempString = '') {
 function getCompanyDetails() {
 	$adb = PearDatabase::getInstance();
 	
-	$sql="select * from vtiger_organizationdetails";
-	$result = $adb->pquery($sql, array());
+	$sql='select * from vtiger_organizationdetails';
+	$result = $adb->pquery($sql, []);
 	
-	$companyDetails = array();
-	$companyDetails = $adb->query_result_rowdata($result, $i);
-	
+	$companyDetails = [];
+	$companyDetails = $adb->query_result_rowdata($result);
+
 	return $companyDetails;
 }
 
@@ -2324,4 +2318,3 @@ function getCompanyDetails() {
 function lower_array(&$string){
 		$string = strtolower(trim($string));
 }
-?>

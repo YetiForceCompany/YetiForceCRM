@@ -112,7 +112,7 @@ class VTCacheUtils {
             $fldcache = self::$_fieldinfo_cache[$tabid];
         }
 
-        if($fldcache){
+        if(isset($fldcache)){
             $modulefields = array();
 
 			foreach($fldcache as $fieldname=>$fieldinfo) {
