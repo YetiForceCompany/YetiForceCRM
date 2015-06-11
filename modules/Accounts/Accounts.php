@@ -466,13 +466,7 @@ class Accounts extends CRMEntity {
 				LEFT JOIN vtiger_invoiceaddress ON vtiger_invoiceaddress.invoiceaddressid = vtiger_invoice.invoiceid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_invoice.accountid = $id";
-
-		if(!empty ($entityIds)){
-			$query .= " OR vtiger_invoice.contactid IN (".$entityIds."))";
-		} else {
-			$query .= ")";
-		}
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_invoice.accountid = $id";
 
         $return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -578,9 +572,6 @@ class Accounts extends CRMEntity {
 					" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString($singular_modname) ."'>&nbsp;";
 			}
 		}
-
-		$entityIds = $this->getRelatedContactsIds($id);
-		$entityIds = implode(',', $entityIds);
 
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
