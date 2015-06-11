@@ -1030,6 +1030,22 @@ var app = {
 		selectElement.bootstrapSwitch(params);
 		return selectElement;
 	},
+
+	/**
+	 * Function to check whether hidden blocks contain mandatory fields that are empty.
+	 * If yes, those blocks are shown and allowed to be validated by validation engine.
+	 */
+	validateHiddenBlocks : function() {
+		jQuery('table.blockContainer tbody:hidden').each(function() {
+			var blockContainer = jQuery(this);
+			jQuery(this).find('[data-fieldinfo*="mandatory\\":true"]').filter(function() {
+				return !this.value;
+			}).each(function() {
+				blockContainer.prev('thead').find('[data-mode="hide"]').trigger('click');
+				return false;
+			});
+		});
+	},
 }
 
 jQuery(document).ready(function(){

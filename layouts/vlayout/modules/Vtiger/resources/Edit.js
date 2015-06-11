@@ -926,6 +926,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerSubmitEvent: function() {
 		var editViewForm = this.getForm();
 		editViewForm.submit(function(e){
+			// validate hidden blocks if they contain empty mandatory fields show them
+			app.validateHiddenBlocks();
+
 			//Form should submit only once for multiple clicks also
 			if(typeof editViewForm.data('submit') != "undefined") {
 				return false;
