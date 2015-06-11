@@ -422,9 +422,18 @@ var app = {
 		scroll: false,
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
-		prettySelect : true,
+		prettySelect: true,
 		useSuffix: "_chzn",
-        usePrefix : "s2id_"
+		usePrefix: "s2id_",
+		validateNonVisibleFields: true,
+		onFailure: function () {
+			$(this.InvalidFields).each(function (index, element) {
+				var block = $(element).closest('.blockContainer').find('tbody');
+				if (block.hasClass('hide')) {
+					block.removeClass('hide');
+				}
+			});
+		},
 	},
 
 	/**
