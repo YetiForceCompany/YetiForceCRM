@@ -359,7 +359,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					// Include only file/folders that need to be extracted
 					'include' => Array('templates', "modules/$module", 'cron', 'languages',
 						'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries',
-						"$module.png",'updates'),
+						"$module.png",'updates','layouts'),
 					// NOTE: If excludes is not given then by those not mentioned in include are ignored.
 				),
 				// What files needs to be renamed?
@@ -380,6 +380,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					'images' => "layouts/vlayout/skins/images/$module",
 					'settings' => "modules/Settings",
 					'updates' => "cache/updates",
+					'layouts' => 'layouts'
 				)
 			);
 

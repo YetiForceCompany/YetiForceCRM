@@ -45,7 +45,14 @@ var app = {
 	 * Function returns the record id
 	 */
 	getRecordId: function () {
-		return jQuery('[name="record"]').val();
+		var view = jQuery('[name="view"]').val();
+		var recordId;
+		if (view == "Edit") {
+			recordId = jQuery('[name="record"]').val();
+		} else if (view == "Detail") {
+			recordId = jQuery('#recordId').val();
+		}
+		return recordId;
 	},
 	
 	/**

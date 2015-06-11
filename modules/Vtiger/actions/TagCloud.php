@@ -46,7 +46,7 @@ class Vtiger_TagCloud_Action extends Vtiger_Action_Controller {
 		$tagModel = new Vtiger_Tag_Model();
 		$tagModel->set('userid', $currentUser->id);
 		$tagModel->set('record', $request->get('record'));
-		$tagModel->set('tagname', $request->get('tagname'));
+		$tagModel->set('tagname', decode_html($request->get('tagname')));
 		$tagModel->set('module', $request->getModule());
 		$tagModel->save();
 
