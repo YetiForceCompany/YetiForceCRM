@@ -89,8 +89,8 @@ $languageStrings = [
 	'payment:last day of next month' => 'Letzter des nächsten Monats',
 	'payment:first day of +3 months' => 'Erster Tag des nächsten Quartals',
 	'payment:last day of +3 months' => 'Letzter Tag des nächsten Quartals',
-	'LBL_SERVICE' => 'Service',
-	'LBL_PRODUCT' => 'Product',
+	'LBL_SERVICE' => 'Dienstleistung',
+	'LBL_PRODUCT' => 'Produkt',
 ];
 
 $jsLanguageStrings = [

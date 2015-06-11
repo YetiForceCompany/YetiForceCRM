@@ -20,8 +20,9 @@ vimport ('include.runtime.Globals');
 vimport ('include.runtime.BaseModel');
 
 function vtws_convertlead($entityvalues, $user) {
-
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
+	$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 	if (empty($entityvalues['assignedTo'])) {
 		$entityvalues['assignedTo'] = vtws_getWebserviceEntityId('Users', $user->id);
 	}
@@ -43,20 +44,27 @@ function vtws_convertlead($entityvalues, $user) {
 	$sql = "select converted from vtiger_leaddetails where converted = 1 and leadid=?";
 	$leadIdComponents = vtws_getIdComponents($entityvalues['leadId']);
 	$result = $adb->pquery($sql, array($leadIdComponents[1]));
-    if ($result === false) {
-		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR,
-				vtws_getWebserviceTranslatedString('LBL_' .
-						WebServiceErrorCode::$DATABASEQUERYERROR));
+	if ($result === false) {
+		$log->error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
+		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
+				WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED,
-				"Lead is already converted");
+		$log->error('Error converting a lead: Lead is already converted');
+		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, "Lead is already converted");
 	}
 
-	$entityIds = array();
+	require_once("include/events/include.inc");
+	$em = new VTEventsManager($adb);
 
-	$availableModules = array('Accounts', 'Contacts', 'Potentials');
+	// Initialize Event trigger cache
+	$em->initTriggerCache();
+	$entityData = VTEntityData::fromEntityId($adb, $id);
+	$em->triggerEvent('entity.convertlead.before', [$entityvalues, $user, $leadInfo]);
+
+	$entityIds = [];
+	$availableModules = ['Accounts', 'Contacts', 'Potentials'];
 
 	if (!(($entityvalues['entities']['Accounts']['create']) || ($entityvalues['entities']['Contacts']['create']))) {
 		return null;
@@ -109,8 +117,8 @@ function vtws_convertlead($entityvalues, $user) {
 					$entityIds[$entityName] = $entityRecord['id'];
 				}
 			} catch (Exception $e) {
-				throw new WebServiceException(WebServiceErrorCode::$UNKNOWNOPERATION,
-						$e->getMessage().' : '.$entityvalue['name']);
+				$log->error('Error converting a lead: ' . $e->getMessage());
+				throw new WebServiceException(WebServiceErrorCode::$UNKNOWNOPERATION, $e->getMessage() . ' : ' . $entityvalue['name']);
 			}
 		}
 	}
@@ -129,8 +137,7 @@ function vtws_convertlead($entityvalues, $user) {
 			$sql = "insert into vtiger_contpotentialrel values(?,?)";
 			$result = $adb->pquery($sql, array($contactId, $potentialIdComponents[1]));
 			if ($result === false) {
-				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_CREATE_RELATION,
-						"Failed to related Contact with the Potential");
+				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_CREATE_RELATION, "Failed to related Contact with the Potential");
 			}
 		}
 
@@ -139,13 +146,17 @@ function vtws_convertlead($entityvalues, $user) {
 		$relatedIdComponents = vtws_getIdComponents($entityIds[$entityvalues['transferRelatedRecordsTo']]);
 		vtws_getRelatedActivities($leadIdComponents[1], $accountId, $contactId, $relatedIdComponents[1]);
 		vtws_updateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
+		if ($em) {
+			$em->triggerEvent('entity.convertlead.after', [$entityvalues, $user, $leadInfo, $entityIds]);
+		}
 	} catch (Exception $e) {
+		$log->error('Error converting a lead: ' . $e->getMessage());
 		foreach ($entityIds as $entity => $id) {
 			vtws_delete($id, $user);
 		}
 		return null;
 	}
-
+	$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	return $entityIds;
 }
 
@@ -236,14 +247,12 @@ function vtws_getConvertLeadFieldInfo($module, $fieldname) {
 
 //function to handle the transferring of related records for lead
 function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues) {
-
 	try {
 		$entityidComponents = vtws_getIdComponents($entityIds[$entityvalues['transferRelatedRecordsTo']]);
 		vtws_transferLeadRelatedRecords($leadIdComponents[1], $entityidComponents[1], $entityvalues['transferRelatedRecordsTo']);
 	} catch (Exception $e) {
 		return false;
 	}
-
 	return true;
 }
 
@@ -285,7 +294,4 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user) {
             $adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?",array(1,$id));
         }
     }
-
 }
-
-?>

@@ -40,6 +40,14 @@ var app = {
 	getViewName : function() {
 		return jQuery('#view').val();
 	},
+	
+	/**
+	 * Function returns the record id
+	 */
+	getRecordId: function () {
+		return jQuery('[name="record"]').val();
+	},
+	
 	/**
 	 * Function to get the contents container
 	 * @returns jQuery object

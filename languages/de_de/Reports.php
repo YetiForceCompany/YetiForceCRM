@@ -89,7 +89,7 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_DESCRIPTION_HERE' => 'Beschreibung eingeben',
 	'LBL_YEARLY' => 'Jährlich',
 	'LBL_MAIN' => 'Haupt',
-	'LBL_SELECT_REPORT' => 'Select report',
+	'LBL_SELECT_REPORT' => 'Bericht wählen',
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Wählen Sie die Diagrammart',

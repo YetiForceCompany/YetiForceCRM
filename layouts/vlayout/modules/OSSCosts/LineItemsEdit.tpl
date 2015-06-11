@@ -134,7 +134,7 @@
                 <div class="pull-right"><strong>{vtranslate('LBL_ITEMS_TOTAL',$MODULE)}</strong></div>
             </td>
             <td>
-                <div id="netTotal" class="pull-right netTotal">{if !empty($FINAL.hdnSubTotal)}{$FINAL.hdnSubTotal}{else}0.00{/if}</div>
+                <div id="netTotal" class="pull-right netTotal">{if !empty($FINAL.hdnSubTotal)}{$FINAL.hdnSubTotal}{else}0{/if}</div>
             </td>
         </tr>
         <tr>
@@ -142,7 +142,7 @@
                 <span class="pull-right">(-)&nbsp;<strong><a href="javascript:void(0)"  id="finalDiscount">{vtranslate('LBL_TOTAL_DISCOUNT',$MODULE)}</a></strong></span>
             </td>
             <td>
-                <span id="discountTotal_final" class="pull-right discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0.00{/if}</span>
+                <span id="discountTotal_final" class="pull-right discountTotal_final">{if $FINAL.discountTotal_final}{$FINAL.discountTotal_final}{else}0{/if}</span>
 
                 <!-- Popup Discount Div -->
                 <div id="finalDiscountUI" class="finalDiscountUI validCheck hide">
@@ -194,8 +194,8 @@
 			</td>
 			<td>
 				{assign var=PRE_TAX_TOTAL value=$FINAL.preTaxTotal}
-				<span class="pull-right" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0.00{/if}</span>
-				<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0.00{/if}"/>
+				<span class="pull-right" id="preTaxTotal">{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}</span>
+				<input type="hidden" id="pre_tax_total" name="pre_tax_total" value="{if $PRE_TAX_TOTAL}{$PRE_TAX_TOTAL}{else}0{/if}"/>
 			</td>
         </tr>
 		<!-- Group Tax - starts -->
@@ -236,7 +236,7 @@
                 </div>
                 <!-- End Popup Div Group Tax -->
             </td>
-            <td><span id="tax_final" class="pull-right tax_final">{if $FINAL.tax_totalamount}{$FINAL.tax_totalamount}{else}0.00{/if}</span></td>
+            <td><span id="tax_final" class="pull-right tax_final">{if $FINAL.tax_totalamount}{$FINAL.tax_totalamount}{else}0{/if}</span></td>
         </tr>
         <tr valign="top">
             <td  width="83%">
@@ -259,9 +259,9 @@
                 </td>
                 <td>
                     {if $MODULE eq 'Invoice'}
-                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
+                            <span class="pull-right"><input id="received" name="received" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0{/if}" title="{if $RECORD->getDisplayValue('received') && !($IS_DUPLICATE)}{number_format($RECORD->get('received'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0{/if}"></span>
                     {else}
-                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}"></span>
+                        <span class="pull-right"><input id="paid" name="paid" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0{/if}" title="{if $RECORD->getDisplayValue('paid') && !($IS_DUPLICATE)}{number_format($RECORD->get('paid'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0{/if}"></span>
                     {/if}
                 </td>
             </tr>
@@ -273,7 +273,7 @@
                     </div>
                 </td>
                 <td>
-                    <span class="pull-right"><input id="balance" name="balance" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{number_format($RECORD->get('balance'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0.00{/if}" readonly></span>
+                    <span class="pull-right"><input id="balance" name="balance" type="text" class="lineItemInputBox" value="{if $RECORD->getDisplayValue('balance') && !($IS_DUPLICATE)}{number_format($RECORD->get('balance'),$NUMBEROFCURRENCYDECIMAL,'.','')}{else}0{/if}" readonly></span>
                 </td>
             </tr>
 			-->

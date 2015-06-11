@@ -1,27 +1,14 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
-
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Verwaltung von Sicherungen',
 	'LBL_SAVE_BACKUP' => 'Sicherung speichern',
-	'LBL_GENERATE_BACKUP' => 'Sicherung starten',
+	'LBL_SCHEDULE_BACKUP' => 'Sicherung starten',
 	'LBL_LOADING' => 'Sicherung wird geladen, bitte warten...',
-	'LBL_BACKUP_ENDED' => 'Sicherung beendet',
-	'LBL_BACKUP_PREPARE' => 'Sicherung wird vorbereitet' ,
 	'LBL_FTP_SETTINGS' => 'FTP Einstellungen',
 	'LBL_BACKUP_CREATING' => 'Sicherungsverwaltung',
-	'LBL_FILE_BACKUP_LOADING' => 'Dateien werden gesichert',
-	'LBL_DB_BACKUP_LOADING' => 'Datenbank wird gesichert',
 	'LBL_RESUME_BACKUP' => 'Sicherung wiederaufnehmen',
-	'LBL_CREATED_AT' => 'Erstellt um',
+	'LBL_START_TIME' => 'Erstellt um',
 	'LBL_FILE_NAME' => 'Dateiname',
 	'LBL_ACTION' => 'Aktion',
 	'LBL_FTP_SAVE_CONFIG' => 'Konfiguration sichern',
@@ -42,8 +29,31 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Sicherungsverzeichnissen durchführen',
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
-];
+	
+	
+	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC' => '__UNTRANSLATED__',
+	'LBL_END_TIME' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_TIME' =>'__UNTRANSLATED__',
+	'LBL_LOGS' =>'__UNTRANSLATED__',
+	'Completed' =>'__UNTRANSLATED__',
+	'In progress' =>'__UNTRANSLATED__',
+	'LBL_SET_SCHEDULE_BACKUP' => '__UNTRANSLATED__',
 
+	'LBL_STAGE_1' =>'__UNTRANSLATED__',
+	'LBL_STAGE_2' =>'__UNTRANSLATED__',
+	'LBL_STAGE_3' =>'__UNTRANSLATED__',
+	'LBL_STAGE_4' =>'__UNTRANSLATED__',
+	'LBL_STAGE_5' =>'__UNTRANSLATED__',
+	'LBL_STAGE_6' =>'__UNTRANSLATED__',
+	'LBL_STAGE_7' =>'__UNTRANSLATED__',
+	'LBL_STAGE_8' =>'__UNTRANSLATED__',
+	'LBL_STAGE_9' =>'__UNTRANSLATED__',
+];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Pflichtfelder dürfen nicht leer sein',
 	'JS_PORT_ONLY_NUMBERS' => 'In Feld Port können nur Ziffern hinterlegt werden',

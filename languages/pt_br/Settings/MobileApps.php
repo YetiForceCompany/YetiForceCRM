@@ -28,7 +28,7 @@ $languageStrings = [
  	'LBL_KEY_HAS_BEEN_REMOVED' => 'A chave foi apagada',
 	'LBL_SUCCESS_SAVE_CHANGES' => 'As mudanças foram salvas com sucesso',
 	'LBL_ALERT_MOBILE_NO_ACTIVE_TITLE' => 'A aplicação para dispositivo móvel não está ativa',
-	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'A aplicação para dispositivo móvel ainda não foi ativada, por favor, habilite o arquivo "mobile" em api/config.php',
+	'LBL_ALERT_MOBILE_NO_ACTIVE_DESC' => 'A aplicação para dispositivo móvel ainda não foi ativada, por favor, habilite o "mobile" no arquivo config/api.php',
 
  	// Mobile services
  	'LBL_MOBILE_HISTORYCALL' => 'Histórico chamadas Dispositivos Móveis',

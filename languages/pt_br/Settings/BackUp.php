@@ -1,27 +1,17 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved. Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
+ * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
+ * ]} */
 
 $languageStrings = [
 	'LBL_BACKUP_DESCRIPTION' => 'Criar arquivo de backup.',
 	'LBL_SAVE_BACKUP' => 'Salvar backup',
-	'LBL_GENERATE_BACKUP' => 'Gerar Backup',
+	'LBL_SCHEDULE_BACKUP' => 'Gerar Backup',
 	'LBL_LOADING' => 'O Backup está sendo gerado, por favor, aguarde...',
-	'LBL_BACKUP_ENDED' => 'Backup concluído',
-	'LBL_BACKUP_PREPARE' => "Preparar Backup" ,
 	'LBL_FTP_SETTINGS' => 'Configurações FTP',
 	'LBL_BACKUP_CREATING' => 'Criação Backup',
-	'LBL_FILE_BACKUP_LOADING' => 'Criação arquivos de backup',
-	'LBL_DB_BACKUP_LOADING' => 'Criar Backup da base de dados',
 	'LBL_RESUME_BACKUP' => 'Resultado backup',
-	'LBL_CREATED_AT' => 'Criado por',
+	'LBL_START_TIME' => 'Criado por',
 	'LBL_FILE_NAME' => 'Nome arquivo',
 	'LBL_ACTION' => 'Ação',
 	'LBL_FTP_SAVE_CONFIG' => 'Salvar configuração',
@@ -42,8 +32,29 @@ $languageStrings = [
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
 
-];
+	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_CRON_NOT_ACTIVE_DESC' => '__UNTRANSLATED__',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE' => '__UNTRANSLATED__',
+	'LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC' => '__UNTRANSLATED__',
+	'LBL_END_TIME' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_TIME' =>'__UNTRANSLATED__',
+	'LBL_LOGS' =>'__UNTRANSLATED__',
+	'Completed' =>'__UNTRANSLATED__',
+	'In progress' =>'__UNTRANSLATED__',
+	'LBL_SET_SCHEDULE_BACKUP' => '__UNTRANSLATED__',
 
+	'LBL_STAGE_1' =>'__UNTRANSLATED__',
+	'LBL_STAGE_2' =>'__UNTRANSLATED__',
+	'LBL_STAGE_3' =>'__UNTRANSLATED__',
+	'LBL_STAGE_4' =>'__UNTRANSLATED__',
+	'LBL_STAGE_5' =>'__UNTRANSLATED__',
+	'LBL_STAGE_6' =>'__UNTRANSLATED__',
+	'LBL_STAGE_7' =>'__UNTRANSLATED__',
+	'LBL_STAGE_8' =>'__UNTRANSLATED__',
+	'LBL_STAGE_9' =>'__UNTRANSLATED__',
+];
 $jsLanguageStrings = [
 	'JS_MANDATORY_FIELDS_EMPTY' => 'Os campos obrigatórios não podem estar vazios',
 	'JS_PORT_ONLY_NUMBERS' => 'O campo Porta somente aceita números',

@@ -33,6 +33,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 	);
 	
 	public static function getConfigurationValue() {
+		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = array (
 			'php_version' => array('prefer' => PHP_VERSION),
 			'safe_mode' => array('prefer' => 'Off'),
@@ -42,7 +43,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			'output_buffering' => array('prefer' => 'On'),
 			'max_execution_time' => array('prefer' => '600'),
 			'memory_limit' => array('prefer' => '32'),
-			'error_reporting' => array('prefer' => 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED'),
+			'error_reporting' => array('prefer' => $errorReportingValue),
 			'log_errors' => array('prefer' => 'Off'),
 			'short_open_tag' => array('prefer' => 'On'),
 			'max_input_vars' => array('prefer' => '5000'),
@@ -122,13 +123,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 				$directiveValues['suhosin.post.max_vars']['current'] = ini_get('suhosin.post.max_vars');
 			if ( ini_get('suhosin.post.max_value_length') < 1500000 )
 				$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
-		}
-		$errorReportingValue = E_WARNING & ~E_NOTICE;
-		if(version_compare(PHP_VERSION, '5.5.0') >= 0){
-			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT;
-		}
-		else if(version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			$errorReportingValue = E_WARNING & ~E_NOTICE & ~E_DEPRECATED;
 		}
 
 		if (ini_get('error_reporting') != $errorReportingValue && ini_get('error_reporting') != 22519)

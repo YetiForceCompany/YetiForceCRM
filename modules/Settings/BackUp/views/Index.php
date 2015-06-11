@@ -1,38 +1,32 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
-
 		$viewer = $this->getViewer($request);
-		$ftpSettings = Settings_BackUp_Module_Model::getFTPSettings();
+		$backupModel = Settings_BackUp_Module_Model::getCleanInstance();
+		$ftpSettings = $backupModel->getFTPSettings();
 		if ($ftpSettings != false) {
-			$viewer->assign('FTP_HOST', $ftpSettings[1]);
-			$viewer->assign('FTP_LOGIN', $ftpSettings[2]);
-			$password = Settings_BackUp_Module_Model::encrypt_decrypt('decrypt', $ftpSettings[3]);
+			$viewer->assign('FTP_HOST', $ftpSettings['host']);
+			$viewer->assign('FTP_LOGIN', $ftpSettings['login']);
+			$password = $backupModel->encrypt_decrypt('decrypt', $ftpSettings['password']);
 			$viewer->assign('FTP_PASSWORD', $password);
-			$viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings[4]);
-			$viewer->assign('FTP_PORT', $ftpSettings[5]);
-			$viewer->assign('FTP_ACTIVE', $ftpSettings[6]);
-			$viewer->assign('FTP_PATH', $ftpSettings[7]);
+			$viewer->assign('FTP_CONNECTION_STATUS', $ftpSettings['status']);
+			$viewer->assign('FTP_PORT', $ftpSettings['port']);
+			$viewer->assign('FTP_ACTIVE', $ftpSettings['active']);
+			$viewer->assign('FTP_PATH', $ftpSettings['path']);
 		}
-		$dirsFromConfig = Settings_BackUp_Module_Model::getConfig('folder');
-		$usersForNotifications = Settings_BackUp_Module_Model::getUsersForNotifications();
+		$dirsFromConfig = $backupModel->getConfig('folder');
+		$usersForNotifications = $backupModel->getUsersForNotifications();
 		$adminUsers = Users_Module_Model::getAdminUsers();
-		$backUpInfo = Settings_BackUp_Module_Model::getBackUpInfo();
+		$backUpInfo = $backupModel->getBackUpInfo();
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pagination = Settings_BackUp_Pagination_Action::process($request);
 		$pagination = json_decode($pagination, true);
+		$viewer->assign('BACKUP_MODEL', $backupModel);
+		$viewer->assign('BACKUP_INFO', $backupModel->getBackupInfo());
 		$viewer->assign('DIRSFROMCONFIG', $dirsFromConfig);
 		$viewer->assign('USERFORNOTIFICATIONS', $usersForNotifications);
 		$viewer->assign('PREV_PAGE', $pagination['prevPage']);
@@ -47,5 +41,4 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('ADMIN_USERS', $adminUsers);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
-
 }

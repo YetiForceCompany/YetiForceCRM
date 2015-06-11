@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_DEFAULT_FILTER' => 'Standardfilter',
 	'LBL_FILTERS_AVAILABLE' => 'Verfügbare Filter',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Bitte mindestens eine Option wählen',
-	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'LBL_VIEW_CONFIGURATION' => 'Konfigurationssicht',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Block wurde erfolgreich hinzugefügt',

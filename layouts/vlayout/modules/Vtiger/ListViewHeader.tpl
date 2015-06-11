@@ -77,10 +77,10 @@
 				</span>
 			</span>
 			<span class="hide filterActionImages pull-right">
-				<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
-				<span title="{vtranslate('LBL_APPROVE', $MODULE)}" data-value="approve" class="icon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
-				<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="icon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
-				<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="icon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
+				<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="icon-ban-circle icon-white alignMiddle denyFilter filterActionImage pull-right"></span>
+				<span title="{vtranslate('LBL_APPROVE', $MODULE)}" data-value="approve" class="icon-ok icon-white alignMiddle approveFilter filterActionImage pull-right"></span>
+				<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="icon-trash icon-white alignMiddle deleteFilter filterActionImage pull-right"></span>
+				<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="icon-pencil icon-white alignMiddle editFilter filterActionImage pull-right"></span>
 			</span>
 			<span class="span4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
