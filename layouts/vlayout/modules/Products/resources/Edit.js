@@ -291,7 +291,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 		jQuery.each(baseCurrency,function(key,val){
 			if(jQuery(val).is(':checked')){
 				var baseCurrencyRow = jQuery(val).closest('tr');
-                if(parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0.00) {
+                if(parseFloat(baseCurrencyRow.find('.convertedPrice').val()) == 0) {
                 	baseCurrencyRow.find('.currencyReset').trigger('click');
                 }
 			} else {

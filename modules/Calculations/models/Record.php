@@ -65,11 +65,12 @@ class Calculations_Record_Model extends Inventory_Record_Model {
 		return '';
 	}
 	function getProducts() {
+		$numOfCurrencyDecimalPlaces = getCurrencyDecimalPlaces();
 		$relatedProducts = $this->getAssociatedProducts($this->getModuleName(), $this->getEntity());
-		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), getCurrencyDecimalPlaces(),'.','');
-		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), getCurrencyDecimalPlaces(),'.','');
+		$relatedProducts[1]['final_details']['grandTotal'] = number_format($this->get('hdnGrandTotal'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_purchase'] = number_format($this->get('total_purchase'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_margin'] = number_format($this->get('total_margin'), $numOfCurrencyDecimalPlaces,'.','');
+		$relatedProducts[1]['final_details']['total_marginp'] = number_format($this->get('total_marginp'), $numOfCurrencyDecimalPlaces,'.','');
 		return $relatedProducts;
 	}
 	function getAssociatedProducts($module,$focus,$seid='')	{

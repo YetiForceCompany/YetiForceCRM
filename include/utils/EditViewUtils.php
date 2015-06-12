@@ -181,7 +181,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 	$result = $adb->pquery($query, $params);
 	$num_rows=$adb->num_rows($result);
-	$finalTaxTotal = '0.00';
+	$finalTaxTotal = '0';
 	for($i=1;$i<=$num_rows;$i++)
 	{
 		$deleted = $adb->query_result($result,$i-1,'deleted');
@@ -288,7 +288,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$discount_percent = decimalFormat($adb->query_result($result,$i-1,'discount_percent'));
 		$discount_amount = $adb->query_result($result,$i-1,'discount_amount');
 		$discount_amount = decimalFormat(number_format($discount_amount, $no_of_decimal_places,'.',''));
-		$discountTotal = '0.00';
+		$discountTotal = '0';
 		//Based on the discount percent or amount we will show the discount details
 
 		//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(for Each Product)
@@ -321,8 +321,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[$i]['discountTotal'.$i] = $discountTotal;
 		$product_Detail[$i]['totalAfterDiscount'.$i] = $totalAfterDiscount;
 
-		
-		$amount = '0.00';
+		$amount = '0';
 		$tax_details = getTaxDetailsForProduct($hdnProductId,'all');
 		//First we should get all available taxes and then retrieve the corresponding tax values
 		$allTaxes = getAllTaxes('available','','edit',$focus->id);
@@ -331,7 +330,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		{
 			$tax_name = $tax_details[$tax_count]['taxname'];
 			$tax_label = $tax_details[$tax_count]['taxlabel'];
-			$tax_value = '0.00';
+			$tax_value = '0';
 
 			//condition to avoid this function call when create new PO/SO/Quotes/Invoice from Product module
 			if($focus->id != '')
@@ -378,21 +377,21 @@ function getAssociatedProducts($module,$focus,$seid='')
 
 	//Get the Final Discount, S&H charge, Tax for S&H values
 	//To set the Final Discount details
-	$finalDiscount = '0.00';
+	$finalDiscount = '0';
 	$product_Detail[1]['final_details']['discount_type_final'] = 'zero';
 
-	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:'0.00';
+	$subTotal = ($focus->column_fields['hdnSubTotal'] != '')?$focus->column_fields['hdnSubTotal']:'0';
 	$subTotal = number_format($subTotal, $no_of_decimal_places,'.','');
 
 	$product_Detail[1]['final_details']['hdnSubTotal'] = $subTotal;
-	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0.00';
-	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:'0.00';
+	$discountPercent = ($focus->column_fields['hdnDiscountPercent'] != '')?$focus->column_fields['hdnDiscountPercent']:'0';
+	$discountAmount = ($focus->column_fields['hdnDiscountAmount'] != '')?$focus->column_fields['hdnDiscountAmount']:'0';
     if($discountPercent != '0'){
         $discountAmount = ($product_Detail[1]['final_details']['hdnSubTotal'] * $discountPercent / 100);
     }
 
 	//To avoid NaN javascript error, here we assign 0 initially to' %of price' and 'Direct Price reduction'(For Final Discount)
-	$discount_amount_final = '0.00';
+	$discount_amount_final = '0';
 	$discount_amount_final = number_format($discount_amount_final, $no_of_decimal_places,'.','');
     $product_Detail[1]['final_details']['discount_percentage_final'] = 0;
 	$product_Detail[1]['final_details']['discount_amount_final'] = $discount_amount_final;
@@ -437,7 +436,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 			$tax_percent = $allTaxes[$tax_count]['percentage'];//$adb->query_result($result,0,$tax_name);
 
 		if($tax_percent == '' || $tax_percent == 'NULL')
-			$tax_percent = '0.00';
+			$tax_percent = '0';
 		$taxamount = ($subTotal-$finalDiscount)*$tax_percent/100;
 		$taxamount = number_format($taxamount, $no_of_decimal_places,'.','');
 		$product_Detail[1]['final_details']['taxes'][$tax_count]['taxname'] = $tax_name;
@@ -448,15 +447,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 	$product_Detail[1]['final_details']['tax_totalamount'] = $finalTaxTotal;
 	$product_Detail[1]['final_details']['tax'] = $tax;
 	//To set the grand total
-	$grandTotal = ($focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:'0.00';
+	$grandTotal = ($focus->column_fields['hdnGrandTotal'] != '')?$focus->column_fields['hdnGrandTotal']:'0';
 	$grandTotal = number_format($grandTotal, $no_of_decimal_places,'.','');
 	$product_Detail[1]['final_details']['grandTotal'] = $grandTotal;
 
-
 	$log->debug("Exiting getAssociatedProducts method ...");
-
 	return $product_Detail;
-
 }
 
 /** This function returns the data type of the vtiger_fields, with vtiger_field label, which is used for javascript validation.

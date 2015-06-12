@@ -1002,7 +1002,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 		var end_date = view.end.format();
 		
 		var parent = this.getContainer();
-		var user = parent.find('#owner').val();
+		var user = parent.find('.owner').val();
 		if(user == 'all'){
 			user = '';
 		}
@@ -1075,3 +1075,4 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js',{},{
 		refreshContainer.progressIndicator({'mode': 'hide'});
 	},
 });
+

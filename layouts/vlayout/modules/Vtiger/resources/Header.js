@@ -225,7 +225,9 @@ jQuery.Class("Vtiger_Header_Js", {
             var editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
             editViewInstance.registerBasicEvents(quickCreateForm);
 			thisInstance.registerChangeNearCalendarEvent(quickCreateForm,moduleName);
-            quickCreateForm.validationEngine(app.validationEngineOptions);
+			var validationEngineOptions = app.validationEngineOptions;
+			validationEngineOptions.validateNonVisibleFields = false;
+            quickCreateForm.validationEngine(validationEngineOptions);
             if (typeof params.callbackPostShown != "undefined") {
                 params.callbackPostShown(quickCreateForm);
             }

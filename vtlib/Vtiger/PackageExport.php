@@ -142,8 +142,23 @@ class Vtiger_PackageExport {
 			$zip->copyDirectoryFromDisk ("layouts/vlayout/modules/$module", "templates");
 
 		//Copy Settings module templates files, if any
-		if(is_dir("layouts/vlayout/modules/Settings/$module"))
-			$zip->copyDirectoryFromDisk ("layouts/vlayout/modules/Settings/$module", "settings/templates");
+		if (is_dir("layouts/vlayout/modules/Settings/$module"))
+			$zip->copyDirectoryFromDisk("layouts/vlayout/modules/Settings/$module", "settings/templates");
+
+		//Support to multiple layouts of module
+		$layoutDirectories = glob('layouts' . '/*', GLOB_ONLYDIR);
+
+		foreach ($layoutDirectories as $key => $layoutName) {
+			$moduleLayout = $layoutName . "/modules/$module";
+			if (is_dir($moduleLayout)) {
+				$zip->copyDirectoryFromDisk($moduleLayout, $moduleLayout);
+			}
+
+			$settingsLayout = $layoutName . "/modules/Settings/$module";
+			if (is_dir($settingsLayout)) {
+				$zip->copyDirectoryFromDisk($settingsLayout, $settingsLayout);
+			}
+		}
 
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);

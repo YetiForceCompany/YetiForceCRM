@@ -672,10 +672,10 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			if( individualTaxRow.find('.tax_option').is(":checked") ){
 				var individualTaxPercentage = taxPercentage.val();
 				if(individualTaxPercentage == ""){
-					individualTaxPercentage = "0.00";
+					individualTaxPercentage = "0";
 				}
 				 if(isNaN(individualTaxPercentage)){
-					var individualTaxTotal = "0.00";
+					var individualTaxTotal = "0";
 				} else {
 					var individualTaxPercentage = parseFloat(individualTaxPercentage);
 					var individualTaxTotal = Math.abs(individualTaxPercentage * totalAfterDiscount)/100;
@@ -773,7 +773,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 			var groupTaxRow = groupTaxPercentageElement.closest('tr');
 			if( groupTaxRow.find('.group_tax_option').is(":checked") ){
 				if(isNaN(groupTaxPercentageElement.val())){
-					var groupTaxValue = "0.00";
+					var groupTaxValue = "0";
 				} else {
 					var groupTaxValue = Math.abs(amount * groupTaxPercentageElement.val())/100;
 				}

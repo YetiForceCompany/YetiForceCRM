@@ -14,28 +14,30 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$param = array();
 		$sql = "SELECT * FROM roundcube_users";
-		if( $password ){
+		$where = false;
+		if ($password) {
 			$where .= " AND password <> ''";
 		}
-		if( $user ){
+		if ($user) {
 			$where .= " AND user_id = ?";
 			$param[] = $user;
 		}
-		if( $onlyMy ){
+		if ($onlyMy) {
 			$where .= " AND crm_user_id = ?";
 			$param[] = $currentUserModel->getId();
-		}	
-		if( $where ){
-			$sql .= ' WHERE'.substr($where, 4);
-		}		
-		$result = $adb->pquery( $sql, $param, true);
+		}
+		if ($where) {
+			$sql .= ' WHERE' . substr($where, 4);
+		}
+		$result = $adb->pquery($sql, $param, true);
 		$Num = $adb->num_rows($result);
-		if($Num == 0){
+		if ($Num == 0) {
 			return false;
-		}else{
+		} else {
 			return $result->GetArray();
 		}
 	}
+
 	function ComposeEmail($params,$ModuleName) {
 		$_SESSION['POST'] = $params;
 		header('Location: '.self::GetSite_URL().'index.php?module=OSSMail&view=compose');

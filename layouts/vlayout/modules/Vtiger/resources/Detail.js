@@ -1871,15 +1871,15 @@ jQuery.Class("Vtiger_Detail_Js",{
 		}
 
 	},
-
-	addTagsToList : function(data,tagText) {		
-		var tagsArray = tagText.split(' ');
-		for(var i=0;i<tagsArray.length;i++){
-			var id = data.result[1][tagsArray[i]];
-			if(id)
-			jQuery('#tagsList').append('<div class="tag" data-tagname="'+tagsArray[i]+'" data-tagid="'+id+'"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">'+tagsArray[i]+'</a></span><span class="cursorPointer deleteTag"> x</span></div>');
+	
+	addTagsToList : function (data) {
+		for (var key in data.result[1]) {
+			var tagId = data.result[1][key];
+			var tagElement = jQuery('#tagsList').find("[data-tagid='" + tagId + "']");
+			if (tagElement.length == 0) {
+				jQuery('#tagsList').prepend('<div class="tag" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span class="cursorPointer deleteTag"> x</span></div>');
+			}
 		}
-
 	},
 
 	checkTagMaxLengthExceeds : function(tagText) {
@@ -1931,7 +1931,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			}
 			AppConnector.request(params).then(
 					function(data) {
-						thisInstance.addTagsToList(data,tagText);
+						thisInstance.addTagsToList(data);
 						textElement.val('');
 					}
 				);

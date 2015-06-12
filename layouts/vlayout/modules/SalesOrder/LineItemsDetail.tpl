@@ -271,7 +271,7 @@
                         {if $RECORD->getDisplayValue('received')}
 							{$RECORD->getDisplayValue('received')}
                         {else}
-                            0.00
+                            0
                         {/if}
                     </span>
                 {else}
@@ -279,7 +279,7 @@
                         {if $RECORD->getDisplayValue('paid')}
 							{$RECORD->getDisplayValue('paid')}
                         {else}
-                            0.00
+                            0
                         {/if}
                     </span>
                 {/if}
@@ -296,7 +296,7 @@
                 <span class="pull-right">
                     {if $RECORD->getDisplayValue('balance')}
 						{$RECORD->getDisplayValue('balance')}
-                    {else}0.00
+                    {else}0
                     {/if}
                 </span>
             </td>

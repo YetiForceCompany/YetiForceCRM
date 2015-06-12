@@ -40,6 +40,21 @@ var app = {
 	getViewName : function() {
 		return jQuery('#view').val();
 	},
+	
+	/**
+	 * Function returns the record id
+	 */
+	getRecordId: function () {
+		var view = jQuery('[name="view"]').val();
+		var recordId;
+		if (view == "Edit") {
+			recordId = jQuery('[name="record"]').val();
+		} else if (view == "Detail") {
+			recordId = jQuery('#recordId').val();
+		}
+		return recordId;
+	},
+	
 	/**
 	 * Function to get the contents container
 	 * @returns jQuery object
@@ -417,9 +432,18 @@ var app = {
 		scroll: false,
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
-		prettySelect : true,
+		prettySelect: true,
 		useSuffix: "_chzn",
-        usePrefix : "s2id_"
+		usePrefix: "s2id_",
+		validateNonVisibleFields: true,
+		onFailure: function () {
+			$(this.InvalidFields).each(function (index, element) {
+				var block = $(element).closest('.blockContainer').find('tbody');
+				if (block.hasClass('hide')) {
+					block.removeClass('hide');
+				}
+			});
+		},
 	},
 
 	/**

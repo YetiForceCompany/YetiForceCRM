@@ -140,7 +140,7 @@ class Products_Record_Model extends Vtiger_Record_Model {
 		$productTaxes = $productDetails[1]['taxes'];
 		if (!empty ($productDetails)) {
 			$taxCount = count($productTaxes);
-			$taxTotal = '0.00';
+			$taxTotal = '0';
 
 			for($i=0; $i<$taxCount; $i++) {
 				$taxValue = $productTaxes[$i]['percentage'];
