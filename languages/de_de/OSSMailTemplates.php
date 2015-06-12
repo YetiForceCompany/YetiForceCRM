@@ -31,6 +31,7 @@ $languageStrings = [
 	'PLL_MODULE' => 'Modul',
 	'PLL_RECORD' => 'Datensatz',
 	'PLL_MAIL' => '__UNTRANSLATED__',
+	'PLL_LIST' => '__UNTRANSLATED__',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktuelles Datum',
