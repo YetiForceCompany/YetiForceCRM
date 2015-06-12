@@ -27,19 +27,23 @@
 
 			<div style="padding:20px;">
 				<div class="row">
-					<label class="col-md-3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
-					<input type="text" class="fieldValue col-md-7" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
+					<div class="col-md-3">
+						<label class=""><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
+					</div>
+					<div class=" col-md-7 ">
+						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
+					</div>
 				</div><br>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="col-md-8 fieldValue">
+					<div class="col-md-7 fieldValue">
 						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
-						<input type="text" class="input-lg" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
+						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
 					</div>
 				</div><br>
                 <div class="row">
-					<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="col-md-9 fieldValue">
+					<label class="col-md-3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
+					<div class="col-md-7 fieldValue">
 						<div>
 							<label for="allow1">
 								<input type="radio" id="allow1" value="1"{if !$RECORD_MODEL->get('allowassignedrecordsto')} checked=""{/if} {if $RECORD_MODEL->get('allowassignedrecordsto') eq '1'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
@@ -68,12 +72,11 @@
                 </div><br>
 				<div class="row">
 					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
-					<div class="row col-md-8 fieldValue">
-						<div class="span">
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
 							<input type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 						</div>
-                        <div class="col-md-1">&nbsp;</div>
-						<div class="span">
+						<div class="pull-right">
 							<input type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>

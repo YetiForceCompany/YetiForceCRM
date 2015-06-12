@@ -13,8 +13,8 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<span class="btn-toolbar col-md-4">
-					<span class="btn-group listViewMassActions">
+				<div class="btn-toolbar col-md-4">
+					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 							<ul class="dropdown-menu">
@@ -31,14 +31,14 @@
 								{/if}
 							</ul>
 						{/if}
-					</span>
+					</div>
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<span class="btn-group">
+						<div class="btn-group">
 							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->linkclass neq ''}{$LISTVIEW_BASICACTION->linkclass}{/if} moduleColor_{$MODULE}" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}>{if $LISTVIEW_BASICACTION->linkicon eq ''}<span class="glyphicon glyphicon-plus"></span>{else}<span class="{$LISTVIEW_BASICACTION->linkicon}"></span>{/if}&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
-						</span>
+						</div>
 					{/foreach}
-				</span>
-			<span class="btn-toolbar col-md-4">
+				</div>
+			<div class="btn-toolbar col-md-4">
 				<span class="customFilterMainSpan btn-group">
 					{if $CUSTOM_VIEWS|@count gt 0}
 						<select id="customFilter" style="width:350px;" title="{vtranslate('LBL_CUSTOM_FILTER')}">
@@ -75,15 +75,15 @@
 						<input type="hidden" value="0" id="customFilter" />
 					{/if}
 				</span>
-			</span>
+			</div>
+			<div class="col-md-4 btn-toolbar">
+				{include file='ListViewActions.tpl'|@vtemplate_path}
+			</div>
 			<span class="hide filterActionImages pull-right">
 				<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
 				<span title="{vtranslate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
 				<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
 				<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
-			</span>
-			<span class="col-md-4 btn-toolbar">
-				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</span>
 		</div>
 		</div>

@@ -15,8 +15,8 @@
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-	<div class="row">
-		<span class="col-md-4 btn-toolbar">
+	<div class="row" style="margin-bottom: 2px;">
+		<div class="col-md-4 btn-toolbar">
             <span class="btn-group listViewMassActions">
                 {if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<i class="caret"></i></button>
@@ -42,16 +42,16 @@
 			</button>
 			</span>
 			{/foreach}
-		</span>
+		</div>
         <div class="col-md-4 btn-toolbar">
             <select class="select2" id="usersFilter" name="status" style="min-width:350px;">
                 <option value="Active">{vtranslate('LBL_ACTIVE_USERS', $QUALIFIED_MODULE)}</option>
                 <option value="Inactive">{vtranslate('LBL_INACTIVE_USERS', $QUALIFIED_MODULE)}</option>
             </select>
         </div>
-		<span class="col-md-4 btn-toolbar">
+		<div class="col-md-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-		</span>
+		</div>	
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}

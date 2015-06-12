@@ -15,7 +15,7 @@
 {assign var="COMMENT_TEXTAREA_DEFAULT_ROWS" value="2"}
 
 <div class="commentContainer recentComments">
-	<div class="commentTitle row">
+	<div class="commentTitle">
 		{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 			<div class="addCommentBlock">
 				<div>

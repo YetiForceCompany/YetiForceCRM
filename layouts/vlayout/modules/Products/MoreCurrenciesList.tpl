@@ -42,7 +42,7 @@
 							{assign var=base_cur_check value=""}
 						{/if}
 						<td>
-							<span class="row">
+							<span class="">
 								<span class="col-md-8 alignBottom">
 									<span class="pull-left">{$price.currencylabel|@getTranslatedCurrencyString} ({$price.currencysymbol})</span>
 								</span>
@@ -50,22 +50,22 @@
 							</span>
 						</td>
 						<td>
-							<div class="row">
-								<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+							<div class="">
+								<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 							</div>
 						</td>
 						<td>
-							<div class="row">
-								<input readonly="" type="text" size="10" class="col-md-9 conversionRate" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
+							<div class="">
+								<input readonly="" type="text" size="10" class="col-md-9 conversionRate form-control" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
 							</div>
 						</td>
 						<td>
-							<div class="row">
+							<div class="">
 								<button {$disable_value} type="button" class="btn btn-default currencyReset resetButton" id="cur_reset{$price.curid}" value="{vtranslate('LBL_RESET',$MODULE)}">{vtranslate('LBL_RESET',$MODULE)}</button>
 							</div>
 						</td>
 						<td>
-							<div class="row textAlignCenter">
+							<div class=" textAlignCenter">
 								<input {$disable_value} type="radio" class="baseCurrency" id="base_currency{$price.curid}" name="base_currency_input" title="{vtranslate('LBL_BASE_CURRENCY')}" value="{$price.curname}" {$base_cur_check} />
 							</div>
 						</td>

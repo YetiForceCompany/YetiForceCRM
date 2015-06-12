@@ -26,10 +26,11 @@ class Calculations_DetailView_Model extends Inventory_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($quotesModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
+				'linklabel' => '',
 				'linkurl' => "index.php?module=".$quotesModuleModel->getName()."&view=".$quotesModuleModel->getEditViewName()."&calculation_id=".$recordModel->getId(),
-				'linkicon' => 'icon-repeat icon-white',
 				'linkclass' => 'btn-success',
+				'linkimg' => 'layouts/vlayout/skins/images/Quotes.png',
+				'title' => vtranslate('LBL_GENERATE_QUOTES', 'Quotes'),
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}	

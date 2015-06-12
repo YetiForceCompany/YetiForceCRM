@@ -75,6 +75,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('ALL_USERS',$allUsers);
 			$viewer->assign('SHAREDUSERS',$sharedUsers);
 			$viewer->assign('SHARED_TYPE',$sharedType);	
+			$viewer->assign('HEADER_SCRIPTS',$this->getHeaderScripts($request));
 			if($display) {
 				$this->preProcessDisplay($request);
 			}

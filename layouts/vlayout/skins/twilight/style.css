@@ -34,6 +34,7 @@
   src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot');
   src: url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../../layouts/vlayout/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
+
 body {
   width: 100%;
   font-family: 'Open Sans', 'Lucida Grande', Verdana, Tahoma, Arial, sans-serif !important;
@@ -314,7 +315,8 @@ hr {
   padding: 0 5px;
 }
 .commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown #quickCreateModules div a:hover {
-  color: #ffffff;
+  //color: #ffffff;
+  border-bottom: 1px solid #000000;
 }
 .mainContainer {
   min-height: 500px;
@@ -358,7 +360,7 @@ hr {
   top: 20px;
   left: -1px;
   cursor: pointer;
-  width: 10px;
+  width: 15px;
   z-index: 100;
   border: 1px solid #dddddd;
   border-left: 0;
@@ -378,7 +380,7 @@ hr {
   top: 20px;
   right: -1px;
   cursor: pointer;
-  width: 10px;
+  width: 15px;
   z-index: 100;
   border: 1px solid #dddddd;
   border-right: 0;
@@ -3144,4 +3146,7 @@ table tr td .input-sm{
 .quickWidgetContainer .panel-body{
 	padding-bottom: 0;
 	padding-top: 0;
+}
+tr.summaryViewEntries, #detailView table {
+  font-size: 13px;
 }

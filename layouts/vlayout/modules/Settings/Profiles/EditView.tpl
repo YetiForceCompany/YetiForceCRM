@@ -30,17 +30,22 @@
 		<input type="hidden" name="mode" value="{$MODE}" />
 		<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"{else}value="0"{/if}  />
 		<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
-		<div class="row">
+		<div class="">
 			<div class="row">
 				<label class="col-md-2"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong></label>
-				<input type="text" class="fieldValue col-md-6" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
+				<div class="col-md-6 ">
+					<input type="text" class="fieldValue form-control" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
+				</div>
 			</div><br>
 			<div class="row">
 				<label class="col-md-2"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
-				<textarea class="input-xxlarge fieldValue col-md-8" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
+				<div class="col-md-8 ">
+					<textarea class="input-xxlarge fieldValue form-control" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
+				</div>
 			</div><br>
-			<div class="row">
+			<div class="">
 				<label class=""><strong>{vtranslate('LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE',$QUALIFIED_MODULE)}:</strong></label><br>
+				<div class="table-responsive">
 				<table class="table table-bordered profilesEditView">
 					<thead>
 						<tr class="blockHeader">
@@ -213,6 +218,7 @@
 					{/foreach}
 				</tbody>
 			</table>
+			</div>
 			</div>
 		</div>
         <br>

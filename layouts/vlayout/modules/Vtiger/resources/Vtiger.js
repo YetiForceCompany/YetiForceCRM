@@ -87,8 +87,6 @@ var Vtiger_Index_Js = {
 			var widgetContainer = jQuery(element);
 			var key = widgetContainer.attr('id');
 			var value = app.cacheGet(key);
-			console.log(app.cacheGet(key))
-			console.log(key)
 			if(value != null){
 				if(value == 1) {
 					Vtiger_Index_Js.loadWidgets(widgetContainer);

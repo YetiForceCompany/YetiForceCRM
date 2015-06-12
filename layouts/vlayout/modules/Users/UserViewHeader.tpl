@@ -16,23 +16,25 @@
         <div class="detailViewTitle" id="userPageHeader">
             <div class="row">
                 <div class="col-md-8">
-                    <span class="row marginLeftZero">
-						<span class="logo col-md-2">
-							{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
-								{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
-									<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
-								{/if}
-							{/foreach}
-						</span>
-						<span class="col-md-9">
-							<span id="userHeading" class="row">
+                    <div class="row marginLeftZero">
+						{if $myarray|@count neq 0}
+							<div class="logo col-md-2">
+								{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
+									{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
+										<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
+									{/if}
+								{/foreach}
+							</div>
+						{/if}
+						<div class="col-md-9">
+							<div id="userHeading" class="row">
 								<h3>{$RECORD->getName()}</h3>
-							</span>
-						</span>
-					</span>
+							</div>
+						</div>
+					</div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row pull-right detailViewButtoncontainer">
+                    <div class="pull-right detailViewButtoncontainer">
 						<div class="btn-toolbar pull-right">
                            							
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}

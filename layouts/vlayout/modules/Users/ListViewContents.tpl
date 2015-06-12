@@ -109,11 +109,11 @@
 				<div class='row'>
 					{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 					{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
+						{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 						<div class='col-md-6'>
-							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
-							{/if}
 						</div>
+						{/if}
 					{/foreach}
 					{if $IMAGE_DETAILS[0]['id'] eq null}
 						<div class='col-md-6'>

@@ -35,10 +35,11 @@
 						<div class="row">
 							<div class="menuItem"  data-actionurl="{$MENUITEM->getPinUnpinActionUrl()}">
 								<a href="{$MENUITEM->getUrl()}" data-id="{$MENUITEM->getId()}" class="menuItemLabel list-group-item {if $MENUITEM->getId() eq $SELECTED_FIELDID} active selectedListItem{/if} " data-menu-item="true" >{vtranslate($MENUITEM->get('name'), Settings_Vtiger_MenuItem_Model::getModuleNameFromUrl($MENUITEM->getUrl()))}
-									<span>
-										<img alt="" id="{$MENUITEM->getId()}_menuItem" data-pintitle="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}" data-unpintitle="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" data-id="{$MENUITEM->getId()}" class="pinUnpinShortCut cursorPointer hide pull-right" data-unpinimageurl="{{vimage_path('unpin.png')}}"  data-pinimageurl="{{vimage_path('pin.png')}}" {if $MENUITEM->isPinned()} title="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" src="{vimage_path('unpin.png')}" data-action="unpin" {else} title="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}" src="{vimage_path('pin.png')}" data-action="pin" {/if} />
-									</span>
+									
 								</a>
+								<span>
+									<img alt="" id="{$MENUITEM->getId()}_menuItem" data-pintitle="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}" data-unpintitle="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" data-id="{$MENUITEM->getId()}" class="pinUnpinShortCut cursorPointer hide pull-right" data-unpinimageurl="{{vimage_path('unpin.png')}}"  data-pinimageurl="{{vimage_path('pin.png')}}" {if $MENUITEM->isPinned()} title="{vtranslate('LBL_UNPIN',$QUALIFIED_MODULE)}" src="{vimage_path('unpin.png')}" data-action="unpin" {else} title="{vtranslate('LBL_PIN',$QUALIFIED_MODULE)}" src="{vimage_path('pin.png')}" data-action="pin" {/if} />
+								</span>
 							</div>
 						</div>
 					{/foreach}

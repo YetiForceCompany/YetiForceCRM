@@ -42,7 +42,7 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-				'linkicon' => 'icon-list-alt',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
 				'title' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

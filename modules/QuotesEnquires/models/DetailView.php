@@ -19,10 +19,11 @@ class QuotesEnquires_DetailView_Model extends Vtiger_DetailView_Model {
 		if($currentUserModel->hasModuleActionPermission($targetModuleModel->getId(), 'EditView')) {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => vtranslate('LBL_GENERATE_REQUIREMENTCARDS', 'QuotesEnquires'),
+				'linklabel' => '',
 				'linkurl' => "index.php?module=".$targetModuleModel->getName()."&view=".$targetModuleModel->getEditViewName()."&reference_id=".$recordModel->getId(),
-				'linkicon' => 'icon-repeat icon-white',
+				'linkicon' => 'glyphicon glyphicon-level-up',
 				'linkclass' => 'btn-success',
+				'title' => vtranslate('LBL_GENERATE_REQUIREMENTCARDS', 'QuotesEnquires')
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}	

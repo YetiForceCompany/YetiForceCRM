@@ -29,7 +29,7 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateQuoteUrl(),
-						'linkicon' => 'icon-briefcase',
+						'linkicon' => 'glyphicon glyphicon-briefcase',
 						'title' => vtranslate('LBL_CREATE').' '.vtranslate($quotesModuleModel->getSingularLabelKey(), 'Quotes'),
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -41,7 +41,7 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreateInvoiceUrl(),
-						'linkicon' => 'icon-list-alt',
+						'linkicon' => 'glyphicon glyphicon-list-alt',
 						'title' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -53,7 +53,7 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',
 						'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-						'linkicon' => 'icon-barcode',
+						'linkicon' => 'glyphicon glyphicon-barcode',
 						'title' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
 
 				);
@@ -66,7 +66,7 @@ class Products_DetailView_Model extends Vtiger_DetailView_Model {
 						'linktype' => 'DETAILVIEW',
 						'linklabel' =>  '',
 						'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-						'linkicon' => 'icon-shopping-cart',
+						'linkicon' => 'glyphicon glyphicon-shopping-cart',
 						'title' => vtranslate('LBL_CREATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
 
 				);

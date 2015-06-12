@@ -55,7 +55,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 						animation: 'show',
 						type: 'info'
 					};
-                                        thisInstance.registerReAlign();
+					thisInstance.registerReAlign();
 					Vtiger_Helper_Js.showPnotify(params);
 				}
 			});
@@ -97,7 +97,7 @@ jQuery.Class("Settings_Vtiger_Index_Js",{
 //							var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
                                                         var shortCutsMainContainer = jQuery('#settingsShortCutsContainer');
                                                         var existingDivBlock=jQuery('#settingsShortCutsContainer div.row:last');
-                                                        var count=jQuery('#settingsShortCutsContainer div.row:last').children("span").length;
+                                                        var count=jQuery('#settingsShortCutsContainer div.row:last').children("div").length;
                                                         if(count==3){
                                                            
                                                             var newBlock =jQuery('#settingsShortCutsContainer').append('<div class="row">'+data);
