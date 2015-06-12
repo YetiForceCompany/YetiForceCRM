@@ -17,13 +17,13 @@ class yetiforce extends rcube_plugin {
 			$this->add_hook('render_page', array($this, 'loadSignature'));
 			
 			$id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
-			if (array_key_exists('module',$_SESSION['compose_data_'.$id]['param'])){
+			if ($id && array_key_exists('module',$_SESSION['compose_data_'.$id]['param'])){
 				$rcmail->output->set_env('crmModule', $_SESSION['compose_data_'.$id]['param']['module'] );
 			}
-			if (array_key_exists('record',$_SESSION['compose_data_'.$id]['param'])){
+			if ($id && array_key_exists('record',$_SESSION['compose_data_'.$id]['param'])){
 				$rcmail->output->set_env('crmRecord', $_SESSION['compose_data_'.$id]['param']['record'] );
 			}
-			if (array_key_exists('view',$_SESSION['compose_data_'.$id]['param'])){
+			if ($id && array_key_exists('view',$_SESSION['compose_data_'.$id]['param'])){
 				$rcmail->output->set_env('crmView', $_SESSION['compose_data_'.$id]['param']['view'] );
 			}
 		}
