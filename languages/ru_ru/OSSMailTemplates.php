@@ -31,6 +31,7 @@ $languageStrings = [
 	'LBL_TYPE' => 'Тип',
 	'PLL_MODULE' => 'Модуль',
 	'PLL_RECORD' => 'Запись',
+	'PLL_MAIL' => '__UNTRANSLATED__',
 	
 	/// special_functions
 	'CurrentDate'	=>	'Текущая дата',

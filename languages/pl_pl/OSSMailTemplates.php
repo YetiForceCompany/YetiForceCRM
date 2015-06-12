@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_TYPE' => 'Typ',
 	'PLL_MODULE' => 'Moduł',
 	'PLL_RECORD' => 'Rekord',
+	'PLL_MAIL' => 'Wiadomość mail',
 	
 	/// special_functions
 	'CurrentDate' => 'Aktualna data',

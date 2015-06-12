@@ -8,7 +8,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class OSSMailTemplates_GetListTpl_Action extends Vtiger_Action_Controller {
+class OSSMailTemplates_GetTemplates_Action extends Vtiger_Action_Controller {
 
     function checkPermission(Vtiger_Request $request) {
         return;
@@ -20,7 +20,7 @@ class OSSMailTemplates_GetListTpl_Action extends Vtiger_Action_Controller {
         $output = array();
         
         $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-        $output = $moduleModel->getListTpl();
+        $output = $moduleModel->getTemplates();
                 
         $response = new Vtiger_Response();
         $response->setResult($output);

@@ -6012,11 +6012,12 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_l
 /*Data for the table `vtiger_ossmailtemplates_type` */
 
 insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (1,'PLL_MODULE',1,0);
-insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (2,'PLL_RECORD',2,1);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (2,'PLL_RECORD',2,0);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (3,'PLL_MAIL',3,0);
 
 /*Data for the table `vtiger_ossmailtemplates_type_seq` */
 
-insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (2);
+insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_ossmailtemplatescf` */
 
@@ -6431,7 +6432,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (85);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (661);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (662);
 
 /*Data for the table `vtiger_portal` */
 
