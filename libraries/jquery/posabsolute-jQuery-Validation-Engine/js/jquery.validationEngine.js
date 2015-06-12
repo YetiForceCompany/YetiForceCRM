@@ -691,6 +691,10 @@
 					}
 				}
 				
+				if (typeof errorMsg == 'string' && options.onBeforePromptType){
+					options.onBeforePromptType(field);
+				}
+				
 				// If it has been specified that validation should end now, break
 				if (end_validation) {
 					break;
