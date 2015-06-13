@@ -83,7 +83,7 @@
             <td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
             <td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
         </tr>
-        <tr id="row0" class="hide lineItemCloneCopy">
+        <tr id="row0" class="hide lineItemCloneCopy noValidate">
             {include file="LineItemsContent.tpl"|@vtemplate_path:'Inventory' row_no=0 data=[]}
         </tr>
         {foreach key=row_no item=data from=$RELATED_PRODUCTS}
