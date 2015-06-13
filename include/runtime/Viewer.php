@@ -43,11 +43,13 @@ class Vtiger_Viewer extends SmartyBC {
 		$compileDir = '';
 		if(!empty($media)) {
 			self::$currentLayout = $media;
+			$customTemplatesDir = $THISDIR . '/../../custom/layouts/'.$media;
 			$templatesDir = $THISDIR . '/../../layouts/'.$media;
 			$compileDir = $THISDIR . '/../../cache/templates_c/'.$media;
 		}
 		if(empty($templatesDir) || !file_exists($templatesDir)) {
 			self::$currentLayout = self::getDefaultLayoutName();
+			$customTemplatesDir = $THISDIR . '/../../custom/layouts/'.self::getDefaultLayoutName();
 			$templatesDir = $THISDIR . '/../../layouts/'.self::getDefaultLayoutName();
 			$compileDir = $THISDIR . '/../../cache/templates_c/'.self::getDefaultLayoutName();
 		}
@@ -55,7 +57,7 @@ class Vtiger_Viewer extends SmartyBC {
 		if (!file_exists($compileDir)) {
 			mkdir($compileDir, 0777, true);
 		}
-		$this->setTemplateDir(array($templatesDir));
+		$this->setTemplateDir(array($customTemplatesDir,$templatesDir));
 		$this->setCompileDir($compileDir);		
 
 		self::$debugViewer = SysDebug::get('DEBUG_VIEWER');
