@@ -96,7 +96,7 @@
 			</td>
 			<td class="span2">
 				<div>
-					<select class="widgetFilter" id="owner" name="owner" style='width:70px;margin-bottom:0px'>
+					<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
 						<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
 						<option value="all">{vtranslate('LBL_ALL')}</option>
                         {assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}

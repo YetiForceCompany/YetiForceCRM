@@ -771,17 +771,19 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId) {
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId) {
 	$adb = PearDatabase::getInstance();
 	//PBXManager
-	$adb->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", array($destinationRecordId, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSPasswords
-	$adb->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", array($destinationRecordId, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", [$destinationRecordId, $sourceRecordId]);
 	//Contacts
-	$adb->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", array($destinationRecordId, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", [$destinationRecordId, $sourceRecordId]);
 	//OutsourcedProducts
-	$adb->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", array($destinationRecordId, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSOutsourcedServices
-	$adb->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", array($destinationRecordId, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
 	//OSSOutsourcedServices
-	$adb->pquery("UPDATE vtiger_osstimecontrol SET accountid=?,leadid=? WHERE leadid=?", array($destinationRecordId,0, $sourceRecordId));
+	$adb->pquery("UPDATE vtiger_osstimecontrol SET accountid=?,leadid=? WHERE leadid=?", [$destinationRecordId, 0, $sourceRecordId]);
+	//OSSMailView
+	$adb->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
 }
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete=true) {

@@ -83,13 +83,13 @@
 	<div class="row-fluid" >
 		<div class="span6">
 			<span class="icon-calendar iconMiddle margintop3"></span>
-			<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter input-mini width90"  id="select-date" />
+			<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter input-mini width90" />
 		</div>
 		<div class="span6">
 			<span class="icon-user iconMiddle margintop3"></span>
 			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-			<select class="widgetFilter width90" id="select-user" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
+			<select class="widgetFilter width90 owner" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
 				<optgroup label="{vtranslate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
@@ -108,3 +108,4 @@
 <div class="dashboardWidgetContent">
 	{include file="dashboards/TimeControlContents.tpl"|@vtemplate_path:$MODULE_NAME}
 </div>
+

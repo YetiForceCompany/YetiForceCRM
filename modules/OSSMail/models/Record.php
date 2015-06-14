@@ -1,41 +1,36 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class OSSMail_Record_Model extends Vtiger_Record_Model {
 	function getAccountsList($user = false, $onlyMy = false, $password = false) {
 		$adb = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$param = array();
 		$sql = "SELECT * FROM roundcube_users";
-		if( $password ){
+		$where = false;
+		if ($password) {
 			$where .= " AND password <> ''";
 		}
-		if( $user ){
+		if ($user) {
 			$where .= " AND user_id = ?";
 			$param[] = $user;
 		}
-		if( $onlyMy ){
+		if ($onlyMy) {
 			$where .= " AND crm_user_id = ?";
 			$param[] = $currentUserModel->getId();
-		}	
-		if( $where ){
-			$sql .= ' WHERE'.substr($where, 4);
-		}		
-		$result = $adb->pquery( $sql, $param, true);
+		}
+		if ($where) {
+			$sql .= ' WHERE' . substr($where, 4);
+		}
+		$result = $adb->pquery($sql, $param, true);
 		$Num = $adb->num_rows($result);
-		if($Num == 0){
+		if ($Num == 0) {
 			return false;
-		}else{
+		} else {
 			return $result->GetArray();
 		}
 	}
+
 	function ComposeEmail($params,$ModuleName) {
 		$_SESSION['POST'] = $params;
 		header('Location: '.self::GetSite_URL().'index.php?module=OSSMail&view=compose');
@@ -611,22 +606,5 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		}
 		return $mails;
 	}
-	
-	function getUrlToCompose($module, $record) {
-        if ( !isRecordExists($record) )
-            return false;
-		$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
-		$email = $recordModel_OSSMailView->findEmail( $record, $module );
-		$url = '&to='.$email;
-		$InstanceModel = Vtiger_Record_Model::getInstanceById($record, $module);
-		if($module == 'HelpDesk'){
-			$urldata = '&subject='.$InstanceModel->get('ticket_no').' - '.$InstanceModel->get('ticket_title');
-		}elseif($module == 'Potentials'){
-			$urldata = '&subject='.$InstanceModel->get('potential_no').' - '.$InstanceModel->get('potentialname');
-		}elseif($module == 'Project'){
-			$urldata = '&subject='.$InstanceModel->get('project_no').' - '.$InstanceModel->get('projectname');
-		}
-		$url .= $urldata;
-		return $url;
-	}
+
 }

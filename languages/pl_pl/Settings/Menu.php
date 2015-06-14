@@ -27,7 +27,7 @@ $languageStrings = [
 	'LBL_SAVED_MENU' => 'Zapisano zmiany w menu',
 	'LBL_HOTKEY' => 'Skrót klawiaturowy',
 	'LBL_NAME' => 'Nazwa',
-	'LBL_TEST_IT' => 'Sprawdz',
+	'LBL_TEST_IT' => 'Sprawdź',
 	
 	//Menu types
 	'LBL_MODULE' => 'Moduł',

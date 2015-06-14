@@ -133,4 +133,3 @@
 		writeErrorOutput($operationManager,
 			new WebServiceException(WebServiceErrorCode::$INTERNALERROR,"Unknown Error while processing request"));
 	}
-?>

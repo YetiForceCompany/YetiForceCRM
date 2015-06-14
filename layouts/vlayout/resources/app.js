@@ -45,7 +45,14 @@ var app = {
 	 * Function returns the record id
 	 */
 	getRecordId: function () {
-		return jQuery('[name="record"]').val();
+		var view = jQuery('[name="view"]').val();
+		var recordId;
+		if (view == "Edit") {
+			recordId = jQuery('[name="record"]').val();
+		} else if (view == "Detail") {
+			recordId = jQuery('#recordId').val();
+		}
+		return recordId;
 	},
 	
 	/**
@@ -422,9 +429,16 @@ var app = {
 		scroll: false,
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
-		prettySelect : true,
+		prettySelect: true,
 		useSuffix: "_chzn",
-        usePrefix : "s2id_"
+		usePrefix: "s2id_",
+		validateNonVisibleFields: true,
+		onBeforePromptType: function (field) {
+			var block = field.closest('.blockContainer');
+			if (block.find('tbody').is(":hidden")) {
+				block.find('.blockToggle[data-mode="hide"]').click();
+			}
+		},
 	},
 
 	/**

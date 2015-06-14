@@ -168,7 +168,7 @@ class VTJsonCondition {
 			$valueArray = explode(' ', $value);
 			if(count($valueArray) == 1) {
 				$fieldValueArray = explode(' ', $fieldValue);
-				$fieldValue = getValidDBInsertDateValue($fieldValueArray[0]);
+				$fieldValue = $fieldValueArray[0];
 			}
 		}
 		//strtotime condition is added for days before, days after where we give integer values, so strtotime will return 0 for such cases.

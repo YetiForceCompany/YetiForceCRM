@@ -981,6 +981,7 @@ class freetag {
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
 		while(!$rs->EOF) {
+			$rs->fields['tag'] = to_html($rs->fields['tag']); 
 			$retarr[$rs->fields['tag']] = $rs->fields['quantity'];
 			$retarr1[$rs->fields['tag']] = $rs->fields['tag_id'];
 			$rs->MoveNext();

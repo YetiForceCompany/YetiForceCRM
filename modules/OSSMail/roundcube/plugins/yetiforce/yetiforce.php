@@ -1,14 +1,6 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
-// <--------   YetiForce Sp. z o.o.   -------->
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 class yetiforce extends rcube_plugin {
 	function init() {
 		$rcmail = rcmail::get_instance();
@@ -23,6 +15,17 @@ class yetiforce extends rcube_plugin {
 			$this->add_hook('message_compose_body', array($this, 'messageComposeBody'));
 			$this->add_hook('message_compose', array($this, 'messageComposeHead'));
 			$this->add_hook('render_page', array($this, 'loadSignature'));
+			
+			$id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
+			if ($id && array_key_exists('module',$_SESSION['compose_data_'.$id]['param'])){
+				$rcmail->output->set_env('crmModule', $_SESSION['compose_data_'.$id]['param']['module'] );
+			}
+			if ($id && array_key_exists('record',$_SESSION['compose_data_'.$id]['param'])){
+				$rcmail->output->set_env('crmRecord', $_SESSION['compose_data_'.$id]['param']['record'] );
+			}
+			if ($id && array_key_exists('view',$_SESSION['compose_data_'.$id]['param'])){
+				$rcmail->output->set_env('crmView', $_SESSION['compose_data_'.$id]['param']['view'] );
+			}
 		}
 		if ($rcmail->task == 'mail' && $rcmail->action == 'show') {
 			$this->register_handler('plugin.getusername', array($this, 'getUserName'));
@@ -40,6 +43,19 @@ class yetiforce extends rcube_plugin {
 		$id = $COMPOSE_ID;
 		$type = rcube_utils::get_input_value('type', rcube_utils::INPUT_GPC);
 		$crmid = rcube_utils::get_input_value('crmid', rcube_utils::INPUT_GPC);
+		$crmmodule = rcube_utils::get_input_value('crmmodule', rcube_utils::INPUT_GPC);
+		$crmrecord = rcube_utils::get_input_value('crmrecord', rcube_utils::INPUT_GPC);
+		$crmview = rcube_utils::get_input_value('crmview', rcube_utils::INPUT_GPC);
+		if($crmmodule){
+			$_SESSION['compose_data_'.$id]['param']['module'] = $crmmodule;
+		}
+		if($crmrecord){
+			$_SESSION['compose_data_'.$id]['param']['record'] = $crmrecord;
+		}
+		if($crmview){
+			$_SESSION['compose_data_'.$id]['param']['view'] = $crmview;
+		}
+		
 		if(!$crmid){
 			return;
 		}

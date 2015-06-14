@@ -22,13 +22,9 @@ $languageStrings = [
 	'LBL_CREATED_ON' => 'Utworzono dnia',
 	'LBL_EDIT_BOOKMARK' => 'Edytuj zakładkę',
 	'LBL_ENTER_BOOKMARK_NAME' => 'Wpisz nazwę zakładki',
-	'LBL_ENTER_URL' => 'Wpisz adres URL (www.example.com)',
-	'LBL_OUR_SITES_LIST' => 'Nasza Lista Witryny',
+	'LBL_ENTER_URL' => 'Wpisz adres URL (www.yetiforce.com)',
+	'LBL_OUR_SITES_LIST' => 'Nasza lista witryn',
 	'LBL_RECORD_DELETED_SUCCESSFULLY' => 'Rekord został pomyślnie usunięty',
-	'Portal' => 'Nasze strony',
-	'SINGLE_Portal' => 'Nasze strony',
-];
-
-$jsLanguageStrings = [
-    
+	'Portal' => 'Strony WWW',
+	'SINGLE_Portal' => 'Strona WWW',
 ];

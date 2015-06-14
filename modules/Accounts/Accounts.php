@@ -466,13 +466,7 @@ class Accounts extends CRMEntity {
 				LEFT JOIN vtiger_invoiceaddress ON vtiger_invoiceaddress.invoiceaddressid = vtiger_invoice.invoiceid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				WHERE vtiger_crmentity.deleted = 0 AND (vtiger_invoice.accountid = $id";
-
-		if(!empty ($entityIds)){
-			$query .= " OR vtiger_invoice.contactid IN (".$entityIds."))";
-		} else {
-			$query .= ")";
-		}
+				WHERE vtiger_crmentity.deleted = 0 AND vtiger_invoice.accountid = $id";
 
         $return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
@@ -579,26 +573,18 @@ class Accounts extends CRMEntity {
 			}
 		}
 
-		$entityIds = $this->getRelatedContactsIds($id);
-		$entityIds = implode(',', $entityIds);
-
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name, vtiger_users.id,
 				vtiger_troubletickets.title, vtiger_troubletickets.ticketid AS crmid, vtiger_troubletickets.status, vtiger_troubletickets.priority,
-				vtiger_troubletickets.parent_id, vtiger_troubletickets.contact_id, vtiger_troubletickets.ticket_no, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime
+				vtiger_troubletickets.parent_id, vtiger_troubletickets.ticket_no, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime
 				FROM vtiger_troubletickets
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_troubletickets.ticketid
 				LEFT JOIN vtiger_ticketcf ON vtiger_troubletickets.ticketid = vtiger_ticketcf.ticketid
 				LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				WHERE  vtiger_crmentity.deleted = 0 and (vtiger_troubletickets.parent_id = $id";
+				WHERE  vtiger_crmentity.deleted = 0 and vtiger_troubletickets.parent_id = $id";
 
-		if(!empty ($entityIds)){
-			$query .= " OR vtiger_troubletickets.contact_id IN (".$entityIds."))";
-		} else {
-			$query .= ")";
-		}
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
 		if($return_value == null) $return_value = Array();
@@ -1457,3 +1443,4 @@ class Accounts extends CRMEntity {
 		return $entityIds;
 	}
 }
+

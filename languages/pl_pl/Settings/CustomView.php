@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'CustomView'	=> 'Widoki',
-	'LBL_MODULE_DESC'	=> 'Narzedzie pozwala na zarządzania filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
+	'LBL_MODULE_DESC'	=> 'Narzędzie pozwala zarządzać filtrami dla modułów, które mają rekordy i obsługują standardowe filtrowanie w systemie YetiForce.',
 	'Module'	=> 'Moduł',
 	'ViewName'	=> 'Nazwa widoku',
 	'SetDefault'	=> 'Domyślny',

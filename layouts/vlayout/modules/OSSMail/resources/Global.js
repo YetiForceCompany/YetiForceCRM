@@ -11,7 +11,6 @@ $("#roundcube_interface").load(function() {
     var inframe = $('#roundcube_interface').contents();
     var crm_path = getAbsolutePath();
     load_all_widgets(inframe, crm_path);
-    load_compose_btn(inframe, crm_path);
 	load_ical_attachments(inframe, crm_path);
 });
 function load_ical_attachments(inframe, crm_path) {
@@ -31,22 +30,6 @@ function load_ical_attachments(inframe, crm_path) {
 				Vtiger_Helper_Js.showPnotify(notify_params);
 			}
 		);
-    });
-}
-function load_compose_btn(inframe, crm_path) {
-    $(inframe.find('#oss_btn_bar .oss_btn')).click(function() {
-        var params = {};
-        params['rmodule'] = $(this).attr('data-module');
-        params['input'] = $(this).attr('data-input');
-        var sourceFieldElement = jQuery('input[name="temp_field"]');
-        var PopupParams = {
-            'module': params['rmodule'],
-            'src_module': params['rmodule'],
-            'src_field': sourceFieldElement.attr('name'),
-            'src_record': '',
-            'url': crm_path + '/index.php?'
-        };
-        showPopup(PopupParams, sourceFieldElement, params, inframe, false);
     });
 }
 function load_all_widgets(inframe, crm_path) {
@@ -554,8 +537,6 @@ function showPopup(params, sourceFieldElement, actionsParams, inframe, reload_wi
         if (reload_widget) {
             executeActions('addRelated', actionsParams);
             load_all_widgets();
-        } else {
-            get_mail_by_id(inframe, actionsParams['input'], params['module'], data.id);
         }
     });
 }
@@ -676,50 +657,4 @@ function oss_add_task(params) {
             jQuery('<input type="hidden" name="relationOperation" value="true" />').appendTo('#quickCreate');
         }, 1000);
     });
-}
-function get_mail_by_id(inframe, input, name_mod, ids) {
-    var params = {};
-    var resp = {};
-    params.data = {module: 'OSSMail', action: 'getContactMail', mod: name_mod, ids: ids}
-    params.async = true;
-    params.dataType = 'json';
-    AppConnector.request(params).then(
-            function(response) {
-                resp = response['result'];
-                var exits_emails = $(inframe.find('#' + input)).val();
-                if (exits_emails != '') {
-                    exits_emails = exits_emails + ',';
-                }
-                if (resp.length > 1) {
-                    var getConfig = jQuery.ajax({
-                        type: "GET",
-                        async: false,
-                        url: 'index.php?module=OSSMail&view=selectEmail',
-                        data: {resp: resp}
-                    });
-                    var callback = function(container) {
-                        $('#sendEmailContainer #selectEmail').click(function(e) {
-                            $(inframe.find('#' + input)).val(exits_emails + $('input[name=selectedFields]:checked').val());
-                        });
-                    }
-                    getConfig.done(function(cfg) {
-                        var data = {}
-                        data.css = {'width': '700px'};
-                        data.cb = callback;
-                        data.data = cfg;
-                        app.showModalWindow(data);
-                    });
-                }
-                if (resp.length == 1) {
-                    $(inframe.find('#' + input)).val(exits_emails + resp[0].email);
-                }
-                if (resp.length == 0) {
-                    var notify_params = {
-                        text: app.vtranslate('NoFindEmailInRecord'),
-                        animation: 'show'
-                    };
-                    Vtiger_Helper_Js.showPnotify(notify_params);
-                }
-            }
-    );
 }

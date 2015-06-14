@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -6012,11 +6012,13 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_l
 /*Data for the table `vtiger_ossmailtemplates_type` */
 
 insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (1,'PLL_MODULE',1,0);
-insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (2,'PLL_RECORD',2,1);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (2,'PLL_RECORD',2,0);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (3,'PLL_MAIL',3,0);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (4,'PLL_LIST',4,1);
 
 /*Data for the table `vtiger_ossmailtemplates_type_seq` */
 
-insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (2);
+insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_ossmailtemplatescf` */
 
@@ -6431,7 +6433,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (85);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (661);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (663);
 
 /*Data for the table `vtiger_portal` */
 
@@ -21897,13 +21899,16 @@ insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (102,0,84,0,16,47,NULL,0,NULL,0,NULL,NULL,'');
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (106,0,84,0,18,74,NULL,0,NULL,0,NULL,NULL,'');
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (107,0,84,3,19,NULL,NULL,0,NULL,0,NULL,NULL,NULL);
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (108,0,84,0,21,83,NULL,0,NULL,0,NULL,NULL,'');
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (108,0,84,0,24,83,NULL,0,NULL,0,NULL,NULL,'');
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (109,0,84,0,17,60,NULL,0,NULL,0,NULL,NULL,'');
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (110,0,0,2,10,NULL,'MEN_TEAMWORK',0,NULL,0,NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (111,0,110,0,0,75,NULL,0,NULL,0,NULL,NULL,'');
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (112,0,0,6,0,3,NULL,0,NULL,0,NULL,NULL,NULL);
 insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (113,0,44,0,2,48,NULL,0,NULL,0,NULL,NULL,'');
-insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (114,0,84,0,20,25,NULL,0,NULL,0,NULL,NULL,'');
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (114,0,84,0,23,25,NULL,0,NULL,0,NULL,NULL,'');
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (115,0,84,0,20,24,NULL,0,NULL,0,NULL,NULL,'');
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (116,0,84,0,21,27,NULL,0,NULL,0,NULL,NULL,'');
+insert  into `yetiforce_menu`(`id`,`role`,`parentid`,`type`,`sequence`,`module`,`label`,`newwindow`,`dataurl`,`showicon`,`icon`,`sizeicon`,`hotkey`) values (117,0,84,3,22,NULL,NULL,0,NULL,0,NULL,NULL,NULL);
 
 /*Data for the table `yetiforce_mobile_keys` */
 

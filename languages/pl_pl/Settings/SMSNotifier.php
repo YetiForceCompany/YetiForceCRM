@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Enter new data' => 'Wprowadz nowe dane',
+	'Enter new data' => 'Wprowadź nowe dane',
 	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Numer Kontrahenta',
 	'LBL_SMS_SENDER' => 'Nadawca',
 	'LBL_SMSPM_AUTH_HASH' => 'Symbol # potwierdzenia autentyczności',
