@@ -157,7 +157,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             if( $field_uitype == 53 || $field_uitype == 52 ) {
                 $robocza = getUserName( $field );
                 if( $robocza == "" ) {
-                    $robocza = fetchGroupName( $field );
+                    $robocza = getGroupName( $field );
                 }
                 $field = $robocza;
             }
