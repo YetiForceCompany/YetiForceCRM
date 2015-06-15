@@ -40,4 +40,6 @@ $jsLanguageStrings = [
     'MSG_ERROR_NUMBER' => 'Fehlerschlüssel: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Datum sollte größer als das folgende sein',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Zeit sollte unter der folgenden liegen',
+	'JS_START_DATE' => 'Startdatum & Zeit',
+	'JS_END_DATE' => 'Enddatum & Zeit',
 ];

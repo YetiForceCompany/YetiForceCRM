@@ -98,6 +98,14 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 			eventResize: function (event, delta, revertFunc) {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
+			eventRender: function (event, element) {
+				element.find('.fc-info').popover({
+					title: event.title,
+					placement: 'top',
+					html: true,
+					content: '<i class="icon-time"></i> '+app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD HH:mm') + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD HH:mm')
+				});
+			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
 				app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
@@ -136,7 +144,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js",{
 		}
 		if (jQuery('#timecontrolTypes').length > 0) {
 			var types = jQuery('#timecontrolTypes').val();	
+		}else{
+			allEvents = true;
 		}
+
 		if(allEvents == true || types != null){
 			var params = {
 				module: 'OSSTimeControl',
