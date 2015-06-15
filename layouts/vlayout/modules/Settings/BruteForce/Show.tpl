@@ -36,20 +36,30 @@
 		<tbody>
 			<tr>
 				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Number of attempts', $MODULE)}</label></td>
-				<td style="border-left: none;"><input type="text" name="attempsnumber" id="min_length" value="{$ATTEMPS_NUMBER}" /></td>
+				<td style="border-left: none;">
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="attempsnumber" id="min_length" value="{$ATTEMPS_NUMBER}" />
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Time lock', $MODULE)}</label></td>
-				<td style="border-left: none;"><input type="text" name="timelock" id="min_length" value="{$BLOCK_TIME}" /></td>
+				<td style="border-left: none;">
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="timelock" id="min_length" value="{$BLOCK_TIME}" />
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_USERS_FOR_NOTIFICATIONS', $MODULE)}</label></td>
 				<td style="border-left: none;">
-					<select class="chzn-select" id="" name="selectedUsers" multiple>
-						{foreach key=KEY  item=USER from=$ADMINUSERS}
-							<option value="{$KEY}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER}</option>
-						{/foreach}
-					</select>
+					<div class="col-md-3">
+						<select class="chzn-select" name="selectedUsers" multiple>
+							{foreach key=KEY  item=USER from=$ADMINUSERS}
+								<option value="{$KEY}" {if $USERFORNOTIFICATIONS } {if array_key_exists($KEY, $USERFORNOTIFICATIONS)}  selected {/if} {/if}>{$USER}</option>
+							{/foreach}
+						</select>
+					</div>
 				</td>
 			</tr>
 			<tr style="height:46px;">

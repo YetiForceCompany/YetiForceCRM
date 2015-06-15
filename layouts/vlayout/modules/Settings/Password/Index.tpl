@@ -24,11 +24,19 @@
 				<tbody>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Minimum password length', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="text" name="min_length" id="min_length" value="{$DETAIL['min_length']}" /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input class="form-control" type="text" name="min_length" id="min_length" value="{$DETAIL['min_length']}" />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Maximum password length', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="text" name="max_length" id="max_length" value="{$DETAIL['max_length']}" /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input class="form-control" type="text" name="max_length" id="max_length" value="{$DETAIL['max_length']}" />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Uppercase letters from A to Z', $MODULE)}</label></td>
