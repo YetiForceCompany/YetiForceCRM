@@ -83,15 +83,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			$port = $roundcube_config['default_port'];
 		}
 		if (empty($port)){ $port = $roundcube_config['default_port'];}
-		if (empty($port)){ $port = $roundcube_config['default_port'];}
+		if (!$roundcube_config['validate_cert']) { $validatecert = '/novalidate-cert';}
 		if ($roundcube_config['imap_open_add_connection_type']) { $ssl_mode = '/'.$ssl_mode; }else{ $ssl_mode = ''; }
+	
 		imap_timeout(IMAP_OPENTIMEOUT,5);
 		$log->debug("imap_open({".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder, $user , $password) method ...");
 		if($dieOnError){
 			$mbox = @imap_open("{".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder", $user , $password) OR
 			die( self::imap_open_error(imap_last_error()) );
 		}else{
-			$mbox = @imap_open("{".$host.":".$port."/imap/".$ssl_mode.$validatecert."}$folder", $user , $password );
+			$mbox = @imap_open("{".$host.":".$port."/imap".$ssl_mode.$validatecert."}$folder", $user , $password );
 		}
 		$log->debug("Exit OSSMail_Record_Model::imap_connect() method ...");
 		return $mbox;
@@ -563,6 +564,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return array(
 			'product_name'				=> array('label' => 'LBL_RC_product_name',			'fieldType' => 'text'		,'required' => 1),
 			'validate_cert'				=> array('label' => 'LBL_RC_validate_cert',			'fieldType' => 'checkbox'	,'required' => 0),
+			'imap_open_add_connection_type'	=> array('label' => 'LBL_RC_imap_open_add_connection_type',	'fieldType' => 'checkbox'	,'required' => 0),
 			'default_host'				=> array('label' => 'LBL_RC_default_host',			'fieldType' => 'text'		,'required' => 1),
 			'default_port'				=> array('label' => 'LBL_RC_default_port',			'fieldType' => 'int'		,'required' => 1),
 			'smtp_server'				=> array('label' => 'LBL_RC_smtp_server',			'fieldType' => 'text'		,'required' => 1),
@@ -575,7 +577,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			'ip_check'					=> array('label' => 'LBL_RC_ip_check',				'fieldType' => 'checkbox'	,'required' => 0),
 			'enable_spellcheck'			=> array('label' => 'LBL_RC_enable_spellcheck',		'fieldType' => 'checkbox'	,'required' => 0),
 			'identities_level'			=> array('label' => 'LBL_RC_identities_level',		'fieldType' => 'picklist' 	,'required' => 1, 'value' => array(0,1,2,3,4) ),
-			'smtp_log'					=> array('label' => 'LBL_RC_smtp_log',				'fieldType' => 'checkbox'	,'required' => 0),
 			'session_lifetime'			=> array('label' => 'LBL_RC_session_lifetime',		'fieldType' => 'int'		,'required' => 1),
 		);
 	}
