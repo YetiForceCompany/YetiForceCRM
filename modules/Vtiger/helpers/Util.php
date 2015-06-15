@@ -214,16 +214,13 @@ class Vtiger_Util_Helper {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
 
-		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
+		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
 
-		$displayTime = $hours .':'. $minutes;
-		if ($currentUser->get('hour_format') === '12') {
-			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
-		}
+		$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
 
-		$dateDay = vtranslate( DateTimeField::getDayFromDate($dateTime) , 'Calendar');
-		$formatedDate = $dateInUserFormat.' ' .vtranslate('LBL_AT'). ' ' .$displayTime." ($dateDay)";
+		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$formatedDate = $dateInUserFormat . ' ' . vtranslate('LBL_AT') . ' ' . $displayTime . " ($dateDay)";
 
 		return $formatedDate;
 	}
@@ -426,7 +423,7 @@ class Vtiger_Util_Helper {
 	 * @return <String> date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null) {
-        require_once 'include/runtime/LanguageHandler.php';
+		require_once 'include/runtime/LanguageHandler.php';
 		require_once 'include/runtime/Globals.php';
 		if ($userObject) {
 			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
@@ -439,12 +436,12 @@ class Vtiger_Util_Helper {
 
 		$date = $dateTimeField->getDisplayDate($userModel);
 		$time = $dateTimeField->getDisplayTime($userModel);
-		
-		//Convert time to user preferred value
-		if($userModel->get('hour_format') == '12'){
-				$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
+
+		//Convert time to user preferred value 
+		if ($userModel->get('hour_format') == '12') {
+			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
-		return $date . ' ' .$time;
+		return $date . ' ' . $time;
 	}
 
 	/**

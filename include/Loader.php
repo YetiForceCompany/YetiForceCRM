@@ -175,6 +175,19 @@ class Vtiger_Loader {
 		$parts = explode('_', $className);
 		$noOfParts = count($parts);
 		if($noOfParts > 2) {
+			$filePath = 'custom.modules.';
+			// Append modules and sub modules names to the path
+			for($i=0; $i<($noOfParts-2); ++$i) {
+				$filePath .= $parts[$i]. '.';
+			}
+			$fileName = $parts[$noOfParts-2];
+			$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
+			$filePath .= $fileComponentName. '.' .$fileName;
+			//var_dump('dddd');
+			if (file_exists(self::resolveNameToPath($filePath))) {
+				return Vtiger_Loader::includeOnce($filePath);
+			}
+			
 			$filePath = 'modules.';
 			// Append modules and sub modules names to the path
 			for($i=0; $i<($noOfParts-2); ++$i) {

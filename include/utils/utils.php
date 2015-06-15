@@ -1777,14 +1777,20 @@ function com_vtGetModules($adb) {
  * Function to check if a given record exists (not deleted)
  * @param integer $recordId - record id
  */
-function isRecordExists($recordId) {
-	$adb = PearDatabase::getInstance();
-	$query = "SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0";
-	$result = $adb->pquery($query, array($recordId));
-	if ($adb->num_rows($result)) {
-		return true;
+$recordExistsCache = [];
+function isRecordExists($recordId, $cache = true) {
+	if (!isset($recordExistsCache[$recordId])) {
+		$db = PearDatabase::getInstance();
+		$query = "SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0";
+		$result = $db->pquery($query, [$recordId]);
+		if ($db->num_rows($result)) {
+			$return = true;
+		}else{
+			$return = false;
+		}
+		$recordExistsCache[$recordId] = $return;
 	}
-	return false;
+	return $recordExistsCache[$recordId];
 }
 
 /** Function to set date values compatible to database (YY_MM_DD)

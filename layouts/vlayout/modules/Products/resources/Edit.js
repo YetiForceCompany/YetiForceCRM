@@ -404,10 +404,6 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 			if((editViewForm.find('[name="existingImages"]').length >= 1) || (editViewForm.find('[name="imagename[]"]').length > 1)){
 				jQuery.fn.MultiFile.disableEmpty(); // before submiting the form - See more at: http://www.fyneworks.com/jquery/multiple-file-upload/#sthash.UTGHmNv3.dpuf
 			}
-
-			// validate hidden blocks if they contain empty mandatory fields show them
-			app.validateHiddenBlocks();
-
 			//Form should submit only once for multiple clicks also
 			if(typeof editViewForm.data('submit') != "undefined") {
 				return false;

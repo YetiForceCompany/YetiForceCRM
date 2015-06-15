@@ -42,13 +42,17 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 		if($this->get('start') && $this->get('end')){
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+			$dbStartDate = $dbStartDateOject->format('Y-m-d');
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
-			$query.= " AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) )";
+			$dbEndDate = $dbEndDateObject->format('Y-m-d');
+			$query.= " AND ( (concat(date_start, ' ', time_start)  >= ? AND concat(date_start, ' ', time_start) <= ?) OR (concat(due_date, ' ', time_end)  >= ? AND concat(due_date, ' ', time_end) <= ?) OR (date_start < ? AND due_date > ?) ) ";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
+			$params[] = $dbStartDate;
+			$params[] = $dbEndDate;
 		}
 		if($this->get('types')){
 			$query.= " AND vtiger_activity.activitytype IN ('".implode("','", $this->get('types'))."')";

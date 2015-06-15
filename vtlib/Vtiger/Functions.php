@@ -437,11 +437,15 @@ class Vtiger_Functions {
 		$moduleInfo = self::getBasicModuleInfo($mixed);
 		$module = $moduleInfo['name'];
 
-		if ($module && !isset(self::$moduleFieldInfoByNameCache[$module])) {
-			$result =
-				($module == 'Calendar')?
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? OR tabid=?', array(9, 16)) :
-				$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
+		$no_of_fields = $adb->pquery('SELECT COUNT(fieldname) AS count FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
+		$fields_count = $adb->query_result($no_of_fields, 0, 'count');
+
+		$cached_fields_count = isset(self::$moduleFieldInfoByNameCache[$module]) ? count(self::$moduleFieldInfoByNameCache[$module]) : NULL;
+
+		if ($module && (!isset(self::$moduleFieldInfoByNameCache[$module]) || ((int) $fields_count != (int) $cached_fields_count))) {
+			$result = ($module == 'Calendar') ?
+					$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? OR tabid=?', array(9, 16)) :
+					$adb->pquery('SELECT * FROM vtiger_field WHERE tabid=?', array(self::getModuleId($module)));
 
 			self::$moduleFieldInfoByNameCache[$module] = array();
 			while ($row = $adb->fetch_array($result)) {
