@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header">
+    <div class="widget_header row">
         <div class="col-md-8"><h3>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</h3></div>
     </div>
     <hr>

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="targetFieldsTableContainer">
-	<div class="widget_header row">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
@@ -21,12 +21,10 @@
 			{vtranslate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
 		</div>
 		<br>	
-		<div class="row">
-			 <div class="pull-right">
-				 <a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
-			 </div>
-			 <div class="clearfix"></div>
+		<div class="pull-right">
+			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
 		</div>
+		<div class="clearfix"></div>
 	{else}
 		<form method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE}"/>

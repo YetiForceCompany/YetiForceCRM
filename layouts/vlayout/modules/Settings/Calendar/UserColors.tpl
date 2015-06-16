@@ -62,17 +62,19 @@
 					<table class="table table-bordered table-condensed listViewEntriesTable workingDaysTable">	
 						<tbody>
 							<tr>
-								<td><p style="padding-top:10px;">{vtranslate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>
-								<td>
-									<select class="chzn-select workignDaysField" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays" style="width: 500px;">
-										<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_MONDAY,$QUALIFIED_MODULE)}</option>
-										<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_TUESDAY,$QUALIFIED_MODULE)}</option>
-										<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_WEDNESDAY,$QUALIFIED_MODULE)}</option>
-										<option value="4" {if in_array(4, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_THURSDAY,$QUALIFIED_MODULE)}</option>
-										<option value="5" {if in_array(5, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_FRIDAY,$QUALIFIED_MODULE)}</option>
-										<option value="6" {if in_array(6, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SATURDAY,$QUALIFIED_MODULE)}</option>
-										<option value="7" {if in_array(7, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SUNDAY,$QUALIFIED_MODULE)}</option>
-									</select>
+								<td class="col-md-3"><p style="padding-top:10px;">{vtranslate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>
+								<td class="col-md-9">
+									<div class="col-md-4">
+										<select class="chzn-select workignDaysField pull-left" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays">
+											<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_MONDAY,$QUALIFIED_MODULE)}</option>
+											<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_TUESDAY,$QUALIFIED_MODULE)}</option>
+											<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_WEDNESDAY,$QUALIFIED_MODULE)}</option>
+											<option value="4" {if in_array(4, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_THURSDAY,$QUALIFIED_MODULE)}</option>
+											<option value="5" {if in_array(5, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_FRIDAY,$QUALIFIED_MODULE)}</option>
+											<option value="6" {if in_array(6, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SATURDAY,$QUALIFIED_MODULE)}</option>
+											<option value="7" {if in_array(7, $NOTWORKINGDAYS)} selected {/if} >{vtranslate(PLL_SUNDAY,$QUALIFIED_MODULE)}</option>
+										</select>
+									</div>
 								</td>
 							</tr>
 						</tbody>

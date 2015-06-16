@@ -30,7 +30,7 @@
 	<hr>
 	<div class="row">
 		<label class="col-md-3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
-		<div class="col-md-7">
+		<div class="col-md-4">
 			<input type="text" class="fieldValue form-control" name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
 		</div>
 	</div>

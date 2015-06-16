@@ -16,37 +16,35 @@
 		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row">
-        <div class="contents tabbable">
-			<table class="table table-bordered table-condensed listViewEntriesTable">
-				<thead>
-					<tr class="blockHeader">
-						<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+	<div class="contents tabbable">
+		<table class="table table-bordered table-condensed listViewEntriesTable">
+			<thead>
+				<tr class="blockHeader">
+					<th><strong>{vtranslate('LBL_ACTIVITY_NAME',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_MODULE',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
+					<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
+						<td>{vtranslate($item.fieldname,$item.module)}</td>
+						<td>{vtranslate($item.module,$item.module)}</td>
+						<td>
+							<label class="checkbox">
+								<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
+							</label> 
+						</td>
+						<td class="calendarColor" style="background: {$item.color};"></td>
+						<td>
+							<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
-						<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
-							<td>{vtranslate($item.fieldname,$item.module)}</td>
-							<td>{vtranslate($item.module,$item.module)}</td>
-							<td>
-								<label class="checkbox">
-									<input class="activeType" type="checkbox" name="active" value="1" {if $item.active eq '1'}checked=""{/if}>
-								</label> 
-							</td>
-							<td class="calendarColor" style="background: {$item.color};"></td>
-							<td>
-								<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
 	<div class="clearfix"></div>
 	<div class="modal editColorContainer hide">

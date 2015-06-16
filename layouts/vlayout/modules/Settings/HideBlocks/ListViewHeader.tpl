@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="">
-	<div class="widget_header row">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_HIDEBLOCKS', $QUALIFIED_MODULE)}</h3>
 		{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 	</div>
@@ -26,7 +26,7 @@
 			</button>
 			{/foreach}
 		</span>
-		<span class="col-md-4 btn-toolbar">
+		<span class="col-md-4 btn-toolbar paddingLRZero">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</span>
 	</div>

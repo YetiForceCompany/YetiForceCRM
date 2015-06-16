@@ -93,9 +93,7 @@
 								<tr data-id="{$item.id}" data-color="{$item.color}">
 									<td>{vtranslate($item.module,$item.module)}</td>
 									<td>
-										<label class="checkbox">
-											<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
-										</label> 
+										<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 									</td>
 									<td class="calendarColor" style="background: {$item.color};"></td>
 									<td>
