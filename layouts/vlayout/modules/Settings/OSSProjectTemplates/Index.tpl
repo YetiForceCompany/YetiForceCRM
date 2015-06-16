@@ -10,26 +10,26 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header row">
+    <div class="widget_header">
         <div class="col-md-8"><h3>{vtranslate('OSSProjectTemplates', $MODULE_NAME)}</h3></div>
     </div>
     <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl">
-            <div class="row">
-                <span class="col-md-4 btn-toolbar">
+            <div class="">
+                <div class="col-md-4 btn-toolbar paddingLRZero">
                     <a class="btn btn-default addButton" data-toggle="modal" data-target="#add_project_modal">
                         <strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
                     </a>
-                </span>
-                <span class="col-md-4 btn-toolbar">
+                </div>
+                <div class="col-md-4 btn-toolbar">
                     <select class="chzn-select" id="moduleFilter" >
                         <option value="">{vtranslate('LBL_ALL', $MODULE_NAME)}</option>
                         {foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
                             <option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$MODULE_MODEL->getName()}">{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}</option>
                         {/foreach}
                     </select>
-                </span>
+                </div>
             </div>
             <br>
             <div class="row">

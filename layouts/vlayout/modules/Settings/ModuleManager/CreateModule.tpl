@@ -17,25 +17,25 @@
 	</div>
 	<div class="modal-body">
 		<form class="form-horizontal">
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_NAME', $QUALIFIED_MODULE)}</label>
 				<div class="controls">
 					<input type="text" class="input-lg module_name" name="module_name" placeholder="HelpDesk" required="true" >
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTER_MODULE_LABEL', $QUALIFIED_MODULE)}</label>
 				<div class="controls">
 					<input type="text" class="input-lg module_name" name="module_label" placeholder="Help Desk" required="true">
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDNAME', $QUALIFIED_MODULE)}</label>
 				<div class="controls">
 					<input type="text" class="input-lg entityfieldname" name="entityfieldname" placeholder="title" required="true">
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ENTITY_FIELDLABEL', $QUALIFIED_MODULE)}</label>
 				<div class="controls">
 					<input type="text" class="input-lg entityfieldlabel" name="entityfieldlabel" placeholder="Title" required="true">

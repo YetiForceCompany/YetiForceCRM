@@ -303,7 +303,7 @@ function OSSProjectTemplatesEdit() {
             },
             this.showBetweenDateInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-                        html = '<div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
+                        html = '<div class="date"><input class="dateField bw row form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
 
                 valPlace.children().remove();
                 valPlace.append(html);
@@ -313,7 +313,7 @@ function OSSProjectTemplatesEdit() {
                 var customParams = {
                     calendars: 3,
                     mode: 'range',
-                    className: 'rangeCalendar',
+                    className: 'rangeCalendar form-control',
                     onChange: function(formated) {
                         valElement.find('.dateField').val(formated.join(','));
                     }
@@ -332,7 +332,7 @@ function OSSProjectTemplatesEdit() {
                 var select = jQuery("<select></select>").attr({
                     name: "val",
                     "data-value": "value",
-                    class: "row select2"
+                    class: "row select2 form-control"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -355,7 +355,7 @@ function OSSProjectTemplatesEdit() {
                     multiple: "multiple",
                     name: "val",
                     "data-value": "value",
-                    class: "row select2"
+                    class: "row select2 form-control"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -380,7 +380,7 @@ function OSSProjectTemplatesEdit() {
                         type: 'text',
                         name: 'val',
                         "data-value": "value",
-                        class: "row"
+                        class: "row form-control"
 
                     }).appendTo(valPlace);
 
@@ -392,7 +392,7 @@ function OSSProjectTemplatesEdit() {
             this.showDataInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
                 var valElement = valPlace.find('[name="val"]'),
-                        html = '<div class="input-group row"><input class="col-md-9 dateField" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
+                        html = '<div class="input-group row"><input class="col-md-9 dateField form-control" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
 
                 if (!jQuery(valElement).hasClass('dateField') || jQuery(valElement).hasClass('bw')) {
                     valPlace.children().remove();

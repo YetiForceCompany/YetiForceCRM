@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -25,7 +25,7 @@
 					<input type="hidden" class="selectedUser" value="" />
 					<input type="hidden" class="selectedUserColor" value="" />
 					<input type="hidden" class="userCalendarMode" value="" />
-					<div class="control-group addCalendarViewsList">
+					<div class="form-group addCalendarViewsList">
 						<label class="control-label">{vtranslate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
 						<div class="controls">
 							<select class="select2" name="usersCalendarList" style="min-width: 250px;">
@@ -37,7 +37,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group editCalendarViewsList">
+					<div class="form-group editCalendarViewsList">
 						<label class="control-label">{vtranslate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
 						<div class="controls">
 							<select class="select2" name="editingUsersList" style="min-width: 250px;">
@@ -50,7 +50,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label class="control-label">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
 						<div class="controls">
 							<p class="calendarColorPicker"></p>

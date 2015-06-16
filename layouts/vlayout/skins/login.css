@@ -25,8 +25,8 @@ left: 23px;
 width: 299px;
 }
 #login-area .bg-div  .password #password,#login-area .bg-div  .username #username,#changePassword #password,#changePassword #confirmPassword{
-width: 239px;
-height: 24px;
+//width: 239px;
+//height: 24px;
 color: #000;
 border: 0;
 float: right;
@@ -101,4 +101,8 @@ left: 19px;
 #login-area .bg-div  #changePassword .password{
 top: 58px;
 left: 19px;
+}
+.paddingLRZero {
+	padding-left: 0px;
+	padding-right: 0px;
 }

@@ -25,12 +25,12 @@
 		<input type="hidden" name="schdayofweek" value={Zend_Json::encode($WORKFLOW_MODEL->get('schdayofweek'))} />
 		<input type="hidden" name="schdayofmonth" value={Zend_Json::encode($WORKFLOW_MODEL->get('schdayofmonth'))} />
 		<input type="hidden" name="schannualdates" value={Zend_Json::encode($WORKFLOW_MODEL->get('schannualdates'))} />
-		<div class="row" style="border:1px solid #ccc;">
+		<div class="" style="border:1px solid #ccc;">
 				{if $IS_FILTER_SAVED_NEW == false}
 					<div class="alert alert-info">
 						{vtranslate('LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED',$QUALIFIED_MODULE)}
 					</div>
-					<div class="row">
+					<div class="">
 						<span class="col-md-6"><input type="radio" name="conditionstype" class="alignMiddle" checked=""/>&nbsp;&nbsp;<span class="alignMiddle">{vtranslate('LBL_USE_EXISTING_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
 						<span class="col-md-6"><input type="radio" id="enableAdvanceFilters" name="conditionstype" class="alignMiddle recreate"/>&nbsp;&nbsp;<span class="alignMiddle">{vtranslate('LBL_RECREATE_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
 					</div><br>

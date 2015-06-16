@@ -21,16 +21,16 @@
                     <strong>{vtranslate('LBL_STEP_1',$QUALIFIED_MODULE)}: {vtranslate('LBL_ENTER_BASIC_DETAILS_OF_THE_WORKFLOW',$QUALIFIED_MODULE)}</strong>
                 </label>
                 <br>
-                <div class="control-group">
-                    <div class="control-label">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
                         {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
-                    </div>
-                    <div class="controls">
+                    </label>
+                    <div class="col-sm-6 controls">
                         {if $MODE eq 'edit'}
-                            <input type='text' disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
+                            <input type='text' disabled='disabled' class="form-control" value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                             <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
                         {else}
-                            <select class="chzn-select" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
+                            <select class="chzn-select form-control" id="moduleName" name="module_name" required="true" data-placeholder="Select Module...">
                                 {foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
                                     <option value="{$MODULE_MODEL->getName()}" {if $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 										{if $MODULE_MODEL->getName() eq 'Calendar'}
@@ -44,20 +44,20 @@
                         {/if}
                     </div>
                 </div>
-                <div class="control-group">
-                    <div class="control-label">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
                         {vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}<span class="redColor">*</span>
-                    </div>
-                    <div class="controls">
-                        <input type="text" name="summary" class="col-md-5" data-validation-engine='validate[required]' value="{$WORKFLOW_MODEL->get('summary')}" id="summary" />
+                    </label>
+                    <div class="col-sm-6 controls">
+                        <input type="text" name="summary" class="form-control" data-validation-engine='validate[required]' value="{$WORKFLOW_MODEL->get('summary')}" id="summary" />
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <div class="control-label">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
                         {vtranslate('LBL_SPECIFY_WHEN_TO_EXECUTE', $QUALIFIED_MODULE)}
-                    </div>
-                    <div class="controls">
+                    </label>
+                    <div class="col-sm-6 controls">
                         {assign var=WORKFLOW_MODEL_OBJ value=$WORKFLOW_MODEL->getWorkflowObject()}
 
                         {foreach from=$TRIGGER_TYPES item=LABEL key=LABEL_ID}
@@ -67,7 +67,6 @@
                                         <span class='alert alert-warning' style="position:relative;left:100px">{vtranslate('LBL_EXCEEDING_MAXIMUM_LIMIT', $QUALIFIED_MODULE)} : {$MAX_ALLOWED_SCHEDULED_WORKFLOWS}</span>
                                     {/if}
                                     </label><br>
-                                <div class="clearfix"></div>
                             </div>
                         {/foreach}
                         {if $SCHEDULED_WORKFLOW_COUNT <= $MAX_ALLOWED_SCHEDULED_WORKFLOWS}
@@ -192,7 +191,6 @@
             <button class="btn btn-success" type="submit" disabled="disabled"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
             <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
         </div>
-        <div class="clearfix"></div>
     </form>
 </div>
 {/strip}

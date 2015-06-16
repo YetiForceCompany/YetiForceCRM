@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -21,14 +21,14 @@
             <div name='massEditContent'>
                 <div class="modal-body">
 
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
                         <div class="controls">
                             <input type="password" name="new_password" data-validation-engine="validate[required]"/>
                         </div>
                     </div>
 
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
                         <div class="controls">
                             <input type="password" name="confirm_password" data-validation-engine="validate[required]"/>

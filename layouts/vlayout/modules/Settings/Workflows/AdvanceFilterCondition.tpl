@@ -11,8 +11,8 @@
 -->*}
 {strip}
 <div class="row conditionRow marginBottom10px">
-	<span class="col-md-4">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+	<div class="col-md-4">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
@@ -48,9 +48,9 @@
 				</optgroup>
 			{/foreach}
 		</select>
-	</span>
-	<span class="col-md-3">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row" name="comparator">
+	</div>
+	<div class="col-md-3">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="comparator">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
@@ -61,10 +61,10 @@
 				>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 			{/foreach}
 		</select>
-	</span>
-	<span class="col-md-4 fieldUiHolder">
+	</div>
+	<div class="col-md-4 fieldUiHolder">
 		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
-	</span>
+	</div>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
 		{if empty($CONDITION)}

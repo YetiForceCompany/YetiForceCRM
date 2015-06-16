@@ -21,7 +21,7 @@
 		</div>
         <form class="form-horizontal" id="ChangeType" name="ChangeType" method="post" action="index.php">
             <div class="modal-body tabbable">
-                <div class="control-group">
+                <div class="form-group">
                     <div class="control-label" style="width: 50;">{vtranslate('LBL_SELECT_TYPE',$MODULE)}</div>
                     <div class="controls">
                         <select class="select2-container columnsSelect" id="mail_type" name="mail_type" style="width: 350px;">

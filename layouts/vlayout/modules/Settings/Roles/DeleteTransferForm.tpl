@@ -23,7 +23,7 @@
 
 		<div class="modal-body">
 			<h5>{vtranslate('LBL_TRANSFER_OWNERSHIP',$QUALIFIED_MODULE)}</h5>
-			<div class="control-group">
+			<div class="form-group">
 				<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
 				<div class="controls">
 					<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">

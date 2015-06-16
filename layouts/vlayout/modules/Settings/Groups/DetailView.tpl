@@ -25,7 +25,7 @@
 						</span>
 					</span>
 				</div><hr>
-				<div class="control-group">
+				<div class="form-group">
 					<span class="control-label">
 						{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
 					</span>
@@ -33,7 +33,7 @@
 						<b>{$RECORD_MODEL->getName()}</b>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					<span class="control-label">
 						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 					</span>
@@ -41,7 +41,7 @@
 						<b>{$RECORD_MODEL->getDescription()}</b>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					<span class="control-label">
 						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 					</span>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="form-group">
 					<span class="control-label">
 						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 					</span>

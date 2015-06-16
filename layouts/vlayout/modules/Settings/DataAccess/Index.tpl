@@ -10,14 +10,14 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header row">
+    <div class="widget_header">
         <div class="col-md-8"><h3>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</h3></div>
     </div>
     <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl" style="min-height:300px">
             <div class="row">
-                <div class="col-md-4 no-padding btn-toolbar">
+                <div class="col-md-4 paddingLRZero btn-toolbar">
                     <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1">
                         <strong>{vtranslate('LBL_NEW_TPL', $QUALIFIED_MODULE)}</strong>
                     </a>

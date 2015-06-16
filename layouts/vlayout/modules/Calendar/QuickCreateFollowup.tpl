@@ -34,7 +34,7 @@
         <div class="modal-body" style="padding:0px">
             {$FIELD_INFO['label'] = {$FOLLOW_UP_LABEL}}
             <br />
-            <div class="control-group">
+            <div class="form-group">
                 <div class="control-label">
                     <label class="muted">
                         {$FOLLOW_UP_LABEL}

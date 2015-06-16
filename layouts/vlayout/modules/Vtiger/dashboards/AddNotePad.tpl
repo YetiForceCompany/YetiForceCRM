@@ -16,13 +16,13 @@
 			<h3 id="massEditHeader">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_NOTEPAD', $MODULE)}</h3>
 		</div>
 		<form class="form-horizontal" method="POST">
-			 <div class="control-group margin0px padding1per">
+			 <div class="form-group margin0px padding1per">
 				<label class="control-label">{vtranslate('LBL_NOTEPAD_NAME', $MODULE)}<span class="redColor">*</span> </label>
 				<div class="controls">
 					<input type="text" name="notePadName" class="input-lg" data-validation-engine="validate[required]" />
 				</div>
 			</div>
-			<div class="control-group margin0px padding1per">
+			<div class="form-group margin0px padding1per">
 				<label class="control-label">{vtranslate('LBL_NOTEPAD_CONTENT', $MODULE)}</label>
 				<div class="controls">
 					<textarea type="text" name="notePadContent" style="min-height: 100px;resize: none;"/>

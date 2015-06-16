@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -25,7 +25,7 @@
             <input type="hidden" name="record" value="{$RULE_ID}" />
             <div class="modal-body">
                 <div class="row">
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
                         <div class="controls">
                             <select class="chzn-select" name="source_id">
@@ -41,7 +41,7 @@
 							</select>
 						</div>	
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label class="control-label">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
 						<div class="controls">
 							<select class="chzn-select" name="target_id">
@@ -57,7 +57,7 @@
 							</select>
 						</div>	
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<label class="control-label">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
 						<div class="controls">
 							<label class="radio">

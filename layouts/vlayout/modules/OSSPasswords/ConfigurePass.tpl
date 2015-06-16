@@ -69,7 +69,7 @@
                                 </td>
                                 <td class="fieldValue" >
                                     <div class="row"><span class="col-md-10">
-                                        <input id="oldKey" type="text" class="input-lg nameField" name="oldKey" value="" min="8" /></span>
+                                        <input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
@@ -79,7 +79,7 @@
                                 </td>
                                 <td class="fieldValue" >
                                     <div class="row"><span class="col-md-10">
-                                        <input id="newKey" type="text" class="input-lg nameField" name="newKey" value="" min="8" /></span>
+                                        <input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
@@ -114,7 +114,7 @@
                                 </td>
                                 <td class="fieldValue" >
                                     <div class="row"><span class="col-md-10">
-                                        <input id="passKey" type="text" class="input-lg nameField" name="passKey" value="" min="8" /></span>
+                                        <input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
@@ -149,7 +149,7 @@
                         </td>
                         <td class="fieldValue" >
                             <div class="row"><span class="col-md-10">
-                                <input id="pass_key" type="text" class="input-lg nameField" name="pass_key" value="" min="8" /></span>
+                                <input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" /></span>
                             </div>
                         </td>
                     </tr>
@@ -185,7 +185,7 @@
                 </td>
                 <td class="fieldValue" >
                     <div class="row"><span class="col-md-10">
-                        <input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="input-lg nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
+                        <input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
                     </div>
                 </td>
             </tr>
@@ -195,7 +195,7 @@
                 </td>
                 <td class="fieldValue" >
                     <div class="row"><span class="col-md-10">
-                        <input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="input-lg nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
+                        <input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
                     </div>
                 </td>
             </tr>
@@ -217,8 +217,8 @@
                 <td class="fieldLabel"> </td>
                 <td align="center" class="fieldValue" >
                     <div class="row">
-                        <span class="col-md-10">
-                        <input id="register_changes" type="checkbox" class="input-lg nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
+                        <span class="col-md-10" style="text-align: left;">
+                        <input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
                          {vtranslate('LBL_START_REGISTER', $MODULENAME)}</span>
                     </div>
                 </td>

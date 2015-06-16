@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -25,7 +25,7 @@
 				<input type="hidden" value="{$RECORD_ID}" name="record" id="recordId"/>
 			{/if}
 			{foreach item=FIELD_MODEL from=$EDITABLE_FIELDS}
-			<div class="control-group">
+			<div class="form-group">
 				{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 				<span class="control-label">
 					<strong>

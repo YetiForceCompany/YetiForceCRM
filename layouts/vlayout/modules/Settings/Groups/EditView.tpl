@@ -25,7 +25,7 @@
 			</h3>
             <hr>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<span class="control-label">
 				<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
 			</span>
@@ -33,7 +33,7 @@
 				<input class="input-lg" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<span class="control-label">
 				{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 			</span>
@@ -41,7 +41,7 @@
 				<input class="input-lg" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<span class="control-label">
 				{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
 			</span>
@@ -53,7 +53,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<span class="control-label">
 				{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
 			</span>

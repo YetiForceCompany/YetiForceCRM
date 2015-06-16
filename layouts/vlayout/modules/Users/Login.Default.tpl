@@ -40,17 +40,27 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 			<div class="login-box bg-div" id="loginDiv">
 				<div class="login-form-content">
 					<form class="form-horizontal row login-form" style="margin:0;" action="index.php?module=Users&action=Login" method="POST">
-						<div class="col-md-9 main-panel">
-							<div class="username">
-								<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
-								<input type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
+						<div class="col-md-9 main-panel paddingLRZero">
+							<div class="username col-md-12 paddingLRZero">
+								<div class="col-md-2 paddingLRZero">
+									<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
+								</div>
+								<div class="col-md-10 paddingLRZero">
+									<input class="form-control" type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
+								</div>
+								
 							</div>
-							<div class="password">
-								<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/pass.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
-								<input type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="dBHec0de"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+							<div class="password col-md-12 paddingLRZero">
+								<div class="col-md-2 paddingLRZero">
+									<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/pass.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
+								</div>
+								<div class="col-md-10 paddingLRZero">
+									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="dBHec0de"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+								</div>
+								
 							</div>
 						</div>
-						<div class="col-md-3 main-panel">
+						<div class="col-md-3 main-panel paddingLRZero">
 							<button type="submit" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Sign in</button>
 						</div>
 					</form>
@@ -90,20 +100,29 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 					</div>
 				</div>
 			</div>
-			<div class="login-box hide row bg-div" id="forgotPasswordDiv">
+			<div class="login-box hide bg-div" id="forgotPasswordDiv">
 				<div class="login-form-content">
 					<form class="form-horizontal row login-form" style="margin:0;" action="modules/Users/actions/ForgotPassword.php" method="POST">
-						<div class="col-md-9 main-panel">
-							<div class="username">
-								<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
-								<input type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+						<div class="col-md-9 main-panel paddingLRZero">
+							<div class="username col-md-12 paddingLRZero">
+								<div class="col-md-2 paddingLRZero">
+									<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
+								</div>
+								<div class="col-md-10 paddingLRZero">
+									<input type="text" class="form-control" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{vtranslate('LBL_USER',$MODULE)}">
+								</div>
+								
 							</div>
-							<div class="password">
-								<img title="{vtranslate('LBL_EMAIL',$MODULE)}" src="layouts/vlayout/skins/images/email.png?{uniqid()}" alt="{vtranslate('LBL_EMAIL',$MODULE)}">
-								<input type="text" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="password" name="emailId" placeholder="Email">
+							<div class="password col-md-12 paddingLRZero">
+								<div class="col-md-2 paddingLRZero">
+									<img title="{vtranslate('LBL_EMAIL',$MODULE)}" src="layouts/vlayout/skins/images/email.png?{uniqid()}" alt="{vtranslate('LBL_EMAIL',$MODULE)}">
+								</div>
+								<div class="col-md-10 paddingLRZero">
+									<input type="text" class="form-control" autocomplete="off" title="{vtranslate('LBL_EMAIL',$MODULE)}" id="password" name="emailId" placeholder="Email">
+								</div>
 							</div>
 						</div>
-						<div class="col-md-3 main-panel">
+						<div class="col-md-3 main-panel paddingLRZero">
 							<button type="submit" id="retrievePassword" style="background: url(layouts/vlayout/skins/images/button.png?{uniqid()}) no-repeat;" class="btn btn-primary sbutton">Retrieve Password</button>
 						</div>
 					</form>
@@ -123,10 +142,12 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 		});
 		jQuery("a#forgotpass").click(function() {
 			jQuery("#loginDiv").hide();
+			jQuery("#forgotPasswordDiv").removeClass('hide');
 			jQuery("#forgotPasswordDiv").show();
 		});
 		
 		jQuery("a#backButton").click(function() {
+			jQuery("#loginDiv").removeClass('hide');
 			jQuery("#loginDiv").show();
 			jQuery("#forgotPasswordDiv").hide();
 		});

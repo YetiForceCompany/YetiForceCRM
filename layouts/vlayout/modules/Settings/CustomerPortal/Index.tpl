@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <input type="hidden" name="portalModulesInfo" value="" />
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate('LBL_PRIVILEGES', $QUALIFIED_MODULE)}</label>
                         <div class="controls">
                             <span class="row">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate('LBL_DEFAULT_ASSIGNEE', $QUALIFIED_MODULE)}</label>
                         <div class="controls">
                             <span class="row">
@@ -55,7 +55,7 @@
                             </span>
                         </div>	
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="control-label">{vtranslate('LBL_PORTAL_URL', $QUALIFIED_MODULE)}</label>
                         <div class="controls">
                             <span class="help-inline"><a target="_blank" href="{$PORTAL_URL}">{$PORTAL_URL}</a></span>

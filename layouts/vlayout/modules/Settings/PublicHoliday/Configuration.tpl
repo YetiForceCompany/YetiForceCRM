@@ -32,6 +32,10 @@ padding: 10px;
 }.paddingAll5{
 padding: 5px;
 }
+.marginLRZero{
+	margin-left: 0;
+	margin-right: 0;
+}
 </style>
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
@@ -49,18 +53,18 @@ padding: 5px;
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
-					<div class="row layoutBlockHeader">
+					<div class="row layoutBlockHeader marginLRZero">
 						<div class="col-md-12" style="padding: 10px 0;">
 							<span class="marginLeft20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 							</span>
-							<span class="pull-right">
+							<span class="pull-right marginRight20">
 								<strong>{vtranslate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</strong>
 								<input type="text" class="dateField dateFilter marginbottomZero" data-date-format="yyyy-mm-dd" data-calendar-type="range" value="{$DATE}" />
 							</span>
 						</div>
 					</div>
-					<div style="padding:5px;min-height: 27px" class="blockFieldsList row">
+					<div style="padding:5px;min-height: 27px" class="blockFieldsList row marginLRZero">
 						<ul style="list-style-type: none; float: left;min-height: 1px;padding:2px; width: 98%; margin:0 !important;" class="col-md-12">
 							{foreach item=HOLIDAY from=$HOLIDAYS}
 							<li>
@@ -89,7 +93,9 @@ padding: 5px;
 				</div>
 			</div>
 			{* copy elements hide *}
-			<div class="modal addDateWindowModal hide">
+			<div class="modal addDateWindowModal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h3>{vtranslate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h3>
@@ -97,7 +103,7 @@ padding: 5px;
 				<form class="form-horizontal addDateWindowForm">
 					<input type="hidden" name="holidayId" value="" />
 					<div class="modal-body">
-						<div class="control-group">
+						<div class="form-group">
 							<span class="control-label">
 								<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 								<span class="redColor">*</span>
@@ -107,7 +113,7 @@ padding: 5px;
 								
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<span class="control-label">
 								<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 								<span class="redColor">*</span>
@@ -119,7 +125,7 @@ padding: 5px;
 								</select> 
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<span class="control-label">
 								<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 								<span class="redColor">*</span>
@@ -131,6 +137,8 @@ padding: 5px;
 					</div>
 					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
 				</form>
+			</div>
+			</div>
 			</div>
 		</div>
 		</div>

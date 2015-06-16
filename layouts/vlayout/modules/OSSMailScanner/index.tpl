@@ -180,7 +180,7 @@
             </div>	
         {else}
             <form class="form-horizontal">
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
                     <div class="controls">
                         <select multiple id="folder_inputReceived" name="folder_inputReceived" class="col-md-6">
@@ -192,7 +192,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
                     <div class="controls">
                         <select multiple id="folder_inputSent" name="folder_inputSent" class="col-md-6">
@@ -204,7 +204,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
                     <div class="controls">
                         <select multiple id="folder_inputSpam" name="folder_inputSpam" class="col-md-6">
@@ -216,7 +216,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
                     <div class="controls">
                         <select multiple id="folder_inputTrash" name="folder_inputTrash" class="col-md-6">
@@ -228,7 +228,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
                     <div class="controls">
                         <select multiple id="folder_inputAll" name="folder_inputAll" class="col-md-6">
@@ -247,7 +247,7 @@
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
-            <div class="control-group">
+            <div class="form-group">
                 <div class="controls">
                     <select multiple id="email_search" name="email_search" class="col-md-10">
                         {foreach item=item key=key from=$EMAILSEARCH}
@@ -267,7 +267,7 @@
 		<h3>{vtranslate('Change ticket status', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_conftab_change_ticket_status', 'OSSMailScanner')}</div>	
         <form class="form-horizontal">
-            <div class="control-group">
+            <div class="form-group">
                 <div class="controls">
                     <input class="pull-left" style="margin-right: 10px;" type="checkbox" name="conftab_change_ticket_status" id="conftab_change_ticket_status" {if $WIDGET_CFG['emailsearch']['change_ticket_status'] eq 'true'} checked {/if}>
 					<label class="">{vtranslate('Change_ticket_status', 'OSSMailScanner')}</label>

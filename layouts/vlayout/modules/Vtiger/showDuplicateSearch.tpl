@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -19,7 +19,7 @@
 		<input type='hidden' name='module' value='{$MODULE}' />
 		<input type='hidden' name='view' value='FindDuplicates' />
 		<br>
-		<div class="control-group">
+		<div class="form-group">
 			<span class="control-label">
 				{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
 			</span>

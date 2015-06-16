@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -20,7 +20,7 @@
 		</div>
 		<div class="modal-Fields">
 			{foreach from=$RESP item=item key=key}
-				<div class="control-group">
+				<div class="form-group">
 					<label class="radio">
 						<div class="row">
 							<div class="col-md-3"><input style="float: right;" type="radio" name="selectedFields" value="{$item.email}"></div>

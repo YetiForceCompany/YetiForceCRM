@@ -114,7 +114,7 @@
 			{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
 				<tr>
 					<td style="width:25%">
-						<div class="control-group">
+						<div class="form-group">
 							<div class=" pull-right">
 								{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
 							</div>
@@ -144,11 +144,11 @@
 		</div>
 		<form class="form-horizontal addCustomBlockForm" method="post" action="index.php" >
 			<div class="modal-body">
-				<div class="control-group">
+				<div class="form-group">
 					<input type="hidden" name="module" value="Vtiger" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
-					<div class="control-group">
+					<div class="form-group">
 						<div class="control-label">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
 						<div class="controls">
 							<input type="text" name="field name" id="fieldName" data-validation-engine="validate[required,custom[onlyLetterSp]]" />

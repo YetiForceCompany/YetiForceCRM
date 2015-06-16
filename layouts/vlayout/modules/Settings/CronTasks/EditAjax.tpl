@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -24,9 +24,9 @@
 		<input type="hidden" id="frequency" name="frequency" value="" />
 
 		<div class="modal-body tabbable">
-			<div class="control-group">
-				<div class="control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
-				<div class="controls">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+				<div class="col-sm-6 controls">
 					<select class="chzn-select" name="status">
 						<optgroup>
 							<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
@@ -35,11 +35,11 @@
 					</select>
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="control-label">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
 					{vtranslate('Frequency',$QUALIFIED_MODULE)}
-				</div>
-				<div class="controls row">
+				</label>
+				<div class="controls col-sm-9">
 					{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}
 					{if $VALUES[0] == '00' && $VALUES[1] == '00'}
 						{assign var=MINUTES value="true"}
@@ -54,13 +54,16 @@
 						{assign var=MINUTES value="true"}
 						{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 					{/if}
-					<input type="text" class="col-md-2" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/>&nbsp;
-					<select class="chzn-select col-md-5" id="time_format">
-						<optgroup>
-							<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
-							<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>
-						</optgroup>
-					</select>
+					<div class="col-sm-3 paddingLRZero">
+						<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/></div>
+					<div class="col-sm-8">
+						<select class="chzn-select" id="time_format">
+							<optgroup>
+								<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
+								<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>
+							</optgroup>
+						</select>
+					</div>
 				</div>	
 			</div>
 			<div class="alert alert-info">{vtranslate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>

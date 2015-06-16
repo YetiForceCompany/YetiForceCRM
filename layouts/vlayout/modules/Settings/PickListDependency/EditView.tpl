@@ -22,7 +22,7 @@
 					<input type="hidden" class="editDependency" value="true"/>
 				{/if}
 				<div class="row">
-					<div class="control-group col-md-5">
+					<div class="form-group col-md-5">
 						<label class="muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 						<div class="controls">
 							<select name="sourceModule" class="select2 col-md-4 marginLeftZero">
@@ -42,7 +42,7 @@
 					<div class="col-md-5">&nbsp;</div>
 				</div>
 				<div class="row">
-					<div class="col-md-5 control-group">
+					<div class="col-md-5 form-group">
 						<label class="muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 						<div class="controls">
 								<select id="sourceField" name="sourceField" class="select2 row" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
@@ -53,7 +53,7 @@
 								</select>
 						</div>
 					</div>
-					<div class="col-md-5 control-group marginLeftZero">
+					<div class="col-md-5 form-group marginLeftZero">
 						<label class="muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 						<div class="controls">
 								<select id="targetField" name="targetField" class="select2 row" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">

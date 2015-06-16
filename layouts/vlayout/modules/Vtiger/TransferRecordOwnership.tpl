@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -17,7 +17,7 @@
         </div>
         <form class="form-horizontal" id="changeOwner" name="changeOwner" method="post" action="index.php">
             <div class="modal-body tabbable">
-                <div class="control-group">
+                <div class="form-group">
                     <div class="control-label" style="width: 50;">{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
                     <div class="controls"> 
                         <select class="select2-container columnsSelect" id="related_modules" title="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-validation-engine="validate[required]" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" multiple="" name="related_modules[]" style="width: 350px;">
@@ -29,7 +29,7 @@
                         </select>
                     </div></br>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <div class="control-label">{vtranslate('LBL_ASSIGNED_TO', $MODULE)}</div>
                     <div class="controls">
                         {assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}

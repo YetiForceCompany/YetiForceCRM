@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -43,14 +43,14 @@
 								{$EMAIL_FIELD_LIST[$EMAIL_FIELD->get('name')] = vtranslate($EMAIL_FIELD->get('label'), $SOURCE_MODULE)}
 							{/if}
 						{/foreach}
-						<div class="control-group">
+						<div class="form-group">
 							<label class="radio">
 								<input id="selectAllEmails" type="radio" name="selectedFields" value='{ZEND_JSON::encode(array_keys($EMAIL_FIELD_LIST))}' />
 								&nbsp; {vtranslate('LBL_ALL_EMAILS', $SOURCE_MODULE)}
 							</label>
 						</div>
 						{foreach item=EMAIL_FIELD_LABEL key=EMAIL_FIELD_NAME from=$EMAIL_FIELD_LIST name=emailFieldIterator}
-							<div class="control-group">
+							<div class="form-group">
 								<label class="radio">
 									<input type="radio" class="emailField" name="selectedFields" value='{ZEND_JSON::encode(array($EMAIL_FIELD_NAME))}' {if $smarty.foreach.emailFieldIterator.iteration eq 1} checked="checked" {/if}/>
 									&nbsp; {$EMAIL_FIELD_LABEL}

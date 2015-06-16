@@ -10,26 +10,26 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header row">
+    <div class="widget_header">
         <div class="col-md-8"><h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3></div>
     </div>
     <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl" style="min-height:300px">
-            <div class="row">
-                <span class="col-md-4 btn-toolbar">
+            <div class="">
+                <div class="col-md-4 btn-toolbar paddingLRZero">
                     <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Edit">
                         <strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
                     </a>
-                </span>
-                <span class="col-md-4 btn-toolbar" >
+                </div>
+                <div class="col-md-4 btn-toolbar" >
                     <select class="chzn-select" id="moduleFilter" >
                         <option value="">{vtranslate('LBL_ALL', $MODULE_NAME)}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}
                             <option value="{$item}">{vtranslate($item, $item)}</option>
                         {/foreach}
                     </select>
-                </span>
+                </div>
             </div>
             <br>
             <div class="row" id="list_doc">

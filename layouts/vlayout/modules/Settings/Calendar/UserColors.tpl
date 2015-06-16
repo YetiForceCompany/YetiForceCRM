@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -90,7 +90,7 @@
 		<div class="modal-body">
 			<form class="form-horizontal">
 				<input type="hidden" class="selectedColor" value="" />
-				<div class="control-group">
+				<div class="form-group">
 					<label class="control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
 					<div class="controls">
 						<p class="calendarColorPicker"></p>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -29,24 +29,24 @@
 			<input type="hidden" name="type" value="{$TAX_TYPE}" />
 			<div class="modal-body">
 				<div class="row">
-					<div class="control-group">
-						<label class="control-label">{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</label>
-						<div class="controls">
-							<input class="col-md-3" type="text" name="taxlabel" placeholder="{vtranslate('LBL_ENTER_TAX_NAME', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
+					<div class="form-group">
+						<label class="col-md-4 control-label">{vtranslate('LBL_TAX_NAME', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6 controls paddingLRZero">
+							<input class="form-control" type="text" name="taxlabel" placeholder="{vtranslate('LBL_ENTER_TAX_NAME', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getName()}" data-validation-engine='validate[required]' />
 						</div>	
 					</div>
-					<div class="control-group">
-						<label class="control-label">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</label>
-						<div class="controls input-group">
-							<input class="col-md-2" type="text" name="percentage" class="input-medium" placeholder="{vtranslate('LBL_ENTER_TAX_VALUE', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getTax()}" data-validation-engine='validate[required, funcCall[Vtiger_Percentage_Validator_Js.invokeValidation]]' />
+					<div class="form-group">
+						<label class="col-md-4 control-label">{vtranslate('LBL_TAX_VALUE', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6 controls input-group">
+							<input class="form-control" type="text" name="percentage" class="input-medium" placeholder="{vtranslate('LBL_ENTER_TAX_VALUE', $QUALIFIED_MODULE)}" value="{$TAX_RECORD_MODEL->getTax()}" data-validation-engine='validate[required, funcCall[Vtiger_Percentage_Validator_Js.invokeValidation]]' />
 							<span class="input-group-addon">%</span>
 						</div>	
 					</div>
 					{if $TAX_MODEL_EXISTS}
 					{assign var=TAX_DELETED value=$TAX_RECORD_MODEL->isDeleted()}
-					<div class="control-group">
-						<label class="control-label">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
-						<div class="controls">
+					<div class="form-group">
+						<label class="col-md-4 control-label">{vtranslate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6 controls">
 							<input type="hidden" name="deleted" value="1" />
 							<input type="checkbox" name="deleted" value="0" class="taxStatus alignBottom" {if !$TAX_DELETED} checked {/if} />
 							<span>&nbsp;&nbsp;{vtranslate('LBL_TAX_STATUS_DESC', $QUALIFIED_MODULE)}</span>

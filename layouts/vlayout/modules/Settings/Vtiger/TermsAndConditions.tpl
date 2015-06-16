@@ -10,12 +10,12 @@
 -->*}
 {strip}
 <div class="" id="TermsAndConditionsContainer">
-	<div class="widget_header row">
-		<div class="row"><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
+	<div class="widget_header">
+		<div class=""><h3>{vtranslate('INVENTORYTERMSANDCONDITIONS', $QUALIFIED_MODULE)}</h3></div>
 	</div>
 	<hr>
 
-    <div class="contents row">
+    <div class="contents">
 		<br>
         <textarea class="input-xxlarge TCContent textarea-autosize" rows="3" placeholder="{vtranslate('LBL_INV_TANDC_DESCRIPTION', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
         <div class="row textAlignCenter">

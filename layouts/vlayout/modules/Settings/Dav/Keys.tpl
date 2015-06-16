@@ -75,7 +75,7 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal">
-						<div class="control-group">
+						<div class="form-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
 								<select class="select col-md-4 user" name="user" data-validation-engine="validate[required]">
@@ -85,7 +85,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="control-group">
+						<div class="form-group">
 							<label class="control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
 							<div class="controls">
 								<select multiple="" class="select col-md-4 type" name="type">

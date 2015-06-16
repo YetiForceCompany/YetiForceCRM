@@ -10,12 +10,12 @@
 -->*}
 {strip}
 <div class="" id="AnnouncementContainer">
-	<div class="widget_header row">
-		<div class="row"><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
+	<div class="widget_header">
+		<div class=""><h3>{vtranslate('LBL_ANNOUNCEMENTS', $QUALIFIED_MODULE)}</h3></div>
 	</div>
 	<hr>
 
-    <div class="contents row">
+    <div class="contents">
         <textarea class="announcementContent textarea-autosize boxSizingBorderBox" rows="3" placeholder="{vtranslate('LBL_ENTER_ANNOUNCEMENT_HERE', $QUALIFIED_MODULE)}" style="width:100%">{$ANNOUNCEMENT->get('announcement')}</textarea>
         <div class="row textAlignCenter">
 			<br>

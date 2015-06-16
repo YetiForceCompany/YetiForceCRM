@@ -11,9 +11,9 @@
 {strip}
 <div class="">
     <form id="EditView" method="POST">
-        <div class="row">
-            <span class="widget_header row">
-                <div class="row">
+        <div class="">
+            <span class="widget_header">
+                <div class="">
 					<h3>{vtranslate('LBL_CUSTOMIZE_RECORD_NUMBERING', $QUALIFIED_MODULE)}</h3>
 					<span style="font-size:12px;color: black;">{vtranslate('LBL_CUSTOMIZE_MODENT_NUMBER_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 				</div>
@@ -45,7 +45,7 @@
                             <label class="pull-right marginRight10px"><b>{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</b></label>
                         </td>
                         <td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-                            <select class="chzn-select" name="sourceModule">
+                            <select class="chzn-select form-control" name="sourceModule">
                                 {foreach key=index item=MODULE_MODEL from=$SUPPORTED_MODULES}
                                     {assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
                                     <option value={$MODULE_NAME} {if $MODULE_NAME eq $DEFAULT_MODULE_NAME} selected {/if}>
@@ -60,7 +60,7 @@
                             <label class="pull-right marginRight10px"><b>{vtranslate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b></label>
                         </td>
                         <td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-                            <input type="text" value="{$DEFAULT_MODULE_DATA['prefix']}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashes_Validator_Js.invokeValidation]]"/>
+                            <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashes_Validator_Js.invokeValidation]]"/>
                         </td>
                     </tr>
                     <tr>
@@ -70,7 +70,7 @@
                             </label>
                         </td>
                         <td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-                            <input type="text" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
+                            <input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
                                    data-old-sequence-number="{$DEFAULT_MODULE_DATA['sequenceNumber']}" name="sequenceNumber"
                                    data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
                         </td>

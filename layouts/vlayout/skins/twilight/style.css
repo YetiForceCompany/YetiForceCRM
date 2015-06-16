@@ -320,7 +320,7 @@ hr {
 }
 .mainContainer {
   min-height: 500px;
- // margin-top: 90px;
+  margin-top: 103px;
   background: #eeeff2;
   min-width: 1200px;
 }
@@ -3147,8 +3147,8 @@ table tr td .input-sm{
 tr.summaryViewEntries, #detailView table {
   font-size: 13px;
 }
-.no-padding{
-  padding: 0;
+table.listViewEntriesTable {
+	font-size: 13px;
 }
 .no-margin{
   margin: 0;

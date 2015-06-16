@@ -41,13 +41,13 @@
                     <tr>
                         <td class="col-md-6"> {vtranslate('DOC_NAME', $MODULE_NAME)}<span class="redColor">*</span> </td>
                         <td>
-                            <input type="text" name="doc_name" maxlength="50" value="{$BASE_INFO['doc_name']}" />
+                            <input type="text" class="form-control" name="doc_name" maxlength="50" value="{$BASE_INFO['doc_name']}" />
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-6"> {vtranslate('DOC_ORDER', $MODULE_NAME)}<span class="redColor">*</span> </td>
                         <td>
-                            <input type="text" name="doc_order" maxlength="50" value="{if $BASE_INFO['doc_order']}{$BASE_INFO['doc_order']}{else}1{/if}" />
+                            <input type="text" class="form-control" name="doc_order" maxlength="50" value="{if $BASE_INFO['doc_order']}{$BASE_INFO['doc_order']}{else}1{/if}" />
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +98,7 @@
                                             {/foreach}
                                         </select>
                                     {else if $cnd_item['field_type'] eq 'multipicklist'}
-                                        <select multiple="multiple" name="val" data-value="value" class="row select2">
+                                        <select multiple="multiple" name="val" data-value="value" class="row select2 form-control">
                                             {foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
                                                 <option value="{$pick_key}"  {if in_array($pick_key, $cnd_item['val'])} selected {/if}>{$pick_item}</option>
                                             {/foreach}
@@ -107,14 +107,14 @@
                                         <div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
                                     {else if $cnd_item['field_type'] eq 'date'}
                                         {if $cnd_item['comparator'] == 'between'}
-                                            <div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
+                                            <div class="date"><input class="dateField bw row form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
                                             {else if in_array($cnd_item['comparator'], array("less than days ago", "more than days ago", "in less than", "in more than", "days ago", "days later"))}
-                                            <input name="val" data-value="value" class="row" type="text" value="{$cnd_item['val']|escape}" />
+                                            <input name="val" data-value="value" class="row form-control" type="text" value="{$cnd_item['val']|escape}" />
                                         {else}
                                             <div class="input-group row"><input class="col-md-9 dateField dateFieldNormal" value="{$cnd_item['val']|escape}" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                         {/if}
                                     {else}
-                                    <input name="val" data-value="value" class="row" type="text" value="{$cnd_item['val']|escape}" />
+                                    <input name="val" data-value="value" class="row form-control" type="text" value="{$cnd_item['val']|escape}" />
                                     {/if}
                                 </span>
                                 <span class="col-md-1">
@@ -166,7 +166,7 @@
                                             {/foreach}
                                         </select>
                                     {else if $cnd_item['field_type'] eq 'multipicklist'}
-                                        <select multiple="multiple" name="val" data-value="value" class="row select2">
+                                        <select multiple="multiple" name="val" data-value="value" class="row select2 form-control">
                                             {foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
                                                 <option value="{$pick_key}"  {if in_array($pick_key, $cnd_item['val'])} selected {/if}>{$pick_item}</option>
                                             {/foreach}
@@ -175,14 +175,14 @@
                                         <div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
                                     {else if $cnd_item['field_type'] eq 'date'}
                                         {if $cnd_item['comparator'] == 'between'}
-                                            <div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
+                                            <div class="date"><input class="dateField bw row form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
                                             {else if in_array($cnd_item['comparator'], array("less than days ago", "more than days ago", "in less than", "in more than", "days ago", "days later"))}
-                                            <input name="val" data-value="value" class="row" type="text" value="{$cnd_item['val']|escape}" />
+                                            <input name="val" data-value="value" class="row form-control" type="text" value="{$cnd_item['val']|escape}" />
                                         {else}
-                                            <div class="input-group row"><input class="col-md-9 dateField dateFieldNormal" value="{$cnd_item['val']|escape}" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
+                                            <div class="input-group row"><input class="col-md-9 dateField dateFieldNormal form-control" value="{$cnd_item['val']|escape}" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>
                                         {/if}
                                     {else}
-                                    <input name="val" data-value="value" class="row" type="text" value="{$cnd_item['val']|escape}" />
+                                    <input name="val" data-value="value" class="row form-control" type="text" value="{$cnd_item['val']|escape}" />
                                     {/if}
                                 </span>
                                 <span class="col-md-1">

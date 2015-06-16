@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -22,7 +22,7 @@
             <strong>{vtranslate('LBL_STEP_1',$QUALIFIED_MODULE)}: {vtranslate('LBL_ENTER_BASIC_INFO',$QUALIFIED_MODULE)}</strong>
         </label>
         <br>
-        <div class="control-group">
+        <div class="form-group">
             <div class="control-label">
                 {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
             </div>
@@ -39,7 +39,7 @@
                 {/if}
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <div class="control-label">
                 {vtranslate('DOC_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
             </div>

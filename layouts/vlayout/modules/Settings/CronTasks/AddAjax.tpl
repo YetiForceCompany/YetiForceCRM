@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -21,12 +21,12 @@
 		<input type="hidden" name="action" value="AddCron" />
 
 		<div class="modal-body tabbable">
-			<div class="control-group">
-				<div class="control-label">
+			<div class="form-group">
+				 <label class="col-sm-3 control-label">
 					{vtranslate('MODULE', $QUALIFIED_MODULE)}
-				</div>
-				<div class="controls">
-					<select class="chzn-select" name="cron_module">
+				</label>
+				<div class="col-sm-6 controls">
+					<select class="chzn-select form-control" name="cron_module">
 						{foreach from=$MODULE_LIST  item=item key=key}
 							<option value="{$item->name}">{vtranslate($item->name, $item->name)}</option>
 						{/foreach}
@@ -34,21 +34,21 @@
 					</select>
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="control-label">{vtranslate('LBL_NAME',$QUALIFIED_MODULE)}</div>
-				<div class="controls">
-					<input value="" name="cron_name" data-validation-engine="validate[required]" id="name" />
+			<div class="form-group">
+				 <label class="col-sm-3 control-label">{vtranslate('LBL_NAME',$QUALIFIED_MODULE)}</label>
+				<div class="col-sm-6 controls">
+					<input value="" name="cron_name" class="form-control" data-validation-engine="validate[required]" id="name" />
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="control-label">{vtranslate('LBL_PATH_TO_FILE',$QUALIFIED_MODULE)}</div>
-				<div class="controls">
-					<input value="" name="path" data-validation-engine="validate[required]" id="path" />
+			<div class="form-group">
+				 <label class="col-sm-3 control-label">{vtranslate('LBL_PATH_TO_FILE',$QUALIFIED_MODULE)}</label>
+				<div class="col-sm-6 controls">
+					<input value="" name="path" class="form-control" data-validation-engine="validate[required]" id="path" />
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
-				<div class="controls">
+			<div class="form-group">
+				 <label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+				<div class="col-sm-6 controls">
 					<select class="chzn-select" name="status">
 						<optgroup>
 							<option value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
@@ -57,27 +57,31 @@
 					</select>
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="control-label">
+			<div class="form-group">
+				 <label class="col-sm-3 control-label">
 					{vtranslate('Frequency',$QUALIFIED_MODULE)}
-				</div>
-				<div class="controls row">
-
-					<input type="text" class="col-md-2" value="{$FIELD_VALUE}" id="frequency_value" name="frequency_value" />&nbsp;
-					<select class="chzn-select col-md-5" id="time_format" name="time_format">
-						<optgroup>
-							<option value="mins">{vtranslate('LBL_MINUTES',$QUALIFIED_MODULE)}</option>
-							<option value="hours">{vtranslate('LBL_HOURS',$QUALIFIED_MODULE)}</option>
-						</optgroup>
-					</select>
+				</label>
+				<div class="controls col-sm-9">
+					
+					<div class="col-sm-3 paddingLRZero">
+						<input type="text" class="form-control" value="{$FIELD_VALUE}" id="frequency_value" name="frequency_value" />
+					</div>
+					<div class="col-sm-8">
+						<select class="chzn-select form-control" id="time_format" name="time_format">
+							<optgroup>
+								<option value="mins">{vtranslate('LBL_MINUTES',$QUALIFIED_MODULE)}</option>
+								<option value="hours">{vtranslate('LBL_HOURS',$QUALIFIED_MODULE)}</option>
+							</optgroup>
+						</select>
+					</div>
 				</div>	
 			</div>
-						<div class="control-group">
-							<div class="control-label">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">
 								{vtranslate('Description',$QUALIFIED_MODULE)}
-							</div>
-							<div class="controls">
-								<textarea name="description">
+							</label>
+							<div class="col-sm-8 controls">
+								<textarea name="description" class="form-control">
 									
 								</textarea>
 							</div>
