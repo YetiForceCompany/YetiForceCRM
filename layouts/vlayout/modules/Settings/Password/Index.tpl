@@ -40,19 +40,35 @@
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Uppercase letters from A to Z', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="big_letters" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">	
+								<input type="checkbox" name="big_letters" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Lowercase letters a to z', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="small_letters" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="small_letters" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain numbers', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="numbers" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="numbers" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain special characters', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="special" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="special" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

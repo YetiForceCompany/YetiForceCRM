@@ -11,22 +11,20 @@
 -->*}
 {strip}
 <div class="">
-	<div class="widget_header row">
+	<div class="widget_header ">
 		<h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
 	<div class="row">
-		<div class="col-md-8">
-			<div class="col-md-3">
-				<select class="chzn-select form-control" id="usersFilter" >
-					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
-					{foreach item=USERNAME key=USER from=$USERSLIST}
-						<option value="{$USER}" name="{$USERNAME}" {if $USERNAME eq $SELECTED_USER} selected {/if}>{$USERNAME}</option>
-					{/foreach}
-				</select>
-			</div>
+		<div class="col-md-2 pull-left">
+			<select class="chzn-select form-control" id="usersFilter" >
+				<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
+				{foreach item=USERNAME key=USER from=$USERSLIST}
+					<option value="{$USER}" name="{$USERNAME}" {if $USERNAME eq $SELECTED_USER} selected {/if}>{$USERNAME}</option>
+				{/foreach}
+			</select>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 pull-right">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>
 	</div>

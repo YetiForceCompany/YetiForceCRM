@@ -39,7 +39,7 @@
             </tr>
         </table>
                 <div class="pull-right">
-                    <select class="col-md-1" name="page_num">
+                    <select class="col-md-1 form-control" name="page_num">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
                         {for $i=1 to $HISTORYACTIONLIST_NUM}
                             <option vlaue="{$i}">{$i}</option>

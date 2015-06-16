@@ -64,7 +64,11 @@
 			</tr>
 			<tr style="height:46px;">
 				<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('LBL_BRUTEFORCE_ACTIVE', $MODULE)}</label></td>
-				<td style="border-left: none;"><input type="checkbox" name="active" {if $BRUTEFORCEACTIVE} checked {/if} /></td>
+				<td style="border-left: none;">
+					<div class="col-md-3">
+						<input type="checkbox" name="active" {if $BRUTEFORCEACTIVE} checked {/if} />
+					</div>
+				</td>
 			</tr>
 		</tbody>
 		</table>
