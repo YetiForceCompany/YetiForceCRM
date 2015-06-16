@@ -32,6 +32,7 @@ $languageStrings = [
 	'PLL_MODULE' => 'Модуль',
 	'PLL_RECORD' => 'Запись',
 	'PLL_MAIL' => '__UNTRANSLATED__',
+	'PLL_LIST' => '__UNTRANSLATED__',
 	
 	/// special_functions
 	'CurrentDate'	=>	'Текущая дата',

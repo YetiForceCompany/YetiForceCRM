@@ -1,14 +1,5 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
 {strip}
 {if !$NOLOADLIBS}
 	{include file="modules/Vtiger/Header.tpl"}
@@ -21,19 +12,20 @@
 			<div class='pull-right'>
 				<span class="btn-toolbar" >
 					<span class="btn-group">
-						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll">
+						{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
+						<a class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 							<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png">&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_REPLYALLL','OSSMailView')}</strong>
 						</a>
 					</span>
 					<span class="btn-group">
-						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply">
+						<a class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 							<img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" >&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_REPLY','OSSMailView')}</strong>
 						</a>
 					</span>
 					<span class="btn-group">
-						<a class="btn" href="index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward">
+						<a class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD_MODEL->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 							<i class="icon-share-alt"></i>&nbsp;&nbsp;
 							<strong>{vtranslate('LBL_FORWARD','OSSMailView')}</strong>
 						</a>

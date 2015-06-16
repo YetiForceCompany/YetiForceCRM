@@ -691,11 +691,11 @@ jQuery.Class("Vtiger_Edit_Js",{
 				var block = element.closest('table');
 				var from = element.data('label');
 				var to = block.data('label');
-				var recordRelativeAccountId = jQuery('[name="'+lead_id+'"]').val();
+				var recordRelativeAccountId = jQuery('[name="'+vendor_id+'"]').val();
 				if(recordRelativeAccountId == "" || recordRelativeAccountId == "0"){
 					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS'));
 				} else {
-					var recordRelativeAccountName = jQuery('#'+lead_id+'_display').val();
+					var recordRelativeAccountName = jQuery('#'+vendor_id+'_display').val();
 					var data = {
 						'record' : recordRelativeAccountId,
 						'selectedName' : recordRelativeAccountName,
@@ -1415,3 +1415,4 @@ jQuery.Class("Vtiger_Edit_Js",{
 		return [];
 	}
 });
+

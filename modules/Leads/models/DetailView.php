@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -26,12 +26,14 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 		
 		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
+			$config = $emailModuleModel->getComposeParameters();
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => '_blank',
+				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
+				'linkicon' => 'icon-envelope',
+				'linktarget' => $config['target'],
+				'linkPopup' => $config['popup'],
 				'title' => vtranslate('LBL_SEND_EMAIL')
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -58,7 +60,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'glyphicon glyphicon-time',
+					'linkicon' => 'icon-time',
 					'title' => vtranslate('LBL_ADD_EVENT')
 			);
 
@@ -66,7 +68,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'glyphicon glyphicon-calendar',
+					'linkicon' => 'icon-calendar',
 					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
@@ -78,7 +80,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linklabel' => 'LBL_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment',
+				'linkicon' => 'icon-comment',
 				'title' => vtranslate('LBL_SEND_SMS')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -92,10 +94,9 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => '',
-				'title' => vtranslate('LBL_CONVERT_LEAD',$moduleName),
-				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
-				'linkicon' => 'glyphicon glyphicon-transfer',
+				'linklabel' => 'LBL_CONVERT_LEAD',
+				'linkurl' => 'Javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
+				'linkicon' => '',
 				'linkgrupclass' => (!in_array($recordModel->get('leadstatus'), $moduleInstance->conversion_available_status))? 'hide':'',
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);    

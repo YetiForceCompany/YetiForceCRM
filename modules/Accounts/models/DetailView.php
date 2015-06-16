@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -27,12 +27,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 
 		$emailModuleModel = Vtiger_Module_Model::getInstance('OSSMail');
 		if($currentUserModel->hasModulePermission($emailModuleModel->getId())) {
+			$config = $emailModuleModel->getComposeParameters();
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
-				'linkurl' => 'index.php?module=OSSMail&view=compose&mod='.$moduleName.'&record='.$recordId,
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linktarget' => '_blank',
+				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
+				'linkicon' => 'icon-envelope',
+				'linktarget' => $config['target'],
+				'linkPopup' => $config['popup'],
 				'title' => vtranslate('LBL_SEND_EMAIL')
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -59,7 +61,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'glyphicon glyphicon-time',
+					'linkicon' => 'icon-time',
 					'title' => vtranslate('LBL_ADD_EVENT')
 
 			);
@@ -68,7 +70,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'glyphicon glyphicon-calendar',
+					'linkicon' => 'icon-calendar',
 					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
@@ -79,7 +81,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$moduleName.'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment',
+				'linkicon' => 'icon-comment',
 				'title' => vtranslate('LBL_SEND_SMS')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -91,7 +93,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module='.$moduleModel->getName().'&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-random',
+				'linkicon' => 'icon-random',
 				'title' => vtranslate('LBL_TRANSFER_OWNERSHIP')
  			);
  			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);

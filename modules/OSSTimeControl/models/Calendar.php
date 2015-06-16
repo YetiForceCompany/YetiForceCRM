@@ -18,13 +18,17 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model{
 		if($this->get('start') && $this->get('end')){
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'));
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
+			$dbStartDate = $dbStartDateOject->format('Y-m-d');
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'));
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
-			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) )";
+			$dbEndDate = $dbEndDateObject->format('Y-m-d');
+			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
+			$params[] = $dbStartDate;
+			$params[] = $dbEndDate;
 		}
 		if($this->get('types')){
 			$query.= " AND vtiger_osstimecontrol.timecontrol_type IN ('".implode("','", $this->get('types'))."')";

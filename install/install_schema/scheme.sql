@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -926,11 +926,11 @@ CREATE TABLE `vtiger_backup` (
 /*Table structure for table `vtiger_backup_db` */
 
 CREATE TABLE `vtiger_backup_db` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `tablename` varchar(50) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `offset` int(19) DEFAULT '0',
-  `count` int(19) DEFAULT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `offset` int(19) unsigned NOT NULL DEFAULT '0',
+  `count` int(19) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `tablename` (`tablename`)
@@ -939,9 +939,9 @@ CREATE TABLE `vtiger_backup_db` (
 /*Table structure for table `vtiger_backup_files` */
 
 CREATE TABLE `vtiger_backup_files` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
+  `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
-  `backup` tinyint(1) NOT NULL,
+  `backup` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `backup` (`backup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -949,9 +949,9 @@ CREATE TABLE `vtiger_backup_files` (
 /*Table structure for table `vtiger_backup_settings` */
 
 CREATE TABLE `vtiger_backup_settings` (
-  `type` varchar(20) DEFAULT NULL,
-  `param` varchar(20) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL,
+  `type` varchar(20) NOT NULL,
+  `param` varchar(20) NOT NULL,
+  `value` varchar(255) NOT NULL,
   KEY `param` (`param`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -960,6 +960,7 @@ CREATE TABLE `vtiger_backup_settings` (
 CREATE TABLE `vtiger_backup_tmp` (
   `id` int(19) unsigned NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `allfiles` int(19) unsigned NOT NULL DEFAULT '0',
   `b1` decimal(5,2) NOT NULL DEFAULT '0.00',
   `b2` decimal(5,2) NOT NULL DEFAULT '0.00',
   `b3` decimal(5,2) NOT NULL DEFAULT '0.00',
@@ -4145,7 +4146,7 @@ CREATE TABLE `vtiger_ossmailtemplates_type` (
   `sortorderid` int(11) DEFAULT NULL,
   `presence` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ossmailtemplates_typeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailtemplates_type_seq` */
 

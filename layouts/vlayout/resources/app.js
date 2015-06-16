@@ -436,13 +436,11 @@ var app = {
 		useSuffix: "_chzn",
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
-		onFailure: function () {
-			$(this.InvalidFields).each(function (index, element) {
-				var block = $(element).closest('.blockContainer').find('tbody');
-				if (block.hasClass('hide')) {
-					block.removeClass('hide');
-				}
-			});
+		onBeforePromptType: function (field) {
+			var block = field.closest('.blockContainer');
+			if (block.find('tbody').is(":hidden")) {
+				block.find('.blockToggle[data-mode="hide"]').click();
+			}
 		},
 	},
 

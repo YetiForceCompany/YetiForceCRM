@@ -1573,31 +1573,30 @@ class Vtiger_Module_Model extends Vtiger_Module {
         return true;
     }
 	
-    public function getMappingRelatedField( $moduleName, $field = false) {
-        $data = array();
+    public function getMappingRelatedField($moduleName, $field = false) {
+		$data = array();
 		// Selected field = ( target field => source field )
-		$data['RequirementCards']['potentialid'] = array( 'Potentials' => array('accountid'=>array('related_to')) );
-		$data['QuotesEnquires']['potentialid'] = array( 'Potentials' => array('accountid'=>array('related_to')) );
-		$data['Calculations']['potentialid'] = array( 'Potentials' => array('relatedid'=>array('related_to')) );
-		$data['Calculations']['requirementcardsid'] = array( 'RequirementCards' => array('potentialid'=>array('potentialid'),'quotesenquiresid'=>array('quotesenquiresid'),'relatedid'=>array('accountid') ) );
-		$data['Potentials']['contact_id'] = array( 'Contacts' => array('related_to'=>array('parent_id')) );
-		$data['ProjectTask']['projectmilestoneid'] = array( 'ProjectMilestone' => array('projectid'=>array('projectid')) );
-		$data['ProjectTask']['parentid'] = array( 'ProjectTask' => array('projectid'=>array('projectid'),'projectmilestoneid'=>array('projectmilestoneid')) );
-		$data['Quotes']['potential_id'] = array( 'Potentials' => array('account_id'=>array('related_to')) );
-		$data['Quotes']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
-		$data['Quotes']['requirementcards_id'] = array( 'RequirementCards' => array('potential_id'=>array('potential_id'),'account_id'=>array('accountid')) );
-		$data['SalesOrder']['potential_id'] = array( 'Potentials' => array('account_id'=>array('related_to') ));
-		$data['SalesOrder']['quote_id'] = array( 'Quotes' => array('account_id'=>array('account_id')) );
-		$data['SalesOrder']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
-		$data['Invoice']['potentialid'] = array( 'Potentials' => array('account_id'=>array('related_to')) );
-		$data['Invoice']['salesorder_id'] = array( 'SalesOrder' => array('account_id'=>array('account_id')) );
-		$data['Invoice']['contact_id'] = array( 'Contacts' => array('account_id'=>array('parent_id')) );
-		$data['Invoice']['salesorder_id'] = array( 'SalesOrder' => array('potentialid'=>array('potential_id')) );
-		$data['HelpDesk']['projectid'] = array( 'Project' => array('parent_id'=>array('linktoaccountscontacts')) );
-		$data['HelpDesk']['contact_id'] = array('Contacts' =>  array('parent_id'=>array('parent_id')) );
-		$data['HelpDesk']['pssold_id'] = array( 'Assets' => array('product_id'=> array('product', 'Products') ) ,'OSSSoldServices' => array('product_id'=> array('serviceid', 'Services') ) );
-		
-		
+		$data['RequirementCards']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
+		$data['QuotesEnquires']['potentialid'] = ['Potentials' => ['accountid' => ['related_to']]];
+		$data['Calculations']['potentialid'] = ['Potentials' => ['relatedid' => ['related_to']]];
+		$data['Calculations']['requirementcardsid'] = ['RequirementCards' => ['potentialid' => ['potentialid'], 'quotesenquiresid' => ['quotesenquiresid'], 'relatedid' => ['accountid']]];
+		$data['Potentials']['contact_id'] = ['Contacts' => ['related_to' => ['parent_id']]];
+		$data['ProjectTask']['projectmilestoneid'] = ['ProjectMilestone' => ['projectid' => ['projectid']]];
+		$data['ProjectTask']['parentid'] = ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]];
+		$data['Quotes']['potential_id'] = ['Potentials' => ['account_id' => ['related_to']]];
+		$data['Quotes']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
+		$data['Quotes']['requirementcards_id'] = ['RequirementCards' => ['potential_id' => ['potentialid'], 'account_id' => ['accountid']]];
+		$data['SalesOrder']['potential_id'] = ['Potentials' => ['account_id' => ['related_to']]];
+		$data['SalesOrder']['quote_id'] = ['Quotes' => ['account_id' => ['account_id']]];
+		$data['SalesOrder']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
+		$data['Invoice']['potentialid'] = ['Potentials' => ['account_id' => ['related_to']]];
+		$data['Invoice']['salesorder_id'] = ['SalesOrder' => ['account_id' => ['account_id']]];
+		$data['Invoice']['contact_id'] = ['Contacts' => ['account_id' => ['parent_id']]];
+		$data['Invoice']['salesorder_id'] = ['SalesOrder' => ['potentialid' => ['potential_id']]];
+		$data['HelpDesk']['projectid'] = ['Project' => ['parent_id' => ['linktoaccountscontacts']]];
+		$data['HelpDesk']['contact_id'] = ['Contacts' => ['parent_id' => ['parent_id']]];
+		$data['HelpDesk']['pssold_id'] = ['Assets' => ['product_id' => ['product', 'Products']], 'OSSSoldServices' => ['product_id' => ['serviceid', 'Services']]];
+
 		if( array_key_exists($moduleName, $data) && $field != false && array_key_exists($field, $data[$moduleName]))
 			return $data[$moduleName][$field];
 		if( array_key_exists($moduleName, $data))

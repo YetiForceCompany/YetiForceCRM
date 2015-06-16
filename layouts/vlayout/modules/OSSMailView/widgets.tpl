@@ -1,20 +1,11 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
 <div id="mail_btn" style="overflow: auto;">	
 	<span class="pull-right" style="text-align:right;">
-		<button onclick="return false;" data-url="{$SENDURLDDATA}" data-mod="{$SMODULENAME}" data-record="{$SRECORD}" id="send_button" type="button" class="btn btn-default addButton"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></button>
+		<a data-url="{$SENDURLDDATA}" data-popup="{$POPUP}" class="btn addButton sendMailBtn"><strong>{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}</strong></a>
 	</span>
     <span class="pull-right" title="{vtranslate('LBL_ChangeType', 'OSSMailView')}" style="font-weight:normal; font-size:small;">
-		<select name="mail-type" class="form-control" title="{vtranslate('LBL_CHANGE_MAIL_TYPE')}" style="margin-right:5px; width:130px;">
+		<select name="mail-type" title="{vtranslate('LBL_CHANGE_MAIL_TYPE')}" style="margin-right:5px; width:130px;">
 			<option value="all" {if $TYPE eq 'all'} selected="selected"{/if}>{vtranslate('LBL_ALL', 'OSSMailView')}</option>
 			<option value="0" {if $TYPE eq '0'} selected="selected"{/if}>{vtranslate('LBL_OUTCOMING', 'OSSMailView')}</option>
 			<option value="1" {if $TYPE eq '1'} selected="selected"{/if}>{vtranslate('LBL_INCOMING', 'OSSMailView')}</option>
@@ -24,31 +15,31 @@
 </div>
 <div class="mailRows">
 	{foreach from=$RECOLDLIST item=row}
-	<div class="row mailRow">
-		<div class="col-md-12" style="font-size:x-small;">
+	<div class="row-fluid mailRow">
+		<div class="span12" style="font-size:x-small;">
 			<div class="pull-right muted" style="font-size:x-small;">
 				<small title="{$row['date']}">{Vtiger_Util_Helper::formatDateDiffInStrings($row['date'])}</small>   
 			</div>
 			<h5 style="margin-left:2%;">{if $row['type'] eq 0}<img src="layouts/vlayout/modules/OSSMailView/wychodzaca.png" />{elseif $row['type'] eq 1}<img src="layouts/vlayout/modules/OSSMailView/przychodzaca.png" />{elseif $row['type'] eq 2} <img src="layouts/vlayout/modules/OSSMailView/wewnetrzna.png" />{/if}{$row['subject']} {if $row['attachments'] eq 1}<img class="pull-right" src="layouts/vlayout/modules/OSSMailView/zalacznik.png" />{/if}<h5>
 		</div>
-		<div class="col-md-12">
+		<div class="span12">
 			<div class="pull-right" >
 				<a class="showMailBody" >
-					<i class="body-icon glyphicon glyphicon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="body-icon icon-chevron-down"></i>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
 			<span class="pull-left" style="font-size:x-small;">{vtranslate('From', 'OSSMailView')}: {$row['from']}</span>
 		</div>
-		<div class="col-md-12" style="font-size:x-small;">
+		<div class="span12" style="font-size:x-small;">
 			{vtranslate('To', 'OSSMailView')}: {$row['to']}
 			<div class="pull-right" >
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply" class="btn btn-xs"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll" class="btn btn-xs"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
-				<a href="index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward" class="btn btn-xs"><i class="icon-share-alt"></i></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=reply{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}"></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=replyAll{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><img width="14px" src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}"></a>
+				<a onclick="window.open('index.php?module=OSSMail&view=compose&id={$row['id']}&type=forward{if $POPUP}&popup=1{/if}',{if !$POPUP}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" class="btn btn-mini"><i class="icon-share-alt"></i></a>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 		</div>
-		<div class="col-md-12 defaultMarginP mailBody" style="display: none;">{$row['body']}</div>
+		<div class="span12 defaultMarginP mailBody" style="display: none;">{$row['body']}</div>
 	</div><hr/>
 	{/foreach}
 </div>
@@ -62,10 +53,10 @@
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if( mailBody.css( "display" ) == 'none'){
 				mailBody.show();
-				bodyIcon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" );
+				bodyIcon.removeClass( "icon-chevron-down" ).addClass( "icon-chevron-up" );
 			}else{
 				mailBody.hide();
-				bodyIcon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );
+				bodyIcon.removeClass( "icon-chevron-up" ).addClass( "icon-chevron-down" );
 			}
 		});
 		jQuery('[name="mail-type"]').change( function(e) {
@@ -88,21 +79,13 @@
 				}
 			);
 		});
-		jQuery('#send_button').click(function(e) {
-			var send_button = jQuery(e.currentTarget);
-			var main_url = 'index.php?module=OSSMail&view=compose';
-			var url = send_button.attr( "data-url" );
-			var mod = send_button.attr( "data-mod" );
-			var record = send_button.attr( "data-record" );
-			if(mod){
-				main_url += '&mod='+mod;
-			}
-			if(record){
-				main_url += '&record='+record;
-			}
-			if(url){
-				main_url += url;
-			}
+		jQuery('.sendMailBtn').click(function(e) {
+			var sendButton = jQuery(e.currentTarget);
+			var url = sendButton.data( "url" );
+			var mod = sendButton.data( "mod" );
+			var record = sendButton.data( "record" );
+			var popup = sendButton.data( "popup" );
+
 			if(mod == 'Contacts' || mod == 'Leads' || mod == 'Accounts' ){
 				var params = {};
 				var resp = {};
@@ -121,8 +104,8 @@
 							});
 							var callback = function(container){
 								$('#sendEmailContainer #selectEmail').click(function(e) {
-									main_url += '&to='+$('input[name=selectedFields]:checked').val();
-									window.location.href = main_url;
+									url += '&to='+$('input[name=selectedFields]:checked').val();
+									sendMailWindow(url, popup);
 								});	
 							}
 							getConfig.done(function(cfg) {
@@ -134,18 +117,26 @@
 							});
 						}
 						if(resp.length == 1){
-							main_url += '&to='+resp[0].email;
-							window.location.href = main_url;
+							url += '&to='+resp[0].email;
+							sendMailWindow(url, popup);
 						}
 						if(resp.length == 0){
-							window.location.href = main_url;
+							sendMailWindow(url, popup);
 						}
 					}
 				);
 			}else{
-				window.location.href = main_url;
+				sendMailWindow(url, popup);
 			}
 		});
+		
+		function sendMailWindow(url, popup) {
+			if(popup){
+				window.open(url,'_blank','resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no');
+			}else{
+				window.location.href = url;
+			}
+		}
 	});
 </script>
 {/literal}

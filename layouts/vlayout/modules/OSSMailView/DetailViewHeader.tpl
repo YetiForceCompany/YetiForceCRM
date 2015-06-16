@@ -1,14 +1,5 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+
 {literal}
 <script>
 function printMail(){
@@ -40,40 +31,41 @@ function printMail(){
 	<input id="createdtime" type="hidden" value="{$RECORD->get('createdtime')}" />
 	<div id="content" style="display: none;">{$RECORD->get('content')}</div>
 	<div class="detailViewContainer">
-		<div class="row detailViewTitle">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-7">
-						<div class="row">
+		<div class="row-fluid detailViewTitle">
+			<div class="span12">
+				<div class="row-fluid">
+					<div class="span7">
+						<div class="row-fluid">
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
-					<div class="col-md-5">
+					<div class="span5">
 						<div class="pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar">
 							<span class="btn-group">
-								<a style="padding: 4px 7px 1px 7px;" class="btn btn-default" href="index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll">
+								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
+								<a style="padding: 4px 7px 1px 7px;" class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=replyAll{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReplyAll.png" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}" title="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
 								</a>
 							</span>
 							<span class="btn-group">
-								<a style="padding: 4px 7px 1px 7px;" class="btn btn-default" href="index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply">
+								<a style="padding: 4px 7px 1px 7px;" class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 									<img src="layouts/vlayout/modules/OSSMailView/previewReply.png" alt="{vtranslate('LBL_REPLY','OSSMailView')}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 								</a>
 							</span>
 							<span class="btn-group">
-								<a style="padding: 4px 7px 1px 7px;" class="btn btn-default" href="index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=reply">
+								<a style="padding: 4px 7px 1px 7px;" class="btn" onclick="window.open('index.php?module=OSSMail&view=compose&id={$RECORD->getId()}&type=forward{if $CONFIG['popup']}&popup=1{/if}',{if !$CONFIG['popup']}'_self'{else}'_blank', 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})">
 									<span class="icon-share-alt" alt="{vtranslate('LBL_FORWARD','OSSMailView')}" title="{vtranslate('LBL_FORWARD','OSSMailView')}"></span>
 								</a>
 							</span>
 							<span class="btn-group">
-								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn btn-default" data-mode="previewPrint">
+								<button style="padding: 4px 7px 1px 7px;" id="previewPrint" onclick="printMail();" title="{vtranslate('LBL_PRINT','OSSMailView')}" type="button" name="previewPrint" class="btn " data-mode="previewPrint">
 									<img src="layouts/vlayout/modules/OSSMailView/previewPrint.png" alt="{vtranslate('LBL_PRINT','OSSMailView')}" title="{vtranslate('LBL_PRINT','OSSMailView')}">
 								</button>
 							</span>
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group">
-								<button class="btn btn-default" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
+								<button class="btn" id="{$MODULE_NAME}_detailView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_BASIC_LINK->getLabel())}"
 									{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
 										onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
 									{else}
@@ -85,7 +77,7 @@ function printMail(){
 							{/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 							<span class="btn-group">
-								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+								<button class="btn dropdown-toggle" data-toggle="dropdown" >
 									<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
@@ -99,8 +91,8 @@ function printMail(){
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">
-									<button class="btn btn-default dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
-									<ul class="dropdown-menu">
+									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><span class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
+									<ul class="listViewSetting dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>
 										{/foreach}
@@ -108,8 +100,8 @@ function printMail(){
 								</span>
 							{/if}
 							<span class="btn-group">
-								<button class="btn btn-default" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
-								<button class="btn btn-default" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
+								<button class="btn" id="detailViewPreviousRecordButton" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$PREVIOUS_RECORD_URL}'" {/if}><span class="icon-chevron-left"></span></button>
+								<button class="btn" id="detailViewNextRecordButton" {if empty($NEXT_RECORD_URL)} disabled="disabled" {else} onclick="window.location.href='{$NEXT_RECORD_URL}'" {/if}><span class="icon-chevron-right"></span></button>
 							</span>
 							</div>
 						</div>
@@ -117,8 +109,8 @@ function printMail(){
 				</div>
 			</div>
 		</div>
-		<div class="detailViewInfo row">
-			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} details">
+		<div class="detailViewInfo row-fluid">
+			<div class="{if $NO_PAGINATION} span12 {else} span10 {/if} details">
 				<form id="detailView" data-name-fields='{ZEND_JSON::encode($MODULE_MODEL->getNameFields())}'>
 					<div class="contents">
 {/strip}

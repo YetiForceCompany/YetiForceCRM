@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -6014,10 +6014,11 @@ insert  into `vtiger_ossmailtemplates`(`ossmailtemplatesid`,`name`,`oss_module_l
 insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (1,'PLL_MODULE',1,0);
 insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (2,'PLL_RECORD',2,0);
 insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (3,'PLL_MAIL',3,0);
+insert  into `vtiger_ossmailtemplates_type`(`ossmailtemplates_typeid`,`ossmailtemplates_type`,`sortorderid`,`presence`) values (4,'PLL_LIST',4,1);
 
 /*Data for the table `vtiger_ossmailtemplates_type_seq` */
 
-insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (3);
+insert  into `vtiger_ossmailtemplates_type_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_ossmailtemplatescf` */
 
@@ -6432,7 +6433,7 @@ insert  into `vtiger_picklist_seq`(`id`) values (85);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (662);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (663);
 
 /*Data for the table `vtiger_portal` */
 

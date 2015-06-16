@@ -1,25 +1,15 @@
 <?php
-/*********************************************************************************
- ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- ********************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License
+ * that can be found in the following directory: licenses/License.html]} */
 
-/**
- * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
- */
-require_once 'config/config.php';
-include_once 'vtlib/Vtiger/Module.php';
-include_once 'include/main/WebUI.php';
+require_once('config/config.php');
+include_once('vtlib/Vtiger/Module.php');
+include_once('include/main/WebUI.php');
 require_once('libraries/nusoap/nusoap.php');
 require_once('modules/HelpDesk/HelpDesk.php');
 require_once('modules/Emails/mail.php');
-require_once 'modules/Users/Users.php';
-require_once 'modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php';
+require_once('modules/Users/Users.php');
+require_once('modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php');
 
 ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
 
@@ -31,14 +21,12 @@ $userid = getPortalUserid();
 $user = new Users();
 $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
 
-
 $log = &LoggerManager::getLogger('customerportal');
 
 //error_reporting(0);
 
 $NAMESPACE = 'http://www.yetiforce.com';
 $server = new soap_server;
-
 $server->configureWSDL('customerportal');
 
 $server->wsdl->addComplexType(
@@ -1633,39 +1621,39 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
 		where vtiger_crmentity.deleted=0 and (vtiger_quotes.accountid in  (". generateQuestionMarks($entity_ids_list) .") )";
 		$params = array($entity_ids_list);
 		$fields_list['Related To'] = 'entityid';
-
 	}
 	else if($module == 'Invoice')
 	{
-		$query ="select distinct vtiger_invoice.*,vtiger_crmentity.smownerid,
-		case when vtiger_invoice.contactid !=0 then vtiger_invoice.contactid else vtiger_invoice.accountid end as entityid,
-		case when vtiger_invoice.contactid !=0 then 'Contacts' else 'Accounts' end as setype
+		$query ="select distinct vtiger_invoice.*,vtiger_crmentity.smownerid, vtiger_invoice.accountid as entityid,
+		'Accounts' as setype
 		from vtiger_invoice
 		left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
-		where vtiger_crmentity.deleted=0 and (accountid in (". generateQuestionMarks($entity_ids_list) .") or contactid in  (". generateQuestionMarks($entity_ids_list) ."))";
-		$params = array($entity_ids_list,$entity_ids_list);
+		where vtiger_crmentity.deleted=0 and accountid in (". generateQuestionMarks($entity_ids_list) .")";
+		$params = array($entity_ids_list);
 		$fields_list['Related To'] = 'entityid';
 	}
 	else if($module == 'SalesOrder')
 	{
-		$query ="select distinct vtiger_salesorder.*,vtiger_crmentity.smownerid,
-		case when vtiger_salesorder.contactid !=0 then vtiger_salesorder.contactid else vtiger_salesorder.accountid end as entityid,
-		case when vtiger_salesorder.contactid !=0 then 'Contacts' else 'Accounts' end as setype
+		$query ="select distinct vtiger_salesorder.*,vtiger_crmentity.smownerid, vtiger_salesorder.accountid as entityid,
+		'Accounts' as setype
 		from vtiger_salesorder
 		left join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_salesorder.salesorderid
-		where vtiger_crmentity.deleted=0 and (accountid in (". generateQuestionMarks($entity_ids_list) .") or contactid in  (". generateQuestionMarks($entity_ids_list) ."))";
-		$params = array($entity_ids_list,$entity_ids_list);
+		where vtiger_crmentity.deleted=0 and accountid in (". generateQuestionMarks($entity_ids_list) .")";
+		$params = array($entity_ids_list);
 		
 		$fields_list['Related To'] = 'entityid';
 	}
 	else if ($module == 'Documents')
 	{
-		$query ="select vtiger_notes.*, vtiger_crmentity.*, vtiger_senotesrel.crmid as entityid, '' as setype,vtiger_attachmentsfolder.foldername from vtiger_notes " .
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid','vtiger_notes']);
+		$tree = $adb->query_result($result, 0, 'fieldparams');
+		
+		$query ="select vtiger_notes.*, vtiger_crmentity.*, vtiger_senotesrel.crmid as entityid, '' as setype, vtiger_trees_templates_data.label as foldername from vtiger_notes " .
 		"inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_notes.notesid " .
 		"left join vtiger_senotesrel on vtiger_senotesrel.notesid=vtiger_notes.notesid " .
-		"LEFT JOIN vtiger_attachmentsfolder ON vtiger_attachmentsfolder.folderid = vtiger_notes.folderid " .
-		"where vtiger_crmentity.deleted = 0 and  vtiger_senotesrel.crmid in (".generateQuestionMarks($entity_ids_list).")";
-		$params = array($entity_ids_list);
+		"LEFT JOIN vtiger_trees_templates_data ON vtiger_trees_templates_data.tree = vtiger_notes.folderid " .
+		"where vtiger_crmentity.deleted = 0 and vtiger_trees_templates_data.templateid = ? and vtiger_senotesrel.crmid in (".generateQuestionMarks($entity_ids_list).")";
+		$params = array($tree, $entity_ids_list);
 		$fields_list['Related To'] = 'entityid';
 	}else if ($module == 'Contacts')
 	{
@@ -1794,7 +1782,7 @@ function get_list_values($id,$module,$sessionid,$only_mine='true')
 					}
 				}
 				if($fieldname == 'folderid'){
-					$fieldvalue = $adb->query_result($res,$j,'foldername');
+					$fieldvalue = Vtiger_Language_Handler::getTranslatedString( $adb->query_result($res,$j,'foldername'), $module , vglobal('default_language'));
 				}
 			}
 			if($module == 'Invoice' && $fieldname == 'salesorderid')
@@ -2228,19 +2216,17 @@ function get_product_list_values($id,$modulename,$sessionid,$only_mine='true')
 			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
 			left join vtiger_products on vtiger_products.productid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) .") )";
+			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in (". generateQuestionMarks($entity_ids_list) .") )";
 		$params[] = array($entity_ids_list);
 	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if($checkInvoices == true){
-		$query[] = "select distinct vtiger_products.*,
-			case when vtiger_invoice.contactid !=0 then vtiger_invoice.contactid else vtiger_invoice.accountid end as entityid,
-			case when vtiger_invoice.contactid !=0 then 'Contacts' else 'Accounts' end as setype
+		$query[] = "select distinct vtiger_products.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype
 			from vtiger_invoice
 			INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_invoice.invoiceid
 			left join vtiger_products on vtiger_products.productid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and (accountid in (". generateQuestionMarks($entity_ids_list) .") or contactid in  (". generateQuestionMarks($entity_ids_list) ."))";
+			where vtiger_inventoryproductrel.productid = vtiger_products.productid AND vtiger_crmentity.deleted=0 and accountid in (". generateQuestionMarks($entity_ids_list) .")";
 		$params[] = array($entity_ids_list,$entity_ids_list);
 	}
 	$fieldValuesToRound = array('unit_price','weight','commissionrate','qtyinstock');
@@ -2318,6 +2304,7 @@ function get_details($id,$module,$customerid,$sessionid)
 	if(!validateSession($customerid,$sessionid))
 	return null;
 
+	$params = array($id);
 	if($module == 'Quotes'){
 		$query =  "SELECT
 			vtiger_quotes.*,vtiger_crmentity.*,vtiger_quotesaddress.*,
@@ -2340,14 +2327,17 @@ function get_details($id,$module,$customerid,$sessionid)
 			WHERE vtiger_salesorder.salesorderid=(". generateQuestionMarks($id) .") AND vtiger_crmentity.deleted = 0";
 	}
 	else if($module == 'Documents'){
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['folderid','vtiger_notes']);
+		$tree = $adb->query_result($result, 0, 'fieldparams');
+		
+		$params[] = $tree;
 		$query =  "SELECT
-			vtiger_notes.*,vtiger_crmentity.*,vtiger_attachmentsfolder.foldername,vtiger_notescf.*
+			vtiger_notes.*,vtiger_crmentity.*, vtiger_trees_templates_data.label as foldername,vtiger_notescf.*
 			FROM vtiger_notes
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_notes.notesid
-			LEFT JOIN vtiger_attachmentsfolder
-				ON vtiger_notes.folderid = vtiger_attachmentsfolder.folderid
+			LEFT JOIN vtiger_trees_templates_data ON vtiger_trees_templates_data.tree = vtiger_notes.folderid
 			LEFT JOIN vtiger_notescf ON vtiger_notescf.notesid = vtiger_notes.notesid
-			WHERE vtiger_notes.notesid=(". generateQuestionMarks($id) .") AND vtiger_crmentity.deleted=0";
+			WHERE vtiger_notes.notesid=(". generateQuestionMarks($id) .") AND vtiger_trees_templates_data.templateid = ? AND vtiger_crmentity.deleted=0";
 	}
 	else if($module == 'HelpDesk'){
 		$query ="SELECT
@@ -2359,11 +2349,15 @@ function get_details($id,$module,$customerid,$sessionid)
 			WHERE (vtiger_troubletickets.ticketid=(". generateQuestionMarks($id) .") AND vtiger_crmentity.deleted = 0)";
 	}
 	else if($module == 'Services'){
-		$query ="SELECT vtiger_service.*,vtiger_crmentity.*,vtiger_servicecf.*  FROM vtiger_service
+		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?', ['pscategory','vtiger_service']);
+		$tree = $adb->query_result($result, 0, 'fieldparams');
+		
+		$query ="SELECT vtiger_service.*,vtiger_crmentity.*,vtiger_servicecf.*, vtiger_trees_templates_data.label as pscategory
+			FROM vtiger_service
 			INNER JOIN vtiger_crmentity
 				ON vtiger_crmentity.crmid = vtiger_service.serviceid AND vtiger_crmentity.deleted = 0
-			LEFT JOIN vtiger_servicecf
-				ON vtiger_service.serviceid = vtiger_servicecf.serviceid
+			LEFT JOIN vtiger_servicecf ON vtiger_service.serviceid = vtiger_servicecf.serviceid
+			LEFT JOIN vtiger_trees_templates_data ON vtiger_trees_templates_data.tree = vtiger_service.pscategory
 			WHERE vtiger_service.serviceid= (". generateQuestionMarks($id) .")";
 	}
 	else if($module == 'Contacts'){
@@ -2433,7 +2427,6 @@ function get_details($id,$module,$customerid,$sessionid)
 					WHERE vtiger_projecttask.projecttaskid = ? AND vtiger_crmentity.deleted = 0";
 	} 
 	
-	$params = array($id);
 	$res = $adb->pquery($query,$params);
 
 	$fieldquery = "SELECT fieldname,columnname,fieldlabel,blocklabel,uitype FROM vtiger_field
@@ -2516,6 +2509,12 @@ function get_details($id,$module,$customerid,$sessionid)
 				$fieldvalue = $sym.$fieldvalue;
 			}
 		}
+		if($module=='Services')
+		{
+			if($fieldname == 'pscategory' && $fieldvalue !=''){
+				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($fieldvalue,$module, vglobal('default_language'));
+			}
+		}
 		if($module == 'Documents')
 		{
 			$fieldid = $adb->query_result($res,0,'notesid');
@@ -2534,7 +2533,7 @@ function get_details($id,$module,$customerid,$sessionid)
 				}
 			}
 			if($fieldname == 'folderid'){
-				$fieldvalue = $adb->query_result($res,0,'foldername');
+				$fieldvalue = Vtiger_Language_Handler::getTranslatedString($adb->query_result($res,0,'foldername'),$module, vglobal('default_language'));
 			}
 			if($fieldname == 'filesize'){
 				if($filetype == 'I'){
@@ -2720,9 +2719,9 @@ function check_permission($customerid, $module, $entityid) {
 				FROM vtiger_salesorder
 				INNER JOIN vtiger_crmentity ON vtiger_salesorder.salesorderid = vtiger_crmentity.crmid
 				WHERE vtiger_crmentity.deleted=0
-					AND (vtiger_salesorder.contactid IN (". generateQuestionMarks($allowed_contacts_and_accounts).") or vtiger_salesorder.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
+					AND vtiger_salesorder.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts).")
 					AND vtiger_salesorder.salesorderid = ?";
-			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
+			$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 			if ($adb->num_rows($res) > 0) {
 				return true;
 			}
@@ -2732,9 +2731,9 @@ function check_permission($customerid, $module, $entityid) {
 								INNER JOIN vtiger_crmentity
 								ON vtiger_invoice.invoiceid=vtiger_crmentity.crmid
 								WHERE vtiger_crmentity.deleted=0
-									AND (vtiger_invoice.contactid IN (". generateQuestionMarks($allowed_contacts_and_accounts).") or vtiger_invoice.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts)."))
+									AND vtiger_invoice.accountid IN (".generateQuestionMarks($allowed_contacts_and_accounts).")
 									AND vtiger_invoice.invoiceid = ?";
-							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $allowed_contacts_and_accounts, $entityid));
+							$res = $adb->pquery($query, array($allowed_contacts_and_accounts, $entityid));
 							if ($adb->num_rows($res) > 0) {
 								return true;
 							}
@@ -3205,19 +3204,17 @@ function get_service_list_values($id,$modulename,$sessionid,$only_mine='true')
 			from vtiger_quotes INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_quotes.quoteid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_quotes.quoteid
 			left join vtiger_service on vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and (accountid in  (". generateQuestionMarks($entity_ids_list) ."))";
+			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and accountid in  (". generateQuestionMarks($entity_ids_list) .")";
 		$params[] = array($entity_ids_list);
 	}
 	$checkInvoices = checkModuleActive('Invoice');
 	if($checkInvoices == true){
-		$query[] = "select distinct vtiger_service.*,
-			case when vtiger_invoice.contactid !=0 then vtiger_invoice.contactid else vtiger_invoice.accountid end as entityid,
-			case when vtiger_invoice.contactid !=0 then 'Contacts' else 'Accounts' end as setype
+		$query[] = "select distinct vtiger_service.*, vtiger_invoice.accountid as entityid, 'Accounts' as setype
 			from vtiger_invoice
 			INNER join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_invoice.invoiceid
 			left join vtiger_inventoryproductrel on vtiger_inventoryproductrel.id=vtiger_invoice.invoiceid
 			left join vtiger_service on vtiger_service.serviceid = vtiger_inventoryproductrel.productid
-			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and (accountid in (". generateQuestionMarks($entity_ids_list) .") or contactid in  (". generateQuestionMarks($entity_ids_list) ."))";
+			where vtiger_inventoryproductrel.productid = vtiger_service.serviceid AND vtiger_crmentity.deleted=0 and accountid in (". generateQuestionMarks($entity_ids_list) .")";
 		$params[] = array($entity_ids_list,$entity_ids_list);
 	}
 
@@ -3403,6 +3400,7 @@ function get_summary_widgets($id,$type)
 	if($acc_id) {
 		$sql .= " AND vtiger_troubletickets.parent_id = $acc_id ";
 	}
+	
 	if( in_array('OpenTickets', $type) || in_array('all', $type)){
 		$sql = 'SELECT count(*) AS count, case when ( concat(vtiger_users.first_name, " " ,vtiger_users.last_name)  not like "") then
 			concat(vtiger_users.first_name, " " ,vtiger_users.last_name) else vtiger_groups.groupname end as name, vtiger_users.id as id 

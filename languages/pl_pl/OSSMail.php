@@ -66,6 +66,7 @@ $languageStrings = [
     'LBL_RC_sendmail_delay' => 'Opóźnienie podczas wysyłania wiadomości',
     'LBL_RC_date_long' => 'Format daty',
 	'LBL_RC_validate_cert' => 'Czy walidować certyfikat',
+	'LBL_RC_imap_open_add_connection_type' => 'Dodaj typ i protokół do adresu',
     'identities_level_0' => 'wiele tożsamości z możliwością edycji wszystkich parametrów',
     'identities_level_1' => 'wiele tożsamości z możliwością edycji wszystkich parametrów ale nie adresu e-mail',
     'identities_level_2' => 'jedna tożsamość, z możliwością edycji wszystkich parametrów',

@@ -1,3 +1,5 @@
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
 window.rcmail && rcmail.addEventListener('init', function (evt) {
 	var crm = window.crm = getCrmWindow();
 	var crmPath = rcmail.env.site_URL + 'index.php?';

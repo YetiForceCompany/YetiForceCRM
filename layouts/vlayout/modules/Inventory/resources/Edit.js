@@ -361,7 +361,7 @@ Vtiger_Edit_Js("Inventory_Edit_Js",{
 		if(individualTax){
 			newRow.find('.individualTaxContainer').removeClass('hide');
 		}
-		return newRow.removeClass('hide lineItemCloneCopy');
+		return newRow.removeClass('hide lineItemCloneCopy noValidate');
 	},
 
     registerAddingNewProductsAndServices: function(){
