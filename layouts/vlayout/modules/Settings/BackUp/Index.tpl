@@ -323,13 +323,19 @@
 						<tr>
 							<td><label>{vtranslate('LBL_STORAGEFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField" type="checkbox" name="storage_folder" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="storage_folder" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 						<tr>
 							<td><label>{vtranslate('LBL_BACKUPFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField" type="checkbox" name="backup_folder" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="backup_folder" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+							</td>
+						</tr>
+						<tr>
+							<td><label>{vtranslate('LBL_BACKUP_COPY_TYPE', $QUALIFIED_MODULE)}</label></td>
+							<td>
+								<input name="type" data-type="main" class="span1 configField switchBtn" type="checkbox"  data-label-width="10" data-handle-width="100" data-on-text="{vtranslate('LBL_BACKUP_SINGLE', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_BACKUP_OVERALL', $QUALIFIED_MODULE)}" {if $MAIN_CONFIG['type'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 					</tbody>

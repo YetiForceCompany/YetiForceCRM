@@ -409,6 +409,7 @@ insert  into `vtiger_asteriskextensions`(`userid`,`asterisk_extension`,`use_aste
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','storage_folder','false');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('folder','backup_folder','false');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('notifications','users','');
+insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('main','type','false');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','host','');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','login','');
 insert  into `vtiger_backup_settings`(`type`,`param`,`value`) values ('ftp','password','');
