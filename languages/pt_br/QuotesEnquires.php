@@ -9,8 +9,8 @@
  * All Rights Reserved. Contributor: Valmir Carlos Trindade - Brazilian Portuguese Translation - valmir@ttcasolucoes.com.br
  *************************************************************************************************************************************/
 $languageStrings = [
-	'Quotesenquires' => 'Levantamentos Cotações',
-	'SINGLE_Quotesenquires' => 'Levantamento para Cotações',
+	'QuotesEnquires' => 'Levantamentos Cotações',
+	'SINGLE_QuotesEnquires' => 'Levantamentos Cotações',
 
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informações básicas',
@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_POTENTIAL' => 'Oportunidade',
 	'LBL_NUMBER' => 'Número',
 	'Description' => 'Descrição',
-	'Attention' => 'Atentções',
+	'Attention' => 'Atenções',
 	'LBL_STAGE' => 'Estágio',
 	'LBL_CONS' => 'Desvantagens',
 	'LBL_PROS' => 'Vantagens',
