@@ -38,13 +38,13 @@
 				</thead>
 				<tbody>
 					<tr><td width="20%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{vtranslate('LBL_SERVER_NAME', $QUALIFIED_MODULE)}</label></td>
-						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="text" name="server" data-validation-engine='validate[required]' value="{$MODEL->get('server')}" /></td></tr>
+						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="text" name="server" data-validation-engine='validate[required]' class="form-control" value="{$MODEL->get('server')}" /></td></tr>
 					<tr><td class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('LBL_USER_NAME', $QUALIFIED_MODULE)}</label></td>
-						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="text" name="server_username" value="{$MODEL->get('server_username')}"</td></tr>
+						<td class="{$WIDTHTYPE}" style="border-left: none;"><input class="form-control" type="text" name="server_username" value="{$MODEL->get('server_username')}"</td></tr>
 					<tr><td class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label></td>
-						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="password" name="server_password" value="{$MODEL->get('server_password')}"</td></tr>
+						<td class="{$WIDTHTYPE}" style="border-left: none;"><input class="form-control" type="password" name="server_password" value="{$MODEL->get('server_password')}"</td></tr>
 					<tr><td class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}</label></td>
-						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="text" name="from_email_field" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='{Zend_Json::encode([['name' => 'Email']])}' value="{$MODEL->get('from_email_field')}"</td></tr>
+						<td class="{$WIDTHTYPE}" style="border-left: none;"><input class="form-control" type="text" name="from_email_field" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='{Zend_Json::encode([['name' => 'Email']])}' value="{$MODEL->get('from_email_field')}"</td></tr>
 					<tr><td class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('LBL_REQUIRES_AUTHENTICATION', $QUALIFIED_MODULE)}</label></td>
 						<td class="{$WIDTHTYPE}" style="border-left: none;"><input type="checkbox" name="smtp_auth" {if $MODEL->isSmtpAuthEnabled()}checked{/if}/></td></tr>
 				</tbody>

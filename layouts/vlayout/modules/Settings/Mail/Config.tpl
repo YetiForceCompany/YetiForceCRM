@@ -5,6 +5,7 @@
 		<li class="active"><a href="#configuration" data-toggle="tab">{vtranslate('LBL_MAIL_ICON_CONFIG', $QUALIFIED_MODULE)}</a></li>
 		<li><a href="#signature" data-toggle="tab">{vtranslate('LBL_SIGNATURE', $QUALIFIED_MODULE)}</a></li>
 	</ul>
+	<br />
 	<div class="tab-content">
 		<div class="tab-pane active" id="configuration">
 			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}

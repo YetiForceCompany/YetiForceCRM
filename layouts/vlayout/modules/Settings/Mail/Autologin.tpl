@@ -5,6 +5,7 @@
 		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#configuration" data-toggle="tab">{vtranslate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
+	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="user_list">
 			<table class="table table-bordered table-condensed themeTableColor userTable">

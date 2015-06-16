@@ -70,7 +70,7 @@
 		<div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr class="listViewHeaders col-md-12">
+                <tr class="listViewHeaders">
                     <th>{vtranslate('username', 'OSSMailScanner')}</th>
                     <th>{vtranslate('mail_host', 'OSSMailScanner')}</th>
                     <th>{vtranslate('Actions', 'OSSMailScanner')}</th>
@@ -181,9 +181,9 @@
         {else}
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="col-md-6">
+                    <label class="col-sm-3 control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
@@ -193,9 +193,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputSent" name="folder_inputSent" class="col-md-6">
+                    <label class="col-sm-3 control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
+                    <div class="controls col-sm-9">
+                        <select multiple id="folder_inputSent" name="folder_inputSent" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
@@ -205,9 +205,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="col-md-6">
+                    <label class="col-sm-3 control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
@@ -217,9 +217,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="col-md-6">
+                    <label class="col-sm-3 control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
@@ -229,9 +229,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputAll" name="folder_inputAll" class="col-md-6">
+                    <label class="col-sm-3 control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputAll" name="folder_inputAll" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
@@ -247,9 +247,9 @@
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
-            <div class="form-group">
+            <div class="form-group col-sm-12">
                 <div class="controls">
-                    <select multiple id="email_search" name="email_search" class="col-md-10">
+                    <select multiple id="email_search" name="email_search" class="form-control">
                         {foreach item=item key=key from=$EMAILSEARCH}
                             {if $last_value neq $item[3]}
                                 <optgroup label="{vtranslate($item[3], $item[3])}">
@@ -267,7 +267,7 @@
 		<h3>{vtranslate('Change ticket status', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_conftab_change_ticket_status', 'OSSMailScanner')}</div>	
         <form class="form-horizontal">
-            <div class="form-group">
+            <div class="form-group col-sm-12">
                 <div class="controls">
                     <input class="pull-left" style="margin-right: 10px;" type="checkbox" name="conftab_change_ticket_status" id="conftab_change_ticket_status" {if $WIDGET_CFG['emailsearch']['change_ticket_status'] eq 'true'} checked {/if}>
 					<label class="">{vtranslate('Change_ticket_status', 'OSSMailScanner')}</label>
