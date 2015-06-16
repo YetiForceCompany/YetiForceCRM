@@ -306,8 +306,9 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 
 		if ($newBackup) {
 			$log->debug('Cron BackUp - New files backup');
-			$allFiles = count($dirs);
+			$allDir = count($dirs);
 			$count = 1;
+			$allFiles = 0;
 			foreach ($dirs as $dir) {
 				$start = self::getTime();
 				if (is_dir($dir)) {
@@ -316,13 +317,16 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 					$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), $flags);
 					foreach ($iterator as $path => $file) {
 						$this->addFileToBackup($path);
+						$allFiles++;
 					}
 				} else {
 					$this->addFileToBackup($dir);
+					$allFiles++;
 				}
-				$this->updateProgress('4', ($count/$allFiles)*100, self::getTime() - $start);
+				$this->updateProgress('4', ($count/$allDir)*100, self::getTime() - $start);
 				$count++;
 			}
+			$this->set('allfiles',$allFiles);
 		}else{
 			$this->updateProgress('4', 100);
 		}
@@ -347,7 +351,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$zip = new ZipArchive();
 		$destination = $this->tempDir . '/' . $this->get('filename') . '.files.zip';
 		$count = 1;
-		$allFiles = count($dbFiles);
+		$allFiles = $this->get('allfiles');
 		foreach ($dbFiles as $id => $path) {
 			$start = self::getTime();
 			if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
@@ -472,8 +476,9 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 	}
 
 	public function addFileToBackup($file) {
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT IGNORE INTO `vtiger_backup_files` (`name`, `backup`) VALUES (?, ?);", [$file, 0]);
+		$db = PearDatabase::getInstance();
+		$db->pquery('INSERT INTO `vtiger_backup_files` (`name`) VALUES (?);', [$file]);
+		$db->pquery('UPDATE vtiger_backup_tmp SET allfiles = allfiles + 1 WHERE id = ?;', [$this->get('id')]);
 	}
 	
 	public function markFile($id) {

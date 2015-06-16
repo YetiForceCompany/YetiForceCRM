@@ -51,8 +51,13 @@ class CRMEntity {
 		}
 		// File access security check
 		if (!class_exists($modName)) {
-			checkFileAccessForInclusion("modules/$module/$modName.php");
-			require_once("modules/$module/$modName.php");
+			if (file_exists("custom/modules/$module/$modName.php")) {
+				checkFileAccessForInclusion("custom/modules/$module/$modName.php");
+				require_once("custom/modules/$module/$modName.php");
+			}else{
+				checkFileAccessForInclusion("modules/$module/$modName.php");
+				require_once("modules/$module/$modName.php");
+			}
 		}
 		$focus = new $modName();
 		$focus->moduleName = $module;

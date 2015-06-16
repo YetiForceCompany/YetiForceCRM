@@ -116,30 +116,33 @@ class Vtiger_Viewer extends SmartyBC {
 	 */
 	public function getTemplatePath($templateName, $moduleName='') {
 		$moduleName = str_replace(':', '/', $moduleName);
-		$completeFilePath = $this->getTemplateDir(0). DIRECTORY_SEPARATOR . "modules/$moduleName/$templateName";
-		if(!empty($moduleName) && file_exists($completeFilePath)) {
-			return "modules/$moduleName/$templateName";
-		} else {
-			// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
-			if(strpos($moduleName, '/') > 0) {
-				$moduleHierarchyParts = explode('/', $moduleName);
-				$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts)-1];
-				$baseModuleName = $moduleHierarchyParts[0];
-				$fallBackOrder = array (
-					"$actualModuleName",
-					"$baseModuleName/Vtiger"
-				);
+		foreach($this->getTemplateDir() as $templateDir) {
+			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
+			if(!empty($moduleName) && file_exists($completeFilePath)) {
+				return "modules/$moduleName/$templateName";
+			} else {
+				// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
+				if(strpos($moduleName, '/') > 0) {
+					$moduleHierarchyParts = explode('/', $moduleName);
+					$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts)-1];
+					$baseModuleName = $moduleHierarchyParts[0];
+					$fallBackOrder = array (
+						"$actualModuleName",
+						"$baseModuleName/Vtiger"
+					);
 
-				foreach($fallBackOrder as $fallBackModuleName) {
-					$intermediateFallBackFileName = 'modules/'. $fallBackModuleName .'/'.$templateName;
-					$intermediateFallBackFilePath = $this->getTemplateDir(0). DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
-					if(file_exists($intermediateFallBackFilePath)) {
-						return $intermediateFallBackFileName;
+					foreach($fallBackOrder as $fallBackModuleName) {
+						$intermediateFallBackFileName = 'modules/'. $fallBackModuleName .'/'.$templateName;
+						$intermediateFallBackFilePath = $templateDir. DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
+						if(file_exists($intermediateFallBackFilePath)) {
+							return $intermediateFallBackFileName;
+						}
 					}
 				}
+				$filePath =  "modules/Vtiger/$templateName";
 			}
-			return "modules/Vtiger/$templateName";
 		}
+		return $filePath;
 	}
 	
 	/**
