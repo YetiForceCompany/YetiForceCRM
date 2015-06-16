@@ -34,7 +34,7 @@
                         {assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
                         {foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
                             <tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{vtranslate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
-                                <td style="border-left: none;"><input type="{$FIELD_TYPE}" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
+                                <td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
                         {/foreach}
                         <input type="hidden" name="module" value="PBXManager"/>
                         <input type="hidden" name="action" value="SaveAjax"/>
@@ -45,10 +45,13 @@
         </div>
     </form>
 </div><br>
-<div class="col-md-5 alert alert-info container">
-    {vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
-    {vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
-    {vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
-    {vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
+<div class="col-md-5 ">
+	<div class="alert alert-info">
+		{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
+		{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
+		{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
+		{vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
+	</div>
 </div>
+
 {/strip}

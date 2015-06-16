@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td colspan="5">
-					<span class="row">
+					<span class="">
 						<span class="col-md-1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $MODULE)}</b></span></span>
 						<span class="col-md-9">
 							<select id="fieldsList" multiple="multiple" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $MODULE)}" class="row select2" style="width:100%">
