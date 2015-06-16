@@ -38,4 +38,6 @@ $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Допустимые символы: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Дата окончания должна быть больше, чем Дата начала',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Количество часов должно быть меньше, чем 24 часа',
+	'JS_START_DATE' => 'Дата начала',
+	'JS_END_DATE' => 'Дата окончания',
 ];
