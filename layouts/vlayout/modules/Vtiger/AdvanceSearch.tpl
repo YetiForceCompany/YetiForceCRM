@@ -12,10 +12,11 @@
 {strip}
     <div id="advanceSearchContainer">
         <div class="row padding10 boxSizingBorderBox">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="col-md-5">
                 <strong class="pull-right pushDown">{vtranslate('LBL_SEARCH_IN',$MODULE)}</strong>
             </div>
-            <div class="col-md-7 ">
+            <div class="col-md-6">
                 <select class="chzn-select pushDown" id="searchModuleList" title="{vtranslate('LBL_SELECT_MODULE')}" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
                     <option></option>
                     {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}

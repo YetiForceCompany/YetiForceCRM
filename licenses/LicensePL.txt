@@ -1,0 +1,231 @@
+YetiForce Publiczna licencja 1.1
+
+PROSZĘ PRZECZYTAĆ PONIŻSZĄ UMOWĘ LICENCYJNĄ UWAŻNIE. KAŻDE UŻYCIE OPROGRAMOWANIA ŚCIĄGNIĘTEGO LUB ZAMÓWIONEGO OD YETIFORCE DOZWOLONE JEST JEDYNIE NA PODSTAWIE UMOWY LICENCYJNEJ Z YETIFORCE. ŚCIĄGAJĄC TEN PROGRAM ZGADZACIE SIĘ PAŃSTWO NA PONIŻSZE WARUNKI I STAJECIE SIĘ STRONĄ PONIŻSZEJ UMOWY LICENCYJNEJ.
+
+1. DEFINICJE
+
+„Użytek Komercyjny”
+
+oznacza dystrybucję lub każdą inną formę udostępniania Kodu Przedmiotowego stronom trzecim.
+
+„Współtwórca”
+
+oznacza każdy podmiot, który tworzy lub przyczynia się do tworzenia Modyfikacji.
+
+„Wersja Współtwórcy”
+
+oznacza połączenie Kodu Oryginalnego, wcześniejszych Modyfikacji użytych przez Współtwórcę i Modyfikacji stworzonych przez tego konkretnego Współtwórcę. 
+
+„Kod Przedmiotowy”
+
+oznacza Kod Oryginalny lub Modyfikacje lub połączenie Kodu Oryginalnego i Modyfikacji, w każdym przypadku obejmuje elementy Kodu Oryginalnego lub Modyfikacji, objęte niniejszą Licencją.
+
+„Mechanizm Dystrybucji Elektronicznej”
+
+oznacza powszechnie przyjęty w środowisku producentów oprogramowania mechanizm elektronicznego przesyłania danych.
+
+„Kod wykonywalny”
+
+oznacza Kod Przedmiotowy w każdej formie innej niż Kod Źródłowy
+
+„Pierwotny Programista”
+
+oznacza osobę fizyczną lub każdy inny podmiot, wskazany jako Pierwotny Programista w nocie do Kodu Źródłowego wymaganej przez Załącznik A. 
+
+„Szersze Dzieło”
+
+oznacza projekt, na który składa się Kod Przedmiotowy lub jego elementy a także kod(y) nieobjęte warunkami tej Licencji.
+
+„Licencja”
+
+oznacza niniejszy dokument
+
+„Licencjonujący”
+
+oznacza: posiadający prawo udzielania, w maksymalnie możliwym zakresie, dowolnych jak i wszystkich praw zapisanych w Licencji. Dotyczy to zarówno praw posiadanych w chwili udzielania Licencji jaki i nabytych w późniejszym czasie. („Licencjonowalne” – oznaczać będzie prawo udzielane przez Licencjonującego)
+
+„Modyfikacje”
+
+oznaczają każdą zmianę (dodatek lub usunięcie) w zakresie treści lub struktury zarówno Kodu Oryginalnego jak i wcześniejszych Modyfikacji. Jeśli Kod Przedmiotowy jest wypuszczany jako seria plików, wtedy Modyfikacją jest:
+
+A. Każde dodanie lub usunięcie z zawartości pliku zawierającego Kod Oryginalny lub wcześniejsze Modyfikacje
+
+B. Każdy nowy plik zawierający dowolną część Kodu Oryginalnego lub wcześniejszych Modyfikacji.
+
+„Kod Oryginalny”
+
+oznacza Kod Źródłowy oprogramowania komputerowego opisany w nocie do Kodu Źródłowego wymaganej przez załącznik A jako Kod Oryginalny i który w momencie jego wydania na podstawie niniejszej Licencji, nie stanowi już Kodu Przedmiotowego w rozumieniu niniejszej Licencji.
+
+„Prawa Patentowe”
+
+oznaczają wszelkie prawa patentowe, zarówno posiadane obecnie jak i te nabyte w przyszłości, nie wyłączając praw dotyczących wszelkiego rodzaju metod, procesów i narzędzi posiadanych i udzielanych przez Licencjonującego.
+
+„Kod Źródłowy”
+
+oznacza preferowaną formę Kodu Przedmiotowego do wprowadzania do niego modyfikacji, uwzględniając wszystkie składające się na Kod Źródłowy moduły, nie wyłączając wszelkich związanych z nim plików definicji interfejsów, a także zbiorów komend stosowanych do sterowania procesem kompilacji i instalacji Kodu Wykonywalnego lub porównań różnicowych Kodu Źródłowego względem Kodu Oryginalnego lub innego dobrze znanego, dostępnego Kodu Przedmiotowego  według wyboru Współtwórcy. Kod Źródłowy może być w formie pliku skompresowanego lub archiwalnego, jeżeli tylko właściwe oprogramowanie służące do dekompresji i dearchiwizacji takich plików jest ogólnodostępne i nieodpłatne.
+
+„Ty” („Twoje”)
+
+oznacza osobę fizyczną lub prawną a także każdy inny podmiot korzystający z prawa i stosujący się do zasad wynikających z tej Licencji lub jej przyszłych wersji publikowanych zgodnie z Punktem 6.1. W odniesieniu do osób prawnych i jednostek organizacyjnych nieposiadających osobowości prawnej „Ty” oznacza każdy podmiot, kontrolowany przez lub kontrolujący osobę prawną lub jednostkę organizacyjną nieposiadającą osobowości prawnej. Dla potrzeb niniejszej definicji, poprzez kontrolę rozumieć należy możliwość bezpośredniego lub pośredniego wpływania na działania wspólników, zarząd lub instytucję kontrolującą dany podmiot lub posiadanie ponad 50% udziałów w podmiocie kontrolującym lub kontrolowanym.
+
+2. LICENCJA NA KOD ŹRÓDŁOWY 
+
+2.1 LICENCJA UDZIELANA PRZEZ PIERWOTNEGO PROGRAMISTĘ
+
+Pierwotny Programista niniejszym udziela Tobie ogólnoświatowej, wolnej od opłat, niewyłącznej licencji, z zastrzeżeniem roszczeń osób trzecich z zakresu prawa własności intelektualnej:
+
+(a) w zakresie praw własności intelektualnej (innych niż prawa patentowe i prawo do znaku towarowego), prawa do korzystania, odtwarzania, modyfikowania, wyświetlania, udzielania sublicencji i dystrybucji Kodu Oryginalnego (lub jego części) z lub bez Modyfikacji, i/lub jako część „Szerszego Dzieła”, w zakresie praw Licencjonujących posiadanych przez Pierwotnego Programistę
+
+(b) w zakresie Praw Patentowych naruszanych przez tworzenie, używanie i sprzedawanie Kodu Oryginalnego, do korzystania, używania, sprzedawania i oferowania na sprzedaż Kodu Oryginalnego (lub jego części)
+
+(c) licencje udzielone w punkcie 2.1 (a) i (b) zaczynają obowiązywać z chwilą gdy Pierwotny Programista po raz pierwszy dokona rozpowszechnienia Kodu Oryginalnego zgodnie z warunkami określonymi w niniejszej Licencji.
+
+(d) Nie wyłączając postanowień punktu 2.1 (a) i (b), żadnego rodzaju licencje ani prawa nie są udzielane na: 1) kod stanowiący fragment usunięty z Kodu Oryginalnego,
+
+2) kod oddzielony od Kodu Oryginalnego, 3) naruszenia spowodowane przez
+
+I) modyfikacje Kodu Oryginalnego lub
+
+II) połączenie Kodu Oryginalnego z innym oprogramowaniem lub urządzeniami.
+
+2.2 LICENCJA UDZIELANA PRZEZ WSPÓŁTWÓRCĘ
+
+Z zastrzeżeniem praw własności intelektualnej osób trzecich, każdy Współtwórca udziela Tobie ogólnoświatowej, wolnej od opłat, niewyłącznej licencji:
+
+(a) w zakresie praw własności intelektualnej (innych niż prawa patentowe i prawo do znaku towarowego), Licencjonowalne przez Współtwórcę prawa do korzystania, modyfikowania, wyświetlania, używania, udzielania sublicencji i dystrybucji Modyfikacji stworzonych przez tego Współtwórcę (lub ich części) zarówno w postaci niezmodyfikowanej, z innymi Modyfikacjami, jako Kod Przedmiotowy i/lub jako część Szerszego Dzieła.
+
+(b) W zakresie praw patentowych naruszanych przez tworzenie, używanie i sprzedaż przez tego Współtwórcę Modyfikacji zarówno samodzielnych i/lub w połączeniu z Wersją Współtwórcy (lub części takiego połączenia): do tworzenia, używania, sprzedawania, oferowania na sprzedaż lub innego zbywania:
+
+1) Modyfikacji utworzonych przez danego Współtwórcę (lub ich części)
+
+2) połączeń takich Modyfikacji z Wersją Współtwórcy utworzonych przez danego Współtwórcę (lub fragmentów takich połączeń).
+
+(c) Licencje przyznane w punktach 2.2(a) i 2.2(b) nabierają mocy z chwilą gdy Współtwórca po raz pierwszy zrobi Użytek Komercyjny z Kodu Przedmiotowego.
+
+(d) Nie wyłączając postanowień punktu 2.2 (b) powyżej, nie udziela się licencji na: 1) jakikolwiek kod, który Współtwórca usunął z Wersji Współtwórcy; 2) kod inny niż Wersja Współtwórcy; 3) naruszenia spowodowane przez i) modyfikacje Wersji Współtwórcy dokonane przez osoby trzecie; ii) połączenia Modyfikacji Współtwórcy z innym oprogramowaniem (z wyłączeniem stanowiących cześć Wersji Współtwórcy) lub innymi urządzeniami; lub 4) naruszenia Praw Patentowych powstałe przez naruszenie Kodu Przedmiotowego zanim Modyfikacje zostały wprowadzone przez Współtwórcę.
+
+3. ZOBOWIĄZANIA DYSTRYBUCYJNE
+
+3.1 ZASTOSOWANIE LICENCJI
+
+Modyfikacje wprowadzone przez Ciebie, lub Modyfikacje, w dokonywaniu których uczestniczysz są objęte warunkami niniejszej Licencji, nie wyłączając postanowień punktu 2.2. Wersja Kodu Źródłowego dla Kodu Przedmiotowego, może być rozpowszechniana wyłącznie na podstawie warunków niniejszej Licencji lub przyszłych wersji Licencji wydanych na podstawie punktu 6.1, a warunki Licencji musisz dołączyć do każdej kopii Kodu Źródłowego, który rozpowszechnisz. Nie możesz wprowadzać ani narzucać żadnych warunków w odniesieniu do wersji Kodu Źródłowego, które w jakikolwiek sposób zmieniałyby lub ograniczały prawa Licencjobiorców wynikające z Licencji. Można jednak w dodatkowym dokumencie zamieścić dodatkowe uprawnienia opisane w punkcie 3.5 Licencji.
+
+3.2 DOSTĘPNOŚĆ KODU ŹRÓDŁOWEGO
+
+Wszelkie Modyfikacje wprowadzone przez Ciebie, lub Modyfikacje, w dokonywaniu których uczestniczysz muszą być dostępne jako Kod Źródłowy na warunkach opisanych w Licencji, na tym samym nośniku co wersja Kodu Wykonywalnego lub poprzez dostępne Mechanizmy Dystrybucji Elektronicznej, dla każdego odbiorcy, któremu udostępniłeś wersję Kodu Wykonywalnego. Jeżeli Modyfikacje zostały udostępnione poprzez Mechanizm Dystrybucji Elektronicznej, muszą pozostawać dostępne przez co najmniej dwanaście (12) miesięcy od czasu, kiedy po raz pierwszy stały się dostępne lub co najmniej przez sześć (6) miesięcy, od kiedy kolejne wersje tej szczególnej Modyfikacji zostały udostępnione poszczególnym odbiorcom. Jesteś zobowiązany zapewnić, że Kod Źródłowy pozostanie dostępny nawet jeśli Mechanizm Dystrybucji Elektronicznej pozostaje w dyspozycji osoby trzeciej.
+
+3.3 OPIS MODYFIKACJI
+
+Jesteś zobowiązany sprawić, by Kod Przedmiotowy, do którego powstania się przyczyniłeś, zawierał plik dokumentujący wszelkie zmiany, które wprowadziłeś by stworzyć Kod Przedmiotowy, a także datę każdej zmiany. Jesteś również zobowiązany załączyć wyraźne stwierdzenie, że Modyfikacja wywodzi się bezpośrednio lub pośrednio z Kodu Oryginalnego, stworzonego przez Pierwotnego Programistę i umieścić imię i nazwisko / firmę Pierwotnego Programisty w (a) Kodzie Źródłowym i w (b) każdym zawiadomieniu zawartym w wersji Kodu Wykonywalnego, mówiącym o pochodzeniu lub własności Kodu Przedmiotowego. 
+
+3.4 ZAGADNIENIA WŁASNOŚCI INTELEKTUALNEJ
+
+(a) Prawa osób trzecich
+
+W przypadku, gdy Współtwórca posiada wiedzę, o tym, że wymagana jest licencja do korzystania z praw osób trzecich udzielonych przez tego Współtwórcę na podstawie punktu 2.1 lub 2.2, Współtwórca zobowiązany jest zamieścić w Kodzie Źródłowym plik tekstowy zatytułowany „LEGAL” opisujący to prawo i osobę lub podmiot, któremu owo prawo przysługuje w sposób umożliwiający nawiązanie kontaktu z tą osobą lub podmiotem. W przypadku, jeżeli Współtwórca posiądzie taką wiedzę już po udostępnieniu Modyfikacji, na zasadach określonych w punkcie 3.2, Współtwórca zobowiązany jest niezwłocznie zmodyfikować plik „LEGAL” we wszystkich kopiach, które Współtwórca będzie rozprowadzał od czasu powzięcia tych informacji i podjąć kroki (takie jak uaktualnianie informacji poprzez listy mailingowe, czy newslettery), niezbędne do poinformowania odbiorców Kodu Przedmiotowego o tych okolicznościach.
+
+(b) Aplikacje Współtwórcy
+
+Jeżeli Modyfikacje Współtwórcy zawierają aplikację związaną z programowaniem interfejsu, a Współtwórca posiada wiedzę o licencjach patentowych, które są konieczne do wprowadzenia aplikacji, Współtwórca jest zobowiązany do umieszczenia tej informacji w pliku „LEGAL”.
+
+(c) Oświadczenia
+
+Współtwórca oświadcza, że wyłączając zastrzeżenia zawarte w punkcie 3.4 (a) powyżej, nie ma wiedzy z której wynikałoby, że Modyfikacje Współtwórcy nie są jego oryginalnymi wytworami i/lub, że Współtwórca posiada niezbędne prawa do udzielania praw wyrażonych w Licencji. 
+
+3.5 WYMAGANE ZAWIADOMIENIA
+
+Kopia zawiadomienia z załącznika A powinna być umieszczona w każdym pliku składającym się na Kod Źródłowy. Jeżeli nie jest możliwe zawarcie takiego zawiadomienia w konkretnym pliku składającym się na Kod Źródłowy, to jesteś zobowiązany do umieszczenia takiego zawiadomienia w takim elemencie Kodu Źródłowego w jakim użytkownik taką informacją prawdopodobnie będzie poszukiwał. Jeżeli stworzyłeś jedną lub więcej Modyfikacji, możesz dodać swoje imię i nazwisko / firmę jako Współtwórcę do zawiadomienia opisanego w załączniku A. Jesteś również zobowiązany do zamieszczenia kopii Licencji w każdej dokumentacji związanej z Kodem Źródłowym, w której mowa jest o prawach odbiorcy lub prawach własności związanych z Kodem Przedmiotowym. Możesz dokonać wyboru, czy oferować i pobierać opłaty za ewentualne gwarancje, usługi wsparcia czy odpowiedzialność odszkodowawczą, od jednego, lub więcej odbiorców Kodu Przedmiotowego. Jednakże możesz podjąć taką decyzje wyłącznie we własnym imieniu, a nie w imieniu Pierwotnego Programisty lub Współtwórcy. Musisz zadbać o to, aby nie budził żadnych wątpliwości fakt, że ewentualne gwarancje, usługi wsparcia czy odpowiedzialność odszkodowawcza jest świadczona wyłącznie przez Ciebie, i że niniejszym zwalniasz Pierwotnego Programistę lub Współtwórcę z odpowiedzialności na zasadach przez Ciebie określonych. 
+
+3.6 DYSTRYBUCJA WERSJI WYKONYWALNYCH
+
+Możesz rozprowadzać Kod Przedmiotowy jako Wykonywalny jedynie w sytuacji, gdy spełnione są wymagania określone w punktach 3.1-3.5 Licencji w odniesieniu do Kodu Przedmiotowego i pod warunkiem zamieszczenia zawiadomienia, że wersja Kodu Źródłowego Kodu Przedmiotowego jest dostępna na warunkach określonych w niniejszej Licencji, wraz z podaniem informacji o sposobie spełnienia zobowiązań wynikających z punktu 3.2. Zawiadomienie musi być wyraźnie zamieszczone w każdym zawiadomieniu w wersji Wykonywalnej, w związanej z Kodem Przedmiotowym dokumentacji, w której opisane są prawa odbiorcy do Kodu Przedmiotowego. Możesz rozpowszechniać wersję Wykonywalną Kodu Przedmiotowego lub prawa własności na podstawie dowolnie wybranej licencji, która może zawierać również inne warunki niż zawarte w tej Licencji, pod warunkiem, że są zgodne z postanowieniami Licencji, i że założeniem tej wybranej licencji nie jest ograniczenie lub zmiana praw odbiorcy odnoście wersji Kodu Źródłowego przyznanych przez Licencję. Jeżeli rozprowadzasz wersje Wykonywalną pod inną licencją, jesteś zobowiązany zawiadomić odbiorcę w sposób nie budzący żadnych wątpliwości, że wszelkie warunki różniące się od warunków zawartych w Licencji są gwarantowane tylko przez Ciebie a nie przez Pierwotnego Programistę lub jakiegokolwiek Współtwórcę. Niniejszym wyrażasz zgodę na zwolnienie Pierwotnego Programisty i każdego ze Współtwórców z jakiejkolwiek odpowiedzialności, która mogłaby obciążać ich na mocy zaoferowanych przez Ciebie warunków. 
+
+3.7 SZERSZE DZIEŁA
+
+Możesz tworzyć Szersze Dzieła dokonując połączenia Kodu Przedmiotowego z innym kodem, który nie podlega regulacjom niniejszej Licencji i rozpowszechniać Szersze Dzieło jako pojedynczy (osobny) produkt. W takim przypadku musisz zapewnić, że warunki tej Licencji są spełnione w odniesieniu do Kodu Przedmiotowego, z którego korzystasz w ramach pracy nad szerszym dziełem. 
+
+4. NIEMOŻNOŚĆ SPEŁNIENIA WYMAGAŃ WYNIKAJĄCYCH Z LICENCJI 
+
+Jeżeli wypełnienie jakiegokolwiek postanowienia Licencji nie jest możliwe ze względu na obowiązujące przepisy prawa, czy ze względu na orzeczenie sądu lub organu administracji, wtedy zobowiązany jesteś do: (a) wypełnienia postanowień licencji w maksymalnym możliwym stopniu, (b) opisać ograniczenia i kod, którego dotyczą. Taki opis musi znaleźć się w pliku „LEGAL”, opisanym w punkcie 3.4 i musi być załącznikiem do każdego egzemplarza Kodu Źródłowego. W zakresie nie objętym ustawowym zakazem, opis taki powinien być możliwie na tyle szczegółowy, aby zwykły odbiorca był w stanie go zrozumieć. 
+
+5. ZASTOSOWANIE LICENCJI
+
+Niniejsza Licencja odnosi się do kodu, do którego Pierwotny Programista załączył zawiadomienie stanowiące Załącznik A i do powiązanego Kodu Przedmiotowego. 
+
+6. WERSJE LICENCJI
+
+6.1 NOWE WERSJE
+
+YetiForce może w miarę potrzeby publikować uzupełnione i/lub nowe wersje Licencji, z których każda będzie opatrzona odrębnym numerem odróżniającym ją od wersji poprzednich.
+
+6.2 MOC WIĄŻĄCA NOWYCH WERSJI.
+
+Jeżeli Kod Przedmiotowy został opublikowany na mocy konkretnej wersji Licencji, możesz nadal korzystać z niego na podstawie tej właśnie wersji Licencji. Możesz również zdecydować się na korzystanie z Kodu Przedmiotowego na podstawie którejkolwiek z kolejnych wersji Licencji opublikowanych przez YetiForce. Nikt poza YetiForce nie ma prawa do zmieniania warunków odnoszących się do Przedmiotowego Kodu utworzonego zgodnie z niniejszą Licencją.
+
+6.3 WERSJE POCHODNE
+
+Jeżeli stworzyłeś lub korzystasz ze zmodyfikowanej wersji Licencji (co możesz zrobić jedynie w celu zastosowania jej do kodu, który nie jest już Kodem Przedmiotowym, do którego zastosowanie ma ta Licencja) masz obowiązek (a) zmienić Twoją licencję w ten sposób, by słowo „YetiForce”, ani inne mogące budzić z nim skojarzenia słowo, nie pojawiało się w Twojej licencji (z wyjątkiem ewentualnej uwagi, że Twoja licencja różni się od Licencji YetiForce) (b) w inny sposób wyraźnie zaznaczyć, że Twoja wersja licencji zawiera warunki, które różnią ją od Licencji YetiForce. (Wpisanie nazwy Pierwotnego Programisty, Kodu Oryginalnego, Współtwórcy we wskazanym miejscu w nocie opisanej w Załaczniku A nie jest samo w sobie uważane za modyfikację niniejszej Licencji).
+
+7. WYŁĄCZENIE ODPOWIEDZIALNOŚCI Z TYTUŁU GWARANCJI. 
+
+Z KODEM PRZEDMIOTOWYM OBJĘTYM NINIEJSZĄ LICENCJĄ NIE WIĄŻE SIĘ GWARANCJA JAKIEGOKOLWIEK RODZAJU ANI WYRAŻONA BEZPOŚREDNIO ANI DOROZUMIANA, W SZCZEGÓLNOŚCI ZAŚ GWARANCJA TEGO TYPU, ŻE PRZEDMIOTOWY KOD JEST WOLNY OD WAD, ŻE MA WARTOŚĆ HANDLOWĄ, ŻE MA SZCZEGÓLNE PRZYDATNOŚĆ DO OKREŚLONYCH ZASTOSOWAŃ, CZY ŻE NIE NARUSZA NICZYICH PRAW. CAŁE RYZYKO ZWIĄZANE Z JAKOŚCIĄ I WYDAJNOŚCIĄ KODU PRZEDMIOTOWEGO SPOCZYWA NA TOBIE. GDYBY OKAZAŁO SIĘ, ŻE KOD PRZEDMIOTOWY JEST WADLIWY POD JAKIMKOLWIEK WZGLĘDEM, TO TY (NIE PIERWOTNY PROGRAMISTA ANI ŻADEN WSPÓŁTWÓRCA) BĘDZIESZ ODPOWIEDZIALNY ZA POKRYCIE KOSZTÓW EWENTUALNYCH NAPRAW I INNYCH USŁUG. POWYŻSZE OGRANICZENIE STANOWI ISTOTNĄ CZĘŚĆ TEJ LICENCJI. POWYŻSZE WYŁĄCZENIE MA ZASTOSOWANIE DO KAŻDEGO PRZYPADKU UŻYCIA KODU PRZEDMIOTOWEGO. 
+
+8. ROZWIĄZANIE 
+
+8.1
+
+Niniejsza licencja i prawa udzielone na jej podstawie przestają obowiązywać automatycznie, jeżeli stan niezgodny z postanowieniami niniejszej licencji będzie utrzymywał się dłużej niż przez 30 dni od dnia wykrycia takiego naruszenia. Wszystkie dalsze licencje do Kodu Przedmiotowego wydane na podstawie niniejszej Licencji, będą obowiązywały bez względu na obowiązywanie Licencji. Postanowienia, które ze względu na swoją właściwość muszą pozostawać ważne po zakończeniu tej Licencji, pozostaną ważne.
+
+8.2
+
+W razie wszczęcia postępowania sądowego spowodowanego naruszeniem praw autorskich (z wyłączeniem powództw o ustalenie istnienia prawa) przeciw Pierwotnemu Programiście lub Współtwórcy (Pierwotny Programista lub Współtwórca, przeciwko któremu wytoczyłeś takie powództwo zwany dalej będzie „Uczestnikiem”) na podstawie zarzutów, że:
+
+(a) Wersja Uczestnika narusza bezpośrednio lub pośrednio jakiekolwiek prawa autorskie, wówczas wszelkie prawa udzielone Tobie przez takiego Uczestnika zgodnie z punktem 2.1 i/lub 2.2 niniejszej Licencji wygasają, chyba, że w ciągu 60 dni od otrzymania zawiadomienia: (i) wyrazisz zgodę na piśmie na zapłatę Uczestnikowi wzajemnie uzgodnionego wynagrodzenia za przeszłe i przyszłe korzystanie z Modyfikacji stworzonych przez tego Uczestnika, lub (ii) wycofasz wniesione powództwo w odniesieniu do Wersji tego Uczestnika. Jeżeli w ciągu 60 dni od zawiadomienia nie zostanie na piśmie uzgodnione wynagrodzenie, o którym mowa powyżej, a powództwo związane z naruszeniem praw autorskich nie zostanie cofnięte, wówczas prawa przyznane na Tobie przez Uczestnika na podstawie punktu 2.1 i/lub 2.2 licencji wygasają automatycznie z upływem 60 dnia od otrzymania zawiadomienia.
+
+(b) jakiekolwiek oprogramowanie, sprzęt czy urządzenie, inne niż Wersja Uczestnika, bezpośrednio lub pośrednio narusza prawa autorskie, wówczas wszelkie prawa przyznane Tobie przez tego Uczestnika na podstawie punktów 2.1(b) i 2.2(b) zostają cofnięte ze skutkiem od dnia pierwszego dokonanego przez Ciebie użycia, dystrybucji, czy sprzedaży Modyfikacji wprowadzonych przez tego Uczestnika. 
+
+8.3
+
+Jeżeli wniesiesz pozew dotyczący bezpośredniego lub pośredniego naruszenia praw autorskich, a sprawa zostanie rozwiązana przed rozpoczęciem postępowania sądowego (np. w ramach negocjacji i zawarcia ugody), wówczas uzasadniona wartość licencji przyznanej przez Uczestnika w punktach 2.1 i 2.2 Licencji powinna być wzięta pod uwagę przy określaniu wysokości ewentualnych kwot wynikających z uzgodnień stron. 
+
+8.4 
+
+W razie rozwiązania na mocy punktów 8.1 i 8.2 powyżej licencje wiążące odbiorców końcowych (z wyłączeniem licencji wiążących dystrybutorów i sprzedawców) obowiązujące przed rozwiązaniem, pozostają w mocy. 
+
+9. OGRANICZENIE ODPOWIEDZIALNOŚCI 
+
+W ŻADNYM WYPADKU I NA ŻADNEJ PODSTAWIE PRAWNEJ, CZY TO W OPARCIU O UMOWĘ, CZY DELIKT (NIE WYŁĄCZAJĄC ZANIEDBANIA), ANI TY, ANI PIERWOTNY PROGRAMISTA, ANI ŻADEN INNY WSPÓŁTWÓRCA, CZY DYSTRYBUTOR KODU PRZEDMIOTOWEGO NIE PONOSI ODPOWIEDZIALNOŚCI WOBEC KOGOKOLWIEK, ZA JAKIEKOLWIEK BEZPOŚREDNIE, POŚREDNIE, PRZYPADKOWE, CZY WTÓRNE SZKODY, NIE WYŁĄCZAJĄC SZKODY Z TYTUŁU UTRATY DOBREJ WOLI, AWARII KOMPUTERA, PRZYMUSOWEJ PRZERWY W PRACY, NAWET JEŻELI OSOBA WNOSZĄCA ROSZCZENIE ZOSTAŁA POINFORMOWANA O MOŻLIWOŚCI WYSTĄPIENIA TAKICH SZKÓD. POWYŻSZE OGRANICZENIE ODPOWIEDZIALNOŚCI NIE MA ZASTOSOWANIA DO SZKÓD ZWIĄZANYCH ZE ŚMIERCIĄ LUB USZKODZENIEM CIAŁA WYNIKAJĄCYCH Z ZANIEDBANIA STRONY W ZAKRESIE W JAKIM PRAWO OBOWIĄZUJĄCE ZABRANIA USTANAWIANIA TAKICH OGRANICZEŃ. PRAWO NIEKTÓRYCH KRAJÓW ZABRANIA OGRANICZANIA ODPOWIEDZIALNOŚCI ZA WYSTĄPIENIE TAKIEJ SZKODY, DLATEGO POWYŻSZE WYŁĄCZENIE I OGRANICZENIE NIE MOŻE MIEĆ ZASTOSOWANIA. 
+
+10. INSTYTUCJE RZĄDOWE USA JAKO ODBIORCA KOŃCOWY
+
+Kod Przedmiotowy jest „Przedmiotem Komercyjnym” w rozumieniu 48 C.F.R. 2.101. (październik 1995), złożonym z „komercyjnego oprogramowania komputerowego” i „dokumentacji komercyjnego oprogramowania komputerowego”, w rozumieniu 48.C.F.R. 12.212 (wrzesień 1995). Z zastrzeżeniem z 48 C.F.R. 12.212 i 48 C.F.R. 227.7202-1 do 227.7202-4 (czerwiec 1995) wszystkie instytucje rządowe Stanów Zjednoczonych nabywają Kod Przedmiotowy jedynie wraz z prawami wynikającymi z Licencji.
+
+11. POSTANOWIENIA RÓŻNE
+
+Niniejsza licencja stanowi kompletne porozumienie w zakresie kwestii w niej poruszonych. Jeżeli którekolwiek z postanowień Licencji okaże się niewykonalne, należy je zmienić jedynie w takim zakresie, który jest niezbędny by stało się wykonalne. Niniejsza Licencja podlega prawu polskiemu (o ile przepisy obowiązujące nie stanowią inaczej), z wyłączeniem przepisów kolizyjnych. W zakresie sporów, w których co najmniej jedna ze stron jest obywatelem lub podmiotem z siedzibą lub zarejestrowanym w Polsce, sądem właściwym będzie sąd w Warszawie, w województwie mazowieckim w Polsce. Strona przegrana w sporze będzie zobowiązana do poniesienia kosztów postępowania, w szczególności kosztów procesu wraz z kosztami zastępstwa procesowego. 
+
+Zastosowanie Konwencji Narodów Zjednoczonych o Umowach Międzynarodowej Sprzedaży Towarów zostaje niniejszym wyraźnie wyłączone. Żadne prawa czy regulacje przewidujące, że język umowy powinien być w razie wątpliwości dostosowany do odbiorcy, nie mają zastosowania do tej Licencji.
+
+12. ODPOWIEDZIALNOŚĆ ZA SZKODY
+
+Tak jak w relacjach pomiędzy Pierwotnym Programistą i Współtwórcami, każda ze stron jest odpowiedzialna za szkody i zniszczenia wynikłe bezpośrednio lub pośrednio z egzekucji praw przyznanych jej z tytułu tej Licencji, tak Ty wyrażasz zgodę na współpracę z Pierwotnym Programistą i Współtwórcami w zakresie odpowiedzialności, która oparta jest na prawie słuszności. Licencja nie stanowi i nie ma stanowić jakiegokolwiek przejawu uznania odpowiedzialności. 
+
+13. KOD WIELOKROTNIE LICENCJONOWANY
+
+Pierwotny Programista może oznaczyć niektóre części Kodu Przedmiotowego jako „Kod Wielokrotnie Licencjonowany”, co oznacza, że Pierwotny Programista zezwala Ci na wykorzystywanie tych części Kodu Przedmiotowego na podstawie licencji NPL lub innych licencji wskazanych przez Pierwotnego Programistę w pliku opisanym z Załączniku A.
+
+[UWAGA: Treść Załącznika A może nieznacznie różnić się od treści zapisów zawartych w plikach Kodu Źródłowego Oryginalnego Kodu. Obowiązywać powinna treść Załącznika A, a nie treść zawarta w Oryginalnym Kodzie Źródłowego Kodu przeznaczonym do Twoich Modyfikacji.]
+
+ałącznik A – Licencja Publiczna YetiForce
+
+„Zawartość tego pliku jest objęta licencją YetiForce  (YFPL) w wersji 1.0 („Licencja”). Nie możesz wykorzystywać tego pliku w sposób niezgodny z postanowieniami Licencji.”
+
+Oprogramowanie rozpowszechniane na podstawie Licencji, NIE JEST OPATRZONE GWARANCJĄ JAKIEGOKOLWIEK RODZAJU zarówno wyraźnej jak i dorozumianej. Licencja zawiera przepisy odnoszące się do praw i ograniczeń obowiązujących na podstawie licencji.
+
+Kod Oryginalny to YetiForce.
+
+Pierwotnym Programistą Kodu Oryginalnego jest YetiForce. Fragmenty stworzone przez YetiForce są przedmiotem praw autorskich. YetiForce © Copyright.
+
+Współtwórca(y): ______________________________________.
+
+Copyright (c) 2014 www.yetiforce.com All rights reserved.

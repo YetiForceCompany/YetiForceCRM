@@ -112,4 +112,6 @@ $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Caracteres permitidos: [0-9]',
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode execeder 24 horas',
+	'JS_START_DATE' => 'Data Início',
+	'JS_END_DATE' => 'Data Final',
 ];

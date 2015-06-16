@@ -157,7 +157,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             if( $field_uitype == 53 || $field_uitype == 52 ) {
                 $robocza = getUserName( $field );
                 if( $robocza == "" ) {
-                    $robocza = getGroupName( $field );
+                    $robocza = getGroupName( $field )[0];
                 }
                 $field = $robocza;
             }
@@ -360,7 +360,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
                     $obiekt = new $modulename();
                     $assigned_module = getSalesEntityType( $record );
                     
-                    if($record != 0 && $assigned_module == $modulename) {
+                    if(isRecordExists($record) && $assigned_module == $modulename) {
                         $obiekt->retrieve_entity_info( $record, $modulename );
                     }
                 }

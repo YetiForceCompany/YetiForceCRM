@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -22,12 +22,13 @@
 			<div class="row">
 				<span class="col-md-6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
 				{if $IS_ADVANCE_SEARCH }
-				<span class="col-md-6">
+				<span class="col-md-5">
 					<span class="pull-right">
 						<a href="javascript:void(0);" id="showFilter">{vtranslate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
 					</span>
 				</span>
 				{/if}
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 		</div>
 		<div class="contents">

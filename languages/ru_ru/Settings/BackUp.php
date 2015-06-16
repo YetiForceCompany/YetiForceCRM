@@ -32,7 +32,9 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Делать копию папки с Резервными копиями?',
 	'LBL_VALUES' => 'Значение',
 	'LBL_DETAIL' => 'Подробности',
-	
+	'LBL_BACKUP_COPY_TYPE' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_SINGLE' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_OVERALL' =>'__UNTRANSLATED__',
 	
 	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => 'No active ZIP library found',
 	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'Complete backup is impossible, backup will only create a database copy and it will not be compressed ',

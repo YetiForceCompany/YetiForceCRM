@@ -67,7 +67,6 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$this->sendNotification();
 		$this->postBackup();
 		$this->clearStructure();
-		$this->clearTmpFiles();
 	}
 	
 	public function backupInit() {
@@ -258,6 +257,13 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 			$zip = new ZipArchive();
 			$zip->open($this->tempDir . '/' . $this->get('filename') . '.db.zip', ZipArchive::CREATE);
 			$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.sql', $this->get('filename') . '.sql');
+			if(vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0){
+				$code = $zip->setPassword(vglobal('backupPassword'));
+				if ($code === true)
+					$log->debug('Backup files password protection is enabled');
+				else
+					$log->error('Has not been possible password protect your backup files');
+			}
 			$zip->close();
 
 			if (file_exists($this->tempDir . '/' . $this->get('filename') . '.sql')) {
@@ -313,6 +319,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 				$start = self::getTime();
 				if (is_dir($dir)) {
 					$this->addFileToBackup($dir);
+					$allFiles++;
 					$flags = RecursiveIteratorIterator::SELF_FIRST || FilesystemIterator::KEY_AS_PATHNAME;
 					$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS), $flags);
 					foreach ($iterator as $path => $file) {
@@ -352,19 +359,35 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$destination = $this->tempDir . '/' . $this->get('filename') . '.files.zip';
 		$count = 1;
 		$allFiles = $this->get('allfiles');
-		foreach ($dbFiles as $id => $path) {
-			$start = self::getTime();
-			if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
+		
+		$mainConfig = $this->getConfig('main');
+		$maxTime = ini_get('max_execution_time') * 0.5;
+		$startTime = self::getTime();
+		$singleMode = $mainConfig['type'] == 'true'; // Overall mode or Single mode
+		
+		if ($zip->open($destination, ZIPARCHIVE::CREATE)) {
+			foreach ($dbFiles as $id => $path) {
+				$start = self::getTime();
 				if (is_dir($path)) {
 					$zip->addEmptyDir($path . '/');
 				} elseif (is_file($path)) {
 					$zip->addFile($path, $path);
 				}
 				$this->markFile($id);
-				$zip->close();
+				$this->updateProgress('5', ($count/$allFiles)*100, self::getTime() - $start);
+				$count++;
+				if($singleMode && (self::getTime() - $startTime) >= $maxTime){
+					continue;
+				}
 			}
-			$this->updateProgress('5', ($count/$allFiles)*100, self::getTime() - $start);
-			$count++;
+			if(vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0){
+				$code = $zip->setPassword(vglobal('backupPassword'));
+				if ($code === true)
+					$log->debug('Backup files password protection is enabled');
+				else
+					$log->error('Has not been possible password protect your backup files');
+			}
+			$zip->close();
 		}
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
@@ -374,20 +397,15 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$log = vglobal('log');
 		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		
-		$zip = new ZipArchive();
-		$zip->open($this->destDir . '/' . $this->get('filename') . '.zip', ZipArchive::CREATE);
-		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.db.zip', "db.zip");
-		$zip->addFile($this->tempDir . '/' . $this->get('filename') . '.files' . '.zip', "files.zip");
-		
-		if(vglobal('encryptBackup') && version_compare(PHP_VERSION, '5.6.0') >= 0){
-			$code = $zip->setPassword(vglobal('backupPassword'));
-			if ($code === true)
-				$log->debug('Backup files password protection is enabled');
-			else
-				$log->error('Has not been possible password protect your backup files');
+		$dbZip = $this->get('filename') . '.db.zip';
+		if (!rename($this->tempDir . '/' . $dbZip, $this->destDir . '/' . $dbZip)) {
+			$log->debug('Error while moving a file: '. $this->tempDir . '/' . $dbZip);
 		}
 		
-		$zip->close();
+		$filesZip = $this->get('filename') . '.files.zip';
+		if (!rename($this->tempDir . '/' . $filesZip, $this->destDir . '/' . $filesZip)) {
+			$log->debug('Error while moving a file: '. $this->tempDir . '/' . $filesZip);
+		}
 		$this->updateProgress('6', 100, self::getTime() - $start);
 		
 		$start = self::getTime();
@@ -435,14 +453,11 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 
 	public function clearStructure() {
 		$adb = PearDatabase::getInstance();
+		$start = self::getTime();
+		
 		$adb->query("TRUNCATE TABLE `vtiger_backup_db`");
 		$adb->query("TRUNCATE TABLE `vtiger_backup_files`");
-	}
-
-	public function clearTmpFiles() {
-		$start = self::getTime();
-		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.db.zip');
-		Vtiger_Functions::recurseDelete($this->tempDir . '/' . $this->get('filename') . '.files.zip');
+		
 		$this->updateProgress('7', 100, self::getTime() - $start);
 	}
 
@@ -692,6 +707,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$hours = floor($time/60/60); 
 		$mins = floor($time/60);
 		$return = '';
+
 		if($days){
 			$return .= $days.' ';
 			$return .= vtranslate('LBL_DAYS').' ';
@@ -702,8 +718,10 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		}
 		if($mins){
 			$return .= $mins-($hours*60).' ';
-			$return .= vtranslate('LBL_MINUTES');
+			$return .= vtranslate('LBL_MINUTES').' ';
 		}
+		$return .= (int) $time-($days*24)-($hours*60)-($mins*60).' ';
+		$return .= vtranslate('LBL_SECONDS');
 		return $return;
 	}
 	
