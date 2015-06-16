@@ -31,7 +31,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'icon-envelope',
+				'linkicon' => 'glyphicon glyphicon-envelope',
 				'linktarget' => $config['target'],
 				'linkPopup' => $config['popup'],
 				'title' => vtranslate('LBL_SEND_EMAIL')
@@ -60,7 +60,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'icon-time',
+					'linkicon' => 'glyphicon glyphicon-time',
 					'title' => vtranslate('LBL_ADD_EVENT')
 			);
 
@@ -68,7 +68,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'icon-calendar',
+					'linkicon' => 'glyphicon glyphicon-calendar',
 					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}
@@ -80,7 +80,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 				'linklabel' => 'LBL_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module='.$this->getModule()->getName().
 								'&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'icon-comment',
+				'linkicon' => 'glyphicon glyphicon-comment',
 				'title' => vtranslate('LBL_SEND_SMS')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -94,9 +94,10 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_CONVERT_LEAD',
-				'linkurl' => 'Javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
-				'linkicon' => '',
+				'linklabel' => '',
+				'title' => vtranslate('LBL_CONVERT_LEAD',$moduleName),
+				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("'.$recordModel->getConvertLeadUrl().'",this);',
+				'linkicon' => 'glyphicon glyphicon-transfer',
 				'linkgrupclass' => (!in_array($recordModel->get('leadstatus'), $moduleInstance->conversion_available_status))? 'hide':'',
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);    
