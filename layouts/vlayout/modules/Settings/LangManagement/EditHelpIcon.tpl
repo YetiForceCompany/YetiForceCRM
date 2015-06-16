@@ -13,7 +13,7 @@
 	<div class="col-md-5 marginLeftZero">
 		<div class="pull-left pushDown2per marginLeftZero" >{vtranslate('Language',$QUALIFIED_MODULE)}:</div>
 		<div class="pull-left">
-			<select multiple="multiple" class="chzn-select col-md-4" id="langs_list">
+			<select multiple="multiple" class="chzn-select col-md-12" id="langs_list">
 				{foreach from=$LANGS item=LANG key=ID}
 					<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
 				{/foreach}
@@ -24,14 +24,14 @@
 		<div class="pull-left pushDown2per marginLeftZero" >{vtranslate('Modules',$QUALIFIED_MODULE)}:</div>
 		<div class="pull-left">
 			{assign var=PICKLIST_VALUES value=Vtiger_Field_Model::getModulesListValues()}
-			<select class="chzn-select col-md-3 mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
+			<select class="chzn-select col-md-12 mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
 				{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 					<option value="{$PICKLIST_VALUE.name}" {if $PICKLIST_VALUE.name eq $REQUEST->get('mod')}selected{/if}>{$PICKLIST_VALUE.label}</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
-	<div class="span0 marginLeftZero" style="width: 90px;">
+	<div class="col-md-2 marginLeftZero">
 		<input type="checkbox" class="show_differences" name="show_differences" {if $SD eq 1}checked{/if} value="1">{vtranslate('LBL_SHOW_EMPTY_VALUES', $QUALIFIED_MODULE)}
 	</div>
 </div>

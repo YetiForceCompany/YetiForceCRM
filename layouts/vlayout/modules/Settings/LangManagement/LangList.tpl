@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<button class="btn btn-primary add_lang pull-right marginBottom10px">{vtranslate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
+<button class="btn btn-primary add_lang btn-sm pull-right marginBottom10px">{vtranslate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
 <table class="table table-bordered table-condensed listViewEntriesTable">
 	<thead>
 		<tr class="blockHeader">
