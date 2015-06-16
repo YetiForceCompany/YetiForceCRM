@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 $languageStrings = [
 	'Widgets'	=> 'Widgets',
-	'LBL_MODULE_DESC'	=> 'Informação do Móodulo',
+	'LBL_MODULE_DESC'	=> 'Informação do Módulo',
 	'Add widget'	=> 'Adicionar Widget',
 	'Type widget'	=> 'Tipo',
 	'LBL_WIDGET_TYPE'	=> 'Selecionar o tipo de Widget',
