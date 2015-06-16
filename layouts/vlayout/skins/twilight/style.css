@@ -3153,3 +3153,10 @@ table.listViewEntriesTable {
 .no-margin{
   margin: 0;
 }
+.companyLogo img{
+  max-height: 200px;
+  max-width: 250px; 
+}
+#addCustomFieldContainer{
+  width: 400px;
+}

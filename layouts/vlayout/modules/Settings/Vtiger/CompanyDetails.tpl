@@ -29,44 +29,42 @@
 		<hr>
 		{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 		<div  id="CompanyDetailsContainer" class="{if !empty($ERROR_MESSAGE)}hide{/if}">
-			<div class="row">
-				<table class="table table-bordered">
-					<thead>
-						<tr class="blockHeader">
-							<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="{$WIDTHTYPE}">
-								<div class="companyLogo" style="max-width: 250px; max-height: 200px;">
-									<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle" />
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<br>
-				<table class="table table-bordered">
-					<thead>
-						<tr class="blockHeader">
-							<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
-						</tr>
-					</thead>
-					<tbody>
-						{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
-							{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
-								<tr>
-									<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
-									<td class="{$WIDTHTYPE}">
-										{if $FIELD eq 'address'} {$MODULE_MODEL->get($FIELD)|nl2br} {else} {$MODULE_MODEL->get($FIELD)} {/if}
-									</td>
-								</tr>
-							{/if}
-						{/foreach}
-					</tbody>
-				</table>
-			</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_LOGO',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="{$WIDTHTYPE}">
+							<div class="companyLogo">
+								<img src="{$MODULE_MODEL->getLogoPath()}" class="alignMiddle"/>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table class="table table-bordered">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE}"><strong>{vtranslate('LBL_COMPANY_INFORMATION',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$MODULE_MODEL->getFields() item=FIELD_TYPE key=FIELD}
+						{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
+							<tr>
+								<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{{{vtranslate($FIELD,$QUALIFIED_MODULE)}|ucfirst}|replace:'_':' '}</label></td>
+								<td class="{$WIDTHTYPE}">
+									{if $FIELD eq 'address'} {$MODULE_MODEL->get($FIELD)|nl2br} {else} {$MODULE_MODEL->get($FIELD)} {/if}
+								</td>
+							</tr>
+						{/if}
+					{/foreach}
+				</tbody>
+			</table>
 		</div>
 
 	<form class="form-horizontal {if empty($ERROR_MESSAGE)}hide{/if}"  id="updateCompanyDetailsForm" method="post" action="index.php" enctype="multipart/form-data">
@@ -89,7 +87,7 @@
 					<td>
 						<div>
 							<input type="file" name="logo" id="logoFile" />&nbsp;&nbsp;
-							<span class="alert alert-info">
+							<span class="alert alert-info pull-right">
 								{vtranslate('LBL_LOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 							</span>
 							{if !empty($ERROR_MESSAGE)}
@@ -114,18 +112,16 @@
 			{if $FIELD neq 'logoname' && $FIELD neq 'logo' }
 				<tr>
 					<td style="width:25%">
-						<div class="form-group">
-							<div class=" pull-right">
-								{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
-							</div>
+						<div class=" pull-right">
+							{vtranslate($FIELD,$QUALIFIED_MODULE)}{if $FIELD eq 'organizationname'}<span class="redColor">*</span>{/if}
 						</div>
 					</td>
 					<td>	
-						<div class="">
+						<div class="col-md-5">
 							{if $FIELD eq 'address'}
-								<textarea name="{$FIELD}" style="width: 40%">{$MODULE_MODEL->get($FIELD)}</textarea>
+								<textarea class="form-control" name="{$FIELD}">{$MODULE_MODEL->get($FIELD)}</textarea>
 							{else}
-								<input type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
+								<input class="form-control" type="text" {if $FIELD eq 'organizationname'} data-validation-engine="validate[required]" {/if} class="input-xlarge" name="{$FIELD}" value="{$MODULE_MODEL->get($FIELD)}"/>
 							{/if}
 						</div>
 					</td>	
@@ -138,7 +134,7 @@
 	</form>
 
 	<div class="modal addCustomFieldModal hide">
-		<div class="modal-header contentsBackground">
+		<div class="modal-header contentsBackground" id="addCustomFieldContainer">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h3>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
 		</div>
@@ -148,17 +144,14 @@
 					<input type="hidden" name="module" value="Vtiger" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
-					<div class="form-group">
-						<div class="control-label">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
-						<div class="controls">
-							<input type="text" name="field name" id="fieldName" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
-						</div>
+					<div class="col-md-4" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
+					<div class="controls">
+						<input type="text" name="field name" id="fieldName" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
 					</div>
 				</div>
-			
 			</div>
 			{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
 		</form>
 	</div>
-
 {/strip}
+
