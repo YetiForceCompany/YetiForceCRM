@@ -17,19 +17,19 @@
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl" style="min-height:300px">
             <div class="row">
-                <span class="col-md-4 btn-toolbar">
+                <div class="col-md-4 no-padding btn-toolbar">
                     <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1">
                         <strong>{vtranslate('LBL_NEW_TPL', $QUALIFIED_MODULE)}</strong>
                     </a>
-                </span>
-                <span class="col-md-4 btn-toolbar" >
+                </div>
+                <div class="col-md-3 btn-toolbar" >
                     <select class="chzn-select" id="moduleFilter" >
                         <option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}
                             <option value="{$item}">{vtranslate($item, $item)}</option>
                         {/foreach}
                     </select>
-                </span>
+                </div>
             </div>
             <br>
             <div class="row" id="list_doc">

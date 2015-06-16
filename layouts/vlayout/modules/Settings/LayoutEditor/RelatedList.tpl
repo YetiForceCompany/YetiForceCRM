@@ -22,7 +22,7 @@
 					<button style="margin: 0;" class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
 				</div>
                 <div class="pull-right">
-                    <select class="select2 col-md-3" name="layoutEditorRelModules">
+                    <select class="select2 col-md-3 form-control" name="layoutEditorRelModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
                         {/foreach}
@@ -53,7 +53,7 @@
 							{/if}
 							{assign var=SELECTED_FIELDS value=$MODULE_MODEL->getRelationFields(true)}
 							<div class="relatedModule mainBlockTable marginBottom10px border1px" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}" style="border-radius: 4px 4px 0px 0px;background: white;">
-                                <div class="row mainBlockTableHeader">
+                                <div class="mainBlockTableHeader">
                                     <div class="relatedModuleLabel mainBlockTableLabel padding10 col-md-6 marginLeftZero">
                                         <a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
                                         <strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>

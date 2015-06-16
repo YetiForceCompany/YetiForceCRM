@@ -3150,3 +3150,6 @@ table tr td .input-sm{
 tr.summaryViewEntries, #detailView table {
   font-size: 13px;
 }
+.no-padding{
+  padding: 0;
+}

@@ -37,10 +37,10 @@
 			<div class="col-md-2">
 				{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-						<button class="btn col-md-10 marginLeftZero" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+						<button class="btn col-md-10 btn-info marginLeftZero" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button><br><br>
 					{/if}	
-					<button class="btn col-md-10 marginLeftZero" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
-					<button class="btn col-md-10 marginLeftZero" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+					<button class="btn col-md-10 btn-info marginLeftZero" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+					<button class="btn col-md-10 btn-info marginLeftZero" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button><br><br>
 					<button class="btn btn-danger col-md-10 marginLeftZero"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button><br><br>
 				{/if}
 				<button class="btn btn-success col-md-10 marginLeftZero" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>
@@ -62,7 +62,7 @@
 			<div class="row">
 				<div class="col-md-2 textAlignRight" style="margin-top: 5px">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
 				<div class="col-md-7">
-					<select id="rolesList" class="select2" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+					<select id="rolesList" class="select2 form-control" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 						{foreach from=$ROLES_LIST item=ROLE}
 							<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'), $QUALIFIED_MODULE)}</option>
 						{/foreach}
