@@ -26,27 +26,27 @@
             <hr>
 		</div>
 		<div class="form-group">
-			<span class="control-label">
+			<div class="col-md-2 control-label">
 				<span class="redColor">*</span> {vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)}
-			</span>
-			<div class="controls">
-				<input class="input-lg" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
+			</div>
+			<div class="col-md-6 controls">
+				<input class="form-control" name="groupname" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
 			</div>
 		</div>
 		<div class="form-group">
-			<span class="control-label">
+			<div class="col-md-2 control-label">
 				{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-			</span>
-			<div class="controls">
-				<input class="input-lg" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
+			</div>
+			<div class="col-md-6 controls">
+				<input class="form-control" name="description" id="description" value="{$RECORD_MODEL->getDescription()}" />
 			</div>
 		</div>
 		<div class="form-group">
-			<span class="control-label">
+			<div class="col-md-2 control-label">
 				{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
-			</span>
-			<div class="controls">
-				<select id="modulesList" class="row modules select2" multiple="true" name="modules[]" data-validation-engine="validate[required]">
+			</div>
+			<div class="col-md-6 controls">
+				<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]" data-validation-engine="validate[required]">
 					{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
 						<option value="{$TABID}" {if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
 					{/foreach}
@@ -54,14 +54,14 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<span class="control-label">
+			<div class="col-md-2 control-label">
 				{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
-			</span>
-			<div class="controls">
+			</div>
+			<div class="col-md-6 controls">
 				<div class="row">
-					<span class="col-md-6">
+					<div class="col-md-6">
 						{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
-						<select id="memberList" class="row members" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
+						<select id="memberList" class="members form-control" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
 							{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 								<optgroup label="{$GROUP_LABEL}">
 								{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -72,8 +72,8 @@
 								</optgroup>
 							{/foreach}
 						</select>
-					</span>
-					<span class="col-md-3">
+					</div>
+					<div class="col-md-2">
 						<span class="pull-right groupMembersColors">
 							<ul class="liStyleNone">
 								<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
@@ -82,7 +82,7 @@
 								<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLEANDSUBORDINATE', $QUALIFIED_MODULE)}</strong></li>
 							</ul>
 						</span>
-					</span>
+					</div>
 				</div>
 			</div>
 		</div>

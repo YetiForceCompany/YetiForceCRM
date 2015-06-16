@@ -37,33 +37,33 @@
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="col-md-10">
-							<input class="configField" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="col-md-10">
-							<input class="configField" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="col-md-10">
-							<input class="configField" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 						</div>
-						<div class="col-md-10">
+						<div class="col-md-8">
 							{assign var=USER_LIST value=$USER_MODEL->getAccessibleUsers()}
-							<select multiple="" name="users" class="select2 configField" data-type="ldap" style="width: 100%;">
+							<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
 								{foreach key=OWNER_ID item=OWNER_NAME from=$USER_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $CONFIG['users'])} selected {/if}>{$OWNER_NAME}</option>
 								{/foreach}

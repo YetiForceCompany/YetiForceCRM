@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -28,12 +28,12 @@
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('No left margin', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="nomargin" class="col-md-3" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('Limit entries', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="limit" class="col-md-3" type="text" value="{$WIDGETINFO['data']['limit']}"/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Limit entries', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero">{vtranslate('Related module', $QUALIFIED_MODULE)}:</div>
 				<div class="col-md-7">
@@ -42,7 +42,7 @@
 							<option value="{$item['related_tabid']}" {if $WIDGETINFO['data']['relatedmodule'] == $item['related_tabid']}selected{/if} >{vtranslate($item['label'], $item['name'])}</option>
 						{/foreach}
 					</select>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Related module', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero">{vtranslate('Columns', $QUALIFIED_MODULE)}:</div>
 				<div class="col-md-7">
@@ -51,22 +51,22 @@
 							<option value="{$item}" {if $WIDGETINFO['data']['columns'] == $item}selected{/if} >{$item}</option>
 						{/foreach}
 					</select>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Columns', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('Add button', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="action" class="col-md-3" type="checkbox" value="1" {if $WIDGETINFO['data']['action'] == 1}checked{/if}/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('Select button', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="actionSelect" class="col-md-3" type="checkbox" value="1" {if $WIDGETINFO['data']['actionSelect'] == 1}checked{/if}/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Select button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Select button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('No message', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="no_result_text" class="col-md-3" type="checkbox" value="1" {if $WIDGETINFO['data']['no_result_text'] == 1}checked{/if}/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No message info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No message', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No message info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No message', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero">{vtranslate('Filter', $QUALIFIED_MODULE)}:</div>
 				<div class="col-md-7">
@@ -74,7 +74,7 @@
 					<select name="filter" class="select2 col-md-3 marginLeftZero">
 						<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 					</select>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero">{vtranslate('Switch', $QUALIFIED_MODULE)}:</div>
 				<div class="col-md-7">
@@ -82,7 +82,7 @@
 					<select name="checkbox" class="select2 col-md-3 marginLeftZero">
 						<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
 					</select>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 			</div>
 		</div>

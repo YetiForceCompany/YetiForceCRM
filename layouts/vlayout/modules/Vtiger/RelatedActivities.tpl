@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -121,7 +121,7 @@
 								{Vtiger_Functions::getOwnerRecordLabel( $USER )}
 							{/foreach}
 						{/if}" >
-							<span class="icon-info-sign"></span>
+							<span class="glyphicon glyphicon-info-sign"></span>
 						</span>
 						{if $RECORD->get('location') neq '' }
 							<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">

@@ -26,9 +26,9 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="form-group">
-                        <label class="control-label">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
-                        <div class="controls">
-                            <select class="chzn-select" name="source_id">
+                        <label class="col-md-5 control-label">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
+                        <div class="col-md-6 controls">
+                            <select class="chzn-select form-control" name="source_id">
                                 {foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
                                     <optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
                                         {foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -42,9 +42,9 @@
 						</div>	
 					</div>
 					<div class="form-group">
-						<label class="control-label">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
-						<div class="controls">
-							<select class="chzn-select" name="target_id">
+						<label class="col-md-5 control-label">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6 controls">
+							<select class="chzn-select form-control" name="target_id">
 								{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 									<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
@@ -58,8 +58,8 @@
 						</div>	
 					</div>
 					<div class="form-group">
-						<label class="control-label">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
-						<div class="controls">
+						<label class="col-md-5 control-label">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
+						<div class="col-md-6 controls">
 							<label class="radio">
 								<input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{vtranslate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;
 							</label>

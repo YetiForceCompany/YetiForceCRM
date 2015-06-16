@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -23,7 +23,7 @@
 			<div class='row alert-info' style="padding:20px">
 				<span class='col-md-3 col-md-offset-4'> &nbsp;</span>
 				<span class='span alert-info'>
-					<i class="icon-info-sign"></i>
+					<i class="glyphicon glyphicon-info-sign"></i>
 					{vtranslate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}
 				</span>
 			</div>

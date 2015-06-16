@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -28,7 +28,7 @@
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('No left margin', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">
 					<input name="nomargin" class="col-md-3" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="icon-info-sign"></i></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 				</div>
 				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
 				<div class="col-md-7">

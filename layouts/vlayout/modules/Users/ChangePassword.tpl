@@ -31,16 +31,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
-                        <div class="controls">
-                            <input type="password" name="new_password" data-validation-engine="validate[required]"/>
+                        <label class="col-sm-4 control-label">{vtranslate('LBL_NEW_PASSWORD', $MODULE)}</label>
+                        <div class="col-sm-6 controls">
+                            <input type="password" name="new_password" class="form-control" data-validation-engine="validate[required]"/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
-                        <div class="controls">
-                            <input type="password" name="confirm_password" data-validation-engine="validate[required]"/>
+                        <label class="col-sm-4 control-label">{vtranslate('LBL_CONFIRM_PASSWORD', $MODULE)}</label>
+                        <div class="col-sm-6 controls">
+                            <input type="password" name="confirm_password" class="form-control" data-validation-engine="validate[required]"/>
                         </div>
                     </div>
 

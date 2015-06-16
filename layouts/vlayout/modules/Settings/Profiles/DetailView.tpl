@@ -37,7 +37,7 @@
                     <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalReadPermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
                     &nbsp;{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
                     <span style="margin-left:25px">
-                        <i class="icon-info-sign"></i>
+                        <i class="glyphicon glyphicon-info-sign"></i>
                         <span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
                     </span>
                 </div>
@@ -45,7 +45,7 @@
                    <img class="alignMiddle" src="{if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" />
                    &nbsp;{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
                    <span style="margin-left:30px">
-                        <i class="icon-info-sign"></i>
+                        <i class="glyphicon glyphicon-info-sign"></i>
                         <span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
                     </span>
                 </div>

@@ -28,24 +28,26 @@
 	</div>
 	<br>
     <div class="summaryWidgetContainer">
-        <label class="checkbox">
-            <input type="hidden" name="viewall" value="0" />
-            <input type="checkbox" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}checked="true"{/if} />
-            {vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
-            <span style="margin-left:25px">
-                <i class="icon-info-sign"></i>
-                <span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
-            </span>
-        </label>
-        <label class="checkbox">
-            <input type="hidden" name="editall" value="0" />
-            <input type="checkbox" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}checked="true"{/if} />
-            {vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
-            <span style="margin-left:30px">
-                <i class="icon-info-sign"></i>
-                <span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
-            </span>
-        </label>
+		<div style="padding-left: 15px;">
+			<label class="checkbox">
+				<input type="hidden" name="viewall" value="0" />
+				<input type="checkbox" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}checked="true"{/if} />
+				{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}
+				<span style="margin-left:25px">
+					<i class="glyphicon glyphicon-info-sign"></i>
+					<span style="margin-left:2px">{vtranslate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
+				</span>
+			</label>
+			<label class="checkbox">
+				<input type="hidden" name="editall" value="0" />
+				<input type="checkbox" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}checked="true"{/if} />
+				{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
+				<span style="margin-left:30px">
+					<i class="glyphicon glyphicon-info-sign"></i>
+					<span style="margin-left:2px">{vtranslate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
+				</span>
+			</label>
+		</div>
     </div>
 	<table class="table table-bordered profilesEditView">
 		<thead>
@@ -102,7 +104,7 @@
 				</tr>
 				<tr class="hide">
 					<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%">
-						<div class="row hide" data-togglecontent="{$TABID}-fields">
+						<div class="row" data-togglecontent="{$TABID}-fields">
 							{if $PROFILE_MODULE->getFields()}
 								<div class="col-md-12">
 									<label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {vtranslate('LBL_OF', $MODULE_NAME)} {vtranslate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
@@ -180,7 +182,7 @@
 			</tr>
 			<tr class="hide">
 				<td colspan="6" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
-					<div class="row hide" data-togglecontent="{$TABID}-fields">
+					<div class="row" data-togglecontent="{$TABID}-fields">
 						{assign var=UTILITY_ACTION_COUNT value=0}
 						{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
 						{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}

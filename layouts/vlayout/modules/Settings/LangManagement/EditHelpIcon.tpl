@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -76,7 +76,7 @@
 								<td class="showText">
 								<div>
 								<button class="btn editButton" style="margin-left:5px;">{vtranslate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</button>
-								<a style="margin-top:5px;" href="#" class="HelpInfoPopover pull-left" title="" data-placement="left" data-content="{htmlspecialchars(decode_html($item))}" data-original-title='{$langs.label}'><i class="icon-info-sign"></i></a>
+								<a style="margin-top:5px;" href="#" class="HelpInfoPopover pull-left" title="" data-placement="left" data-content="{htmlspecialchars(decode_html($item))}" data-original-title='{$langs.label}'><i class="glyphicon glyphicon-info-sign"></i></a>
 								</div>
 								<textarea id="{$key}_{$lang_key}"
 									data-lang="{$key}"

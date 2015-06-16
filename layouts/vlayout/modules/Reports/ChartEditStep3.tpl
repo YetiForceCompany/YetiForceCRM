@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.1
    * ("License"); You may not use this file except in compliance with the License
@@ -80,7 +80,7 @@
 								<div class='row alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
-											<span class="icon-info-sign"></span>&nbsp;&nbsp;
+											<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;
 											{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
 										<br>

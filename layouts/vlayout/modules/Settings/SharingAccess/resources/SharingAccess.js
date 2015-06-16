@@ -300,20 +300,21 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var trElement = element.closest('tr');
 			var moduleName = trElement.data('moduleName');
 			var customRuleListContainer = jQuery('.'+thisInstance.getCustomRuleContainerClassName(moduleName),contentTable);
-			
+			 console.log(customRuleListContainer.length)
 			if(customRuleListContainer.length > 0) {
+				console.log(app.isHidden(customRuleListContainer))
 				if(app.isHidden(customRuleListContainer)) {
 					customRuleListContainer.show();
 					jQuery('.ruleListContainer', customRuleListContainer).slideDown('slow');
 					trElement.addClass('collapseRow');
 					element.find('button.arrowDown').addClass('hide');
-					element.find('button.arrowUp').removeClass('hide').addClass('show');
+					element.find('button.arrowUp').removeClass('hide').show();
 				}else{
 					jQuery('.ruleListContainer', customRuleListContainer).slideUp('slow', function(e) {
 						customRuleListContainer.css('display', 'none');
 					});
 					element.find('button.arrowUp').addClass('hide');
-					element.find('button.arrowDown').removeClass('hide').addClass('show');
+					element.find('button.arrowDown').removeClass('hide').show();
 					trElement.removeClass('collapseRow');
 				}
 				return;
@@ -331,7 +332,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 						progressIndicatorElement.progressIndicator({'mode':'hide'});
 						thisInstance.showCustomRulesNextToElement(trElement, data);
 						element.find('button.arrowDown').addClass('hide');
-						element.find('button.arrowUp').removeClass('hide').addClass('show');
+						element.find('button.arrowUp').removeClass('hide').show();
 					},
 					function(error){
 						//TODO: Handle Error

@@ -82,12 +82,12 @@
 					</div>
 				</div>
 				<br>
-				<div class="row hide padding20px boxSizingBorderBox contentsBackground" data-content="new">
+				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
 					<div class="fieldValue col-md-12">
 					</div>
 				</div>
-				<div class="row hide" data-content="existing">
-					<div class="fieldValue row">
+				<div class="" data-content-role="existing" style="display: none">
+					<div class="fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}
