@@ -505,7 +505,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 	
 	referenceCreateHandler : function(container) {
-		console.log('referenceCreateHandler');
 		var thisInstance = this;
 		var postQuickCreateSave  = function(data) {
 			var params = {};
