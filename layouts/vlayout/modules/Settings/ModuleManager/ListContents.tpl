@@ -62,7 +62,7 @@
 									<img class="alignMiddle" src="{vimage_path('DefaultModule.png')}" alt="{vtranslate($MODULE_NAME, $MODULE_NAME)}" title="{vtranslate($MODULE_NAME, $MODULE_NAME)}"/>
 								{/if}	
 							</span>
-							<span class="col-md-5 moduleName {if !$MODULE_ACTIVE}dull {/if}"><h4>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4></span>
+							<span class="col-md-5 moduleName {if !$MODULE_ACTIVE}dull {/if}"><h4 class="no-margin">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4></span>
                             {assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 							{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 								<span class="col-md-3">

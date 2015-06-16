@@ -14,7 +14,7 @@ display: none;
 }
 </style>
 {strip}
-    <div class="container" id="layoutEditorContainer">
+    <div id="layoutEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-8">
@@ -22,7 +22,7 @@ display: none;
             </div>
             <div class="col-md-4">
                 <div class="pull-right">
-                    <select class="select2 col-md-3" name="layoutEditorModules">
+                    <select class="select2 col-md-3 form-control" name="layoutEditorModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
                         {/foreach}

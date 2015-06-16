@@ -30,7 +30,7 @@ padding: 0 20px 20px 20px;
             </div>
             <div class="col-md-4">
                 <div class="pull-right">
-                    <select class="select2 col-md-3" name="quickCreateEditorModules">
+                    <select class="select2 col-md-3 form-control" name="quickCreateEditorModules">
                         {foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
 							{if $moduleModel->isPermitted('EditView')}
 								{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}

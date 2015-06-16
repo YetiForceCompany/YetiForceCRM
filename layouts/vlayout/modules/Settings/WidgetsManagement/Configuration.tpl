@@ -31,11 +31,11 @@ padding: 20px 20px 20px 20px;
 <div class="" id="widgetsManagementEditorContainer">
 		<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 		<div class="widget_header row">
-			<div class="col-md-8">
+			<div class="col-md-10">
 				<h3>{vtranslate('LBL_WIDGETS_MANAGEMENT', $QUALIFIED_MODULE)}</h3>
 				{vtranslate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-2">
 				<div class="col-md-12 pull-right">
 					<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 						{foreach item=mouleName from=$SUPPORTED_MODULES}
@@ -591,4 +591,3 @@ padding: 20px 20px 20px 20px;
 	</div>
 </div>
 </div>
-

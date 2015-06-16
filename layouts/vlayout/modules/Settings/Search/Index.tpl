@@ -34,59 +34,59 @@ min-width: 20px;
 		</span>
 		<div class="clearfix"></div>
 	</div>
-	<div class="row">
-        <div class="contents tabbable">
-			<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
-				<thead>
-					<tr class="blockHeader">
-						<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
-						<th colspan="2"><strong>{vtranslate('Tools',$QUALIFIED_MODULE)}</strong></th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=$ModulesEntity item=item key=key}
-						{assign var="Field" value=$Fields[$key]}
-						<tr data-tabid="{$key}">
-							<td><span class="col-md-1">&nbsp;
+	<div class="contents tabbable">
+		<table class="table table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
+			<thead>
+				<tr class="blockHeader">
+					<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
+					<th><strong>{vtranslate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
+					<th colspan="2"><strong>{vtranslate('Tools',$QUALIFIED_MODULE)}</strong></th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$ModulesEntity item=item key=key}
+					{assign var="Field" value=$Fields[$key]}
+					<tr data-tabid="{$key}">
+						<td><span>&nbsp;
 								<a>
 									<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 								</a>&nbsp;
-							</span>{vtranslate($item['modulename'],$item['modulename'])}</td>
-							<td>
-								<select multiple class="chzn-select col-md-4 fieldname" name="fieldname">
-									<optgroup>
-										{foreach from=$Field item=fieldTab }
-											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
-										{/foreach}
-									</optgroup>
-								</select>
-							</td>
-							<td>
-								<select multiple class="chzn-select col-md-4 searchcolumn" name="searchcolumn">
-									<optgroup>
-										{foreach from=$Field item=fieldTab }
-											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
-										{/foreach}
-									</optgroup>
-								</select>
-							</td>
-							<td>
-								<button class="btn marginLeftZero updateLabels btn-info" data-tabid="{$key}">{vtranslate('Update labels',$QUALIFIED_MODULE)}</button>
-							</td>
-							<td>
-								<button name="turn_off" class="btn marginLeftZero turn_off {if $item['turn_off'] eq 1}btn-success{else}btn-danger{/if}" style="min-width:40px" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{vtranslate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{vtranslate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
-							</td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
+							</span>
+							{vtranslate($item['modulename'],$item['modulename'])}
+						</td>
+						<td>
+							<select multiple class="chzn-select col-md-4 fieldname" name="fieldname">
+								<optgroup>
+									{foreach from=$Field item=fieldTab }
+										<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
+											{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+										</option>
+									{/foreach}
+								</optgroup>
+							</select>
+						</td>
+						<td>
+							<select multiple class="chzn-select col-md-4 searchcolumn" name="searchcolumn">
+								<optgroup>
+									{foreach from=$Field item=fieldTab }
+										<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>
+											{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+										</option>
+									{/foreach}
+								</optgroup>
+							</select>
+						</td>
+						<td>
+							<button class="btn marginLeftZero updateLabels btn-info" data-tabid="{$key}">{vtranslate('Update labels',$QUALIFIED_MODULE)}</button>
+						</td>
+						<td>
+							<button name="turn_off" class="btn marginLeftZero turn_off {if $item['turn_off'] eq 1}btn-success{else}btn-danger{/if}" style="min-width:40px" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{vtranslate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{vtranslate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
+						</td>
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
 	<div class="clearfix"></div>
 {/strip}

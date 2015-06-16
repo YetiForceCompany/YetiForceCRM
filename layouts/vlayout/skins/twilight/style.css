@@ -1864,9 +1864,6 @@ th.htColHeader,
 #moduleManagerContents {
   padding-bottom: 10px;
 }
-#moduleManagerContents .moduleManagerBlock .moduleName {
-  margin-top: 4px;
-}
 #moduleManagerContents .moduleManagerBlock .btn-group.open .dropdown-menu {
   left: -144%;
 }
@@ -3152,4 +3149,7 @@ tr.summaryViewEntries, #detailView table {
 }
 .no-padding{
   padding: 0;
+}
+.no-margin{
+  margin: 0;
 }
