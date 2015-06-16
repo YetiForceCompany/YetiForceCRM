@@ -40,13 +40,16 @@ $languageStrings = [
 	'Completed' =>'Poprawny',
 	'In progress' =>'W trakcie realizacji',
 	'LBL_SET_SCHEDULE_BACKUP' => 'Kopia zapasowa została zaplanowana',
-
+	'LBL_BACKUP_COPY_TYPE' =>'Rodzaj zapisu kopii',
+	'LBL_BACKUP_SINGLE' =>'Pojedyńczy',
+	'LBL_BACKUP_OVERALL' =>'Całościowy',
+	
 	'LBL_STAGE_1' =>'Tworzenie pustego pliku SQL',
 	'LBL_STAGE_2' =>'Generowanie struktury bazy danych',
 	'LBL_STAGE_3' =>'Tworzenie kopii bazy danych',
 	'LBL_STAGE_4' =>'Generowanie struktury plików i folderów',
 	'LBL_STAGE_5' =>'Tworzenie kopii plików i folderów',
-	'LBL_STAGE_6' =>'Scalanie plików kopii',
+	'LBL_STAGE_6' =>'Przenoszenie plików kopii',
 	'LBL_STAGE_7' =>'Czyszczenie danych tymczasowych',
 	'LBL_STAGE_8' =>'Wysyłanie danych na FTP',
 	'LBL_STAGE_9' =>'Kończenie kopii zapasowej',

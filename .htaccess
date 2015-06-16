@@ -21,8 +21,8 @@
 	php_flag    zlib.output_compression		Off
 	php_flag	file_uploads				On
 
-	php_value	max_execution_time			600
-	php_value	max_input_time				600
+	#php_value	max_execution_time			600
+	#php_value	max_input_time				600
 
 	php_flag	magic_quotes_gpc			Off
 	php_flag	magic_quotes_runtime        Off

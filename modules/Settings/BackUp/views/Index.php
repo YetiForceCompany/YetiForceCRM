@@ -18,6 +18,7 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 			$viewer->assign('FTP_PATH', $ftpSettings['path']);
 		}
 		$dirsFromConfig = $backupModel->getConfig('folder');
+		$mainConfig = $backupModel->getConfig('main');
 		$usersForNotifications = $backupModel->getUsersForNotifications();
 		$adminUsers = Users_Module_Model::getAdminUsers();
 		$backUpInfo = $backupModel->getBackUpInfo();
@@ -28,6 +29,7 @@ class Settings_BackUp_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('BACKUP_MODEL', $backupModel);
 		$viewer->assign('BACKUP_INFO', $backupModel->getBackupInfo());
 		$viewer->assign('DIRSFROMCONFIG', $dirsFromConfig);
+		$viewer->assign('MAIN_CONFIG', $mainConfig);
 		$viewer->assign('USERFORNOTIFICATIONS', $usersForNotifications);
 		$viewer->assign('PREV_PAGE', $pagination['prevPage']);
 		$viewer->assign('NEXT_PAGE', $pagination['nextPage']);
