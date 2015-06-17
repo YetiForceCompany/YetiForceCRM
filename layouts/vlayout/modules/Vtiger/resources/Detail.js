@@ -2353,7 +2353,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 		var thisInstance = new Vtiger_Detail_Js();
 		$('.related .nav li').each(function (n, item) {
 			var url = $(item).data('url');
-			if ($(item).hasClass('relatedNav') && $(item).data('count') == '1') {
+			if ($(item).hasClass('relatedNav') && $(item).data('count') !== undefined) {
 				var params = {
 					'module' : app.getModuleName(),
 					'action' : 'RelationAjax',
@@ -2667,3 +2667,4 @@ jQuery.Class("Vtiger_Detail_Js",{
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });
+
