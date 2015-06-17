@@ -15,15 +15,11 @@
 
 	<div class="row main-container">
 		<div class="inner-container">
-			<div class="row">
-				<div class="span10">
-					<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
-				</div>
-			</div>
+			<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 			<hr>
-			<div class="row">
-				<div class="row offset2">
-					<div class="span8 pull-right">
+			<div>
+				<div class="offset2">
+					<div class="pull-right">
 						<div class="button-container">
 							<a href ="#">
 								<input type="button" class="btn" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>
@@ -31,8 +27,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="row offset2">
-					<div class="span8">
+				<div class="clearfix"></div>
+				<div class="offset2">
+					<div>
 						<table class="config-table">
 							<tr><th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th><th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th><th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th></tr>
 							{foreach key=CONFIG_NAME item=INFO from=$SYSTEM_PREINSTALL_PARAMS}
@@ -72,12 +69,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="row offset2">
-				<div class="span8">
-					<div class="button-container">
-						<input type="button" class="btn btn-lg" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
-						<input type="button" class="btn btn-lg btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
-					</div>
+			<div class="offset2">
+				<div class="button-container">
+					<input type="button" class="btn btn-sm" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
+					<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
 				</div>
 			</div>
 		</div>

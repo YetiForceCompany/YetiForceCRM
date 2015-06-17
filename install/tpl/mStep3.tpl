@@ -22,7 +22,7 @@
 		</div>
 		<div class="inner-container">
 			<div>
-				<a class="btn btn-lg btn-primary" href="../index.php" >{vtranslate('LBL_BACK','Install')}</a> 
+				<a class="btn btn-sm btn-primary" href="../index.php" >{vtranslate('LBL_BACK','Install')}</a> 
 			</div>
 		</div>
 	</div>

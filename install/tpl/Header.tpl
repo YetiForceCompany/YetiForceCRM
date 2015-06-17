@@ -20,7 +20,7 @@
 		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/jquery-ui/css/custom-theme/jquery-ui.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" />
 		<link rel="stylesheet" href="../libraries/guidersjs/guiders-1.2.6.css"/>
