@@ -21,8 +21,13 @@ class VTEntityDelta extends VTEventHandler {
 
 	function handleEvent($eventName, $entityData) {
 		$adb = PearDatabase::getInstance();
+		if(!is_object ( $entityData )){
+			$extendedData = $entityData;
+			$entityData = $extendedData['entityData'];
+		}
 		$moduleName = $entityData->getModuleName();
 		$recordId = $entityData->getId();
+		
 		if($eventName == 'vtiger.entity.beforesave' || $eventName == 'vtiger.entity.unlink.before') {
 			if(!empty($recordId)) {
 				$entityData = VTEntityData::fromEntityId($adb, $recordId, $moduleName);
