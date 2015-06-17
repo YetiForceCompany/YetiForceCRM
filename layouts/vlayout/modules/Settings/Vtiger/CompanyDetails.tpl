@@ -144,9 +144,9 @@
 					<input type="hidden" name="module" value="Vtiger" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
-					<div class="col-md-4" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
-					<div class="controls">
-						<input type="text" name="field name" id="fieldName" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
+					<div class="col-md-3 control-label" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
+					<div class="col-md-6 controls">
+						<input type="text" name="field name" id="fieldName" class="form-control" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
 					</div>
 				</div>
 			</div>

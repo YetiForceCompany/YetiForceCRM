@@ -23,15 +23,15 @@
         </label>
         <br>
         <div class="form-group">
-            <div class="control-label">
+            <div class="col-md-3 control-label">
                 {vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
             </div>
-            <div class="controls">
+            <div class="col-md-6 controls">
                 {if $MODE eq 'edit'}
                     <input type='text' disabled='disabled' value="{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}" >
                     <input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}" >
                 {else}
-                    <select class="chzn-select" id="moduleName" name="base_module" required="true" data-placeholder="Select Module...">
+                    <select class="chzn-select form-control" id="moduleName" name="base_module" required="true" data-placeholder="Select Module...">
                         {foreach from=$MODULE_LIST item=item key=key}
                             <option value="{$item}" {if $BASE_INFO['module_name'] eq $item} selected {/if}>{vtranslate($item, $item)}</option>
                         {/foreach}
@@ -40,11 +40,11 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="control-label">
+            <div class="col-md-3 control-label">
                 {vtranslate('DOC_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>
             </div>
-            <div class="controls">
-                <input type="text" name="summary" class="col-md-5" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
+            <div class="col-md-6 controls">
+                <input type="text" name="summary" class="form-control" data-validation-engine='validate[required]' value="{$BASE_INFO['summary']}" id="summary" />
             </div>
         </div>
     </div>
@@ -53,6 +53,5 @@
         <button class="btn btn-success" id="next_step">{vtranslate('NEXT', $QUALIFIED_MODULE)}</button>
         <a href="index.php?module={$MODULE_NAME}&parent=Settings&view=Index" class="cancelLink">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
     </div>
-    <div class="clearfix"></div>
     </form>
 </div> 

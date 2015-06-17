@@ -15,6 +15,6 @@
     <option value="none">{vtranslate('NONE', 'OSSProjectTemplates')}</option>
 </select>
 
-    <input name="{$FLD_NAME}_day" readonly class="day-input" type="text" />
+    <input name="{$FLD_NAME}_day" readonly class="day-input form-control input-sm" type="text" />
     <br />
     {vtranslate('ONLY_WORK_DAY', 'OSSProjectTemplates')}: <input name="{$FLD_NAME}_day_type" disabled class="day-type-input" type="checkbox" />

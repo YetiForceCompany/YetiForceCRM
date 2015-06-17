@@ -70,12 +70,12 @@ padding: 0 20px 20px 20px;
 								{assign var='MODULE_NAME' value='Tasks'}
 							{/if}
 							<div class="editFieldsTable block marginBottom10px border1px blockSortable"  style="border-radius: 4px 4px 0px 0px;background: white;">
-                                <div class="row layoutBlockHeader">
+                                <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-5 marginLeftZero" style="padding:5px 10px 5px 10px">
                                         {vtranslate($MODULE_NAME, $MODULE)}
                                     </div>
                                 </div>
-                                <div class="blockFieldsList row" style="padding:5px;min-height: 27px">
+                                <div class="blockFieldsList row no-margin" style="padding:5px;min-height: 27px">
                                     <ul name="sortable1" class="connectedSortable col-md-6" style="list-style-type: none; float: left;min-height: 1px;padding:2px;">
                                         {foreach  key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=fieldlist}
                                             {assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -84,13 +84,13 @@ padding: 0 20px 20px 20px;
                                                     <div class="opacity editFields marginLeftZero border1px"  data-field-id="{$FIELD_MODEL->get('id')}" data-sequence="{$FIELD_MODEL->get('sequence')}">
                                                         <div class="row padding1per">
                                                             {assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
-                                                            <span class="col-md-1">&nbsp;
+                                                            <div class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
                                                                         <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
-                                                            </span>
+                                                            </div>
                                                             <div class="col-md-11 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{vtranslate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
                                                                 {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>

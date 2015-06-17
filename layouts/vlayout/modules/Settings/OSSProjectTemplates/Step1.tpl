@@ -17,7 +17,7 @@
     </span>
 </div>
 
-<div class="row">
+<div class="">
     <table class="table table-bordered table-condensed listViewEntriesTable">
         <thead>
             <tr class="listViewHeaders">
@@ -58,84 +58,92 @@
 </div> 
 <br />
 
-<div id="step_1_modal" class="modal hide fade" style="z-index: 9999999;">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
-    </div>
-    <form action="index.php" method="post" name="project_form">
+<div id="step_1_modal" class="modal fade" style="z-index: 9999999;">
+	<div class="modal-dialog">
+        <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
+			</div>
+			<form action="index.php" method="post" name="project_form">
 
-        <div class="modal-body">
+				<div class="modal-body">
 
-            <input type="hidden" name='module' value="OSSProjectTemplates" />
-            <input type="hidden" name='base_module' value="{$BASE_MODULE}" />
-            <input type="hidden" name='action' value="CreateTemplate" />
-            <input type="hidden" name='parent' value="Settings" />
-            <input type="hidden" name='parent_tpl_id' value="{$PARENT_TPL_ID}" />
-            <input type="hidden" name='back_view' value="Edit" />
+					<input type="hidden" name='module' value="OSSProjectTemplates" />
+					<input type="hidden" name='base_module' value="{$BASE_MODULE}" />
+					<input type="hidden" name='action' value="CreateTemplate" />
+					<input type="hidden" name='parent' value="Settings" />
+					<input type="hidden" name='parent_tpl_id' value="{$PARENT_TPL_ID}" />
+					<input type="hidden" name='back_view' value="Edit" />
 
-            <table class="table">
-                <tr>
-                    <td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
-                    <td><input class="required" name="tpl_name" value="" type="text" /></td>
-                </tr>
-                {foreach from=$FIELD_HTML key=key item=item}
-                    <tr>
-						{if $item.mandatory}
-							<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
-						{else}
-							<td>{vtranslate($item.label, $BASE_MODULE)}</td>
-						{/if}
-                        <td>{$item.html}</td>
-                    </tr>
-                {/foreach}
-            </table>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
-            <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
-        </div>      
-    </form>
+					<table class="table">
+						<tr>
+							<td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
+							<td><input class="required form-control input-sm" name="tpl_name" value="" type="text" /></td>
+						</tr>
+						{foreach from=$FIELD_HTML key=key item=item}
+							<tr>
+								{if $item.mandatory}
+									<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
+								{else}
+									<td>{vtranslate($item.label, $BASE_MODULE)}</td>
+								{/if}
+								<td>{$item.html}</td>
+							</tr>
+						{/foreach}
+					</table>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
+					<button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+				</div>      
+			</form>
+		</div>
+	</div>
 </div>
         
         
-<div id="step_1_modal_edit" class="modal hide fade" style="z-index: 9999999;">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
-    </div>
-    <form action="index.php" method="post" name="edit_project_form">
+<div id="step_1_modal_edit" class="modal fade" style="z-index: 9999999;">
+	<div class="modal-dialog">
+        <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
+			</div>
+			<form action="index.php" method="post" name="edit_project_form">
 
-        <div class="modal-body">
+				<div class="modal-body">
 
-            <input type="hidden" name='module' value="OSSProjectTemplates" />
-            <input type="hidden" name='base_module' value="{$BASE_MODULE}" />
-            <input type="hidden" name='action' value="UpdateTemplate" />
-            <input type="hidden" name='parent' value="Settings" />
-            <input type="hidden" name='tpl_id' value="" />
-            <input type="hidden" name='parent_tpl_id' value="{$PARENT_TPL_ID}" />
-            <input type="hidden" name='back_view' value="Edit" />
+					<input type="hidden" name='module' value="OSSProjectTemplates" />
+					<input type="hidden" name='base_module' value="{$BASE_MODULE}" />
+					<input type="hidden" name='action' value="UpdateTemplate" />
+					<input type="hidden" name='parent' value="Settings" />
+					<input type="hidden" name='tpl_id' value="" />
+					<input type="hidden" name='parent_tpl_id' value="{$PARENT_TPL_ID}" />
+					<input type="hidden" name='back_view' value="Edit" />
 
-            <table class="table">
-                <tr>
-                    <td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
-                    <td><input class="required" name="tpl_name" value="" type="text" /></td>
-                </tr>
-                {foreach from=$FIELD_HTML key=key item=item}
-                    <tr>
-                        {if $item.mandatory}
-							<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
-						{else}
-							<td>{vtranslate($item.label, $BASE_MODULE)}</td>
-						{/if}
-                        <td>{$item.html}</td>
-                    </tr>
-                {/foreach}
-            </table>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
-            <button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
-        </div>      
-    </form>
+					<table class="table">
+						<tr>
+							<td><span class="redColor">*</span> {vtranslate('LBL_TPL_NAME', $MODULE_NAME)}</td>
+							<td><input class="required form-control input-sm" name="tpl_name" value="" type="text" /></td>
+						</tr>
+						{foreach from=$FIELD_HTML key=key item=item}
+							<tr>
+								{if $item.mandatory}
+									<td><span class="redColor">*</span> {vtranslate($item.label, $BASE_MODULE)}</td>    
+								{else}
+									<td>{vtranslate($item.label, $BASE_MODULE)}</td>
+								{/if}
+								<td>{$item.html}</td>
+							</tr>
+						{/foreach}
+					</table>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
+					<button class="btn btn-danger okay-button" >{vtranslate('Save', $MODULE_NAME)}</button>
+				</div>      
+			</form>
+		</div>
+	</div>
 </div>

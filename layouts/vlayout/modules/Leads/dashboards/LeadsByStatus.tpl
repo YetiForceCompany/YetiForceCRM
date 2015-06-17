@@ -52,11 +52,11 @@
 </div>
 <hr class="widgetHr"/>
 <div class="row" >
-	<div class="col-md-6">
+	<div class="col-sm-6">
 		<span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span>
 		<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini width90"/>
 	</div>
-	<div class="col-md-6">
+	<div class="col-sm-6">
 		<span class="glyphicon glyphicon-user iconMiddle margintop3"></span>
 		{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
 		{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}

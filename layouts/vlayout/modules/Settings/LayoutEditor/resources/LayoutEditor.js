@@ -142,7 +142,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-			addRelationContainer.removeClass('hide');
+			addRelationContainer.removeClass('hide').show();
 
 			var callBackFunction = function(data) {
 				app.showSelect2ElementView(data.find('select'));
@@ -498,7 +498,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		contents.find('.addCustomField').click(function(e) {
 			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
-			addFieldContainer.removeClass('hide');
+			addFieldContainer.removeClass('hide').show();
 
 			var callBackFunction = function(data) {
 				//register all select2 Elements
@@ -808,7 +808,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
 			var callBackFunction = function(data) {
-				data.find('.addBlockModal').removeClass('hide');
+				data.find('.addBlockModal').removeClass('hide').show();
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
 
@@ -1026,7 +1026,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
 				var callBackFunction = function(data) {
-					data.find('.inactiveFieldsModal').removeClass('hide');
+					data.find('.inactiveFieldsModal').removeClass('hide').show();
 					thisInstance.reactiveFieldsList = [];
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);

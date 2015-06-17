@@ -32,7 +32,7 @@
         </select>
     </span>
     <span class="col-md-4 fieldUiHolder">
-        <input name="val" data-value="value" class="row" type="text" value="{$CONDITION_INFO['value']|escape}" />
+        <input name="val" data-value="value" class="row form-control input-sm" type="text" value="{$CONDITION_INFO['value']|escape}" />
     </span>
     <span class="col-md-1">
         <i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$NUM}').remove()"></i>

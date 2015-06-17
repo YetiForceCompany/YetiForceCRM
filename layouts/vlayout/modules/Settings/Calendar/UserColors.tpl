@@ -85,21 +85,25 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="modal editColorContainer hide">
-		<div class="modal-header contentsBackground">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
-		</div>
-		<div class="modal-body">
-			<form class="form-horizontal">
-				<input type="hidden" class="selectedColor" value="" />
-				<div class="form-group">
-					<label class="control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
-					<div class="controls">
-						<p class="calendarColorPicker"></p>
-					</div>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header contentsBackground">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>{vtranslate('LBL_EDIT_COLOR', $QUALIFIED_MODULE)}</h3>
 				</div>
-			</form>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<input type="hidden" class="selectedColor" value="" />
+						<div class="form-group">
+							<label class=" col-sm-3 control-label">{vtranslate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+							<div class=" col-sm-8 controls">
+								<p class="calendarColorPicker"></p>
+							</div>
+						</div>
+					</form>
+				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+			</div>
 		</div>
-		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 	</div>
 {/strip}

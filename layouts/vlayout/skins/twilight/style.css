@@ -3160,3 +3160,6 @@ table.listViewEntriesTable {
 #addCustomFieldContainer{
   width: 400px;
 }
+.navbar-inverse .navbar-nav > li > a {
+	  color: #ffffff;
+}

@@ -21,7 +21,7 @@
         <input type="hidden" name="tpl_id" value="{$TPL_ID}" />
     {/if}
     <div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
-        <div id="advanceFilterContainer" class="row">
+        <div id="advanceFilterContainer" class="">
 			<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
             <div class="allConditionContainer conditionGroup contentsBackground well">
                 <div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>

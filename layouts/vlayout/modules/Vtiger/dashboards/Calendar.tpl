@@ -30,7 +30,7 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-7">
+		<div class="col-sm-7">
 			<div class="headerCalendar fc-center pinUnpinShortCut row" >
 				<div class="col-md-2">
 					<button class="btn btn-default btn-xs" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-5">
+		<div class="col-sm-5">
 			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>

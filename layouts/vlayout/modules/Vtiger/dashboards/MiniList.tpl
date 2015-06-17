@@ -14,10 +14,10 @@
 	<table width="100%" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<th class="col-md-6">
+			<th class="col-sm-6">
 				<div class="dashboardTitle" title="{$WIDGET->getTitle()}"><b>&nbsp;&nbsp;{$WIDGET->getTitle()}</b></div>
 			</th>
-			<th class="col-md-5">
+			<th class="col-sm-5">
 				<div>
 					{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 				</div>

@@ -61,37 +61,41 @@
 					</table>
 				</div>
 			</div>
-			<div class="clearfix"></div>
+
 			<div class="modal addKeyContainer hide">
-				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
-							<div class="controls">
-								<select class="select col-md-4 user" name="user" data-validation-engine="validate[required]">
-								{foreach from=$USERS item=item key=key}
-									<option value="{$key}">{$item->getDisplayName()}</option>
-								{/foreach}
-								</select>
+				<div class="modal-dialog">
+				   <div class="modal-content">
+					<div class="modal-header contentsBackground">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h3>{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
+								<div class="col-sm-6 controls">
+									<select class="select user" name="user" data-validation-engine="validate[required]">
+									{foreach from=$USERS item=item key=key}
+										<option value="{$key}">{$item->getDisplayName()}</option>
+									{/foreach}
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label">{vtranslate('LBL_SELECT_SERVICE', $QUALIFIED_MODULE)}</label>
-							<div class="controls">
-								<select class="select col-md-4 service" name="service" data-validation-engine="validate[required]">
-								{foreach from=$MODULE_MODEL->getAllService() item=item key=key}
-									<option value="{$key}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
-								{/foreach}
-								</select>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_SERVICE', $QUALIFIED_MODULE)}</label>
+								<div class="col-sm-6 controls">
+									<select class="select service" name="service" data-validation-engine="validate[required]">
+									{foreach from=$MODULE_MODEL->getAllService() item=item key=key}
+										<option value="{$key}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
+									{/foreach}
+									</select>
+								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
+					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					</div>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>	
 	</div>

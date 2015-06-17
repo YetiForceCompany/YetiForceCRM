@@ -9,4 +9,4 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<input type="text" value="{$fieldValue}" name="{$FLD_NAME}" id="{$FLD_ID}" class="{if $FLD_REQUIRED}required{/if}" />
+<input type="text" value="{$fieldValue}" name="{$FLD_NAME}" id="{$FLD_ID}" class="{if $FLD_REQUIRED}required{/if} form-control input-sm" />

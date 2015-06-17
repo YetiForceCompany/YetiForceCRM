@@ -93,52 +93,52 @@ padding: 5px;
 				</div>
 			</div>
 			{* copy elements hide *}
-			<div class="modal addDateWindowModal fade">
+			<div class="modal addDateWindowModal">
 				<div class="modal-dialog">
 					<div class="modal-content">
-				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{vtranslate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h3>
-				</div>
-				<form class="form-horizontal addDateWindowForm">
-					<input type="hidden" name="holidayId" value="" />
-					<div class="modal-body">
-						<div class="form-group">
-							<span class="control-label">
-								<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
-								<span class="redColor">*</span>
-							</span>
-							<div class="controls">
-								<input type="text" name="holidayDate" class="dateField" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
-								
-							</div>
+						<div class="modal-header contentsBackground">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>{vtranslate('LBL_ADD_NEW_HOLIDAY', $QUALIFIED_MODULE)}</h3>
 						</div>
-						<div class="form-group">
-							<span class="control-label">
-								<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
-								<span class="redColor">*</span>
-							</span>
-							<div class="controls">
-								 <select name="holidayType" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
-									<option value="national">{vtranslate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
-									<option value="ecclesiastical">{vtranslate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
-								</select> 
+						<form class="form-horizontal addDateWindowForm">
+							<input type="hidden" name="holidayId" value="" />
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-sm-3 control-label">
+										<span>{vtranslate('LBL_DATE', $QUALIFIED_MODULE)}</span>
+										<span class="redColor">*</span>
+									</div>
+									<div class="col-sm-6 controls">
+										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{Vtiger_Functions::currentUserDisplayDate(date('Y-m-d'))}" required >
+
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-3 control-label">
+										<span>{vtranslate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
+										<span class="redColor">*</span>
+									</div>
+									<div class="col-sm-6 controls">
+										 <select name="holidayType" class="form-control" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
+											<option value="national">{vtranslate('LBL_NATIONAL', $QUALIFIED_MODULE)}</option>
+											<option value="ecclesiastical">{vtranslate('LBL_ECCLESIASTICAL', $QUALIFIED_MODULE)}</option>
+										</select> 
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-3 control-label">
+										<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
+										<span class="redColor">*</span>
+									</div>
+									<div class="col-sm-6 controls">
+										<input type="text" name="holidayName" value="" class="form-control" placeholder="{vtranslate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<span class="control-label">
-								<span>{vtranslate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
-								<span class="redColor">*</span>
-							</span>
-							<div class="controls">
-								<input type="text" name="holidayName" value="" placeholder="{vtranslate('LBL_DAY_NAME_DESC', $QUALIFIED_MODULE)}" required data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-							</div>
-						</div>
+							{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+						</form>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
-				</form>
-			</div>
-			</div>
+				</div>
 			</div>
 		</div>
 		</div>

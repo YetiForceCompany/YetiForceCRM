@@ -39,14 +39,14 @@
         </div>
         <hr>
 		<div class="row">
-			<span class="col-md-4 btn-toolbar">
+			<div class="col-md-4 btn-toolbar">
 				<button class="btn btn-default addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{vtranslate('LBL_NEW', $QUALIFIED_MODULE)} {vtranslate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
-			</span>
-			<span class="col-md-4 btn-toolbar">
+			</div>
+			<div class="col-md-4 btn-toolbar">
 				<select class="chzn-select" id="moduleFilter" >
 					<option value="">{vtranslate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 					{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
@@ -59,12 +59,11 @@
 						</option>
 					{/foreach}
 				</select>
-			</span>
-			<span class="col-md-4 btn-toolbar">
+			</div>
+			<div class="col-md-4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
-			</span>
+			</div>
 		</div>
-		<div class="clearfix"></div>
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 {/strip}

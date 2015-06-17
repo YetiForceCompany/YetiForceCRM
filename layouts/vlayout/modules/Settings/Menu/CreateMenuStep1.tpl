@@ -7,36 +7,40 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="modal" style="overflow: hidden;">
-    <div class="modal-header contentsBackground">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h3>
-    </div>
-    <div class="modal-body">
-		{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
-		<input type="hidden" id="mode" value="step1" />
-		<div class="row">
-			<div class="col-md-5 marginLeftZero">{vtranslate('LBL_SELECT_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
-			<div class="col-md-7">
-				<select name="type" class="select2 col-md-3 type">
-					{foreach from=$MENU_TYPES item=ITEM key=KEY}
-						<option value="{$KEY}">{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</option>
-					{/foreach}
-				</select>
+<div class="modal show" style="overflow: hidden;">
+	<div class="modal-dialog">
+        <div class="modal-content">
+			<div class="modal-header contentsBackground">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>{vtranslate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h3>
 			</div>
-		</div>
-		<br />
-		<div class="well well-small" style="margin-bottom: 0;max-height: 280px;overflow-y: scroll;">
-			{foreach from=$MENU_TYPES item=ITEM key=KEY}
-				<h5>{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</h5>
-				<p>{vtranslate('LBL_'|cat:strtoupper($ITEM)|cat:'_DESC', $QUALIFIED_MODULE)}</p>
-			{/foreach}
-		</div>
-    </div>
-	<div class="modal-footer">
-		<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-			<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-			<button class="btn btn-success nextButton" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
+			<div class="modal-body">
+				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}
+				<input type="hidden" id="mode" value="step1" />
+				<div class="row">
+					<div class="col-md-5 marginLeftZero">{vtranslate('LBL_SELECT_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
+					<div class="col-md-7">
+						<select name="type" class="select2 col-md-3 type">
+							{foreach from=$MENU_TYPES item=ITEM key=KEY}
+								<option value="{$KEY}">{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<br />
+				<div class="well well-small" style="margin-bottom: 0;max-height: 280px;overflow-y: scroll;">
+					{foreach from=$MENU_TYPES item=ITEM key=KEY}
+						<h5>{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</h5>
+						<p>{vtranslate('LBL_'|cat:strtoupper($ITEM)|cat:'_DESC', $QUALIFIED_MODULE)}</p>
+					{/foreach}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
+					<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<button class="btn btn-success nextButton" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

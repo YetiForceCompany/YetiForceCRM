@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header">
+    <div class="widget_header row">
         <div class="col-md-8"><h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3></div>
     </div>
     <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl" style="min-height:300px">
-            <div class="">
+            <div class="row">
                 <div class="col-md-4 btn-toolbar paddingLRZero">
                     <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Edit">
                         <strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
@@ -148,18 +148,22 @@
     </div>
 </div>
 {* modal promtp for uninstall *}
-<div id="myModal" class="modal hide fade" style="z-index: 9999999;">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('MSG_DEL_WARN1', $MODULE_NAME)}</h3>
-    </div>
-    <div class="modal-body">
-        <p>{vtranslate('MSG_DEL_WARN2', $MODULE_NAME)}</p>
-        <p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSDocumentControl module', $MODULE_NAME)}</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULE_NAME)}</a>
-        <a class="btn btn-danger okay-button" href="#" id="confirm_unistall" type="button" name="uninstall" disabled="disabled">{vtranslate('Yes', $MODULE_NAME)}</a>
+<div id="myModal" class="modal fade" style="z-index: 9999999;">
+	<div class="modal-dialog">
+        <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>{vtranslate('MSG_DEL_WARN1', $MODULE_NAME)}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{vtranslate('MSG_DEL_WARN2', $MODULE_NAME)}</p>
+				<p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSDocumentControl module', $MODULE_NAME)}</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULE_NAME)}</a>
+				<a class="btn btn-danger okay-button" href="#" id="confirm_unistall" type="button" name="uninstall" disabled="disabled">{vtranslate('Yes', $MODULE_NAME)}</a>
+			</div>          
+		</div>          
     </div>          
 </div>
 

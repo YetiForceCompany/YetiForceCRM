@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 <div class="" id="menuEditorContainer">
-    <div class="widget_header">
+    <div class="widget_header row">
         <div class="col-md-8"><h3>{vtranslate('OSSProjectTemplates', $MODULE_NAME)}</h3></div>
     </div>
     <hr>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
         <div class='editViewContainer' id="tpl">
-            <div class="">
+            <div class="row">
                 <div class="col-md-4 btn-toolbar paddingLRZero">
                     <a class="btn btn-default addButton" data-toggle="modal" data-target="#add_project_modal">
                         <strong>{vtranslate('LBL_NEW_TPL', $MODULE_NAME)}</strong>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <br>
-            <div class="row">
+            <div class="">
                 <table class="table table-bordered table-condensed listViewEntriesTable">
                     <thead>
                         <tr class="listViewHeaders" >

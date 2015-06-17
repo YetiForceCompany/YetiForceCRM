@@ -27,7 +27,7 @@ var Settings_ActivityTypes_Js = {
 		var clonedContainer = editColorModal.clone(true, true);
 		
 		var callBackFunction = function(data) {
-			data.find('.editColorContainer').removeClass('hide');
+			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val( closestTrElement.data('color') );
 			//register color picker
