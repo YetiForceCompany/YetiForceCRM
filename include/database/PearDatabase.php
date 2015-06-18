@@ -38,15 +38,16 @@ class PearDatabase {
 	protected $isdb_default_utf8_charset = false;
 	protected $hasActiveTransaction = false;
 	protected $hasFailedTransaction = false;
+
 	const DEFAULT_QUOTE = '`';
 
 	protected $types = [
 		PDO::PARAM_BOOL => 'bool',
-		 PDO::PARAM_NULL => 'null',
-		 PDO::PARAM_INT => 'int',
-		 PDO::PARAM_STR => 'string',
-		 PDO::PARAM_LOB => 'blob',
-		 PDO::PARAM_STMT => 'statement',
+		PDO::PARAM_NULL => 'null',
+		PDO::PARAM_INT => 'int',
+		PDO::PARAM_STR => 'string',
+		PDO::PARAM_LOB => 'blob',
+		PDO::PARAM_STMT => 'statement',
 	];
 
 	/**
@@ -341,13 +342,13 @@ class PearDatabase {
 
 	function insert($table, $data) {
 		$insert = false;
-		if (!$table){
+		if (!$table) {
 			$this->log('Missing table name', 'error');
 			$this->checkError('Missing table name');
-		} else if (!is_array($data)){
+		} else if (!is_array($data)) {
 			$this->log('Missing data, data must be an array', 'error');
 			$this->checkError('Missing table name');
-		}else{
+		} else {
 			$columns = '';
 			foreach ($data as $column => $cur) {
 				$columns .= ($columns ? ',' : '') . $column;
@@ -357,17 +358,17 @@ class PearDatabase {
 		}
 		return $insert;
 	}
-	
+
 	function query_result(&$result, $row, $col = 0) {
 		return to_html($this->query_result_raw($result, $row, $col));
 	}
 
 	function query_result_raw(&$result, $row, $col = 0) {
-		if (!is_object($result)){
+		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
 			$this->checkError('Result is not an object');
 		}
-			
+
 		if (!isset($result->tmp)) {
 			$result->tmp = $result->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -392,7 +393,7 @@ class PearDatabase {
 	 *
 	 */
 	function raw_query_result_rowdata(&$result, $row = 0) {
-		if (!is_object($result)){
+		if (!is_object($result)) {
 			$this->log('Result is not an object', 'error');
 			$this->checkError('Result is not an object');
 		}
@@ -526,7 +527,7 @@ class PearDatabase {
 		$val = $this->getSingleValue($result);
 		return $val;
 	}
-	
+
 	function getFieldsDefinition(&$result) {
 		$this->log('getFieldsDefinition');
 		$fieldArray = [];
@@ -556,7 +557,7 @@ class PearDatabase {
 		}
 		return $fieldArray;
 	}
-	
+
 	/**
 	 * Function to generate question marks for a given list of items
 	 */
@@ -572,14 +573,14 @@ class PearDatabase {
 	function concat($list) {
 		return 'concat(' . implode(',', $list) . ')';
 	}
-	
+
 	// create an IN expression from an array/list
 	function sqlExprDatalist($array) {
-		if (!is_array($array)){
+		if (!is_array($array)) {
 			$this->log('sqlExprDatalist: not an array', 'error');
 			$this->checkError('sqlExprDatalist: not an array');
 		}
-		if (!count($array)){
+		if (!count($array)) {
 			$this->log('sqlExprDatalist: empty arrays not allowed', 'error');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
@@ -587,13 +588,13 @@ class PearDatabase {
 			$l .= ($l ? ',' : '') . $this->quote($val);
 		return ' ( ' . $l . ' ) ';
 	}
-	
+
 	function getAffectedRowCount(&$result) {
 		$rows = $result->rowCount();
-		$this->log('getAffectedRowCount: '.$result);
+		$this->log('getAffectedRowCount: ' . $result);
 		return $rows;
 	}
-	
+
 	function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true) {
 		$result = $this->query($sql, $dieOnError, $msg);
 
@@ -603,7 +604,7 @@ class PearDatabase {
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
-	
+
 	/* function which extends requireSingleResult api to execute prepared statment
 	 */
 
@@ -616,7 +617,7 @@ class PearDatabase {
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
-	
+
 	function columnMeta(&$result, $col) {
 		$meta = $result->getColumnMeta($col);
 		$column = new stdClass();
@@ -625,30 +626,30 @@ class PearDatabase {
 		$column->max_length = $meta['len'];
 		return $column;
 	}
-	
-	function quote($input, $type = null) {
-        // handle int directly for better performance
-        if ($type == 'integer' || $type == 'int') {
-            return intval($input);
-        }
 
-        if (is_null($input)) {
-            return 'NULL';
-        }
+	function quote($input, $type = null) {
+		// handle int directly for better performance
+		if ($type == 'integer' || $type == 'int') {
+			return intval($input);
+		}
+
+		if (is_null($input)) {
+			return 'NULL';
+		}
 
 		$map = array(
-			'bool'    => PDO::PARAM_BOOL,
+			'bool' => PDO::PARAM_BOOL,
 			'integer' => PDO::PARAM_INT,
 		);
 
 		$type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
 
-		return strtr($this->database->quote($input, $type),
-			array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE.self::DEFAULT_QUOTE)
+		return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE)
 		);
 	}
-	
+
 	/* SQLTime logging */
+
 	protected $logSqlTimeID = false;
 
 	function logSqlTime($startat, $endat, $sql, $params = false) {
