@@ -358,6 +358,18 @@ class PearDatabase {
 		}
 		return $insert;
 	}
+	
+	function delete($table, $where = '', $params = []) {
+		$insert = false;
+		if (!$table) {
+			$this->log('Missing table name', 'error');
+			$this->checkError('Missing table name');
+		} else {
+			if($where != '')
+				$where = 'WHERE '.$where;
+			$this->pquery("DELETE FROM $table $where", $params);
+		}
+	}
 
 	function query_result(&$result, $row, $col = 0) {
 		return to_html($this->query_result_raw($result, $row, $col));
