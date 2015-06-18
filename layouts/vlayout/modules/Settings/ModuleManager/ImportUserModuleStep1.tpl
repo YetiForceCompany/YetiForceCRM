@@ -14,6 +14,14 @@
 	<div class="widget_header row-fluid">
 		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
+	{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
+	{if $MAXUPLOADSIZE < 5242880}
+		<div class="alert alert-block alert-error fade in">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<h4 class="alert-heading">{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
+			<p>{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, Vtiger_Functions::showBytes($MAXUPLOADSIZE))}</p>
+		</div>	
+	{/if}
 	<div class="contents">
 		<div class="row-fluid">
 			<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule" action='index.php' method="POST" enctype="multipart/form-data">
