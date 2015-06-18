@@ -1374,7 +1374,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 
 		app.registerEventForDatePickerFields('#EditView');
 		
-		var params = app.validationEngineOptions;
+		var params = app.validationEngineOptionsForRecord;
 		params.onValidationComplete = function(element,valid){
 			if(valid){
 				var ckEditorSource = editViewForm.find('.ckEditorSource');

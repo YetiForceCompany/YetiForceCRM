@@ -517,7 +517,7 @@
 				++$.validationEngine.fieldIdCounter;
 			}
 
-           if (field.closest('.noValidate').length > 0 || (!options.validateNonVisibleFields && (field.is(":hidden") && !options.prettySelect || field.parent().is(":hidden"))))
+           if ( (!options.validateNonVisibleFields && (field.is(":hidden") && !options.prettySelect || field.parent().is(":hidden"))) || field.closest('.noValidate').length > 0 )
 				return false;
 
 			var rulesParsing = field.attr(options.validateAttribute);
