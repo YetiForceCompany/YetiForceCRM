@@ -35,7 +35,7 @@ insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classn
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (9,'VTSendPdf','Send Pdf','VTSendPdf','modules/com_vtiger_workflow/tasks/VTSendPdf.inc','com_vtiger_workflow/taskforms/VTSendPdf.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (10,'VTUpdateClosedTime','Update Closed Time','VTUpdateClosedTime','modules/com_vtiger_workflow/tasks/VTUpdateClosedTime.inc','com_vtiger_workflow/taskforms/VTUpdateClosedTime.tpl','{\"include\":[],\"exclude\":[]}',NULL);
 insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (11,'VTSendNotificationTask','Send Notification','VTSendNotificationTask','modules/com_vtiger_workflow/tasks/VTSendNotificationTask.inc','com_vtiger_workflow/taskforms/VTSendNotificationTask.tpl','{\"include\":[\"Calendar\",\"Events\"],\"exclude\":[]}',NULL);
-insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (12,'VTAddressBookTask','Create Address Book','VTAddressBookTask','modules/com_vtiger_workflow/tasks/VTAddressBookTask.inc','com_vtiger_workflow/taskforms/VTAddressBookTask.tpl','{\"include\":[\"Contacts\"],\"exclude\":[]}',NULL);
+insert  into `com_vtiger_workflow_tasktypes`(`id`,`tasktypename`,`label`,`classname`,`classpath`,`templatepath`,`modules`,`sourcemodule`) values (12,'VTAddressBookTask','Create Address Book','VTAddressBookTask','modules/com_vtiger_workflow/tasks/VTAddressBookTask.inc','com_vtiger_workflow/taskforms/VTAddressBookTask.tpl','{\"include\":[\"Contacts\",\"OSSEmployees\",\"Accounts\",\"Leads\",\"Vendors\"],\"exclude\":[]}',NULL);
 
 /*Data for the table `com_vtiger_workflow_tasktypes_seq` */
 
@@ -266,6 +266,8 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 /*Data for the table `vtiger_account` */
 
 /*Data for the table `vtiger_accountaddress` */
+
+/*Data for the table `vtiger_accountbookmails` */
 
 /*Data for the table `vtiger_accountscf` */
 
@@ -1166,7 +1168,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł',1.00000,'Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -5109,9 +5111,9 @@ insert  into `vtiger_inventoryproductrel_seq`(`id`) values (0);
 
 /*Data for the table `vtiger_inventorytaxinfo` */
 
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT',23.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales',8.000,0);
-insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service',5.000,0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (1,'tax1','VAT','23.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (2,'tax2','Sales','8.000',0);
+insert  into `vtiger_inventorytaxinfo`(`taxid`,`taxname`,`taxlabel`,`percentage`,`deleted`) values (3,'tax3','Service','5.000',0);
 
 /*Data for the table `vtiger_inventorytaxinfo_seq` */
 
@@ -5169,6 +5171,8 @@ insert  into `vtiger_lead_view`(`lead_viewid`,`lead_view`,`sortorderid`,`presenc
 insert  into `vtiger_lead_view_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_leadaddress` */
+
+/*Data for the table `vtiger_leadbookmails` */
 
 /*Data for the table `vtiger_leaddetails` */
 
@@ -5953,6 +5957,8 @@ insert  into `vtiger_ossdc_status_seq`(`id`) values (2);
 /*Data for the table `vtiger_ossdocumentcontrol_cnd` */
 
 /*Data for the table `vtiger_ossemployees` */
+
+/*Data for the table `vtiger_ossemployeesbookmails` */
 
 /*Data for the table `vtiger_ossemployeescf` */
 
@@ -21418,6 +21424,8 @@ insert  into `vtiger_users_seq`(`id`) values (4);
 /*Data for the table `vtiger_vendor` */
 
 /*Data for the table `vtiger_vendoraddress` */
+
+/*Data for the table `vtiger_vendorbookmails` */
 
 /*Data for the table `vtiger_vendorcf` */
 

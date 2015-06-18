@@ -26,29 +26,37 @@ class OSSMail_Module_Model extends Vtiger_Module_Model {
 		return $settingsLinks;
 	}
 
-	public function createBookMailsFiles() {
-		$adb = PearDatabase::getInstance();
-		$files = array();
-		
-		$result = $adb->query( 'SELECT * FROM vtiger_contactsbookmails;');
-        $fstart = '<?php $bookMails = array(';
+	public function createBookMailsFiles($tables) {
+		$mails = [];
+		foreach ($tables as $table) {
+			$mails = self::getAdresBookMails($table, $mails);
+		}
+
+		$fstart = '<?php $bookMails = array(';
 		$fend .= ');';
-        for($i = 0; $i < $adb->num_rows($result); $i++){
-            $name = $adb->query_result($result, $i, 'name');
-			$email = $adb->query_result($result, $i, 'email');
-			$users = $adb->query_result_raw($result, $i, 'users');
-			if($users != ''){
-				$users = explode(',',$users);
-				foreach ($users as $user){
-					$files[$user] .= "'$name <$email>',";
-				}
-			}
-        }
-		foreach ($files as $user => $file){
-			file_put_contents( 'cache/addressBook/mails_'.$user.'.php' , $fstart.$file.$fend );
+		
+		foreach ($mails as $user => $file) {
+			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
 		}
 	}
-	
+
+	public function getAdresBookMails($table, $mails) {
+		$adb = PearDatabase::getInstance();
+		$result = $adb->query("SELECT * FROM $table;");
+		while ($row = $adb->fetch_array($result)) {
+			$name = $row['name'];
+			$email = $row['email'];
+			$users = $row['users'];
+			if ($users != '') {
+				$users = explode(',', $users);
+				foreach ($users as $user) {
+					$mails[$user] .= "'$name <$email>',";
+				}
+			}
+		}
+		return $mails;
+	}
+
 	public function getDefaultMailAccount($accounts) {
 		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 		return $rcUser;
