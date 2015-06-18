@@ -232,13 +232,13 @@ var Vtiger_Index_Js = {
 	showReminderPopup : function(record) {
 		var data_info = '';
 		if(record.contact_id != '' && record.contact_id != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_CONTACT_NAME')+' : <b>'+record.contact_id+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_CONTACT_NAME')+' : <strong>'+record.contact_id+'</strong></span>';
 		}
 		if(record.link != '0' && record.link != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_RELATION')+' : <b>'+record.link+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_RELATION')+' : <strong>'+record.link+'</strong></span>';
 		}
 		if(record.process != '0' && record.process != undefined){
-			data_info += '<span class="col-md-12">'+app.vtranslate('JS_PROCESS')+' : <b>'+record.process+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_PROCESS')+' : <strong>'+record.process+'</strong></span>';
 		}
 		if(record.location != '' && record.location != undefined){
 			data_info += '<span class="col-md-12" style="margin-top: 5px;"><a class="btn btn-default" target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
