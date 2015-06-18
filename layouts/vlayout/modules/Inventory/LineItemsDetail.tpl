@@ -47,7 +47,7 @@
     {foreach key=INDEX item=LINE_ITEM_DETAIL from=$RELATED_PRODUCTS}
 	<tr>
 	    <td>
-		<div class="row">
+		<div>
 		    {$LINE_ITEM_DETAIL["productName$INDEX"]}
 		</div>
 		{if $LINE_ITEM_DETAIL["productDeleted$INDEX"]}
