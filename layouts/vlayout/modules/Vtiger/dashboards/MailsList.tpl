@@ -21,18 +21,16 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-12">
-			<div class="pull-right">
-				<select class="mailUserList" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type" style='width:200px;margin-bottom:0px'>
-					{if count($ACCOUNTSLIST) eq 0}
-						<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
-					{else}
-						{foreach from=$ACCOUNTSLIST item=item key=key}
-							<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
-						{/foreach}
-					{/if}
-				</select>
-			</div>
+		<div class="col-md-6 pull-right">
+			<select class="mailUserList form-control input-sm" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type">
+				{if count($ACCOUNTSLIST) eq 0}
+					<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
+				{else}
+					{foreach from=$ACCOUNTSLIST item=item key=key}
+						<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
+					{/foreach}
+				{/if}
+			</select>
 		</div>
 	</div>
 </div>

@@ -12,7 +12,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
@@ -22,16 +22,12 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row" >
-		<div class="col-md-12">
-			<div class="pull-right">
-				<div>
-					<select class="widgetFilter" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type" style='margin-bottom:0px'>
-						<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
-						{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option title="{vtranslate('LBL_COMMENTS')}" value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
-						<option value="updates" title="{vtranslate('LBL_UPDATES')}">{vtranslate('LBL_UPDATES')}</option>
-					</select>
-				</div>
-			</div>
+		<div class="col-md-6 pull-right">
+			<select class="widgetFilter form-control input-sm" id="historyType" title="{vtranslate('LBL_HISTORY_TYPE')}" name="type">
+				<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
+				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}<option title="{vtranslate('LBL_COMMENTS')}" value="comments" >{vtranslate('LBL_COMMENTS')}</option>{/if}
+				<option value="updates" title="{vtranslate('LBL_UPDATES')}">{vtranslate('LBL_UPDATES')}</option>
+			</select>
 		</div>
 	</div>
 </div>

@@ -33,11 +33,11 @@
 		<div class="col-sm-7">
 			<div class="headerCalendar fc-center pinUnpinShortCut row" >
 				<div class="col-md-2">
-					<button class="btn btn-default btn-xs" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 				</div>
-				<div class="col-md-8 month marginLeftZero" style="text-align:center"> </div>
+				<div class="col-md-8 month marginLeftZero textAlignCenter"> </div>
 				<div class="col-md-2">
-					<button class="btn btn-default btn-xs" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+					<button class="btn btn-default btn-sm" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>

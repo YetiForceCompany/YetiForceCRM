@@ -3161,5 +3161,10 @@ table.listViewEntriesTable {
   width: 400px;
 }
 .navbar-inverse .navbar-nav > li > a {
-	  color: #ffffff;
+	color: #ffffff;
+}
+.headerCalendar .month h3 {
+	font-size: 18px;
+	font-weight: bold;
+	margin: 5px 0 0 0;
 }

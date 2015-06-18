@@ -25,10 +25,10 @@
 	</div>
 	<hr class="widgetHr"/>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="pull-right">
-				<span class="glyphicon glyphicon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span>
-				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini" />
+		<div class="col-md-6 pull-right">
+			<div class="input-group input-group-sm">
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span></span>
+				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter form-control" />
 			</div>
 		</div>
 	</div>			

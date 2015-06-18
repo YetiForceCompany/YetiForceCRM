@@ -14,7 +14,7 @@
 {if !is_array($ACCESS_OPTIONS.available)}
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
 {/if}
-<select class="widgetFilter width90 owner form-control" name="owner" title="{vtranslate('LBL_OWNER')}">
+<select class="widgetFilter width90 owner form-control input-sm" name="owner" title="{vtranslate('LBL_OWNER')}">
 	{if array_key_exists( $CURRENTUSER->getId(), $ACCESSIBLE_USERS ) && in_array('mine', $ACCESS_OPTIONS.available)}
 		<option value="{$CURRENTUSER->getId()}" title="{vtranslate('LBL_MINE')}" {if $ACCESS_OPTIONS.default eq 'mine'} selected {/if}>{vtranslate('LBL_MINE')}</option>
 	{/if}

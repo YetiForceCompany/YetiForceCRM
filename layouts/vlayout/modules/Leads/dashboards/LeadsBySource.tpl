@@ -55,24 +55,25 @@
 <hr class="widgetHr"/>
 <div class="row">
 	<div class="col-sm-6">
-		<span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span>
-		<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini width90"/>
+		<div class="input-group input-group-sm">
+			<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle"></span></span>
+			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange form-control widgetFilter width90"/>
+		</div>
 	</div>
 	<div class="col-sm-6">
-		<span class="icon-user iconMiddle margintop3"></span>
-		{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-		{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-		<select class="widgetFilter width90 owner form-control" title="{vtranslate('LBL_OWNER')}" name="owner" >
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
-						{$OWNER_NAME}
-					</option>
-				{/foreach}
-			</optgroup>
-		</select>
-		<div class="pull-right">
-			&nbsp;
+		<div class="input-group input-group-sm">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
+			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
+			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
+			<select class="widgetFilter width90 owner form-control" title="{vtranslate('LBL_OWNER')}" name="owner" >
+				<optgroup label="{vtranslate('LBL_USERS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
+							{$OWNER_NAME}
+						</option>
+					{/foreach}
+				</optgroup>
+			</select>
 		</div>
 	</div>
 </div>	

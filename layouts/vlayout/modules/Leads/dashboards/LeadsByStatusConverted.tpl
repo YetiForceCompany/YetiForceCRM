@@ -32,12 +32,16 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-sm-6">
-			<i class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></i>
-			<input type="text" name="createdtime" class="dateRange widgetFilter input-mini width90 textAlignCenter"/>
+			<div class="input-group input-group-sm">
+				<span class=" input-group-addon"><i class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></i></span>
+				<input type="text" name="createdtime" class="dateRange widgetFilter form-control width90 textAlignCenter"/>
+			</div>
 		</div>
 		<div class="col-sm-6">
-			<i class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></i>
-			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user iconMiddle margintop3" title="{vtranslate('Assigned To', $MODULE_NAME)}"></i></span>
+				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			</div>
 		</div>
 	</div>
 </div>
