@@ -20,7 +20,7 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta {
 		$factory = WebserviceField::fromArray($this->pearDB, array('tablename'=>$tableName));
 		$dbTableFields = $factory->getTableFields();
 		foreach ($dbTableFields as $dbField) {
-			if($dbField->primary_key){
+			if($dbField->primaryKey){
 				if($this->idColumn === null){
 					$this->idColumn = $dbField->name;
 				}else{
@@ -91,8 +91,8 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta {
 		
 		if(in_array($fieldName,$mandatoryFieldList)){
 			$typeOfData = $fieldType.'~M';
-		}else if(($dbField->not_null == 1 && $fieldName != 'incrementondel' 
-				&& $dbField->primary_key != 1) || $dbField->unique_key == 1){
+		}else if(($dbField->notNull == 1 && $fieldName != 'incrementondel' 
+				&& $dbField->primaryKey != 1) || $dbField->uniqueKey == 1){
 			$typeOfData = $fieldType.'~M';
 		}else{
 			$typeOfData = $fieldType.'~O';
@@ -105,4 +105,4 @@ class VtigerLineItemMeta extends VtigerCRMActorMeta {
 	}
 
 }
-?>
+

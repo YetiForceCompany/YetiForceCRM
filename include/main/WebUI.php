@@ -94,6 +94,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint {
 	}
 
 	function process (Vtiger_Request $request) {
+		vglobal('log', LoggerManager::getLogger('System'));
 		Vtiger_Session::init();
 		$forceSSL = vglobal('forceSSL');
 		if ($forceSSL && !Vtiger_Functions::getBrowserInfo()->https) {

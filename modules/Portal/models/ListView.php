@@ -35,8 +35,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model {
 
 		$listViewEntries = array();
         
-        for($i = 0; $i < $db->num_rows($listResult); $i++) {
-            $row = $db->fetch_row($listResult, $i);
+        while($row = $db->fetchByAssoc($listResult)){
             $listViewEntries[$row['portalid']] = array();
             $listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
             $listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];

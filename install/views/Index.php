@@ -172,7 +172,7 @@ class Install_Index_view extends Vtiger_View_Controller {
         $authKey = $_SESSION['config_file_info']['authentication_key'] = md5(microtime());
 
 		//PHP 5.5+ mysqli is favourable.
-		$dbConnection = Install_Utils_Model::checkDbConnection(function_exists('mysqli_connect')?'mysqli':'mysql', $request->get('db_hostname'),
+		$dbConnection = Install_Utils_Model::checkDbConnection('mysql', $request->get('db_hostname'),
 			$request->get('db_username'), $request->get('db_password'), $request->get('db_name'),
 			$createDataBase, true, $rootUser, $rootPassword);
 

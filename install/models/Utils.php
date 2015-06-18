@@ -165,9 +165,7 @@ class Install_Utils_Model {
 		$preInstallConfig['LBL_PHP_VERSION']	= array(phpversion(), ' 5.4.0', (version_compare(phpversion(), '5.4.0', '>')));
 		$preInstallConfig['LBL_IMAP_SUPPORT']	= array(function_exists('imap_open'), true, (function_exists('imap_open') == true));
 		$preInstallConfig['LBL_ZLIB_SUPPORT']	= array(function_exists('gzinflate'), true, (function_exists('gzinflate') == true));
-		if ($preInstallConfig['LBL_PHP_VERSION'] >= '5.4.0') {
-			$preInstallConfig['LBL_MYSQLI_CONNECT_SUPPORT'] = array(extension_loaded('mysqli'), true, extension_loaded('mysqli'));
-		}
+		$preInstallConfig['LBL_PDO_SUPPORT'] = array(extension_loaded('PDO'), true, extension_loaded('PDO'));
 		$preInstallConfig['LBL_OPEN_SSL'] = array(extension_loaded('openssl'), true, extension_loaded('openssl'));
 		$preInstallConfig['LBL_CURL'] = array(extension_loaded('curl'), true, extension_loaded('curl'));
 		$gnInstalled = false;
@@ -319,21 +317,6 @@ class Install_Utils_Model {
 	}
 
 	/**
-	 * Function returns mysql version
-	 * @param type $serverInfo
-	 * @return type
-	 */
-	public static function getMySQLVersion($serverInfo) {
-		if(!is_array($serverInfo)) {
-			$version = explode('-',$serverInfo);
-			$mysql_server_version=$version[0];
-		} else {
-			$mysql_server_version = $serverInfo['version'];
-		}
-		return $mysql_server_version;
-	}
-
-	/**
 	 * Function checks the database connection
 	 * @param <String> $db_type
 	 * @param <String> $db_hostname
@@ -357,47 +340,45 @@ class Install_Utils_Model {
 
 		//Checking for database connection parameters
 		if($db_type) {
-			$conn = &NewADOConnection($db_type);
+			$conn = false;
+			try {
+				$dsn = $db_type.':host=' . $db_hostname . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
+				$conn = new PDO($dsn, $db_username, $db_password);
+			} catch (PDOException $e) {
+				//echo $e->getMessage();
+			}
 			$db_type_status = true;
-			if(@$conn->Connect($db_hostname,$db_username,$db_password)) {
+			if($conn) {
 				$db_server_status = true;
-				$serverInfo = $conn->ServerInfo();
 				if(self::isMySQL($db_type)) {
-					$mysql_server_version = self::getMySQLVersion($serverInfo);
+					$stmt = $conn->query("SHOW VARIABLES LIKE 'version'");
+					$res = $stmt->fetch(PDO::FETCH_ASSOC);
+					$mysql_server_version = $res['Value'];
 				}
 				if($create_db) {
 					// drop the current database if it exists
-					$dropdb_conn = &NewADOConnection($db_type);
-					if(@$dropdb_conn->Connect($db_hostname, $root_user, $root_password, $db_name)) {
-						$query = "DROP DATABASE ".$db_name;
-						$dropdb_conn->Execute($query);
-						$dropdb_conn->Close();
+					$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
+					if($stmt->rowCount() != 0) {
+						$conn->query("DROP DATABASE `$db_name`");
 					}
 
 					// create the new database
 					$db_creation_failed = true;
-					$createdb_conn = &NewADOConnection($db_type);
-					if(@$createdb_conn->Connect($db_hostname, $root_user, $root_password)) {
-						$query = "CREATE DATABASE ".$db_name;
-						if($create_utf8_db == 'true') {
-							if(self::isMySQL($db_type))
-								$query .= " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
-							$db_utf8_support = true;
-						}
-						if($createdb_conn->Execute($query)) {
-							$db_creation_failed = false;
-						}
-						$createdb_conn->Close();
-					}
-				}
 
-				if(@$conn->Connect($db_hostname, $db_username, $db_password, $db_name)) {
-					$db_exist_status = true;
-					if(!$db_utf8_support) {
-						$db_utf8_support = Vtiger_Util_Helper::checkDbUTF8Support($conn);
+					$query = "CREATE DATABASE ".$db_name;
+					if($create_utf8_db == 'true') {
+						if(self::isMySQL($db_type))
+							$query .= " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci";
+						$db_utf8_support = true;
+					}
+					if($conn->query($query)) {
+						$db_creation_failed = false;
 					}
 				}
-				$conn->Close();
+				$stmt = $conn->query("SHOW DATABASES LIKE '$db_name'");
+				if($stmt->rowCount() == 1) {
+					$db_exist_status = true;
+				}
 			}
 		}
 		$dbCheckResult['db_utf8_support'] = $db_utf8_support;

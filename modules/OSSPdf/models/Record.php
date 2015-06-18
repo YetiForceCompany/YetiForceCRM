@@ -623,7 +623,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         $arrayHeaders = Array();
         
         for ($x=0; $x<$y; $x++) {
-            $fld = $db->field_name($result, $x);
+            $fld = $db->columnMeta($result, $x);
             if(in_array($oReportRun->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
                 $headerLabel = str_replace("_"," ",$fld->name);
                 $arrayHeaders[] = $headerLabel;
@@ -701,7 +701,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             // END
 
             for ($i=0; $i<$y; $i++) {
-                $fld = $db->field_name($result, $i);
+                $fld = $db->columnMeta($result, $i);
                 $fld_type = $column_definitions[$i]->type;
                 $fieldvalue = getReportFieldValue($oReportRun, $picklistarray, $fld, 
                         $custom_field_values, $i);
@@ -953,7 +953,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
         $report = '<table border="1" cellpadding="2"><tr width="500px" bgcolor="lightgrey">';
         $arrayHeaders = Array();
         for ($x=0; $x<$y; $x++) {
-            $fld = $db->field_name($result, $x);
+            $fld = $db->columnMeta($result, $x);
             if(in_array($oReportRun->getLstringforReportHeaders($fld->name), $arrayHeaders)) {
                 $headerLabel = str_replace("_"," ",$fld->name);
                 $arrayHeaders[] = $headerLabel;
@@ -1031,7 +1031,7 @@ class OSSPdf_Record_Model extends Vtiger_Record_Model {
             // END
 
             for ($i=0; $i<$y; $i++) {
-                $fld = $db->field_name($result, $i);
+                $fld = $db->columnMeta($result, $i);
                 $fld_type = $column_definitions[$i]->type;
                 $fieldvalue = getReportFieldValue($oReportRun, $picklistarray, $fld, 
                 $custom_field_values, $i);

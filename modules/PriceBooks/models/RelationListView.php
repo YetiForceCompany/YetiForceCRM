@@ -51,8 +51,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model {
 		$result = $db->pquery($limitQuery, array());
 		$relatedRecordList = array();
 
-		for($i=0; $i< $db->num_rows($result); $i++ ) {
-			$row = $db->fetch_row($result,$i);
+		while($row = $db->fetchByAssoc($result)){
 			$newRow = array();
 			foreach($row as $col=>$val){
 				if(array_key_exists($col,$relatedColumnFieldMapping))

@@ -2928,7 +2928,7 @@ class ReportRun extends CRMEntity
 				$arrayHeaders = Array();
 				for ($x=0; $x<$y; $x++)
 				{
-					$fld = $adb->field_name($result, $x);
+					$fld = $adb->columnMeta($result, $x);
 					if(in_array($this->getLstringforReportHeaders($fld->name), $arrayHeaders))
 					{
 						$headerLabel = str_replace("__"," ",$fld->name);
@@ -3018,7 +3018,7 @@ class ReportRun extends CRMEntity
 
 					for ($i=0; $i<$y; $i++)
 					{
-						$fld = $adb->field_name($result, $i);
+						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld,
 								$custom_field_values, $i);
@@ -3170,7 +3170,7 @@ class ReportRun extends CRMEntity
 					$arraylists = Array();
 					for ($i=0; $i<$y; $i++)
 					{
-						$fld = $adb->field_name($result, $i);
+						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
 						list($module, $fieldLabel) = explode('__', $fld->name, 2);
 						$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
@@ -3256,7 +3256,7 @@ class ReportRun extends CRMEntity
 								}
 								for($i =0;$i<$y;$i++)
 								{
-										$fld = $adb->field_name($result, $i);
+										$fld = $adb->columnMeta($result, $i);
 										$keyhdr[$fld->name] = $custom_field_values[$i];
 								}
 
@@ -3381,7 +3381,7 @@ class ReportRun extends CRMEntity
 					}
 					for($i =0;$i<$y;$i++)
 					{
-						$fld = $adb->field_name($result, $i);
+						$fld = $adb->columnMeta($result, $i);
 						$keyhdr[$fld->name] = $custom_field_values[$i];
 					}
 
@@ -3486,7 +3486,7 @@ class ReportRun extends CRMEntity
 				$arrayHeaders = Array();
 				for ($x=0; $x<$y-1; $x++)
 				{
-					$fld = $adb->field_name($result, $x);
+					$fld = $adb->columnMeta($result, $x);
 					if(in_array($this->getLstringforReportHeaders($fld->name), $arrayHeaders))
 					{
 						$headerLabel = str_replace("__"," ",$fld->name);
@@ -3556,7 +3556,7 @@ class ReportRun extends CRMEntity
 
 					for ($i=0; $i<$y-1; $i++)
 					{
-						$fld = $adb->field_name($result, $i);
+						$fld = $adb->columnMeta($result, $i);
 						$fld_type = $column_definitions[$i]->type;
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld,
 								$custom_field_values, $i);
@@ -3654,7 +3654,7 @@ class ReportRun extends CRMEntity
 
 					for($i =0;$i<$y;$i++)
 					{
-						$fld = $adb->field_name($result, $i);
+						$fld = $adb->columnMeta($result, $i);
 						$keyhdr[$fld->name] = $custom_field_values[$i];
 
 					}

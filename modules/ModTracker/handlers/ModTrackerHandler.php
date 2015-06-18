@@ -18,12 +18,14 @@ class ModTrackerHandler extends VTEventHandler {
 		$current_user = vglobal('current_user');
 		$log = vglobal('log');
 		$current_module = vglobal('current_module');
-		if ($eventName == 'vtiger.entity.link.after' || $eventName == 'vtiger.entity.unlink.after') {
-			$moduleName = $data['sourceModule'];
-		}else{
-			$moduleName = $data->getModuleName();
+
+		if(!is_object ( $data )){
+			$extendedData = $data;
+			$data = $extendedData['entityData'];
 		}
 
+		$moduleName = $data->getModuleName();
+		
 		$flag = ModTracker::isTrackingEnabledForModule($moduleName);
 
 		if ($flag) {
@@ -86,10 +88,10 @@ class ModTrackerHandler extends VTEventHandler {
 			}
 			
 			if ($eventName == 'vtiger.entity.link.after') {
-				ModTracker::linkRelation($data['sourceModule'], $data['sourceRecordId'], $data['destinationModule'], $data['destinationRecordId']);
+				ModTracker::linkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 			}
 			if ($eventName == 'vtiger.entity.unlink.after') {
-				ModTracker::unLinkRelation($data['sourceModule'], $data['sourceRecordId'], $data['destinationModule'], $data['destinationRecordId']);
+				ModTracker::unLinkRelation($extendedData['sourceModule'], $extendedData['sourceRecordId'], $extendedData['destinationModule'], $extendedData['destinationRecordId']);
 			}
 		}
 	}

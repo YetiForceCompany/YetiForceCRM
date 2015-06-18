@@ -101,14 +101,12 @@ function get_available_module_picklist($picklist_details){
  * @return array $arr - the array containing the picklist values
  */
 function getAllPickListValues($fieldName,$lang = Array() ){
-	$adb = PearDatabase::getInstance();
-	$sql = 'SELECT * FROM vtiger_'.$adb->sql_escape_string($fieldName);
-	$result = $adb->query($sql);
-	$count = $adb->num_rows($result);
-
-	$arr = array();
-	for($i=0;$i<$count;$i++){
-		$pick_val = decode_html($adb->query_result($result, $i, $fieldName));
+	$db = PearDatabase::getInstance();
+	$result = $db->query('SELECT * FROM vtiger_'.$fieldName);
+	
+	$arr = [];
+	while($row = $db->fetchByAssoc($result)){
+		$pick_val = decode_html($row[$fieldName]);
 		if($lang[$pick_val] != ''){
 			$arr[$pick_val] = $lang[$pick_val];
 		}

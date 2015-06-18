@@ -1113,6 +1113,63 @@ class Vtiger_Functions {
 		return $address;
 	}
 
+	function parseBytes($str) {
+		if (is_numeric($str)) {
+			return floatval($str);
+		}
+
+		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
+			$bytes = floatval($regs[1]);
+			switch (strtolower($regs[2])) {
+				case 'g':
+				case 'gb':
+					$bytes *= 1073741824;
+					break;
+				case 'm':
+				case 'mb':
+					$bytes *= 1048576;
+					break;
+				case 'k':
+				case 'kb':
+					$bytes *= 1024;
+					break;
+			}
+		}
+
+		return floatval($bytes);
+	}
+
+	public function showBytes($bytes, &$unit = null) {
+		if ($bytes >= 1073741824) {
+			$unit = 'GB';
+			$gb = $bytes / 1073741824;
+			$str = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $unit;
+		} else if ($bytes >= 1048576) {
+			$unit = 'MB';
+			$mb = $bytes / 1048576;
+			$str = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $unit;
+		} else if ($bytes >= 1024) {
+			$unit = 'KB';
+			$str = sprintf("%d ", round($bytes / 1024)) . $unit;
+		} else {
+			$unit = 'B';
+			$str = sprintf('%d ', $bytes) . $unit;
+		}
+
+		return $str;
+	}
+
+	public function getMaxUploadSize() {
+		// find max filesize value
+		$maxFileSize = self::parseBytes(ini_get('upload_max_filesize'));
+		$maxPostSize = self::parseBytes(ini_get('post_max_size'));
+
+		if ($maxPostSize && $maxPostSize < $maxFileSize) {
+			$maxFileSize = $maxPostSize;
+		}
+		return $maxFileSize;
+	}
+
 	public static function getCompressInfo($type = 'js') {
 		switch ($type) {
 			case 'js':
@@ -1124,5 +1181,4 @@ class Vtiger_Functions {
 		}
 		return $return;
 	}
-	
 }

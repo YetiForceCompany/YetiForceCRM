@@ -242,7 +242,7 @@ Vtiger_Edit_Js("Products_Edit_Js",{
 					progressInstance.hide();
 					var css = {'text-align' : 'left','width':'65%'};
 					var callback = function(data){
-						var params = app.validationEngineOptions;
+						var params = app.validationEngineOptionsForRecord;
 						var form = data.find('#currencyContainer');
 						params.onValidationComplete = function(form, valid){
 							if(valid) {

@@ -78,9 +78,8 @@ if(date('I')==1){
 $myical = new iCalendar;
 
 $myical->add_component($tz);
-
-while (!$calendar_results->EOF) {
-    $this_event = $calendar_results->fields;
+while ($row = $adb->fetch_array($calendar_results)) {
+    $this_event = $row;
 	$id = $this_event['activityid'];
 	$type = $this_event['activitytype'];
 	if($type!='Task'){
@@ -110,4 +109,4 @@ while (!$calendar_results->EOF) {
 // Print the actual calendar
 echo $myical->serialize();
 
-?>
+

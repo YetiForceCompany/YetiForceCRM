@@ -159,15 +159,13 @@ class Vtiger_List_View extends Vtiger_Index_View {
 		}
 
         $searchParmams = $request->get('search_params');
-        if(empty($searchParmams)) {
-            $searchParmams = array();
-        }
-        $transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
-		
-        $listViewModel->set('search_params',$transformedSearchParams);
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $listViewModel->getModule());
+		$listViewModel->set('search_params', $transformedSearchParams);
 
-
-        //To make smarty to get the details easily accesible
+		//To make smarty to get the details easily accesible
         foreach($searchParmams as $fieldListGroup){
             foreach($fieldListGroup as $fieldSearchInfo){
                 $fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];

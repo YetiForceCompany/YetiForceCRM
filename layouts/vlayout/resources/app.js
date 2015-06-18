@@ -450,6 +450,15 @@ var app = {
 		prettySelect: true,
 		useSuffix: "_chzn",
 		usePrefix: "s2id_",
+	},
+
+	validationEngineOptionsForRecord: {
+		scroll: false,
+		promptPosition: 'topLeft',
+		//to support validation for chosen select box
+		prettySelect: true,
+		useSuffix: "_chzn",
+		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
 			var block = field.closest('.blockContainer');

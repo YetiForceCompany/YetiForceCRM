@@ -75,10 +75,10 @@ class OSSCosts_Record_Model extends Inventory_Record_Model {
 		$limit = $ModuleModel->widget_no_rows;
 		$sql = "SELECT osscosts_no,total FROM vtiger_osscosts INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid WHERE vtiger_crmentity.deleted=0 AND $field = '$srecord' ORDER BY osscostsid DESC LIMIT $limit";
 		$result = $db->query($sql, true);
-		$return['rows'] = $result->GetArray();
+		$return['rows'] = $adb->fetch_array($result);
 		$sql = "SELECT COUNT(osscostsid) AS count,SUM(total) AS sum FROM vtiger_osscosts INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osscosts.osscostsid WHERE vtiger_crmentity.deleted=0 AND $field = '$srecord'";
 		$result = $db->query($sql, true);
-		$return['summary'] = $result->GetArray();
+		$return['summary'] = $adb->fetch_array($result);
 		return $return;
 	}
 	function getHierarchy() {

@@ -440,8 +440,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 			},
 			'open' : function(event,ui) {
 				//To Make the menu come up in the case of quick create
-				jQuery(this).data('autocomplete').menu.element.css('z-index','100001');
-
+				jQuery(this).data('ui-autocomplete').menu.element.css('z-index','100001');
 			}
 		});
 	},
@@ -506,7 +505,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 	
 	referenceCreateHandler : function(container) {
-		console.log('referenceCreateHandler');
 		var thisInstance = this;
 		var postQuickCreateSave  = function(data) {
 			var params = {};
@@ -1376,7 +1374,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 
 		app.registerEventForDatePickerFields('#EditView');
 		
-		var params = app.validationEngineOptions;
+		var params = app.validationEngineOptionsForRecord;
 		params.onValidationComplete = function(element,valid){
 			if(valid){
 				var ckEditorSource = editViewForm.find('.ckEditorSource');

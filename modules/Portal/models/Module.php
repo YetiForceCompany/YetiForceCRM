@@ -66,10 +66,9 @@ class Portal_Module_Model extends Vtiger_Module_Model {
         
         $result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', array());
         
-        for($i = 0; $i < $db->num_rows($result); $i++) {
-            $row = $db->fetch_row($result, $i);
-            $record[$i]['id'] = $row['portalid'];
-            $record[$i]['portalname'] = $row['portalname'];
+        while($row = $db->fetchByAssoc($result)){
+            $record[]['id'] = $row['portalid'];
+            $record[]['portalname'] = $row['portalname'];
         }
         
         return $record;

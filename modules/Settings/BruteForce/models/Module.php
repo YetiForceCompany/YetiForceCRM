@@ -80,9 +80,9 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 		$now = date("Y-m-d H:i:s");
 
 		$bruteforceSettings =  $db->query_result_rowdata($result, 0);
-		$attempsNumber = $bruteforceSettings[0];
-		$blockTime = $bruteforceSettings[1];
-		  
+		$attempsNumber = $bruteforceSettings['attempsnumber'];
+		$blockTime = $bruteforceSettings['timelock'];
+
 		$query = "SELECT count(login_id) as cn FROM `vtiger_loginhistory` vlh WHERE STATUS = 'Failed login' && user_ip = ? && unblock = 0 && (UNIX_TIMESTAMP(vlh.login_time) - UNIX_TIMESTAMP(ADDDATE(?, INTERVAL -$blockTime MINUTE))) > 0";
 		$result = $db->pquery($query, array ($ip, $now) );
 

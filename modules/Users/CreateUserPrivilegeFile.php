@@ -1384,9 +1384,9 @@ function constructSingleStringKeyValueArray($var) {
 		    //fix for signatue quote(') issue
 		    $value=$adb->sql_escape_string($value);    
 			if($i<$size) {
-				$code .= "'".$key."'=>'".$value."',";
+				$code .= "'".$key."'=>".$value.",";
 			} else {
-				$code .= "'".$key."'=>'".$value."'";
+				$code .= "'".$key."'=>".$value;
 			}
 			$i++;
 		}

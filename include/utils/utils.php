@@ -1292,38 +1292,6 @@ function getAccessPickListValues($module)
 	return $fieldlists;
 	}
 
-function get_config_status() {
-	global $default_charset;
-	if(strtolower($default_charset) == 'utf-8')
-		$config_status=1;
-	else
-		$config_status=0;
-	return $config_status;
-        }
-
-function getMigrationCharsetFlag() {
-	$adb = PearDatabase::getInstance();
-
-	if(!$adb->isPostgres())
-		$db_status=$adb->check_db_utf8_support();
-	$config_status=get_config_status();
-
-	if ($db_status == $config_status) {
-		if ($db_status == 1) { // Both are UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_UTF8_DB_UTF8;
-		} else { // Both are Non UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_NONUTF8_DB_NONUTF8;
-}
-		} else {
-			if ($db_status == 1) { // Database charset is UTF-8 and CRM charset is Non UTF-8
-				$db_migration_status = MIG_CHARSET_PHP_NONUTF8_DB_UTF8;
-		} else { // Database charset is Non UTF-8 and CRM charset is UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_UTF8_DB_NONUTF8;
-	}
-	}
-	return $db_migration_status;
-}
-
 /** Function to get on clause criteria for duplicate check queries */
 function get_on_clause($field_list,$uitype_arr,$module)
 {
@@ -1604,15 +1572,22 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
 	if ($module != $return_module && !empty($return_module) && !empty($return_id)) {
 		$em = new VTEventsManager($adb);
 		$em->initTriggerCache();
-		$entityData = VTEntityData::fromEntityId($adb, $record);
-		$em->triggerEvent('vtiger.entity.unlink.before', $entityData);
+		
+		$data = [];
+		$data['CRMEntity'] = $focus;
+		$data['entityData'] = VTEntityData::fromEntityId($adb, $record);
+		$data['sourceModule'] = $sourceModule;
+		$data['sourceRecordId'] = $sourceRecordId;
+		$data['destinationModule'] = $destinationModule;
+		$data['destinationRecordId'] = $destinationRecordId;
+		$em->triggerEvent('vtiger.entity.unlink.before', $data);
 
 		$focus->unlinkRelationship($record, $return_module, $return_id);
 		$focus->trackUnLinkedInfo($return_module, $return_id, $module, $record);
 		
 		if($em){
 			$entityData = VTEntityData::fromEntityId($adb, $record);
-			$em->triggerEvent('vtiger.entity.unlink.after', $entityData);
+			$em->triggerEvent('vtiger.entity.unlink.after', $data);
 		}
 	} else {
 		$focus->trash($module, $record);
@@ -1629,9 +1604,12 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	require_once("include/events/include.inc");
 	$em = new VTEventsManager($adb);
 	$em->initTriggerCache();
-	if(!is_array($destinationRecordIds)) $destinationRecordIds = Array($destinationRecordIds);
-	$data = array();
-	$data['focus'] = $focus;
+	if(!is_array($destinationRecordIds)) 
+		$destinationRecordIds = [$destinationRecordIds];
+
+	$data = [];
+	$data['CRMEntity'] = $focus;
+	$data['entityData'] = VTEntityData::fromEntityId($adb, $sourceRecordId);
 	$data['sourceModule'] = $sourceModule;
 	$data['sourceRecordId'] = $sourceRecordId;
 	$data['destinationModule'] = $destinationModule;

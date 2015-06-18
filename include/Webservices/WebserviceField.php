@@ -200,7 +200,7 @@ class WebserviceField{
 		if(isset(WebserviceField::$tableMeta[$this->getTableName()])){
 			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
 		}else{
-			$dbMetaColumns = $this->pearDB->database->MetaColumns($this->getTableName());
+			$dbMetaColumns = $this->pearDB->getColumnsMeta($this->getTableName());
 			$tableFields = array();
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
@@ -213,10 +213,10 @@ class WebserviceField{
 		$tableFields = $this->getTableFields();
 		foreach ($tableFields as $fieldName => $dbField) {
 			if(strcmp($fieldName,$this->getColumnName())===0){
-				$this->setNullable(!$dbField->not_null);
-				if($dbField->has_default === true && !$this->explicitDefaultValue){
-					$this->defaultValuePresent = $dbField->has_default;
-					$this->setDefault($dbField->default_value);
+				$this->setNullable(!$dbField->notNull);
+				if($dbField->hasDefault === true && !$this->explicitDefaultValue){
+					$this->defaultValuePresent = $dbField->hasDefault;
+					$this->setDefault($dbField->default);
 				}
 			}
 		}

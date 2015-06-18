@@ -19,7 +19,7 @@ class Settings_Mail_Autologin_Model {
 		if($Num == 0){
 			return [];
 		}else{
-			return $result->GetArray();
+			return $db->fetch_array($result);
 		}
 	}
 	public function getAutologinUsers($user_id) {

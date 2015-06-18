@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -24,7 +24,7 @@
 					</thead>
 					<tbody>
 						<tr><td>{vtranslate('LBL_DATABASE_TYPE', 'Install')}<span class="no">*</span></td>
-							<td>{vtranslate('MySQL', 'Install')}{if function_exists('mysqli_connect')}<input type="hidden" value="mysqli" name="db_type">{else}<input type="hidden" value="mysql" name="db_type">{/if}</td>
+							<td>{vtranslate('MySQL', 'Install')}<input type="hidden" value="mysql" name="db_type"></td>
 						</tr>
 						<tr><td>{vtranslate('LBL_HOST_NAME', 'Install')}<span class="no">*</span></td>
 							<td><input type="text" class="form-control" value="{$DB_HOSTNAME}" name="db_hostname"></td>

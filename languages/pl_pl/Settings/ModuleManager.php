@@ -56,6 +56,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Moduł nie zawiera domyślnego języka systemu (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Brak plików smartów',
 	'LBL_IMPORT' => 'Importuj',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Za mały limit wysyłania plików',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Wykryto że limit wysyłania plików jest za mały (%s), przez to nie będzie możliwe wysyłanie większych plików na serwer.  Zalecamy sprawdzenie konfiguracji systemu. <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
 	
 	'LBL_CREATE_MODULE' => 'Utwórz moduł',
 	'LBL_CREATING_MODULE' => 'Tworzenie nowego modułu',

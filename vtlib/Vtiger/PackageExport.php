@@ -425,14 +425,14 @@ class Vtiger_PackageExport {
 		$this->openNode('fields');
 		for ($index = 0; $index < $fieldcount; ++$index) {
 			$this->openNode('field');
-			$fieldresultrow = $adb->fetch_row($fieldresult);
+			$fieldresultrow = $adb->fetchByAssoc($fieldresult);
 
 			$fieldname = $fieldresultrow['fieldname'];
 			$uitype = $fieldresultrow['uitype'];
 			$fieldid = $fieldresultrow['fieldid'];
 
 			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() AND table_name = ? AND column_name = ?", Array($fieldresultrow['tablename'], $fieldresultrow['columnname']));
-			$info_schemarow = $adb->fetch_row($info_schema);
+			$info_schemarow = $adb->fetchByAssoc($info_schema);
 
 			$this->outputNode($fieldname, 'fieldname');
 			$this->outputNode($uitype, 'uitype');

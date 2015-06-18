@@ -83,7 +83,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 			$return = $adb->query_result($result, 0, 'parameter');
 		}else{
 			$result = $adb->query( "SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC" ,true);
-			foreach($result->GetArray() as $row){
+			while ($row = $adb->fetch_array($result)) {
 				$return[$row['parameter']] = $row['value'];
 			}
 		}
@@ -97,7 +97,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
             $queryParams[] = $conf_type;
 		}
 		$result = $adb->pquery( "SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams, true);
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			if($conf_type != '' || $conf_type != false){
 				$return[$row['parameter']] = $row['value'];
 			}else{
@@ -277,7 +277,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
             $queryParams[] = $module;
 		}
 		$result = $adb->pquery( "SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE (uitype = '13' OR uitype = '104') AND vtiger_field.presence <> '1' $ifwhere ORDER BY name", array($queryParams) ,true);
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			array_push($return, array( $row['fieldlabel'],$row['tablename'],$row['columnname'],$row['name'],$row['tabid'],$row['fieldname']) );
 		}
 		return $return;
@@ -286,7 +286,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$return = array();
 		$result = $adb->query( "SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'emailsearch' AND parameter = 'fields'" ,true);
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			$return[$row['parameter']] = $row['value'];
 		}
 		return $return;
@@ -593,13 +593,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT id,user_name,first_name,last_name FROM vtiger_users WHERE status = ?';
 		$result = $adb->pquery($sql, array('Active'));
-		return $result->GetArray();
+		return $adb->fetch_array($result);
 	}
 	public static function getGroupList() {
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT groupid as id,groupname FROM vtiger_groups';
 		$result = $adb->pquery($sql, array());
-		return $result->GetArray();
+		return $adb->fetch_array($result);
 	}
 	public function BindRecords() {
 		$adb = PearDatabase::getInstance();

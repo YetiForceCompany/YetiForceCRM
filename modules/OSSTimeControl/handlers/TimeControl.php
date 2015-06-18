@@ -10,6 +10,11 @@
  *************************************************************************************************************************************/
 class TimeControlHandler extends VTEventHandler {
 	function handleEvent($eventName, $data) {
+		if(!is_object ( $data )){
+			$extendedData = $data;
+			$data = $extendedData['entityData'];
+		}
+		
 		$moduleName = $data->getModuleName();
 		$record_id = $data->getId();
 		switch ($eventName) {

@@ -57,6 +57,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Modul ist nicht in Standardsprache (__DEFAULTLANGUAGE__) enthalten.',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Fehler, keine Layout Datei',
 	'LBL_IMPORT' => 'Import',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => '__UNTRANSLATED__',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => '__UNTRANSLATED__',
 	
 	'LBL_CREATE_MODULE' => 'Modul erstellen',
 	'LBL_CREATING_MODULE' => 'Neues Modul erstellen',

@@ -196,6 +196,7 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 		self::log("Deregistering Language $prefix ... DONE");
 	}
 
+	
 	/**
 	 * Get all the language information
 	 * @param Boolean true to include in-active languages also, false (default)
@@ -217,12 +218,12 @@ class Vtiger_LanguageExport extends Vtiger_Package {
 				$languageinfo[$prefix] = $label;
 			}
 		} else {
-			global $languages;
+			$languages = vglobal('languages');
 			foreach($languages as $prefix=>$label) {
 				$languageinfo[$prefix] = $label;
 			}
 		}
+		
 		return $languageinfo;
 	}
 }
-?>

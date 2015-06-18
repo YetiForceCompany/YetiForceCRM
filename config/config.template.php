@@ -47,7 +47,7 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 */
 
 $dbconfig['db_server'] = '_DBC_SERVER_';
-$dbconfig['db_port'] = ':_DBC_PORT_';
+$dbconfig['db_port'] = '_DBC_PORT_';
 $dbconfig['db_username'] = '_DBC_USER_';
 $dbconfig['db_password'] = '_DBC_PASS_';
 $dbconfig['db_name'] = '_DBC_NAME_';
@@ -56,28 +56,7 @@ $dbconfig['db_status'] = '_DB_STAT_';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
-$dbconfig['db_hostname'] = $dbconfig['db_server'].$dbconfig['db_port'];
-
-// log_sql default value = false
-$dbconfig['log_sql'] = false;
-
-// persistent default value = true
-$dbconfigoption['persistent'] = true;
-
-// autofree default value = false
-$dbconfigoption['autofree'] = false;
-
-// debug default value = 0
-$dbconfigoption['debug'] = 0;
-
-// seqname_format default value = '%s_seq'
-$dbconfigoption['seqname_format'] = '%s_seq';
-
-// portability default value = 0
-$dbconfigoption['portability'] = 0;
-
-// ssl default value = false
-$dbconfigoption['ssl'] = false;
+$dbconfig['db_hostname'] = $dbconfig['db_server'].':'.$dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
 

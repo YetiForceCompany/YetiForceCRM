@@ -214,21 +214,21 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 				$fieldLength = $params['fieldLength'];
 				$uichekdata='V~O~LE~'.$fieldLength;
 				$uitype = 1;
-				$type = "VARCHAR(".$fieldLength.") default ''"; // adodb type
+				$type = "VARCHAR(".$fieldLength.") default ''"; 
 			break;
 			Case 'Decimal' :
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 7;
-				//this may sound ridiculous passing decimal but that is the way adodb wants
+
 				$dbfldlength = $fieldLength + $decimal + 1;
-				$type="NUMERIC(".$dbfldlength.",".$decimal.")";	// adodb type
+				$type="NUMERIC(".$dbfldlength.",".$decimal.")";	
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
 				$uichekdata='NN~O';
 			break;
 			Case 'Percent' :
 				$uitype = 9;
-				$type="NUMERIC(5,2)"; //adodb type
+				$type="NUMERIC(5,2)";
 				$uichekdata='N~O~2~2';
 			break;
 			Case 'Currency' :
@@ -237,17 +237,17 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 				$uitype = 71;
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$decimal = $decimal + 3;
-				$type="NUMERIC(".$dbfldlength.",".$decimal.")"; //adodb type
+				$type="NUMERIC(".$dbfldlength.",".$decimal.")";
 				$uichekdata='N~O';
 				break;
 			Case 'Date' :
 				$uichekdata='D~O';
 				$uitype = 5;
-				$type = "DATE"; // adodb type
+				$type = "DATE"; 
 				break;
 			Case 'Email' :
 				$uitype = 13;
-				$type = "VARCHAR(50) default '' "; //adodb type
+				$type = "VARCHAR(50) default '' ";
 				$uichekdata='E~O';
 				break;
 			Case 'Time' :
@@ -257,54 +257,54 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 				break;
 			Case 'Phone' :
 				$uitype = 11;
-				$type = "VARCHAR(30) default '' "; //adodb type
+				$type = "VARCHAR(30) default '' ";
 				$uichekdata='V~O';
 				break;
 			Case 'Picklist' :
 				$uitype = 16;
 				if(!empty($params['isRoleBasedPickList']))
 				$uitype = 15;
-				$type = "VARCHAR(255) default '' "; //adodb type
+				$type = "VARCHAR(255) default '' ";
 				$uichekdata='V~O';
 				break;
 			Case 'URL' :
 				$uitype = 17;
-				$type = "VARCHAR(255) default '' "; //adodb type
+				$type = "VARCHAR(255) default '' ";
 				$uichekdata='V~O';
 				break;
 			Case 'Checkbox' :
 				$uitype = 56;
-				$type = "TINYINT(1) default 0"; //adodb type
+				$type = "TINYINT(1) default 0";
 				$uichekdata='C~O';
 			break;
 			Case 'TextArea' :
 				$uitype = 21;
-				$type = "TEXT"; //adodb type
+				$type = "TEXT";
 				$uichekdata='V~O';
 				break;
 			Case 'MultiSelectCombo' :
 				$uitype = 33;
-				$type = "TEXT"; //adodb type
+				$type = "TEXT";
 				$uichekdata='V~O';
 				break;
 			Case 'Skype' :
 				$uitype = 85;
-				$type = "VARCHAR(255) default '' "; //adodb type
+				$type = "VARCHAR(255) default '' ";
 				$uichekdata='V~O';
 				break;
 			Case 'Integer' :
 				$fieldLength = $params['fieldLength'];
 				$uitype = 7;
 				if ($fieldLength > 10) {
-					$type = "BIGINT(".$fieldLength.")"; //adodb type
+					$type = "BIGINT(".$fieldLength.")";
 				} else {
-					$type = "INTEGER(".$fieldLength.")"; //adodb type
+					$type = "INTEGER(".$fieldLength.")";
 				}
 				$uichekdata='I~O';
 				break;
 			Case 'Related1M' :
 				$uitype = 10;
-				$type = "INTEGER(19)"; //adodb type
+				$type = "INTEGER(19)";
 				$uichekdata='V~O';
 				break;
 			Case 'Editor' : 
@@ -314,7 +314,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
 				break;
 			Case 'Tree' : 
 				$uitype = 302;
-				$type = "VARCHAR(255) default '' "; //adodb type
+				$type = "VARCHAR(255) default '' ";
 				$uichekdata = 'V~O';
 				break;
         }
