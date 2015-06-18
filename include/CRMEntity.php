@@ -666,7 +666,9 @@ class CRMEntity {
 	 * @param <String> $module - module name
 	 */
 	function retrieve_entity_info($record, $module) {
-		global $adb, $log, $app_strings;
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		$app_strings = vglobal('app_strings');
 
 		if(!isset($record)) {
 			throw new AppException(vtranslate('LBL_RECORD_NOT_FOUND')." ($record, $module)");
@@ -803,87 +805,26 @@ class CRMEntity {
 		$adb = PearDatabase::getInstance();
 
 		//In Bulk mode stop triggering events
-		if(!self::isBulkSaveMode()) {
-		$em = new VTEventsManager($adb);
-		// Initialize Event trigger cache
-		$em->initTriggerCache();
-		$entityData = VTEntityData::fromCRMEntity($this);
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
 
-		$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
-		$em->triggerEvent("vtiger.entity.beforesave", $entityData);
-		$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
 		}
 		//Event triggering code ends
-
 		//GS Save entity being called with the modulename as parameter
 		$this->saveentity($module_name, $fileid);
 
-
-		if($em) {
-		//Event triggering code
-		$em->triggerEvent("vtiger.entity.aftersave", $entityData);
-		$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
-		//Event triggering code ends
-	}
-
-	}
-
-	function process_list_query($query, $row_offset, $limit = -1, $max_per_page = -1) {
-		global $list_max_entries_per_page;
-		$this->log->debug("process_list_query: " . $query);
-		if (!empty($limit) && $limit != -1) {
-			$result = & $this->db->limitQuery($query, $row_offset + 0, $limit, true, "Error retrieving $this->object_name list: ");
-		} else {
-			$result = & $this->db->query($query, true, "Error retrieving $this->object_name list: ");
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
 		}
-
-		$list = Array();
-		if ($max_per_page == -1) {
-			$max_per_page = $list_max_entries_per_page;
-		}
-		$rows_found = $this->db->getRowCount($result);
-
-		$this->log->debug("Found $rows_found " . $this->object_name . "s");
-
-		$previous_offset = $row_offset - $max_per_page;
-		$next_offset = $row_offset + $max_per_page;
-
-		if ($rows_found != 0) {
-
-			// We have some data.
-
-			for ($index = $row_offset, $row = $this->db->fetchByAssoc($result, $index); $row && ($index < $row_offset + $max_per_page || $max_per_page == -99); $index++, $row = $this->db->fetchByAssoc($result, $index)) {
-
-
-				foreach ($this->list_fields as $entry) {
-
-					foreach ($entry as $key => $field) { // this will be cycled only once
-						if (isset($row[$field])) {
-							$this->column_fields[$this->list_fields_names[$key]] = $row[$field];
-
-
-							$this->log->debug("$this->object_name({$row['id']}): " . $field . " = " . $this->$field);
-						} else {
-							$this->column_fields[$this->list_fields_names[$key]] = "";
-						}
-					}
-				}
-
-
-				//$this->db->println("here is the bug");
-
-
-				$list[] = clone($this); //added by Richie to support PHP5
-			}
-		}
-
-		$response = Array();
-		$response['list'] = $list;
-		$response['row_count'] = $rows_found;
-		$response['next_offset'] = $next_offset;
-		$response['previous_offset'] = $previous_offset;
-
-		return $response;
 	}
 
 	function process_full_list_query($query) {

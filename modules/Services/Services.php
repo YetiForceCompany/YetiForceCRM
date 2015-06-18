@@ -814,7 +814,7 @@ class Services extends CRMEntity {
 
 		$limit_start_rec = ($start-1) * $list_max_entries_per_page;
 
-		if( $adb->dbType == "pgsql")
+		if( $adb->isPostgres())
 			$list_result = $adb->pquery($query.
 					" OFFSET $limit_start_rec LIMIT $list_max_entries_per_page", array());
 		else

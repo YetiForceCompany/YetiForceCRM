@@ -183,7 +183,7 @@ class Vtiger_Loader {
 			$fileName = $parts[$noOfParts-2];
 			$fileComponentName = strtolower($parts[$noOfParts-1]).'s';
 			$filePath .= $fileComponentName. '.' .$fileName;
-			//var_dump('dddd');
+
 			if (file_exists(self::resolveNameToPath($filePath))) {
 				return Vtiger_Loader::includeOnce($filePath);
 			}

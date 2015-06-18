@@ -393,9 +393,6 @@ class Install_Utils_Model {
 
 				if(@$conn->Connect($db_hostname, $db_username, $db_password, $db_name)) {
 					$db_exist_status = true;
-					if(!$db_utf8_support) {
-						$db_utf8_support = Vtiger_Util_Helper::checkDbUTF8Support($conn);
-					}
 				}
 				$conn->Close();
 			}

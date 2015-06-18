@@ -80,7 +80,6 @@ class freetag {
 	 * @access private
 	 * @param string The file path to the installation of ADOdb used.
 	 */ 
-	//var $_ADODB_DIR = 'adodb/';
 
 	/**
 	 * freetag
@@ -100,8 +99,6 @@ class freetag {
 	 * - normalized_valid_chars: Pass a regex-style set of valid characters that you want your tags normalized against. [default: 'a-zA-Z0-9' for alphanumeric]
 	 * - block_multiuser_tag_on_object: Set to 0 in order to allow individual vtiger_users to all tag the same object with the same tag. Default is 1 to only allow one occurence of a tag per object. [default: 1]
 	 * - MAX_TAG_LENGTH: maximum length of normalized tags in chars. [default: 30]
-	 * - ADODB_DIR: directory in which adodb is installed. Change if you don't want to use the bundled version. [default: adodb/]
-	 * - PCONNECT: Whether to use ADODB persistent connections. [default: FALSE]
 	 * 
 	 */ 
 	function freetag($options = NULL) {
@@ -181,9 +178,8 @@ class freetag {
         echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -227,9 +223,8 @@ class freetag {
         	//echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -286,9 +281,8 @@ class freetag {
 			LIMIT $offset, $limit";
 		$this->debug_text("Tag combo: " . join("+", $tagArray) . " SQL: $sql");
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -332,9 +326,8 @@ class freetag {
 			LIMIT $offset, $limit ";
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = $rs->fields['object_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = $row['object_id'];
 		}
 		return $retarr;
 	}
@@ -389,14 +382,13 @@ class freetag {
 			";
 			//echo ' <br><br>get_tags_on_object sql is ' .$sql;
 		$rs = $adb->pquery($sql, $params) or die("Error: $sql");
-		$retarr = array();
-		while(!$rs->EOF) {
-			$retarr[] = array(
-					'tag' => $rs->fields['tag'],
-					'raw_tag' => $rs->fields['raw_tag'],
-					'tagger_id' => $rs->fields['tagger_id']
-					);
-			$rs->MoveNext();
+		$retarr = [];
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[] = [
+				'tag' => $row['tag'],
+				'raw_tag' => $row['raw_tag'],
+				'tagger_id' => $row['tagger_id']
+			];
 		}
 		return $retarr;
 	}
@@ -453,8 +445,9 @@ class freetag {
 			FROM ${prefix}freetags 
 			WHERE raw_tag = ? ";
 		$rs = $adb->pquery($sql, array($tag)) or die("Syntax Error: $sql");
-		if(!$rs->EOF) {
-			$tag_id = $rs->fields['id'];
+		$row = $adb->fetch_array($rs);
+		if($row) {
+			$tag_id = $row['id'];
 		} else {
 			// Add new tag! 
 			$tag_id = $adb->getUniqueId('vtiger_freetags');
@@ -811,10 +804,10 @@ class freetag {
 
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
+		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array(
-					'tag' => $rs->fields['tag'],
-					'count' => $rs->fields['count']
+					'tag' => $row['tag'],
+					'count' => $row['count']
 					);
 			$rs->MoveNext();
 		}
@@ -852,8 +845,8 @@ class freetag {
 			";
 
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
-		if(!$rs->EOF) {
-			return $rs->fields['count'];
+		while ($row = $adb->fetch_array($rs)) {
+			return $row['count'];
 		}
 		return false;
 
@@ -980,11 +973,10 @@ class freetag {
         //echo $sql;
 		$rs = $adb->pquery($sql, $params) or die("Syntax Error: $sql");
 		$retarr = array();
-		while(!$rs->EOF) {
-			$rs->fields['tag'] = to_html($rs->fields['tag']); 
-			$retarr[$rs->fields['tag']] = $rs->fields['quantity'];
-			$retarr1[$rs->fields['tag']] = $rs->fields['tag_id'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$row['tag'] = to_html($row['tag']); 
+			$retarr[$row['tag']] = $row['quantity'];
+			$retarr1[$row['tag']] = $row['tag_id'];
 		}
 		if($retarr) ksort($retarr);
 		if($retarr1) ksort($retarr1);
@@ -1043,11 +1035,9 @@ class freetag {
 			LIMIT 0, ?";
 
 		$rs = $adb->pquery($sql, array($tag, $tag, $max)) or die("Syntax Error: $sql");
-		while(!$rs->EOF) {
-			$retarr[$rs->fields['tag']] = $rs->fields['quantity'];
-			$rs->MoveNext();
+		while ($row = $adb->fetch_array($rs)) {
+			$retarr[$row['tag']] = $row['quantity'];
 		}
-
 		return $retarr;
 	}
 
@@ -1120,12 +1110,11 @@ class freetag {
 			LIMIT 0, ? ";
 
 		$rs = $adb->pquery($sql, array($tagArray, $threshold, $max_objects)) or die("Syntax Error: $sql, Error: " . $adb->ErrorMsg());
-		while(!$rs->EOF) {
+		while ($row = $adb->fetch_array($rs)) {
 			$retarr[] = array (
-				'object_id' => $rs->fields['object_id'],
-				'strength' => ($rs->fields['num_common_tags'] / $numTags)
+				'object_id' => $row['object_id'],
+				'strength' => ($row['num_common_tags'] / $numTags)
 				);
-			$rs->MoveNext();
 		}
 
 		return $retarr;

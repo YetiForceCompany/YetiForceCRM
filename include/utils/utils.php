@@ -1292,38 +1292,6 @@ function getAccessPickListValues($module)
 	return $fieldlists;
 	}
 
-function get_config_status() {
-	global $default_charset;
-	if(strtolower($default_charset) == 'utf-8')
-		$config_status=1;
-	else
-		$config_status=0;
-	return $config_status;
-        }
-
-function getMigrationCharsetFlag() {
-	$adb = PearDatabase::getInstance();
-
-	if(!$adb->isPostgres())
-		$db_status=$adb->check_db_utf8_support();
-	$config_status=get_config_status();
-
-	if ($db_status == $config_status) {
-		if ($db_status == 1) { // Both are UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_UTF8_DB_UTF8;
-		} else { // Both are Non UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_NONUTF8_DB_NONUTF8;
-}
-		} else {
-			if ($db_status == 1) { // Database charset is UTF-8 and CRM charset is Non UTF-8
-				$db_migration_status = MIG_CHARSET_PHP_NONUTF8_DB_UTF8;
-		} else { // Database charset is Non UTF-8 and CRM charset is UTF-8
-			$db_migration_status = MIG_CHARSET_PHP_UTF8_DB_NONUTF8;
-	}
-	}
-	return $db_migration_status;
-}
-
 /** Function to get on clause criteria for duplicate check queries */
 function get_on_clause($field_list,$uitype_arr,$module)
 {

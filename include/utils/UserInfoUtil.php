@@ -2055,7 +2055,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
                 $params = array($tabid, $fieldname);
             }
             //Postgres 8 fixes
- 		if( $adb->dbType == "pgsql")
+ 		if( $adb->isPostgres())
  		    $query = fixPostgresQuery( $query, $log, 0);
 
 
@@ -2231,7 +2231,7 @@ function isCalendarPermittedBySharing($recordId)
 	$result=$adb->pquery($query, array($recordId));
 
 	for($i=0; $i< $adb->num_rows($result); $i++ ) {
-		$sharedDetails = $adb->fetch_row($result,$i);
+		$sharedDetails = $adb->fetchByAssoc($result,$i);
 		$sharedType = $sharedDetails['calendarsharedtype'];
 		if($sharedType == 'public') {
 			$permission = 'yes';

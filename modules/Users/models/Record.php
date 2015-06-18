@@ -348,13 +348,13 @@ class Users_Record_Model extends Vtiger_Record_Model {
 		$currentUserRoleModel = Settings_Roles_Record_Model::getInstanceById($this->getRole());
 		$accessibleUser = Vtiger_Cache::get('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers');
         if(empty($accessibleUser)) {
-			if($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private == 'Public') {
+			if($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = get_user_array(false, "ACTIVE", "", $private,$module);
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '2'){
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '2'){
 				$accessibleUser = $this->getSameLevelUsersWithSubordinates();
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
 				$accessibleUser = $this->getRoleBasedSubordinateUsers();
-			} else if($currentUserRoleModel->get('allowassignedrecordsto') === '4') {
+			} else if($currentUserRoleModel->get('allowassignedrecordsto') == '4') {
 				$accessibleUser[$this->getId()] = $this->getName();
 			}
 			Vtiger_Cache::set('vtiger-'.$this->getRole().'-'.$currentUserRoleModel->get('allowassignedrecordsto'), 'accessibleusers',$accessibleUser);

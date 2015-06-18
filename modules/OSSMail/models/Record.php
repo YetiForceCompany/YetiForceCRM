@@ -22,12 +22,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		if ($where) {
 			$sql .= ' WHERE' . substr($where, 4);
 		}
-		$result = $adb->pquery($sql, $param, true);
+		$result = $adb->pquery($sql, $param);
 		$Num = $adb->num_rows($result);
 		if ($Num == 0) {
 			return false;
 		} else {
-			return $result->GetArray();
+			return $adb->fetch_array($result);
 		}
 	}
 
@@ -43,7 +43,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
             $queryParams[] = $conf_type;
 		}
 		$result = $adb->pquery( "SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC" ,$queryParams, true);
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			if($conf_type != '' || $conf_type != false){
 				$return[$row['parameter']] = $row['value'];
 			}else{
@@ -205,7 +205,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 	public static function get_account_detail_by_name($name) {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery( "SELECT * FROM roundcube_users where username = ? ", array($name) ,true);
-		return $result->GetArray();
+		return $adb->fetch_array($result);
 	}
 	public static function _decode_text($text) {
 		$data = imap_mime_header_decode($text);

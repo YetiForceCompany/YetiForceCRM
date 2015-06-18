@@ -263,7 +263,7 @@ class SMSNotifierManager {
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
 		if($result) {
-			return $adb->fetch_row($result);
+			return $adb->fetchByAssoc($result);
 		}
 		return false;
 	}
@@ -272,8 +272,8 @@ class SMSNotifierManager {
 		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers", array());
 		$servers = array();
 		if($result) {
-			while($resultrow = $adb->fetch_row($result)) {
-				$servers[] = $resultrow;
+			while($row = $adb->fetchByAssoc($result)){
+				$servers[] = $row;
 			}
 		}
 		return $servers;

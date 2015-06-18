@@ -4051,7 +4051,7 @@ class RemoveModule {
 		$take_cvid = $adb->query( "select cvid from vtiger_customview where entitytype = '".$this->module_name."'", true, "Błąd podczas pobierania tabid w konstruktorze klasy RemoveModule - vtiger_customview" );
 		if( $adb->num_rows( $take_cvid ) > 0 )
 		{
-			$this->cvid = $take_cvid->GetArray();
+			$this->cvid = $take_cvid->getSingleValue();
 			
 		}
 

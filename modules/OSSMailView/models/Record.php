@@ -44,7 +44,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model {
 		if ($widgets[$smodule]) {
 			$ids = [];
 			$result = $adb->pquery('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid = ? AND `deleted` = ? ORDER BY `date` DESC LIMIT ' . $Config['widget_limit'], [$srecord, 0]);
-			foreach ($result->GetArray() as $row) {
+			while ($row = $adb->fetch_array($result)) {
 				$ids[] = $row['ossmailviewid'];
 			}
 			if (count($ids) == 0) {
@@ -66,7 +66,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model {
 			$query .= ' ORDER BY ossmailviewid DESC LIMIT ' . $Config['widget_limit'];
 			$result = $adb->pquery($query, $queryParams, true);
 
-			foreach ($result->GetArray() as $row) {
+			while ($row = $adb->fetch_array($result)) {
 				$from = $this->findRecordsById($row['from_id']);
 				$to = $this->findRecordsById($row['to_id']);
 				$return[$row['ossmailviewid']]['id'] = $row['ossmailviewid'];

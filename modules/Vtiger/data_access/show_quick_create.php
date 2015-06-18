@@ -26,7 +26,7 @@ Class DataAccess_show_quick_create{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery( "SELECT tabid, name FROM vtiger_tab", array() ,true);
 		$modules = array();
-		foreach($result->GetArray() as $row){
+		while ($row = $db->fetch_array($result)) {
 			$modules[$row['tabid']] = $row['name'];
 		}
 		return Array('modules'=>$modules);

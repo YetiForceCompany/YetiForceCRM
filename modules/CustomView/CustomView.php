@@ -879,13 +879,13 @@ class CustomView extends CRMEntity {
 	 * @returns  $advfilterlist Array
 	 */
 	function getAdvFilterByCvid($cvid) {
-
-		global $adb, $log, $default_charset;
-
-		$advft_criteria = array();
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		$default_charset = vglobal('default_charset');
+		$advft_criteria = [];
 
 		$sql = 'SELECT * FROM vtiger_cvadvfilter_grouping WHERE cvid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, array($cvid));
+		$groupsresult = $adb->pquery($sql, [$cvid]);
 
 		$i = 1;
 		$j = 0;

@@ -253,7 +253,7 @@ function getTaxDetailsForProduct($productid, $available='all')
 		$params = array($productid);
 
 		//Postgres 8 fixes
- 		if( $adb->dbType == "pgsql")
+ 		if( $adb->isPostgres())
  		    $query = fixPostgresQuery( $query, $log, 0);
 
 		$res = $adb->pquery($query, $params);
@@ -751,7 +751,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available='availabl
 		}
 
 		//Postgres 8 fixes
- 		if( $adb->dbType == "pgsql")
+ 		if( $adb->isPostgres())
  		    $query = fixPostgresQuery( $query, $log, 0);
 
 		$res = $adb->pquery($query, $params);

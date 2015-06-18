@@ -44,7 +44,7 @@ Class DataAccess_check_task{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery( "SELECT * FROM vtiger_taskstatus ORDER BY sortorderid", array() ,true);
 		$fields = array();
-		foreach($result->GetArray() as $row){
+		while ($row = $adb->fetch_array($result)) {
 			array_push($fields, $row['taskstatus'] );
 		}
 		return Array('status'=>$fields);

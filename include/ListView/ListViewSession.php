@@ -56,7 +56,12 @@ class ListViewSession {
 	}
 
 	function getListViewNavigation($currentRecordId){
-		global $currentModule,$current_user,$adb,$log,$list_max_entries_per_page;
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		$currentModule = vglobal('currentModule');
+		$current_user = vglobal('current_user');
+		$list_max_entries_per_page = vglobal('list_max_entries_per_page');
+
 		Zend_Json::$useBuiltinEncoderDecoder = true;
 		$reUseData = false;
 		$displayBufferRecordCount = 10;
@@ -135,7 +140,7 @@ class ListViewSession {
 			}else{
 				$recordCount = ($list_max_entries_per_page+ $bufferRecordCount);
 			}
-			if( $adb->dbType == "pgsql"){
+			if( $adb->isPostgres()){
 				$list_query .= " OFFSET $startRecord LIMIT $recordCount";
 			}else{
 				$list_query .= " LIMIT $startRecord, $recordCount";
@@ -242,4 +247,3 @@ class ListViewSession {
 		}
 	}
 }
-?>

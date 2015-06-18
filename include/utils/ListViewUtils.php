@@ -529,7 +529,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		related_tabid=?', array($tabid, $relatedTabId));
 	if (empty($relatedListResult))
 		return;
-	$relatedListRow = $adb->fetch_row($relatedListResult);
+	$relatedListRow = $adb->fetchByAssoc($relatedListResult);
 	$header = $relatedListRow['label'];
 	$actions = $relatedListRow['actions'];
 	$functionName = $relatedListRow['name'];

@@ -247,16 +247,15 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model {
 		$relatedRecordList = array();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
-		for($i=0; $i< $db->num_rows($result); $i++ ) {
-			$row = $db->fetch_row($result,$i);
-			$recordId = $db->query_result($result,$i,'crmid');
+		while($row = $db->fetchByAssoc($result)){
+			$recordId = $row['crmid'];
 			$newRow = array();
 			foreach($row as $col=>$val){
 				if(array_key_exists($col,$relatedColumnFields)){
 					if ($relationModuleName == 'Documents' && $col == 'filename') {
-						$fileName = $db->query_result($result, $i, 'filename');
-						$downloadType = $db->query_result($result, $i, 'filelocationtype');
-						$status = $db->query_result($result, $i, 'filestatus');
+						$fileName = $row['filename'];
+						$downloadType = $row['filelocationtype'];
+						$status = $row['filestatus'];
 						$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
 
 						$fileIdRes = $db->pquery($fileIdQuery, array($recordId));
