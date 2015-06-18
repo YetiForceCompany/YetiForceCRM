@@ -15,7 +15,7 @@
     
 	<div>
 		{if !empty($RECENT_ACTIVITIES)}
-			<ul class="unstyled">
+			<ul class="list-unstyled">
 				{foreach item=RECENT_ACTIVITY from=$RECENT_ACTIVITIES}
 					{assign var=PROCEED value= TRUE}
 					{if ($RECENT_ACTIVITY->isRelationLink()) or ($RECENT_ACTIVITY->isRelationUnLink())}
@@ -63,7 +63,7 @@
 							</li>
 						{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 							<li>
-								<div class="row">
+								<div>
 									{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 									<span>{vtranslate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span> <span>
 											{if $RECENT_ACTIVITY->isRelationLink()}
@@ -74,7 +74,7 @@
 											{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
 												{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 											{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
-									<span class="pull-right"><p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>
+									<span class="pull-right"><p class="muted no-margin"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>
 								</div>
 							</li>
 						{else if $RECENT_ACTIVITY->isRestore()}
