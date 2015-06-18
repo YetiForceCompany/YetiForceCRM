@@ -43,9 +43,9 @@
 					<td>
 						<table class="calDayHour" cellpadding="5" cellspacing="0">
 							<tr>
-								<td><b>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</strong></td>
 								<td></td>
-								<td><b>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</strong></td>
 							</tr>
 							<tr>
 								<td>
