@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class='editViewContainer container'>
+<div class='editViewContainer'>
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}

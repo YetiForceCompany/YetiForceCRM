@@ -97,7 +97,7 @@
 				{/if}
 			</div>
 		{else}
-			<div><br><textarea id="{$comment}" name="{$comment}" title="{$data.$comment}" class="lineItemCommentBox form-control">{$data.$comment}</textarea>
+			<div><br><textarea id="{$comment}" name="{$comment}" title="{vtranslate("Item Comment")}" class="lineItemCommentBox form-control">{$data.$comment}</textarea>
 		{/if}
 	</td>
 	<td>
