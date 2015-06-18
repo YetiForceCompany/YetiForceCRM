@@ -151,8 +151,9 @@ var app = {
 		if(data != null) {
 			params = jQuery.extend(data,params);
 		}
-		params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
+		params.language = Vtiger_Helper_Js.getLangCode();
+		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
+		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
 		// Sort DOM nodes alphabetically in select box.
 		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
@@ -184,12 +185,11 @@ var app = {
 			params.closeOnSelect = false;
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
-
 		selectElement.select2(params)
-					 .on("open", function(e) {
+					 .on("select2:open", function(e) {
 						 var element = jQuery(e.currentTarget);
 						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
+						 instance.$dropdown.css('z-index',1000002);
 					 });
 		if(typeof params.maximumSelectionSize != "undefined") {
 			app.registerChangeEventForMultiSelect(selectElement,params);

@@ -768,10 +768,11 @@ hr {
   border-color: #dddddd;
 }
 
-.select2-drop ul.filterActions {
+.select2-dropdown ul.filterActions {
   list-style: none !important;
+  padding-left: 15px;
 }
-.select2-drop ul.filterActions li {
+.select2-dropdown ul.filterActions li {
   cursor: pointer;
 }
 .ui-autocomplete .ui-menu-item #ui-active-menuitem {

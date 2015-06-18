@@ -16,9 +16,19 @@ jQuery.Class("Vtiger_Helper_Js",{
 	/*
 	 * Function to set lang code
 	 */
-	setlangCode : function(){
+	setLangCode : function(){
 		var htmlTag			= document.getElementsByTagName('html')[0];
 		this.langCode		= htmlTag.getAttribute('lang') ? htmlTag.getAttribute('lang')	: 'en';
+	},
+	
+	/*
+	 * Function to get lang code
+	 */
+	getLangCode : function(){
+		if(!this.langCode){
+			this.setLangCode();
+		}
+		return this.langCode;
 	},
 	
 	/*
@@ -155,10 +165,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 	 */
 	showConfirmationBox : function(data){
 		var aDeferred = jQuery.Deferred();
-		if(!this.langCode){
-			this.setlangCode();
-		}
-		bootbox.setLocale(this.langCode);
+		bootbox.setLocale(this.getLangCode());
 		var bootBoxModal = bootbox.confirm(data['message'], function(result) {
 			if(result){
 				aDeferred.resolve();

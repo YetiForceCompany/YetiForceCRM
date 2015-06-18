@@ -20,13 +20,12 @@
 		<input type='hidden' name='view' value='FindDuplicates' />
 		<br>
 		<div class="form-group">
-			<span class="control-label">
+			<div class="col-sm-3 control-label">
 				{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
-			</span>
-			<div class="controls">
-				<div class="row">
-					<span class="col-md-10" style="max-width: 200px;">
-						<select id="fieldList" class="select2 row" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
+			</div>
+			<div class="col-sm-6 controls">
+					<div class="col-md-10">
+						<select id="fieldList" class="select2 form-control" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
 							data-validation-engine="validate[required]">
 							{foreach from=$FIELDS item=FIELD}
 								{if $FIELD->isViewableInDetailView()}
@@ -34,12 +33,11 @@
 								{/if}
 							{/foreach}
 						</select>
-					</span>
-				</div>
-				<div class="row">
-					<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label
-				</div>
-				<br><br>
+					</div>
+					<div class="col-md-10">
+						<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
+					</div>
+				<br>
 			</div>
 		</div>
 		<div class="modal-footer">
