@@ -30,7 +30,8 @@
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-modal.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-dropdown.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-popover.js"></script>
-	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-switch.min.js"></script>*}
+	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-switch.min.js"></script>
+	<script type="text/javascript" src="libraries/bootstrap/js/bootbox.min.js"></script>*}
 	
 	<script type="text/javascript" src="libraries/bootstrap3/js/alert.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap3/js/tooltip.js"></script>
@@ -40,8 +41,8 @@
 	<script type="text/javascript" src="libraries/bootstrap3/js/dropdown.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap3/js/popover.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap3/js/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="libraries/bootstrap3/js/bootbox.min.js"></script>
 	
-	<script type="text/javascript" src="libraries/bootstrap/js/bootbox.min.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/resources/app.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/resources/helper.js"></script>

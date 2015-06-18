@@ -227,13 +227,16 @@ jQuery.Class("Vtiger_List_Js",{
 								'mode' : 'hide'
 							});
 							listInstance.postMassDeleteRecords(); 
-                                                        if(data.error){ 
-                                                            var  params = { 
-                                                                text  : app.vtranslate(data.error.message), 
-                                                                title : app.vtranslate('JS_LBL_PERMISSION') 
-                                                            } 
-                                                            Vtiger_Helper_Js.showPnotify(params); 
-                                                        } 
+							if(data.error){ 
+								var  params = { 
+									text  : app.vtranslate(data.error.message), 
+									title : app.vtranslate('JS_LBL_PERMISSION') 
+								} 
+								Vtiger_Helper_Js.showPnotify(params); 
+							} 
+						},
+						function(error){
+							console.log('Error: ' + error)
 						}
 					);
 				},
