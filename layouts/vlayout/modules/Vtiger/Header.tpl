@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -24,6 +24,7 @@
 		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" type="text/css" media="screen" />
 		{*<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />*}
+		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/chosen.bootstrap{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap-switch.css" type="text/css" media="screen" />
@@ -34,12 +35,7 @@
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
 		<link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" />
-		{*<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />*}
 		{foreach key=index item=cssModel from=$STYLES}
-			{if $cssModel->getHref() eq 'layouts/vlayout/skins/twilight/style.css2'}
-				{continue}
-			{/if}
-			{*{var_dump($cssModel->getHref())}*}
 			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 		{/foreach}
 		{foreach key=index item=jsModel from=$HEADER_SCRIPTS}

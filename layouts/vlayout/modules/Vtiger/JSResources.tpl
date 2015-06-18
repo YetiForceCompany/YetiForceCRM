@@ -6,7 +6,7 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
+   * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {* <script> resources below *}
@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="libraries/bootstrap3/js/popover.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap3/js/bootstrap-switch.js"></script>
 	<script type="text/javascript" src="libraries/bootstrap3/js/bootbox.min.js"></script>
+	<script type="text/javascript" src="libraries/jquery/selectize/js/selectize.js"></script>
 	
 	<script type="text/javascript" src="layouts/vlayout/resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="layouts/vlayout/resources/app.js"></script>

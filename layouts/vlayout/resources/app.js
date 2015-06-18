@@ -82,6 +82,11 @@ var app = {
 			app.showSelect2ElementView(parent, viewParams);
 			return;
 		}
+		//If view is selectize, This will convert the ui of select boxes to selectize elements.
+		if(view == 'selectize') {
+			app.showSelectizeElementView(parent, viewParams);
+			return;
+		}
 		selectElement = jQuery('.chzn-select', parent);
 		//parent itself is the element
 		if(parent.is('select.chzn-select')) {
@@ -194,6 +199,16 @@ var app = {
 		if(typeof params.maximumSelectionSize != "undefined") {
 			app.registerChangeEventForMultiSelect(selectElement,params);
 		}
+		return selectElement;
+	},
+	/**
+	 * Function which will show the selectize element for select boxes . This will use selectize library
+	 */
+	showSelectizeElementView : function(selectElement, params) {
+		if(typeof params == 'undefined') {
+			params = {};
+		}
+		selectElement.selectize(params);
 		return selectElement;
 	},
 
