@@ -10,20 +10,20 @@
  ********************************************************************************/
 -->*}
 {strip}
+<div class="row">	
 {if $SALUTATION_FIELD_MODEL}
 {assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getPicklistValues()}
 {assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
-<div class="row">
-	<div class="col-md-4">
+	<div class="col-md-5">
 		<select class="chzn-select form-control" name="{$SALUTATION_FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $SALUTATION_FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
 			{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_NONE', $MODULE)}</option>{/if}
 			{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 				<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if trim(decode_html($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{/foreach}
 		</select>
-		{/if}
 	</div>
-	<div class=" col-md-8">
+{/if}	
+	<div class="{if $SALUTATION_FIELD_MODEL}col-md-7{else}col-md-12{/if}">
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(Zend_Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
