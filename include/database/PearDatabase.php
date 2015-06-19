@@ -207,6 +207,10 @@ class PearDatabase {
 		$this->dbHostName = $host;
 	}
 
+	function getDatabaseName() {
+		return $this->dbName;
+	}
+	
 	function startTransaction() {
 		if ($this->hasActiveTransaction) {
 			return false;
