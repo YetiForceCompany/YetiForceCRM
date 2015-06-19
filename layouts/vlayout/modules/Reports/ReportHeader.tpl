@@ -26,7 +26,7 @@
                             <div class="btn-group">
                                 <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-                                    <i class="glyphicon glyphicon-pencil"></i>
+                                    <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </div>
                         {/if}
