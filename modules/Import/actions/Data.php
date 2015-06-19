@@ -191,8 +191,7 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 		$fieldMapping = $this->fieldMapping;
 		$fieldColumnMapping = $moduleMeta->getFieldColumnMapping();
 
-		for ($i = 0; $i < $numberOfRecords; ++$i) {
-			$row = $adb->raw_query_result_rowdata($result, $i);
+		while($row = $adb->fetchByAssoc($result)){
 			$rowId = $row['id'];
 			$entityInfo = null;
 			$fieldData = array();
