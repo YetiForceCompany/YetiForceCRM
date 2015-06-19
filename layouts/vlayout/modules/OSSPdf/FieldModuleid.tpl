@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<select name="moduleid" title="{vtranslate('LBL_moduleid', 'OSSPdf')}" onchange="test();">
+<select name="moduleid" title="{vtranslate('LBL_moduleid', 'OSSPdf')}" class="form-control" onchange="test();">
 {foreach item=record from=$TABLIST}
 	<option value="{$record.id}" {if $record.id eq $SELECTED_MODULE} SELECTED {/if}>{$record.label}</option>
 {/foreach}

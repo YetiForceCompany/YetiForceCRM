@@ -175,16 +175,21 @@ ul > li.blockHeader {
 				{/if}
 				
 				{if $FIELD_MODEL->get('uitype') neq "83"}
-					
 					<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 					{if $FIELD_MODEL->getName() eq 'filename'}
-								<select id="addFieldName" style="width:180px;  padding-left:0px;margin-left: 10px;" title="{vtranslate('LBL_SELECT_DATE_TYPE', $MODULE)}">
-									<option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
-									<option value="#dd-mm-yyyy#">{vtranslate('Current date (dd-mm-yyyy)', $MODULE)}</option>
-									<option value="#mm-dd-yyyy#">{vtranslate('Current date (mm-dd-yyyy)', $MODULE)}</option>
-									<option value="#yyyy-mm-dd#">{vtranslate('Current date (yyyy-mm-dd)', $MODULE)}</option>
-								</select>
+						<div class="col-md-4 paddingLRZero">
+							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+						</div>
+						<div class="col-md-4">
+							<select id="addFieldName" class="form-control" style="width:180px;  padding-left:0px;margin-left: 10px;" title="{vtranslate('LBL_SELECT_DATE_TYPE', $MODULE)}">
+								<option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
+								<option value="#dd-mm-yyyy#">{vtranslate('Current date (dd-mm-yyyy)', $MODULE)}</option>
+								<option value="#mm-dd-yyyy#">{vtranslate('Current date (mm-dd-yyyy)', $MODULE)}</option>
+								<option value="#yyyy-mm-dd#">{vtranslate('Current date (yyyy-mm-dd)', $MODULE)}</option>
+							</select>
+						</div>
+					{else}
+						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 					{/if}
 					</td>
 				{/if}
@@ -197,7 +202,7 @@ ul > li.blockHeader {
 			{if $BLOCK_LABEL eq 'LBL_FOOTER_HEADER'}
 			<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
 			<td class="fieldValue wideWidthType">
-				<select title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" id='select_default_field' style="width: 200px;">	
+				<select title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" id='select_default_field' class="form-control" style="width: 200px;">	
 					{foreach key=name item=single_field from=$DEFAULT_FIELDS}
 							<optgroup label="{$name}">
 						{foreach item=field from=$single_field}
