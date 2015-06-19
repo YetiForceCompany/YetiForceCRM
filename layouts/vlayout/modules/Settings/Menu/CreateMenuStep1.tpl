@@ -20,7 +20,7 @@
 				<div class="row">
 					<div class="col-md-5 marginLeftZero">{vtranslate('LBL_SELECT_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
 					<div class="col-md-7">
-						<select name="type" class="select2 col-md-3 type">
+						<select name="type" class="select2 form-control type">
 							{foreach from=$MENU_TYPES item=ITEM key=KEY}
 								<option value="{$KEY}">{vtranslate('LBL_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}</option>
 							{/foreach}
