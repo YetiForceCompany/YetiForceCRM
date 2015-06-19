@@ -27,7 +27,7 @@
 	<tr>
 		<td>
 			<div class="">
-				<input name="key" type="text" class="api" style="margin:0 auto;" placeholder="{vtranslate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
+				<input name="key" type="text" class="api form-control" style="margin:0 auto;" placeholder="{vtranslate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
 			</div>
 		</td>
 		<td>

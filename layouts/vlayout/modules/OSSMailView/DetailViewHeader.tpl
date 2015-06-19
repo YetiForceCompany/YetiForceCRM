@@ -91,7 +91,7 @@ function printMail(){
 							{/if}
 							{if $DETAILVIEW_LINKS['DETAILVIEWSETTING']|@count gt 0}
 								<span class="btn-group">
-									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><span class="icon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
+									<button class="btn dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench" alt="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}" title="{vtranslate('LBL_SETTINGS', $MODULE_NAME)}"></span>&nbsp;&nbsp;<span class="caret"></span></button>
 									<ul class="listViewSetting dropdown-menu">
 										{foreach item=DETAILVIEW_SETTING from=$DETAILVIEW_LINKS['DETAILVIEWSETTING']}
 											<li><a href={$DETAILVIEW_SETTING->getUrl()}>{vtranslate($DETAILVIEW_SETTING->getLabel(), $MODULE_NAME)}</a></li>

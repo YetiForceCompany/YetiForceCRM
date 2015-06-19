@@ -287,7 +287,7 @@ jQuery.Class('Settings_Currency_Js', {
       var thisInstance = this;
       jQuery('#listViewContents').on('click','.listViewEntries',function(e) {
           var currentRow = jQuery(e.currentTarget);
-          if(currentRow.find('.icon-pencil ').length <= 0) {
+          if(currentRow.find('.glyphicon glyphicon-pencil ').length <= 0) {
               return;
           } 
           thisInstance.showEditView(currentRow.data('id'));

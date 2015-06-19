@@ -21,15 +21,16 @@
 	<script type="text/javascript" src="../libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/pnotify/jquery.pnotify.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.hoverIntent.minified.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-alert.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-tooltip.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-tab.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-collapse.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-modal.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-dropdown.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-popover.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootstrap-switch.min.js"></script>
-	<script type="text/javascript" src="../libraries/bootstrap/js/bootbox.min.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/alert.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/tooltip.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/tab.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/collapse.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/modal.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/dropdown.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/popover.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/bootstrap-switch.js"></script>
+	<script type="text/javascript" src="../libraries/bootstrap3/js/bootbox.min.js"></script>
+	
 	<script type="text/javascript" src="../layouts/vlayout/resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/app.js"></script>
 	<script type="text/javascript" src="../layouts/vlayout/resources/helper.js"></script>

@@ -16,11 +16,11 @@
     </div>
     <div class="modal-body">
 		{foreach key=KEY item=WORKFLOW from=$WORKFLOWS}
-			<div class="row-fluid" data-workflow_id="{$WORKFLOW->id}">
-				<div class="span1">
+			<div class="row" data-workflow_id="{$WORKFLOW->id}">
+				<div class="col-md-1">
 					<input type="checkbox"  id="wf_{$WORKFLOW->id}" value="{$WORKFLOW->id}"/>
 				</div>
-				<div class="span11">
+				<div class="col-md-11">
 					<label for="wf_{$WORKFLOW->id}">{vtranslate({$WORKFLOW->description},$QUALIFIED_MODULE)}</label>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
     </div>
 	<div class="modal-footer">
 		<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-			<a class="btn cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+			<a class="btn btn-default cancelLink" type="reset" style="margin: auto;" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
 			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_EXECUTE', $MODULE)}</strong></button>
 		</div>
 	</div>

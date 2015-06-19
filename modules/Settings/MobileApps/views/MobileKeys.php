@@ -22,8 +22,8 @@ class Settings_MobileApps_MobileKeys_View extends Settings_Vtiger_Index_View{
 		$viewer->assign('ENABLEMOBILE', !in_array('mobile',$enabledServices));
 		$viewer->view('MobileKeys.tpl', $qualifiedModuleName);
 	}
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			"modules.Settings.$moduleName.resources.MenuEditor",

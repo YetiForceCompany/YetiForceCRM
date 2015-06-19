@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="importModules">
-	<div class="widget_header row-fluid">
+<div class="" id="importModules">
+	<div class="widget_header row">
 		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
 	<div class="contents">
-		<div class="row-fluid">
+		<div class="row">
 			<div id="vtlib_modulemanager_import_div">
 				<form method="POST" action="index.php">
 					<table class="table table-bordered">
@@ -28,7 +28,7 @@
 							<tr valign=top>
 								<td class='cellText small'>
 									{if $MODULEIMPORT_ERROR}
-										<div class="alert alert-error">
+										<div class="alert alert-warning">
 											<div class="modal-header">
 												<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
 											</div>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -28,7 +28,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => 'icon-list-alt',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
 				'title' => vtranslate('LBL_CREATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -39,7 +39,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateQuoteUrl(),
-				'linkicon' => 'icon-briefcase',
+				'linkicon' => 'glyphicon glyphicon-briefcase',
 				'title' => vtranslate('LBL_CREATE').' '.vtranslate($quoteModuleModel->getSingularLabelKey(), 'Quotes'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -52,7 +52,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateEventUrl(),
-					'linkicon' => 'icon-time',
+					'linkicon' => 'glyphicon glyphicon-time',
 					'title' => vtranslate('LBL_ADD_EVENT')
 			);
 
@@ -60,7 +60,7 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => '',
 					'linkurl' => $recordModel->getCreateTaskUrl(),
-					'linkicon' => 'icon-calendar',
+					'linkicon' => 'glyphicon glyphicon-calendar',
 					'title' => vtranslate('LBL_ADD_TASK')
 			);
 		}

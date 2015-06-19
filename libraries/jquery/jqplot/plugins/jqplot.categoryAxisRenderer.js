@@ -2,10 +2,10 @@
  * jqPlot
  * Pure JavaScript plotting plugin using jQuery
  *
- * Version: 1.0.2
- * Revision: 1108
+ * Version: 1.0.8
+ * Revision: 1250
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -70,6 +70,7 @@
         this._groupLabels = [];
         this._grouped = false;
         this._barsPerGroup = null;
+        this.reverse = false;
         // prop: tickRenderer
         // A class of a rendering engine for creating the ticks labels displayed on the plot, 
         // See <$.jqplot.AxisTickRenderer>.
@@ -210,7 +211,11 @@
             }
             
             if (isMerged && this.sortMergedLabels) {
-                labels.sort(function(a,b) { return a - b; });
+                if (typeof labels[0] == "string") {
+                    labels.sort();
+                } else {
+                    labels.sort(function(a,b) { return a - b; });
+                }
             }
             
             // keep a reference to these tick labels to use for redrawing plot (see bug #57)
@@ -305,7 +310,7 @@
             // call it within the scope of the axis.
             this.renderer.createTicks.call(this);
             // fill a div with axes labels in the right direction.
-            // Need to pregenerate each axis to get it's bounds and
+            // Need to pregenerate each axis to get its bounds and
             // position it and the labels correctly on the plot.
             var dim=0;
             var temp;
@@ -431,7 +436,7 @@
         var offmin = offsets.min;
         var lshow = (this._label == null) ? false : this._label.show;
         var i;
-		
+
         for (var p in pos) {
             this._elem.css(p, pos[p]);
         }
@@ -441,32 +446,67 @@
         var pixellength = offmax - offmin;
         var unitlength = max - min;
         
-        // point to unit and unit to point conversions references to Plot DOM element top left corner.
-        this.p2u = function(p){
-            return (p - offmin) * unitlength / pixellength + min;
-        };
-        
-        this.u2p = function(u){
-            return (u - min) * pixellength / unitlength + offmin;
-        };
-                
-        if (this.name == 'xaxis' || this.name == 'x2axis'){
-            this.series_u2p = function(u){
-                return (u - min) * pixellength / unitlength;
+        if (!this.reverse) {
+            // point to unit and unit to point conversions references to Plot DOM element top left corner.
+            
+            this.u2p = function(u){
+                return (u - min) * pixellength / unitlength + offmin;
             };
-            this.series_p2u = function(p){
-                return p * unitlength / pixellength + min;
+
+            this.p2u = function(p){
+                return (p - offmin) * unitlength / pixellength + min;
             };
+                    
+            if (this.name == 'xaxis' || this.name == 'x2axis'){
+                this.series_u2p = function(u){
+                    return (u - min) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + min;
+                };
+            }
+            
+            else {
+                this.series_u2p = function(u){
+                    return (u - max) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + max;
+                };
+            }
         }
-        
+
         else {
-            this.series_u2p = function(u){
-                return (u - max) * pixellength / unitlength;
+            // point to unit and unit to point conversions references to Plot DOM element top left corner.
+            
+            this.u2p = function(u){
+                return offmin + (max - u) * pixellength / unitlength;
             };
-            this.series_p2u = function(p){
-                return p * unitlength / pixellength + max;
+
+            this.p2u = function(p){
+                return min + (p - offmin) * unitlength / pixellength;
             };
+                    
+            if (this.name == 'xaxis' || this.name == 'x2axis'){
+                this.series_u2p = function(u){
+                    return (max - u) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + max;
+                };
+            }
+            
+            else {
+                this.series_u2p = function(u){
+                    return (min - u) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + min;
+                };
+            }
+
         }
+            
         
         if (this.show) {
             if (this.name == 'xaxis' || this.name == 'x2axis') {
@@ -528,11 +568,12 @@
                 }
                 
                 // draw the group labels
-                var step = parseInt(this._ticks.length/this.groups, 10);
+                var step = parseInt(this._ticks.length/this.groups, 10) + 1;
                 for (i=0; i<this._groupLabels.length; i++) {
                     var mid = 0;
                     var count = 0;
-                    for (var j=i*step; j<=(i+1)*step; j++) {
+                    for (var j=i*step; j<(i+1)*step; j++) {
+                        if (j >= this._ticks.length-1) continue; // the last tick does not exist as there is no other group in order to have an empty one.
                         if (this._ticks[j]._elem && this._ticks[j].label != " ") {
                             var t = this._ticks[j]._elem;
                             var p = t.position();
@@ -612,11 +653,12 @@
                 }
                 
                 // draw the group labels, position top here, do left after label position.
-                var step = parseInt(this._ticks.length/this.groups, 10);
+                var step = parseInt(this._ticks.length/this.groups, 10) + 1; // step is one more than before as we don't want to have overlaps in loops
                 for (i=0; i<this._groupLabels.length; i++) {
                     var mid = 0;
                     var count = 0;
-                    for (var j=i*step; j<=(i+1)*step; j++) {
+                    for (var j=i*step; j<(i+1)*step; j++) { // j must never reach (i+1)*step as we don't want to have overlap between loops
+                        if (j >= this._ticks.length-1) continue; // the last tick does not exist as there is no other group in order to have an empty one.
                         if (this._ticks[j]._elem && this._ticks[j].label != " ") {
                             var t = this._ticks[j]._elem;
                             var p = t.position();

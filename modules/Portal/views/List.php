@@ -87,8 +87,8 @@ class Portal_List_View extends Vtiger_Index_View {
         $viewer->assign('PAGING_INFO', $listViewModel->calculatePageRange($listviewEntries, $pagingModel));
     }
 
-    function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+    function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

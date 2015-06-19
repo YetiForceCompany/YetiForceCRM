@@ -1,4 +1,4 @@
-{*+***********************************************************************************
+﻿{*+***********************************************************************************
 * The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
 * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
-	<div class="container-fluid">
+	<div class="">
 		<br>
 		<h3 class="themeTextColor">{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>
 		<hr>
@@ -26,20 +26,24 @@
 			{/if}
 
 			<div style="padding:20px;">
-				<div class="row-fluid">
-					<label class="span3"><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
-					<input type="text" class="fieldValue span7" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
-				</div><br>
-				<div class="row-fluid">
-					<label class="span3"><strong>{vtranslate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="span8 fieldValue">
-						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
-						<input type="text" class="input-large" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
+				<div class="row">
+					<div class="col-md-3">
+						<label class=""><strong>{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}<span class="redColor">*</span>: </strong></label>
+					</div>
+					<div class=" col-md-7 ">
+						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine='validate[required]'  />
 					</div>
 				</div><br>
-                <div class="row-fluid">
-					<label class="fieldLabel span3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
-					<div class="span9 fieldValue">
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}: </strong></label>
+					<div class="col-md-7 fieldValue">
+						<input type="hidden" name="parent_roleid" {if $HAS_PARENT}value="{$RECORD_MODEL->getParent()->getId()}"{/if}>
+						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
+					</div>
+				</div><br>
+                <div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_CAN_ASSIGN_RECORDS_TO', $QUALIFIED_MODULE)}: </strong></label>
+					<div class="col-md-7 fieldValue">
 						<div>
 							<label for="allow1">
 								<input type="radio" id="allow1" value="1"{if !$RECORD_MODEL->get('allowassignedrecordsto')} checked=""{/if} {if $RECORD_MODEL->get('allowassignedrecordsto') eq '1'} checked="" {/if} name="allowassignedrecordsto" data-handler="new" class="alignTop"/>&nbsp;
@@ -66,25 +70,24 @@
 						</div>
 				</div>
                 </div><br>
-				<div class="row-fluid">
-					<label class="span3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
-					<div class="row-fluid span8 fieldValue">
-						<div class="span">
+				<div class="row">
+					<label class="col-md-3"><strong>{vtranslate('LBL_PRIVILEGES',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
 							<input type="radio" value="1" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE} checked="" {/if} name="profile_directly_related_to_role" data-handler="new" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_NEW_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 						</div>
-                        <div class="span1">&nbsp;</div>
-						<div class="span">
+						<div class="pull-right">
 							<input type="radio" value="0" {if $PROFILE_DIRECTLY_RELATED_TO_ROLE eq false} checked="" {/if} name="profile_directly_related_to_role" data-handler="existing" class="alignTop"/>&nbsp;<span>{vtranslate('LBL_ASSIGN_EXISTING_PRIVILEGES',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
 				</div>
 				<br>
-				<div class="row-fluid hide padding20px boxSizingBorderBox contentsBackground" data-content="new">
-					<div class="fieldValue span12">
+				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
+					<div class="fieldValue col-md-12">
 					</div>
 				</div>
-				<div class="row-fluid hide" data-content="existing">
-					<div class="fieldValue row-fluid">
+				<div class="" data-content-role="existing" style="display: none">
+					<div class="fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}

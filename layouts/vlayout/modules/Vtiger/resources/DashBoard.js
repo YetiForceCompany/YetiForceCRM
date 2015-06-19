@@ -1,4 +1,4 @@
-/*+**********************************************************************************
+﻿/*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -223,10 +223,10 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var bodyIcon = jQuery(e.currentTarget).find('.body-icon');
 			if( mailBody.css( "display" ) == 'none'){
 				mailBody.show();
-				bodyIcon.removeClass( "icon-chevron-down" ).addClass( "icon-chevron-up" );
+				bodyIcon.removeClass( "glyphicon-chevron-down" ).addClass( "glyphicon-chevron-up" );
 			}else{
 				mailBody.hide();
-				bodyIcon.removeClass( "icon-chevron-up" ).addClass( "icon-chevron-down" );
+				bodyIcon.removeClass( "glyphicon-chevron-up" ).addClass( "glyphicon-chevron-down" );
 			}
 		});
 	},

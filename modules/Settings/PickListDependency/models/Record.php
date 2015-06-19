@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -35,14 +35,14 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
         $editLink = array(
             'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
             'linklabel' => 'LBL_EDIT',
-            'linkicon' => 'icon-pencil'
+            'linkicon' => 'glyphicon glyphicon-pencil'
         );
         $editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
         
         $deleteLink = array(
             'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
             'linklabel' => 'LBL_DELETE',
-            'linkicon' => 'icon-trash'
+            'linkicon' => 'glyphicon glyphicon-trash'
         );
         $deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
         return array($editLinkInstance,$deleteLinkInstance);

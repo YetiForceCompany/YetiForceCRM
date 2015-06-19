@@ -22,10 +22,10 @@
 			<input type="hidden" name="excluded_ids" value={ZEND_JSON::encode($EXCLUDED_IDS)} />
 			<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 			<div class="modal-body">
-				<div class="row-fluid verticalBottomSpacing">
-					<span class="span4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
-					<span class="span8 row-fluid">
-						<select class="chzn-select span11" name="folderid">
+				<div class="row verticalBottomSpacing">
+					<span class="col-md-4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-8 row">
+						<select class="chzn-select col-md-11" name="folderid">
 							<optgroup label="{vtranslate('LBL_FOLDERS', $MODULE)}">
 								{foreach item=FOLDER from=$FOLDERS}
 									<option value="{$FOLDER->getId()}">{vtranslate($FOLDER->getName(), $MODULE)}</option>

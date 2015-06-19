@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -46,14 +46,14 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model{
         $editLink = array(
             'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '".$this->getId()."')",
             'linklabel' => 'LBL_EDIT',
-            'linkicon' => 'icon-pencil'
+            'linkicon' => 'glyphicon glyphicon-pencil'
         );
         $editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
         
         $deleteLink = array(
             'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'".$this->getId()."')",
             'linklabel' => 'LBL_DELETE',
-            'linkicon' => 'icon-trash'
+            'linkicon' => 'glyphicon glyphicon-trash'
         );
         $deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
         return array($editLinkInstance,$deleteLinkInstance);

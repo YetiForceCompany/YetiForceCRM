@@ -15,7 +15,7 @@
 		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
 		<h3 id="exportCalendarHeader">{vtranslate('LBL_EXPORT_RECORDS', $MODULE)}</h3>
 	</div>
-	<form id="exportForm" class="form-horizontal row-fluid" method="post" action="index.php">
+	<form id="exportForm" class="form-horizontal row" method="post" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" />
 		<input type="hidden" name="action" value="ExportData" />
 		<input type="hidden" name="viewname" value="{$VIEWID}" />

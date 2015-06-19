@@ -11,28 +11,22 @@
 {assign var=ACCESSIBLE_GROUPS value=$CURRENTUSER->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
-	<table width="100%" cellspacing="0" cellpadding="0">
-	<thead>
-		<tr>
-			<th class="span6">
-				<div class="dashboardTitle" title="{$WIDGET->getTitle()}"><b>&nbsp;&nbsp;{$WIDGET->getTitle()}</b></div>
-			</th>
-			<th class="span5">
-				<div>
-					{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
-				</div>
-			</th>
-			<th class="widgeticons" align="right">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="dashboardTitle" title="{$WIDGET->getTitle()}"><strong>{$WIDGET->getTitle()}</strong></div>
+		</div>
+		<div class="col-md-4">
+			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
-			</th>
-		</tr>
-		<tr>
-			<th class="span12 refresh" align="center">
-				<span style="position:relative;"></span>
-			</th>
-		</tr>
-	</thead>
-	</table>
+			</div>
+		</div>
+	</div>
+	<hr class="widgetHr"/>
+	<div class="row" >
+		<div class="col-sm-6 pull-right">
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+		</div>
+	</div>
 </div>
 
 <div class="dashboardWidgetContent">

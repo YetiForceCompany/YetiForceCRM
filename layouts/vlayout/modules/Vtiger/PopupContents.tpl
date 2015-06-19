@@ -64,7 +64,7 @@
 					{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
 				</th>
 				{/foreach}
-				<th class="{$WIDTHTYPE}"><button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></th>
+				<th class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></th>
 			{/if}
 			</tr>
 		</thead>
@@ -115,7 +115,7 @@
 
 	<!--added this div for Temporarily -->
 {if $LISTVIEW_ENTRIES_COUNT eq '0'}
-	<div class="row-fluid">
+	<div class="row">
 		<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RELATED_RECORDS_FOUND', $MODULE)}.</div>
 	</div>
 {/if}

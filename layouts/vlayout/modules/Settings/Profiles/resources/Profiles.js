@@ -1,4 +1,4 @@
-/*+*******************************************************************************
+﻿/*+*******************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -16,15 +16,15 @@ var Settings_Profiles_Js = {
 			var container = jQuery('[data-togglecontent="'+ target.data('togglehandler') + '"]');
 			var closestTrElement = container.closest('tr');
 			
-			if (target.find('i').hasClass('icon-chevron-down')) {
+			if (target.find('i').hasClass('glyphicon-chevron-down')) {
 				closestTrElement.removeClass('hide');
 				container.slideDown('slow');
-				target.find('.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+				target.find('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 			} else {
 				container.slideUp('slow',function(){
 					closestTrElement.addClass('hide');
 				});
-				target.find('.icon-chevron-up').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+				target.find('.glyphicon-chevron-up').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
 			}
 		}
 		

@@ -17,12 +17,12 @@
     {assign var="totalCount" value=$totalCount+$modulesCount}
 {/foreach}
 <div class="globalSearchResults">
-	<div class="row-fluid">
+	<div class="">
 		<div class="header highlightedHeader padding1per">
-			<div class="row-fluid">
-				<span class="span6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
+			<div class="row">
+				<span class="col-md-6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
 				{if $IS_ADVANCE_SEARCH }
-				<span class="span5">
+				<span class="col-md-5">
 					<span class="pull-right">
 						<a href="javascript:void(0);" id="showFilter">{vtranslate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
 					</span>
@@ -48,7 +48,7 @@
 				<input type="hidden" id="recordList" name="searchResult" value="{Zend_Json::encode(array_keys($searchRecords))}" />
 				<label class="clearfix">
 					<span onclick="form_{$module}.submit()"><i class="icon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
-					<!-- &nbsp;&nbsp;<i title="" class="icon-th-list alignMiddle"></i> -->
+					<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
 					{if {$smarty.foreach.matchingRecords.index+1} eq 1}
 						<span class="pull-right"><p class="muted">{vtranslate('LBL_CREATED_ON', $MODULE)}</small></p></span>
 					{/if}

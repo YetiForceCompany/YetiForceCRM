@@ -46,15 +46,14 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
+		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		echo $viewer->view('QuickCreate.tpl',$moduleName,true);
 
 	}
 
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-
+	public function getFooterScripts(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

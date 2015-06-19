@@ -12,17 +12,17 @@
 {strip}
 <div id="popupPageContainer" class="popupContainer" style="min-height: 600px">
 	<div class="popupContainer padding1per">
-		<div class="row-fluid">
-			<div class="span6">
+		<div class="row">
+			<div class="col-md-6">
 				<span><h3>{vtranslate('LBL_ASSIGN_ROLE',"Settings:Roles")}</h3></span>
 			</div>
-			<div class="span6 pull-right">
+			<div class="col-md-6 pull-right">
 				<span class="logo pull-right" style="float: none"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 			</div>
 		</div>
 		<hr>
 	</div>
-	<div class="popupContainer row-fluid">
+	<div class="popupContainer row">
 		<div class="clearfix treeView">
 			<ul>
 				<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">

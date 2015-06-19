@@ -33,7 +33,7 @@
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 	{if $NUMBER_OF_RECORDS >= 5}
-		<div class="row-fluid">
+		<div class="row">
 			<div class="pull-right">
 				<a href="" class="moreRecentRecords cursorPointer" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>

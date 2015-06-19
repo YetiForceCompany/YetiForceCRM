@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -72,7 +72,7 @@
 						<div class='rof-fluid' style="margin-right:20%">
 						<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
 							data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-							<span class="icon-info-sign"></span>
+							<span class="glyphicon glyphicon-info-sign"></span>
 						</span>
 						<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
 						</div>
@@ -83,7 +83,7 @@
 		</thead>
         {if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td><a class="btn" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="icon-search"></span></a></td>
+            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
              <td>
                  {assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -92,7 +92,7 @@
              </td>
 			{/foreach}
 			<td>
-				<button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
 			</td>
         </tr>
         {/if}
@@ -142,12 +142,12 @@
 				</td><td nowrap class="{$WIDTHTYPE}">
 				<div class="actions pull-right">
 					<span class="actionImages">
-						<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></span></a>&nbsp;
+						<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 						{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
-							<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></span></a>&nbsp;
+							<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 						{/if}
 						{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->PermissionsToEditView eq true && $LISTVIEW_ENTRY->isPermittedToEditView == 1}
-							<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></span></a>
+							<a class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 						{/if}
 					</span>
 				</div></td>

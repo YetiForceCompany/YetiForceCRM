@@ -42,37 +42,38 @@
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 {assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
-<div class="row-fluid">
-	<div class="span8">
+<div class="row">
+	<div class="col-md-8">
 		<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<div class="box pull-right">
 			{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 		</div>
 	</div>
 </div>
 <hr class="widgetHr"/>
-<div class="row-fluid">
-	<div class="span6">
-		<span class="icon-calendar iconMiddle margintop3"></span>
-		<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini width90" />
+<div class="row">
+	<div class="col-sm-6">
+		<div class="input-group input-group-sm">
+			<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle"></span></span>
+			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange form-control widgetFilter width90"/>
+		</div>
 	</div>
-	<div class="span6">
-		<span class="icon-user iconMiddle margintop3"></span>
-		{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-		{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-		<select class="widgetFilter width90 owner" title="{vtranslate('LBL_OWNER')}" name="owner" >
-			<optgroup label="{vtranslate('LBL_USERS')}">
-				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-					<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
-						{$OWNER_NAME}
-					</option>
-				{/foreach}
-			</optgroup>
-		</select>
-		<div class="pull-right">
-			&nbsp;
+	<div class="col-sm-6">
+		<div class="input-group input-group-sm">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
+			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
+			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
+			<select class="widgetFilter width90 owner form-control" title="{vtranslate('LBL_OWNER')}" name="owner" >
+				<optgroup label="{vtranslate('LBL_USERS')}">
+					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
+							{$OWNER_NAME}
+						</option>
+					{/foreach}
+				</optgroup>
+			</select>
 		</div>
 	</div>
 </div>	

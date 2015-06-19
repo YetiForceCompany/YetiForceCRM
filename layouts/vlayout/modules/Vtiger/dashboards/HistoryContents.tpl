@@ -29,15 +29,15 @@
 				{/if}
 			{/if}
 			{if $PROCEED}
-				<div class="row-fluid">
-					<div class='span1'>
+				<div class="row">
+					<div class='col-md-1'>
 						{if vimage_path($MOD_NAME|cat:'.png')}
 							<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 						{else}
 							{$TRANSLATED_MODULE_NAME}
 						{/if}
 					</div>
-					<div class="span11">
+					<div class="col-md-11">
 					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$TIME")}</small></p>
 					{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
 					{if $HISTORY->isUpdate()}
@@ -119,11 +119,11 @@
 			{/if}
 			{else if $MODELNAME == 'ModComments_Record_Model'}
 			{assign var=TRANSLATED_MODULE_NAME value = vtranslate('SINGLE_ModComments' ,'ModComments')}
-			<div class="row-fluid">
-				<div class="span1">
+			<div class="row">
+				<div class="col-md-1">
 					<img width='24px' src="{vimage_path('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 				</div>
-				<div class="span11">
+				<div class="col-md-11">
 					{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
 					<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$COMMENT_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$COMMENT_TIME")}</small></p>
 					<div>
@@ -136,8 +136,8 @@
 	{/foreach}
 
 	{if $NEXTPAGE}
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="row">
+		<div class="col-md-12">
 			<a href="javascript:;" class="load-more" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{vtranslate('LBL_MORE')}...</a>
 		</div>
 	</div>

@@ -18,9 +18,9 @@ class Settings_OSSCosts_Index_View extends Settings_Vtiger_Index_View {
         $viewer->assign('CONFIG', $config );
         echo $viewer->view('settings.tpl', $moduleName, true);
     }
-    public function getHeaderScripts(Vtiger_Request $request) {
+    public function getFooterScripts(Vtiger_Request $request) {
 	
-		$headerScriptInstances = parent::getHeaderScripts($request);
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$moduleOssCost = 'modules.'.$moduleName.'.resources.Edit';		
 		unset($headerScriptInstances[$moduleOssCost]);

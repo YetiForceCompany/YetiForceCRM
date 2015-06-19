@@ -131,10 +131,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 	function getViewer(Vtiger_Request $request) {
 		if(!$this->viewer) {
-			global $YetiForce_current_version;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('APPTITLE', getTranslatedString('APPTITLE'));
-			$viewer->assign('YETIFORCE_VERSION', $YetiForce_current_version);
+			$viewer->assign('YETIFORCE_VERSION', vglobal('YetiForce_current_version'));
 			$this->viewer = $viewer;
 		}
 		return $this->viewer;
@@ -149,12 +148,14 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-		$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
+		$viewer->assign('HEADER_SCRIPTS',$this->getHeaderScripts($request));
 		$viewer->assign('STYLES',$this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
+		$viewer->assign('MINCSS', Vtiger_Functions::getCompressInfo('css'));
+		$viewer->assign('MINJS', Vtiger_Functions::getCompressInfo('js'));
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -187,8 +188,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		global $Start_time;
-		$viewer->assign('SCRIPT_TIME', round(microtime(true) - $Start_time, 3));
+		$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
 		$viewer->view('Footer.tpl');
 	}
 
@@ -198,7 +198,15 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	 * @return <array> - array of Vtiger_JsScript_Model
 	 */
 	function getHeaderScripts(Vtiger_Request $request){
-		$headerScriptInstances = array();
+		$headerScriptInstances = [
+			'libraries.jquery.jquery',
+			'libraries.jquery.jquery-migrate'
+		];
+		$jsScriptInstances = $this->checkAndConvertJsScripts($headerScriptInstances);
+		return $jsScriptInstances;
+	}
+	
+	function getFooterScripts(Vtiger_Request $request){
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
 		$fileName = "libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists($fileName)) {
@@ -206,14 +214,14 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		} else {
 			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		}
-		$jsFileNames = array($fileName);
+		$jsFileNames[] = $fileName;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($jsScriptInstances,$headerScriptInstances);
-		return $headerScriptInstances;
+		return $jsScriptInstances;
 	}
 
 	function checkAndConvertJsScripts($jsFileNames) {
 		$fileExtension = 'js';
+		$min = Vtiger_Functions::getCompressInfo('js');
 
 		$jsScriptInstances = array();
 		foreach($jsFileNames as $jsFileName) {
@@ -241,6 +249,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 			} else {
+				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName.$min, 'js');
+				if(file_exists($fallBackFilePath)) {
+					$filePath = str_replace('.','/', $jsFileName) . $min. '.js';
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
+				}
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName, 'js');
 				if(file_exists($fallBackFilePath)) {
 					$filePath = str_replace('.','/', $jsFileName) . '.js';

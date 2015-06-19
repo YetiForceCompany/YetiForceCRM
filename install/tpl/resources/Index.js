@@ -237,7 +237,7 @@ jQuery.Class('Install_Index_Js', {}, {
 				alert(app.vtranslate('LBL_RESOLVE_ERROR'));
 				return false;
 			} else {
-				jQuery('#progressIndicator').show();
+				jQuery('#progressIndicator').removeClass('hide');
 				jQuery('form[name="step5"]').submit().hide();
 			}
 		});

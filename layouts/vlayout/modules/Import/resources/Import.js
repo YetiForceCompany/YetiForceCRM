@@ -1,4 +1,4 @@
-/*+**********************************************************************************
+﻿/*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -335,7 +335,7 @@ if (typeof(ImportJs) == 'undefined') {
 				} else if(rowId in mapping) {
 					mappedFields.val($rowId);
 				}
-				mappedFields.trigger('liszt:updated');
+				mappedFields.trigger('chosen:updated');
 				ImportJs.loadDefaultValueWidget(fieldElement.attr('id'));
 			});
 		},

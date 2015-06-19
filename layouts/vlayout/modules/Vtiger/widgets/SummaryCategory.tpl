@@ -5,9 +5,9 @@
 		</div>
 	{/if}
 	{foreach item=SUMMARY_CATEGORY from=$SUMMARY_INFORMATION}
-		<div class="row-fluid textAlignCenter roundedCorners">
+		<div class="row textAlignCenter roundedCorners">
 			{foreach item=FIELD_VALUE from=$SUMMARY_CATEGORY}
-				<span class="well squeezedWell span3" data-reference="{$FIELD_VALUE.reference}">
+				<span class="well squeezedWell col-md-3" data-reference="{$FIELD_VALUE.reference}">
 					<div>
 						<label class="font-x-small">
 							{vtranslate($FIELD_VALUE.name,$MODULE_NAME)}

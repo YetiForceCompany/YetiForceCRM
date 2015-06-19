@@ -28,7 +28,7 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateInvoiceUrl(),
-				'linkicon' => 'icon-list-alt',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
 				'title' => vtranslate('LBL_GENERATE').' '.vtranslate($invoiceModuleModel->getSingularLabelKey(), 'Invoice'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -40,7 +40,7 @@ class Quotes_DetailView_Model extends Inventory_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreateSalesOrderUrl(),
-				'linkicon' => 'icon-briefcase',
+				'linkicon' => 'glyphicon glyphicon-briefcase',
 				'title' => vtranslate('LBL_GENERATE').' '.vtranslate($salesOrderModuleModel->getSingularLabelKey(), 'SalesOrder'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

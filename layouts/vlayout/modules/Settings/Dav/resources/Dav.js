@@ -27,7 +27,7 @@ jQuery.Class('Settings_DAV_Js', {}, {
 		var clonedContainer = editColorModal.clone(true, true);
 		
 		var callBackFunction = function(data) {	
-			data.find('.addKeyContainer').removeClass('hide');
+			data.find('.addKeyContainer').removeClass('hide').show();
 			app.showSelect2ElementView(data.find('.select')); // chzn-select select2
 			data.find('[name="saveButton"]').click(function(e) {
 				var form = data.find('form');

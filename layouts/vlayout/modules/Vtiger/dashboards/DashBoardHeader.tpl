@@ -11,18 +11,18 @@
 -->*}
 
 <div class='dashboardHeading'>
-	<div class="row-fluid">
-		<div class="span3">
+	<div class="row">
+		<div class="col-md-3">
 			{if $DASHBOARDHEADER_TITLE}
 					<h2 class="pull-left">{$DASHBOARDHEADER_TITLE}</h2>
 			{/if}
 		</div>
-		<div class="span9">
+		<div class="col-md-9">
 			<div class="pull-right">
 				<div class="btn-toolbar">
 					<span class="btn-group">
 							{if $WIDGETS|count gt 0}
-								<button class='btn addButton dropdown-toggle' data-toggle='dropdown'>
+								<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
 										<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
 										<span class="caret"></span>
 								</button>
@@ -38,7 +38,7 @@
 									{/foreach}
 								</ul>
 							{else if $MODULE_PERMISSION}
-								<button class='btn addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
+								<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
 									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
 									<span class="caret"></span>
 								</button>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -35,10 +35,10 @@
 			</tr>
 			<tr>
 				<td colspan="5">
-					<span class="row-fluid">
-						<span class="span1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $MODULE)}</b></span></span>
-						<span class="span9">
-							<select id="fieldsList" multiple="multiple" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $MODULE)}" class="row-fluid select2" style="width:100%">
+					<span class="">
+						<span class="col-md-1"><span class="pull-right pushDown"><b>{vtranslate('LBL_ADD_FIELDS', $MODULE)}</b></span></span>
+						<span class="col-md-9">
+							<select id="fieldsList" multiple="multiple" data-placeholder="{vtranslate('LBL_SELECT_FIELDS_OF_TARGET_MODULE', $MODULE)}" class="row select2" style="width:100%">
 								{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$ALL_FIELD_MODELS_LIST name="EditViewBlockLevelLoop"}
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 										{assign var="FIELD_INFO" value=json_encode($FIELD_MODEL->getFieldInfo())}
@@ -53,7 +53,7 @@
 								{/foreach}
 							</select>
 						</span>
-						<span class="span2">
+						<span class="col-md-2">
 							<span class="pull-right">
 								<button type="button" id="saveFieldsOrder" class="btn btn-success" disabled="disabled">{vtranslate('LBL_SAVE_FIELDS_ORDER', $MODULE)}</button>
 							</span>
@@ -113,7 +113,7 @@
 								{/if}
 								{if !$FIELD_MODEL->isMandatory(true)}
 									<div class="pull-right actions">
-										<span class="actionImages"><a class="removeTargetModuleField"><i class="icon-remove-sign"></i></a></span>
+										<span class="actionImages"><a class="removeTargetModuleField"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
 									</div>
 								{/if}
 							</td>

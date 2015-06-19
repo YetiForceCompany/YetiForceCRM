@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class='container-fluid editViewContainer'>
+    <div class='editViewContainer'>
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
             {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
             {if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -44,10 +44,10 @@
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
-            <div class="contentHeader row-fluid">
+            <div class="contentHeader row">
 				{assign var=IMAGE value=$MODULE|cat:'48.png'}
 				{if file_exists( vimage_path($IMAGE) )}
-					<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+					<span class="pull-left moduleIcon{$MODULE_NAME}">
 						<span class="moduleIcon">
 							<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 						</span>
@@ -55,9 +55,9 @@
 				{/if}
                 {assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
                 {if $RECORD_ID neq ''}
-                    <h3 class="span8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px" title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - <span class="recordLabel" title="{$RECORD_STRUCTURE_MODEL->getRecordName()}">{$RECORD_STRUCTURE_MODEL->getRecordName()}</span></h3>
                 {else}
-                    <h3 class="span8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
+                    <h3 class="col-md-8 textOverflowEllipsis margin0px">{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
                 {/if}
                 <span class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
@@ -74,17 +74,28 @@
                 <thead>
                     <tr>
 						<th class="blockHeader" colspan="4">
-					<div class="row-fluid">
-						<div class="span4">
+					<div class="row">
+						<div class="col-md-4">
+							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
+								{assign var=APIADDRESFIELD value=TRUE}
+							{else}
+								{assign var=APIADDRESFIELD value=FALSE}
+							{/if}
+							<div class="row">
+								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
 							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-							&nbsp;&nbsp;
-							{vtranslate($BLOCK_LABEL, $MODULE)}
-							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
-								<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete pull-right input " style="width: 50%;" />
+							&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
+								</div>
+								
+							{if $APIADDRESFIELD}
+								<div class="col-md-5">
+									<input value="" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " />
+								</div>
 							{/if}
+							</div>
 						</div>
-						<div class="span8">
+						<div class="col-md-8">
 							{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 								{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
 							{/if}
@@ -118,7 +129,7 @@
 							{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 							{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
 							{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-								<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="icon-info-sign"></i></a>
+								<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
 							{/if}
                             {if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
                             {if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
@@ -133,7 +144,7 @@
                                     {/if}
                                     <span class="pull-right">
                                     {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-                                    <select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" style="width:160px;">
+                                    <select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" title="{vtranslate('LBL_RELATED_MODULE_TYPE')}" >
                                         <optgroup>
                                             {foreach key=index item=value from=$REFERENCE_LIST}
                                                 <option value="{$value}" title="{vtranslate($value, $MODULE)}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
@@ -153,13 +164,13 @@
             </td>
             {if $FIELD_MODEL->get('uitype') neq "83"}
                 <td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-                    <div class="row-fluid">
-                        <span class="span10">
+                    <div class="row">
+                        <div class="col-md-10">
 							{if $FIELD_MODEL->get('uitype') eq "300"}
 								<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 							{/if}
                             {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-                        </span>
+                        </div>
                     </div>
                 </td>
             {/if}

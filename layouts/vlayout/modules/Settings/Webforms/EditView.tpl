@@ -16,5 +16,5 @@
 </div>
 <br>	
 {include file="EditViewActions.tpl"|@vtemplate_path:Vtiger}
-<div class="row-fluid" style="margin-bottom:150px;"></div>
+<div class="row" style="margin-bottom:150px;"></div>
 {/strip}

@@ -1,4 +1,4 @@
-@import "../../../../libraries/bootstrap/less/mixins.less";
+﻿@import "../../../../libraries/bootstrap/less/mixins.less";
 
 @font-face {
     font-family: 'Open Sans';
@@ -28,11 +28,11 @@ hr{
 //***********************************************************//
 //----------------- Top Menu bar stylings--------------------//
 //***********************************************************//
-.navbar.navbar-fixed-top {
+.navbar.navbar-fixed-top {/*
 	.marginbottomZero;
 	#topMenus{
 		.marginbottomZero;
-		.navbar-inner{
+		.menu-inner{
 			height: 40px;
 			.gradientBar(@menubarColor,@menubarColor);
 			.menuBar{
@@ -87,7 +87,7 @@ hr{
 				}
 			}
 		}
-	}
+	}*/
 }
 // All dropdown stylings
 #collapsedMenu{
@@ -277,18 +277,18 @@ hr{
 		width: 100% !important;
 	}
 	.actionsContainer {
-		&> .span2{
+		&> .col-md-2{
 			display: none !important;
 		}
-		.span10{
+		.col-md-10{
 			padding: 0 12px;
 			.boxSizingBorderBox;
 		}
 	}
-	.span3#headerLinks{
+	.col-md-3#headerLinks{
 		padding: 5px 5px 0;
 	}
-	.menuBar .span9, .span3#headerLinks{
+	.menuBar .col-md-9, .col-md-3#headerLinks{
 		.boxSizingBorderBox;
 		min-width:80px;
 		.qCreate{
@@ -327,7 +327,7 @@ hr{
 	#headerLinksCompact{
 		 display: inline-block;
 		 float: right;
-		.btn-navbar{
+		.navbar-btn{
 			background: @menubarLinkBackground;
 			display: inline-block;
 			margin-right: 3px;
@@ -381,14 +381,15 @@ hr{
 		box-shadow: 0 1px 3px 0 @actionsContainerShadow;
 		height:50px;
         .boxSizingBorderBox;
-		&>.span10 > .row-fluid{
+		&>.col-md-10 > .row{
 			margin-top: 9px;
 		}
-		&>.span2{
+		&>.col-md-2{
 			height:50px;
 		}
 	}
 	// Top Searchbar Stylings
+	/*
 	.searchElement{
 		margin-top:2px;
 		.searchBar,.select-search{
@@ -438,7 +439,7 @@ hr{
 				}
 		}
 	}
-
+*/
 	.dropdown-menu.dropdownStyles.commonActionsButtonDropDown{
 		left: -371px !important;
 		min-width: 400px;
@@ -464,7 +465,7 @@ hr{
     margin-top: 90px;
 	background: @mainContainer;
 	min-width:1200px;
-	&> .span2{
+	&> .col-md-2{
 		padding: 0 1.06383%;
 		height: auto !important;
 		min-width: 174px;
@@ -496,12 +497,12 @@ hr{
 	display: inline-block;
 }
 
-.toggleButton .icon-chevron-left {
+.toggleButton .glyphicon-chevron-left {
     background-position: -434px -72px !important;
     .icon-inverted;
 }
 
-.toggleButton .icon-chevron-right {
+.toggleButton .glyphicon-chevron-right {
     background-position: -460px -72px !important;
     .icon-inverted;
 }
@@ -724,7 +725,7 @@ hr{
 	}
 }
 
-.dashboard_notebookWidget_view .row-fluid{
+.dashboard_notebookWidget_view .row{
 	margin-bottom: 5px;
 }
 .gridster{
@@ -778,7 +779,7 @@ hr{
 				div	span{
 					margin-top: 6px;
 				}
-				.span5{
+				.col-md-5{
 					margin-top: 3px;
 				}
 			}
@@ -994,7 +995,7 @@ li.ui-timepicker-selected,
 	}
 }
 .fieldLabel {
-    width: 20%;
+   // width: 20%;
 	background: lighten(@editViewLabel,3%);
 }
 
@@ -1015,7 +1016,7 @@ li.ui-timepicker-selected,
 	.summaryViewEntries{
 		.fieldLabel{
 			vertical-align: top;
-			padding: 5px 0 5px 5%;
+			//padding: 5px 0 5px 5%;
 			border-top: 1px solid @lightColorBorder;
 			border-right: 1px solid @lightColorBorder;
 		}
@@ -1048,7 +1049,7 @@ li.ui-timepicker-selected,
 			padding-bottom: 10px;
 			padding-top: 0;
 			border-bottom: 1px solid @lightColorBorder;
-			button, &>.span8, &>.span9{
+			button, &>.col-md-8, &>.col-md-9{
 				margin:0;
 			}
 			h4{
@@ -1057,7 +1058,7 @@ li.ui-timepicker-selected,
 		}
 		.widget_contents{
 			padding-top:10px;
-			.span4{
+			.col-md-4{
 				width: 40.4255%;
 			}
 		}
@@ -1163,7 +1164,7 @@ li.ui-timepicker-selected,
 }
 
 .commentTitle {
-	.span1 {
+	.col-md-1 {
 		.boxSizingBorderBox;
 		img{
 			min-width:32px;
@@ -1282,7 +1283,7 @@ li.ui-timepicker-selected,
 		width:30%;
 	}
 }
-td.fieldValue input, td.fieldValue .input-append{
+td.fieldValue input, td.fieldValue .input-group{
 	margin-bottom:0;
 }
 // List view stylings //
@@ -1305,7 +1306,7 @@ td.fieldValue input, td.fieldValue .input-append{
 	&:hover{
 		text-decoration: none;
 	}
-	.icon-chevron-down.icon-white,.icon-chevron-up.icon-white{
+	.glyphicon-chevron-down.icon-white,.icon-chevron-up.icon-white{
 		background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings.png");
 		opacity: 0.7;
 		margin-top: 1px;
@@ -1541,6 +1542,7 @@ th.htColHeader, .handsontable thead th{
 .contentsDiv > div{
 	padding: 0 20px;
 }
+
 #settingsQuickWidgetContainer{
 	.widgetContainer.accordion-body{
 		border-bottom: none !important;
@@ -1584,7 +1586,7 @@ th.htColHeader, .handsontable thead th{
 	.moduleBlock{
 		min-height: 60px;
 	}
-	.span3.moduleBlock:hover{
+	.col-md-3.moduleBlock:hover{
 		.unpin{
 			display: inline-block;
 			opacity : 0.4;
@@ -1684,13 +1686,13 @@ th.htColHeader, .handsontable thead th{
 	input{
 		margin-right: 5px;
 	}
-	tr td.row-fluid{
+	tr td.row{
 		table.table{
 			border-left: none;
 			margin-bottom: 20px;
 		}
 	}
-	tr:hover td.row-fluid{
+	tr:hover td.row{
 		background: none;
 		table.table tr td{
 			background: none;
@@ -1854,7 +1856,7 @@ th.htColHeader, .handsontable thead th{
 		}
 	}
 }
-#importModules .contents .row-fluid{
+#importModules .contents .row{
 	margin-bottom: 2.2%;
 }
 .extensionWidgetContainer{
@@ -1916,7 +1918,7 @@ th.htColHeader, .handsontable thead th{
 	tr td:first-child, tr th:first-child{
 		text-align: left;
 	}
-	td.row-fluid > div{
+	td.row > div{
 		display: block;
 	}
 	.customRuleContainer:hover{
@@ -2189,7 +2191,7 @@ th.htColHeader, .handsontable thead th{
 
 //--Workflows stylings--//
 .taskTypeUi{
-	&>.row-fluid{
+	&>.row{
 		margin: 10px 0;
 	}
 }
@@ -2198,7 +2200,7 @@ th.htColHeader, .handsontable thead th{
 	border-left: 1px solid @lightColorBorder;
 }
 
-#workflow_step2 > .row-fluid{
+#workflow_step2 > .row{
 	padding: 20px;
 	.boxSizingBorderBox;
 	min-height: 400px;
@@ -2216,7 +2218,7 @@ th.htColHeader, .handsontable thead th{
     }
 }
 
-#foldersList .nav-list{
+#foldersList .list-group{
     padding-right: 0;
 }
 
@@ -2318,26 +2320,11 @@ th.htColHeader, .handsontable thead th{
 .fc-content td:hover{
 	background: #f3f3f3;
 }
-
-
-//---Button stylings---//
-// Listview setting button dropdown
-.listViewSetting.dropdown-menu{
-	left: -150px;
-}
 button{
 
 }
 
-.btn{
-	font-weight: bold;
-    background-color: none ;
-    background-image: none;
-    border-radius: 0 !important;
-    &:focus{
-        outline: 0;
-    }
-}
+
 
 .btn-primary{
 	background: @primarybtnColor;
@@ -2365,7 +2352,7 @@ button{
 	}
 }
 
-.saveButton, .btn-success{
+.saveButton{
 	margin-right: 5px;
 }
 
@@ -2627,7 +2614,7 @@ button{
 	border-radius: 2px !important;
 	border: 0 !important;
 }
-textarea.span11{
+textarea.col-md-11{
 	width :100% !important;
 	.boxSizingBorderBox;
 }
@@ -2836,45 +2823,8 @@ form{
 	margin: 0;
 }
 
-.input-prepend .add-on, .input-append .add-on,.input-prepend.input-append .add-on:first-child, .input-prepend.input-append .btn:first-child{
-	line-height: 22px;
-	border-radius: 1px !important;
-}
-
-input, textarea, select,
-.uneditable-input, input[type="text"], input[type="password"],
-.ui-autocomplete-input, textarea, .uneditable-input,
-.chzn-container-single .chzn-single, .chzn-container-single .chzn-single div,
-.input-prepend .add-on, .input-append .add-on{
-	border-radius : 1px;
-}
-
 .fc-state-default .fc-button-effect span{
 	background: none;
-}
-
-.input-prepend.input-append input,
-.input-prepend.input-append select,
-.input-prepend.input-append .uneditable-input {
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-}
-
-.input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child {
-  margin-right: -1px;
-  -webkit-border-radius: 3px 0 0 3px;
-     -moz-border-radius: 3px 0 0 3px;
-          border-radius: 3px 0 0 3px;
-}
-
-.input-prepend.input-append .add-on:last-child,
-.input-prepend.input-append .btn:last-child {
-  margin-left: -1px;
-  -webkit-border-radius: 0 3px 3px 0;
-     -moz-border-radius: 0 3px 3px 0;
-          border-radius: 0 3px 3px 0;
 }
 
 .dateField{
@@ -3091,11 +3041,6 @@ textarea{
 .icon-inverted{
 	 //background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings-white.png") !important;
 }
-.icon-plus.icon-white{
-	background-image: url("../../../../libraries/bootstrap/img/glyphicons-halflings.png") !important;
-	opacity :0.8;
-}
-
 // Feedback and support hidden temporarily ///
 .livesupport_tab,#userfeedback {
 	display: none !important;
@@ -3124,7 +3069,7 @@ td.listViewEntryValue.wide {
 .table td.medium, 
 .listViewEntries td.medium, 
 td.listViewEntryValue.medium { 
-    padding: 5px 6px!important; 
+  //  padding: 5px 6px!important; 
 } 
 .narrow, 
 .table td.narrow, 
@@ -3135,13 +3080,13 @@ td.listViewEntryValue.narrow {
 .table thead th.narrow { 
     vertical-align: middle; 
 } 
-td.listViewEntryValue .row-fluid input { 
+td.listViewEntryValue .row input { 
     padding: 0; 
     margin-bottom: 0; 
 } 
 .listViewContentDiv { 
     position: relative; 
 } 
-.deleteCustomMapping .icon-trash { 
+.deleteCustomMapping .glyphicon glyphicon-trash { 
     vertical-align: middle !important; 
 } 

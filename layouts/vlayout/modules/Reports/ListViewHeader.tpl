@@ -12,10 +12,10 @@
 {strip}
 <div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
-		<div class="listViewActionsDiv row-fluid">
-			<span class="btn-toolbar span4">
+		<div class="listViewActionsDiv row">
+			<span class="btn-toolbar col-md-4">
 				<span class="btn-group listViewMassActions">
-					<button class="btn dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS}
 							<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -32,8 +32,8 @@
 					{if $LISTVIEW_BASICACTION->getLabel() eq 'LBL_ADD_RECORD'}
 						{assign var="childLinks" value=$LISTVIEW_BASICACTION->getChildLinks()}
 						<span class="btn-group">
-							<button class="btn dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
-								<span class="icon-plus"></span>&nbsp;
+							<button class="btn btn-default dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
+								<span class="glyphicon glyphicon-plus"></span>&nbsp;
 								<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
 								<span class="caret icon-white"></span></button>
 							<ul class="dropdown-menu">
@@ -46,13 +46,13 @@
 						</span>
 					{else}
 						<span class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><span class="icon-plus"></span>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
 						</span>
 					{/if}
 				{/foreach}
 			</span>
-			<span class="foldersContainer btn-toolbar span4">{include file='ListViewFolders.tpl'|@vtemplate_path:$MODULE}</span>
-			<span class="span4 btn-toolbar">
+			<span class="foldersContainer btn-toolbar col-md-4">{include file='ListViewFolders.tpl'|@vtemplate_path:$MODULE}</span>
+			<span class="col-md-4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path:$MODULE}
 			</span>
 		</div>

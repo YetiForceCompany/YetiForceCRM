@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -10,21 +10,21 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<div class="container-fluid" id="DavKeysContainer">
-		<div class="widget_header row-fluid">
-			<div class="span8"><h3>{vtranslate('LBL_DAV_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-			<div class="span4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+	<div class="" id="DavKeysContainer">
+		<div class="widget_header row">
+			<div class="col-md-8"><h3>{vtranslate('LBL_DAV_KEYS', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+			<div class="col-md-4"><button class="btn btn-primary addKey pull-right">{vtranslate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<hr>
 		<div class="contents">
 			{if $ENABLEDAV }
-				<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+				<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
 					<p>{vtranslate('LBL_ALERT_DAV_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row-fluid">
+			<div class="row">
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
@@ -67,37 +67,41 @@
 					</table>
 				</div>
 			</div>
-			<div class="clearfix"></div>
+
 			<div class="modal addKeyContainer hide">
-				<div class="modal-header contentsBackground">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="control-group">
-							<label class="control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
-							<div class="controls">
-								<select class="select span4 user" name="user" data-validation-engine="validate[required]">
-								{foreach from=$USERS item=item key=key}
-									<option value="{$key}">{$item->getDisplayName()}</option>
-								{/foreach}
-								</select>
-							</div>
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header contentsBackground">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h3>{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
 						</div>
-						<div class="control-group">
-							<label class="control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
-							<div class="controls">
-								<select multiple="" class="select span4 type" name="type">
-								{foreach from=$MODULE_MODEL->getTypes() item=item}
-									<option selected="" value="{$item}">{$item}</option>
-								{/foreach}
-								</select>
-							</div>
-						</div>	
-					</form>
+						<div class="modal-body">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
+									<div class="col-sm-6 controls">
+										<select class="select user" name="user" data-validation-engine="validate[required]">
+										{foreach from=$USERS item=item key=key}
+											<option value="{$key}">{$item->getDisplayName()}</option>
+										{/foreach}
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
+									<div class="col-sm-6 controls">
+										<select multiple="" class="select type" name="type">
+										{foreach from=$MODULE_MODEL->getTypes() item=item}
+											<option selected="" value="{$item}">{$item}</option>
+										{/foreach}
+										</select>
+									</div>
+								</div>	
+							</form>
+						</div>
+						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					</div>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>	
 	</div>

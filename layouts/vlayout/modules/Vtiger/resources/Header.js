@@ -85,12 +85,14 @@ jQuery.Class("Vtiger_Header_Js", {
      * Function which will align the contents container at specified height depending on the top fixed menu
      * It will caliculate the height by following formaula menuContianer.height+1	 *
      */
-    alignContentsContainer: function(topValue,speed, effect) {
-        if (typeof topValue == 'undefined') {
-            topValue = '90px';
-        }
+    alignContentsContainer: function(show,speed, effect) {
+		var navTop = jQuery('nav.navbar-fixed-top').outerHeight();
+		if(!show){
+			var announcement  = jQuery('#announcement').outerHeight();
+			navTop = (navTop - announcement);
+		}
         var contentsContainer = this.getContentsContainer();
-        contentsContainer.animate({'margin-top': topValue}, speed, effect);
+        contentsContainer.animate({'margin-top': navTop}, speed, effect);
         return this;
     },
     /**
@@ -148,9 +150,10 @@ jQuery.Class("Vtiger_Header_Js", {
 
         announcementBtn.click(function(e, manual) {
             var displayStatus = jQuery('#announcement').css('display');
+			
             if (displayStatus == 'none') {
                 jQuery('#announcement').show();
-                thisInstance.alignContentsContainer('114px',200,'linear');
+                thisInstance.alignContentsContainer(true,200,'linear');
                 announcementBtn.attr('src', app.vimage_path('btnAnnounce.png'));
 
                 // Turn-on always
@@ -158,7 +161,7 @@ jQuery.Class("Vtiger_Header_Js", {
                     app.cacheSet(announcementTurnOffKey, false);
                 }
             } else {
-                thisInstance.alignContentsContainer('90px',200,'linear');
+                thisInstance.alignContentsContainer(false,200,'linear');
                 jQuery('#announcement').hide();
                 announcementBtn.attr('src', app.vimage_path('btnAnnounceOff.png'));
 
@@ -273,7 +276,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				events = events.result;
 				data.find('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 				for (var ev in events) { 
-					icon = 'icon-calendar';
+					icon = 'glyphicon glyphicon-calendar';
 					linkHtml = '';
 					hidden = '';
 					if(events[ev]['set'] == 'Task'){
@@ -521,10 +524,18 @@ jQuery.Class("Vtiger_Header_Js", {
 		}else{
 			bodyHeight = jQuery('.bodyContents').css('min-height');//.outerHeight();
 		}
-		
-		jQuery(".mainContainer").css('min-height', bodyHeight);
-		jQuery(".mainContainer > .span2 ").css('min-height', bodyHeight);
-		jQuery(".contentsDiv").css('min-height', bodyHeight);
+
+		navTop = jQuery('nav.navbar-fixed-top').outerHeight();
+		navBottom = jQuery('footer.navbar-fixed-bottom').outerHeight();
+		bodyHeight = (parseInt(bodyHeight)+parseInt(navTop))+'px';
+		var styles = {
+			'min-height' : bodyHeight,
+			'margin-bottom': navBottom+'px',
+			'margin-top': navTop+'px'
+		}
+		jQuery(".mainContainer").css(styles);
+		jQuery(".mainContainer > .col-md-2 ").css({'margin-bottom': navBottom+'px',});
+		jQuery(".contentsDiv").css({'margin-bottom': navBottom+'px',});
 	},
 	
 	recentPageViews: function () {
@@ -621,7 +632,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		thisInstance.recentPageViews();
 		
 		//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
-		if(jQuery.browser.msie && jQuery.browser.version < 9.0) {
+		if(/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent)) {
 			if(app.getCookie('oldbrowser') != 'true') {
 				app.setCookie("oldbrowser",true, 365);
 				window.location.href = 'layouts/vlayout/modules/Vtiger/browsercompatibility/Browser_compatibility.html';

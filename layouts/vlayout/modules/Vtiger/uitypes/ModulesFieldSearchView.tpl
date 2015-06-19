@@ -13,8 +13,8 @@
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getModulesListValues()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
-    <div class="row-fluid">
-        <select class="select2noactive listSearchContributor span9" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'))}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
+    <div class="">
+        <select class="select2noactive listSearchContributor col-md-9" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'))}" multiple style="width:150px;" data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
                 <option value="{$PICKLIST_LABEL.name}" {if in_array($PICKLIST_LABEL.name,$SEARCH_VALUES) && ($PICKLIST_LABEL.name neq "") } selected{/if}>{$PICKLIST_LABEL.label}</option>
         {/foreach}

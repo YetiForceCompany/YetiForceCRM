@@ -8,7 +8,7 @@
  *************************************************************************************}
 {strip}
 	<br>
-	<div class="row-fluid">
+	<div class="row">
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
@@ -26,10 +26,10 @@
 							<div class="pull-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
-										<i class="icon-pencil alignMiddle" title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"></i>
+										<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"></i>
 									</a>&nbsp;&nbsp;
 									<a class="deleteTask" data-deleteurl="{$TASK->getDeleteActionUrl()}">
-										<i class="icon-trash alignMiddle" title="{vtranslate('LBL_DELETE',$QUALIFIED_MODULE)}"></i>
+										<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE',$QUALIFIED_MODULE)}"></i>
 									</a>
 								</span>
 							</div>

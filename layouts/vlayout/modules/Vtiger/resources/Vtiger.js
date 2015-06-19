@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -27,21 +27,19 @@ var Vtiger_Index_Js = {
 
 	registerWidgetsEvents : function() {
 		var widgets = jQuery('div.widgetContainer');
-		widgets.on({
-				shown: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					Vtiger_Index_Js.loadWidgets(widgetContainer);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 1);
-			},
-				hidden: function(e) {
-					var widgetContainer = jQuery(e.currentTarget);
-					var imageEle = widgetContainer.parent().find('.imageElement');
-					var imagePath = imageEle.data('rightimage');
-					imageEle.attr('src',imagePath);
-					var key = widgetContainer.attr('id');
-					app.cacheSet(key, 0);
-			}
+		widgets.on('shown.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			Vtiger_Index_Js.loadWidgets(widgetContainer);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 1);
+		});
+		widgets.on('hidden.bs.collapse',function(e){
+			var widgetContainer = jQuery(e.currentTarget);
+			var imageEle = widgetContainer.parent().find('.imageElement');
+			var imagePath = imageEle.data('rightimage');
+			imageEle.attr('src',imagePath);
+			var key = widgetContainer.attr('id');
+			app.cacheSet(key, 0);
 		});
 	},
 
@@ -52,8 +50,7 @@ var Vtiger_Index_Js = {
 	 */
 	loadWidgets : function(widgetContainer, open) {
 		var message = jQuery('.loadingWidgetMsg').html();
-
-		if(widgetContainer.html() != '') {
+		if(widgetContainer.find('.panel-body').html() != '') {
 			var imageEle = widgetContainer.parent().find('.imageElement');
 			var imagePath = imageEle.data('downimage');
 			imageEle.attr('src',imagePath);
@@ -63,7 +60,6 @@ var Vtiger_Index_Js = {
 
 		widgetContainer.progressIndicator({'message' : message});
 		var url = widgetContainer.data('url');
-
 		var listViewWidgetParams = {
 			"type":"GET", "url":"index.php",
 			"dataType":"html", "data":url
@@ -101,9 +97,7 @@ var Vtiger_Index_Js = {
 					imageEle.attr('src',imagePath);
 				}
 			}
-
 		});
-
 	},
 
 	/**
@@ -238,34 +232,34 @@ var Vtiger_Index_Js = {
 	showReminderPopup : function(record) {
 		var data_info = '';
 		if(record.contact_id != '' && record.contact_id != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_CONTACT_NAME')+' : <b>'+record.contact_id+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_CONTACT_NAME')+' : <strong>'+record.contact_id+'</strong></span>';
 		}
 		if(record.link != '0' && record.link != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_RELATION')+' : <b>'+record.link+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_RELATION')+' : <strong>'+record.link+'</strong></span>';
 		}
 		if(record.process != '0' && record.process != undefined){
-			data_info += '<span class="span12">'+app.vtranslate('JS_PROCESS')+' : <b>'+record.process+'</b></span>';
+			data_info += '<span class="col-md-12">'+app.vtranslate('JS_PROCESS')+' : <strong>'+record.process+'</strong></span>';
 		}
 		if(record.location != '' && record.location != undefined){
-			data_info += '<span class="span12" style="margin-top: 5px;"><a class="btn " target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
+			data_info += '<span class="col-md-12" style="margin-top: 5px;"><a class="btn btn-default" target="_blank" href="https://www.google.com/maps/search/'+record.location+'"><i class="icon-map-marker"></i>&nbsp;'+record.location+'</a></span>';
 		}
 		if(record.mailUrl != '' && record.mailUrl != undefined){
-			data_info += '<span class="span12" style="margin-top: 5px;">'+record.mailUrl+'</span>';
+			data_info += '<span class="col-md-12" style="margin-top: 5px;">'+record.mailUrl+'</span>';
 		}
 		
 		var params = {
 			title: '&nbsp;&nbsp;<span style="position: relative; top: 8px;">'+record.activitytype+' - '+
 					'<a target="_blank" href="index.php?module=Calendar&view=Detail&record='+record.id+'">'+record.subject+'</a></span>',
-			text: '<div data-record="'+record.id+'" class="row-fluid calendar_info" style="color:black">\n\
-				<span class="span12">'+app.vtranslate('JS_START_DATE_TIME')+' : '+record.date_start+'</span>\n\
-				<span class="span12">'+app.vtranslate('JS_END_DATE_TIME')+' : '+record.due_date+'</span>'
+			text: '<div data-record="'+record.id+'" class="row calendar_info" style="color:black">\n\
+				<span class="col-md-12">'+app.vtranslate('JS_START_DATE_TIME')+' : '+record.date_start+'</span>\n\
+				<span class="col-md-12">'+app.vtranslate('JS_END_DATE_TIME')+' : '+record.due_date+'</span>'
 				+data_info+
-				'<span class="span12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-small reminder_accept"><span class="icon-ok icon-white"></span></button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="15m">15'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="30m">30'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="1h">1'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="2h">2'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
-				'<button class="btn btn-small btn-primary reminder_postpone" data-time="1d">1'+app.vtranslate('JS_D')+'</button>&nbsp;&nbsp;'+
+				'<span class="col-md-12" style="margin-top: 5px;"><button title="' + app.vtranslate('NOTIFICATION_ACCEPTED') + '" class="btn btn-success btn-sm reminder_accept"><span class="glyphicon glyphicon-ok icon-white"></span></button>&nbsp;&nbsp;'+
+				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="15m">15'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
+				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="30m">30'+app.vtranslate('JS_M')+'</button>&nbsp;&nbsp;'+
+				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="1h">1'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
+				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="2h">2'+app.vtranslate('JS_H')+'</button>&nbsp;&nbsp;'+
+				'<button class="btn btn-sm btn-primary reminder_postpone" data-time="1d">1'+app.vtranslate('JS_D')+'</button>&nbsp;&nbsp;'+
 				'</div>',
 			addclass:'vtReminder',
 			icon: 'vtReminder-icon',
@@ -432,20 +426,20 @@ var Vtiger_Index_Js = {
                 var leftPanelshow = 1;
 				leftPanel.addClass('hide');
 				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
-					centerContents.removeClass('span8').addClass('span10');
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
 				}else{
-					centerContents.removeClass('span10').addClass('span12');
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
 				}
-				tButtonImage.removeClass('icon-chevron-left').addClass("icon-chevron-right");
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			} else {
                 var leftPanelshow = 0;
 				leftPanel.removeClass('hide');
 				if(rightPanel && jQuery(rightPanel).attr('class').indexOf('hide') == -1){
-					centerContents.removeClass('span10').addClass('span8');
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
 				}else{
-					centerContents.removeClass('span12').addClass('span10');
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
 				}
-				tButtonImage.removeClass('icon-chevron-right').addClass("icon-chevron-left");
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			}
             var params = {
                 'module' : 'Users',
@@ -467,19 +461,19 @@ var Vtiger_Index_Js = {
 			if (rightPanel.attr('class').indexOf('hide') == -1 ) {
 				rightPanel.addClass('hide');
 				if(leftPanelStatus == -1){
-					centerContents.removeClass('span8').addClass('span10');
+					centerContents.removeClass('col-md-8').addClass('col-md-10');
 				}else{
-					centerContents.removeClass('span10').addClass('span12');
+					centerContents.removeClass('col-md-10').addClass('col-md-12');
 				}
-				tButtonImage.removeClass('icon-chevron-right').addClass("icon-chevron-left");
+				tButtonImage.removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 			} else {
 				rightPanel.removeClass('hide');
 				if(leftPanelStatus == -1){
-					centerContents.removeClass('span10').addClass('span8');
+					centerContents.removeClass('col-md-10').addClass('col-md-8');
 				}else{
-					centerContents.removeClass('span12').addClass('span10');
+					centerContents.removeClass('col-md-12').addClass('col-md-10');
 				}
-				tButtonImage.removeClass('icon-chevron-left').addClass("icon-chevron-right");
+				tButtonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 			}
 		});
 	},

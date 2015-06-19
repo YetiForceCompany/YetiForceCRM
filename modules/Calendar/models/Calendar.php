@@ -159,14 +159,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model{
 							$widgetElements[$date]['event']['Task']['ids'][] = $crmid;
 							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Task']['ids']);
 							$widgetElements[$date]['event']['Task']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
-							$widgetElements[$date]['event']['Task']['className'] = ' span5 fc-draggable calCol_'.$activitytype; 
+							$widgetElements[$date]['event']['Task']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype; 
 							$widgetElements[$date]['type'] = 'widget';
 						}else{
 							$widgetElements[$date]['start'] = $date;
 							$widgetElements[$date]['event']['Meeting']['ids'][] = $crmid;
 							$crmids = Zend_Json::encode($widgetElements[$date]['event']['Meeting']['ids']);
 							$widgetElements[$date]['event']['Meeting']['url'] = "index.php?module=Calendar&view=List&searchResult=".$crmids; 
-							$widgetElements[$date]['event']['Meeting']['className'] = ' span5 fc-draggable calCol_'.$activitytype;
+							$widgetElements[$date]['event']['Meeting']['className'] = ' col-md-5 fc-draggable calCol_'.$activitytype;
 							$widgetElements[$date]['type'] = 'widget';
 						} 
 					}

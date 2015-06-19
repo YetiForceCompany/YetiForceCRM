@@ -10,11 +10,11 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid">
+<div class="">
 	<div class="clearfix treeView">
 		<form id="PassForm" class="form-horizontal">
-			<div class="widget_header row-fluid">
-				<div class="span8"><h3>{vtranslate($MODULE, $MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $MODULE)}</div>
+			<div class="widget_header row">
+				<div class="col-md-8"><h3>{vtranslate($MODULE, $MODULE)}</h3>&nbsp;{vtranslate('LBL_PASSWORD_DESCRIPTION', $MODULE)}</div>
 			</div>
 			<hr>
 			<table class="table table-bordered table-condensed themeTableColor">
@@ -24,27 +24,51 @@
 				<tbody>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Minimum password length', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="text" name="min_length" id="min_length" value="{$DETAIL['min_length']}" /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input class="form-control" type="text" name="min_length" id="min_length" value="{$DETAIL['min_length']}" />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Maximum password length', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="text" name="max_length" id="max_length" value="{$DETAIL['max_length']}" /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input class="form-control" type="text" name="max_length" id="max_length" value="{$DETAIL['max_length']}" />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Uppercase letters from A to Z', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="big_letters" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">	
+								<input type="checkbox" name="big_letters" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Lowercase letters a to z', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="small_letters" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="small_letters" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain numbers', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="numbers" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="numbers" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td width="30%"><label class="muted pull-right marginRight10px">{vtranslate('Password should contain special characters', $MODULE)}</label></td>
-						<td style="border-left: none;"><input type="checkbox" name="special" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} /></td>
+						<td style="border-left: none;">
+							<div class="col-xs-4">
+								<input type="checkbox" name="special" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} />
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

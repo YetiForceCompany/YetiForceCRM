@@ -289,7 +289,7 @@ var Settings_Index_Js = {
 		var langs_fields = '';
 		$('#AddNewTranslationMondal input[name="langs"]').val(JSON.stringify(langs_list));
 		$.each(langs_list, function(key) {
-			langs_fields += '<div class="span5 marginLeftZero"><label class="">'+langs_list[key]+':</label></div><div class="span7"><input name="'+langs_list[key]+'" class="span3" type="text" /></div>';
+			langs_fields += '<div class="col-md-5 marginLeftZero"><label class="">'+langs_list[key]+':</label></div><div class="col-md-7"><input name="'+langs_list[key]+'" class="col-md-3" type="text" /></div>';
 		});
 		$('#AddNewTranslationMondal .add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);

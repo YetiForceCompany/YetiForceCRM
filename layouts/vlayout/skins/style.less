@@ -1,4 +1,4 @@
-@import "../../../libraries/bootstrap/less/mixins.less";
+﻿@import "../../../libraries/bootstrap/less/mixins.less";
 
 @font-face {
     font-family: 'Open Sans';
@@ -220,7 +220,7 @@ hr{
     padding: 4px 6px;
 }
 
-.marginLeftZero.span10{
+.marginLeftZero.col-md-10{
 	width: 84.5% !important;
 }
 
@@ -511,7 +511,7 @@ tr.collapseRow{
 .modulesList{
 	margin-left: 2% !important;
 }
-.nav-list > li > a, .nav-list .nav-header {
+.list-group > li > a, .list-group .nav-header {
 	margin-right : 0px;
 }
 
@@ -522,9 +522,9 @@ tr.collapseRow{
 #topMenus{
     margin-bottom: 0px;
     height: 30px;
-    .navbar-inner{
+    .menu-inner{
          background: @menubarColor;
-			.menuBar .span9 {
+			.menuBar .col-md-9 {
 				height: 30px;
 				ul.nav{
 					margin-right: 0;
@@ -620,12 +620,12 @@ tr.collapseRow{
 	#centerPanel{
 		width: 100% !important;
 	}
-	.actionsContainer .span10{
+	.actionsContainer .col-md-10{
 		.boxSizingBorderBox;
 		padding: 0 10px;
 		width: 100% !important;
 	}
-	.menuBar .span9, .span3#headerLinks{
+	.menuBar .col-md-9, .col-md-3#headerLinks{
 		width: 48%;
 		.boxSizingBorderBox;
 		.qCreate{
@@ -653,7 +653,7 @@ tr.collapseRow{
 	#headerLinksCompact{
 			 display: inline-block;
 			 float: right;
-			.btn-navbar{
+			.navbar-btn{
 				display: inline-block;
 				margin-right: 3px;
 				margin-top: 2px;
@@ -935,11 +935,11 @@ tr.collapseRow{
     }
 }
 
-#quickCreateBtn .dropdown-menu > .row-fluid > .span12 > .row-fluid > .span4 {
+#quickCreateBtn .dropdown-menu > .row > .col-md-12 > .row > .col-md-4 {
 	text-align: left;
 }
 
-#lastVisitedRecords > .recordNamesList > .row-fluid > .span10 {
+#lastVisitedRecords > .recordNamesList > .row > .col-md-10 {
 	text-align: left;
 }
 
@@ -1273,19 +1273,19 @@ div.blockPage {
     opacity: 0.2;
 }
 
-.recordNamesList > .row-fluid > .span10{
+.recordNamesList > .row > .col-md-10{
 	width: 101%;
 }
 
-.recordNamesList > .row-fluid > .span10 >.nav-list > li > a{
+.recordNamesList > .row > .col-md-10 >.list-group > li > a{
 	margin-right: 0px;
 }
 
-.recordNamesList > .row-fluid > .span10 >.nav-list > li[class="title"]{
+.recordNamesList > .row > .col-md-10 >.list-group > li[class="title"]{
 	color: @generalLinkColor;
 }
 
-.recordNamesList > .row-fluid > .span10 >.nav-list > li > a:hover{
+.recordNamesList > .row > .col-md-10 >.list-group > li > a:hover{
 	color: @generalLinkColor;
 }
 
@@ -1302,7 +1302,7 @@ div.blockPage {
 	}
 }
 
-.btn-group.open .listViewBasicAction ,.btn-group.open .listViewSetting{
+.btn-group.open .listViewBasicAction{
 	.floatNone;
     left: auto;
     right: 0;
@@ -1512,7 +1512,7 @@ form#EditView table td.chznDropDown{
 
 //Related tabs in detail view
 .related{
-	min-width: 16.5%; /*before element is a span10 element */
+	min-width: 16.5%; /*before element is a col-md-10 element */
 	float:left;
     &:focus{
                     outline: none;
@@ -1883,7 +1883,7 @@ form#EditView table td.chznDropDown{
 }
 
 .commentTitle {
-	.span1 {
+	.col-md-1 {
 		.boxSizingBorderBox;
 		img{
 			min-width:32px;
@@ -2191,14 +2191,6 @@ form[name="advanceFilterForm"]{
 	cursor: default;
 }
 
-.btn{
-    background-color: none ;
-    background-image: none;
-    border-radius: 0 !important;
-    &:focus{
-        outline: 0;
-    }
-}
 
 .addButton{
     .gradientBar(@addButton,@addButton);
@@ -2344,11 +2336,11 @@ form[name="advanceFilterForm"]{
 .textOverflowEllipsis{
 	.textOverflowEllipsisMixin(9em,ellipsis);
 }
-
+/*//
 .widgetTextOverflowEllipsis{
 	.textOverflowEllipsisMixin(86%,ellipsis);
 }
-
+*/
 #detailView,#EditView{
 	.table{
 		.gradientBar(@tableBackgroundColor,@tableBackgroundColor);
@@ -2532,12 +2524,12 @@ div#chart2{
 
 .mainContainer{
     margin-top: 69px;
-    & > .span2.row-fluid{// side Bar stylings.
+    & > .col-md-2.row{// side Bar stylings.
         min-height:635px;
         background: @containerColor1;
         padding-top: 15px;
     }
-	.hero-unit{
+	.jumbotron{
 		height:500px;
 	}
 	.contentsDiv {
@@ -2720,32 +2712,6 @@ min-height: 14px !important;
 		min-height: 20px;
 		padding: 20px;
 	}
-}
-
-/**BootStrap Updated Css  (Should be removed once we update bootstrap**/
-
-.input-prepend.input-append input,
-.input-prepend.input-append select,
-.input-prepend.input-append .uneditable-input {
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-}
-
-.input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child {
-  margin-right: -1px;
-  -webkit-border-radius: 3px 0 0 3px;
-     -moz-border-radius: 3px 0 0 3px;
-          border-radius: 3px 0 0 3px;
-}
-
-.input-prepend.input-append .add-on:last-child,
-.input-prepend.input-append .btn:last-child {
-  margin-left: -1px;
-  -webkit-border-radius: 0 3px 3px 0;
-     -moz-border-radius: 0 3px 3px 0;
-          border-radius: 0 3px 3px 0;
 }
 
 /* Guider-JS */
@@ -3402,12 +3368,12 @@ input[type="text"], input, textarea{
 	z-index:1;
 }
 
-.toggleButton .icon-chevron-left {
+.toggleButton .glyphicon-chevron-left {
     background-position: -434px -72px !important;
     .icon-inverted;
 }
 
-.toggleButton .icon-chevron-right {
+.toggleButton .glyphicon-chevron-right {
     background-position: -460px -72px !important;
     .icon-inverted;
 }

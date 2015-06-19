@@ -47,6 +47,27 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
 
+		$userPersonalSettingsLinks = array(
+			'linktype' => 'HEADERLINK',
+			'linklabel' => $userModel->getDisplayName(),
+			'linkurl' => '',
+			'linkicon' => '',
+			'childlinks' => array(
+				array(
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_MY_PREFERENCES',
+					'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+					'linkicon' => '',
+				),
+				array(
+					'linktype' => 'HEADERLINK',
+					'linklabel' => 'LBL_SIGN_OUT',
+					'linkurl' => '?module=Users&parent=Settings&action=Logout',
+					'linkicon' => '',
+				)
+			)
+		);
+		array_push($headerLinks, $userPersonalSettingsLinks);
 		if ($userModel->isAdminUser()) {
 			$crmSettingsLink = array(
 				'linktype' => 'HEADERLINK',
@@ -70,27 +91,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 			);
 			array_push($headerLinks, $crmSettingsLink);
 		}
-		$userPersonalSettingsLinks = array(
-			'linktype' => 'HEADERLINK',
-			'linklabel' => $userModel->getDisplayName(),
-			'linkurl' => '',
-			'linkicon' => '',
-			'childlinks' => array(
-				array(
-					'linktype' => 'HEADERLINK',
-					'linklabel' => 'LBL_MY_PREFERENCES',
-					'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-					'linkicon' => '',
-				),
-				array(
-					'linktype' => 'HEADERLINK',
-					'linklabel' => 'LBL_SIGN_OUT',
-					'linkurl' => '?module=Users&parent=Settings&action=Logout',
-					'linkicon' => '',
-				)
-			)
-		);
-		array_push($headerLinks, $userPersonalSettingsLinks);
 		$headerLinkInstances = array();
 
 		$index = 0;
@@ -115,8 +115,8 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$headerScripts = Vtiger_Link_Model::getAllByType(Vtiger_Link::IGNORE_MODULE, array('HEADERSCRIPT'));
 		foreach($headerScripts as $headerType => $headerScripts) {
 			foreach($headerScripts as $headerScript) {

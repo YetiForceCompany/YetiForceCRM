@@ -56,10 +56,10 @@
 			{/foreach}
 		{/foreach}
 		<div class="padding1per contentsBackground">
-			<div class="row-fluid">
+			<div class="row">
 				<h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
 				<br>
-				<span class="span10 well contentsBackground">
+				<span class="col-md-10 well contentsBackground">
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</span>
 			</div>

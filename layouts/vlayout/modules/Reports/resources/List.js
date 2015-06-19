@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -184,9 +184,9 @@ Vtiger_List_Js("Reports_List_Js",{
 		var optionElement = jQuery('#'+optionId);
 		if(optionElement.length > 0){
 			optionElement.replaceWith(constructedOption);
-			customFilter.trigger("liszt:updated");
+			customFilter.trigger("chosen:updated");
 		} else {
-			customFilter.find('#foldersBlock').append(constructedOption).trigger("liszt:updated");
+			customFilter.find('#foldersBlock').append(constructedOption).trigger("chosen:updated");
 		}
 	},
 
@@ -236,7 +236,7 @@ Vtiger_List_Js("Reports_List_Js",{
 					var selectOption = thisInstance.getSelectOptionFromChosenOption(chosenOption);
 					selectOption.remove();
 					var customFilterElement = thisInstance.getFilterSelectElement();
-					customFilterElement.trigger("liszt:updated");
+					customFilterElement.trigger("chosen:updated");
 					var defaultCvid = customFilterElement.find('option:first').val();
 					customFilterElement.select2("val", defaultCvid);
 					customFilterElement.trigger('change');

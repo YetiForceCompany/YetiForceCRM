@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -226,7 +226,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 				options += '>'+conditionLabel+'</option>';
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("liszt:updated");
+		conditionSelectElement.empty().html(options).trigger("chosen:updated");
 		return conditionSelectElement;
 	},
 
@@ -296,15 +296,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js",{
 			fieldName = fieldName+"[]";
 		}
 		
-		if(fieldSpecificUi.find('.add-on').length > 0){
-			fieldSpecificUi.filter('.input-append').addClass('row-fluid');
-			fieldSpecificUi.find('.input-append').addClass('row-fluid');
-			fieldSpecificUi.filter('.input-prepend').addClass('row-fluid');
-			fieldSpecificUi.find('.input-prepend').addClass('row-fluid');
+		if(fieldSpecificUi.find('.input-group-addon').length > 0){
+			fieldSpecificUi.filter('.input-group').addClass('row');
+			fieldSpecificUi.find('.input-group').addClass('row');
+			fieldSpecificUi.filter('.input-group').addClass('row');
+			fieldSpecificUi.find('.input-group').addClass('row');
             fieldSpecificUi.find('input[type="text"]').css('width','79%');
 		} else {
-			fieldSpecificUi.filter('[name="'+ fieldName +'"]').addClass('row-fluid');
-			fieldSpecificUi.find('[name="'+ fieldName +'"]').addClass('row-fluid');
+			fieldSpecificUi.filter('[name="'+ fieldName +'"]').addClass('row');
+			fieldSpecificUi.find('[name="'+ fieldName +'"]').addClass('row');
 		}
 		
 		fieldSpecificUi.filter('[name="'+ fieldName +'"]').attr('data-value', 'value').removeAttr('data-validation-engine');
@@ -642,7 +642,7 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js',{},{
 	getUi : function(){
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		if(comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal =='n'){
-			var html = '<select class="select2 row-fluid" multiple name="'+ this.getName() +'[]">';
+			var html = '<select class="select2 row" multiple name="'+ this.getName() +'[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
 			var selectedOptionsArray = selectedOption.split(',')
@@ -669,7 +669,7 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js',{},{
 				var pickListValue = pickListValues[key];
 				pickListValuesArrayFlip[pickListValue] = key;
 			}
-			var html = '<input type="hidden" class="row-fluid select2" name="'+ this.getName() +'">';
+			var html = '<input type="hidden" class="row select2" name="'+ this.getName() +'">';
 			var selectContainer = jQuery(html).val(selectedOption);
 			selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
 			this.addValidationToElement(selectContainer);
@@ -694,7 +694,7 @@ Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js',{},{
 				var pickListValue = pickListValues[key];
 				pickListValuesArrayFlip[pickListValue] = key;
 			}
-			var html = '<input type="hidden" class="row-fluid select2" name="'+ this.getName() +'[]">';
+			var html = '<input type="hidden" class="row select2" name="'+ this.getName() +'[]">';
 			var selectContainer = jQuery(html).val(selectedOption);
 			selectContainer.data('tags', tagsArray).data('picklistvalues', pickListValuesArrayFlip);
 			this.addValidationToElement(selectContainer);
@@ -710,7 +710,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
 	getUi : function(){
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		if(comparatorSelectedOptionVal == 'e' || comparatorSelectedOptionVal =='n'){
-			var html = '<select class="select2 row-fluid" multiple name="'+ this.getName() +'[]">';
+			var html = '<select class="select2 row" multiple name="'+ this.getName() +'[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
 			var selectedOptionsArray = selectedOption.split(',')
@@ -741,7 +741,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js',{},{
 					tagsArray.push( jQuery.trim(e));
 				})
 			});
-			var html = '<input data-tags="'+tagsArray +'" type="hidden" class="row-fluid select2" name="'+ this.getName() +'">';
+			var html = '<input data-tags="'+tagsArray +'" type="hidden" class="row select2" name="'+ this.getName() +'">';
 			var selectContainer = jQuery(html).val(selectedOption);
 			selectContainer.data('tags', tagsArray);
 			this.addValidationToElement(selectContainer);

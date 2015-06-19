@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -155,12 +155,12 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
             var conditionRow = anyConditionContainer.find('.conditionList').find('.conditionRow:last');
             var fieldSelectElemnt = conditionRow.find('select[name="columnname"]');
             fieldSelectElemnt.find('option[data-field-name="'+ labelFieldName +'"]').attr('selected','selected');
-            fieldSelectElemnt.trigger('change').trigger('liszt:updated');
+            fieldSelectElemnt.trigger('change').trigger('chosen:updated');
 
             var comparatorSelectElemnt = conditionRow.find('select[name="comparator"]');
             //select the contains value
             comparatorSelectElemnt.find('option[value="c"]').attr('selected','selected');
-            comparatorSelectElemnt.trigger('liszt:updated');
+            comparatorSelectElemnt.trigger('chosen:updated');
 
             var valueElement = conditionRow.find('[name="value"]');
             valueElement.val(value);
@@ -200,9 +200,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 			thisInstance.getContainer().remove();
 		}
 
-		var html = '<div class="row-fluid">'+
-						'<span class="span4 searchHolder"></span>'+
-						'<span class="span8 filterHolder marginLeftZero hide"></span>'+
+		var html = '<div class="row">'+
+						'<span class="col-md-4 searchHolder"></span>'+
+						'<span class="col-md-8 filterHolder marginLeftZero hide"></span>'+
 					'</div>';
 		var jQhtml = jQuery(html);
 		jQuery('.searchHolder',jQhtml).html(data);
@@ -308,7 +308,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var searchHolder = jQuery('.searchHolder', modalData);
 		var filterHolder = jQuery('.filterHolder', modalData);
 		filterHolder.removeClass('hide').html(this.getContainer());
-		//searchHolder.removeClass('span12').css('width' , '35%');;
+		//searchHolder.removeClass('col-md-12').css('width' , '35%');;
 		modalData.closest('.blockMsg').css('width' , '70%');
 	},
 

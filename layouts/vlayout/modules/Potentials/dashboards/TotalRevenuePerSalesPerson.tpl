@@ -13,22 +13,22 @@
 	Vtiger_Pie_Widget_Js('Vtiger_Totalrevenuepersalesperson_Widget_Js',{},{});
 </script>
 <div class="dashboardWidgetHeader">
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
-		<div class="span4">
+		<div class="col-md-4">
 			<div class="box pull-right">
 				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr"/>
-	<div class="row-fluid">
-		<div class="span12">
-			<div class="pull-right">
-				<span class="icon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span>
-				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter input-mini" />
+	<div class="row">
+		<div class="col-md-6 pull-right">
+			<div class="input-group input-group-sm">
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title=""{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}></span></span>
+				<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter form-control" />
 			</div>
 		</div>
 	</div>			

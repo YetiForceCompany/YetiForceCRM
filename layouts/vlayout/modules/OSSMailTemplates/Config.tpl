@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -18,10 +18,10 @@
         top: 50%;
         left: 50%;
     }
-    .row-fluid > [class*="span"]{
+    .row > [class*="span"]{
         margin-left: 1%;
     }
-    .row-fluid > [class*="span"].blockSortable:first-child {
+    .row > [class*="span"].blockSortable:first-child {
         margin-left: 1%;
     }
     .state-highlight{ height: 2em; line-height: 2em; border: 1px solid #FFD600;background-color:#F9FFB3; }
@@ -40,17 +40,17 @@
     }
 </style>
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
-<div class="container-fluid" id="layoutEditorContainer">
+<div class="" id="layoutEditorContainer">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-left:30px;">
         <li class="active"><a href="#help" data-toggle="tab">{vtranslate('LBL_HELP', $MODULENAME)}</a></li>
         <li><a href="#delete" data-toggle="tab">{vtranslate('LBL_DeleteModule', $MODULENAME)}</a></li>
     </ul>
     {if $ERROR neq ''}
-        <div class="alert alert-error">
+        <div class="alert alert-warning">
             <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
         </div>
     {/if}
-    <div id="my-tab-content" class="tab-content" class="row-fluid">
+    <div id="my-tab-content" class="tab-content" class="row">
         {* help *}
         <div class='editViewContainer tab-pane active' id="help">
             <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=Configuration&parent=Settings">
@@ -68,7 +68,7 @@
                             <label class="muted pull-right marginRight10px"> {vtranslate('LBL_TroubleUrl', $MODULENAME)}</label>
                         </td>
                         <td class="fieldValue" >
-                            <div class="row-fluid"><span class="span10">
+                            <div class="row"><span class="col-md-10">
                                     <a href="{vtranslate('LBL_UrlLink', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlLink', $MODULENAME)}</a> ({vtranslate('LBL_UrlLinkInfo', $MODULENAME)})</span>
                             </div>
                         </td>
@@ -78,7 +78,7 @@
                             <label class="muted pull-right marginRight10px"> {vtranslate('LBL_OurWebsite', $MODULENAME)}</label>
                         </td>
                         <td class="fieldValue" >
-                            <div class="row-fluid"><span class="span10">
+                            <div class="row"><span class="col-md-10">
                                     {*
                                     // Removal of this link violates the principles of License
                                     // Usunięcie tego linku narusza zasady licencji *}
@@ -95,8 +95,8 @@
             <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=Uninstall&parent=Settings&block={$smarty.get.block}&fieldid={$smarty.get.fieldid}">
                 <input type="hidden" name="uninstall" value="uninstall" />
                 <input type="hidden" name="status" value="1" />
-                <div class="contentHeader row-fluid">
-                    <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_DeleteModule', $MODULENAME)}</span>
+                <div class="contentHeader row">
+                    <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_DeleteModule', $MODULENAME)}</span>
                 </div>
 
                 <table class="table table-bordered blockContainer showInlineTable">
@@ -106,7 +106,7 @@
                     <tr>
                         <td class="fieldLabel" colspan="4">
                             <span class="pull-right">
-                                <button class="btn btn-danger btn-large" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
+                                <button class="btn btn-danger btn-lg" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
                                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a> 
                             </span>
                         </td>
@@ -128,7 +128,7 @@
             <p><input id="status" onclick="jQuery('#confirm').attr('disabled', !this.checked);" name="status" type="checkbox" value="1" required="required" /> {vtranslate('LBL_DEL_CONFIRM', $MODULENAME)}</p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
+            <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
             <a href="index.php?module=OSSMailTemplates&view=Uninstall&parent=Settings" class="btn btn-danger okay-button" id="confirm" type="submit" name="uninstall" form="EditView" disabled="disabled">{vtranslate('Yes', $MODULENAME)}</a>
         </div>
     </div>

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -20,10 +20,10 @@
 		<div id='chartcontent' style="min-height:400px;" ></div>
 		<br>
 		{if $CLICK_THROUGH neq 'true'}
-			<div class='row-fluid alert-info' style="padding:20px">
-				<span class='span3 offset4'> &nbsp;</span>
+			<div class='row alert-info' style="padding:20px">
+				<span class='col-md-3 col-md-offset-4'> &nbsp;</span>
 				<span class='span alert-info'>
-					<i class="icon-info-sign"></i>
+					<span class="glyphicon glyphicon-info-sign"></span>
 					{vtranslate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}
 				</span>
 			</div>

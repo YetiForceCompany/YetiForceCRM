@@ -52,8 +52,8 @@ class Project_Detail_View extends Vtiger_Detail_View {
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 		 return $headerCssInstances;
 	}
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			'~/libraries/dhtmlxGantt/dhtmlxgantt.js',

@@ -12,13 +12,13 @@
 {strip}
 	{assign var=IMAGE value=$MODULE_NAME|cat:'48.png'}
 	{if file_exists( vimage_path($IMAGE) )}
-		<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
 				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}" />
 			</span>
 		</span>
 	{/if}
-    <span class="span10 margin0px">
+    <span class="col-md-10 margin0px">
 		<div class='row-1'>
             <h4 style="color: #1560bd;" title="{$RECORD->getName()}">
                 {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}

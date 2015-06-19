@@ -10,7 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-	{include file='TopMenus.tpl'|@vtemplate_path:$MODULE}
+	 <!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse">
+		{include file='TopMenus.tpl'|@vtemplate_path:$MODULE}
+	</div>
 	{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
 	<input type='hidden' value="{$MODULE}" id='module' name='module'/>
 	<input type="hidden" value="{$PARENT_MODULE}" id="parent" name='parent' />

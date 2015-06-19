@@ -28,12 +28,16 @@
 			<table width="100%" cellspacing="0" cellpadding="5" id="duplicates_merge_configuration" style="display:none;">
 				<tr>
 					<td>
-						<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
-						<select name="merge_type" id="merge_type" class="font-x-small" title="{vtranslate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}">
-							{foreach key=_MERGE_TYPE item=_MERGE_TYPE_LABEL from=$AUTO_MERGE_TYPES}
-							<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|@vtranslate:$MODULE}</option>
-							{/foreach}
-						</select>
+						<div class="col-md-3 paddingLRZero">
+							<span class="font-x-small">{'LBL_SPECIFY_MERGE_TYPE'|@vtranslate:$MODULE}</span>&nbsp;&nbsp;
+						</div>
+						<div class="col-md-2 paddingLRZero">
+							<select name="merge_type" id="merge_type" class="font-x-small form-control" title="{vtranslate('LBL_SPECIFY_MERGE_TYPE', $MODULE)}">
+								{foreach key=_MERGE_TYPE item=_MERGE_TYPE_LABEL from=$AUTO_MERGE_TYPES}
+								<option value="{$_MERGE_TYPE}">{$_MERGE_TYPE_LABEL|@vtranslate:$MODULE}</option>
+								{/foreach}
+							</select>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -43,9 +47,9 @@
 					<td>
 						<table class="calDayHour" cellpadding="5" cellspacing="0">
 							<tr>
-								<td><b>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_AVAILABLE_FIELDS'|@vtranslate:$MODULE}</strong></td>
 								<td></td>
-								<td><b>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</b></td>
+								<td><strong>{'LBL_SELECTED_FIELDS'|@vtranslate:$MODULE}</strong></td>
 							</tr>
 							<tr>
 								<td>

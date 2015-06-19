@@ -10,5 +10,5 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="row-fluid">{include file='SideBar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
+	<div>{include file='SideBar.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
 {/strip}

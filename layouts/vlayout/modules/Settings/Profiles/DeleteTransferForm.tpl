@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="modelContainer">
-	<div class="row-fluid">
+	<div class="row">
 		<div class="modal-header">
 			<button class="close vtButton" data-dismiss="modal">×</button>
 			<h3>{vtranslate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
@@ -23,7 +23,7 @@
 			<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 
 			<div class="modal-body">
-				<div class="control-group">
+				<div class="form-group">
 					<div class="control-label">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
 					<div class="controls">
 						<select id="transfer_record" name="transfer_record" class="chzn-select">

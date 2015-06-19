@@ -61,7 +61,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			//Additional parameters
 			$viewer->assign('CURRENT_VIEW', $request->get('view'));
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('SCRIPTS',$this->getHeaderScripts($request));
+			$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
 			$viewer->assign('STYLES',$this->getHeaderCss($request));
 			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
@@ -75,6 +75,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 			$viewer->assign('ALL_USERS',$allUsers);
 			$viewer->assign('SHAREDUSERS',$sharedUsers);
 			$viewer->assign('SHARED_TYPE',$sharedType);	
+			$viewer->assign('HEADER_SCRIPTS',$this->getHeaderScripts($request));
 			if($display) {
 				$this->preProcessDisplay($request);
 			}
@@ -107,8 +108,8 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View {
 		parent::process($request);
 	}
 
-    public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+    public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
         $moduleDetailFile = 'modules.'.$moduleName.'.resources.PreferenceEdit';
         unset($headerScriptInstances[$moduleDetailFile]);

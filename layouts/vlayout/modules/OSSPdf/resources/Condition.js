@@ -1,4 +1,4 @@
-/*+***********************************************************************************************************************************
+﻿/*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -196,7 +196,7 @@ function OSSCondition() {
 							text: app.vtranslate('LBL_'+item.replace(" ", "_").replace(" ", "_").replace(" ", "_").replace(" ", "_").replace(" ", "_").toUpperCase())
 						}));
 					});
-					comparator.trigger("liszt:updated");
+					comparator.trigger("chosen:updated");
                 })
             },
             this.fieldTypeHasChanged = function() {
@@ -259,7 +259,7 @@ function OSSCondition() {
             },
             this.showBetweenDateInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-                        html = '<div class="date"><input class="dateField bw row-fluid" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
+                        html = '<div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
 
                 valPlace.children().remove();
                 valPlace.append(html);
@@ -288,7 +288,7 @@ function OSSCondition() {
                 var select = jQuery("<select></select>").attr({
                     name: "val",
                     "data-value": "value",
-                    class: "row-fluid select2"
+                    class: "row select2"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -311,7 +311,7 @@ function OSSCondition() {
                     multiple: "multiple",
                     name: "val",
                     "data-value": "value",
-                    class: "row-fluid select2"
+                    class: "row select2"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -336,7 +336,7 @@ function OSSCondition() {
                         type: 'text',
                         name: 'val',
                         "data-value": "value",
-                        class: "row-fluid"
+                        class: "row"
 
                     }).appendTo(valPlace);
 
@@ -348,7 +348,7 @@ function OSSCondition() {
             this.showDataInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
                 var valElement = valPlace.find('[name="val"]'),
-                        html = '<div class="input-append row-fluid"><input class="span9 dateField" name="val" data-date-format="yyyy-mm-dd"><span class="add-on"><i class="icon-calendar"></i></span></div>';
+                        html = '<div class="input-group row"><input class="col-md-9 dateField" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
 
                 if (!jQuery(valElement).hasClass('dateField') || jQuery(valElement).hasClass('bw')) {
                     valPlace.children().remove();
@@ -360,7 +360,7 @@ function OSSCondition() {
             this.showTime = function(element, info) {
               //  console.log(info)
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-                        html = '<div class="input-append time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default input-small ui-timepicker-input" name="val" autocomplete="off"><span class="add-on cursorPointer"><i class="icon-time"></i></span></div>';
+                        html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
 
                 valPlace.children().remove();
                 valPlace.append(html);

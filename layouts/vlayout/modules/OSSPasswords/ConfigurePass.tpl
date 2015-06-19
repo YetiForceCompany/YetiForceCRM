@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -13,7 +13,7 @@
 {if $ISADMIN eq 1}
 
 {if $ERROR|count_characters:true gt 0}
-    <div class="alert alert-error" style="margin:10px 15px;">
+    <div class="alert alert-warning" style="margin:10px 15px;">
         <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
     </div>
 {elseif $INFO|count_characters:true gt 0}
@@ -51,8 +51,8 @@
                 <div class='editViewContainer tab-pane active' id="edit">
                     <form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">                
                         <input type="hidden" name="encrypt" value="edit" />
-                        <div class="contentHeader row-fluid">
-                            <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('Change Password Key', $MODULENAME)}</span>
+                        <div class="contentHeader row">
+                            <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Change Password Key', $MODULENAME)}</span>
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -68,8 +68,8 @@
                                     <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Old Key', $MODULENAME)}:</label>
                                 </td>
                                 <td class="fieldValue" >
-                                    <div class="row-fluid"><span class="span10">
-                                        <input id="oldKey" type="text" class="input-large nameField" name="oldKey" value="" min="8" /></span>
+                                    <div class="row"><span class="col-md-10">
+                                        <input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
@@ -78,13 +78,13 @@
                                     <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('New Key', $MODULENAME)}:</label>
                                 </td>
                                 <td class="fieldValue" >
-                                    <div class="row-fluid"><span class="span10">
-                                        <input id="newKey" type="text" class="input-large nameField" name="newKey" value="" min="8" /></span>
+                                    <div class="row"><span class="col-md-10">
+                                        <input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
                         </table>
-                        <div class="contentHeader row-fluid">
+                        <div class="contentHeader row">
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -96,8 +96,8 @@
                 <div class='editViewContainer tab-pane' id="stop">
                     <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">                
                         <input type="hidden" name="encrypt" value="stop" />
-                        <div class="contentHeader row-fluid">
-                            <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('Cancel Encrypting Passwords', $MODULENAME)}</span>
+                        <div class="contentHeader row">
+                            <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Cancel Encrypting Passwords', $MODULENAME)}</span>
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -113,13 +113,13 @@
                                     <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption Password', $MODULENAME)}:</label>
                                 </td>
                                 <td class="fieldValue" >
-                                    <div class="row-fluid"><span class="span10">
-                                        <input id="passKey" type="text" class="input-large nameField" name="passKey" value="" min="8" /></span>
+                                    <div class="row"><span class="col-md-10">
+                                        <input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" /></span>
                                     </div>
                                 </td>
                             </tr>
                         </table>
-                        <div class="contentHeader row-fluid">
+                        <div class="contentHeader row">
                             <span class="pull-right">
                                 <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -131,8 +131,8 @@
         {else}
             <form class="form-horizontal recordEditView" id="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
                 <input type="hidden" name="encrypt" value="start" />
-                <div class="contentHeader row-fluid">
-                    <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('Encrypt Passwords', $MODULENAME)}</span>
+                <div class="contentHeader row">
+                    <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Encrypt Passwords', $MODULENAME)}</span>
                     <span class="pull-right">
                         <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                         <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -148,13 +148,13 @@
                             <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
                         </td>
                         <td class="fieldValue" >
-                            <div class="row-fluid"><span class="span10">
-                                <input id="pass_key" type="text" class="input-large nameField" name="pass_key" value="" min="8" /></span>
+                            <div class="row"><span class="col-md-10">
+                                <input id="pass_key" type="text" class="form-control nameField" name="pass_key" value="" min="8" /></span>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <div class="contentHeader row-fluid">
+                <div class="contentHeader row">
                     <span class="pull-right">
                         <button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                         <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -167,8 +167,8 @@
     {* password configuration form *}
     <div class='editViewContainer tab-pane' id="confpass">
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
-        <div class="contentHeader row-fluid">
-            <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
+        <div class="contentHeader row">
+            <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
             <span class="pull-right">
                 <button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -184,8 +184,8 @@
                     <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
                 </td>
                 <td class="fieldValue" >
-                    <div class="row-fluid"><span class="span10">
-                        <input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="input-large nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
+                    <div class="row"><span class="col-md-10">
+                        <input id="OSSPasswords_editView_fieldName_pass_length_min" type="number" class="form-control nameField" name="pass_length_min" value="{$MIN}" min="1" /></span>
                     </div>
                 </td>
             </tr>
@@ -194,8 +194,8 @@
                     <label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Maximum Length', $MODULENAME)}:</label>
                 </td>
                 <td class="fieldValue" >
-                    <div class="row-fluid"><span class="span10">
-                        <input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="input-large nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
+                    <div class="row"><span class="col-md-10">
+                        <input id="OSSPasswords_editView_fieldName_pass_length_max" type="number" class="form-control nameField" name="pass_length_max" value="{$MAX}" min="1" /></span>
                     </div>
                 </td>
             </tr>
@@ -205,8 +205,8 @@
             <tr>
                 <td class="fieldLabel"> </td>
                 <td align="center" class="fieldValue" >
-                    <div class="row-fluid">
-                        <span class="span10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
+                    <div class="row">
+                        <span class="col-md-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
                     </div>
                 </td>
             </tr>
@@ -216,15 +216,15 @@
             <tr>
                 <td class="fieldLabel"> </td>
                 <td align="center" class="fieldValue" >
-                    <div class="row-fluid">
-                        <span class="span10">
-                        <input id="register_changes" type="checkbox" class="input-large nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
+                    <div class="row">
+                        <span class="col-md-10" style="text-align: left;">
+                        <input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" data-toggle="modal" data-target="#myRegisterModal" /> 
                          {vtranslate('LBL_START_REGISTER', $MODULENAME)}</span>
                     </div>
                 </td>
             </tr>
         </table>
-        <div class="contentHeader row-fluid">
+        <div class="contentHeader row">
             <span class="pull-right">
                 <button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
                 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
@@ -238,8 +238,8 @@
         <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
         <input type="hidden" name="uninstall" value="uninstall" />
         <input type="hidden" name="status" value="1" />
-        <div class="contentHeader row-fluid">
-            <span class="span8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_DeleteModule', $MODULENAME)}</span>
+        <div class="contentHeader row">
+            <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_DeleteModule', $MODULENAME)}</span>
         </div>
 
         
@@ -250,7 +250,7 @@
             <tr>
                 <td class="fieldLabel" colspan="4">
                 <span class="pull-right">
-                    <button class="btn btn-danger btn-large" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
+                    <button class="btn btn-danger btn-lg" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
                     <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a> 
                 </span>
                 </td>
@@ -274,7 +274,7 @@
                     <label class="muted pull-right marginRight10px"> {vtranslate('Information', $MODULENAME)}</label>
                 </td>
                  <td class="fieldValue" >
-				<span class="span10">
+				<span class="col-md-10">
                 <a href="{vtranslate('LBL_UrlLink2', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlLink2', $MODULENAME)}
 				</td>
             </tr>
@@ -283,7 +283,7 @@
                     <label class="muted pull-right marginRight10px"> {vtranslate('LBL_Helpforthemodule', $MODULENAME)}</label>
                 </td>
                 <td class="fieldValue" >
-                    <div class="row-fluid"><span class="span10">
+                    <div class="row"><span class="col-md-10">
                         <a href="mailto:{vtranslate('LBL_UrlHelp', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlHelp', $MODULENAME)},&nbsp </a>
 						<a href="mailto:{vtranslate('LBL_UrlHelp2', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlHelp2', $MODULENAME)}</a>
 						</span>
@@ -295,7 +295,7 @@
                     <label class="muted pull-right marginRight10px"> {vtranslate('LBL_License', $MODULENAME)}</label>
                 </td>
                 <td class="fieldValue" >
-                    <div class="row-fluid"><span class="span10">
+                    <div class="row"><span class="col-md-10">
                         {*
                         // Removal of this link violates the principles of License
                         // Usunięcie tego linku narusza zasady licencji *}
@@ -308,7 +308,7 @@
                     <label class="muted pull-right marginRight10px"> {vtranslate('LBL_Company', $MODULENAME)}</label>
                 </td>
                 <td class="fieldValue" >
-                    <div class="row-fluid"><span class="span10">
+                    <div class="row"><span class="col-md-10">
                         <a href="{vtranslate('LBL_UrlCompany', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlCompany', $MODULENAME)}</a></span>
                     </div>
                 </td>
@@ -350,7 +350,7 @@
   </div>
 </div>
 {else}
-    <div class="alert alert-error" style="margin:10px 15px;">
+    <div class="alert alert-warning" style="margin:10px 15px;">
         <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate('Access denied!', $MODULENAME)}
     </div>
 {/if}

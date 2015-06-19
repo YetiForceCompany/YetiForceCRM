@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class='editViewContainer container-fluid'>
+<div class='editViewContainer'>
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -36,18 +36,18 @@
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 			<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 		{/if}
-		<div class="contentHeader row-fluid">
+		<div class="contentHeader row">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		{if $RECORD_ID neq ''}
-            <div class="span6">
+            <div class="col-md-6">
                 <h3 title="{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} {$RECORD_STRUCTURE_MODEL->getRecordName()}">{vtranslate('LBL_EDITING', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)} - {$RECORD_STRUCTURE_MODEL->getRecordName()}</h3>
             </div>
         {else}
-            <div class="span6">
+            <div class="col-md-6">
                 <h3>{vtranslate('LBL_CREATING_NEW', $MODULE)} {vtranslate($SINGLE_MODULE_NAME, $MODULE)}</h3>
             </div>
 		{/if}
-            <div class="span6">
+            <div class="col-md-6">
                 <div class="pull-right">
                     <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
                     <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
@@ -64,8 +64,8 @@
 			<thead>
 				<tr>
 					<th class="blockHeader" colspan="4">
-						<div class="row-fluid">
-							<div class="span4">
+						<div class="row">
+							<div class="col-md-4">
 								<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 								<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
 								&nbsp;&nbsp;
@@ -74,7 +74,7 @@
 									<input value="" type="text" class="api_address_autocomplete pull-right input" title="{vtranslate('LBL_ADDRESS_INFORMATION')}" style="width: 50%;" />
 								{/if}
 							</div>
-							<div class="span8">
+							<div class="col-md-8">
 								{if $BLOCK_LABEL eq 'LBL_ADDRESS_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_MAILING_INFORMATION' || $BLOCK_LABEL eq 'LBL_ADDRESS_DELIVERY_INFORMATION'}
 									{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
 								{/if}
@@ -135,8 +135,8 @@
 					</td>
 					{if $FIELD_MODEL->get('uitype') neq "83"}
 						<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-							<div class="row-fluid">
-								<span class="span10">
+							<div class="row">
+								<span class="col-md-10">
 									{if $FIELD_MODEL->get('uitype') eq "300"}
 										<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 									{/if}

@@ -12,7 +12,7 @@
         <input type="hidden" name="record" value="{$RECORD}" />
         <input type="hidden" class="step" value="3" />
         <div class="btn-group">
-            <a class="btn dropdown-toggle addButton" data-toggle="dropdown" href="#">
+            <a class="btn dropdown-toggle btn-default addButton" data-toggle="dropdown" href="#">
                 <strong>{vtranslate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
                 <span><img class="imageElement" src="{vimage_path('downArrowWhite.png')}" /></span>
             </a>

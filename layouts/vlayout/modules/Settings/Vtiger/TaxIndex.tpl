@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,17 +9,17 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="TaxCalculationsContainer">
-	<div class="widget_header row-fluid">
+<div class="" id="TaxCalculationsContainer">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_TAX_CALCULATIONS', $QUALIFIED_MODULE)}</h3>
 	</div>
 	<hr>
-	<div class="contents row-fluid paddingTop20">
-		<div class="span12">
+	<div class="contents row paddingTop20">
+		<div class="col-md-12">
 			{assign var=CREATE_TAX_URL value=$TAX_RECORD_MODEL->getCreateTaxUrl()}
 			{assign var=WIDTHTYPE value=$CURRENT_USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
-				<button type="button" class="btn addTax addButton" data-url="{$CREATE_TAX_URL}" data-type="0"><i class="icon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</strong></button>
+				<button type="button" class="btn btn-default addTax addButton" data-url="{$CREATE_TAX_URL}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_ADD_NEW_TAX', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<table class="table table-bordered inventoryTaxTable themeTableColor">
 				<thead>
@@ -41,7 +41,7 @@
 							<td class="textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><span class="taxPercentage">{$PRODUCT_SERVICE_TAX_MODEL->getTax()}%</span></td>
 							<td class="textAlignCenter {$WIDTHTYPE}" style="border-left: none;"><input type="checkbox" class="editTaxStatus" {if !$PRODUCT_SERVICE_TAX_MODEL->isDeleted()}checked{/if} />
 								<div class="pull-right actions">
-									<a class="editTax cursorPointer" data-url="{$PRODUCT_SERVICE_TAX_MODEL->getEditTaxUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignBottom"></i></a>&nbsp;
+									<a class="editTax cursorPointer" data-url="{$PRODUCT_SERVICE_TAX_MODEL->getEditTaxUrl()}"><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignBottom"></i></a>&nbsp;
 								</div>
 							</td>
 						</tr>

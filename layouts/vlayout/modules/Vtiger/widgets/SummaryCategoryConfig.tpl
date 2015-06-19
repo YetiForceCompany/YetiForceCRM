@@ -18,13 +18,13 @@
 	</div>
 	<div class="modal-body">
 		<div class="modal-Fields">
-			<div class="row-fluid">
-				<div class="span5 marginLeftZero">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</div>
-				<div class="span7">
+			<div class="row">
+				<div class="col-md-5 marginLeftZero">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</div>
+				<div class="col-md-7">
 					{vtranslate($TYPE, $QUALIFIED_MODULE)}
 				</div>
-				<div class="span5 marginLeftZero"><label class="">{vtranslate('Label', $QUALIFIED_MODULE)}:</label></div>
-				<div class="span7"><input name="label" class="span3" type="text" value="{$WIDGETINFO['label']}" /></div>
+				<div class="col-md-5 marginLeftZero"><label class="">{vtranslate('Label', $QUALIFIED_MODULE)}:</label></div>
+				<div class="col-md-7"><input name="label" class="col-md-3" type="text" value="{$WIDGETINFO['label']}" /></div>
 			</div>
 		</div>
 	</div>

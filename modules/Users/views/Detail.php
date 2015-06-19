@@ -73,8 +73,8 @@ class Users_Detail_View extends Users_PreferenceDetail_View {
 		parent::process($request);
 	}
 
-	public function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	public function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

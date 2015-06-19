@@ -19,7 +19,7 @@
     }
 </style>
     <div class='editViewContainer ' id="tab_cron">
-		<div class="widget_header row-fluid">
+		<div class="widget_header">
 			<h3>{vtranslate('LBL_MAIL_LOGS', 'OSSMailScanner')}</h3>
 		</div>
 		<hr>
@@ -31,15 +31,15 @@
             <table>
             <tr>
                 <td>{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</td>
-                <td><input type="text" name="email_to_notify" class="span3" value="{$WIDGET_CFG['cron']['email']}" /></td>
+				<td><input type="text" class="form-control" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></td>
             </tr>
             <tr>
                 <td>{vtranslate('time_to_notify', 'OSSMailScanner')}&nbsp;(min): &nbsp;</td>
-                <td><input type="text" name="time_to_notify" class="span3" value="{$WIDGET_CFG['cron']['time']}" /></td>
+                <td><input type="text" name="time_to_notify" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></td>
             </tr>
         </table>
                 <div class="pull-right">
-                    <select class="span1" name="page_num">
+                    <select class="col-md-1 form-control" name="page_num">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
                         {for $i=1 to $HISTORYACTIONLIST_NUM}
                             <option vlaue="{$i}">{$i}</option>

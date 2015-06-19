@@ -22,7 +22,7 @@
 			<input type="hidden" name="aid" value="{$AID}" />
 			<input type="hidden" name="an" value="{$ACTIONNAME}" />
 			<input type="hidden" name="data" value='' />
-			<div class="row-fluid padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+			<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 				{assign var="TPL" value="data_access/$ACTION.tpl"}
 				<h4 class="padding-bottom1per"><strong>{vtranslate('LBL_CONFIG_ACTION',$QUALIFIED_MODULE)}: {Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,true)}</strong></h4>
 				<div class="alert alert-info">{Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,false)}</div>

@@ -7,16 +7,5 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="navbar" id="topMenus">
-	<div class="navbar-inner" id="nav-inner">
-		<div class="menuBar row-fluid">
-			<div class="span7" id="largeNavDiv">
-				{include file='TopMenusLeft.tpl'|@vtemplate_path:$MODULE}
-			</div>
-			<div class="span5 row-fluid" id="headerLinks">
-				{include file='TopMenusRight.tpl'|@vtemplate_path:$MODULE}
-			</div>
-		</div>
-		<div class="clearfix"></div>
-	</div>
-</div>
+ {include file='TopMenusRight.tpl'|@vtemplate_path:$MODULE}
+ {include file='TopMenusLeft.tpl'|@vtemplate_path:$MODULE}

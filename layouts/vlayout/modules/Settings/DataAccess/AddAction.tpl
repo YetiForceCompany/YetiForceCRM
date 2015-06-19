@@ -20,10 +20,10 @@
 			<input type="hidden" name="base_module" value="{$BASE_MODULE}" />
 			<input type="hidden" name="tpl_id" value="{$TPL_ID}" />
 			<input type="hidden" name="save_actions" value='{$ACTIONS_JASON}' />
-			<div class="row-fluid padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
+			<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 				<h4 class="padding-bottom1per"><strong>{vtranslate('LBL_CREATION_ACTION',$QUALIFIED_MODULE)}</strong></h4>
 				{vtranslate('LBL_CREATION_DESC',$QUALIFIED_MODULE)}<br>
-				<select name="actions_list" class="chzn-select span12" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+				<select name="actions_list" class="chzn-select col-md-12" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 					{foreach key=key item=item from=$ACTIONS_LIST}
 						<option value="{$item}">{Settings_DataAccess_Module_Model::getActionName($item,true)}</option>
 					{/foreach}

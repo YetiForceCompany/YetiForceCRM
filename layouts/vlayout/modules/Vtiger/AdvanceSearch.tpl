@@ -11,12 +11,12 @@
 -->*}
 {strip}
     <div id="advanceSearchContainer">
-        <div class="row-fluid padding10 boxSizingBorderBox">
+        <div class="row padding10 boxSizingBorderBox">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <div class="span5">
+            <div class="col-md-5">
                 <strong class="pull-right pushDown">{vtranslate('LBL_SEARCH_IN',$MODULE)}</strong>
             </div>
-            <div class="span6 ">
+            <div class="col-md-6">
                 <select class="chzn-select pushDown" id="searchModuleList" title="{vtranslate('LBL_SELECT_MODULE')}" data-placeholder="{vtranslate('LBL_SELECT_MODULE')}">
                     <option></option>
                     {foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
@@ -25,8 +25,8 @@
                 </select>
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="filterElements" id="searchContainer" style="height: auto;">
+        <div class="">
+            <div class="filterElements" id="searchContainer">
                 <form name="advanceFilterForm">
                     {if $SOURCE_MODULE eq 'Home'}
                         <div class="textAlignCenter well contentsBackground">{vtranslate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
@@ -40,14 +40,13 @@
 
         <div class="actions modal-footer">
             <a class="cancelLink pull-right" type="reset" id="advanceSearchCancel" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>
-            <button class="btn" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><strong>{vtranslate('LBL_SEARCH', $MODULE)}</strong></button>
-            <div class="pull-right">
-                {if $SAVE_FILTER_PERMITTED}
-                    <button class="btn hide pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
-                    <button class="btn pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
-                    <input class="zeroOpacity pull-right" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname"/>&nbsp;
-                {/if}
-            </div>
+            {if $SAVE_FILTER_PERMITTED}
+				<button class="btn hide btn-default" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
+				<button class="btn btn-default" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
+				<input class="zeroOpacity pull-left" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname"/>&nbsp;
+			{/if}
+			<button class="btn btn-default" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><strong>{vtranslate('LBL_SEARCH', $MODULE)}</strong></button>
+			
         </div>
     </div>
 </div>

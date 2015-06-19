@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-				<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}icon-chevron-left{else}icon-chevron-right{/if}"></span>
+				<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 			</div>&nbsp
 <div style="padding-left: 15px;">
     <form onsubmit="" action="index.php" enctype="multipart/form-data" method="POST" name="importBasic">
@@ -27,7 +27,7 @@
             {if $ERROR_MESSAGE neq ''}
                 <tr>
                     <td class="style1" align="left" colspan="2">
-                        <span class="alert-error">{$ERROR_MESSAGE}</span>
+                        <span class="alert-warning">{$ERROR_MESSAGE}</span>
                     </td>
                 </tr>
             {/if}

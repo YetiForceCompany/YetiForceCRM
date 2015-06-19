@@ -57,49 +57,50 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="row-fluid">
-		<div class="span8">
+	<div class="row">
+		<div class="col-md-8">
 			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
-		<div class="span4">
+		<div class="col-md-4">
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted('OSSTimeControl', 'EditView')}
-					<a class="btn btn-mini" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
-						<span class='icon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
+					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSTimeControl'); return false;">
+						<span class='glyphicon glyphicon-plus' border='0' title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
-				<a class="btn btn-mini" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-					<span class="icon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+				<a class="btn btn-xs btn-default" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
+					<span class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 				</a>
 				{if !$WIDGET->isDefault()}
-					<a class="btn btn-mini" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="icon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
+					<a class="btn btn-xs btn-default" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
+						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></span>
 					</a>
 				{/if}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr"/>
-	<div class="row-fluid" >
-		<div class="span6">
-			<span class="icon-calendar iconMiddle margintop3"></span>
-			<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter input-mini width90" />
+	<div class="row" >
+		<div class="col-md-6">
+			<div class="input-group input-group-sm">
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
+				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" />
+			</div>	
 		</div>
-		<div class="span6">
-			<span class="icon-user iconMiddle margintop3"></span>
-			{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
-			{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
-			<select class="widgetFilter width90 owner" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
-				<optgroup label="{vtranslate('LBL_USERS')}">
-					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
-							{$OWNER_NAME}
-						</option>
-					{/foreach}
-				</optgroup>
-			</select>
-			<div class="pull-right">
-				&nbsp;
+		<div class="col-md-6">
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
+				{assign var=ALL_ACTIVEUSER_LIST value=$CURRENTUSER->getAccessibleUsers()}
+				{assign var=LOGGED_USER_ID value=$LOGGEDUSERID}
+				<select class="widgetFilter width90 form-control" title="{vtranslate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" >
+					<optgroup label="{vtranslate('LBL_USERS')}">
+						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
+							<option title="{$OWNER_NAME}" {if $OWNER_ID eq $LOGGED_USER_ID } selected {/if} value="{$OWNER_ID}">
+								{$OWNER_NAME}
+							</option>
+						{/foreach}
+					</optgroup>
+				</select>
 			</div>
 		</div>
 	</div>

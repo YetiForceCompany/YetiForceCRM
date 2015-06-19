@@ -1230,7 +1230,7 @@ function get_contactsforol($user_name)
 		}
 		//removing the relationship of contacts with PurchaseOrder
 		$this->db->pquery('UPDATE vtiger_purchaseorder SET contactid=0 WHERE contactid=?', array($id));
-
+		
 		//Backup Contact-SalesOrder Relation
 		$so_q = 'SELECT salesorderid FROM vtiger_salesorder WHERE contactid=?';
 		$so_res = $this->db->pquery($so_q, array($id));
@@ -1245,7 +1245,7 @@ function get_contactsforol($user_name)
 		}
 		//removing the relationship of contacts with SalesOrder
 		$this->db->pquery('UPDATE vtiger_salesorder SET contactid=0 WHERE contactid=?', array($id));
-
+		
 		//Backup Contact-Quotes Relation
 		$quo_q = 'SELECT quoteid FROM vtiger_quotes WHERE contactid=?';
 		$quo_res = $this->db->pquery($quo_q, array($id));

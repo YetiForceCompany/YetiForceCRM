@@ -15,7 +15,7 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getHeaderScripts(Vtiger_Request $request) {
+	function getFooterScripts(Vtiger_Request $request) {
 
 		$jsFileNames = array(
 //			'~/libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',

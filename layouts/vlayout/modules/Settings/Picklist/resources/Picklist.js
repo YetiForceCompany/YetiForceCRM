@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -161,10 +161,10 @@ var Settings_Picklist_Js = {
 			var pickListVaue = jQuery(e.currentTarget)
 			if(pickListVaue.hasClass('selectedCell')) {
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
-				pickListVaue.find('.icon-ok').remove();
+				pickListVaue.find('.glyphicon glyphicon-ok').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
-				pickListVaue.prepend('<i class="icon-ok pull-left"></i>');
+				pickListVaue.prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
 			}
 		});
 	},
@@ -307,12 +307,12 @@ var Settings_Picklist_Js = {
 			if(typeof value.added != 'undefined'){
 				var id = value.added.id;
 				jQuery('#replaceValue option[value="'+id+'"]').remove();
-				replaceValueElement.trigger('liszt:updated');
+				replaceValueElement.trigger('chosen:updated');
 			} else {
 				var id = value.removed.id;
 				var text = value.removed.text;
 				replaceValueElement.append('<option value="'+id+'">'+text+'</option>');
-				replaceValueElement.trigger('liszt:updated');
+				replaceValueElement.trigger('chosen:updated');
 			}
 		}
 		jQuery('[name="delete_value[]"]').on("change", function(e) {

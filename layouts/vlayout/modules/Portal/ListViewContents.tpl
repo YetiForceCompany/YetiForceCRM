@@ -98,8 +98,8 @@
                                     <td nowrap class="{$WIDTHTYPE}">
                                         <div class="actions pull-right">
                                             <span class="actionImages">
-                                                <i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle editRecord"></i>&nbsp;
-                                                <i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle deleteRecord"></i>
+                                                <i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></i>&nbsp;
+                                                <i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></i>
                                             </span>
                                         </div>
                                     </td>

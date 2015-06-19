@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -139,7 +139,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 		jQuery('[name="record"]',currentContainer).val(workFlowId);
 		var modulesList = jQuery('#moduleName',currentContainer);
 		if(modulesList.length > 0 && workFlowId != '') {
-			modulesList.attr('disabled','disabled').trigger('liszt:updated');
+			modulesList.attr('disabled','disabled').trigger('chosen:updated');
 		}
 	},
 	
@@ -170,7 +170,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedDateElement = '<input type="text" class="row-fluid dateField fieldValue span4" value="'+value+'" data-date-format="'+dataFormat+'" data-input="true" >'
+				var clonedDateElement = '<input type="text" class="row dateField fieldValue col-md-4" value="'+value+'" data-date-format="'+dataFormat+'" data-input="true" >'
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedDateElement);
 			} else if(fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui','input');
@@ -179,7 +179,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedTimeElement = '<input type="text" class="row-fluid timepicker-default fieldValue span4" value="'+value+'" data-input="true" >'
+				var clonedTimeElement = '<input type="text" class="row timepicker-default fieldValue col-md-4" value="'+value+'" data-input="true" >'
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedTimeElement);
 			} else if(fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui','input');
@@ -188,7 +188,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				} else {
 					value = '';
 				}
-				var clonedBooleanElement = '<input type="checkbox" class="row-fluid fieldValue span4" value="'+value+'" data-input="true" >';
+				var clonedBooleanElement = '<input type="checkbox" class="row fieldValue col-md-4" value="'+value+'" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedBooleanElement);
 				
 				var fieldValue = clonedPopupUi.find('.fieldValueContainer input').val();
@@ -277,7 +277,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 				concatenatedValue = oldValue+newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('liszt:updated');
+			currentElement.val('').trigger('chosen:updated');
 		});
 	},
 	
@@ -308,11 +308,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js",{
 	postShowModalAction : function(data,valueType) {
 		if(valueType == 'fieldname') {
 			jQuery('.useFieldContainer',data).removeClass('hide');
-			jQuery('.textType',data).val(valueType).trigger('liszt:updated');
+			jQuery('.textType',data).val(valueType).trigger('chosen:updated');
 		} else if(valueType == 'expression') {
 			jQuery('.useFieldContainer',data).removeClass('hide');
 			jQuery('.useFunctionContainer',data).removeClass('hide');
-			jQuery('.textType',data).val(valueType).trigger('liszt:updated');
+			jQuery('.textType',data).val(valueType).trigger('chosen:updated');
 		}
 		jQuery('#'+valueType+'_help',data).removeClass('hide');
 		var uiType = jQuery('.textType',data).find('option:selected').data('ui');

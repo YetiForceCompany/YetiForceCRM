@@ -10,13 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid usersAuth">
-	<div class="widget_header row-fluid">
-		<div class="span10"><h3>{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}</div>
-		<div class="span2"></div>
+<div class=" usersAuth">
+	<div class="widget_header row">
+		<div class="col-md-10"><h3>{vtranslate('LBL_AUTHORIZATION', $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}</div>
+		<div class="col-md-2"></div>
 	</div>
 	<hr>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="contents tabbable">
 			<ul class="nav nav-tabs layoutTabs massEditTabs">
 				<li class="active"><a data-toggle="tab" href="#ldap"><strong>{vtranslate('LBL_LDAP_AUTH', $QUALIFIED_MODULE)}</strong></a></li>
@@ -24,46 +24,46 @@
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 				<div class="tab-pane active" id="ldap">
-					<div class="row-fluid">
-						<div class="span1 pagination-centered">
+					<div class="row">
+						<div class="col-md-1 pagination-centered">
 							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
 						</div>
-						<div class="span11">
+						<div class="col-md-11">
 							<label for="ldapActive">{vtranslate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>
 						</div>
 					</div>
 					<hr />
-					<div class="row-fluid">
-						<div class="span2">
+					<div class="row">
+						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="span10">
-							<input class="configField" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
 						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span2">
+					<div class="row">
+						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="span10">
-							<input class="configField" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span2">
+					<div class="row">
+						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 						</div>
-						<div class="span10">
-							<input class="configField" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
+						<div class="col-md-8">
+							<input class="configField form-control" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span2">
+					<div class="row">
+						<div class="col-md-2">
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_USERS', $QUALIFIED_MODULE)}:</label>
 						</div>
-						<div class="span10">
+						<div class="col-md-8">
 							{assign var=USER_LIST value=$USER_MODEL->getAccessibleUsers()}
-							<select multiple="" name="users" class="select2 configField" data-type="ldap" style="width: 100%;">
+							<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
 								{foreach key=OWNER_ID item=OWNER_NAME from=$USER_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $CONFIG['users'])} selected {/if}>{$OWNER_NAME}</option>
 								{/foreach}

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -81,8 +81,8 @@
 				</td><td nowrap class="{$WIDTHTYPE}">
 				<div class="pull-right actions">
 					<span class="actionImages">
-						<a class="restoreRecordButton"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="icon-refresh alignMiddle"></i></a>&nbsp;
-						<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+						<a class="restoreRecordButton"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></i></a>&nbsp;
+						<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
 					</span>
 				</div>
 				</td>

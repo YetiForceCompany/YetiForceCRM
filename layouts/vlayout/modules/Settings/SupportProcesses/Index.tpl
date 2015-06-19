@@ -8,13 +8,14 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
 
- <div class="container-fluid supportProcessesContainer" style="margin-top:10px;">
+ <div class=" supportProcessesContainer" style="margin-top:10px;">
  	<h3>{vtranslate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</h3>&nbsp;<hr>
 	
-	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
+	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 		<li class="active"><a href="#general_configuration" data-toggle="tab">{vtranslate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 		<li><a href="#other" data-toggle="tab">{vtranslate('LBL_OTHER', $QUALIFIED_MODULE)} </a></li>
 	</ul>
+	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general_configuration">
 			<table class="table table-bordered table-condensed themeTableColor userTable">

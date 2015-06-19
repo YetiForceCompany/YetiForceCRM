@@ -2,10 +2,10 @@
  * jqPlot
  * Pure JavaScript plotting plugin using jQuery
  *
- * Version: 1.0.2
- * Revision: 1108
+ * Version: 1.0.8
+ * Revision: 1250
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -115,7 +115,7 @@
         
         //////
         // This is probably wrong here.
-        // After going back and forth on wether renderer should be the thing
+        // After going back and forth on whether renderer should be the thing
         // or extend the thing, it seems that it it best if it is a property
         // on the thing.  This should be something that is commonized 
         // among series renderers in the future.
@@ -198,14 +198,20 @@
             var count = 0;
             for (var i=skip; i<l; i+=skip) {
                 this.data.splice(i+count, 0, [null, null]);
+                this._plotData.splice(i+count, 0, [null, null]);
+                this._stackData.splice(i+count, 0, [null, null]);
                 count++;
             }
             for (i=0; i<this.data.length; i++) {
                 if (this._primaryAxis == '_xaxis') {
                     this.data[i][0] = i+1;
+                    this._plotData[i][0] = i+1;
+                    this._stackData[i][0] = i+1;
                 }
                 else {
                     this.data[i][1] = i+1;
+                    this._plotData[i][1] = i+1;
+                    this._stackData[i][1] = i+1;
                 }
             }
         }
@@ -344,7 +350,7 @@
         var nvals = temp[0];
         var nseries = temp[1];
         var pos = temp[2];
-		var points = [];
+        var points = [];
         
         if (this._stack) {
             this._barNudge = 0;
@@ -360,9 +366,9 @@
                 negativeColor = opts.fillStyle;
             }
             var positiveColor = opts.fillStyle;
-			var base;
-			var xstart; 
-			var ystart;
+            var base;
+            var xstart; 
+            var ystart;
             
             if (this.barDirection == 'vertical') {
                 for (var i=0; i<gridData.length; i++) {
@@ -377,7 +383,7 @@
                         ystart = getStart(this.index, i, this._plotData[i][1], plot, 'y');
                     }
 
-                    // not stacked and first series in stack
+                    // not stacked
                     else {
                         if (this.fillToZero) {
                             ystart = this._yaxis.series_u2p(0);
@@ -432,20 +438,20 @@
                             opts.fillStyle = positiveColor;
                         }
                     }
-					
-					if (!this.fillToZero || this._plotData[i][1] >= 0) { 
-						points.push([base-this.barWidth/2, ystart]);
-						points.push([base-this.barWidth/2, gridData[i][1]]);
-						points.push([base+this.barWidth/2, gridData[i][1]]);
-						points.push([base+this.barWidth/2, ystart]);
-					}
-					// for negative bars make sure points are always ordered clockwise
-					else {              
-						points.push([base-this.barWidth/2, gridData[i][1]]);
-						points.push([base-this.barWidth/2, ystart]);
-						points.push([base+this.barWidth/2, ystart]);
-						points.push([base+this.barWidth/2, gridData[i][1]]);
-					}
+                    
+                    if (!this.fillToZero || this._plotData[i][1] >= 0) { 
+                        points.push([base-this.barWidth/2, ystart]);
+                        points.push([base-this.barWidth/2, gridData[i][1]]);
+                        points.push([base+this.barWidth/2, gridData[i][1]]);
+                        points.push([base+this.barWidth/2, ystart]);
+                    }
+                    // for negative bars make sure points are always ordered clockwise
+                    else {              
+                        points.push([base-this.barWidth/2, gridData[i][1]]);
+                        points.push([base-this.barWidth/2, ystart]);
+                        points.push([base+this.barWidth/2, ystart]);
+                        points.push([base+this.barWidth/2, gridData[i][1]]);
+                    }
                     this._barPoints.push(points);
                     // now draw the shadows if not stacked.
                     // for stacked plots, they are predrawn by drawShadow
@@ -463,7 +469,7 @@
             
             else if (this.barDirection == 'horizontal'){
                 for (var i=0; i<gridData.length; i++) {
-                    if (this.data[i][0] == null) {
+                    if (!this._stack && this.data[i][0] == null) {
                         continue;
                     }
                     points = [];
@@ -473,13 +479,13 @@
                     if (this._stack && this._prevGridData.length) {
                         xstart = getStart(this.index, i, this._plotData[i][0], plot, 'x');
                     }
-                    // not stacked and first series in stack
+                    // not stacked
                     else {
                         if (this.fillToZero) {
                             xstart = this._xaxis.series_u2p(0);
                         }
                         else if (this.waterfall && i > 0 && i < this.gridData.length-1) {
-                            xstart = this.gridData[i-1][1];
+                            xstart = this.gridData[i-1][0];
                         }
                         else if (this.waterfall && i == 0 && i < this.gridData.length-1) {
                             if (this._xaxis.min <= 0 && this._xaxis.max >= 0) {
@@ -489,7 +495,7 @@
                                 xstart = 0;
                             }
                             else {
-                                xstart = ctx.canvas.width;
+                                xstart = 0;
                             }
                         }
                         else if (this.waterfall && i == this.gridData.length - 1) {
@@ -507,7 +513,7 @@
                             xstart = 0;
                         }
                     }
-                    if ((this.fillToZero && this._plotData[i][1] < 0) || (this.waterfall && this._data[i][1] < 0)) {
+                    if ((this.fillToZero && this._plotData[i][0] < 0) || (this.waterfall && this._data[i][0] < 0)) {
                         if (this.varyBarColor && !this._stack) {
                             if (this.useNegativeColors) {
                                 opts.fillStyle = negativeColors.next();
@@ -515,6 +521,9 @@
                             else {
                                 opts.fillStyle = positiveColors.next();
                             }
+                        }
+                        else {
+                            opts.fillStyle = negativeColor;
                         }
                     }
                     else {
@@ -550,8 +559,8 @@
                     }
                     var clr = opts.fillStyle || this.color;
                     this._dataColors.push(clr);
-                    this.renderer.shapeRenderer.draw(ctx, points, opts); 
-                }  
+                    this.renderer.shapeRenderer.draw(ctx, points, opts);
+                } 
             }
         }                
         
@@ -723,9 +732,10 @@
             evt1.pageX = ev.pageX;
             evt1.pageY = ev.pageY;
             plot.target.trigger(evt1, ins);
-            if (plot.series[ins[0]].highlightMouseOver && !(ins[0] == plot.plugins.barRenderer.highlightedSeriesIndex && ins[1] == plot.series[ins[0]]._highlightedPoint)) {
+            if (plot.series[ins[0]].show && plot.series[ins[0]].highlightMouseOver &&
+                !(ins[0] == plot.plugins.barRenderer.highlightedSeriesIndex && ins[1] == plot.series[ins[0]]._highlightedPoint)) {
                 var evt = jQuery.Event('jqplotDataHighlight');
-		evt.which = ev.which;
+                evt.which = ev.which;
                 evt.pageX = ev.pageX;
                 evt.pageY = ev.pageY;
                 plot.target.trigger(evt, ins);
@@ -742,7 +752,7 @@
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
             if (plot.series[ins[0]].highlightMouseDown && !(ins[0] == plot.plugins.barRenderer.highlightedSeriesIndex && ins[1] == plot.series[ins[0]]._highlightedPoint)) {
                 var evt = jQuery.Event('jqplotDataHighlight');
-		evt.which = ev.which;
+                evt.which = ev.which;
                 evt.pageX = ev.pageX;
                 evt.pageY = ev.pageY;
                 plot.target.trigger(evt, ins);
@@ -765,7 +775,7 @@
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
             var evt = jQuery.Event('jqplotDataClick');
-	    evt.which = ev.which;
+            evt.which = ev.which;
             evt.pageX = ev.pageX;
             evt.pageY = ev.pageY;
             plot.target.trigger(evt, ins);
@@ -780,7 +790,7 @@
                 unhighlight(plot);
             }
             var evt = jQuery.Event('jqplotDataRightClick');
-	    evt.which = ev.which;
+            evt.which = ev.which;
             evt.pageX = ev.pageX;
             evt.pageY = ev.pageY;
             plot.target.trigger(evt, ins);
@@ -788,4 +798,4 @@
     }
     
     
-})(jQuery);    
+})(jQuery);

@@ -11,7 +11,7 @@
 -->*}
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
-    <div class="row-fluid">
+    <div class="row">
     {assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
     {assign var=ALL_ACTIVEUSER_LIST value=$USER_MODEL->getAccessibleUsers()}
     {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -26,7 +26,7 @@
 	{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 	{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
 
-	<select class="select2noactive listSearchContributor span10 {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple style="width:150px;"data-fieldinfo='{$FIELD_INFO|escape}'>
+	<select class="select2noactive listSearchContributor col-md-10 {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple style="width:150px;"data-fieldinfo='{$FIELD_INFO|escape}'>
 		<optgroup label="{vtranslate('LBL_USERS')}">
 			{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
                     <option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}

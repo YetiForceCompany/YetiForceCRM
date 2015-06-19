@@ -15,7 +15,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="related span2 marginLeftZero">
+			<div class="related col-md-2 paddingLRZero marginLeftZero">
 				<div class="">
 					<ul class="nav nav-stacked nav-pills">
 						{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}

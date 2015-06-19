@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -20,12 +20,12 @@
 		</div>
 		<div class="modal-Fields">
 			{foreach from=$RESP item=item key=key}
-				<div class="control-group">
+				<div class="form-group">
 					<label class="radio">
-						<div class="row-fluid">
-							<div class="span3"><input style="float: right;" type="radio" name="selectedFields" value="{$item.email}"></div>
-							<div class="span3">{$item.fieldlabel}:</div>
-							<div class="span6">{$item.email}</div>
+						<div class="row">
+							<div class="col-md-3"><input style="float: right;" type="radio" name="selectedFields" value="{$item.email}"></div>
+							<div class="col-md-3">{$item.fieldlabel}:</div>
+							<div class="col-md-6">{$item.email}</div>
 						</div>
 					</label>
 				</div>
@@ -33,7 +33,7 @@
 		</div>
 	</div>	
 	<div class="modal-footer">
-	<button class="btn" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CANCEL', 'Vtiger')}</button>
-	<button class="btn addButton" id="selectEmail" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SELECT', 'Vtiger')}</button>
+	<button class="btn btn-default" id="closeModal" data-dismiss="modal" aria-hidden="true">{vtranslate('LBL_CANCEL', 'Vtiger')}</button>
+	<button class="btn btn-default addButton" id="selectEmail" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SELECT', 'Vtiger')}</button>
 	</div>
 </div>

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span class="span0 spanModuleIcon moduleIcon{$MODULE_NAME}">
+	<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 		<span class="moduleIcon">
 	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
@@ -25,8 +25,8 @@
 	        {/if}
 		</span>
 	</span>
-	<span class="span8 margin0px">
-		<span class="row-fluid">
+	<span class="col-md-8 margin0px">
+		<span class="row">
 			<h4 class="recordLabel pushDown" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}"> &nbsp;
 				{if $RECORD->getDisplayValue('salutationtype')}
                     <span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
@@ -41,9 +41,9 @@
             {/foreach}
 			</h4>
 		</span>
-		<span class="row-fluid">
+		<span class="row">
 			{$RECORD->getDisplayValue('parent_id')}
-			<span class="row-fluid">
+			<span class="row">
 				<span class="muted">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{if $RECORD->get('shownerid') != ''}

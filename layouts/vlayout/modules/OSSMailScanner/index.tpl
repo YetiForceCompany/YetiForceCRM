@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -19,22 +19,22 @@
     }
 </style>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
-	<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_cron', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_cron_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
 {if ( $CHECKCRON[1]['frequency'] * 2) > $CHECKCRON[0]['frequency']}
-	<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<h4 class="alert-heading">{vtranslate('OSSMailScanner', 'OSSMailScanner')} - {vtranslate('Alert_active_crontime', 'OSSMailScanner')}</h4>
 		<p>{vtranslate('Alert_active_crontime_desc', 'OSSMailScanner')}</p>
 		<p>
-			<a class="btn" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{vtranslate('Scheduler','Settings:Vtiger')}</a>
 		</p>
 	</div>	
 {/if}
@@ -49,28 +49,28 @@
     <div class='editViewContainer tab-pane active' id="tab_accounts">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_accounts', 'OSSMailScanner')}</div>
         {if $ERRORNOMODULE}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_module_title', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_module_desc', 'OSSMailScanner')}</p>
                 <p>
                     <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{vtranslate('LBL_STUDIO','Settings:Vtiger')}</a>
-                    <a class="btn" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{vtranslate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
+                    <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{vtranslate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
                 </p>
             </div>	
         {/if}
         {if $ACCOUNTLIST eq false}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 		<div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr class="listViewHeaders span12">
+                <tr class="listViewHeaders">
                     <th>{vtranslate('username', 'OSSMailScanner')}</th>
                     <th>{vtranslate('mail_host', 'OSSMailScanner')}</th>
                     <th>{vtranslate('Actions', 'OSSMailScanner')}</th>
@@ -109,8 +109,8 @@
                                 </optgroup>
                             </select>
                         </td>
-                        <td><button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="icon-chevron-down"></i></button>
-							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="icon-trash"></i></button></td>
+                        <td><button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="glyphicon glyphicon-chevron-down"></i></button>
+							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
                     <tr style="display: none;" data-user-id="{$row['user_id']}">
                         <td colspan="5">
@@ -170,20 +170,20 @@
     <div class='editViewContainer tab-pane' id="tab_folder">
         <div class="alert alert-info">{vtranslate('Alert_info_tab_folder', 'OSSMailScanner')}</div>
         {if $FOLDERMAILBOXES eq false}
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{vtranslate('OSSMail', 'OSSMail')} - {vtranslate('Alert_no_email_acconts', 'OSSMailScanner')}</h4>
                 <p>{vtranslate('Alert_no_email_acconts_desc', 'OSSMailScanner')}</p>
                 <p>
-                    <a class="btn" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a>
+                    <a class="btn btn-default" href="index.php?module=OSSMail&view=index">{vtranslate('OSSMail','OSSMail')}</a>
                 </p>
             </div>	
         {else}
             <form class="form-horizontal">
-                <div class="control-group">
-                    <label class="control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="span6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="inputReceived">{vtranslate('Received', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputReceived" name="folder_inputReceived" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
@@ -192,10 +192,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputSent" name="folder_inputSent" class="span6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="inputSent">{vtranslate('Sent', 'OSSMailScanner')}</label>
+                    <div class="controls col-sm-9">
+                        <select multiple id="folder_inputSent" name="folder_inputSent" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
@@ -204,10 +204,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="span6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="inputSpam">{vtranslate('Spam', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputSpam" name="folder_inputSpam" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
@@ -216,10 +216,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="span6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="inputTrash">{vtranslate('Trash', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputTrash" name="folder_inputTrash" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
@@ -228,10 +228,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
-                    <div class="controls">
-                        <select multiple id="folder_inputAll" name="folder_inputAll" class="span6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="inputAll">{vtranslate('All_folder', 'OSSMailScanner')}</label>
+                    <div class="col-sm-9 controls">
+                        <select multiple id="folder_inputAll" name="folder_inputAll" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
                                     <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
@@ -247,9 +247,9 @@
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
-            <div class="control-group">
+            <div class="form-group col-sm-12">
                 <div class="controls">
-                    <select multiple id="email_search" name="email_search" class="span10">
+                    <select multiple id="email_search" name="email_search" class="form-control">
                         {foreach item=item key=key from=$EMAILSEARCH}
                             {if $last_value neq $item[3]}
                                 <optgroup label="{vtranslate($item[3], $item[3])}">
@@ -267,7 +267,7 @@
 		<h3>{vtranslate('Change ticket status', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_conftab_change_ticket_status', 'OSSMailScanner')}</div>	
         <form class="form-horizontal">
-            <div class="control-group">
+            <div class="form-group col-sm-12">
                 <div class="controls">
                     <input class="pull-left" style="margin-right: 10px;" type="checkbox" name="conftab_change_ticket_status" id="conftab_change_ticket_status" {if $WIDGET_CFG['emailsearch']['change_ticket_status'] eq 'true'} checked {/if}>
 					<label class="">{vtranslate('Change_ticket_status', 'OSSMailScanner')}</label>

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+ * Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -19,23 +19,30 @@
 		<link REL="SHORTCUT ICON" HREF="layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="robots" content="noindex">
-		<link rel="stylesheet" href="libraries/jquery/chosen/chosen.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui.min.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
+		<meta name="robots" content="noindex" />
+		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" type="text/css" media="screen" />
+		{*<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />*}
+		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/chosen.bootstrap{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap-switch.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2.css" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" />
 		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
 		<link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" />
-		<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-switch.min.css" type="text/css" media="screen" />
 		{foreach key=index item=cssModel from=$STYLES}
-                    <link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
+			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 		{/foreach}
-
+		{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
+				<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+		{/foreach}
+		
+		
 		{* For making pages - print friendly *}
 		<style type="text/css">
 		@media print {
@@ -43,9 +50,6 @@
 		}
 		</style>
 
-		{* This is needed as in some of the tpl we are using jQuery.ready *}
-		<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="libraries/jquery/jquery-migrate-1.2.1.js"></script>
 		<!--[if IE]>
 		<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 		<script type="text/javascript" src="libraries/html5shim/respond.js"></script>

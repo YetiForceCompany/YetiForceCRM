@@ -21,9 +21,9 @@
 	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}
 {/foreach}
 </style>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
+<div>
+	<div class="row">
+		<div class="col-md-12">
 			<p><!-- Divider --></p>
 			<div id="calendarview"></div>
 		</div>

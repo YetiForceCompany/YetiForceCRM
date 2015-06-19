@@ -12,7 +12,7 @@
 {strip}
     {assign var="FIELD_INFO" value=Zend_Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
-    <div class="row-fluid">
+    <div class="">
     <select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'))}" style="width:90px;" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
         <option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
         <option value="1" {if $SEARCH_VALUES eq 1} selected{/if}>{vtranslate('LBL_YES',$MODULE)}</option>

@@ -19,9 +19,9 @@
 			<input type="hidden" id="menuType" value="{$MENU_TYPE}" />
 			<input type="hidden" name="id" value="{$ID}" />
 			<input type="hidden" name="role" value="{$RECORD->get('role')}" />
-			<div class="row-fluid">
-				<div class="span5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
-				<div class="span7">
+			<div class="row">
+				<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</div>
+				<div class="col-md-7">
 					{vtranslate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 				</div>
 			</div>

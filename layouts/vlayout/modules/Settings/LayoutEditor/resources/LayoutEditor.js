@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -142,7 +142,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-			addRelationContainer.removeClass('hide');
+			addRelationContainer.removeClass('hide').show();
 
 			var callBackFunction = function(data) {
 				app.showSelect2ElementView(data.find('select'));
@@ -498,7 +498,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		contents.find('.addCustomField').click(function(e) {
 			var blockId = jQuery(e.currentTarget).closest('.editFieldsTable').data('blockId');
 			var addFieldContainer = contents.find('.createFieldModal').clone(true, true);
-			addFieldContainer.removeClass('hide');
+			addFieldContainer.removeClass('hide').show();
 
 			var callBackFunction = function(data) {
 				//register all select2 Elements
@@ -795,7 +795,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		defaultValueUi.find('[name*='+result['name']+']').attr('name', 'fieldDefaultValue');
 		defaultValueUi.find('[name="fieldDefaultValue"]').attr('disabled','disabled');
 		defaultValueUi.find('input').addClass('input-medium');
-		defaultValueUi.find('.select2').addClass('row-fluid');
+		defaultValueUi.find('.select2').addClass('row');
 	},
 
 	/**
@@ -808,7 +808,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var addBlockContainer = contents.find('.addBlockModal').clone(true, true);
 
 			var callBackFunction = function(data) {
-				data.find('.addBlockModal').removeClass('hide');
+				data.find('.addBlockModal').removeClass('hide').show();
 				//register all select2 Elements
 				app.showSelect2ElementView(data.find('select'));
 
@@ -958,10 +958,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var currentTarget = jQuery(e.currentTarget);
 			var oldDisplayStatus = currentTarget.data('visible');
 			if(oldDisplayStatus == '0') {
-				currentTarget.find('.icon-ok').removeClass('hide');
+				currentTarget.find('.glyphicon glyphicon-ok').removeClass('hide');
 				currentTarget.data('visible', '1');
 			} else {
-				currentTarget.find('.icon-ok').addClass('hide');
+				currentTarget.find('.glyphicon glyphicon-ok').addClass('hide');
 				currentTarget.data('visible', '0');
 			}
 			thisInstance.updateBlockStatus(currentTarget);
@@ -1026,7 +1026,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var inActiveFieldsContainer = contents.find('.inactiveFieldsModal').clone(true, true);
 
 				var callBackFunction = function(data) {
-					data.find('.inactiveFieldsModal').removeClass('hide');
+					data.find('.inactiveFieldsModal').removeClass('hide').show();
 					thisInstance.reactiveFieldsList = [];
 					var form = data.find('.inactiveFieldsForm');
 					thisInstance.showHiddenFields(blockId, form);
@@ -1054,7 +1054,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	showHiddenFields : function(blockId, form) {
 		var thisInstance = this;
 		jQuery.each(thisInstance.inActiveFieldsList[blockId], function(key, value) {
-			var inActiveField = jQuery('<div class="span4 marginLeftZero padding-bottom1per"><label class="checkbox">\n\
+			var inActiveField = jQuery('<div class="col-md-4 marginLeftZero padding-bottom1per"><label class="checkbox">\n\
 									<input type="checkbox" class="inActiveField" value="'+key+'" />&nbsp;'+value+'</label></div>');
 			form.find('.inActiveList').append(inActiveField);
 		});
@@ -1400,7 +1400,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				defaultValueUi.removeClass('zeroOpacity');
 				defaultField.removeAttr('disabled');
 				if(defaultField.is('select')){
-					defaultField.trigger("liszt:updated");
+					defaultField.trigger("chosen:updated");
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');

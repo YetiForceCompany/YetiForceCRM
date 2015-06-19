@@ -1170,4 +1170,15 @@ class Vtiger_Functions {
 		return $maxFileSize;
 	}
 
+	public static function getCompressInfo($type = 'js') {
+		switch ($type) {
+			case 'js':
+				$return =  vglobal('compressJS')?'.min':'';
+				break;
+			case 'css':
+				$return =  vglobal('compressJS')?'.min':'';
+				break;
+		}
+		return $return;
+	}
 }

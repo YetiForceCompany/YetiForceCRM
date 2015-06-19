@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -18,10 +18,10 @@
     }
 </style>
 
-<div class="container-fluid">
+<div class="">
 	<div class="clearfix treeView">
-		<div class="widget_header row-fluid">
-			<div class="span8"><h3>{vtranslate('Configuration', 'OSSMailView')}</h3></div>
+		<div class="widget_header row">
+			<div class="col-md-8"><h3>{vtranslate('Configuration', 'OSSMailView')}</h3></div>
 		</div>
 		<hr>
 <div id="my-tab-content" class="tab-content">
@@ -29,12 +29,12 @@
     <table>
         <tr>
             <td><label class="control-label">{vtranslate('Widget list limit', 'OSSMailView')}</label></td>
-            <td><input id="tab_email_view_widget_limit" value="{$WIDGET_CFG['email_list']['widget_limit']}"/></td>
+            <td><input id="tab_email_view_widget_limit" class="form-control" value="{$WIDGET_CFG['email_list']['widget_limit']}"/></td>
         </tr>
         <tr>
-            <td><label class="control-label">{vtranslate('List open email', 'OSSMailView')}</label></td>
+            <td><label class="control-label">{vtranslate('List open email', 'OSSMailView')}</label>&nbsp;</td>
             <td>
-                <select id="tab_email_view_open_window">
+                <select id="tab_email_view_open_window" class="form-control">
                     <option value="_self" {if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{vtranslate('_self', 'OSSMailView')}</option>
                     <option value="_blank" {if $WIDGET_CFG['email_list']['target'] eq '_blank'}selected{/if}>{vtranslate('_blank', 'OSSMailView')}</option>
                 </select>
@@ -55,7 +55,7 @@
                 <tr>
                     <td class="fieldLabel" colspan="4">
                         <span class="pull-right">
-                            <button class="btn btn-danger btn-large" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
+                            <button class="btn btn-danger btn-lg" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
                             <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a> 
                         </span>
                     </td>
@@ -80,7 +80,7 @@
                         <label class="muted pull-right marginRight10px"> {vtranslate('LBL_TroubleUrl', $MODULENAME)}</label>
                     </td>
                     <td class="fieldValue" >
-                        <div class="row-fluid"><span class="span10">
+                        <div class="row"><span class="col-md-10">
                                 <a href="{vtranslate('LBL_UrlLink', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlLink', $MODULENAME)}</a> ({vtranslate('LBL_UrlLinkInfo', $MODULENAME)})</span>
                         </div>
                     </td>
@@ -90,7 +90,7 @@
                         <label class="muted pull-right marginRight10px"> {vtranslate('LBL_Manual', $MODULENAME)}</label>
                     </td>
                     <td class="fieldValue" >
-                        <div class="row-fluid"><span class="span10">
+                        <div class="row"><span class="col-md-10">
                                 <a href="{vtranslate('LBL_ManualLink', $MODULENAME)}" target="_blank">{vtranslate('OSSMailView_manual', $MODULENAME)}</a></span>
                         </div>
                     </td>
@@ -100,7 +100,7 @@
                         <label class="muted pull-right marginRight10px"> {vtranslate('LBL_OurWebsite', $MODULENAME)}</label>
                     </td>
                     <td class="fieldValue" >
-                        <div class="row-fluid"><span class="span10">
+                        <div class="row"><span class="col-md-10">
                                 {*
                                 // Removal of this link violates the principles of License
                                 // Usunięcie tego linku narusza zasady licencji *}
@@ -124,7 +124,7 @@
         <p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSMailScanner module', $MODULENAME)}</p>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
+        <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
         <a href="#" class="btn btn-danger okay-button" id="confirm" type="submit" name="uninstall" form="EditView" disabled="disabled">{vtranslate('Yes', $MODULENAME)}</a>
     </div>          
 </div>

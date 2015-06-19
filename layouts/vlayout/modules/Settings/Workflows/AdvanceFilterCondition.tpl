@@ -10,9 +10,9 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="row-fluid conditionRow marginBottom10px">
-	<span class="span4">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row-fluid" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+<div class="row conditionRow marginBottom10px">
+	<div class="col-md-4">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 			<option value="none"></option>
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<optgroup label='{vtranslate($BLOCK_LABEL, $SELECTED_MODULE_NAME)}'>
@@ -48,9 +48,9 @@
 				</optgroup>
 			{/foreach}
 		</select>
-	</span>
-	<span class="span3">
-		<select class="{if empty($NOCHOSEN)}chzn-select{/if} row-fluid" name="comparator">
+	</div>
+	<div class="col-md-3">
+		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="comparator">
 			 <option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
 			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
@@ -61,10 +61,10 @@
 				>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 			{/foreach}
 		</select>
-	</span>
-	<span class="span4 fieldUiHolder">
-		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="row-fluid" type="text" value="{$CONDITION_INFO['value']|escape}" />
-	</span>
+	</div>
+	<div class="col-md-4 fieldUiHolder">
+		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+	</div>
 	<span class="hide">
 		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
 		{if empty($CONDITION)}
@@ -72,8 +72,8 @@
 		{/if}
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
-	 <span class="span1">
-		<i class="deleteCondition icon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
+	 <span class="col-md-1">
+		<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></i>
 	</span>
 </div>
 {/strip}

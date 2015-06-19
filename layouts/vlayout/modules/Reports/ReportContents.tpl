@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="contents-topscroll">
-		<div class="topscroll-div container-fluid">
+		<div class="topscroll-div container">
 			&nbsp;
 		 </div>
 	</div>

@@ -18,7 +18,7 @@
     {assign var=FIELD_VALUE value=""}
 {/if}
 {assign var="TIME_FORMAT" value=$USER_MODEL->get('hour_format')}
-<div class="row-fluid">
-<input type="text" data-format="{$TIME_FORMAT}" class="span9 timepicker-default listSearchContributor" title="{vtranslate($FIELD_MODEL->get('label'))}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
+<div class="">
+<input type="text" data-format="{$TIME_FORMAT}" class="col-md-9 form-control timepicker-default listSearchContributor" title="{vtranslate($FIELD_MODEL->get('label'))}" value="{$FIELD_VALUE}" name="{$FIELD_MODEL->getFieldName()}" data-fieldinfo='{$FIELD_INFO}' />
 </div>
 {/strip}

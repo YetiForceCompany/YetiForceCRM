@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -271,13 +271,13 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model {
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "'.$this->getEditViewUrl().'");',
-				'linkicon' => 'icon-pencil'
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "'.$this->getDeleteActionUrl().'");',
-				'linkicon' => 'icon-trash'
+				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);
 		foreach($recordLinks as $recordLink) {

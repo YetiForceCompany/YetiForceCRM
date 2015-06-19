@@ -157,8 +157,8 @@ var Settings_Roles_Js = {
 			if(hanlder == 'new'){
 				Settings_Roles_Js.getProfilePriviliges();return false;
 			}
-			var container = jQuery('[data-content="'+ hanlder + '"]');
-			jQuery('[data-content]').not(container).fadeOut('slow',function(){
+			var container = jQuery('[data-content-role="'+ hanlder + '"]');
+			jQuery('[data-content-role]').not(container).fadeOut('slow',function(){
 				container.fadeIn('slow');
 			});
 		})
@@ -169,7 +169,7 @@ var Settings_Roles_Js = {
 	},
 	
 	getProfilePriviliges : function() {
-		var content = jQuery('[data-content="new"]');
+		var content = jQuery('[data-content-role="new"]');
 		var profileId = jQuery('[name="profile_directly_related_to_role_id"]').val();
 		var params = {
 			module : 'Profiles',
@@ -178,7 +178,7 @@ var Settings_Roles_Js = {
 			record : profileId
 		}
 		if(Settings_Roles_Js.newPriviliges == true) {
-			jQuery('[data-content="existing"]').fadeOut('slow',function(){
+			jQuery('[data-content-role="existing"]').fadeOut('slow',function(){
 				content.fadeIn('slow');
 			});
 			return false;
@@ -197,7 +197,7 @@ var Settings_Roles_Js = {
 				'mode' : 'hide'
 			});
 			Settings_Roles_Js.newPriviliges = true;
-			jQuery('[data-content="existing"]').fadeOut('slow',function(){
+			jQuery('[data-content-role="existing"]').fadeOut('slow',function(){
 				content.fadeIn('slow',function(){
 				});
 			});
@@ -221,7 +221,7 @@ var Settings_Roles_Js = {
 			});
 			
 			AppConnector.request(params).then(function(data) {
-				jQuery('[data-content="new"]').find('.fieldValue').html(data);
+				jQuery('[data-content-role="new"]').find('.fieldValue').html(data);
 				progressIndicatorElement.progressIndicator({
 					'mode' : 'hide'
 				});

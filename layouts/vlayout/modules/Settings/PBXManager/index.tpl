@@ -9,15 +9,15 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="container-fluid" id="AsteriskServerDetails">
-	<div class="widget_header row-fluid">
-		<div class="span8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
+<div class="" id="AsteriskServerDetails">
+	<div class="widget_header row">
+		<div class="col-md-8"><h3>{vtranslate('LBL_PBXMANAGER', $QUALIFIED_MODULE)}</h3></div>
                 {assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
-                <div class="span4"><div class="pull-right"><button class="btn editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
+                <div class="col-md-4"><div class="pull-right"><button class="btn btn-default editButton" data-url='{$MODULE_MODEL->getEditViewUrl()}&mode=showpopup&id={$RECORD_ID}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button></div></div>
 	</div>
 	<hr>
         
-        <div class="contents row-fluid">
+        <div class="contents row">
 		<table class="table table-bordered table-condensed themeTableColor">
 			<thead>
 				<tr class="blockHeader">
@@ -41,7 +41,7 @@
 	</div>
 </div>
 <br>
-<div class="span8 alert alert-danger container-fluid">
+<div class="col-md-8 alert alert-danger container">
     {vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
     {vtranslate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
 </div>	

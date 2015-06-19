@@ -9,21 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row-fluid">
-	<div class="span5 marginLeftZero">
+<div class="row">
+	<div class="col-md-4 marginLeftZero">
 		<div class="pull-left pushDown2per marginLeftZero" >{vtranslate('Language',$QUALIFIED_MODULE)}:</div>
 		<div class="pull-left">
-			<select multiple="multiple" class="chzn-select span4" id="langs_list">
+			<select multiple="multiple" class="chzn-select col-md-12" id="langs_list">
 				{foreach from=$LANGS item=LANG key=ID}
 					<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
-	<div class="span4 marginLeftZero">
+	<div class="col-md-4 marginLeftZero">
 		<div class="pull-left marginRight10px pushDown2per">{vtranslate('Module',$QUALIFIED_MODULE)}:</div>
 		<div class="pull-left">
-			<select class="chzn-select span3 mods_list" id="mods_list">
+			<select class="chzn-select form-control mods_list" id="mods_list">
 				<optgroup label="{vtranslate('Modules',$QUALIFIED_MODULE)}">
 					{foreach from=$MODS['mods'] item=MOD key=ID}
 						<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
@@ -37,10 +37,10 @@
 			</select>
 		</div>
 	</div>
-	<div class="span0 marginLeftZero" style="width: 90px;">
+	<div class="col-md-2 marginLeftZero">
 		<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">{vtranslate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
 	</div>
-	<div class="span2">
+	<div class="col-md-2">
 		<button class="btn btn-primary add_translation pull-right">{vtranslate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
 	</div>
 </div>
@@ -84,7 +84,7 @@
 						{/foreach}
 						<td>
 							<a href="#" class="pull-right marginRight10px delete_translation">
-								<i class="icon-trash alignMiddle"></i>
+								<i class="glyphicon glyphicon-trash alignMiddle"></i>
 							</a>
 						</td>
 					</tr>
@@ -118,7 +118,7 @@
 						{/foreach}
 						<td>
 							<a href="#" class="pull-right marginRight10px delete_translation">
-								<i class="icon-trash alignMiddle"></i>
+								<i class="glyphicon glyphicon-trash alignMiddle"></i>
 							</a>
 						</td>
 					</tr>

@@ -56,7 +56,7 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View {
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		
-		$viewer->assign('SCRIPTS', $this->getHeaderScripts($request));
+		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		echo $viewer->view('QuickCreate.tpl',$moduleName,true);
 	}

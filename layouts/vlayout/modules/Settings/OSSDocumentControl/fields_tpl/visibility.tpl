@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<select name="{$FLD_NAME}[]" id="{$FLD_NAME}{if $EDIT_VIEW}_edit{/if}" class="chzn-select span3" multiple="multiple">
+<select name="{$FLD_NAME}[]" id="{$FLD_NAME}{if $EDIT_VIEW}_edit{/if}" class="chzn-select col-md-3" multiple="multiple">
     {foreach from=$OPTION_LIST item=item key=key}
         <option value="{$item}">{$key}</option>
     {/foreach}

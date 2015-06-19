@@ -12,8 +12,8 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View{
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
-	function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+	function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
 * ("License"); You may not use this file except in compliance with the License
@@ -26,19 +26,19 @@
             <input type="hidden" id="recordsCount" name="recordsCount" />
             <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
             <div class="relatedHeader">
-                <div class="btn-toolbar row-fluid">
-                    <div class="span6">
+                <div class="btn-toolbar row">
+                    <div class="col-md-6">
                         {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
                             <div class="btn-group">
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                                 {assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
-                                <button type="button" class="btn addButton
+                                <button type="button" class="btn btn-default addButton
                                 {if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
                             {if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}' {/if}
                         {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                 {if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
                 {if ($IS_SELECT_BUTTON eq false) and ($IS_SEND_EMAIL_BUTTON eq false)}
-                    name="addButton"><i class="icon-plus"></i>
+                    name="addButton"><i class="glyphicon glyphicon-plus"></i>
                 {else}
                     > {* closing the button tag *}
                 {/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
@@ -47,10 +47,10 @@
     {/foreach}
     &nbsp;
 </div>
-<div class="span3">
-    <span class="customFilterMainSpan row-fluid">
+<div class="col-md-3">
+    <span class="customFilterMainSpan row">
         {if $CUSTOM_VIEWS|@count gt 0}
-            <select id="recordsFilter" class="span12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
+            <select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
                 <option></option>
                 {foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
                     <optgroup label=' {if $GROUP_LABEL eq 'Mine'} &nbsp; {else if} {vtranslate($GROUP_LABEL)} {/if}' >
@@ -66,32 +66,32 @@
         {/if}
     </span>
 </div>
-<div class="span3">
+<div class="col-md-3">
     <div class="pull-right">
         <span class="pageNumbers">
             <span class="pageNumbersText">{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_to', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
-            <span class="icon-refresh cursorPointer totalNumberOfRecords{if empty($RELATED_RECORDS)} hide{/if}"></span>
+            <span class="glyphicon glyphicon-refresh cursorPointer totalNumberOfRecords{if empty($RELATED_RECORDS)} hide{/if}"></span>
         </span>
         <span class="btn-group">
-            <button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="icon-chevron-left"></span></button>
-            <button class="btn dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+            <button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <button class="btn btn-default dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
                 <i class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
             </button>
             <ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
                 <li>
-                    <span class="row-fluid">
-                        <span class="span3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-                        <span class="span4">
+                    <span class="row">
+                        <span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
+                        <span class="col-md-4">
                             <input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
                         </span>
-                        <span class="span2 textAlignCenter">
+                        <span class="col-md-2 textAlignCenter">
                             {vtranslate('LBL_OF',$moduleName)}
                         </span>
-                        <span class="span3" id="totalPageCount">{$PAGE_COUNT}</span>
+                        <span class="col-md-3" id="totalPageCount">{$PAGE_COUNT}</span>
                     </span>
                 </li>
             </ul>
-            <button class="btn" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="icon-chevron-right"></span></button>
+            <button class="btn btn-default" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
         </span>
     </div>
 </div>
@@ -168,12 +168,12 @@
                     <td nowrap class="{$WIDTHTYPE}">
                         <div class="pull-right actions">
                             <span class="actionImages">
-                                <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="icon-th-list alignMiddle"></i></a>&nbsp;
+                                <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
                                 {if $IS_EDITABLE}
-                                    <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-pencil alignMiddle"></i></a>
+                                    <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>
                                 {/if}
                                 {if $IS_DELETABLE}
-                                    <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="icon-trash alignMiddle"></i></a>
+                                    <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
                                 {/if}
                             </span>
                         </div>

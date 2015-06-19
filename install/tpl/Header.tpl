@@ -17,10 +17,10 @@
 		<link REL="SHORTCUT ICON" HREF="../layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/jquery-ui/css/custom-theme/jquery-ui.min.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" />
 		<link rel="stylesheet" href="../libraries/guidersjs/guiders-1.2.6.css"/>
@@ -42,7 +42,7 @@
 
 		{* This is needed as in some of the tpl we are using jQuery.ready *}
 		<script type="text/javascript" src="../libraries/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="../libraries/jquery/jquery-migrate-1.2.1.js"></script>
+		<script type="text/javascript" src="../libraries/jquery/jquery-migrate.js"></script>
 		<!--[if IE]>
 		<script type="text/javascript" src="libraries/html5shim/html5shiv.min.js"></script>
 		<script type="text/javascript" src="libraries/html5shim/respond.min.js"></script>

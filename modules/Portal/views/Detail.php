@@ -31,8 +31,8 @@ class Portal_Detail_View extends Vtiger_Index_View {
         $viewer->view('DetailView.tpl', $module);
     }
     
-    function getHeaderScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getHeaderScripts($request);
+    function getFooterScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

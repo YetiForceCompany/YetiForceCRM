@@ -16,10 +16,10 @@
 	</div>
 	<div class="modal-body">
 		<div class="modal-Fields">
-			<div class="row-fluid">
-				<div class="span4">{vtranslate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
-				<div class="span8">
-					<select name="type" class="select2 span3 marginLeftZero">
+			<div class="row">
+				<div class="col-md-4">{vtranslate('LBL_WIDGET_TYPE', $QUALIFIED_MODULE)}:</div>
+				<div class="col-md-8">
+					<select name="type" class="select2 col-md-3 marginLeftZero">
 					{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
 						<option value="{$key}" >{vtranslate($item, $QUALIFIED_MODULE)}</option>
 					{/foreach}

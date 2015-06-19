@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -21,7 +21,7 @@
 			<input type="hidden" name="action" value="DeleteAjax" />
 			<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 			<div class="modal-body tabbable">
-				<div class="control-group">
+				<div class="form-group">
 					<span class="control-label">
 						<strong>
 							{vtranslate('LBL_TRANSFORM_OWNERSHIP', $QUALIFIED_MODULE)} {vtranslate('LBL_TO', $QUALIFIED_MODULE)}<span class="redColor">*</span>

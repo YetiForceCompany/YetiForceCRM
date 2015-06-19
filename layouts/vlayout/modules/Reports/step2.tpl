@@ -37,10 +37,10 @@
 
 		<input type="hidden" class="step" value="2" />
 		<div class="well padding1per contentsBackground">
-			<div class="row-fluid block padding1per">
-				<div class="row-fluid padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
-				<div class="row-fluid padding1per">
-					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="select2-container span11 columns" multiple="">
+			<div class="row block padding1per">
+				<div class="padding1per"><strong>{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}({vtranslate('LBL_MAX',$MODULE)} 25)</strong></div>
+				<div class="padding1per">
+					<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" id="reportsColumnsList" title="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" class="select2-container col-md-11 columns" multiple="">
 						{foreach key=PRIMARY_MODULE_NAME item=PRIMARY_MODULE from=$PRIMARY_MODULE_FIELDS}
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
 								<optgroup label='{vtranslate($PRIMARY_MODULE_NAME,$MODULE)}-{vtranslate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
@@ -62,18 +62,18 @@
 					</select>
 				</div>
 			</div>
-			<div class="row-fluid block padding1per">
-				<div class="row-fluid padding1per">
-					<span class="span6">
+			<div class="row block padding1per">
+				<div class="row padding1per">
+					<span class="col-md-6">
 						<strong>{vtranslate('LBL_GROUP_BY',$MODULE)}</strong>
 					</span>
-					<span class="span6">
+					<span class="col-md-6">
 						<strong>{vtranslate('LBL_SORT_ORDER',$MODULE)}</strong>
 					</span>
 				</div>
 				{assign var=ROW_VAL value=1}
 				{foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
-					<div class="row-fluid padding1per sortFieldRow">
+					<div class="row padding1per sortFieldRow">
 						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 					</div>
@@ -81,14 +81,14 @@
 				{assign var=SELECTED_SORT_FEILDS_ARRAY value=$SELECTED_SORT_FIELDS}
 				{assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
 				{while $SELECTED_SORT_FIELDS_COUNT lt 3 }
-					<div class="row-fluid padding1per sortFieldRow">
+					<div class="row padding1per sortFieldRow">
 						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 						{assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
 					</div>
 				{/while}
 			</div>
-			<div class="row-fluid block padding1per">
+			<div class="row block padding1per">
 				<div class="padding1per"><strong>{vtranslate('LBL_CALCULATIONS',$MODULE)}</strong></div>
 				<div class="padding1per">
 					<table class="table table-bordered CalculationFields" width="100%">

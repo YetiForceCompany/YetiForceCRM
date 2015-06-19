@@ -7,30 +7,30 @@
 {assign var=INFO2 value=$SAVED_DATA['info2']}
 {assign var=LOCKSAVE value=$SAVED_DATA['locksave']}
 {assign var=VAL2FIELD value=$SAVED_DATA['val2field']}
-<div class="row-fluid">
-	<div class="span12">
-		<div class="row-fluid">
-			<div class="span6 padding-bottom1per">
-				<div class="row-fluid padding-bottom1per">
+<div class="row">
+	<div class="col-md-12">
+		<div class="row">
+			<div class="col-md-6 padding-bottom1per">
+				<div class="row padding-bottom1per">
 					<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_VALIDATION_TWO_FIELDS', 'DataAccess')}:   <input type="checkbox" id="val2field"  name="val2field" class="marginLeftZero " value="1"{if $VAL2FIELD eq 1}checked{/if}></strong></h5>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="span6">
-			<div class="row-fluid">
-				<div class="marginLeftZero span12 padding-bottom1per">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="marginLeftZero col-md-12 padding-bottom1per">
 					<h5 class="padding-bottom1per"><strong>{vtranslate('Select a field from which the value is to be checked', 'DataAccess')}:</strong></h5>
-					<select id="what" name="what1" class="marginLeftZero span6 select2">
+					<select id="what" name="what1" class="marginLeftZero col-md-6 select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
 							<option value="{$item[1]}" {if $item[1] == $WHAT1} selected {/if} >{vtranslate($item[2], $item[0])}</option>
 						{/foreach}
 					</select>
 				</div>
-				<div class="marginLeftZero span12 padding-bottom1per">
+				<div class="marginLeftZero col-md-12 padding-bottom1per">
 					<h5 class="padding-bottom1per"><strong>{vtranslate('Select the fields to be verified', 'DataAccess')}:</strong></h5>
-					<select multiple id="where" name="where1" class="marginLeftZero span6 select2">
+					<select multiple id="where" name="where1" class="marginLeftZero col-md-6 select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
 								<optgroup label="{vtranslate($item[3], $item[3])}">
@@ -46,19 +46,19 @@
 				</div>
 			</div>
 			<br/>
-			<div class="row-fluid padding-bottom1per">
+			<div class="row padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK0', 'DataAccess')}:</strong></h5>
-				<input type="text" name="info0" class="marginLeftZero span7" value="{$INFO0}">
+				<input type="text" name="info0" class="marginLeftZero col-md-7" value="{$INFO0}">
 			</div>
-			<div class="row-fluid padding-bottom1per">
+			<div class="row padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK1', 'DataAccess')}:</strong></h5>
-				<input type="text" name="info1" class="marginLeftZero span7" value="{$INFO1}">
+				<input type="text" name="info1" class="marginLeftZero col-md-7" value="{$INFO1}">
 			</div>
-			<div class="row-fluid padding-bottom1per messakgeInfo2 {if $VAL2FIELD neq 1}hide{/if}">
+			<div class="row padding-bottom1per messakgeInfo2 {if $VAL2FIELD neq 1}hide{/if}">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_MESSAGE_LOCK2', 'DataAccess')}:</strong></h5>
-				<input type="text" name="info2" class="marginLeftZero span7" value="{$INFO2}">
+				<input type="text" name="info2" class="marginLeftZero col-md-7" value="{$INFO2}">
 			</div>
-			<div class="row-fluid padding-bottom1per">
+			<div class="row padding-bottom1per">
 				<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_LOCKS_SAVE', 'DataAccess')}:</strong></h5>
 				<label class="radio">
 					<input type="radio" name="locksave" id="locksave1" value="0" {if $LOCKSAVE eq 0}checked{/if}>{vtranslate('LBL_LOCKS_SAVE_LABEL1', 'DataAccess')}
@@ -71,19 +71,19 @@
 				</label>
 			</div>
 		</div>
-		<div class="span6 {if $VAL2FIELD neq 1}hide{/if} val2fieldBlock">
-			<div class="row-fluid">
-				<div class="marginLeftZero span12 padding-bottom1per">
+		<div class="col-md-6 {if $VAL2FIELD neq 1}hide{/if} val2fieldBlock">
+			<div class="row">
+				<div class="marginLeftZero col-md-12 padding-bottom1per">
 					<h5 class="padding-bottom1per"><strong>{vtranslate('Select a field from which the value is to be checked', 'DataAccess')}:</strong></h5>
-					<select {if $VAL2FIELD neq 1}disabled{/if} id="what2" name="what2" class="marginLeftZero span6 select2">
+					<select {if $VAL2FIELD neq 1}disabled{/if} id="what2" name="what2" class="marginLeftZero col-md-6 select2">
 						{foreach item=item key=key from=$CONFIG['fields_mod']}
 							<option value="{$item[1]}" {if $item[1] == $WHAT2} selected {/if} >{vtranslate($item[2], $item[0])}</option>
 						{/foreach}
 					</select>
 				</div>
-				<div class="marginLeftZero span12 padding-bottom1per">
+				<div class="marginLeftZero col-md-12 padding-bottom1per">
 					<h5 class="padding-bottom1per"><strong>{vtranslate('Select the fields to be verified', 'DataAccess')}:</strong></h5>
-					<select {if $VAL2FIELD neq 1}disabled{/if} multiple id="where2" name="where2" class="marginLeftZero span6 select2">
+					<select {if $VAL2FIELD neq 1}disabled{/if} multiple id="where2" name="where2" class="marginLeftZero col-md-6 select2">
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
 								<optgroup label="{vtranslate($item[3], $item[3])}">

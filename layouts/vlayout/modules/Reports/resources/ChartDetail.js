@@ -1,4 +1,4 @@
-/*+**********************************************************************************
+﻿/*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -110,11 +110,11 @@ Reports_Detail_Js("Reports_ChartDetail_Js",{
 			var filter = jQuery('#filterContainer');
 			var icon = jQuery(this).find('i');
 			var classValue = icon.attr('class');
-			if(classValue == 'icon-chevron-right') {
-				icon.removeClass('icon-chevron-right').addClass('icon-chevron-down');
+			if(classValue == 'glyphicon-chevron-right') {
+				icon.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
 				filter.show('slow');
 			} else {
-				icon.removeClass('icon-chevron-down').addClass('icon-chevron-right');
+				icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
 				filter.hide('slow');
 			}
 			return false;

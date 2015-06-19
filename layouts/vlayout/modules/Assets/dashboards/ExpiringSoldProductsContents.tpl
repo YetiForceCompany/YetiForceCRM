@@ -12,16 +12,16 @@
 {strip}
 {if count($DATA) gt 0 }
 	<div style="padding:5px;">
-		<div class="row-fluid">
-			<div class="span4"><strong>{vtranslate('Asset Name', $RELATED_MODULE)}</strong></div>
-			<div class="span4"><strong>{vtranslate('Date in Service', $RELATED_MODULE)}</strong></div>
-			<div class="span3"><strong>{vtranslate('Parent ID', $RELATED_MODULE)}</strong></div>
+		<div class="row">
+			<div class="col-md-4"><strong>{vtranslate('Asset Name', $RELATED_MODULE)}</strong></div>
+			<div class="col-md-4"><strong>{vtranslate('Date in Service', $RELATED_MODULE)}</strong></div>
+			<div class="col-md-3"><strong>{vtranslate('Parent ID', $RELATED_MODULE)}</strong></div>
 		</div>
 		{foreach item=ROW from=$DATA}
-			<div class="row-fluid">
-				<div class="span4"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.assetsid}">{$ROW.assetname}</a></div>
-				<div class="span4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
-				<div class="span3">
+			<div class="row">
+				<div class="col-md-4"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.assetsid}">{$ROW.assetname}</a></div>
+				<div class="col-md-4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
+				<div class="col-md-3">
 					{if $ROW.parent_id gt 0 }
 						{assign var="CRMTYPE" value=Vtiger_Functions::getCRMRecordType($ROW.parent_id)}
 						<a class="moduleColor_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{vtranslate($CRMTYPE, $CRMTYPE)}">{Vtiger_Functions::getCRMRecordLabel($ROW.parent_id)}</a>

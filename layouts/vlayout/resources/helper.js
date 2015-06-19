@@ -11,6 +11,26 @@
 jQuery.Class("Vtiger_Helper_Js",{
 
 	checkServerConfigResponseCache : '',
+	langCode : '',
+	
+	/*
+	 * Function to set lang code
+	 */
+	setLangCode : function(){
+		var htmlTag			= document.getElementsByTagName('html')[0];
+		this.langCode		= htmlTag.getAttribute('lang') ? htmlTag.getAttribute('lang')	: 'en';
+	},
+	
+	/*
+	 * Function to get lang code
+	 */
+	getLangCode : function(){
+		if(!this.langCode){
+			this.setLangCode();
+		}
+		return this.langCode;
+	},
+	
 	/*
 	 * Function to get the instance of Mass edit of Email
 	 */
@@ -145,7 +165,8 @@ jQuery.Class("Vtiger_Helper_Js",{
 	 */
 	showConfirmationBox : function(data){
 		var aDeferred = jQuery.Deferred();
-		var bootBoxModal = bootbox.confirm(data['message'],app.vtranslate('LBL_NO'),app.vtranslate('LBL_YES'), function(result) {
+		bootbox.setLocale(this.getLangCode());
+		var bootBoxModal = bootbox.confirm(data['message'], function(result) {
 			if(result){
 				aDeferred.resolve();
 			} else{

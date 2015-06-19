@@ -17,5 +17,5 @@
 	{/foreach}
 </select>
 <span id="delete_map_container" style="display:none;">
-	<i class="icon-trash cursorPointer" onclick="ImportJs.deleteMap('{$FOR_MODULE}');" alt="{'LBL_DELETE'|@vtranslate:$FOR_MODULE}"></i>
+	<i class="glyphicon glyphicon-trash cursorPointer" onclick="ImportJs.deleteMap('{$FOR_MODULE}');" alt="{'LBL_DELETE'|@vtranslate:$FOR_MODULE}"></i>
 </span>

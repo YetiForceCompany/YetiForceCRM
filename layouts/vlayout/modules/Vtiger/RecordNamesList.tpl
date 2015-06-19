@@ -1,4 +1,4 @@
-{*<!--
+﻿{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div class="recordNamesList">
-	<div class="row-fluid">
+	<div>
 		<div class="">
-			<ul class="nav nav-list">
+			<ul class="nav list-group">
 				{foreach item=recordsModel from=$RECORDS}
 				<li>
 					<a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>

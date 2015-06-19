@@ -82,6 +82,11 @@ var app = {
 			app.showSelect2ElementView(parent, viewParams);
 			return;
 		}
+		//If view is selectize, This will convert the ui of select boxes to selectize elements.
+		if(view == 'selectize') {
+			app.showSelectizeElementView(parent, viewParams);
+			return;
+		}
 		selectElement = jQuery('.chzn-select', parent);
 		//parent itself is the element
 		if(parent.is('select.chzn-select')) {
@@ -101,12 +106,15 @@ var app = {
 		var params = {
 			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
 		};
-	
-		
-		var chosenElement = selectElement.chosen(params);
+		/*selectElement.each(function(){
+			var width = jQuery(this).outerWidth();
+			params['width'] = width+'px';
+			jQuery(this).chosen(params);
+		});*/
+		selectElement.chosen(params);
 		var chosenSelectConainer = jQuery('.chzn-container');
 		//Fix for z-index issue in IE 7
-		if (jQuery.browser.msie && jQuery.browser.version === "7.0") {
+		if (/MSIE 7.0/.test(navigator.userAgent)) {
 			var zidx = 1000;
 			chosenSelectConainer.each(function(){
 				$(this).css('z-index', zidx);
@@ -148,8 +156,9 @@ var app = {
 		if(data != null) {
 			params = jQuery.extend(data,params);
 		}
-		params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
+		params.language = Vtiger_Helper_Js.getLangCode();
+		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
+		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
 		// Sort DOM nodes alphabetically in select box.
 		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
@@ -181,16 +190,25 @@ var app = {
 			params.closeOnSelect = false;
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
-
 		selectElement.select2(params)
-					 .on("open", function(e) {
+					 .on("select2:open", function(e) {
 						 var element = jQuery(e.currentTarget);
 						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
+						 instance.$dropdown.css('z-index',1000002);
 					 });
 		if(typeof params.maximumSelectionSize != "undefined") {
 			app.registerChangeEventForMultiSelect(selectElement,params);
 		}
+		return selectElement;
+	},
+	/**
+	 * Function which will show the selectize element for select boxes . This will use selectize library
+	 */
+	showSelectizeElementView : function(selectElement, params) {
+		if(typeof params == 'undefined') {
+			params = {};
+		}
+		selectElement.selectize(params);
 		return selectElement;
 	},
 
@@ -1077,7 +1095,7 @@ jQuery(document).ready(function(){
 	}
 
     // in IE resize option for textarea is not there, so we have to use .resizable() api
-    if(jQuery.browser.msie || (/Trident/).test(navigator.userAgent)) {
+    if(/MSIE/.test(navigator.userAgent) || (/Trident/).test(navigator.userAgent)) {
         jQuery('textarea').resizable();
     }
     

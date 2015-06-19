@@ -1,4 +1,4 @@
-/*+***********************************************************************************
+﻿/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -194,7 +194,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 								mapFieldDisplayElement.val(response[value[0]+'_label']).attr('readonly',true);
 								var referenceModulesList = formElement.find('#'+app.getModuleName()+'_editView_fieldName_'+key+'_dropDown');
 								if(referenceModulesList.length > 0){
-									referenceModulesList.val( value[1] ).trigger("liszt:updated");
+									referenceModulesList.val( value[1] ).trigger("chosen:updated");
 								}
 							}
 						}
@@ -1074,7 +1074,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 				})
 				var targetPickListSelectedValue = '';
 				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("liszt:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
 			})
 		});
 
@@ -1095,8 +1095,8 @@ jQuery.Class("Vtiger_Edit_Js",{
         var row = jQuery('.ckEditorSource').parents('tr');
         var td = jQuery('.ckEditorSource').parent();
         jQuery(row).find('.fieldLabel').remove();
-        jQuery(td).removeClass('span10');
-        jQuery(td).addClass('span12');
+        jQuery(td).removeClass('col-md-10');
+        jQuery(td).addClass('col-md-12');
     },
     
     	/**
@@ -1148,18 +1148,18 @@ jQuery.Class("Vtiger_Edit_Js",{
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
+				bodyContents.removeClass('hide');
 				bodyContents.show();
 				app.cacheSet(module+'.'+blockId, 1)
 			}
-
 			if(data.mode == 'show'){
 				hideHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='hide']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find('[data-mode="hide"]').removeClass('hide');
 			}else{
 				showHandler();
-				currentTarget.hide();
-				closestBlock.find("[data-mode='show']").show();
+				currentTarget.addClass('hide');
+				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
 

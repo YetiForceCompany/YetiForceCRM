@@ -11,44 +11,33 @@
 -->*}
 <div style='padding:5px'>
 {if count($MODELS) > 0}
-	<div class='row-fluid'>
-		<div class='span12'>
-			<div class='row-fluid'>
-				{foreach item=HEADER from=$MODULE_HEADER}
-					<div class='span4'>
-						<strong>{vtranslate({$HEADER}, $MODULE_NAME)}</strong>
-					</div>
-                {/foreach}
-			</div>
-		</div>
-		<hr>
-       {foreach item=MODEL from=$MODELS}
-		    <div class='row-fluid'>
-			{foreach item=HEADER key=KEY_VALUE from=$MODULE_HEADER}
-				<div class='span4'>
-					{if $KEY_VALUE eq 'potentialname'}
-						<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
-					{else}  
-						{$MODEL->getDisplayValue({$KEY_VALUE})}
-					{/if}
-				 </div>
-			{/foreach}
-			</div>
-		</div>
-		{/foreach}
-		{foreach item=MODEL from=$MODELS}
-		<div class='row-fluid'>
-			<div class='span4'>
-				<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
-			</div>
-			<div class='span4'>
-				{$MODEL->getDisplayValue('sum_invoices')}
-			</div>
-			<div class='span4'>
-				{$MODEL->getDisplayValue('related_to')}
-			</div>
-		</div>
-		{/foreach}
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					{foreach item=HEADER from=$MODULE_HEADER}
+						<td>
+							<strong>{vtranslate({$HEADER}, $MODULE_NAME)}</strong>
+						</td>
+					{/foreach}
+				</tr>
+			</thead>
+			<tbody>
+				{foreach item=MODEL from=$MODELS}
+					<tr>
+					{foreach item=HEADER key=KEY_VALUE from=$MODULE_HEADER}
+						<td>
+							{if $KEY_VALUE eq 'potentialname'}
+								<a href="{$MODEL->getDetailViewUrl()}">{$MODEL->getName()}</a>
+							{else}  
+								{$MODEL->getDisplayValue({$KEY_VALUE})}
+							{/if}
+						</td>
+					{/foreach}
+					<tr>
+				{/foreach}
+			</tbody>
+		</table>
 	</div>
 {else}
 	<span class="noDataMsg">
