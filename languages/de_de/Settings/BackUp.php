@@ -29,9 +29,9 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Wollen Sie eine Datensicherung des Sicherungsverzeichnissen durchführen',
 	'LBL_VALUES' => 'Values',
 	'LBL_DETAIL' => 'Detail',
-	'LBL_BACKUP_COPY_TYPE' =>'__UNTRANSLATED__',
-	'LBL_BACKUP_SINGLE' =>'__UNTRANSLATED__',
-	'LBL_BACKUP_OVERALL' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_COPY_TYPE' =>'Backup save type',
+	'LBL_BACKUP_SINGLE' =>'Partial',
+	'LBL_BACKUP_OVERALL' =>'Full',
 	
 	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => 'No active ZIP library found',
 	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'Complete backup is impossible, backup will only create a database copy and it will not be compressed ',
