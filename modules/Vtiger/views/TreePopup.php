@@ -53,7 +53,12 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View {
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
-	function postProcess(Vtiger_Request $request) {	}
+	function postProcess(Vtiger_Request $request) {
+		$viewer = $this->getViewer ($request);
+		$moduleName = $this->getModule($request);
+		$viewer->assign('FOOTER_SCRIPTS',$this->getFooterScripts($request));
+		$viewer->view('PopupFooter.tpl', $moduleName);
+	}
 
 	/**
 	 * Function to get the list of Script models to be included
