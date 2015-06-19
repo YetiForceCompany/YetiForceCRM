@@ -12,6 +12,8 @@ require_once('install/models/Utils.php');
 require_once('install/models/ConfigFileUtils.php');
 require_once('install/models/InitSchema.php');
 
+$log = LoggerManager::getLogger('INSTALL');
+vglobal('log', $log);
 Vtiger_Session::init();
 
 $request = new Vtiger_Request($_REQUEST);

@@ -230,12 +230,12 @@ class Install_Index_view extends Vtiger_View_Controller {
 			$configFile = new Install_ConfigFileUtils_Model($configParams);
 			$configFile->createConfigFile();
 
-			$adb = PearDatabase::getInstance();
-			$adb->resetSettings($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
-			$adb->query('SET NAMES utf8');
-
+			$db = new PearDatabase($configParams['db_type'], $configParams['db_hostname'], $configParams['db_name'], $configParams['db_username'], $configParams['db_password']);
+			vglobal('adb', $db);
+			
 			// Initialize and set up tables
-			Install_InitSchema_Model::initialize();
+			$initSchema = new Install_InitSchema_Model($db);
+			$initSchema->initialize();
 
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('LANG', $request->get('lang'));
@@ -307,10 +307,8 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$createConfig = Install_InitSchema_Model::createConfig($source_directory, $username, $password, $system);
 		if($createConfig['result']){
 			include('config/config.inc.php');
-            $adb = PearDatabase::getInstance();
-            $adb->resetSettings($dbconfig['db_type'],$dbconfig['db_hostname'],$dbconfig['db_name'],$dbconfig['db_username'],$dbconfig['db_password']);
-            $adb->query('SET NAMES utf8');
-			
+			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
+			vglobal('adb', $adb);
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
 			if ($adb->num_rows($result) > 0) {
