@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <div class="control-label" style="width: 50;"><span class="redColor">*</span>&nbsp;{vtranslate('LBL_FEED_SOURCE',$MODULE)}</div>
                     <div class="controls">
-                        <input class="input-xxlarge" type="text" id="feedurl" name="feedurl" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' placeholder="{vtranslate('LBL_ENTER_FEED_SOURCE',$MODULE)}" />
+                        <input class="input-xxlarge" type="text" id="feedurl" name="feedurl" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' title="{vtranslate('LBL_FEED_SOURCE',$MODULE)}" placeholder="{vtranslate('LBL_ENTER_FEED_SOURCE',$MODULE)}" />
                     </div>
                 </div>
             </div>
@@ -28,3 +28,4 @@
         </form>
     </div>
 {/strip}
+
