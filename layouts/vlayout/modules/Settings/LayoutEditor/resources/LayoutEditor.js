@@ -120,14 +120,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		relatedList.on('click', '.inActiveRelationModule', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
-			relatedModule.find('.activeRelationModule').show();
+			relatedModule.find('.activeRelationModule').removeClass('hide').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),0);
 		})
 		relatedList.on('click', '.activeRelationModule', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
-			relatedModule.find('.inActiveRelationModule').show();
+			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
 			currentTarget.hide();
 			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'),1);
 		})
