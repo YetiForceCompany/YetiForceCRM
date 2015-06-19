@@ -1,11 +1,7 @@
 /*
-Document   : jquery.pnotify.default.css
-Created on : Nov 23, 2009, 3:14:10 PM
-Author     : Hunter Perrin
-Version    : 1.2.0
-Link       : http://pinesframework.org/pnotify/
-Description:
-	Default styling for Pines Notify jQuery plugin.
+Author  : Hunter Perrin
+Version : 2.0.1
+Link    : http://sciactive.com/pnotify/
 */
 /* -- Notice */
 .ui-pnotify {
@@ -17,7 +13,7 @@ height: auto;
 z-index: 9999;
 }
 /* Hides position: fixed from IE6 */
-html > body .ui-pnotify {
+html > body > .ui-pnotify {
 position: fixed;
 }
 .ui-pnotify .ui-pnotify-shadow {
@@ -36,13 +32,10 @@ margin: 0;
 -moz-border-radius: 0;
 border-radius: 0;
 }
-.ui-pnotify-closer, .ui-pnotify-sticker {
-float: right;
-margin-left: .2em;
-}
 .ui-pnotify-title {
 display: block;
 margin-bottom: .4em;
+margin-top: 0;
 }
 .ui-pnotify-text {
 display: block;
@@ -52,7 +45,20 @@ display: block;
 float: left;
 margin-right: .2em;
 }
-/* -- History Pulldown */
+/* Alternate stack initial positioning. */
+.ui-pnotify.stack-topleft, .ui-pnotify.stack-bottomleft {
+left: 25px;
+right: auto;
+}
+.ui-pnotify.stack-bottomright, .ui-pnotify.stack-bottomleft {
+bottom: 25px;
+top: auto;
+}
+.ui-pnotify-closer, .ui-pnotify-sticker {
+float: right;
+margin-left: .2em;
+}
+/* -- Pulldown */
 .ui-pnotify-history-container {
 position: absolute;
 top: 0;
@@ -69,8 +75,12 @@ border-top-right-radius: 0;
 /* Ensures history container is above notices. */
 z-index: 10000;
 }
+.ui-pnotify-history-container.ui-pnotify-history-fixed {
+position: fixed;
+}
 .ui-pnotify-history-container .ui-pnotify-history-header {
 padding: 2px;
+text-align: center;
 }
 .ui-pnotify-history-container button {
 cursor: pointer;
