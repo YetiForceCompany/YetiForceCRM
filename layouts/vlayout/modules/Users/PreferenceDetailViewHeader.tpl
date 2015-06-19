@@ -29,7 +29,7 @@
 								<h3>{vtranslate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
 							</span>
 							<span class="row">
-								{vtranslate('LBL_USERDETAIL_INFO', $MODULE_NAME)}&nbsp;&nbsp;"<b>{$RECORD->getName()}</b>"
+								{vtranslate('LBL_USERDETAIL_INFO', $MODULE_NAME)}&nbsp;&nbsp;"<strong>{$RECORD->getName()}</strong>"
 							</span>
 						</span>
 					</span>

@@ -89,12 +89,12 @@
 							<table align='center'>
 								<tr>
 									<td><label class="control-label" for="password">{vtranslate('LBL_NEW_PASSWORD',$MODULE)}</label></td>
-									<td><input type="password" id="password" name="password" placeholder="{vtranslate('LBL_NEW_PASSWORD',$MODULE)}"></td>
+									<td><input type="password" id="password" title="{vtranslate('LBL_NEW_PASSWORD',$MODULE)}" name="password" placeholder="{vtranslate('LBL_NEW_PASSWORD',$MODULE)}"></td>
 								</tr>
 								<tr><td></td></tr>
 								<tr>
 									<td><label class="control-label" for="confirm_password">{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}</label></td>
-									<td><input type="password" id="confirmPassword" name="confirmPassword"  placeholder="{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}"></td>
+									<td><input type="password" id="confirmPassword" name="confirmPassword" title="{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}"  placeholder="{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}"></td>
 								</tr>
 								<tr><td></td></tr>
 								<tr>
