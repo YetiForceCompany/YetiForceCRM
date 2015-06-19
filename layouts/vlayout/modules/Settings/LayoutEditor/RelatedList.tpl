@@ -17,12 +17,12 @@
             <div class="col-md-8">
                 <h3>{vtranslate('LBL_REL_MODULE_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="col-md-4">
-				<div class="pull-left">
-					<button style="margin: 0;" class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
+            <div class="col-md-4 row">
+				<div class="col-md-5">
+					<button class="btn btn-default addRelation" type="button">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
 				</div>
-                <div class="pull-right">
-                    <select class="select2 col-md-3 form-control" name="layoutEditorRelModules">
+                <div class="col-md-7">
+                    <select class="select2 form-control" name="layoutEditorRelModules">
                         {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
                             <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $QUALIFIED_MODULE)}</option>
                         {/foreach}
@@ -65,7 +65,7 @@
 			                        </div>
                                 </div>
 								<div class="relatedModuleFieldsList mainBlockTableContent">
-									<div class="row">
+									<div class="">
 										<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
 												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
@@ -103,12 +103,12 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<h3 id="myModalLabel">{vtranslate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</h3>
 			</div>
-			<div class="modal-body" style="width: 420px;">
+			<div class="modal-body" >
 				<form class="modal-Fields">
 					<div class="row">
 						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7">
-							<select name="type" class="col-md-3">
+							<select name="type" class="form-control">
 								{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
 									<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
 								{/foreach}
@@ -117,7 +117,7 @@
 						<br /><br />
 						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7 marginTop">
-							<select multiple name="actions" class="col-md-3">
+							<select multiple name="actions" class="form-control">
 								{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
 									<option value="{$KEY}">{vtranslate($ITEM, $QUALIFIED_MODULE)}</option>
 								{/foreach}
@@ -126,7 +126,7 @@
 						<br /><br />
 						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7 marginTop">
-							<select name="source" class="col-md-3">
+							<select name="source" class="form-control">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 								{/foreach}
@@ -135,7 +135,7 @@
 						<br /><br />
 						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7 marginTop">
-							<select name="target" class="col-md-3 target">
+							<select name="target" class="target form-control">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}">{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
 								{/foreach}
@@ -144,7 +144,7 @@
 						<br /><br />
 						<div class="col-md-5 marginLeftZero">{vtranslate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</div>
 						<div class="col-md-7">
-							<input name="label" style="margin-left: 20px;" type="text" class="col-md-3 relLabel"/>
+							<input name="label"  type="text" class="relLabel form-control"/>
 						</div>
 					</div>
 				</form>
