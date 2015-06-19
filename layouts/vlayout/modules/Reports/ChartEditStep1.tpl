@@ -21,12 +21,12 @@
 			<input type="hidden" id="relatedModules" data-value='{ZEND_JSON::encode($RELATED_MODULES)}' />
 			<div class="well contentsBackground">
 				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row"><input class="col-md-6" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></span>
+					<div class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
 				</div>
 				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row">
+					<div class="col-md-3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-7 row">
 						<select class="chzn-select col-md-6" name="folderid">
 							<optgroup>
 
@@ -39,11 +39,11 @@
 								{/foreach}
 							</optgroup>
 						</select>
-					</span>
+					</div>
 				</div>
 				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row">
+					<div class="col-md-3">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-7 row">
 						<select class="col-md-6 chzn-select" id="primary_module" name="primary_module" title="{vtranslate('PRIMARY_MODULE',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
 							<optgroup>
 								{foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
@@ -56,14 +56,14 @@
 						{if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true}
 							<input type="hidden" name="primary_module" value="{$REPORT_MODEL->getPrimaryModule()}" />
 						{/if}
-					</span>
+					</div>
 				</div>
 				<div class="row padding1per">
-					<span class="col-md-3">
+					<div class="col-md-3">
 						<div>{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
 						<div>({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</div>
-					</span>
-					<span class="col-md-7 row">
+					</div>
+					<div class="col-md-7 row">
 						{assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
 						{assign var=PRIMARY_MODULE value=$REPORT_MODEL->getPrimaryModule()}
 
@@ -84,11 +84,11 @@
 						{if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true}
 							<input type="hidden" name="secondary_modules[]" value="{$REPORT_MODEL->getSecondaryModules()}" />
 						{/if}
-					</span>
+					</div>
 				</div>
 				<div class="row padding1per">
-					<span class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
-					<span class="col-md-7"><textarea class="col-md-6" type="text" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></span>
+					<div class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</div>
+					<div class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 			</div>
 			<div class="pull-right">

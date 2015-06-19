@@ -22,7 +22,7 @@
 			<div class="well contentsBackground">
 				<div class="row padding1per">
 					<span class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row"><input class="col-md-6" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></span>
+					<span class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></span>
 				</div>
 				<div class="row padding1per">
 					<span class="col-md-3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></span>
@@ -72,7 +72,7 @@
 							{/foreach}
 						{/if}
 						{assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
-						<select class="col-md-6 select2-container" id="secondary_module" multiple name="secondary_modules[]" title="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}">
+						<select class="col-md-6 select2-container form-control" id="secondary_module" multiple name="secondary_modules[]" title="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}">
 							{foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
 								<option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
 							{/foreach}
@@ -81,10 +81,10 @@
 				</div>
 				<div class="row padding1per">
 					<span class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</span>
-					<span class="col-md-7"><textarea class="col-md-6" type="text" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></span>
+					<span class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" name="description" >{$REPORT_MODEL->get('description')}</textarea></span>
 				</div>
-				<div class="row padding1per">
-					<div class="row span">
+				<div class="padding1per">
+					<div>
 						<input type="checkbox" title="{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}"  {if $SCHEDULEDREPORTS->get('scheduleid') neq ''} checked="" {/if} value="{if $SCHEDULEDREPORTS->get('scheduleid') neq ''}true{/if}" name='enable_schedule' style="margin-top: 0px !important;"> &nbsp;
 						<strong>{vtranslate('LBL_SCHEDULE_REPORTS',$MODULE)}</strong>
 					</div>
@@ -176,7 +176,7 @@
                         </div>
                         <div class='col-md-4' id='schtime'>
                             <div class="input-group time">
-                                <input type='text' class='timepicker-default input-sm' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+                                <input type='text' class='timepicker-default input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
                                 <span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                         </div>
                         <div class='col-md-4'>
                             {assign var=specificemailids value=Zend_Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
-                            <input id="specificemails" style="width: 281px !important;" class="col-md-6" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
+                            <input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{vtranslate('LBL_SPECIFIC_EMAIL_ADDRESS', $MODULE)}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
                         </div>
                     </div>
                     {if $SCHEDULEDREPORTS->get('next_trigger_time')}

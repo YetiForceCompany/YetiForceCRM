@@ -65,14 +65,14 @@
 										<span class="col-md-4">
 											<div><span>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
 											<div class="row">
-												<select id='groupbyfield' name='groupbyfield' class="col-md-10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'></select>
+												<select id='groupbyfield' name='groupbyfield' class="col-md-10 validate[required] form-control" data-validation-engine="validate[required]" style='min-width:300px;'></select>
 											</div>
 										</span>
 										<span class="col-md-2">&nbsp;</span>
 										<span class="col-md-4">
 											<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
 											<div class="row">
-												<select id='datafields' name='datafields[]' class="col-md-10 validate[required]" data-validation-engine="validate[required]" style='min-width:300px;'>
+												<select id='datafields' name='datafields[]' class="col-md-10 validate[required] form-control" data-validation-engine="validate[required]" style='min-width:300px;'>
 											</select></div>
 										</span>
 									</div>

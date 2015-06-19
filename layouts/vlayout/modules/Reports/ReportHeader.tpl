@@ -13,7 +13,7 @@
 	<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
 		<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 	</div>
-    <div class="container">
+    <div>
         <div class="row reportsDetailHeader">
 			<input type="hidden" name="date_filters" data-value='{ZEND_JSON::encode($DATE_FILTERS)}' />
             <form id="detailView" onSubmit="return false;">
@@ -63,7 +63,7 @@
                 </div>
             </div>
 			<br>
-            <div class="row">
+            <div>
                 <input type="hidden" id="recordId" value="{$RECORD_ID}" />
                 {assign var=RECORD_STRUCTURE value=array()}
                 {assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
