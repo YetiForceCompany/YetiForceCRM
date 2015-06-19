@@ -118,7 +118,7 @@
 					</tbody>
 				</table>
 				<div class="button-container">
-					<input type="button" class="btn btn-sm" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
+					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
 					{if $DB_CONNECTION_INFO['flag'] eq true}
 						<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
 					{/if}

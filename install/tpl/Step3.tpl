@@ -22,7 +22,7 @@
 					<div class="pull-right">
 						<div class="button-container">
 							<a href ="#">
-								<input type="button" class="btn" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>
+								<input type="button" class="btn btn-default" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>
 							</a>
 						</div>
 					</div>
@@ -71,7 +71,7 @@
 			</div>
 			<div class="offset2">
 				<div class="button-container">
-					<input type="button" class="btn btn-sm" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
+					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
 					<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
 				</div>
 			</div>

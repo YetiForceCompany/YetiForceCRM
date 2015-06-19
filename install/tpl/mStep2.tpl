@@ -44,7 +44,7 @@
 						<div class="col-md-2 paddingLRZero">{vtranslate('LBL_SYSTEM_FOR_MIGRATION', 'Install')}</div>
 						<div class="col-md-9 paddingLRZero">
 							<div class="col-md-5 paddingLRZero">
-								<select class="" name="system" id="old_version" required>
+								<select name="system" class="form-control" id="old_version" required>
 									<option value="" selected="">{vtranslate('LBL_SELECT', 'Install')}</option>
 									{foreach key=KEY item=ITEM from=$SCHEMALISTS}
 										<option value="{$KEY}">{$ITEM}</option>
