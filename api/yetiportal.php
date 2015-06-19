@@ -16,12 +16,11 @@ ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
 /** Configure language for server response translation */
 $current_language = vglobal('current_language');
 if(!isset($current_language)) $current_language = vglobal('default_language');
+$log = &LoggerManager::getLogger('portal');
 
 $userid = getPortalUserid();
 $user = new Users();
 $current_user = $user->retrieveCurrentUserInfoFromFile($userid);
-
-$log = &LoggerManager::getLogger('customerportal');
 
 //error_reporting(0);
 
@@ -982,12 +981,10 @@ function authenticate_user($username,$password,$version,$portalLang,$login = 'tr
 		$list[0] = "NOT COMPATIBLE";
   		return $list;
 	}
-	$username = $adb->sql_escape_string($username);
-	$password = $adb->sql_escape_string($password);
 
 	$password = CustomerPortalPassword::encryptPassword($password, $username);
-	
 	$currentDate = date("Y-m-d");
+	
 	$sql = "select id, user_name, user_password,last_login_time, support_start_date, support_end_date
 				from vtiger_portalinfo
 					inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid

@@ -30,7 +30,7 @@ $(document).ready(function() {
 			{ "data": "name" },
 			{ "data": "position" },
 			{ "data": "office" },
-			{ "data": "extn" },
+			{ "data": "age" },
 			{ "data": "start_date" },
 			{ "data": "salary" },
 			{ "data": "extn" }
@@ -49,9 +49,8 @@ $(document).ready(function() {
 			<h1>Responsive example <span>Class control</span></h1>
 
 			<div class="info">
-				<p>You can tell Responsive what columns to want to be visible on different devices through the use of
-				class names on the columns. The breakpoints are horizontal screen resolutions and the defaults are set
-				for common devices:</p>
+				<p>You can tell Responsive what columns to want to be visible on different devices through the use of class names on the columns. The breakpoints are horizontal
+				screen resolutions and the defaults are set for common devices:</p>
 
 				<ul class="markdown">
 					<li><code>desktop</code> x &gt;= 1024px</li>
@@ -61,34 +60,30 @@ $(document).ready(function() {
 					<li><code>mobile-p</code> (portrait) x &lt; 320</li>
 				</ul>
 
-				<p>You may leave the <code>-[lp]</code> option from the end if you wish to just target all tablet or
-				mobile devices. Additionally to may add <code>min-</code>, <code>max-</code> or <code>not-</code> as a
-				prefix to the class name to perform logic operations. For example <code>not-mobile</code> would cause a
-				column to appear as visible on desktop and tablet devices, while <code>min-tablet-l</code> would
-				require at least a horizontal width of 768 for the browser window to be shown, and be shown at all
-				sizes larger.</p>
+				<p>You may leave the <code>-[lp]</code> option from the end if you wish to just target all tablet or mobile devices. Additionally to may add <code>min-</code>,
+				<code>max-</code> or <code>not-</code> as a prefix to the class name to perform logic operations. For example <code>not-mobile</code> would cause a column to
+				appear as visible on desktop and tablet devices, while <code>min-tablet-l</code> would require at least a horizontal width of 768 for the browser window to be
+				shown, and be shown at all sizes larger.</p>
 
 				<p>Additionally, there are three special class names:</p>
 
 				<ul class="markdown">
 					<li><code>all</code> - Always display</li>
-					<li><code>none</code> - Never display</li>
+					<li><code>none</code> - Don't display as a column, but show in the child row</li>
+					<li><code>never</code> - Never display</li>
 					<li><code>control</code> - Used for the <code>column</code> <a href=
-					"//datatables.net/extensions/responsive/reference/option/responsive.details.type"><code class=
-					"option" title="Responsive initialisation option">responsive.details.type<span>R</span></code></a>
-					option.</li>
+					"//datatables.net/extensions/responsive/reference/option/responsive.details.type"><code class="option" title=
+					"Responsive initialisation option">responsive.details.type<span>R</span></code></a> option.</li>
 				</ul>
 
-				<p>Please <a href="//datatables.net/extensions/responsive/">refer to the Responsive manual</a> for
-				further details of these options.</p>
+				<p>Please <a href="//datatables.net/extensions/responsive/">refer to the Responsive manual</a> for further details of these options.</p>
 
-				<p>This example shows the <code>start date</code> and <code>salary</code> columns visible on a desktop
-				only - <code>office</code> and <code>age</code> require a tablet, while the <code>position</code>
-				column requires a phone in landscape or larger. The <code>name</code> column is always visible.</p>
+				<p>This example shows the <code>salary</code> column visible on a desktop only - <code>office</code> and <code>age</code> require a tablet, while the
+				<code>position</code> column requires a phone in landscape or larger. The <code>name</code> column is always visible and the <code>start date</code> is never
+				visible.</p>
 
-				<p>This can be useful if you wish to change the format of the data shown on different devices, for
-				example using a combination of <code>mobile</code> and <code>not-mobile</code> on two different columns
-				would allow information to be formatted suitable for each device type.</p>
+				<p>This can be useful if you wish to change the format of the data shown on different devices, for example using a combination of <code>mobile</code> and
+				<code>not-mobile</code> on two different columns would allow information to be formatted suitable for each device type.</p>
 			</div>
 
 			<div id="breakpoint"></div>
@@ -100,7 +95,7 @@ $(document).ready(function() {
 						<th class="min-phone-l">Position</th>
 						<th class="min-tablet">Office</th>
 						<th class="min-tablet">Age</th>
-						<th class="desktop">Start date</th>
+						<th class="never">Start date</th>
 						<th class="desktop">Salary</th>
 						<th class="none">Extn.</th>
 					</tr>
@@ -129,15 +124,14 @@ $(document).ready(function() {
 
 			<div class="tabs">
 				<div class="js">
-					<p>The Javascript shown below is used to initialise the table shown in this
-					example:</p><code class="multiline brush: js;">$(document).ready(function() {
+					<p>The Javascript shown below is used to initialise the table shown in this example:</p><code class="multiline language-js">$(document).ready(function() {
 	$('#example').DataTable( {
 		&quot;ajax&quot;: &quot;../../../../examples/ajax/data/objects.txt&quot;,
 		&quot;columns&quot;: [
 			{ &quot;data&quot;: &quot;name&quot; },
 			{ &quot;data&quot;: &quot;position&quot; },
 			{ &quot;data&quot;: &quot;office&quot; },
-			{ &quot;data&quot;: &quot;extn&quot; },
+			{ &quot;data&quot;: &quot;age&quot; },
 			{ &quot;data&quot;: &quot;start_date&quot; },
 			{ &quot;data&quot;: &quot;salary&quot; },
 			{ &quot;data&quot;: &quot;extn&quot; }
@@ -145,49 +139,42 @@ $(document).ready(function() {
 	} );
 } );</code>
 
-					<p>In addition to the above code, the following Javascript library files are loaded for use in this
-					example:</p>
+					<p>In addition to the above code, the following Javascript library files are loaded for use in this example:</p>
 
 					<ul>
 						<li><a href="../../../../media/js/jquery.js">../../../../media/js/jquery.js</a></li>
-						<li><a href=
-						"../../../../media/js/jquery.dataTables.js">../../../../media/js/jquery.dataTables.js</a></li>
+						<li><a href="../../../../media/js/jquery.dataTables.js">../../../../media/js/jquery.dataTables.js</a></li>
 						<li><a href="../../js/dataTables.responsive.js">../../js/dataTables.responsive.js</a></li>
 					</ul>
 				</div>
 
 				<div class="table">
-					<p>The HTML shown below is the raw HTML table element, before it has been enhanced by
-					DataTables:</p>
+					<p>The HTML shown below is the raw HTML table element, before it has been enhanced by DataTables:</p>
 				</div>
 
 				<div class="css">
 					<div>
-						<p>This example uses a little bit of additional CSS beyond what is loaded from the library
-						files (below), in order to correctly display the table. The additional CSS used is shown
-						below:</p><code class="multiline brush: js;"></code>
+						<p>This example uses a little bit of additional CSS beyond what is loaded from the library files (below), in order to correctly display the table. The
+						additional CSS used is shown below:</p><code class="multiline language-css"></code>
 					</div>
 
-					<p>The following CSS library files are loaded for use in this example to provide the styling of the
-					table:</p>
+					<p>The following CSS library files are loaded for use in this example to provide the styling of the table:</p>
 
 					<ul>
-						<li><a href=
-						"../../../../media/css/jquery.dataTables.css">../../../../media/css/jquery.dataTables.css</a></li>
+						<li><a href="../../../../media/css/jquery.dataTables.css">../../../../media/css/jquery.dataTables.css</a></li>
 						<li><a href="../../css/dataTables.responsive.css">../../css/dataTables.responsive.css</a></li>
 					</ul>
 				</div>
 
 				<div class="ajax">
-					<p>This table loads data by Ajax. The latest data that has been loaded is shown below. This data
-					will update automatically as any additional data is loaded.</p>
+					<p>This table loads data by Ajax. The latest data that has been loaded is shown below. This data will update automatically as any additional data is
+					loaded.</p>
 				</div>
 
 				<div class="php">
-					<p>The script used to perform the server-side processing for this table is shown below. Please note
-					that this is just an example script using PHP. Server-side processing scripts can be written in any
-					language, using <a href="//datatables.net/manual/server-side">the protocol described in the
-					DataTables documentation</a>.</p>
+					<p>The script used to perform the server-side processing for this table is shown below. Please note that this is just an example script using PHP. Server-side
+					processing scripts can be written in any language, using <a href="//datatables.net/manual/server-side">the protocol described in the DataTables
+					documentation</a>.</p>
 				</div>
 			</div>
 		</section>
@@ -208,6 +195,7 @@ $(document).ready(function() {
 							<li><a href="../initialisation/option.html">Configuration option</a></li>
 							<li><a href="../initialisation/new.html">`new` constructor</a></li>
 							<li><a href="../initialisation/ajax.html">Ajax data</a></li>
+							<li><a href="../initialisation/default.html">Default initialisation</a></li>
 						</ul>
 					</div>
 
@@ -216,6 +204,8 @@ $(document).ready(function() {
 						<ul class="toc">
 							<li><a href="../styling/bootstrap.html">Bootstrap styling</a></li>
 							<li><a href="../styling/foundation.html">Foundation styling</a></li>
+							<li><a href="../styling/scrolling.html">Vertical scrolling</a></li>
+							<li><a href="../styling/compact.html">Compact styling</a></li>
 						</ul>
 					</div>
 
@@ -225,6 +215,8 @@ $(document).ready(function() {
 							<li><a href="./auto.html">Automatic column hiding</a></li>
 							<li class="active"><a href="./classes.html">Class control</a></li>
 							<li><a href="./init-classes.html">Assigned class control</a></li>
+							<li><a href="./fixedHeader.html">With FixedHeader</a></li>
+							<li><a href="./complexHeader.html">Complex headers (rowspan / colspan)</a></li>
 						</ul>
 					</div>
 
@@ -241,14 +233,11 @@ $(document).ready(function() {
 				</div>
 
 				<div class="epilogue">
-					<p>Please refer to the <a href="http://www.datatables.net">DataTables documentation</a> for full
-					information about its API properties and methods.<br>
-					Additionally, there are a wide range of <a href="http://www.datatables.net/extras">extras</a> and
-					<a href="http://www.datatables.net/plug-ins">plug-ins</a> which extend the capabilities of
-					DataTables.</p>
+					<p>Please refer to the <a href="http://www.datatables.net">DataTables documentation</a> for full information about its API properties and methods.<br>
+					Additionally, there are a wide range of <a href="http://www.datatables.net/extras">extras</a> and <a href="http://www.datatables.net/plug-ins">plug-ins</a>
+					which extend the capabilities of DataTables.</p>
 
-					<p class="copyright">DataTables designed and created by <a href=
-					"http://www.sprymedia.co.uk">SpryMedia Ltd</a> &#169; 2007-2014<br>
+					<p class="copyright">DataTables designed and created by <a href="http://www.sprymedia.co.uk">SpryMedia Ltd</a> &#169; 2007-2015<br>
 					DataTables is licensed under the <a href="http://www.datatables.net/mit">MIT license</a>.</p>
 				</div>
 			</div>

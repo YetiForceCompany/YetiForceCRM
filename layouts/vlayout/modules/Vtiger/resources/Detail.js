@@ -2667,3 +2667,4 @@ jQuery.Class("Vtiger_Detail_Js",{
 		header.registerQuickCreateCallBack(this.registerRelatedModulesRecordCount);
 	}
 });
+

@@ -207,6 +207,10 @@ class PearDatabase {
 		$this->dbHostName = $host;
 	}
 
+	function getDatabaseName() {
+		return $this->dbName;
+	}
+	
 	function startTransaction() {
 		if ($this->hasActiveTransaction) {
 			return false;
@@ -512,10 +516,18 @@ class PearDatabase {
 
 	function getUniqueID($seqname) {
 		$table = $seqname . '_seq';
-		$result = $this->query('SELECT id FROM ' . $table);
-		$row = $this->fetchByAssoc($result);
-		$id = ((int) $row['id']) + 1;
-		$this->database->query("update $table set id = $id");
+		$result = $this->query("SHOW TABLES LIKE '$table'");
+		if ($result->rowCount() > 0) {
+			$result = $this->query('SELECT id FROM ' . $table);
+			$row = $this->fetchByAssoc($result);
+			$id = ((int) $row['id']) + 1;
+			$this->database->query("update $table set id = $id");
+		} else {
+			$result = $this->query('SHOW COLUMNS FROM ' . $this->quote($seqname, false));
+			$column = $this->getSingleValue($result);
+			$result = $this->query("SELECT MAX($column ) AS max FROM " . $this->quote($seqname, false));
+			$id = (int) $this->getSingleValue($result) + 1;
+		}
 		return $id;
 	}
 
@@ -639,7 +651,7 @@ class PearDatabase {
 		return $column;
 	}
 
-	function quote($input, $type = null) {
+	function quote($input, $quote = true, $type = null) {
 		// handle int directly for better performance
 		if ($type == 'integer' || $type == 'int') {
 			return intval($input);
@@ -655,9 +667,11 @@ class PearDatabase {
 		);
 
 		$type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
-
-		return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE)
-		);
+		if ($quote) {
+			return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE) );
+		} else {
+			return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
+		}
 	}
 
 	/* SQLTime logging */

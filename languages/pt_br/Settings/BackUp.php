@@ -31,9 +31,9 @@ $languageStrings = [
 	'LBL_BACKUPFOLDER_INFO' => 'Deseja fazer uma cópia da pasta backup',
 	'LBL_VALUES' => 'Valores',
 	'LBL_DETAIL' => 'Detalhes',
-	'LBL_BACKUP_COPY_TYPE' =>'__UNTRANSLATED__',
-	'LBL_BACKUP_SINGLE' =>'__UNTRANSLATED__',
-	'LBL_BACKUP_OVERALL' =>'__UNTRANSLATED__',
+	'LBL_BACKUP_COPY_TYPE' =>'Backup save type',
+	'LBL_BACKUP_SINGLE' =>'Partial',
+	'LBL_BACKUP_OVERALL' =>'Full',
 
 	'LBL_ALERT_NO_ZIP_EXTENSION_TITLE' => 'Nenhuma bilbioteca ZIP ativa foi encontrada',
 	'LBL_ALERT_NO_ZIP_EXTENSION_DESC' => 'A conclusão do backup é impossível. O backup irá cria uma cópia da base de dados e não será zipada',
