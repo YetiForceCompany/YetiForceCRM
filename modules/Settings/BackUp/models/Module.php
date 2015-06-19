@@ -77,7 +77,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 			$name = date('Ymd_Hi');
 			$db->pquery('INSERT INTO vtiger_backup (filename, starttime) VALUES (?,?)', 
 				[ $name, date('Y-m-d H:i:s')]);
-			$this->set('id',$db->database->Insert_ID());
+			$this->set('id',$db->getLastInsertID());
 			$db->pquery('INSERT INTO vtiger_backup_tmp (id) VALUES (?)', [$this->get('id')]);
 			$this->set('filename', $name);
 		} else {
@@ -114,8 +114,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 
 		if ($count > 0) {
 			for($i = 0; $i < $count; $i++){
-				$start = self::getTime();
-				$tableName = $db->query_result($result, $i, '0');
+				$start = self::getTime();	
+				$tableName = $db->query_result($result, $i, 'Tables_in_' . $db->getDatabaseName());
 				$this->addTableToBackup($tableName);
 				$this->updateProgress('2', (($i+1)/$count)*100, self::getTime() - $start);
 			}
@@ -124,8 +124,8 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 	}
 	
 	public function getTablesName() {
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SHOW TABLES WHERE `Tables_in_' . $adb->dbName . '` NOT IN ( SELECT \'vtiger_backup_files\' UNION SELECT \'vtiger_backup_db\' UNION SELECT tablename FROM vtiger_backup_db)');
+		$db = PearDatabase::getInstance();
+		$result = $db->pquery('SHOW TABLES WHERE ? NOT IN ( SELECT \'vtiger_backup_files\' UNION SELECT \'vtiger_backup_db\' UNION SELECT tablename FROM vtiger_backup_db)',['Tables_in_' . $db->getDatabaseName()]);
 		return $result;
 	}
 	

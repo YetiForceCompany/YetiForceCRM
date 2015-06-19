@@ -927,7 +927,7 @@ CREATE TABLE `vtiger_audit_trial` (
 CREATE TABLE `vtiger_backup` (
   `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `filename` varchar(20) NOT NULL,
-  `starttime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `starttime` datetime NOT NULL,
   `endtime` datetime DEFAULT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `backuptime` decimal(8,3) unsigned NOT NULL DEFAULT '0.000',
