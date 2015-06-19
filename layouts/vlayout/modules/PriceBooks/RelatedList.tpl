@@ -51,7 +51,7 @@
                                 <span class="row">
                                     <span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
                                     <span class="col-md-4">
-                                        <input type="text" id="pageToJump" class="listViewPagingInput" value="{$PAGING->getCurrentPage()}"/>
+                                        <input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
                                     </span>
                                     <span class="col-md-2 textAlignCenter">
                                         {vtranslate('LBL_OF',$moduleName)}
