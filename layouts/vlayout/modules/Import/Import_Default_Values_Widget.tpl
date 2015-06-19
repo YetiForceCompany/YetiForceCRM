@@ -12,7 +12,7 @@
 
 <div style="visibility: hidden; height: 0px;" id="defaultValuesElementsContainer">
 	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
-	<span id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue" class="small col-md-11">
+	<div id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue" class="small col-md-11">
 		{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
 		{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
 			<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
@@ -22,7 +22,7 @@
 			{/foreach}
 			</select>
 		{elseif $_FIELD_TYPE eq 'integer'}
-			<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small defaultInputTextContainer" value="0" />
+			<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small defaultInputTextContainer form-control" value="0" />
 		{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_INFO->getUIType() eq '52'}
 			<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
 				<option value="">--{'LBL_NONE'|@vtranslate:$FOR_MODULE}--</option>
@@ -37,16 +37,16 @@
 			</select>
 		{elseif $_FIELD_TYPE eq 'date'}
 			<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue"
-					data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer col-md-2 datepicker" value="" />
+					data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 datepicker" value="" />
 		{elseif $_FIELD_TYPE eq 'datetime'}
 				<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue"
-					   class="defaultInputTextContainer small col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
+					   class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
 		{elseif $_FIELD_TYPE eq 'boolean'}
 			<input type="checkbox" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small" />
 		{elseif $_FIELD_TYPE neq 'reference'}
-			<input type="input" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="defaultInputTextContainer small" />
+			<input type="input" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="defaultInputTextContainer form-control small" />
 		{/if}
-		</span>
+		</div>
 	{/foreach}
 </div>
 <script type="text/javascript">
