@@ -23,7 +23,7 @@
 			<div class='row alert-info' style="padding:20px">
 				<span class='col-md-3 col-md-offset-4'> &nbsp;</span>
 				<span class='span alert-info'>
-					<i class="glyphicon glyphicon-info-sign"></i>
+					<span class="glyphicon glyphicon-info-sign"></span>
 					{vtranslate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}
 				</span>
 			</div>
