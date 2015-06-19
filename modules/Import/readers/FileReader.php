@@ -149,11 +149,10 @@ class Import_FileReader_Reader {
             $result = $db->pquery("DESC $table", array());
             if ($result && $db->num_rows($result) > 0) {
                 while ($row = $db->fetch_array($result)) {
-                    $fieldTypes[$row['field']] = htmlspecialchars_decode( $row['type'], ENT_QUOTES );
+                    $fieldTypes[$row['Field']] = htmlspecialchars_decode( $row['Type'], ENT_QUOTES );
                 }
             }
         }
         return $fieldTypes;
     }
 }
-?>
