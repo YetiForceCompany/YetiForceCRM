@@ -1167,9 +1167,9 @@ function get_contactsforol($user_name)
 	function setRelationTables($secmodule){
 		$rel_tables = array (
 			//"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
-			"Quotes" => array("vtiger_quotes"=>array("contactid","quoteid"),"vtiger_contactdetails"=>"contactid"),
-			"PurchaseOrder" => array("vtiger_purchaseorder"=>array("contactid","purchaseorderid"),"vtiger_contactdetails"=>"contactid"),
-			"SalesOrder" => array("vtiger_salesorder"=>array("contactid","salesorderid"),"vtiger_contactdetails"=>"contactid"),
+			//"Quotes" => array("vtiger_quotes"=>array("contactid","quoteid"),"vtiger_contactdetails"=>"contactid"),
+			//"PurchaseOrder" => array("vtiger_purchaseorder"=>array("contactid","purchaseorderid"),"vtiger_contactdetails"=>"contactid"),
+			//"SalesOrder" => array("vtiger_salesorder"=>array("contactid","salesorderid"),"vtiger_contactdetails"=>"contactid"),
 			"Products" => array("vtiger_seproductsrel"=>array("crmid","productid"),"vtiger_contactdetails"=>"contactid"),
 			"Campaigns" => array("vtiger_campaigncontrel"=>array("contactid","campaignid"),"vtiger_contactdetails"=>"contactid"),
 			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_contactdetails"=>"contactid"),
@@ -1215,7 +1215,7 @@ function get_contactsforol($user_name)
 		}
 		//removing the relationship of contacts with Trouble Tickets
 		$this->db->pquery('UPDATE vtiger_troubletickets SET contact_id=0 WHERE contact_id=?', array($id));
-		*/
+		
 		//Backup Contact-PurchaseOrder Relation
 		$po_q = 'SELECT purchaseorderid FROM vtiger_purchaseorder WHERE contactid=?';
 		$po_res = $this->db->pquery($po_q, array($id));
@@ -1260,6 +1260,7 @@ function get_contactsforol($user_name)
 		}
 		//removing the relationship of contacts with Quotes
 		$this->db->pquery('UPDATE vtiger_quotes SET contactid=0 WHERE contactid=?', array($id));
+		 */
 		//remove the portal info the contact
 		$this->db->pquery('DELETE FROM vtiger_portalinfo WHERE id = ?', array($id));
 		$this->db->pquery('UPDATE vtiger_customerdetails SET portal=0,support_start_date=NULL,support_end_date=NULl WHERE customerid=?', array($id));
