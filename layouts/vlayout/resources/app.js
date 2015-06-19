@@ -157,6 +157,7 @@ var app = {
 			params = jQuery.extend(data,params);
 		}
 		params.language = Vtiger_Helper_Js.getLangCode();
+		params.theme = "bootstrap";
 		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 

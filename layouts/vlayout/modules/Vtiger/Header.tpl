@@ -22,7 +22,7 @@
 		<meta name="robots" content="noindex" />
 		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" type="text/css" media="screen" />
+		
 		{*<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />*}
 		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
@@ -31,6 +31,7 @@
 		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
 		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2-bootstrap{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
 		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
