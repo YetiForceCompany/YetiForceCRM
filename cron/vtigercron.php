@@ -21,7 +21,9 @@ require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
 
 if (PHP_SAPI === "cli" || (isset($_SESSION["authenticated_user_id"]) && isset($_SESSION["app_unique_key"]) && $_SESSION["app_unique_key"] == $application_unique_key)) {
-
+	$log = LoggerManager::getLogger('CRON');
+	vglobal('log', $log);
+	
 	$cronTasks = false;
 	if (isset($_REQUEST['service'])) {
 		// Run specific service
