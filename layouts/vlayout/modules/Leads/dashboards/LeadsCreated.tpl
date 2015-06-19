@@ -20,7 +20,7 @@
 				</span>
 			</span>
 			<span class="col-md-4">
-				<input type="text" name="createdtime" class="dateRange widgetFilter" />
+				<input type="text" name="createdtime" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
 			</span>
 		</div>
 		<div class="row">

@@ -64,7 +64,7 @@
 				</span>
 			</span>
 			<span class="col-md-8">
-				<input type="text" name="time" class="dateRange widgetFilter" />
+				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
