@@ -21,7 +21,7 @@
 		<div class="contentsDiv {if $LEFTPANELHIDE neq '1'} col-md-10 {else} col-md-12 {/if}marginLeftZero" id="centerPanel" style="min-height:550px;">
 			<div>
 			<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-				<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></i>
+				<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
 			</div>&nbsp
 				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=vtranslate($MODULE, $MODULE)}
 {/strip}

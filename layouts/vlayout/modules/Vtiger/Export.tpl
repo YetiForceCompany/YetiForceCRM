@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-	<i id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-left{/if}"></i>
+	<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-left{/if}"></span>
 </div>&nbsp
     <div style="padding-left: 15px;">
         <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
