@@ -20,8 +20,8 @@ var Settings_Index_Js = {
 		})
 	},
 	LoadEditLang : function(e) {
-		element = jQuery(e);
-		position = element.attr('href');
+		var element = jQuery(e);
+		var position = element.attr('href');
 		var tpl = element.data('mode');
 		if(typeof position == 'undefined'){
 			position = '#'+element.attr('id');
