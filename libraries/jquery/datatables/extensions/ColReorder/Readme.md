@@ -16,13 +16,13 @@ To use ColReorder, first download DataTables ( http://datatables.net/download ) 
 
 # Basic usage
 
-ColReorder is initialised using the `R` option that it adds to DataTables' `dom` option. For example:
+ColReorder is initialised using the `$.fn.dataTable.ColReorder` constructor. For example:
 
 ```js
 $(document).ready( function () {
-    $('#example').dataTable( {
-        "dom": 'Rlfrtip'
-    } );
+    $('#example').DataTable();
+
+    new $.fn.dataTable.ColReorder( table );
 } );
 ```
 

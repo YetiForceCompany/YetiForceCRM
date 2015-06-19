@@ -1,11 +1,11 @@
-/*! ColReorder 1.1.2
+/*! ColReorder 1.1.3
  * ©2010-2014 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     ColReorder
  * @description Provide the ability to reorder columns in a DataTable
- * @version     1.1.2
+ * @version     1.1.3
  * @file        dataTables.colReorder.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -90,13 +90,8 @@ function fnDomSwitch( nParent, iFrom, iTo )
 
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * DataTables plug-in API functions
- *
- * This are required by ColReorder in order to perform the tasks required, and also keep this
- * code portable, to be used for other column reordering projects with DataTables, if needed.
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+var factory = function( $, DataTable ) {
+"use strict";
 
 /**
  * Plug-in for DataTables which will reorder the internal column structure by taking the column
@@ -344,10 +339,6 @@ $.fn.dataTableExt.oApi.fnColReorder = function ( oSettings, iFrom, iTo )
 };
 
 
-
-var factory = function( $, DataTable ) {
-"use strict";
-
 /**
  * ColReorder provides column visibility control for DataTables
  * @class ColReorder
@@ -388,6 +379,11 @@ var ColReorder = function( dt, opts )
 	else {
 		// DataTables settings object
 		oDTSettings = dt;
+	}
+
+	// Ensure that we can't initialise on the same table twice
+	if ( oDTSettings._colReorder ) {
+		throw "ColReorder already initialised on table #"+oDTSettings.nTable.id;
 	}
 
 	// Convert from camelCase to Hungarian, just as DataTables does
@@ -440,11 +436,11 @@ var ColReorder = function( dt, opts )
 
 		/**
 		 * Callback function for once the reorder has been done
-		 *  @property dropcallback
+		 *  @property reorderCallback
 		 *  @type     function
 		 *  @default  null
 		 */
-		"dropCallback": null,
+		"reorderCallback": null,
 
 		/**
 		 * @namespace Information used for the mouse drag
@@ -495,7 +491,7 @@ var ColReorder = function( dt, opts )
 
 
 	/* Constructor logic */
-	this.s.dt = oDTSettings.oInstance.fnSettings();
+	this.s.dt = oDTSettings;
 	this.s.dt._colReorder = this;
 	this._fnConstruct();
 
@@ -637,7 +633,7 @@ ColReorder.prototype = {
 		/* Drop callback initialisation option */
 		if ( this.s.init.fnReorderCallback )
 		{
-			this.s.dropCallback = this.s.init.fnReorderCallback;
+			this.s.reorderCallback = this.s.init.fnReorderCallback;
 		}
 
 		/* Add event handlers for the drag and drop, and also mark the original column order */
@@ -736,13 +732,18 @@ ColReorder.prototype = {
 		/* When scrolling we need to recalculate the column sizes to allow for the shift */
 		if ( this.s.dt.oScroll.sX !== "" || this.s.dt.oScroll.sY !== "" )
 		{
-			this.s.dt.oInstance.fnAdjustColumnSizing();
+			this.s.dt.oInstance.fnAdjustColumnSizing( false );
 		}
 
 		/* Save the state */
 		this.s.dt.oInstance.oApi._fnSaveState( this.s.dt );
 
 		this._fnSetColumnIndexes();
+		
+		if ( this.s.reorderCallback !== null )
+		{
+			this.s.reorderCallback.call( this );
+		}
 	},
 
 
@@ -964,16 +965,16 @@ ColReorder.prototype = {
 			/* When scrolling we need to recalculate the column sizes to allow for the shift */
 			if ( this.s.dt.oScroll.sX !== "" || this.s.dt.oScroll.sY !== "" )
 			{
-				this.s.dt.oInstance.fnAdjustColumnSizing();
-			}
-
-			if ( this.s.dropCallback !== null )
-			{
-				this.s.dropCallback.call( this );
+				this.s.dt.oInstance.fnAdjustColumnSizing( false );
 			}
 
 			/* Save the state */
 			this.s.dt.oInstance.oApi._fnSaveState( this.s.dt );
+
+			if ( this.s.reorderCallback !== null )
+			{
+				this.s.reorderCallback.call( this );
+			}
 		}
 	},
 
@@ -1054,8 +1055,8 @@ ColReorder.prototype = {
 		this.dom.drag = $(origTable.cloneNode(false))
 			.addClass( 'DTCR_clonedTable' )
 			.append(
-				origThead.cloneNode(false).appendChild(
-					origTr.cloneNode(false).appendChild(
+				$(origThead.cloneNode(false)).append(
+					$(origTr.cloneNode(false)).append(
 						cloneCell[0]
 					)
 				)
@@ -1286,7 +1287,7 @@ ColReorder.defaults = {
  *  @type      String
  *  @default   As code
  */
-ColReorder.version = "1.1.2";
+ColReorder.version = "1.1.3";
 
 
 
