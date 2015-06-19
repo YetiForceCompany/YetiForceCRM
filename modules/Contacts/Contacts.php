@@ -1166,7 +1166,7 @@ function get_contactsforol($user_name)
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
+			//"HelpDesk" => array("vtiger_troubletickets"=>array("contact_id","ticketid"),"vtiger_contactdetails"=>"contactid"),
 			"Quotes" => array("vtiger_quotes"=>array("contactid","quoteid"),"vtiger_contactdetails"=>"contactid"),
 			"PurchaseOrder" => array("vtiger_purchaseorder"=>array("contactid","purchaseorderid"),"vtiger_contactdetails"=>"contactid"),
 			"SalesOrder" => array("vtiger_salesorder"=>array("contactid","salesorderid"),"vtiger_contactdetails"=>"contactid"),
@@ -1202,7 +1202,7 @@ function get_contactsforol($user_name)
 		$this->db->pquery('INSERT INTO vtiger_relatedlists_rb VALUES(?,?,?,?,?,?)', $params);
 
 		//Backup Contact-Trouble Tickets Relation
-		$tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE contact_id=?';
+		/*$tkt_q = 'SELECT ticketid FROM vtiger_troubletickets WHERE contact_id=?';
 		$tkt_res = $this->db->pquery($tkt_q, array($id));
 		if ($this->db->num_rows($tkt_res) > 0) {
 			$tkt_ids_list = array();
@@ -1215,7 +1215,7 @@ function get_contactsforol($user_name)
 		}
 		//removing the relationship of contacts with Trouble Tickets
 		$this->db->pquery('UPDATE vtiger_troubletickets SET contact_id=0 WHERE contact_id=?', array($id));
-
+		*/
 		//Backup Contact-PurchaseOrder Relation
 		$po_q = 'SELECT purchaseorderid FROM vtiger_purchaseorder WHERE contactid=?';
 		$po_res = $this->db->pquery($po_q, array($id));
