@@ -73,7 +73,7 @@
 		<td>&nbsp;</td>
         <td align="right" colspan="2">
             <input type="checkbox" title="{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}" name="save_map" id="save_map"/>&nbsp;{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}&nbsp;&nbsp;
-            <input type="text" name="save_map_as" id="save_map_as"/>
+            <input class="form-control" type="text" name="save_map_as" id="save_map_as"/>
 		</td>
 	</tr>
 </table>

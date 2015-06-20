@@ -24,9 +24,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			var element = jQuery(e.currentTarget);
 			var closestDiv = element.closest('div').next();
 			if(element.is(':checked')) {
-				closestDiv.show();
+				closestDiv.removeClass('hide');
 			} else {
-				closestDiv.hide();
+				closestDiv.addClass('hide');
 			}
 		})
 	},
@@ -40,9 +40,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			var element = jQuery(e.currentTarget);
 			var repeatUI = jQuery('#repeatUI');
 			if(element.is(':checked')) {
-				repeatUI.show();
+				repeatUI.removeClass('hide');
 			} else {
-				repeatUI.hide();
+				repeatUI.addClass('hide');
 			}
 		});
 	},
