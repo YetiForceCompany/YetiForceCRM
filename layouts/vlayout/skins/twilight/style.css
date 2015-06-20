@@ -3178,3 +3178,12 @@ table.listViewEntriesTable {
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
 	width: 30%;
 }
+.btn {
+    white-space: normal;
+}
+.valuesAssignedToRole {
+	border: 1px solid #adadad; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 6px;
+}

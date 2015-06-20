@@ -34,19 +34,19 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2 btn-group-vertical" role="group">
 				{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-						<button class="btn col-md-10 btn-info marginLeftZero" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+						<button class="btn btn-info" id="assignValue">{vtranslate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}</button>
 					{/if}	
-					<button class="btn col-md-10 btn-info marginLeftZero" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button><br><br>
-					<button class="btn col-md-10 btn-info marginLeftZero" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button><br><br>
-					<button class="btn btn-danger col-md-10 marginLeftZero"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button><br><br>
+					<button class="btn btn-info" id="addItem">{vtranslate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
+					<button class="btn btn-info" id="renameItem">{vtranslate('LBL_RENAME_VALUE',$QUALIFIED_MODULE)}</button>
+					<button class="btn btn-danger"  id="deleteItem">{vtranslate('LBL_DELETE_VALUE',$QUALIFIED_MODULE)}</button>
 				{/if}
-				<button class="btn btn-success col-md-10 marginLeftZero" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>
+				<button class="btn btn-success" disabled=""  id="saveSequence">{vtranslate('LBL_SAVE_ORDER',$QUALIFIED_MODULE)}</button><br><br>
 			</div>
-			<div class="col-md-4">
-				<br><br><br>
+			<div class="col-md-5">
+				<br>
 				<div><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<span>{vtranslate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_SELECT_AN_ITEM_TO_RENAME_OR_DELETE',$QUALIFIED_MODULE)}</div> 
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY',$QUALIFIED_MODULE)}</div>
@@ -56,13 +56,12 @@
 			{include file="CreateView.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>
 	</div>
-	<br>
 	{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 		<div class="tab-pane" id="AssignedToRoleLayout">
 			<div class="row">
-				<div class="col-md-2 textAlignRight" style="margin-top: 5px">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
-				<div class="col-md-7">
-					<select id="rolesList" class="select2 form-control" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+				<div class="col-md-2 textAlignRight">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
+				<div class="col-md-4">
+					<select id="rolesList" class="form-control" name="rolesSelected" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 						{foreach from=$ROLES_LIST item=ROLE}
 							<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'), $QUALIFIED_MODULE)}</option>
 						{/foreach}
