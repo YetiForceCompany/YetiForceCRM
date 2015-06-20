@@ -11,7 +11,7 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View {
 
 		$jsFileNames = array(
             'layouts.vlayout.modules.OSSPasswords.resources.gen_pass',
-            'layouts.vlayout.modules.OSSPasswords.resources.ZeroClipboard',
+            'libraries.jquery.ZeroClipboard.ZeroClipboard',
             'layouts.vlayout.modules.OSSPasswords.resources.zClipDetailView'
 		);
 

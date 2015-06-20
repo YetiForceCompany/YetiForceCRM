@@ -37,10 +37,10 @@ function showRelatedListPassword( record ) {
                     // show password
                     $('#'+record).html( response['password'] );
                     // change button title to 'Hide Password'
-                    $('a#btn_'+record+' i').attr( 'title', hidePassText );
+                    $('a#btn_'+record+' span').attr( 'title', hidePassText );
                     // change icon
-                    $('a#btn_'+record+' i').removeClass( 'icon-eye-open' );
-                    $('a#btn_'+record+' i').addClass( 'icon-eye-close' );
+                    $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-open' );
+                    $('a#btn_'+record+' span').addClass( 'glyphicon-eye-close' );
                     // show copy to clipboard button
                     $('a#copybtn_'+record).toggleClass('hide');
                 }
@@ -55,10 +55,10 @@ function showRelatedListPassword( record ) {
         // hide password
         $('#'+record).html( '**********' );
         // change button title to 'Show Password'
-        $('a#btn_'+record+' i').attr( 'title', showPassText );
+        $('a#btn_'+record+' span').attr( 'title', showPassText );
         // change icon
-        $('a#btn_'+record+' i').removeClass( 'icon-eye-close' );
-        $('a#btn_'+record+' i').addClass( 'icon-eye-open' );
+        $('a#btn_'+record+' span').removeClass( 'glyphicon-eye-close' );
+        $('a#btn_'+record+' span').addClass( 'glyphicon-eye-open' );
         // hide copy to clipboard button
         $('a#copybtn_'+record).toggleClass('hide');
     }
