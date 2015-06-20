@@ -23,7 +23,7 @@
 				<h5 class="panel-title" title="{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}">
 					<a data-toggle="collapse" data-parent="#settingsQuickWidgetContainer" href="#Settings_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($MENU->getLabel())}">
 						<span class="pull-left">
-							<img class="imageElement" title="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" />&nbsp;
+							<img class="imageElement" title="" alt="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" />&nbsp;
 					   </span>
 							{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}
 					</a>

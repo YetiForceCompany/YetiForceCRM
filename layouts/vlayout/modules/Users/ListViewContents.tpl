@@ -60,7 +60,7 @@
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="2%">
-					<input type="checkbox" id="listViewEntriesMainCheckBox" />
+					<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
 				</th>
 				<th width="5%" nowrap>
 					<a href="javascript:void(0);" class="listViewHeaderValues">{vtranslate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
@@ -76,7 +76,7 @@
 		</thead>
 		{if $MODULE_MODEL->isQuickSearchEnabled()}
         <tr>
-            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><i class="glyphicon glyphicon-search"></i></a></td><td></td>
+            <td><a class="btn btn-default" href="javascript:void(0);" onclick="Vtiger_List_Js.triggerListSearch()"><span class="glyphicon glyphicon-search"></span></a></td><td></td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 				<td>
 					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -117,7 +117,7 @@
 					{/foreach}
 					{if $IMAGE_DETAILS[0]['id'] eq null}
 						<div class='col-md-6'>
-							<img src="{vimage_path('DefaultUserIcon.png')}">
+							<img alt="" src="{vimage_path('DefaultUserIcon.png')}">
 						</div>
 					{/if}
 				</div>
@@ -130,16 +130,16 @@
 				{if $LISTVIEW_HEADER@last}
 					<div class="pull-right actions">
 						<span class="actionImages">
-							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><i title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></i></a>&nbsp;
+							<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-plus alignMiddle"></span></a>&nbsp;
 							{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>&nbsp;
+								<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 							{/if}
 							{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
                                                             {if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+                                                                <a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                                             {else}
-                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></i></a>&nbsp;
-                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+                                                                <a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
+                                                                <a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                                             {/if}
 							{/if}
 						</span>
