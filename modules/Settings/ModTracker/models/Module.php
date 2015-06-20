@@ -12,10 +12,11 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model {
 	public function getModTrackerModules($active = false) {
 		$adb = PearDatabase::getInstance();
 		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter');
-		$params = Array(0, 2, 1, $restrictedModules);
+		$params = Array(0, 2, 1);
+		$params = array_merge($params, $restrictedModules);
 		$sql = 'SELECT vtiger_tab.name,vtiger_tab.tabid, vtiger_modtracker_tabs.visible 
 				FROM vtiger_tab LEFT JOIN vtiger_modtracker_tabs ON vtiger_tab.tabid = vtiger_modtracker_tabs.tabid
-				WHERE vtiger_tab.presence IN (?,?) AND vtiger_tab.isentitytype = ? AND vtiger_tab.name NOT IN (?)';
+				WHERE vtiger_tab.presence IN (?,?) AND vtiger_tab.isentitytype = ? AND vtiger_tab.name NOT IN ('. generateQuestionMarks($restrictedModules) .')';
 		if($active){
 			$sql = ' AND vtiger_modtracker_tabs.visible = ?';
 			$params[] = 1;
