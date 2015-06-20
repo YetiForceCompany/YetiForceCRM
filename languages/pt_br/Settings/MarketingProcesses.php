@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_INFO' => 'Informação',
 	'LBL_VALUES' => 'Valores',
 	'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
-	'LBL_LEAD_STATUS' => 'Os status indicam final do trabalho com Leads',
+	'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
 	'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
 ];
 
