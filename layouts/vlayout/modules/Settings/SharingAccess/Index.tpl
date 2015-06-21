@@ -87,7 +87,7 @@
 						{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
 						<td class="">
 							{if $ACTION_MODEL->isModuleEnabled($MODULE_MODEL)}
-								<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
+								<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{$ACTION_MODEL->getName()|vtranslate:$QUALIFIED_MODULE}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
 							{/if}
 						</td>
 						{/foreach}
