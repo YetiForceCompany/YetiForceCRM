@@ -63,7 +63,7 @@ display: none;
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px 4px 0px 0px;background: white;">
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-5 padding10 marginLeftZero">
-                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
+                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
@@ -112,7 +112,7 @@ display: none;
                                                             <span class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </span>
@@ -308,7 +308,7 @@ display: none;
                         <span class="col-md-1">&nbsp;
                             {if $FIELD_MODEL->isEditable()}
                                 <a>
-                                    <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                    <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                 </a>
                             {/if}
                         </span>
@@ -499,7 +499,7 @@ display: none;
 <div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px;">
     <div class="row layoutBlockHeader">
         <div class="col-md-6 blockLabel padding10">
-            <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
+            <img class="alignMiddle" src="{vimage_path('drag.png')}" alt="" />&nbsp;&nbsp;
         </div>
         <div class="col-md-6 marginLeftZero">
             <div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
@@ -542,7 +542,7 @@ display: none;
             <span class="col-md-1">&nbsp;
                 {if $IS_SORTABLE}
                     <a>
-                        <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                        <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                     </a>
                 {/if}
             </span>

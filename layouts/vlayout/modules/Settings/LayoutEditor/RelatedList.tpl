@@ -55,7 +55,7 @@
 							<div class="relatedModule mainBlockTable marginBottom10px border1px" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}" style="border-radius: 4px 4px 0px 0px;background: white;">
                                 <div class="mainBlockTableHeader">
                                     <div class="relatedModuleLabel mainBlockTableLabel padding10 col-md-6 marginLeftZero">
-                                        <a><img src="{vimage_path('drag.png')}" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
+                                        <a><img src="{vimage_path('drag.png')}" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>&nbsp;&nbsp;
                                         <strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
                                     </div>
 			                        <div class="btn-toolbar pull-right">
