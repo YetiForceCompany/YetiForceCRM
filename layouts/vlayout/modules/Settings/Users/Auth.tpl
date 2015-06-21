@@ -38,7 +38,7 @@
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-md-8">
-							<input class="configField form-control" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
+							<input class="configField form-control" title="{vtranslate('LBL_LDAP_SERVER', $QUALIFIED_MODULE)}" type="text" name="server" data-type="ldap" value="{$CONFIG['server']}">
 						</div>
 					</div>
 					<div class="row">
@@ -46,7 +46,7 @@
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-md-8">
-							<input class="configField form-control" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
+							<input class="configField form-control" title="{vtranslate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 						</div>
 					</div>
 					<div class="row">
@@ -54,7 +54,7 @@
 							<label for="showMailIcon">{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}</label>
 						</div>
 						<div class="col-md-8">
-							<input class="configField form-control" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
+							<input class="configField form-control" title="{vtranslate('LBL_LDAP_PORT', $QUALIFIED_MODULE)}" type="text" name="port" data-type="ldap" value="{$CONFIG['port']}">
 						</div>
 					</div>
 					<div class="row">
