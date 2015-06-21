@@ -14,7 +14,7 @@
 		</div>
 		<div class="col-md-5">
 			<div class="pull-right">
-				<select class="select2 col-md-3 form-control" name="roleMenu">
+				<select class="select2 col-md-3 form-control" title="{vtranslate('LBL_MENU_TYPE', $QUALIFIED_MODULE)}" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{vtranslate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}</option>
 					{foreach item=ROLE key=KEY from=Settings_Roles_Record_Model::getAll()}
 						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{vtranslate($ROLE->getName())}</option>

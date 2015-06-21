@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_HOTKEY' => 'Hot key',
 	'LBL_NAME' => 'Name',
 	'LBL_TEST_IT' => 'Test it',
+	'LBL_MENU_TYPE' => 'Menu type',
 	
 	//Menu types
 	'LBL_MODULE' => 'Module',
