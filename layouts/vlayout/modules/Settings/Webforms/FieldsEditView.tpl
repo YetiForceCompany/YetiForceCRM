@@ -113,7 +113,7 @@
 								{/if}
 								{if !$FIELD_MODEL->isMandatory(true)}
 									<div class="pull-right actions">
-										<span class="actionImages"><a class="removeTargetModuleField"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+										<span class="actionImages"><a class="removeTargetModuleField"><span class="glyphicon glyphicon-remove-sign"></span></a></span>
 									</div>
 								{/if}
 							</td>

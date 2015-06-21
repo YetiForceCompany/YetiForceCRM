@@ -76,7 +76,7 @@ Settings_Vtiger_Edit_Js('Settings_Webforms_Edit_Js', {}, {
 		}
 		
 		webFormTargetFieldStructure+=	'<div class="pull-right actions">'+
-										'<span class="actionImages"><a class="removeTargetModuleField"><i class="glyphicon glyphicon-remove-sign"></i></a></span></div></td></tr>';
+										'<span class="actionImages"><a class="removeTargetModuleField"><span class="glyphicon glyphicon-remove-sign"></span></a></span></div></td></tr>';
 				
 		targetFieldsTable.append(webFormTargetFieldStructure);
 		targetFieldsTable.find('[data-name="fieldUI_'+selectedOptionName+'"]').html(UI);
