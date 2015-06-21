@@ -59,8 +59,8 @@
                                         <strong>{vtranslate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
                                     </div>
 			                        <div class="btn-toolbar pull-right">
-			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-ok icon-white"></i>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
-			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><i class="glyphicon glyphicon-remove icon-white"></i>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-success inActiveRelationModule {if !$MODULE_MODEL->isActive()}hide{/if}"><span class="glyphicon glyphicon-ok icon-white"></span>&nbsp;&nbsp;<strong>{vtranslate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>&nbsp;
+			                        	<button class="btn btn-danger activeRelationModule {if $MODULE_MODEL->isActive()}hide{/if}"><span class="glyphicon glyphicon-remove icon-white"></span>&nbsp;<strong>{vtranslate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>&nbsp;
 										<!-- <button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button> -->
 			                        </div>
                                 </div>
