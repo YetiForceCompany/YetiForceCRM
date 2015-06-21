@@ -22,7 +22,7 @@
 	<div class="row">
 		<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{vtranslate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
 		<div class="col-md-2 fieldValue">
-			<select class="chzn-select" id="modulePickList">
+			<select class="chzn-select" title="{vtranslate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}" id="modulePickList">
 				<optgroup>
 					{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
 						<option value="{$FIELD_MODEL->getId()}">{vtranslate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>

@@ -47,7 +47,7 @@
 			</div>
 			<div class="col-md-4">
 				<br><br><br>
-				<div><i class="glyphicon glyphicon-info-sign"></i>&nbsp;<span>{vtranslate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
+				<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span>{vtranslate('LBL_DRAG_ITEMS_TO_RESPOSITION',$QUALIFIED_MODULE)}</span></div>
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_SELECT_AN_ITEM_TO_RENAME_OR_DELETE',$QUALIFIED_MODULE)}</div> 
 				<br><div>&nbsp;&nbsp;{vtranslate('LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY',$QUALIFIED_MODULE)}</div>
 			</div>	
@@ -62,7 +62,7 @@
 			<div class="row">
 				<div class="col-md-2 textAlignRight" style="margin-top: 5px">{vtranslate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
 				<div class="col-md-7">
-					<select id="rolesList" class="select2 form-control" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+					<select id="rolesList" class="select2 form-control" title="{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}" name="rolesSelected" style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 						{foreach from=$ROLES_LIST item=ROLE}
 							<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'), $QUALIFIED_MODULE)}</option>
 						{/foreach}

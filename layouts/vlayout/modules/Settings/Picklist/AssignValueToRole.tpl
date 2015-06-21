@@ -27,7 +27,7 @@
 			<div class="form-group">
 				<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
 				<div class="controls">
-					<select multiple class="select2" id="assignValues" style="min-width: 220px" name="assign_values[]">
+					<select multiple class="select2" title="{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}" id="assignValues" style="min-width: 220px" name="assign_values[]">
 						{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							<option value="{$PICKLIST_KEY}">{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</option>
 						{/foreach}
@@ -38,7 +38,7 @@
 				<div class="form-group">	
 					<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 					<div class="controls">
-						<select class="rolesList select2" id="rolesSelected" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+						<select class="rolesList select2" id="rolesSelected" title="{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 							<option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
 							{foreach from=$ROLES_LIST item=ROLE}
 								<option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')}</option>

@@ -40,6 +40,7 @@ $languageStrings = [
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Para Apagar múltiplos itens aperte a tecla Ctrl enquanto seleciona os itens',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Valores atribuídos a uma função',
     'NO_PICKLIST_FIELDS'=> 'não existe nenhum campo Lista de Opções',
+	'LBL_NEW_VALUE' => 'New value',
 ];
 
 $jsLanguageStrings = [

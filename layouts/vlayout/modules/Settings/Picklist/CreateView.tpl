@@ -26,13 +26,13 @@
 		<div class="modal-body tabbable">
 			<div class="form-group">
 				<div class="control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
-				<div class="controls"><input type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+				<div class="controls"><input type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'FieldLabel']])} title="{vtranslate('LBL_NEW_VALUE', $QUALIFIED_MODULE)}" name="newValue"></div>
 			</div>
 			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 				<div class="form-group">	
 					<div class="control-label">{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 					<div class="controls">
-						<select class="rolesList" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+						<select class="rolesList" title="{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}" name="rolesSelected[]" multiple style="min-width: 220px" data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 							<option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
 							{foreach from=$ROLES_LIST item=ROLE}
 								<option value="{$ROLE->get('roleid')}">{$ROLE->get('rolename')}</option>
