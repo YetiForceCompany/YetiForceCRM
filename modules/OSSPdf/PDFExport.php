@@ -374,6 +374,7 @@ function zipFilesAndDownload($file_names, $archive_file_name, $file_path, $zipna
             header("Content-Disposition: attachment; filename=$archive_file_name");
             header("Pragma: no-cache");
             header("Expires: 0");
+			header('Content-Length: '.file_get_contents($archive_file_name));
             readfile("$archive_file_name");
             exit;
         } elseif ($_REQUEST['return_name'] == "yes") {

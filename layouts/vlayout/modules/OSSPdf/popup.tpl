@@ -15,26 +15,33 @@
 		<label class="muted pull-right marginRight10px">{$LBL_RELATED_MODULE}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-		<select id='relatedmodule' title="{$LBL_RELATED_MODULE}" class="form-control" onchange="newvalues();">
-			{foreach item=label key=name from=$RELMODULE}
-				<option value="{$name}">{$label}</option>
-			{/foreach}
-		</select>
+		<div class="row">
+			<div class="col-md-10">
+				<select id='relatedmodule' title="{$LBL_RELATED_MODULE}" class="form-control" onchange="newvalues();">
+					{foreach item=label key=name from=$RELMODULE}
+						<option value="{$name}">{$label}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
 	</td>
-
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{$LBL_RELATED_FIELDS}</label></td>
 	<td class="fieldValue wideWidthType">
-		<select id='select_relatedfield' title="{$LBL_RELATED_FIELDS}" class="form-control" style="width: 200px;">	
-			{foreach key=name item=single_field from=$RELATEDFIELDS}
-				<optgroup label="{$name}">
-				{foreach item=field from=$single_field}
-					<option value="{$field.name}">{$field.label}</option>
+		<div class="col-md-8 row">
+			<select id='select_relatedfield' title="{$LBL_RELATED_FIELDS}" class="form-control">	
+				{foreach key=name item=single_field from=$RELATEDFIELDS}
+					<optgroup label="{$name}">
+					{foreach item=field from=$single_field}
+						<option value="{$field.name}">{$field.label}</option>
+					{/foreach}
+					</optgroup>
 				{/foreach}
-				</optgroup>
-			{/foreach}
-		</select>
-		<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>&nbsp;
-		<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+			</select>
+		</div>
+		<div class="col-md-4 input-group">
+			<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>&nbsp;
+			<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+		</div>
 	</td>
 </tr>
 {/if}
@@ -44,25 +51,33 @@
 		<label class="muted pull-right marginRight10px">{$LBL_PRODUCT_MODULE}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-		<select title="{$LBL_PRODUCT_MODULE}" class="form-control" id='productmodule'>
-			{foreach item=label key=name from=$PRODMODULE}
-				<option value="{$name}">{$label}</option>
-			{/foreach}
-		</select>
-		<input type="hidden" value="" id="5" />
+		<div class="col-md-10 row">
+			<select title="{$LBL_PRODUCT_MODULE}" class="form-control" id='productmodule'>
+				{foreach item=label key=name from=$PRODMODULE}
+					<option value="{$name}">{$label}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="col-md-2 input-group">
+			<input type="hidden" value="" id="5" />
 		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="5" id="copy5" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+		</div>
 	</td>
 {else}
 <tr>
 {/if}
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate({$LBL_COMPANY_DETAILS}, 'OSSPdf')}</label></td>
 	<td class="fieldValue wideWidthType">
-		<select id='companydata' class="form-control" title="{vtranslate({$LBL_COMPANY_DETAILS}, 'OSSPdf')}" style="width: 200px;">
-			{foreach item=label key=name from=$COMPANY}
-				<option value="{$name}">{$label}</option>
-			{/foreach}
-		</select>
-		<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+		<div class="col-md-10 row">
+			<select id='companydata' class="form-control" title="{vtranslate({$LBL_COMPANY_DETAILS}, 'OSSPdf')}">
+				{foreach item=label key=name from=$COMPANY}
+					<option value="{$name}">{$label}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="col-md-2 input-group">
+			<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+		</div>
 	</td>
 </tr>
 {if $ChosenModule neq '25'}
@@ -71,27 +86,36 @@
 		<label class="muted pull-right marginRight10px">{$LBL_INSERTREPORT}</label>
 	</td>
 	<td class="fieldValue wideWidthType">
-			<select id='reportid' class="form-control" title="{$LBL_INSERTREPORT}" class="enter_in">
+		<div class="col-md-10 row">
+			<select id='reportid' class="form-control enter_in" title="{$LBL_INSERTREPORT}">
 					{foreach item=label key=name from=$REPORTS}
 				<option value="{$name}">{$label}</option>
 				{/foreach}
-			</select><br/>
-		<label style="margin: 0px 10px; float: left; color: #999999; display: block; font-size: 13px; font-weight: normal; line-height: 18px;">{$LBL_CHOSENMODULE}</label>
-		<input type="checkbox" id="ifchosen" title="{$LBL_CHOSENMODULE}" name="ifchosen" />
-		<input type="hidden" value="" id="7" />
-		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+			</select>
+		</div>
+		<div class="col-md-2 input-group">
+			<input type="hidden" value="" id="7" />
+			<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+		</div>
+		<div class="checkbox">
+			<label class="text-muted "><input type="checkbox" id="ifchosen" title="{$LBL_CHOSENMODULE}" name="ifchosen" />{$LBL_CHOSENMODULE}</label>
+		</div>
 	</td>
 {else}
 <tr>
 {/if}
 	<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{$LBL_SET_DEFAULT_TEMPLATE}</label></td>
 	<td class="fieldValue wideWidthType">
-			<select id="templates" class="form-control" title="{$LBL_SET_DEFAULT_TEMPLATE}"  style="width: 200px;">
-				<option name="start">{$LBL_SET_DEFAULT_TEMPLATE}</option>
-				{foreach key=name item=value from=$TEMPLATES}
-				<option name="{$name}">{$value}</option>
-				{/foreach}
-			</select>
+		<div class="row">
+			<div class="col-md-10">
+				<select id="templates" class="form-control" title="{$LBL_SET_DEFAULT_TEMPLATE}">
+					<option name="start">{$LBL_SET_DEFAULT_TEMPLATE}</option>
+					{foreach key=name item=value from=$TEMPLATES}
+					<option name="{$name}">{$value}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
 	</td>
 </tr>
 
