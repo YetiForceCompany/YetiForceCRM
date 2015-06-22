@@ -71,7 +71,7 @@ var app = {
 	 * @returns jquery object list which represents changed select elements
 	 */
 	changeSelectElementView : function(parent, view, viewParams){
-
+		var thisInstance = this;
 		var selectElement = jQuery();
 		if(typeof parent == 'undefined') {
 			parent = jQuery('body');
@@ -89,11 +89,14 @@ var app = {
 		if(parent.is('select.chzn-select')) {
 			selectElement = parent;
 		}
-		
+	
 		// generate random ID
-		if(selectElement.length > 0 && selectElement.attr("id").length > 0){
-			selectElement.attr('id', "sel" + this.generateRandomChar() + this.generateRandomChar() + this.generateRandomChar());
-		}
+		selectElement.each(function(){
+			if($(this).prop("id").length == 0){
+				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
+			}
+		});
+
 
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change',function(e){
