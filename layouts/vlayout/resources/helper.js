@@ -206,11 +206,10 @@ jQuery.Class("Vtiger_Helper_Js",{
 		}
 
 		var params = {
-			sticker: false,
 			hide: false,
 			delay: '3000',
 			type: 'error',
-			pnotify_history: false
+			styling: 'bootstrap3'
 		}
 
 		if(typeof customParams.type != 'undefined' && customParams.type != 'error'){
@@ -219,7 +218,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		if(typeof userParams != 'undefined'){
 			var params = jQuery.extend(params,userParams);
 		}
-		return jQuery.pnotify(params);
+		new PNotify(params);
 	},
     
     /* 

@@ -22,8 +22,6 @@
 		<meta name="robots" content="noindex" />
 		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
-		
-		{*<link rel="stylesheet" href="libraries/bootstrap/css/bootstrap.css" type="text/css" media="screen" />*}
 		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/chosen.bootstrap{$MINCSS}.css" type="text/css" media="screen" />
@@ -33,8 +31,7 @@
 		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" />
 		<link rel="stylesheet" href="libraries/jquery/select2/select2-bootstrap{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
-		<link rel="stylesheet" href="libraries/jquery/pnotify/jquery.pnotify.default.css"/>
-		<link rel="stylesheet" href="libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
+		<link rel="stylesheet" href="libraries/jquery/pnotify/pnotify.custom{$MINCSS}.css"/>
 		<link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" />
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
