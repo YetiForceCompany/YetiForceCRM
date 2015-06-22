@@ -52,7 +52,7 @@
 							</span>
 							<span class="col-md-1">
 								{if $MODULE_MODEL->isExportable()}
-									<a href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_MODEL->get('name')}"><i class="icon icon-download"></i></a>
+									<a href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_MODEL->get('name')}"><i class="glyphicon glyphicon-download"></i></a>
 								{/if}&nbsp;
 							</span>
 							<span class="col-md-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
