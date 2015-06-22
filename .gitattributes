@@ -1,13 +1,9 @@
 *.php text eol=lf 
-*.php text encoding=UTF-8
 *.js text eol=lf
-*.html text encoding=UTF-8
 *.css text eol=lf
-*.xhtml text encoding=UTF-8
 *.tpl text eol=lf
-*.sh text encoding=UTF-8
 *.properties text eol=lf
-*.htaccess text encoding=UTF-8
 *.txt text eol=lf
-*.md text encoding=UTF-8
-
+*.md text eol=lf
+*.htaccess text eol=lf
+*.service text eol=lf
