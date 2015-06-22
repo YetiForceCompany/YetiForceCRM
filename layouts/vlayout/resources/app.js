@@ -71,7 +71,7 @@ var app = {
 	 * @returns jquery object list which represents changed select elements
 	 */
 	changeSelectElementView : function(parent, view, viewParams){
-
+		var thisInstance = this;
 		var selectElement = jQuery();
 		if(typeof parent == 'undefined') {
 			parent = jQuery('body');
@@ -89,6 +89,14 @@ var app = {
 		if(parent.is('select.chzn-select')) {
 			selectElement = parent;
 		}
+	
+		// generate random ID
+		selectElement.each(function(){
+			if($(this).prop("id").length == 0){
+				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
+			}
+		});
+
 
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change',function(e){
@@ -457,7 +465,7 @@ var app = {
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
 		prettySelect: true,
-		useSuffix: "_chzn",
+		useSuffix: "_chosen",
 		usePrefix: "s2id_",
 	},
 
@@ -466,7 +474,7 @@ var app = {
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
 		prettySelect: true,
-		useSuffix: "_chzn",
+		useSuffix: "_chosen",
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
@@ -736,7 +744,7 @@ var app = {
 	 */
 	getChosenElementFromSelect : function(selectElement) {
 		var selectId = selectElement.attr('id');
-		var chosenEleId = selectId+"_chzn";
+		var chosenEleId = selectId+"_chosen";
 		return jQuery('#'+chosenEleId);
 	},
 
@@ -759,7 +767,7 @@ var app = {
 	 */
 	getSelectElementFromChosen : function(chosenElement) {
 		var chosenId = chosenElement.attr('id');
-		var selectEleIdArr = chosenId.split('_chzn');
+		var selectEleIdArr = chosenId.split('_chosen');
 		var selectEleId = selectEleIdArr['0'];
 		return jQuery('#'+selectEleId);
 	},
@@ -1079,6 +1087,13 @@ var app = {
 		}
 		selectElement.bootstrapSwitch(params);
 		return selectElement;
+	},
+	
+	generateRandomChar: function () {
+		var chars, newchar, rand;
+		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+		rand = Math.floor(Math.random() * chars.length);
+		return newchar = chars.substring(rand, rand + 1);
 	},
 }
 

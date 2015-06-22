@@ -671,10 +671,10 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.quickCreateModule(moduleName);
         });
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-			jQuery('#basicSearchModulesList_chzn').find('.chzn-results').css({'max-height':'350px','overflow-y':'scroll'});
+			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height':'350px','overflow-y':'scroll'});
 		}
 		else{
-			app.showScrollBar(jQuery('#basicSearchModulesList_chzn').find('.chzn-results'),
+			app.showScrollBar(jQuery('#basicSearchModulesList_chosen').find('.chzn-results'),
 			{
             height: '450px',
             railVisible: true,
