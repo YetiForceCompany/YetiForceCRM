@@ -202,16 +202,10 @@ jQuery.Class("Vtiger_Header_Js", {
         });
     },
 	registerHelpInfo : function(container){
-		if(typeof container == 'undefined')
+		if(typeof container == 'undefined'){
 			container = jQuery('form[name="QuickCreate"]');
-		container.find('.HelpInfoPopover').hover(
-			function () {
-				$(this).popover('show');
-			}, 
-			function () {
-				$(this).popover('show');
-			}
-		);
+		}
+		app.showPopoverElementView(container.find('.HelpInfoPopover'));
 	},
     handleQuickCreateData: function(data, params) {
         if (typeof params == 'undefined') {

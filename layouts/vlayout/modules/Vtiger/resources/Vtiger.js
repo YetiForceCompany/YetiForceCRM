@@ -382,6 +382,7 @@ var Vtiger_Index_Js = {
 				trigger: 'manual',
 				content: data,
 				animation: false,
+				html: true,
 				placement:  the_placement,
 				template: '<div class="popover popover-tooltip"><div class="arrow"></div><div class="popover-inner"><button name="vtTooltipClose" class="close" style="color:white;opacity:1;font-weight:lighter;position:relative;top:3px;right:3px;">x</button><h3 class="popover-title"></h3><div class="popover-content"><div></div></div></div></div>'
 			});

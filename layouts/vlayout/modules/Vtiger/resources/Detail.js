@@ -2339,14 +2339,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 	},
 	registerHelpInfo : function(){
 		var form = this.getForm();
-		form.find('.HelpInfoPopover').hover(
-			function () {
-				$(this).popover('show');
-			}, 
-			function () {
-				$(this).popover('show');
-			}
-		);
+		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
 	
 	registerRelatedModulesRecordCount : function(){
