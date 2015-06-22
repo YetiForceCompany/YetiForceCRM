@@ -1881,7 +1881,7 @@ class VT620_to_YT {
 		foreach($lang as $params)
 			$adb->pquery("insert  into `vtiger_language`(`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (?,?,?,?,?,?,?);", $params);
 		$adb->query("UPDATE vtiger_language_seq SET `id` = (SELECT count(*) FROM `vtiger_language`);");
-		$adb->pquery("UPDATE vtiger_version SET `current_version` = ? ;",array(1, $YetiForce_current_version));
+		$adb->pquery("UPDATE vtiger_version SET `current_version` = ? ;",[$YetiForce_current_version]);
 		//update tax in inventoryproductrel
 		$adb->query(" UPDATE `vtiger_inventoryproductrel` SET tax = 
 			  CASE
