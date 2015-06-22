@@ -23,7 +23,7 @@ class Vtiger_Zip extends dZip {
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Cache-Control: private",false);
 		header("Content-Type: application/zip");
-		header("Content-Disposition: attachment; filename=".basename($zipfileName).";" );
+		header("Content-Disposition: attachment; filename='".basename($zipfileName)."';" );
 		//header("Content-Transfer-Encoding: binary");
 
 		// For details on this workaround check here the ticket
