@@ -4,3 +4,6 @@
 *.css text eol=lf
 *.xhtml text eol=lf
 *.tpl text eol=lf
+*.sh text eol=lf
+*.properties text eol=lf
+*.htaccess text eol=lf
