@@ -3172,3 +3172,6 @@ table.listViewEntriesTable {
 .columnsSelect{
 	width: 100% !important;
 }
+.marginBottom5 {
+	margin-bottom: 5px;
+}
