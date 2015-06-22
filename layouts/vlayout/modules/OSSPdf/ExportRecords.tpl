@@ -46,14 +46,14 @@
             <span class="genHeaderSmall" style="color: red; text-decoration: underline;">{vtranslate('LBL_NO_TEMPLATES', 'OSSPdf')}</span>
         {else}
             <span class="genHeaderSmall" style="text-decoration: underline;">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}:</span>
-            <br />
-            <br />
             {if $FROM_DETAILVIEW eq 'yes'}
 
                 {foreach item=template from=$templates}
-                    <label class="checkbox">
-                        <input id="tpl" type="checkbox" name="template[]" value="{$template.id}" title="{$template.name}" {if $template.checked eq 1} CHECKED {/if}/> {$template.name}
-                    </label>
+                    <div class="checkbox">
+						<label>
+							<input id="tpl" type="checkbox" name="template[]" value="{$template.id}" title="{$template.name}" {if $template.checked eq 1} CHECKED {/if}/> {$template.name}
+						</label>
+					</div>
                 {/foreach}
             {/if}
         {/if}

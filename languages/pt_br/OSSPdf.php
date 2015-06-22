@@ -93,7 +93,7 @@ $languageStrings = [
     'CreateButtons' => 'Criar botões para o módulo',
     'LBL_INSERTREPORT' => 'Selecionar o ID do relatório',
     'Landscape' => 'Paisagem',
-    'LBL_CHOSENMODULE' => 'Somente para registros únicos:',
+    'LBL_CHOSENMODULE' => 'Somente para registros únicos',
     'page_break' => 'Adicionando nova página',
     'amount_in_words' => 'Quantidade total em palavras',
     'error' => 'A Informação no campo de restrição não foi salva corretamente => você não adicionou nenhuma condição e portanto não poderá edita-lo!',

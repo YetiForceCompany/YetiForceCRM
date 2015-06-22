@@ -259,7 +259,7 @@ function OSSCondition() {
             },
             this.showBetweenDateInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-                        html = '<div class="date"><input class="dateField bw row" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
+                        html = '<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
 
                 valPlace.children().remove();
                 valPlace.append(html);
@@ -288,7 +288,7 @@ function OSSCondition() {
                 var select = jQuery("<select></select>").attr({
                     name: "val",
                     "data-value": "value",
-                    class: "row select2"
+                    class: "row select2 form-control input-sm"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -311,7 +311,7 @@ function OSSCondition() {
                     multiple: "multiple",
                     name: "val",
                     "data-value": "value",
-                    class: "row select2"
+                    class: "form-control input-sm select2"
                 }).appendTo(valPlace);
 
                 var fieldInfo = jQuery(element).find('option:selected').data('info');
@@ -336,7 +336,7 @@ function OSSCondition() {
                         type: 'text',
                         name: 'val',
                         "data-value": "value",
-                        class: "row"
+                        class: "form-control input-sm"
 
                     }).appendTo(valPlace);
 
@@ -348,7 +348,7 @@ function OSSCondition() {
             this.showDataInput = function(element) {
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
                 var valElement = valPlace.find('[name="val"]'),
-                        html = '<div class="input-group row"><input class="col-md-9 dateField" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
+                        html = '<div class="input-group"><input class="form-control dateField input-sm" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
 
                 if (!jQuery(valElement).hasClass('dateField') || jQuery(valElement).hasClass('bw')) {
                     valPlace.children().remove();
@@ -360,7 +360,7 @@ function OSSCondition() {
             this.showTime = function(element, info) {
               //  console.log(info)
                 var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-                        html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
+                        html = '<div class="input-group time"><input type="text" data-format="' + info['time-format'] + '" class="timepicker-default form-control input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>';
 
                 valPlace.children().remove();
                 valPlace.append(html);

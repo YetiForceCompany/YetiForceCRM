@@ -93,7 +93,7 @@ $languageStrings = [
     'CreateButtons' => 'Create buttons for module',
     'LBL_INSERTREPORT' => 'Select report ID',
     'Landscape' => 'Landscape',
-    'LBL_CHOSENMODULE' => 'Only for single record:',
+    'LBL_CHOSENMODULE' => 'Only for single record',
     'page_break' => 'Adding new page',
     'amount_in_words' => 'Total amount in words',
     'error' => 'Information in the constraints field was not saved correctly => you did not add any conditions and you can`t edit them!',

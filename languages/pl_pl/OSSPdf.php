@@ -105,7 +105,7 @@ $languageStrings = [
 	'accept' => 'Zatwierdź',
 'CreateButtons'=>'Twórz przyciski dla modułu',
 'LBL_INSERTREPORT' => 'Wybierz raport',
-'LBL_CHOSENMODULE' => 'Tylko dla pojedynczego rekordu: ',
+'LBL_CHOSENMODULE' => 'Tylko dla pojedynczego rekordu',
 
 'AttachInfo' => 'Wybierz kto (użytkownik/grupa) powinien być przypisany do tworzonych dokumentów:',
 'default' => 'Domyślna opcja',

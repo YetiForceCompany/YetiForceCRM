@@ -9,30 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<style>
-ul > li.blockHeader {
-  padding:5px; 
-  cursor: pointer; 
-  text-align: center; 
-  font-weight: bold; 
-  float:left;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
- li.blockHeader:hover{
-  background: white;
-  color:black;
-}
-.blockHeader.active{
-  background: white;
-  color:black;
-}
-.active img{
-  background: #0065a6;
-}
-</style>
 {strip}
-
 <div class='editViewContainer'>
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -61,31 +38,20 @@ ul > li.blockHeader {
 	{if $BLOCK_LABEL eq 'HEADER' OR $BLOCK_LABEL eq 'CONTENT' OR $BLOCK_LABEL eq 'FOOTER'}
 		{if $BLOCK_LABEL eq 'HEADER'}
 		<div class="">
-			<ul id="tabs" class="nav" style="list-style-type: none;border-radius: 10px;">
-				<li class="{$BLOCK_LABEL} blockHeader font" style=" margin:0px 10px 0px 10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate({$BLOCK_LABEL}, {$MODULE})} &nbsp;&nbsp;
-				</li>
-				<li class="CONTENT blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >&nbsp;&nbsp;
-					{vtranslate('CONTENT', {$MODULE})} &nbsp;&nbsp;
-				</li>
-				<li class="FOOTER blockHeader font" style=" margin-right:10px;" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate('FOOTER', {$MODULE})} &nbsp;&nbsp;
-				</li>
-				<li class="CONDITIONS blockHeader font" style="" >
-					<img class="cursorPointer alignMiddle blockToggle pngh" alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" >
-					<img class="cursorPointer alignMiddle blockToggle hide pngs "  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}"  src="{vimage_path('arrowDown.png')}" >
-					&nbsp;&nbsp;
-					{vtranslate('CONDITIONS', {$MODULE})} &nbsp;&nbsp;
-				</li>
-			</ul>
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-primary" data-block="{$BLOCK_LABEL}">
+					<input type="checkbox" text="{vtranslate({$BLOCK_LABEL}, {$MODULE})}">{vtranslate({$BLOCK_LABEL}, {$MODULE})}
+				</label>
+				<label class="btn btn-primary" data-block="CONTENT">
+					<input type="checkbox" text="{vtranslate('CONTENT', {$MODULE})}">{vtranslate('CONTENT', {$MODULE})} 
+				</label>
+				<label class="btn btn-primary" data-block="FOOTER">
+					<input type="checkbox" text="{vtranslate('FOOTER', {$MODULE})}">{vtranslate('FOOTER', {$MODULE})}
+				</label>
+				<label class="btn btn-primary" data-block="CONDITIONS">
+					<input type="checkbox" text="{vtranslate('CONDITIONS', {$MODULE})}">{vtranslate('CONDITIONS', {$MODULE})}
+				</label>
+			</div>
 		</div>
 		{/if}
 		<table class="table table-bordered blockContainer showInlineTable">	
@@ -93,7 +59,7 @@ ul > li.blockHeader {
 			{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 				{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 				{if $FIELD_MODEL->get('uitype') neq "83"}
-					<td id="DOC_{$BLOCK_LABEL}" style="display: none;" class="{$BLOCK_LABEL} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->get('uitype') eq '20'} colspan="3"{/if}>
+					<td id="DOC_{$BLOCK_LABEL}" class="{$BLOCK_LABEL} hide fieldValue" {if $FIELD_MODEL->get('uitype') eq '19'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->get('uitype') eq '20'} colspan="3"{/if}>
 						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 					</td>
 				{/if}
@@ -103,7 +69,7 @@ ul > li.blockHeader {
 		{if $BLOCK_LABEL eq 'FOOTER'}
 			<table class="table table-bordered blockContainer showInlineTable">	
 				<tbody>
-					<td id="DOC_CONDITIONS" style="display: none;" class=" fieldValue">
+					<td id="DOC_CONDITIONS" class="hide fieldValue">
 						{include file=vtemplate_path('ConditionsEdit.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS }
 					</td>
 				</tbody>
@@ -176,21 +142,27 @@ ul > li.blockHeader {
 				
 				{if $FIELD_MODEL->get('uitype') neq "83"}
 					<td class="fieldValue" {if $FIELD_MODEL->getName() eq 'filename' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
-					{if $FIELD_MODEL->getName() eq 'filename'}
-						<div class="col-md-4 paddingLRZero">
-							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+						<div class="row">
+							<div class="col-md-10">
+								{if $FIELD_MODEL->getName() eq 'filename'}
+									<div class="row">
+										<div class="col-md-8">
+											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+										</div>
+										<div class="col-md-4">
+											<select id="addFieldName" class="form-control" title="{vtranslate('LBL_SELECT_DATE_TYPE', $MODULE)}">
+												<option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
+												<option value="#dd-mm-yyyy#">{vtranslate('Current date (dd-mm-yyyy)', $MODULE)}</option>
+												<option value="#mm-dd-yyyy#">{vtranslate('Current date (mm-dd-yyyy)', $MODULE)}</option>
+												<option value="#yyyy-mm-dd#">{vtranslate('Current date (yyyy-mm-dd)', $MODULE)}</option>
+											</select>
+										</div>
+									</div>
+								{else}
+									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+								{/if}
+							</div>
 						</div>
-						<div class="col-md-4">
-							<select id="addFieldName" class="form-control" style="width:180px;  padding-left:0px;margin-left: 10px;" title="{vtranslate('LBL_SELECT_DATE_TYPE', $MODULE)}">
-								<option value="">{vtranslate('LBL_SELECT_OPTION', $MODULE)}</option>
-								<option value="#dd-mm-yyyy#">{vtranslate('Current date (dd-mm-yyyy)', $MODULE)}</option>
-								<option value="#mm-dd-yyyy#">{vtranslate('Current date (mm-dd-yyyy)', $MODULE)}</option>
-								<option value="#yyyy-mm-dd#">{vtranslate('Current date (yyyy-mm-dd)', $MODULE)}</option>
-							</select>
-						</div>
-					{else}
-						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-					{/if}
 					</td>
 				{/if}
 
@@ -202,17 +174,22 @@ ul > li.blockHeader {
 			{if $BLOCK_LABEL eq 'LBL_FOOTER_HEADER'}
 			<td class="fieldLabel wideWidthType"><label class="muted pull-right marginRight10px">{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}</label></td>
 			<td class="fieldValue wideWidthType">
-				<select title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" id='select_default_field' class="form-control" style="width: 200px;">	
-					{foreach key=name item=single_field from=$DEFAULT_FIELDS}
-							<optgroup label="{$name}">
-						{foreach item=field from=$single_field}
-							<option value="{$field.name}">{vtranslate($field.label, 'OSSPdf')}</option>
+				<div class="col-md-8 row">
+					 <select title="{vtranslate('LBL_DEFAULT_FIELDS', 'OSSPdf')}" id='select_default_field' class="form-control">	
+						{foreach key=name item=single_field from=$DEFAULT_FIELDS}
+								<optgroup label="{$name}">
+							{foreach item=field from=$single_field}
+								<option value="{$field.name}">{vtranslate($field.label, 'OSSPdf')}</option>
+							{/foreach}
+								</optgroup>
 						{/foreach}
-							</optgroup>
-					{/foreach}
-				</select>
-				<input type="hidden" value="" id="id1" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>&nbsp;
-				<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+					</select>
+				</div>
+				<div class="col-md-4 input-group">
+					<input type="hidden" value="" id="id1"/><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="id1" id="copy-1"  title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+					<input type="hidden" value="" id="id2" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="id2" id="copy-2"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
+				</div>
+				
 			</td>
             {/if}
 			{/foreach}
@@ -225,62 +202,3 @@ ul > li.blockHeader {
 	{/if}		
 		{/foreach}
 {/strip}
-<script type="text/javascript">
-    jQuery(function(){
-        $('#OSSPdf_editView_fieldName_filename').css('width','400px');
-        
-        jQuery('#addFieldName').change(function(){
-            var fieldName = $('#OSSPdf_editView_fieldName_filename').val();
-            $('#OSSPdf_editView_fieldName_filename').val(fieldName+jQuery(this).val());
-            
-        });
-
-        $('.CONTENT.blockHeader').toggle(function(){
-            $('#DOC_CONTENT').show();
-            $('li.CONTENT').addClass('active');
-            $('li.CONTENT .pngs').show();
-            $('li.CONTENT .pngh').hide();
-        },function(){
-            $('#DOC_CONTENT').hide();
-            $('li.CONTENT').removeClass('active');
-            $('li.CONTENT .pngs').hide();
-            $('li.CONTENT .pngh').show();
-        });	
-        $('.FOOTER.blockHeader').toggle(function(){
-            $('#DOC_FOOTER').show();
-            $('li.FOOTER').addClass('active');
-            $('li.FOOTER .pngs').show();
-            $('li.FOOTER .pngh').hide();
-        },function(){
-            $('#DOC_FOOTER').hide();
-            $('li.FOOTER').removeClass('active');
-            $('li.FOOTER .pngs').hide();
-            $('li.FOOTER .pngh').show();
-        });	
-        $('.HEADER.blockHeader').toggle(function(){
-            $('#DOC_HEADER').show();
-            $('li.HEADER').addClass('active');
-            $('li.HEADER .pngs').show();
-            $('li.HEADER .pngh').hide();
-        },function(){
-            $('#DOC_HEADER').hide();
-            $('li.HEADER').removeClass('active');
-            $('li.HEADER .pngs').hide();
-            $('li.HEADER .pngh').show();
-            
-        });
-        $('.CONDITIONS.blockHeader').toggle(function(){
-            $('#DOC_CONDITIONS').show();
-            $('li.CONDITIONS').addClass('active');
-            $('li.CONDITIONS .pngs').show();
-            $('li.CONDITIONS .pngh').hide();
-        },function(){
-            $('#DOC_CONDITIONS').hide();
-            $('li.CONDITIONS').removeClass('active');
-            $('li.CONDITIONS .pngs').hide();
-            $('li.CONDITIONS .pngh').show();
-            
-        });	
-    });
-</script>
-

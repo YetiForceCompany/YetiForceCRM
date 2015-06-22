@@ -33,13 +33,25 @@ Vtiger_Edit_Js("OSSPdf_Edit_Js",{},{
             removePlugins: 'scayt'}
         );
     },
-    
+    editFormContents: function(editViewForm){
+		editViewForm.find('#addFieldName').on('change',function(){
+            var fieldName = $('#OSSPdf_editView_fieldName_filename').val();
+            $('#OSSPdf_editView_fieldName_filename').val(fieldName+jQuery(this).val());
+        });
+		editViewForm.find('.btn input[type="checkbox"]').on('change',function(){
+			element = jQuery(this).closest('label');
+			element.toggleClass('active');
+			blockId = 'DOC_'+element.data('block');
+			jQuery('#'+blockId).toggleClass('hide');
+		});
+	},
     /**
      * Register events
      */
 	registerEvents: function(){
 		this._super();
 		var editViewForm = this.getForm();
+        this.editFormContents( editViewForm );
         this.registerNewCkEditor( editViewForm );
 	}
 });

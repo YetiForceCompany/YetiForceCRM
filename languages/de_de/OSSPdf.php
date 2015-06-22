@@ -95,7 +95,7 @@ $languageStrings = [
     'CreateButtons' => 'Erstelle Schalter für Modul',
     'LBL_INSERTREPORT' => 'Berichts ID auswählen',
     'Landscape' => 'Landscape',
-    'LBL_CHOSENMODULE' => 'Nur für einen Datensatz:',
+    'LBL_CHOSENMODULE' => 'Nur für einen Datensatz',
     'page_break' => 'Seitenumbruch hinzufüen',
     'amount_in_words' => 'Gesamtsumme in Worten',
     'error' => 'Informationen im Einschränkungsfeld wurden nicht korrekt gespeichert => Sie haben keine Bedingungen hinzugefügt und können sie nicht bearbeiten!',
