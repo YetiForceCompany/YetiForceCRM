@@ -156,4 +156,3 @@ class VTEmailTask extends VTTask{
 		return $this->contents;
 	}
 }
-?>

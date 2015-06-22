@@ -232,4 +232,3 @@ class VTCreateEventTask extends VTTask{
 	}
 
 }
-?>

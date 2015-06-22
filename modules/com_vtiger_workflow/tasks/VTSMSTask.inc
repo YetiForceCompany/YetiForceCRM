@@ -8,5 +8,3 @@
  * All Rights Reserved.
  ************************************************************************************/
 require_once('modules/SMSNotifier/workflow/VTSMSTask.php');
-
-?>

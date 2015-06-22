@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-	abstract class VTEventHandler{
-		public abstract function handleEvent($name, $data);
-	}
-?>
+abstract class VTEventHandler {
+
+	public abstract function handleEvent($name, $data);
+}

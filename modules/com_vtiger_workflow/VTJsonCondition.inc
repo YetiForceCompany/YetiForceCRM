@@ -408,5 +408,3 @@ class VTJsonCondition {
 	}
 
 }
-
-?>

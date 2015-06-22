@@ -168,4 +168,3 @@
 			return new self($adb, $triggerName);
 		}
 	}
-?>

@@ -13,9 +13,10 @@ require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/Users/Users.php');
 
 class VTAddressBookTask extends VTTask {
+
 	public $executeImmediately = false;
-	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails', 
-		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails', 
+	public $tables = [ 'Contacts' => 'vtiger_contactsbookmails', 'OSSEmployees' => 'vtiger_ossemployeesbookmails',
+		'Accounts' => 'vtiger_accountbookmails', 'Leads' => 'vtiger_leadbookmails',
 		'Vendors' => 'vtiger_vendorbookmails'];
 
 	public function getFieldNames() {
@@ -38,11 +39,11 @@ class VTAddressBookTask extends VTTask {
 		$users = $name = '';
 		$table = $this->tables[$module];
 		$metainfo = Vtiger_Functions::getEntityModuleInfo($module);
-		$entityNames  = explode(',', $metainfo['fieldname']);
+		$entityNames = explode(',', $metainfo['fieldname']);
 		foreach ($entityNames as $entityName) {
-			$name .= ' '.$entity->get($entityName);
+			$name .= ' ' . $entity->get($entityName);
 		}
-		
+
 		$resultUsers = $db->query('SELECT id FROM vtiger_users;');
 		while ($user = $db->getSingleValue($resultUsers)) {
 			$current_user = $userInstance->retrieveCurrentUserInfoFromFile($user);
