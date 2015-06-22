@@ -1,11 +1,13 @@
-*.php text eol=lf encoding=UTF-8
-*.js text eol=lf encoding=UTF-8
-*.html text eol=lf encoding=UTF-8
-*.css text eol=lf encoding=UTF-8
-*.xhtml text eol=lf encoding=UTF-8
-*.tpl text eol=lf encoding=UTF-8
-*.sh text eol=lf encoding=UTF-8
-*.properties text eol=lf encoding=UTF-8
-*.htaccess text eol=lf encoding=UTF-8
-*.txt text eol=lf encoding=UTF-8
-*.md text eol=lf encoding=UTF-8
+*.php text eol=lf 
+*.php text encoding=UTF-8
+*.js text eol=lf
+*.html text encoding=UTF-8
+*.css text eol=lf
+*.xhtml text encoding=UTF-8
+*.tpl text eol=lf
+*.sh text encoding=UTF-8
+*.properties text eol=lf
+*.htaccess text encoding=UTF-8
+*.txt text eol=lf
+*.md text encoding=UTF-8
+
