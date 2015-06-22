@@ -21,6 +21,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="robots" content="noindex" />
 		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/chosen/bootstrap-chosen{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />

@@ -11,19 +11,20 @@
 {strip}
 	<input type="hidden" id="supportedImageFormats" value='{ZEND_JSON::encode(Settings_Vtiger_CompanyDetails_Model::$logoSupportedFormats)}' />
 	<div class="padding-left1per">
-		<div class="row widget_header">
-			<div class="col-md-8">
-				<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}</h3>
-				{if $DESCRIPTION}<span style="font-size:12px;color: black;"> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</span>{/if}
-			</div>
-			<div class="col-md-3">
-				<button id="addCustomField" class="btn btn-default pull-right" type="button">
-					<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
-				</button>
-			</div>
-			<div class="col-md-1">
-			
-			<button id="updateCompanyDetails" class="btn btn-default pull-right">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+		<div class="widget_header form-horizontal">
+			<div class="form-group marginbottomZero">
+				<div class="col-md-8">
+					<h3>{vtranslate('LBL_COMPANY_DETAILS', $QUALIFIED_MODULE)}{if $DESCRIPTION}<h6> - &nbsp;{vtranslate({$DESCRIPTION}, $QUALIFIED_MODULE)}</h6>{/if}</h3>
+				</div>
+				<div class="col-md-4 btn-group h3 marginbottomZero" role="group">
+					<div class="pull-right ">
+						<button id="addCustomField" class="btn btn-default" type="button">
+						<strong>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
+					</button>
+					<button id="updateCompanyDetails" class="btn btn-default">{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+					</div>
+					
+				</div>
 			</div>
 		</div>
 		<hr>
@@ -132,26 +133,32 @@
 		</table>
 		{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 	</form>
-
-	<div class="modal addCustomFieldModal hide">
-		<div class="modal-header contentsBackground" id="addCustomFieldContainer">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
-		</div>
-		<form class="form-horizontal addCustomBlockForm" method="post" action="index.php" >
-			<div class="modal-body">
-				<div class="form-group">
-					<input type="hidden" name="module" value="Vtiger" />
-					<input type="hidden" name="parent" value="Settings" />
-					<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
-					<div class="col-md-3 control-label" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
-					<div class="col-md-6 controls">
-						<input type="text" name="field name" id="fieldName" class="form-control" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
-					</div>
+	<div class="addCustomFieldModal">
+		<div class="modal hide fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">{vtranslate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h4>
 				</div>
+				<form class="form-horizontal addCustomBlockForm" method="post" action="index.php" >
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="hidden" name="module" value="Vtiger" />
+							<input type="hidden" name="parent" value="Settings" />
+							<input type="hidden" name="action" value="CompanyDetailsFieldSave" />
+							<div class="col-md-3 control-label" >{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-6 controls">
+								<input type="text" name="field name" id="fieldName" class="form-control" data-validation-engine="validate[required,custom[onlyLetterSp]]" />
+							</div>
+						</div>
+					</div>
+					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+				</form>
 			</div>
-			{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
-		</form>
+		</div>
 	</div>
+	</div>
+	
 {/strip}
 

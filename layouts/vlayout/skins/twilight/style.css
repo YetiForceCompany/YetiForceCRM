@@ -3158,9 +3158,6 @@ table.listViewEntriesTable {
   max-height: 200px;
   max-width: 250px; 
 }
-#addCustomFieldContainer{
-  width: 400px;
-}
 .navbar-inverse .navbar-nav > li > a {
 	color: #ffffff;
 }
