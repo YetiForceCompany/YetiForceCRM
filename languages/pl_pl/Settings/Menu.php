@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_HOTKEY' => 'Skrót klawiaturowy',
 	'LBL_NAME' => 'Nazwa',
 	'LBL_TEST_IT' => 'Sprawdź',
+	'LBL_MENU_TYPE' => 'Rodzja menu',
 	
 	//Menu types
 	'LBL_MODULE' => 'Moduł',

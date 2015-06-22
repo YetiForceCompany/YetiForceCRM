@@ -35,10 +35,10 @@
                         <td>{$item.projectmilestonename}</td>
                         <td>
                             <a data-toggle="modal" data-target="#step_1_modal_edit" class="pull-right edit_tpl">
-                                <i title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></i>
+                                <span title="{vtranslate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span>
                             </a>
                             <a href='index.php?module=OSSProjectTemplates&parent=Settings&action=DeleteTemplate&tpl_id={$key}&base_module={$BASE_MODULE}&parent_tpl_id={$PARENT_TPL_ID}&back_view=Edit' 
-                               class="pull-right marginRight10px"><i type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+                               class="pull-right marginRight10px"><span type="{vtranslate('REMOVE_TPL', $MODULE_NAME)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                         </td>
                     <tr>
                     {/foreach}

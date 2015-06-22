@@ -95,7 +95,7 @@
 										{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 											<div class="pull-right actions">
 												<span class="actionImages">
-													<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></i></a>
+													<a><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
 												</span>
 											</div>
 										{/foreach}
@@ -155,7 +155,7 @@
 								{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 									<div class="pull-right actions">
 										<span class="actionImages">
-											<a><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></i></a>
+											<a><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
 										</span>
 									</div>
 								{/foreach}
@@ -167,7 +167,7 @@
 			<div class="row">
 				<span class="col-md-4">
 					<button id="addMapping" class="btn btn-default addButton" type="button">
-						<i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
+						<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
 				<span class="col-md-8">

@@ -21,7 +21,7 @@
 						<span class="col-md-3">
 							<span class="pull-right">
 								<button class="btn btn-default addButton selectRelation" type="button" data-modulename="Products" >
-									<span class="icon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</span>
@@ -84,7 +84,7 @@
 						<span class="col-md-3">
 							<span class="pull-right">
 								<button class="btn btn-default addButton selectRelation" style="margin:0 auto;" type="button" data-modulename="Services" >
-									<span class="icon-zoom-in icon-2x" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-zoom-in" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</span>

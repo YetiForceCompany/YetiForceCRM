@@ -38,7 +38,7 @@
                         {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
                 {if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
                 {if ($IS_SELECT_BUTTON eq false) and ($IS_SEND_EMAIL_BUTTON eq false)}
-                    name="addButton"><i class="glyphicon glyphicon-plus"></i>
+                    name="addButton"><span class="glyphicon glyphicon-plus"></span>
                 {else}
                     > {* closing the button tag *}
                 {/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
@@ -75,7 +75,7 @@
         <span class="btn-group">
             <button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
             <button class="btn btn-default dropdown-toggle" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
-                <i class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></i>
+                <span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
             </button>
             <ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
                 <li>
@@ -155,7 +155,7 @@
                     <td nowrap class="{$WIDTHTYPE}">
                         <span class="currentStatus btn-group">
                             <span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}</span>
-                            <i title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></i>
+                            <span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
                             <ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
                                 {foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
                                     <li id="{$STATUS_ID}" data-status="{vtranslate($STATUS, $MODULE)}">
@@ -168,12 +168,12 @@
                     <td nowrap class="{$WIDTHTYPE}">
                         <div class="pull-right actions">
                             <span class="actionImages">
-                                <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
+                                <a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
                                 {if $IS_EDITABLE}
-                                    <a href='{$RELATED_RECORD->getEditViewUrl()}'><i title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></i></a>
+                                    <a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
                                 {/if}
                                 {if $IS_DELETABLE}
-                                    <a class="relationDelete"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+                                    <a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                 {/if}
                             </span>
                         </div>

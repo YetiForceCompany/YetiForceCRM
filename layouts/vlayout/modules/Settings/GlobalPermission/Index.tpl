@@ -32,10 +32,10 @@
 						<td>{$item['profilename']}</td>
 						<td>{$item['description']}</td>
 						<td class="textAlignCenter">
-							<input class="GP_SAVE" type="checkbox" data-globalactionid="1" {if $item['gp_1']== Settings_Profiles_Module_Model::IS_PERMITTED_VALUE}checked{/if}>
+							<input class="GP_SAVE" type="checkbox" data-globalactionid="1" title="{vtranslate('LBL_VIEW_ALL',$QUALIFIED_MODULE)}" {if $item['gp_1']== Settings_Profiles_Module_Model::IS_PERMITTED_VALUE}checked{/if}>
 						</td>
 						<td class="textAlignCenter">
-							<input class="GP_SAVE" type="checkbox" data-globalactionid="2" {if $item['gp_2']== Settings_Profiles_Module_Model::IS_PERMITTED_VALUE}checked{/if}>
+							<input class="GP_SAVE" type="checkbox" title="{vtranslate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}" data-globalactionid="2" {if $item['gp_2']== Settings_Profiles_Module_Model::IS_PERMITTED_VALUE}checked{/if}>
 						</td>
 					</tr>
 				{/foreach}

@@ -31,15 +31,15 @@
             <table>
             <tr>
                 <td>{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</td>
-				<td><input type="text" class="form-control" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></td>
+				<td><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></td>
             </tr>
             <tr>
                 <td>{vtranslate('time_to_notify', 'OSSMailScanner')}&nbsp;(min): &nbsp;</td>
-                <td><input type="text" name="time_to_notify" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></td>
+                <td><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></td>
             </tr>
         </table>
                 <div class="pull-right">
-                    <select class="col-md-1 form-control" name="page_num">
+                    <select class="col-md-1 form-control" name="page_num" title="{vtranslate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
                         {for $i=1 to $HISTORYACTIONLIST_NUM}
                             <option vlaue="{$i}">{$i}</option>

@@ -52,7 +52,7 @@ padding: 20px 20px 20px 20px;
 		
 	<div class="tab-pane active" id="layoutDashBoards">
 		<div class="btn-toolbar">
-			<button type="button" class="btn btn-default addBlockDashBoard"><i class="glyphicon glyphicon-plus"></i>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-default addBlockDashBoard"><span class="glyphicon glyphicon-plus"></span>&nbsp;{vtranslate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 		</div>
 		
 		<div id="moduleBlocks">
@@ -70,26 +70,26 @@ padding: 20px 20px 20px 20px;
 							
 							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
-									<button class="btn btn-default addCustomField" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;
+									<button class="btn btn-default addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 										<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
 								{if $SELECTED_MODULE_NAME eq 'Home'}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
-										<button class="btn btn-default addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><i class="glyphicon glyphicon-plus"></i>&nbsp;
+										<button class="btn btn-default addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
-										<button class="btn btn-default addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><i class="glyphicon glyphicon-plus"></i>&nbsp;
+										<button class="btn btn-default addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									<div class="btn-group actions">
 										<a href="javascript:void(0)" class="deleteCustomBlock" >
-											<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+											<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>
 									</div>
 								{/if}
@@ -112,7 +112,7 @@ padding: 20px 20px 20px 20px;
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-														<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 													</a>
 													<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -208,7 +208,7 @@ padding: 20px 20px 20px 20px;
 														</form>
 													</div>
 													<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-														<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 													</a>
 												</span>
 											</div>
@@ -231,7 +231,7 @@ padding: 20px 20px 20px 20px;
 												</div>
 												<span class="btn-group pull-right marginRight20 actions">
 													<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-														<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 													</a>
 													<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 														<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -327,7 +327,7 @@ padding: 20px 20px 20px 20px;
 														</form>
 													</div>
 													<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-														<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+														<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 													</a>
 												</span>
 											</div>
@@ -383,26 +383,26 @@ padding: 20px 20px 20px 20px;
 					
 					<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 						<div class="btn-group">
-							<button class="btn btn-default addCustomField hide" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;
+							<button class="btn btn-default addCustomField hide" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
 								<strong>{vtranslate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</div>
 						{if $SELECTED_MODULE_NAME eq 'Home'}
 							{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 							<div class="btn-group">
-								<button class="btn btn-default addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><i class="glyphicon glyphicon-plus"></i>&nbsp;
+								<button class="btn btn-default addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 									<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 								</button>
 							</div>
 							{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 							<div class="btn-group">
-								<button class="btn btn-default addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><i class="glyphicon glyphicon-plus"></i>&nbsp;
+								<button class="btn btn-default addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
 									<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 								</button>
 							</div>
 							<div class="btn-group actions">
 								<a href="javascript:void(0)" class="deleteCustomBlock" >
-									<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+									<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 								</a>
 							</div>
 						{/if}
@@ -509,7 +509,7 @@ padding: 20px 20px 20px 20px;
 					</div>
 					<span class="btn-group pull-right marginRight20 actions">
 						<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-							<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+							<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 						</a>
 						<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 							<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -591,7 +591,7 @@ padding: 20px 20px 20px 20px;
 								</div>
 							</form>
 						</div>
-						<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
+						<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
 					</span>
 				</div>
 			</div>

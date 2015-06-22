@@ -20,7 +20,7 @@
 			{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 			<button class="btn btn-default addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 					{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-				<i class="glyphicon glyphicon-plus"></i>&nbsp;
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;
 				<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
 			</button>
 			{/foreach}
