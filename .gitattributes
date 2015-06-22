@@ -1,0 +1,6 @@
+*.php text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.xhtml text eol=lf
+*.tpl text eol=lf
