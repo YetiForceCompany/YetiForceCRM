@@ -8,3 +8,4 @@
 *.properties text eol=lf encoding=UTF-8
 *.htaccess text eol=lf encoding=UTF-8
 *.txt text eol=lf encoding=UTF-8
+*.md text eol=lf encoding=UTF-8
