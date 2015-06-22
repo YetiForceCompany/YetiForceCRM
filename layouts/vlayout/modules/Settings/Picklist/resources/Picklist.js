@@ -160,11 +160,9 @@ var Settings_Picklist_Js = {
 
 			var pickListVaue = jQuery(e.currentTarget)
 			if(pickListVaue.hasClass('selectedCell')) {
-				console.log('elooo')
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
 				pickListVaue.find('.glyphicon-ok').remove();
 			} else {
-				console.log('22222')
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
 				pickListVaue.prepend('<span class="glyphicon glyphicon-ok pull-left"></span>');
 			}
