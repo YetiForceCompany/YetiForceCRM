@@ -91,7 +91,7 @@ var app = {
 		}
 		
 		// generate random ID
-		if(selectElement.prop("id").length > 0){
+		if(selectElement.length > 0 && selectElement.attr("id").length > 0){
 			selectElement.attr('id', "sel" + this.generateRandomChar() + this.generateRandomChar() + this.generateRandomChar());
 		}
 
