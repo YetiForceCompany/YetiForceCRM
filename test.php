@@ -25,3 +25,4 @@ session_save_path($rootDirectory.'cache/session');
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));
+test
