@@ -223,7 +223,7 @@ var app = {
 
 	showPopoverElementView : function(selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {trigger: 'hover', placement: 'top', delay: {show: 1000, hide: 100}};
+			params = {trigger: 'hover', placement: 'top', html: true};
 		}
 		if(selectElement.data('placement')){
 			params.placement = selectElement.data('placement');
