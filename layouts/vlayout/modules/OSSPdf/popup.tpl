@@ -33,8 +33,8 @@
 				</optgroup>
 			{/foreach}
 		</select>
-		<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>&nbsp;
-		<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
+		<input type="hidden" value="" id="3" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="3" id="copy3" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>&nbsp;
+		<input type="hidden" value="" id="4" /><button class="btn btn-warning pull-right marginRight10px" data-clipboard-target="4" id="copy4"  title="{vtranslate('Label', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 	</td>
 </tr>
 {/if}
@@ -50,7 +50,7 @@
 			{/foreach}
 		</select>
 		<input type="hidden" value="" id="5" />
-		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="5" id="copy5" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
+		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="5" id="copy5" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 	</td>
 {else}
 <tr>
@@ -62,7 +62,7 @@
 				<option value="{$name}">{$label}</option>
 			{/foreach}
 		</select>
-		<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><span class="icon-download-alt"></span> </button>
+		<input type="hidden" value="" id="6" /><button class="btn btn-info pull-right marginRight10px" data-clipboard-target="6" id="copy6" title="{vtranslate('Field','OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 	</td>
 </tr>
 {if $ChosenModule neq '25'}
@@ -79,7 +79,7 @@
 		<label style="margin: 0px 10px; float: left; color: #999999; display: block; font-size: 13px; font-weight: normal; line-height: 18px;">{$LBL_CHOSENMODULE}</label>
 		<input type="checkbox" id="ifchosen" title="{$LBL_CHOSENMODULE}" name="ifchosen" />
 		<input type="hidden" value="" id="7" />
-		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><span class="icon-download-alt"></span> </button>
+		<button class="btn btn-info pull-right marginRight10px" data-clipboard-target="7" id="copy7" title="{vtranslate('Field', 'OSSPdf')}"><span class="glyphicon glyphicon-download-alt"></span> </button>
 	</td>
 {else}
 <tr>

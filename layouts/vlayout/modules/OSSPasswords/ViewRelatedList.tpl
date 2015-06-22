@@ -117,7 +117,7 @@
 								</td><td nowrap>
 							<div class="pull-right actions"> 
                                <span class="actionImages">
-                                <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="icon-eye-open alignMiddle"></span></a>&nbsp;
+                                <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="glyphicon glyphicon-eye-open alignMiddle"></span></a>&nbsp;
 									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 									{if $IS_EDITABLE}
 										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
@@ -129,7 +129,7 @@
 							</div>
                             {* button for copying password to clipboard *}                    
                             <div class="pull-right">
-                                <a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="icon-download-alt alignMiddle"></span></a>&nbsp;
+                                <a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
                             </div>
 								</td>
 							{/if}
@@ -218,8 +218,8 @@ $(document).ready( function() {
                         // change button title to 'Hide Password'
                         $('a#btn_'+record+' i').attr( 'title', hidePassText );
                         // change icon
-                        $('a#btn_'+record+' i').removeClass( 'icon-eye-open' );
-                        $('a#btn_'+record+' i').addClass( 'icon-eye-close' );
+                        $('a#btn_'+record+' i').removeClass( 'glyphicon-eye-open' );
+                        $('a#btn_'+record+' i').addClass( 'glyphicon-eye-close' );
                         // show copy to clipboard button
                         $('a#copybtn_'+record).toggleClass('hide');
                     }
@@ -236,8 +236,8 @@ $(document).ready( function() {
             // change button title to 'Show Password'
             $('a#btn_'+record+' i').attr( 'title', showPassText );
             // change icon
-            $('a#btn_'+record+' i').removeClass( 'icon-eye-close' );
-            $('a#btn_'+record+' i').addClass( 'icon-eye-open' );
+            $('a#btn_'+record+' i').removeClass( 'glyphicon-eye-close' );
+            $('a#btn_'+record+' i').addClass( 'glyphicon-eye-open' );
             // hide copy to clipboard button
             $('a#copybtn_'+record).toggleClass('hide');
         }

@@ -3175,3 +3175,6 @@ table.listViewEntriesTable {
 .marginBottom5 {
 	margin-bottom: 5px;
 }
+.editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
+	width: 30%;
+}

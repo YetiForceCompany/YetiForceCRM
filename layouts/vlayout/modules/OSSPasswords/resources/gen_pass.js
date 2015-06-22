@@ -120,6 +120,7 @@ function showPassword( record ) {
                     var el = document.getElementById( "OSSPasswords_editView_fieldName_password" );
                     el.value = response['password'];
                     el.onchange();
+					$('#copy-button').removeClass('hide').show();
                 }
             },
             function(data,err){
@@ -132,7 +133,6 @@ function showPassword( record ) {
         
         // change buttons label
         $('#show-btn').text( hidePassText );
-        $('#copy-button').show();
     }
     else {
         document.getElementById( "OSSPasswords_editView_fieldName_password" ).value = '**********';
@@ -160,6 +160,7 @@ function showDetailsPassword( record ) {
                 if (response['success']) {
                     var el = document.getElementById( "detailPassword" );
                     el.innerHTML = response['password'];
+					$('#copy-button').removeClass('hide').show();
                 }
             },
             function(data,err){
@@ -169,7 +170,6 @@ function showDetailsPassword( record ) {
         
         // change buttons label
         $('#show-btn').text( hidePassText );
-        $('#copy-button').show();
     }
     else {
         document.getElementById( "detailPassword" ).innerHTML = '**********';
@@ -195,6 +195,7 @@ function showPasswordQuickEdit( record ) {
                 var el = document.getElementById( "detailPassword" );
                 el.innerHTML = response['password'];
                 $("input[name='password']").val( response['password'] );
+				 $('#copy-button').removeClass('hide').show();
             }            
         },
         function(data,err){
@@ -204,5 +205,4 @@ function showPasswordQuickEdit( record ) {
     
     // change buttons label
     $('#show-btn').text( hidePassText );
-    $('#copy-button').show();
 }
