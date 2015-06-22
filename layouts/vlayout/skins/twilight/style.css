@@ -3187,3 +3187,6 @@ table.listViewEntriesTable {
 	text-overflow: ellipsis;
 	padding: 6px;
 }
+table.dataTable .form-control {
+	width: 100% !important;
+}

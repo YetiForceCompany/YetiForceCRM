@@ -448,7 +448,7 @@ Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
                 var fieldsSelect2 = app.showSelect2ElementView(selectContainer, {
                         placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
                         closeOnSelect: true,
-                        maximumSelectionSize: 1
+                        maximumSelectionLength: 1
                 });
                 return selectContainer;
         }
