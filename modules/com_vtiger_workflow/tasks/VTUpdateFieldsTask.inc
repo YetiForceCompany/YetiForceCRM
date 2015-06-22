@@ -210,5 +210,3 @@ class VTUpdateFieldsTask extends VTTask {
     }
 
 }
-
-?>

@@ -122,5 +122,3 @@ class VTConditionalParser{
 		return $this->tokens[$this->pos - 1];
 	}
 }
-	
-?>

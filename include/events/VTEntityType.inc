@@ -83,5 +83,3 @@ class VTFieldType{
 	}
 	
 }
-
-?>

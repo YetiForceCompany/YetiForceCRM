@@ -19,4 +19,3 @@ class VTEntityMethodTask extends VTTask{
 		$emm->executeMethod($entityData, $this->methodName);
 	}
 }
-?>

@@ -26,4 +26,3 @@ class VTEmailRecipientsTemplate extends VTSimpleTemplate {
 		return $data['emailoptout'] == 0;
 	}
 }
-?>

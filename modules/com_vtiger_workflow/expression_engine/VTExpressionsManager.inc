@@ -44,5 +44,3 @@ class VTExpressionsManager{
 			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')",  'yesterday' => "get_date('yesterday')");
 	}
 }
-
-?>

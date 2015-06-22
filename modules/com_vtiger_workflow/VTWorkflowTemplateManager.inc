@@ -194,4 +194,3 @@ class VTWorkflowTemplateManager{
 class VTWorkflowTemplate{
 	
 }
-?>

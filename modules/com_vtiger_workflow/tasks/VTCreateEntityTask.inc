@@ -112,5 +112,3 @@ class VTCreateEntityTask extends VTTask {
 	}
 
 }
-
-?>
