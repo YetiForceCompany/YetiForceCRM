@@ -553,7 +553,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
 				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
 				closeOnSelect: true,
-				maximumSelectionSize: 6
+				maximumSelectionLength: 6
 			});
 			var footer = jQuery('.modal-footer', wizardContainer);
 

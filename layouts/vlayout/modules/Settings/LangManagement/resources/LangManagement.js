@@ -54,16 +54,16 @@ var Settings_Index_Js = {
 	},
 	initEditLang: function(tpl,position) {
 		var thisInstance = this;
-		app.showSelect2ElementView($(".LangManagement .active select.chzn-select"));
-		$(".LangManagement .active #langs_list").select2().on("change", function(e) {
+		element = $(".LangManagement .layoutContent .active #langs_list");
+		app.changeSelectElementView(element,'selectize',{plugins: ['remove_button']}).on("change", function(e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
         });
 		thisInstance.registerHoverCkEditor();
 		thisInstance.registerHelpInfo();
 		
-		$(".LangManagement .active #helpInfoView").on('change',function(e){Settings_Index_Js.saveView(e,position)})
-		$(".LangManagement .active #mods_list").select2().on("change", function(e) {
+		app.changeSelectElementView($(".LangManagement .active #helpInfoView"),'selectize',{plugins: ['remove_button']}).on('change',function(e){Settings_Index_Js.saveView(e,position)})
+		app.changeSelectElementView($(".LangManagement .layoutContent .active #mods_list"),'select2').on("change", function(e) {
 			e = jQuery(this).closest('.active');
 			Settings_Index_Js.LoadEditLang(e);
         });
@@ -105,7 +105,7 @@ var Settings_Index_Js = {
 	},
 	registerHelpInfo : function(){
 		var form = jQuery('.LangManagement');
-		form.find('.HelpInfoPopover').popover()
+		form.find('.HelpInfoPopover').popover({trigger: 'hover',html: 'true',})
 	},
 	/**
 	 * Function to register event for ckeditor
@@ -245,12 +245,14 @@ var Settings_Index_Js = {
 			title : app.vtranslate('LBL_AreYouSure'),
 			trigger : 'manual',
 			placement: 'left',
+			html: 'true',
 			content: '<div class="popover_block"><button class="btn btn-danger deleteItem">'+app.vtranslate('Delete')+'</button>   <button class="btn btn-success pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
 		}
 		var makeSureOptions = {
 			title : app.vtranslate('JS_ARE_YOU_SURE_TO_SET_AS_DEFAULT'),
 			trigger : 'manual',
 			placement: 'left',
+			html: 'true',
 			content: '<div class="popover_block"><button class="btn btn-danger setDefaultItem">'+app.vtranslate('LBL_YES')+'</button>   <button class="btn btn-success pull-right cancel">'+app.vtranslate('Cancel')+'</button></div>'
 		}
 		element.find('#deleteItemC').click(function(e) {
@@ -289,7 +291,7 @@ var Settings_Index_Js = {
 		var langs_fields = '';
 		$('#AddNewTranslationMondal input[name="langs"]').val(JSON.stringify(langs_list));
 		$.each(langs_list, function(key) {
-			langs_fields += '<div class="col-md-5 marginLeftZero"><label class="">'+langs_list[key]+':</label></div><div class="col-md-7"><input name="'+langs_list[key]+'" class="col-md-3" type="text" /></div>';
+			langs_fields += '<div class="form-group"><label class="col-md-4 control-label">'+langs_list[key]+':</label><div class="col-md-8"><input name="'+langs_list[key]+'" class="form-control" type="text" /></div></div>';
 		});
 		$('#AddNewTranslationMondal .add_translation_block').html(langs_fields);
 		var target = $(e.currentTarget);
@@ -304,7 +306,7 @@ var Settings_Index_Js = {
 			'prefix':$("#AddNewLangMondal input[name='prefix']").val()
 		});
 		if(SaveEvent.resp){
-			$('#lang_list table tbody').append('<tr data-prefix="'+SaveEvent.params.prefix+'"><td>'+SaveEvent.params.label+'</td><td>'+SaveEvent.params.name+'</td><td>'+SaveEvent.params.prefix+'</td><td class="textAlignCenter"><input type="checkbox" data-name="ac_user"></td><td class="textAlignCenter"><input type="checkbox" data-name="ac_admin"></td><td><button class="btn btn-danger marginLeftZero" data-toggle="confirmation" data-original-title="" id="deleteItemC">'+app.vtranslate('Delete')+'</button></td></tr>');
+			$('#lang_list table tbody').append('<tr data-prefix="'+SaveEvent.params.prefix+'"><td>'+SaveEvent.params.label+'</td><td>'+SaveEvent.params.name+'</td><td>'+SaveEvent.params.prefix+'</td><td class="textAlignCenter"><input type="checkbox" data-name="ac_user"></td><td class="textAlignCenter"><input type="checkbox" data-name="ac_admin"></td><td><button class="btn btn-danger" data-toggle="confirmation" data-original-title="" id="deleteItemC">'+app.vtranslate('Delete')+'</button></td></tr>');
 			var element = $('#lang_list tr[data-prefix='+SaveEvent.params.prefix+']')
 			Settings_Index_Js.initEvant(element);
 			$('#AddNewLangMondal').modal('hide');

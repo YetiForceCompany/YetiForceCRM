@@ -9,41 +9,42 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="row">
-	<div class="col-md-4 marginLeftZero">
-		<div class="pull-left pushDown2per marginLeftZero" >{vtranslate('Language',$QUALIFIED_MODULE)}:</div>
-		<div class="pull-left">
-			<select multiple="multiple" class="chzn-select col-md-12" id="langs_list">
-				{foreach from=$LANGS item=LANG key=ID}
-					<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
-				{/foreach}
-			</select>
-		</div>
-	</div>
-	<div class="col-md-4 marginLeftZero">
-		<div class="pull-left marginRight10px pushDown2per">{vtranslate('Module',$QUALIFIED_MODULE)}:</div>
-		<div class="pull-left">
-			<select class="chzn-select form-control mods_list" id="mods_list">
-				<optgroup label="{vtranslate('Modules',$QUALIFIED_MODULE)}">
-					{foreach from=$MODS['mods'] item=MOD key=ID}
-						<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
+<div class="">
+	<div class="form-horizontal">
+		<div class="form-group row">
+			<label for="langs_list" class="control-label col-md-1" >{vtranslate('Language',$QUALIFIED_MODULE)}:</label>
+			<div class="col-md-3">
+				<select multiple="multiple" class="form-control" id="langs_list">
+					{foreach from=$LANGS item=LANG key=ID}
+						<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
 					{/foreach}
-				</optgroup>
-				<optgroup label="{vtranslate('LBL_SYSTEM_SETTINGS','Vtiger')}">
-					{foreach from=$MODS['settings'] item=MOD key=ID}
-						<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
-					{/foreach}
-				</optgroup>
-			</select>
+				</select>
+			</div>
+			<label class="col-md-1 control-label">{vtranslate('Module',$QUALIFIED_MODULE)}:</label>
+			<div class="col-md-3">
+				<select class="form-control mods_list" id="mods_list">
+					<optgroup label="{vtranslate('Modules',$QUALIFIED_MODULE)}">
+						{foreach from=$MODS['mods'] item=MOD key=ID}
+							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
+						{/foreach}
+					</optgroup>
+					<optgroup label="{vtranslate('LBL_SYSTEM_SETTINGS','Vtiger')}">
+						{foreach from=$MODS['settings'] item=MOD key=ID}
+							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{vtranslate($MOD,$MOD)}</option>
+						{/foreach}
+					</optgroup>
+				</select>
+			</div>
+			<div class="checkbox col-md-2">
+				<label class="">
+					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{vtranslate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
+				</label>
+			</div>
+			<button class="btn btn-primary add_translation col-md-2 pull-right {if $REQUEST->get('lang') eq ''}hide{/if}">{vtranslate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
 		</div>
-	</div>
-	<div class="col-md-2 marginLeftZero">
-		<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">{vtranslate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
-	</div>
-	<div class="col-md-2">
-		<button class="btn btn-primary add_translation pull-right">{vtranslate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
 	</div>
 </div>
+<br>
 {if $DATA}
 <div class="">
 	<table class="table table-bordered table-condensed listViewEntriesTable" >
@@ -76,7 +77,7 @@
 								data-lang="{$lang}"
 								data-type="php"
 								name="{$lang_key}" 
-								class="translation {if $item == NULL}empty_value{/if}" 
+								class="translation form-control {if $item == NULL}empty_value{/if}" 
 								{if $item == NULL} placeholder="{vtranslate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
 								type="text" 
 								value ="{$item}" />
@@ -110,7 +111,7 @@
 								data-lang="{$lang}"
 								data-type="js"
 								name="{$lang_key}" 
-								class="translation {if $item == NULL}empty_value{/if}" 
+								class="translation form-control {if $item == NULL}empty_value{/if}" 
 								{if $item == NULL} placeholder="{vtranslate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if} 
 								type="text" 
 								value ="{$item}" />
