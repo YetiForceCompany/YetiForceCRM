@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="sidebarTitleBlock">
-	<h3 class="titlePadding themeTextColor unSelectedQuickLink cursorPointer"><a href="index.php?module=Vtiger&parent=Settings&view=Index">{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a></h3>
+	<h4 class="titlePadding themeTextColor unSelectedQuickLink cursorPointer"><a href="index.php?module=Vtiger&parent=Settings&view=Index">{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</a></h4>
 </div>
 <!--div>
 	<input class='input-medium' type='text' name='settingsSearch' placeholder={vtranslate("LBL_SEARCH_SETTINGS_PLACEHOLDER", $QUALIFIED_MODULE)} >
@@ -23,7 +23,7 @@
 				<h5 class="panel-title" title="{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}">
 					<a data-toggle="collapse" data-parent="#settingsQuickWidgetContainer" href="#Settings_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($MENU->getLabel())}">
 						<span class="pull-left">
-							<img class="imageElement" title="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" />&nbsp;
+							<img class="imageElement" title="" alt="" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{if $SELECTED_MENU->get('blockid') eq $MENU->get('blockid') && !empty($SELECTED_FIELDID) }{vimage_path('downArrowWhite.png')}{else}{vimage_path('rightArrowWhite.png')}{/if}" />&nbsp;
 					   </span>
 							{vtranslate($MENU->getLabel(), $QUALIFIED_MODULE)}
 					</a>

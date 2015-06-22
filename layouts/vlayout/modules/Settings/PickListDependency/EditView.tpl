@@ -25,7 +25,7 @@
 					<div class="form-group ">
 						<label class="col-md-2 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-5 controls">
-							<select name="sourceModule" class="select2 form-control marginLeftZero">
+							<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
 									{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 										{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 										<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
@@ -45,7 +45,7 @@
 					<div class="">
 						<label class="col-md-2 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-4 controls">
-								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
 										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
@@ -56,7 +56,7 @@
 					<div class="form-group marginLeftZero">
 						<label class="col-md-2 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 						<div class="col-md-4 controls">
-								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
 										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>

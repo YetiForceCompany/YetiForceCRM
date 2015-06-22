@@ -25,7 +25,7 @@
 			<span class="btn-group pull-right actions">
 				{if $FIELD_MODEL->isEditable()}
 				<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-					<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+					<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 				</a>
 				<div class="basicFieldOperations pull-right hide" style="width : 250px;">
 					<form class="form-horizontal fieldDetailsForm" method="POST">
@@ -85,7 +85,7 @@
 										<div class="input-group time">
 											<input type="text" class="input-sm" data-toregister="time" data-format="{$USER_MODEL->get('hour_format')}" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"  value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
 											<span class="input-group-addon cursorPointer">
-												<i class="glyphicon glyphicon-time"></i>
+												<span class="glyphicon glyphicon-time"></span>
 											</span>
 										</div>
 									{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
@@ -93,7 +93,7 @@
 											{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 											<input type="text" class="input-medium" name="fieldDefaultValue" data-toregister="date" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"  data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'
 												value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
-											<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+											<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 										</div>
 									{elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
 										<div class="input-group">
@@ -122,7 +122,7 @@
 					{/if}
 					{if $FIELD_MODEL->isCustomField() eq 'true'}
 						<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$FIELD_MODEL->get('id')}">
-							<i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
+							<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
 					{/if}
 				</span>
 			</div>

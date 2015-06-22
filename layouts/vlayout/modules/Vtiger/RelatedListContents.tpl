@@ -62,7 +62,7 @@
 								<span class="actionImages">
 									{if $RELATED_MODULE_NAME eq 'Calendar'}
 										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') neq 'Held' && $RELATED_RECORD->get('taskstatus') neq 'Completed'}
-											<a class="markAsHeld"><i title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></i></a>&nbsp;
+											<a class="markAsHeld"><span title="{vtranslate('LBL_MARK_AS_HELD', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span></a>&nbsp;
 										{/if}
 										{if $IS_EDITABLE && $RELATED_RECORD->get('taskstatus') eq 'Held'}
 											<a class="holdFollowupOn"><span title="{vtranslate('LBL_HOLD_FOLLOWUP_ON', "Events")}" class="icon-flag alignMiddle"></span></a>&nbsp;
@@ -77,7 +77,7 @@
 										{if $RELATED_MODULE_NAME eq 'PriceBooks'}
 											<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 											   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
-												<i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></i>
+												<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
 											</a>
 										{elseif $RELATED_MODULE_NAME eq 'Calendar'}
 											{if isPermitted($RELATED_MODULE->get('name'), 'EditView', $RELATED_RECORD->getId()) eq 'yes'}

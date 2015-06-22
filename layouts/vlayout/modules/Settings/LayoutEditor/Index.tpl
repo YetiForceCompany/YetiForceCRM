@@ -45,7 +45,7 @@ display: none;
                     {if $IS_SORTABLE}
                         <div class="btn-toolbar">
                             <button class="btn btn-default addButton addCustomBlock" type="button">
-                                <i class="glyphicon glyphicon-plus"></i>&nbsp;
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;
                                 <strong>{vtranslate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
                             <span class="pull-right">
@@ -63,7 +63,7 @@ display: none;
                             <div id="block_{$BLOCK_ID}" class="editFieldsTable block_{$BLOCK_ID} marginBottom10px border1px {if $IS_BLOCK_SORTABLE} blockSortable{/if}" data-block-id="{$BLOCK_ID}" data-sequence="{$BLOCK_MODEL->get('sequence')}" style="border-radius: 4px 4px 0px 0px;background: white;">
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-5 padding10 marginLeftZero">
-                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
+                                        <img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
                                         <strong>{vtranslate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 marginLeftZero" style="float:right !important;"><div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
@@ -77,12 +77,12 @@ display: none;
                                             {if $BLOCK_MODEL->isActionsAllowed()}
                                                 <div class="btn-group"><button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-                                                        <i class="caret"></i>
+                                                        <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu pull-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
-                                                                <i class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></i>&nbsp;
+                                                                <span class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
                                                                 {vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                                                             </a>
                                                         </li>
@@ -112,7 +112,7 @@ display: none;
                                                             <span class="col-md-1">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </span>
@@ -122,7 +122,7 @@ display: none;
                                                             <span class="btn-group pull-right actions">
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                                                                        <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                                                                        <span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
                                                                     </a>
                                                                     <div class="basicFieldOperations pull-right hide" style="width : 250px;">
                                                                         <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -203,7 +203,7 @@ display: none;
                                                             <div class="input-group time">
                                                                 <input type="text" class="input-sm form-control" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
                                                                 <span class="input-group-addon cursorPointer">
-                                                                    <i class="glyphicon glyphicon-time"></i>
+                                                                    <span class="glyphicon glyphicon-time"></span>
                                                                 </span>
                                                             </div>
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "date"}
@@ -212,7 +212,7 @@ display: none;
                                                                 <input type="text" class="form-control" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'
                                                                        value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
                                                                 <span class="input-group-addon">
-                                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                                    <span class="glyphicon glyphicon-calendar"></span>
                                                                 </span>
                                                             </div>
                                                         {elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
@@ -245,7 +245,7 @@ display: none;
 													<span style="margin-left: 26px;display: block;">
 													<span class="input-group">
 														<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-														<span class="input-group-addon"><i class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+														<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 													</span></span>
 												</span>
 											{/if}
@@ -286,7 +286,7 @@ display: none;
                             {/if}
                             {if $FIELD_MODEL->isCustomField() eq 'true'}
                                 <a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$FIELD_MODEL->get('id')}">
-                                    <i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+                                    <span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
                                 </a>
                             {/if}
                         </span>
@@ -308,7 +308,7 @@ display: none;
                         <span class="col-md-1">&nbsp;
                             {if $FIELD_MODEL->isEditable()}
                                 <a>
-                                    <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                    <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                 </a>
                             {/if}
                         </span>
@@ -322,7 +322,7 @@ display: none;
                             <span class="btn-group pull-right actions">
                                 {if $FIELD_MODEL->isEditable()}
                                     <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                                        <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                                        <span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
                                     </a>
                                     <div class="basicFieldOperations pull-right hide" style="width : 250px;">
                                         <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -402,7 +402,7 @@ display: none;
                             <div class="input-group time">
                                 <input type="text" class="input-sm form-control" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'/>
                                 <span class="input-group-addon cursorPointer">
-                                    <i class="glyphicon glyphicon-time"></i>
+                                    <span class="glyphicon glyphicon-time"></span>
                                 </span>
                             </div>
                         {elseif $FIELD_MODEL->getFieldDataType() eq "date"}
@@ -411,7 +411,7 @@ display: none;
                                 <input type="text" class="form-control" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{ZEND_JSON::encode($FIELD_INFO)}'
                                        value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
                                 <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-calendar"></i>
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         {elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
@@ -438,7 +438,7 @@ display: none;
 					{vtranslate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}&nbsp;
 					<div class="input-group">
 						<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-						<span class="input-group-addon"><i class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></i></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{vtranslate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 					</div>
 				</div>
 			{/if}
@@ -479,7 +479,7 @@ display: none;
 {/if}
 {if $FIELD_MODEL->isCustomField() eq 'true'}
     <a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$FIELD_MODEL->get('id')}">
-        <i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i>
+        <span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
     </a>
 {/if}
 </span>
@@ -499,7 +499,7 @@ display: none;
 <div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px;">
     <div class="row layoutBlockHeader">
         <div class="col-md-6 blockLabel padding10">
-            <img class="alignMiddle" src="{vimage_path('drag.png')}" />&nbsp;&nbsp;
+            <img class="alignMiddle" src="{vimage_path('drag.png')}" alt="" />&nbsp;&nbsp;
         </div>
         <div class="col-md-6 marginLeftZero">
             <div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
@@ -511,12 +511,12 @@ display: none;
                 <div class="btn-group">
                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <strong>{vtranslate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
-                        <i class="caret"></i>
+                        <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu pull-right">
                         <li class="blockVisibility" data-visible="1" data-block-id="">
                             <a href="javascript:void(0)">
-                                <i class="glyphicon glyphicon-ok"></i>&nbsp;{vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+                                <span class="glyphicon glyphicon-ok"></span>&nbsp;{vtranslate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                             </a>
                         </li>
                         <li class="inActiveFields">
@@ -542,7 +542,7 @@ display: none;
             <span class="col-md-1">&nbsp;
                 {if $IS_SORTABLE}
                     <a>
-                        <img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                        <img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                     </a>
                 {/if}
             </span>
@@ -551,7 +551,7 @@ display: none;
                 <span class="btn-group pull-right actions">
                     {if $IS_SORTABLE}
                         <a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></i>
+                            <span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
                         </a>
                         <div class="basicFieldOperations hide pull-right" style="width: 250px;">
                             <form class="form-horizontal fieldDetailsForm" method="POST">
@@ -624,7 +624,7 @@ display: none;
                             </form>
                         </div>
                     {/if}
-                    <a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><i class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></i></a>
+                    <a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
                 </span>
             </div>
         </div>

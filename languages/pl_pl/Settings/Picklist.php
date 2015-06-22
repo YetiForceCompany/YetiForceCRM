@@ -41,6 +41,7 @@ $languageStrings = [
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Aby usunąć kilka pozycji przytrzymaj klawisz Ctrl podczas wybierania pozycji w dół',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Wartości przypisane do roli',
     'NO_PICKLIST_FIELDS'=> 'nie mają żadnych pól słownikowych',
+	'LBL_NEW_VALUE' => 'Nowa wartość',
 ];
 
 $jsLanguageStrings = [

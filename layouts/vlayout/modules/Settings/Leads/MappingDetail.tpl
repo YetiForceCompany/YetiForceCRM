@@ -47,7 +47,7 @@
 									{foreach item=LINK_MODEL from=$MODULE_MODEL->getMappingLinks()}
 										<div class="pull-right actions">
 											<span class="actionImages">
-												<a onclick={$LINK_MODEL->getUrl()}><i title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+												<a onclick={$LINK_MODEL->getUrl()}><span title="{vtranslate($LINK_MODEL->getLabel(), $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											</span>
 										</div>
 									{/foreach}

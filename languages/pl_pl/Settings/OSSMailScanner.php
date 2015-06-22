@@ -14,6 +14,7 @@ $languageStrings = [
 	'Mail Scanner' => 'Skaner mailowy',
 	
 	'LBL_VIEW_LOGS' => 'Poczta logi',
+    'LBL_PAGE_NUMBER' => 'Przejdź do strony numer',
     
 ];
 
