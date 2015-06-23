@@ -1,4 +1,7 @@
-﻿.clearfix {
+﻿@media print {
+	.noprint { display:none; }
+}
+.clearfix {
   *zoom: 1;
 }
 .clearfix:before,
