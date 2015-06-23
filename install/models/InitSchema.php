@@ -1,4 +1,5 @@
 <?php
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -14,7 +15,7 @@ class Install_InitSchema_Model {
 	protected $migration_schema = 'install/migrate_schema/';
 	protected $db = false;
 
-	function __construct($db) {
+	function __construct($db = '') {
 		$this->db = $db;
 	}
 
@@ -88,7 +89,7 @@ class Install_InitSchema_Model {
 
 		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_users SET date_format = ?, time_zone = ?, first_name = ?, last_name = ?, email1 = ?, accesskey = ?, language = ?", array($userDateFormat, $userTimeZone, $userFirstName, $userLastName, $adminEmail, vtws_generateRandomAccessKey(16), $_SESSION['default_language']));
-		
+
 		$newUser = new Users();
 		$newUser->retrieve_entity_info(1, 'Users');
 		$newUser->change_password('admin', $adminPassword, false);
