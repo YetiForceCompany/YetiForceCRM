@@ -116,12 +116,22 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
+			'~/libraries/bootstrap3/css/bootstrap.css',
+			'~/libraries/jquery/chosen/chosen.css',
+			'~/libraries/jquery/chosen/chosen.bootstrap.css',
+			'~/libraries/jquery/jquery-ui/jquery-ui.css',
+			'~/libraries/jquery/selectize/css/selectize.bootstrap3.css',
+			'~/libraries/jquery/select2/select2.css',
+			'~/libraries/jquery/select2/select2-bootstrap.css',
+			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~/libraries/jquery/pnotify/pnotify.custom.css',
+			'~/libraries/jquery/datepicker/css/datepicker.css',
+			'~/layouts/vlayout/resources/styles.css',
 			'~/libraries/jquery/timepicker/jquery.timepicker.css',
 			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
-			//'~/layouts/vlayout/skins/glabal_style.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;
 	}
 
