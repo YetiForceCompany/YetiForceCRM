@@ -490,22 +490,17 @@ var app = {
 		prettySelect: true,
 		useSuffix: "_chosen",
 		usePrefix: "s2id_",
-		showOneMessage: true,
-		maxErrorsPerField: 1,
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field,errorMsg) {
 			var block = field.closest('.blockContainer');
 			if (block.find('tbody').is(":hidden")) {
 				block.find('.blockToggle[data-mode="hide"]').click();
 			}
-			console.log(field.data('title'))
-			console.log(errorMsg)
 			if(typeof field.data('title') == 'undefined'){
 				var title = field.attr('title');
 				field.attr('title', title + ' - ' + errorMsg);
 				field.attr('data-title',title);
 			}
-			
 		},
 	},
 
