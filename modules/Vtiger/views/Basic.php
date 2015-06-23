@@ -106,6 +106,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'modules.Vtiger.resources.Mobile',
 			'modules.Settings.DataAccess.resources.SaveResult',
 		);
+		if(vglobal('javascriptLimited')){
+			$jsFileNames[] = 'libraries.bootstrap3.dist.js.bootstrap-multiselect';
+		}
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances,$jsScriptInstances);
@@ -120,6 +123,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
 			//'~/layouts/vlayout/skins/glabal_style.css',
 		);
+		if(vglobal('javascriptLimited')){
+			$cssFileNames[] = 'libraries/bootstrap3/dist/css/bootstrap-multiselect.min.css';
+		}
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 		return $headerCssInstances;
