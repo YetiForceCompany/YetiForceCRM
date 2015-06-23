@@ -7,3 +7,4 @@
 *.md text eol=lf
 *.htaccess text eol=lf
 *.service text eol=lf
+*.html text eol=lf
