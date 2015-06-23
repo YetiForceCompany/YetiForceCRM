@@ -28,8 +28,8 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model {
 	static public function getBlockedIP() {		
 		$db = PearDatabase::getInstance();
 		$bruteforceSettings = self::getBruteForceSettings();
-		$attempsNumber = $bruteforceSettings[0];
-		$blockTime = $bruteforceSettings[1];
+		$attempsNumber = $bruteforceSettings['attempsnumber'];
+		$blockTime = $bruteforceSettings['timelock'];
 		$now = date("Y-m-d H:i:s");
 
 		$query = "SELECT  COUNT(*) AS COUNT, user_ip, GROUP_CONCAT(DISTINCT(user_name)), login_time, GROUP_CONCAT(DISTINCT(browser))"
