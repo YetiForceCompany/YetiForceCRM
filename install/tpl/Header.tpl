@@ -17,18 +17,18 @@
 		<link REL="SHORTCUT ICON" HREF="../layouts/vlayout/skins/images/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.min.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/jquery/jquery-ui/css/custom-theme/jquery-ui.min.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../libraries/jquery/select2/select2.css" />
-		<link rel="stylesheet" href="../libraries/guidersjs/guiders-1.2.6.css"/>
-		<link rel="stylesheet" href="../libraries/jquery/pnotify/jquery.pnotify.default.css"/>
-		<link rel="stylesheet" href="../libraries/jquery/pnotify/use for pines style icons/jquery.pnotify.default.icons.css"/>
-		<link rel="stylesheet" type="text/css" href="../libraries/jquery/datepicker/css/datepicker.css" />
-		<link rel="stylesheet" type="text/css" href="tpl/resources/css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="tpl/resources/css/mkCheckbox.css"/>
+		<link rel="stylesheet" href="../libraries/bootstrap3/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.bootstrap.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/jquery-ui/jquery-ui.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/select2/select2.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/select2/select2-bootstrap.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.min.css" />
+		<link rel="stylesheet" href="../libraries/jquery/pnotify/pnotify.custom.min.css"/>
+		<link rel="stylesheet" href="../libraries/jquery/datepicker/css/datepicker.min.css" />
+		<link rel="stylesheet" href="../layouts/vlayout/resources/styles.css" />
+		<link rel="stylesheet" href="tpl/resources/css/style.css"/>
+		<link rel="stylesheet" href="tpl/resources/css/mkCheckbox.css"/>
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}?&v={$YETIFORCE_VERSION}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 		{/foreach}
