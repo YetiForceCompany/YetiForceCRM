@@ -58,7 +58,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$request->set('module', 'Install');
 		
         $configFileName = 'config/config.inc.php';
-        if (is_file($configFileName) && filesize($configFileName) > 0) {
+        if (is_file($configFileName) && filesize($configFileName) > 1) {
             $defaultModule = vglobal('default_module');
             $defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
             $defaultView = $defaultModuleInstance->getDefaultViewName();

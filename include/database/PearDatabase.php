@@ -78,7 +78,10 @@ class PearDatabase {
 		if (!isset($adb)) {
 			$adb = new self();
 		}
-
+		if ($adb->database == NULL) {
+			$adb->log('Database getInstance: Error connecting to the database', 'error');
+			$adb->checkError('Error connecting to the database', true);
+		}
 		return $adb;
 	}
 
