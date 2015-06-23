@@ -9,21 +9,21 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="well well-small">
+<div class="well well-sm">
 
 <div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $MODULE)}</span></div>
 <hr/>
 {foreach from=$REQUIRED_CONDITIONS key=key item=item name=field_select}
 	<div class="row conditionRow marginBottom10px" >
-		<span class="col-md-4">{vtranslate($item['info']['label'], $BASE_MODULE)}</span>
-		<span class="col-md-3">{Conditions::translateType($item['comparator'],$MODULE)}</span>
-		<span class="col-md-4">
+		<div class="col-md-4">{vtranslate($item['info']['label'], $BASE_MODULE)}</div>
+		<div class="col-md-3">{Conditions::translateType($item['comparator'],$MODULE)}</div>
+		<div class="col-md-4">
 			{if $item['info']['type'] == 'picklist' || $item['info']['type'] == 'multipicklist' }
 				{vtranslate($item['val'], $BASE_MODULE)}
 			{else}
 				{$item['val']}
 			{/if}
-		</span>
+		</div>
 	</div>
 {/foreach}
 <br/>
@@ -31,9 +31,9 @@
 <hr/>
 {foreach from=$OPTIONAL_CONDITIONS key=key item=item name=field_select}
 	<div class="row conditionRow marginBottom10px" >
-		<span class="col-md-4">{vtranslate($item['info']['label'], $BASE_MODULE)}</span>
-		<span class="col-md-3">{Conditions::translateType($item['comparator'],$MODULE)}</span>
-		<span class="col-md-4">{$item['val']}</span>
+		<div class="col-md-4">{vtranslate($item['info']['label'], $BASE_MODULE)}</div>
+		<div class="col-md-3">{Conditions::translateType($item['comparator'],$MODULE)}</div>
+		<div class="col-md-4">{$item['val']}</div>
 	</div>
 {/foreach}
 </div>

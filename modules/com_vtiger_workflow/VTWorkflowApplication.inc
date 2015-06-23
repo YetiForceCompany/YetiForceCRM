@@ -72,4 +72,3 @@ class VTWorkflowApplication{
 		return "index.php?module={$this->name}&action=errormessage&message=".urlencode($message);
 	}
 }
-?>

@@ -666,4 +666,3 @@
 			return $nextTime;
 		}
 	}
-?>

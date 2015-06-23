@@ -161,10 +161,10 @@ var Settings_Picklist_Js = {
 			var pickListVaue = jQuery(e.currentTarget)
 			if(pickListVaue.hasClass('selectedCell')) {
 				pickListVaue.removeClass('selectedCell').addClass('unselectedCell');
-				pickListVaue.find('.glyphicon glyphicon-ok').remove();
+				pickListVaue.find('.glyphicon-ok').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
-				pickListVaue.prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
+				pickListVaue.prepend('<span class="glyphicon glyphicon-ok pull-left"></span>');
 			}
 		});
 	},
@@ -497,7 +497,7 @@ var Settings_Picklist_Js = {
 			var form = data.find('#deleteItemForm');
 			thisInstance.registerScrollForNonEditablePicklistValues(form);
 			var maximumSelectionSize = jQuery('#pickListValuesCount').val()-1;
-			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {maximumSelectionSize: maximumSelectionSize,dropdownCss : {'z-index' : 100001}});
+			app.changeSelectElementView(jQuery('[name="delete_value[]"]'), 'select2', {maximumSelectionLength: maximumSelectionSize,dropdownCss : {'z-index' : 100001}});
 			Settings_Picklist_Js.registerDeleteOptionEvent();
 
 			var params = app.getvalidationEngineOptions(true);

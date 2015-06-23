@@ -407,7 +407,7 @@ class CRMEntity {
 			if (CRMEntity::isBulkSaveMode()) {
 				$cacheresult = array();
 				for ($i = 0; $i < $noofrows; ++$i) {
-					$cacheresult[] = $adb->fetch_array($result);
+					$cacheresult[] = $adb->raw_query_result_rowdata($result,$i);
 				}
 				$_privatecache[$cachekey] = $cacheresult;
 			}

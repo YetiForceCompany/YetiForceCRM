@@ -204,4 +204,3 @@ class VTWSFieldType{
 		return $arr;
 	}	
 }
-?>

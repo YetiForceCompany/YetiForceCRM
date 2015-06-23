@@ -1,4 +1,4 @@
-﻿					</div>
+					</div>
 				</div>
 			</div>
 			<div class="row endContainer">

@@ -139,9 +139,9 @@
 				{if $LISTVIEW_HEADER@last}
 				</td><td nowrap class="{$WIDTHTYPE}">
 				<div class="actions pull-right">
-					<a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}" ><span class="icon-download-alt alignMiddle"></span></a>
+					<a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>
 					<span class="actionImages">
-						<a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $MODULE)}" class="icon-eye-open alignMiddle"></span></a>&nbsp;
+						<a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $MODULE)}" class="glyphicon glyphicon-eye-open alignMiddle"></span></a>&nbsp;
 						<a href="{$LISTVIEW_ENTRY->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 						{if $IS_MODULE_EDITABLE}
 							<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;

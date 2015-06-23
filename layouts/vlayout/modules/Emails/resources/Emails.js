@@ -92,7 +92,7 @@ var Vtiger_Emails_Js = {
 	registerComposeEmailStep1Events : function(){
 		jQuery('.SendEmailFormStep1').on('submit',"#SendEmailFormStep1",function(e){
 			var form = jQuery(e.currentTarget);
-			var chosenElement = jQuery('#composeEmailFields_chzn');
+			var chosenElement = jQuery('#composeEmailFields_chosen');
 			var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(chosenElement);
 			if(result == true){
 				Vtiger_Emails_Js.getComposeEmailForm(form);

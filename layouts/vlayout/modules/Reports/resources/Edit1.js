@@ -181,7 +181,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 	 */
 	registerSelect2ElementForSecondaryModulesSelection : function() {
 		var secondaryModulesContainer = this.getSecondaryModuleContainer();
-		app.changeSelectElementView(secondaryModulesContainer, 'select2', {maximumSelectionSize: 2});
+		app.changeSelectElementView(secondaryModulesContainer, 'select2', {maximumSelectionLength: 2});
 	},
 	
 	/**

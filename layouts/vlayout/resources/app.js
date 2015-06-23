@@ -71,27 +71,32 @@ var app = {
 	 * @returns jquery object list which represents changed select elements
 	 */
 	changeSelectElementView : function(parent, view, viewParams){
-
+		var thisInstance = this;
 		var selectElement = jQuery();
 		if(typeof parent == 'undefined') {
 			parent = jQuery('body');
 		}
-
 		//If view is select2, This will convert the ui of select boxes to select2 elements.
 		if(view == 'select2') {
-			app.showSelect2ElementView(parent, viewParams);
-			return;
+			return app.showSelect2ElementView(parent, viewParams);
 		}
 		//If view is selectize, This will convert the ui of select boxes to selectize elements.
 		if(view == 'selectize') {
-			app.showSelectizeElementView(parent, viewParams);
-			return;
+			return app.showSelectizeElementView(parent, viewParams);
 		}
 		selectElement = jQuery('.chzn-select', parent);
 		//parent itself is the element
 		if(parent.is('select.chzn-select')) {
 			selectElement = parent;
 		}
+	
+		// generate random ID
+		selectElement.each(function(){
+			if($(this).prop("id").length == 0){
+				$(this).attr('id', "sel" + thisInstance.generateRandomChar() + thisInstance.generateRandomChar() + thisInstance.generateRandomChar());
+			}
+		});
+
 
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change',function(e){
@@ -157,6 +162,7 @@ var app = {
 			params = jQuery.extend(data,params);
 		}
 		params.language = Vtiger_Helper_Js.getLangCode();
+		params.theme = "bootstrap";
 		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
@@ -176,28 +182,39 @@ var app = {
 			delete params['customSortOptGroup'];
 		}
 
-		//formatSelectionTooBig param is not defined even it has the maximumSelectionSize,
+		//formatSelectionTooBig param is not defined even it has the maximumSelectionLength,
 		//then we should send our custom function for formatSelectionTooBig
-		if(typeof params.maximumSelectionSize != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
-			var limit = params.maximumSelectionSize;
+		if(typeof params.maximumSelectionLength != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
+			var limit = params.maximumSelectionLength;
 			//custom function which will return the maximum selection size exceeds message.
 			var formatSelectionExceeds = function(limit) {
-					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit+' '+app.vtranslate('JS_ITEMS');
+					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit.maximum+' '+app.vtranslate('JS_ITEMS');
 			}
-			params.formatSelectionTooBig = formatSelectionExceeds;
+			params.language = {maximumSelected: formatSelectionExceeds}
 		}
-		if(selectElement.attr('multiple') != 'undefined' && typeof params.closeOnSelect == 'undefined') {
-			params.closeOnSelect = false;
+		
+		if(selectElement.attr('multiple') != 'undefined') {
+			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
-		selectElement.select2(params)
-					 .on("select2:open", function(e) {
-						 var element = jQuery(e.currentTarget);
-						 var instance = element.data('select2');
-						 instance.$dropdown.css('z-index',1000002);
-					 });
-		if(typeof params.maximumSelectionSize != "undefined") {
-			app.registerChangeEventForMultiSelect(selectElement,params);
+		$selectElement = selectElement;
+		$selectElement.select2(params)
+					.on("select2:open", function(e) {
+						if ($selectElement.data('unselecting')) {  
+							$selectElement.removeData('unselecting');
+							setTimeout(function(e) {
+								$selectElement.select2('close');
+							}, 1);
+						}
+						var element = jQuery(e.currentTarget);
+						var instance = element.data('select2');
+						instance.$dropdown.css('z-index',1000002);
+						 
+					}).on("select2:unselect", function(e){
+						$selectElement.data('unselecting', true);
+					}) ;
+		if(typeof params.maximumSelectionLength != "undefined") {
+			//app.registerChangeEventForMultiSelect(selectElement,params);
 		}
 		return selectElement;
 	},
@@ -214,7 +231,7 @@ var app = {
 
 	showPopoverElementView : function(selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {trigger: 'hover', placement: 'top', delay: {show: 1000, hide: 100}};
+			params = {trigger: 'hover', placement: 'top', html: true};
 		}
 		if(selectElement.data('placement')){
 			params.placement = selectElement.data('placement');
@@ -242,7 +259,7 @@ var app = {
 			return;
 		}
 		var instance = selectElement.data('select2');
-		var limit = params.maximumSelectionSize;
+		var limit = params.maximumSelectionLength;
 		selectElement.on('change',function(e){
 			var data = instance.data()
 			if (jQuery.isArray(data) && data.length >= limit ) {
@@ -448,7 +465,7 @@ var app = {
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
 		prettySelect: true,
-		useSuffix: "_chzn",
+		useSuffix: "_chosen",
 		usePrefix: "s2id_",
 	},
 
@@ -457,7 +474,7 @@ var app = {
 		promptPosition: 'topLeft',
 		//to support validation for chosen select box
 		prettySelect: true,
-		useSuffix: "_chzn",
+		useSuffix: "_chosen",
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
 		onBeforePromptType: function (field) {
@@ -727,7 +744,7 @@ var app = {
 	 */
 	getChosenElementFromSelect : function(selectElement) {
 		var selectId = selectElement.attr('id');
-		var chosenEleId = selectId+"_chzn";
+		var chosenEleId = selectId+"_chosen";
 		return jQuery('#'+chosenEleId);
 	},
 
@@ -750,7 +767,7 @@ var app = {
 	 */
 	getSelectElementFromChosen : function(chosenElement) {
 		var chosenId = chosenElement.attr('id');
-		var selectEleIdArr = chosenId.split('_chzn');
+		var selectEleIdArr = chosenId.split('_chosen');
 		var selectEleId = selectEleIdArr['0'];
 		return jQuery('#'+selectEleId);
 	},
@@ -1070,6 +1087,13 @@ var app = {
 		}
 		selectElement.bootstrapSwitch(params);
 		return selectElement;
+	},
+	
+	generateRandomChar: function () {
+		var chars, newchar, rand;
+		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+		rand = Math.floor(Math.random() * chars.length);
+		return newchar = chars.substring(rand, rand + 1);
 	},
 }
 

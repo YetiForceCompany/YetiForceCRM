@@ -126,7 +126,7 @@ jQuery.Class('Settings_Customer_Portal_Js', {}, {
 		var form = thisInstance.getForm();
 		
 		//register all select2 Elements
-		app.showSelect2ElementView(form.find('select.select2'), {maximumSelectionSize: 7, dropdownCss : {'z-index' : 0}});
+		app.showSelect2ElementView(form.find('select.select2'), {maximumSelectionLength: 7, dropdownCss : {'z-index' : 0}});
 		
 		//To make customer portal modules list sortable
 		thisInstance.makeModulesListSortable();

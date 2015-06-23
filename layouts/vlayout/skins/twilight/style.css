@@ -3158,9 +3158,6 @@ table.listViewEntriesTable {
   max-height: 200px;
   max-width: 250px; 
 }
-#addCustomFieldContainer{
-  width: 400px;
-}
 .navbar-inverse .navbar-nav > li > a {
 	color: #ffffff;
 }
@@ -3170,5 +3167,23 @@ table.listViewEntriesTable {
 	margin: 5px 0 0 0;
 }
 .columnsSelect{
+	width: 100% !important;
+}
+.marginBottom5 {
+	margin-bottom: 5px;
+}
+.editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
+	width: 30%;
+}
+.btn {
+    white-space: normal;
+}
+.valuesAssignedToRole {
+	border: 1px solid #adadad; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 6px;
+}
+table.dataTable .form-control {
 	width: 100% !important;
 }

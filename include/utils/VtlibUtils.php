@@ -515,14 +515,13 @@ function vtlib_getPicklistValues_AccessibleToAll($field_columnname) {
 /**
  * Get all picklist values for a non-standard picklist type.
  */
-function vtlib_getPicklistValues($field_columnname) {
+function vtlib_getPicklistValues($columnname) {
 	$adb = PearDatabase::getInstance();
-
-	$columnname =  $adb->sql_escape_string($field_columnname);
+	
 	$tablename = "vtiger_$columnname";
-
+	$tablename =  $adb->quote($tablename,false);
+	
 	$picklistres = $adb->query("SELECT $columnname as pickvalue FROM $tablename");
-
 	$picklistresCount = $adb->num_rows($picklistres);
 
 	$picklistvalues = Array();

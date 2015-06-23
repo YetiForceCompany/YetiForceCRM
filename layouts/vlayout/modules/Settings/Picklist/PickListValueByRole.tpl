@@ -13,15 +13,14 @@
 	<br><br>
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
-		<div class="col-md-3" style="overflow: hidden">
-			<div id="assignToRolepickListValuesTable" class="row fontBold textAlignCenter">
+		<div class="col-md-4 well-md" style="overflow: hidden">
+			<div id="assignToRolepickListValuesTable" class="fontBold textAlignCenter">
 				{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
-					<div data-value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" style="border: 1px solid #adadad;padding: 4%;overflow: hidden;text-overflow: ellipsis;" class="cursorPointer assignToRolePickListValue {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{else}unselectedCell{/if}">
-						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<span class="glyphicon glyphicon-ok pull-left"></span>{/if}{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
+					<div data-value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" class="valuesAssignedToRole cursorPointer assignToRolePickListValue {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{else}unselectedCell{/if}">
+						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="glyphicon glyphicon-ok pull-left"></i>{/if}{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
 					</div>
 				{/foreach}
 			</div>
-			
 		</div>
 		<div class="col-md-6">
 			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{vtranslate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{vtranslate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>

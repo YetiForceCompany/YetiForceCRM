@@ -16,4 +16,3 @@ class VTDummyTask extends VTTask{
 		echo "This is a dummy workflow task with $statement";
 	}
 }
-?>

@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-			<select id='select_relatedfield' style="width: 200px;">	
+			<select id='select_relatedfield' class="form-control">	
 				{foreach key=name item=single_field from=$RELATEDFIELDS}
 						<optgroup label="{vtranslate($name, 'OSSPdf')}">
 					{foreach item=field from=$single_field}

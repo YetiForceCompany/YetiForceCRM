@@ -127,4 +127,3 @@ class VTEntityCache{
         self::$_vtWorflow_entity_cache[$id] = $entity;
     }
 }
-?>

@@ -160,7 +160,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 	 */
 	registerSelect2ElementForReportColumns : function() {
 		var selectElement = this.getReportsColumnsList();
-		app.changeSelectElementView(selectElement, 'select2', {maximumSelectionSize: 25,dropdownCss : {'z-index' : 0}});
+		app.changeSelectElementView(selectElement, 'select2', {maximumSelectionLength: 25,dropdownCss : {'z-index' : 0}});
 	},
 
 	/**

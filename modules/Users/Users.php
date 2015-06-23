@@ -375,8 +375,8 @@ class Users extends CRMEntity {
 		//Default authentication
 		$this->log->debug('Using integrated/SQL authentication');
 		$query = "SELECT crypt_type, user_name FROM $this->table_name WHERE user_name=?";
-		$result = $this->db->requirePsSingleResult($query, array($userName), false);
-		if (empty($result)) {
+		$result = $this->db->pquery($query,[$userName]);
+		if ($result->rowCount() != 1) {
 			$this->log->error("User not found: $userName");
 			return FALSE;
 		}
@@ -384,8 +384,8 @@ class Users extends CRMEntity {
 		$this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
 		$encryptedPassword = $this->encrypt_password($userPassword, $cryptType);
 		$query = "SELECT 1 from $this->table_name where user_name=? AND user_password=? AND status = ?";
-		$result = $this->db->requirePsSingleResult($query, array($userName, $encryptedPassword, 'Active'), false);
-		if (!empty($result)) {
+		$result = $this->db->pquery($query,[$userName, $encryptedPassword, 'Active']);
+		if ($result->rowCount() == 1) {
 			$this->log->debug("Authentication OK. User: $userName");
 			return TRUE;
 		}

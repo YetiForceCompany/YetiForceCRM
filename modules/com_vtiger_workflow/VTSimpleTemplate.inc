@@ -357,4 +357,3 @@ class VTSimpleTemplate{
 		return $commentsList;
 	}
 }
-?>

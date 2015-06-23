@@ -34,7 +34,7 @@
         {else}
             <div class="form-group" style="margin-bottom: 8px;">
                 <label for="template" style="text-decoration: underline;">{vtranslate('LBL_TEMPLATES', 'OSSPdf')}:</label>
-            <select class="input-medium select-template" id="template" name="template">
+            <select class="select-template form-control" id="template" name="template">
                 {foreach item=template from=$templates}
                     <option value="{$template.id}">{$template.name}</option>
                 {/foreach}

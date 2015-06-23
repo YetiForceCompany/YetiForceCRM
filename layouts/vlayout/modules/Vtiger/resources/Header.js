@@ -202,16 +202,10 @@ jQuery.Class("Vtiger_Header_Js", {
         });
     },
 	registerHelpInfo : function(container){
-		if(typeof container == 'undefined')
+		if(typeof container == 'undefined'){
 			container = jQuery('form[name="QuickCreate"]');
-		container.find('.HelpInfoPopover').hover(
-			function () {
-				$(this).popover('show');
-			}, 
-			function () {
-				$(this).popover('show');
-			}
-		);
+		}
+		app.showPopoverElementView(container.find('.HelpInfoPopover'));
 	},
     handleQuickCreateData: function(data, params) {
         if (typeof params == 'undefined') {
@@ -677,10 +671,10 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.quickCreateModule(moduleName);
         });
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-			jQuery('#basicSearchModulesList_chzn').find('.chzn-results').css({'max-height':'350px','overflow-y':'scroll'});
+			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height':'350px','overflow-y':'scroll'});
 		}
 		else{
-			app.showScrollBar(jQuery('#basicSearchModulesList_chzn').find('.chzn-results'),
+			app.showScrollBar(jQuery('#basicSearchModulesList_chosen').find('.chzn-results'),
 			{
             height: '450px',
             railVisible: true,

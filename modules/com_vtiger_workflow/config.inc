@@ -11,5 +11,3 @@
 $workflowConfig = array(
 	'basic' => array('classpath' => 'modules/com_vtiger_workflow/VTWorkflowManager.inc', 'class' => 'Workflow'),
 );
-
-?>
