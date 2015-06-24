@@ -969,6 +969,7 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Monate',
 	'LBL_ZOOMING' => 'Zoomen',
 	
+	'LBL_FORMAT' => 'Format',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',
