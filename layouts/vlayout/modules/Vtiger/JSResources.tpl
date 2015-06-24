@@ -12,7 +12,7 @@
 {* <script> resources below *}
 	<script type="text/javascript" src="libraries/jquery/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libraries/jquery/chosen/chosen.jquery{$MINJS}.js"></script>
-	<script type="text/javascript" src="libraries/jquery/select2/select2{$MINJS}.js"></script>
+	<script type="text/javascript" src="libraries/jquery/select2/select2.full{$MINJS}.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery-ui/jquery-ui{$MINJS}.js"></script>
 	<script type="text/javascript" src="libraries/jquery/jquery.class.min.js"></script>
 	<script type="text/javascript" src="libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js"></script>
