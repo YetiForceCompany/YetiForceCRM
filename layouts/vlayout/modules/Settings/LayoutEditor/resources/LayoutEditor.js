@@ -502,7 +502,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 			var callBackFunction = function(data) {
 				//register all select2 Elements
-				app.showSelect2ElementView(data.find('select'));
+				app.showSelect2ElementView(data.find('select'),{ width: '100%' });
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
@@ -1523,7 +1523,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="layoutEditorModules"]'), {dropdownCss : {'z-index' : 0}});
+		app.showSelect2ElementView(container.find('[name="layoutEditorModules"]'));
 
 		container.on('change', '[name="layoutEditorModules"]', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -1543,7 +1543,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var container = jQuery('#layoutEditorContainer');
 		var contentsDiv = container.closest('.contentsDiv');
 
-		app.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'), {dropdownCss : {'z-index' : 0}});
+		app.showSelect2ElementView(container.find('[name="layoutEditorRelModules"]'));
 
 		container.on('change', '[name="layoutEditorRelModules"]', function(e) {
 			var currentTarget = jQuery(e.currentTarget);

@@ -193,6 +193,19 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	}
 
 	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param Vtiger_Request $request - request model
+	 * @return <array> - array of Vtiger_CssScript_Model
+	 */
+	function getHeaderCss(Vtiger_Request $request){
+		$cssFileNames = array(
+			'~/libraries/bootstrap3/css/bootstrap.css',
+		);
+		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		return $headerCssInstances;
+	}
+	
+	/**
 	 * Retrieves headers scripts that need to loaded in the page
 	 * @param Vtiger_Request $request - request model
 	 * @return <array> - array of Vtiger_JsScript_Model
@@ -313,15 +326,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			}
 		}
 		return $cssStyleInstances;
-	}
-
-	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
-	 */
-	function getHeaderCss(Vtiger_Request $request){
-		return array();
 	}
 
 	/**

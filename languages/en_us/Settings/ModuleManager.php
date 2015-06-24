@@ -57,8 +57,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Module does not contain default language (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'No Smart files',
 	'LBL_IMPORT' => 'Import',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT' => '__UNTRANSLATED__',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => '__UNTRANSLATED__',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a> ',
 	
 	'LBL_CREATE_MODULE' => 'Create module',
 	'LBL_CREATING_MODULE' => 'Creating new module',

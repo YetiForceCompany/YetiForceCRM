@@ -116,7 +116,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~/libraries/bootstrap3/css/bootstrap.css',
 			'~/libraries/jquery/chosen/chosen.css',
 			'~/libraries/jquery/chosen/chosen.bootstrap.css',
 			'~/libraries/jquery/jquery-ui/jquery-ui.css',

@@ -3190,3 +3190,10 @@ table.listViewEntriesTable {
 table.dataTable .form-control {
 	width: 100% !important;
 }
+#breadcrumb .stepNum{
+	margin-top: 0;
+}
+#breadcrumb .stepText{
+	position: relative;
+	top: -4px;
+}
