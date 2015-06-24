@@ -18,7 +18,7 @@ if(!$no_include_config){
 	chdir ($currentPath);
 	ini_set('include_path',$include_path);
 }
-$config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].$dbconfig['db_port'].'/'.$dbconfig['db_name'];
+$config['db_dsnw'] = 'mysql://'.$dbconfig['db_username'].':'.$dbconfig['db_password'].'@'.$dbconfig['db_server'].':'.$dbconfig['db_port'].'/'.$dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
 $config['default_host'] = 'ssl://imap.gmail.com';
 $config['validate_cert'] = false;
