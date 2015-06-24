@@ -1045,7 +1045,7 @@ class QueryGenerator {
 					$operator)) {
 				$value = "DATE_FORMAT(".$db->quote($value).", '%m%d')";
 			} else {
-				$value = $db->sql_escape_string($value);
+				$value = $db->sql_escape_string($value, true);
 			}
 
 			if(trim($value) == '' && ($operator == 's' || $operator == 'ew' || $operator == 'c')

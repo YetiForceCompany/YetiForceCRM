@@ -513,8 +513,14 @@ class PearDatabase {
 	}
 
 	//To get a function name with respect to the database type which escapes strings in given text
-	function sql_escape_string($str) {
-		return $this->database->quote($str);
+	function sql_escape_string($str, $type = false) {
+		if ($type) {
+			$search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
+			$replace = ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'];
+			return str_replace($search, $replace, $str);
+		} else {
+			return $this->database->quote($str);
+		}
 	}
 
 	function getUniqueID($seqname) {

@@ -20,7 +20,7 @@
 			{if $DB_CONNECTION_INFO['flag'] neq true}
 				<div class="offset2 row" id="errorMessage">
 					<div class="span8">
-						<div class="alert alert-error">
+						<div class="alert alert-danger">
 							{$DB_CONNECTION_INFO['error_msg']}
 							{$DB_CONNECTION_INFO['error_msg_info']}
 						</div>

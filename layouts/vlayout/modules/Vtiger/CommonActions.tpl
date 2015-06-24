@@ -80,7 +80,7 @@
 	</div>
 	<div role="search" class="navbar-form navbar-left">
 		<div class="form-group">          
-			<div class="input-group">
+			<div class="input-group" style="width: 450px;">
 				<input type="text"  class="form-control" title="{vtranslate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<span id="searchIcon" class="input-group-addon cursorPointer"><span class="glyphicon glyphicon-search "></span></span>
 				<span class="adv-search navbar-form pull-left">

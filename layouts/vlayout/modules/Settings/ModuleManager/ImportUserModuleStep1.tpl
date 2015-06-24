@@ -16,7 +16,7 @@
 	</div><hr>
 	{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
 	{if $MAXUPLOADSIZE < 5242880}
-		<div class="alert alert-block alert-error fade in">
+		<div class="alert alert-block alert-danger fade in">
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			<h4 class="alert-heading">{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT', $QUALIFIED_MODULE)}</h4>
 			<p>{vtranslate('LBL_TOO_SMALL_UPLOAD_LIMIT_DESC', $QUALIFIED_MODULE, Vtiger_Functions::showBytes($MAXUPLOADSIZE))}</p>

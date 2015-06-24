@@ -30,21 +30,21 @@
 	<div class="container-fluid" style="margin-top:10px;">
 		<h3>{vtranslate('Backup', $QUALIFIED_MODULE_NAME)}</h3>&nbsp;{vtranslate('LBL_BACKUP_DESCRIPTION', $QUALIFIED_MODULE_NAME)}<hr>
 		{if !extension_loaded('zip')}
-			<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{vtranslate('LBL_ALERT_NO_ZIP_EXTENSION_TITLE', $QUALIFIED_MODULE)}</h4>
 				<p>{vtranslate('LBL_ALERT_NO_ZIP_EXTENSION_DESC', $QUALIFIED_MODULE)}</p>
 			</div>	
 		{/if}
 		{if !$CHECK_CRON}
-			<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{vtranslate('LBL_ALERT_CRON_NOT_ACTIVE_TITLE', $QUALIFIED_MODULE)}</h4>
 				<p>{vtranslate('LBL_ALERT_CRON_NOT_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 			</div>	
 		{/if}
 		{if !$CHECK_MAIL}
-			<div class="alert alert-block alert-error fade in" style="margin-left: 10px;">
+			<div class="alert alert-block alert-danger" style="margin-left: 10px;">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{vtranslate('LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGURED_TITLE', $QUALIFIED_MODULE)}</h4>
 				<p>{vtranslate('LBL_ALERT_OUTGOING_MAIL_NOT_CONFIGUREDE_DESC', $QUALIFIED_MODULE)}</p>
