@@ -1,6 +1,6 @@
 {assign var=MENUS value=$MENU.childs}
 
-	<ul class="dropdown-menu" role="menu" aria-hidden="true">
+	<ul class="dropdown-menu">
 		{assign var=TABINDEX value=$TABINDEX-1}
 		{foreach key=KEY item=MENU from=$MENUS}
 			{*{assign var=CHILDS value=$MENU.childs}
