@@ -1201,6 +1201,8 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Месяцев',
 	'LBL_ZOOMING' => 'Увеличить',
 	
+	'LBL_FORMAT' => 'Format',
+	
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
