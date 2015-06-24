@@ -1111,6 +1111,8 @@ $jsLanguageStrings = [
 	'JS_CLOSE' => 'Schließen',
 	'JS_CONFIRM_MARK_AS_HELD' => 'Markieren Sie den Eintrag im Kalender als abgeschlossen?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Markiert als abgeschlossen',
+	'JS_EVENT_MARKED_AS_HELD' => 'Markiert als abgeschlossen',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => '__UNTRANSLATED__',
 	'Generate default PDF'=>'Standard-PDF generieren',
 	
 	//Inventory module Translations

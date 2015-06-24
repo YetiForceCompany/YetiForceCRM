@@ -1103,7 +1103,9 @@ $jsLanguageStrings = [
     'NOTIFICATION_ACCEPTED' => 'Zaakceptuj',
 	'JS_CLOSE' => 'Zamknij',
 	'JS_CONFIRM_MARK_AS_HELD' => 'Czy oznaczyć wpis w kalendarzu jako zakończony?',
-	'JS_TODO_MARKED_AS_COMPLETED' => 'Oznaczono jako zakończone',
+	'JS_TODO_MARKED_AS_COMPLETED' => 'Zadanie zostało oznaczono jako zakończone',
+	'JS_EVENT_MARKED_AS_HELD' => 'Wydarzenie zostało oznaczono jako zakończone',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Przyszłe wydarzenia nie mogą być oznaczone jako zakończone',
 	
 	//Inventory module Translations
 	'JS_PLEASE_ENABLE_PRODUCT_OR_SERVICE_MODULE'=>'Proszę włączyć moduł produktu lub usługi',
