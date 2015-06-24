@@ -284,7 +284,21 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			}
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
 			$filePath = NULL;
-			if(file_exists($completeFilePath)) {
+			$minFilePath = str_replace('.css','.min.css', $completeFilePath);
+			if(file_exists($minFilePath)) {
+				if (strpos($cssFileName, '~') === 0) {
+					$minFilePath = str_replace('.css','.min.css', $cssFileName);
+					$filePath = ltrim(ltrim($minFilePath, '~'), '/');
+					// if ~~ (reference is outside vtiger6 folder)
+					if (substr_count($minFilePath, "~") == 2) {
+						$filePath = "../" . $filePath;
+					}
+				} else {
+					$filePath = str_replace('.','/', $cssFileName) . '.min.'.$fileExtension;
+					$filePath = Vtiger_Theme::getStylePath($filePath);
+				}
+				$cssStyleInstances[] = $cssScriptModel->set('href', $filePath);	
+			}else if(file_exists($completeFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
 					// if ~~ (reference is outside vtiger6 folder)

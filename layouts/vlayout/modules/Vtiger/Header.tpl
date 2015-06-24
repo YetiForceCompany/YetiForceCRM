@@ -18,20 +18,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="robots" content="noindex" />
-		<link rel="stylesheet" href="libraries/bootstrap3/css/bootstrap{$MINCSS}.css"/>
-		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/chosen/chosen.bootstrap{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/jquery-ui/jquery-ui{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/select2/select2-bootstrap{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery{$MINCSS}.css" />
-		<link rel="stylesheet" href="libraries/jquery/pnotify/pnotify.custom{$MINCSS}.css"/>
-		<link rel="stylesheet" href="libraries/jquery/datepicker/css/datepicker{$MINCSS}.css" />
-		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" />
 		
 		{foreach key=index item=cssModel from=$STYLES}
-			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
+			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
 		{/foreach}
 		{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 				<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>

@@ -1092,6 +1092,8 @@ $jsLanguageStrings = [
 	'JS_CLOSE' => 'Close',
 	'JS_CONFIRM_MARK_AS_HELD' => 'Mark the entry in calendar as complete?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marked as complete',
+	'JS_EVENT_MARKED_AS_HELD' => 'Marked as complete',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => '__UNTRANSLATED__',
 	'Generate default PDF'=>'Generate default PDF',
 	
 	//Inventory module Translations
