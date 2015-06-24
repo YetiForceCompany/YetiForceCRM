@@ -1104,7 +1104,7 @@ $jsLanguageStrings = [
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marcar a entrada na Agenda como concluída?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'JS_EVENT_MARKED_AS_HELD' => 'Marcada como concluída',
-	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => '__UNTRANSLATED__',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Future events cannot be marked as complete',
 	'Generate default PDF'=>'Gerar PDF padrão',
 
 	//Inventory module Translations
