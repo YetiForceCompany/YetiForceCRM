@@ -2082,6 +2082,7 @@ function rcube_webmail()
     }
 
     tree += '<span id="msgicn'+row.id+'" class="'+css_class+status_class+'" title="'+status_label+'"></span>';
+	tree += '<span id="t'+row.id+'" class="ui-helper-hidden">'+cols.fromto.replace(/(<([^>]+)>)/ig,"")+', '+cols.subject+'</span>';
     row.className = row_class;
 
     // build subject link
