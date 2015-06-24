@@ -75,7 +75,6 @@ $currencies = array(
 	'Latvia, Lati'=>array('LVL','Ls'),
 	'Lebanon, Pounds'=>array('LBP','£'),
 	'Liberia, Dollars'=>array('LRD','$'),
-	'Switzerland Francs'=>array('CHF','CHF'),
 	'Lithuania, Litai'=>array('LTL','Lt'),
 	'MADAGASCAR, Malagasy Ariary' => array('MGA', 'MGA'),
 	'Macedonia, Denars'=>array('MKD','ден'),
