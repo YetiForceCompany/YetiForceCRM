@@ -3187,3 +3187,6 @@ table.listViewEntriesTable {
 table.dataTable .form-control {
 	width: 100% !important;
 }
+.quickCreateContent table.massEditTable td.fieldValue {
+	width: 30%;
+}
