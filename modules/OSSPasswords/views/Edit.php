@@ -127,7 +127,8 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View {
         $ConfigureButton = 'LBL_ConfigurePass';
 		$viewer = $this->getViewer ($request);
 		$viewer->assign('GENERATEPASS', $GenerateButton);
-        $viewer->assign('GENERATEONCLICK', 'generate_password('.$min.','.$max.',\''.$allow_chars.'\');');        
+        $viewer->assign('GENERATEONCLICK', 'generate_password('.$min.','.$max.',\''.$allow_chars.'\');');   
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
         
 		$viewer->view('EditView.tpl', $moduleName);
 	}
