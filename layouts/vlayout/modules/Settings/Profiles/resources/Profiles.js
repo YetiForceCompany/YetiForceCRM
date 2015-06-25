@@ -239,6 +239,13 @@ var Settings_Profiles_Js = {
 		var thisInstance = this;
 		var form = jQuery('[name="EditProfile"]');
 		form.on('submit',function(e) {
+			var button = form.find('button[type="submit"]');
+			button.attr('disabled',true);
+			progressIndicatorInstance = jQuery.progressIndicator({
+				'position' : 'html',
+				'blockInfo' : {
+					'enabled' : true
+				}});
 			if(form.data('submit') == 'true' && form.data('performCheck') == 'true') {
 				return true;
 			} else {
@@ -254,6 +261,8 @@ var Settings_Profiles_Js = {
 							form.submit();
 						},
 						function(data, err){
+							progressIndicatorInstance.progressIndicator({mode : 'hide'});
+							button.attr('disabled',false);
 							var params = {};
 							params['text'] = data['message'];
 							params['type'] = 'error';
@@ -262,6 +271,8 @@ var Settings_Profiles_Js = {
 						}
 					);
 				} else {
+					progressIndicatorInstance.progressIndicator({mode : 'hide'});
+					button.attr('disabled',false);
 					//If validation fails, form should submit again
 					form.removeData('submit');
 					// to avoid hiding of error message under the fixed nav bar
