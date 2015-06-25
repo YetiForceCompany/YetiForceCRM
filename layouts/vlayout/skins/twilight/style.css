@@ -303,23 +303,21 @@ hr {
 .commonActionsContainer .actionsContainer {
   background: #f3f3f3;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown {
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown {
   min-width: 450px;
   top: 28px;
+  margin: 0;
+  padding-top: 0;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown li.title {
-  padding: 5px 0 0 15px;
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a {
+  padding: 2px;
+  border: none;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown a {
-  cursor: pointer;
-  text-decoration: none !important;
-}
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown #quickCreateModules {
-  padding: 0 5px;
-}
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown #quickCreateModules div a:hover {
-  //color: #ffffff;
-  border-bottom: 1px solid #000000;
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .mainContainer {
   min-height: 500px;

@@ -23,11 +23,13 @@
 	<div class="navbar-form navbar-right">
 		<div class="dropdown quickActions">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="menubar_quickCreate" src="{vimage_path('plus.png')}" class="alignMiddle" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" /></a>
-			<ul class="dropdown-menu dropdown-menu-right dropdownStyles commonActionsButtonDropDown">
-				<li class="title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></li><hr/>
+			<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 				<li id="quickCreateModules">
-					<div class="row">
-						<div class="col-md-12">
+						<div class="panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
+							</div>
+							<div class="panel-body paddingLRZero">
 							{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
 								{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 								{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
@@ -36,11 +38,11 @@
 								{/if}	
 								{if $quickCreateModule == '1'}
 									{if $count % 3 == 0}
-										<div class="row">
+										<div class="">
 									{/if}
-									<div class="col-md-4">
-										<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule" data-name="{$NAME}"
-										   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">{vtranslate($singularLabel,$NAME)}</a>
+									<div class="col-xs-4">
+										<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"
+										   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}"><span>{vtranslate($singularLabel,$NAME)}</span></a>
 									</div>
 									{if $count % 3 == 2}
 										</div>
