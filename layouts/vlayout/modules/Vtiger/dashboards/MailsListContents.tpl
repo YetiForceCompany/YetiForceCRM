@@ -1,4 +1,4 @@
-﻿{if $ACCOUNTSLIST}
+{if $ACCOUNTSLIST}
 {assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
 <div>
 	{foreach from=$MAILS item=item key=key}
