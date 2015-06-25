@@ -221,7 +221,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 		if(typeof userParams != 'undefined'){
 			var params = jQuery.extend(params,userParams);
 		}
-		new PNotify(params);
+		return new PNotify(params);
 	},
     
     /* 
