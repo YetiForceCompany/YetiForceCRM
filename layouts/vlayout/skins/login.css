@@ -16,13 +16,13 @@ height: 158px;
 position: relative;
 top: 31px;
 left: 23px;
-width: 299px;
+width: 300px;
 }
 #login-area .bg-div  .password{
 position: relative;
 top: 56px;
 left: 23px;
-width: 299px;
+width: 300px;
 }
 #login-area .bg-div  .password #password,#login-area .bg-div  .username #username,#changePassword #password,#changePassword #confirmPassword{
 //width: 239px;
@@ -105,4 +105,7 @@ left: 19px;
 .paddingLRZero {
 	padding-left: 0px;
 	padding-right: 0px;
+}
+.login-form-content input{
+width: 254px;
 }
