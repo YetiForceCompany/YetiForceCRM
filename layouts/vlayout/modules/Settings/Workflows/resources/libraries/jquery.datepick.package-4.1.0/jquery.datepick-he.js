@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Hebrew localisation for jQuery Datepicker.
    Written by Amir Hardon (ahardon at gmail dot com). */
 (function($) {

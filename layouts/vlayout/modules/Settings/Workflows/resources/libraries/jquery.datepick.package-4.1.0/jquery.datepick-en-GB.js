@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    English UK localisation for jQuery Datepicker.
    Written by Stuart. */
 (function($) {

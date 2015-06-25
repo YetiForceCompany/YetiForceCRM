@@ -1,6 +1,6 @@
 /* http://keith-wood.name/datepick.html
    Finnish localisation for jQuery Datepicker.
-   Written by Harri Kilpiö (harrikilpio@gmail.com). */
+   Written by Harri KilpiÃ¶ (harrikilpio@gmail.com). */
 (function($) {
     $.datepick.regional['fi'] = {
         monthNames: ['Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kes&auml;kuu',

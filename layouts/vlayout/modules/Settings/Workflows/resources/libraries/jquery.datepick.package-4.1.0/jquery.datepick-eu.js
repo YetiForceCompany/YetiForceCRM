@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Basque localisation for jQuery Datepicker.
    Karrikas-ek itzulia (karrikas@karrikas.com) */
 (function($){
