@@ -209,7 +209,10 @@ jQuery.Class("Vtiger_Helper_Js",{
 			hide: false,
 			delay: '3000',
 			type: 'error',
-			styling: 'bootstrap3'
+			styling: 'bootstrap3',
+			buttons: {
+				sticker: false
+			}
 		}
 
 		if(typeof customParams.type != 'undefined' && customParams.type != 'error'){
