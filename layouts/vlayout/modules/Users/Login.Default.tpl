@@ -55,7 +55,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 									<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/pass.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
 								</div>
 								<div class="col-md-10 paddingLRZero">
-									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="dBHec0de"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 								</div>
 								
 							</div>
