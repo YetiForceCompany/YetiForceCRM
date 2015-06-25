@@ -1,4 +1,4 @@
-﻿{if count($DATA2)}
+{if count($DATA2)}
 {literal}
 	<script type="text/javascript">
 		$(document).ready(function(){
