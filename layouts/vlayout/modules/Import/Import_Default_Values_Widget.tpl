@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 
-<div style="visibility: hidden; height: 0px;" id="defaultValuesElementsContainer">
+<div class="hide" id="defaultValuesElementsContainer">
 	{foreach key=_FIELD_NAME item=_FIELD_INFO from=$AVAILABLE_FIELDS}
 	<div id="{$_FIELD_NAME}_defaultvalue_container" name="{$_FIELD_NAME}_defaultvalue" class="small col-md-11">
 		{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
@@ -43,6 +43,12 @@
 					   class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
 		{elseif $_FIELD_TYPE eq 'boolean'}
 			<input type="checkbox" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small" />
+		{elseif $_FIELD_TYPE eq 'reference'}
+			<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
+			{foreach item=_REFERENCE_DETAILS from=$AVAILABLE_FIELDS[$_FIELD_NAME]->getReferenceList()}
+				<option value="{$_REFERENCE_DETAILS}">{$_REFERENCE_DETAILS|@vtranslate:$FOR_MODULE}</option>
+			{/foreach}
+			</select>
 		{elseif $_FIELD_TYPE neq 'reference'}
 			<input type="input" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="defaultInputTextContainer form-control small" />
 		{/if}
