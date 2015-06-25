@@ -13,6 +13,27 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_LIBRARY', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_INSTALLED', $MODULE)}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+							<td><label>{vtranslate($key, $MODULE)}</label></td>
+							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<hr/>
+			<table class="table table-bordered table-condensed themeTableColor confTable">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">

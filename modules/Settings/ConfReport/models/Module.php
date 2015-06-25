@@ -50,7 +50,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'PDO'],
 		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl'],
 		'LBL_CURL' => ['type' => 'e', 'name' => 'curl'],
-		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'curl'],
+		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd'],
+		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect'],
+		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre'],
+		'LBL_XML_LIBRARY' => ['type' => 'e', 'name' => 'xml'],
+		'LBL_JSON_LIBRARY' => ['type' => 'e', 'name' => 'json'],
+		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session'],
+		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom'],
 	);
 
 	public static function getConfigurationLibrary() {
@@ -60,7 +66,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			}elseif($v['type'] == 'e'){
 				$status = extension_loaded($v['name']);
 			}
-			$return[$k] = ['status' => $status, 'name' => $v['name']];
+			$return[$k] = ['status' => $status?'LBL_YES':'LBL_NO', 'name' => $v['name']];
 		}
 		return $return;
 	}
@@ -68,7 +74,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 	public static function getConfigurationValue() {
 		$errorReportingValue = 'E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT';
 		$directiveValues = array(
-			'php_version' => array('prefer' => '5.4.0'),
+			'PHP' => array('prefer' => '5.4.0'),
 			'error_reporting' => array('prefer' => $errorReportingValue),
 			'output_buffering' => array('prefer' => 'On'),
 			'max_execution_time' => array('prefer' => '600'),
@@ -195,8 +201,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
 
 		if (version_compare(PHP_VERSION, '5.4.0', '<'))
-			$directiveValues['php_version']['status'] = true;
-		$directiveValues['php_version']['current'] = PHP_VERSION;
+			$directiveValues['PHP']['status'] = true;
+		$directiveValues['PHP']['current'] = PHP_VERSION;
 
 		if (extension_loaded('suhosin')) {
 			if (ini_get('suhosin.request.max_vars') < 5000)
