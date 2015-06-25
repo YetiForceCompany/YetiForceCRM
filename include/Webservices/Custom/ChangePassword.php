@@ -1,5 +1,4 @@
 <?php
-
 /*+*******************************************************************************
  *   The contents of this file are subject to the vtiger CRM Public License Version 1.0
  *   ("License"); You may not use this file except in compliance with the License
@@ -42,12 +41,8 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 			}
 		}
 		if(strcmp($newPassword, $confirmPassword) === 0) {
-			$db = PearDatabase::getInstance();
-			$db->dieOnError = true;
-			$db->startTransaction();
-			$success = $newUser->change_password($oldPassword, $newPassword, false);
-			$error = $db->hasFailedTransaction();
-			$db->completeTransaction();
+			$success = $newUser->change_password($oldPassword, $newPassword);
+			$error = $newUser->db->hasFailedTransaction();
 			if($error) {
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, 
 					vtws_getWebserviceTranslatedString('LBL_'.
@@ -67,6 +62,3 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 		return array('message' => 'Changed password successfully');
 	}
 }
-
-
-?>
