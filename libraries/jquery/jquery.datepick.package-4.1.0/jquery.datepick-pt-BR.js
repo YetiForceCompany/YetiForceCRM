@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Brazilian Portuguese localisation for jQuery Datepicker.
    Written by Leonildo Costa Silva (leocsilva@gmail.com). */
 (function($) {

@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Korean localisation for jQuery Datepicker.
    Written by DaeKwon Kang (ncrash.dk@gmail.com), Edited by Genie. */
 (function($) {
