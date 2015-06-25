@@ -227,7 +227,7 @@ class Vtiger_Functions {
 	// MODULE RECORD
 	protected static $crmRecordIdMetadataCache = array();
 
-	protected static function getCRMRecordMetadata($mixedid) {
+	public static function getCRMRecordMetadata($mixedid) {
 		$adb = PearDatabase::getInstance();
 
 		$multimode = is_array($mixedid);
@@ -241,7 +241,7 @@ class Vtiger_Functions {
 		}
 
 		if ($missing) {
-			$sql = sprintf("SELECT crmid, setype, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
+			$sql = sprintf("SELECT crmid, setype, deleted, smownerid, label, searchlabel FROM vtiger_crmentity WHERE %s", implode(' OR ', array_fill(0, count($missing), 'crmid=?')));
 			$result = $adb->pquery($sql, $missing);
 			while ($row = $adb->fetch_array($result)) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
