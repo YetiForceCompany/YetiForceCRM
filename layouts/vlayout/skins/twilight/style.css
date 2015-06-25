@@ -1,4 +1,4 @@
-﻿@media print {
+@media print {
 	.noprint { display:none; }
 }
 .clearfix {
