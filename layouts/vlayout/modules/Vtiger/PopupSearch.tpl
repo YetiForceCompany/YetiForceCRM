@@ -27,16 +27,16 @@
         <div class="logo col-md-6"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}" width="160px;"/></div>
         <div class="col-md-6"><strong>{vtranslate($MODULE_NAME, $MODULE_NAME)}</strong></div>
     </div>
-    <div class="row">
+    <div class="row form-inline">
 	{/if}
-		<div class="col-md-2">
+		<div class="col-md-2 form-group">
 			{if $MULTI_SELECT}
 				{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{vtranslate('LBL_SELECT', $MODULE)}</strong></button>{/if}
 			{else}
 				&nbsp;
 			{/if}
 		</div>
-        <div class="col-md-6">
+        <div class="col-md-6 form-group pull-left">
 			{if $POPUPTYPE == 2}
 				<h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
 			{/if}
@@ -72,41 +72,45 @@
 			{/if}
             </form>
         </div>
-		<div class="col-md-4">
+		<div class="col-md-4 form-group pull-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 			<div class="popupPaging">
 				<div class="row">
-						<span class="col-md-3" style="float:right !important;min-width:230px">
-							<span class="pull-right">
-								<span class="pageNumbers">
+						<div class="col-md-3">
+							<div class="pull-right">
+								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_to', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
 										<span class="glyphicon glyphicon-refresh totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
 									</span>
-								</span>&nbsp;&nbsp;
-								<span class="btn-group pull-right">
-									<button class="btn btn-default" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
-									<button class="btn btn-default dropdown-toggle" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
-										<span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
-									</button>
-									<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
-										<li>
-											<span class="row">
-												<span class="col-md-3 pushUpandDown2per"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-												<span class="col-md-4">
-													<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
-												</span>
-												<span class="col-md-2 textAlignCenter pushUpandDown2per">
-													{vtranslate('LBL_OF',$moduleName)}&nbsp;
-												</span>
-												<span class="col-md-3 pushUpandDown2per" id="totalPageCount">{$PAGE_COUNT}</span>
-											</span>
-										</li>
-									</ul>
-									<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
-								</span>
-							</span>
-						</span>
+								</div>
+								<div class="btn-group alignTop margin0px">
+									<span class="pull-right">
+										<span class="btn-group" role="group">
+											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+												<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+													<span class="vtGlyph vticon-pageJump" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
+												</button>
+												<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
+													<li>
+														<div>
+															<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
+															<div class="col-md-3 recentComments">
+																<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+															</div>
+															<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
+																{vtranslate('LBL_OF',$moduleName)}
+															</div>
+															<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
+														</div>
+													</li>
+												</ul>
+											<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+										</span>
+									</span>	
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			{/if}

@@ -30,12 +30,12 @@
 									<div>
 										<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
 										<div class="col-md-3 recentComments">
-											<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+											<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
 										</div>
 										<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 											{vtranslate('LBL_OF',$moduleName)}
 										</div>
-										<div class="col-md-2 recentComments pushUpandDown2per" id="totalPageCount">{$PAGE_COUNT}</div>
+										<div class="col-md-2 recentComments pushUpandDown2per textAlignCenter" id="totalPageCount">{$PAGE_COUNT}</div>
 									</div>
 								</li>
 							</ul>
