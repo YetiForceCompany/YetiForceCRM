@@ -112,28 +112,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request) {
-		$headerCssInstances = parent::getHeaderCss($request);
-
-		$cssFileNames = array(
-			'~/libraries/jquery/chosen/chosen.css',
-			'~/libraries/jquery/chosen/chosen.bootstrap.css',
-			'~/libraries/jquery/jquery-ui/jquery-ui.css',
-			'~/libraries/jquery/selectize/css/selectize.bootstrap3.css',
-			'~/libraries/jquery/select2/select2.css',
-			'~/libraries/jquery/select2/select2-bootstrap.css',
-			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~/libraries/jquery/pnotify/pnotify.custom.css',
-			'~/libraries/jquery/datepicker/css/datepicker.css',
-			'~/layouts/vlayout/resources/styles.css',
-			'~/libraries/jquery/timepicker/jquery.timepicker.css',
-			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
-	}
-
 	function getGuiderModels(Vtiger_Request $request) {
 		return array();
 	}
