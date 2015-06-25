@@ -127,6 +127,8 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Ein-/Ausblenden von Benutzerblocktyp',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Ein-/Ausblenden von Gruppenblocktyp',
 	'LBL_SHIFT_BLOCK' => 'Ein-/Ausblenden von Block',
+	'LBL_ON_SWITCH' => 'ON',
+	'LBL_OFF_SWITCH' => 'OFF',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
