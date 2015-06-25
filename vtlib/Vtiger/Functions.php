@@ -1140,6 +1140,7 @@ class Vtiger_Functions {
 	}
 
 	public function showBytes($bytes, &$unit = null) {
+		$bytes = self::parseBytes($bytes);
 		if ($bytes >= 1073741824) {
 			$unit = 'GB';
 			$gb = $bytes / 1073741824;
