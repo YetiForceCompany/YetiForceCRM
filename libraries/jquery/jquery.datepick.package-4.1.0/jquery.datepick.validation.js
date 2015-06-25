@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Datepicker Validation extension for jQuery 4.1.0.
    Requires Jörn Zaefferer's Validation plugin (http://plugins.jquery.com/project/validate).
    Written by Keith Wood (kbwood{at}iinet.com.au).
