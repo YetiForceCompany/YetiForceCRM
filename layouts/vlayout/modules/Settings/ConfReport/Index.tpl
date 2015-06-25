@@ -12,7 +12,9 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
-		<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		{if vtlib_isModuleActive('OSSMail')}
+			<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		{/if}
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
@@ -83,14 +85,16 @@
 								<td width="23%"><label class="marginRight5px">{vtranslate($foo.path, $MODULE)}</label></td>
 								<td width="23%"><label class="marginRight5px">{vtranslate('LBL_TRUE_PERMISSION', $MODULE)}</label></td>
 							</tr>
-						{/if}	
+						{/if}
 					{/foreach}
 				</tbody>
 			</table>
         </div>
 		{* check config module *}
-		<div class='editViewContainer tab-pane' id="check_config">
-			<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
-		</div>
+		{if vtlib_isModuleActive('OSSMail')}
+			<div class='editViewContainer tab-pane' id="check_config">
+				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
+			</div>
+		{/if}
     </div>
 </div>
