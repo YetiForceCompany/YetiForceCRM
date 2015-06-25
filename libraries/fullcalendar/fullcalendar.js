@@ -5051,7 +5051,7 @@ DayGrid.mixin({
                 
                 if(event.type == 'widget'){ //Calendar widget
                     var addHtml = '';
-                    addHtml = '<div class="row">';
+                    addHtml = '<div class="">';
                     for(var i in event.event){
                         var eventIcon = 'icon-calendar';
                         if(i == 'Task'){

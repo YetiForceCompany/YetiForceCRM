@@ -14,10 +14,10 @@
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-xs-8">
 			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-xs-4">
 			<div class="box pull-right">
 				{if Users_Privileges_Model::isPermitted('Calendar', 'EditView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar'); return false;">
@@ -31,12 +31,12 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-sm-7">
-			<div class="headerCalendar fc-center pinUnpinShortCut row" >
-				<div class="col-md-2">
+			<div class="headerCalendar pinUnpinShortCut row" >
+				<div class="col-xs-2">
 					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 				</div>
-				<div class="col-md-8 month marginLeftZero textAlignCenter"> </div>
-				<div class="col-md-2">
+				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
+				<div class="col-xs-2 pull-right paddingLRZero">
 					<button class="btn btn-default btn-sm" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 			</div>

@@ -130,6 +130,8 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Show or hide users block type',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Show or hide groups block type',
 	'LBL_SHIFT_BLOCK' => 'Show or hide block',
+	'LBL_ON_SWITCH' => 'ON',
+	'LBL_OFF_SWITCH' => 'OFF',
 ];
 
 $jsLanguageStrings = [
