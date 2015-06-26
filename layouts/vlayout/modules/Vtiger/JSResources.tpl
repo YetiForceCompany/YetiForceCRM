@@ -10,6 +10,7 @@
  ********************************************************************************/
 -->*}
 {* <script> resources below *}
+<div>
 	<script type="text/javascript" src="libraries/jquery/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libraries/jquery/chosen/chosen.jquery{$MINJS}.js"></script>
 	<script type="text/javascript" src="libraries/jquery/select2/select2.full{$MINJS}.js"></script>
@@ -44,3 +45,4 @@
 
 	<!-- Added in the end since it should be after less file loaded -->
 	{*<script type="text/javascript" src="libraries/bootstrap/js/less.min.js"></script> *}
+</div>
