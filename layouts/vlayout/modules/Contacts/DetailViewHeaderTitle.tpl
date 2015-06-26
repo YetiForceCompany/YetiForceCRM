@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
+	<div class="pull-left spanModuleIcon col-md-1 paddingLRZero moduleIcon{$MODULE_NAME}">
 		<span class="moduleIcon">
 	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 				{if !empty($IMAGE_INFO.path)}
-					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
+					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="107" height="80" align="left"><br>
 				{else}
 					<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 				{/if}
@@ -24,10 +24,10 @@
 	            <img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 	        {/if}
 		</span>
-	</span>
-	<span class="col-md-8 margin0px">
-		<span class="row">
-			<h4 class="recordLabel pushDown" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}"> &nbsp;
+	</div>
+	<div class="col-sm-7 col-md-7 margin0px">
+		<div>
+			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
 				{if $RECORD->getDisplayValue('salutationtype')}
                     <span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
                 {/if}
@@ -40,17 +40,18 @@
                 {/if}
             {/foreach}
 			</h4>
-		</span>
-		<span class="row">
+		</div>
+		<div class=" paddingLeft5px marginBottom5px">
 			{$RECORD->getDisplayValue('parent_id')}
-			<span class="row">
+			<div>
 				<span class="muted">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')} test test1 test2 test3 test4
 					{if $RECORD->get('shownerid') != ''}
 					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 					{/if}
 				</span>
-			</span>
-		</span>
-	</span>
+			</div>
+		</div>
+	</div>
 {/strip}

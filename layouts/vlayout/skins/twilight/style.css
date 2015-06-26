@@ -851,7 +851,7 @@ li.ui-timepicker-selected,
   border-right: 0 !important;
 }
 .detailViewTitle {
-  padding: 1.5% 0 0 1%;
+  padding: 1% 0 0 1%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -860,7 +860,6 @@ li.ui-timepicker-selected,
 .detailViewTitle .recordLabel {
   font-size: 16px;
   font-weight: bold;
-  width: 20em;
 }
 .detailViewTitle .detailViewButtoncontainer {
   margin-top: 8px;
@@ -3272,4 +3271,10 @@ table.dataTable .form-control {
 .calendarRightPanel .widgetContainer ul {
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+.paddingLeft5px{
+  padding-left: 5px;
+}
+.marginBottom5px {
+  margin-bottom: 5px;
 }
