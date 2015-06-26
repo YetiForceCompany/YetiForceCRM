@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div id="addNotePadWidgetContainer" class='modal show'>
+	<div id="addNotePadWidgetContainer" class='modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_NOTEPAD', $MODULE)}</h3>
+					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_ADD', $MODULE)} {vtranslate('LBL_NOTEPAD', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal" method="POST">
 					 <div class="form-group margin0px padding1per">

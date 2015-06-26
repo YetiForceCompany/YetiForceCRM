@@ -2829,11 +2829,13 @@ form {
   box-sizing: border-box;
   word-wrap: break-word;
 }
-.modal-open {
-  overflow: hidden;
+
+//.modal-open {
+ // overflow: hidden;
   /** modal will be having z-index as 10001 **/
 
-}
+//}
+/*
 .modal-open .datepicker,
 .modal-open .timePicker {
   z-index: 1000008 !important;
@@ -2846,6 +2848,7 @@ form {
 .overflowVisible {
   overflow: visible;
 }
+*/
 .select2-container-multi .select2-choices .select2-search-choice {
   cursor: move;
 }

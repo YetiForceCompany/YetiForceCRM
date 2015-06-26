@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class='modelContainer modal fade in show'>
+<div class='modelContainer modal fade' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
@@ -65,6 +65,7 @@
 						</div>
 					</div>
 					{/if}
+				</div>	
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">
 						<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</a>

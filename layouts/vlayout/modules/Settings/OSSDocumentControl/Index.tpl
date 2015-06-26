@@ -148,12 +148,12 @@
     </div>
 </div>
 {* modal promtp for uninstall *}
-<div id="myModal" class="modal fade" style="z-index: 9999999;">
+<div id="myModal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>{vtranslate('MSG_DEL_WARN1', $MODULE_NAME)}</h3>
+				<h3 class="modal-title">{vtranslate('MSG_DEL_WARN1', $MODULE_NAME)}</h3>
 			</div>
 			<div class="modal-body">
 				<p>{vtranslate('MSG_DEL_WARN2', $MODULE_NAME)}</p>

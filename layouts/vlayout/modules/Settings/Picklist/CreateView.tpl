@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class='modelContainer modal fade in show basicCreateView'>
+<div class='modelContainer modal fade basicCreateView' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">

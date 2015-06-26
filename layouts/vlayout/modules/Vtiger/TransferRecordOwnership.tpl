@@ -10,12 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div id="transferOwnershipContainer" class='modelContainer modal show '>
+    <div id="transferOwnershipContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 		 <div class="modal-content">
 			<div class="modal-header contentsBackground">
 				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-				<h3 id="massEditHeader">{vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}</h3>
+				<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_TRANSFER_OWNERSHIP', $MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="changeOwner" name="changeOwner" method="post" action="index.php">
 				<div class="modal-body tabbable">

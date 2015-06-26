@@ -9,12 +9,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div id="AddNewTranslationMondal" class="modal fade" tabindex="2" role="dialog" aria-labelledby="AddTranslation" aria-hidden="true">
+<div id="AddNewTranslationMondal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddTranslation" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">	
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="AddTranslation">{vtranslate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h3>
+				<h3 id="AddTranslation" class="modal-title">{vtranslate('LBL_ADD_Translate',$QUALIFIED_MODULE)}</h3>
 			</div>
 			<div class="modal-body">
 				<form id="AddTranslationForm" class="form-horizontal">	
