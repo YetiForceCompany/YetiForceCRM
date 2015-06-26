@@ -46,7 +46,6 @@
 			<div>
 				<span class="muted">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
-					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')} test test1 test2 test3 test4
 					{if $RECORD->get('shownerid') != ''}
 					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 					{/if}
