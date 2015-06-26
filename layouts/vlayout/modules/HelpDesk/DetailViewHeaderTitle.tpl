@@ -18,9 +18,9 @@
 			</span>
 		</span>
 	{/if}
-    <span class="col-md-10 margin0px">
-        <span class="row">
-            <h4 class="recordLabel" title="{$RECORD->getName()}">
+    <div class="col-xs-10 col-sm-9 col-md-10 margin0px">
+        <div class="row">
+            <h4 class="recordLabel margin0px" title="{$RECORD->getName()}">
                 {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
                     {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
                     {if $FIELD_MODEL->getPermissions()}
@@ -28,28 +28,28 @@
                     {/if}
                 {/foreach}
             </h4>
-        </span>
+        </div>
         {assign var=RELATED_TO value=$RECORD->get('parent_id')}
         {if !empty($RELATED_TO)}
-            <span class="row">
+            <div class="row paddingLeft5px">
 				<span class="muted"></span>
-				<h5><span class="">{$RECORD->getDisplayValue('parent_id')}</span></h5>
-            </span>
+				<h5 class="margin0px"><span class="">{$RECORD->getDisplayValue('parent_id')}</span></h5>
+            </div>
         {/if}
         {assign var=PRIORITY value=$RECORD->get('ticketpriorities')}
         {if !empty($PRIORITY)}
-            <span class="row">
+            <div class="row paddingLeft5px">
                 <span class="muted">{vtranslate('Priority',$MODULE_NAME)} - </span>
                 {$RECORD->getDisplayValue('ticketpriorities')}
-            </span>
+            </div>
         {/if}
-		<span class="row">
-			<span class="muted">
+		<div class="row">
+			<span class="muted paddingLeft5px">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
 				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 				{/if}
 			</span>
-		</span>
-    </span>
+		</div>
+    </div>
 {/strip}
