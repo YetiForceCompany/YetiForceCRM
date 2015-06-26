@@ -10,12 +10,12 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div class="pull-left spanModuleIcon col-md-1 paddingLRZero moduleIcon{$MODULE_NAME}">
+	<div class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 		<span class="moduleIcon">
 	        {assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 			{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 				{if !empty($IMAGE_INFO.path)}
-					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="107" height="80" align="left"><br>
+					<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
 				{else}
 					<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 				{/if}
@@ -25,7 +25,7 @@
 	        {/if}
 		</span>
 	</div>
-	<div class="col-sm-7 col-md-7 margin0px">
+	<div class="col-xs-10 col-sm-9 col-md-7 margin0px">
 		<div>
 			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
 				{if $RECORD->getDisplayValue('salutationtype')}
@@ -41,7 +41,7 @@
             {/foreach}
 			</h4>
 		</div>
-		<div class=" paddingLeft5px marginBottom5px">
+		<div class="paddingLeft5px">
 			{$RECORD->getDisplayValue('parent_id')}
 			<div>
 				<span class="muted">
