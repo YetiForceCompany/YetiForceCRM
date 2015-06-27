@@ -101,7 +101,7 @@ class WebDAV_File extends WebDAV_Node implements DAV\IFile {
 		$hash = sha1($path);
 		
 		$log = print_r([$this->exData->pdo, $name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid], true);
-		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+		file_put_contents('data/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
 
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files_dir SET name=?, path = ?, hash=?, mtime=? WHERE id=?;');
 		$stmt->execute([$name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid]);

@@ -246,8 +246,8 @@ class CRMEntity {
 			$attention_val = from_html($this->column_fields['attention'], ($insertion_mode == 'edit') ? true : false);
 			$was_read = ($this->column_fields['was_read'] == 'on') ? true : false;
 			$inheritsharing = ($this->column_fields['inheritsharing'] == 'on') ? true : false;
-			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			checkFileAccessForInclusion('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+			require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 			$tabid = getTabid($module);
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$sql = "update vtiger_crmentity set smownerid=?,modifiedby=?,description=?,attention=?, modifiedtime=?, was_read=?, inheritsharing=? where crmid=?";
@@ -347,8 +347,8 @@ class CRMEntity {
 		if ($insertion_mode == 'edit') {
 			$update = array();
 			$update_params = array();
-			checkFileAccessForInclusion('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
+			checkFileAccessForInclusion('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+			require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 			if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 				$sql = "select * from vtiger_field where tabid in (" . generateQuestionMarks($tabid) . ") and tablename=? and displaytype <> '2' and presence in (0,2) group by columnname";
 				$params = array($tabid, $table_name);
@@ -2016,8 +2016,8 @@ class CRMEntity {
 		$tabid = getTabid($module);
 		$current_user  = vglobal('current_user');
 		if ($current_user) {
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+			require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+			require('data/userPrivileges/sharing_privileges_' . $current_user->id . '.php');
 		}
 		$sec_query = '';
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1
@@ -2310,8 +2310,8 @@ class CRMEntity {
 	}
 	
 	function getUserAccessConditionsQuery($module, $user) {
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $user->id . '.php');
+		require('data/userPrivileges/sharing_privileges_' . $user->id . '.php');
 		$query = '';
 		$tabId = getTabid($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
@@ -2335,8 +2335,8 @@ class CRMEntity {
 	function getUserAccessConditionsQuerySR($module, $current_user = false) {
 		if($current_user == false)
 			$current_user  = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/sharing_privileges_' . $current_user->id . '.php');
 		global $shared_owners;
 		$is_admin = is_admin($current_user);
 		$securityParameter == '';
@@ -2400,7 +2400,7 @@ class CRMEntity {
 	 * @param <type> $user
 	 */
 	function getNonAdminModuleAccessQuery($module, $user) {
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('data/userPrivileges/sharing_privileges_' . $user->id . '.php');
 		$tabId = getTabid($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
@@ -2446,8 +2446,8 @@ class CRMEntity {
 	 * @return String Access control Query for the user.
 	 */
 	function getNonAdminAccessControlQuery($module, $user, $scope = '') {
-		require('user_privileges/user_privileges_' . $user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $user->id . '.php');
+		require('data/userPrivileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = getTabid($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]

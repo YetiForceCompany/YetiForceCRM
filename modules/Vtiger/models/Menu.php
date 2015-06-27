@@ -18,14 +18,14 @@ class Vtiger_Menu_Model{
         $currentUser = Users_Record_Model::getCurrentUserModel();
         $userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		
-		$roleMenu = 'user_privileges/menu_'.filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT).'.php';
+		$roleMenu = 'data/userPrivileges/menu_'.filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT).'.php';
 		if (file_exists($roleMenu)) {
 			require($roleMenu);
 		} else {
-			require('user_privileges/menu_0.php');
+			require('data/userPrivileges/menu_0.php');
 		}
 		if(count($menus) == 0){
-			require('user_privileges/menu_0.php');
+			require('data/userPrivileges/menu_0.php');
 		}
 		return $menus;
     }
@@ -46,14 +46,14 @@ class Vtiger_Menu_Model{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
+		$roleMenu = 'data/userPrivileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
 			require($roleMenu);
 		} else {
-			require('user_privileges/menu_0.php');
+			require('data/userPrivileges/menu_0.php');
 		}
 		if (count($menus) == 0) {
-			require('user_privileges/menu_0.php');
+			require('data/userPrivileges/menu_0.php');
 		}
 		if($request->get('parent') == 'Settings'){
 			$moduleName = 'Settings:';

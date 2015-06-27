@@ -356,7 +356,7 @@ function zipFilesAndDownload($file_names, $archive_file_name, $file_path, $zipna
     $zip = new ZipArchive();
 
     //create the file and throw the error if unsuccessful
-    chmod('storage', 0777);
+    chmod('data/storage', 0777);
     if ($zip->open($archive_file_name, ZIPARCHIVE::CREATE) !== TRUE) {
         exit("cannot open <$archive_file_name>\n");
     }
@@ -399,7 +399,7 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
 
     $idlist = trim($_REQUEST['idstring'], ';');
     $idlist = explode(';', $idlist);
-    chmod('storage', 0777);
+    chmod('data/storage', 0777);
 
     $_SESSION['no_of_records'] = count($idlist);
     if ($_REQUEST['ParticularSave'] == 'yes') {
@@ -492,11 +492,11 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
                 $pelnasciezka = $storage_path . $filepath;
             }
 
-            chmod('storage', 0777);
+            chmod('data/storage', 0777);
             if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
                 rename($filepath, $pelnasciezka);
             } else {
-                $sciezka = "storage/" . $filepath;
+                $sciezka = "data/storage/" . $filepath;
                 rename($filepath, $sciezka);
             }
 
@@ -508,10 +508,10 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
         if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
             $storage_path = decideFilePath();
         } else {
-            $storage_path = "storage/";
+            $storage_path = "data/storage/";
         }
         $zip = getTranslatedString($_REQUEST['usingmodule']) . '_' . date("YmdHis") . '.zip';
-        $zipname = 'storage/' . $zip;
+        $zipname = 'data/storage/' . $zip;
         $zipname = file_exist_fn($zipname, 0);
         zipFilesAndDownload($document_list, $zipname, $storage_path, $zip);
     } else {
@@ -561,7 +561,7 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
         $onlyGenerate = (int)$_REQUEST['only_generate'];
 
             $pdf->Output($filepath, 'F');
-            chmod('storage', 0777); //exit;	
+            chmod('data/storage', 0777); //exit;	
             $storage_path = decideFilePath();
             $pelnasciezka = $storage_path . $filepath;
             if ($data['ifsave'] == 'yes') {
@@ -582,7 +582,7 @@ function GeneratePDF($module, &$pdf, $pdf_orientation) {
                 //echo $pelnasciezka;
             } elseif ($_REQUEST['return_name'] == "yes") {
                 //echo $filepath;
-                $sciezka = "storage/" . $filepath;
+                $sciezka = "data/storage/" . $filepath;
                 echo $filepath;
                 rename($filepath, $sciezka);
             }
@@ -694,11 +694,11 @@ function Soap_generatePDF($userid) {
                 $storage_path = decideFilePath();
                 $pelnasciezka = $storage_path . $filepath;
             }
-            chmod('storage', 0777);
+            chmod('data/storage', 0777);
             if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
                 rename($filepath, $pelnasciezka);
             } else {
-                $sciezka = "storage/" . $filepath;
+                $sciezka = "data/storage/" . $filepath;
                 rename($filepath, $sciezka);
             }
 
@@ -711,12 +711,12 @@ function Soap_generatePDF($userid) {
         if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
             $storage_path = decideFilePath();
         } else {
-            $storage_path = "storage/";
+            $storage_path = "data/storage/";
         }
 
         $zip = getTranslatedString($_REQUEST['usingmodule']) . '_' . date("YmdHis") . '.zip';
 
-        $zipname = 'storage/' . $zip;
+        $zipname = 'data/storage/' . $zip;
         $zipname = file_exist_fn($zipname, 0);
         if (count($document_list) > 1) {
             zipFilesAndDownload($document_list, $zipname, $storage_path, $zip);
@@ -870,11 +870,11 @@ if (!isset($_REQUEST['soap_pdf'])) {
                 $storage_path = decideFilePath();
                 $pelnasciezka = $storage_path . $filepath;
             }
-            chmod('storage', 0777);
+            chmod('data/storage', 0777);
             if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
                 rename($filepath, $pelnasciezka);
             } else {
-                $sciezka = "storage/" . $filepath;
+                $sciezka = "data/storage/" . $filepath;
                 rename($filepath, $sciezka);
             }
 
@@ -888,13 +888,13 @@ if (!isset($_REQUEST['soap_pdf'])) {
         if ($_REQUEST['return_name'] != "yes" || $_REQUEST['return_name'] == "") {
             $storage_path = decideFilePath();
         } else {
-            $storage_path = "storage/";
+            $storage_path = "data/storage/";
         }
 
 
         $zip = getTranslatedString($_REQUEST['usingmodule']) . '_' . date("YmdHis") . '.zip';
 
-        $zipname = 'storage/' . $zip;
+        $zipname = 'data/storage/' . $zip;
 
         $zipname = file_exist_fn($zipname, 0);
         if (count($document_list) > 1) {

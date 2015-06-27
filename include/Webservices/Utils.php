@@ -78,8 +78,8 @@ function vtws_getVtigerVersion(){
 
 function vtws_getUserAccessibleGroups($moduleId, $user){
 	$adb = PearDatabase::getInstance();
-	require('user_privileges/user_privileges_'.$user->id.'.php');
-	require('user_privileges/sharing_privileges_'.$user->id.'.php');
+	require('data/userPrivileges/user_privileges_'.$user->id.'.php');
+	require('data/userPrivileges/sharing_privileges_'.$user->id.'.php');
 	$tabName = getTabname($moduleId);
 	if($is_admin==false && $profileGlobalPermission[2] == 1 &&
 			($defaultOrgSharingPermission[$moduleId] == 3 or $defaultOrgSharingPermission[$moduleId] == 0)){
@@ -465,7 +465,7 @@ function vtws_getModuleHandlerFromId($id,$user){
 
 function vtws_CreateCompanyLogoFile($fieldname) {
 	$root_directory = vglobal('root_directory');
-	$uploaddir = $root_directory ."/storage/Logo/";
+	$uploaddir = $root_directory ."/data/storage/Logo/";
 	$allowedFileTypes = array("jpeg", "png", "jpg", "pjpeg" ,"x-png");
 	$binFile = $_FILES[$fieldname]['name'];
 	$fileType = $_FILES[$fieldname]['type'];

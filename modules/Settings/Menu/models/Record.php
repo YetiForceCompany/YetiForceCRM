@@ -175,7 +175,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model {
 			$content .= $this->createParentList($item);
 		}
 		$content .= '];';
-		$file = vglobal('root_directory').'user_privileges/menu_'.$roleId.'.php';
+		$file = vglobal('root_directory').'data/userPrivileges/menu_'.$roleId.'.php';
 		file_put_contents($file,$content);
 	}
 	public function createContentMenu($menu) {

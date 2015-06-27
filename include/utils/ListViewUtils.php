@@ -23,7 +23,7 @@
 require_once('include/database/PearDatabase.php');
 require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
-require_once('user_privileges/default_module_view.php'); //new
+require_once('data/userPrivileges/default_module_view.php'); //new
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/Zend/Json.php');
 
@@ -37,8 +37,8 @@ function getListQuery($module, $where = '') {
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user  = vglobal('current_user');
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+	require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+	require('data/userPrivileges/sharing_privileges_' . $current_user->id . '.php');
 	$tab_id = getTabid($module);
 	$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 				'vtiger_users.last_name'), 'Users');

@@ -686,8 +686,8 @@ function insertIntoRecurringTable(& $recurObj)
 		$user_id=$seed_user->retrieve_user_id($username);
 		$current_user=$seed_user;
 		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
 
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
   		{
@@ -741,8 +741,8 @@ function insertIntoRecurringTable(& $recurObj)
 		$user_id=$seed_user->retrieve_user_id($user_name);
 		$current_user=$seed_user;
 		$current_user->retrieve_entity_info($user_id, 'Users');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
 
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
   		{
@@ -886,8 +886,8 @@ function insertIntoRecurringTable(& $recurObj)
 	}
 
 	public function getNonAdminAccessControlQuery($module, $user,$scope='') {
-		require('user_privileges/user_privileges_'.$user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$user->id.'.php');
+		require('data/userPrivileges/sharing_privileges_'.$user->id.'.php');
 		$query = ' ';
 		$tabId = getTabid($module);
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]

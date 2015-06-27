@@ -14,7 +14,7 @@ class Debug extends DAV\ServerPlugin {
 	 */
 	protected $server;
 
-	const FILE = 'cache/logs/davDebug.log';
+	const FILE = 'data/logs/davDebug.log';
 
 	function initialize(DAV\Server $server) {
 		$this->server = $server;

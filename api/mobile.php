@@ -21,7 +21,7 @@ require_once 'config/config.php';
 require_once('include/database/PearDatabase.php');
 require_once('include/logging.php');
 require_once('include/utils/VtlibUtils.php');
-ini_set('error_log',$root_directory.'cache/logs/mobileApps.log');
+ini_set('error_log',$root_directory.'data/logs/mobileApps.log');
 $adb = PearDatabase::getInstance(); $log = vglobal('log');
 $log = &LoggerManager::getLogger('mobileApps');
 $adb = PearDatabase::getInstance();

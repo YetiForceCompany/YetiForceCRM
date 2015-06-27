@@ -110,8 +110,8 @@ class Users_Privileges_Model extends Users_Record_Model {
 		if (empty($userId))
 			return null;
 
-		require("user_privileges/user_privileges_$userId.php");
-		require("user_privileges/sharing_privileges_$userId.php");
+		require("data/userPrivileges/user_privileges_$userId.php");
+		require("data/userPrivileges/sharing_privileges_$userId.php");
 
 		$valueMap = array();
 		$valueMap['id'] = $userId;

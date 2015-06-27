@@ -140,7 +140,7 @@ function getKeyMetrics($maxval,$calCnt)
 function getMetricList()
 {
 	$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 	
 	$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";
 	$ssql .= " where vtiger_customview.setmetrics = 1 ";

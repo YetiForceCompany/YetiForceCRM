@@ -12,7 +12,7 @@ if(strlen($search)) {
     $sort_keys = array();
     //$search_lc = mb_strtolower($search);
 	
-	$addressBookFile = '../../../cache/addressBook/mails_'.$RCMAIL->user->data['crm_user_id'].'.php';
+	$addressBookFile = '../../../data/addressBook/mails_'.$RCMAIL->user->data['crm_user_id'].'.php';
 	if (file_exists($addressBookFile)) {
 		include $addressBookFile;
 		foreach($bookMails as $row){

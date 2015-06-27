@@ -51,7 +51,7 @@ function getPermittedFieldsQuery($module, $disp_view)
 	$log->debug("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
 
 	$current_user  = vglobal('current_user');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 
 	//To get the permitted blocks
 	$blockid_list = getPermittedBlocks($module, $disp_view);

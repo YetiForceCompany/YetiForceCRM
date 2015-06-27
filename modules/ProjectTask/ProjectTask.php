@@ -184,8 +184,8 @@ class ProjectTask extends CRMEntity {
      */
     function getListViewSecurityParameter($module) {
         $current_user  = vglobal('current_user');
-        require('user_privileges/user_privileges_'.$current_user->id.'.php');
-        require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+        require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+        require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
 
         $sec_query = '';
         $tabid = getTabid($module);

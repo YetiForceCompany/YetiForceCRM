@@ -153,7 +153,7 @@ class CustomView extends CRMEntity {
 		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
 		$tabid = getTabid($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 
 		$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";
 		$ssql .= " where vtiger_customview.cvid=?";
@@ -192,7 +192,7 @@ class CustomView extends CRMEntity {
 		global $app_strings;
 		$tabid = getTabid($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 
 		$shtml_user = '';
 		$shtml_pending = '';
@@ -279,7 +279,7 @@ class CustomView extends CRMEntity {
 		$block_ids = explode(",", $block);
 		$tabid = getTabid($module);
 		$current_user  = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 		if (empty($this->meta) && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
@@ -446,7 +446,7 @@ class CustomView extends CRMEntity {
 		$tabid = getTabid($module);
 
 		$current_user  = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 
 		$module_info = $this->getCustomViewModuleInfo($module);
 		foreach ($this->module_list[$module] as $key => $blockid) {
@@ -1879,7 +1879,7 @@ class CustomView extends CRMEntity {
 		$current_user  = vglobal('current_user');
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 		$permission = "yes";
 
 		if ($record_id != '') {
@@ -1965,7 +1965,7 @@ class CustomView extends CRMEntity {
 		$custom_strings = return_module_language($current_language, "CustomView");
 
 		$log->debug("Entering isPermittedChangeStatus($status) method..............");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
 		$status_details = Array();
 		if ($is_admin) {
 			if ($status == CV_STATUS_PENDING) {

@@ -1,7 +1,7 @@
 <?php
 $rootDirectory = dirname(__FILE__) . '/../';
 chdir($rootDirectory);
-session_save_path($rootDirectory.'cache/session');
+session_save_path($rootDirectory.'data/cache/session');
 
 // Adjust error_reporting favourable to deployment.
 include_once 'include/RequirementsValidation.php';

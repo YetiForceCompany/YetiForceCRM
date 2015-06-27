@@ -89,7 +89,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 			return;
 		}
 		
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$this->user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0){
 			$this->hasAccess = true;
 			$this->hasReadAccess = true;
@@ -371,7 +371,7 @@ class VtigerCRMObjectMeta extends EntityMeta {
 		$adb = PearDatabase::getInstance();
 		
 		$tabid = $this->getTabId();
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$this->user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0){
 			$sql = "select *, '0' as readonly from vtiger_field where tabid =? and block in (".generateQuestionMarks($block).") and displaytype in (1,2,3,4,5,10)";
 			$params = array($tabid, $block);	

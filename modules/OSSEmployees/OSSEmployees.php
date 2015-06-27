@@ -105,7 +105,7 @@ class OSSEmployees extends Vtiger_CRMEntity {
 		$log = vglobal('log');
 		
         $log->debug("Entering getEmployeeHierarchy(".$id.") method ...");
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 
 		$listview_header = Array();
 		$listview_entries = array();

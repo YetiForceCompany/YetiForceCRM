@@ -55,7 +55,7 @@ class Vtiger_Utils {
 			$use_root_directory = realpath(dirname(__FILE__).'/../../.');
 		}
 
-		$unsafeDirectories = array('storage', 'cache', 'test');
+		$unsafeDirectories = array('data/storage', 'data/cache', 'test');
 
 		$realfilepath = realpath($filepath);
 
@@ -300,7 +300,7 @@ class Vtiger_Utils {
                 array_push($log, "");
             }
             $fileName =self::$logFileName;
-            $fp = fopen("cache/logs/$fileName", 'a+');
+            $fp = fopen("data/logs/$fileName", 'a+');
             fputcsv($fp, $log);
             fclose($fp);
         }

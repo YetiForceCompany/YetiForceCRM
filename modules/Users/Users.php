@@ -677,8 +677,8 @@ class Users extends CRMEntity {
      */
 
     function retrieveCurrentUserInfoFromFile($userid) {
-		checkFileAccessForInclusion('user_privileges/user_privileges_'.$userid.'.php');
-        require('user_privileges/user_privileges_'.$userid.'.php');
+		checkFileAccessForInclusion('data/userPrivileges/user_privileges_'.$userid.'.php');
+        require('data/userPrivileges/user_privileges_'.$userid.'.php');
         foreach($this->column_fields as $field=>$value_iter) {
             if(isset($user_info[$field])) {
                 $this->$field = $user_info[$field];
@@ -1595,13 +1595,13 @@ class Users extends CRMEntity {
 
 		if ($file_size != 0 && in_array($file_type_val, $validFileFormats)) {
 			//Uploading the selected Image
-			move_uploaded_file($file['tmp_name'], 'storage/Logo/'.$logo_name);
+			move_uploaded_file($file['tmp_name'], 'data/storage/Logo/'.$logo_name);
 
 			//Updating Database
 			$sql = 'UPDATE vtiger_organizationdetails SET logoname = ? WHERE organization_id = ?';
 			$params = array(decode_html($logo_name), '1');
 			$adb->pquery($sql, $params);
-			copy('storage/Logo/'.$logo_name, 'storage/Logo/application.ico');
+			copy('data/storage/Logo/'.$logo_name, 'data/storage/Logo/application.ico');
 		}
 	}
 

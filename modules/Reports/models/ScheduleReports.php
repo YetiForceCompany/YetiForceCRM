@@ -201,7 +201,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 
 		if ($reportFormat == 'CSV') {
 			$fileName = $baseFileName . '.csv';
-			$filePath = 'storage/' . $fileName;
+			$filePath = 'data/storage/' . $fileName;
 			$attachments[$fileName] = $filePath;
 			$oReportRun->writeReportToCSVFile($filePath);
 		}
@@ -313,7 +313,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model {
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
         $companydetails = getCompanyDetails();
-		$logo = $site_URL.'/storage/Logo/'.$companydetails['logoname'];
+		$logo = $site_URL.'/data/storage/Logo/'.$companydetails['logoname'];
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

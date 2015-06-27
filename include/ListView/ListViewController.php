@@ -121,7 +121,7 @@ class ListViewController {
 	function getListViewRecords($focus, $module, $result) {
 		global $listview_max_textlength, $theme, $default_charset;
 
-		require('user_privileges/user_privileges_'.$this->user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$this->user->id.'.php');
 		$fields = $this->queryGenerator->getFields();
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 

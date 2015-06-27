@@ -145,7 +145,7 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
 
         $sequenceNo = getModuleSequenceNumber($moduleName,$recordId);
 		$translatedName = vtranslate($moduleName, $moduleName);
-        $filePath = "storage/$translatedName"."_".$sequenceNo.".pdf";
+        $filePath = "data/storage/$translatedName"."_".$sequenceNo.".pdf";
         //added file name to make it work in IE, also forces the download giving the user the option to save
         $controller->Output($filePath,'F');
         return $filePath;

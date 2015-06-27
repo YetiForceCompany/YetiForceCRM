@@ -83,7 +83,7 @@ class SMSNotifier extends SMSNotifierBase {
 
 		// Calculate the related module access (similar to getRelatedList API in DetailViewUtils.php)
 		if($result && $adb->num_rows($result)) {
-			require('user_privileges/user_privileges_'.$current_user->id.'.php');
+			require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 			while($resultrow = $adb->fetch_array($result)) {
 				$accessCheck = false;
 				$relatedTabId = getTabid($resultrow['setype']);

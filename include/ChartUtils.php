@@ -25,7 +25,7 @@ Class ChartUtils {
 
 		$barwidth = '70';
 		if ($cachedFileName === false) {
-			$cache_file_name = 'cache/images/bar_chart_' . time() . '.png';
+			$cache_file_name = 'data/cache/images/bar_chart_' . time() . '.png';
 		} else {
 			$cache_file_name = $cachedFileName;
 		}
@@ -212,7 +212,7 @@ Class ChartUtils {
 		include_once ('Image/Canvas.php');
 
 		if ($cachedFileName === false) {
-			$cache_file_name = 'cache/images/pie_chart_' . time() . '.png';
+			$cache_file_name = 'data/cache/images/pie_chart_' . time() . '.png';
 		} else {
 			$cache_file_name = $cachedFileName;
 		}

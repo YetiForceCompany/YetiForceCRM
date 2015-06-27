@@ -191,7 +191,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model {
 	}
 	
 	public function getUploadDirectory() {
-		$uploadDir = 'cache/vtlib';
+		$uploadDir = 'data/cache/vtlib';
 		return $uploadDir;
 	}
 }

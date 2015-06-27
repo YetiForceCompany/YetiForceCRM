@@ -120,8 +120,8 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 	$current_user  = vglobal('current_user');
 	if(isset($current_user) && $current_user->id != '')
 	{
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 	}
 	static $user_array = null;
 	if(!$module){
@@ -191,8 +191,8 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 	$current_user  = vglobal('current_user');
 	if(isset($current_user) && $current_user->id != '')
 	{
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 	}
 	static $group_array = null;
 	if(!$module && $_REQUEST['parent'] != 'Settings'){
@@ -567,9 +567,9 @@ function getActionid($action)
 	$adb = PearDatabase::getInstance();
 	$log->info("get Actionid ".$action);
 	$actionid = '';
-	if(file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0))
+	if(file_exists('data/userPrivileges/tabdata.php') && (filesize('data/userPrivileges/tabdata.php') != 0))
 	{
-		include('user_privileges/tabdata.php');
+		include('data/userPrivileges/tabdata.php');
 		$actionid= $action_id_array[$action];
 	}
 	else
@@ -598,9 +598,9 @@ function getActionname($actionid)
 
 	$actionname='';
 
-	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0))
+	if (file_exists('data/userPrivileges/tabdata.php') && (filesize('data/userPrivileges/tabdata.php') != 0))
 	{
-		include('user_privileges/tabdata.php');
+		include('data/userPrivileges/tabdata.php');
 		$actionname= $action_name_array[$actionid];
 	}
 	else

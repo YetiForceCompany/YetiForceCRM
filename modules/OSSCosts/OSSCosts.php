@@ -334,7 +334,7 @@ class OSSCosts extends CRMEntity {
 		$log = vglobal('log');
 
         $log->debug("Entering getHierarchy(".$id.") method ...");
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 
 		$listview_header = Array();
 		$listview_entries = array();

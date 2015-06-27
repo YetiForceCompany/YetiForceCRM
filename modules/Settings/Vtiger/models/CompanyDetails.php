@@ -16,7 +16,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 	var $baseIndex = 'organization_id';
 	var $listFields = array('organizationname');
 	var $nameFields = array('organizationname');
-	var $logoPath = 'storage/Logo/';
+	var $logoPath = 'data/storage/Logo/';
 
 	var $fields = array(
 			'organizationname' => 'text',

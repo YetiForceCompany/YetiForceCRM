@@ -705,7 +705,7 @@ class Accounts extends CRMEntity {
 		$log = vglobal('log');
 		$current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Acnt() method ...");
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
 			$sql1 = "SELECT fieldlabel FROM vtiger_field WHERE tabid = 6 and vtiger_field.presence in (0,2)";
@@ -882,7 +882,7 @@ class Accounts extends CRMEntity {
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$current_user = vglobal('current_user');
         $log->debug("Entering getAccountHierarchy(".$id.") method ...");
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
 
 		$listview_header = Array();
 		$listview_entries = array();

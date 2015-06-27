@@ -21,7 +21,7 @@ $rootDirectory = vglobal('root_directory');
 if(empty($root_directory)){
 	$rootDirectory = dirname(__FILE__) . '/';
 }
-session_save_path($rootDirectory.'cache/session');
+session_save_path($rootDirectory.'data/cache/session');
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(new Vtiger_Request($_REQUEST, $_REQUEST));

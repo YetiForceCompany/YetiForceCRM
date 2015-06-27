@@ -55,7 +55,7 @@ class ical_attachments extends rcube_plugin{
         foreach ($this->ics_parts as $part) {
 			$icscontent = $this->message->get_part_content($part['part'], null, true);
 			$file_name = $part['uid'];
-			$file = '../../../cache/import/'.$file_name.'.ics';
+			$file = '../../../data/cache/import/'.$file_name.'.ics';
 			file_put_contents( $file ,$icscontent );
 			
 			// add box below message body

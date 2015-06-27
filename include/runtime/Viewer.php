@@ -24,7 +24,7 @@ class Vtiger_Viewer extends SmartyBC {
 	 */
 	protected function log($message, $delimiter="\n") {
 		static $file = null;
-		if ($file == null) $file = dirname(__FILE__) . '/../../cache/logs/viewer-debug.log';
+		if ($file == null) $file = dirname(__FILE__) . '/../../data/logs/viewer-debug.log';
 		if (self::$debugViewer) {
 			file_put_contents($file, $message.$delimiter, FILE_APPEND);
 		}
@@ -45,13 +45,13 @@ class Vtiger_Viewer extends SmartyBC {
 			self::$currentLayout = $media;
 			$customTemplatesDir = $THISDIR . '/../../custom/layouts/'.$media;
 			$templatesDir = $THISDIR . '/../../layouts/'.$media;
-			$compileDir = $THISDIR . '/../../cache/templates_c/'.$media;
+			$compileDir = $THISDIR . '/../../data/cache/templates_c/'.$media;
 		}
 		if(empty($templatesDir) || !file_exists($templatesDir)) {
 			self::$currentLayout = self::getDefaultLayoutName();
 			$customTemplatesDir = $THISDIR . '/../../custom/layouts/'.self::getDefaultLayoutName();
 			$templatesDir = $THISDIR . '/../../layouts/'.self::getDefaultLayoutName();
-			$compileDir = $THISDIR . '/../../cache/templates_c/'.self::getDefaultLayoutName();
+			$compileDir = $THISDIR . '/../../data/cache/templates_c/'.self::getDefaultLayoutName();
 		}
 
 		if (!file_exists($compileDir)) {

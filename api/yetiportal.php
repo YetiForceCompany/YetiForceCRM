@@ -11,7 +11,7 @@ require_once('modules/Emails/mail.php');
 require_once('modules/Users/Users.php');
 require_once('modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php');
 
-ini_set('error_log',$root_directory.'cache/logs/yetiportal.log');
+ini_set('error_log',$root_directory.'data/logs/yetiportal.log');
 
 /** Configure language for server response translation */
 $current_language = vglobal('current_language');
@@ -1998,7 +1998,7 @@ function get_pdf($id,$block,$customerid,$sessionid)
 	$_REQUEST['record']= $id;
 	$_REQUEST['savemode']= 'file';
 	$sequenceNo = getModuleSequenceNumber($block, $id);
-	$filenamewithpath='storage/Products/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
+	$filenamewithpath='data/storage/Products/'.$id.'_'.$block.'_'.$sequenceNo.'.pdf';
 	if (file_exists($filenamewithpath) && (filesize($filenamewithpath) != 0))
 	unlink($filenamewithpath);
 
