@@ -232,6 +232,34 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 	}
 	
 	function getFooterScripts(Vtiger_Request $request){
+		$jsFileNames = [
+			'~/libraries/jquery/jquery.blockUI.js',
+			'~/libraries/jquery/chosen/chosen.jquery.js',
+			'~/libraries/jquery/select2/select2.full.js',
+			'~/libraries/jquery/jquery-ui/jquery-ui.js',
+			'~/libraries/jquery/jquery.class.js',
+			'~/libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
+			'~/libraries/jquery/jstorage.js',
+			'~/libraries/jquery/autosize/jquery.autosize-min.js',
+			'~/libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
+			'~/libraries/jquery/pnotify/pnotify.custom.js',
+			'~/libraries/jquery/jquery.hoverIntent.minified.js',
+			'~/libraries/bootstrap3/js/bootstrap.js',
+			'~/libraries/bootstrap3/js/bootstrap-switch.js',
+			'~/libraries/bootstrap3/js/bootbox.js',
+			'~/libraries/jquery/selectize/js/selectize.js',
+			'~/layouts/vlayout/resources/jquery.additions.js',
+			'~/layouts/vlayout/resources/app.js',
+			'~/layouts/vlayout/resources/helper.js',
+			'~/layouts/vlayout/resources/Connector.js',
+			'~/layouts/vlayout/resources/ProgressIndicator.js',
+			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
+			'~/libraries/jquery/datepicker/js/datepicker.js',
+			'~/libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
+			'~/libraries/jquery/jquery.ba-outside-events.js',
+			'~/libraries/jquery/jquery.placeholder.js',
+		];
+
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
 		$fileName = "libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists($fileName)) {
@@ -260,8 +288,22 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			}
 
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
+			$minFilePath = str_replace('.js','.min.js', $completeFilePath);
 
-			if(file_exists($completeFilePath)) {
+			if(file_exists($minFilePath)) {
+				$minjsFileName = str_replace('.js','.min.js', $jsFileName);
+				if (strpos($minjsFileName, '~') === 0) {
+					$minjsFileName = ltrim(ltrim($minjsFileName, '~'), '/');
+					// if ~~ (reference is outside vtiger6 folder)
+					if (substr_count($minjsFileName, "~") == 2) {
+						$minjsFileName = "../" . $minjsFileName;
+					}
+				} else {
+					$minjsFileName = str_replace('.','/', $jsFileName) . '.'.$fileExtension;
+				}
+
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $minjsFileName);
+			}else if(file_exists($completeFilePath)) {
 				if (strpos($jsFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 					// if ~~ (reference is outside vtiger6 folder)
@@ -285,6 +327,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
 				}
 			}
+
 		}
 		return $jsScriptInstances;
 	}
