@@ -27,6 +27,8 @@ $languageStrings = [
 	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
 	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
 	
+	'LBL_MANDATORY' => '__UNTRANSLATED__',
+	'LBL_OPTIONAL' => '__UNTRANSLATED__',
 	'LBL_LIBRARY' => '__UNTRANSLATED__',
 	'LBL_INSTALLED' => '__UNTRANSLATED__',
 	'LBL_PDO_SUPPORT'=>'PDO',

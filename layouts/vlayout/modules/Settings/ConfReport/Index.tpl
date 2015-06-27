@@ -18,6 +18,9 @@
 						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_INSTALLED', $MODULE)}</span>
 						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_MANDATORY', $MODULE)}</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,6 +28,13 @@
 						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
 							<td><label>{vtranslate($key, $MODULE)}</label></td>
 							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
+							<td><label>
+								{if $item.mandatory}
+									{vtranslate('LBL_MANDATORY', $MODULE)}
+								{else}
+									{vtranslate('LBL_OPTIONAL', $MODULE)}
+								{/if}
+							</label></td>
 						</tr>
 					{/foreach}
 				</tbody>
@@ -45,11 +55,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=foo}
-						<tr {if $foo.status}class="danger"{/if}>
+					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+						<tr {if $item.status}class="danger"{/if}>
 							<td><label>{$key}</label></td>
-							<td><label>{vtranslate($foo.prefer, $MODULE)}</label></td>
-							<td><label>{vtranslate($foo.current, $MODULE)}</label></td>
+							<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
+							<td><label>{vtranslate($item.current, $MODULE)}</label></td>
 						</tr>
 					{/foreach}
 				</tbody>
@@ -71,17 +81,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=foo}			
-						<tr {if $foo.permission eq 'FailedPermission'}class="error"{/if}>
+					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}			
+						<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
 							<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
-							<td width="23%"><label class="marginRight5px">{vtranslate($foo.path, $MODULE)}</label></td>
+							<td width="23%"><label class="marginRight5px">{vtranslate($item.path, $MODULE)}</label></td>
 							<td width="23%"><label class="marginRight5px">
-									{if $foo.permission eq 'FailedPermission'}
+									{if $item.permission eq 'FailedPermission'}
 										{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}
 									{else}
 										{vtranslate('LBL_TRUE_PERMISSION', $MODULE)}
 									{/if}
-								</label></td>			
+							</label></td>			
 						</tr>
 					{/foreach}
 				</tbody>

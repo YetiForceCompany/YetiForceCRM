@@ -45,18 +45,18 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 	);
 	
 	public static $library = array(
-		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open'],
-		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate'],
-		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'PDO'],
-		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl'],
-		'LBL_CURL' => ['type' => 'e', 'name' => 'curl'],
-		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd'],
-		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect'],
-		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre'],
-		'LBL_XML_LIBRARY' => ['type' => 'e', 'name' => 'xml'],
-		'LBL_JSON_LIBRARY' => ['type' => 'e', 'name' => 'json'],
-		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session'],
-		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom'],
+		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
+		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
+		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'PDO', 'mandatory' => true],
+		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl', 'mandatory' => true],
+		'LBL_CURL' => ['type' => 'e', 'name' => 'curl', 'mandatory' => true],
+		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd', 'mandatory' => true],
+		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
+		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre', 'mandatory' => true],
+		'LBL_XML_LIBRARY' => ['type' => 'e', 'name' => 'xml', 'mandatory' => true],
+		'LBL_JSON_LIBRARY' => ['type' => 'e', 'name' => 'json', 'mandatory' => true],
+		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session', 'mandatory' => true],
+		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 	);
 
 	public static function getConfigurationLibrary() {
@@ -66,9 +66,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			}elseif($v['type'] == 'e'){
 				$status = extension_loaded($v['name']);
 			}
-			$return[$k] = ['status' => $status?'LBL_YES':'LBL_NO', 'name' => $v['name']];
+			self::$library[$k]['status'] = $status?'LBL_YES':'LBL_NO';
 		}
-		return $return;
+		return self::$library;
 	}
 	
 	public static function getConfigurationValue() {
@@ -218,7 +218,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
 
-		$db = PearDatabase::getInstance();
+		$db = PearDatabase::getInstance(false);
 		if ($db) {
 			$result = $db->query('SELECT @@max_allowed_packet');
 			$maxAllowedPacket = $db->getSingleValue($result);
@@ -240,14 +240,17 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 	 * Function returns permissions to the core files and folder
 	 * @return <Array>
 	 */
-	public static function getPermissionsFiles() {
+	public static function getPermissionsFiles($onlyError = false) {
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
 		require_once ('include/utils/VtlibUtils.php');
 		foreach ($writableFilesAndFolders as $index => $value) {
-			$permissions[$index]['permission'] = 'TruePermission';
-			$permissions[$index]['path'] = $value;
-			if (!vtlib_isWriteable($value)) {
+			$isWriteable = vtlib_isWriteable($value);
+			if(!$isWriteable || !$onlyError){
+				$permissions[$index]['permission'] = 'TruePermission';
+				$permissions[$index]['path'] = $value;
+			}
+			if (!$isWriteable) {
 				$permissions[$index]['permission'] = 'FailedPermission';
 			}
 		}

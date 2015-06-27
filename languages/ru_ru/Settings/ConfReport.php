@@ -44,6 +44,8 @@ $languageStrings = [
 	'LBL_YETIFORCE_ENGINE' => 'Параметры Системы',
 	'LBL_CHECK_CONFIG' => 'Параметры Почты',
 	
+	'LBL_MANDATORY' => '__UNTRANSLATED__',
+	'LBL_OPTIONAL' => '__UNTRANSLATED__',
 	'LBL_LIBRARY' => '__UNTRANSLATED__',
 	'LBL_INSTALLED' => '__UNTRANSLATED__',
 	'LBL_PDO_SUPPORT'=>'PDO',

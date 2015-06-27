@@ -28,6 +28,8 @@ $languageStrings = [
 	'LBL_YETIFORCE_ENGINE' => 'YetiForce Engine',
 	'LBL_CHECK_CONFIG' => 'RoundCube Engine',
 	
+	'LBL_MANDATORY' => 'Obowiązkowe',
+	'LBL_OPTIONAL' => 'Opcjonalne',
 	'LBL_LIBRARY' => 'Wsparcie dla bibliotek',
 	'LBL_INSTALLED' => 'Zainstalowana',
 	'LBL_PDO_SUPPORT'=>'PDO',
