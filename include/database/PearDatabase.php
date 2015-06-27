@@ -72,7 +72,7 @@ class PearDatabase {
 	/**
 	 * Manage instance usage of this class
 	 */
-	static function &getInstance() {
+	static function &getInstance($dieOnError = true) {
 		global $adb;
 
 		if (!isset($adb)) {
@@ -80,7 +80,7 @@ class PearDatabase {
 		}
 		if ($adb->database == NULL) {
 			$adb->log('Database getInstance: Error connecting to the database', 'error');
-			$adb->checkError('Error connecting to the database', true);
+			$adb->checkError('Error connecting to the database', $dieOnError);
 			return false;
 		}
 		return $adb;
