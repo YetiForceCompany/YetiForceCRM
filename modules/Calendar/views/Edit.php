@@ -145,6 +145,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
         $viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
         $viewer->assign('CURRENT_USER', $currentUser);
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 
 		$viewer->view('EditView.tpl', $moduleName);
 	}

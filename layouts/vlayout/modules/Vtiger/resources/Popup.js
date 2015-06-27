@@ -719,11 +719,17 @@ jQuery.Class("Vtiger_Popup_Js",{
 		});
 	},
 
-	registerEventForListViewEntries : function(){
+	registerEventForListViewEntries: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-		    thisInstance.getListViewEntries(e);
+		popupPageContentsContainer.on('click', '.listViewEntries', function (e) {
+			thisInstance.getListViewEntries(e);
+		});
+		popupPageContentsContainer.on('keypress', '.listViewEntries', function (e) {
+			var keycode = (e.keyCode ? e.keyCode : e.which);
+			if (keycode == '13') {
+				$(this).trigger("click");
+			}
 		});
 	},
 

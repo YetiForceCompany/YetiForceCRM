@@ -354,11 +354,15 @@ insert_row: function(row, before)
     if (row.style) $.extend(domrow.style, row.style);
     if (row.uid) $(domrow).data('uid', String(row.uid)); // #1489906
 
+	var labelledby = 't' + row.id;
+	domrow.setAttribute('aria-labelledby', labelledby);
+
     for (var e, domcell, col, i=0; row.cols && i < row.cols.length; i++) {
       col = row.cols[i];
       domcell = document.createElement(this.col_tagname());
       if (col.className) domcell.className = col.className;
       if (col.innerHTML) domcell.innerHTML = col.innerHTML;
+	  domcell.setAttribute('aria-labelledby', labelledby);
       for (e in col.events)
         domcell['on' + e] = col.events[e];
       domrow.appendChild(domcell);

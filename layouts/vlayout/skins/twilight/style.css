@@ -3190,10 +3190,15 @@ table.listViewEntriesTable {
 table.dataTable .form-control {
 	width: 100% !important;
 }
+<<<<<<< HEAD
 #breadcrumb .stepNum{
 	margin-top: 0;
 }
 #breadcrumb .stepText{
 	position: relative;
 	top: -4px;
+=======
+.quickCreateContent table.massEditTable td.fieldValue {
+	width: 30%;
+>>>>>>> upstream/LAB-RS
 }

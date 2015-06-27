@@ -106,6 +106,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'modules.Vtiger.resources.Mobile',
 			'modules.Settings.DataAccess.resources.SaveResult',
 		);
+		if(vglobal('javascriptLimited')){
+			$jsFileNames[] = 'libraries.bootstrap3.dist.js.bootstrap-multiselect';
+		}
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances,$jsScriptInstances);
@@ -129,6 +132,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'~/libraries/jquery/timepicker/jquery.timepicker.css',
 			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
 		);
+		if(vglobal('javascriptLimited')){
+			$cssFileNames[] = 'libraries/bootstrap3/dist/css/bootstrap-multiselect.min.css';
+		}
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;

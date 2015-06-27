@@ -692,7 +692,7 @@
 				}
 				
 				if (typeof errorMsg == 'string' && options.onBeforePromptType){
-					options.onBeforePromptType(field);
+					options.onBeforePromptType(field,errorMsg);
 				}
 				
 				// If it has been specified that validation should end now, break

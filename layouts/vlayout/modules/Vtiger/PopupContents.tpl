@@ -68,48 +68,52 @@
 			{/if}
 			</tr>
 		</thead>
-		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
-		<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
-			{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
-			{if $MULTI_SELECT}
-			<td class="{$WIDTHTYPE}">
-				<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
-			</td>
-			{/if}
-			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-			<td class="listViewEntryValue {$WIDTHTYPE}">
-				{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-					<a>{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-                        {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-					{else}
-						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-					{/if}</a>
-				{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
-					{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
-					{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
-						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
-					{else}
-						{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-					{/if}
-				{else if $LISTVIEW_HEADERNAME eq 'listprice'}
-					{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
-				{else}
-					{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-                        {decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-                    {else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-                        {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-					{else}
-						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-                    {/if}
+		<tbody>
+			{assign var=TABINDEX value=10}
+			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
+				{assign var=TABINDEX value=$TABINDEX+1}
+			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
+				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}" tabindex="{$TABINDEX}">
+				{if $MULTI_SELECT}
+				<td class="{$WIDTHTYPE}">
+					<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
+				</td>
 				{/if}
-			</td>
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+				<td class="listViewEntryValue {$WIDTHTYPE}">
+					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
+						<a>{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}</a>
+					{else if $LISTVIEW_HEADER->get('uitype') eq '72'}
+						{assign var=CURRENCY_SYMBOL_PLACEMENT value={$CURRENT_USER_MODEL->get('currency_symbol_placement')}}
+						{if $CURRENCY_SYMBOL_PLACEMENT eq '1.0$'}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}{$LISTVIEW_ENTRY->get('currencySymbol')}
+						{else}
+							{$LISTVIEW_ENTRY->get('currencySymbol')}{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}
+					{else if $LISTVIEW_HEADERNAME eq 'listprice'}
+						{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
+					{else}
+						{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
+							{decimalFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
+						{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+							{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+						{else}
+							{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
+						{/if}
+					{/if}
+				</td>
+				{/foreach}
+				{if $POPUPTYPE == 2}
+					<td class="{$WIDTHTYPE}"></td>
+				{/if}
+			</tr>
 			{/foreach}
-			{if $POPUPTYPE == 2}
-				<td class="{$WIDTHTYPE}"></td>
-			{/if}
-		</tr>
-		{/foreach}
+		</tbody>
 	</table>
 </div>
 

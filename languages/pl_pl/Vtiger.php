@@ -960,6 +960,8 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Dni',
 	'LBL_MONTHS_CHART' => 'Miesiące',
 	'LBL_ZOOMING' => 'Powiększanie',
+	
+	'LBL_FORMAT' => 'Format',
 ];
 
 $jsLanguageStrings = [

@@ -84,6 +84,10 @@ var app = {
 		if(view == 'selectize') {
 			return app.showSelectizeElementView(parent, viewParams);
 		}
+		multiSelectBootstrapElement = jQuery('.bootstrap-multiselect', parent);
+		if(multiSelectBootstrapElement.length > 0){
+			app.showMultiSelectBootstrapElement(multiSelectBootstrapElement,viewParams);
+		}
 		selectElement = jQuery('.chzn-select', parent);
 		//parent itself is the element
 		if(parent.is('select.chzn-select')) {
@@ -226,6 +230,16 @@ var app = {
 			params = {};
 		}
 		selectElement.selectize(params);
+		return selectElement;
+	},
+	/**
+	 * Function which will show the multi select Bootstrap element for multi select boxes . This will use bootstrap-multiselect library
+	 */
+	showMultiSelectBootstrapElement : function(selectElement, params) {
+		if(typeof params == 'undefined') {
+			params = {buttonWidth: '100%',};
+		}
+		selectElement.multiselect(params);
 		return selectElement;
 	},
 
@@ -477,12 +491,48 @@ var app = {
 		useSuffix: "_chosen",
 		usePrefix: "s2id_",
 		validateNonVisibleFields: true,
-		onBeforePromptType: function (field) {
+		onBeforePromptType: function (field,errorMsg) {
 			var block = field.closest('.blockContainer');
 			if (block.find('tbody').is(":hidden")) {
 				block.find('.blockToggle[data-mode="hide"]').click();
 			}
 		},
+	},
+	validationEngineOptionsForRecordJSLimited: {
+		scroll: false,
+		promptPosition: 'topLeft',
+		//to support validation for chosen select box
+		prettySelect: true,
+		useSuffix: "_chosen",
+		usePrefix: "s2id_",
+		validateNonVisibleFields: true,
+		onBeforePromptType: function (field,errorMsg) {
+			var block = field.closest('.blockContainer');
+			if (block.find('tbody').is(":hidden")) {
+				block.find('.blockToggle[data-mode="hide"]').click();
+			}
+			field.attr('data-error',errorMsg);
+		},
+		onFieldFailure: function(field){
+			if(typeof field == 'undefined'){
+				return;
+			}
+			var title = field.attr('title');
+			var errorMsg = field.data('error');
+			if(typeof errorMsg != 'undefined' && title.indexOf(errorMsg) == -1){
+				field.attr('data-title',title);
+				field.attr('title',title + ' - ' + errorMsg);
+			}
+		},
+		onFieldSuccess: function(field){
+			if(typeof field == 'undefined'){
+				return;
+			}
+			var title = field.data('title');
+			if(title){
+				field.attr('title',title);
+			}
+		}
 	},
 
 	/**

@@ -70,6 +70,7 @@ Class EmailTemplates_Edit_View extends Vtiger_Edit_View {
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('ALL_FIELDS', $allFiledsOptions);
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 	
