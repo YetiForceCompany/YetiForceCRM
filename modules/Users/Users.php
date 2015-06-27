@@ -492,55 +492,51 @@ class Users extends CRMEntity {
      * Contributor(s): ______________________________________..
      */
     function change_password($user_password, $new_password, $dieOnError = true) {
+		$usr_name = $this->column_fields["user_name"];
+		global $mod_strings;
+		$current_user = vglobal('current_user');
+		$this->log->debug("Starting password change for $usr_name");
 
-        $usr_name = $this->column_fields["user_name"];
-        global $mod_strings;
-        $current_user  = vglobal('current_user');
-        $this->log->debug("Starting password change for $usr_name");
-
-        if( !isset($new_password) || $new_password == "") {
-            $this->error_string = $mod_strings['ERR_PASSWORD_CHANGE_FAILED_1'].$user_name.$mod_strings['ERR_PASSWORD_CHANGE_FAILED_2'];
-            return false;
-        }
-
-        if (!is_admin($current_user)) {
-              #commenting this as the the transaction is already started in vtws_changepassword
-//            $this->db->startTransaction();
-            if(!$this->verifyPassword($user_password)) {
-                $this->log->warn("Incorrect old password for $usr_name");
-                $this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
-                return false;
-            }
-            if($this->db->hasFailedTransaction()) {
-                if($dieOnError) {
-                    die("error verifying old transaction[".$this->db->database->ErrorNo()."] ".
-                            $this->db->database->ErrorMsg());
-                }
-                return false;
-            }
-        }
+		if (!isset($new_password) || $new_password == "") {
+			$this->error_string = $mod_strings['ERR_PASSWORD_CHANGE_FAILED_1'] . $user_name . $mod_strings['ERR_PASSWORD_CHANGE_FAILED_2'];
+			return false;
+		}
+		
+		if (!is_admin($current_user)) {
+			if (!$this->verifyPassword($user_password)) {
+				$this->log->warn("Incorrect old password for $usr_name");
+				$this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
+				return false;
+			}
+			if ($this->db->hasFailedTransaction()) {
+				if ($dieOnError) {
+					die("error verifying old transaction[" . $this->db->database->ErrorNo() . "] " .
+							$this->db->database->ErrorMsg());
+				}
+				return false;
+			}
+		}
 
 
-        $user_hash = $this->get_user_hash($new_password);
+		$user_hash = $this->get_user_hash($new_password);
 
-        //set new password
-        $crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
-        $encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
+		//set new password
+		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
+		$encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
 
-        $query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, ".
-                "crypt_type=? where id=?";
-          #commenting this as the the transaction is already started in vtws_changepassword
-//        $this->db->startTransaction();
-        $this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password,
-                $user_hash, $crypt_type, $this->id));
-        if($this->db->hasFailedTransaction()) {
-            if($dieOnError) {
-                die("error setting new password: [".$this->db->database->ErrorNo()."] ".
-                        $this->db->database->ErrorMsg());
-            }
-            return false;
-        }
-
+		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, " .
+				"crypt_type=? where id=?";
+		$this->db->startTransaction();
+		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password,
+			$user_hash, $crypt_type, $this->id));
+		if ($this->db->hasFailedTransaction()) {
+			if ($dieOnError) {
+				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " .
+						$this->db->database->ErrorMsg());
+			}
+			return false;
+		}
+		$this->db->completeTransaction();
 		// Fill up the post-save state of the instance.
 		if (empty($this->column_fields['user_hash'])) {
 			$this->column_fields['user_hash'] = $user_hash;
@@ -550,10 +546,10 @@ class Users extends CRMEntity {
 		$this->column_fields['confirm_password'] = $encrypted_new_password;
 
 		$this->triggerAfterSaveEventHandlers();
-        return true;
-    }
+		return true;
+	}
 
-    function de_cryption($data) {
+	function de_cryption($data) {
         require_once('include/utils/encryption.php');
         $de_crypt = new Encryption();
         if(isset($data)) {

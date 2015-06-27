@@ -52,7 +52,7 @@ Vtiger_Detail_Js("Users_Detail_Js",{
 				function(data) {
 					if(data.success){
 						app.hideModalWindow();
-						Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
+						Vtiger_Helper_Js.showPnotify({text: app.vtranslate(data.result.message), type: 'success'});
 					}else{
 						//old_password.validationEngine('showPrompt', app.vtranslate(data.error.message) , 'error','topLeft',true);
 						Vtiger_Helper_Js.showPnotify(data.error.message);
