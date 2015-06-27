@@ -154,8 +154,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', $currentUser->get('language'));
-		$viewer->assign('MINCSS', Vtiger_Functions::getCompressInfo('css'));
-		$viewer->assign('MINJS', Vtiger_Functions::getCompressInfo('js'));
 		if($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -274,7 +272,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 	function checkAndConvertJsScripts($jsFileNames) {
 		$fileExtension = 'js';
-		$min = Vtiger_Functions::getCompressInfo('js');
 
 		$jsScriptInstances = array();
 		foreach($jsFileNames as $jsFileName) {
@@ -290,7 +287,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
 			$minFilePath = str_replace('.js','.min.js', $completeFilePath);
 
-			if(file_exists($minFilePath)) {
+			if(Vtiger_Functions::getMinimizationOptions($fileExtension) && file_exists($minFilePath)) {
 				$minjsFileName = str_replace('.js','.min.js', $jsFileName);
 				if (strpos($minjsFileName, '~') === 0) {
 					$minjsFileName = ltrim(ltrim($minjsFileName, '~'), '/');
@@ -353,7 +350,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
 			$filePath = NULL;
 			$minFilePath = str_replace('.css','.min.css', $completeFilePath);
-			if(file_exists($minFilePath)) {
+			if(Vtiger_Functions::getMinimizationOptions($fileExtension) &&  file_exists($minFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
 					$minFilePath = str_replace('.css','.min.css', $cssFileName);
 					$filePath = ltrim(ltrim($minFilePath, '~'), '/');
