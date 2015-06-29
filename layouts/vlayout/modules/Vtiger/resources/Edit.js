@@ -1129,15 +1129,15 @@ jQuery.Class("Vtiger_Edit_Js",{
 	},
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getForm();
-		detailContentsHolder.on('click','.blockToggle',function(e){
-			var currentTarget =  jQuery(e.currentTarget);
+		detailContentsHolder.on('click','.blockHeader',function(e){
+			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.blockContainer');
 			var bodyContents = closestBlock.find('tbody');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide('slow');
+				bodyContents.hide();
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
@@ -1156,6 +1156,30 @@ jQuery.Class("Vtiger_Edit_Js",{
 			}
 		});
 
+	},
+	
+	registerBlockStatusCheckOnLoad : function(){
+		var blocks = this.getForm().find('.blockContainer');
+		var module = app.getModuleName();
+		blocks.each(function(index,block){
+			var currentBlock = jQuery(block);
+			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
+			var bodyContents = currentBlock.find('tbody')
+			var blockId = headerAnimationElement.data('id');
+			var cacheKey = module+'.'+blockId;
+			var value = app.cacheGet(cacheKey, null);
+			if(value != null){
+				if(value == 1){
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='show']").removeClass('hide');
+					bodyContents.show();
+				} else {
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='hide']").removeClass('hide');
+					bodyContents.hide();
+				}
+			}
+		});
 	},
 	
 	getDataFromOG : function(request, apiData){
@@ -1358,6 +1382,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		}
 		this.registerHelpInfo();
 		this.registerBlockAnimationEvent();
+		this.registerBlockStatusCheckOnLoad();
 		this.registerEventForCkEditor();
 		this.stretchCKEditor();
 		this.registerBasicEvents(this.getForm());

@@ -951,15 +951,15 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click','.blockToggle',function(e){
-			var currentTarget =  jQuery(e.currentTarget);
+		detailContentsHolder.on('click','.blockHeader',function(e){
+			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.detailview-table');
 			var bodyContents = closestBlock.find('tbody');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide('slow');
+				bodyContents.hide();
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
@@ -977,7 +977,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
-
 	},
 
 	registerBlockStatusCheckOnLoad : function(){
@@ -992,12 +991,12 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var value = app.cacheGet(cacheKey, null);
 			if(value != null){
 				if(value == 1){
-					headerAnimationElement.hide();
-					currentBlock.find("[data-mode='show']").show();
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='show']").removeClass('hide');
 					bodyContents.show();
 				} else {
-					headerAnimationElement.hide();
-					currentBlock.find("[data-mode='hide']").show();
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='hide']").removeClass('hide');
 					bodyContents.hide();
 				}
 			}

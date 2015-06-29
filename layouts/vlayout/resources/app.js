@@ -415,7 +415,7 @@ var app = {
 		onBeforePromptType: function (field) {
 			var block = field.closest('.blockContainer');
 			if (block.find('tbody').is(":hidden")) {
-				block.find('.blockToggle[data-mode="hide"]').click();
+				block.find('.blockHeader').click();
 			}
 		},
 	},
