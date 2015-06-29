@@ -300,6 +300,14 @@ var app = {
 	},
 
 	showModalWindow: function(data, url, cb, paramsObject) {
+		//null is also an object
+		if(typeof data == 'object' && data != null && !(data instanceof jQuery)){
+			paramsObject = data.css;
+			cb = data.cb;
+			url = data.url;
+			data = data.data
+
+		}
 		if (typeof url == 'function') {
 			if(typeof cb == 'object') {
 				paramsObject = cb;

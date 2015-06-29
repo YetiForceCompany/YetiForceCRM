@@ -10,29 +10,33 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div id="addFolderContainer" class="modelContainer" style='min-width:350px;'>
-		<div class="modal-header">
-			<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-			<h3>{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}</h3>
-		</div>
-		<form class="form-horizontal contentsBackground" id="addFolder" method="post" action="index.php">
-			<input type="hidden" name="module" value="{$MODULE}" />
-			<input type="hidden" name="action" value="Folder" />
-			<input type="hidden" name="mode" value="save" />
-			<input type="hidden" name="folderid" value="{$FOLDER_MODEL->getId()}" />
-			<div class="modal-body">
-				<div class="row verticalBottomSpacing">
-					<span class="col-md-4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
-					<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{vtranslate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="col-md-12" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
+	<div id="addFolderContainer" class="modelContainer modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
+					<h3 class="modal-title">{vtranslate('LBL_ADD_NEW_FOLDER', $MODULE)}</h3>
 				</div>
-				<div class="row">
-					<span class="col-md-4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
-					<span class="col-md-7 row">
-						<textarea class="col-md-12" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
-					</span>
-				</div>
+				<form class="form-horizontal contentsBackground" id="addFolder" method="post" action="index.php">
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="action" value="Folder" />
+					<input type="hidden" name="mode" value="save" />
+					<input type="hidden" name="folderid" value="{$FOLDER_MODEL->getId()}" />
+					<div class="modal-body">
+						<div class="row verticalBottomSpacing">
+							<span class="col-md-4">{vtranslate('LBL_FOLDER_NAME', $MODULE)}<span class="redColor">*</span></span>
+							<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{vtranslate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="form-control" type="text" value="{vtranslate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
+						</div>
+						<div class="row">
+							<span class="col-md-4">{vtranslate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
+							<span class="col-md-7 row">
+								<textarea class="form-control" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" placeholder="{vtranslate('LBL_WRITE_YOUR_DESCRIPTION_HERE', $MODULE)}">{vtranslate($FOLDER_MODEL->getDescription(), $MODULE)}</textarea>
+							</span>
+						</div>
+					</div>
+					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				</form>
 			</div>
-			{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
-		</form>
+		</div>
 	</div>
 {/strip}

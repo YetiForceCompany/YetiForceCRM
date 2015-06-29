@@ -256,7 +256,7 @@ display: none;
 												{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 												</label>
 												<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-													<select style="margin-left: 10px;" name="displaytype" class="col-md-2">
+													<select name="displaytype" class="form-control">
 														{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 															<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 														{/foreach}
@@ -449,7 +449,7 @@ display: none;
 				{assign var=DISPLAY_TYPE value=$FIELD_MODEL->showDisplayTypeList()}
 				</label>
 				<div class="padding1per defaultValueUi" style="padding : 0px 10px 0px 25px;">
-					<select style="margin-left: 10px;" name="displaytype" class="col-md-2">
+					<select name="displaytype" class="form-control">
 						{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE}
 							<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_VALUE == $FIELD_MODEL->get('displaytype')} selected {/if} >{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 						{/foreach}
@@ -599,7 +599,7 @@ display: none;
 									<span>
 										<label class="checkbox" style="padding-left: 5px;">
 										{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}
-										<select style="margin-left: 10px;" name="displaytype" class="col-md-1">
+										<select name="displaytype" class="form-control">
 											{foreach key=DISPLAY_TYPE_KEY item=DISPLAY_TYPE_VALUE from=$DISPLAY_TYPE_LIST}
 												<option value="{$DISPLAY_TYPE_KEY}" {if $DISPLAY_TYPE_KEY == '1'} selected {/if}>{vtranslate($DISPLAY_TYPE_VALUE, $QUALIFIED_MODULE)}</option>
 											{/foreach}

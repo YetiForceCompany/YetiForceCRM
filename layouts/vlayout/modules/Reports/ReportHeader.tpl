@@ -24,14 +24,14 @@
                     <div class="btn-toolbar">
                         {if $REPORT_MODEL->isEditable() eq true}
                             <div class="btn-group">
-                                <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn">
+                                <button onclick='window.location.href="{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
                                     <strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </div>
                         {/if}
                         <div class="btn-group">
-                            <button onclick='window.location.href="{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn">
+                            <button onclick='window.location.href="{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
                                 <strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
                             </button>
                         </div>
@@ -53,7 +53,7 @@
                             {foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
                                 {assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}
                                 <div class="btn-group">
-                                    <button class="btn reportActions" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
+                                    <button class="btn reportActions btn-default" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
                                         <strong>{$LINKNAME}</strong>
                                     </button>
                                 </div>
@@ -87,7 +87,7 @@
                 {include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
                 <div class="row">
                     <div class="textAlignCenter">
-                        <button class="btn generateReport" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
+                        <button class="btn generateReport btn-default" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
                             <strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
                         </button>&nbsp;
                         <button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>

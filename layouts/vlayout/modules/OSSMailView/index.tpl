@@ -114,18 +114,22 @@
 </div>
 
 {* modal promtp for uninstall *}
-<div id="myModal" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('MSG_DEL_WARN1', $MODULENAME)}</h3>
-    </div>
-    <div class="modal-body">
-        <p>{vtranslate('MSG_DEL_WARN2', $MODULENAME)}</p>
-        <p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSMailScanner module', $MODULENAME)}</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
-        <a href="#" class="btn btn-danger okay-button" id="confirm" type="submit" name="uninstall" form="EditView" disabled="disabled">{vtranslate('Yes', $MODULENAME)}</a>
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title">>{vtranslate('MSG_DEL_WARN1', $MODULENAME)}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{vtranslate('MSG_DEL_WARN2', $MODULENAME)}</p>
+				<p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSMailScanner module', $MODULENAME)}</p>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
+				<a href="#" class="btn btn-danger okay-button" id="confirm" type="submit" name="uninstall" form="EditView" disabled="disabled">{vtranslate('Yes', $MODULENAME)}</a>
+			</div>          
+		</div>          
     </div>          
 </div>
 	</div>
