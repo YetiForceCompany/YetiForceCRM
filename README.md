@@ -18,7 +18,7 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.156 from 22nd June 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.183 from 25th June 2015.
 
 
 **Bug Fixes:** 
@@ -34,6 +34,7 @@ Below you can see how we improve our project:
 -	Fixed a bug that appeared during saving of a field in Company Details.
 -	Fixed a bug that appeared during export of invoices to PDF.
 -	Fixed a bug that appeared during the installation prosess and caused the system to fail.
+-	Fixed a bug that did not allow to add a custom field with 1:M relation
 -	Fixed handlers link and unlink.
 -	Fixed the display of two parameters in server configuration.
 -	Fixed the display of calendar records.
@@ -48,6 +49,9 @@ Below you can see how we improve our project:
 -	Fixed info about the number of records in related modules.
 -	Fixed a relation between Quotes and Calculations.
 -	Fixed the authentication of users.
+-	Fixed the abilty to add fields in the 'Company details' panel.
+-	Fixed the system installer.
+-	Fixed database connection in the mail module.
 
 
 **Improvements:**
@@ -62,6 +66,7 @@ Below you can see how we improve our project:
 -	Improved the display of text fields.
 -	Improved the display of logs in cron.
 -	Improved the display of progress bar in the Backup module.
+-	Improved the display of edit window for cron tasks.
 -	Improved the global variables.
 -	Improved the titles of buttons in Details view.
 -	Improved the generation of queries for reference fields.
@@ -77,7 +82,9 @@ Below you can see how we improve our project:
 -	Improved search of email addresses in the Mail Module.
 -	Improved the layout and functioning of custom views.
 -	Improved the loading of unique ID.
--	Improved the panel for Language Management
+-	Improved the panel for Language Management.
+-	Improved the export module.
+-	Improved the mechanism responsible for password change.
 -	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
 -	Added protection when creating records. 
@@ -113,4 +120,4 @@ Below you can see how we improve our project:
 - Added a function that retrieves a database name.
 
 
-The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/ideas,-changes,-bugs/changes.html).
+The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).

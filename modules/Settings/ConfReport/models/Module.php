@@ -68,7 +68,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model {
 		
 		if (ini_get('safe_mode') == '1' || stripos(ini_get('safe_mode'), 'On') !== false)
 			$directiveValues['safe_mode']['current'] = 'On';
-		if (ini_get('display_errors') != '0' || stripos(ini_get('display_errors'), 'On') !== false)
+		if (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false)
 			$directiveValues['display_errors']['current'] = 'On';
 		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['current'] = 'Off';

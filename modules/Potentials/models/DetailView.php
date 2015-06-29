@@ -97,15 +97,22 @@ class Potentials_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkicon' => '',
 				'related' => 'Details'
 		);
-		$relatedLinks[] = array(
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl().'&mode=showRelatedProductsServices&requestMode=summary',
-				'linkicon' => '',
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'ProductsAndServices'
-		);
 		
+		
+		$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') 
+				|| vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices')
+				|| vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+
+		if($showPSTab){
+			$relatedLinks[] = array(
+					'linktype' => 'DETAILVIEWTAB',
+					'linklabel' => vtranslate('LBL_RECORD_SUMMARY_PRODUCTS_SERVICES', $moduleName),
+					'linkurl' => $recordModel->getDetailViewUrl().'&mode=showRelatedProductsServices&requestMode=summary',
+					'linkicon' => '',
+					'linkKey' => 'LBL_RECORD_SUMMARY',
+					'related' => 'ProductsAndServices'
+			);
+		}
 		
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
