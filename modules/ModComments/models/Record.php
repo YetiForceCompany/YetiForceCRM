@@ -71,9 +71,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model {
 		$result = $db->pquery('SELECT vtiger_modcomments.*, vtiger_crmentity.smownerid,
 					vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime FROM vtiger_modcomments
 					INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
-					WHERE modcommentsid = ? AND deleted = 0', array($record));
-		if($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, $i);
+					WHERE modcommentsid = ? AND deleted = 0', [$record]);
+		while ($row = $db->fetch_array($result)) {
 			$self = new self();
 			$self->setData($row);
 			return $self;
