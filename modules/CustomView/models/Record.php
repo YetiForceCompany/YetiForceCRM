@@ -908,6 +908,24 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
             }
 			$customViews[] = $customView->setData($row)->setModule($row['entitytype']);
 		}
+		
+		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
+		if ($moduleName && file_exists($filterDir)) {
+			$view = ['setdefault' => 0, 'setmetrics' => 0, 'status' => 0, 'privileges' => 0];
+			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
+			foreach ($filters as $filter) {
+				$name = str_replace('.php', '', $filter->getFilename());
+				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $moduleName);
+				if (class_exists($handlerClass)) {
+					$handler = new $handlerClass();
+					$view['viewname'] = $handler->getViewName();
+					$view['cvid'] = $name;
+					$customView = new self();
+					$customViews[] = $customView->setData($view)->setModule($moduleName);
+				}
+			}
+		}
+
 		return $customViews;
 	}
 
