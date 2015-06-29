@@ -14,7 +14,7 @@
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 		
-<div class="modelContainer modal fade">
+<div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">
@@ -64,7 +64,7 @@
 											{/if}
 											<label class="muted textAlignRight">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
 											<span class="pull-right">
-												<select style="width: 150px;" class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
+												<select style="width: 150px;" class="chzn-select referenceModulesList form-control" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
 													<optgroup>
 														{foreach key=index item=value from=$refrenceList}
 															<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if} >{vtranslate($value, $value)}</option>

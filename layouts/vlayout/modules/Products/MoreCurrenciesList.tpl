@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div id="currency_class" class="multiCurrencyEditUI modelContainer modal fade">
+<div id="currency_class" class="multiCurrencyEditUI modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 		<div class="modal-header">
@@ -53,12 +53,12 @@
 								</td>
 								<td>
 									<div class="">
-										<input {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
+										<input class="form-control" {$disable_value} type="text" size="10" class="col-md-9 convertedPrice form-control" name="{$price.curname}" id="{$price.curname}" value="{$price.curvalue}" title="{$price.curvalue}" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 									</div>
 								</td>
 								<td>
 									<div class="">
-										<input readonly="" type="text" size="10" class="col-md-9 conversionRate form-control" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
+										<input readonly="" class=form-control"" type="text" size="10" class="col-md-9 conversionRate form-control" name="cur_conv_rate{$price.curid}" title="{$price.conversionrate}" value="{$price.conversionrate}">
 									</div>
 								</td>
 								<td>

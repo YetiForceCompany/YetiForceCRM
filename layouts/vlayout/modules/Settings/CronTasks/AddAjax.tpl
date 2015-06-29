@@ -51,7 +51,7 @@
 					<div class="form-group">
 						 <label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-6 controls">
-							<select class="chzn-select" name="status">
+							<select class="chzn-select form-control" name="status">
 								<optgroup>
 									<option value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
 									<option value="0">{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
