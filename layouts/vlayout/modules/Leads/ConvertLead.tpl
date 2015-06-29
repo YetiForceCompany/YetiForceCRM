@@ -17,6 +17,7 @@
 				<input type="hidden" id="convertLeadErrorTitle" value="{vtranslate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
 				<input id="convertLeadError" class="convertLeadError" type="hidden" value="{vtranslate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
 			{else}
+				{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 				<div class="modal-header contentsBackground">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 					<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)} : {$RECORD->getName()}</h3>
@@ -26,21 +27,22 @@
 					<input type="hidden" name="view" value="SaveConvertLead"/>
 					<input type="hidden" name="record" value="{$RECORD->getId()}"/>
 					<input type="hidden" name="modules" value=''/>
+					<input type="hidden" name="create_account" value="{if $CONVERSION_CONFIG['create_always'] eq 'true'}1{/if}" />
 					<div class="modal-body accordion" id="leadAccordion">
 						{foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
 							<div class="accordion-group convertLeadModules">
 								<div class="header accordion-heading">
 									<div data-parent="#leadAccordion" data-toggle="collapse" class="accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 										{if $ACCOUNT_FIELD_MODEL->isMandatory()}
-											<input type="hidden" id="oppAccMandatory" class="form-control" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
+											<input type="hidden" id="oppAccMandatory" value={$ACCOUNT_FIELD_MODEL->isMandatory()} />
 										{/if}
 										{if $CONTACT_FIELD_MODEL && $CONTACT_FIELD_MODEL->isMandatory()}
-											<input type="hidden" id="oppConMandatory" class="form-control" value={$CONTACT_FIELD_MODEL->isMandatory()} />
+											<input type="hidden" id="oppConMandatory" value={$CONTACT_FIELD_MODEL->isMandatory()} />
 										{/if}
 										{if $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()}
-											<input type="hidden" id="conAccMandatory" class="form-control" value={$CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} />
+											<input type="hidden" id="conAccMandatory" value={$CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} />
 										{/if}
-										<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom form-control" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" {if $MODULE_NAME == 'Accounts' && $CONTACT_ACCOUNT_FIELD_MODEL && $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} disabled="disabled" {/if} checked="" />
+										<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" {if $MODULE_NAME == 'Accounts' && $CONTACT_ACCOUNT_FIELD_MODEL && $CONTACT_ACCOUNT_FIELD_MODEL->isMandatory()} disabled="disabled" {/if} checked="" />
 											{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
 											<span style="position:relative;top:2px;">&nbsp;&nbsp;&nbsp;{vtranslate('LBL_CREATE', $MODULE)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 											<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} icon-inverted icon-chevron-up {elseif !$CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Contacts"} icon-inverted glyphicon glyphicon-chevron-up {else} icon-inverted glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
@@ -85,7 +87,6 @@
 											{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 											{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 											{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-											{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 
 											{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 											{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}

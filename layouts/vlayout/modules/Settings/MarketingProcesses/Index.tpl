@@ -19,11 +19,20 @@
 		<div class="tab-pane active" id="conversiontoaccount">
 			{assign var=CONVERSION value=$MODULE_MODEL->getConfig('conversion')}
 			<div class="row">
-				<div class="col-md-3"><label class="">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
-				<div class="col-md-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
-				<div class="col-md-8">
+				<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
+				<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
+				<div class="col-xs-8">
 					<span class="alert alert-info pull-right">
 						{vtranslate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3"><label class="">{vtranslate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
+				<div class="col-xs-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
+				<div class="col-xs-8">
+					<span class="alert alert-info pull-right">
+						{vtranslate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
 					</span>
 				</div>
 			</div>

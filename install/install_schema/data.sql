@@ -21929,6 +21929,7 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('convers
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','groups','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','create_always','false');
 
 /*Data for the table `yetiforce_proc_sales` */
 
