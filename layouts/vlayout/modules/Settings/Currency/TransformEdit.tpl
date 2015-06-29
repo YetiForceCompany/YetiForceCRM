@@ -11,7 +11,7 @@
 -->*}
 {strip}
     {assign var=CURRENCY_ID value=$RECORD_MODEL->getId()}
-    <div class="currencyTransformModalContainer modal fade">
+    <div class="currencyTransformModalContainer modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -31,7 +31,7 @@
 							<div class="form-group">
 								<label class="muted control-label">{vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>
 								<div class="controls row">
-									<select class="select2 col-md-6" name="transform_to_id">
+									<select class="select2 col-md-6 form-control" name="transform_to_id">
 										{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$CURRENCY_LIST}
 											<option value="{$CURRENCY_ID}">{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
 										{/foreach}

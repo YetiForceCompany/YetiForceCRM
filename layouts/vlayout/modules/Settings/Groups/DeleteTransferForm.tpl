@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class="modelContainer modal fade">
+<div class="modelContainer modal fade" tabinedx="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -30,7 +30,7 @@
 							</strong>
 						</span>
 						<div class="controls">
-							<select id="transfer_record" name="transfer_record" class="chzn-select">
+							<select id="transfer_record" name="transfer_record" class="chzn-select form-control">
 								<optgroup label="{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}">
 									{foreach from=$ALL_USERS key=USER_ID item=USER_MODEL}
 										<option value="{$USER_ID}">{$USER_MODEL->getName()}</option>

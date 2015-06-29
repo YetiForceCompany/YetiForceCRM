@@ -80,7 +80,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
-										<select class="select user" name="user" data-validation-engine="validate[required]">
+										<select class="select user form-control" name="user" data-validation-engine="validate[required]">
 										{foreach from=$USERS item=item key=key}
 											<option value="{$key}">{$item->getDisplayName()}</option>
 										{/foreach}
@@ -90,7 +90,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_TYPE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-6 controls">
-										<select multiple="" class="select type" name="type">
+										<select multiple="" class="select type form-control" name="type">
 										{foreach from=$MODULE_MODEL->getTypes() item=item}
 											<option selected="" value="{$item}">{$item}</option>
 										{/foreach}

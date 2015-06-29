@@ -11,11 +11,11 @@
 -->*}
 {strip}
 <div class="" id="importModules">
-	<div class="widget_header row">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
 	<div class="contents">
-		<div class="row">
+		<div>
 			<div id="vtlib_modulemanager_import_div">
 				<form method="POST" action="index.php">
 					<input type="hidden" name="module" value="ModuleManager">

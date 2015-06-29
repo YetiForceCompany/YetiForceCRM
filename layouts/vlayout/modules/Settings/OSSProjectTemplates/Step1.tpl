@@ -58,7 +58,7 @@
 </div> 
 <br />
 
-<div id="step_1_modal" class="modal fade">
+<div id="step_1_modal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
