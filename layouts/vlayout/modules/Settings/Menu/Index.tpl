@@ -33,20 +33,24 @@
 		<div id="treeContent"></div>
 	</div>
 </div>
-<div class="modal deleteAlert hide" style="width: 400px;">
-    <div class="modal-header contentsBackground">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{vtranslate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h3>
-    </div>
-	<div class="modal-body">
-		<p>{vtranslate('LBL_REMOVE_DESC', $QUALIFIED_MODULE)}</p>
-	</div>
-	<div class="modal-footer">
-		<div class="pull-left">
-			<a class="btn btn-danger" data-dismiss="modal">{vtranslate('LBL_REMOVE', $QUALIFIED_MODULE)}</a>
-		</div>
-		<div class="pull-right">
-			<a class="btn btn-inverse" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+<div class="modal deleteAlert fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header contentsBackground">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title">{vtranslate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h3>
+			</div>
+			<div class="modal-body">
+				<p>{vtranslate('LBL_REMOVE_DESC', $QUALIFIED_MODULE)}</p>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<a class="btn btn-danger" data-dismiss="modal">{vtranslate('LBL_REMOVE', $QUALIFIED_MODULE)}</a>
+				</div>
+				<div class="pull-right">
+					<a class="btn btn-inverse" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
