@@ -100,6 +100,7 @@ var Settings_UserColors_Js = {
 					animation: 'show',
 					type: 'success'
 				};
+				app.hideModalWindow();
 				Vtiger_Helper_Js.showPnotify(params);
 				return response;
 			},
