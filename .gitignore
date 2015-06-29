@@ -4,7 +4,7 @@
 /.buildpath
 /README.md
 /cache/templates_c
-/config.csrf-secret.php
+/config/csrf_secret.php
 /config/config_override.php
 /cache/logs/*.log
 /test/templates_c/vlayout/*.php
