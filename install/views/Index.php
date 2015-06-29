@@ -120,10 +120,7 @@ class Install_Index_view extends Vtiger_View_Controller {
 		$viewer->assign('LANG', $request->get('lang'));
 		$viewer->setTemplateDir('install/tpl/');
 
-		$viewer->assign('FAILED_FILE_PERMISSIONS', Install_Utils_Model::getFailedPermissionsFiles());
-		$viewer->assign('PHP_INI_CURRENT_SETTINGS', Install_Utils_Model::getCurrentDirectiveValue());
-		$viewer->assign('PHP_INI_RECOMMENDED_SETTINGS', Install_Utils_Model::getRecommendedDirectives());
-		$viewer->assign('SYSTEM_PREINSTALL_PARAMS', Install_Utils_Model::getSystemPreInstallParameters());
+		$viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		echo $viewer->fetch('Step3.tpl');
 	}
 

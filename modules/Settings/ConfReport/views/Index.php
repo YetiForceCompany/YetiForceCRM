@@ -11,17 +11,13 @@
 class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request) {
-		$conf = Settings_ConfReport_Module_Model::getConfigurationValue();
-		$permissions = Settings_ConfReport_Module_Model::getPermissionsFiles();
-   
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$viewer->assign( 'CCURL', 'index.php?module=OSSMail&view=CheckConfig');
-		$viewer->assign('CONF', $conf);
-		$viewer->assign('PERMISSIONS', $permissions);
+		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
+
 }

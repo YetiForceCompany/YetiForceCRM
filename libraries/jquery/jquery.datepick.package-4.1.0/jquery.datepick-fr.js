@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    French localisation for jQuery Datepicker.
    Stéphane Nahmani (sholby@sholby.net). */
 (function($) {

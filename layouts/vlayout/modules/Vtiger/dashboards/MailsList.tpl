@@ -1,4 +1,4 @@
-﻿<div class="dashboardWidgetHeader">
+<div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 	{/foreach}

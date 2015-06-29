@@ -14,13 +14,13 @@
 	{if file_exists( vimage_path($IMAGE) )}
 		<span class="pull-left spanModuleIcon moduleIcon{$MODULE_NAME}">
 			<span class="moduleIcon">
-				<img src="{vimage_path($IMAGE)}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+				<img src="{vimage_path($IMAGE)}" class="summaryImg pushDown" alt="{vtranslate($MODULE, $MODULE)}"/>
 			</span>
 		</span>
 	{/if}
-    <span class="col-md-8 margin0px">
-        <span class="row">
-            <h4 class="recordLabel pushDown" title="{$RECORD->getName()}">
+    <div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+        <div>
+            <h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
                 {foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
                     {assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
                     {if $FIELD_MODEL->getPermissions()}
@@ -28,28 +28,28 @@
                     {/if}
                 {/foreach}
             </h4>
-        </span>
+        </div>
         {assign var=RELATED_TO value=$RECORD->get('related_to')}
         {if !empty($RELATED_TO)}
-            <span class="row">
+            <div class="paddingLeft5px">
 				<span class="muted"></span>
 				{assign var=RELATEDTO_RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RELATED_TO)}
-				<h5><span class="">{$RECORD->getDisplayValue('related_to')}</span>&nbsp;[{strip_tags($RELATEDTO_RECORD_MODEL->getDisplayValue('assigned_user_id'))}]</h5>
-            </span>
+				<h5 class="margin0px"><span class="">{$RECORD->getDisplayValue('related_to')}</span>&nbsp;[{strip_tags($RELATEDTO_RECORD_MODEL->getDisplayValue('assigned_user_id'))}]</h5>
+            </div>
         {/if}
-		<span class="row">
+		<div class="paddingLeft5px">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
 				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 				{/if}			
 			</span>
-		</span>
+		</div>
 		{if $RECORD->get('sales_stage') != ''}
-            <span class="row">
+            <div class="paddingLeft5px">
 				<span class="muted">{vtranslate('Sales Stage',$MODULE_NAME)} </span>
 				<span class="wrapper">{$RECORD->getDisplayValue('sales_stage')}</span>
-            </span>
+            </div>
 		{/if}
-    </span>
+    </div>
 {/strip}

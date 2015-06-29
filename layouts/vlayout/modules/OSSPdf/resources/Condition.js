@@ -92,14 +92,12 @@ function OSSCondition() {
                         dateValidatorInstance.setElement(jQuery(row).find('[name="val"]'));
                         var response = dateValidatorInstance.validate();
                         if (response != true) {
-							console.log('co t moze byc to2');
                             state = false;
                             msgTab.push(fieldInfo.label + ' - ' + dateValidatorInstance.getError());
                         }
                     } else if (fieldType == 'date' && betweenValue!='undefined') {
                         if (jQuery('input.dateField').val()== '') {
                             state = false;
-							console.log('co t moze byc to');
                             msgTab.push(fieldInfo.label + ' - ' + app.vtranslate("JS_PLEASE_ENTER_VALID_DATE"));
                         }
                     }

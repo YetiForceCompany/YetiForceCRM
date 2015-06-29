@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Malayalam localisation for jQuery Datepicker.
    Saji Nediyanchath (saji89@gmail.com). */
 (function($) {

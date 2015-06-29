@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Dutch/Belgium localisation for jQuery Datepicker.
    Written by Mathias Bynens <http://mathiasbynens.be/> */
 (function($) {

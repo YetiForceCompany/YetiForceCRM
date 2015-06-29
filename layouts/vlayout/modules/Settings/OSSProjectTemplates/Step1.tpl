@@ -58,7 +58,7 @@
 </div> 
 <br />
 
-<div id="step_1_modal" class="modal fade" style="z-index: 9999999;">
+<div id="step_1_modal" class="modal fade">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
@@ -103,12 +103,12 @@
 </div>
         
         
-<div id="step_1_modal_edit" class="modal fade" style="z-index: 9999999;">
+<div id="step_1_modal_edit" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
+				<h3 class="modal-title">{vtranslate('FIELD_LIST', $MODULE_NAME)}</h3>
 			</div>
 			<form action="index.php" method="post" name="edit_project_form">
 

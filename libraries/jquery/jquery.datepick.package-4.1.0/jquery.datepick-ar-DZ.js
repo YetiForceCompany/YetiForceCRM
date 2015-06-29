@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Algerian (and Tunisian) Arabic localisation for jQuery Datepicker.
    Mohamed Cherif BOUCHELAGHEM -- cherifbouchelaghem@yahoo.fr */
 (function($) {

@@ -72,18 +72,13 @@ function SaveResult() {
 		var params = {
 			text: info.text,
 			type: 'info',
-			animation: 'show'
+			animation: 'show',
+			width: 'auto'
 		};
-		if(info.title){
-			params.title = info.title;
+		if(info.ntype){
+			params.type = info.ntype;
 		}
-		if(info.type){
-			params.type = info.type;
-		}
-		if(typeof params.hide === 'undefined'){
-			params.hide = info.hide;
-		}
-
+		params = jQuery.extend(info,params);
 		Vtiger_Helper_Js.showPnotify(params);
 	}
 	this.showQuickCreate = function(moduleName,orgExecuteTaskStatus) {

@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Maltese localisation for jQuery Datepicker.
    Written by Chritian Sciberras (uuf6429@gmail.com). */
 (function($) {

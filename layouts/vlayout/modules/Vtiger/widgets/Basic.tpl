@@ -1,4 +1,4 @@
-﻿<div class="summaryWidgetContainer">
+<div class="summaryWidgetContainer">
 	<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
 		<div class="widget_header">
 			<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />

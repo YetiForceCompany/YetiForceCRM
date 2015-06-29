@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Hong Kong Chinese localisation for jQuery Datepicker.
    Written by SCCY (samuelcychan@gmail.com). */
 (function($) {

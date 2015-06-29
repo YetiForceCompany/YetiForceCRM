@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Galician localisation for jQuery Datepicker.
    Traducido por Manuel (McNuel@gmx.net). */
 (function($) {

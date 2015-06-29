@@ -127,6 +127,8 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok użytkownicy',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Pokaż lub ukryj blok grupy',
 	'LBL_SHIFT_BLOCK' => 'Pokaż lub ukryj blok',
+	'LBL_ON_SWITCH' => 'ON',
+	'LBL_OFF_SWITCH' => 'OFF',
 ];
 
 $jsLanguageStrings = [

@@ -16,13 +16,13 @@
 		<div class="row detailViewTitle">
 			<div class="{if $NO_PAGINATION} col-md-12 {else} col-md-10 {/if} pull-left">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 marginBottom5px">
 						<div class="row">
 							{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
 						</div>
 					</div>
-					<div class="col-md-12 detailViewToolbar" style="text-align: right;">
-						<div class="col-md-10 pull-left">
+					<div class="col-md-12 detailViewToolbar paddingLRZero" style="text-align: right;">
+						<div class="col-md-10 pull-left paddingLRZero">
 							<div class="btn-toolbar">
 							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 							<span class="btn-group {$DETAIL_VIEW_BASIC_LINK->getGrupClassName()}">

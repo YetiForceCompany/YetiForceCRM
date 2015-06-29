@@ -7,12 +7,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/*}
-<div class="modal show" style="overflow: hidden;">
+<div class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header contentsBackground">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4>{vtranslate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
+				<h4 class="modal-title">{vtranslate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h4>
 			</div>
 			<div class="modal-body">
 				{assign var=MENU_TYPES value=$MODULE_MODEL->getMenuTypes()}

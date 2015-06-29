@@ -62,12 +62,12 @@
 				</div>
 			</div>
 
-			<div class="modal addKeyContainer hide">
+			<div class="modal addKeyContainer fade" tabindex="-1">
 				<div class="modal-dialog">
 				   <div class="modal-content">
 					<div class="modal-header contentsBackground">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3>{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
+						<h3 class="modal-title">{vtranslate('LBL_ADD_KEY', $QUALIFIED_MODULE)}</h3>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal">

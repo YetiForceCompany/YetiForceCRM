@@ -18,9 +18,9 @@
 			</span>
 		</span>
 	{/if}
-	<span class="col-md-8 margin0px">
-		<span class="row">
-			<h4 class="recordLabel pushDown" title="{$RECORD->getName()}">
+	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+		<div>
+			<h4 class="recordLabel pushDown marginbottomZero" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
 						{if $FIELD_MODEL->getPermissions()}
@@ -28,21 +28,21 @@
 						{/if}
 				{/foreach}
 			</h4>
-		</span>
+		</div>
 		{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
 		{if !empty($RELATED_TO)}
-		<span class="row">
+		<div class="paddingLeft5px">
 			<span class="muted">{vtranslate('Related to',$MODULE_NAME)} - </span>
 			{$RECORD->getDisplayValue('linktoaccountscontacts')}
-		</span>
+		</div>
 		{/if}
-		<span class="row">
+		<div class="paddingLeft5px">
 			<span class="muted">
 				{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				{if $RECORD->get('shownerid') != ''}
 				<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 				{/if}
 			</span>
-		</span>
-	</span>
+		</div>
+	</div>
 {/strip}

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @package AJAX_Chat
  * @author Sebastian Tschan
  * @author Valter Pepelkoˇ

@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Romansh localisation for jQuery Datepicker.
    Yvonne Gienal (yvonne.gienal@educa.ch). */
 (function($) {

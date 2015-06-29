@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Montenegrin localisation for jQuery Datepicker.
    By Miloš Milošević - fleka d.o.o. */
 (function($) {
