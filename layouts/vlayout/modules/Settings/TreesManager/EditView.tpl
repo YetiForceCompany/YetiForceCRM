@@ -70,7 +70,7 @@
 		</div>
 	</div>
 	<hr>
-	<div class="modal-header contentsBackground">
+	<div class="modal-header contentsBackground" tabindex="-1">
 		<div id="treeContents"></div>
 	</div>
 	<br>

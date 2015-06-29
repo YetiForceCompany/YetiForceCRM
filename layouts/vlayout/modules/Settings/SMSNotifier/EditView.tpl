@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="modal">
-	<div class="modal-header contentsBackground">
+	<div class="modal-header contentsBackground" tabindex="-1">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		{if $RECORD_ID}
 			<h3>{vtranslate('LBL_EDIT_CONFIGURATION', $QUALIFIED_MODULE_NAME)} </h3>
@@ -36,7 +36,7 @@
 					{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 					{assign var=FIELD_VALUE value=$RECORD_MODEL->get($FIELD_NAME)}
 					{if $FIELD_TYPE == 'picklist'}
-						<select class="chzn-select providerType" name="{$FIELD_NAME}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+						<select class="chzn-select providerType form-control" name="{$FIELD_NAME}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 							<option></option>
 							{foreach item=PROVIDER_MODEL from=$PROVIDERS}
 								{assign var=PROVIDER_NAME value=$PROVIDER_MODEL->getName()}
