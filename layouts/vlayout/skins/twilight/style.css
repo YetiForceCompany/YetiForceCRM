@@ -389,11 +389,11 @@ hr {
 }
 .quickLinksDiv {
   margin: 10px 0;
-}/*
+}
 .quickLinksDiv p {
   font-size: 1.2em;
-  padding: 5% 0 0 11%;
-  height: 28px;
+  padding: 3% 0 0 6%;
+  height: 40px;
   cursor: pointer;
   box-shadow: 0 0 0 1px #dddddd;
   border-top: 1px solid #ffffff !important;
@@ -416,7 +416,7 @@ hr {
 }
 .quickLinksDiv p a:hover {
   text-decoration: none;
-}*//*//
+}
 .quickLinksDiv p.selectedQuickLink {
   background-color: #2a2f35;
   background-image: -moz-linear-gradient(top, #2a2f35, #2a2f35);
@@ -446,7 +446,7 @@ hr {
   position: absolute;
   left: 100%;
   top: 0;
-}*/
+}
 .quickWidgetContainer li a {
   overflow: hidden;
   white-space: normal;
