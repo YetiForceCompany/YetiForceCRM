@@ -25,7 +25,7 @@
 	require_once('include/Zend/Json.php');
 	require_once('include/logging.php');
 
-	require_once()'config/api.php');
+	require_once('config/api.php');
 	if(!in_array('webservices',$enabledServices)){
 		die('Webservice - Service is not active');
 	}
