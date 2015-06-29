@@ -3281,3 +3281,9 @@ table.dataTable .form-control {
 .marginBottom5px {
   margin-bottom: 5px;
 }
+.detailview-table  .fieldValue  .summaryViewEdit {
+display:none;
+}
+.detailview-table  .fieldValue:hover  .summaryViewEdit { 
+display: inherit;
+}
