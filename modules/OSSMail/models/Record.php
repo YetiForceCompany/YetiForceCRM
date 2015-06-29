@@ -5,7 +5,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 	function getAccountsList($user = false, $onlyMy = false, $password = false) {
 		$adb = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = array();
+		$param = $users = [];
 		$sql = "SELECT * FROM roundcube_users";
 		$where = false;
 		if ($password) {
@@ -23,11 +23,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			$sql .= ' WHERE' . substr($where, 4);
 		}
 		$result = $adb->pquery($sql, $param);
-		$Num = $adb->num_rows($result);
-		if ($Num == 0) {
+		$num = $adb->num_rows($result);
+		if ($num == 0) {
 			return false;
 		} else {
-			return $adb->fetch_array($result);
+			while ($row = $adb->fetch_array($result)) {
+				$users[] = $row;
+			}
+			return $users;
 		}
 	}
 
