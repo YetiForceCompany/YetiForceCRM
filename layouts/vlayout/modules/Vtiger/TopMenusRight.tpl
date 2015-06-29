@@ -37,11 +37,8 @@
 			{if !empty($src)}
 				<a id="menubar_item_right_{$title}" class="dropdown-toggle" data-toggle="dropdown" href="#"><img src="{$src}" alt="{vtranslate($title,$MODULE)}" title="{vtranslate($title,$MODULE)}" /></a>
 			{else}
-				{assign var=title value=$USER_MODEL->get('first_name')}
-				{if empty($title)}
-					{assign var=title value=$USER_MODEL->get('last_name')}
-				{/if}
-					<a id="menubar_item_right_{$title}"  class="userName dropdown-toggle" data-toggle="dropdown" href="#" title="{$title}"><strong>{$title}</strong><span class="caret"></span> </a>
+				{assign var=title value=$USER_MODEL->get('first_name')|cat:' '|cat:$USER_MODEL->get('last_name')}
+				<a id="menubar_item_right_{$title}"  class="userName dropdown-toggle" data-toggle="dropdown" href="#" title="{$title}"><strong>{$title}</strong><span class="caret"></span> </a>
 			{/if}
 			{if !empty($childLinks)}
 				<ul class="dropdown-menu pull-right">
