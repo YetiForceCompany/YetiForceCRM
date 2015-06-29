@@ -817,6 +817,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Wähle zugehöriges Modulfeld',
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
+	'PotentialsList'=>'Verkaufschancen',
 
 	/* industry */
 	'Administration'=>'Verwaltung',

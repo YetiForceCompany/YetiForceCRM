@@ -864,6 +864,7 @@ $languageStrings = [
 	'LBL_NO_FOUND_VIEW' => 'Nie znalezniono widoku',
 	'LBL_SEARCH_MODULE' => 'Wyszukaj modułu',
 	'Website' => 'Strona internetowa',
+	'PotentialsList'=>'Szanse sprzedaży',
 	
 	"is"=>"równa się",
 	"is not"=>"nie równa się",

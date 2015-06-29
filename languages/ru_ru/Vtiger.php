@@ -1162,6 +1162,7 @@ $languageStrings = [
 	'LBL_SELECT_RECORD' => 'Select record',
 	'LBL_SELECT_RELATED_FIELD' => 'Select related module field',
 	'LBL_COMPARISON_VALUE' => 'Comparison value',
+	'PotentialsList' => 'Возможности',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
