@@ -18,7 +18,7 @@ if(!in_array('dav',$enabledServices)){
 }
 require_once 'config/debug.php';
 require_once 'config/config.php';
-ini_set('error_log',$root_directory.'data/logs/dav.log');
+ini_set('error_log',$root_directory.'cache/logs/dav.log');
 $baseUri = $_SERVER['SCRIPT_NAME'];
 
 /* Database */

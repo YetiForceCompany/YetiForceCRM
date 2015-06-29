@@ -182,7 +182,7 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 
 function CheckFieldPermission($fieldname,$module) {
 	global $current_user,$adb;
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	if($fieldname == '' || $module == '') {
 		return "false";
 	}

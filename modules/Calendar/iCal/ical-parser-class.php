@@ -5,7 +5,7 @@ class iCal {
     var $folders;
     
     function iCal() {
-        $this->folders = 'data/cache/import/';
+        $this->folders = 'cache/import/';
     }
     
     function iCalReader($filename,$root_directory='') {

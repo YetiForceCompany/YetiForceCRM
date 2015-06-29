@@ -29,7 +29,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller {
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
 		$ics = $request->get('ics').'.ics';
-		$icsUrl = 'data/cache/import/'.$ics;
+		$icsUrl = 'cache/import/'.$ics;
 		if (file_exists($icsUrl)) {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUserModel->getId();

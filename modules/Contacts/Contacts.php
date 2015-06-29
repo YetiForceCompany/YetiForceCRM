@@ -243,7 +243,7 @@ class Contacts extends CRMEntity {
 		$log = vglobal('log');
 		$log->debug("Entering process_list_query1(" . $query . ") method ...");
 		$permitted_field_lists = Array();
-		require('data/userPrivileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 			$sql1 = "select columnname from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
 			$params1 = array();
@@ -857,7 +857,7 @@ function getColumnNames()
 	$current_user = vglobal('current_user');
 	$log = vglobal('log');
 	$log->debug("Entering getColumnNames() method ...");
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 	{
 	 $sql1 = "select fieldlabel from vtiger_field where tabid=4 and block <> 75 and vtiger_field.presence in (0,2)";
@@ -900,8 +900,8 @@ function get_searchbyemailid($username,$emailaddress)
 	$user_id=$seed_user->retrieve_user_id($username);
 	$current_user=$seed_user;
 	$current_user->retrieve_entity_info($user_id, 'Users');
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	$log->debug("Entering get_searchbyemailid(".$username.",".$emailaddress.") method ...");
 	$query = "select vtiger_contactdetails.lastname,vtiger_contactdetails.firstname,
 					vtiger_contactdetails.contactid, vtiger_contactdetails.salutation,
@@ -943,8 +943,8 @@ function get_contactsforol($user_name)
 	$user_id=$seed_user->retrieve_user_id($user_name);
 	$current_user=$seed_user;
 	$current_user->retrieve_entity_info($user_id, 'Users');
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
 	if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
   {

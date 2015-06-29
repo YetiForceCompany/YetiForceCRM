@@ -53,7 +53,7 @@ class VTSendPdf extends VTTask {
 				'to_email' => $email,
 				'module' => $module,
 				'record' => $entityId,
-				'attachment_src' => array("$pdfName" => 'data/storage' . DIRECTORY_SEPARATOR . $pdfName),
+				'attachment_src' => array("$pdfName" => 'storage' . DIRECTORY_SEPARATOR . $pdfName),
 			);
 			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 			$recordModel->sendMailFromTemplate($data);

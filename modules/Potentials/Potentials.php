@@ -102,8 +102,8 @@ class Potentials extends CRMEntity {
 	function create_list_query($order_by, $where)
 	{
 		$log = vglobal('log'); $current_user = vglobal('current_user');
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	        require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	        require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
         	$tab_id = getTabid("Potentials");
 		$log->debug("Entering create_list_query(".$order_by.",". $where.") method ...");
 		// Determine if the vtiger_account name is present in the where clause.

@@ -61,8 +61,8 @@ class Appointment
 	function readAppointment($userid, &$from_datetime, &$to_datetime, $view)
 	{
 		global $current_user,$adb;
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 		$and = "AND (
 					(
 						(

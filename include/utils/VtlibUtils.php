@@ -102,7 +102,7 @@ function vtlib_isModuleActive($module) {
 	}
 
 	if(!isset($__cache_module_activeinfo[$module])) {
-		include 'data/userPrivileges/tabdata.php';
+		include 'user_privileges/tabdata.php';
 		$tabId = $tab_info_array[$module];
 		$presence = $tab_seq_array[$tabId];
 		$__cache_module_activeinfo[$module] = $presence;
@@ -626,7 +626,7 @@ function vtlib_purify($input, $ignore=false) {
 
 			$config = HTMLPurifier_Config::createDefault();
 	    	$config->set('Core', 'Encoding', $use_charset);
-	    	$config->set('Cache', 'SerializerPath', "$use_root_directory/data/cache/vtlib");
+	    	$config->set('Cache', 'SerializerPath', "$use_root_directory/cache/vtlib");
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}

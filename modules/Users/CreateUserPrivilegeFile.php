@@ -24,7 +24,7 @@ require_once('include/utils/GetGroupUsers.php');
 function createUserPrivilegesfile($userid)
 {
 	$root_directory = vglobal('root_directory');
-	$handle=@fopen($root_directory.'data/userPrivileges/user_privileges_'.$userid.'.php',"w+");
+	$handle=@fopen($root_directory.'user_privileges/user_privileges_'.$userid.'.php',"w+");
 
 	if($handle)
 	{
@@ -111,9 +111,9 @@ function createUserPrivilegesfile($userid)
 function createUserSharingPrivilegesfile($userid)
 {
 	global $adb, $root_directory;
-	checkFileAccessForInclusion('data/userPrivileges/user_privileges_'.$userid.'.php');
-	require('data/userPrivileges/user_privileges_'.$userid.'.php');
-	$handle=@fopen($root_directory.'data/userPrivileges/sharing_privileges_'.$userid.'.php',"w+");
+	checkFileAccessForInclusion('user_privileges/user_privileges_'.$userid.'.php');
+	require('user_privileges/user_privileges_'.$userid.'.php');
+	$handle=@fopen($root_directory.'user_privileges/sharing_privileges_'.$userid.'.php',"w+");
 	
 if($handle)
 	{
@@ -1539,8 +1539,8 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 function populateSharingtmptables($userid)
 {
 	$adb = PearDatabase::getInstance();
-	checkFileAccessForInclusion('data/userPrivileges/sharing_privileges_'.$userid.'.php');
-	require('data/userPrivileges/sharing_privileges_'.$userid.'.php');
+	checkFileAccessForInclusion('user_privileges/sharing_privileges_'.$userid.'.php');
+	require('user_privileges/sharing_privileges_'.$userid.'.php');
 	//Deleting from the existing vtiger_tables
 	$table_arr=Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per','vtiger_tmp_read_group_sharing_per','vtiger_tmp_write_group_sharing_per','vtiger_tmp_read_user_rel_sharing_per','vtiger_tmp_write_user_rel_sharing_per','vtiger_tmp_read_group_rel_sharing_per','vtiger_tmp_write_group_rel_sharing_per');
 	foreach($table_arr as $tabname)
@@ -1596,8 +1596,8 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 	$tabid=getTabid($module);
 
 	if(!$var_name_arr) {
-		checkFileAccessForInclusion('data/userPrivileges/sharing_privileges_'.$userid.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$userid.'.php');
+		checkFileAccessForInclusion('user_privileges/sharing_privileges_'.$userid.'.php');
+		require('user_privileges/sharing_privileges_'.$userid.'.php');
 	}
 
 	if($enttype=='USER')
@@ -1699,8 +1699,8 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 	$reltabid=getTabid($relmodule);
 
 	if(!$var_name_arr) {
-		checkFileAccessForInclusion('data/userPrivileges/sharing_privileges_'.$userid.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$userid.'.php');
+		checkFileAccessForInclusion('user_privileges/sharing_privileges_'.$userid.'.php');
+		require('user_privileges/sharing_privileges_'.$userid.'.php');
 	}
 
 	if($enttype=='USER')

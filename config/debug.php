@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $DEBUG_CONFIG = Array(
-	// enable log4php -> data/logs/system.log
+	// enable log4php -> cache/logs/system.log
 	'LOG4PHP_DEBUG' => FALSE,
 	
 	// display sql queries in the browser during triggering
@@ -11,7 +11,7 @@ $DEBUG_CONFIG = Array(
 	// stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => FALSE,
 	
-	// debug Viewer => data/logs/viewer-debug.log
+	// debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => FALSE,
 	
 	// Display Smarty Debug Console
@@ -32,28 +32,28 @@ $DEBUG_CONFIG = Array(
 	'ROUNDCUBE_DEVEL_MODE' => FALSE,
 	
 	// Activate this option if logs should be written to per-user directories.
-	// Data will only be logged if a directry data/logs/<username>/ exists and is writable.
+	// Data will only be logged if a directry cache/logs/<username>/ exists and is writable.
 	'ROUNDCUBE_PER_USER_LOGGING' => FALSE,
 
-	// Log sent messages to data/logs/sendmail or to syslog
+	// Log sent messages to cache/logs/sendmail or to syslog
 	'ROUNDCUBE_SMTP_LOG' => FALSE,
 
-	// Log successful/failed logins to data/logs/userlogins or to syslog
+	// Log successful/failed logins to cache/logs/userlogins or to syslog
 	'ROUNDCUBE_LOG_LOGINS' => FALSE,
 
-	// Log session authentication errors to data/logs/session or to syslog
+	// Log session authentication errors to cache/logs/session or to syslog
 	'ROUNDCUBE_LOG_SESSION' => FALSE,
 
-	// Log SQL queries to data/logs/sql or to syslog
+	// Log SQL queries to cache/logs/sql or to syslog
 	'ROUNDCUBE_SQL_DEBUG' => FALSE,
 
-	// Log IMAP conversation to data/logs/imap or to syslog
+	// Log IMAP conversation to cache/logs/imap or to syslog
 	'ROUNDCUBE_IMAP_DEBUG' => FALSE,
 
-	// Log LDAP conversation to data/logs/ldap or to syslog
+	// Log LDAP conversation to cache/logs/ldap or to syslog
 	'ROUNDCUBE_LDAP_DEBUG' => FALSE,
 
-	// Log SMTP conversation to data/logs/smtp or to syslog
+	// Log SMTP conversation to cache/logs/smtp or to syslog
 	'ROUNDCUBE_SMTP_DEBUG' => FALSE,
 );
 class SysDebug {

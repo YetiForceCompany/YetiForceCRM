@@ -182,8 +182,8 @@ class SMSNotifierBase extends CRMEntity {
 	 */
 	function getListViewSecurityParameter($module) {
 		$current_user  = vglobal('current_user');
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
 		$sec_query = '';
 		$tabid = getTabid($module);
@@ -271,8 +271,8 @@ class SMSNotifierBase extends CRMEntity {
 		if($where != '') $query .= " WHERE ($where) AND $where_auto";
 		else $query .= " WHERE $where_auto";
 
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
 		// Security Check for Field Access
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3)

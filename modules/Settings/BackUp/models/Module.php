@@ -2,8 +2,8 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
-	var $tempDir = 'data/cache/backup';
-	var $destDir = 'data/backup';
+	var $tempDir = 'cache/backup';
+	var $destDir = 'backup';
 	var $backupInfo = false;
 	var $ajaxFilesLimit = 100;
 	var $ajaxDBLimit = 100;
@@ -306,7 +306,7 @@ class Settings_BackUp_Module_Model extends Vtiger_Base_Model {
 		$dirs = array_filter(array_merge(glob('*'), glob('.htaccess'))); 
 		$dirs = array_diff($dirs, array('cache'));
 		if('true' != $configFolder['storage_folder'])
-			$dirs = array_diff($dirs, ['data/storage']);
+			$dirs = array_diff($dirs, ['storage']);
 		if('true' != $configFolder['backup_folder'])
 			$dirs = array_diff($dirs, [$this->destDir]);
 

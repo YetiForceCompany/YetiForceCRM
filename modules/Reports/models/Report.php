@@ -35,7 +35,7 @@ class Vtiger_Report_Model extends Reports {
 				$params = array($reportId);
 
 				require_once('include/utils/GetUserGroups.php');
-				require('data/userPrivileges/user_privileges_'.$userId.'.php');
+				require('user_privileges/user_privileges_'.$userId.'.php');
 
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($userId);

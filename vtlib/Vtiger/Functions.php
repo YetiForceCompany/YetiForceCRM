@@ -555,7 +555,7 @@ class Vtiger_Functions {
 	}
 
 	static function initStorageFileDirectory($module = false) {
-		$filepath = 'data/storage/';
+		$filepath = 'storage/';
 		
 		if($module && in_array( $module, array("Users", "Contacts", "Products", "OSSMailView") ) ){
 			$filepath = $filepath . $module . "/";

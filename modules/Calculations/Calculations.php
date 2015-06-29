@@ -404,7 +404,7 @@ class Calculations extends CRMEntity {
 		$adb = PearDatabase::getInstance(); $log = vglobal('log');
 		$current_user = vglobal('current_user');
         $log->debug("Entering getHierarchy(".$id.") method ...");
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 		$listview_header = Array();
 		$listview_entries = array();

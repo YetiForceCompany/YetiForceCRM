@@ -229,7 +229,7 @@ class HelpDesk extends CRMEntity {
 	{
 		$log = vglobal('log'); $current_user = vglobal('current_user');
 		$log->debug("Entering getColumnNames_Hd() method ...");
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0)
 		{
 			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";

@@ -3,9 +3,9 @@
 /.project
 /.buildpath
 /README.md
-/data/cache/templates_c
-/config/csrf_secret.php
+/cache/templates_c
+/config.csrf-secret.php
 /config/config_override.php
-/data/logs/*.log
+/cache/logs/*.log
 /test/templates_c/vlayout/*.php
 /nbproject/private/

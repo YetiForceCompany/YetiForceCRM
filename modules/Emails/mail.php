@@ -33,7 +33,7 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	$root_directory = vglobal('root_directory');
 	global $HELPDESK_SUPPORT_EMAIL_ID, $HELPDESK_SUPPORT_NAME;
 
-	$uploaddir = $root_directory ."/data/cache/upload/";
+	$uploaddir = $root_directory ."/cache/upload/";
 
 	$adb->println("To id => '".$to_email."'\nSubject ==>'".$subject."'\nContents ==> '".$contents."'");
 
@@ -194,7 +194,7 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 	$adb = PearDatabase::getInstance();
 	$adb->println("Inside the function setMailerProperties");
 	$CompanyDetails = getCompanyDetails();
-	$logourl = 'data/storage/Logo/'.$CompanyDetails['logoname'];
+	$logourl = 'storage/Logo/'.$CompanyDetails['logoname'];
 	if($logo == 1){
 		$image = getimagesize($logourl); 
 		$mail->AddEmbeddedImage($logourl, 'logo', $CompanyDetails['logoname'],"base64",$image['mime']);
@@ -343,7 +343,7 @@ function addAttachment($mail,$filename,$record)
 	//This is the file which has been selected in Email EditView
         if(is_file($filename) && $filename != '')
         {
-                $mail->AddAttachment($root_directory."data/cache/upload/".$filename);
+                $mail->AddAttachment($root_directory."cache/upload/".$filename);
         }
 }
 

@@ -229,7 +229,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		$hash = sha1($path);
 		
 		$log = print_r([$this->exData->pdo, $name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid], true);
-		file_put_contents('data/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
 
 		$stmt = $this->exData->pdo->prepare('UPDATE vtiger_files_dir SET name=?, path = ?, hash=?, mtime=? WHERE id=?;');
 		$stmt->execute([$name, $newPath, $hash, date('Y-m-d H:i:s'), $this->dirid]);
@@ -259,7 +259,7 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
      */
     function moveInto($targetName, $sourcePath, DAV\INode $sourceNode) {
 		$log = print_r([$targetName, $sourcePath, $sourceNode,$this], true);
-		file_put_contents('data/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
+		file_put_contents('cache/logs/xxebug.log', ' --- '.date('Y-m-d H:i:s').' --- RequestInterface --- '.PHP_EOL.$log, FILE_APPEND);
 
 		if (!$sourceNode instanceof WebDAV_File) {
 			return false;

@@ -149,14 +149,14 @@ class VTScheduledReport extends Reports {
 
 		if($reportFormat == 'pdf' || $reportFormat == 'both') {
 			$fileName = $baseFileName.'.pdf';
-			$filePath = 'data/storage/'.$fileName;
+			$filePath = 'storage/'.$fileName;
 			$attachments[$fileName] = $filePath;
 			$pdf = $oReportRun->getReportPDF();
 			$pdf->Output($filePath,'F');
 		}
 		if ($reportFormat == 'excel' || $reportFormat == 'both') {
 			$fileName = $baseFileName.'.xls';
-			$filePath = 'data/storage/'.$fileName;
+			$filePath = 'storage/'.$fileName;
 			$attachments[$fileName] = $filePath;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}

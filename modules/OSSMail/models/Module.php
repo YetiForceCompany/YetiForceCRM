@@ -36,7 +36,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model {
 		$fend .= ');';
 		
 		foreach ($mails as $user => $file) {
-			file_put_contents('data/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
+			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
 		}
 	}
 

@@ -311,7 +311,7 @@ class ReportRun extends CRMEntity
 			list($module,$field) = split("__",$module_field,2);
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
-			require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+			require('user_privileges/user_privileges_'.$current_user->id.'.php');
 			if(sizeof($permitted_fields[$module]) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 			{
 				$permitted_fields[$module] = $this->getaccesfield($module);
@@ -2037,8 +2037,8 @@ class ReportRun extends CRMEntity
      * @return $query
      */
     function getReportsNonAdminAccessControlQuery($module, $user, $scope = '') {
-		require('data/userPrivileges/user_privileges_' . $user->id . '.php');
-		require('data/userPrivileges/sharing_privileges_' . $user->id . '.php');
+		require('user_privileges/user_privileges_' . $user->id . '.php');
+		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = getTabid($module);
 		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]
@@ -2871,7 +2871,7 @@ class ReportRun extends CRMEntity
 		global $adb,$current_user,$php_max_execution_time;
 		global $modules,$app_strings;
 		global $mod_strings;
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$modules_selected = array();
 		$modules_selected[] = $this->primarymodule;
 		if(!empty($this->secondarymodule)){

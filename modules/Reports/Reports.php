@@ -127,7 +127,7 @@ class Reports extends CRMEntity{
 				$params = array($reportid);
 
 				require_once('include/utils/GetUserGroups.php');
-				require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+				require('user_privileges/user_privileges_'.$current_user->id.'.php');
 				$userGroups = new GetUserGroups();
 				$userGroups->getAllUserGroups($current_user->id);
 				$user_groups = $userGroups->user_groups;
@@ -481,7 +481,7 @@ class Reports extends CRMEntity{
 			$params[] = $rpt_fldr_id;
 		}
 
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		require_once('include/utils/GetUserGroups.php');
 		$userGroups = new GetUserGroups();
 		$userGroups->getAllUserGroups($current_user->id);
@@ -685,7 +685,7 @@ class Reports extends CRMEntity{
 		}
 		$params = array($tabid, $block);
 
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		//Security Check
 		if($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
 		{
@@ -883,7 +883,7 @@ class Reports extends CRMEntity{
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
 		$current_user  = vglobal('current_user');
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 		$tabid = getTabid($module);
 		foreach($this->module_list[$module] as $key=>$blockid)
@@ -1340,7 +1340,7 @@ function getEscapedColumns($selectedfields)
 			}
 			if($selmod_field_disabled==false){
 				list($tablename,$colname,$module_field,$fieldname,$single) = split(":",$fieldcolname);
-				require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+				require('user_privileges/user_privileges_'.$current_user->id.'.php');
 				list($module,$field) = split("__",$module_field);
 				if(sizeof($permitted_fields) == 0 && $is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 				{
@@ -1562,7 +1562,7 @@ function getEscapedColumns($selectedfields)
 		$adb = PearDatabase::getInstance();
 		$log = vglobal('log');
 		$current_user  = vglobal('current_user');
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$tabid = getTabid($module);
 		$escapedchars = Array('__SUM','__AVG','__MIN','__MAX');
 		$sparams = array($tabid);

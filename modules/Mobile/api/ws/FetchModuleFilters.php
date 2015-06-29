@@ -46,7 +46,7 @@ class Mobile_WS_FetchModuleFilters extends Mobile_WS_Controller {
 		$parameters = array($moduleName);
 
 		if(!is_admin($user)) {
-			require('data/userPrivileges/user_privileges_'.$user->id.'.php');
+			require('user_privileges/user_privileges_'.$user->id.'.php');
 			
 			$sql .= " AND (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid IN
 			(SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_users on vtiger_users.id=vtiger_user2role.userid 

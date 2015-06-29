@@ -50,7 +50,7 @@ class Logger {
 	
 	function emit($level, $message) {
 		if(!$this->appender) {
-			$filename = 'data/logs/system.log';			
+			$filename = 'cache/logs/system.log';			
 			if($this->configinfo && isset($this->configinfo['appender']['File'])) {
 				$filename = $this->configinfo['appender']['File'];
 			}

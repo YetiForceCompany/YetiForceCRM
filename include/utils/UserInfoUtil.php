@@ -268,8 +268,8 @@ function isPermitted($module,$actionname,$record_id='')
 	$adb = PearDatabase::getInstance();
 	$current_user  = vglobal('current_user');
 	global $seclog;
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	$permission = "no";
 	if(($module == 'Users' || $module == 'Home' || $module == 'uploads') && $_REQUEST['parenttab'] != 'Settings')
 	{
@@ -576,7 +576,7 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 	$log->debug("Entering isReadPermittedBySharing(".$module.",".$tabid.",".$actionid.",".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user  = vglobal('current_user');
-	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	$ownertype='';
 	$ownerid='';
 	$sharePer='no';
@@ -717,7 +717,7 @@ function isReadWritePermittedBySharing($module,$tabid,$actionid,$record_id)
 	$log->debug("Entering isReadWritePermittedBySharing(".$module.",".$tabid.",".$actionid.",".$record_id.") method ...");
 	$adb = PearDatabase::getInstance();
 	$current_user  = vglobal('current_user');
-	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	$ownertype='';
 	$ownerid='';
 	$sharePer='no';
@@ -1662,7 +1662,7 @@ function getCurrentUserProfileList()
 	$log = vglobal('log');
 	$log->debug("Entering getCurrentUserProfileList() method ...");
         $current_user  = vglobal('current_user');
-        require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+        require('user_privileges/user_privileges_'.$current_user->id.'.php');
         $profList = array();
         $i=0;
         foreach ($current_user_profiles as $profid)
@@ -1681,7 +1681,7 @@ function getCurrentUserGroupList()
 	$log = vglobal('log');
 	$log->debug("Entering getCurrentUserGroupList() method ...");
         $current_user  = vglobal('current_user');
-        require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
+        require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	$grpList= array();
 	if(sizeof($current_user_groups) > 0)
 	{
@@ -1752,8 +1752,8 @@ function getListViewSecurityParameter($module)
 	$current_user  = vglobal('current_user');
 	if($current_user)
 	{
-        	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-        	require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+        	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+        	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	}
 	if($module == 'Leads')
 	{
@@ -2022,7 +2022,7 @@ function getFieldVisibilityPermission($fld_module, $userid, $fieldname, $accessm
         return '1';
     }
 
-	require('data/userPrivileges/user_privileges_'.$userid.'.php');
+	require('user_privileges/user_privileges_'.$userid.'.php');
 
     /* Asha: Fix for ticket #4508. Users with View all and Edit all permission will also have visibility permission for all fields */
 	if($is_admin || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] ==0)
@@ -2104,8 +2104,8 @@ function getPermittedModuleNames()
 	$log->debug("Entering getPermittedModuleNames() method ...");
 	$current_user  = vglobal('current_user');
 	$permittedModules=Array();
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	include('data/userPrivileges/tabdata.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	include('user_privileges/tabdata.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 	{
@@ -2144,8 +2144,8 @@ function getPermittedModuleNames()
 function getPermittedModuleIdList() {
 	$current_user  = vglobal('current_user');
 	$permittedModules=Array();
-	require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-	include('data/userPrivileges/tabdata.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	include('user_privileges/tabdata.php');
 
 	if($is_admin == false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {

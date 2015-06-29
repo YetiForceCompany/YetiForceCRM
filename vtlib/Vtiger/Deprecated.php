@@ -126,7 +126,7 @@ class Vtiger_Deprecated {
 			$actionname_array[$actionid] = $actionname;
 		}
 
-		$filename = 'data/userPrivileges/tabdata.php';
+		$filename = 'user_privileges/tabdata.php';
 
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
@@ -235,7 +235,7 @@ class Vtiger_Deprecated {
 	static function clearSmartyCompiledFiles($path = null) {
 		$root_directory = vglobal('root_directory');
 		if ($path == null) {
-			$path = $root_directory . 'data/cache/templates_c/';
+			$path = $root_directory . 'cache/templates_c/';
 		}
 		if(file_exists($path) && is_dir($path)){
 			$mydir = @opendir($path);
@@ -262,7 +262,7 @@ class Vtiger_Deprecated {
 	static function getSmartyCompiledTemplateFile($template_file, $path = null) {
 		$root_directory = vglobal('root_directory');
 		if ($path == null) {
-			$path = $root_directory . 'data/cache/templates_c/';
+			$path = $root_directory . 'cache/templates_c/';
 		}
 		$mydir = @opendir($path);
 		$compiled_file = null;
@@ -299,7 +299,7 @@ class Vtiger_Deprecated {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
 
-		$unsafeDirectories = array('data/storage', 'data/cache', 'test');
+		$unsafeDirectories = array('storage', 'cache', 'test');
 
 		$realfilepath = realpath($filepath);
 
@@ -330,7 +330,7 @@ class Vtiger_Deprecated {
 			$use_root_directory = realpath(dirname(__FILE__) . '/../../.');
 		}
 
-		$safeDirectories = array('data/storage', 'data/cache', 'test');
+		$safeDirectories = array('storage', 'cache', 'test');
 
 		$realfilepath = realpath($filepath);
 

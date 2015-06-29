@@ -291,8 +291,8 @@ class Mobile_WS_Utils {
 	 * Security restriction (sharing privilege) query part
 	 */
 	static function querySecurityFromSuffix($module, $current_user) {
-		require('data/userPrivileges/user_privileges_'.$current_user->id.'.php');
-		require('data/userPrivileges/sharing_privileges_'.$current_user->id.'.php');
+		require('user_privileges/user_privileges_'.$current_user->id.'.php');
+		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 
 		$querySuffix = '';
 		$tabid = getTabid($module);

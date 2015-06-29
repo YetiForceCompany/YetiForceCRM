@@ -379,7 +379,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 					//module images
 					'images' => "layouts/vlayout/skins/images/$module",
 					'settings' => "modules/Settings",
-					'updates' => "data/cache/updates",
+					'updates' => "cache/updates",
 					'layouts' => 'layouts'
 				)
 			);
@@ -394,7 +394,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	}
 
 	function getTemporaryFilePath($filepath=false) {
-		return 'data/cache/'. $filepath;
+		return 'cache/'. $filepath;
 	}
 	/**
 	 * Get dependent version
@@ -937,7 +937,7 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 	}
 
 	function import_update($modulenode) {
-		$dirName = 'data/cache/updates';
+		$dirName = 'cache/updates';
 		$result = false;
 		$adb = PearDatabase::getInstance();
 		if (file_exists($dirName . '/init.php')) {
@@ -966,6 +966,6 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 		}
 		Vtiger_Functions::recurseDelete($dirName . '/files');
 		Vtiger_Functions::recurseDelete($dirName . '/init.php');
-		Vtiger_Functions::recurseDelete('data/cache/templates_c');
+		Vtiger_Functions::recurseDelete('cache/templates_c');
 	}
 }
