@@ -235,9 +235,3 @@ $csrfProtection = TRUE;
 
 // Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;
-
-// Enable optimizing JS files
-$jsCompress = true;
-
-// Enable optimizing CSS files
-$cssCompress = true;
