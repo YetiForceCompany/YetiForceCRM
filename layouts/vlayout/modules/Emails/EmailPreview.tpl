@@ -14,7 +14,7 @@
 	<input type="hidden" name="parentRecord" value="{$PARENT_RECORD}"/>
 	<input type="hidden" name="recordId" value="{$RECORD_ID}"/>
 	<br>
-	<div class="well well-large zeroPaddingAndMargin modal fade">
+	<div class="well well-large zeroPaddingAndMargin modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header blockHeader emailPreviewHeader" style="height:30px">
