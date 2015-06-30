@@ -625,7 +625,7 @@ class PearDatabase {
 
 	function getAffectedRowCount(&$result) {
 		$rows = $result->rowCount();
-		$this->log('getAffectedRowCount: ' . $result);
+		$this->log('getAffectedRowCount: ' . $rows);
 		return $rows;
 	}
 
