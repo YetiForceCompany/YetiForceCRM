@@ -302,7 +302,7 @@ padding: 20px 20px 20px 20px;
 																	{if !is_array($WIDGET_OWNERS.available)}
 																		{$WIDGET_OWNERS.available = array($WIDGET_OWNERS.available)}
 																	{/if}
-																	<div class="row" style="padding: 5px; ">
+																	<div class="">
 																		<span class="col-md-8">
 																			<select class="widgetFilter col-md-3" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 																				{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
@@ -487,7 +487,7 @@ padding: 20px 20px 20px 20px;
 							{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 						</div>
 						<div class="col-sm-8 controls">
-							<select class="form-control chzn-select owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
+							<select class="form-control owners_all" multiple="true" disabled name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 								{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}
 									<option value="{$OWNER_ID}" selected>{vtranslate($OWNER_NAME, $QUALIFIED_MODULE)}</option>
 								{/foreach}
@@ -558,7 +558,7 @@ padding: 20px 20px 20px 20px;
 									</div>
 								</div>
 								<div class="row widgetFilterAll hide" style="padding: 0px; border-top:1px solid #dddddd ">
-									<div class="row" style="padding: 5px; ">
+									<div class="">
 										<div class="col-md-5">
 											<select class="widgetFilter col-md-2 form-control" id="owner" name="default_owner">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT_DEFAULT}
@@ -570,7 +570,7 @@ padding: 20px 20px 20px 20px;
 											&nbsp;{vtranslate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>	
-									<div class="row" style="padding: 5px; ">
+									<div class="">
 										<div class="col-md-8">
 											<select class="widgetFilter col-md-3 form-control" multiple="true" name="owners_all" placeholder="{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION', $QUALIFIED_MODULE)}">
 												{foreach key=OWNER_NAME item=OWNER_ID from=$FILTER_SELECT}

@@ -163,6 +163,7 @@ var app = {
 		}
 		params.language = Vtiger_Helper_Js.getLangCode();
 		params.theme = "bootstrap";
+		params.width = "100%";
 		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
@@ -225,8 +226,8 @@ var app = {
 		if(typeof params == 'undefined') {
 			params = {};
 		}
-		selectElement.selectize(params);
-		return selectElement;
+		$select = selectElement.selectize(params);
+		return $select[0].selectize;
 	},
 
 	showPopoverElementView : function(selectElement, params) {
