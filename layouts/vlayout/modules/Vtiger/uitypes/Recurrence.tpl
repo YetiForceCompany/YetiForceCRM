@@ -31,8 +31,8 @@
 						<option title="{vtranslate('LBL_YEAR_TYPE', $MODULE)}" value="Yearly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Yearly'} selected {/if}>{vtranslate('LBL_YEAR_TYPE', $MODULE)}</option>
 					</select>
 				</div>
-				<span class="alignMiddle  control-label displayInlineBlock">{vtranslate('LBL_UNTIL', $MODULE)}</span>
-				<div class="input-group col-xs-3 date pull-right">
+				<span class="alignMiddle control-label displayInlineBlock pull-left">{vtranslate('LBL_UNTIL', $MODULE)}&nbsp;&nbsp;</span>
+				<div class="input-group col-xs-3 date">
 					<input type="text" id="calendar_repeat_limit_date" class="dateField form-control" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
 						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" title="{vtranslate('LBL_UNTIL', $MODULE)}"
 						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]'/>

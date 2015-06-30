@@ -58,16 +58,16 @@
             </button>
             <ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
                 <li>
-                    <span class="row">
-                        <span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-                        <span class="col-md-4">
+                    <div class="">
+                        <div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></div>
+                        <div class="col-md-3 recentComments">
                             <input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
-                        </span>
-                        <span class="col-md-2 textAlignCenter">
+                        </div>
+                        <div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
                             {vtranslate('LBL_OF',$moduleName)}
-                        </span>
-                        <span class="col-md-3" id="totalPageCount">{$PAGE_COUNT}</span>
-                    </span>
+                        </div>
+                        <div class="col-md-2 recentComments textAlignCenter pushUpandDown2per" id="totalPageCount">{$PAGE_COUNT}</div>
+                    </div>
                 </li>
             </ul>
             <button class="btn btn-default" id="relatedListNextPageButton" {if (!$PAGING->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
