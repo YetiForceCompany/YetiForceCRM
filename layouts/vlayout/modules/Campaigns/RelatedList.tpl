@@ -48,7 +48,7 @@
     &nbsp;
 </div>
 <div class="col-md-3">
-    <span class="customFilterMainSpan row">
+    <span class="customFilterMainSpan">
         {if $CUSTOM_VIEWS|@count gt 0}
             <select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
                 <option></option>

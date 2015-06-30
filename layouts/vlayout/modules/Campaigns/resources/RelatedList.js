@@ -57,16 +57,17 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js",{
 		var filterSelectElement = jQuery('#recordsFilter');
 		if(filterSelectElement.length > 0){
 			app.showSelect2ElementView(filterSelectElement,{
-				formatSelection : function(data){
+				templateSelection : function(data){
 					var resultContainer = jQuery('<span></span>');
 					resultContainer.append(jQuery(jQuery('.filterImage').clone().get(0)).show());
 					resultContainer.append(data.text);
 					return resultContainer;
-				}
+				},
+				customSortOptGroup : true,
+				closeOnSelect : true
 			});
-
 			var select2Instance = filterSelectElement.data('select2');
-			select2Instance.dropdown.append(jQuery('span.filterActionsDiv'));
+			select2Instance.$dropdown.append(jQuery('span.filterActionsDiv'));
 		}
 	},
 	/**

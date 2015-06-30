@@ -196,7 +196,7 @@ var app = {
 			params.language = {maximumSelected: formatSelectionExceeds}
 		}
 		
-		if(selectElement.attr('multiple') != 'undefined') {
+		if(selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
 			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		}
