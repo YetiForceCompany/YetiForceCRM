@@ -97,20 +97,22 @@ var app = {
 			}
 		});
 
-
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change',function(e){
 			jQuery(e.currentTarget).trigger('focusout');
 		});
-		var moduleName = app.getModuleName();
-		if( selectElement.filter('[multiple]') && moduleName!= 'Install'){
-			selectElement.data('placeholder',app.vtranslate('JS_SELECT_SOME_OPTIONS'));
-		}else if( moduleName!= 'Install' ){
-			selectElement.data('placeholder',app.vtranslate('JS_SELECT_AN_OPTION'));
-		}
+		
 		var params = {
 			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
 		};
+		
+		var moduleName = app.getModuleName();
+		if( selectElement.filter('[multiple]') && moduleName!= 'Install'){
+			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
+		}else if( moduleName!= 'Install' ){
+			params.placeholder_text_single =  ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
+		}
+		
 		/*selectElement.each(function(){
 			var width = jQuery(this).outerWidth();
 			params['width'] = width+'px';
