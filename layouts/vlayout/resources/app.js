@@ -163,11 +163,10 @@ var app = {
 		if(data != null) {
 			params = jQuery.extend(data,params);
 		}
-		params.language = Vtiger_Helper_Js.getLangCode();
+		params.language = {};
 		params.theme = "bootstrap";
 		params.width = "100%";
-		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
+		params.language.noResults = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
 		// Sort DOM nodes alphabetically in select box.
 		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
@@ -193,12 +192,14 @@ var app = {
 			var formatSelectionExceeds = function(limit) {
 					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit.maximum+' '+app.vtranslate('JS_ITEMS');
 			}
-			params.language = {maximumSelected: formatSelectionExceeds}
+			params.language.maximumSelected = formatSelectionExceeds;
 		}
 		
 		if(selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
 			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
+		}else if(!params.placeholder){
+			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		$selectElement = selectElement;
 		$selectElement.select2(params)
