@@ -419,10 +419,11 @@ class CustomView extends CRMEntity {
 		$log = vglobal('log');
 		$log->debug("Entering getColumnsListByCvid($cvid) method ...");
 	
-		$sSQL = "select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist";
-		$sSQL .= " inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid";
-		$sSQL .= " where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex";
-		$result = $adb->pquery($sSQL, array($cvid));
+		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
+		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
+		$sSQL .= ' where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex';
+		$result = $adb->pquery($sSQL, [$cvid]);
+
 		if($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users'){
 			$log->debug("Error !!!: ".vtranslate('LBL_NO_FOUND_VIEW')." ID: $cvid");
 			die(Vtiger_Functions::throwNewException('LBL_NO_FOUND_VIEW'));

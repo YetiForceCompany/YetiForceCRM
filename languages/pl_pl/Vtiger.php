@@ -533,7 +533,6 @@ $languageStrings = [
 	'Partner' => 'Partner',
 	'Pending' => 'Oczekujące',
 	'Mine' => 'Moje',
-	'Pending' => 'Oczekujące',
 	'Phone' => 'Telefon do firmy',
 	'Phone: ' => 'Telefon: ',
 	'Pipelined Amount' => 'Szacowana sprzedaż',
@@ -961,8 +960,13 @@ $languageStrings = [
 	'LBL_DAYS_CHART' => 'Dni',
 	'LBL_MONTHS_CHART' => 'Miesiące',
 	'LBL_ZOOMING' => 'Powiększanie',
+	
+	//Filters
+	'LBL_CV_GROUP_MINE' => 'Moje',
+	'LBL_CV_GROUP_SYSTEM' => 'Systemowe',
+	'LBL_CV_GROUP_OTHERS' => 'Wspólne',
+	'LBL_CV_GROUP_PENDING' => 'Oczekujące',
 ];
-
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',

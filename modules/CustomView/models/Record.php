@@ -18,6 +18,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 	const CV_STATUS_PRIVATE = 1;
 	const CV_STATUS_PENDING = 2;
 	const CV_STATUS_PUBLIC = 3;
+	const CV_STATUS_SYSTEM = 4;
 
 	/**
 	 * Function to get the Id
@@ -93,6 +94,10 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		return ($this->get('setdefault') == 1);
 	}
 
+	public function isSystem() {
+		return $this->get('status') == self::CV_STATUS_SYSTEM;
+	}
+	
 	/**
 	 * Function to check if the view is created by the current user or is default view
 	 * @return <Boolean> true/false
@@ -898,10 +903,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		}
 
 		$result = $db->pquery($sql, $params);
-		$noOfCVs = $db->num_rows($result);
-		$customViews = array();
-		for ($i=0; $i<$noOfCVs; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		$customViews = [];
+		while ($row = $db->fetch_array($result)) {
 			$customView = new self();
             if(strlen(decode_html($row['viewname'])) > 40) {
                 $row['viewname'] = substr(decode_html($row['viewname']), 0, 36).'...';
@@ -920,12 +923,13 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 					$handler = new $handlerClass();
 					$view['viewname'] = $handler->getViewName();
 					$view['cvid'] = $name;
+					$view['status'] = self::CV_STATUS_SYSTEM;
 					$customView = new self();
 					$customViews[] = $customView->setData($view)->setModule($moduleName);
 				}
 			}
 		}
-
+		
 		return $customViews;
 	}
 
@@ -957,10 +961,11 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 		$customViews = self::getAll($moduleName);
 		$groupedCustomViews = array();
 		foreach ($customViews as $index => $customView) {
-			if($customView->isMine()) {
+			
+			if($customView->isSystem()) {
+				$groupedCustomViews['System'][] = $customView;
+			} elseif($customView->isMine()) {
 				$groupedCustomViews['Mine'][] = $customView;
-			} elseif($customView->isPublic()) {
-				$groupedCustomViews['Public'][] = $customView;
 			} elseif($customView->isPending()) {
 				$groupedCustomViews['Pending'][] = $customView;
 			} else {

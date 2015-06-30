@@ -951,6 +951,11 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Months',
 	'LBL_ZOOMING' => 'Zooming',
 	
+	//Filters
+	'LBL_CV_GROUP_MINE' => '__UNTRANSLATED__',
+	'LBL_CV_GROUP_SYSTEM' => '__UNTRANSLATED__',
+	'LBL_CV_GROUP_OTHERS' => '__UNTRANSLATED__',
+	'LBL_CV_GROUP_PENDING' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
