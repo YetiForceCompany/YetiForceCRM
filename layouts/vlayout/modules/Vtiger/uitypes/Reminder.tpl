@@ -22,13 +22,13 @@
 {/if}
 
 <div>
-	<div style="float:left">
+	<div class="col-md-1">
 		<input type="hidden" name=set_reminder value=0 />
 		<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
 	</div>
-	<div style="float:left" class="{if $REMINDER_VALUES neq ''}show{else}hide{/if}">
-		<div style="float:left">
-			<div style="float:left">
+	<div class="col-md-11" class="{if $REMINDER_VALUES neq ''}show{else}hide{/if}">
+		<div class="col-md-4">
+			<div class="col-md-7">
 				<select class="chzn-select input-mini" name="remdays" title="{vtranslate('LBL_REMAIND_DAYS', $MODULE)}">
 					{for $DAYS = 0 to 31}
 						<option value="{$DAYS}" {if $DAYS eq $DAY}selected{/if}>{$DAYS}</option>
@@ -40,8 +40,8 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-		<div style="float:left">
-			<div style="float:left">
+		<div class="col-md-4">
+			<div class="col-md-7">
 				<select class="chzn-select input-mini" name="remhrs" title="{vtranslate('LBL_REMAIND_HOURS')}" >
 					{for $HOURS = 0 to 23}
 						<option value="{$HOURS}" {if $HOURS eq $HOUR}selected{/if}>{$HOURS}</option>
@@ -53,8 +53,8 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-		<div style="float:left">
-			<div style="float:left">
+		<div class="col-md-4">
+			<div class="col-md-7">
 				<select class="chzn-select  input-mini" name="remmin" title="{vtranslate('LBL_REMAIND_MINS')}">
 				{for $MINUTES = 1 to 59}
 					<option value="{$MINUTES}" {if $MINUTES eq $MINUTE}selected{/if}>{$MINUTES}</option>
