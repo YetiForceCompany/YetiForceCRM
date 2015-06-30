@@ -99,14 +99,14 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 			thisInstance.registerEvents();
 			thisInstance.advanceFilter = new Vtiger_SearchAdvanceFilter_Js(jQuery('.filterContainer',uiData));
 			//align it below the search element
-			uiData.closest('.blockMsg').position({
+			/*uiData.closest('.blockMsg').position({
 				my: "right top",
 				at: "right bottom",
 				of: ".searchElement",
 				using: function(){
 					jQuery("#globalmodal").css({ 'margin-left': '-65px', 'margin-top':'30px'});
 				}
-			});
+			});*/
             if (jQuery('#searchContainer').height() > 200) {
                 app.showScrollBar( jQuery('#searchContainer'), {'height':'400px','railVisible':'true'});
             }
@@ -119,9 +119,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 				params.data = data ;
 				params.cb = postLoad;
 				//TODO : put this css as attribute of object so that its easy for maintanace
-				params.css = {'width':'50%','text-align':'left','background-color':'transparent','border-width':'0px'};
+				//params.css = {'width':'50%','text-align':'left','background-color':'transparent','border-width':'0px'};
 				//not showing overlay
-				params.overlayCss = {'opacity':'0.2'};
+				//params.overlayCss = {'opacity':'0.2'};
 				
                 app.showModalWindow(params);
 			},
@@ -191,14 +191,14 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function(data) {
-			var blockMsg = jQuery(data).closest('.blockMsg');
+			var blockMsg = jQuery(data).closest('#globalmodal');
 			app.showScrollBar(jQuery(data).find('.contents'));
 			aDeferred.resolve(data);
 		}
 
-		var unblockcd = function(){
-			thisInstance.getContainer().remove();
-		}
+		//var unblockcd = function(){
+		//	thisInstance.getContainer().remove();
+		//}
 
 		var html = '<div class="row">'+
 						'<span class="col-md-4 searchHolder"></span>'+
@@ -212,9 +212,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var params = {};
 		params.data = data;
 		params.cb = postLoad;
-		params.css = {'width':'20%','text-align':'left','margin-left':'-100px'};
+		params.css = {'width':'34%','text-align':'left','margin-left':'-100px','z-index':'100001'};
 		params.overlayCss = {'opacity':'0.2'};
-		params.unblockcb = unblockcd;
+		//params.unblockcb = unblockcd;
 		app.showModalWindow(params);
 
 		return aDeferred.promise();
@@ -283,12 +283,11 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		this.search().then(function(data){
 			thisInstance.setContainer(thisInstance.getContainer().detach());
 			thisInstance.showSearchResults(data).then(function(modalBlock){
-				var msgContainer = modalBlock.closest('.blockMsg');
+				var msgContainer = modalBlock.closest('#globalmodal');
 				msgContainer.position({
 					my: "left bottom",
-					at: "left bottom",
+					at: "left top",
 					of: "#globalSearchValue",
-					offset: "1 -29"
 				});
 				thisInstance.registerShowFiler();
 				//if the filter already shown , show again
@@ -309,7 +308,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var filterHolder = jQuery('.filterHolder', modalData);
 		filterHolder.removeClass('hide').html(this.getContainer());
 		//searchHolder.removeClass('col-md-12').css('width' , '35%');;
-		modalData.closest('.blockMsg').css('width' , '70%');
+		modalData.css('width' , '70%');
 	},
 
 	/**

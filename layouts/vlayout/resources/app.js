@@ -333,6 +333,12 @@ var app = {
 		if (container.length) {
 			container.remove();
 		}
+		// modal-backdrop
+		var backdrop = jQuery('.modal-backdrop');
+		if (backdrop.length) {
+			backdrop.remove();
+		}
+		
 		container = jQuery('<div></div>');
 		container.attr('id', id);
 
@@ -344,6 +350,7 @@ var app = {
 				params.backdrop = 'static';
 			}
 			if(typeof paramsObject == 'object') {
+				container.css(paramsObject);
 				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);

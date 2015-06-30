@@ -19,7 +19,7 @@
 <div class="globalSearchResults">
 	<div class="">
 		<div class="header highlightedHeader padding1per">
-			<div class="row">
+			<div class="row no-margin">
 				<span class="col-md-6"><strong>{vtranslate('LBL_SEARCH_RESULTS',$MODULE)}&nbsp;({$totalCount})</strong></span>
 				{if $IS_ADVANCE_SEARCH }
 				<span class="col-md-5">
@@ -46,14 +46,14 @@
 			{assign var="modulesCount" value=count($searchRecords)}
 			<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"  enctype="multipart/form-data">
 				<input type="hidden" id="recordList" name="searchResult" value="{Zend_Json::encode(array_keys($searchRecords))}" />
-				<label class="clearfix">
-					<span onclick="form_{$module}.submit()"><i class="icon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
+				<div class="clearfix">
+					<span onclick="form_{$module}.submit()"><i class="glyphicon glyphicon-list" style="margin-top: 2px;"></i> <strong>{vtranslate($module)}&nbsp;({$modulesCount})</strong></span>
 					<!-- &nbsp;&nbsp;<i title="" class="glyphicon glyphicon-th-list alignMiddle"></i> -->
 					{if {$smarty.foreach.matchingRecords.index+1} eq 1}
-						<span class="pull-right"><p class="muted">{vtranslate('LBL_CREATED_ON', $MODULE)}</small></p></span>
+						<div class="pull-right"><p class="muted">{vtranslate('LBL_CREATED_ON', $MODULE)}</small></p></div>
 					{/if}
 					
-				</label>
+				</div>
 				<ul class="nav">
 				{foreach item=recordObject from=$searchRecords name=globalSearch}
 					{assign var="ID" value="{$module}_globalSearch_row_{$smarty.foreach.globalSearch.index+1}"}
