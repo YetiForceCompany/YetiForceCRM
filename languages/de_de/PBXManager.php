@@ -35,6 +35,10 @@ $languageStrings = [
     'User' => 'Benutzer',
     'SINGLE_PBXManager' => 'Anruf Mitschneiden' ,
 	'Direction' => 'Richtung',
+	'Gateway' => 'Gateway',
+	'Customer type' => 'Customer type',
+	'Source UUID' => 'Source UUID',
+	'End Time' => 'End Time',
 
 ];
 

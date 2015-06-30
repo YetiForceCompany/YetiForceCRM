@@ -34,5 +34,11 @@ $languageStrings = [
     'Customer' => 'Cliente',
     'User' => 'Usuário',
     'SINGLE_PBXManager' => 'Registro Chamada' ,
+	'Direction' => 'Direction',
+	'Gateway' => 'Gateway',
+	'Customer type' => 'Customer type',
+	'Source UUID' => 'Source UUID',
+	'End Time' => 'End Time',
+
 
 ];
