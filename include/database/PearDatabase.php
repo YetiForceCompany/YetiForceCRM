@@ -359,7 +359,7 @@ class PearDatabase {
 		} else {
 			$columns = '';
 			foreach ($data as $column => $cur) {
-				$columns .= ($columns ? ',' : '') . $column;
+				$columns .= ($columns ? ',' : '') . $this->quote($column, false);
 			}
 			$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 			$this->pquery($insert, $data);
