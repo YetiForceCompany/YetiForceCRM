@@ -36,36 +36,36 @@
 				&nbsp;
 			</div>
 			<div class="col-md-4">
-				<span class="row">
-					<span class="col-md-7 pushDown">
+				<div class="pull-right">
+					<span class="pageNumbers pushDown">
 						<span class="pull-right">
 						{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{if $TOTAL_ENTRIES} {vtranslate('LBL_OF', $RELATED_MODULE->get('name'))} {$TOTAL_ENTRIES}{/if}{/if}
 						</span>
 					</span>
-					<span class="col-md-5 pull-right">
-						<span class="btn-group pull-right">
-							<button class="btn" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					<span class="btn-group alignTop margin0px  pull-right">
+						<span class="btn-group" role="group">
+							<button class="btn btn-default" id="relatedListPreviousPageButton" {if !$PAGING->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 							<button class="btn dropdown-toggle btn-default" type="button" id="relatedListPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 								<span><img src="{vimage_path('ListViewJump.png')}" alt="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}" /></span>
 							</button>
 							<ul class="listViewBasicAction dropdown-menu" id="relatedListPageJumpDropDown">
 								<li>
-									<span class="row">
-										<span class="col-md-3"><span class="pull-right">{vtranslate('LBL_PAGE',$moduleName)}</span></span>
-										<span class="col-md-4">
+									<div>
+										<span class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{vtranslate('LBL_PAGE',$moduleName)}</span></span>
+										<span class="col-md-3 recentComments">
 											<input type="text" id="pageToJump" class="listViewPagingInput" title="{vtranslate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGING->getCurrentPage()}"/>
 										</span>
-										<span class="col-md-2 textAlignCenter">
+										<span class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 											{vtranslate('LBL_OF',$moduleName)}
 										</span>
-										<span class="col-md-2" id="totalPageCount"></span>
-									</span>
+										<span class="col-md-2 recentComments textAlignCenter pushUpandDown2per" id="totalPageCount"></span>
+									</div>
 								</li>
 							</ul>
-							<button class="btn" id="relatedListNextPageButton" {if !$PAGING->isNextPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+							<button class="btn btn btn-default" id="relatedListNextPageButton" {if !$PAGING->isNextPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 						</span>
 					</span>
-				</span>
+				</div>
 			</div>
 		</div>
 	</div>
