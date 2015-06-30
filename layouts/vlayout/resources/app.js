@@ -228,8 +228,8 @@ var app = {
 		if(typeof params == 'undefined') {
 			params = {};
 		}
-		$select = selectElement.selectize(params);
-		return $select[0].selectize;
+		selectElement.selectize(params);
+		return selectElement;
 	},
 
 	showPopoverElementView : function(selectElement, params) {
