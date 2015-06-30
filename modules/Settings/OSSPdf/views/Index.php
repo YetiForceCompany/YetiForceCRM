@@ -48,11 +48,7 @@ class Settings_OSSPdf_Index_View extends Settings_Vtiger_Index_View {
 
         for ($i = 0; $i < $db->num_rows($wynik); $i++) {
             $label = $db->query_result($wynik, $i, "name");
-            if ($db->query_result($wynik, $i, "customized") == 0) {
-                $modules[$label] = vtranslate($label);
-            } else {
-                $modules[$label] = vtranslate($label, $label);
-            }
+			$modules[$label] = vtranslate($label, $label);
             $tabid = $db->query_result($wynik, $i, "tabid");
             $wyn = $db->query("select * from vtiger_links where linklabel='Pdf' and tabid='$tabid'", true);
 
