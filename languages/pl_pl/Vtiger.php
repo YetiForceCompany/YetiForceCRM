@@ -435,7 +435,7 @@ $languageStrings = [
 	'LBL_SELECT_FIELD' => 'Wybierz pole',
 	'LBL_SELECT_MODULE' => 'Wybierz moduł',
 	'LBL_SELECT_OPTION' => 'Wybierz',
-	'LBL_SELECT_RELATED_MODULES' => 'Zaznacz powiązane moduły',
+	'LBL_SELECT_RELATED_MODULES' => 'Wybierz powiązane moduły',
 	'LBL_SELECT_STATUS' => 'Wybierz status',
 	'LBL_SELECT_TO_LOAD_LIST' => 'Zaznacz, żeby załadować do listy',
 	'LBL_SEND' => 'Wyślij',
@@ -966,6 +966,10 @@ $languageStrings = [
 	'LBL_CV_GROUP_SYSTEM' => 'Systemowe',
 	'LBL_CV_GROUP_OTHERS' => 'Wspólne',
 	'LBL_CV_GROUP_PENDING' => 'Oczekujące',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Na podstawie pól referencji',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Na podstawie modułów powiązanych',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Operacja zmiany właściciela w zależności od ilości danych może zająć kilka lub kilkanaście minut.',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',

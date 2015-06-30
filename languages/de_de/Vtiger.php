@@ -975,6 +975,10 @@ $languageStrings = [
 	'LBL_CV_GROUP_SYSTEM' => '__UNTRANSLATED__',
 	'LBL_CV_GROUP_OTHERS' => '__UNTRANSLATED__',
 	'LBL_CV_GROUP_PENDING' => '__UNTRANSLATED__',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => '__UNTRANSLATED__',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => '__UNTRANSLATED__',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN'	=>	' Enddatum kann nicht gleich oder kleiner als Startdatum sein',

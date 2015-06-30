@@ -384,22 +384,13 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View {
 	
 	function transferOwnership(Vtiger_Request $request){
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$transferModel = Vtiger_TransferOwnership_Model::getInstance($module);
 
-		$relatedModules = $moduleModel->getRelations();
-		//User doesn't have the permission to edit related module,
-		//then don't show that module in related module list.
-		foreach ($relatedModules as $key => $relModule) {
-			if (!Users_Privileges_Model::isPermitted($relModule->get('relatedModuleName'), 'EditView')) {
-				unset($relatedModules[$key]);
-			}
-		}
-		
 		$viewer = $this->getViewer($request);
-		$skipModules = array('Emails');
 		$viewer->assign('MODULE',$module);
-		$viewer->assign('RELATED_MODULES', $relatedModules);
-		$viewer->assign('SKIP_MODULES', $skipModules);
+		$viewer->assign('REL_BY_FIELDS', $transferModel->getRelationsByFields());
+		$viewer->assign('REL_BY_RELATEDLIST', $transferModel->getRelationsByRelatedList());
+		$viewer->assign('SKIP_MODULES', $transferModel->getSkipModules());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TransferRecordOwnership.tpl', $module);
 	}
