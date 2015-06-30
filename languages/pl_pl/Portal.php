@@ -28,3 +28,7 @@ $languageStrings = [
 	'Portal' => 'Strony WWW',
 	'SINGLE_Portal' => 'Strona WWW',
 ];
+
+$jsLanguageStrings = [
+	'JS_ENTER_MANDATORY_FIELD' => 'Wprowadź wszystkie obowiązkowe pola',
+];
