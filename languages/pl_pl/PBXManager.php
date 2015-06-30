@@ -39,5 +39,6 @@ $languageStrings = [
 	'Source UUID' => 'Źródło UUID',
 	'End Time' => 'Czas zakończenia',
 	'Direction' => 'Kierunek',
+	'Record Id' => 'Id rekordu',
 
 ];
