@@ -52,29 +52,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr data-module-name="Calendar">
-						<td>{'SINGLE_Calendar'|vtranslate:'Calendar'}</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" disabled="disabled" /></div>
-						</td>
-						<td class="">
-							<div><input type="radio" checked="true" disabled="disabled" /></div>
-						</td>
-						<td>
-							<div class="row">
-								<div class="col-md-3">&nbsp;</div>
-								<div class="col-md-6">
-									<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" disabled="disabled" ><img src="layouts/vlayout/skins/images/Arrow-down.png" alt=""></img></button>
-								</div>
-							</div>
-						</td>
-					</tr>
 					{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
 					<tr data-module-name="{$MODULE_MODEL->get('name')}">
 						<td>
