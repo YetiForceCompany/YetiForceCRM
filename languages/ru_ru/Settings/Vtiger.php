@@ -293,6 +293,7 @@ $languageStrings = [
 	'LBL_AUTHORIZATION' => 'Авторизация',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка метода авторизации',
 	'LBL_BACKUP_DESCRIPTION'	=>	'Создание резервных копий системы',
+	'Mail Logs' => 'Mail Logs',
 	
 	/* Role */
 	'Board of Management'	=> 'Управляющий',

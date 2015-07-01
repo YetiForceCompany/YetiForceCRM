@@ -274,6 +274,7 @@ $languageStrings = [
 	'LBL_MARKETING_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Marketing',
 	'LBL_FINANCIAL_PROCESSES_DESCRIPTION' => 'Gerenciar Processo Financeiros',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Gerenciar Configuração Agenda',
+	'Mail Logs' => 'Mail Logs',
 
 	/* Role */
 	'Board of Management'	=> 'Conselho de Administração',
