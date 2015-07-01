@@ -3237,3 +3237,14 @@ display: inherit;
 	font-size: 17px;
 	padding: 4px;
 }
+#prefPageHeader .logo img{
+	height: 70px;
+	width: 70px;
+}
+#myPrefHeading h3{
+	margin-top: 12px;
+}
+.list-user-img{
+	width: 50px;
+	height: 40px;
+}
