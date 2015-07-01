@@ -262,11 +262,7 @@ class PearDatabase {
 	}
 
 	function getArray(&$result) {
-		$rows = [];
-		while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-			$rows[] = $row;
-		}
-		return $rows;
+		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	function disconnect() {
