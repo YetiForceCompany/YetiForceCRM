@@ -3233,3 +3233,7 @@ display:none;
 .detailview-table  .fieldValue:hover  .summaryViewEdit { 
 display: inherit;
 }
+.icon-in-history-widget{
+	font-size: 17px;
+	padding: 4px;
+}
