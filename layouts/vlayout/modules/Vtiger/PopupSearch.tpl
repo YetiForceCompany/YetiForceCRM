@@ -76,7 +76,7 @@
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 			<div class="popupPaging">
 				<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-12">
 							<div class="pull-right">
 								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {vtranslate('LBL_to', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
