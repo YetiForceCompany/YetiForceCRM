@@ -18,26 +18,26 @@
 			</span>
 		</span>
 	{/if}
-	<span class="col-md-8 margin0px">
-		<span class="row">
-			<span class="recordLabel font-x-x-large textOverflowEllipsis span pushDown" title="{$RECORD->getName()}">
+	<div class="col-xs-10 col-sm-9 col-md-8 margin0px">
+		<div>
+			<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
 				{foreach item=NAME_FIELD from=$MODULE_MODEL->getNameFields()}
 					{assign var=FIELD_MODEL value=$MODULE_MODEL->getField($NAME_FIELD)}
 						{if $FIELD_MODEL->getPermissions()}
 							<span class="moduleColor_{$MODULE_NAME} {$NAME_FIELD}">{$RECORD->get($NAME_FIELD)}</span>&nbsp;
 						{/if}
 				{/foreach}
-			</span>
-		</span>
+			</h4>
+		</div>
 		{if $MODULE_NAME}
-			<span class="row">
+			<div class="paddingLeft5px">
 				<span class="muted">
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{if $RECORD->get('shownerid') != ''}
 					<br/>{vtranslate('Share with users',$MODULE_NAME)} {$RECORD->getDisplayValue('shownerid')}
 					{/if}
 				</span>
-			</span>
+			</div>
 		{/if}
-	</span>
+	</div>
 {/strip}

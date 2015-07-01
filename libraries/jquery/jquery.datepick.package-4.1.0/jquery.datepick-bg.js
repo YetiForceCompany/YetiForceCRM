@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Bulgarian localisation for jQuery Datepicker.
    Written by Stoyan Kyosev (http://svest.org). */
 (function($) {

@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Khmer initialisation for jQuery Datepicker.
    Written by Sovichet Tep (sovichet.tep@gmail.com). */
 (function($){

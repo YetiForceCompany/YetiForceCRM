@@ -313,31 +313,25 @@ var app = {
 		return keyValueMap;
 	},
 
-	showModalWindow: function(data, url, cb, css) {
-
-		var unBlockCb = function(){};
-		var overlayCss = {};
-
+	showModalWindow: function(data, url, cb, paramsObject) {
 		//null is also an object
 		if(typeof data == 'object' && data != null && !(data instanceof jQuery)){
-			css = data.css;
+			paramsObject = data.css;
 			cb = data.cb;
 			url = data.url;
-			unBlockCb = data.unblockcb;
-			overlayCss = data.overlayCss;
 			data = data.data
 
 		}
 		if (typeof url == 'function') {
 			if(typeof cb == 'object') {
-				css = cb;
+				paramsObject = cb;
 			}
 			cb = url;
 			url = false;
 		}
 		else if (typeof url == 'object') {
 			cb = function() { };
-			css = url;
+			paramsObject = url;
 			url = false;
 		}
 
@@ -354,70 +348,18 @@ var app = {
 		container.attr('id', id);
 
 		var showModalData = function (data) {
-
-			var defaultCss = {
-							'top' : '0px',
-							'width' : 'auto',
-							'cursor' : 'default',
-							'left' : '35px',
-							'text-align' : 'left',
-							'border-radius':'6px'
-							};
-			var effectiveCss = defaultCss;
-			if(typeof css == 'object') {
-				effectiveCss = jQuery.extend(defaultCss, css)
+			var params = {
+				'show' : true,
+			};
+			if( jQuery('#backgroundClosingModal').val() != 1){
+				params.backdrop = 'static';
 			}
-
-			var defaultOverlayCss = {
-										'cursor' : 'default'
-									};
-			var effectiveOverlayCss = defaultOverlayCss;
-			if(typeof overlayCss == 'object' ) {
-				effectiveOverlayCss = jQuery.extend(defaultOverlayCss,overlayCss);
+			if(typeof paramsObject == 'object') {
+				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);
-
-			// Mimic bootstrap modal action body state change
-			jQuery('body').addClass('modal-open');
-
-			//container.modal();
-			jQuery.blockUI({
-					'message' : container,
-					'overlayCSS' : effectiveOverlayCss,
-					'css' : effectiveCss,
-
-					// disable if you want key and mouse events to be enable for content that is blocked (fix for select2 search box)
-					bindEvents: false,
-
-					//Fix for overlay opacity issue in FF/Linux
-					applyPlatformOpacityRules : false
-				});
-			var unblockUi = function() {
-				app.hideModalWindow(unBlockCb);
-				jQuery(document).unbind("keyup",escapeKeyHandler);
-			}
-			var escapeKeyHandler = function(e){
-				if (e.keyCode == 27) {
-						unblockUi();
-				}
-			}
-			if( jQuery('#backgroundClosingModal').val() == 1){
-				jQuery('.blockOverlay').click(unblockUi);
-			}
-			jQuery(document).on('keyup',escapeKeyHandler);
-			jQuery('[data-dismiss="modal"]', container).click(unblockUi);
-
-			container.closest('.blockMsg').position({
-				'of' : jQuery(window),
-				'my' : 'center top+50',
-				'at' : 'center top',
-				'collision' : 'flip none',
-				//TODO : By default the position of the container is taking as -ve so we are giving offset
-				// Check why it is happening
-				//'offset' : '0 50'
-			});
-			//container.css({'height' : container.innerHeight()+15+'px'});
-
+			container.find('.modal').modal(params);
+			jQuery('body').append(container);
 			// TODO Make it better with jQuery.on
 			app.changeSelectElementView(container);
             //register all select2 Elements
@@ -426,7 +368,6 @@ var app = {
 			app.registerEventForDatePickerFields(container);
 			cb(container);
 		}
-
 		if (data) {
 			showModalData(data)
 
@@ -435,7 +376,6 @@ var app = {
 				showModalData(response);
 			});
 		}
-
 		return container;
 	},
 
@@ -444,22 +384,17 @@ var app = {
 	 * This api assumes that we are using block ui plugin and uses unblock api to unblock it
 	 */
 	hideModalWindow : function(callback) {
-		// Mimic bootstrap modal action body state change - helps to avoid body scroll
-		// when modal is shown using css: http://stackoverflow.com/a/11013994
-		jQuery('body').removeClass('modal-open');
-
 		var id = 'globalmodal';
 		var container = jQuery('#'+id);
 		if (container.length <= 0) {
 			return;
 		}
-
 		if(typeof callback != 'function') {
 			callback = function() {};
 		}
-		jQuery.unblockUI({
-			'onUnblock' : callback
-		});
+		var modalContainer = container.find('.modal');
+		modalContainer.modal('hide');
+		modalContainer.one('hidden.bs.modal',callback);
 	},
 
 	isHidden : function(element) {

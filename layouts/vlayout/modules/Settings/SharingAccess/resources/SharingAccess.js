@@ -300,7 +300,6 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 			var trElement = element.closest('tr');
 			var moduleName = trElement.data('moduleName');
 			var customRuleListContainer = jQuery('.'+thisInstance.getCustomRuleContainerClassName(moduleName),contentTable);
-			 console.log(customRuleListContainer.length)
 			if(customRuleListContainer.length > 0) {
 				console.log(app.isHidden(customRuleListContainer))
 				if(app.isHidden(customRuleListContainer)) {

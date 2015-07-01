@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Albanian localisation for jQuery Datepicker.
    Written by Flakron Bytyqi (flakron@gmail.com). */
 (function($) {

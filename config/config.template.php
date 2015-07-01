@@ -227,11 +227,17 @@ $showRecordsCount = TRUE;
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
-// enable closing of mondal window by clicking on the background
+// Enable closing of mondal window by clicking on the background
 $backgroundClosingModal = TRUE;
 
-// enable CSRF-protection
+// Enable CSRF-protection
 $csrfProtection = TRUE;
 
-// enable encrypt backup, Support from PHP 5.6.x
+// Enable encrypt backup, Support from PHP 5.6.x
 $encryptBackup = false;
+
+// Enable optimizing JS files
+$jsCompress = true;
+
+// Enable optimizing CSS files
+$cssCompress = true;

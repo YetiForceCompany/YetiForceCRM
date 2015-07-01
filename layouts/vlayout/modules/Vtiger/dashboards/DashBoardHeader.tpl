@@ -22,7 +22,7 @@
 				<div class="btn-toolbar">
 					<span class="btn-group">
 							{if $WIDGETS|count gt 0}
-								<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown'>
+								<button class='btn btn-default addButton dropdown-toggle h3' data-toggle='dropdown'>
 										<strong>{vtranslate('LBL_ADD_WIDGET')}</strong>
 										<span class="caret"></span>
 								</button>
@@ -38,7 +38,7 @@
 									{/foreach}
 								</ul>
 							{else if $MODULE_PERMISSION}
-								<button class='btn btn-default addButton dropdown-toggle' data-toggle='dropdown' style="visibility: hidden">
+								<button class='btn btn-default addButton dropdown-toggle h3' data-toggle='dropdown' style="visibility: hidden">
 									<strong>{vtranslate('LBL_ADD_WIDGET')}</strong> 
 									<span class="caret"></span>
 								</button>

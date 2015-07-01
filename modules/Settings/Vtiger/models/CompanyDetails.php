@@ -30,7 +30,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 			'phone' => 'text',
 			'fax' => 'text',
 			'website' => 'text', 
-                        'vatid' => 'text' 
+			'vatid' => 'text' 
 	);
 
 	/**
@@ -178,7 +178,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model 
 					AND TABLE_NAME = 'vtiger_organizationdetails' 
 					AND COLUMN_NAME = ?";
 		
-			$params = array($adb->dbName, $newField);
+			$params = array($adb->getDatabaseName(), $newField);
 			$result = $adb->pquery($query, $params);	
 			$rowsNum = $adb->getRowCount($result);			
 					

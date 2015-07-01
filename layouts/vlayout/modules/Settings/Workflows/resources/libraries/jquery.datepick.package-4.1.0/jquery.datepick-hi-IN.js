@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Hindi INDIA localisation for jQuery Datepicker.
    Written by Pawan Kumar Singh. */
 (function($) {

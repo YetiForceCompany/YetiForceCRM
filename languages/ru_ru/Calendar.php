@@ -150,6 +150,8 @@ $languageStrings = [
 	'LBL_USERS_BLOCK_SHIFT' => 'Показать/Скрыть Блок Пользователи',
 	'LBL_GROUPS_BLOCK_SHIFT' => 'Показать/Скрыть Блок Группы',
 	'LBL_SHIFT_BLOCK' => 'Показать/Скрыть Блок',
+	'LBL_ON_SWITCH' => 'ON',
+	'LBL_OFF_SWITCH' => 'OFF',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

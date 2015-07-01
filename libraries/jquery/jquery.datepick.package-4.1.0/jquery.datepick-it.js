@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Italian localisation for jQuery Datepicker.
    Written by Apaella (apaella@gmail.com). */
 (function($) {

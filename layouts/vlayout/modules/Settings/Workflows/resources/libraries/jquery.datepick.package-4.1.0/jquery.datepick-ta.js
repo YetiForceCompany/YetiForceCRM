@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Tamil localisation for jQuery Datepicker.
    Written by S A Sureshkumar (saskumar@live.com). */
 (function($) {

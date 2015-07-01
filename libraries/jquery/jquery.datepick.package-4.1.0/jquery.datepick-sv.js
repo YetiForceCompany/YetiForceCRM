@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Swedish localisation for jQuery Datepicker.
    Written by Anders Ekdahl ( anders@nomadiz.se). */
 (function($) {

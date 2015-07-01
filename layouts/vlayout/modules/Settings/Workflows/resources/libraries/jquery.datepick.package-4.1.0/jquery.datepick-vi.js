@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Vietnamese localisation for jQuery Datepicker.
    Translated by Le Thanh Huy (lthanhhuy@cit.ctu.edu.vn). */
 (function($) {

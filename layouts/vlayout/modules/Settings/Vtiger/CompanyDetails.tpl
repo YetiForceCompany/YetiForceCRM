@@ -134,7 +134,7 @@
 		{include file="ModalFooter.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 	</form>
 	<div class="addCustomFieldModal">
-		<div class="modal hide fade">
+		<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

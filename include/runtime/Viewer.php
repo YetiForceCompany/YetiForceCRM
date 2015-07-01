@@ -209,8 +209,8 @@ function vtemplate_path($templateName, $moduleName='') {
  */
 function vresource_url($url) {
     global $YetiForce_current_version;
-    if (stripos($url, '://') === false) {
-        $url = $url .'?v='.$YetiForce_current_version;
+    if (stripos($url, '://') === false && $fs = @filemtime($url)) {
+        $url = $url .'?s='.$fs;
     }
     return $url;
 }

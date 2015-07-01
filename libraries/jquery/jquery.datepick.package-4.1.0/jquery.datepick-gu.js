@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Gujarati (ગુજરાતી) localisation for jQuery Datepicker.
    Naymesh Mistry (naymesh@yahoo.com). */
 (function($) {

@@ -1,4 +1,4 @@
-﻿{if count($DATA['chart'])}
+{if count($DATA['chart'])}
 {literal}
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -54,5 +54,3 @@
 	{vtranslate('LBL_RECORDS_NO_FOUND')}
 </div>	
 {/if}
-
-

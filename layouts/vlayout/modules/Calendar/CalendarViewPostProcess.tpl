@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -15,29 +15,29 @@
 		<span id="tRightPanelButtonImage" class="glyphicon glyphicon-chevron-right"></span>
 	</div>
 	</div>
-	<div class="col-md-2 panel-group" id="rightPanel" style="min-height:550px; ">
+	<div class="col-md-2 panel-group calendarRightPanel" id="rightPanel" style="min-height:550px; ">
 	{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
-		<div class="panel panel-defaul quickWidget">
-			<div class="panel-heading quickWidgetHeader" style="background: #737373;">
-				<h4 class="panel-title" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}" >
-					<a data-toggle="collapse" href="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-label="{$SIDEBARWIDGET->getLabel()}" style="color:white"
+		<div class="panel panel-dark quickWidget">
+			<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix">
+				<h4 class="panel-title col-xs-7 paddingLRZero pull-left" title="{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+					<a data-toggle="collapse" href="#{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-label="{$SIDEBARWIDGET->getLabel()}"
 					data-widget-url="{$SIDEBARWIDGET->getUrl()}">
 						<span class="pull-left"><img class="imageElement" alt="{vtranslate('LBL_SHIFT_BLOCK')}" data-rightimage="{vimage_path('rightArrowWhite.png')}" data-downimage="{vimage_path('downArrowWhite.png')}" src="{vimage_path('rightArrowWhite.png')}" />&nbsp;</span>{vtranslate($SIDEBARWIDGET->getLabel(), $MODULE)}
 					</a>
-					<div class="pull-right">
+					
+				</h4>
+				<div class="pull-right">
 						{$SHIFT_BLOCK_SHOW="{$SIDEBARWIDGET->getLabel()}_BLOCK_SHIFT"}
-						<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="20">&nbsp;&nbsp;
-						<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer ">
-							<span class="glyphicon glyphicon-refresh icon-white" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
+						<input id="{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" title="{vtranslate('LBL_SHIFT_BLOCK', $MODULE)}" class="switchBtn label switchsParent" type="checkbox" data-size="mini" data-label-width="5" data-handle-width="20" data-on-text="{vtranslate('LBL_ON_SWITCH',$MODULE)}" data-off-text="{vtranslate('LBL_OFF_SWITCH',$MODULE)}">&nbsp;&nbsp;
+						<a href="javascript:void(0);" name="drefresh" class="refreshCalendar cursorPointer">
+							<span class="glyphicon glyphicon-refresh" hspace="2" border="0" style="vertical-align: middle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 						</a>
 					</div>
-				</h4>
-				
 				<div class="loadingImg hide pull-right">
 					<div class="loadingWidgetMsg"><strong>{vtranslate('LBL_LOADING_WIDGET', $MODULE)}</strong></div>
 				</div>
 			</div>
-			<div class="widgetContainer panel-collapse collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}" style=" padding-top: 5px;">
+			<div class="widgetContainer panel-collapse collapse" id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}" data-url="{$SIDEBARWIDGET->getUrl()}">
 				<div class="panel-body">
 
 					

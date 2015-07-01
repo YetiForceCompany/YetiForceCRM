@@ -73,8 +73,8 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	function getFooterScripts(Vtiger_Request $request) {
-		$headerScriptInstances = parent::getFooterScripts($request);
+	function getHeaderScripts(Vtiger_Request $request) {
+		$headerScriptInstances = parent::getHeaderScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
@@ -106,12 +106,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 			'modules.Vtiger.resources.Mobile',
 			'modules.Settings.DataAccess.resources.SaveResult',
 		);
-		if(vglobal('javascriptLimited')){
-			$jsFileNames[] = 'libraries.bootstrap3.dist.js.bootstrap-multiselect';
-		}
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances,$jsScriptInstances);
+		$headerScriptInstances = array_merge($jsScriptInstances,$headerScriptInstances);
 		return $headerScriptInstances;
 	}
 
@@ -119,24 +116,12 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View {
 		$headerCssInstances = parent::getHeaderCss($request);
 
 		$cssFileNames = array(
-			'~/libraries/jquery/chosen/chosen.css',
-			'~/libraries/jquery/chosen/chosen.bootstrap.css',
-			'~/libraries/jquery/jquery-ui/jquery-ui.css',
-			'~/libraries/jquery/selectize/css/selectize.bootstrap3.css',
-			'~/libraries/jquery/select2/select2.css',
-			'~/libraries/jquery/select2/select2-bootstrap.css',
-			'~/libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~/libraries/jquery/pnotify/pnotify.custom.css',
-			'~/libraries/jquery/datepicker/css/datepicker.css',
-			'~/layouts/vlayout/resources/styles.css',
 			'~/libraries/jquery/timepicker/jquery.timepicker.css',
 			'~/layouts/vlayout/modules/OSSMail/resources/OSSMailBoxInfo.css',
+			'~/layouts/vlayout/skins/glabal_style.css',
 		);
-		if(vglobal('javascriptLimited')){
-			$cssFileNames[] = 'libraries/bootstrap3/dist/css/bootstrap-multiselect.min.css';
-		}
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 		return $headerCssInstances;
 	}
 

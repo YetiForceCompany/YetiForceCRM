@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Arabic localisation for jQuery Datepicker.
    Khaled Al Horani -- koko.dw@gmail.com
    خالد الحوراني -- koko.dw@gmail.com

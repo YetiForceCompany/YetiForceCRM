@@ -1,4 +1,4 @@
-﻿@media print {
+@media print {
 	.noprint { display:none; }
 }
 .clearfix {
@@ -303,23 +303,21 @@ hr {
 .commonActionsContainer .actionsContainer {
   background: #f3f3f3;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown {
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown {
   min-width: 450px;
   top: 28px;
+  margin: 0;
+  padding-top: 0;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown li.title {
-  padding: 5px 0 0 15px;
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a {
+  padding: 2px;
+  border: none;
 }
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown a {
-  cursor: pointer;
-  text-decoration: none !important;
-}
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown #quickCreateModules {
-  padding: 0 5px;
-}
-.commonActionsContainer .dropdown-menu.dropdownStyles.commonActionsButtonDropDown #quickCreateModules div a:hover {
-  //color: #ffffff;
-  border-bottom: 1px solid #000000;
+.commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .mainContainer {
   min-height: 500px;
@@ -328,9 +326,9 @@ hr {
   min-width: 1200px;
 }
 .mainContainer > .col-md-2 {
-  padding: 0 1.06383%;
+ // padding: 0 1.06383%;
   height: auto !important;
-  min-width: 174px;
+ // min-width: 174px;
 }
 .mainContainer .contentsDiv {
   min-height: 500px;
@@ -853,7 +851,7 @@ li.ui-timepicker-selected,
   border-right: 0 !important;
 }
 .detailViewTitle {
-  padding: 1.5% 0 0 1%;
+  padding: 1% 0 0 1%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -862,7 +860,6 @@ li.ui-timepicker-selected,
 .detailViewTitle .recordLabel {
   font-size: 16px;
   font-weight: bold;
-  width: 20em;
 }
 .detailViewTitle .detailViewButtoncontainer {
   margin-top: 8px;
@@ -2339,8 +2336,26 @@ th.htColHeader,
   overflow-y: visible !important;
 }
 .fc-button {
-  border-radius: 0 !important;
-  padding: 5px 10px !important;
+  /* FullCalendar buttons */
+  display: inline-block;
+  padding: 6px 0.4em !important;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 .fc-button:active .fc-button-inner {
   background: transparent;
@@ -2814,11 +2829,13 @@ form {
   box-sizing: border-box;
   word-wrap: break-word;
 }
-.modal-open {
-  overflow: hidden;
+
+//.modal-open {
+ // overflow: hidden;
   /** modal will be having z-index as 10001 **/
 
-}
+//}
+/*
 .modal-open .datepicker,
 .modal-open .timePicker {
   z-index: 1000008 !important;
@@ -2831,6 +2848,7 @@ form {
 .overflowVisible {
   overflow: visible;
 }
+*/
 .select2-container-multi .select2-choices .select2-search-choice {
   cursor: move;
 }
@@ -2855,6 +2873,9 @@ i {
 }
 .marginLeftZero {
   margin-left: 0 !important;
+}
+.marginRightZero {
+  margin-right: 0 !important;
 }
 .clearfix {
   clear: both !important;
@@ -3129,6 +3150,9 @@ td.listViewEntryValue .row input {
 	padding-left: 0px;
 	padding-right: 0px;
 }
+.paddingRightZero {
+	padding-right: 0px;
+}
 .detailViewToolbar {
 	margin-top: 5px;
 }
@@ -3201,4 +3225,64 @@ table.dataTable .form-control {
 .quickCreateContent table.massEditTable td.fieldValue {
 	width: 30%;
 >>>>>>> upstream/LAB-RS
+}
+.fc button {
+	/* FullCalendar buttons */
+	height: auto !important;
+}
+.fc-toolbar {
+	margin-bottom: 0 !important;
+}
+.fc-center, .fc-left, .fc-right{
+	margin-bottom: 1em;
+}
+.calendarRightPanel {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.calendarRightPanel img.imageElement,.calendarRightPanel .glyphicon-refresh{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #fff
+}
+.calendarRightPanel ul li{
+	margin-bottom: 2px;
+	margin-left:5px; 
+}
+.calendarRightPanel ul li:hover{
+	background-color: #eee !important;
+	border-radius: 5px;
+}
+.square9 {
+	width: 9px;
+	height: 9px;
+	margin: 4px;
+}
+.panel-dark {
+  border-color: #737373;
+}
+.panel-dark > .panel-heading {
+  color: #fff;
+  background-color: #737373;
+  border-color: #737373;
+}
+.panel-dark > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #737373;
+}
+.panel-dark > .panel-heading .badge {
+  color: #737373;
+  background-color: #fff;
+}
+.panel-dark > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #737373;
+}
+.calendarRightPanel .widgetContainer ul {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.paddingLeft5px{
+  padding-left: 5px;
+}
+.marginBottom5px {
+  margin-bottom: 5px;
 }

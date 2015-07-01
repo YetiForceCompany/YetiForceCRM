@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Thai localisation for jQuery Datepicker.
    Written by pipo (pipo@sixhead.com). */
 (function($) {

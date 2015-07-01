@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Bosnian localisation for jQuery Datepicker.
    Written by Kenan Konjo. */
 (function($) {

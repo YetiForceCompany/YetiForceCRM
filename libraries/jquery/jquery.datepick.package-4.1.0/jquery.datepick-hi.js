@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    English Hindi localisation for jQuery Datepicker.
    Written by Tirumal Rao of designphilic.com. */
 (function($) {

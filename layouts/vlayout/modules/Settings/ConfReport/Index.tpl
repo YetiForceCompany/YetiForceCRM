@@ -1,18 +1,11 @@
-<style>
-.confTable td, label, span{
-    text-align:center !important; 
-    vertical-align:middle !important; 
-}
-.table tbody tr.error > td {
-	background-color: #f2dede;
-}
-</style>
 <div class="" style="margin-top:10px;">
 	<h3>{vtranslate('LBL_CONFIGURATION', $MODULE)}</h3>&nbsp;{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}<hr>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{vtranslate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{vtranslate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
-		<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		{if vtlib_isModuleActive('OSSMail')}
+			<li><a href="#check_config" data-toggle="tab">{vtranslate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
+		{/if}
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
@@ -20,36 +13,54 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_LIBRARY', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_INSTALLED', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_MANDATORY', $MODULE)}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+							<td><label>{vtranslate($key, $MODULE)}</label></td>
+							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
+							<td><label>
+								{if $item.mandatory}
+									{vtranslate('LBL_MANDATORY', $MODULE)}
+								{else}
+									{vtranslate('LBL_OPTIONAL', $MODULE)}
+								{/if}
+							</label></td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<hr/>
+			<table class="table table-bordered table-condensed themeTableColor confTable">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
 						</th>
 						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_RECOMMENDED', $MODULE)}</span>
+						</th>  	
+						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_VALUE', $MODULE)}</span>
 						</th> 
-						<th colspan="1" class="mediumWidthType">
-							<span>{vtranslate('LBL_RECOMMENDED', $MODULE)}</span>
-						</th>  				
-						</tr>
+					</tr>
 				</thead>
 				<tbody>
-					{foreach from=$CONF key=key item=foo}
-						{if is_array($foo) eq 1 && isset($foo.current)}
-							<tr class="error">
-								<td><label class="marginRight5px">{$key}</label></td>
-								<td><label class="marginRight5px">{vtranslate($foo.current, $MODULE)}</label></td>
-								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
-							</tr>
-						{elseif is_array($foo) neq 1}
-							<tr>
-								<td><label class="marginRight5px">{$key}</label></td>
-								<td colspan="2"><label class="marginRight5px">{vtranslate($foo, $MODULE)}</label></td>
-							</tr>
-						{else}
-							<tr>
-								<td><label class="marginRight5px">{$key}</label></td>
-								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
-								<td><label class="marginRight5px">{vtranslate($foo.prefer, $MODULE)}</label></td>
-							</tr>
-						{/if}	
+					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+						<tr {if $item.status}class="danger"{/if}>
+							<td><label>{$key}</label></td>
+							<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
+							<td><label>{vtranslate($item.current, $MODULE)}</label></td>
+						</tr>
 					{/foreach}
 				</tbody>
 			</table>
@@ -70,27 +81,27 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=$PERMISSIONS key=key item=foo}	
-						{if $foo.permission eq 'FailedPermission'}
-							<tr class="error">
-								<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate($foo.path, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}</label></td>			
-							</tr>
-						{else}			
-							<tr>	
-								<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate($foo.path, $MODULE)}</label></td>
-								<td width="23%"><label class="marginRight5px">{vtranslate('LBL_TRUE_PERMISSION', $MODULE)}</label></td>
-							</tr>
-						{/if}	
+					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}			
+						<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
+							<td width="23%"><label class="marginRight5px">{vtranslate($key, $MODULE)}</label></td>
+							<td width="23%"><label class="marginRight5px">{vtranslate($item.path, $MODULE)}</label></td>
+							<td width="23%"><label class="marginRight5px">
+									{if $item.permission eq 'FailedPermission'}
+										{vtranslate('LBL_FAILED_PERMISSION', $MODULE)}
+									{else}
+										{vtranslate('LBL_TRUE_PERMISSION', $MODULE)}
+									{/if}
+							</label></td>			
+						</tr>
 					{/foreach}
 				</tbody>
 			</table>
         </div>
 		{* check config module *}
-		<div class='editViewContainer tab-pane' id="check_config">
-			<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
-		</div>
+		{if vtlib_isModuleActive('OSSMail')}
+			<div class='editViewContainer tab-pane' id="check_config">
+				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
+			</div>
+		{/if}
     </div>
 </div>

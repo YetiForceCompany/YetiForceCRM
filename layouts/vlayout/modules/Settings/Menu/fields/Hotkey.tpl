@@ -1,4 +1,4 @@
-﻿<div class="row marginBottom5">
+<div class="row marginBottom5">
 	<div class="col-md-5">{vtranslate('LBL_HOTKEY', $QUALIFIED_MODULE)}:</div>
 	<div class="col-md-7">
 		<div class="input-group">

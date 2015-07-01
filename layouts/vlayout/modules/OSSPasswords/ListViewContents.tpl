@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*+***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -83,7 +83,7 @@
              </td>
 			{/foreach}
 			<td>
-				<button class="btn" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+				<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
 			</td>
         </tr>
         {/if}

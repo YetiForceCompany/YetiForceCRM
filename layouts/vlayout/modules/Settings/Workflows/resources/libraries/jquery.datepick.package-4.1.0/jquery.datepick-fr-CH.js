@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Swiss French localisation for jQuery Datepicker.
    Written by Martin Voelkle (martin.voelkle@e-tc.ch). */
 (function($) {

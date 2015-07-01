@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Danish localisation for jQuery Datepicker.
    Written by Jan Christensen ( deletestuff@gmail.com). */
 (function($) {

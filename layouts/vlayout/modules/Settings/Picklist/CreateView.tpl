@@ -1,4 +1,4 @@
-﻿{*<!--
+{*<!--
 /*********************************************************************************
   ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
    * ("License"); You may not use this file except in compliance with the License
@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div class='modelContainer modal fade in show basicCreateView'>
+<div class='modelContainer modal fade basicCreateView' tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">

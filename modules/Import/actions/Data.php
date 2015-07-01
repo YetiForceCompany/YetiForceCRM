@@ -432,17 +432,24 @@ class Import_Data_Action extends Vtiger_Action_Controller {
 								break;
 							}
 						}
+
+						if ( $entityId == false ) {
+							$request = new Vtiger_Request($_REQUEST);
+							$referenceModuleName = $request->get($fieldName.'_defaultvalue');
+						}
 					}
 					if ((empty($entityId) || $entityId == 0) && !empty($referenceModuleName)) {
 						if(isPermitted($referenceModuleName, 'EditView') == 'yes') {
-                                                    try {
-							$wsEntityIdInfo = $this->createEntityRecord($referenceModuleName, $entityLabel);
-							$wsEntityId = $wsEntityIdInfo['id'];
-							$entityIdComponents = vtws_getIdComponents($wsEntityId);
-							$entityId = $entityIdComponents[1];
-                                                    } catch (Exception $e) {
-                                                        $entityId = false;
-                                                    }
+							try {
+								$wsEntityIdInfo = $this->createEntityRecord($referenceModuleName, $entityLabel);
+								$wsEntityId = $wsEntityIdInfo['id'];
+								$entityIdComponents = vtws_getIdComponents($wsEntityId);
+								$entityId = $entityIdComponents[1];
+							} catch (Exception $e) {
+								$entityId = getEntityId($referenceModuleName, $entityLabel);
+								if ( $entityId == 0 )
+									$entityId = false;
+							}
 						}
 					}
 					$fieldData[$fieldName] = $entityId;

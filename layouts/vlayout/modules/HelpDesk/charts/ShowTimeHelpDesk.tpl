@@ -1,4 +1,4 @@
-﻿{if $DATA['chart']}
+{if $DATA['chart']}
 	{literal}
 		<script>  
 			$(document).ready(function(){

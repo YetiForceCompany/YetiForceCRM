@@ -30,46 +30,87 @@
 				<div class="clearfix"></div>
 				<div class="offset2">
 					<div>
-						<table class="config-table">
-							<tr><th>{vtranslate('LBL_PHP_CONFIGURATION', 'Install')}</th><th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th><th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th></tr>
-							{foreach key=CONFIG_NAME item=INFO from=$SYSTEM_PREINSTALL_PARAMS}
-								<tr><td>{vtranslate($CONFIG_NAME, 'Install')}</td><td>{if $INFO.1 eq 1} {vtranslate('LBL_TRUE', 'Install')} {else} {$INFO.1} {/if}</td>
-									<td {if $INFO.2 eq false} class="no" >
-										{if $INFO.0 !== true && $INFO.0 !== false}{$INFO.0}{else}{vtranslate('LBL_NO', 'Install')}{/if}
-									{else if ($INFO.2 eq true and $INFO.1 === true)} > 
-									{if $INFO.0 !== true}{$INFO.0}{else}{vtranslate('LBL_YES', 'Install')}{/if}
-									{else} > {$INFO.0} {/if}
-										
-									</td></tr>
-							{/foreach}
-						</table>
-						<br>
-						{if $PHP_INI_CURRENT_SETTINGS}
-						<table class="config-table">
-							<tr>
-								<th colspan="3">{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
-							</tr>
-							{foreach key=DIRECTIVE item=VALUE from=$PHP_INI_CURRENT_SETTINGS name=directives}
+						<table class="config-table table">
+							<thead>
 								<tr>
-									<td>{$DIRECTIVE}</td><td>{$PHP_INI_RECOMMENDED_SETTINGS[$DIRECTIVE]}</td><td class="no">{$VALUE}</td>
+									<th><label>{vtranslate('LBL_LIBRARY', 'Settings::ConfReport')}</label></th>
+									<th><label>{vtranslate('LBL_INSTALLED', 'Settings::ConfReport')}</label></th>
+									<th><label>{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}</label></th>
 								</tr>
-							{/foreach}
-						</table>
-						{/if}
-						{if $FAILED_FILE_PERMISSIONS}
-							<table class="config-table">
-								<tr><th colspan="2">{vtranslate('LBL_READ_WRITE_ACCESS', 'Install')}</th></tr>
-								{foreach item=FILE_PATH key=FILE_NAME from=$FAILED_FILE_PERMISSIONS}
-									<tr>
-										<td nowrap>{$FILE_NAME} ({str_replace("./","",$FILE_PATH)})</td><td class="no">{vtranslate('LBL_NO', 'Install')}</td>
+							</thead>
+							<tbody>
+								{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+									<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+										<td>{vtranslate($key, 'Settings::ConfReport')}</td>
+										<td>{vtranslate($item.status, 'Settings::ConfReport')}</td>
+										<td>
+											{if $item.mandatory}
+												{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}
+											{else}
+												{vtranslate('LBL_OPTIONAL', 'Settings::ConfReport')}
+											{/if}
+										</td>
 									</tr>
 								{/foreach}
+							</tbody>
+						</table>
+						<br>
+						<table class="config-table table">
+							<thead>
+								<tr>
+									<th>{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
+									<th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th>
+									<th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+									{if $item.status}
+										<tr class="danger">
+											<td><label>{$key}</label></td>
+											<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
+											<td><label>{vtranslate($item.current, $MODULE)}</label></td>
+										</tr>
+									{/if}
+								{/foreach}
+							</tbody>
+						</table>
+						{if $FAILED_FILE_PERMISSIONS}
+							<table class="config-table table">
+								<thead>
+									<tr class="blockHeader">
+										<th colspan="1" class="mediumWidthType">
+											<span>{vtranslate('LBL_READ_WRITE_ACCESS', 'Install')}</span>
+										</th>
+										<th colspan="1" class="mediumWidthType">
+											<span>{vtranslate('LBL_PATH', 'Settings::ConfReport')}</span>
+										</th> 							
+										<th colspan="1" class="mediumWidthType">
+											<span>{vtranslate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
+										</th>  				
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}			
+										<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
+											<td width="23%"><label class="marginRight5px">{vtranslate($key, 'Settings::ConfReport')}</label></td>
+											<td width="23%"><label class="marginRight5px">{vtranslate($item.path, 'Settings::ConfReport')}</label></td>
+											<td width="23%"><label class="marginRight5px">
+												{if $item.permission eq 'FailedPermission'}
+													{vtranslate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
+												{else}
+													{vtranslate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
+												{/if}
+											</label></td>			
+										</tr>
+									{/foreach}
+								</tbody>
 							</table>
 						{/if}
 					</div>
 				</div>
 			</div>
-			<div class="offset2">
+			<div class="row">
 				<div class="button-container">
 					<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK', 'Install')}" name="back"/>
 					<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>

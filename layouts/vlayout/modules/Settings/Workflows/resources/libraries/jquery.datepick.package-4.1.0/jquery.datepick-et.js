@@ -1,4 +1,4 @@
-﻿/* http://keith-wood.name/datepick.html
+/* http://keith-wood.name/datepick.html
    Estonian localisation for jQuery Datepicker.
    Written by Mart Sõmermaa (mrts.pydev at gmail com). */ 
 (function($) {
