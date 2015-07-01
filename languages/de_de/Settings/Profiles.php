@@ -61,6 +61,7 @@ $languageStrings = [
 	'MassTransferOwnership' => 'Massenübertragung Zuständigkeit',
 	'MassMoveDocuments' => 'Massenverschiebung Dokumente',
 	'ReadRecord' => 'Alle durchgeführten Änderungen lesen',
+	'WorkflowTrigger' => 'Workflow trigger'
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil erfolgreich gelöscht',
