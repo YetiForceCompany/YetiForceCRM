@@ -261,6 +261,14 @@ class PearDatabase {
 		return $result->fetchColumn();
 	}
 
+	function getArray(&$result) {
+		$rows = [];
+		while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			$rows[] = $row;
+		}
+		return $rows;
+	}
+	
 	function disconnect() {
 		$this->log('Database disconnect');
 		if (isset($this->database)) {
