@@ -13,6 +13,12 @@ chdir (dirname(__FILE__) . '/../../');
 /**
  * URL Verfication - Required to overcome Apache mis-configuration and leading to shared setup mode.
  */
+
+require_once 'config/api.php';
+if(!in_array('mobileModule',$enabledServices)){
+	die("{'status': 0,'message': 'MobileModule - Service is not active'}");
+}
+
 require_once 'config/config.php';
 require_once 'include/main/WebUI.php';
 include_once dirname(__FILE__) . '/api/Request.php';
