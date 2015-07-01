@@ -48,7 +48,7 @@
 						<button class="btn hide btn-default" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave"><strong>{vtranslate('LBL_SAVE_FILTER', $MODULE)}</strong></button>
 						<button class="btn btn-default" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave"><strong>{vtranslate('LBL_SAVE_AS_FILTER', $MODULE)}</strong></button>
 						<div class="col-xs-3">
-							<input class="zeroOpacity pull-left form-control" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname"/>
+							<input class="zeroOpacity pull-left form-control" type="text" title="{vtranslate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{vtranslate('LBL_FILTER_NAME')}"/>
 						</div>
 						
 					{/if}
