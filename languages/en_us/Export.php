@@ -6,4 +6,6 @@ $languageStrings = [
 	'CallHistory' => 'Call history',
 	'Export' => 'Export',
 	'Ideas' => 'Ideas',
+	'LettersIn' => 'Letters In',
+	'LettersOut' => 'Letters Out',
 ];
