@@ -213,13 +213,16 @@ var app = {
 						var element = jQuery(e.currentTarget);
 						var instance = element.data('select2');
 						instance.$dropdown.css('z-index',1000002);
-						 
 					}).on("select2:unselect", function(e){
 						$selectElement.data('unselecting', true);
 					}) ;
-		if(typeof params.maximumSelectionLength != "undefined") {
-			//app.registerChangeEventForMultiSelect(selectElement,params);
+
+		// Improve the display of default text (placeholder)
+		var instance = $selectElement.data('select2');
+		if(instance){
+			instance.$selection.find('.select2-search__field').css('width','100%');
 		}
+		
 		return selectElement;
 	},
 	/**
