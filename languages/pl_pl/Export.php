@@ -5,4 +5,5 @@
 $languageStrings = [
 	'CallHistory' => 'Historię połączeń',
 	'Export' => 'Eksportuj',
+	'Ideas' => 'Pomysły',
 ];
