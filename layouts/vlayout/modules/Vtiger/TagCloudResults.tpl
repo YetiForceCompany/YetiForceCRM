@@ -12,20 +12,23 @@
 
 -->*}
 {strip}
-	<div id="TagCloudResults modal fade" tabindex="-1">
+	<div id="TagCloudResults" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header contentsBackground">
+				<div class="modal-header">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 					<div class="row">
 						<h3 class="col-md-8 modal-title">{vtranslate('LBL_RESULT_FOR_THE_TAG', $MODULE)} - {$TAG_NAME}</h3>
 						{if $TAGGED_RECORDS}
-							<select id="tagSearchModulesList" class="chzn-select col-md-3 form-control">
+							<div class="col-md-3">
+								<select id="tagSearchModulesList" class="chzn-select form-control">
 								<option value="all">{vtranslate('LBL_ALL',$MODULE)}</option>
 								{foreach key=MODULE_NAME item=TAGGED_RECORD_MODELS from=$TAGGED_RECORDS}
 									<option value="tagSearch_{$MODULE_NAME}">{vtranslate($MODULE_NAME,$MODULE)}</option>
 								{/foreach}	
 							</select>
+							</div>
+							
 						{/if}
 					</div>
 				</div>

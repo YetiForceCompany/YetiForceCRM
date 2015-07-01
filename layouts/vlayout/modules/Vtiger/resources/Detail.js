@@ -1980,8 +1980,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			AppConnector.request(params).then(
 				function(data) {
 					var params = {
-						'data' : data,
-						'css'  : {'min-width' : '40%'}
+						'data' : data
 					}
 					app.showModalWindow(params);
 					thisInstance.registerChangeEventForModulesList();
