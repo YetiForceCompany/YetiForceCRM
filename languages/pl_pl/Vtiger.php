@@ -864,6 +864,8 @@ $languageStrings = [
 	'LBL_SEARCH_MODULE' => 'Wyszukaj modułu',
 	'Website' => 'Strona internetowa',
 	'PotentialsList'=>'Szanse sprzedaży',
+	'PaymentsOut' => 'Wypłaty',
+	'PaymentsIn' => 'Wpłaty',
 	
 	"is"=>"równa się",
 	"is not"=>"nie równa się",

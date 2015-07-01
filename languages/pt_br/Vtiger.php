@@ -795,6 +795,8 @@ $languageStrings = [
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
 	'PotentialsList'=>'Opportunities',
+	'PaymentsOut' => 'Payments Out',
+	'PaymentsIn' => 'Payments In',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
