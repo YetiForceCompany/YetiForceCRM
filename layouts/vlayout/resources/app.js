@@ -523,7 +523,7 @@ var app = {
 		}
 		if(registerForAddon == true){
 			var parentDateElem = element.closest('.date');
-			jQuery('.add-on',parentDateElem).on('click',function(e){
+			jQuery('.input-group-addon',parentDateElem).on('click',function(e){
 				var elem = jQuery(e.currentTarget);
 				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 				//which is stopping from getting focus to input element
@@ -638,7 +638,7 @@ var app = {
 
 		if(registerForAddon == true){
 			var parentTimeElem = element.closest('.time');
-			jQuery('.add-on',parentTimeElem).on('click',function(e){
+			jQuery('.input-group-addon',parentTimeElem).on('click',function(e){
 				var elem = jQuery(e.currentTarget);
 				elem.closest('.time').find('.timepicker-default').focus();
 			});
