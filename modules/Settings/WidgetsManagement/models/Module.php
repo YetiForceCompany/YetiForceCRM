@@ -207,6 +207,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$size = Zend_Json::encode(array('width' => $data['width'], 'height' => $data['height']));
 		$owners = Zend_Json::encode(array('default' => $data['default_owner'], 'available' => $data['owners_all']));
 		$params = array($data['linkid'], $data['blockid'], $data['filterid'], $data['title'], $data['data'], $size, $data['limit'], $owners, $data['isdefault']);
+
 		$adb->pquery($query, $params);
 		$templateId = $adb->getLastInsertID();
 
@@ -359,9 +360,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$log = vglobal('log');
 		$log->debug("Entering Settings_WidgetsManagement_Module_Model::removeBlock(".$data.") method ...");
 		$adb = PearDatabase::getInstance();
-		$query='DELETE FROM `vtiger_module_dashboard_blocks` WHERE vtiger_module_dashboard_blocks.id = ?;';
-		$params = array($data['blockid']);
-		$adb->pquery($query,$params);
+
+		$adb->pquery('DELETE FROM `vtiger_module_dashboard_blocks` WHERE id = ?;',[$data['blockid']]);
+		$adb->pquery('DELETE FROM `vtiger_module_dashboard` WHERE blockid = ?;',[$data['blockid']]);
+		
 		$log->debug("Exiting Settings_WidgetsManagement_Module_Model::removeBlock() method ...");
 		return array('success'=>true); 
 	}
