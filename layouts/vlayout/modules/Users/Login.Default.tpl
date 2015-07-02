@@ -46,7 +46,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 									<img title="{vtranslate('LBL_USER',$MODULE)}" src="layouts/vlayout/skins/images/login.png?{uniqid()}" alt="{vtranslate('LBL_USER',$MODULE)}">
 								</div>
 								<div class="col-md-10 paddingLRZero">
-									<input class="form-control" type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
+									<input class="form-control" type="text" title="{vtranslate('LBL_USER',$MODULE)}" id="username" name="username" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}">
 								</div>
 								
 							</div>
@@ -55,7 +55,7 @@ background: url(layouts/vlayout/skins/images/bg.png?{uniqid()}) no-repeat;
 									<img title="{vtranslate('Password',$MODULE)}" src="layouts/vlayout/skins/images/pass.png?{uniqid()}" alt="{vtranslate('Password',$MODULE)}">
 								</div>
 								<div class="col-md-10 paddingLRZero">
-									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="admin"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+									<input class="form-control" type="password" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 								</div>
 								
 							</div>
