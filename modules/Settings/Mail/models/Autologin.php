@@ -12,15 +12,14 @@ class Settings_Mail_Autologin_Model {
 	public function getAccountsList() {
 		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = [];
+		$param = $users = [];
 		$sql = "SELECT * FROM roundcube_users WHERE password <> '';";
 		$result = $db->query($sql);
-		$Num = $db->num_rows($result);
-		if($Num == 0){
-			return [];
-		}else{
-			return $db->fetch_array($result);
+
+		while ($row = $db->fetch_array($result)) {
+			$users[] = $row;
 		}
+		return $users;
 	}
 	public function getAutologinUsers($user_id) {
 		$db = PearDatabase::getInstance();

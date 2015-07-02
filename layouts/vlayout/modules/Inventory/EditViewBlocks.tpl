@@ -114,7 +114,7 @@
 									{if !empty($REFERENCED_MODULE_STRUCT)}
 										{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 									{/if}
-									<span class="pull-right">
+									<span class="col-xs-10 paddingRightZero pull-right">
 										{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 										<select class="chzn-select referenceModulesList streched" style="width:140px;">
 											<optgroup>

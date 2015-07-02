@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_SUBSCRIBERID' => 'Número Assinante',
 	'LBL_DESTINATION' => 'Destino Chamada',
 	'LBL_SOURCE' => 'Fonte Chamada',
+	'Record Id' => 'Record Id',
 
 	//pick list values
 	'Outgoing missed' => 'Chamada realizada perdida',

@@ -63,6 +63,7 @@ $languageStrings = [
 	'MassTransferOwnership' => 'Masowa zmiana właściciela',
 	'MassMoveDocuments' => 'Masowa zmiana katalogu',
 	'ReadRecord' => 'Zapoznanie ze zmianami w rekordach',
+	'WorkflowTrigger' => 'Wywołanie obiegu informacji',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',

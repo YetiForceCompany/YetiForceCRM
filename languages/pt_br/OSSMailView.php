@@ -59,6 +59,9 @@ $languageStrings = [
 	'LBL_PRINT' => 'Impressão',
 	'Date of receipt' => 'Dados recebidor',
 	'LBL_FORWARD' => 'Avançar',
+	'RC user' => 'RC user',
+	'FromID' => 'Sender Id',
+	'ToID' => 'Receiver Id',
 
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',

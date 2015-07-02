@@ -593,13 +593,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT id,user_name,first_name,last_name FROM vtiger_users WHERE status = ?';
 		$result = $adb->pquery($sql, array('Active'));
-		return $adb->fetch_array($result);
+		return $adb->getArray($result);
 	}
 	public static function getGroupList() {
 		$adb = PearDatabase::getInstance();
 		$sql = 'SELECT groupid as id,groupname FROM vtiger_groups';
 		$result = $adb->pquery($sql, array());
-		return $adb->fetch_array($result);
+		return $adb->getArray($result);
 	}
 	public function BindRecords() {
 		$adb = PearDatabase::getInstance();

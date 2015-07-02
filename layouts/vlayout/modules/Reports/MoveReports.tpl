@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-	<div id="moveReportsContainer" class='modelContainer modal fade'>
+	<div id="moveReportsContainer" class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -27,7 +27,7 @@
 						<div class="row verticalBottomSpacing">
 							<span class="col-md-4">{vtranslate('LBL_FOLDERS_LIST', $MODULE)}<span class="redColor">*</span></span>
 							<span class="col-md-8 row">
-								<select class="chzn-select col-md-11" name="folderid">
+								<select class="chzn-select col-md-11 form-control" name="folderid">
 									<optgroup label="{vtranslate('LBL_FOLDERS', $MODULE)}">
 										{foreach item=FOLDER from=$FOLDERS}
 											<option value="{$FOLDER->getId()}">{vtranslate($FOLDER->getName(), $MODULE)}</option>

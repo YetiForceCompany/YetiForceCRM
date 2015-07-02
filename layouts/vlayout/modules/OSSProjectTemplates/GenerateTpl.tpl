@@ -9,7 +9,7 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-<div class="modelContainer modal fade">
+<div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">
@@ -28,7 +28,7 @@
 							<td>
 								{vtranslate('TPL_LIST', $MODULE_NAME)}</td>
 							<td>
-								<select name="id_tpl">
+								<select name="id_tpl" class="form-control">
 									{foreach from=$TPL_LIST item=item key=key}
 										<option value="{$key}">{$item.tpl_name}</option>
 									{/foreach}

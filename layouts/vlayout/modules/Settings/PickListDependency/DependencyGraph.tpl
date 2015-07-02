@@ -96,7 +96,7 @@
     </table>
 </div>
 </div>
-<div class="modal sourcePicklistValuesModal modalCloneCopy fade">
+<div class="modal sourcePicklistValuesModal modalCloneCopy fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">

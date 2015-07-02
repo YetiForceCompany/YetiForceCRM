@@ -29,7 +29,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-7 controls">
-							<select class="chzn-select" name="status">
+							<select class="chzn-select form-control" name="status">
 								<optgroup>
 									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
 									<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
@@ -59,7 +59,7 @@
 							<div class="col-sm-3 paddingLRZero">
 								<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/></div>
 							<div class="col-sm-7 row">
-								<select class="chzn-select" id="time_format">
+								<select class="chzn-select form-control" id="time_format">
 									<optgroup>
 										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
 										<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>

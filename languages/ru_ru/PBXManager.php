@@ -31,4 +31,5 @@ $languageStrings = [
 	'Start Time' => 'Время начала звонка',
 	'Total Duration' => 'Длительность (сек)',
 	'User' => 'Пользователь',
+	'Record Id' => 'Record Id',
 ];

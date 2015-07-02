@@ -163,9 +163,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View {
 
 			for($i=0; $i<$rows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$recordInstance = Vtiger_Record_Model::getInstanceById($row[0]);
+				$recordInstance = Vtiger_Record_Model::getInstanceById(current($row));
 				$moduleName = $recordInstance->getModuleName();
-				$matchingRecords[$moduleName][$row[0]] = $recordInstance;
+				$matchingRecords[$moduleName][current($row)] = $recordInstance;
 			}
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {

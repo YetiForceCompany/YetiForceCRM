@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="modelContainer modal fade">
+<div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -33,7 +33,7 @@
 								<span class="input-group-addon cursorPointer" id="clearRole">
 									<i class="glyphicon glyphicon-remove-sign"></i>
 								</span>
-								<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium" required value="">
+								<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
 								<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
 									<i class="glyphicon glyphicon-search"></i>
 								</span>

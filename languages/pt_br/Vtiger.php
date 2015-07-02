@@ -794,6 +794,9 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Selecione campo do módulo relacionado',
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
+	'PotentialsList'=>'Opportunities',
+	'PaymentsOut' => 'Payments Out',
+	'PaymentsIn' => 'Payments In',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -960,7 +963,17 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Meses',
 	'LBL_ZOOMING' => 'Zoom',
 	
-	'LBL_FORMAT' => 'Format',
+	'LBL_FORMAT' => 'Formato',
+
+	//Filters
+	'LBL_CV_GROUP_MINE' => 'Meu',
+	'LBL_CV_GROUP_SYSTEM' => 'Sistema',
+	'LBL_CV_GROUP_OTHERS' => 'compartilhado',
+	'LBL_CV_GROUP_PENDING' => 'Pendente',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Baseando nos campos de referência',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado nos módulos relacionados',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados do processo de transferência de propriedade, pode levar vários minutos para concluir',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

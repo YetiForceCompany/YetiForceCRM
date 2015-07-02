@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<div id="listPriceUpdateContainer modal fade">
+<div id="listPriceUpdateContainer modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -26,7 +26,7 @@
 					<div>
 						<span><strong>{vtranslate('LBL_EDIT_LIST_PRICE',$MODULE)}</strong></span>
 						&nbsp;:&nbsp;
-						<input type="text" name="currentPrice" value="{$CURRENT_PRICE}" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" 
+						<input type="text" class="form-control" name="currentPrice" value="{$CURRENT_PRICE}" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]" 
 								   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}' />
 					</div>
 				</div>

@@ -25,7 +25,7 @@ class Settings_Webforms_Block_Model extends Vtiger_Block_Model {
                             'name' => array(
                                     'uitype' => '1',
                                     'name' => 'name',
-                                    'label' => 'Webform Name',
+                                    'label' => 'WebForm Name',
                                     'typeofdata' => 'V~M',
                                     'diplaytype' => '1',
                             ),

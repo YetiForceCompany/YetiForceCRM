@@ -683,6 +683,7 @@ $languageStrings = [
 	'Website: ' => 'Website: ',
 	'Word of mouth' => 'Word of mouth',
 	'Credits' => 'Credits',
+	'PotentialsList'=>'Opportunities',
 	
 	'WEBLOADTIME'=> 'Page loading time', //OpenSaaS VTE
 	'LBL_FOOTER_CONTENT' => 'Copyright 2014 YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
@@ -909,6 +910,8 @@ $languageStrings = [
 	'LBL_WORKFLOWS_TRIGGER' => 'Workflow trigger',
 	'LBL_EXECUTE' => 'Execute',
 	'BTN_WORKFLOW_TRIGGER' => 'This tool allows to start workflows manually and automatically execute all selected tasks.',
+	'PaymentsOut' => 'Payments Out',
+	'PaymentsIn' => 'Payments In',
 	
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Create',
@@ -951,6 +954,16 @@ $languageStrings = [
 	'LBL_ZOOMING' => 'Zooming',
 	
 	'LBL_FORMAT' => 'Format',
+
+	//Filters
+	'LBL_CV_GROUP_MINE' => 'Mine',
+	'LBL_CV_GROUP_SYSTEM' => 'System',
+	'LBL_CV_GROUP_OTHERS' => 'Shared',
+	'LBL_CV_GROUP_PENDING' => 'Pending',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',

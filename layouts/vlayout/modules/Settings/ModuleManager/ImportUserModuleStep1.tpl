@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="" id="importModules">
-	<div class="widget_header row">
+	<div class="widget_header">
 		<h3>{vtranslate('LBL_IMPORT_MODULE_FROM_FILE', $QUALIFIED_MODULE)}</h3>
 	</div><hr>
 	{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
@@ -23,7 +23,7 @@
 		</div>	
 	{/if}
 	<div class="contents">
-		<div class="row">
+		<div>
 			<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule" action='index.php' method="POST" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="ModuleManager" />
 				<input type="hidden" name="moduleAction" value="Import"/>

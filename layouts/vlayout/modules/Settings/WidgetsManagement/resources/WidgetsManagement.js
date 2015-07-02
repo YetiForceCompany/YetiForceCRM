@@ -57,7 +57,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			});
 			
 			var callBackFunction = function(data) {
-				data.find('.addBlockDashBoardModal').removeClass('hide').addClass('show');
 				//register all select2 Elements
 				app.changeSelectElementView(data.find('select'));
 				
@@ -153,7 +152,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		newBlockCloneCopy.data('block-id', result['id']).find('.blockLabel span').append(jQuery('<strong>'+result['label']+'</strong>'));
 		newBlockCloneCopy.find('.addCustomField').removeClass('hide').show();
 		newBlockCloneCopy.find('.specialWidget').data('block-id', result['id']);
-		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('hide newCustomBlockCopy').addClass('editFieldsTable block_'+result['id']).data('code', result['authorized']));
+		contents.find('#moduleBlocks').append(newBlockCloneCopy.removeClass('newCustomBlockCopy hide').addClass('editFieldsTable block_'+result['id']).data('code', result['authorized']));
 	},
 	
 
@@ -184,19 +183,15 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				addFieldContainer.find('.widgetFilter').removeClass('hide').find('select').removeAttr('disabled').show();
 			}
 			
-			addFieldContainer.removeClass('hide').show();
-			
 			var callBackFunction = function(data) {
 				//register all select2 Elements
-				app.changeSelectElementView(data.find('select'));
+				app.changeSelectElementView(data.find('select'),'select2');
 				var elementsToFilter = data.find('.widgetFilter');
 				data.find('select.widgets').on('change', function(){
 					if(jQuery.inArray(jQuery(this).find(':selected').data('name'),thisInstance.widgetWithFilterUsers) != -1){
-						elementsToFilter.removeClass('hide').find('select').prop('disabled', false).trigger('chosen:updated');
-						//app.changeSelectElementView(elementsToFilter.find('select'));
+						elementsToFilter.removeClass('hide').find('select').prop('disabled', false);
 					}else{
-						elementsToFilter.addClass('hide').find('select').prop('disabled', true).trigger("chosen:updated");
-						//app.changeSelectElementView(elementsToFilter.find('select'));
+						elementsToFilter.addClass('hide').find('select').prop('disabled', true);
 					}
 				});
 				
@@ -618,7 +613,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			if (typeof fields != 'object') fields = [fields];
 			data['fields'] = fields;
 
-			paramsForm = {};
+			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');;

@@ -55,14 +55,14 @@ class PearDatabase {
 	 */
 	function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '') {
 		$this->log = LoggerManager::getLogger('DB');
-		$this->resetSettings($dbtype, $host, $dbname, $username, $passwd);
+		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd);
 
 		// Initialize performance parameters
 		$this->isdb_default_utf8_charset = PerformancePrefs::getBoolean('DB_DEFAULT_CHARSET_UTF8');
 
-		if (!isset($this->dbType)) {
-			$this->log('Database connect : DBType not specified', 'error');
-			return;
+		if (!isset($this->dbType) || !isset($this->dbHostName) || !isset($this->dbName)) {
+			$this->log('No configuration for the database connection', 'fatal');
+			return false;
 		}
 
 		$this->setDieOnError(SysDebug::get('SQL_DIE_ON_ERROR'));
@@ -112,7 +112,7 @@ class PearDatabase {
 		}
 	}
 
-	function resetSettings($dbtype, $host, $dbname, $username, $passwd) {
+	function loadDBConfig($dbtype, $host, $dbname, $username, $passwd) {
 		$dbconfig = vglobal('dbconfig');
 
 		if ($host == '') {
@@ -261,6 +261,10 @@ class PearDatabase {
 		return $result->fetchColumn();
 	}
 
+	function getArray(&$result) {
+		return $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
 	function disconnect() {
 		$this->log('Database disconnect');
 		if (isset($this->database)) {
@@ -359,7 +363,7 @@ class PearDatabase {
 		} else {
 			$columns = '';
 			foreach ($data as $column => $cur) {
-				$columns .= ($columns ? ',' : '') . $column;
+				$columns .= ($columns ? ',' : '') . $this->quote($column, false);
 			}
 			$insert = 'INSERT INTO ' . $table . ' (' . $columns . ') VALUES (' . $this->generateQuestionMarks($data) . ')';
 			$this->pquery($insert, $data);
@@ -625,7 +629,7 @@ class PearDatabase {
 
 	function getAffectedRowCount(&$result) {
 		$rows = $result->rowCount();
-		$this->log('getAffectedRowCount: ' . $result);
+		$this->log('getAffectedRowCount: ' . $rows);
 		return $rows;
 	}
 

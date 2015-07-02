@@ -10,7 +10,6 @@
  ************************************************************************************/
 -->*}
 {strip}
-
 <div class="gridster">
 	<ul style="margin-left:10px; margin-right:10px;">
 	{assign var=COLUMNS value=2}

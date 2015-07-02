@@ -60,7 +60,7 @@ function vtws_convertlead($entityvalues, $user) {
 
 	// Initialize Event trigger cache
 	$em->initTriggerCache();
-	$entityData = VTEntityData::fromEntityId($adb, $id);
+	$entityData = VTEntityData::fromEntityId($adb, $leadIdComponents[1]);
 	$em->triggerEvent('entity.convertlead.before', [$entityvalues, $user, $leadInfo]);
 
 	$entityIds = [];
@@ -104,7 +104,7 @@ function vtws_convertlead($entityvalues, $user) {
 
 			try {
 				$create = true;
-				if ($entityvalue['name'] == 'Accounts') {
+				if ($entityvalue['name'] == 'Accounts' && $entityvalue['create_always']) {
 					$sql = "SELECT vtiger_account.accountid FROM vtiger_account,vtiger_crmentity WHERE vtiger_crmentity.crmid=vtiger_account.accountid AND vtiger_account.accountname=? AND vtiger_crmentity.deleted=0";
 					$result = $adb->pquery($sql, array($entityvalue['accountname']));
 					if ($adb->num_rows($result) > 0) {

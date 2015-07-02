@@ -29,7 +29,7 @@
 							<div class="form-group addCalendarViewsList">
 								<label class="control-label">{vtranslate('LBL_SELECT_ACTIVITY_TYPE', $MODULE)}</label>
 								<div class="controls">
-									<select class="select2" name="usersCalendarList" style="min-width: 250px;">
+									<select class="select2 form-control" name="usersCalendarList" style="min-width: 250px;">
 										{foreach item=VIEWINFO from=$VIEWTYPES['invisible']}
 											<option value="{$VIEWINFO['fieldname']}" data-viewmodule="{$VIEWINFO['module']}">{vtranslate($VIEWINFO['fieldlabel'], $VIEWINFO['module'])}</option>
 										{/foreach}

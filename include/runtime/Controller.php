@@ -313,10 +313,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller {
 
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 			} else {
-				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName.$min, 'js');
-				if(file_exists($fallBackFilePath)) {
-					$filePath = str_replace('.','/', $jsFileName) . $min. '.js';
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
+				if(Vtiger_Functions::getMinimizationOptions($fileExtension)){
+					$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName.$min, 'js');
+					if(file_exists($fallBackFilePath)) {
+						$filePath = str_replace('.','/', $jsFileName) . $min. '.js';
+						$jsScriptInstances[$jsFileName] = $jsScript->set('src', Vtiger_JavaScript::getFilePath($filePath));
+					}
 				}
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath(Vtiger_JavaScript::getBaseJavaScriptPath().'/'.$jsFileName, 'js');
 				if(file_exists($fallBackFilePath)) {

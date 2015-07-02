@@ -44,4 +44,7 @@ $languageStrings = [
 	'LBL_TO' => 'To',
 	'SINGLE_Emails' => 'Email',
 	'Time Start' => 'Time Sent',
+	'Emails_Block1' => 'Email block 1',
+	'Emails_Block2' => 'Email block 2',
+	'Emails_Block3' => 'Email block 3',
 ];

@@ -101,20 +101,22 @@ var app = {
 			}
 		});
 
-
 		//fix for multiselect error prompt hide when validation is success
 		selectElement.filter('[multiple]').filter('[data-validation-engine*="validate"]').on('change',function(e){
 			jQuery(e.currentTarget).trigger('focusout');
 		});
-		var moduleName = app.getModuleName();
-		if( selectElement.filter('[multiple]') && moduleName!= 'Install'){
-			selectElement.data('placeholder',app.vtranslate('JS_SELECT_SOME_OPTIONS'));
-		}else if( moduleName!= 'Install' ){
-			selectElement.data('placeholder',app.vtranslate('JS_SELECT_AN_OPTION'));
-		}
+		
 		var params = {
 			no_results_text:  app.vtranslate('JS_NO_RESULTS_FOUND')+':'
 		};
+		
+		var moduleName = app.getModuleName();
+		if( selectElement.filter('[multiple]') && moduleName!= 'Install'){
+			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
+		}else if( moduleName!= 'Install' ){
+			params.placeholder_text_single =  ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
+		}
+		
 		/*selectElement.each(function(){
 			var width = jQuery(this).outerWidth();
 			params['width'] = width+'px';
@@ -165,10 +167,10 @@ var app = {
 		if(data != null) {
 			params = jQuery.extend(data,params);
 		}
-		params.language = Vtiger_Helper_Js.getLangCode();
+		params.language = {};
 		params.theme = "bootstrap";
-		//params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
-		//params.formatNoMatches = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
+		params.width = "100%";
+		params.language.noResults = function (msn) {return app.vtranslate('JS_NO_RESULTS_FOUND');} ;
 
 		// Sort DOM nodes alphabetically in select box.
 		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
@@ -194,12 +196,14 @@ var app = {
 			var formatSelectionExceeds = function(limit) {
 					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit.maximum+' '+app.vtranslate('JS_ITEMS');
 			}
-			params.language = {maximumSelected: formatSelectionExceeds}
+			params.language.maximumSelected = formatSelectionExceeds;
 		}
 		
-		if(selectElement.attr('multiple') != 'undefined') {
+		if(selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
 			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
+		}else if(!params.placeholder){
+			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		$selectElement = selectElement;
 		$selectElement.select2(params)
@@ -213,13 +217,16 @@ var app = {
 						var element = jQuery(e.currentTarget);
 						var instance = element.data('select2');
 						instance.$dropdown.css('z-index',1000002);
-						 
 					}).on("select2:unselect", function(e){
 						$selectElement.data('unselecting', true);
 					}) ;
-		if(typeof params.maximumSelectionLength != "undefined") {
-			//app.registerChangeEventForMultiSelect(selectElement,params);
+
+		// Improve the display of default text (placeholder)
+		var instance = $selectElement.data('select2');
+		if(instance){
+			instance.$selection.find('.select2-search__field').css('width','100%');
 		}
+		
 		return selectElement;
 	},
 	/**
@@ -344,6 +351,12 @@ var app = {
 		if (container.length) {
 			container.remove();
 		}
+		// modal-backdrop
+		var backdrop = jQuery('.modal-backdrop');
+		if (backdrop.length) {
+			backdrop.remove();
+		}
+		
 		container = jQuery('<div></div>');
 		container.attr('id', id);
 
@@ -355,6 +368,7 @@ var app = {
 				params.backdrop = 'static';
 			}
 			if(typeof paramsObject == 'object') {
+				container.css(paramsObject);
 				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);
@@ -444,7 +458,7 @@ var app = {
 		onBeforePromptType: function (field,errorMsg) {
 			var block = field.closest('.blockContainer');
 			if (block.find('tbody').is(":hidden")) {
-				block.find('.blockToggle[data-mode="hide"]').click();
+				block.find('.blockHeader').click();
 			}
 			field.attr('data-error',errorMsg);
 		},
@@ -562,7 +576,7 @@ var app = {
 		}
 		if(registerForAddon == true){
 			var parentDateElem = element.closest('.date');
-			jQuery('.add-on',parentDateElem).on('click',function(e){
+			jQuery('.input-group-addon',parentDateElem).on('click',function(e){
 				var elem = jQuery(e.currentTarget);
 				//Using focus api of DOM instead of jQuery because show api of datePicker is calling e.preventDefault
 				//which is stopping from getting focus to input element
@@ -677,7 +691,7 @@ var app = {
 
 		if(registerForAddon == true){
 			var parentTimeElem = element.closest('.time');
-			jQuery('.add-on',parentTimeElem).on('click',function(e){
+			jQuery('.input-group-addon',parentTimeElem).on('click',function(e){
 				var elem = jQuery(e.currentTarget);
 				elem.closest('.time').find('.timepicker-default').focus();
 			});

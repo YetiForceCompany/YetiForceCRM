@@ -31,10 +31,10 @@ $languageStrings = [
 	'LBL_FILTERS_AVAILABLE' => 'Filtry dostępne',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Wybierz co najmniej jedną opcję',
 	'LBL_VIEW_CONFIGURATION' => 'Widok konfiguracyjny',
+	'LBL_WIDGET_ADDED' => 'Pomyślnie dodano widget',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',
-	'JS_CUSTOM_FIELD_ADDED' => 'Pomyślnie dodano widget do bloku',
 	'JS_CUSTOM_FIELD_DELETED' => 'Pomyślnie usunięto widget',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Pomyślnie usunięto blok',
 	'JS_FIELD_EMPTY' => 'Pole nie może być puste',

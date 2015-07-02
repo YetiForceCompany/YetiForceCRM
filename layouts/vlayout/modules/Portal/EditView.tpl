@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    <div class='modelContainer modal fade'>
+    <div class='modelContainer modal fade' tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
@@ -34,7 +34,7 @@
 							</label>
 						</div>
 						<div class="controls">
-							<input type="text" name="bookmarkName" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
+							<input type="text" name="bookmarkName" class="form-control" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 						</div>
 						<br>
 						<div class="control-label">
@@ -43,7 +43,7 @@
 							</label>
 						</div>
 						<div class="controls">
-							<input type="text" name="bookmarkUrl" title="{vtranslate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" />
+							<input type="text" name="bookmarkUrl" class="form-control" title="{vtranslate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" />
 						</div>
 					</div>
 					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

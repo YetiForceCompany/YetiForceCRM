@@ -18,5 +18,7 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Grupos sem um Responsável',
 	'LBL_LEAD_STATUS' => 'Selecione os status que indicam o final do trabalho com Leads',
 	'LBL_CURRENTUSER_STATUS' => 'Alteração do Responsável para um Usuário que editou um registro',
+	'LBL_CONVERT_LEAD_MERGE' => 'Join converted record with existing account with the same name',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing one by accounts name - new account will not be created, instead to existing record data will be transferred from Lead',
 ];
 

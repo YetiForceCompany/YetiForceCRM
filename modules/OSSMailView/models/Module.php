@@ -22,6 +22,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 		);
 		return $settingsLinks;
 	}
+	
 	public function isPermitted($actionName) {
 		if($actionName == 'EditView'){
 			return false;
@@ -29,27 +30,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model {
 			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
 		}
 	}
-	function getSideBarLinks() {
-		$quickLinks = array();  
-		$quickLinks[] =	array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_RECORDS_LIST',
-				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			);
-		if(Vtiger_DashBoard_Model::verifyDashboard($this->getName())){
-			$quickLinks[] = array(
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_DASHBOARD',
-				'linkurl' => $this->getDashBoardUrl(),
-				'linkicon' => '',
-			);
-		}
-		foreach($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-		return $links;
-	}
+	
 	public function getMailCount($owner, $dateFilter) {
 		$db = PearDatabase::getInstance();
 

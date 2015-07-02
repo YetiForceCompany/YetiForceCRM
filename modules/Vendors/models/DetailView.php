@@ -31,7 +31,7 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkurl' => $emailModuleModel->getComposeUrl($moduleName, $recordId, 'Detail', $config['popup']),
-				'linkicon' => 'icon-envelope',
+				'linkicon' => 'glyphicon glyphicon-envelope',
 				'linktarget' => $config['target'],
 				'linkPopup' => $config['popup'],
 				'title' => vtranslate('LBL_SEND_EMAIL')
@@ -45,7 +45,7 @@ class Vendors_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => '',
 				'linkurl' => $recordModel->getCreatePurchaseOrderUrl(),
-				'linkicon' => 'icon-list-alt',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
 				'title' => vtranslate('LBL_CREATE').' '.vtranslate($purchaseOrderModuleModel->getSingularLabelKey(), 'PurchaseOrder'),
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

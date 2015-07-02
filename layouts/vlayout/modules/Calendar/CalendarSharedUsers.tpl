@@ -30,7 +30,7 @@
 							<div class="form-group addCalendarViewsList">
 								<label class="control-label">{vtranslate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
 								<div class="controls">
-									<select class="select2" name="usersCalendarList" style="min-width: 250px;">
+									<select class="select2 form-control" name="usersCalendarList" style="min-width: 250px;">
 										{foreach key=USER_ID item=USER_NAME from=$SHAREDUSERS}
 											{if $SHAREDUSERS_INFO[$USER_ID]['visible'] == '0'}
 												<option value="{$USER_ID}">{$USER_NAME}</option>
@@ -42,7 +42,7 @@
 							<div class="form-group editCalendarViewsList">
 								<label class="control-label">{vtranslate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
 								<div class="controls">
-									<select class="select2" name="editingUsersList" style="min-width: 250px;">
+									<select class="select2 form-control" name="editingUsersList" style="min-width: 250px;">
 										<option value="{$CURRENT_USER_ID}" data-user-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}">{vtranslate('LBL_MINE',$MODULE)}</option>
 										{foreach key=USER_ID item=USER_NAME from=$SHAREDUSERS}
 											{if $SHAREDUSERS_INFO[$USER_ID]['visible'] != '0'}
@@ -76,7 +76,7 @@
 		</div>
 		
 		<input type="hidden" class="sharedUsersInfo" value= {Zend_Json::encode($SHAREDUSERS_INFO)} />
-		<label class="checkbox addedCalendars" style="text-shadow: none">
+		<label class="addedCalendars" style="text-shadow: none">
 			<input type="checkbox" data-calendar-sourcekey="Events33_{$CURRENT_USER_ID}" data-calendar-feed="Events" 
 				   data-calendar-userid="{$CURRENT_USER_ID}" data-calendar-feed-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}" >
 			&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']};">{vtranslate('LBL_MINE',$MODULE)}</span>

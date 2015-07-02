@@ -319,7 +319,7 @@
 </div>
 
 {* modal promtp for uninstall *}
-<div id="myModal" class="modal fade">
+<div id="myModal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -339,7 +339,7 @@
 </div>
 
 {* modal promtp for modtracker register changes *}
-<div id="myRegisterModal" class="modal fade">
+<div id="myRegisterModal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

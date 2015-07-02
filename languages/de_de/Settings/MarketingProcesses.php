@@ -18,5 +18,7 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Gruppen ohne Zuständigkeit',
 	'LBL_LEAD_STATUS' => 'Status welche die Leadbearbeitung beenden',
 	'LBL_CURRENTUSER_STATUS' => 'Ändere die Zuständigkeit zu dem bearbeitenden Benutzer',
+	'LBL_CONVERT_LEAD_MERGE' => 'Join converted record with existing account with the same name',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing one by accounts name - new account will not be created, instead to existing record data will be transferred from Lead',
 ];
 

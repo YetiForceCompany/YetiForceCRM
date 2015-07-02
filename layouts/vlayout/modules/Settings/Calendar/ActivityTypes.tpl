@@ -39,7 +39,8 @@
 						</td>
 						<td class="calendarColor" style="background: {$item.color};"></td>
 						<td>
-							<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>
+							<button class="btn btn-default marginLeftZero updateColor">{vtranslate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+							<button class="btn btn-default generateColor">{vtranslate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 						</td>
 					</tr>
 				{/foreach}

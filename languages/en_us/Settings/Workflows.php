@@ -141,6 +141,7 @@ $languageStrings = [
 	'LBL_VALUE_OF_FIELDS' => 'Value from field',
 	'LBL_VALUE_OF_SERVER' => 'Value from server',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Workflow run time and date',
+	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
 	
 	//workflow task
 	'EmailTempleteList' => 'Select a template email to be sent',

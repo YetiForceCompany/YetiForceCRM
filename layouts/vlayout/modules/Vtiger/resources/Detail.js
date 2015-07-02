@@ -951,15 +951,15 @@ jQuery.Class("Vtiger_Detail_Js",{
 
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.on('click','.blockToggle',function(e){
-			var currentTarget =  jQuery(e.currentTarget);
+		detailContentsHolder.on('click','.blockHeader',function(e){
+			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.detailview-table');
 			var bodyContents = closestBlock.find('tbody');
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide('slow');
+				bodyContents.hide();
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
@@ -977,7 +977,6 @@ jQuery.Class("Vtiger_Detail_Js",{
 				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
-
 	},
 
 	registerBlockStatusCheckOnLoad : function(){
@@ -992,12 +991,12 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var value = app.cacheGet(cacheKey, null);
 			if(value != null){
 				if(value == 1){
-					headerAnimationElement.hide();
-					currentBlock.find("[data-mode='show']").show();
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='show']").removeClass('hide');
 					bodyContents.show();
 				} else {
-					headerAnimationElement.hide();
-					currentBlock.find("[data-mode='hide']").show();
+					headerAnimationElement.addClass('hide');
+					currentBlock.find("[data-mode='hide']").removeClass('hide');
 					bodyContents.hide();
 				}
 			}
@@ -1058,7 +1057,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 				hasMaskedValue = true;
 			}
 			detailViewValue.addClass('hide');
-			editElement.removeClass('hide').show().children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
+			actionElement.addClass('hide');
+			editElement.removeClass('hide').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
 
 			var saveTriggred = false;
 			var preventDefault = false;
@@ -1100,7 +1100,7 @@ jQuery.Class("Vtiger_Detail_Js",{
                 if(previousValue == ajaxEditNewValue) {
                     editElement.addClass('hide');
                     detailViewValue.removeClass('hide');
-					actionElement.show();
+					actionElement.removeClass('hide');
 					jQuery(document).off('click', '*', saveHandler);
                 } else {
 					var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
@@ -1125,7 +1125,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 						if(Vtiger_Detail_Js.SaveResultInstance.checkData(formData) == false){
 							editElement.addClass('hide');
 							detailViewValue.removeClass('hide');
-							actionElement.show();
+							actionElement.removeClass('hide');
 							jQuery(document).off('click', '*', saveHandler);
 							return;
 						}
@@ -1147,7 +1147,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 						var postSaveRecordDetails = response.result;
 						currentTdElement.progressIndicator({'mode':'hide'});
                         detailViewValue.removeClass('hide');
-						actionElement.show();
+						actionElement.removeClass('hide');
                         detailViewValue.html(postSaveRecordDetails[fieldName].display_value);
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent,{'old':previousValue,'new':fieldValue});
                         elementTarget.data('prevValue', ajaxEditNewValue);
@@ -1487,9 +1487,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 		 */
 		var formElement = thisInstance.getForm();
 		var formData = formElement.serializeFormData();
-		summaryViewContainer.on('click', '.summaryViewEdit', function(e){
+		summaryViewContainer.on('click', '.row .summaryViewEdit', function(e){
 			var currentTarget = jQuery(e.currentTarget);
-			currentTarget.hide();
+			currentTarget.addClass('hide');
 			var currentTdElement = currentTarget.closest('td.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
 			Vtiger_Detail_Js.SaveResultInstance.loadFormData(formData);
@@ -1980,8 +1980,7 @@ jQuery.Class("Vtiger_Detail_Js",{
 			AppConnector.request(params).then(
 				function(data) {
 					var params = {
-						'data' : data,
-						'css'  : {'min-width' : '40%'}
+						'data' : data
 					}
 					app.showModalWindow(params);
 					thisInstance.registerChangeEventForModulesList();

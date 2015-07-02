@@ -1162,6 +1162,9 @@ $languageStrings = [
 	'LBL_SELECT_RECORD' => 'Select record',
 	'LBL_SELECT_RELATED_FIELD' => 'Select related module field',
 	'LBL_COMPARISON_VALUE' => 'Comparison value',
+	'PotentialsList' => 'Возможности',
+	'PaymentsOut' => 'Payments Out',
+	'PaymentsIn' => 'Payments In',
 	//Call popover
 	'LBL_BTN_CALL'	=>	'Позвонить',
 	'LBL_SELECT_USER_TO_CALL'	=>	'Выберите, кому вы хотите позвонить',
@@ -1203,6 +1206,15 @@ $languageStrings = [
 	
 	'LBL_FORMAT' => 'Format',
 	
+	//Filters
+	'LBL_CV_GROUP_MINE' => 'Mine',
+	'LBL_CV_GROUP_SYSTEM' => 'System',
+	'LBL_CV_GROUP_OTHERS' => 'Shared',
+	'LBL_CV_GROUP_PENDING' => 'Pending',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',

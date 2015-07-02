@@ -24,7 +24,7 @@
 					<p>{vtranslate('LBL_ALERT_MOBILE_NO_ACTIVE_DESC', $QUALIFIED_MODULE)}</p>
 				</div>	
 			{/if}
-			<div class="row">
+			<div>
 				<div class="contents tabbable">
 					<table class="table table-bordered table-condensed listViewEntriesTable">
 						<thead>
@@ -74,7 +74,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_USER', $QUALIFIED_MODULE)}</label>
 								<div class="col-sm-6 controls">
-									<select class="select user" name="user" data-validation-engine="validate[required]">
+									<select class="select user form-control" name="user" data-validation-engine="validate[required]">
 									{foreach from=$USERS item=item key=key}
 										<option value="{$key}">{$item->getDisplayName()}</option>
 									{/foreach}
@@ -84,7 +84,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">{vtranslate('LBL_SELECT_SERVICE', $QUALIFIED_MODULE)}</label>
 								<div class="col-sm-6 controls">
-									<select class="select service" name="service" data-validation-engine="validate[required]">
+									<select class="select service form-control" name="service" data-validation-engine="validate[required]">
 									{foreach from=$MODULE_MODEL->getAllService() item=item key=key}
 										<option value="{$key}">{vtranslate($item,$QUALIFIED_MODULE)}</option>
 									{/foreach}

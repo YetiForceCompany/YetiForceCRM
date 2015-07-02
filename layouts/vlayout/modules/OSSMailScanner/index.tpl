@@ -75,6 +75,7 @@
                     <th>{vtranslate('mail_host', 'OSSMailScanner')}</th>
                     <th>{vtranslate('Actions', 'OSSMailScanner')}</th>
 					<th>{vtranslate('User', 'OSSMailScanner')}</th>
+					<th>{vtranslate('Status', 'OSSMailScanner')}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -87,7 +88,7 @@
                             <select style="min-width: 200px; max-width: 500px;" multiple id="function_list_{$row['user_id']}" name="function_list_{$row['user_id']}">
                                 <optgroup label="{vtranslate('Function_list', 'OSSMailScanner')}">
                                     {foreach item=item from=$EMAILACTIONSLISTNAME}
-                                        <option value="{$item[1]}" {if $RecordModel->compare_vale($row['actions'],$item[1]) } selected="selected"{/if} >{vtranslate($item[0], 'OSSMailScanner')}</option>
+                                        <option value="{$item[1]}" {if $RECORD_MODEL->compare_vale($row['actions'],$item[1]) } selected="selected"{/if} >{vtranslate($item[0], 'OSSMailScanner')}</option>
                                     {/foreach}
                                 </optgroup>
                             </select>
@@ -98,17 +99,18 @@
 									{if $row['crm_user_id'] eq '0'}
 										<option value="0" id="user_list_none">{vtranslate('None', 'OSSMailScanner')}</option>
 									{/if}
-                                    {foreach item=item from=$RecordModel->getUserList()}
-                                        <option value="{$item[0]}" {if $RecordModel->compare_vale($row['crm_user_id'],$item[0]) } selected="selected"{/if} >{$item[2]} {$item[3]}</option>
+                                    {foreach item=item from=$RECORD_MODEL->getUserList()}
+                                        <option value="{$item['id']}" {if $RECORD_MODEL->compare_vale($row['crm_user_id'],$item['id']) } selected="selected"{/if} >{$item['first_name']} {$item['last_name']}</option>
                                     {/foreach}
                                 </optgroup>
                                 <optgroup label="{vtranslate('Group list', 'OSSMailScanner')}">
-                                    {foreach item=item from=$RecordModel->getGroupList()}
-                                        <option value="{$item[0]}" {if $RecordModel->compare_vale($row['crm_user_id'],$item[0]) } selected="selected"{/if} >{$item[1]}</option>
+                                    {foreach item=item from=$RECORD_MODEL->getGroupList()}
+                                        <option value="{$item['id']}" {if $RECORD_MODEL->compare_vale($row['crm_user_id'],$item['id']) } selected="selected"{/if} >{$item['groupname']}</option>
                                     {/foreach}
                                 </optgroup>
                             </select>
                         </td>
+						<td>{vtranslate($row['status'], 'OSSMailScanner')}</td>
                         <td><button title="{vtranslate('show_identities', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default expand-hide"><i class="glyphicon glyphicon-chevron-down"></i></button>
 							<button title="{vtranslate('delate_accont', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
@@ -186,7 +188,7 @@
                         <select multiple id="folder_inputReceived" name="folder_inputReceived" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Received'],$key) } selected="selected"{/if} >{$item}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -198,7 +200,7 @@
                         <select multiple id="folder_inputSent" name="folder_inputSent" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Sent'],$key) } selected="selected"{/if} >{$item}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -210,7 +212,7 @@
                         <select multiple id="folder_inputSpam" name="folder_inputSpam" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Spam'],$key) } selected="selected"{/if} >{$item}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -222,7 +224,7 @@
                         <select multiple id="folder_inputTrash" name="folder_inputTrash" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['Trash'],$key) } selected="selected"{/if} >{$item}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -234,7 +236,7 @@
                         <select multiple id="folder_inputAll" name="folder_inputAll" class="form-control">
                             <optgroup label="{vtranslate('Folder_list', 'OSSMailScanner')}">
                                 {foreach item=item key=key from=$FOLDERMAILBOXES}
-                                    <option value="{$key}" {if $RecordModel->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
+                                    <option value="{$key}" {if $RECORD_MODEL->compare_vale($CONFIGFOLDERLIST['All'],$key) } selected="selected"{/if} >{$item}</option>
                                 {/foreach}
                             </optgroup>
                         </select>
@@ -254,7 +256,7 @@
                             {if $last_value neq $item[3]}
                                 <optgroup label="{vtranslate($item[3], $item[3])}">
                                 {/if}
-                                <option value="{$item[1]}={$item[2]}={$item[4]}" {if $RecordModel->compare_vale($EMAILSEARCHLIST['fields'], $item[1]|cat:'='|cat:$item[2]|cat:'='|cat:$item[4] ) } selected="selected"{/if} > {vtranslate($item[3], $item[3])} - {vtranslate($item[0], $item[3])}</option>
+                                <option value="{$item[1]}={$item[2]}={$item[4]}" {if $RECORD_MODEL->compare_vale($EMAILSEARCHLIST['fields'], $item[1]|cat:'='|cat:$item[2]|cat:'='|cat:$item[4] ) } selected="selected"{/if} > {vtranslate($item[3], $item[3])} - {vtranslate($item[0], $item[3])}</option>
                                 {assign var=last_value value=$item[3]}
                                 {if $last_value neq $item[3]}
                                 </optgroup>

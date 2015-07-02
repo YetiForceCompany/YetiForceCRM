@@ -10,13 +10,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div id="convertLeadContainer" class='modelContainer modal fade'>
+<div id="convertLeadContainer" class='modelContainer modal fade' tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			{if !$CONVERT_LEAD_FIELDS['Accounts'] && !$CONVERT_LEAD_FIELDS['Contacts']}
 				<input type="hidden" id="convertLeadErrorTitle" value="{vtranslate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
 				<input id="convertLeadError" class="convertLeadError" type="hidden" value="{vtranslate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
 			{else}
+				{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 				<div class="modal-header contentsBackground">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
 					<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)} : {$RECORD->getName()}</h3>
@@ -26,6 +27,7 @@
 					<input type="hidden" name="view" value="SaveConvertLead"/>
 					<input type="hidden" name="record" value="{$RECORD->getId()}"/>
 					<input type="hidden" name="modules" value=''/>
+					<input type="hidden" name="create_account" value="{if $CONVERSION_CONFIG['create_always'] eq 'true'}1{/if}" />
 					<div class="modal-body accordion" id="leadAccordion">
 						{foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
 							<div class="accordion-group convertLeadModules">
@@ -85,7 +87,6 @@
 											{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 											{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 											{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-											{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 
 											{assign var=ACCESSIBLE_USER_LIST value=$USER_MODEL->getAccessibleUsersForModule($MODULE)}
 											{assign var=ACCESSIBLE_GROUP_LIST value=$USER_MODEL->getAccessibleGroupForModule($MODULE)}
@@ -93,7 +94,7 @@
 											{if $FIELD_VALUE eq '' || $CONVERSION_CONFIG['change_owner'] == 'true'}
 												{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 											{/if}
-											<select class="chzn-select {$ASSIGNED_USER_ID}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
+											<select class="chzn-select {$ASSIGNED_USER_ID} form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={Zend_Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->get('displaytype') == 10}readonly="readonly"{/if}>
 												<optgroup label="{vtranslate('LBL_USERS')}">
 													{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 

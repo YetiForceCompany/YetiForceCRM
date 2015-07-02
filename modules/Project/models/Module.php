@@ -16,28 +16,21 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$links = parent::getSideBarLinks($linkParams);
 
 		$quickLinks = array();
-		$quickLinks[] =	array(
-		'linktype' => 'SIDEBARLINK',
-		'linklabel' => 'LBL_TASKS_LIST',
-		'linkurl' => $this->getTasksListUrl(),
-		'linkicon' => '',
+		$quickLinks[] = array(
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_TASKS_LIST',
+			'linkurl' => $this->getTasksListUrl(),
+			'linkicon' => '',
 		);
-		$quickLinks[] =	  array(
-		'linktype' => 'SIDEBARLINK',
-		'linklabel' => 'LBL_MILESTONES_LIST',
-		'linkurl' => $this->getMilestonesListUrl(),
-		'linkicon' => '',
-		);
-		if(Vtiger_DashBoard_Model::verifyDashboard($this->getName())){
-			$quickLinks[] =	 array(
-					   'linktype' => 'SIDEBARLINK',
-					   'linklabel' => 'LBL_DASHBOARD',
-					   'linkurl' => $this->getDashBoardUrl(),
-					   'linkicon' => '',
-			);  
-		}
 
-		foreach($quickLinks as $quickLink) {
+		$quickLinks[] = array(
+			'linktype' => 'SIDEBARLINK',
+			'linklabel' => 'LBL_MILESTONES_LIST',
+			'linkurl' => $this->getMilestonesListUrl(),
+			'linkicon' => '',
+		);
+
+		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
 		return $links;
@@ -47,10 +40,12 @@ class Project_Module_Model extends Vtiger_Module_Model {
 		$taskModel = Vtiger_Module_Model::getInstance('ProjectTask');
 		return $taskModel->getListViewUrl();
 	}
+	
     public function getMilestonesListUrl() {
 		$milestoneModel = Vtiger_Module_Model::getInstance('ProjectMilestone');
 		return $milestoneModel->getListViewUrl();
 	}
+	
 	public function getTimeEmployee($id) {
 		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Record_Model::getCleanInstance('OSSTimeControl');

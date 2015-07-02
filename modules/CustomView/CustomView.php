@@ -415,20 +415,36 @@ class CustomView extends CRMEntity {
 	 * 			 $columnindexn => $columnnamen)
 	 */
 	function getColumnsListByCvid($cvid) {
-		$adb = PearDatabase::getInstance(); 	$log = vglobal('log');
+		$adb = PearDatabase::getInstance();
+		$log = vglobal('log');
 		$log->debug("Entering getColumnsListByCvid($cvid) method ...");
 	
-		$sSQL = "select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist";
-		$sSQL .= " inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid";
-		$sSQL .= " where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex";
-		$result = $adb->pquery($sSQL, array($cvid));
-		if($adb->num_rows($result) == 0 && $this->customviewmodule != 'Users'){
+		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
+		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
+		$sSQL .= ' where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex';
+		$result = $adb->pquery($sSQL, [$cvid]);
+
+		if($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users'){
 			$log->debug("Error !!!: ".vtranslate('LBL_NO_FOUND_VIEW')." ID: $cvid");
 			die(Vtiger_Functions::throwNewException('LBL_NO_FOUND_VIEW'));
+		}else if(!is_numeric($cvid)){
+			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid .'.php' ;
+			if (file_exists($filterDir)) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				if (class_exists($handlerClass)) {
+					$handler = new $handlerClass();
+					$columnlist = $handler->getColumnList();
+				}
+			}else{
+				$log->debug("Error !!!: ".vtranslate('LBL_NO_FOUND_VIEW')." Filter: $cvid");
+				die(Vtiger_Functions::throwNewException('LBL_NO_FOUND_VIEW'));
+			}
+		}else{
+			while ($columnrow = $adb->fetch_array($result)) {
+				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
+			}
 		}
-		while ($columnrow = $adb->fetch_array($result)) {
-			$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
-		}
+
 		$log->debug("Exiting getColumnsListByCvid() method ...");
 		return $columnlist;
 	}
@@ -840,14 +856,26 @@ class CustomView extends CRMEntity {
 	 * $stdfilterlist = Array( 'columnname' =>  $tablename:$columnname:$fieldname:$module_$fieldlabel,'stdfilter'=>$stdfilter,'startdate'=>$startdate,'enddate'=>$enddate)
 	 */
 	function getStdFilterByCvid($cvid) {
-		$adb = PearDatabase::getInstance();
+		if(is_numeric($cvid)){
+			$adb = PearDatabase::getInstance();
 
-		$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
-		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
+			$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
+			$sSQL .= " where vtiger_cvstdfilter.cvid=?";
 
-		$result = $adb->pquery($sSQL, array($cvid));
-		$stdfilterrow = $adb->fetch_array($result);
-        return $this->resolveDateFilterValue($stdfilterrow);
+			$result = $adb->pquery($sSQL, array($cvid));
+			$stdfilterrow = $adb->fetch_array($result);
+			
+		}else{
+			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid .'.php' ;
+			if (file_exists($filterDir)) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				if (class_exists($handlerClass)) {
+					$handler = new $handlerClass();
+					$stdfilterrow = $handler->getStdCriteria();
+				}
+			}
+		}
+		return $this->resolveDateFilterValue($stdfilterrow);
 	}
 
     function resolveDateFilterValue ($dateFilterRow) {
@@ -905,60 +933,82 @@ class CustomView extends CRMEntity {
 				continue;
 
 			while ($relcriteriarow = $adb->fetch_array($result)) {
-				$columnIndex = $relcriteriarow["columnindex"];
-				$criteria = array();
-				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
-				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
-				$col = explode(":", $relcriteriarow["columnname"]);
-				$temp_val = explode(",", $relcriteriarow["value"]);
-				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
-					$val = Array();
-					for ($x = 0; $x < count($temp_val); $x++) {
-						if ($col[4] == 'D') {
-                            /** while inserting in db for due_date it was taking date and time values also as it is
-                             * date time field. We only need to take date from that value
-                             */
-                            if($col[0] == "vtiger_activity" && $col[1] == "due_date" ){
-                                $values = explode(' ', $temp_val[$x]);
-                                $temp_val[$x] = $values[0];
-                            }
-							$date = new DateTimeField(trim($temp_val[$x]));
-							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] == 'DT') {
-							$comparator = array('e','n','b','a');
-							if(in_array($criteria['comparator'], $comparator)) {
-								$originalValue = $temp_val[$x];
-								$dateTime = explode(' ',$originalValue);
-								$temp_val[$x] = $dateTime[0];
-							}
-							$date = new DateTimeField(trim($temp_val[$x]));
-							$val[$x] = $date->getDisplayDateTimeValue();
-						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
-							$val[$x] = $date->getDisplayTime();
-						}
-					}
-					$advfilterval = implode(",", $val);
-				}
-				$criteria['value'] = $advfilterval;
-				$criteria['column_condition'] = $relcriteriarow["column_condition"];
-
+				$criteria = $this->getAdvftCriteria($relcriteriarow);
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = $groupCondition;
 				$j++;
 			}
+
 			if (!empty($advft_criteria[$i]['columns'][$j - 1]['column_condition'])) {
 				$advft_criteria[$i]['columns'][$j - 1]['column_condition'] = '';
 			}
 			$i++;
 		}
+		
+		if(!is_numeric($cvid)){
+			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid .'.php' ;
+			if (file_exists($filterDir)) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				if (class_exists($handlerClass)) {
+					$handler = new $handlerClass();
+					$advftCriteria = $handler->getAdvftCriteria($this);
+					$i = $advftCriteria[0];
+					$j = $advftCriteria[1];
+					$advft_criteria = $advftCriteria[2];
+				}
+			}
+		}
+
 		// Clear the condition (and/or) for last group, if any.
 		if (!empty($advft_criteria[$i - 1]['condition']))
 			$advft_criteria[$i - 1]['condition'] = '';
+
 		return $advft_criteria;
 	}
 
+	function getAdvftCriteria($relcriteriarow) {
+		$columnIndex = $relcriteriarow['columnindex'];
+		$criteria = array();
+		$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
+		$criteria['comparator'] = $relcriteriarow["comparator"];
+		$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
+		$col = explode(":", $relcriteriarow["columnname"]);
+		$temp_val = explode(",", $relcriteriarow["value"]);
+		if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
+			$val = Array();
+			for ($x = 0; $x < count($temp_val); $x++) {
+				if ($col[4] == 'D') {
+					/** while inserting in db for due_date it was taking date and time values also as it is
+					 * date time field. We only need to take date from that value
+					 */
+					if($col[0] == "vtiger_activity" && $col[1] == "due_date" ){
+						$values = explode(' ', $temp_val[$x]);
+						$temp_val[$x] = $values[0];
+					}
+					$date = new DateTimeField(trim($temp_val[$x]));
+					$val[$x] = $date->getDisplayDate();
+				} elseif ($col[4] == 'DT') {
+					$comparator = array('e','n','b','a');
+					if(in_array($criteria['comparator'], $comparator)) {
+						$originalValue = $temp_val[$x];
+						$dateTime = explode(' ',$originalValue);
+						$temp_val[$x] = $dateTime[0];
+					}
+					$date = new DateTimeField(trim($temp_val[$x]));
+					$val[$x] = $date->getDisplayDateTimeValue();
+				} else {
+					$date = new DateTimeField(trim($temp_val[$x]));
+					$val[$x] = $date->getDisplayTime();
+				}
+			}
+			$advfilterval = implode(",", $val);
+		}
+		$criteria['value'] = $advfilterval;
+		$criteria['column_condition'] = $relcriteriarow["column_condition"];
+		
+		return $criteria;
+	}
+	
 	/**
 	 * Cache information to perform re-lookups
 	 *

@@ -10,7 +10,7 @@
  ************************************************************************************/
 
 class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
-
+	
 	/**
 	 * Function to get Module instance
 	 * @return <Vtiger_Module_Model>
@@ -46,19 +46,19 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
+
 		if($action == 'Header')
 			$action = 0;
 		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.owners 
 			FROM vtiger_links 
-			INNER JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
-			WHERE mdw.userid = ? AND linktype = ? AND tabid = ? AND `active` = ?";
+			LEFT JOIN vtiger_module_dashboard_widgets mdw ON vtiger_links.linkid = mdw.linkid
+			WHERE mdw.userid = ? AND vtiger_links.linktype = ? AND mdw.module = ? AND `active` = ?";
 		$params = array($currentUser->getId(), 'DASHBOARDWIDGET', $moduleModel->getId(), $action);
 		$result = $db->pquery($sql, $params);
 
 		$widgets = array();
 
-		for($i=0, $len=$db->num_rows($result); $i<$len; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
 			if($row['linklabel'] == 'Mini List'){
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -123,7 +123,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole() );
-		$query='SELECT * FROM `vtiger_module_dashboard` WHERE `blockid` = ?;';
+		$query='SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid WHERE vtiger_module_dashboard.blockid IN (0,?);';
 		if(count ($blockId) == 0)
 			return ;
 		$params = array( $blockId );
@@ -139,11 +139,11 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 			$resultVerify = $adb->pquery($query,$params);
 			if(!$adb->num_rows( $resultVerify )) {
 				
-				$query='INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`) VALUES(?,?,?,?,?,?,?,?,?,?,?);';
+				$query='INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);';
 				$active = 0;
 				if($row['isdefault'])
 					$active = 1;
-				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'],$row['owners'], $row['isdefault'], $active);
+				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'],$row['owners'], $row['isdefault'], $active, $row['tabid']);
 				$adb->pquery($query,$params);
 			}
 		}

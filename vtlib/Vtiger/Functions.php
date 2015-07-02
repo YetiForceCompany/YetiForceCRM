@@ -1174,10 +1174,10 @@ class Vtiger_Functions {
 	public static function getMinimizationOptions($type = 'js') {
 		switch ($type) {
 			case 'js':
-				$return =  vglobal('jsCompress');
+				$return =  SysDeveloper::get('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return =  vglobal('cssCompress');
+				$return =  SysDeveloper::get('MINIMIZE_CSS');
 				break;
 		}
 		return $return;

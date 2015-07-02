@@ -39,7 +39,7 @@
 				</span>
 			</div>
 		</div>
-		<div>
+		<div class="col-md-12">
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 				<table class="table table-bordered marginLeftZero">
 				{if $BLOCK_FIELDS|@count gt 0}

@@ -5,7 +5,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 	function getAccountsList($user = false, $onlyMy = false, $password = false) {
 		$adb = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = array();
+		$param = $users = [];
 		$sql = "SELECT * FROM roundcube_users";
 		$where = false;
 		if ($password) {
@@ -23,11 +23,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 			$sql .= ' WHERE' . substr($where, 4);
 		}
 		$result = $adb->pquery($sql, $param);
-		$Num = $adb->num_rows($result);
-		if ($Num == 0) {
+		$num = $adb->num_rows($result);
+		if ($num == 0) {
 			return false;
 		} else {
-			return $adb->fetch_array($result);
+			while ($row = $adb->fetch_array($result)) {
+				$users[] = $row;
+			}
+			return $users;
 		}
 	}
 
@@ -426,15 +429,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model {
 		return true;
 	}
 	public static function get_default_mailboxes() {
-		$Accounts = self::getAccountsList(false,false,true);
-		$mailboxs = Array();
-		if($Accounts){
-			$mbox = self::imap_connect($Accounts[0]['username'] , $Accounts[0]['password']);
-			$ref = "{".$Accounts[0]['mail_host']."}";
-			$list = imap_list($mbox, $ref , "*");
-			foreach($list as $mailboxname) {
-				$name = str_replace($ref, '', $mailboxname);
-				$mailboxs[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+		$accounts = self::getAccountsList(false,false,true);
+		$mailboxs = [];
+		if($accounts){
+			foreach($accounts as $account) {
+				$mbox = self::imap_connect($account['username'] , $account['password'], 'INBOX', false);
+				if($mbox){
+					$ref = "{".$account['mail_host']."}";
+					$list = imap_list($mbox, $ref , "*");
+					foreach($list as $mailboxname) {
+						$name = str_replace($ref, '', $mailboxname);
+						$mailboxs[$name] = self::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+					}
+				}
 			}
 			return $mailboxs;
 		}else{

@@ -9,9 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
-	'ADD_DOCUMENT' => 'Add document',
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
-	'OSSProjectTemplates_manual' => 'OSS Project Templates',
+	'ADD_DOCUMENT' => 'Dodaj dokument',
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
+	'OSSProjectTemplates_manual' => 'Szablony projektu',
     'LBL_NEW_TPL' => 'Dodaj nowy dokument',
 	'OSSDocumentControl' => 'Przepływ dokumentów',
     'LBL_MODULE_NAME' => 'Nazwa modułu',
@@ -46,5 +46,5 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_VIEW_EDIT2' => 'Add Conditions',
+	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
 ];

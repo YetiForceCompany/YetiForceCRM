@@ -16,7 +16,7 @@ class OSSMail_compose_View extends Vtiger_Index_View{
 			if ($account) {
 				$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
 				require_once 'modules/OSSMail/RoundcubeLogin.class.php';
-				$rcl = new RoundcubeLogin(self::$mainUrl, false);
+				$rcl = new RoundcubeLogin($this->$mainUrl, false);
 				try {
 					if ($rcl->isLoggedIn()) {
 						if ($rcl->getUsername() != $rcUser['username']) {
