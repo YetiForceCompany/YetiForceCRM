@@ -17,12 +17,13 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function save(Vtiger_Request $request) {
 		$data = $request->get('form');
 		$moduleName = $request->get('sourceModule');
+		$addToUser = $request->get('addToUser');
 		if(!is_array($data) || !$data){
 			$result = array('success'=>false,'message'=>vtranslate('LBL_INVALID_DATA',$moduleName));
 		}else{
 			if(!$data['action'])
 				$data['action'] = 'saveDetails';
-			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data, $moduleName);
+			$result = Settings_WidgetsManagement_Module_Model::$data['action']($data, $moduleName, $addToUser);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

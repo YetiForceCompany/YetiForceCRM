@@ -850,17 +850,29 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
-
-		$quickLinks = array(
-			array(
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		
+		$quickLinks = [
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
-			),
-		);
+			],
+		];
+		
+		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		if($userPrivilegesModel->hasModulePermission($moduleModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')){
+			$quickLinks[] = array(
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_DASHBOARD',
+				'linkurl' => $this->getDashBoardUrl(),
+				'linkicon' => '',
+			);
+		}	
+		
 		foreach($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}

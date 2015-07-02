@@ -106,37 +106,24 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 	},
 
-	loadWidget : function(widgetContainer) {
+	loadWidget: function (widgetContainer) {
 		var thisInstance = this;
 		var urlParams = widgetContainer.data('url');
 		var mode = widgetContainer.data('mode');
 		widgetContainer.progressIndicator();
-		if(mode == 'open') {
+		if (mode == 'open') {
 			AppConnector.request(urlParams).then(
-				function(data){
+				function (data) {
 					widgetContainer.html(data);
-					var adjustedHeight = widgetContainer.height()-50;
-					app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'),{'height' : adjustedHeight});
+					var adjustedHeight = widgetContainer.height() - 50;
+					app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
 					var widgetInstance = thisInstance.getWidgetInstance(widgetContainer);
 					widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 				},
-				function(){
+				function () {
 				}
-				);
-		} else {
-	}
-	},
-
-
-	registerEvents : function() {
-		this.registerGridster();
-		this.loadWidgets();
-		this.registerRefreshWidget();
-		this.removeWidget();
-		this.registerDatePickerHideInitiater();
-		this.gridsterStop();
-		this.registerShowMailBody();
-		this.registerChangeMailUser();
+			);
+		} else { }
 	},
 
 	gridsterStop : function() {
@@ -215,6 +202,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			return false;
 		})
 	},
+	
 	registerShowMailBody : function() {
 		var container = this.getContainer();
 		container.on('click', '.showMailBody', function(e) {
@@ -230,6 +218,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			}
 		});
 	},
+	
 	registerChangeMailUser : function() {
 		var thisInstance = this;
 		var container = this.getContainer();
@@ -255,5 +244,177 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				}
 			);
 		});
-	}
+	},
+	
+	registerMiniListWidget: function() {
+		var thisInstance = this;
+		$('.dashboardHeading').on('click', '.addFilter', function(e) {
+			var element = $(e.currentTarget);
+
+			app.showModalWindow(null, "index.php?module=Home&view=MiniListWizard&step=step1", function(wizardContainer){
+				var form = jQuery('form', wizardContainer);
+
+				var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
+				var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
+				var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
+
+				var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
+					placeholder: app.vtranslate('JS_SELECT_MODULE')
+				});
+				var filteridSelect2 = app.showSelect2ElementView(filteridSelectDOM,{
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
+				});
+				var fieldsSelect2 = app.showSelect2ElementView(fieldsSelectDOM, {
+					placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'),
+					closeOnSelect: true,
+					maximumSelectionLength: 6
+				});
+				var footer = jQuery('.modal-footer', wizardContainer);
+
+				filteridSelectDOM.closest('tr').hide();
+				fieldsSelectDOM.closest('tr').hide();
+				footer.hide();
+
+				moduleNameSelect2.change(function(){
+					if (!moduleNameSelect2.val()) return;
+
+					AppConnector.request({
+						module: 'Home',
+						view: 'MiniListWizard',
+						step: 'step2',
+						selectedModule: moduleNameSelect2.val()
+					}).then(function(res) {
+						filteridSelectDOM.empty().html(res).trigger('change');
+						filteridSelect2.closest('tr').show();
+					})
+				});
+				filteridSelect2.change(function(){
+					if (!filteridSelect2.val()) return;
+
+					AppConnector.request({
+						module: 'Home',
+						view: 'MiniListWizard',
+						step: 'step3',
+						selectedModule: moduleNameSelect2.val(),
+						filterid: filteridSelect2.val()
+					}).then(function(res){
+						fieldsSelectDOM.empty().html(res).trigger('change');
+						fieldsSelect2.closest('tr').show();
+					});
+				});
+				fieldsSelect2.change(function() {
+					if (!fieldsSelect2.val()) {
+						footer.hide();
+					} else {
+						footer.show();
+					}
+				});
+
+				form.submit(function(e){
+					e.preventDefault();
+					var selectedModule = moduleNameSelect2.val();
+					var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
+					var selectedFilterId= filteridSelect2.val();
+					var selectedFilterLabel= filteridSelect2.find(':selected').text();
+					var selectedFields = [];
+					fieldsSelect2.select2('data').map(function (obj) { 
+						selectedFields.push(obj.id);
+					});
+
+					var data = {
+						module: selectedModule
+					}
+					if (typeof selectedFields != 'object') selectedFields = [selectedFields];
+					data['fields'] = selectedFields;
+					thisInstance.saveMiniListWidget( data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel);
+				});
+			});
+		});
+	},
+	
+	saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel) {
+		var thisInstance = this;
+		var paramsForm = {
+			data: JSON.stringify(data),
+			action: 'addWidget',
+			blockid: element.data('block-id'),
+			linkid: element.data('linkid'),
+			label: moduleNameLabel + ' - ' + filterLabel,
+			name: 'Mini List',
+			filterid: filterid,
+			isdefault: 0,
+			height: 3,
+			width: 4,
+			owners_all: ["mine", "all", "users", "groups"],
+			default_owner: 'mine',
+		};
+		thisInstance.saveWidget(paramsForm, 'save').then(
+			function (data) {
+				var result = data['result'];
+				var params = {};
+				if (data['success']) {
+					app.hideModalWindow();
+					paramsForm['id'] = result['id'];
+					paramsForm['status'] = result['status'];
+					params['text'] = result['text'];
+					var linkElement = element.clone();
+					linkElement.data('name','MiniList')
+					Vtiger_DashBoard_Js.addWidget(linkElement, 'index.php?module=Home&view=ShowWidget&name=MiniList&linkid='+element.data('linkid')+'&widgetid='+result['wid']+'&active=0')
+					Vtiger_Helper_Js.showMessage(params);
+				} else {
+					var message = data['error']['message'];
+					if (data['error']['code'] != 513) {
+						var errorField = form.find('[name="fieldName"]');
+					} else {
+						var errorField = form.find('[name="fieldLabel"]');
+					}
+					errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+				}
+			}
+		);
+	},
+	
+	saveWidget : function(form, mode) {
+		var aDeferred = jQuery.Deferred();
+		var progressIndicatorElement = jQuery.progressIndicator({
+			'position' : 'html',
+			'blockInfo' : {
+				'enabled' : true
+			}
+		});
+		
+		var params = {
+			form: form,
+			module: 'WidgetsManagement',
+			parent: 'Settings',
+			sourceModule: app.getModuleName(),
+			action: 'SaveAjax',
+			mode: mode,
+			addToUser: true,
+		};
+		
+		AppConnector.request(params).then(
+			function(data) {
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				aDeferred.resolve(data);
+			},
+			function(error) {
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'});
+				aDeferred.reject(error);
+			}
+		);
+		return aDeferred.promise();
+	},
+	
+	registerEvents : function() {
+		this.registerGridster();
+		this.loadWidgets();
+		this.registerRefreshWidget();
+		this.removeWidget();
+		this.registerDatePickerHideInitiater();
+		this.gridsterStop();
+		this.registerShowMailBody();
+		this.registerChangeMailUser();
+		this.registerMiniListWidget();
+	},
 });

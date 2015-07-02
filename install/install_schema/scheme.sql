@@ -3774,6 +3774,7 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   `isdefault` tinyint(1) DEFAULT '0',
   `active` tinyint(1) DEFAULT '0',
   `owners` varchar(100) DEFAULT NULL,
+  `module` int(10) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
