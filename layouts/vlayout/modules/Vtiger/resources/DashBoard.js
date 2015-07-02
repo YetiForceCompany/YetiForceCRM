@@ -326,13 +326,13 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 					}
 					if (typeof selectedFields != 'object') selectedFields = [selectedFields];
 					data['fields'] = selectedFields;
-					thisInstance.saveMiniListWidget( data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel);
+					thisInstance.saveMiniListWidget( data, element, selectedModuleLabel, selectedFilterId, selectedFilterLabel, form);
 				});
 			});
 		});
 	},
 	
-	saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel) {
+	saveMiniListWidget: function (data, element, moduleNameLabel, filterid, filterLabel , form) {
 		var thisInstance = this;
 		var paramsForm = {
 			data: JSON.stringify(data),
