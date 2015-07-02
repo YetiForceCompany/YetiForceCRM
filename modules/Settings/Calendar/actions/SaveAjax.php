@@ -23,7 +23,11 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View {
 		$params = $request->get('param');
 		$color = Settings_Calendar_Module_Model::generateColor();
 		$params['color'] = $color;
-		Settings_Calendar_Module_Model::updateModuleColor($params);
+		if( isset($params['viewtypesid']) && $params['viewtypesid'] ){
+			Settings_Calendar_Module_Model::updateModuleColor($params);
+		}else{
+			Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
