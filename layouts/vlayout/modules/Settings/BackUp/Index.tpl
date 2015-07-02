@@ -229,7 +229,9 @@
 									<span class="redColor pull-right">*</span>
 									<label class="pull-right">{vtranslate('LBL_HOST', $QUALIFIED_MODULE_NAME)}</label></td>
 								<td>
-									<input type="text" value="{$FTP_HOST}" name="host"></input>
+									<div class="col-md-3">
+										<input class="form-control" type="text" value="{$FTP_HOST}" name="host"></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -238,7 +240,9 @@
 									<label class="pull-right">{vtranslate('LBL_LOGIN', $QUALIFIED_MODULE_NAME)}</label>
 								</td>
 								<td>
-									<input type="text" value="{$FTP_LOGIN}" name="login"></input>
+									<div class="col-md-3">
+										<input class="form-control" type="text" value="{$FTP_LOGIN}" name="login"></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -247,7 +251,9 @@
 									<label class="pull-right">{vtranslate('LBL_PASSWORD', $QUALIFIED_MODULE_NAME)}</label>
 								</td>
 								<td>
-									<input type="password" value="{$FTP_PASSWORD}" name="password"></input>
+									<div class="col-md-3">
+										<input class="form-control" type="password" value="{$FTP_PASSWORD}" name="password"></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -255,7 +261,9 @@
 									<label class="pull-right">{vtranslate('LBL_PORT', $QUALIFIED_MODULE_NAME)}</label>
 								</td>
 								<td>
-									<input type="text" value="{$FTP_PORT}" name="port"></input>
+									<div class="col-md-3">
+										<input class="form-control" type="text" value="{$FTP_PORT}" name="port"></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -264,19 +272,25 @@
 									<label class="pull-right">{vtranslate('LBL_PATH', $QUALIFIED_MODULE_NAME)}</label>
 								</td>
 								<td>
-									<input type="text" value="{$FTP_PATH}" name="path"></input>
+									<div class="col-md-3">
+										<input class="form-control" type="text" value="{$FTP_PATH}" name="path"></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td style="width:25%"><label class="pull-right">{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE_NAME)}</label></td>
 								<td>
+									<div class="col-md-3">
 									<input type="checkbox" name="active" {if $FTP_ACTIVE} checked {/if}></input>
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td style="width:25%"><label class="pull-right">{vtranslate('LBL_CONNECTION_STATUS', $QUALIFIED_MODULE_NAME)}</label></td>
 								<td>
-									<div id="connection-status" style="{if $FTP_CONNECTION_STATUS eq 0} background-color:red; {else}background-color:#5bb75b; {/if}" ></div>
+									<div class="col-md-3">
+										<div id="connection-status"  style="{if $FTP_CONNECTION_STATUS eq 0} background-color:red; {else}background-color:#5bb75b; {/if}" ></div>
+									</div>
 								</td>
 							</tr>
 						</tbody>
