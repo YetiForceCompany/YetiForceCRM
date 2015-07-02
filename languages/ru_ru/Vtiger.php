@@ -1205,14 +1205,14 @@ $languageStrings = [
 	'LBL_ZOOMING' => 'Увеличить',
 	
 	//Filters
-	'LBL_CV_GROUP_MINE' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_SYSTEM' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_OTHERS' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_PENDING' => '__UNTRANSLATED__',
+	'LBL_CV_GROUP_MINE' => 'Mine',
+	'LBL_CV_GROUP_SYSTEM' => 'System',
+	'LBL_CV_GROUP_OTHERS' => 'Shared',
+	'LBL_CV_GROUP_PENDING' => 'Pending',
 	
-	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => '__UNTRANSLATED__',
-	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => '__UNTRANSLATED__',
-	'LBL_TRANSFER_OWNERSHIP_DESC' => '__UNTRANSLATED__',
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
