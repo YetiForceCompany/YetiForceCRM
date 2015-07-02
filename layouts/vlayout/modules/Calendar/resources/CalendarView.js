@@ -297,7 +297,22 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
+		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
 		var eventObject = {};
+		if (calendarDetails.activitytype.value == 'Task') {
+			eventObject.status = calendarDetails.taskstatus.value;
+		} else {
+			eventObject.status = calendarDetails.eventstatus.value;
+		}
+
+		var taskstatus = $.inArray( eventObject.status, ['Held', 'Completed','Deferred'] );
+		if(state == true && taskstatus >= 0){
+			return false;
+		}
+		if(state != true && taskstatus == -1){
+			return false;
+		}
+		
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.subject.display_value;
 		var startDate = Date.parse(calendarDetails.date_start.display_value + 'T' + calendarDetails.time_start.display_value);
@@ -307,11 +322,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId;
 		eventObject.activitytype = calendarDetails.activitytype.value;
-		if (calendarDetails.activitytype.value == 'Task') {
-			eventObject.status = calendarDetails.taskstatus.value;
-		} else {
-			eventObject.status = calendarDetails.eventstatus.value;
-		}
+
 		if('on' == calendarDetails.allday.value)
 			eventObject.allDay = true;
 		else
