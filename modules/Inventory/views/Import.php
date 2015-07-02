@@ -8,13 +8,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-class Inventory_Export_View extends Vtiger_Export_View {
+class Inventory_Import_View extends Vtiger_Import_View {
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	
 	function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
