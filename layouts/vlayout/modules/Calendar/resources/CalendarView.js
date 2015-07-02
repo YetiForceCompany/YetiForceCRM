@@ -392,7 +392,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	createAddSwitch: function () {
 		var thisInstance = this;
 		var calendarview = this.getCalendarView();
-		var switchBtn =  jQuery('<span class=""><input class="switchBtn" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" checked data-size="small" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
+		var switchBtn =  jQuery('<span class=""><input class="switchBtn" type="checkbox" title="' + app.vtranslate('JS_CHANGE_ACTIVITY_TIME') + '" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_TO_REALIZE') + '" data-off-text="' + app.vtranslate('JS_HISTORY') + '"></span>')
 			.prependTo(calendarview.find('.fc-toolbar .fc-right'))
 			.on('switchChange.bootstrapSwitch', function (e, state) {
 			if(state)
