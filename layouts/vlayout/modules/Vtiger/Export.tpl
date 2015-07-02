@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-	<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-left{/if}"></span>
-</div>&nbsp
     <div style="padding-left: 15px;">
         <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
             <input type="hidden" name="module" value="{$MODULE}" />
@@ -27,7 +24,7 @@
             <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
             <input type="hidden" name="search_params" value='{ZEND_JSON::encode($SEARCH_PARAMS)}' />
             
-            <div class="row">
+            <div class="">
                 <div class="span">&nbsp;</div>
                 <div class="col-md-8">
                     <h4>{vtranslate('LBL_EXPORT_RECORDS',$MODULE)}</h4>
