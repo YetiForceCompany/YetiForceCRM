@@ -143,5 +143,6 @@ $languageStrings = [
 	'AccontDeleteOK'	=>	'Удалить пользователя',
 	'No'	=>	'Нет',
 	'LBL_MAIL_LOGS'	=>	'Журнал почты',
-
+	'LBL_ACTIVE_MAIL' => '__UNTRANSLATED__',
+	'LBL_INACTIVE_MAIL' => '__UNTRANSLATED__',
 ];

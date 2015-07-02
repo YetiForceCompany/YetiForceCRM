@@ -104,7 +104,7 @@ function vtws_convertlead($entityvalues, $user) {
 
 			try {
 				$create = true;
-				if ($entityvalue['name'] == 'Accounts' && $entityvalue['create_account']) {
+				if ($entityvalue['name'] == 'Accounts' && $entityvalue['create_always']) {
 					$sql = "SELECT vtiger_account.accountid FROM vtiger_account,vtiger_crmentity WHERE vtiger_crmentity.crmid=vtiger_account.accountid AND vtiger_account.accountname=? AND vtiger_crmentity.deleted=0";
 					$result = $adb->pquery($sql, array($entityvalue['accountname']));
 					if ($adb->num_rows($result) > 0) {

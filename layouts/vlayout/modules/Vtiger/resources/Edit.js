@@ -1137,14 +1137,14 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide();
+				bodyContents.addClass('hide');
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
 				bodyContents.removeClass('hide');
-				bodyContents.show();
 				app.cacheSet(module+'.'+blockId, 1)
 			}
+			console.log(data)
 			if(data.mode == 'show'){
 				hideHandler();
 				currentTarget.addClass('hide');
@@ -1168,15 +1168,17 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module+'.'+blockId;
 			var value = app.cacheGet(cacheKey, null);
+			console.log(value)
+			console.log(cacheKey)
 			if(value != null){
 				if(value == 1){
 					headerAnimationElement.addClass('hide');
 					currentBlock.find("[data-mode='show']").removeClass('hide');
-					bodyContents.show();
+					bodyContents.removeClass('hide');
 				} else {
 					headerAnimationElement.addClass('hide');
 					currentBlock.find("[data-mode='hide']").removeClass('hide');
-					bodyContents.hide();
+					bodyContents.addClass('hide');
 				}
 			}
 		});

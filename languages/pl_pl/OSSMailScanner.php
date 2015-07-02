@@ -167,4 +167,6 @@ $languageStrings = [
 	'AccontDeleteOK' => 'Usunięto konto',
 	'No' => 'Lp',
 	'LBL_MAIL_LOGS' => 'Poczta logi',
+	'LBL_ACTIVE_MAIL' => 'Aktywne',
+	'LBL_INACTIVE_MAIL' => 'Nieaktywne',
 ];
