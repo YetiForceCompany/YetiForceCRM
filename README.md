@@ -18,7 +18,7 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.210 from 30th June 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.286 from 2nd July 2015.
 
 
 **Bug Fixes:** 
@@ -35,7 +35,10 @@ Below you can see how we improve our project:
 -	Fixed a bug that appeared during export of invoices to PDF.
 -	Fixed a bug that appeared during the installation prosess and caused the system to fail.
 -	Fixed a bug that did not allow to add a custom field with 1:M relation
+-	Fixed a bug that appeared after adding a comment to a related module of Contacts.
+-	Fixed a bug that appeared in a dropdown while creating/editing menu items. 
 -	Fixed a bug in the OSSMail module - server configuration display failed when the module was disabled.
+-	Fixed a bug in the list view in Workflow panel.
 -	Fixed a bug that showed a blank page in a related module (Charts) of Projects.
 -	Fixed handlers link and unlink.
 -	Fixed the display of two parameters in server configuration.
@@ -57,6 +60,8 @@ Below you can see how we improve our project:
 -	Fixed closing of calendar notifications. 
 -	Fixed import of records from file. 
 -	Fixed a header in detail view of Contacts.
+-	Fixed workflow responsible for sending emails.
+-	Fixed the Mail Scanner configuration.
 
 
 **Improvements:**
@@ -95,7 +100,9 @@ Below you can see how we improve our project:
 -	Improved the export module.
 -	Improved the mechanism responsible for password change.
 -	Improved database Contoller.
+-	Improved the global search.
 -	Improved server configuration check.
+-	Improved 'Change owner" action for a related Calendar module.
 -	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
 -	Added protection when creating records. 
@@ -103,11 +110,14 @@ Below you can see how we improve our project:
 -	Added validation of mandatory fields in hidden blocks.
 -	Added javascript action for events in the Reservations and Time Control. 
 -	Added an uncompressed file to the Bootbox library. 
+-	Added a 'type' attribute to buttons in headers in edit view.
+-	Added missing buttons for generating random colors in Calendar configuration and Activity configuration panels.
 -	Optimized backup files.
 -	Optimized load scripts.
 -	Expanded the configuration of emails. 
 -	Secured search of records in a list view.
 -	Changed icon names in database.
+-	Rebuilt the loading of JS files in import and export inventory modules.
 -	Bootstrap 3 - fixed the appearance of the products blok.
 -	Bootstrap 3 - subsequent amendments.
 -	Bootstrap 3 - amendments in security menu.
@@ -133,6 +143,9 @@ Below you can see how we improve our project:
 - Added library Selectize.
 - Added a function that retrieves a database name.
 - Added API webservices to the configuration. 
+- Added a new element to the Marketing Processes.
+- Added system filters.
+- Added a possibility to change the access rules in the Calendar.
 
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).
