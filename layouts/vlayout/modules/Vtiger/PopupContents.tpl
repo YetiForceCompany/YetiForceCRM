@@ -51,23 +51,27 @@
 						{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{vtranslate('LBL_SORT_ASCENDING')}" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{vtranslate('LBL_SORT_DESCENDING')}" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 				</th>
 				{/foreach}
-			{if $POPUPTYPE == 2}
-				<th class="{$WIDTHTYPE}"></th>
-			</tr>
-			<tr>
-				{if $MULTI_SELECT}
+				{if $POPUPTYPE == 2}
 					<th class="{$WIDTHTYPE}"></th>
 				{/if}
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-				<th class="{$WIDTHTYPE}">
-					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-					{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
-				</th>
-				{/foreach}
-				<th class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></th>
-			{/if}
 			</tr>
 		</thead>
+		<tbody>
+			{if $POPUPTYPE == 2}
+			<tr>
+				{if $MULTI_SELECT}
+					<td class="{$WIDTHTYPE}"></td>
+				{/if}
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+				<td class="{$WIDTHTYPE}">
+					{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+					{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$CURRENT_USER_MODEL}
+				</td>
+				{/foreach}
+				<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE_NAME )}</button></td>
+			{/if}
+			</tr>
+		
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
 		<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{ZEND_JSON::encode($LISTVIEW_ENTRY->getRawData())}'
 			{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
@@ -110,12 +114,13 @@
 			{/if}
 		</tr>
 		{/foreach}
+			</tbody>
 	</table>
 </div>
 
 	<!--added this div for Temporarily -->
 {if $LISTVIEW_ENTRIES_COUNT eq '0'}
-	<div class="row">
+	<div class="">
 		<div class="emptyRecordsDiv">{vtranslate('LBL_NO_RELATED_RECORDS_FOUND', $MODULE)}.</div>
 	</div>
 {/if}
