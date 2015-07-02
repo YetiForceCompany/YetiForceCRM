@@ -273,7 +273,7 @@ class Users_Record_Model extends Vtiger_Record_Model {
 			$users = $this->getAccessibleUsers("",$module);
 		} else {
 			$sharingAccessModel = Settings_SharingAccess_Module_Model::getInstance($module);
-			if($sharingAccessModel->isPrivate()) {
+			if($sharingAccessModel && $sharingAccessModel->isPrivate()) {
 				$users = $this->getAccessibleUsers('private',$module);
 			} else {
 				$users = $this->getAccessibleUsers("",$module);
