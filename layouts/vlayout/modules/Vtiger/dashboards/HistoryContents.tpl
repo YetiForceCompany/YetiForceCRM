@@ -34,7 +34,7 @@
 						{if vimage_path($MOD_NAME|cat:'.png')}
 							<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 						{else}
-							{$TRANSLATED_MODULE_NAME}
+							<span class="glyphicon glyphicon-menu-hamburger icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
 						{/if}
 					</div>
 					<div class="col-md-11">

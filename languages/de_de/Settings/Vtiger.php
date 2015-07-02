@@ -278,6 +278,7 @@ $languageStrings = [
 	'LBL_OSSMAIL_DESCRIPTION' => 'Verwalte Email Client',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Verwalte Anrufliste',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Verwalte Kalenderkonfiguration',
+	'Mail Logs' => 'Mail Logs',
 	
 	/* Role */
 	'Board of Management'	=> 'Vorstand',

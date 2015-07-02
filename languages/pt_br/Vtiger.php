@@ -795,6 +795,8 @@ $languageStrings = [
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
 	'PotentialsList'=>'Opportunities',
+	'PaymentsOut' => 'Payments Out',
+	'PaymentsIn' => 'Payments In',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -962,10 +964,14 @@ $languageStrings = [
 	'LBL_ZOOMING' => 'Zoom',
 	
 	//Filters
-	'LBL_CV_GROUP_MINE' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_SYSTEM' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_OTHERS' => '__UNTRANSLATED__',
-	'LBL_CV_GROUP_PENDING' => '__UNTRANSLATED__',
+	'LBL_CV_GROUP_MINE' => 'Mine',
+	'LBL_CV_GROUP_SYSTEM' => 'System',
+	'LBL_CV_GROUP_OTHERS' => 'Shared',
+	'LBL_CV_GROUP_PENDING' => 'Pending',
+	
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',

@@ -11,6 +11,19 @@ var Settings_UserColors_Js = {
 	initEvants: function() {
 		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
 		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
+		$('.UserColors .generateColor').click(Settings_UserColors_Js.generateColor);	
+	},
+	generateColor: function(e) {
+		var target = $(e.currentTarget);
+		var closestTrElement = target.closest('tr');	
+		var params = {
+			'id':closestTrElement.data('id'),
+		}
+		app.saveAjax('generateColor', params).then(function (data) {
+			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
+			closestTrElement.find('.calendarColor').css('background',data.result.color);
+			closestTrElement.data('color', data.result.color);
+		});
 	},
 	updateColor: function(e) {
 		var target = $(e.currentTarget);

@@ -33,10 +33,10 @@
 		<div id="treeContent"></div>
 	</div>
 </div>
-<div class="modal deleteAlert fade">
+<div class="modal deleteAlert fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header contentsBackground">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 class="modal-title">{vtranslate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h3>
 			</div>

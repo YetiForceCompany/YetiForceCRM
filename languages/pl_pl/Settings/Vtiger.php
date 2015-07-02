@@ -275,6 +275,7 @@ $languageStrings = [
 	'LBL_SCHEDULER_DESCRIPTION' => 'Zarządzaj harmonogramem',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Zarządzaj klientem poczty',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Zarządzaj listą połączeń telefonicznych',
+	'Mail Logs' => 'Logi poczty',
 	
 	/* Role */
 	'Board of Management'	=> 'Zarząd',

@@ -102,21 +102,13 @@ jQuery.Class('Vtiger_BasicSearch_Js',{},{
 	showSearchResults : function(data){
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function(data) {
-			var blockMsg = jQuery(data).closest('#globalmodal');
-			app.showScrollBar(jQuery(data).find('.contents'));
-			blockMsg.position({
-				my: "left bottom",
-				at: "left top",
-				of: "#globalSearchValue"
-			});
+			var body = jQuery(data).find('.contents');
+			//app.showScrollBar(body,{'height':'600px','railVisible':'true'});
 			aDeferred.resolve(data);
 		}
 		var params = {};
 		params.data = data ;
 		params.cb = postLoad;
-		params.css = {'width':'34%','text-align':'left','z-index':'100001'};
-		//not showing overlay
-		//params.overlayCss = {'opacity':'0.2'};
 		app.showModalWindow(params);
 		return aDeferred.promise();
 	}

@@ -1,0 +1,60 @@
+v1.0
+---
++ added Ukranian translation by Mykyta Solomko
+- completed German translation by thomas.cr82
++ Added Section for Roundcube Settings (Issue 14)
+- fixed issue 13: bullets below navigation in separate window
+- fixed issue 15: listing of adressbook was impaired by tb_labels
+
+v0.9.6
+---
++ added Spanish translation by JPL TSolucio, S.L. (Joe Bordes)
+
+v0.9.5
+---
++ added Italian translation by Samuele Tognini
++ added Bulgarian translation by Deyan Stoykov
++ added Catalan translation by Lluís Forns Puigmartí
++ added options for configuring the plugin by Stephane Martin
+
+v0.9
+---
++ added Latvian translation by Artem Ushakov
++ added good looking icon for skin "Larry" by Stephane Martin
+
+v0.6
+---
+- disable plugin output for print message mode, suggestion via email by Markus Neubauer
++ added Hungarian translation donated by Daniel P.
+
+v0.5
+---
++ added Polish translation donated by master771
++ show message color in headers table backgroundcolor (preview mode and
+  single-message view)
++ modify thunderbird label from single message view
++ fixed broken layout in Firefox when in single message view
+
+v0.4.1
+---
+- fixed issue 2 "preview pane is broken"
+
+v0.4
+---
++ Improved javascript to use native rcmail popup functionality
++ fixed label detection/setting for roundcube 0.6 while staying compatible to <0.5.4
+
+v0.3
+---
++ Added Russian Translation by Николай Николай
++ Labeling multiple messages now works exactly like in Thunderbird
++ Shortcut keys 0-5 added for quick labeling like in Thunderbird
++ attach a Thunderbird Label submenu for contextmenu plugin if it is available
+
+v0.2
+---
+- bugfix for Thunderbird versions using lowercase $labelX flags
+
+v0.1
+---
+- initial release

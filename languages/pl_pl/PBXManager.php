@@ -26,13 +26,19 @@ $languageStrings = [
   
     // Fields
     'Total Duration' => 'Czas (s)',
-    'Bill Duration'  => 'Bill Czas (s)',
+    'Bill Duration'  => 'Czas trwania (s)',
     'Recording URL' => 'Nagranie',
     'Start Time' => 'Czas rozpoczęcia',
     'Call Status' => 'Status połączenia',
     'Customer Number' => 'Numer klienta',
     'Customer' => 'Klient',
     'User' => 'Użytkownik',
-    'SINGLE_PBXManager' => 'Call Record' ,
+    'SINGLE_PBXManager' => 'Rekord połączenia' ,
+	'Gateway' => 'Brama',
+	'Customer Type' => 'Rodzaj klienta',
+	'Source UUID' => 'Źródło UUID',
+	'End Time' => 'Czas zakończenia',
+	'Direction' => 'Kierunek',
+	'Record Id' => 'Id rekordu',
 
 ];

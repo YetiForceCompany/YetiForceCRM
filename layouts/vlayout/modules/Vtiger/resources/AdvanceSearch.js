@@ -107,6 +107,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 					jQuery("#globalmodal").css({ 'margin-left': '-65px', 'margin-top':'30px'});
 				}
 			});*/
+			console.log(jQuery('#searchContainer').height())
             if (jQuery('#searchContainer').height() > 200) {
                 app.showScrollBar( jQuery('#searchContainer'), {'height':'400px','railVisible':'true'});
             }
@@ -191,15 +192,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var postLoad = function(data) {
-			var blockMsg = jQuery(data).closest('#globalmodal');
-			app.showScrollBar(jQuery(data).find('.contents'));
+			//app.showScrollBar(jQuery(data).find('.contents'));
 			aDeferred.resolve(data);
 		}
-
-		//var unblockcd = function(){
-		//	thisInstance.getContainer().remove();
-		//}
-
 		var html = '<div class="row">'+
 						'<span class="col-md-4 searchHolder"></span>'+
 						'<span class="col-md-8 filterHolder marginLeftZero hide"></span>'+
@@ -212,9 +207,6 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js",{
 		var params = {};
 		params.data = data;
 		params.cb = postLoad;
-		params.css = {'width':'34%','text-align':'left','margin-left':'-100px','z-index':'100001'};
-		params.overlayCss = {'opacity':'0.2'};
-		//params.unblockcb = unblockcd;
 		app.showModalWindow(params);
 
 		return aDeferred.promise();

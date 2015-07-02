@@ -11,36 +11,34 @@
 -->*}
 {strip}
 <div>
-	<div class="span">
 		<input type="checkbox" name="recurringcheck" value="" {if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}checked{/if} title="{vtranslate('Recurrence', $MODULE)}"/>&nbsp;&nbsp;
-	</div>
-	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if} span" id="repeatUI" >
-		<div>
-			<span class="span">
-				<span class="alignMiddle" style="margin-right: 6%">{vtranslate('LBL_REPEATEVENT', $MODULE)}</span>
-				<select class="select2 input-mini" name="repeat_frequency" title="{vtranslate('LBL_REPEAT_FOR')}">
+	<div class="{if $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}show{else}hide{/if}" id="repeatUI" >
+		<div class="clearfix">
+			<div class="">
+				<span class="control-label pull-left alignMiddle">{vtranslate('LBL_REPEATEVENT', $MODULE)}</span>
+				<div class="col-xs-3">
+					<select class="select2 form-control" name="repeat_frequency" title="{vtranslate('LBL_REPEAT_FOR')}">
 					{for $FREQUENCY = 1 to 14}
 						<option value="{$FREQUENCY}" title="{$FREQUENCY}" {if $FREQUENCY eq $RECURRING_INFORMATION['repeat_frequency']}selected{/if}>{$FREQUENCY}</option>
 					{/for}
 				</select>
-			</span>
-			<span class="span">
-				<select class="select2 input-medium form-control" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE')}">
-					<option title="{vtranslate('LBL_DAYS_TYPE', $MODULE)}" value="Daily" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_WEEKS_TYPE', $MODULE)}" value="Weekly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_MONTHS_TYPE', $MODULE)}" value="Monthly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_YEAR_TYPE', $MODULE)}" value="Yearly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Yearly'} selected {/if}>{vtranslate('LBL_YEAR_TYPE', $MODULE)}</option>
-				</select>
-			</span>
-			<span class="span">
-				<span class="alignMiddle displayInlineBlock" style="margin-right:10px;">{vtranslate('LBL_UNTIL', $MODULE)}</span>
-				<span class="input-group date pull-right">
-					<input type="text" id="calendar_repeat_limit_date" class="dateField input-sm form-control" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
+				</div>
+				<div class="col-xs-3">
+					<select class="select2 form-control" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE')}">
+						<option title="{vtranslate('LBL_DAYS_TYPE', $MODULE)}" value="Daily" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
+						<option title="{vtranslate('LBL_WEEKS_TYPE', $MODULE)}" value="Weekly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
+						<option title="{vtranslate('LBL_MONTHS_TYPE', $MODULE)}" value="Monthly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>
+						<option title="{vtranslate('LBL_YEAR_TYPE', $MODULE)}" value="Yearly" {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Yearly'} selected {/if}>{vtranslate('LBL_YEAR_TYPE', $MODULE)}</option>
+					</select>
+				</div>
+				<span class="alignMiddle control-label displayInlineBlock pull-left">{vtranslate('LBL_UNTIL', $MODULE)}&nbsp;&nbsp;</span>
+				<div class="input-group col-xs-3 date">
+					<input type="text" id="calendar_repeat_limit_date" class="dateField form-control" name="calendar_repeat_limit_date" data-date-format="{$USER_MODEL->get('date_format')}" 
 						   value="{if $RECURRING_INFORMATION['recurringcheck'] neq 'Yes'}{$TOMORROWDATE}{elseif $RECURRING_INFORMATION['recurringcheck'] eq 'Yes'}{$RECURRING_INFORMATION['recurringenddate']}{/if}" title="{vtranslate('LBL_UNTIL', $MODULE)}"
-						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]' style="width:100px;"/>
+						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]'/>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-				</span>
-			</span>
+				</div>
+			</div>
 		</div>
 		<div class="row {if $RECURRING_INFORMATION['eventrecurringtype'] eq 'Weekly'}show{else}hide{/if}"  id="repeatWeekUI" style="margin-top:10px;">
 			<span class="col-md-2">

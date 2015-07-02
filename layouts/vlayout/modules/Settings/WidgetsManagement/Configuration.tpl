@@ -67,7 +67,6 @@ padding: 20px 20px 20px 20px;
 							</span>
 						</div>
 						<div class="col-md-6 marginLeftZero" style="float:right !important;">
-							
 							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
 									<button class="btn btn-default addCustomField" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -77,13 +76,13 @@ padding: 20px 20px 20px 20px;
 								{if $SELECTED_MODULE_NAME eq 'Home'}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
-										<button class="btn btn-default addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+										<button class="btn btn-default addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
-										<button class="btn btn-default addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
+										<button class="btn btn-default addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
 											<strong>{vtranslate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>

@@ -613,7 +613,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			if (typeof fields != 'object') fields = [fields];
 			data['fields'] = fields;
 
-			paramsForm = {};
+			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');;

@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_SUBSCRIBERID'	=>	'Абонентский номер',
 	'LBL_DESTINATION'	=>	'Контакт',
 	'LBL_SOURCE'	=>	'Источник',
+	'Record Id' => 'Record Id',
 	
 	//pick list values
 	'Outgoing missed'	=>	'Отменен',

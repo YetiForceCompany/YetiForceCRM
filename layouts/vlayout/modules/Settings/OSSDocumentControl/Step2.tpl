@@ -150,7 +150,7 @@
                                     </select>
                                 </span>
                                 <span class="col-md-3">
-                                    <select data-num="{$smarty.foreach.field_select.index}" class="chzn-select row" name="comparator">
+                                    <select data-num="{$smarty.foreach.field_select.index}" class="chzn-select row form-control" name="comparator">
                                         {assign var=CONDITION_LIST value=Settings_OSSDocumentControl_Module_Model::getConditionByType($cnd_item['field_type'])}
                                         {foreach from=$CONDITION_LIST item=item key=key}
                                             <option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>{$item}</option>
@@ -160,7 +160,7 @@
                                 <span class="col-md-4 fieldUiHolder">
 {*                                    {var_dump($cnd_item)}*}
                                     {if $cnd_item['field_type'] eq 'picklist'}
-                                        <select name="val" data-value=value" class="row select2">
+                                        <select name="val" data-value=value" class="row select2 form-control">
                                             {foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
                                                 <option value="{$pick_key}" {if $cnd_item['val'] eq $pick_key}selected{/if}>{$pick_item}</option>
                                             {/foreach}

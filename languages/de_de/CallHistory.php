@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_SUBSCRIBERID' => 'Subscriber Nummer',
 	'LBL_DESTINATION' => 'Wohin wurde telefoniert',
 	'LBL_SOURCE' => 'Quelle des Anrufes',
+	'Record Id' => 'Record Id',
 	
 	//pick list values
 	'Outgoing missed' => 'Ausgehend nicht erreicht',

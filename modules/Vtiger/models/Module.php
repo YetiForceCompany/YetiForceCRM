@@ -850,17 +850,29 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <Array> List of Vtiger_Link_Model instances
 	 */
 	public function getSideBarLinks($linkParams) {
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
-
-		$quickLinks = array(
-			array(
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		
+		$quickLinks = [
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
-			),
-		);
+			],
+		];
+		
+		$moduleModel = Vtiger_Module_Model::getInstance('Dashboard');
+		if($userPrivilegesModel->hasModulePermission($moduleModel->getId()) && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')){
+			$quickLinks[] = array(
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_DASHBOARD',
+				'linkurl' => $this->getDashBoardUrl(),
+				'linkicon' => '',
+			);
+		}	
+		
 		foreach($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
@@ -1469,54 +1481,6 @@ class Vtiger_Module_Model extends Vtiger_Module {
 			}
 		}
 		return $mandatoryFields;
-	}
-
-	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = array()) {
-		$db = PearDatabase::getInstance();
-		$relatedModules = $request->get('related_modules');
-		$focus = CRMEntity::getInstance($this->getName());
-		$relatedModuleMapping = $focus->related_module_table_index;
-		$relatedIds = array();
-		if(!empty($relatedModules)) {
-			for ($i=0; $i<count($relatedModules); $i++) {
-				$params = array();
-				$module = $relatedModules[$i];
-				$tablename = $relatedModuleMapping[$module]['table_name'];
-				$tabIndex = $relatedModuleMapping[$module]['table_index'];
-				$relIndex = $relatedModuleMapping[$module]['rel_index'];
-				$sql = "SELECT vtiger_crmentity.crmid FROM vtiger_crmentity";
-				if($tablename == 'vtiger_crmentityrel'){
-					$sql .= " INNER JOIN $tablename ON ($tablename.relcrmid = vtiger_crmentity.crmid OR $tablename.crmid = vtiger_crmentity.crmid)
-						WHERE ($tablename.crmid IN (".  generateQuestionMarks($recordIds).")) OR ($tablename.relcrmid IN (".  generateQuestionMarks($recordIds)."))";
-					foreach ($recordIds as $key => $recordId) {
-						array_push($params, $recordId);
-					}
-				} else {
-					$sql .= " INNER JOIN $tablename ON $tablename.$tabIndex = vtiger_crmentity.crmid
-						WHERE $tablename.$relIndex IN (".  generateQuestionMarks($recordIds).")";
-				}
-				foreach ($recordIds as $key => $recordId) {
-					array_push($params, $recordId);
-				}
-				$result1 = $db->pquery($sql, $params);
-				$num_rows = $db->num_rows($result1);
-				for($j=0; $j<$num_rows; $j++){
-					$relatedIds[] = $db->query_result($result1, $j, 'crmid');
-				}
-			}
-			return $relatedIds;
-		} else {
-			return $relatedIds;
-		}
-	}
-
-	public function transferRecordsOwnership($transferOwnerId, $relatedModuleRecordIds){
-		$current_user  = vglobal('current_user');
-		$user_id = $current_user->id;
-
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_crmentity SET smownerid = ?, modifiedby = ?, modifiedtime = NOW() WHERE crmid IN (' . generateQuestionMarks($relatedModuleRecordIds) . ')';
-		$db->pquery($query, array($transferOwnerId, $user_id, $relatedModuleRecordIds));
 	}
 
     /**

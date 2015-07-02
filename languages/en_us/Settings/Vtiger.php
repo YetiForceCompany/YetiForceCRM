@@ -277,6 +277,7 @@ $languageStrings = [
 	'LBL_SCHEDULER_DESCRIPTION' => 'Manage Scheduler',
 	'LBL_OSSMAIL_DESCRIPTION' => 'Manage mail client',
 	'LBL_PBXMANAGER_DESCRIPTION' => 'Mange phone calls list',
+	'Mail Logs' => 'Mail Logs',
 	
 	/* Role */
 	'Board of Management'	=> 'Board of Management',
