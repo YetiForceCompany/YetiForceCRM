@@ -60,6 +60,7 @@ class Calendar_ExportData_Action extends Vtiger_ExportData_Action {
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
 	public function output($request, $result, $moduleModel, $fileName, $toFile = false) {
+		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = split('/', date_default_timezone_get());
 
