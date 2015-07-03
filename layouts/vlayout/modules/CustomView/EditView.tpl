@@ -34,7 +34,7 @@
 				<br>
 				<div class="row form-group">
 					<label class="col-md-2 control-label"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
 					</div>
 
