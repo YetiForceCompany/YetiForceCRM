@@ -2318,8 +2318,10 @@ th.htColHeader,
   font-size: 15px;
   line-height: 20px;
 }
+.fc-widget-header th{
+  padding: 4px 0px !important;
+}
 .fc-widget-header {
-  padding: 7px 0px 0 8px !important;
   color: #666;
   background: #eee;
   border-color: #ccc;
