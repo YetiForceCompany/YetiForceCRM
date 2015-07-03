@@ -149,7 +149,6 @@ $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Você tem certeza que deseja apagar esta visualização da Agenda?',
 	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'A vistualização da Agenda foi apagada com sucesso',
 	'JS_EDIT_CALENDAR' => 'Editar Agenda',
-    'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é pode ser realizado no futuro',
   	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Nenhuma visualização da Agenda para adicionar',
 	'JS_NO_DELETE_PERMISSION' => 'Você não tem permissão para apagar registro da Agenda.',
 	'JS_NO_EDIT_PERMISSION' => 'Você não tem permissão para modificar registros na Agenda.',

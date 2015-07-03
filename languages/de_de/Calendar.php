@@ -139,7 +139,6 @@ $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Sind Sie sicher die Kalendersicht zu löschen?',
 	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'Kalendersicht erfolgreich gelöscht',
 	'JS_EDIT_CALENDAR' => 'Kalender ändern',
-	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Kann nicht in der Zukunft erstellt werden',
 	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Keine Kalendersicht zum hinzufügen',
 	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR' => 'Aufgabe wurde erfolgreich Ihrem Kalender hinzugefügt',
 	'JS_Start Date'=>'Startdatum',

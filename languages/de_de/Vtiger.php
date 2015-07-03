@@ -1197,4 +1197,5 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow gestartet',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow beendet',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unbekannter Fehler! Bitte benachrichtigen Sie den Administrator.',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Kann nicht in der Zukunft erstellt werden',
 ];

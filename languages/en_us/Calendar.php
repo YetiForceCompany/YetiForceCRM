@@ -140,7 +140,6 @@ $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this calendar view ?',
 	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'Calendar view deleted successfully',
 	'JS_EDIT_CALENDAR' => 'Edit Calendar',
-    'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'No calendar view to add',
 	'JS_NO_DELETE_PERMISSION' => 'You do not have permission to delete calendar entries.',
 	'JS_NO_EDIT_PERMISSION' => 'You do not have permission to modify calendar entries.',

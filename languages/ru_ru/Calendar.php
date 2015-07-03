@@ -286,7 +286,6 @@ $jsLanguageStrings = [
 	'LBL_WEDNESDAY' => 'Среда',
 	'LBL_WEEK' => 'Неделя',
 	'Mobile Call'	=>	'Звонок с мобильного',
-	'JS_FUTURE_EVENT_CANNOT_BE_HELD'	=>	'Не может быть проведено в будущем',
     'JS_RECORD_DELETED' => 'Запись удалена',
 	'JS_TASK_IS_SUCCESSFULLY_ADDED_TO_YOUR_CALENDAR'	=>	'Задача добавлена в Ваш календарь',
 	'NOTIFICATION_ACCEPTED'	=>	'Принято',

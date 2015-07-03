@@ -10,9 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div id="toggleButton" class="toggleButton" title="{vtranslate('LBL_LEFT_PANEL_SHOW_HIDE', 'Vtiger')}">
-	<span id="tButtonImage" class="{if $LEFTPANELHIDE neq '1'}glyphicon glyphicon-chevron-left{else}glyphicon glyphicon-chevron-right{/if}"></span>
-</div>&nbsp
 <div style="padding-left: 15px;">
     <table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
         <tr>

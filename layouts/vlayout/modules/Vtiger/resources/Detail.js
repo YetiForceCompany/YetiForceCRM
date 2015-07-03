@@ -384,7 +384,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 				app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
                 aDeferred.resolve(params);
 			},
-			function(){
+			function(e){
+				contentContainer.progressIndicator({'mode': 'hide'});
                 aDeferred.reject();
 			}
 		);
@@ -1731,7 +1732,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 			function(data){
 				var summaryViewContainer = thisInstance.getContentHolder();
 				var updatesWidget = summaryViewContainer.find("[data-name='LBL_UPDATES']");
-				thisInstance.loadWidget(updatesWidget);
+				if(updatesWidget.length > 0){
+					thisInstance.loadWidget(updatesWidget);
+				}
 				aDeferred.resolve(data);
 			},
 

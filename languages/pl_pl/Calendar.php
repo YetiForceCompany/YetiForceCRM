@@ -137,7 +137,6 @@ $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć ten kalendarz?',
 	'JS_CALENDAR_VIEW_DELETED_SUCCESSFULLY' => 'Usunięto kalendarz',
 	'JS_EDIT_CALENDAR' => 'Edytuj kalendarz',
-    'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
 	'JS_NO_CALENDAR_VIEWS_TO_ADD' => 'Brak kalendarzy do dodania',
 	'JS_NO_DELETE_PERMISSION' => 'Nie masz uprawnień do usuwania wpisów w kalendarzu.',
 	'JS_NO_EDIT_PERMISSION' => 'Nie masz uprawnień do modyfikowania wpisów w kalendarzu',
