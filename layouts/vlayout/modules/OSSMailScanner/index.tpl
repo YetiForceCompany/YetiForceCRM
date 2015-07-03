@@ -1,23 +1,5 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
-<style>
-    .table tbody tr.error > td {
-        background-color: #f2dede;
-    }
-    .table th, .table td {
-        padding: 3px;
-    }
-</style>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
 	<div class="alert alert-block alert-warning fade in" style="margin-left: 10px;">
 		<button type="button" class="close" data-dismiss="alert">×</button>
@@ -249,22 +231,18 @@
 		<h3>{vtranslate('Search email configuration', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_tab_email_search', 'OSSMailScanner')}</div>
         <form class="form-horizontal">
-            <div class="form-group col-sm-12">
-                <div class="controls">
-                    <select multiple id="email_search" name="email_search" class="form-control">
-                        {foreach item=item key=key from=$EMAILSEARCH}
-                            {if $last_value neq $item[3]}
-                                <optgroup label="{vtranslate($item[3], $item[3])}">
-                                {/if}
-                                <option value="{$item[1]}={$item[2]}={$item[4]}" {if $RECORD_MODEL->compare_vale($EMAILSEARCHLIST['fields'], $item[1]|cat:'='|cat:$item[2]|cat:'='|cat:$item[4] ) } selected="selected"{/if} > {vtranslate($item[3], $item[3])} - {vtranslate($item[0], $item[3])}</option>
-                                {assign var=last_value value=$item[3]}
-                                {if $last_value neq $item[3]}
-                                </optgroup>
-                            {/if}
-                        {/foreach}
-                    </select>
-                </div>
-            </div>
+			<select multiple id="email_search" name="email_search" class="form-control" style="width: 100%;">
+				{foreach item=item key=key from=$EMAILSEARCH}
+					{if $last_value neq $item[3]}
+						<optgroup label="{vtranslate($item[3], $item[3])}">
+						{/if}
+						<option value="{$item[1]}={$item[2]}={$item[4]}" {if $RECORD_MODEL->compare_vale($EMAILSEARCHLIST['fields'], $item[1]|cat:'='|cat:$item[2]|cat:'='|cat:$item[4] ) } selected="selected"{/if} > {vtranslate($item[3], $item[3])} - {vtranslate($item[0], $item[3])}</option>
+						{assign var=last_value value=$item[3]}
+						{if $last_value neq $item[3]}
+						</optgroup>
+					{/if}
+				{/foreach}
+			</select>
         </form>
 		<h3>{vtranslate('Change ticket status', 'OSSMailScanner')}</h3>
         <div class="alert alert-info">{vtranslate('Alert_info_conftab_change_ticket_status', 'OSSMailScanner')}</div>	
