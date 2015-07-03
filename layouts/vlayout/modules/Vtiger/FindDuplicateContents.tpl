@@ -34,19 +34,19 @@
 	 </div>
 </div>
 <div class="listViewEntriesDiv contents-bottomscroll">
-	<table class="table-bordered row textAlignCenter">
+	<table class="table-bordered textAlignCenter">
 		<thead>
 			<tr class="listViewHeaders">
-				<th width="5%">
+				<th width="5%" class="text-center">
 					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-				<th nowrap {*if $LISTVIEW_HEADER@last} colspan="2" {/if*}>
+				<th class="text-center" nowrap {*if $LISTVIEW_HEADER@last} colspan="2" {/if*}>
 					<a class="listViewHeaderValues">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</a>
 				</th>
 				{/foreach}
-				<th>{vtranslate('LBL_MERGE_SELECT', $MODULE)}</th>
-				<th>{vtranslate('LBL_ACTION', $MODULE)}</th>
+				<th class="text-center">{vtranslate('LBL_MERGE_SELECT', $MODULE)}</th>
+				<th class="text-center">{vtranslate('LBL_ACTION', $MODULE)}</th>
 			</tr>
 		</thead>
 		{assign var=mergeRecordCount value=0}
