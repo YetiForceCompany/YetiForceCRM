@@ -40,6 +40,5 @@ $languageStrings = [
 	'Source UUID' => 'Source UUID',
 	'End Time' => 'End Time',
 	'Record Id' => 'Record Id',
-
+	'Customer Type' => 'Customer Type',
 ];
-
