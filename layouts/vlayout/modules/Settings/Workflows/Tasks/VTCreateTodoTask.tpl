@@ -13,17 +13,21 @@
 	<div class="row">
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
-			<input data-validation-engine='validate[required]' class="col-md-9" name="todo" type="text" value="{$TASK_OBJECT->todo}" />
+			<div class="col-md-8">
+				<input data-validation-engine='validate[required]' class="form-control" name="todo" type="text" value="{$TASK_OBJECT->todo}" />
+			</div>
 		</div>
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
-			<textarea class="col-md-9" name="description">{$TASK_OBJECT->description}</textarea>
+			<div class="col-md-8">
+				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
+			</div>
 		</div>
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('taskstatus')->getPickListValues()}
-				<select name="status" class="chzn-select">
+				<select name="status" class="chzn-select form-control">
 					{foreach  from=$STATUS_PICKLIST_VALUES item=STATUS_PICKLIST_VALUE key=STATUS_PICKLIST_KEY}
 						<option value="{$STATUS_PICKLIST_KEY}" {if $STATUS_PICKLIST_KEY eq $TASK_OBJECT->status} selected="" {/if}>{$STATUS_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -34,7 +38,7 @@
 			<span class="col-md-2">{vtranslate('LBL_PRIORITY',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				{assign var=PRIORITY_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('taskpriority')->getPickListValues()}
-				<select name="priority" class="chzn-select">
+				<select name="priority" class="chzn-select form-control">
 					{foreach  from=$PRIORITY_PICKLIST_VALUES item=PRIORITY_PICKLIST_VALUE key=PRIORITY_PICKLIST_KEY}
 						<option value="{$PRIORITY_PICKLIST_KEY}" {if $PRIORITY_PICKLIST_KEY eq $TASK_OBJECT->priority} selected="" {/if}>{$PRIORITY_PICKLIST_VALUE}</option>
 					{/foreach}
@@ -44,7 +48,7 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
-				<select name="assigned_user_id" class="chzn-select">
+				<select name="assigned_user_id" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach from=$ASSIGNED_TO key=LABEL item=ASSIGNED_USERS_LIST}
 						<optgroup label="{vtranslate($LABEL,$QUALIFIED_MODULE)}">
@@ -61,34 +65,36 @@
 		</div>
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_TIME',$QUALIFIED_MODULE)}</span>
-			<div class="input-group time col-md-6">
-			{if $TASK_OBJECT->time neq ''}
-				{assign var=TIME value=$TASK_OBJECT->time}
-			{else}
-				{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
-				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
-				{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
-			{/if}
-				<input  type="text" class="timepicker-default input-sm" value="{$TIME}" name="time" />
-				<span class="input-group-addon cursorPointer">
-					<i class="glyphicon glyphicon-time"></i>
-				</span>
+			<div class="col-md-2">
+				<div class="input-group time input-group-sm">
+				{if $TASK_OBJECT->time neq ''}
+					{assign var=TIME value=$TASK_OBJECT->time}
+				{else}
+					{assign var=DATE_TIME_VALUE value=Vtiger_Datetime_UIType::getDateTimeValue('now')}
+					{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+					{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
+				{/if}
+					<input  type="text" class="timepicker-default form-control" value="{$TIME}" name="time" />
+					<span class="input-group-addon cursorPointer">
+						<i class="glyphicon glyphicon-time"></i>
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2">{vtranslate('LBL_DAYS_START',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-2 row">
-				<input class="col-md-6" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">&nbsp;
-				<span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
-			</span>
-			<span class="span marginLeftZero">
-				<select class="chzn-select" name="direction_start" style="width: 100px">
+			<span class="col-xs-2">{vtranslate('LBL_DAYS_START',$QUALIFIED_MODULE)}</span>
+			<div class="col-xs-2">
+				<input class="form-control" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">&nbsp;
+			</div>
+			<span class="control-label pull-left alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<div class="col-xs-3 marginLeftZero">
+				<select class="chzn-select form-control" name="direction_start">
 					<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->direction_start eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
-			</span>
-			<span class="col-md-6">
-				<select class="chzn-select" name="datefield_start" style="width: 300px">
+			</div>
+			<div class="col-xs-4">
+				<select class="chzn-select form-control" name="datefield_start">
 					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $TASK_OBJECT->datefield_start eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
@@ -98,22 +104,22 @@
 						<option {if $TASK_OBJECT->datefield_start eq 'wfRunTime'}selected{/if} value="wfRunTime">{vtranslate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
-			</span>
+			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2">{vtranslate('LBL_DAYS_END',$QUALIFIED_MODULE)}</span>
-			<span class="col-md-2 row">
-				<input class="col-md-6" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">&nbsp;
-				<span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="col-xs-2">{vtranslate('LBL_DAYS_END',$QUALIFIED_MODULE)}</span>
+			<span class="col-xs-2">
+				<input class="form-control" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">&nbsp;
 			</span>
-			<span class="span marginLeftZero">
+			<span class="control-label pull-left alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="col-xs-3 marginLeftZero">
 				<select class="chzn-select" name="direction_end" style="width: 100px">
 					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->direction_end eq 'before'}selected=""{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
-			<span class="col-md-6">
-				<select class="chzn-select" name="datefield_end" style="width: 300px">
+			<span class="col-xs-4">
+				<select class="chzn-select form-control" name="datefield_end">
 					<optgroup label='{vtranslate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 							<option {if $TASK_OBJECT->datefield_end eq $DATETIME_FIELD->get('name')}selected{/if} value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
@@ -140,7 +146,7 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_DUPLICATE_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
-				<select multiple name="duplicateStatus" class="chzn-select" style="width: 400px;">
+				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach from=Vtiger_Util_Helper::getPickListValues('taskstatus') key=KEY item=ITEM}
 						<option value="{$ITEM}" {if in_array($ITEM,Vtiger_Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
