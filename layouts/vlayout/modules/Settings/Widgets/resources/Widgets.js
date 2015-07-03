@@ -7,29 +7,18 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-var Settings_Index_Js = {
+jQuery.Class('Settings_Widgets__Js', {
+}, {
 	getTabId: function() {
 		return $(".WidgetsManage [name='tabid']").val();
 	},
 	getType: function() {
 		return $(".form-modalAddWidget [name='type']").val();
 	},
-	addWidget: function(e) {
-		var progressIndicatorElement = jQuery.progressIndicator({'position' : 'html'});
-		var module = $(".WidgetsManage select[name='ModulesList']").val();
-		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod="+module, function(wizardContainer){
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
-			var form = jQuery('form', wizardContainer);
-			form.submit(function(e){
-				e.preventDefault();
-				var type = form.find('[name="type"]').val();
-				Settings_Index_Js.createStep2(type);
-			});
-			
-		});
-	},
+
 	createStep2: function(type) {
-		var tabId = Settings_Index_Js.getTabId();
+		var thisInstance = this;
+		var tabId = thisInstance.getTabId();
 		var progressIndicatorElement = jQuery.progressIndicator({'position' : 'html'});
 		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=createStep2&type="+type+"&tabId="+tabId, function(wizardContainer){
 			wizardContainer.find('.HelpInfoPopover').hover(
@@ -41,26 +30,27 @@ var Settings_Index_Js = {
 				}
 			);
 			if(type == 'RelatedModule'){
-				Settings_Index_Js.loadFilters(wizardContainer);
-				Settings_Index_Js.loadCheckboxs(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(Settings_Index_Js.changeRelatedModule);
+				thisInstance.loadFilters(wizardContainer);
+				thisInstance.loadCheckboxs(wizardContainer);
+				wizardContainer.find("select[name='relatedmodule']").change(thisInstance.changeRelatedModule);
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			var form = jQuery('form', wizardContainer);
 			form.submit(function(e){
 				e.preventDefault();
 				var formData = form.serializeFormData();
-				Settings_Index_Js.registerSaveEvent('saveWidget',{
+				thisInstance.registerSaveEvent('saveWidget',{
 					'data':formData,
 					'tabid': tabId,
 				});
-				Settings_Index_Js.reloadWidgets();
+				thisInstance.reloadWidgets();
 			});
 			
 		});
 		
 	},
 	loadWidgets: function(){
+		var thisInstance = this;
 		var blocks = jQuery('.blocksSortable');
 		blocks.sortable({
 			'revert' : true,
@@ -69,12 +59,13 @@ var Settings_Index_Js = {
 			'cursor' : 'move',
 			'placeholder': "state-highlight",
 			'stop': function (event, ui ) {
-				Settings_Index_Js.updateSequence();
+				thisInstance.updateSequence();
 			}
 		});
 
 	},
 	updateSequence: function() {
+		var thisInstance = this;
 		var params = {};
 		$( ".blockSortable" ).each(function( index ) {
 			params[$( this ).data('id')] = {'index': index, 'column': $( this ).closest('.blocksSortable').data('column')};
@@ -85,13 +76,14 @@ var Settings_Index_Js = {
 				'enabled' : true
 			}
 		});
-		Settings_Index_Js.registerSaveEvent('updateSequence',{
+		thisInstance.registerSaveEvent('updateSequence',{
 			'data':params,
 			'tabid':$("input[name='tabid']").val(),
 		});
 		progress.progressIndicator({'mode': 'hide'});
 	},
 	reloadWidgets: function() {
+		var thisInstance = this;
 		var Indicator = jQuery.progressIndicator({
 			'message' : app.vtranslate('Loading data'),
 			'position' : 'html',
@@ -107,61 +99,13 @@ var Settings_Index_Js = {
 		AppConnector.request(params).then(
 			function(data) {
 				jQuery('div.contentsDiv').html( data );
-				Settings_Index_Js.registerEvents();
+				thisInstance.registerEvents();
 				$("input[name='ModulesList']").select2();
 				Indicator.progressIndicator({'mode': 'hide'});
 			}
 		);
 	},
-	changeModule: function(e) {
-		var target = $(e.currentTarget);
-		$("input[name='tabid']").val(target.val());
-		Settings_Index_Js.reloadWidgets();
-	},
-	editWidget: function(e) {
-		var target = $(e.currentTarget);
-		var blockSortable = target.closest('.blockSortable');
-		app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id="+blockSortable.data('id'), function(wizardContainer){
-			wizardContainer.find('.HelpInfoPopover').hover(
-				function () {
-					$(this).popover('show');
-				}, 
-				function () {
-					$(this).popover('hide');
-				}
-			);
-			if(Settings_Index_Js.getType() == 'RelatedModule'){
-				Settings_Index_Js.loadFilters(wizardContainer);
-				Settings_Index_Js.loadCheckboxs(wizardContainer);
-				wizardContainer.find("select[name='relatedmodule']").change(Settings_Index_Js.changeRelatedModule);
-			}
-			var form = jQuery('form', wizardContainer);
-			form.submit(function(e){
-				e.preventDefault();
-				var progress = $.progressIndicator({
-					'message' : app.vtranslate('Loading data'),
-					'blockInfo' : {
-						'enabled' : true
-					}
-				});
-				var FormData = form.serializeFormData();
-				Settings_Index_Js.registerSaveEvent('saveWidget',{
-					'data':FormData,
-					'tabid':$("input[name='tabid']").val(),
-				});
-				Settings_Index_Js.reloadWidgets();
-				progress.progressIndicator({'mode': 'hide'});
-			});
-		});
-	},
-	removeWidget: function(e) {
-		var target = $(e.currentTarget);
-		var blockSortable = target.closest('.blockSortable');
-		Settings_Index_Js.registerSaveEvent('removeWidget',{
-			'wid':blockSortable.data('id'),
-		});
-		Settings_Index_Js.reloadWidgets();
-	},
+
 	registerSaveEvent: function(mode, data) {
 		var resp = '';
 		var params = {}
@@ -241,18 +185,74 @@ var Settings_Index_Js = {
 	changeRelatedModule: function(e) {
 		var target = $(e.currentTarget);
 		var form = target.closest('.form-modalAddWidget');
-		Settings_Index_Js.loadFilters(form);
-		Settings_Index_Js.loadCheckboxs(form);
+		Settings_Widgets__Js.loadFilters(form);
+		Settings_Widgets__Js.loadCheckboxs(form);
 	},
-	registerEvents : function() {  
+	registerEvents : function() {
+		var thisInstance = this;
 		this.loadWidgets();
-		$(".WidgetsManage select[name='ModulesList']").change(this.changeModule);
-		$('.WidgetsManage .addWidget').click(this.addWidget);
-		$('.WidgetsManage .editWidget').click(this.editWidget);
-		$('.WidgetsManage .removeWidget').click(this.removeWidget);
+		$(".WidgetsManage select[name='ModulesList']").change(function(e) {
+			var target = $(e.currentTarget);
+			$("input[name='tabid']").val(target.val());
+			thisInstance.reloadWidgets();
+		});
+		$('.WidgetsManage .addWidget').click( function (e) {
+			var progressIndicatorElement = jQuery.progressIndicator({'position': 'html'});
+			var module = $(".WidgetsManage select[name='ModulesList']").val();
+			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mod=" + module, function (wizardContainer) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				var form = jQuery('form', wizardContainer);
+				form.submit(function (e) {
+					e.preventDefault();
+					var type = form.find('[name="type"]').val();
+					thisInstance.createStep2(type);
+				});
 
+			});
+		});
+		$('.WidgetsManage .editWidget').click(function(e) {
+			var target = $(e.currentTarget);
+			var blockSortable = target.closest('.blockSortable');
+			app.showModalWindow(null, "index.php?parent=Settings&module=Widgets&view=Widget&mode=edit&id="+blockSortable.data('id'), function(wizardContainer){
+				wizardContainer.find('.HelpInfoPopover').hover(
+					function () {
+						$(this).popover('show');
+					}, 
+					function () {
+						$(this).popover('hide');
+					}
+				);
+				if(thisInstance.getType() == 'RelatedModule'){
+					thisInstance.loadFilters(wizardContainer);
+					thisInstance.loadCheckboxs(wizardContainer);
+					wizardContainer.find("select[name='relatedmodule']").change(thisInstance.changeRelatedModule);
+				}
+				var form = jQuery('form', wizardContainer);
+				form.submit(function(e){
+					e.preventDefault();
+					var progress = $.progressIndicator({
+						'message' : app.vtranslate('Loading data'),
+						'blockInfo' : {
+							'enabled' : true
+						}
+					});
+					var FormData = form.serializeFormData();
+					thisInstance.registerSaveEvent('saveWidget',{
+						'data':FormData,
+						'tabid':$("input[name='tabid']").val(),
+					});
+					thisInstance.reloadWidgets();
+					progress.progressIndicator({'mode': 'hide'});
+				});
+			});
+		});
+		$('.WidgetsManage .removeWidget').click(function(e) {
+			var target = $(e.currentTarget);
+			var blockSortable = target.closest('.blockSortable');
+			thisInstance.registerSaveEvent('removeWidget',{
+				'wid':blockSortable.data('id'),
+			});
+			thisInstance.reloadWidgets();
+		});
 	}
-}
-$(document).ready(function(){
-	Settings_Index_Js.registerEvents();
-})
+});
