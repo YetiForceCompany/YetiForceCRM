@@ -57,7 +57,6 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 			
 			for(var index=0; index<oldElementAttributeList.length; index++) {
 				var attributeObject = oldElementAttributeList[index];
-				console.log(attributeObject)
 				//Dont update the type attribute
 				if(attributeObject.name=='type' || attributeObject.name == 'value' || attributeObject.name == 'class'){
 					continue;

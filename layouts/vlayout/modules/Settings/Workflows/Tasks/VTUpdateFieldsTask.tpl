@@ -41,7 +41,7 @@
 					</select>
 				</span>
 				<span class="fieldUiHolder col-md-4 marginLeftZero">
-					<input type="text" class="getPopupUi row" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
+					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
 				<span class="cursorPointer span">
@@ -72,7 +72,7 @@
 				</select>
 			</span>
 			<span class="fieldUiHolder col-md-4 marginLeftZero">
-				<input type="text" class="row" readonly="" name="fieldValue" value="" />
+				<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 				<input type="hidden" name="valuetype" value="rawtext" />
 			</span>
 			<span class="cursorPointer span">
