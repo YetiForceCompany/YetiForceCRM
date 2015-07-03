@@ -25,7 +25,7 @@
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						 <label class="col-sm-3 control-label">
-							{vtranslate('MODULE', $QUALIFIED_MODULE)}
+							<span class="redColor">*</span> {vtranslate('MODULE', $QUALIFIED_MODULE)}
 						</label>
 						<div class="col-sm-6 controls">
 							<select class="chzn-select form-control" name="cron_module">
@@ -37,13 +37,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						 <label class="col-sm-3 control-label">{vtranslate('LBL_NAME',$QUALIFIED_MODULE)}</label>
+						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {vtranslate('LBL_NAME',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-6 controls">
 							<input value="" name="cron_name" class="form-control" data-validation-engine="validate[required]" id="name" />
 						</div>
 					</div>
 					<div class="form-group">
-						 <label class="col-sm-3 control-label">{vtranslate('LBL_PATH_TO_FILE',$QUALIFIED_MODULE)}</label>
+						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {vtranslate('LBL_PATH_TO_FILE',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-6 controls">
 							<input value="" name="path" class="form-control" data-validation-engine="validate[required]" id="path" />
 						</div>
@@ -61,7 +61,7 @@
 					</div>
 					<div class="form-group">
 						 <label class="col-sm-3 control-label">
-							{vtranslate('Frequency',$QUALIFIED_MODULE)}
+							<span class="redColor">*</span> {vtranslate('Frequency',$QUALIFIED_MODULE)}
 						</label>
 						<div class="controls col-sm-9">
 
