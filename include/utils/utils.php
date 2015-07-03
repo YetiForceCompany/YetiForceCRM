@@ -1850,7 +1850,7 @@ function _phpset_memorylimit_MB($newvalue) {
  * @return String - Sanitized file name
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions) {
-
+	$fileName = preg_replace('/[^a-zA-Z0-9_%\[().\]\\/-]/s', '_', $fileName);
 	$fileName = preg_replace('/\s+/', '_', $fileName);//replace space with _ in filename
 	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
