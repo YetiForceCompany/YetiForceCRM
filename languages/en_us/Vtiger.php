@@ -1227,4 +1227,5 @@ $jsLanguageStrings = [
 	'JS_WEEK' => 'Week',
 	'JS_MORE' => 'More',
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 ];
