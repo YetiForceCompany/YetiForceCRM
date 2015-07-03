@@ -7,7 +7,7 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-jQuery.Class('Settings_Widgets__Js', {
+jQuery.Class('Settings_Widgets_Index_Js', {
 }, {
 	getTabId: function() {
 		return $(".WidgetsManage [name='tabid']").val();
@@ -189,6 +189,7 @@ jQuery.Class('Settings_Widgets__Js', {
 		Settings_Widgets__Js.loadCheckboxs(form);
 	},
 	registerEvents : function() {
+		console.log('ddd');
 		var thisInstance = this;
 		this.loadWidgets();
 		$(".WidgetsManage select[name='ModulesList']").change(function(e) {
