@@ -117,13 +117,13 @@ $languageStrings = [
 	
 	// help
 	'LBL_Helpforthemodule' => 'Help for the module: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
+	'LBL_UrlLink2' => '',
+	'LBL_UrlHelp' => '', 
+	'LBL_UrlHelp2' => '',
+	'LBL_UrlLicense' => '',
 	'LBL_License' => 'License information: ',
 	'LBL_Company' => 'The Company information: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
+	'LBL_UrlCompany' => '',
 	'Information' => 'Modules information:' ,
 ];
 

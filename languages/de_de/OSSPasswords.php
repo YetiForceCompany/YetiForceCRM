@@ -107,17 +107,7 @@ $languageStrings = [
     'LBL_CopyToClipboardTitle' => 'Passwort in Zwischenablage kopieren',
     'LBL_NotifPassCopied' => 'Passwort wurde in die Zwischenablage kopiert',
     'LBL_NotifPassTitle' => 'Passwort',
-	
-	// help
-	'LBL_Helpforthemodule' => 'Hilfe für das Modul: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl', 
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'Lizenz Information: ',
-	'LBL_Company' => 'Firmen Information: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Modul Information:' ,
+
 ];
 
 $jsLanguageStrings = [

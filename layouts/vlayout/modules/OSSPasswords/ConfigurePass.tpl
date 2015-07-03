@@ -9,7 +9,12 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-
+<div class="widget_header row">
+	<div class="col-md-10">
+		<h3>{vtranslate('LBL_VIEW_CONFIGUREPASS', $QUALIFIED_MODULE)}</h3>
+	</div>
+</div>
+<br>
 {if $ISADMIN eq 1}
 
 {if $ERROR|count_characters:true gt 0}
@@ -29,11 +34,6 @@
 <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin-left:30px;">
     <li class="active"><a href="#encoding" data-toggle="tab">{vtranslate('Encoding', $MODULENAME)}</a></li>
     <li><a href="#confpass" data-toggle="tab">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</a></li>
-    <li><a href="#delete" data-toggle="tab">{vtranslate('LBL_DeletePassModule', $MODULENAME)}</a></li>
-    {*
-    // Removal of this link violates the principles of License
-    // Usunięcie tego linku narusza zasady licencji *}
-    <li><a href="#help" data-toggle="tab">{vtranslate('LBL_HELP', $MODULENAME)}</a></li>
 </ul>
 
 <div id="my-tab-content" class="tab-content">
@@ -206,7 +206,7 @@
                 <td class="fieldLabel"> </td>
                 <td align="center" class="fieldValue" >
                     <div class="row">
-                        <span class="col-md-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
+                        <span class="col-md-10"><textarea id="OSSPasswords_editView_fieldName_pass_allow_chars" class="form-control" name="pass_allow_chars" rows="4" cols="80">{$ALLOWEDCHARS}</textarea></span>
                     </div>
                 </td>
             </tr>
@@ -232,110 +232,6 @@
         </div>
         </form>
     </div>
-    
-    {* delete module form *}
-    <div class='editViewContainer tab-pane' id="delete">
-        <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
-        <input type="hidden" name="uninstall" value="uninstall" />
-        <input type="hidden" name="status" value="1" />
-        <div class="contentHeader row">
-            <span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_DeleteModule', $MODULENAME)}</span>
-        </div>
-
-        
-        <table class="table table-bordered blockContainer showInlineTable">
-            <tr>
-                <th class="blockHeader" colspan="4">{vtranslate('Delete_panel', $MODULENAME)}{vtranslate('OSSPasswords', $MODULENAME)}</th>
-            </tr>
-            <tr>
-                <td class="fieldLabel" colspan="4">
-                <span class="pull-right">
-                    <button class="btn btn-danger btn-lg" name="uninstall" type="submit"  data-toggle="modal" data-target="#myModal"><strong>{vtranslate('Uninstall', $MODULENAME)}</strong></button>
-                    <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a> 
-                </span>
-                </td>
-            </tr>            
-        </table>
-        
-        </form>
-    </div>
-    
-    {* help *}
-    <div class='editViewContainer tab-pane' id="help">
-        <form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="">
-        <input type="hidden" name="mode" value="ticket" />
-
-        <table class="table table-bordered blockContainer showInlineTable">
-            <tr>
-                <th class="blockHeader" colspan="4">{vtranslate('LBL_HELP', $MODULENAME)}</th>
-            </tr>
-            <tr>
-				<td class="fieldLabel">
-                    <label class="muted pull-right marginRight10px"> {vtranslate('Information', $MODULENAME)}</label>
-                </td>
-                 <td class="fieldValue" >
-				<span class="col-md-10">
-                <a href="{vtranslate('LBL_UrlLink2', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlLink2', $MODULENAME)}
-				</td>
-            </tr>
-            <tr>
-                <td class="fieldLabel">
-                    <label class="muted pull-right marginRight10px"> {vtranslate('LBL_Helpforthemodule', $MODULENAME)}</label>
-                </td>
-                <td class="fieldValue" >
-                    <div class="row"><span class="col-md-10">
-                        <a href="mailto:{vtranslate('LBL_UrlHelp', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlHelp', $MODULENAME)},&nbsp </a>
-						<a href="mailto:{vtranslate('LBL_UrlHelp2', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlHelp2', $MODULENAME)}</a>
-						</span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="fieldLabel">
-                    <label class="muted pull-right marginRight10px"> {vtranslate('LBL_License', $MODULENAME)}</label>
-                </td>
-                <td class="fieldValue" >
-                    <div class="row"><span class="col-md-10">
-                        {*
-                        // Removal of this link violates the principles of License
-                        // Usunięcie tego linku narusza zasady licencji *}
-                        <a href="{vtranslate('LBL_UrlLicense', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlLicense', $MODULENAME)}</a></span>
-                    </div>
-                </td>
-            </tr>
-			<tr>
-                <td class="fieldLabel">
-                    <label class="muted pull-right marginRight10px"> {vtranslate('LBL_Company', $MODULENAME)}</label>
-                </td>
-                <td class="fieldValue" >
-                    <div class="row"><span class="col-md-10">
-                        <a href="{vtranslate('LBL_UrlCompany', $MODULENAME)}" target="_blank">{vtranslate('LBL_UrlCompany', $MODULENAME)}</a></span>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        </form>
-    </div>
-</div>
-
-{* modal promtp for uninstall *}
-<div id="myModal" class="modal fade" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			  <h3 class="modal-title">{vtranslate('MSG_DEL_WARN1', $MODULENAME)}</h3>
-			</div>
-			<div class="modal-body">
-			  <p>{vtranslate('MSG_DEL_WARN2', $MODULENAME)}</p>
-			  <p><input id="status" name="status" type="checkbox" value="1" required="required" /> {vtranslate('Uninstall OSSPasswords module', $MODULENAME)}</p>
-			</div>
-			<div class="modal-footer">
-			  <a href="#" class="btn" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</a>
-			  <a href="#" class="btn btn-danger okay-button" id="confirm" type="submit" name="uninstall" form="EditView" disabled="disabled">{vtranslate('Yes', $MODULENAME)}</a>
-			</div>
-		</div>
-	</div>
 </div>
 
 {* modal promtp for modtracker register changes *}
