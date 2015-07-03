@@ -59,6 +59,7 @@ Vtiger_List_Js("Portal_List_Js",{
                     Vtiger_Helper_Js.showPnotify(params);
                     var url = Portal_List_Js.getDefaultParams();
                     Portal_List_Js.loadListViewContent(url);
+                    app.hideModalWindow();
                 }
             });
         });
