@@ -1130,6 +1130,9 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click','.blockHeader',function(e){
+			if(jQuery(e.toElement).is('input') || jQuery(e.toElement).is('button') || jQuery(e.toElement).parents().is('button')){
+				return false;
+			}
 			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.blockContainer');
@@ -1144,7 +1147,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 				bodyContents.removeClass('hide');
 				app.cacheSet(module+'.'+blockId, 1)
 			}
-			console.log(data)
 			if(data.mode == 'show'){
 				hideHandler();
 				currentTarget.addClass('hide');
@@ -1174,8 +1176,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module+'.'+blockId;
 			var value = app.cacheGet(cacheKey, null);
-			console.log(value)
-			console.log(cacheKey)
 			if(value != null){
 				if(value == 1){
 					headerAnimationElement.addClass('hide');

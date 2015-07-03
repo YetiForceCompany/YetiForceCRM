@@ -384,7 +384,8 @@ jQuery.Class("Vtiger_Detail_Js",{
 				app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
                 aDeferred.resolve(params);
 			},
-			function(){
+			function(e){
+				contentContainer.progressIndicator({'mode': 'hide'});
                 aDeferred.reject();
 			}
 		);
@@ -959,11 +960,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			var hideHandler = function() {
-				bodyContents.hide();
+				bodyContents.addClass('hide');
 				app.cacheSet(module+'.'+blockId, 0)
 			}
 			var showHandler = function() {
-				bodyContents.show();
+				bodyContents.removeClass('hide');
 				app.cacheSet(module+'.'+blockId, 1)
 			}
 			var data = currentTarget.data();
@@ -993,11 +994,11 @@ jQuery.Class("Vtiger_Detail_Js",{
 				if(value == 1){
 					headerAnimationElement.addClass('hide');
 					currentBlock.find("[data-mode='show']").removeClass('hide');
-					bodyContents.show();
+					bodyContents.removeClass('hide');
 				} else {
 					headerAnimationElement.addClass('hide');
 					currentBlock.find("[data-mode='hide']").removeClass('hide');
-					bodyContents.hide();
+					bodyContents.addClass('hide');
 				}
 			}
 		});
@@ -1731,7 +1732,9 @@ jQuery.Class("Vtiger_Detail_Js",{
 			function(data){
 				var summaryViewContainer = thisInstance.getContentHolder();
 				var updatesWidget = summaryViewContainer.find("[data-name='LBL_UPDATES']");
-				thisInstance.loadWidget(updatesWidget);
+				if(updatesWidget.length > 0){
+					thisInstance.loadWidget(updatesWidget);
+				}
 				aDeferred.resolve(data);
 			},
 

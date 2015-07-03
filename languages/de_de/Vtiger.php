@@ -200,6 +200,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE' => 'Dienstleistung hinzufügen',
 	'LBL_ADD_TASK' => 'Aufgabe hinzufügen',
 	'LBL_ADD_WIDGET' => 'Widget hinzufügen',
+	'LBL_ADD_FILTER' => '__UNTRANSLATED__',
 	'LBL_ADD_YOUR_COMMENT_HERE' => 'Deinen Kommentar hier hinzufügen...',
 	'LBL_ADVANCE_SEARCH' => 'Erweiterte Suche',
 	'LBL_AFTER' => 'nach', //Duplicated key-value pairs
@@ -1199,4 +1200,5 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Workflow gestartet',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Workflow beendet',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Unbekannter Fehler! Bitte benachrichtigen Sie den Administrator.',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Kann nicht in der Zukunft erstellt werden',
 ];

@@ -126,6 +126,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE' => 'Dodaj usługę',
 	'LBL_ADD_TASK' => 'Dodaj zadanie',
 	'LBL_ADD_WIDGET' => 'Dodaj widżet',
+	'LBL_ADD_FILTER' => 'Dodaj widżet z filtru',
 	'LBL_ADD_YOUR_COMMENT_HERE' => 'Wpisz tutaj swój komentarz',
 	'LBL_ADVANCE_SEARCH' => 'Więcej',
 	'LBL_AFTER' => 'po', //Duplicated key-value pairs
@@ -1195,4 +1196,5 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW'=>'Rozpoczęto wykonywanie obiegu informacji',
 	'JS_COMPLETED_PERFORM_WORKFLOW'=>'Zakończono wykonywanie obiegu informacji',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW'=>'Wystąpił nieznany błąd, prosimy poinformacjować administratora',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
 ];

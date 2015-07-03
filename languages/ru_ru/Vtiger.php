@@ -372,6 +372,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE'=> 'Добавить Услугу',
 	'LBL_ADD_TASK' => 'Добавить Задачу', 
 	'LBL_ADD_WIDGET'=> 'Добавить Виджет', 
+	'LBL_ADD_FILTER' => '__UNTRANSLATED__',
 	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Добавить комментарий...', 
 	'LBL_ADJUSTMENT'=> 'Корректировка',
 	'LBL_ADVANCE_SEARCH' => 'Расширенный поиск',
@@ -1519,4 +1520,5 @@ $jsLanguageStrings = [
 	'JS_STARTED_PERFORM_WORKFLOW' => 'Обработчик выполняет обработку',
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Обработчик закончил обработку',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Произошла ошибка во время обработки',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD'	=>	'Не может быть проведено в будущем',
 ];

@@ -187,6 +187,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE' => 'Add Service',
 	'LBL_ADD_TASK' => 'Add To Do',
 	'LBL_ADD_WIDGET' => 'Add Widget',
+	'LBL_ADD_FILTER' => '__UNTRANSLATED__',
 	'LBL_ADD_YOUR_COMMENT_HERE' => 'Add your comment here...',
 	'LBL_ADVANCE_SEARCH' => 'Advanced',
 	'LBL_AFTER' => 'after', //Duplicated key-value pairs
@@ -1229,4 +1230,5 @@ $jsLanguageStrings = [
 	'JS_WEEK' => 'Week',
 	'JS_MORE' => 'More',
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
+	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 ];

@@ -116,22 +116,9 @@ var app = {
 		}else if( moduleName!= 'Install' ){
 			params.placeholder_text_single =  ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
-		
-		/*selectElement.each(function(){
-			var width = jQuery(this).outerWidth();
-			params['width'] = width+'px';
-			jQuery(this).chosen(params);
-		});*/
 		selectElement.chosen(params);
-		var chosenSelectConainer = jQuery('.chzn-container');
-		//Fix for z-index issue in IE 7
-		if (/MSIE 7.0/.test(navigator.userAgent)) {
-			var zidx = 1000;
-			chosenSelectConainer.each(function(){
-				$(this).css('z-index', zidx);
-				zidx-=10;
-			});
-		}
+		// Improve the display of default text (placeholder)
+		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
 		return chosenSelectConainer;
 	},
 

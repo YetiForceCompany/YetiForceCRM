@@ -3745,8 +3745,7 @@ CREATE TABLE `vtiger_module_dashboard` (
   `isdefault` tinyint(1) NOT NULL DEFAULT '0',
   `owners` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `vtiger_module_dashboard_ibfk_1` (`blockid`),
-  CONSTRAINT `vtiger_module_dashboard_ibfk_1` FOREIGN KEY (`blockid`) REFERENCES `vtiger_module_dashboard_blocks` (`id`) ON DELETE CASCADE
+  KEY `vtiger_module_dashboard_ibfk_1` (`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_module_dashboard_blocks` */

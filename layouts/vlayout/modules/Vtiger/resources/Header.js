@@ -448,8 +448,8 @@ jQuery.Class("Vtiger_Header_Js", {
 
         //This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
         //Multiple element to send as in calendar
-        var quickCreateTabOnHide = function(tabElement) {
-            var container = jQuery(tabElement.attr('data-target'));
+        var quickCreateTabOnHide = function(target) {
+            var container = jQuery(target);
 
             container.find('[name]').each(function(index, element) {
                 element = jQuery(element);
@@ -459,8 +459,8 @@ jQuery.Class("Vtiger_Header_Js", {
 
         //This will add the name attributes and get value from data-element-name . We are doing this to avoid
         //Multiple element to send as in calendar
-        var quickCreateTabOnShow = function(tabElement) {
-            var container = jQuery(tabElement.attr('data-target'));
+        var quickCreateTabOnShow = function(target) {
+            var container = jQuery(target);
 
             container.find('[data-element-name]').each(function(index, element) {
                 element = jQuery(element);
@@ -468,12 +468,9 @@ jQuery.Class("Vtiger_Header_Js", {
             });
         }
 
-        tabElements.on('shown', function(e) {
-            var previousTab = jQuery(e.relatedTarget);
-            var currentTab = jQuery(e.currentTarget);
-
-            quickCreateTabOnHide(previousTab);
-            quickCreateTabOnShow(currentTab);
+        tabElements.on('click', function(e) {
+			quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
+			quickCreateTabOnShow($( this ).attr('data-target'));
 
             //while switching tabs we have to clear the invalid fields list
             form.data('jqv').InvalidFields = [];
