@@ -1252,7 +1252,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 		$settingsLinks[] = array(
 					'linktype' => 'LISTVIEWSETTING',
 					'linklabel' => 'LBL_WIDGETS_MANAGMENT',
-                    'linkurl' => 'index.php?parent=Settings&module=Widgets&sourceModule='.$this->getName(),
+                    'linkurl' => 'index.php?parent=Settings&module=Widgets&view=Index&sourceModule='.$this->getName(),
 					'linkicon' => $layoutEditorImagePath
 		);
 		if(VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
