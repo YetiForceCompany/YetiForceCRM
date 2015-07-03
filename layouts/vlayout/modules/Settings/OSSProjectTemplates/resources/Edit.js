@@ -167,7 +167,7 @@ function OSSProjectTemplatesEdit() {
                     })
 
                     if (!state) {
-                        var msg = "JS_FIELD_INCORRECT";
+                        var msg = app.vtranslate("JS_FIELD_INCORRECT");
                         thisInstance.showErrorMessage(msg);
                     }
 
