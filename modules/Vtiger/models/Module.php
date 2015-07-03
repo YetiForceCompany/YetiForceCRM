@@ -761,7 +761,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 					INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
 					WHERE (quickcreate=0 OR quickcreate=2) AND vtiger_tab.presence != 1';
 		if($restrictList){
-			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events')";
+			$sql .= " AND vtiger_tab.name NOT IN ('ModComments','PriceBooks','Events','OSSPdf')";
 		}
 		$params = array();
 		$result = $db->pquery($sql, $params);
