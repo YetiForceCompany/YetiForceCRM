@@ -121,6 +121,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model {
 			$query .= ' AND editstatus = ?';
 			array_push($params, self::EDITABLE);
 		}
+		$query .= ' ORDER BY vtiger_def_org_share.tabid ASC';
+		
 		$result = $db->pquery($query, $params);
 		$noOfModules = $db->num_rows($result);
 		for($i=0; $i<$noOfModules; ++$i) {
