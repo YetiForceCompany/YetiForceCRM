@@ -351,6 +351,7 @@ var app = {
 			app.changeSelectElementView(container);
             //register all select2 Elements
             app.showSelect2ElementView(container.find('select.select2'));
+			app.showSelectizeElementView(container.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(container);
 			cb(container);
@@ -1038,6 +1039,7 @@ jQuery(document).ready(function(){
 
 	//register all select2 Elements
 	app.showSelect2ElementView(jQuery('body').find('select.select2'));
+	app.showSelectizeElementView(jQuery('body').find('select.selectize'));
 	app.showPopoverElementView(jQuery('body').find('.popoverTooltip'));
 	app.showBtnSwitch(jQuery('body').find('.switchBtn'));
 	app.setContentsHeight();
