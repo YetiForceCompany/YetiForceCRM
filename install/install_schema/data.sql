@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
+SQLyog Ultimate v12.12 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
 */
@@ -3075,14 +3075,6 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (32,59,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (33,60,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (34,61,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (35,62,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (36,63,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (37,64,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (38,65,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (39,66,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (40,67,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (41,68,2,0);
-insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (42,69,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (43,70,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (44,71,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (45,74,2,0);
@@ -3096,6 +3088,8 @@ insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) 
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (53,82,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (54,83,2,0);
 insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (55,84,2,0);
+insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (56,15,2,0);
+insert  into `vtiger_def_org_share`(`ruleid`,`tabid`,`permission`,`editstatus`) values (57,19,2,0);
 
 /*Data for the table `vtiger_def_org_share_seq` */
 
@@ -5755,6 +5749,10 @@ insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,14);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,14);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,14);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,15);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,15);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,15);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,15);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,16);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,16);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,16);
@@ -5763,6 +5761,10 @@ insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,18);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,18);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,18);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,19);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,19);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,19);
+insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (3,19);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (0,20);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (1,20);
 insert  into `vtiger_org_share_action2tab`(`share_action_id`,`tabid`) values (2,20);
