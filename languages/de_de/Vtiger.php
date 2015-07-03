@@ -200,6 +200,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE' => 'Dienstleistung hinzufügen',
 	'LBL_ADD_TASK' => 'Aufgabe hinzufügen',
 	'LBL_ADD_WIDGET' => 'Widget hinzufügen',
+	'LBL_ADD_FILTER' => '__UNTRANSLATED__',
 	'LBL_ADD_YOUR_COMMENT_HERE' => 'Deinen Kommentar hier hinzufügen...',
 	'LBL_ADVANCE_SEARCH' => 'Erweiterte Suche',
 	'LBL_AFTER' => 'nach', //Duplicated key-value pairs
