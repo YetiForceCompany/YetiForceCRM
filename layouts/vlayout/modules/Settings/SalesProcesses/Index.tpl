@@ -21,7 +21,7 @@
 		<div class="tab-pane active" id="popup">
 			{assign var=POPUP value=$CONFIG['popup']}
 			<div class="row">
-				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service_owner']=='true'}checked=""{/if} /></div>
+				<div class="col-md-1 textAlignCenter"><input class="configField" type="checkbox" data-type="popup" name="limit_product_service" id="limit_product_service" value="1"  {if $POPUP['limit_product_service']=='true'}checked=""{/if} /></div>
 				<div class="col-md-11"><label for="limit_product_service">{vtranslate('LBL_LIMIT_PRODUCT_AND_SERVICE',$QUALIFIED_MODULE)}</label></div>
 			</div>
 			<div class="row">

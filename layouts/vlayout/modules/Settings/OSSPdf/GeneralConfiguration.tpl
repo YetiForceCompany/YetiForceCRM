@@ -30,7 +30,6 @@
         <div class="tab-pane active" id="general">
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
                 <tr>
-                    <td valign="top"><img src="{$IMAGE_PATH}showPanelTopLeft.gif"></td>
                     <td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
                         <br>
                         <div align=center>
@@ -101,7 +100,6 @@
                             <input id="acceptbutton" type="submit" onmouseover = "pointat();" onmouseout = "pointout();" style="border-color: darkgreen;border-style: solid;border-width: 1px 1px 1px 1px;width:175px;height: 34px;text-align: center;" value="{vtranslate('accept', 'OSSPdf')}">
                         </form>
                     </td>
-                    <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
                 </tr>
             </table>
             <br>
@@ -113,7 +111,6 @@
             {if $IS_ADMIN eq 'true'}
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
                 <tr>
-                    <td valign="top"><img src="{$IMAGE_PATH}showPanelTopLeft.gif"></td>
                     <td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
                         <br>
                         <div align=center>
@@ -168,7 +165,6 @@
                         </table>
                         <hr />	
                     </td>    
-                    <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
                 </tr>
             </table>
             <br>
