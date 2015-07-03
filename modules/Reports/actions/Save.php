@@ -32,7 +32,7 @@ class Reports_Save_Action extends Vtiger_Save_Action {
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
-		$reportModel = new Reports_Record_Model();
+		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
 		if(!empty($record) && !$request->get('isDuplicate')) {
 			$reportModel->setId($record);
@@ -46,7 +46,7 @@ class Reports_Save_Action extends Vtiger_Save_Action {
         $reportModel->set('reporttype', $reporttype);
 
 		$reportModel->setPrimaryModule($request->get('primary_module'));
-
+		
 		$secondaryModules = $request->get('secondary_modules');
 		$secondaryModules = implode(':', $secondaryModules);
 		$reportModel->setSecondaryModule($secondaryModules);
