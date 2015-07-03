@@ -3250,3 +3250,8 @@ display: inherit;
 	width: 50px;
 	height: 40px;
 }
+span[name=existingImages] img{
+	height: 200px;
+	width: 300px;
+}
+
