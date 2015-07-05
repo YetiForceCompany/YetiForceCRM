@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-<div class="editViewContainer container">
+<div class="editViewContainer">
 	<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 		<input type="hidden" name="module" value="Groups">
 		<input type="hidden" name="action" value="Save">
