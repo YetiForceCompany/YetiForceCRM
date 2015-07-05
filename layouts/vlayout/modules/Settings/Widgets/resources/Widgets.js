@@ -189,7 +189,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		Settings_Widgets__Js.loadCheckboxs(form);
 	},
 	registerEvents : function() {
-		console.log('ddd');
 		var thisInstance = this;
 		this.loadWidgets();
 		$(".WidgetsManage select[name='ModulesList']").change(function(e) {

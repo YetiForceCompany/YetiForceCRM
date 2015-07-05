@@ -28,7 +28,7 @@
 			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 			<div class="filterBlocksAlignment">
 				<br>
-				<div class="row">
+				<div>
 					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
 				</div>
 				<br>
