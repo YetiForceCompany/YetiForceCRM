@@ -9,45 +9,41 @@
   *
  ********************************************************************************/
 -->*}
-<style>
-.verticalText{
-	line-height:28px
-}
-</style>
-<div style="padding:20px">	  
+
+<div>	  
    <h3 class="col-md-8 ">{vtranslate('Import', $MODULENAME)}</h3>
 </div>
 
-<div class="" style="margin-top:20px">
+<div>
 	<form method="POST" action="index.php?module=PaymentsIn&view=step1" name="ical_import"  enctype="multipart/form-data">
 		<div class="row" >
 			<div class="col-md-12">
 
 				<div class="row" >
-					<div class="col-md-6 " style="text-align:center ">
+					<div class="col-md-6">
 						<div class="alert alert-info">
 							{vtranslate('Import wyciągów bankowych', $MODULENAME)}
 						</div>
 					</div>
-					<div class="col-md-5 well">
-						<div class="row" >
-							<div class="col-md-2 verticalText" >
+					<div class="col-md-5 well form-horizontal">
+						<div class="form-group" >
+							<label class="col-md-2 control-label" >
 								{vtranslate('Typ', $MODULENAME)}
-							</div>
+							</label>
 							<div class="col-md-10" >
-								<select  name="type"  >
+								<select  name="type"  class="chzn-select form-control" >
 									{foreach from=$TYP item=item}
 										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
 									{/foreach}	
 								</select>
 							</div>
 						</div>	
-						<div class="row" >	
-							<div class="col-md-2 verticalText">
+						<div class="form-group" >	
+							<label class="col-md-2 control-label">
 								{vtranslate('Bank', $MODULENAME)}
-							</div>
+							</label>
 							<div class="col-md-10">
-								<select   name="bank" >
+								<select class="form-control chzn-select" name="bank" >
 									{foreach from=$BANK item=item}
 										<option value="{$item}">{vtranslate({$item}, $MODULENAME)}</option>
 									{/foreach}
@@ -55,15 +51,12 @@
 							</div>
 							
 						</div>	
-						<div class="row" >	
-							{*<div class="col-md-2 verticalText" >
-								{vtranslate('Plik', $MODULENAME)}
+						<div class="row">	
+							<div class="col-md-2" >
 							</div>
 							<div class="col-md-10">
+								<input name="file" type="file" class="" data-input="false">
 							</div>
-							*}
-								<input name="file" type="file" class="filestyle" data-input="false" style="margin-left:68px">
-							
 						</div>
 					</div>	
 				</div>
@@ -115,8 +108,8 @@
 			</tbody>
         </table>    
 *}
-       <div class="pull-right" style="margin-top:20px; margin-right:40px">
-                      <button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('NEXT', $MODULE)}</strong></button>
+       <div class="col-md-11 paddingRightZero">
+			<button class="btn pull-right btn-success" type="submit" name="saveButton"><strong>{vtranslate('NEXT', $MODULE)}</strong></button>
        </div>
     </form>
 </div>
