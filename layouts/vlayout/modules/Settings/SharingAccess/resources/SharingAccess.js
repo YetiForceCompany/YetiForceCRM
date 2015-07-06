@@ -202,6 +202,7 @@ jQuery.Class('Settings_Sharing_Access_Js', {}, {
 		});
 		
 		app.showModalWindow(null, url, function(modalContainer){
+			progressIndicatorElement.progressIndicator({'mode':'hide'});
 			var form = jQuery('#editCustomRule');
 			
 			form.on('submit', function(e) {
