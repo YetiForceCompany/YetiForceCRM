@@ -52,8 +52,8 @@
 						</div>
 							{if $PAYMENTSIN[$FREQUENCY].details.contName neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Kontrahent', $MODULENAME)}</div>
+									<div class="col-md-2 " >
+										<label>{vtranslate('Kontrahent', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8 " style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.contName}
@@ -62,8 +62,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].details.countAddress neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Kontrahent address', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Kontrahent address', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.countAddress}
@@ -72,8 +72,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].amount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Amount', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Amount', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].amount}
@@ -82,8 +82,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].details.currancy neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Currancy operation', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Currancy operation', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.currancy}
@@ -92,8 +92,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].details.currancyAmount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Amount operation', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Amount operation', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.currancyAmount}
@@ -114,8 +114,8 @@
 							*}
 							{if $PAYMENTSIN[$FREQUENCY].details.contAccount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">	
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Account', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Account', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.contAccount}
@@ -124,8 +124,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].date neq ''}		
 								<div class="row" style="padding:5px; padding-left:20px">	
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Date', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Date', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].date}
@@ -134,8 +134,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].accountDate neq ''}		
 								<div class="row" style="padding:5px; padding-left:20px">	
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('DateK', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('DateK', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].accountDate}
@@ -154,8 +154,8 @@
 							{/if}
 							{if $PAYMENTSIN[$FREQUENCY].details.title neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
-									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Title', $MODULENAME)}</div>
+									<div class="col-md-2" >
+										<label>{vtranslate('Title', $MODULENAME)}</label>
 									</div> 
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.title}

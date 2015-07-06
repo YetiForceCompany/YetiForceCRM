@@ -12,29 +12,27 @@
 {strip}
 	<div class="contentsDiv" >
 		<div id="paymentsOut" style="display:none">{$JSON}</div>
-		<div style="padding:20px">	  
-        <h4>{vtranslate('Summary', $MODULENAME)}	</h4>
+		<div>	  
+        <h4>{vtranslate('Summary', $MODULENAME)}</h4>
 		</div>
-		<div class="" style="margin-top:20px">
+		<div class="">
 				<div class="row" >
 					<div class="col-md-5" style="text-align:right">
 						<b>{vtranslate('Liczba transakcji:', $MODULENAME)}</b>
 					</div>
 					<div class="col-md-5" >
-						<b>{$COUNT}</b>
+						<span class="badge">{$COUNT}</span>
 					</div>
 				</div>
 		{for $FREQUENCY = 0 to 1}
 			{if $FREQUENCY lt $COUNT}
 				<div class="row" >
-					<div class="col-md-12" style="padding:20px">
-							
+					<div class="col-md-12">
 								{vtranslate('Import', $MODULENAME)} {$FREQUENCY+1}
-							
 							{if $PAYMENTSOUT[$FREQUENCY].details.contName neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Kontrahent', $MODULENAME)}</div>
+										<div>{vtranslate('Kontrahent', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.contName}
@@ -44,7 +42,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].amount neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Amount', $MODULENAME)}</div>
+										<div>{vtranslate('Amount', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].amount}
@@ -66,7 +64,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].details.contAccount neq ''}	
 								<div class="row" >	
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Account', $MODULENAME)}</div>
+										<div>{vtranslate('Account', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.contAccount}
@@ -76,7 +74,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].date neq ''}		
 								<div class="row" >	
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Date', $MODULENAME)}</div>
+										<div>{vtranslate('Date', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].date}
@@ -86,7 +84,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].details.title neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Title', $MODULENAME)}</div>
+										<div>{vtranslate('Title', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.title}
@@ -107,7 +105,7 @@
 					<div class="col-md-12" style="padding:2px; text-align:center"><b>.</b></div></div>
 			{/if}
 		*}
-		<div class="pull-right" style="margin-top:20px">
+		<div class="pull-right">
 						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{vtranslate('Create records', $MODULENAME)}</button>
 						<a href="index.php?module=PaymentsOut&view=List" id="go" class="btn btn-default addButton hide">{vtranslate('Go to Payments', $MODULENAME)}</a>&nbsp
                         <a href="index.php?module=PaymentsOut&view=PaymentsImport#" class="btn btn-default">{vtranslate('Back', $MODULENAME)}</a>
