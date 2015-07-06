@@ -39,5 +39,6 @@ $jsLanguageStrings = [
 	'JS_CUSTOM_BLOCK_DELETED' => 'O bloco foi apagado com sucesso',
 	'JS_FIELD_EMPTY' => 'O campo não pode estar vazio',
 	'JS_FILTERS_AVAILABLE' => 'Filtros disponíveis',
+	'JS_WIDGET_ADDED' => 'O Widget foi adicionado com sucesso no bloco',
 ];
 
