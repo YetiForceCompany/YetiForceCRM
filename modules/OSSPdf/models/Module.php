@@ -64,7 +64,7 @@ class OSSPdf_Module_Model extends Vtiger_Module_Model {
 
 
 		$tekst = "javascript:QuickGenerate('$mod','$cat','$record');";
-		$modCommentsModule->addLink('DETAILVIEWBASIC', 'Generate default PDF', $tekst, 'Smarty/templates/modules/OSSPdf/gen_domysle_dok.png');
+		$modCommentsModule->addLink('DETAILVIEWBASIC', 'Generate default PDF', $tekst, 'glyphicon glyphicon-download-alt');
 
 		$tekst = "javascript:QuickGenerateMail('$mod','$cat','$record');";
 		//	$modCommentsModule->addLink('DETAILVIEWBASIC', 'LBL_QUICK_GENERATE_MAIL' , $tekst, 'Smarty/templates/modules/OSSPdf/wyslij_domysle_dok.png');
