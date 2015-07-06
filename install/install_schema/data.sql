@@ -5474,7 +5474,7 @@ insert  into `vtiger_links`(`linkid`,`tabid`,`linktype`,`linklabel`,`linkurl`,`l
 
 /*Data for the table `vtiger_links_seq` */
 
-insert  into `vtiger_links_seq`(`id`) values (156);
+insert  into `vtiger_links_seq`(`id`) values (232);
 
 /*Data for the table `vtiger_loginhistory` */
 
