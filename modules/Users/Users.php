@@ -1166,6 +1166,17 @@ class Users extends CRMEntity {
         	}
         	
         }
+		// update dashboard widgets when changing users role
+		else {
+			$query = 'SELECT `roleid` FROM `vtiger_user2role` WHERE `userid` = ? LIMIT 1;';
+			$oldRoleResult = $adb->pquery($query, [$this->id]);
+			$oldRole = $adb->query_result($oldRoleResult, 0, 'roleid');
+
+			if ( $oldRole != $this->column_fields['roleid'] ) {
+				$query = 'DELETE FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ?;';
+				$adb->pquery($query, [$this->id]);
+			}
+		}
         //Save entity being called with the modulename as parameter
         $this->saveentity($module_name);
 
