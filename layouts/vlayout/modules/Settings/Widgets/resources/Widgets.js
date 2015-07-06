@@ -242,6 +242,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 						'tabid':$("input[name='tabid']").val(),
 					});
 					thisInstance.reloadWidgets();
+					app.hideModalWindow();
 					progress.progressIndicator({'mode': 'hide'});
 				});
 			});

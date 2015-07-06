@@ -29,9 +29,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success saveButton" data-dismiss="modal" aria-hidden="true" >{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-				</div>
+				{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			</form>
 		</div>
 	</div>
