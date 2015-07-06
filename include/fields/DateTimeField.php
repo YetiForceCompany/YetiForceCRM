@@ -122,15 +122,15 @@ class DateTimeField {
 		}
 
 		if (!$y || !$m || !$d) {
-			if( strpos($date, "-") !== false ){
+			if( strpos($date, '-') !== false ){
 				$separator = '-';
-			}elseif( strpos($date, ".") !== false ){
+			}elseif( strpos($date, '.') !== false ){
 				$separator = '.';
-			}elseif( strpos($date, "/") !== false ){
+			}elseif( strpos($date, '/') !== false ){
 				$separator = '/';
 			}
 			$formatToConvert = str_replace( array('/','.'), array('-','-'), $format);
-			$dateToConvert = str_replace($separator,"-",$date);
+			$dateToConvert = str_replace($separator,'-',$date);
 			switch ( $formatToConvert ){
 				case 'dd-mm-yyyy':	list($d, $m, $y) = explode('-', $dateToConvert);	break;
 				case 'mm-dd-yyyy':	list($m, $d, $y) = explode('-', $dateToConvert); break;
@@ -362,6 +362,7 @@ class DateTimeField {
 		if(strlen($value) < 8 ){
 			return $value;
 		}
+		$value = str_replace('T',' ',$value);
 		list($date, $time) = explode(' ', $value);
 		if(!empty($date) && !in_array($time, ['AM','PM'])) {
 			$date = self::__convertToDBFormat($date, $user->date_format);
