@@ -41,6 +41,7 @@
 							{/if}
 						</ul>
 					</p>
+					<p class="clearfix"></p>
 					<p class="Buttons pull-right">
 						{if $CURRENT_USER->isAdminUser()}
 							<a class="btn btn-inverse" href='index.php?parent=Settings&module=Leads&view=MappingDetail'>{vtranslate('LBL_LEADS_FIELD_MAPPING', $MODULE)}</a>
