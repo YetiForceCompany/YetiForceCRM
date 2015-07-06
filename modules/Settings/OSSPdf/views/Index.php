@@ -29,7 +29,7 @@ class Settings_OSSPdf_Index_View extends Settings_Vtiger_Index_View {
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
+		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
     
@@ -195,25 +195,4 @@ class Settings_OSSPdf_Index_View extends Settings_Vtiger_Index_View {
         $viewer->view('GeneralConfiguration.tpl', $moduleName);
     }
 
- /*   function add_links($name) {
-        include_once( 'vtlib/Vtiger/Module.php' );
-        $modCommentsModule = Vtiger_Module::getInstance($name);
-        $mod = '$MODULE$';
-        $cat = '$CATEGORY$';
-        $record = '$RECORD$';
-        $tekst = "PDFselectedRecords('$mod','$cat');";
-
-
-        $tekst = "javascript:QuickGenerate('$mod','$cat','$record');";
-        $modCommentsModule->addLink('DETAILVIEWBASIC', 'Generate default PDF', $tekst, 'Smarty/templates/modules/OSSPdf/gen_domysle_dok.png');
-
-        $tekst = "javascript:QuickGenerateMail('$mod','$cat','$record');";
-        //	$modCommentsModule->addLink('DETAILVIEWBASIC', 'LBL_QUICK_GENERATE_MAIL' , $tekst, 'Smarty/templates/modules/OSSPdf/wyslij_domysle_dok.png');
-
-        $modCommentsModule->addLink('DETAILVIEWSIDEBARWIDGET', 'OSSPdf', 'module=OSSPdf&view=ExportPDFRecords&fromdetailview=true');
-        $modCommentsModule->addLink('LISTVIEWSIDEBARWIDGET', 'OSSPdf', 'module=OSSPdf&view=ListViewExportPDFRecords&usingmodule=' . $name);
-    }
-*/
 }
-
-?>
