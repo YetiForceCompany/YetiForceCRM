@@ -20,14 +20,12 @@ display: none;
             <div class="col-md-8">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="col-md-4">
-                <div class="pull-right">
-                    <select class="select2 col-md-3 form-control" name="layoutEditorModules">
-                        {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-                        {/foreach}
-                    </select>
-                </div>
+            <div class="pull-right col-md-3 h3">
+				<select class="select2 col-md-3 form-control" name="layoutEditorModules">
+					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+					{/foreach}
+				</select>
             </div>
         </div>
         <hr>

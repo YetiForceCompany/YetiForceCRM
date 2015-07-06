@@ -16,14 +16,12 @@
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
 		<div class="col-md-8"><h3>{vtranslate($MODULE, $QUALIFIED_MODULE)}</h3>{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}</div>
-		<div class="col-md-4">
-			<div class="pull-right">
-				<select class="select2 col-md-3 form-control" name="ModulesList">
-					{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
-						<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{vtranslate($item['tablabel'], $item['name'])}</option>
-					{/foreach}
-				</select>
-			</div>
+		<div class="pull-right col-md-3 h3">
+			<select class="select2 col-md-3 form-control" name="ModulesList">
+				{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
+					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{vtranslate($item['tablabel'], $item['name'])}</option>
+				{/foreach}
+			</select>
 		</div>
 	</div>
 	<hr>
