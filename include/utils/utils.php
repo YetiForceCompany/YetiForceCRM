@@ -1565,32 +1565,33 @@ function getRelationTables($module,$secmodule){
  * This function returns no value but handles the delete functionality of each entity.
  * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
   */
-function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
-	$adb = PearDatabase::getInstance(); $log = vglobal('log');
-	$log->debug("Entering DeleteEntity method ($module, $return_module, $record, $return_id)");
+ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId) {
+	$adb = PearDatabase::getInstance();
+	$log = vglobal('log');
+	$log->debug("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 	require_once('include/events/include.inc');
-	if ($module != $return_module && !empty($return_module) && !empty($return_id)) {
+	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$em = new VTEventsManager($adb);
 		$em->initTriggerCache();
-		
+
 		$data = [];
 		$data['CRMEntity'] = $focus;
-		$data['entityData'] = VTEntityData::fromEntityId($adb, $record);
+		$data['entityData'] = VTEntityData::fromEntityId($adb, $destinationRecordId);
 		$data['sourceModule'] = $sourceModule;
 		$data['sourceRecordId'] = $sourceRecordId;
 		$data['destinationModule'] = $destinationModule;
 		$data['destinationRecordId'] = $destinationRecordId;
 		$em->triggerEvent('vtiger.entity.unlink.before', $data);
 
-		$focus->unlinkRelationship($record, $return_module, $return_id);
-		$focus->trackUnLinkedInfo($return_module, $return_id, $module, $record);
-		
-		if($em){
-			$entityData = VTEntityData::fromEntityId($adb, $record);
+		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId);
+		$focus->trackUnLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+
+		if ($em) {
+			$entityData = VTEntityData::fromEntityId($adb, $destinationRecordId);
 			$em->triggerEvent('vtiger.entity.unlink.after', $data);
 		}
 	} else {
-		$focus->trash($module, $record);
+		$focus->trash($module, $destinationRecordId);
 	}
 	$log->debug('Exiting DeleteEntity method ...');
 }
@@ -1606,7 +1607,7 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 	$em->initTriggerCache();
 	if(!is_array($destinationRecordIds)) 
 		$destinationRecordIds = [$destinationRecordIds];
-
+	
 	$data = [];
 	$data['CRMEntity'] = $focus;
 	$data['entityData'] = VTEntityData::fromEntityId($adb, $sourceRecordId);
