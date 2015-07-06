@@ -495,7 +495,7 @@ display: none;
 <input type="hidden" class="inActiveFieldsArray" value='{ZEND_JSON::encode($IN_ACTIVE_FIELDS)}' />
 
 <div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px;">
-    <div class="row layoutBlockHeader">
+    <div class="row layoutBlockHeader no-margin">
         <div class="col-md-6 blockLabel padding10">
             <img class="alignMiddle" src="{vimage_path('drag.png')}" alt="" />&nbsp;&nbsp;
         </div>
