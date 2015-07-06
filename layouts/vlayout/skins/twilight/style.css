@@ -3254,4 +3254,16 @@ span[name=existingImages] img{
 	height: 200px;
 	width: 300px;
 }
-
+.narrow.fieldValue .chosen-container-single .chosen-single{
+height: 26px;
+line-height: 26px;
+}
+.narrow.fieldValue input{
+height: 26px;
+}
+.narrow.fieldValue .input-group-addon{
+padding: 4px 10px;
+}
+.narrow.fieldValue .chosen-container-single .chosen-single div b{
+background-position-y: 4px;
+}
