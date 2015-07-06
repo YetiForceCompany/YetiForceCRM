@@ -44,6 +44,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 					'tabid': tabId,
 				});
 				thisInstance.reloadWidgets();
+				app.hideModalWindow();
 			});
 			
 		});
@@ -185,8 +186,8 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 	changeRelatedModule: function(e) {
 		var target = $(e.currentTarget);
 		var form = target.closest('.form-modalAddWidget');
-		Settings_Widgets__Js.loadFilters(form);
-		Settings_Widgets__Js.loadCheckboxs(form);
+		Settings_Widgets_Index_Js.loadFilters(form);
+		Settings_Widgets_Index_Js.loadCheckboxs(form);
 	},
 	registerEvents : function() {
 		var thisInstance = this;
