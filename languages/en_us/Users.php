@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'SINGLE_Users' => 'User',
 	'dd-mm-yyyy' => 'dd-mm-yyyy',
 	'mm-dd-yyyy' => 'mm-dd-yyyy',
 	'yyyy-mm-dd' => 'yyyy-mm-dd',
