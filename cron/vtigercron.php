@@ -20,7 +20,7 @@ require_once('modules/Emails/mail.php');
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
 
-if (PHP_SAPI === "cli" || (isset($_SESSION["authenticated_user_id"]) && isset($_SESSION["app_unique_key"]) && $_SESSION["app_unique_key"] == $application_unique_key)) {
+if (PHP_SAPI === "cli" || PHP_SAPI === "cgi-fcgi" || (isset($_SESSION["authenticated_user_id"]) && isset($_SESSION["app_unique_key"]) && $_SESSION["app_unique_key"] == $application_unique_key)) {
 	$log = LoggerManager::getLogger('CRON');
 	vglobal('log', $log);
 	
