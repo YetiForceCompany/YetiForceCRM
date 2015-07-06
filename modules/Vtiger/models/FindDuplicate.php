@@ -22,7 +22,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model {
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$listViewHeaders = array();
-		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'Record Id'));
+		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'ID'));
 		$headers = $db->getFieldsArray($this->result);
 		foreach($headers as $header) {
 			$fieldModel = $moduleModel->getFieldByColumn($header);
