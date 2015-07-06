@@ -20,14 +20,12 @@ display: none;
             <div class="col-md-8">
                 <h3>{vtranslate('LBL_FIELDS_AND_LAYOUT_EDITOR', $QUALIFIED_MODULE)}</h3>
             </div>
-            <div class="col-md-4">
-                <div class="pull-right">
-                    <select class="select2 col-md-3 form-control" name="layoutEditorModules">
-                        {foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-                            <option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
-                        {/foreach}
-                    </select>
-                </div>
+            <div class="pull-right col-md-3 h3">
+				<select class="select2 col-md-3 form-control" name="layoutEditorModules">
+					{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+						<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($MODULE_NAME, $MODULE_NAME)}</option>
+					{/foreach}
+				</select>
             </div>
         </div>
         <hr>
@@ -497,7 +495,7 @@ display: none;
 <input type="hidden" class="inActiveFieldsArray" value='{ZEND_JSON::encode($IN_ACTIVE_FIELDS)}' />
 
 <div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px;">
-    <div class="row layoutBlockHeader">
+    <div class="row layoutBlockHeader no-margin">
         <div class="col-md-6 blockLabel padding10">
             <img class="alignMiddle" src="{vimage_path('drag.png')}" alt="" />&nbsp;&nbsp;
         </div>

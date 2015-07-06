@@ -17,51 +17,51 @@
 					<h3 class="col-md-6 settingsHeader">
 						{$RECORD_MODEL->get('groupname')}
 					</h3>
-					<span class="col-md-6">
-						<span class="pull-right">
+					<div class="col-md-6">
+						<div class="pull-right">
 							<button class="btn btn-default" onclick="window.location.href='{$RECORD_MODEL->getEditViewUrl()}'" type="button">
 								<strong>{vtranslate('LBL_EDIT_RECORD', $MODULE)}</strong>
 							</button>
-						</span>
-					</span>
+						</div>
+					</div>
 				</div><hr>
 				<div class="form-group">
-					<span class="control-label">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} <span class="redColor">*</span>
-					</span>
+					</div>
 					<div class="controls pushDown">
 						<b>{$RECORD_MODEL->getName()}</b>
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
-					</span>
+					</div>
 					<div class="controls pushDown">
 						<b>{$RECORD_MODEL->getDescription()}</b>
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_MODULES', $QUALIFIED_MODULE)}
-					</span>
+					</div>
 					<div class="controls pushDown">
 						<div class="row">
-						<span class="col-md-12">
+						<div class="col-md-9 paddingLRZero">
 							{foreach key=TABID item=MODULE from=$RECORD_MODEL->getModules()}
 								<b>{vtranslate($MODULE,$MODULE)}, </b>
 							{/foreach}
-						</span>
+						</div>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<span class="control-label">
+					<div class="col-md-2 control-label">
 						{vtranslate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)}
-					</span>
-					<div class="controls pushDown">
+					</div>
+					<div class="col-md-5 controls pushDown">
 						<div class="row">
-						<span class="col-md-3 collectiveGroupMembers">
+						<div class="collectiveGroupMembers">
 							<ul class="nav list-group">
 							{assign var="GROUPS" value=$RECORD_MODEL->getMembers()}
 							{foreach key=GROUP_LABEL item=GROUP_MEMBERS from=$GROUPS}
@@ -70,14 +70,14 @@
 											{vtranslate($GROUP_LABEL,$QUALIFIED_MODULE)}
 									</li>
 									{foreach item=GROUP_MEMBER_INFO from=$GROUP_MEMBERS}
-										<li class="row">
+										<li class="">
 											<a href="{$GROUP_MEMBER_INFO->getDetailViewUrl()}">{$GROUP_MEMBER_INFO->get('name')}</a>
 										</li>
 									{/foreach}
 								{/if}
 							{/foreach}
 							</ul>
-						</span>
+						</div>
 						</div>
 					</div>
 				</div>

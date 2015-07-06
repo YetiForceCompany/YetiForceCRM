@@ -21,7 +21,7 @@ Class PaymentsIn_step1_View extends Vtiger_Index_View {
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
-		$this->saveFile($_FILES);
+		$this->saveFile();
 		$recordParse = $record->getSummary($type, $bank, $_FILES["file"]["name"]);
 
 		// only incomming records (C)
@@ -48,7 +48,7 @@ Class PaymentsIn_step1_View extends Vtiger_Index_View {
 	}
 	
 	
-	public function saveFile($_FILES)	{
+	public function saveFile()	{
 		$address = vglobal('cache_dir');
 		$localisation = $address . $_FILES['file']['name'];
 		if(is_uploaded_file($_FILES['file']['tmp_name']))	  {
