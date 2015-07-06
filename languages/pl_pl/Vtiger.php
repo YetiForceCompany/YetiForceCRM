@@ -973,6 +973,7 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Na podstawie pól referencji',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Na podstawie modułów powiązanych',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Operacja zmiany właściciela w zależności od ilości danych może zająć kilka lub kilkanaście minut.',
+	'LBL_LEGAL_FORM' => 'Forma prawna',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
