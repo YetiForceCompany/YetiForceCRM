@@ -1262,11 +1262,6 @@ function get_contactsforol($user_name)
 		} elseif($return_module == 'Potentials') {
 			$sql = 'DELETE FROM vtiger_contpotentialrel WHERE contactid=? AND potentialid=?';
 			$this->db->pquery($sql, array($id, $return_id));
-
-			//If contact related to potential through edit of record,that entry will be present in
-			//vtiger_potential contact_id column,which should be set to zero
-			$sql = 'UPDATE vtiger_potential SET contact_id = ? WHERE contact_id=? AND potentialid=?';
-			$this->db->pquery($sql, array(0,$id, $return_id));
 		} elseif($return_module == 'Campaigns') {
 			$sql = 'DELETE FROM vtiger_campaigncontrel WHERE contactid=? AND campaignid=?';
 			$this->db->pquery($sql, array($id, $return_id));
