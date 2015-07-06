@@ -261,8 +261,18 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		end = end.format();
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		if (view.name == "month") {
-			start = start + 'T' + $('#start_hour').val() + ':00';
-			end = end + 'T' + $('#end_hour').val() + ':00';
+			var start_hour = $('#start_hour').val();
+			var end_hour = $('#end_hour').val();
+
+			if (start_hour == '') {
+				start_hour = '00';
+			}
+			if (end_hour == '') {
+				end_hour = '00';
+			}
+
+			start = start + 'T' + start_hour + ':00';
+			end = end + 'T' + end_hour + ':00';
 		}
 		this.getCalendarCreateView().then(function (data) {
 			if (data.length <= 0) {
@@ -276,6 +286,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
 			}
+			
 			var startDateInstance = Date.parse(start);
 			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
 			var startTimeString = startDateInstance.toString(defaultTimeFormat);

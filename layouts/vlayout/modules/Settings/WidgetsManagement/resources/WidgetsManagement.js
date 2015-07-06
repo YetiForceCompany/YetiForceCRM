@@ -231,7 +231,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 										app.hideModalWindow();
 										paramsForm['id'] = result['id']
 										paramsForm['status'] = result['status']
-										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+										params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 										Settings_Vtiger_Index_Js.showMessage(params);
 										thisInstance.showCustomField(paramsForm);
 									} else {
@@ -511,7 +511,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 								app.hideModalWindow();
 								noteBookParams['id'] = widgetId;
 								noteBookParams['label'] = notePadName;
-								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+								params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 								Settings_Vtiger_Index_Js.showMessage(params);
 								thisInstance.showCustomField(noteBookParams);
 							}
@@ -635,7 +635,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 						app.hideModalWindow();
 						paramsForm['id'] = result['id'];
 						paramsForm['status'] = result['status'];
-						params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
 						Settings_Vtiger_Index_Js.showMessage(params);
 						thisInstance.showCustomField(paramsForm);
 					} else {

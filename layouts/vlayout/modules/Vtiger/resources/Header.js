@@ -8,6 +8,14 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
+//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
+if(/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent) || /MSIE 9.0/.test(navigator.userAgent)) {
+	if(app.getCookie('oldbrowser') != 'true') {
+		app.setCookie("oldbrowser",true, 365);
+		window.location.href = 'layouts/vlayout/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
+	}
+}
+
 jQuery.Class("Vtiger_Header_Js", {
     quickCreateModuleCache: {},
     self: false,
@@ -621,14 +629,6 @@ jQuery.Class("Vtiger_Header_Js", {
     registerEvents: function() {
         var thisInstance = this;
 		thisInstance.recentPageViews();
-		
-		//Show Alert if user is on a unsupported browser (IE7, IE8, ..etc)
-		if(/MSIE 6.0/.test(navigator.userAgent) || /MSIE 7.0/.test(navigator.userAgent) || /MSIE 8.0/.test(navigator.userAgent)) {
-			if(app.getCookie('oldbrowser') != 'true') {
-				app.setCookie("oldbrowser",true, 365);
-				window.location.href = 'layouts/vlayout/modules/Vtiger/browsercompatibility/Browser_compatibility.html';
-			}
-		}
 
         jQuery('#globalSearch').click(function() {
             var advanceSearchInstance = new Vtiger_AdvanceSearch_Js();

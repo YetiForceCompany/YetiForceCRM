@@ -37,6 +37,7 @@ $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',
 	'JS_CUSTOM_FIELD_DELETED' => 'Pomyślnie usunięto widget',
 	'JS_CUSTOM_BLOCK_DELETED' => 'Pomyślnie usunięto blok',
+	'JS_WIDGET_ADDED' => 'Pomyślnie dodano widget',
 	'JS_FIELD_EMPTY' => 'Pole nie może być puste',
 	'JS_FILTERS_AVAILABLE' => 'Filtry dostępne',
 ];
