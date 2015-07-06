@@ -669,7 +669,7 @@ display: none;
 <div class="modal createFieldModal fade" tabindex="-1">
 	<div class="modal-dialog">
         <div class="modal-content">
-			<div class="modal-header contentsBackground">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 class="modal-title">{vtranslate('LBL_CREATE_CUSTOM_FIELD', $QUALIFIED_MODULE)}</h3>
 			</div>
@@ -734,11 +734,11 @@ display: none;
 						</div>
 					</div>
 					<div class="form-group supportedType decimalsupported hide">
-						<div class="control-label">
+						<div class="col-md-3 control-label">
 							<span class="redColor">*</span>&nbsp;
 							{vtranslate('LBL_DECIMALS', $QUALIFIED_MODULE)}
 						</div>
-						<div class="controls">
+						<div class="col-md-8 controls">
 							<input type="text" name="decimal" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"/>
 						</div>
 					</div>
