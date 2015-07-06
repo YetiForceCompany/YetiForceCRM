@@ -1130,7 +1130,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 	registerBlockAnimationEvent : function(){
 		var detailContentsHolder = this.getForm();
 		detailContentsHolder.on('click','.blockHeader',function(e){
-			if(jQuery(e.toElement).is('input') || jQuery(e.toElement).is('button') || jQuery(e.toElement).parents().is('button')){
+			if(jQuery(e.target).is('input') || jQuery(e.target).is('button') || jQuery(e.target).parents().is('button')){
 				return false;
 			}
 			var currentTarget =  jQuery(e.currentTarget).find('.blockToggle').not('.hide');
