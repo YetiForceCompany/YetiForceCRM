@@ -320,8 +320,7 @@ class PurchaseOrder extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array (
-			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_purchaseorder"=>"purchaseorderid"),
-			"Contacts" => array("vtiger_purchaseorder"=>array("purchaseorderid","contactid")),
+			"Documents" => array("vtiger_senotesrel"=>array("crmid","notesid"),"vtiger_purchaseorder"=>"purchaseorderid")
 		);
 		return $rel_tables[$secmodule];
 	}
@@ -334,9 +333,6 @@ class PurchaseOrder extends CRMEntity {
 		if($return_module == 'Vendors') {
 			$sql_req ='UPDATE vtiger_crmentity SET deleted = 1 WHERE crmid= ?';
 			$this->db->pquery($sql_req, array($id));
-		} elseif($return_module == 'Contacts') {
-			$sql_req ='UPDATE vtiger_purchaseorder SET contactid=? WHERE purchaseorderid = ?';
-			$this->db->pquery($sql_req, array(null, $id));
 		} else {
 			$sql = 'DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND relmodule=? AND relcrmid=?) OR (relcrmid=? AND module=? AND crmid=?)';
 			$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
