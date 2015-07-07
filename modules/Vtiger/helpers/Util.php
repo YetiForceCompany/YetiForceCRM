@@ -617,9 +617,7 @@ class Vtiger_Util_Helper {
 	}
 
     public static function getAllSkins(){
-        return array('alphagrey' => '#666666',	'softed'	=> '#1560BD',	'bluelagoon'=> '#204E81',
-					 'nature'	=> '#008D4C',	'woodspice' => '#C19803',	'orchid'	=> '#C65479',
-					 'firebrick'=> '#E51400',	'twilight'	=> '#404952',	'almond'	=> '#894400');
+        return array('twilight'	=> '#404952');
     }
 
     public static function isUserDeleted($userid) {
