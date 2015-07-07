@@ -58,7 +58,7 @@ $languageStrings = [
 	'Service Contracts'=>'Contratos',
 	'Projects'=>'Projetos',
 	'Purchase Order'=>'Pedido Compras',
-	'Decision maker' => '__UNTRANSLATED__',
+	'Decision maker' => 'Decision maker',
 
 	//Activity Types
 	'End of support for contact' => 'Fim Suporte',

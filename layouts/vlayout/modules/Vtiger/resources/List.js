@@ -1900,11 +1900,9 @@ jQuery.Class("Vtiger_List_Js",{
 		var listViewContainer = this.getListViewContentContainer();
 		var select = listViewContainer.find('.listViewEntriesTable .select2noactive');
 		var params = {
-			placeholder: app.vtranslate('JS_SELECT_AN_OPTION'),
-			closeAfterSelect: true,
-			plugins: ['remove_button']
+			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
-		app.showSelectizeElementView(select,params);
+		app.showSelect2ElementView(select,params);
 		select.on("change", function(e) { 
 			Vtiger_List_Js.triggerListSearch();
 		})

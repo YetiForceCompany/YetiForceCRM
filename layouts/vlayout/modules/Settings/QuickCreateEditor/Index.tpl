@@ -28,23 +28,21 @@ padding: 0 20px 20px 20px;
                 <h3>{vtranslate('LBL_QUICK_CREATE_EDITOR', $QUALIFIED_MODULE)}</h3>
 				{vtranslate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
             </div>
-            <div class="col-md-4">
-                <div class="pull-right">
-                    <select class="select2 col-md-3 form-control" name="quickCreateEditorModules">
-                        {foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
-							{if $moduleModel->isPermitted('EditView')}
-								{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
-								{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
-								{if $singularLabel == 'SINGLE_Calendar'}
-									{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-								{/if}
-								{if $quickCreateModule == '1'}
-									<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($singularLabel, $mouleName)}</option>
-								{/if}
+            <div class="pull-right col-md-3 h3">
+				<select class="select2 form-control" name="quickCreateEditorModules">
+					{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
+						{if $moduleModel->isPermitted('EditView')}
+							{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
+							{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
+							{if $singularLabel == 'SINGLE_Calendar'}
+								{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
 							{/if}
-                        {/foreach}
-                    </select>
-                </div>
+							{if $quickCreateModule == '1'}
+								<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{vtranslate($singularLabel, $mouleName)}</option>
+							{/if}
+						{/if}
+					{/foreach}
+				</select>
             </div>
         </div>
         <hr>

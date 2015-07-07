@@ -28,13 +28,13 @@
 			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(ZEND_JSON::encode($DATE_FILTERS))}' />
 			<div class="filterBlocksAlignment">
 				<br>
-				<div class="row">
+				<div>
 					<h4 class="filterHeaders">{vtranslate('LBL_BASIC_DETAILS',$MODULE)} :</h4>
 				</div>
 				<br>
 				<div class="row form-group">
 					<label class="col-md-2 control-label"><span class="redColor">*</span> {vtranslate('LBL_VIEW_NAME',$MODULE)}</label>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<input type="text" id="viewname" class="form-control input-sm" data-validation-engine='validate[required]' name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
 					</div>
 

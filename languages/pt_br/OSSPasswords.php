@@ -115,16 +115,6 @@ $languageStrings = [
     'LBL_NotifPassCopied' => 'A senha foi copiada para a área de transferência',
     'LBL_NotifPassTitle' => 'Senha',
 
-	// help
-	'LBL_Helpforthemodule' => 'Ajuda para o módulo: ',
-	'LBL_UrlLink2' => 'http://opensaas.pl/shop.html',
-	'LBL_UrlHelp' => 'serwis@opensaas.pl',
-	'LBL_UrlHelp2' => 'bok@opensaas.pl',
-	'LBL_UrlLicense' => 'http://opensaas.pl/rules.html',
-	'LBL_License' => 'Informação da Licença: ',
-	'LBL_Company' => 'Informação da Empresa: ',
-	'LBL_UrlCompany' => 'http://opensaas.pl/about-us.html ',
-	'Information' => 'Informação dos Módulos:' ,
 ];
 
 $jsLanguageStrings = [

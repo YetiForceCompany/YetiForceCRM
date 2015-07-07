@@ -1832,25 +1832,12 @@ function getValidDBInsertDateTimeValue($value) {
 	}
 }
 
-/** Function to set the PHP memory limit to the specified value, if the memory limit set in the php.ini is less than the specified value
- * @param $newvalue -- Required Memory Limit
- */
-function _phpset_memorylimit_MB($newvalue) {
-    $current = @ini_get('memory_limit');
-    if(preg_match("/(.*)M/", $current, $matches)) {
-        // Check if current value is less then new value
-        if($matches[1] < $newvalue) {
-            @ini_set('memory_limit', "{$newvalue}M");
-	}
-	}
-	}
-
 /** Function to sanitize the upload file name when the file name is detected to have bad extensions
  * @param String -- $fileName - File name to be sanitized
  * @return String - Sanitized file name
  */
 function sanitizeUploadFileName($fileName, $badFileExtensions) {
-
+	$fileName = preg_replace('/[^a-zA-Z0-9_%\[().\]\\/-]/s', '_', $fileName);
 	$fileName = preg_replace('/\s+/', '_', $fileName);//replace space with _ in filename
 	$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 

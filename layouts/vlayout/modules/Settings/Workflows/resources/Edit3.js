@@ -79,6 +79,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js",{},{
 					thisInstance.registerFillTaskFieldsEvent();
 					thisInstance.registerCheckSelectDateEvent();
 				}
+				progressIndicatorElement.progressIndicator({'mode' : 'hide'})
 				app.showModalWindow(data,function(){
 					if(typeof callBackFunction == 'function') {
 						callBackFunction(data)

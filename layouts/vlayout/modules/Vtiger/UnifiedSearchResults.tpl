@@ -34,7 +34,7 @@
 				</div>
 				<div class="contents modal-body">
 					{if $totalCount eq 100}
-						<div class='alert alert-block'>
+						<div class='alert alert-info fade in'>
 							<button type=button class="close" data-dismiss="alert">&times;</button>
 							{if $SEARCH_MODULE}
 								{vtranslate('LBL_GLOBAL_SEARCH_MAX_MESSAGE_FOR_MODULE', 'Vtiger')}

@@ -32,4 +32,5 @@ $languageStrings = [
 	'Total Duration' => 'Длительность (сек)',
 	'User' => 'Пользователь',
 	'Record Id' => 'Record Id',
+	'Customer Type' => 'Customer Type',
 ];

@@ -881,11 +881,9 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
 		var select = popupPageContentsContainer.find('.listViewEntriesTable .select2noactive');
 		var params = {
-			placeholder: app.vtranslate('JS_SELECT_AN_OPTION'),
-			closeAfterSelect: true,
-			plugins: ['remove_button']
+			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
-		app.showSelectizeElementView(select,params);
+		app.showSelect2ElementView(select,params);
 		select.on("change", function(e) { 
 			thisInstance.triggerListSearch();
 		})

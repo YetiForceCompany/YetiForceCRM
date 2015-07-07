@@ -1,16 +1,8 @@
 <?php
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View {
 
-	private $prefixesForModules = array('Contacts', 'Leads', 'Potentials', 'Project', 'HelpDesk', 'Accounts', 'Campaigns');
+	private $prefixesForModules = ['Contacts', 'Leads', 'Potentials', 'Project', 'HelpDesk', 'Accounts', 'Campaigns'];
 
 	public function process(Vtiger_Request $request) {
 		$moduleName = $request->getModule();
@@ -21,26 +13,25 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View {
 			$mailboxes = $mailRecordModel->get_default_mailboxes();
 		}
 
-		$OSSMailScanner_Record_Model = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-
-		$identityList = array();
-
-		foreach ($accountsList as $key => $account) {
-			$identityList[$account['user_id']] = $OSSMailScanner_Record_Model->getIdentities($account['user_id']);
-			$mbox = $mailRecordModel->imap_connect($account['username'] , $account['password'], 'INBOX', false);
-			$accountsList[$key]['status'] = $mbox?'LBL_ACTIVE_MAIL':'LBL_INACTIVE_MAIL';
+		$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$identityList = [];
+		if ($accountsList) {
+			foreach ($accountsList as $key => $account) {
+				$identityList[$account['user_id']] = $mailScannerRecordModel->getIdentities($account['user_id']);
+				$mbox = $mailRecordModel->imap_connect($account['username'], $account['password'], 'INBOX', false);
+				$accountsList[$key]['status'] = $mbox ? 'LBL_ACTIVE_MAIL' : 'LBL_INACTIVE_MAIL';
+			}
 		}
 
-		$EmailActionsList = $OSSMailScanner_Record_Model->getEmailActionsList();
-		$EmailActionsListName = $OSSMailScanner_Record_Model->getEmailActionsListName($EmailActionsList);
-		$ConfigFolderList = $OSSMailScanner_Record_Model->getConfigFolderList();
-		$EmailSearch = $OSSMailScanner_Record_Model->getEmailSearch();
-		$EmailSearchList = $OSSMailScanner_Record_Model->getEmailSearchList();
-		$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
+		$EmailActionsList = $mailScannerRecordModel->getEmailActionsList();
+		$EmailActionsListName = $mailScannerRecordModel->getEmailActionsListName($EmailActionsList);
+		$ConfigFolderList = $mailScannerRecordModel->getConfigFolderList();
+		$EmailSearch = $mailScannerRecordModel->getEmailSearch();
+		$EmailSearchList = $mailScannerRecordModel->getEmailSearchList();
+		$WidgetCfg = $mailScannerRecordModel->getConfig(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 
 		foreach ($supportedModules as $supportedModule) {
-
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
 				$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($supportedModule->name);
 				$moduleData = $moduleModel->getModuleCustomNumberingData();
@@ -48,9 +39,9 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View {
 			}
 		}
 
-		$check_cron = $OSSMailScanner_Record_Model->get_cron();
+		$check_cron = $mailScannerRecordModel->get_cron();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_MODEL', $OSSMailScanner_Record_Model);
+		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
 		$viewer->assign('ACCOUNTLIST', $accountsList);
 		$viewer->assign('EMAILACTIONSLIST', $EmailActionsList);
 		$viewer->assign('EMAILACTIONSLISTNAME', $EmailActionsListName);
@@ -66,5 +57,4 @@ class Settings_OSSMailScanner_index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('CHECKCRON', $check_cron);
 		echo $viewer->view('index.tpl', $moduleName, true);
 	}
-
 }

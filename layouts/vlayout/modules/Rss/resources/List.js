@@ -346,7 +346,7 @@ Vtiger_List_Js("Rss_List_Js",{},
                 if(data.success) {
                     var params = {
                         title : app.vtranslate('JS_MESSAGE'),
-                        text: app.vtranslate(result.result.message),
+                        text: app.vtranslate(data.result.message),
                         animation: 'show',
                         type: 'info'
                     };

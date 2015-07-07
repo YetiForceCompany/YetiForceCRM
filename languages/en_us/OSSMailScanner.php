@@ -165,6 +165,6 @@ $languageStrings = [
 	'No' => 'No',
 	'LBL_MAIL_LOGS' => 'Mail Logs',
 	'Group list' => 'Group list',
-	'LBL_ACTIVE_MAIL' => '__UNTRANSLATED__',
-	'LBL_INACTIVE_MAIL' => '__UNTRANSLATED__',
+	'LBL_ACTIVE_MAIL' => 'Active',
+	'LBL_INACTIVE_MAIL' => 'Inactive',
 ];

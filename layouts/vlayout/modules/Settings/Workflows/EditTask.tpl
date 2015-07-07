@@ -11,12 +11,12 @@
 -->*}
 {strip}
 
-	<div class='modelContainer' id="addTaskContainer" tabindex="-1">
-		<div class="modal fade">
-			<div class="modal-dialog">
+	<div class='modelContainer modal fade' id="addTaskContainer" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3>{vtranslate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {vtranslate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{vtranslate('LBL_ADD_TASKS_FOR_WORKFLOW', $QUALIFIED_MODULE)}: {vtranslate($TASK_TYPE_MODEL->get('label'), $QUALIFIED_MODULE)}</h3>
 				</div>
 				<form class="form-horizontal" id="saveTask" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -31,7 +31,7 @@
 							<div class="row padding-bottom1per">
 								<span class="col-md-8 row">
 									<div class="col-md-3">{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
-									<div class="col-md-9 row"><input name="summary" class="col-md-12" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
+									<div class="col-md-9 row"><input name="summary" class="col-md-12 form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
 								</span>
 								<span class="span">&nbsp;</span>
 								<span class="col-md-3 row">
@@ -57,7 +57,7 @@
 								<div class="col-md-2"><input type="checkbox" class="alignTop" name="check_select_date" {if $trigger neq null}checked{/if}/>&nbsp;{vtranslate('LBL_EXECUTE_TASK',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-10 row {if $trigger neq null}show {else} hide {/if}" id="checkSelectDateContainer">
 									<span class="col-md-2 row">
-										<input class="col-md-6" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >&nbsp;
+										<input class="col-md-6 form-control" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >&nbsp;
 										<span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 									</span>
 									<span class="col-md-2 marginLeftZero">

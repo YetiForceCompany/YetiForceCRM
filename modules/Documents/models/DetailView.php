@@ -27,7 +27,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model {
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => 'LBL_DOWNLOAD_FILE',
 					'linkurl' => $recordModel->getDownloadFileURL(),
-					'linkicon' => 'icon-download-alt',
+					'linkicon' => 'glyphicon glyphicon-download-alt',
 					'title' => vtranslate('LBL_DOWNLOAD_FILE', 'Documents')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

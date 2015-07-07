@@ -2318,8 +2318,10 @@ th.htColHeader,
   font-size: 15px;
   line-height: 20px;
 }
+.fc-widget-header th{
+  padding: 4px 0px !important;
+}
 .fc-widget-header {
-  padding: 7px 0px 0 8px !important;
   color: #666;
   background: #eee;
   border-color: #ccc;
@@ -3252,4 +3254,21 @@ display: inherit;
 .list-user-img{
 	width: 50px;
 	height: 40px;
+}
+span[name=existingImages] img{
+	height: 200px;
+	width: 300px;
+}
+.narrow.fieldValue .chosen-container-single .chosen-single{
+height: 26px;
+line-height: 26px;
+}
+.narrow.fieldValue input{
+height: 26px;
+}
+.narrow.fieldValue .input-group-addon{
+padding: 4px 10px;
+}
+.narrow.fieldValue .chosen-container-single .chosen-single div b{
+background-position-y: 4px;
 }

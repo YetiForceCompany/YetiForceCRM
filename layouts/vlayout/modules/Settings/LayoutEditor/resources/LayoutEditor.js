@@ -142,7 +142,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var container = currentTarget.closest('#relatedTabOrder');
 			var contentsDiv = container.closest('.contentsDiv');
 			var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-			addRelationContainer.removeClass('hide').show();
 
 			var callBackFunction = function(data) {
 				app.showSelect2ElementView(data.find('select'));

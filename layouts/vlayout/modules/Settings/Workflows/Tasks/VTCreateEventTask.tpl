@@ -68,8 +68,8 @@
 				{assign var=START_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
 			<span class="col-md-2">{vtranslate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
-			<div class="input-group time col-md-6">
-				<input  type="text" class="timepicker-default input-sm" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
+			<div class="input-group time col-md-6 input-group-sm">
+				<input  type="text" class="timepicker-default form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
 				<span class="input-group-addon cursorPointer">
 					<i class="glyphicon glyphicon-time"></i>
 				</span>
@@ -78,18 +78,18 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_START_DATE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-2 row">
-				<input class="col-md-6" type="text" value="{$TASK_OBJECT->startDays}" name="startDays"
+				<input class="col-md-6 form-control" type="text" value="{$TASK_OBJECT->startDays}" name="startDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">&nbsp;
 				<span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			</span>
 			<span class="span marginLeftZero">
-				<select class="chzn-select" name="startDirection" style="width: 100px">
+				<select class="chzn-select form-control" name="startDirection">
 					<option  {if $TASK_OBJECT->startDirection eq 'after'}selected{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->startDirection eq 'before'}selected{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
 			<span class="col-md-6">
-				<select class="chzn-select" name="startDatefield">
+				<select class="chzn-select form-control" name="startDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if $TASK_OBJECT->startDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
 					{/foreach}
@@ -105,8 +105,8 @@
 				{assign var=END_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
 			<span class="col-md-2">{vtranslate('LBL_END_TIME',$QUALIFIED_MODULE)}</span>
-			<div class="input-group time col-md-6">
-				<input  type="text" class="timepicker-default input-sm" value="{$END_TIME}" name="endTime" />
+			<div class="input-group time col-md-6 input-group-sm">
+				<input  type="text" class="timepicker-default  form-control" value="{$END_TIME}" name="endTime" />
 				<span class="input-group-addon cursorPointer">
 					<i class="glyphicon glyphicon-time"></i>
 				</span>
@@ -115,18 +115,18 @@
 		<div class="row padding-bottom1per">
 			<span class="col-md-2">{vtranslate('LBL_END_DATE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-2 row">
-				<input class="col-md-6" type="text" value="{$TASK_OBJECT->endDays}" name="endDays"
+				<input class="col-md-6 form-control" type="text" value="{$TASK_OBJECT->endDays}" name="endDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">&nbsp;
 				<span class="alignMiddle">{vtranslate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			</span>
 			<span class="span marginLeftZero">
-				<select class="chzn-select" name="endDirection" style="width: 100px">
+				<select class="chzn-select form-control" name="endDirection">
 					<option  {if $TASK_OBJECT->endDirection eq 'after'}selected{/if} value="after">{vtranslate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 					<option {if $TASK_OBJECT->endDirection eq 'before'}selected{/if} value="before">{vtranslate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 				</select>
 			</span>
 			<span class="col-md-6">
-				<select class="chzn-select" name="endDatefield">
+				<select class="chzn-select form-control" name="endDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if $TASK_OBJECT->endDatefield eq $DATETIME_FIELD->get('name')}selected{/if}  value="{$DATETIME_FIELD->get('name')}">{vtranslate($DATETIME_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
 					{/foreach}
@@ -150,14 +150,14 @@
 								<span class="alignMiddle">{vtranslate('LBL_REPEATEVENT', $QUALIFIED_MODULE )}</span>
 							</div>
 							<div class="span">
-								<select class="select2 input-mini" name="repeat_frequency">
+								<select class="select2 form-control" name="repeat_frequency">
 									{for $FREQUENCY = 1 to 14}
 									<option value="{$FREQUENCY}" {if $FREQUENCY eq $TASK_OBJECT->repeat_frequency}selected{/if}>{$FREQUENCY}</option>
 									{/for}
 								</select>
 							</div>
 							<div class="span">
-								<select class="select2 input-medium" name="recurringtype" id="recurringType">
+								<select class="select2 form-control" name="recurringtype" id="recurringType">
 									<option value="Daily" {if $TASK_OBJECT->recurringtype eq 'Daily'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $QUALIFIED_MODULE)}</option>
 									<option value="Weekly" {if $TASK_OBJECT->recurringtype eq 'Weekly'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $QUALIFIED_MODULE)}</option>
 									<option value="Monthly" {if $TASK_OBJECT->recurringtype eq 'Monthly'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $QUALIFIED_MODULE)}</option>
@@ -168,8 +168,8 @@
 								<span class="alignMiddle">{vtranslate('LBL_UNTIL', $QUALIFIED_MODULE)}</span>
 							</div>
 							<div class="span">
-								<div class="input-group date">
-									<input type="text" id="calendar_repeat_limit_date" class="dateField input-sm" name="calendar_repeat_limit_date" data-date-format="{$dateFormat}"
+								<div class="input-group date input-group-sm">
+									<input type="text" id="calendar_repeat_limit_date" class="dateField form-control" name="calendar_repeat_limit_date" data-date-format="{$dateFormat}"
 										   value="{$REPEAT_DATE}" data-validation-engine='validate[funcCall[Vtiger_Date_Validator_Js.invokeValidation]]'/>
 									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 								</div>
@@ -188,7 +188,7 @@
 							<div class="row">
 								<div class="span"><input type="radio" id="repeatDate" name="repeatMonth" checked value="date" {if $TASK_OBJECT->repeatMonth eq 'date'} checked {/if}/></div>
 								<div class="span"><span class="alignMiddle">{vtranslate('LBL_ON', $QUALIFIED_MODULE)}</span></div>
-								<div class="span"><input type="text" id="repeatMonthDate" class="input-mini" name="repeatMonth_date" data-validation-engine='validate[funcCall[Calendar_RepeatMonthDate_Validator_Js.invokeValidation]]' value="{$TASK_OBJECT->repeatMonth_date}"/></div>
+								<div class="span"><input type="text" id="repeatMonthDate" class="form-control" name="repeatMonth_date" data-validation-engine='validate[funcCall[Calendar_RepeatMonthDate_Validator_Js.invokeValidation]]' value="{$TASK_OBJECT->repeatMonth_date}"/></div>
 								<div class="span alignMiddle">{vtranslate('LBL_DAY_OF_THE_MONTH', $QUALIFIED_MODULE)}</div>
 							</div>
 							<div class="clearfix"></div>
@@ -196,13 +196,13 @@
 								<div class="span"><input type="radio" id="repeatDay" name="repeatMonth" value="day" {if $TASK_OBJECT->repeatMonth eq 'day'} checked {/if}/></div>
 								<div class="span"><span class="alignMiddle">{vtranslate('LBL_ON', $QUALIFIED_MODULE)}</span></div>
 								<div class="span">
-									<select id="repeatMonthDayType" class="select2 input-sm" name="repeatMonth_daytype">
+									<select id="repeatMonthDayType" class="select2 form-control" name="repeatMonth_daytype">
 										<option value="first" {if $TASK_OBJECT->repeatMonth_daytype eq 'first'} selected {/if}>{vtranslate('LBL_FIRST', $QUALIFIED_MODULE)}</option>
 										<option value="last" {if $TASK_OBJECT->repeatMonth_daytype eq 'last'} selected {/if}>{vtranslate('LBL_LAST', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 								<div class="span">
-									<select id="repeatMonthDay" class="select2 input-medium" name="repeatMonth_day">
+									<select id="repeatMonthDay" class="select2 form-control" name="repeatMonth_day">
 										<option value=1 {if $TASK_OBJECT->repeatMonth_day eq 1} selected {/if}>{vtranslate('LBL_DAY1', $QUALIFIED_MODULE)}</option>
 										<option value=2 {if $TASK_OBJECT->repeatMonth_day eq 2} selected {/if}>{vtranslate('LBL_DAY2', $QUALIFIED_MODULE)}</option>
 										<option value=3 {if $TASK_OBJECT->repeatMonth_day eq 3} selected {/if}>{vtranslate('LBL_DAY3', $QUALIFIED_MODULE)}</option>
