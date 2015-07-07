@@ -901,7 +901,8 @@ class CustomView_Record_Model extends Vtiger_Base_Model {
 						)";
 			$params[] = $currentUser->getId();
 		}
-
+		$sql .= ' ORDER BY setdefault ASC';
+		
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
