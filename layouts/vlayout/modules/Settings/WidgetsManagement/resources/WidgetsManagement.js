@@ -580,6 +580,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					filterid: filteridSelect2.val()
 				}).then(function(res){
 					fieldsSelectDOM.empty().html(res).trigger('change');
+					fieldsSelect2.data('select2').$selection.find('.select2-search__field').css('width','100%');
 					fieldsSelect2.closest('tr').show();
 				});
 			});
