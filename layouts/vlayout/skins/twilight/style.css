@@ -3270,3 +3270,10 @@ background-position-y: 4px;
 .image-in-button{
 	width: 18px;
 }
+.fc-time-grid .fc-time-grid-event.fc-event{
+min-height: 27px;
+min-width: 100px;
+}
+.fc-time-grid-event.fc-short .fc-title{
+font-size: 1em;
+}
