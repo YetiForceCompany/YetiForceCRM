@@ -54,6 +54,10 @@ class QueryGenerator {
 	public static $AND = 'AND';
 	public static $OR = 'OR';
 	private $customViewFields;
+	
+	private $columnsCustom;
+	private $fromClauseCustom;
+	private $whereClauseCustom;
 	/**
 	 * Import Feature
 	 */
@@ -63,13 +67,13 @@ class QueryGenerator {
 		$this->module = $module;
 		$this->customViewColumnList = null;
 		$this->stdFilterList = null;
-		$this->conditionals = array();
+		$this->conditionals = [];
 		$this->user = $user;
 		$this->advFilterList = null;
-		$this->fields = array();
-		$this->referenceModuleMetaInfo = array();
-		$this->moduleNameFields = array();
-		$this->whereFields = array();
+		$this->fields = [];
+		$this->referenceModuleMetaInfo = [];
+		$this->moduleNameFields = [];
+		$this->whereFields = [];
 		$this->groupType = self::$AND;
 		$this->meta = $this->getMeta($module);
 		$this->moduleNameFields[$module] = $this->meta->getNameFields();
@@ -82,9 +86,12 @@ class QueryGenerator {
 		$this->query = null;
 		$this->conditionalWhere = null;
 		$this->groupInfo = '';
-		$this->manyToManyRelatedModuleConditions = array();
+		$this->manyToManyRelatedModuleConditions = [];
 		$this->conditionInstanceCount = 0;
-		$this->customViewFields = array();
+		$this->customViewFields = [];
+		$this->columnsCustom = [];
+		$this->fromClauseCustom = [];
+		$this->whereClauseCustom = [];
 	}
 
 	/**
@@ -126,7 +133,19 @@ class QueryGenerator {
 		return $this->whereFields;
 	}
 
-    public function addWhereField($fieldName) {
+    public function addCustomColumn($columns) {
+		$this->columnsCustom[] = $columns;
+	}
+
+	public function addCustomFrom($from) {
+		$this->fromClauseCustom[] = $from;
+	}
+
+	public function addCustomWere($where) {
+		$this->whereClauseCustom[] = $where;
+	}
+
+	public function addWhereField($fieldName) {
         $this->whereFields[] = $fieldName;
     }
 
@@ -346,7 +365,7 @@ class QueryGenerator {
 		return $this->getQuery();
 	}
 
-	public function getQuery() {
+	public function getQuery($statement = 'SELECT') {
 		if(empty($this->query)) {
 			$conditionedReferenceFields = array();
 			$allFields = array_merge($this->whereFields,$this->fields);
@@ -364,7 +383,7 @@ class QueryGenerator {
 				}
 			}
 
-			$query = "SELECT ";
+			$query = $statement.' ';
 			$query .= $this->getSelectClauseColumnSQL();
 			$query .= $this->getFromClause();
 			$query .= $this->getWhereClause();
@@ -414,13 +433,16 @@ class QueryGenerator {
 					//In calendar list view, Status value = Planned is not displaying
 					$sql = "CASE WHEN (vtiger_activity.status not like '') THEN vtiger_activity.status ELSE vtiger_activity.eventstatus END AS ";
 					if ( $field == 'taskstatus') {
-						$sql .= "status";
+						$sql .= 'status';
 					} else {
 						$sql .= $field;
 					}
 				}
 				$columns[] = $sql;
 			}
+		}
+		foreach ($this->columnsCustom as $columnsCustom) {
+			$columns[] = $columnsCustom;
 		}
 		$this->columns = implode(', ',$columns);
 		return $this->columns;
@@ -602,7 +624,6 @@ class QueryGenerator {
 		if($this->referenceModuleField) {
 			$referenceFieldTableList = array();
 			foreach ($this->referenceModuleField as $index=>$conditionInfo) {
-
 				$handler = vtws_getModuleHandlerFromName($conditionInfo['relatedModule'], $current_user);
 				$meta = $handler->getMeta();
 				$tableList = $meta->getEntityTableIndexList();
@@ -621,6 +642,10 @@ class QueryGenerator {
 					$referenceFieldTableList[] = $tableName;
 				}
 			}
+		}
+		foreach ($this->fromClauseCustom as $from) {
+			$sql .= ' '.$where['joinType'].' JOIN '.$where['relatedTable'].' ON '. $where['relatedTable']. $where['relatedIndex']. 
+				'=' . $where['baseTable']. $where['baseIndex'];
 		}
 		//$sql .= $this->meta->getEntityAccessControlQuery();
 		$this->fromClause = $sql;
@@ -875,6 +900,11 @@ class QueryGenerator {
 				$fieldSqlList[$index] = $fieldSql;
 			}
 		}
+		
+		foreach ($this->whereClauseCustom as $where) {
+			$fieldSqlList[] = '('.$where['column'].' '.$where['operator'].' '.$where['value'];
+		}
+		
 		// This is needed as there can be condition in different order and there is an assumption in makeGroupSqlReplacements API
 		// that it expects the array in an order and then replaces the sql with its the corresponding place
 		ksort($fieldSqlList);

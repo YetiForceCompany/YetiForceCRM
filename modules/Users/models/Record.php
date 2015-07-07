@@ -698,4 +698,30 @@ class Users_Record_Model extends Vtiger_Record_Model {
 	public function getDisplayName() {
 		return getFullNameFromArray($this->getModuleName(),$this->getData());
 	}
+	
+	public function getUsersAndGroupForModuleList($module, $view) {
+		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$db = PearDatabase::getInstance();
+
+		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator->initForCustomViewById($view);
+		$queryGenerator->setFields(['assigned_user_id']);
+		$queryGenerator->addCustomColumn('vtiger_users.first_name');
+		$queryGenerator->addCustomColumn('vtiger_users.last_name');
+		$queryGenerator->addCustomColumn('vtiger_groups.groupname');
+
+		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
+		$result = $db->query($listQuery);
+
+		$users = $group = [];
+		while ($row = $db->fetch_array($result)) {
+			if (isset($row['groupname'])) {
+				$group[$row['smownerid']] = $row['groupname'];
+			} else {
+				$users[$row['smownerid']] = $row['last_name'] . ' ' . $row['first_name'];
+			}
+		}
+		return [ 'users' => $users, 'group' => $group];
+	}
+
 }
