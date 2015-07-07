@@ -83,7 +83,7 @@ class CustomView extends CRMEntity {
 	 */
 	function getViewId($module) {
 		$adb = PearDatabase::getInstance(); $current_user = vglobal('current_user');
-		$now_action = vtlib_purify($_REQUEST['action']);
+		$now_action = vtlib_purify($_REQUEST['view']);
 		if (empty($_REQUEST['viewname'])) {
 			if (isset($_SESSION['lvs'][$module]["viewname"]) && $_SESSION['lvs'][$module]["viewname"] != '') {
 				$viewid = $_SESSION['lvs'][$module]["viewname"];
@@ -1941,7 +1941,7 @@ class CustomView extends CRMEntity {
 
 				if ($status == CV_STATUS_DEFAULT) {
 					$log->debug("Entering when status=0");
-					if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
+					if ($action == 'List' || $action == $module . "Ajax" || $action == 'index' || $action == 'Detail') {
 						$permission = "yes";
 					}
 					else
@@ -1955,7 +1955,7 @@ class CustomView extends CRMEntity {
 						$permission = "yes";
 					} elseif ($status == CV_STATUS_PUBLIC) {
 						$log->debug("Entering when status=3");
-						if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
+						if ($action == 'List' || $action == $module . "Ajax" || $action == 'index' || $action == 'Detail') {
 							$permission = "yes";
 						}
 						else
@@ -1966,8 +1966,6 @@ class CustomView extends CRMEntity {
 						if ($userid == $current_user->id)
 							$permission = "yes";
 						else {
-							/* if($action == 'ListView' || $action == $module."Ajax" || $action == 'index')
-							  { */
 							$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
 							$sql = "select vtiger_users.id from vtiger_customview inner join vtiger_users where vtiger_customview.cvid = ? and vtiger_customview.userid in (select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '%" . $current_user_parent_role_seq . "::%')";
 							$result = $adb->pquery($sql, array($record_id));
@@ -1984,12 +1982,6 @@ class CustomView extends CRMEntity {
 							}
 							else
 								$permission = "no";
-							/* }
-							  else
-							  {
-							  $log->debug("Entering when status=1 or 2 & action = Editview or Customview");
-							  $permission = "no";
-							  } */
 						}
 					}
 					else
