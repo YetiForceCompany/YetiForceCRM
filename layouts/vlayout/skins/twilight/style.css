@@ -3267,3 +3267,6 @@ padding: 4px 10px;
 .narrow.fieldValue .chosen-container-single .chosen-single div b{
 background-position-y: 4px;
 }
+.image-in-button{
+	width: 18px;
+}
