@@ -874,7 +874,6 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerRecordAccessCheckEvent(container);
 		this.registerEventForPicklistDependencySetup(container);
 		this.registerRecordPreSaveEventEvent(container);
-		this.registerEventForCopyAddress();
 		this.registerReferenceSelectionEvent(container);
 		this.registerMaskFields(container);
 	},
@@ -1388,6 +1387,7 @@ jQuery.Class("Vtiger_Edit_Js",{
 		this.registerEventForCkEditor();
 		this.stretchCKEditor();
 		this.registerBasicEvents(this.getForm());
+		this.registerEventForCopyAddress();
 		this.registerEventForImageDelete();
 		this.registerSubmitEvent();
 		this.registerLeavePageWithoutSubmit(editViewForm);
