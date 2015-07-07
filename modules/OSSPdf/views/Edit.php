@@ -89,6 +89,7 @@ class OSSPdf_Edit_View extends Vtiger_Edit_View {
 		$mappingRelatedField = $moduleModel->getMappingRelatedField($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD',Zend_Json::encode($mappingRelatedField));
         $isRelationOperation = $request->get('relationOperation');
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 
         //if it is relation edit
         $viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);

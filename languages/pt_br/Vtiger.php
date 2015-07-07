@@ -186,7 +186,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE'=> 'Adicionar Serviço',
 	'LBL_ADD_TASK' => 'Adicionar Tarefa',
 	'LBL_ADD_WIDGET' => 'Adicionar Widget',
-	'LBL_ADD_FILTER' => 'Add widget from filter',
+	'LBL_ADD_FILTER' => 'Adicionar Widget a partir do filtro',
 	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Adicionar seu comentário aqui...',
 	'LBL_ADVANCE_SEARCH' => 'Avançado',
 	'LBL_AFTER'=> 'depois' , //Duplicated key-value pairs
@@ -795,9 +795,9 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Selecione campo do módulo relacionado',
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
-	'PotentialsList'=>'Opportunities',
-	'PaymentsOut' => 'Payments Out',
-	'PaymentsIn' => 'Payments In',
+	'PotentialsList'=>'Oportunidades',
+	'PaymentsOut' => 'Pagamento',
+	'PaymentsIn' => 'Recebimento',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -964,15 +964,17 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Meses',
 	'LBL_ZOOMING' => 'Zoom',
 	
+	'LBL_FORMAT' => 'Formato',
+
 	//Filters
-	'LBL_CV_GROUP_MINE' => 'Mine',
-	'LBL_CV_GROUP_SYSTEM' => 'System',
-	'LBL_CV_GROUP_OTHERS' => 'Shared',
-	'LBL_CV_GROUP_PENDING' => 'Pending',
+	'LBL_CV_GROUP_MINE' => 'Meu',
+	'LBL_CV_GROUP_SYSTEM' => 'Sistema',
+	'LBL_CV_GROUP_OTHERS' => 'compartilhado',
+	'LBL_CV_GROUP_PENDING' => 'Pendente',
 	
-	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Based on reference fields',
-	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
-	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
+	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'Baseando nos campos de referência',
+	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Baseado nos módulos relacionados',
+	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Dependendo da quantidade de dados do processo de transferência de propriedade, pode levar vários minutos para concluir',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1116,7 +1118,7 @@ $jsLanguageStrings = [
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marcar a entrada na Agenda como concluída?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'JS_EVENT_MARKED_AS_HELD' => 'Marcada como concluída',
-	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Future events cannot be marked as complete',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Os eventos futuros não podem ser marcados como completos',
 	'Generate default PDF'=>'Gerar PDF padrão',
 
 	//Inventory module Translations

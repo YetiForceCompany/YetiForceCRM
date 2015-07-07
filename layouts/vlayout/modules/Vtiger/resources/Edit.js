@@ -1157,6 +1157,12 @@ jQuery.Class("Vtiger_Edit_Js",{
 				closestBlock.find("[data-mode='show']").removeClass('hide');
 			}
 		});
+		detailContentsHolder.on('keypress', '.blockToggle', function (e) {
+			var keycode = (e.keyCode ? e.keyCode : e.which);
+			if (keycode == '13') {
+				$(this).trigger("click");
+			}
+		});
 
 	},
 	
@@ -1394,7 +1400,11 @@ jQuery.Class("Vtiger_Edit_Js",{
 
 		app.registerEventForDatePickerFields('#EditView');
 		
-		var params = app.validationEngineOptionsForRecord;
+		if(jQuery('#javascriptLimited').val()){
+			var params = app.validationEngineOptionsForRecordJSLimited;
+		}else{
+			var params = app.validationEngineOptionsForRecord;
+		}
 		params.onValidationComplete = function(element,valid){
 			if(valid){
 				var ckEditorSource = editViewForm.find('.ckEditorSource');

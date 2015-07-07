@@ -102,7 +102,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View {
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
-
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 		$isRelationOperation = $request->get('relationOperation');
 
 		//if it is relation edit

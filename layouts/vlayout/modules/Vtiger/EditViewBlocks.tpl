@@ -39,6 +39,7 @@
             <input type="hidden" name="record" value="{$RECORD_ID}" />
             <input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
             <input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
+            <input type="hidden" id="javascriptLimited" value="{$JAVA_SCRIPT_LIMIT}" />
             {if $IS_RELATION_OPERATION }
                 <input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
                 <input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
@@ -84,8 +85,8 @@
 							{/if}
 							<div class="row">
 								<div class=" {if $APIADDRESFIELD}col-md-7 {else}col-md-12{/if}">
-							<img class="cursorPointer alignMiddle blockToggle{if !($IS_HIDDEN)} hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
-							<img class="cursorPointer alignMiddle blockToggle{if ($IS_HIDDEN)} hide{/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
+							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} " alt="{vtranslate('LBL_EXPAND_BLOCK')}"  src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')} tabindex="0">
+							<img class="cursorPointer alignMiddle blockToggle {if ($IS_HIDDEN)} hide {/if}"  alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" src="{vimage_path('arrowDown.png')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')} tabindex="0">
 							&nbsp;&nbsp;{vtranslate($BLOCK_LABEL, $MODULE)}
 								</div>
 								

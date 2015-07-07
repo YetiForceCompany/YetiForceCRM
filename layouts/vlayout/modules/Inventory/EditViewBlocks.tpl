@@ -31,6 +31,7 @@
 		<input type="hidden" name="record" value="{$RECORD_ID}" />
 		<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 		<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
+		<input type="hidden" id="javascriptLimited" value="{$JAVA_SCRIPT_LIMIT}" />
 		{if $IS_RELATION_OPERATION }
 			<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />

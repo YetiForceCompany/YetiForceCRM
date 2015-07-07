@@ -243,6 +243,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View {
 		$viewer->assign('GETURL', $getUrl);
 		$viewer->assign('CURRENCY_ID', $currencyId);
 		$viewer->assign('POPUPTYPE', vglobal('popupType'));
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

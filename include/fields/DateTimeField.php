@@ -145,6 +145,38 @@ class DateTimeField {
 		$log->debug('End ' . __CLASS__ . ':' . __FUNCTION__ );
 		return $dbDate;
 	}
+	/**
+	 *
+	 * @param string $format
+	 * @return string
+	 */
+	public static function getTextFormat($format) {
+		$log = vglobal('log');
+		$log->debug('Start ' . __CLASS__ . ':' . __FUNCTION__ .' '. serialize($format));
+		if ($format == '') {
+			$format = 'yyyy-mm-dd';
+		}
+		$tab = [];
+		switch ( $format ){
+			case 'dd-mm-yyyy':	$tab = explode('-', $format); break;
+			case 'mm-dd-yyyy':	$tab = explode('-', $format); break;
+			case 'yyyy-mm-dd':	$tab = explode('-', $format); break;
+			case 'dd.mm.yyyy':	$tab = explode('.', $format); break;
+			case 'mm.dd.yyyy':	$tab = explode('.', $format); break;
+			case 'yyyy.mm.dd':	$tab = explode('.', $format); break;
+			case 'dd/mm/yyyy':	$tab = explode('/', $format); break;
+			case 'mm/dd/yyyy':	$tab = explode('/', $format); break;
+			case 'yyyy/mm/dd':	$tab = explode('/', $format); break;
+		}
+		for($i=0;$i<count($tab);$i++){
+			switch ( $tab[$i] ){
+				case 'mm':		$tab[$i] = vtranslate('LBL_MONTH');	break;
+				case 'yyyy':	$tab[$i] = vtranslate('LBL_YEAR');	break;
+				case 'dd':		$tab[$i] = vtranslate('LBL_DAY');	break;
+			}
+		}
+		return implode(":", $tab);
+	}
 
 	/**
 	 *

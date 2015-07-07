@@ -18,7 +18,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="robots" content="noindex" />
+<<<<<<< HEAD
 		
+=======
+		<link rel="stylesheet" href="libraries/jquery/chosen/chosen{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/jquery-ui/css/custom-theme/jquery-ui{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/selectize/css/selectize.bootstrap3{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/chosen.bootstrap{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/bootstrap3/dist/css/bootstrap-switch.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="layouts/vlayout/resources/styles.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2{$MINCSS}.css" />
+		<link rel="stylesheet" href="libraries/jquery/select2/select2-bootstrap{$MINCSS}.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="libraries/guidersjs/guiders-1.2.6.css"/>
+		<link rel="stylesheet" href="libraries/jquery/pnotify/pnotify.custom{$MINCSS}.css"/>
+		<link rel="stylesheet" media="screen" type="text/css" href="libraries/jquery/datepicker/css/datepicker.css" />
+>>>>>>> upstream/LAB-RS
 		{foreach key=index item=cssModel from=$STYLES}
 			<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
 		{/foreach}

@@ -954,6 +954,8 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Months',
 	'LBL_ZOOMING' => 'Zooming',
 	
+	'LBL_FORMAT' => 'Format',
+
 	//Filters
 	'LBL_CV_GROUP_MINE' => 'Mine',
 	'LBL_CV_GROUP_SYSTEM' => 'System',

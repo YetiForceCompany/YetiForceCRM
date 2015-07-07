@@ -50,7 +50,7 @@
 					<div class="form-group ">
 						<label class="sr-only" for="searchableColumnsList">{vtranslate('LBL_SEARCH_IN_FIELD')}</label>
                         {assign var = defaultSearchField value = $RECORD_STRUCTURE_MODEL->getModule()->getDefaultSearchField()}
-                        <select class="chzn-select form-control" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
+                        <select class="{if $JAVA_SCRIPT_LIMIT neq true}chzn-select{/if} form-control" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
                             {foreach key=block item=fields from=$RECORD_STRUCTURE}
                                 {foreach key=fieldName item=fieldObject from=$fields}
                                     <optgroup>

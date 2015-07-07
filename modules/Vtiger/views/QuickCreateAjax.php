@@ -61,6 +61,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View {
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('JAVA_SCRIPT_LIMIT', vglobal('javascriptLimited'));
 		$viewer->assign('VIEW', $request->get('view'));
 		
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));

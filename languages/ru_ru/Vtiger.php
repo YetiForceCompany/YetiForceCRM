@@ -1205,6 +1205,8 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Месяцев',
 	'LBL_ZOOMING' => 'Увеличить',
 	
+	'LBL_FORMAT' => 'Format',
+	
 	//Filters
 	'LBL_CV_GROUP_MINE' => 'Mine',
 	'LBL_CV_GROUP_SYSTEM' => 'System',
