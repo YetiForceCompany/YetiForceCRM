@@ -1103,7 +1103,7 @@ CREATE TABLE `vtiger_calculations_pros` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`calculations_prosid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calculations_pros_seq` */
 
