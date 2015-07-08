@@ -1,5 +1,5 @@
 <?php
-/*********************************************************************************
+/* * *******************************************************************************
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
  * ("License"); You may not use this file except in compliance with the 
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
@@ -11,22 +11,22 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
-********************************************************************************/
+ * ****************************************************************************** */
 include_once('config/version.php');
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-ini_set('memory_limit','512M');
+ini_set('memory_limit', '512M');
 
 // lifetime of session
-ini_set('session.gc_maxlifetime','21600');
+ini_set('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 
 $CALENDAR_DISPLAY = 'true';
 $WORLD_CLOCK_DISPLAY = 'true';
 $CALCULATOR_DISPLAY = 'true';
-$CHAT_DISPLAY = 'true'; 
+$CHAT_DISPLAY = 'true';
 $USE_RTE = 'true';
 
 // url for customer portal (Example: https://portal.yetiforce.com/)
@@ -38,13 +38,13 @@ $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 
 /* database configuration
-      db_server
-      db_port
-      db_hostname
-      db_username
-      db_password
-      db_name
-*/
+  db_server
+  db_port
+  db_hostname
+  db_username
+  db_password
+  db_name
+ */
 
 $dbconfig['db_server'] = '_DBC_SERVER_';
 $dbconfig['db_port'] = '_DBC_PORT_';
@@ -56,7 +56,7 @@ $dbconfig['db_status'] = '_DB_STAT_';
 
 // TODO: test if port is empty
 // TODO: set db_hostname dependending on db_type
-$dbconfig['db_hostname'] = $dbconfig['db_server'].':'.$dbconfig['db_port'];
+$dbconfig['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 
 $host_name = $dbconfig['db_hostname'];
 
@@ -84,7 +84,6 @@ $upload_disabled = false;
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
 $upload_maxsize = 52428800;  // 50MB
-
 // flag to allow export functionality
 // 'all' to allow anyone to use exports 
 // 'admin' to only allow admins to export 
@@ -98,7 +97,7 @@ $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 
 
 // full path to include directory including the trailing slash
 // includeDirectory default value = $root_directory..'include/
-$includeDirectory = $root_directory.'include/';
+$includeDirectory = $root_directory . 'include/';
 
 // list_max_entries_per_page default value = 20
 $list_max_entries_per_page = '20';
@@ -178,12 +177,12 @@ $php_max_execution_time = 0;
 $default_timezone = '_TIMEZONE_';
 
 /** If timezone is configured, try to set it */
-if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
+if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
 	@date_default_timezone_set($default_timezone);
 }
 
 // Change of logs directory with PHP errors
-ini_set('error_log',$root_directory.'cache/logs/phpError.log');
+ini_set('error_log', $root_directory . 'cache/logs/phpError.log');
 
 // Enable sharing of records?
 $shared_owners = true;
