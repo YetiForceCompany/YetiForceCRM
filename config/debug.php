@@ -1,5 +1,4 @@
 <?php
-
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 $DEBUG_CONFIG = [
@@ -48,9 +47,11 @@ $DEBUG_CONFIG = [
 	'ROUNDCUBE_SMTP_DEBUG' => false,
 ];
 
-class SysDebug {
+class SysDebug
+{
 
-	static function get($key, $defvalue = false) {
+	static function get($key, $defvalue = false)
+	{
 		global $DEBUG_CONFIG;
 		if (isset($DEBUG_CONFIG)) {
 			if (isset($DEBUG_CONFIG[$key])) {
@@ -61,8 +62,8 @@ class SysDebug {
 	}
 
 	/** Get boolean value */
-	static function getBoolean($key, $defvalue = false) {
+	static function getBoolean($key, $defvalue = false)
+	{
 		return self::get($key, $defvalue);
 	}
-
 }

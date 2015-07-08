@@ -16,6 +16,7 @@ $enabledServices = array(
 	//'dav'
 	//'webservices',
 	//'mobileModule',
+	//'webservice',
 );
 
 /*+********   DAV   **********/
