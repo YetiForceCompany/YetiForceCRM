@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-vimport ('~/libraries/Smarty/libs/SmartyBC.class.php');
+vimport ('~libraries/Smarty/libs/SmartyBC.class.php');
 class Vtiger_Viewer extends SmartyBC {
 	const DEFAULTLAYOUT = 'vlayout';
 	const DEFAULTTHEME  = 'softed';

@@ -69,7 +69,7 @@ class Events_Save_Action extends Calendar_Save_Action {
 
 		//TODO: remove the dependency on $_REQUEST
 		if($_REQUEST['recurringtype'] != '' && $_REQUEST['recurringtype'] != '--None--') {
-			vimport('~~/modules/Calendar/RepeatEvents.php');
+			vimport('~modules/Calendar/RepeatEvents.php');
 			$focus =  new Activity();
 
 			//get all the stored data to this object

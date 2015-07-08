@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-vimport('~~/libraries/freetag/freetag.class.php');
+vimport('~libraries/freetag/freetag.class.php');
 
 class Vtiger_Tag_Model extends Vtiger_Base_Model {
 

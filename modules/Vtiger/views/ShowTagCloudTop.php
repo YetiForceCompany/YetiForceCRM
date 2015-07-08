@@ -24,7 +24,7 @@ class Vtiger_ShowTagCloudTop_View extends Vtiger_IndexAjax_View {
 				$module = 'Calendar';
 			}
 			
-			vimport('~~/libraries/freetag/freetag.class.php');
+			vimport('~libraries/freetag/freetag.class.php');
 			$freeTagInstance = new freetag();
 			$maxTagLength = $freeTagInstance->_MAX_TAG_LENGTH;
 

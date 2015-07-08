@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-vimport('~~/modules/ModTracker/core/ModTracker_Basic.php');
+vimport('~modules/ModTracker/core/ModTracker_Basic.php');
 
 class ModTracker_Record_Model extends Vtiger_Record_Model {
 

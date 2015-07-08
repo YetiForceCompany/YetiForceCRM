@@ -28,8 +28,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 	public function getFooterScripts(Vtiger_Request $request) {
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
-			'~/libraries/fullcalendar/moment.min.js',
-			'~/libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/moment.min.js',
+			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
 		);
 
@@ -43,8 +43,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View {
 
 
 		$cssFileNames = array(
-			'~/libraries/fullcalendar/fullcalendar.min.css',
-			'~/libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/fullcalendar/fullcalendarCRM.css',
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

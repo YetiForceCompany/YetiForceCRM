@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-vimport('~~/vtlib/Vtiger/Module.php');
+vimport('~vtlib/Vtiger/Module.php');
 
 /**
  * Vtiger Module Model Class
@@ -826,7 +826,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	}
 
     public static function getPicklistSupportedModules() {
-        vimport('~~/modules/PickList/PickListUtils.php');
+        vimport('~modules/PickList/PickListUtils.php');
 	    $modules = getPickListModules();
         $modulesModelsList = array();
         foreach($modules as $moduleLabel => $moduleName) {
@@ -1460,7 +1460,7 @@ class Vtiger_Module_Model extends Vtiger_Module {
 	 * @return <JSON>
 	 */
 	public function vtJsonDependentModules() {
-		vimport('~~/modules/com_vtiger_workflow/WorkflowComponents.php');
+		vimport('~modules/com_vtiger_workflow/WorkflowComponents.php');
 		$db = PearDatabase::getInstance();
 		$param = array('modulename'=>$this->getName());
 		return vtJsonDependentModules($db, $param);

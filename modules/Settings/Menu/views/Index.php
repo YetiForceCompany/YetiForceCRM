@@ -48,7 +48,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 		$cssFileNames = array(
 			'~libraries/jquery/jstree/themes/default/style.css',
-			"~/layouts/vlayout/modules/Settings/$moduleName/Index.css",
+			"~layouts/vlayout/modules/Settings/$moduleName/Index.css",
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);

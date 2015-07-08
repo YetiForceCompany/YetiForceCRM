@@ -7,12 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-vimport('~~/modules/Calendar/iCal/iCalendar_rfc2445.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_components.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_properties.php');
-vimport('~~/modules/Calendar/iCal/iCalendar_parameters.php');
-vimport('~~/modules/Calendar/iCal/ical-parser-class.php');
-vimport('~~/modules/Calendar/iCalLastImport.php');
+vimport('~modules/Calendar/iCal/iCalendar_rfc2445.php');
+vimport('~modules/Calendar/iCal/iCalendar_components.php');
+vimport('~modules/Calendar/iCal/iCalendar_properties.php');
+vimport('~modules/Calendar/iCal/iCalendar_parameters.php');
+vimport('~modules/Calendar/iCal/ical-parser-class.php');
+vimport('~modules/Calendar/iCalLastImport.php');
 class Calendar_ImportICS_Action extends Vtiger_Action_Controller {
 	public function checkPermission(Vtiger_Request $request) {
 		$moduleName = $request->getModule();

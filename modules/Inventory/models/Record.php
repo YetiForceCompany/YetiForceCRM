@@ -132,10 +132,10 @@ class Inventory_Record_Model extends Vtiger_Record_Model {
     public function getPDFFileName() {
         $moduleName = $this->getModuleName();
 		if ($moduleName == 'Quotes') {
-			vimport("~~/modules/$moduleName/QuotePDFController.php");
+			vimport("~modules/$moduleName/QuotePDFController.php");
 			$controllerClassName = "Vtiger_QuotePDFController";
 		} else {
-			vimport("~~/modules/$moduleName/$moduleName" . "PDFController.php");
+			vimport("~modules/$moduleName/$moduleName" . "PDFController.php");
 			$controllerClassName = "Vtiger_" . $moduleName . "PDFController";
 		}
 

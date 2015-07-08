@@ -83,26 +83,26 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~/libraries/jquery/gridster/jquery.gridster.min.js',
-			'~/libraries/jquery/flot/jquery.flot.min.js',
-			'~/libraries/jquery/flot/jquery.flot.pie.min.js',
-			'~/libraries/jquery/flot/jquery.flot.stack.min.js',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~/libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
+			'~libraries/jquery/gridster/jquery.gridster.min.js',
+			'~libraries/jquery/flot/jquery.flot.min.js',
+			'~libraries/jquery/flot/jquery.flot.pie.min.js',
+			'~libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~/libraries/fullcalendar/moment.min.js',
-			'~/libraries/fullcalendar/fullcalendar.js'
+			'~libraries/fullcalendar/moment.min.js',
+			'~libraries/fullcalendar/fullcalendar.js'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -119,10 +119,10 @@ class Vtiger_Dashboard_View extends Vtiger_Index_View {
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
-			'~/libraries/jquery/gridster/jquery.gridster.min.css',
-			'~/libraries/jquery/jqplot/jquery.jqplot.min.css',
-			'~/libraries/fullcalendar/fullcalendar.min.css',
-			'~/libraries/fullcalendar/fullcalendarCRM.css'
+			'~libraries/jquery/gridster/jquery.gridster.min.css',
+			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
+			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/fullcalendar/fullcalendarCRM.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances , $cssScripts);

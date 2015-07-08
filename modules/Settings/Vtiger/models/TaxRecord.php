@@ -112,7 +112,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model{
 		$query = "ALTER TABLE vtiger_inventoryproductrel ADD COLUMN $taxname decimal(7,3) DEFAULT NULL";
         $res = $adb->pquery($query, array());
         
-        vimport('~~/include/utils/utils.php');
+        vimport('~include/utils/utils.php');
         
 		if ($this->isProductTax()) {
 			// TODO Review: if field addition is required in shipping-tax case too.
@@ -148,7 +148,7 @@ class Settings_Vtiger_TaxRecord_Model extends Vtiger_Base_Model{
     }
     
     public static function getProductTaxes() {
-        vimport('~~/include/utils/InventoryUtils.php');
+        vimport('include/utils/InventoryUtils.php');
         $taxes = getAllTaxes();
         $recordList = array();
         foreach($taxes as $taxInfo) {
