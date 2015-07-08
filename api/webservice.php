@@ -1,10 +1,17 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-chdir (__DIR__ . '/../');
+chdir(__DIR__ . '/../');
 
 require_once 'config/api.php';
-if(!in_array('webservice',$enabledServices)){
-	die("{'status': 0,'error': 'YetiPortal - Service is not active'}");
+if (!in_array('webservice', $enabledServices)) {
+	die('{"status":0,"error":{"message":"Webservice - Service is not active"}}');
 }
+require_once 'include/main/WebUI.php';
+require_once 'api/webservice/API.php';
 
-echo "{status: 1, text: 'test'}";
+try {
+	$api = new API(new Vtiger_Request($_REQUEST, $_REQUEST));
+	$api->process();
+} catch (APIException $e) {
+	
+}
