@@ -186,7 +186,7 @@ $languageStrings = [
 	'LBL_ADD_SERVICE'=> 'Adicionar Serviço',
 	'LBL_ADD_TASK' => 'Adicionar Tarefa',
 	'LBL_ADD_WIDGET' => 'Adicionar Widget',
-	'LBL_ADD_FILTER' => 'Add widget from filter',
+	'LBL_ADD_FILTER' => 'Adicionar Widget a partir do filtro',
 	'LBL_ADD_YOUR_COMMENT_HERE'=> 'Adicionar seu comentário aqui...',
 	'LBL_ADVANCE_SEARCH' => 'Avançado',
 	'LBL_AFTER'=> 'depois' , //Duplicated key-value pairs
@@ -795,9 +795,9 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Selecione campo do módulo relacionado',
 	'LBL_COMPARISON_VALUE' => 'Valor comparação',
 	'Website' => 'Web Site',
-	'PotentialsList'=>'Opportunities',
-	'PaymentsOut' => 'Payments Out',
-	'PaymentsIn' => 'Payments In',
+	'PotentialsList'=>'Oportunidades',
+	'PaymentsOut' => 'Pagamento',
+	'PaymentsIn' => 'Recebimento',
 	/* industry */
 	'Administration'=>'Administração',
 	'Construction Industry'=>'Industria da Construção',
@@ -964,6 +964,8 @@ $languageStrings = [
 	'LBL_MONTHS_CHART' => 'Meses',
 	'LBL_ZOOMING' => 'Zoom',
 	
+	'LBL_FORMAT' => 'Formato',
+	
 	//Filters
 	'LBL_CV_GROUP_MINE' => 'Mine',
 	'LBL_CV_GROUP_SYSTEM' => 'System',
@@ -1119,7 +1121,7 @@ $jsLanguageStrings = [
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marcar a entrada na Agenda como concluída?',
 	'JS_TODO_MARKED_AS_COMPLETED' => 'Marcada como concluída',
 	'JS_EVENT_MARKED_AS_HELD' => 'Marcada como concluída',
-	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Future events cannot be marked as complete',
+	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Os eventos futuros não podem ser marcados como completos',
 	'Generate default PDF'=>'Gerar PDF padrão',
 
 	//Inventory module Translations
