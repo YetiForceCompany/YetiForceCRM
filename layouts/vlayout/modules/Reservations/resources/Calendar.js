@@ -129,7 +129,7 @@ jQuery.Class("Reservations_Calendar_Js",{
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
-    },
+	},
 	loadCalendarData : function(allEvents) {
 		var progressInstance = jQuery.progressIndicator();
 		var thisInstance = this;
@@ -241,12 +241,16 @@ jQuery.Class("Reservations_Calendar_Js",{
 
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
-				thisInstance.addCalendarEvent(data.result);
+				thisInstance.addCalendarEvent(data.result, dateFormat);
 			}});
 			jQuery('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
 		});
 	},
-	addCalendarEvent : function(calendarDetails) {
+	addCalendarEvent : function(calendarDetails, dateFormat) {
+		// convert dates to db format
+		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
+		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
+
 		var eventObject = {};
 		eventObject.id = calendarDetails._recordId;
 		eventObject.title = calendarDetails.title.display_value;
