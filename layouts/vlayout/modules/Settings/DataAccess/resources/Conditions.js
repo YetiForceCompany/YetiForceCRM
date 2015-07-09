@@ -368,7 +368,7 @@ function DataAccessConditions() {
 	this.showDataInput = function(element) {
 		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
 		var valElement = valPlace.find('[name="val"]'),
-				html = '<div class="input-group row"><input class="col-md-9 dateField" name="val" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span></div>';
+				html = '<div class="input-group row"><input class="col-md-9 dateField form-control" name="val" data-date-format="yyyy-mm-dd"><div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div></div>';
 
 		if (!jQuery(valElement).hasClass('dateField') || jQuery(valElement).hasClass('bw')) {
 			valPlace.children().remove();
