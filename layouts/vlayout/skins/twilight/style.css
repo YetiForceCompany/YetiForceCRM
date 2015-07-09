@@ -1,5 +1,5 @@
 @media print {
-	.noprint { display:none; }
+  .noprint { display:none; }
 }
 .clearfix {
   *zoom: 1;
@@ -50,8 +50,33 @@ hr {
   border-bottom: 1px solid #dddddd;
 }
 .navbar.navbar-fixed-top .navbar-collapse {
-	padding-right: 15px !important;
+  padding-right: 15px !important;
 }
+
+.navbar-nav.navbar-left .open ul {
+  display: none
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #555;
+  background: none
+}
+.navbar-default .navbar-nav > li:hover {
+  background: #e7e7e7
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: none
+}
+.navbar-inverse .navbar-nav > li:hover {
+  background: #080808
+}
+.navbar-nav .hovernav:hover > .dropdown-menu {
+  display: block;
+}
+
 #collapsedMenu {
   display: block;
   position: relative;
@@ -550,61 +575,6 @@ hr {
 #globalmodal form {
   margin: 0 0 0;
 }
-.globalSearchResults {
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border: 1px solid #c4c4c4;
-  -webkit-box-shadow: 0 0 3px -1px #dddddd;
-  -moz-box-shadow: 0 0 3px -1px #dddddd;
-  box-shadow: 0 0 3px -1px #dddddd;
-  min-width: 280px;
-  min-height: 500px;
-}
-.globalSearchResults .highlightedHeader {
-  background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-  background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
-  border-color: #f3f3f4 #f3f3f4 #cbcbcf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  text-shadow: 0px 1px #ffffff;
-  border-bottom: 1px solid #dddddd;
-  color: #444444;
-  padding: 8px 5px;
-}
-.globalSearchResults #showFilter {
-  color: #404952;
-}
-.globalSearchResults .contents {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  padding: 5% 5% 10% 3%;
-  max-height: 500px;
-  min-width: 280px;
-}
-.globalSearchResults .contents > label {
-  padding: 5px;
-  border-bottom: 1px solid #dddddd;
-}
-.globalSearchResults .contents ul li a {
-  margin: 5px 0;
-  padding: 7px;
-}
-.globalSearchResults .contents ul li a span {
-  color: #404952;
-  opacity: 0.5;
-  font-size: 0.8em;
-}
-.globalSearchResults .contents ul li a span p {
-  margin: 0 !important;
-}
 .dashboardHeading h2 {
   padding-bottom: 8px;
 }
@@ -1019,9 +989,9 @@ li.ui-timepicker-selected,
   word-wrap: break-word;
 }
 /*#EditView{
-	input[type="radio"]{
-		margin: -2px 3px 0 0 !important;
-	}
+  input[type="radio"]{
+    margin: -2px 3px 0 0 !important;
+  }
 }*/
 .recordEditView .contentHeader {
   padding: 1.5% 0;
@@ -1100,8 +1070,8 @@ li.ui-timepicker-selected,
   word-wrap: break-word;
 }
 .commentTitle .col-md-1 img {
-  min-width: 32px;
-  min-height: 32px;
+  width: 32px;
+  height: 32px;
 }
 .commentsList > ul {
   margin-left: 0;
@@ -1195,17 +1165,17 @@ li.ui-timepicker-selected,
 }
 /*//
 .table-bordered th + th, .table-bordered td + td, .table-bordered th + td, .table-bordered td + th{
-	border-left-color: @lightColorBorder;
+  border-left-color: @lightColorBorder;
 }
 .listViewEntriesTable tbody tr td{
-	border-left: 1px solid @lightColorBorder;
+  border-left: 1px solid @lightColorBorder;
 }*/
 .listViewEntriesTable tbody tr td:first-child{
-	border-left: 0 none;
+  border-left: 0 none;
 }
 /*
 .listViewEntriesTable tbody td:last-child{
-	border-left: 0;
+  border-left: 0;
 }
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
@@ -2373,8 +2343,10 @@ th.htColHeader,
   font-size: 15px;
   line-height: 20px;
 }
+.fc-widget-header th{
+  padding: 4px 0px !important;
+}
 .fc-widget-header {
-  padding: 7px 0px 0 8px !important;
   color: #666;
   background: #eee;
   border-color: #ccc;
@@ -3140,44 +3112,44 @@ td.listViewEntryValue .row input {
   float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .paddingLRZero {
-	padding-left: 0px;
-	padding-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .paddingRightZero {
-	padding-right: 0px;
+  padding-right: 0px;
 }
 .detailViewToolbar {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .input-group.input-group-sm > .input-group-addon img {
-	width: 15px;
+  width: 15px;
 }
 table tr td .input-sm{
-	min-width: 50px;;
+  min-width: 50px;;
 }
 .modal-footer.backgroundColor{
-	background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 .panel-title{
-	font-size: 14px;
+  font-size: 14px;
 }
 .quickWidgetContainer .panel-body{
-	padding-bottom: 0;
-	padding-top: 0;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 tr.summaryViewEntries, #detailView table {
   font-size: 13px;
 }
 table.listViewEntriesTable {
-	font-size: 13px;
+  font-size: 13px;
 }
 .no-margin{
   margin: 0;
@@ -3187,7 +3159,7 @@ table.listViewEntriesTable {
   max-width: 250px; 
 }
 .navbar-inverse .navbar-nav > li > a {
-	color: #ffffff;
+  color: #ffffff;
   padding: 15px 12px;
 }
 
@@ -3195,74 +3167,70 @@ table.listViewEntriesTable {
   padding: 3px 15px;
   font-size: 12px;
 }
-
-.navbar-inverse .navbar-nav .dropdown-menu:empty {
-  display: none;
-}
 .headerCalendar .month h3 {
-	font-size: 18px;
-	font-weight: bold;
-	margin: 5px 0 0 0;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0 0 0;
 }
 .columnsSelect{
-	width: 100% !important;
+  width: 100% !important;
 }
 .marginBottom5 {
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
-	width: 30%;
+  width: 30%;
 }
 .btn {
     white-space: normal;
 }
 .valuesAssignedToRole {
-	border: 1px solid #adadad; 
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding: 6px;
+  border: 1px solid #adadad; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 6px;
 }
 table.dataTable .form-control {
-	width: 100% !important;
+  width: 100% !important;
 }
 #breadcrumb .stepNum{
-	margin-top: 0;
+  margin-top: 0;
 }
 #breadcrumb .stepText{
-	position: relative;
-	top: -4px;
+  position: relative;
+  top: -4px;
 }
 .fc button {
-	/* FullCalendar buttons */
-	height: auto !important;
+  /* FullCalendar buttons */
+  height: auto !important;
 }
 .fc-toolbar {
-	margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 .fc-center, .fc-left, .fc-right{
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .calendarRightPanel {
-	padding-left: 5px;
-	padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .calendarRightPanel img.imageElement,.calendarRightPanel .glyphicon-refresh{
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: #fff
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #fff
 }
 .calendarRightPanel ul li{
-	margin-bottom: 2px;
-	margin-left:5px; 
+  margin-bottom: 2px;
+  margin-left:5px; 
 }
 .calendarRightPanel ul li:hover{
-	background-color: #eee !important;
-	border-radius: 5px;
+  background-color: #eee !important;
+  border-radius: 5px;
 }
 .square9 {
-	width: 9px;
-	height: 9px;
-	margin: 4px;
+  width: 9px;
+  height: 9px;
+  margin: 4px;
 }
 .panel-dark {
   border-color: #737373;
@@ -3283,8 +3251,8 @@ table.dataTable .form-control {
   border-bottom-color: #737373;
 }
 .calendarRightPanel .widgetContainer ul {
-	margin-top: 5px;
-	margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .paddingLeft5px{
   padding-left: 5px;
@@ -3298,39 +3266,45 @@ display:none;
 .detailview-table  .fieldValue:hover  .summaryViewEdit { 
 display: inherit;
 }
-
-
-/*
-Navbar "hovernav" dropdown menu - this works only for screen sizes larger than phones.
-The Bootstrap CSS is unchanged.
-*/
-@media (min-width: 768px) {
-  /* Use this if you wish to hide the caret
-  .navbar-nav .caret {
-    display: none;
-  } 
-  */
-  .navbar-nav.navbar-left .open ul {
-    display: none
-  }
-  .navbar-default .navbar-nav > .open > a,
-  .navbar-default .navbar-nav > .open > a:hover,
-  .navbar-default .navbar-nav > .open > a:focus {
-    color: #555;
-    background: none
-  }
-  .navbar-default .navbar-nav > li:hover {
-    background: #e7e7e7
-  }
-  .navbar-inverse .navbar-nav > .open > a,
-  .navbar-inverse .navbar-nav > .open > a:hover,
-  .navbar-inverse .navbar-nav > .open > a:focus {
-    background: none
-  }
-  .navbar-inverse .navbar-nav > li:hover {
-    background: #080808
-  }
-  .navbar-nav .hovernav:hover > .dropdown-menu {
-    display: block;
-  }
+.icon-in-history-widget{
+  font-size: 17px;
+  padding: 4px;
+}
+#prefPageHeader .logo img{
+  height: 70px;
+  width: 70px;
+}
+#myPrefHeading h3{
+  margin-top: 12px;
+}
+.list-user-img{
+  width: 50px;
+  height: 40px;
+}
+span[name=existingImages] img{
+  height: 200px;
+  width: 300px;
+}
+.narrow.fieldValue .chosen-container-single .chosen-single{
+height: 26px;
+line-height: 26px;
+}
+.narrow.fieldValue input{
+height: 26px;
+}
+.narrow.fieldValue .input-group-addon{
+padding: 4px 10px;
+}
+.narrow.fieldValue .chosen-container-single .chosen-single div b{
+background-position-y: 4px;
+}
+.image-in-button{
+  width: 18px;
+}
+.fc-time-grid .fc-time-grid-event.fc-event{
+min-height: 27px;
+min-width: 100px;
+}
+.fc-time-grid-event.fc-short .fc-title{
+font-size: 1em;
 }
