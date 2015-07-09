@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
-  ** The contents of this file are subject to the vtiger CRM Public License Version 1.1
-   * ("License"); You may not use this file except in compliance with the License
-   * The Original Code is:  vtiger CRM Open Source
-   * The Initial Developer of the Original Code is vtiger.
-   * Portions created by vtiger are Copyright (C) vtiger.
-   * All Rights Reserved.
-  *
- ********************************************************************************/
+** The contents of this file are subject to the vtiger CRM Public License Version 1.1
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
 -->*}
 {strip}
 	<form class="form-horizontal recordEditView padding1per" id="chart_report_step3" method="post" action="index.php">
@@ -27,7 +27,7 @@
 		<input type="hidden" name='charttype' value={$CHART_MODEL->getChartType()}>
 
 		<div class="padding1per border1px">
-			<div class="row">
+			<div class="">
 				<div>
 					<div><h4><strong>{vtranslate('LBL_SELECT_CHART_TYPE',$MODULE)}</strong></h4></div><br>
 					<div>
@@ -73,7 +73,7 @@
 											<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
 											<div class="row">
 												<select id='datafields' name='datafields[]' class="col-md-10 validate[required] form-control" data-validation-engine="validate[required]" style='min-width:300px;'>
-											</select></div>
+												</select></div>
 										</span>
 									</div>
 								</div>
