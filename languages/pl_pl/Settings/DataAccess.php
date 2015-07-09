@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Walidacja dostępu',
 	'LBL_DATAACCESS' => 'Walidacja dostępu',
@@ -18,20 +18,20 @@ $languageStrings = [
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Nie dodano żadnych warunków',
 	'LBL_CREATING_TPL' => 'Tworzenie warunków',
 	'LBL_FILL_BASE_DATA' => 'Podstawowe informacje',
-    'LBL_ENTER_BASIC_INFO' => 'Podaj podstawowe informacje',
+	'LBL_ENTER_BASIC_INFO' => 'Podaj podstawowe informacje',
 	'LBL_CHOOSE_ACTIONS' => 'Lista wykonywanych akcji',
 	'ADD_ACTIONS' => 'Akcje',
-    'LBL_STEP_1' => 'Krok 1',
-    'FOLDER_LIST' => 'Lista folderów',
-    'DOC_NAME' => 'Nazwa warunku',
-    'NEXT' => 'Dalej',
-    'CANCEL' => 'Anuluj',
-    'BACK' => 'Wstecz',
-    'ADD_CONDITIONS' => 'Dodaj warunek',
-    'LBL_CONDITION_ALL' => 'Wszystkie warunki',
-    'LBL_CONDITION_ALL_DSC' => 'Wszystkie warunki w tej sekcji muszą być spełnione',
-    'LBL_CONDITION_OPTION' => 'Dowolny warunek',
-    'LBL_CONDITION_OPTION_DSC' => 'Przynajmniej jeden warunek z tej sekcji ma być spełniony',
+	'LBL_STEP_1' => 'Krok 1',
+	'FOLDER_LIST' => 'Lista folderów',
+	'DOC_NAME' => 'Nazwa warunku',
+	'NEXT' => 'Dalej',
+	'CANCEL' => 'Anuluj',
+	'BACK' => 'Wstecz',
+	'ADD_CONDITIONS' => 'Dodaj warunek',
+	'LBL_CONDITION_ALL' => 'Wszystkie warunki',
+	'LBL_CONDITION_ALL_DSC' => 'Wszystkie warunki w tej sekcji muszą być spełnione',
+	'LBL_CONDITION_OPTION' => 'Dowolny warunek',
+	'LBL_CONDITION_OPTION_DSC' => 'Przynajmniej jeden warunek z tej sekcji ma być spełniony',
 	'LBL_ACTION' => 'Akcja',
 	'LBL_ACTIONDESC' => 'Opis akcji',
 	'LBL_NEW_ACTION' => 'Dodaj nową akcję',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'LBL_CONFIG_ACTION' => 'Konfiguracja akcji',
 	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Nie udało się zatwierdzić zmian',
 	'LBL_MANDATORY_FIELD' => 'Pole obowiązkowe',
-	
 	//comparators
 	'is' => 'równa się',
 	'contains' => 'zawiera',
@@ -78,11 +77,12 @@ $languageStrings = [
 	'Check for duplicate names' => 'Sprawdź czy są zduplikowane nazwy',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Sprawdź czy wszystkie pola obowiązkowe w widoku szybkiej edycji są wypełnione',
 	'Lock edit on the status' => 'Zablokuj edycję statusu',
+	'is enabled' => 'jest włączony',
+	'is disabled' => 'jest wyłączony',
 ];
 
 $jsLanguageStrings = [
-    'DES_REQUIRED' => 'Opis dokumentu jest wymagany',
-
+	'DES_REQUIRED' => 'Opis dokumentu jest wymagany',
 	//comparators
 	'is' => 'równa się',
 	'contains' => 'zawiera',
@@ -111,4 +111,6 @@ $jsLanguageStrings = [
 	'more than hours before' => 'więcej niż godzin przed',
 	'more than hours later' => 'więcej niż godzin po',
 	'has changed' => 'uległ zmianie',
+	'is enabled' => 'jest włączony',
+	'is disabled' => 'jest wyłączony',
 ];

@@ -21,12 +21,14 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			var password = jQuery('[name="password"]').val();
 			var id = jQuery('[name="record"]').val();
 			if(password == '**********'){
-					var params = {
+				var params = {};
+				params.data = {
 					'module' : "OSSPasswords",
 					'action' : "GetPass",
-					'record' : record
+					'record' : id
 				}
-				
+				params.async = false;
+
 				AppConnector.request(params).then(
 					function(data) {
 						var response = data['result'];

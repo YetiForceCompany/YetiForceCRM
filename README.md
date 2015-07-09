@@ -22,7 +22,7 @@ Below you can see how we improve our project:
 
 #YetiForce 2.1 GA [under development]
 
-2.0 was launched on 21st May 2015 and the following changes are up to 2.0.345 from 6th July 2015.
+2.0 was launched on 21st May 2015 and the following changes are up to 2.0.407 from 8th July 2015.
 
 
 **Bug Fixes:** 
@@ -36,6 +36,7 @@ Below you can see how we improve our project:
 -	Fixed a bug of not saving an email address to which notifications about backups should be sent.
 -	Fixed a bug of not saving the parameters in General Settings of Backup.
 -	Fixed a bug that appeared during saving of a field in Company Details.
+-	Fixed a bug that appeared during seving of calculations.
 -	Fixed a bug that appeared during export of invoices to PDF.
 -	Fixed a bug that appeared during the installation prosess and caused the system to fail.
 -	Fixed a bug that did not allow to add a custom field with 1:M relation
@@ -48,6 +49,10 @@ Below you can see how we improve our project:
 -	Fixed a bug that appeared during adding of Data Summary widget.
 -	Fixed a bug that appeared during adding of a detail report.
 -	Fixed a bug that appeared during setting rss feed as default.
+-	Fixed a bug that appeared during changing 'Language available for" in the Language Management.
+-	Fixed a bug that appeared during changing buttons configuration in the General Configuration of PDF.
+-	Fixed a bug that appeared during deleting related records in the Documents and Opportunities modules.
+-	Fixed a bug that appeared after deleting a product in the Calculations module.
 -	Fixed a bug that caused that calendar events disappeared after page refresh.
 -	Fixed a bug in the OSSMail module - server configuration display failed when the module was disabled.
 -	Fixed a bug in the list view in Workflow panel.
@@ -75,6 +80,11 @@ Below you can see how we improve our project:
 -	Fixed workflow responsible for sending emails.
 -	Fixed the Mail Scanner configuration.
 -	Fixed collapse blocks in various locations.
+-	Fixed browser compatibility.
+-	Fixed a function responsible for adding widgets. 
+-	Fixed widget privileges after the change of role in users.
+-	Fixed many error messages that appeared twice.
+-	Fixed Quick Create for Costs.
 
 
 **Improvements:**
@@ -107,7 +117,7 @@ Below you can see how we improve our project:
 -	Improved backup configuration.
 -	Improved the conversion of a lead.
 -	Improved the validation of modules with Products.
--	Improved loading of data when a related is selected.
+-	Improved loading of data when a related module is selected.
 -	Improved relation handlers.
 -	Improved a select window for modules in quick create.
 -	Improved search of email addresses in the Mail Module.
@@ -122,6 +132,8 @@ Below you can see how we improve our project:
 -	Improved 'Change owner" action for a related Calendar module.
 -	Improved import and export view in the Calculations module.
 -	Improved adding of new sharing rules.
+-	Improved a list of users and groups in the list of records.
+-	Improved debugging.
 -	Added changes from Vtiger rev. 14461, 14484, 14490, 14501 (6.3.0).
 -	Added omitted fixes that had an influence on records creation.
 -	Added protection when creating records. 
@@ -130,11 +142,13 @@ Below you can see how we improve our project:
 -	Added javascript action for events in the Reservations and Time Control. 
 -	Added an uncompressed file to the Bootbox library. 
 -	Added a 'type' attribute to buttons in headers in edit view.
+-	Added many missing translations.
 -	Added missing buttons for generating random colors in Calendar configuration and Activity configuration panels.
 -	Optimized backup files.
 -	Optimized load scripts.
 -	Expanded the configuration of emails. 
 -	Secured search of records in a list view.
+-	Secured the creation of records in the Calendar.
 -	Changed icon names in database.
 -	Rebuilt the loading of JS files in import and export inventory modules.
 -	Bootstrap 3 - fixed the appearance of the products blok.
@@ -167,6 +181,8 @@ Below you can see how we improve our project:
 - Added system filters.
 - Added a possibility to change the access rules in the Calendar.
 - Added a status of email accounts in the Mail Scanner.
+- Added a functionality responsible for loading of a new web service.
+- Added a configuration for Portal 2.0.
 
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/pl/dokumentacja-programisty/zmiany.html).

@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************************************************************
+/* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
@@ -7,7 +7,7 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
- *************************************************************************************************************************************/
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_DATAACCES' => 'Validation of access',
 	'LBL_DATAACCESS' => 'Validation of access',
@@ -41,7 +41,6 @@ $languageStrings = [
 	'LBL_CONFIG_ACTION' => 'Actions configuration',
 	'LBL_FAILED_TO_APPROVE_CHANGES' => 'Failed to approve changes',
 	'LBL_MANDATORY_FIELD' => 'Mandatory Field',
-
 	//comparators
 	'starts with' => 'starts with',
 	'is' => 'is',
@@ -78,11 +77,12 @@ $languageStrings = [
 	'Check for duplicate names' => 'Check for duplicate names',
 	'Check whether all mandatory fields in quick edit are filled in' => 'Check whether all mandatory fields in quick edit are filled in',
 	'Lock edit on the status' => 'Lock edit on the status',
+	'is enabled' => 'is enabled',
+	'is disabled' => 'is disabled',
 ];
 
 $jsLanguageStrings = [
 	'DES_REQUIRED' => 'Description is required',
-
 	//comparators
 	'starts with' => 'starts with',
 	'is' => 'is',
@@ -111,4 +111,6 @@ $jsLanguageStrings = [
 	'more than hours before' => 'more than hours before',
 	'more than hours later' => 'more than hours later',
 	'has changed' => 'has changed',
+	'is enabled' => 'is enabled',
+	'is disabled' => 'is disabled',
 ];

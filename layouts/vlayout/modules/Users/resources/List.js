@@ -67,7 +67,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							title: app.vtranslate('JS_MESSAGE'),
 							text: data.result.message,
 							animation: 'show',
-							type: 'error'
+							type: 'success'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
 						jQuery('[data-id=' + userid + "]").hide();

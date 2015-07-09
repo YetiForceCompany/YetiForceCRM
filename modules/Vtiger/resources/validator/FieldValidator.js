@@ -49,7 +49,7 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js",{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 });
 
@@ -212,6 +212,14 @@ Vtiger_Base_Validator_Js('Vtiger_Url_Validator_Js',{},{
 		var fieldValue = this.getFieldValue();
 		var regexp = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
 		var result = regexp.test(fieldValue);
+
+		if (!result)
+		{
+			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('www.') === 0)
+			{
+				result = true;
+			}
+		}
 		if (!result ) {
 			var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');//"Please enter valid url";
 			this.setError(errorInfo);
@@ -329,7 +337,7 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js",{
 
 Vtiger_PositiveNumber_Validator_Js("Vtiger_WholeNumber_Validator_Js",{
 
-    /**
+	/**
 	 *Function which invokes field validation
 	 *@param accepts field element as parameter
 	 * @return error if validation fails true on success
@@ -400,7 +408,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanToday_Validator_Js",{},{
 			this.setError(errorInfo);
 			return false;
 		}
-                return true;
+				return true;
 	}
 })
 
@@ -433,7 +441,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanOrEqualToToday_Validator_Js",{},{
 			this.setError(errorInfo);
 			return false;
 		}
-                return true;
+				return true;
 	}
 })
 
@@ -466,7 +474,7 @@ Vtiger_Base_Validator_Js('Vtiger_greaterThanOrEqualToToday_Validator_Js',{},{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 })
 
@@ -521,7 +529,7 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js",{
 				}
 			}
 		}
-        return true;
+		return true;
 	},
 
 	getDateTimeInstance : function(field) {
@@ -548,7 +556,7 @@ Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js",{},{
 	validate: function(dependentFieldList){
 		var field = this.getElement();
 		var fieldLabel = field.data('fieldinfo').label;
-                var status = field.val();
+				var status = field.val();
 		var contextFormElem = field.closest('form');
 		for(var i=0; i<dependentFieldList.length; i++){
 			var dependentField = dependentFieldList[i];
@@ -556,9 +564,9 @@ Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js",{},{
 			if(dependentFieldInContext.length > 0){
 				var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
 				var todayDateInstance = new Date();
-                                var dateFormat = dependentFieldInContext.data('dateFormat');
-                                var time = jQuery('input[name=time_start]',contextFormElem);
-                                var fieldValue = dependentFieldInContext.val()+" "+time.val();
+								var dateFormat = dependentFieldInContext.data('dateFormat');
+								var time = jQuery('input[name=time_start]',contextFormElem);
+								var fieldValue = dependentFieldInContext.val()+" "+time.val();
 				var dependentFieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue,dateFormat);
 				var comparedDateVal =  todayDateInstance - dependentFieldDateInstance;
 				if(comparedDateVal < 0 && status == "Held"){
@@ -568,7 +576,7 @@ Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js",{},{
 				}
 			}
 		}
-        return true;
+		return true;
 	}
 })
 
@@ -584,9 +592,9 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js",{},{
 		var fieldLabel = field.data('fieldinfo').label;
 		var contextFormElem = field.closest('form');
 		//No need to validate if value is empty
-        if(field.val().length == 0) {
-            return;
-        }
+		if(field.val().length == 0) {
+			return;
+		}
 		for(var i=0; i<dependentFieldList.length; i++){
 			var dependentField = dependentFieldList[i];
 			var dependentFieldInContext = jQuery('input[name='+dependentField+']',contextFormElem);
@@ -606,7 +614,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js",{},{
 				}
 			}
 		}
-        return true;
+		return true;
 	},
 
 	getDateTimeInstance : function(field) {
@@ -655,7 +663,7 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js',{
 		var fieldData = field.data();
 
 		var strippedValue = fieldValue.replace(fieldData.decimalSeperator, '');
-        var spacePattern = /\s/;
+		var spacePattern = /\s/;
 		if (spacePattern.test(fieldData.decimalSeperator) || spacePattern.test(fieldData.groupSeperator))
 			strippedValue = strippedValue.replace(/ /g, '');
 		var errorInfo;
@@ -664,8 +672,8 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js',{
 			fieldData.groupSeperator = "\\$"
 		}
 		
-        var regex = new RegExp(fieldData.groupSeperator,'g');
-        strippedValue = strippedValue.replace(regex, '');
+		var regex = new RegExp(fieldData.groupSeperator,'g');
+		strippedValue = strippedValue.replace(regex, '');
 		//Note: Need to review if we should allow only positive values in currencies
 		/*if(strippedValue < 0){
 			var errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');//"currency value should be greater than or equal to zero";
@@ -819,23 +827,23 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js",{
 Vtiger_greaterThanDependentField_Validator_Js("Calendar_greaterThanDependentField_Validator_Js",{},{
 
 	getDateTimeInstance : function(field) {
-        var form = field.closest('form');
+		var form = field.closest('form');
 		if(field.attr('name') == 'date_start') {
 			var timeField = form.find('[name="time_start"]');
-            var timeFieldValue = timeField.val();
+			var timeFieldValue = timeField.val();
 		}else if(field.attr('name') == 'due_date') {
 			var timeField = form.find('[name="time_end"]');
-            if(timeField.length > 0) {
-                var timeFieldValue = timeField.val();
-            }else{
-                //Max value for the day
-                timeFieldValue = '11:59 PM';
-            }
+			if(timeField.length > 0) {
+				var timeFieldValue = timeField.val();
+			}else{
+				//Max value for the day
+				timeFieldValue = '11:59 PM';
+			}
 		}
 
 		var dateFieldValue = field.val()+" "+ timeFieldValue;
-        var dateFormat = field.data('dateFormat');
-        return Vtiger_Helper_Js.getDateInstance(dateFieldValue,dateFormat);
+		var dateFormat = field.data('dateFormat');
+		return Vtiger_Helper_Js.getDateInstance(dateFieldValue,dateFormat);
 	}
 
 });
@@ -869,7 +877,7 @@ Vtiger_Base_Validator_Js('Calendar_greaterThanToday_Validator_Js',{},{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 })
 
@@ -980,7 +988,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumeric_Validator_Js",{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 })
 Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashes_Validator_Js",{
@@ -1015,7 +1023,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashes_Validator_Js",{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 })
 Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js",{
@@ -1066,6 +1074,6 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js",{
 			this.setError(errorInfo);
 			return false;
 		}
-        return true;
+		return true;
 	}
 })
