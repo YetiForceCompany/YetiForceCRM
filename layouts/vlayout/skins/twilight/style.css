@@ -550,6 +550,61 @@ hr {
 #globalmodal form {
   margin: 0 0 0;
 }
+.globalSearchResults {
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border: 1px solid #c4c4c4;
+  -webkit-box-shadow: 0 0 3px -1px #dddddd;
+  -moz-box-shadow: 0 0 3px -1px #dddddd;
+  box-shadow: 0 0 3px -1px #dddddd;
+  min-width: 280px;
+  min-height: 500px;
+}
+.globalSearchResults .highlightedHeader {
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
+  background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#f3f3f4', GradientType=0);
+  border-color: #f3f3f4 #f3f3f4 #cbcbcf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  text-shadow: 0px 1px #ffffff;
+  border-bottom: 1px solid #dddddd;
+  color: #444444;
+  padding: 8px 5px;
+}
+.globalSearchResults #showFilter {
+  color: #404952;
+}
+.globalSearchResults .contents {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  padding: 5% 5% 10% 3%;
+  max-height: 500px;
+  min-width: 280px;
+}
+.globalSearchResults .contents > label {
+  padding: 5px;
+  border-bottom: 1px solid #dddddd;
+}
+.globalSearchResults .contents ul li a {
+  margin: 5px 0;
+  padding: 7px;
+}
+.globalSearchResults .contents ul li a span {
+  color: #404952;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+.globalSearchResults .contents ul li a span p {
+  margin: 0 !important;
+}
 .dashboardHeading h2 {
   padding-bottom: 8px;
 }
@@ -1045,8 +1100,8 @@ li.ui-timepicker-selected,
   word-wrap: break-word;
 }
 .commentTitle .col-md-1 img {
-  width: 32px;
-  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
 }
 .commentsList > ul {
   margin-left: 0;
@@ -2318,10 +2373,8 @@ th.htColHeader,
   font-size: 15px;
   line-height: 20px;
 }
-.fc-widget-header th{
-  padding: 4px 0px !important;
-}
 .fc-widget-header {
+  padding: 7px 0px 0 8px !important;
   color: #666;
   background: #eee;
   border-color: #ccc;
@@ -3135,6 +3188,16 @@ table.listViewEntriesTable {
 }
 .navbar-inverse .navbar-nav > li > a {
 	color: #ffffff;
+  padding: 15px 12px;
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu > li > a {
+  padding: 3px 15px;
+  font-size: 12px;
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu:empty {
+  display: none;
 }
 .headerCalendar .month h3 {
 	font-size: 18px;
@@ -3235,45 +3298,39 @@ display:none;
 .detailview-table  .fieldValue:hover  .summaryViewEdit { 
 display: inherit;
 }
-.icon-in-history-widget{
-	font-size: 17px;
-	padding: 4px;
-}
-#prefPageHeader .logo img{
-	height: 70px;
-	width: 70px;
-}
-#myPrefHeading h3{
-	margin-top: 12px;
-}
-.list-user-img{
-	width: 50px;
-	height: 40px;
-}
-span[name=existingImages] img{
-	height: 200px;
-	width: 300px;
-}
-.narrow.fieldValue .chosen-container-single .chosen-single{
-height: 26px;
-line-height: 26px;
-}
-.narrow.fieldValue input{
-height: 26px;
-}
-.narrow.fieldValue .input-group-addon{
-padding: 4px 10px;
-}
-.narrow.fieldValue .chosen-container-single .chosen-single div b{
-background-position-y: 4px;
-}
-.image-in-button{
-	width: 18px;
-}
-.fc-time-grid .fc-time-grid-event.fc-event{
-min-height: 27px;
-min-width: 100px;
-}
-.fc-time-grid-event.fc-short .fc-title{
-font-size: 1em;
+
+
+/*
+Navbar "hovernav" dropdown menu - this works only for screen sizes larger than phones.
+The Bootstrap CSS is unchanged.
+*/
+@media (min-width: 768px) {
+  /* Use this if you wish to hide the caret
+  .navbar-nav .caret {
+    display: none;
+  } 
+  */
+  .navbar-nav.navbar-left .open ul {
+    display: none
+  }
+  .navbar-default .navbar-nav > .open > a,
+  .navbar-default .navbar-nav > .open > a:hover,
+  .navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background: none
+  }
+  .navbar-default .navbar-nav > li:hover {
+    background: #e7e7e7
+  }
+  .navbar-inverse .navbar-nav > .open > a,
+  .navbar-inverse .navbar-nav > .open > a:hover,
+  .navbar-inverse .navbar-nav > .open > a:focus {
+    background: none
+  }
+  .navbar-inverse .navbar-nav > li:hover {
+    background: #080808
+  }
+  .navbar-nav .hovernav:hover > .dropdown-menu {
+    display: block;
+  }
 }
