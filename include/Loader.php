@@ -33,10 +33,10 @@ class Vtiger_Loader {
 		
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = YF_ROOT . DIRECTORY_SEPARATOR . $file;
+			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' .$fileExtension;
-			$file = YF_ROOT . DIRECTORY_SEPARATOR . $file;
+			$file = vglobal('root_directory') . DIRECTORY_SEPARATOR . $file;
 		}
 		return $file;
 	}
