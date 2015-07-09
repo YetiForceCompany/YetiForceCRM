@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('Transfer records to user', $MODULE)}</h3>
+					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="deleteUser" name="deleteUser" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -25,11 +25,11 @@
 							<div class="tab-content massEditContent">
 								<table class="massEditTable table table-bordered">
 									<tr>
-										<td class="fieldLabel alignMiddle">{vtranslate('User to be deleted', $MODULE)}</td>
+										<td class="fieldLabel alignMiddle">{vtranslate('LBL_USER_TO_BE_DELETED', $MODULE)}</td>
 										<td class="fieldValue">{$DELETE_USER_NAME}</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle">{vtranslate('Transfer records to user', $MODULE)}</td>
+										<td class="fieldLabel alignMiddle">{vtranslate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)}</td>
 										<td class="fieldValue">
 											<select class="chzn-select {if $OCCUPY_COMPLETE_WIDTH} row {/if} form-control" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
 												{foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
