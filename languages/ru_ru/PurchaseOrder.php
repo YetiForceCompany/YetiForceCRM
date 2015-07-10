@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -8,22 +8,20 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
-	'Delivered' => 'Поставляется',
-	'Paid' => 'Оплачено',
 	'LBL_ADD_RECORD' => 'Добавить Закупку',
 	'LBL_BALANCE' => 'Баланс',
 	'LBL_COPY_BILLING_ADDRESS' => 'Копировать юридический адрес в фактический',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Копировать фактический адрес в юридический',
-	'LBL_EXPORT_TO_PDF'	=>	'Сохранить в PDF:',
-	'LBL_LIST_PRICE'               => 'Прайс лист',
+	'LBL_EXPORT_TO_PDF' => 'Сохранить в PDF:',
+	'LBL_LIST_PRICE' => 'Прайс лист',
 	'LBL_PAID' => 'Оплачено',
 	'LBL_PO_INFORMATION' => 'Закупка',
 	'LBL_RECORDS_LIST' => 'Список Закупок',
-	'List Price'                   => 'Прайс лист',
+	'List Price' => 'Прайс лист',
 	'PurchaseOrder No' => 'Закупка №',
-	'Received Shipment'=>'Получено с доставкой',
+	'Received Shipment' => 'Получено с доставкой',
 	'Requisition No' => '№',
 	'Sales Commission' => 'Комиссия',
 	'SINGLE_PurchaseOrder' => 'Закупка',
