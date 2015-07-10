@@ -53,12 +53,12 @@
 		<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 			<li class="active"><a href="#tab_0" data-toggle="tab">{vtranslate('LBL_BACKUP_CREATING', $QUALIFIED_MODULE_NAME)}</a></li>
 			<li><a href="#tab_1" data-toggle="tab">{vtranslate('LBL_LOGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{if function_exists('ftp_connect')}
+				{if function_exists('ftp_connect')}
 				<li><a href="#tab_2" data-toggle="tab">{vtranslate('LBL_FTP_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{/if}
-			{if $CHECK_MAIL}
+				{/if}
+				{if $CHECK_MAIL}
 				<li><a href="#tab_3" data-toggle="tab">{vtranslate('LBL_EMAIL_NOTIFICATIONS', $QUALIFIED_MODULE_NAME)}</a></li>
-			{/if}
+				{/if}
 			<li><a href="#tab_4" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE_NAME)}</a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content layoutContent" style="padding-top: 5px;">
@@ -281,7 +281,7 @@
 								<td style="width:25%"><label class="pull-right">{vtranslate('LBL_ACTIVE', $QUALIFIED_MODULE_NAME)}</label></td>
 								<td>
 									<div class="col-md-3">
-									<input type="checkbox" name="active" {if $FTP_ACTIVE} checked {/if}></input>
+										<input type="checkbox" name="active" {if $FTP_ACTIVE} checked {/if}></input>
 									</div>
 								</td>
 							</tr>
@@ -337,13 +337,13 @@
 						<tr>
 							<td><label>{vtranslate('LBL_STORAGEFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField switchBtn" type="checkbox" name="storage_folder" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="storage_folder" data-on-text="{vtranslate('LBL_ON', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_OFF', $QUALIFIED_MODULE)}" data-type="folder" {if $DIRSFROMCONFIG['storage_folder'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 						<tr>
 							<td><label>{vtranslate('LBL_BACKUPFOLDER_INFO', $QUALIFIED_MODULE)}</label></td>
 							<td>
-								<input class="span1 configField switchBtn" type="checkbox" name="backup_folder" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
+								<input class="span1 configField switchBtn" type="checkbox" name="backup_folder" data-on-text="{vtranslate('LBL_ON', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_OFF', $QUALIFIED_MODULE)}" data-type="folder" {if $DIRSFROMCONFIG['backup_folder'] == 'true'}checked{/if} />
 							</td>
 						</tr>
 						<tr>
@@ -357,4 +357,4 @@
 			</div>
 		</div>
 	</div>
-	{/strip}
+{/strip}
