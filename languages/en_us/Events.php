@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,18 +7,18 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
 /* NOTE: Should be inline with Calendar language translation but few variations */
 
 $languageStrings = [
-	'Activity Type'=>'Activity Type',
+	'Activity Type' => 'Activity Type',
 	'Busy' => 'Busy',
 	'Call' => 'Call',
-	'Daily'=>'Day(s)',
+	'Daily' => 'Day(s)',
 	'Events' => 'Events',
 	'Held' => 'Held',
-	'INVITATION'=>' Invitation ',
+	'INVITATION' => ' Invitation ',
 	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_CALENDAR_VIEW' => 'Calendar View',
 	'LBL_CREATE_FOLLOWUP_EVENT' => 'Create Follow Up Event',
@@ -57,9 +57,9 @@ $languageStrings = [
 	'LBL_UNTIL' => 'Until',
 	'LBL_WEEKS_TYPE' => 'Week(s)',
 	'LBL_YEAR_TYPE' => 'Year',
-	'Location'=>'Location',
+	'Location' => 'Location',
 	'Meeting' => 'Meeting',
-	'Monthly'=>'Month(s)',
+	'Monthly' => 'Month(s)',
 	'Not Held' => 'Not Held',
 	'Planned' => 'Planned',
 	'Private' => 'Private',
@@ -68,20 +68,20 @@ $languageStrings = [
 	'Send Notification' => 'Send Notification',
 	'Send Reminder' => 'Send Email Reminder Before',
 	'SINGLE_Events' => 'Event',
-	'Start Date & Time'=>'Start Date & Time',
+	'Start Date & Time' => 'Start Date & Time',
 	'End Date & Time' => 'End Date & Time',
-	'Start Date &amp; Time'=>'Start Date & Time',
+	'Start Date &amp; Time' => 'Start Date & Time',
 	'End Date &amp; Time' => 'End Date & Time',
 	'Visibility' => 'Visibility',
-	'Weekly'=>'Week(s)',
-	'Yearly'=>'Year',
+	'Weekly' => 'Week(s)',
+	'Yearly' => 'Year',
 	'Mobile Call' => 'Mobile call',
-	'LBL_NO_DESCRIPTION'=>'No description',
+	'LBL_NO_DESCRIPTION' => 'No description',
 	'All day' => 'All day',
 	//Priority picklist values 
-	'High' => 'High', 
-	'Medium' => 'Medium', 
-	'Low' => 'Low', 
+	'High' => 'High',
+	'Medium' => 'Medium',
+	'Low' => 'Low',
 	'LBL_STATE' => 'Show as',
 	'PLL_OPAQUE' => 'Busy',
 	'PLL_TRANSPARENT' => 'Free',
@@ -92,6 +92,11 @@ $languageStrings = [
 	'LBL_REMAIND_DAYS' => 'Remaind after defined number of days',
 	'LBL_REPEAT_FOR' => 'Repeat for',
 	'LBL_RECURRING_TYPE' => 'Recurring type',
-	'Time Start'=>'Time start',
+	'Time Start' => 'Time start',
+	'Duration' => 'Duration',
+	'Duration Minutes' => 'Duration Minutes',
+	'No Time' => 'No Time',
+	'End Time' => 'End Time',
+	'Status' => 'State',
 ];
 
