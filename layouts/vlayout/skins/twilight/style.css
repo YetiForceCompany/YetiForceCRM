@@ -1,5 +1,5 @@
 @media print {
-	.noprint { display:none; }
+  .noprint { display:none; }
 }
 .clearfix {
   *zoom: 1;
@@ -50,8 +50,33 @@ hr {
   border-bottom: 1px solid #dddddd;
 }
 .navbar.navbar-fixed-top .navbar-collapse {
-	padding-right: 15px !important;
+  padding-right: 15px !important;
 }
+
+.navbar-nav.navbar-left .open ul {
+  display: none
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #555;
+  background: none
+}
+.navbar-default .navbar-nav > li:hover {
+  background: #e7e7e7
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background: none
+}
+.navbar-inverse .navbar-nav > li:hover {
+  background: #080808
+}
+.navbar-nav .hovernav:hover > .dropdown-menu {
+  display: block;
+}
+
 #collapsedMenu {
   display: block;
   position: relative;
@@ -964,9 +989,9 @@ li.ui-timepicker-selected,
   word-wrap: break-word;
 }
 /*#EditView{
-	input[type="radio"]{
-		margin: -2px 3px 0 0 !important;
-	}
+  input[type="radio"]{
+    margin: -2px 3px 0 0 !important;
+  }
 }*/
 .recordEditView .contentHeader {
   padding: 1.5% 0;
@@ -1140,17 +1165,17 @@ li.ui-timepicker-selected,
 }
 /*//
 .table-bordered th + th, .table-bordered td + td, .table-bordered th + td, .table-bordered td + th{
-	border-left-color: @lightColorBorder;
+  border-left-color: @lightColorBorder;
 }
 .listViewEntriesTable tbody tr td{
-	border-left: 1px solid @lightColorBorder;
+  border-left: 1px solid @lightColorBorder;
 }*/
 .listViewEntriesTable tbody tr td:first-child{
-	border-left: 0 none;
+  border-left: 0 none;
 }
 /*
 .listViewEntriesTable tbody td:last-child{
-	border-left: 0;
+  border-left: 0;
 }
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
@@ -3087,44 +3112,44 @@ td.listViewEntryValue .row input {
   float: right !important;
 }
 .cut-string {
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
-	width: 200px;
-	white-space: nowrap;
-	overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -webkit-text-overflow: ellipsis;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .paddingLRZero {
-	padding-left: 0px;
-	padding-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .paddingRightZero {
-	padding-right: 0px;
+  padding-right: 0px;
 }
 .detailViewToolbar {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .input-group.input-group-sm > .input-group-addon img {
-	width: 15px;
+  width: 15px;
 }
 table tr td .input-sm{
-	min-width: 50px;;
+  min-width: 50px;;
 }
 .modal-footer.backgroundColor{
-	background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 .panel-title{
-	font-size: 14px;
+  font-size: 14px;
 }
 .quickWidgetContainer .panel-body{
-	padding-bottom: 0;
-	padding-top: 0;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 tr.summaryViewEntries, #detailView table {
   font-size: 13px;
 }
 table.listViewEntriesTable {
-	font-size: 13px;
+  font-size: 13px;
 }
 .no-margin{
   margin: 0;
@@ -3134,72 +3159,78 @@ table.listViewEntriesTable {
   max-width: 250px; 
 }
 .navbar-inverse .navbar-nav > li > a {
-	color: #ffffff;
+  color: #ffffff;
+  padding: 15px 12px;
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu > li > a {
+  padding: 3px 15px;
+  font-size: 12px;
 }
 .headerCalendar .month h3 {
-	font-size: 18px;
-	font-weight: bold;
-	margin: 5px 0 0 0;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0 0 0;
 }
 .columnsSelect{
-	width: 100% !important;
+  width: 100% !important;
 }
 .marginBottom5 {
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 .editViewContainer .recordEditView table.blockContainer tr td.fieldValue {
-	width: 30%;
+  width: 30%;
 }
 .btn {
     white-space: normal;
 }
 .valuesAssignedToRole {
-	border: 1px solid #adadad; 
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding: 6px;
+  border: 1px solid #adadad; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 6px;
 }
 table.dataTable .form-control {
-	width: 100% !important;
+  width: 100% !important;
 }
 #breadcrumb .stepNum{
-	margin-top: 0;
+  margin-top: 0;
 }
 #breadcrumb .stepText{
-	position: relative;
-	top: -4px;
+  position: relative;
+  top: -4px;
 }
 .fc button {
-	/* FullCalendar buttons */
-	height: auto !important;
+  /* FullCalendar buttons */
+  height: auto !important;
 }
 .fc-toolbar {
-	margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 .fc-center, .fc-left, .fc-right{
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .calendarRightPanel {
-	padding-left: 5px;
-	padding-right: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .calendarRightPanel img.imageElement,.calendarRightPanel .glyphicon-refresh{
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: #fff
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #fff
 }
 .calendarRightPanel ul li{
-	margin-bottom: 2px;
-	margin-left:5px; 
+  margin-bottom: 2px;
+  margin-left:5px; 
 }
 .calendarRightPanel ul li:hover{
-	background-color: #eee !important;
-	border-radius: 5px;
+  background-color: #eee !important;
+  border-radius: 5px;
 }
 .square9 {
-	width: 9px;
-	height: 9px;
-	margin: 4px;
+  width: 9px;
+  height: 9px;
+  margin: 4px;
 }
 .panel-dark {
   border-color: #737373;
@@ -3220,8 +3251,8 @@ table.dataTable .form-control {
   border-bottom-color: #737373;
 }
 .calendarRightPanel .widgetContainer ul {
-	margin-top: 5px;
-	margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .paddingLeft5px{
   padding-left: 5px;
@@ -3236,23 +3267,23 @@ display:none;
 display: inherit;
 }
 .icon-in-history-widget{
-	font-size: 17px;
-	padding: 4px;
+  font-size: 17px;
+  padding: 4px;
 }
 #prefPageHeader .logo img{
-	height: 70px;
-	width: 70px;
+  height: 70px;
+  width: 70px;
 }
 #myPrefHeading h3{
-	margin-top: 12px;
+  margin-top: 12px;
 }
 .list-user-img{
-	width: 50px;
-	height: 40px;
+  width: 50px;
+  height: 40px;
 }
 span[name=existingImages] img{
-	height: 200px;
-	width: 300px;
+  height: 200px;
+  width: 300px;
 }
 .narrow.fieldValue .chosen-container-single .chosen-single{
 height: 26px;
@@ -3268,7 +3299,7 @@ padding: 4px 10px;
 background-position-y: 4px;
 }
 .image-in-button{
-	width: 18px;
+  width: 18px;
 }
 .fc-time-grid .fc-time-grid-event.fc-event{
 min-height: 27px;
