@@ -9,9 +9,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
-	'Products' => 'Товар',
 	'Orders accepted' => 'Оформление заказа',
-	'Township'	=>	'Поселок',
 	'--None--' => '--Нет--',
 	'Approval for email' => 'Можно писать',
 	'Approval for phone calls' => 'Можно звонить',
@@ -60,8 +58,6 @@ $languageStrings = [
 	'Mrs.'                         => 'Мис.'                     , 
 	'Ms.'                          => 'Г-жа.'                    , 
 	'No Of Employees'              => 'Кол-во сотрудников', 
-	'No approval for email'	=>	'Не писать',
-	'No approval for phone calls'	=>	'Не звонить',
 	'Not Contacted' => 'Контакт не установлен',
 	'Phone'	=>	'Телефон',
 	'Pre Qualified'                => 'Предв. классифицирован', 
@@ -78,12 +74,10 @@ $languageStrings = [
 	'Total time worked'	=>	'Общее время работы',
 	'Warm'                         => 'Теплый'                , 
 	'Website'	=>	'Сайт',
-	'Werification data'	=>	'Проверка данных',
+	'Verification data'	=>	'Проверка данных',
 	'Attorney General\'s Office' => 'Прокуратура',
-    'Hot Leads'                    => 'Горячие Обращения',
 	'LBL_REQUIRES_VERIFICATION'	=>	'Проверка данных',
     'LBL_SETUP_WEBFORMS'           => 'Установка Веб-Форм'              , 
-    'Prospecting'                  => 'Разведка',
 	'LBL_RELATION' => 'Отношение',
 	'LBL_LEGAL_FORM' => 'Юридическая форма',
 
@@ -112,7 +106,6 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'Township'	=>	'Поселок',
 	'JS_SELECT_CONTACTS'           => 'Выберите контакты для продолжения'  , 
 	'JS_SELECT_ORGANIZATION' => 'Выберите Контрагента для продолжнеия',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'Необходимо выбрать Контакт или Контрагент',

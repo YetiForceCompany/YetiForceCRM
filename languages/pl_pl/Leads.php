@@ -9,6 +9,8 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_SETUP_WEBFORMS' => 'Konfiguracja formularzy WWW',
+	'Verification data' => 'Wymagają weryfikacji',
 	'Attempted to Contact'=>'Zakwalifikowany do kontaktu',
 	'CANNOT_CONVERT' => 'Nie można wykonać konwertowania',
 	'Cold'=>'Zimny',
