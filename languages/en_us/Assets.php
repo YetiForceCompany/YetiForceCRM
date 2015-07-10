@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'PLL_DRAFT' => 'Draft',
 	// Basic Strings
 	'Assets'        => 'Assets',
 	'SINGLE_Assets' => 'Asset',
@@ -30,7 +31,6 @@ $languageStrings = [
 	'Notes' => 'Notes',
 
 	/*picklist values*/
-	'PLL_DRAFT'=>'Draft',
 	'PLL_WARRANTY_SUPPORT'=>'Warranty support',
 	'PLL_POST_WARRANTY_SUPPORT'=>'Post-warranty support',
 	'PLL_NO_SUPPORT'=>'No support',
