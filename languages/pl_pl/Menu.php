@@ -25,4 +25,5 @@ $languageStrings = [
 	'MEN_PRODUCTBASE' => 'Baza produktów',
 	'MEN_LISTS' => 'Wykazy',
 	'MEN_SERVICESBASE' => 'Baza usług',
+	'Menu' => 'Menu',
 ];
