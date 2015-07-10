@@ -132,7 +132,7 @@ $languageStrings = [
 	'LBL_VALUE_OF_FIELDS' => 'Значение поля',
 	'LBL_VALUE_OF_SERVER' => 'Значение сервера',
 	'LBL_WORKFLOWS_RUN_TIME' => 'Дата и время запуска',
-	'Sales stage - Negotiations' => 'Sales stage - Negotiations',
+	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
 	
 	//workflow task types
 	'Send Mail' => 'Отправить Почту',
