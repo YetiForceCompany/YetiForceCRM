@@ -136,14 +136,14 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 		$temp_result = Array();
 		// Including deleted vtiger_users for now.
 		if (empty($status)) {
-				$query = "SELECT id, user_name from vtiger_users";
+				$query = "SELECT id, user_name, is_admin from vtiger_users";
 				$params = array();
 		}
 		else {
 				if($private == 'private')
 				{
 					$log->debug("Sharing is Private. Only the current user should be listed");
-					$query = "select id as id,user_name as user_name,first_name,last_name from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
+					$query = "select id as id,user_name as user_name,first_name,last_name,is_admin from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
 							  vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name
 							  from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ? and status='Active' union
 							  select shareduserid as id,vtiger_users.user_name as user_name ,
@@ -153,7 +153,7 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 				else
 				{
 					$log->debug("Sharing is Public. All vtiger_users should be listed");
-					$query = "SELECT id, user_name,first_name,last_name from vtiger_users WHERE status=?";
+					$query = "SELECT id, user_name,first_name,last_name,is_admin from vtiger_users WHERE status=?";
 					$params = array($status);
 				}
 		}
@@ -174,7 +174,9 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 		// Get the id and the name.
 		while($row = $db->fetchByAssoc($result))
 		{
-			$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
+			if($current_user->is_admin == 'on' || !(!PerformancePrefs::getBoolean('SHOW_ADMINISTRATORS_IN_USERS_LIST') && $row['is_admin'] == 'on')){
+				$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
+			}
 		}
 
 		$user_array = &$temp_result;
