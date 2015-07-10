@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -8,13 +8,12 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * VERSION YetiForceCRM: 1.1.0 RC
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'Customer type' => 'Тип клиента',
 	'End Time' => 'Время окончания',
 	'Direction' => 'Направление',
 	'Gateway' => 'Шлюз',
-	'Customer Type' => 'Тип клиента',
 	'Source UUID' => 'Исходный UUID',
 	'Bill Duration' => 'Время разговора (сек)',
 	'Call Status' => 'Статус звонка',
@@ -22,16 +21,15 @@ $languageStrings = [
 	'Customer' => 'Клиент',
 	'LBL_CALL_FROM' => 'Звонок от',
 	'LBL_CALL_TO' => 'Звонок',
-	'LBL_CUSTOM_INFORMATION'=>'Информация',
-	'LBL_HIDDEN' => 'Скрытый', 
+	'LBL_CUSTOM_INFORMATION' => 'Информация',
+	'LBL_HIDDEN' => 'Скрытый',
 	'LBL_PBXMANAGER_INFORMATION' => 'Детали звонка',
 	'LBL_SERVER_CONFIGURATION' => 'Настройка конфигурации',
 	'Recording URL' => 'Запись звонка',
-	'SINGLE_PBXManager'            => 'Запись PBX'        ,
-	'SINGLE_PBXManager' => 'Детали звонка' ,
+	'SINGLE_PBXManager' => 'Запись PBX',
+	'SINGLE_PBXManager' => 'Детали звонка',
 	'Start Time' => 'Время начала звонка',
 	'Total Duration' => 'Длительность (сек)',
 	'User' => 'Пользователь',
 	'Record Id' => 'ID Записи',
-	'Customer Type' => 'Тип клиента',
 ];
