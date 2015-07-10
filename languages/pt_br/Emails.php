@@ -9,6 +9,9 @@
  * Contributor(s): Valmir C. Trindade - Brazilian Portuguese Translation - 20/06/2014 - www.ttcasolucoes.com.br
  ************************************************************************************/
 $languageStrings = [
+	'Email Flag' => 'Email Flag',
+	'Activtiy Type' => 'Activtiy Type',
+	'Sales Enity Module' => 'Sales Enity Module',
 	'Parent ID' => 'ID Pai',
 	'Owner' => 'Proprietário',
 	'Access Count' => 'Número Acessos',
@@ -22,11 +25,11 @@ $languageStrings = [
 	'LBL_CC' => 'Cc :',
 	'LBL_COMPOSE_EMAIL'=> 'Novo Email' ,
 	'LBL_DESCRIPTION' => 'Descrição',
-        'LBL_MAIL_DATE'  => 'Data Email',
+	'LBL_MAIL_DATE'  => 'Data Email',
 	'LBL_DRAFTED_ON' => 'Redigido em',
-        'LBL_DRAFT'=>'Rascunho',
-        'LBL_ATTACHED'=>'Anexado',
-  'LBL_EMAIL_INFORMATION' => 'Informação E-mail',
+	'LBL_DRAFT'=>'Rascunho',
+	'LBL_ATTACHED'=>'Anexado',
+	'LBL_EMAIL_INFORMATION' => 'Informação E-mail',
 	'LBL_EXCEEDED' => 'Excedido',
 	'LBL_FORWARD' => 'Avançar',
 	'LBL_FROM' => 'De',

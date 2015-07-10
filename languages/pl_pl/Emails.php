@@ -9,6 +9,9 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 $languageStrings = [
+	'Email Flag' => 'Email Flag',
+	'Activtiy Type' => 'Activtiy Type',
+	'Sales Enity Module' => 'Sales Enity Module',
 	'Parent ID' => 'Parent ID',
 	'Owner' => 'Owner',
 	'Access Count' => 'Access Count',
@@ -22,10 +25,10 @@ $languageStrings = [
 	'LBL_CC' => 'DW',
 	'LBL_COMPOSE_EMAIL' => 'Napisz maila',
 	'LBL_DESCRIPTION' => 'Opis',
-        'LBL_MAIL_DATE'  => 'Data maila', 
+	'LBL_MAIL_DATE'  => 'Data maila', 
 	'LBL_DRAFTED_ON' => 'Sporządzono o',
-        'LBL_DRAFT'=>'Wersja robocza', 
-        'LBL_ATTACHED'=>'Dołączone', 
+	'LBL_DRAFT'=>'Wersja robocza', 
+	'LBL_ATTACHED'=>'Dołączone', 
 	'LBL_EMAIL_INFORMATION' => 'Informacje o e-mail',
 	'Emails_Block1' => 'Email blok 1',
 	'Emails_Block2' => 'Email blok 2',
