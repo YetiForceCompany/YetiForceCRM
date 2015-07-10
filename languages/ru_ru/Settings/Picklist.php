@@ -41,7 +41,7 @@ $languageStrings = [
 	'LBL_TO_DELETE_MULTIPLE_HOLD_CONTROL_KEY' => 'Чтобы удалить несколько элементов удерживайте кнопку Ctrl при выборе элементов',
 	'LBL_VALUES_ASSIGNED_TO_A_ROLE' => 'Значения присвоенные роли',
     'NO_PICKLIST_FIELDS'=> 'отсутствуют выпадающие списки',
-	'LBL_NEW_VALUE' => 'New value',
+	'LBL_NEW_VALUE' => 'Новое значение',
 ];
 
 $jsLanguageStrings = [

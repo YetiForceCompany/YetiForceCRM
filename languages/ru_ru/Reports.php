@@ -114,7 +114,7 @@ $languageStrings = [
 	'Report Name'                  => 'Название Отчета',
 	'Reports'                      => 'Отчеты'                , 
 	'SINGLE_Reports'               => 'Отчет'                  , 
-	'LBL_SELECT_REPORT' => 'Select report',
+	'LBL_SELECT_REPORT' => 'Выберите отчет',
 ];
 
 $jsLanguageStrings = [

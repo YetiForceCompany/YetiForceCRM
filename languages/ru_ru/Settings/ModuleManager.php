@@ -57,8 +57,8 @@ $languageStrings = [
 	'LBL_ERROR_NO_DEFAULT_LANGUAGE' => 'Модуль не содержит языковые файлы установленного по умолчанию языка системы. Язык системы (__DEFAULTLANGUAGE__).',
 	'LBL_ERROR_NO_LAYOUT_FILE' => 'Модуль не содержит файлы макета (Шаблона)',
 	'LBL_IMPORT' => 'Импорт',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Upload limit is too small',
-	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Upload limit is too small (%s) so the file cannot be uploaded to the server. It is recommended to check the system configuration <a href="index.php?parent=Settings&module=ConfReport&view=Index">Sprawdź konfigurację serwera</a>',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT' => 'Установлен маленький предел для загрузки файла',
+	'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC' => 'Установлен маленький предел для загрузки файла. Проверьте настройки конфигурации <a href=\"index.php?parent=Settings&module=ConfReport&view=Index\">Конфигурация сервера</a>',
 	
 	'LBL_CREATE_MODULE'	=>	'Создать Модуль',
 	'LBL_CREATING_MODULE'	=>	'Создание нового Модуля',

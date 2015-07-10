@@ -399,7 +399,7 @@ $languageStrings = [
 	'Document summary: show tax amount :'	=>	'Итог: Сумма с НДС',
 	'Show document summary :'	=>	'Показать ИТОГ',
 	'LBL_SELECT_OPTION'	=>	'-- Выбрать --',
-	'LBL_SELECT_DATE_TYPE' => 'Select date type',
+	'LBL_SELECT_DATE_TYPE' => 'Выберите тип даты',
 ];
 
 $jsLanguageStrings = [
