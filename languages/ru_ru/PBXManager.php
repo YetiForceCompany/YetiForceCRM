@@ -10,6 +10,7 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  ************************************************************************************/
 $languageStrings = [
+	'Customer type' => 'Тип клиента',
 	'End Time' => 'Время окончания',
 	'Direction' => 'Направление',
 	'Gateway' => 'Шлюз',
@@ -31,6 +32,6 @@ $languageStrings = [
 	'Start Time' => 'Время начала звонка',
 	'Total Duration' => 'Длительность (сек)',
 	'User' => 'Пользователь',
-	'Record Id' => 'Record Id',
-	'Customer Type' => 'Customer Type',
+	'Record Id' => 'ID Записи',
+	'Customer Type' => 'Тип клиента',
 ];
