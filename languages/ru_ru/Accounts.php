@@ -54,7 +54,6 @@ $languageStrings = [
 	'Ticker Symbol'                => 'Краткое название', 
 	'Total sale'	=>	'Общий объем продаж',
 	'Total time worked'	=>	'Общее время работы',
-	'Website'                      => 'Веб-сайт'             , 
 	'industry'                     => 'Отрасль'              , 
 	'LBL_ADVANCED_BLOCK'	=>	'Дополнительная информация',
 	'LBL_CONTACT_INFO'	=>	'Контактная информация',

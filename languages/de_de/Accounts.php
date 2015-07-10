@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
-	'No approval for email' => 'E-Mail Abgelehnt',
 	'Account Name' => 'Organisation',
 	'Account No' => 'Organisationsnummer',
 	'Accounts' => 'Organisationen',
@@ -41,8 +40,7 @@ $languageStrings = [
 	'SIC Code' => 'NACE-Code',
 	'SINGLE_Accounts' => 'Organisation',
 	'Ticker Symbol' => 'Börsensymbol',
-	'Website' => 'Webseite',
-	//OpenSaaS
+
 	'LBL_CREATING_NEW' => 'Erstelle neue',
 	'Fax' => 'Fax',
 
