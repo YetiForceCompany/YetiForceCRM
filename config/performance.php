@@ -26,7 +26,7 @@ $PERFORMANCE_CONFIG = Array(
 	'LISTVIEW_COMPUTE_PAGE_COUNT' => false,
 	
 	// Display administrators in the list of users (Assigned To)
-	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => false,
+	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => true,
 );
 /**
  * Performance perference API
