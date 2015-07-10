@@ -157,4 +157,5 @@ $jsLanguageStrings = [
 	'NoCrmRecord'	=>	'Сообщений не найдено. Проверьте, уровень доступа.',
 	'NoFindEmailInRecord'	=>	'Запись не имеет адреса электронной почты',
 	'AddFindEmailInRecord'	=>	'Скачать письмо',
+	'StartedDownloadingEmail' => '__UNTRANSLATED__',
 ];

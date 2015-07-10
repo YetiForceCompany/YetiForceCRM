@@ -101,7 +101,7 @@ function load_connection(crm_path, gcrm, params, inframe, progressIndicatorEleme
         });
     });
 }
-//executeActions('addLeads', params);
+
 function load_action(inframe, params) {
     $(inframe.find('#message-oss-header a.link')).click(function() {
         var url = $(this).attr('href');
@@ -265,15 +265,28 @@ function load_oss_bar_no_mail(inframe, params) {
     inframe.find('#message-oss-header').html('<div class="no_records">Nie znaleziono maila w bazie. <a class="import_mail">Zaimportuj maila ręcznie</a><div>');
     inframe.find('#messagecontent').css('top', (inframe.find('.oss-header').outerHeight() + inframe.find('#messageheader').outerHeight() + 1) + 'px');
     $(inframe.find('#message-oss-header .import_mail')).click(function() {
-        import_mail(params);
+		Vtiger_Helper_Js.showPnotify({text: app.vtranslate('StartedDownloadingEmail'), type: 'info'});
+		import_mail(params).then(function(data){
+			load_all_widgets();
+			Vtiger_Helper_Js.showPnotify({text: app.vtranslate('AddFindEmailInRecord'), type: 'success'});
+		});
     });
 }
 function import_mail(params) {
-    var requestParams = {};
-    requestParams.data = {module: 'OSSMailScanner', action: 'ImportMail', params: params};
-    requestParams.async = false;
-    AppConnector.request(requestParams).then(function(data) {  });
-    load_all_widgets();
+	var aDeferred = jQuery.Deferred();
+	var requestParams = {};
+	requestParams.data = {module: 'OSSMailScanner', action: 'ImportMail', params: params};
+	
+	AppConnector.request(requestParams).then(
+		function (data) {
+			aDeferred.resolve(data);
+		},
+		function (error) {
+			aDeferred.reject();
+		}
+	)
+	return aDeferred.promise();
+
 }
 function load_oss_bar(inframe, crmid, config, related_records) {
     //var crm_path = getBaseUrl(host);
@@ -442,9 +455,10 @@ function load_oss_bar(inframe, crmid, config, related_records) {
         html_1 += '<td>' + app.vtranslate('MHelpDesk') + '</td>';
         html_2 += '<td class="HelpDesk">' + HelpDesk_text + '</td>';
     }
-    inframe.find('#message-oss-header').html(
-            '<table class=""><thead><tr>' + html_1 + '</tr></thead><tbody><tr class="text-body" >' + html_2 + '</tr></tbody></table>'
-            );
+
+	inframe.find('#message-oss-header').html(
+			'<table class=""><thead><tr>' + html_1 + '</tr></thead><tbody><tr class="text-body" >' + html_2 + '</tr></tbody></table>'
+			);
     inframe.find('#moreheaderstoggle').html(
             '<a title="' + app.vtranslate('Preview email in CRM') + '" href="#" class="oss-email-link btn small-icon"><img src="' + images_path + 'Emails.png" ></a><a title="' + app.vtranslate('Reload action bar') + '" href="#" class="oss-reload-bar btn small-icon"><img src="' + crm_path + '/layouts/vlayout/modules/OSSMail/icons/Reload.png" ></a><a title="X" href="#" class="oss-close-bar btn small-icon"><img src="' + images_path + 'upArrowSmall.png"></a>'
             );

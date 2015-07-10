@@ -163,11 +163,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 	}
 	public static function executeActions($account, $mail_detail, $folder, $params = false) {
 		global $who_trigger;
-		$actions = $return = array();
-		if( $params && array_key_exists("actions",$params) ){
-			$actions[] = $params['actions'];
+		$actions = $return = [];
+		if( $params && array_key_exists('actions',$params) ){
+			$actions = $params['actions'];
 		}elseif(strpos($account['actions'], ',')){
-			$actions = explode(",", $account['actions']);
+			$actions = explode(',', $account['actions']);
 		}else{
 			$actions[] = $account['actions'];
 		}
@@ -207,12 +207,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model {
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$account = $mailModel->get_account_detail_by_name($params['username']);
-		if( $account[0]['actions'] == '' && $params['actions'] == '' ){
+		if( $account === false ){
 			return false;
 		}
-		$mbox = $mailModel->imap_connect( $account[0]['username'], $account[0]['password'], $params['folder'] );
+
+		$mbox = $mailModel->imap_connect( $account['username'], $account['password'], $params['folder'] );
 		$mail_detail = $mailModel->get_mail_detail( $mbox, $params['uid'] );
-		$return = self::executeActions( $account[0], $mail_detail, $params['folder'], $params );
+		$return = self::executeActions( $account, $mail_detail, $params['folder'], $params );
 		return $return;
 	}
 	public static function mail_Scan($mbox,$Account,$folder,$scan_id){

@@ -163,4 +163,5 @@ $jsLanguageStrings = [
 	'NoCrmRecord' => 'Keine Nachrichten gefunden. Prüfen ob Aktionen aktiviert sind.',
 	'NoFindEmailInRecord' => 'Datensatz hat keine E-Mail-Adresse',
 	'AddFindEmailInRecord' => 'Heruntergeladene E-Mail',
+	'StartedDownloadingEmail' => '__UNTRANSLATED__',
 ];

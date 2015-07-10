@@ -177,4 +177,5 @@ $jsLanguageStrings = [
 	'NoCrmRecord' => 'Nie znaleziono wiadomości. Sprawdz czy akcje są włączone.',
 	'NoFindEmailInRecord' => 'Rekord nie posiada adresu email',
 	'AddFindEmailInRecord' => 'Pobrano email',
+	'StartedDownloadingEmail' => 'Rozpoczęto pobieranie maila',
 ];
