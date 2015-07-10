@@ -3,5 +3,9 @@
  * that can be found in the following directory: licenses/License.html]} */
 
 $languageStrings = [
-	'Export' => 'Export',
+	'CallHistory' => 'История вызовов',
+	'Export' => 'Экспорт',
+	'Ideas' => 'Идеи',
+	'LettersIn' => 'Входящая корреспонденция',
+	'LettersOut' => 'Исходящая корреспонденция',
 ];

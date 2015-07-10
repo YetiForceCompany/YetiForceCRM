@@ -49,9 +49,9 @@ $languageStrings = [
 	'Parent ID' => 'Связан с',
 	'SINGLE_Emails'                => 'Почта'                  , 
 	'Time Start'                   => 'Время начала',
-	'Emails_Block1' => 'Email block 1',
-	'Emails_Block2' => 'Email block 2',
-	'Emails_Block3' => 'Email block 3',
+	'Emails_Block1' => 'Почтовый блок 1',
+	'Emails_Block2' => 'Почтовый блок 2',
+	'Emails_Block3' => 'Почтовый блок 3',
 ];
 
 $jsLanguageStrings = [

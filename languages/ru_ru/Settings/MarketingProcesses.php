@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Информация группы',
 	'LBL_LEAD_STATUS' => 'Состояние определяющее закрытие Обращения',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
-	'LBL_CONVERT_LEAD_MERGE' => 'Join converted record with existing account with the same name',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'This option allows system to automatically join converted record with already existing one by accounts name - new account will not be created, instead to existing record data will be transferred from Lead',
+	'LBL_CONVERT_LEAD_MERGE' => 'Объединить запись с таким же названием',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Данная опция позволяет объединить уже существующую запись',
 ];
 

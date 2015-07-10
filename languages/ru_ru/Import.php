@@ -78,7 +78,7 @@ $languageStrings = [
     'Skip' => 'Пропустить',
     'UTF-8' => 'UTF-8',
     'csv' => 'CSV',
-    'LBL_SELECT_FILE' => 'Select file to import',
+	'LBL_SELECT_FILE' => 'Выберите файл для Импорта',
 ];
 
 $jsLanguageStrings = [

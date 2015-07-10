@@ -30,7 +30,7 @@ $languageStrings = [
 	'Unblock'	=>	'Разблокирован',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
-	'LBL_SAVE' => 'Save',
+	'LBL_SAVE' => 'Сохранить',
 	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
 ];
 $jsLanguageStrings = [

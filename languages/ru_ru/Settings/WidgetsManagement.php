@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_DEFAULT_FILTER' => 'Фильтр по умолчанию',
 	'LBL_FILTERS_AVAILABLE' => 'Доступные фильтры',
 	'LBL_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Необходимо выбрать, как минимум 1 пункт',
-	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
+	'LBL_VIEW_CONFIGURATION' => 'Настройка вида',
 	'LBL_WIDGET_ADDED'	=>	'Виджет успешно добавлен',
 ];
 $jsLanguageStrings = [
