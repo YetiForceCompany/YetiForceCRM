@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_HOTKEY' => 'Горячие клавиши',
 	'LBL_NAME' => 'Имя',
 	'LBL_TEST_IT' => 'Тестировать',
-	'LBL_MENU_TYPE' => 'Menu type',
+	'LBL_MENU_TYPE' => 'Тип меню',
 	
 	//Menu types
 	'LBL_MODULE' => 'Модуль',

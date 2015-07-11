@@ -63,7 +63,7 @@ $languageStrings = [
 	'MassTransferOwnership' => 'Массовое изменение ответственного',
 	'MassMoveDocuments' => 'Массовое перемещение документов',
 	'ReadRecord' => 'Принять все изменения, выполненные в записях',
-	'WorkflowTrigger' => 'Workflow trigger'
+	'WorkflowTrigger' => 'Обработчик',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Профиль успешно удален',

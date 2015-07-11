@@ -79,8 +79,8 @@ $languageStrings = [
 	'LBL_THIS'	=>	'Товар или Услуга (',
 	'Conversion Rate' => 'Обменный курс',
 	'Currency' => 'Валюта',
-	'LBL_SERVICE' => 'Service',
-	'LBL_PRODUCT' => 'Product',
-	'LBL_COMMENT_AREA' => 'Comment area',
+	'LBL_SERVICE' => 'Услуги',
+	'LBL_PRODUCT' => 'Товары',
+	'LBL_COMMENT_AREA' => 'Комментарии',
 ];
 
