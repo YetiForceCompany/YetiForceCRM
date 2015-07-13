@@ -1,45 +1,45 @@
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/
 -->*}
 {strip}
-<div class="relatedContainer">
-	<input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
-	<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-	<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
-	<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
-	<div class="relatedHeader ">
-		<div class="btn-toolbar row">
-			<div class="col-md-8">
-				{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-					<div class="btn-group">
-						{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-						<button type="button" class="btn addButton btn-default
-							{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
-							{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
-							{if ($RELATED_LINK->isPageLoadLink())}
-                                    {if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
-                                    data-url="{$RELATED_LINK->getUrl()}"
-                            {/if}
-						{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
-					</div>
-				{/foreach}
-				&nbsp;
-			</div>
-			<div class="col-md-4">
-				<div class="pull-right">
-					<span class="pageNumbers pushDown">
-						<span class="pull-right">
-						{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{if $TOTAL_ENTRIES} {vtranslate('LBL_OF', $RELATED_MODULE->get('name'))} {$TOTAL_ENTRIES}{/if}{/if}
+	<div class="relatedContainer">
+		<input type="hidden" name="currentPageNum" value="{$PAGING->getCurrentPage()}" />
+		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
+		<input type='hidden' value="{$PAGING->getPageLimit()}" id='pageLimit'>
+		<div class="relatedHeader ">
+			<div class="btn-toolbar row">
+				<div class="col-md-8">
+					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
+						<div class="btn-group">
+							{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
+							<button type="button" class="btn addButton btn-default
+									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
+									{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
+									{if ($RELATED_LINK->isPageLoadLink())}
+										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
+										data-url="{$RELATED_LINK->getUrl()}"
+									{/if}
+									{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+						</div>
+					{/foreach}
+					&nbsp;
+				</div>
+				<div class="col-md-4">
+					<div class="pull-right">
+						<span class="pageNumbers pushDown">
+							<span class="pull-right">
+							{if !empty($RELATED_RECORDS)} {$PAGING->getRecordStartRange()} {vtranslate('LBL_TO', $RELATED_MODULE->get('name'))} {$PAGING->getRecordEndRange()}{if $TOTAL_ENTRIES} {vtranslate('LBL_OF', $RELATED_MODULE->get('name'))} {$TOTAL_ENTRIES}{/if}{/if}
 						</span>
 					</span>
 					<span class="btn-group alignTop margin0px  pull-right">
@@ -71,7 +71,7 @@
 	</div>
 	<div class="contents-topscroll">
 		<div class="topscroll-div">
-		&nbsp;
+			&nbsp;
 		</div>
 	</div>
 	<div class="relatedContents contents-bottomscroll">
@@ -113,24 +113,24 @@
 								{else}
 									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
 								{/if}
-							{if $HEADER_FIELD@last}
+								{if $HEADER_FIELD@last}
 								</td><td nowrap>
-							<div class="pull-right actions"> 
-                               <span class="actionImages">
-                                <a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="glyphicon glyphicon-eye-open alignMiddle"></span></a>&nbsp;
-									<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
-									{if $IS_EDITABLE}
-										<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
-									{/if}
-									{if $IS_DELETABLE}
-										<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
-									{/if}
-								</span>
-							</div>
-                            {* button for copying password to clipboard *}                    
-                            <div class="pull-right">
-                                <a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
-                            </div>
+									<div class="pull-right actions"> 
+										<span class="actionImages">
+											<a href='' class="show_pass" id="btn_{$PASS_ID}"><span title="{vtranslate('LBL_ShowPassword', $SOURCEMODULE)}" class="glyphicon glyphicon-eye-open alignMiddle"></span></a>&nbsp;
+											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+												{if $IS_EDITABLE}
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+												{/if}
+												{if $IS_DELETABLE}
+												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+												{/if}
+										</span>
+									</div>
+									{* button for copying password to clipboard *}                    
+									<div class="pull-right">
+										<a href='' id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $SOURCEMODULE)}" ><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
+									</div>
 								</td>
 							{/if}
 							</td>
@@ -149,100 +149,89 @@
 {$TOOLTIP_TEXT="{vtranslate('LBL_NotifPassCopied', $SOURCEMODULE)}"}
 
 {literal}
-<script type="text/javascript" src="libraries/jquery/ZeroClipboard/ZeroClipboard.js"></script>
-<script>
-if ( typeof zaladowany !== 'undefined' && zaladowany == 1 ) {
-    // jeśli ta zmienna istnieje tzn. że kliknięto przycisk cofnij w przeglądarce
-    // przeładuj stronę
-    location.reload();
-}
-    
-var zaladowany = 1;     // po tej zmiennej sprawdzamy czy skrypt jest już załadowany w pamięci
+	<script type="text/javascript" src="libraries/jquery/ZeroClipboard/ZeroClipboard.js"></script>
+	<script>
+		$(document).ready(function () {
+			// show/hide password
+			$('.show_pass').click(function (e) {
+				var id = $(this).attr('id').substr(4);
+				showPassword(id, '{/literal}{$TRANS_STRINGS}{literal}');
+				return false;
+			});
 
-$(document).ready( function() {
-    // show/hide password
-    $('.show_pass').click( function(e) { // rejestruj zdarzenie click
-        var id = $(this).attr('id').substr(4); 
-        showPassword( id, '{/literal}{$TRANS_STRINGS}{literal}' );
-        
-        return false;
-    });
+			// copy password to clipboard
+			var clip2 = new ZeroClipboard(
+					$('[id^=copybtn_]'), {
+				moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+			});
 
-    
-    // copy password to clipboard
-    var clip2 = new ZeroClipboard( 
-        $('[id^=copybtn_]'), {
-        moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
-    });
-    
-    clip2.on( 'complete', function(client, args) {
-        // notification about copy to clipboard
-        var params = {
-            text: "{/literal}{$TOOLTIP_TEXT}{literal}",
-            animation: 'show',
-            title: "{/literal}{$TOOLTIP_TITLE}{literal}",
-            type: 'success'
-        };
-        Vtiger_Helper_Js.showPnotify(params);
-    } );
-    
-    
-    // function that shows or hides password
-    function showPassword( record, translation ) {
-        var passVal = $('#'+record).html(); // current value of password
-        // button labels
-        if ( translation.length > 0 ) {
-            var tstrings = translation.split( ',' );
-            var showPassText = tstrings[0];
-            var hidePassText = tstrings[1];
-        }
-        else {
-            var showPassText = app.vtranslate('LBL_ShowPassword');
-            var hidePassText = app.vtranslate('LBL_HidePassword');
-        }
-        
-        // if password is hashed, show it
-        if ( passVal == '**********' ) {
-            var params = {
-                'module' : "OSSPasswords",
-                'action' : "GetPass",
-                'record' : record
-            }
-            
-            AppConnector.request(params).then(
-                function(data) {
-                    var response = data['result'];
-                    if (response['success']) {
-                        // show password
-                        $('#'+record).html( response['password'] );
-                        // change button title to 'Hide Password'
-                        $('a#btn_'+record+' i').attr( 'title', hidePassText );
-                        // change icon
-                        $('a#btn_'+record+' i').removeClass( 'glyphicon-eye-open' );
-                        $('a#btn_'+record+' i').addClass( 'glyphicon-eye-close' );
-                        // show copy to clipboard button
-                        $('a#copybtn_'+record).toggleClass('hide');
-                    }
-                },
-                function(data,err){
-                
-                }
-            );
-        }
-        // if password is not hashed, hide it
-        else {
-            // hide password
-            $('#'+record).html( '**********' );
-            // change button title to 'Show Password'
-            $('a#btn_'+record+' i').attr( 'title', showPassText );
-            // change icon
-            $('a#btn_'+record+' i').removeClass( 'glyphicon-eye-close' );
-            $('a#btn_'+record+' i').addClass( 'glyphicon-eye-open' );
-            // hide copy to clipboard button
-            $('a#copybtn_'+record).toggleClass('hide');
-        }
-    }
-});
-</script>
+			clip2.on('complete', function (client, args) {
+				// notification about copy to clipboard
+				var params = {
+					text: "{/literal}{$TOOLTIP_TEXT}{literal}",
+					animation: 'show',
+					title: "{/literal}{$TOOLTIP_TITLE}{literal}",
+					type: 'success'
+				};
+				Vtiger_Helper_Js.showPnotify(params);
+			});
+
+			// function that shows or hides password
+			function showPassword(record, translation) {
+				var passVal = $('#' + record).html(); // current value of password
+				// button labels
+				if (translation.length > 0) {
+					var tstrings = translation.split(',');
+					var showPassText = tstrings[0];
+					var hidePassText = tstrings[1];
+				}
+				else {
+					var showPassText = app.vtranslate('LBL_ShowPassword');
+					var hidePassText = app.vtranslate('LBL_HidePassword');
+				}
+
+				// if password is hashed, show it
+				if (passVal == '**********') {
+					var params = {
+						'module': "OSSPasswords",
+						'action': "GetPass",
+						'record': record
+					}
+
+					AppConnector.request(params).then(
+							function (data) {
+								var response = data['result'];
+								if (response['success']) {
+									// show password
+									$('#' + record).html(response['password']);
+									// change button title to 'Hide Password'
+									$('a#btn_' + record + ' i').attr('title', hidePassText);
+									// change icon
+									$('a#btn_' + record + ' i').removeClass('glyphicon-eye-open');
+									$('a#btn_' + record + ' i').addClass('glyphicon-eye-close');
+									// show copy to clipboard button
+									$('a#copybtn_' + record).toggleClass('hide');
+								}
+							},
+							function (data, err) {
+
+							}
+					);
+				}
+				// if password is not hashed, hide it
+				else {
+					// hide password
+					$('#' + record).html('**********');
+					// change button title to 'Show Password'
+					$('a#btn_' + record + ' i').attr('title', showPassText);
+					// change icon
+					$('a#btn_' + record + ' i').removeClass('glyphicon-eye-close');
+					$('a#btn_' + record + ' i').addClass('glyphicon-eye-open');
+					// hide copy to clipboard button
+					$('a#copybtn_' + record).toggleClass('hide');
+				}
+			}
+		});
+	</script>
 {/literal}
 {/strip}
