@@ -105,10 +105,8 @@ jQuery.Class("Vtiger_Field_Js", {
 
 		var type = this.getType();
 		var typeClassName = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-
 		var moduleUiTypeClassName = window[currentModule + "_" + typeClassName + "_Field_Js"];
 		var BasicUiTypeClassName = window["Vtiger_" + typeClassName + "_Field_Js"];
-
 		if (typeof moduleUiTypeClassName != 'undefined') {
 			var instance = new moduleUiTypeClassName();
 			return instance.setData(this.getData());
@@ -124,7 +122,7 @@ jQuery.Class("Vtiger_Field_Js", {
 	 * return <String or Jquery> it can return either plain html or jquery object
 	 */
 	getUi: function () {
-		var html = '<input type="text" name="' + this.getName() + '"  />';
+		var html = '<input type="text" name="' + this.getName() + '" class="form-control" />';
 		html = jQuery(html).val(app.htmlDecode(this.getValue()));
 		return this.addValidationToElement(html);
 	},
@@ -171,7 +169,7 @@ Vtiger_Field_Js('Vtiger_Picklist_Field_Js', {}, {
 	 * @return - select element and chosen element
 	 */
 	getUi: function () {
-		var html = '<select class="row chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="row chzn-select form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		for (var option in pickListValues) {
@@ -201,7 +199,7 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js', {}, {
 	 * @return - select element and chosen element
 	 */
 	getUi: function () {
-		var html = '<select class="select2" multiple name="' + this.getName() + '[]">';
+		var html = '<select class="select2 form-control" multiple name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		var selectedOptionsArray = selectedOption.split(',')
@@ -258,7 +256,7 @@ Vtiger_Field_Js('Vtiger_Date_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="date input-group">' +
-				'<input class="dateField" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
+				'<input class="dateField form-control" type="text" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
 				'<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>' +
 				'</div>';
 		var element = jQuery(html);
@@ -276,7 +274,7 @@ Vtiger_Field_Js('Vtiger_Currency_Field_Js', {}, {
 	getUi: function () {
 		var html = '<div class="input-group row">' +
 				'<span class="input-group-addon">' + this.getCurrencySymbol() + '</span>' +
-				'<input type="text" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
+				'<input type="text" class="form-control" name="' + this.getName() + '" value="' + this.getValue() + '"  />' +
 				'</div>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
@@ -292,7 +290,7 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 		return this.get('picklistvalues');
 	},
 	getUi: function () {
-		var html = '<select class="row chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="row chzn-select form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {
@@ -333,7 +331,7 @@ Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	 */
 	getUi: function () {
 		var html = '<div class="input-group time">' +
-				'<input class="timepicker-default" type="text" data-format="' + this.getTimeFormat() + '" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
+				'<input class="timepicker-default form-control" type="text" data-format="' + this.getTimeFormat() + '" name="' + this.getName() + '"  value="' + this.getValue() + '" />' +
 				'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +
 				'</div>';
 		var element = jQuery(html);
@@ -347,7 +345,7 @@ Vtiger_Field_Js('Vtiger_Text_Field_Js', {}, {
 	 * @return - input text field
 	 */
 	getUi: function () {
-		var html = '<textarea class="input-xxlarge" name="' + this.getName() + '"  value="' + this.getValue() + '" style="width:100%">' + this.getValue() + '</textarea>';
+		var html = '<textarea class="input-lg form-control" name="' + this.getName() + '"  value="' + this.getValue() + '">' + this.getValue() + '</textarea>';
 		var element = jQuery(html);
 		return this.addValidationToElement(element);
 	}
@@ -359,8 +357,8 @@ Vtiger_Field_Js('Vtiger_Percentage_Field_Js', {}, {
 	 * @return - input percentage field
 	 */
 	getUi: function () {
-		var html = '<div class="input-group row">' +
-				'<input type="number" class="input-medium" min="0" max="100" name="' + this.getName() + '" value="' + this.getValue() + '" step="any"/>' +
+		var html = '<div class="input-group">' +
+				'<input type="number" class="form-control" min="0" max="100" name="' + this.getName() + '" value="' + this.getValue() + '" step="any"/>' +
 				'<span class="input-group-addon">%</span>' +
 				'</div>';
 		var element = jQuery(html);
@@ -380,7 +378,7 @@ Vtiger_Field_Js('Vtiger_Recurrence_Field_Js', {}, {
 	 * @return - select element and chosen element
 	 */
 	getUi: function () {
-		var html = '<select class="row chzn-select" name="' + this.getName() + '">';
+		var html = '<select class="row chzn-select form-control" name="' + this.getName() + '">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
 		for (var option in pickListValues) {
