@@ -3315,3 +3315,7 @@ span[name=existingImages] img{
 .dashboardWidgetContent a .glyphicon{
 	top: -3px;
 }
+.detailViewTitle .popover{
+	min-width: 130px;
+	text-align: center;
+}
