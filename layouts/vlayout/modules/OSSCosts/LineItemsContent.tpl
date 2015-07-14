@@ -108,7 +108,7 @@
 		<span id="{$usageUnit}" class="usageUnit">{vtranslate($data.$usageUnit, $entityType)}</span>
 	</td>
 	<td nowrap>
-		<div class="paddingTopZero form-control-static">
+		<div class="paddingTBZero form-control-static">
 			{if !empty($data.$listPrice)}
 				{assign var="LIST_PRICE_VALUE" value=$data.$listPrice}
 				{$data.$listPrice}

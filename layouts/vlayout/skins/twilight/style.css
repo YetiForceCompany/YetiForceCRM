@@ -2859,13 +2859,13 @@ textarea {
 	word-wrap: break-word;
 	width: 100%;
 }
-/*//
+
 .textOverflowEllipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 9em;
-}*/
+  //width: 9em;
+}
 .margin0px {
 	margin: 0 !important;
 }
@@ -3308,6 +3308,10 @@ span[name=existingImages] img{
 .fc-time-grid-event.fc-short .fc-title{
 	font-size: 1em;
 }
-.paddingTopZero{
+.paddingTBZero{
 	padding-top: 0;
+	padding-bottom: 0;
+}
+.dashboardWidgetContent a .glyphicon{
+	top: -3px;
 }
