@@ -79,7 +79,7 @@
             <td><strong>{vtranslate('LBL_UNIT',$MODULE)}</strong></td>
             <td><strong>{vtranslate('LBL_LIST_PRICE',$MODULE)}</strong></td>
             <td><strong class="pull-right">{vtranslate('LBL_TOTAL',$MODULE)}</strong></td>
-            <td><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
+            <td nowrap><strong class="pull-right">{vtranslate('LBL_NET_PRICE',$MODULE)}</strong></td>
         </tr>
         <tr id="row0" class="hide lineItemCloneCopy noValidate">
             {include file="LineItemsContent.tpl"|@vtemplate_path:'OSSCosts' row_no=0 data=[]}

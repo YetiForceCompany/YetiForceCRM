@@ -3308,3 +3308,6 @@ span[name=existingImages] img{
 .fc-time-grid-event.fc-short .fc-title{
 	font-size: 1em;
 }
+.paddingTopZero{
+	padding-top: 0;
+}
