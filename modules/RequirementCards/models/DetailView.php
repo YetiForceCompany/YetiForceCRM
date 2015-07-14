@@ -23,7 +23,7 @@ class RequirementCards_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkurl' => "index.php?module=".$targetModuleModel->getName()."&view=".$targetModuleModel->getEditViewName()."&reference_id=".$recordModel->getId(),
 				'linkimg' => 'layouts/vlayout/skins/images/Calculations.png',
 				'linkclass' => 'btn-success',
-				'title' => vtranslate('LBL_GENERATE_CALCULATIONS', 'RequirementCards'),
+				'linkhint' => vtranslate('LBL_GENERATE_CALCULATIONS', 'RequirementCards'),
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}	

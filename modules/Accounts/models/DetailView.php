@@ -9,7 +9,8 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
+class Accounts_DetailView_Model extends Vtiger_DetailView_Model
+{
 
 	/**
 	 * Function to get the detail view links (links and widgets)
@@ -17,7 +18,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 	 * @return <array> - array of link models in the format as below
 	 *                   array('linktype'=>list of link models);
 	 */
-	public function getDetailViewLinks($linkParams) {
+	public function getDetailViewLinks($linkParams)
+	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
@@ -35,7 +37,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linkicon' => 'glyphicon glyphicon-envelope',
 				'linktarget' => $config['target'],
 				'linkPopup' => $config['popup'],
-				'title' => vtranslate('LBL_SEND_EMAIL')
+				'linkhint' => vtranslate('LBL_SEND_EMAIL')
 			);
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -46,6 +48,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			if ($link->linklabel == 'View History' || $link->linklabel == 'Send SMS') {
 				unset($linkModelList['DETAILVIEW'][$index]);
 			} else if ($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
+				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
 				unset($linkModelList['DETAILVIEW'][$index]);
@@ -59,18 +62,16 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 		if ($currentUserModel->hasModuleActionPermission($CalendarModuleModel->getId(), 'EditView')) {
 			$CalendarActionLinks[] = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => '',
+				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $recordModel->getCreateEventUrl(),
-				'linkicon' => 'glyphicon glyphicon-time',
-				'title' => vtranslate('LBL_ADD_EVENT')
+				'linkicon' => 'glyphicon glyphicon-time'
 			);
 
 			$CalendarActionLinks[] = array(
 				'linktype' => 'DETAILVIEW',
-				'linklabel' => '',
+				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $recordModel->getCreateTaskUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar',
-				'title' => vtranslate('LBL_ADD_TASK')
+				'linkicon' => 'glyphicon glyphicon-calendar'
 			);
 		}
 
@@ -80,8 +81,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSendSms("index.php?module=' . $moduleName . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'glyphicon glyphicon-comment',
-				'title' => vtranslate('LBL_SEND_SMS')
+				'linkicon' => 'glyphicon glyphicon-comment'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -92,8 +92,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-random',
-				'title' => vtranslate('LBL_TRANSFER_OWNERSHIP')
+				'linkicon' => 'glyphicon glyphicon-random'
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
@@ -105,7 +104,8 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 		return $linkModelList;
 	}
 
-	function getDetailViewRelatedLinks() {
+	function getDetailViewRelatedLinks()
+	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
@@ -130,15 +130,12 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 			'linkicon' => '',
 			'related' => 'Details'
 		);
-		
-		if($moduleName == 'Leads'){
-			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') 
-					|| vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices');
+
+		if ($moduleName == 'Leads') {
+			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices');
 		}
-		if($moduleName == 'Accounts'){
-			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') 
-				|| vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices')
-				|| vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
+		if ($moduleName == 'Accounts') {
+			$showPSTab = vtlib_isModuleActive('OutsourcedProducts') || vtlib_isModuleActive('Products') || vtlib_isModuleActive('Services') || vtlib_isModuleActive('OSSOutsourcedServices') || vtlib_isModuleActive('Assets') || vtlib_isModuleActive('OSSSoldServices');
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(
@@ -188,5 +185,4 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model {
 
 		return $relatedLinks;
 	}
-
 }
