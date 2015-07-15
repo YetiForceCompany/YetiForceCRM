@@ -1520,4 +1520,5 @@ $jsLanguageStrings = [
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Обработчик закончил обработку',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Произошла ошибка во время обработки',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Не может быть проведено в будущем',
+	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
 ];

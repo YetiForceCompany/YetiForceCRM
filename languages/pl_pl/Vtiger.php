@@ -1183,4 +1183,5 @@ $jsLanguageStrings = [
 	'JS_COMPLETED_PERFORM_WORKFLOW' => 'Zakończono wykonywanie obiegu informacji',
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Wystąpił nieznany błąd, prosimy poinformacjować administratora',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
+	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'Wprowadzono błędny zakres dat',
 ];

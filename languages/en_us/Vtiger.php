@@ -1222,4 +1222,5 @@ $jsLanguageStrings = [
 	'JS_MORE' => 'More',
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
+	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
 ];
