@@ -210,6 +210,9 @@ $languageStrings = [
 	'OSSCosts'=>'Koszty',
 	'CustomView'	=> 'Widoki',
 	'Widgets'	=> 'Widgety podsumowania rekordu',
+	'LBL_ADDING_ERROR' => 'Błąd przy dodawaniu pola',
+	'LBL_ADDED_COMPANY_FIELD' => 'Dodano pole pomyślnie',
+	'LBL_FIELD_NOT_VALID' => 'Pole musi zawierać tylko litery',
 	
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Edytor szybkiego tworzenia',
