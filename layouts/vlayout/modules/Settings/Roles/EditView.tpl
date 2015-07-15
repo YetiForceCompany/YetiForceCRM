@@ -24,7 +24,6 @@
 			{if $HAS_PARENT}
 				<input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
 			{/if}
-
 			<div style="padding:20px;">
 				<div class="row">
 					<div class="col-md-3">
@@ -95,12 +94,25 @@
 					</div>
 				</div>
 				<br>
+				<div class="row"><br>
+					<label class="col-md-3"><strong>{vtranslate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
+						<select id="modulesList" class="row modules select2 form-control" multiple="true" name="searchunpriv[]">
+							{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
+								<option value="{$MODULE_MODEL->getName()}" {if in_array($MODULE_MODEL->getName(), $SEARCH_MODULES)}selected="true"{/if}>{vtranslate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<br>
 				<div class="row padding20px boxSizingBorderBox contentsBackground" data-content-role="new" style="display: none">
 					<div class="fieldValue col-md-12">
 					</div>
 				</div>
-				<div class="" data-content-role="existing" style="display: none">
-					<div class="fieldValue">
+				<div class="row" data-content-role="existing" style="display: none">
+					<label class="col-md-3"><strong>{vtranslate('LBL_USERS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
 						{assign var="ROLE_PROFILES" value=$RECORD_MODEL->getProfiles()}
 						<select class="select2" multiple="true" id="profilesList" name="profiles[]" data-placeholder="{vtranslate('LBL_CHOOSE_PROFILES',$QUALIFIED_MODULE)}" style="width: 800px">
 							{foreach from=$ALL_PROFILES item=PROFILE}

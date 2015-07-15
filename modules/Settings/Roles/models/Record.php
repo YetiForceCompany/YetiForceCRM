@@ -281,31 +281,33 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model {
 	/**
 	 * Function to save the role
 	 */
-	public function save() {
+	public function save()
+	{
 		$db = PearDatabase::getInstance();
 		$roleId = $this->getId();
 		$mode = 'edit';
 
-		if(empty($roleId)) {
+		if (empty($roleId)) {
 			$mode = '';
 			$roleIdNumber = $db->getUniqueId('vtiger_role');
-			$roleId = 'H'.$roleIdNumber;
+			$roleId = 'H' . $roleIdNumber;
 		}
 		$parentRole = $this->getParent();
-		if($parentRole != null) {
-			$this->set('depth', $parentRole->getDepth()+1);
-			$this->set('parentrole', $parentRole->getParentRoleString() .'::'. $roleId);
+		if ($parentRole != null) {
+			$this->set('depth', $parentRole->getDepth() + 1);
+			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
 
-		if($mode == 'edit') {
-			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=? WHERE roleid=?';
-			$params = array($this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $roleId);
+		$searchunpriv = implode(',',$this->get('searchunpriv'));
+		if ($mode == 'edit') {
+			$sql = 'UPDATE vtiger_role SET rolename=?, parentrole=?, depth=?, allowassignedrecordsto=?, changeowner=?, searchunpriv=? WHERE roleid=?';
+			$params = array($this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv, $roleId);
 			$db->pquery($sql, $params);
 		} else {
-			$sql = 'INSERT INTO vtiger_role(roleid, rolename, parentrole, depth, allowassignedrecordsto, changeowner) VALUES (?,?,?,?,?,?)';
-			$params = array($roleId, $this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'));
+			$sql = 'INSERT INTO vtiger_role(roleid, rolename, parentrole, depth, allowassignedrecordsto, changeowner, searchunpriv) VALUES (?,?,?,?,?,?,?)';
+			$params = array($roleId, $this->getName(), $this->getParentRoleString(), $this->getDepth(), $this->get('allowassignedrecordsto'), $this->get('change_owner'), $searchunpriv);
 			$db->pquery($sql, $params);
-			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '".$roleId."',picklistvalueid,picklistid,sortid
+			$picklist2RoleSQL = "INSERT INTO vtiger_role2picklist SELECT '" . $roleId . "',picklistvalueid,picklistid,sortid
 					FROM vtiger_role2picklist WHERE roleid = ?";
 			$db->pquery($picklist2RoleSQL, array($parentRole->getId()));
 		}

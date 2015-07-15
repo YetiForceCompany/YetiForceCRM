@@ -6107,6 +6107,7 @@ CREATE TABLE `vtiger_role` (
   `depth` int(19) DEFAULT NULL,
   `allowassignedrecordsto` tinyint(1) NOT NULL DEFAULT '1',
   `changeowner` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `searchunpriv` text,
   PRIMARY KEY (`roleid`),
   KEY `parentrole` (`parentrole`),
   KEY `parentrole_2` (`parentrole`,`depth`),

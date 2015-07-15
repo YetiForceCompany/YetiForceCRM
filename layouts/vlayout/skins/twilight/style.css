@@ -3319,3 +3319,7 @@ span[name=existingImages] img{
 	min-width: 130px;
 	text-align: center;
 }
+.cursorDefault{
+cursor: default !important;
+}
+

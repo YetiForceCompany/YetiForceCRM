@@ -53,18 +53,28 @@
 							{if {$smarty.foreach.matchingRecords.index+1} eq 1}
 								<div class="pull-right"><p class="muted">{vtranslate('LBL_CREATED_ON', $MODULE)}</small></p></div>
 							{/if}
-
 						</div>
 						<ul class="nav">
 						{foreach item=recordObject from=$searchRecords name=globalSearch}
 							{assign var="ID" value="{$module}_globalSearch_row_{$smarty.foreach.globalSearch.index+1}"}
 							{assign var=DETAILVIEW_URL value=$recordObject->getDetailViewUrl()}
-							<li id="{$ID}">
-								<a target="_blank" id="{$ID}_link" class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} 
-										onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>{$recordObject->getName()}
-									<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
-								</a>
-							</li>
+							{if $recordObject->get('permitted')}
+								<li id="{$ID}">
+									<a target="_blank" id="{$ID}_link" class="cursorPointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} 
+											onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href="{$DETAILVIEW_URL}"' {/if}>
+										<span>{$recordObject->getName()} ({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))})</span>
+										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
+									</a>
+								</li>
+							{else}
+								<li id="{$ID}">
+									<a class="cursorDefault">
+										<span>{$recordObject->getName()} ({Vtiger_Functions::getOwnerRecordLabel($recordObject->get('smownerid'))})</span>&nbsp;
+										<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+										<span id="{$ID}_time" class="pull-right" title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($recordObject->get('createdtime'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($recordObject->get('createdtime'))}</span>
+									</a>
+								</li>
+							{/if}
 						{foreachelse}
 							<li>{vtranslate('LBL_NO_RECORDS', $module)}</li>
 						{/foreach}

@@ -58,11 +58,13 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller {
         }
         
 		$parentRoleId = $request->get('parent_roleid');
-		if($recordModel && !empty($parentRoleId)) {
+		if ($recordModel && !empty($parentRoleId)) {
 			$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
 			$recordModel->set('change_owner', $request->get('change_owner'));
-			if(!empty($allowassignedrecordsto)) $recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to
-			if($parentRole && !empty($roleName) && !empty($roleProfiles)) {
+			$recordModel->set('searchunpriv', $request->get('searchunpriv'));
+			if (!empty($allowassignedrecordsto))
+				$recordModel->set('allowassignedrecordsto', $allowassignedrecordsto); // set the value of assigned records to
+			if ($parentRole && !empty($roleName) && !empty($roleProfiles)) {
 				$recordModel->set('rolename', $roleName);
 				$recordModel->set('profileIds', $roleProfiles);
 				$parentRole->addChildRole($recordModel);
