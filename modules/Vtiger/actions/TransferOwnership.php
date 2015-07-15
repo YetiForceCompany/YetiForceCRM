@@ -28,7 +28,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller {
 			$recordIds[] = $record;
 		$relatedModuleRecordIds = $transferModel->getRelatedModuleRecordIds($request, $recordIds);
 		$transferRecordIds = array_merge($relatedModuleRecordIds, $recordIds);
-		$transferModel->transferRecordsOwnership($transferOwnerId, $transferRecordIds);
+		$transferModel->transferRecordsOwnership($module, $transferOwnerId, $transferRecordIds);
 		
 		$response = new Vtiger_Response();
 		$response->setResult(true);
