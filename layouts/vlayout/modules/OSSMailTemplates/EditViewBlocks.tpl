@@ -1,13 +1,13 @@
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/
 -->*}
 {strip}
     <div class='editViewContainer'>
@@ -64,10 +64,10 @@
 			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{if $BLOCKS_HIDE}
-            <table class="table table-bordered blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">
-                <thead>
-                    <tr>
-						<th class="blockHeader" colspan="4">
+				<table class="table table-bordered blockContainer showInlineTable equalSplit" data-label="{$BLOCK_LABEL}">
+					<thead>
+						<tr>
+							<th class="blockHeader" colspan="4">
 					<div class="row">
 						<div class="col-md-4">
 							<img class="cursorPointer alignMiddle blockToggle {if !($IS_HIDDEN)} hide {/if} "  alt="{vtranslate('LBL_EXPAND_BLOCK')}" src="{vimage_path('arrowRight.png')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}>
@@ -84,169 +84,169 @@
 							{/if}
 						</div>
 					</div>
-						</th>
+					</th>
                     </tr>
-                </thead>
-                <tbody {if $IS_HIDDEN} class="hide" {/if}>
-                    <tr>
-                        {assign var=COUNTER value=0}
-						{assign var=MAILTEMPLATES_TYPE value=FALSE}
-                        {foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-						
-						{if $FIELD_NAME eq 'ossmailtemplates_type' && $FIELD_MODEL->get('fieldvalue') eq 'PLL_MODULE'}
-							{assign var=MAILTEMPLATES_TYPE value=TRUE}
-						{/if}
-                        {assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
-                        {if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19" or $FIELD_MODEL->get('uitype') eq "300"}
-                            {if $COUNTER eq '1'}
-                                <td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
-                                    {assign var=COUNTER value=0}
-                                {/if}
-                            {/if}
-                            {if $COUNTER eq 2}
-                            </tr>
-                            <tr>
-                                {assign var=COUNTER value=1}
-                            {else}
-                                {assign var=COUNTER value=$COUNTER+1}
-                            {/if}
-                            <td class="fieldLabel {$WIDTHTYPE}">
-							{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-							{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
-							{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-								<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
-							{/if}
-                            {if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
-                            {if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
-                            {if $isReferenceField eq "reference"}
-                                {assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
-                                {assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-                                {if $REFERENCE_LIST_COUNT > 1}
-                                    {assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
-                                    {assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
-                                    {if !empty($REFERENCED_MODULE_STRUCT)}
-                                        {assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
-                                    {/if}
-                                    <span class="pull-right">
-                                    {if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-                                    <select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:160px;">
-                                        <optgroup>
-                                            {foreach key=index item=value from=$REFERENCE_LIST}
-                                                <option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
-                                            {/foreach}
-                                        </optgroup>
-                                    </select>
-                                </span>
-                            {else}
-                                <label class="muted pull-right marginRight10px">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-                            {/if}
-                        {else if $FIELD_MODEL->get('uitype') eq "83"}
-                            {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
-                        {else}
-                            {vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-                        {/if}
-                    {if $isReferenceField neq "reference"}</label>{/if}
-            </td>
-            {if $FIELD_MODEL->get('uitype') neq "83"}
-                <td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-                    <div class="row">
-                        <div class="col-md-10">
-							{if $FIELD_MODEL->get('uitype') eq "300"}
-								<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-							{/if}
-                            {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-                        </div>
-                    </div>
-                </td>
-            {/if}
-            {if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
-				<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
-			{/if}
-			{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }
-				{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
-			{/if}
-			{/foreach}
-			{if $smarty.foreach.blockfields.last and $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
-				{if $COUNTER eq 2}
-					</tr>
-					<tr>
-					{assign var=COUNTER value=0}
-				{/if}
-				{assign var=COUNTER value=$COUNTER+1}
-				<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
-				<td class="fieldValue {$WIDTHTYPE}">
-					<div class="row">
-						<div class="col-md-8">
-							<select class="chzn-select form-control" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-							</select>
-						</div>
-						<div class="col-md-4">
-							<button type="button" aria-hidden="true" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
-								<span class="glyphicon glyphicon-arrow-down icon-black"></span>
-							</button>
-							<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
-								<span class="glyphicon glyphicon-arrow-down"></span>
-							</button>
-						</div>	
-					</div>	
-				</td>
-			{/if}
+					</thead>
+					<tbody {if $IS_HIDDEN} class="hide" {/if}>
+						<tr>
+							{assign var=COUNTER value=0}
+							{assign var=MAILTEMPLATES_TYPE value=FALSE}
+							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 
-			{if $COUNTER eq 2}
-					</tr>
-					<tr>
-					{assign var=COUNTER value=0}
-				{/if}
-			{if $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
-				
-					<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
-					<td class="fieldValue {$WIDTHTYPE}">
-						<div class="row">
-							<div class="col-md-8">
-								<select class="chzn-select" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
-								</select>
-							</div>
-							<div class="col-md-4">
-								<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
-									<span class="glyphicon glyphicon-arrow-down"></span>
-								</button>
-								<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
-									<span class="glyphicon glyphicon-arrow-down"></span>
-								</button>
-							</div>
-						</div>	
-					</td>
-					{assign var=COUNTER value=$COUNTER+1}
-				
-				{if $COUNTER eq 2}
-					</tr>
-					<tr>
-					{assign var=COUNTER value=0}
-					{/if}
-					
-					<td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
-					<td class="fieldValue {$WIDTHTYPE}">
-						<div class="row">
-							<div class="col-md-8">
-								<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
-								</select>
-							</div>
-							<div class="col-md-4">
-								<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
-									<span class="glyphicon glyphicon-arrow-down"></span>
-								</button>
-							</div>
-						</div>	
-					</td>
-					{assign var=COUNTER value=$COUNTER+1}
-					{if $COUNTER eq '1'}
-					<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
-						{assign var=COUNTER value=0}
-					{/if}
-				</tr>
+								{if $FIELD_NAME eq 'ossmailtemplates_type' && $FIELD_MODEL->get('fieldvalue') eq 'PLL_MODULE'}
+									{assign var=MAILTEMPLATES_TYPE value=TRUE}
+								{/if}
+								{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
+								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
+									{if $COUNTER eq '1'}
+										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+											{assign var=COUNTER value=0}
+										{/if}
+									{/if}
+									{if $COUNTER eq 2}
+								</tr>
+								<tr>
+									{assign var=COUNTER value=1}
+								{else}
+									{assign var=COUNTER value=$COUNTER+1}
+								{/if}
+								<td class="fieldLabel {$WIDTHTYPE}">
+									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+									{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+									{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><i class="glyphicon glyphicon-info-sign"></i></a>
+										{/if}
+										{if $isReferenceField neq "reference"}<label class="muted pull-right marginRight10px">{/if}
+										{if $FIELD_MODEL->isMandatory() eq true && $isReferenceField neq "reference"} <span class="redColor">*</span> {/if}
+										{if $isReferenceField eq "reference"}
+											{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
+											{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
+											{if $REFERENCE_LIST_COUNT > 1}
+												{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
+												{assign var="REFERENCED_MODULE_STRUCT" value=$FIELD_MODEL->getUITypeModel()->getReferenceModule($DISPLAYID)}
+												{if !empty($REFERENCED_MODULE_STRUCT)}
+													{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
+												{/if}
+												<span class="pull-right">
+													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
+													<select id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select referenceModulesList streched" style="width:160px;">
+														<optgroup>
+															{foreach key=index item=value from=$REFERENCE_LIST}
+																<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if}>{vtranslate($value, $MODULE)}</option>
+															{/foreach}
+														</optgroup>
+													</select>
+												</span>
+											{else}
+												<label class="muted pull-right marginRight10px">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+											{/if}
+										{else if $FIELD_MODEL->get('uitype') eq "83"}
+											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
+										{else}
+											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+										{/if}
+										{if $isReferenceField neq "reference"}</label>{/if}
+								</td>
+								{if $FIELD_MODEL->get('uitype') neq "83"}
+									<td class="fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<div class="row">
+											<div class="col-md-10">
+												{if $FIELD_MODEL->get('uitype') eq "300"}
+													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+												{/if}
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+											</div>
+										</div>
+									</td>
+								{/if}
+								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
+									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td>
+									{/if}
+									{if $MODULE eq 'Events' && $BLOCK_LABEL eq 'LBL_EVENT_INFORMATION' && $smarty.foreach.blockfields.last }
+										{include file=vtemplate_path('uitypes/FollowUp.tpl',$MODULE) COUNTER=$COUNTER}
+									{/if}
+								{/foreach}
+								{if $smarty.foreach.blockfields.last and $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
+									{if $COUNTER eq 2}
+								</tr>
+								<tr>
+									{assign var=COUNTER value=0}
+								{/if}
+								{assign var=COUNTER value=$COUNTER+1}
+								<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('MODULE_FIELD', $MODULE)}</label></td>
+								<td class="fieldValue {$WIDTHTYPE}">
+									<div class="row">
+										<div class="col-md-8">
+											<select class="chzn-select form-control" name="oss_fields_list" title="{vtranslate('LBL_CHOOSE_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+											</select>
+										</div>
+										<div class="col-md-4">
+											<button type="button" aria-hidden="true" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="a" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_VALUE', $MODULE)}">
+												<span class="glyphicon glyphicon-arrow-down icon-black"></span>
+											</button>
+											<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="b" data-select="oss_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_LABEL', $MODULE)}">
+												<span class="glyphicon glyphicon-arrow-down"></span>
+											</button>
+										</div>	
+									</div>	
+								</td>
+							{/if}
+
+							{if $COUNTER eq 2}
+							</tr>
+							<tr>
+								{assign var=COUNTER value=0}
+							{/if}
+							{if $smarty.foreach.EditViewBlockLevelLoop.iteration eq 1}
+
+								<td class="fieldLabel {$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate('RELATED_MODULE_FIELD', $MODULE)}</label></td>
+								<td class="fieldValue {$WIDTHTYPE}">
+									<div class="row">
+										<div class="col-md-8">
+											<select class="chzn-select" name="oss_related_fields_list" title="{vtranslate('LBL_SELECT_RELATED_FIELD')}" data-placeholder="{vtranslate('LBL_SELECT_OPTION')}" {if $MAILTEMPLATES_TYPE } disabled {/if}>
+											</select>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="c" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}  - {vtranslate('LBL_VALUE', $MODULE)}">
+												<span class="glyphicon glyphicon-arrow-down"></span>
+											</button>
+											<button type="button" class="btn btn-info muted pull-right marginRight10px toText copy-button {if $MAILTEMPLATES_TYPE } hide {/if}" data-prefix="d" data-select="oss_related_fields_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)} - {vtranslate('LBL_LABEL', $MODULE)}">
+												<span class="glyphicon glyphicon-arrow-down"></span>
+											</button>
+										</div>
+									</div>	
+								</td>
+								{assign var=COUNTER value=$COUNTER+1}
+
+								{if $COUNTER eq 2}
+								</tr>
+								<tr>
+									{assign var=COUNTER value=0}
+								{/if}
+
+								<td class="fieldLabel {$WIDTHTYPE}" ><label class="muted pull-right marginRight10px">{vtranslate('SEPCIAL_FUNCTION', $MODULE)}</label></td>
+								<td class="fieldValue {$WIDTHTYPE}">
+									<div class="row">
+										<div class="col-md-8">
+											<select class="chzn-select" name="oss_special_function_list" title="{vtranslate('SEPCIAL_FUNCTION', $MODULE)}" style="width: 190px;">
+											</select>
+										</div>
+										<div class="col-md-4">
+											<button type="button" class="btn btn-success muted pull-right marginRight10px toText copy-button" data-prefix="s" data-select="oss_special_function_list" title="{vtranslate('LBL_COPY_TO_CLIPBOARD_TITLE', $MODULE)}">
+												<span class="glyphicon glyphicon-arrow-down"></span>
+											</button>
+										</div>
+									</div>	
+								</td>
+								{assign var=COUNTER value=$COUNTER+1}
+								{if $COUNTER eq '1'}
+									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+										{assign var=COUNTER value=0}
+									{/if}
+							</tr>
+						{/if}
+				</table>
+				<br>
 			{/if}
-		</table>
-		<br>
-		{/if}
-	{/foreach}
-{/strip}
+		{/foreach}
+	{/strip}
