@@ -743,7 +743,7 @@ class Accounts extends CRMEntity {
 					"vtiger_salesorder"=>"accountid","vtiger_invoice"=>"accountid",
 					"vtiger_senotesrel"=>"crmid","vtiger_seattachmentsrel"=>"crmid","vtiger_troubletickets"=>"parent_id",
 					"vtiger_seproductsrel"=>"crmid","vtiger_servicecontracts"=>"sc_related_to","vtiger_campaignaccountrel"=>"accountid",
-					"vtiger_assets"=>"account","vtiger_project"=>"linktoaccountscontacts","vtiger_payments"=>"relatedorganization");
+					"vtiger_assets"=>"parent_id","vtiger_project"=>"linktoaccountscontacts","vtiger_payments"=>"relatedorganization");
 
 		foreach($transferEntityIds as $transferId) {
 			foreach($rel_table_arr as $rel_module=>$rel_table) {
