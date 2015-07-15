@@ -1154,7 +1154,24 @@ class Users extends CRMEntity {
      *
      */
     function save($module_name) {
-        $adb = PearDatabase::getInstance(); $log = vglobal('log');
+        $adb = PearDatabase::getInstance();
+		$log = vglobal('log');
+		
+		//Event triggering code
+		require_once("include/events/include.inc");
+
+		//In Bulk mode stop triggering events
+		if (!self::isBulkSaveMode()) {
+			$em = new VTEventsManager($adb);
+			// Initialize Event trigger cache
+			$em->initTriggerCache();
+			$entityData = VTEntityData::fromCRMEntity($this);
+
+			$em->triggerEvent("vtiger.entity.beforesave.modifiable", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave", $entityData);
+			$em->triggerEvent("vtiger.entity.beforesave.final", $entityData);
+		}
+		
         if($this->mode != 'edit') {
         	$sql = 'SELECT id FROM vtiger_users WHERE user_name = ? OR email1 = ?';
         	$result = $adb->pquery($sql, array($this->column_fields['user_name'] , $this->column_fields['email1']));
@@ -1180,6 +1197,13 @@ class Users extends CRMEntity {
         //Save entity being called with the modulename as parameter
         $this->saveentity($module_name);
 
+		if ($em) {
+			//Event triggering code
+			$em->triggerEvent("vtiger.entity.aftersave", $entityData);
+			$em->triggerEvent("vtiger.entity.aftersave.final", $entityData);
+			//Event triggering code ends
+		}
+		
         // Added for Reminder Popup support
         $query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?",
                 array($this->id));
