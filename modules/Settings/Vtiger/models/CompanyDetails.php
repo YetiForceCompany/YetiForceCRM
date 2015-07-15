@@ -18,18 +18,18 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 	var $nameFields = array('organizationname');
 	var $logoPath = 'storage/Logo/';
 	var $fields = array(
-			'organizationname' => 'text',
-			'logoname' => 'text',
-			'logo' => 'file',
-			'address' => 'textarea',
-			'city' => 'text',
-			'state' => 'text',
-			'code'  => 'text',
-			'country' => 'text',
-			'phone' => 'text',
-			'fax' => 'text',
-			'website' => 'text', 
-			'vatid' => 'text' 
+		'organizationname' => 'text',
+		'logoname' => 'text',
+		'logo' => 'file',
+		'address' => 'textarea',
+		'city' => 'text',
+		'state' => 'text',
+		'code' => 'text',
+		'country' => 'text',
+		'phone' => 'text',
+		'fax' => 'text',
+		'website' => 'text',
+		'vatid' => 'text'
 	);
 
 	/**
@@ -197,7 +197,7 @@ class Settings_Vtiger_CompanyDetails_Model extends Settings_Vtiger_Module_Model
 				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_ADDING_ERROR', $moduleName)));
 				$log->info("Settings_Vtiger_SaveCompanyField_Action::process - column $newField exist in table vtiger_organizationdetails");
 			} else {
-				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD $newField VARCHAR(255)";
+				$alterFieldQuery = "ALTER TABLE `vtiger_organizationdetails` ADD `$newField` VARCHAR(255)";
 				$alterFieldResult = $adb->query($alterFieldQuery, $alterFieldParams);
 				$rowsNum = $adb->getRowCount($alterFieldResult);
 				Settings_Vtiger_CompanyDetailsFieldSave_Action::addFieldToModule($newField);

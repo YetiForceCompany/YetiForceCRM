@@ -25,8 +25,7 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js", {}, {
 			var callBackFunction = function (data) {
 				data.find('.addCustomFieldModal').removeClass('hide').show();
 				var form = data.find('.addCustomBlockForm');
-				jQuery('[name="saveButton"]').on('click', function () {
-					console.log('213')
+				jQuery('[name="saveButton"]').off('click').on('click', function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position': 'html',
 						'blockInfo': {
@@ -61,7 +60,7 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js", {}, {
 					app.hideModalWindow();
 					return true;
 				});
-				jQuery('a.cancelLink').on('click', function () {
+				jQuery('a.cancelLink').off('click').on('click', function () {
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'position': 'html',
 						'blockInfo': {
@@ -86,8 +85,8 @@ jQuery.Class("Settings_Vtiger_CompanyDetails_Js", {}, {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);
 				}
-			}, {'width': '1000px'});
-	
+			});
+
 		});
 	},
 	registerSaveCompanyDetailsEvent: function (form) {
