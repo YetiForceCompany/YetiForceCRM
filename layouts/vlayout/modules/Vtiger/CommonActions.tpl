@@ -14,7 +14,7 @@
     {assign var="announcement" value=$ANNOUNCEMENT->get('announcement')}
     {assign var='count' value=0}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
-	
+
 	<div class="navbar-form navbar-right">
 		<div class="dropdown quickActions historyBtn">
 			<a data-placement="left" data-toggle="dropdown" class="showHistoryBtn" aria-expanded="false" href="#"><img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" /></a>
@@ -25,11 +25,11 @@
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="menubar_quickCreate" src="{vimage_path('plus.png')}" class="alignMiddle" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" /></a>
 			<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 				<li id="quickCreateModules">
-						<div class="panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
-							</div>
-							<div class="panel-body paddingLRZero">
+					<div class="panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
+						</div>
+						<div class="panel-body paddingLRZero">
 							{foreach key=NAME item=MODULEMODEL from=Vtiger_Module_Model::getQuickCreateModules(true)}
 								{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
 								{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
@@ -39,12 +39,12 @@
 								{if $quickCreateModule == '1'}
 									{if $count % 3 == 0}
 										<div class="">
-									{/if}
-									<div class="col-xs-4">
-										<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"
-										   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}"><span>{vtranslate($singularLabel,$NAME)}</span></a>
-									</div>
-									{if $count % 3 == 2}
+										{/if}
+										<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
+											<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}"
+											   data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}"><span>{vtranslate($singularLabel,$NAME)}</span></a>
+										</div>
+										{if $count % 3 == 2}
 										</div>
 									{/if}
 									{assign var='count' value=$count+1}
@@ -91,17 +91,17 @@
 			</div>
 		</div>
 	</div>	
-		
+
 	{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 	{if $BREADCRUMBS}
 		<div class="breadcrumbsContainer col-md-12" style="display: none;">
 			<div class="breadcrumbsLinks">
-			{foreach key=key item=item from=$BREADCRUMBS}
-				{if $key != 0}
-					<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
-				{/if}
-				<span>{$item['name']}</span>
-			{/foreach}
+				{foreach key=key item=item from=$BREADCRUMBS}
+					{if $key != 0}
+						<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+					{/if}
+					<span>{$item['name']}</span>
+				{/foreach}
 			</div>
 		</div>
 	{/if}
@@ -109,14 +109,14 @@
 	{if $MENUSCOLOR}
 		<div class="menusColorContainer" style="display: none;">
 			<style>
-			{foreach item=item from=$MENUSCOLOR}
-				.moduleColor_{$item.module}{
-					color: {$item.color} !important;
-				}
-				.moduleIcon{$item.module}{
-					background: {$item.color} !important;
-				}
-			{/foreach}
+				{foreach item=item from=$MENUSCOLOR}
+					.moduleColor_{$item.module}{
+						color: {$item.color} !important;
+					}
+					.moduleIcon{$item.module}{
+						background: {$item.color} !important;
+					}
+				{/foreach}
 			</style>
 		</div>
 	{/if}
