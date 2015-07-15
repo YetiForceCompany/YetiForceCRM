@@ -104,6 +104,28 @@ var app = {
 			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
 		}
 		selectElement.chosen(params);
+		
+		selectElement.each(function(){
+			var select = $(this);
+			if(select.attr('readonly') == 'readonly' ){
+				select.on('chosen:updated', function () {
+					if (select.attr('readonly')) {
+						var wasDisabled = select.is(':disabled');
+
+						select.attr('disabled', 'disabled');
+						select.data('chosen').search_field_disabled();
+
+						if (wasDisabled) {
+							select.attr('disabled', 'disabled');
+						} else {
+							select.removeAttr('disabled');
+						}
+					}
+				});
+				select.trigger('chosen:updated');
+			}
+		});
+		
 		// Improve the display of default text (placeholder)
 		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
 		return chosenSelectConainer;
