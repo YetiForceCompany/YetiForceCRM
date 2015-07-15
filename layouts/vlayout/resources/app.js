@@ -337,15 +337,15 @@ var app = {
 
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
-				var that = this;
-				$(document).on('focusin.modal', function (e) {
-					if ($(e.target).hasClass('select2-search__field')) {
-						return true;
-					}
-					if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
-						that.$element.focus();
-					}
-				});
+				$(document).off('focusin.bs.modal') // guard against infinite focus loop
+					.on('focusin.bs.modal', $.proxy(function (e) {
+						if ($(e.target).hasClass('select2-search__field')) {
+							return true;
+						}
+						if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+						  this.$element.trigger('focus')
+						}
+					}, this))
 			};
 
 			container.find('.modal').modal(params);
