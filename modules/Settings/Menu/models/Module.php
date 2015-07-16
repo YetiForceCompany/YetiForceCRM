@@ -119,7 +119,7 @@ class Settings_Menu_Module_Model
 	public function getCustomViewList()
 	{
 		$db = PearDatabase::getInstance();
-		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype WHERE `status` = 1;');
+		$list = $db->query('SELECT cvid,viewname,entitytype,vtiger_tab.tabid FROM vtiger_customview LEFT JOIN vtiger_tab ON vtiger_tab.name = vtiger_customview.entitytype');
 		return $db->getArray($list);
 	}
 }
