@@ -56,7 +56,8 @@
                     <br>
                     <div class="textAlignCenter">
                         <button class="btn btn-success" type="submit"><strong>{vtranslate($MODULE, $MODULE)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
-                        <a class="cancelLink" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						&nbsp;&nbsp;
+                        <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{vtranslate('LBL_CANCEL', $MODULE)}</button>
                     </div>
                 </div>
             </div>
