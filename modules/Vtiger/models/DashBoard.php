@@ -1,5 +1,5 @@
 <?php
-/*+**********************************************************************************
+/* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,15 +7,17 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 
-class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
-	
+class Vtiger_DashBoard_Model extends Vtiger_Base_Model
+{
+
 	/**
 	 * Function to get Module instance
 	 * @return <Vtiger_Module_Model>
 	 */
-	public function getModule() {
+	public function getModule()
+	{
 		return $this->module;
 	}
 
@@ -24,7 +26,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	 * @param <Vtiger_Module_Model> $moduleInstance - module model
 	 * @return Vtiger_DetailView_Model>
 	 */
-	public function setModule($moduleInstance) {
+	public function setModule($moduleInstance)
+	{
 		$this->module = $moduleInstance;
 		return $this;
 	}
@@ -33,7 +36,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	 *  Function to get the module name
 	 *  @return <String> - name of the module
 	 */
-	public function getModuleName(){
+	public function getModuleName()
+	{
 		return $this->getModule()->get('name');
 	}
 
@@ -41,13 +45,14 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	 * Function returns List of User's selected Dashboard Widgets
 	 * @return <Array of Vtiger_Widget_Model>
 	 */
-	public function getDashboards($action = 1) {
+	public function getDashboards($action = 1)
+	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
-		if($action == 'Header')
+		if ($action == 'Header')
 			$action = 0;
 		$sql = " SELECT vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid, mdw.id as widgetid, mdw.position as position, vtiger_links.linkid as id, mdw.limit, mdw.owners 
 			FROM vtiger_links 
@@ -60,7 +65,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 
 		while ($row = $db->fetch_array($result)) {
 			$row['linkid'] = $row['id'];
-			if($row['linklabel'] == 'Mini List'){
+			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
@@ -77,13 +82,13 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 			$filterid = $widget->get('filterid');
 			$module = $this->getModuleNameFromLink($url, $label);
 
-			if($module == 'Home' && !empty($filterid) && !empty($data)) {
+			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
 				$filterData = Zend_Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
-			if( !$currentUserPrivilegeModel->hasModulePermission(getTabid($module)) ){
+			if (!$currentUserPrivilegeModel->hasModulePermission(getTabid($module))) {
 				unset($widgets[$index]);
-			}		
+			}
 		}
 
 		return $widgets;
@@ -95,21 +100,23 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	 * @param <string> $linkLabel
 	 * @return <string> $module - Module Name
 	 */
-	public function getModuleNameFromLink($linkUrl, $linkLabel) {
+	public function getModuleNameFromLink($linkUrl, $linkLabel)
+	{
 		$urlParts = parse_url($linkUrl);
 		parse_str($urlParts['query'], $params);
 		$module = $params['module'];
-		if($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
+		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
 		}
 		return $module;
 	}
-	
+
 	/**
 	 * Function to get the default widgets(Deprecated)
 	 * @return <Array of Vtiger_Widget_Model>
 	 */
-	public function getDefaultWidgets() {
+	public function getDefaultWidgets()
+	{
 		//TODO: Need to review this API is needed?
 		$moduleModel = $this->getModule();
 		$widgets = array();
@@ -117,34 +124,35 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 		return $widgets;
 	}
 
-	public function verifyDashboard($moduleName) {
+	public function verifyDashboard($moduleName)
+	{
 		$log = vglobal('log');
 		$log->debug("Entering Vtiger_DashBoard_Model::verifyDashboard() method ...");
 		$adb = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole() );
-		$query='SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid WHERE vtiger_module_dashboard.blockid IN (0,?);';
-		if(count ($blockId) == 0)
-			return ;
-		$params = array( $blockId );
-		$result = $adb->pquery($query,$params);
-		$num = $adb->num_rows( $result );
-		for ( $i=0; $i<$num; $i++ ) {
+		$blockId = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($moduleName, $currentUser->getRole());
+		$query = 'SELECT vtiger_module_dashboard.*, vtiger_links.tabid FROM `vtiger_module_dashboard` INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard.linkid WHERE vtiger_module_dashboard.blockid IN (0,?);';
+		if (count($blockId) == 0)
+			return;
+		$params = array($blockId);
+		$result = $adb->pquery($query, $params);
+		$num = $adb->num_rows($result);
+		for ($i = 0; $i < $num; $i++) {
 			$row = $adb->query_result_rowdata($result, $i);
 			$row['data'] = htmlspecialchars_decode($row['data']);
 			$row['size'] = htmlspecialchars_decode($row['size']);
 			$row['owners'] = htmlspecialchars_decode($row['owners']);
-			$query='SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? AND `templateid` = ?;';
-			$params = array($currentUser->getId(), $row['id'] );
-			$resultVerify = $adb->pquery($query,$params);
-			if(!$adb->num_rows( $resultVerify )) {
-				
-				$query='INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);';
+			$query = 'SELECT * FROM `vtiger_module_dashboard_widgets` WHERE `userid` = ? AND `templateid` = ?;';
+			$params = array($currentUser->getId(), $row['id']);
+			$resultVerify = $adb->pquery($query, $params);
+			if (!$adb->num_rows($resultVerify)) {
+
+				$query = 'INSERT INTO vtiger_module_dashboard_widgets(`linkid`, `userid`, `templateid`, `filterid`, `title`, `data`, `size`, `limit`, `owners`, `isdefault`, `active`, `module`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);';
 				$active = 0;
-				if($row['isdefault'])
+				if ($row['isdefault'])
 					$active = 1;
-				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'],$row['owners'], $row['isdefault'], $active, $row['tabid']);
-				$adb->pquery($query,$params);
+				$params = array($row['linkid'], $currentUser->getId(), $row['id'], $row['filterid'], $row['title'], $row['data'], $row['size'], $row['limit'], $row['owners'], $row['isdefault'], $active, $row['tabid']);
+				$adb->pquery($query, $params);
 			}
 		}
 		$log->debug("Exiting Vtiger_DashBoard_Model::verifyDashboard() method ...");
@@ -156,7 +164,8 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model {
 	 * @param <String> $moduleName - module name
 	 * @return <Vtiger_DashBoard_Model>
 	 */
-	public static function getInstance($moduleName) {
+	public static function getInstance($moduleName)
+	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
 

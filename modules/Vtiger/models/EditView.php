@@ -1,23 +1,25 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *************************************************************************************/
+ * *********************************************************************************** */
 
 /**
  * Vtiger EditView Model Class
  */
-class Vtiger_EditView_Model extends Vtiger_Base_Model {
+class Vtiger_EditView_Model extends Vtiger_Base_Model
+{
 
 	/**
 	 * Function to get the Module Model
 	 * @return Vtiger_Module_Model instance
 	 */
-	public function getModule() {
+	public function getModule()
+	{
 		return $this->get('module');
 	}
 
@@ -26,7 +28,8 @@ class Vtiger_EditView_Model extends Vtiger_Base_Model {
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
 	 */
-	public function getEditViewLinks($linkParams) {
+	public function getEditViewLinks($linkParams)
+	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$linkTypes = array('LISTVIEWQUICK', 'LISTVIEWQUICKWIDGET', 'LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
@@ -40,36 +43,36 @@ class Vtiger_EditView_Model extends Vtiger_Base_Model {
 			),
 			array(
 				'linktype' => 'LISTVIEWQUICK',
-				'linklabel' => $this->getModule()->get('label').' List',
+				'linklabel' => $this->getModule()->get('label') . ' List',
 				'linkurl' => $this->getModule()->getDefaultUrl(),
 				'linkicon' => ''
 			),
 		);
-		foreach($quickLinks as $quickLink) {
+		foreach ($quickLinks as $quickLink) {
 			$links['LISTVIEWQUICK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
 
 		$quickWidgets = array(
 			array(
 				'linktype' => 'LISTVIEWQUICKWIDGET',
-				'linklabel' => 'Active '.$this->getModule()->get('label'),
-				'linkurl' => 'module='.$this->getModule()->get('name').'&view=List&mode=showActiveRecords',
+				'linklabel' => 'Active ' . $this->getModule()->get('label'),
+				'linkurl' => 'module=' . $this->getModule()->get('name') . '&view=List&mode=showActiveRecords',
 				'linkicon' => ''
 			)
 		);
-		foreach($quickWidgets as $quickWidget) {
+		foreach ($quickWidgets as $quickWidget) {
 			$links['LISTVIEWQUICKWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 		}
 
 		$basicLinks = array(
 			array(
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'Add '.$this->getModule()->get('name'),
+				'linklabel' => 'Add ' . $this->getModule()->get('name'),
 				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => ''
 			)
 		);
-		foreach($basicLinks as $basicLink) {
+		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}
 
@@ -93,11 +96,11 @@ class Vtiger_EditView_Model extends Vtiger_Base_Model {
 				'linkicon' => ''
 			)
 		);
-		foreach($advancedLinks as $advancedLink) {
+		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
 
-		if($currentUserModel->isAdminUser()) {
+		if ($currentUserModel->isAdminUser()) {
 
 			$settingsLinks = array(
 				array(
@@ -119,7 +122,7 @@ class Vtiger_EditView_Model extends Vtiger_Base_Model {
 					'linkicon' => ''
 				)
 			);
-			foreach($settingsLinks as $settingsLink) {
+			foreach ($settingsLinks as $settingsLink) {
 				$links['LISTVIEWSETTING'][] = Vtiger_Link_Model::getInstanceFromValues($settingsLink);
 			}
 		}

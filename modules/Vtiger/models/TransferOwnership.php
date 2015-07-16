@@ -1,15 +1,18 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
+class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
+{
 
 	protected $skipModules = ['Emails'];
 
-	public function getSkipModules() {
+	public function getSkipModules()
+	{
 		return $this->skipModules;
 	}
 
-	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = []) {
+	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [])
+	{
 		$db = PearDatabase::getInstance();
 		$basicModule = $request->getModule();
 
@@ -24,7 +27,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 				$type = $relModData[1];
 				switch ($type) {
 					case 0:
-						
+
 						$field = $relModData[2];
 						foreach ($recordIds as $recordId) {
 							$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
@@ -32,10 +35,10 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 								$relatedIds[] = $recordModel->get($field);
 							}
 						}
-						
+
 						break;
 					case 1:
-						
+
 						$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 						$instance = CRMEntity::getInstance($relatedModule);
 						$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel);
@@ -53,10 +56,10 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 						while ($crmid = $db->getSingleValue($result)) {
 							$relatedIds[] = $crmid;
 						}
-						
+
 						break;
 					case 2:
-						
+
 						foreach ($recordIds as $recordId) {
 							$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
 							$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModule);
@@ -68,7 +71,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 								$relatedIds[] = $crmid;
 							}
 						}
-						
+
 						break;
 				}
 				$relatedIds = array_unique($relatedIds);
@@ -99,7 +102,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		}
 	}
 
-	public static function getInstance($module) {
+	public static function getInstance($module)
+	{
 		$instance = Vtiger_Cache::get('transferOwnership', $module);
 		if (!$instance) {
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
@@ -110,7 +114,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		return $instance;
 	}
 
-	public function getRelationsByFields($privileges = true) {
+	public function getRelationsByFields($privileges = true)
+	{
 		$module = $this->get('module');
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$relatedModelFields = $moduleModel->getFields();
@@ -129,7 +134,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		return $relatedModules;
 	}
 
-	public function getRelationsByRelatedList($privileges = true) {
+	public function getRelationsByRelatedList($privileges = true)
+	{
 		$module = $this->get('module');
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$relatedModelFields = $moduleModel->getFields();
@@ -148,7 +154,8 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		return $relatedModules;
 	}
 
-	public function getRelatedFieldName($relatedModule, $findModule) {
+	public function getRelatedFieldName($relatedModule, $findModule)
+	{
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		foreach ($relatedModelFields as $fieldName => $fieldModel) {
@@ -163,5 +170,4 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model {
 		}
 		return false;
 	}
-
 }
