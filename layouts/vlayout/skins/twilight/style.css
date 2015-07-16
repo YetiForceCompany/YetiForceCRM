@@ -2385,6 +2385,7 @@ th.htColHeader,
 .saveButton {
 	margin-right: 5px;
 }
+/*
 .cancelLink {
 	cursor: pointer;
 	text-decoration: none !important;
@@ -2395,6 +2396,7 @@ th.htColHeader,
 .cancelLink:hover {
 	color: #aa3434 !important;
 }
+*/
 .addCustomRule {
 	float: right;
 }

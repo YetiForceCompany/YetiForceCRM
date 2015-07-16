@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'Selected Values' => 'Selected Values',
 	'LBL_ADD_RECORD' => 'Add record',
@@ -37,4 +37,5 @@ $jsLanguageStrings = [
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Picklist Dependency Saved',
 	'JS_SELECT_SOME_VALUE' => 'Select some value',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Source field and Target field should not be same',
+	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'No dependencies were entered. No changes were saved.',
 ];
