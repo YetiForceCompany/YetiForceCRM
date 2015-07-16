@@ -1038,11 +1038,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Function to show the list of inactive fields in the modal
 	 */
-	showHiddenFields : function(blockId, form) {
+	showHiddenFields: function (blockId, form) {
 		var thisInstance = this;
-		jQuery.each(thisInstance.inActiveFieldsList[blockId], function(key, value) {
-			var inActiveField = jQuery('<div class="col-md-4 marginLeftZero padding-bottom1per"><label class="checkbox">\n\
-									<input type="checkbox" class="inActiveField" value="'+key+'" />&nbsp;'+value+'</label></div>');
+		jQuery.each(thisInstance.inActiveFieldsList[blockId], function (key, value) {
+			var inActiveField = jQuery('<div class="col-md-4 marginLeftZero padding-bottom1per checkbox"><label class="">\n\
+									<input type="checkbox" class="inActiveField" value="' + key + '" />&nbsp;' + value + '</label></div>');
 			form.find('.inActiveList').append(inActiveField);
 		});
 	},

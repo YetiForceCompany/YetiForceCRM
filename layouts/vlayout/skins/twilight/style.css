@@ -2024,9 +2024,11 @@ th.htColHeader,
 	padding-right: 0;
 	font-weight: bold;
 }
+/*
 .blockFieldsList .editFields .dropdown-menu .modal-footer .cancel {
 	padding: 0 8px 0 3px;
 }
+*/
 .blockFieldsList .editFields:hover {
 	background: #f3f3f4 !important;
 }

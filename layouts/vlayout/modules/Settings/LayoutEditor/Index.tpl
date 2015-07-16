@@ -273,7 +273,7 @@
 																				</div>
 																				<div class="modal-footer" style="padding: 0px;">
 																					<span class="pull-right">
-																						<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;color:#AA3434;margin-top:10px;" class='cancel'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
+																						<div class="pull-right"><a href="javascript:void(0)" style="margin: 5px;" class='cancel btn btn-warning'>{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a></div>
 																						<button class="btn btn-success saveFieldDetails" data-field-id="{$FIELD_MODEL->get('id')}" type="submit" style="margin: 5px;">
 																							<strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 																						</button>
@@ -798,24 +798,28 @@
 					</div>
 
 
-					<div class="modal inactiveFieldsModal hide">
-						<div class="modal-header contentsBackground">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h3>{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
-						</div>
-						<form class="form-horizontal inactiveFieldsForm" method="POST">
-							<div class="modal-body">
-								<div class="row inActiveList"></div>
-							</div>
-							<div class="modal-footer">
-								<div class=" pull-right cancelLinkContainer">
-									<a class="cancelLink" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<div class="modal inactiveFieldsModal fade" tabindex="-1">
+						<div class="modal-dialog">
+							 <div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h3 class="modal-title">{vtranslate('LBL_INACTIVE_FIELDS', $QUALIFIED_MODULE)}</h3>
 								</div>
-								<button class="btn btn-success" type="submit" name="reactivateButton">
-									<strong>{vtranslate('LBL_REACTIVATE', $QUALIFIED_MODULE)}</strong>
-								</button>
+								<form class="form-horizontal inactiveFieldsForm" method="POST">
+									<div class="modal-body">
+										<div class="row inActiveList"></div>
+									</div>
+									<div class="modal-footer">
+										<div class=" pull-right col-md-2 cancelLinkContainer">
+											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+										</div>
+										<button class="btn btn-success" type="submit" name="reactivateButton">
+											<strong>{vtranslate('LBL_REACTIVATE', $QUALIFIED_MODULE)}</strong>
+										</button>
+									</div>
+								</form>
 							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
