@@ -38,25 +38,18 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerWidget: function () {
 		var thisInstance = this.getInstanceByView();
 		var widgetContainer = jQuery('#rightPanel .quickWidget');
-		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function(event, state) {
+		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function (event, state) {
 			element = jQuery(this).closest('.quickWidget');
-			if(state){
-				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
-			}else{
+			if (state) {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', true);
+			} else {
+				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', false);
 			}
 		});
-		widgetContainer.find(".refreshCalendar").on('click',function () {
+		widgetContainer.find(".refreshCalendar").on('click', function () {
 			thisInstance.loadCalendarData();
 			return false;
 		});
-	/*	widgetContainer.find(".quickWidgetHeader").hover(
-			function () {
-				$(this).css('overflow','visible');
-			}, function () {
-				$(this).css('overflow','hidden');
-			}
-		);*/
 	},
 	registerColorField : function(field, fieldClass){
 		var params = {};
