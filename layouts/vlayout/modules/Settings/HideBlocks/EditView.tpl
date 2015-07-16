@@ -72,12 +72,12 @@
 	</div>
 	<br>	
 	<div class="row">
-		 <div class="pull-right">
-			 <button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-			 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-		 </div>
-		 <div class="clearfix"></div>
-	 </div>
+		<div class="pull-right">
+			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
+			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+		</div>
+		<div class="clearfix"></div>
+	</div>
     </form>	
 </div>
 {/strip}
