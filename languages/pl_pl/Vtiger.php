@@ -964,6 +964,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Na podstawie modułów powiązanych',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Operacja zmiany właściciela w zależności od ilości danych może zająć kilka lub kilkanaście minut.',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Eksport do Excel',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'Data zakończenia nie może być mniejsza od daty początkowej',
@@ -1180,4 +1182,5 @@ $jsLanguageStrings = [
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Wystąpił nieznany błąd, prosimy poinformacjować administratora',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Przyszłego wydarzenia nie można oznaczyć jako wykonanego',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'Wprowadzono błędny zakres dat',
+	'JS_STARTED_GENERATING_FILE' => 'Trwa generowanie pliku...',
 ];

@@ -958,6 +958,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Legal form',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'End Date cannot be equal or less than Start Date',
@@ -1219,4 +1221,5 @@ $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => 'Add Event/To Do',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
+	'JS_STARTED_GENERATING_FILE' => '__UNTRANSLATED__',
 ];

@@ -143,6 +143,59 @@ jQuery.Class("Vtiger_List_Js",{
 		}
 	},
 
+	triggerQuickExportToExcel: function (module) {
+		var massActionUrl = "index.php";
+		var thisInstance = this;
+		var listInstance = Vtiger_List_Js.getInstance();
+		var validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			var progressIndicatorElement = jQuery.progressIndicator();
+			var selectedIds = listInstance.readSelectedIds(true);
+			var excludedIds = listInstance.readExcludedIds(true);
+			var cvId = listInstance.getCurrentCvId();
+			var postData = {
+				viewname: cvId,
+				selected_ids: selectedIds,
+				excluded_ids: excludedIds
+			};
+
+			var searchValue = listInstance.getAlphabetSearchValue();
+
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				postData['search_key'] = listInstance.getAlphabetSearchField();
+				postData['search_value'] = searchValue;
+				postData['operator'] = "s";
+			}
+
+			postData.search_params = JSON.stringify(listInstance.getListSearchParams());
+
+			var actionParams = {
+				type: "POST",
+				url: massActionUrl,
+				dataType: "application/x-msexcel",
+				data: postData
+			};
+			//can't use AppConnector to get files with a post request so we add a form to the body and submit it
+			var form = $('<form method="POST" action="' + massActionUrl + '">');
+			form.append($('<input />', {name: "module", value: module}));
+			form.append($('<input />', {name: "action", value: "QuickExport"}));
+			form.append($('<input />', {name: "mode", value: "ExportToExcel"}));
+			if (typeof csrfMagicName !== 'undefined') {
+				form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
+			}
+			$.each(actionParams.data, function (k, v) {
+				form.append($('<input />', {name: k, value: v}));
+			});
+			$('body').append(form);
+			form.submit();
+			Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'})
+
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
+	},
+
 	transferOwnershipSave : function (form){
 		var listInstance = Vtiger_List_Js.getInstance();
 		var selectedIds = listInstance.readSelectedIds(true);

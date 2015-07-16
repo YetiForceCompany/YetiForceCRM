@@ -970,6 +970,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'Based on related modules',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1184,4 +1186,5 @@ $jsLanguageStrings = [
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Erro desconhecido! Por favor, informe o Administrador',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Não é pode ser realizado no futuro',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
+	'JS_STARTED_GENERATING_FILE' => '__UNTRANSLATED__',
 ];

@@ -478,7 +478,17 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model {
 				'linkicon' => ''
 			);
 		}
-
+		
+		$quickExportToExcelPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
+		if($quickExportToExcelPermission) {
+			$advancedLinks[] = array(
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("'.$moduleModel->getName().'")',
+				'linkicon' => ''
+			);
+		}
+		
 		return $advancedLinks;
 	}
 

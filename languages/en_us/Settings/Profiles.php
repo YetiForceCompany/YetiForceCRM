@@ -64,6 +64,7 @@ $languageStrings = [
 	'ReadRecord' => 'Read all changes performed on records',
 	'WorkflowTrigger' => 'Workflow trigger',
 	'QuickExportToExcel' => '__UNTRANSLATED__',
+	'CreateDashboardFilter' => '__UNTRANSLATED__',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profile deleted successfully',
