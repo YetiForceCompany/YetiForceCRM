@@ -201,7 +201,6 @@ var Vtiger_Index_Js = {
 			var nextActivityReminderCheck = app.cacheGet('nextActivityReminderCheckTime', 0);
 
 			if ((currentTime + activityReminder) > nextActivityReminderCheck) {
-				console.log((nextActivityReminderCheck - currentTime) / 1000);
 				Vtiger_Index_Js.requestReminder(true);
 				setTimeout('Vtiger_Index_Js.requestReminder()', activityReminder);
 				app.cacheSet('nextActivityReminderCheckTime', currentTime + parseInt(activityReminder));
@@ -226,7 +225,7 @@ var Vtiger_Index_Js = {
 			badge.text(count);
 			badge.removeClass('hide');
 			if (count > 0) {
-				$(".remindersNotice").effect("highlight", {}, 1000);
+				$(".remindersNotice").effect( "pulsate", 1500);
 			} else {
 				badge.addClass('hide');
 			}
