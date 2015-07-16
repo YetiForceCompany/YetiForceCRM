@@ -13,10 +13,10 @@
 $enabledServices = [
 	//'mobile',
 	//'yetiportal',
-	//'dav'
+	//'dav',
 	//'webservices',
 	//'mobileModule',
-	'webservice',
+	//'webservice',
 ];
 /* +***************   DAV   **************** */
 $enableBrowser = false;
