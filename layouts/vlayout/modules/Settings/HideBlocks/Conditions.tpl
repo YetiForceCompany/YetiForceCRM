@@ -42,11 +42,11 @@
 			</div>
 			<br>	
 			<div class="row">
-				 <div class="pull-right">
-					 <a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
-					 <a class="cancelLink" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
-				 </div>
-				 <div class="clearfix"></div>
+				<div class="pull-right">
+					<a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
+					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 		</form>	
 	{/if}

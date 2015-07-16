@@ -66,18 +66,20 @@ class Vtiger_Block_Model extends Vtiger_Block {
         $db->pquery($query, $params);
     }
 
-    public function isHideBlock($record,$view){
+    public function isHideBlock($record, $view)
+	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE enabled = ? AND blockid = ? AND view LIKE '%$view%';", array(1,$this->get('id')));
-        $num_rows = $db->num_rows($result);
+
+		$result = $db->pquery("SELECT * FROM vtiger_blocks_hide WHERE enabled = ? AND blockid = ? AND view LIKE '%$view%';", array(1, $this->get('id')));
+		$num_rows = $db->num_rows($result);
 		$hideBlocks = array();
-        for($i=0; $i<$num_rows; $i++) {
-            $row = $db->raw_query_result_rowdata($result, $i);
-            $hideBlocks[] = $row;
-        }
-		if(count($hideBlocks) == 0)
+		for ($i = 0; $i < $num_rows; $i++) {
+			$row = $db->raw_query_result_rowdata($result, $i);
+			$hideBlocks[] = $row;
+		}
+		if (count($hideBlocks) == 0) {
 			return true;
-		
+		}
 		require_once("modules/com_vtiger_workflow/VTJsonCondition.inc");
 		require_once("modules/com_vtiger_workflow/VTEntityCache.inc");
 		require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
@@ -85,15 +87,19 @@ class Vtiger_Block_Model extends Vtiger_Block {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$util = new VTWorkflowUtils();
 		$entityCache = new VTEntityCache($currentUser);
-		$wsId = vtws_getWebserviceEntityId($record->getModuleName(),$record->getId());
+		$wsId = vtws_getWebserviceEntityId($record->getModuleName(), $record->getId());
 
 		$showBlock = false;
-		foreach($hideBlocks as $hideBlock) {
+		foreach ($hideBlocks as $hideBlock) {
+			$expr = Zend_Json::decode($hideBlock['conditions']);
+			if (!$record->getId() && $expr) {
+				continue;
+			}
 			$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $entityCache, $wsId);
 		}
-        return !$showBlock;
-    }
-	
+		return !$showBlock;
+	}
+
 	/**
      * Function which indicates whether the block is shown or hidden
      * @return : <boolean>
