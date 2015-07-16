@@ -210,18 +210,20 @@ class Vtiger_Util_Helper {
 	 * @param <DateTime> $dateTime
 	 * @return <String>
 	 */
-	public static function formatDateTimeIntoDayString($dateTime) {
+	public static function formatDateTimeIntoDayString($dateTime, $allday = false) {
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime);
 
 		list($dateInUserFormat, $timeInUserFormat, $meridiem) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
 
-		$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
-
 		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
-		$formatedDate = $dateInUserFormat . ' ' . vtranslate('LBL_AT') . ' ' . $displayTime . " ($dateDay)";
-
+		$formatedDate = $dateInUserFormat;
+		if(!$allday){
+			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
+			$formatedDate .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime ;
+		}
+		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
 	}
 
