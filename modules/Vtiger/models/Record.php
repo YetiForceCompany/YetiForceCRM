@@ -322,6 +322,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model {
 				continue;
 			}
 			$recordPermitted = $permitted = Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+
 			if(!empty($searchunpriv)){
 				if(in_array($row['setype'],explode(',',$searchunpriv))){
 					$recordPermitted = true;

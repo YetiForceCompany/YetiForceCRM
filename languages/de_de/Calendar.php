@@ -172,6 +172,5 @@ $jsLanguageStrings = [
 	'JS_Private' => 'Privat',
 	'JS_Public' => 'Öffentlich',
 	'Mobile Call' => 'Mobiler Anruf',
-	'NOTIFICATION_ACCEPTED' => 'Angenommen',
 	'JS_CHANGE_ACTIVITY_TIME' => 'Ändere Status zu: anstehend oder historisch',
 ];

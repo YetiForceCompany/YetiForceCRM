@@ -11,7 +11,6 @@
 class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 
 	function __construct() {
-		$this->exposeMethod('getReminders');
 		$this->exposeMethod('postpone');
 		$this->exposeMethod('cancelReminder');
 	}
@@ -35,24 +34,6 @@ class Calendar_ActivityReminder_Action extends Vtiger_Action_Controller{
 			return;
 		}
 
-	}
-
-	function getReminders(Vtiger_Request $request) {
-        
-        if ('true' == $request->get('type_remainder')) {
-            $recordModels = Calendar_Module_Model::getCalendarReminder(true);
-        } else {
-            $recordModels = Calendar_Module_Model::getCalendarReminder();
-        }
-        
-        foreach($recordModels as $record) {
-			$records[] = $record->getDisplayableValues();
-			$record->updateReminderStatus(2);
-		}
-
-		$response = new Vtiger_Response();
-		$response->setResult($records);
-		$response->emit();
 	}
 
 	function postpone(Vtiger_Request $request) {

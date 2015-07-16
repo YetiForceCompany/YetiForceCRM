@@ -64,7 +64,14 @@
 			</li>
 		</ul>
 	{/foreach}
-
+	<ul class="headerLinksContainer nav navbar-nav navbar-right">
+		<li>
+			<div class="remindersNotice">
+				<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+				<span class="badge hide">0</span>
+			</div>
+		</li>
+	</ul>
 {if $CHAT_ACTIVE eq true}
 	<ul class="headerLinksContainer headerLinksAJAXChat nav navbar-nav navbar-right">
 		<li>
