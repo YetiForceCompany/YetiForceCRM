@@ -90,33 +90,36 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType {
 	 * @param <Object> $value
 	 * @return $value
 	 */
-	public function getDisplayValue($value) {
+	public function getDisplayValue($value)
+	{
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d').' '.$value);
+		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
-		if($userModel->get('hour_format') == '12'){
+		if ($userModel->get('hour_format') == '12') {
 			return self::getTimeValueInAMorPM($value);
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Function to get the display value in edit view
 	 * @param $value
 	 * @return converted value
 	 */
-	public function getEditViewDisplayValue($value) {
-		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d').' '.$value);
+	public function getEditViewDisplayValue($value)
+	{
+		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
 		return self::getTimeValueInAMorPM($value);
 	}
-    
-    public function getListSearchTemplateName() {
+
+	public function getListSearchTemplateName() {
         return 'uitypes/TimeFieldSearchView.tpl';
     }
 
-	public function getDBTimeFromUserValue($value) {
-		$time = DateTimeField::convertToDBTimeZone(date('Y-m-d').' '.$value);
+	public function getDBTimeFromUserValue($value)
+	{
+		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
 		$value = $time->format('H:i:s');
 		return $value;
 	}
