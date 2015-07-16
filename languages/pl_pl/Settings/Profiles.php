@@ -64,6 +64,7 @@ $languageStrings = [
 	'MassMoveDocuments' => 'Masowa zmiana katalogu',
 	'ReadRecord' => 'Zapoznanie ze zmianami w rekordach',
 	'WorkflowTrigger' => 'Wywołanie obiegu informacji',
+	'QuickExportToExcel' => 'Szybki eksport do Excel-a',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Profil zapisano poprawnie',
