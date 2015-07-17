@@ -82,11 +82,14 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$orderBy = $pagingModel->getForSql('orderby');
 		$sortOrder = $pagingModel->getForSql('sortorder');
 
-		if (empty($orderBy)) {
-			$orderBy = 'date_start, time_start';
-		}
 		if (empty($sortOrder) || !in_array($sortOrder, ['asc','desc'])) {
 			$sortOrder = 'ASC';
+		}
+		
+		if (empty($orderBy)) {
+			$orderBy = "date_start $sortOrder, time_start $sortOrder";
+		}else{
+			$orderBy .= ' '.$sortOrder;
 		}
 		
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
@@ -130,7 +133,7 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$params[] = $user;
 		}	
 
-		$query .= ' ORDER BY '.$orderBy.' '.$sortOrder.' LIMIT ?, ?';
+		$query .= ' ORDER BY '.$orderBy.' LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit()+1;
 
