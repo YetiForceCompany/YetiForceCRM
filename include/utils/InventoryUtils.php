@@ -382,9 +382,8 @@ function updateInventoryProductRel($entity) {
 				}
 			}
 		}
-
-		$log->debug("Exit from function updateInventoryProductRel(".$entity_id.")");
 	}
+	$log->debug("Exit from function updateInventoryProductRel(".$entity_id.")");
 }
 
 /**	Function used to save the Inventory product details for the passed entity
