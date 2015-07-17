@@ -79,13 +79,23 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$user = $currentUser->getId();
 		}
 
+		$orderBy = $pagingModel->getForSql('orderby');
+		$sortOrder = $pagingModel->getForSql('sortorder');
+
+		if (empty($orderBy)) {
+			$orderBy = 'date_start, time_start';
+		}
+		if (empty($sortOrder) || !in_array($sortOrder, ['asc','desc'])) {
+			$sortOrder = 'ASC';
+		}
+		
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 		$instance = CRMEntity::getInstance('Calendar');
 		$UserAccessConditions = $instance->getUserAccessConditionsQuerySR('Calendar');
 		
-		$params = array();
+		$params = [];
 		$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.setype, vtiger_activity.*
 			FROM vtiger_activity
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid
@@ -116,11 +126,11 @@ class Home_Module_Model extends Vtiger_Module_Model {
 		$accessibleUsers = $currentUser->getAccessibleUsers();
 		$accessibleGroups = $currentUser->getAccessibleGroups();
 		if($user != 'all' && $user != '' && (array_key_exists( $user, $accessibleUsers ) || array_key_exists( $user, $accessibleGroups))) {
-			$query .= " AND vtiger_crmentity.smownerid = ?";
+			$query .= ' AND vtiger_crmentity.smownerid = ?';
 			$params[] = $user;
 		}	
 
-		$query .= " ORDER BY date_start, time_start LIMIT ?, ?";
+		$query .= ' ORDER BY '.$orderBy.' '.$sortOrder.' LIMIT ?, ?';
 		$params[] = $pagingModel->getStartIndex();
 		$params[] = $pagingModel->getPageLimit()+1;
 

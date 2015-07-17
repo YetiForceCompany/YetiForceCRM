@@ -487,12 +487,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View {
 			$recordId = $request->get('record');
 			$pageNumber = $request->get('page');
 			$pageLimit = $request->get('limit');
+			$sortOrder = $request->get('sortorder');
+			$orderBy = $request->get('orderby');
 			$type = $request->get('type');
 			if(empty ($pageNumber)) {
 				$pageNumber = 1;
 			}
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $pageNumber);
+			$pagingModel->set('orderby', $orderBy);
+			$pagingModel->set('sortorder', $sortOrder);
 			
 			if(!empty($pageLimit)) {
 				$pagingModel->set('limit', $pageLimit);

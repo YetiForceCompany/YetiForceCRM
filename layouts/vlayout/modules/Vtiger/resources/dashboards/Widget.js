@@ -144,6 +144,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.restrictContentDrag();
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
 		this.registerWidgetSwitch();
+		this.registerChangeSorting();
 	},
 	postRefreshWidget: function () {
 		if (!this.isEmptyData()) {
@@ -152,6 +153,42 @@ jQuery.Class('Vtiger_Widget_Js', {
 			this.positionNoDataMsg();
 		}
 		this.registerSectionClick();
+	},
+	
+	/**
+	 * Change of widget entries sorting
+	 * @license licenses/License.html
+	 * @package YetiForce.Dashboards
+	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+	 */
+	registerChangeSorting: function () {
+		var container = this.getContainer();
+		container.find('.changeRecordSort').click(function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var drefresh = container.find('a[name="drefresh"]');
+			var url = drefresh.data('url');
+			var urlparams = currentElement.data('urlparams');
+			if (urlparams != '') {
+				url = url.replace('&sortorder=desc');
+				url = url.replace('&sortorder=asc');
+				url += '&sortorder=';
+				var sort = currentElement.data('sort');
+				var sortorder = 'desc';
+				var icon = 'glyphicon-sort-by-attributes-alt';
+				if (sort == 'desc') {
+					sortorder = 'asc';
+					icon = 'glyphicon-sort-by-attributes';
+				}
+				currentElement.data('sort', sortorder);
+				currentElement.attr('title', currentElement.data(sortorder));
+				currentElement.attr('alt', currentElement.data(sortorder));
+				url += sortorder;
+				var glyphicon = currentElement.find('.glyphicon');
+				glyphicon.removeClass().addClass('glyphicon').addClass(icon);
+				drefresh.data('url', url);
+				drefresh.click();
+			}
+		});
 	},
 	registerWidgetSwitch: function () {
 		$('.dashboardContainer .widget_header .switchBtnReload').on('switchChange.bootstrapSwitch', function (e, state) {
@@ -228,6 +265,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			params.data = jQuery.extend(params.data, this.getFilterData())
 		}
 		var refreshContainer = parent.find('.dashboardWidgetContent');
+		refreshContainer.html('');
 		refreshContainer.progressIndicator();
 		AppConnector.request(params).then(
 				function (data) {

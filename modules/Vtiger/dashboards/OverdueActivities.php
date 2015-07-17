@@ -17,6 +17,8 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View {
 		$moduleName = $request->getModule();
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
+		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->get('orderby');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner')) 
@@ -26,7 +28,9 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View {
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int)$widget->get('limit'));
-
+		$pagingModel->set('orderby', $orderBy);
+		$pagingModel->set('sortorder', $sortOrder);
+		
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false)?array():$moduleModel->getCalendarActivities('overdue', $pagingModel, $owner);
 		
