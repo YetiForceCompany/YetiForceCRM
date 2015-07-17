@@ -48,7 +48,7 @@
 							<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							<div>
-								<strong><span class="icon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+								<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 								<span class="editStatus cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
 								<span class="1 edit hide">
 									{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('taskstatus')}
@@ -66,11 +66,14 @@
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							{if $EDITVIEW_PERMITTED == 'yes'}
 								<div>
-									<strong><span class="icon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+									{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('eventstatus')}
+									{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('eventstatus'))}
+									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('eventstatus'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 									<span class="editStatus cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
+									{if $DATA_TYPE != 'history'}
+										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Held" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+									{/if}
 									<span class="2 edit hide">
-										{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('eventstatus')}
-										{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('eventstatus'))}
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
 										 {if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 											<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
@@ -78,9 +81,6 @@
 											 <input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 										 {/if}
 									</span>
-									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-field="{$FIELD_MODEL->get('name')}" data-status="Held" data-content="{vtranslate('LBL_MARK_AS_DONE',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
-									{/if}
 								</div>
 							{/if}
 						{/if}
@@ -96,8 +96,18 @@
 						{/if}
 						</span>&nbsp&nbsp;
 						<span class="editDescription cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
+						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
+						data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+						{if count($RECORD->get('selectedusers')) > 0}
+							<br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
+							{foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
+								{Vtiger_Functions::getOwnerRecordLabel( $USER )}
+							{/foreach}
+						{/if}" >
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
 						{if $EDITVIEW_PERMITTED == 'yes'}
-							<span class="2 edit hide">
+							<span class="2 edit hide row">
 								{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
 								{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
 								{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME OCCUPY_COMPLETE_WIDTH=false}
@@ -113,16 +123,6 @@
 						{else}
 							{assign var=STATUS value=$RECORD->get('eventstatus')}
 						{/if}
-						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-						data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {Vtiger_Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
-						{if count($RECORD->get('selectedusers')) > 0}
-							<br />{vtranslate('LBL_INVITE_USER_BLOCK',$MODULE_NAME)}: 
-							{foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-								{Vtiger_Functions::getOwnerRecordLabel( $USER )}
-							{/foreach}
-						{/if}" >
-							<span class="glyphicon glyphicon-info-sign"></span>
-						</span>
 						{if $RECORD->get('location') neq '' }
 							<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
 								<span class="icon-map-marker"></span>&nbsp
