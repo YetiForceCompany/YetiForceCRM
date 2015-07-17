@@ -458,7 +458,7 @@ class Vtiger_Module_Model extends Vtiger_Module
 	public function getRelations()
 	{
 		if (empty($this->relations)) {
-			return Vtiger_Relation_Model::getAllRelations($this);
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this);
 		}
 		return $this->relations;
 	}
