@@ -32,8 +32,8 @@ $languageStrings = [
 	'SINGLE_Roles' => 'Роли',
 	'LBL_USERS_LIST' => 'Список пользователей, принадлежащих к этой роли:',
 	'LBL_JUST_ME' => 'Только я',
-	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => '__UNTRANSLATED__',
-	'LBL_SEARCH_WITHOUT_PERMISSION' => '__UNTRANSLATED__',
+	'LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD' => 'Enable name change of the record owner',
+	'LBL_SEARCH_WITHOUT_PERMISSION' => 'Search without permission',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',

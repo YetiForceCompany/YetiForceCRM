@@ -1217,6 +1217,8 @@ $languageStrings = [
 	'LBL_RELATIONSHIPS_BASED_ON_FIELDS' => 'На основании справочных полей',
 	'LBL_RELATIONSHIPS_BASED_ON_MODULES' => 'На основании связанных модулей',
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'В зависимости от объема данных, процесс может занять до нескольких минут',
+	
+	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 ];
 $jsLanguageStrings = [
 	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Нельзя выбрать Контакты для Обращений',
@@ -1517,4 +1519,5 @@ $jsLanguageStrings = [
 	'JS_ERROR_DURING_TRIGGER_OF_WORKFLOW' => 'Произошла ошибка во время обработки',
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Не может быть проведено в будущем',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
+	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
 ];
