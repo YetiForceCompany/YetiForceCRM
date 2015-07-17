@@ -452,41 +452,37 @@ jQuery.Class("Vtiger_Header_Js", {
         this.registerTabEventsInQuickCreate(form);
     },
     registerTabEventsInQuickCreate: function(form) {
-        var tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
-
+        var tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');	
         //This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
         //Multiple element to send as in calendar
         var quickCreateTabOnHide = function(target) {
             var container = jQuery(target);
-
             container.find('[name]').each(function(index, element) {
                 element = jQuery(element);
                 element.attr('data-element-name', element.attr('name')).removeAttr('name');
             });
         }
-
         //This will add the name attributes and get value from data-element-name . We are doing this to avoid
         //Multiple element to send as in calendar
         var quickCreateTabOnShow = function(target) {
             var container = jQuery(target);
-
             container.find('[data-element-name]').each(function(index, element) {
                 element = jQuery(element);
                 element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
             });
         }
-
         tabElements.on('click', function(e) {
 			quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
 			quickCreateTabOnShow($( this ).attr('data-target'));
-
             //while switching tabs we have to clear the invalid fields list
             form.data('jqv').InvalidFields = [];
 
         });
-
         //To show aleady non active element , this we are doing so that on load we can remove name attributes for other fields
-        quickCreateTabOnHide(tabElements.closest('li').filter(':not(.active)').find('a'));
+		var liElements = tabElements.closest('li');
+		liElements.filter(':not(.active)').find('a').each(function(e){
+			quickCreateTabOnHide(jQuery(this).attr('data-target'));
+		});
     },
     basicSearch: function() {
         var thisInstance = this;
