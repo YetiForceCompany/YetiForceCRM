@@ -971,7 +971,7 @@ $languageStrings = [
 	'LBL_TRANSFER_OWNERSHIP_DESC' => 'Depending on the amount of data the process of ownership transfer may take up to several minutes to complete',
 	'LBL_LEGAL_FORM' => 'Forma Jurídica',
 	
-	'LBL_QUICK_EXPORT_TO_EXCEL' => '__UNTRANSLATED__',
+	'LBL_QUICK_EXPORT_TO_EXCEL' => 'Export to Excel',
 ];
 $jsLanguageStrings = [
 	'JS_DATE_SHOULD_BE_GREATER_THAN' => 'A Data Final não pode ser igual ou menor que a Data Inicial',
@@ -1055,8 +1055,8 @@ $jsLanguageStrings = [
 	'JS_PLEASE_ENTER_VALID_TIME' => 'Por favor, digite uma hora válida',
 	'JS_PLEASE_SELECT_AN_ACCOUNT_TO_COPY_ADDRESS' => 'Por favor, selecione uma Organização para copiar o endereço',
 	'JS_PLEASE_SELECT_AN_CONTACT_TO_COPY_ADDRESS' => 'Por favor, selecione um Contato para copiar o endereço',
-	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
-	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => '__UNTRANSLATED__',
+	'JS_PLEASE_SELECT_AN_LEAD_TO_COPY_ADDRESS' => 'Select a lead to copy address',
+	'JS_PLEASE_SELECT_AN_VENDOR_TO_COPY_ADDRESS' => 'Select a vendor to copy address',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD' => 'Por favor, selecione ao menos um Campo Obrigatório',
 	'JS_PLEASE_SELECT_ATLEAST_ONE_OPTION' => 'Por favor, selecione ao menos uma opção',
 	'JS_PLEASE_SELECT_BASE_CURRENCY_FOR_PRODUCT' => 'Por favor, selecione a moeda padrão para o Produto',
