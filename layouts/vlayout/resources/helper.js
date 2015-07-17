@@ -217,6 +217,7 @@ jQuery.Class("Vtiger_Helper_Js",{
 
 		if(typeof customParams.type != 'undefined' && customParams.type != 'error'){
 			params.hide = true;
+			params.animate_speed = 1;
 		}
 		if(typeof userParams != 'undefined'){
 			var params = jQuery.extend(params,userParams);
