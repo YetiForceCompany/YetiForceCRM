@@ -63,8 +63,8 @@ $languageStrings = [
 	'MassMoveDocuments' => 'Mover Documentos',
 	'ReadRecord' => 'Ler todas as mudanças realizadas no registro',
 	'WorkflowTrigger' => 'Workflow trigger',
-	'QuickExportToExcel' => '__UNTRANSLATED__',
-	'CreateDashboardFilter' => '__UNTRANSLATED__',
+	'QuickExportToExcel' => 'Quick export to Excel',
+	'CreateDashboardFilter' => 'Create filter widgets',
 ];
 $jsLanguageStrings = [
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Perfil excluído com Sucesso',
