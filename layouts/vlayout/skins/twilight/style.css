@@ -3379,3 +3379,6 @@ span[name=existingImages] img{
 .quickCreateContent .minWidth150 .chosen-container{
 	min-width: 150px;
 }
+.filterActionImage {
+	margin-left: 8px;
+}

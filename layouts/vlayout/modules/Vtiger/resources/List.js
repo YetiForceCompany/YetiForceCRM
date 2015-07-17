@@ -1237,32 +1237,35 @@ jQuery.Class("Vtiger_List_Js", {
 	 */
 	registerChangeCustomFilterEvent: function () {
 		var thisInstance = this;
-		var filterSelectElement = this.getFilterSelectElement();
-		filterSelectElement.change(function (e) {
-			jQuery('#pageNumber').val("1");
-			jQuery('#pageToJump').val('1');
-			jQuery('#orderBy').val('');
-			jQuery("#sortOrder").val('');
-			var cvId = thisInstance.getCurrentCvId();
-			selectedIds = new Array();
-			excludedIds = new Array();
+		var listViewFilterBlock = this.getFilterBlock();
+		if (listViewFilterBlock != false) {
+			listViewFilterBlock.on('mouseup', 'li', function (event) {
+				jQuery('#pageNumber').val("1");
+				jQuery('#pageToJump').val('1');
+				jQuery('#orderBy').val('');
+				jQuery("#sortOrder").val('');
+				var cvId = thisInstance.getCurrentCvId();
+				selectedIds = new Array();
+				excludedIds = new Array();
 
-			var urlParams = {
-				"viewname": cvId,
-				//to make alphabetic search empty
-				"search_key": thisInstance.getAlphabetSearchField(),
-				"search_value": "",
-				"search_params": ""
-			}
-			//Make the select all count as empty
-			jQuery('#recordsCount').val('');
-			//Make total number of pages as empty
-			jQuery('#totalPageCount').text("");
-			thisInstance.getListViewRecords(urlParams).then(function () {
-				thisInstance.ListViewPostOperation();
-				thisInstance.updatePagination();
+				var urlParams = {
+					"viewname": cvId,
+					//to make alphabetic search empty
+					"search_key": thisInstance.getAlphabetSearchField(),
+					"search_value": "",
+					"search_params": ""
+				}
+				//Make the select all count as empty
+				jQuery('#recordsCount').val('');
+				//Make total number of pages as empty
+				jQuery('#totalPageCount').text("");
+				thisInstance.getListViewRecords(urlParams).then(function () {
+					thisInstance.ListViewPostOperation();
+					thisInstance.updatePagination();
+				});
+				event.stopPropagation();
 			});
-		});
+		}
 	},
 	//Fix for empty Recycle bin 
 	ListViewPostOperation: function () {
@@ -1407,6 +1410,26 @@ jQuery.Class("Vtiger_List_Js", {
 		var liElement = currentElement.find('#createFilter');
 		var createUrl = liElement.data('createurl');
 		Vtiger_CustomView_Js.loadFilterView(createUrl);
+	},
+	
+	
+	/*
+	 * Function to register the click event for duplicate filter
+	 */
+	registerDuplicateFilterClickEvent: function () {
+		var thisInstance = this;
+		var listViewFilterBlock = this.getFilterBlock();
+		if (listViewFilterBlock != false) {
+			listViewFilterBlock.on('mouseup', 'li span.duplicateFilter', function (event) {
+				//to close the dropdown
+				thisInstance.getFilterSelectElement().data('select2').close();
+				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
+				var editUrl = currentOptionElement.data('duplicateurl');
+				Vtiger_CustomView_Js.loadFilterView(editUrl);
+				event.stopPropagation();
+			});
+		}
 	},
 	/*
 	 * Function to register the click event for edit filter
@@ -1849,6 +1872,7 @@ jQuery.Class("Vtiger_List_Js", {
 
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
+		this.registerDuplicateFilterClickEvent();
 		this.registerEditFilterClickEvent();
 		this.registerDeleteFilterClickEvent();
 		this.registerApproveFilterClickEvent();
