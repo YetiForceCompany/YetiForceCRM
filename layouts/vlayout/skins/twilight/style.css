@@ -3373,3 +3373,6 @@ font-size: 20px;
   margin-left: 5px;
   margin-bottom: 0;
 }
+.activityWidgetContainer .popover{
+	min-width: 240px;
+}
