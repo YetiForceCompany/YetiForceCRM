@@ -143,8 +143,8 @@ class Home_Module_Model extends Vtiger_Module_Model {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
             if($row['activitytype'] == 'Task'){
-                $due_date = $row["due_date"];
-                $dayEndTime = "23:59:59";
+                $due_date = $row['due_date'];
+                $dayEndTime = '23:59:59';
 				
 				$endInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($due_date." ".$dayEndTime);
                 $EndDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($endInUserFormat);
