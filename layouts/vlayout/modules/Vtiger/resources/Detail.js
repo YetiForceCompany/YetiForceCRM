@@ -1940,7 +1940,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerGetAllTagCloudWidgetLoad: function () {
-		thisInstance = this;
+		var thisInstance = this;
 		var params = {
 			module: app.getModuleName(),
 			mode: 'showTags',
@@ -2098,7 +2098,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		//To Trigger the change on load 
 		sourcePickListElements.trigger('change');
-},
+	},
 	/**
 	 * Function to get child comments
 	 */
@@ -2255,7 +2255,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var form = this.getForm();
 		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
-	
 	/**
 	 * Counting the number of records in related modules
 	 * @license licenses/License.html
