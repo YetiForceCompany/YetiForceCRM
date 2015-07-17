@@ -422,7 +422,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$db = PearDatabase::getInstance();
 		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
-		$crmId = $db->query_result($checkResult, 0, 'crmid');		
+		$crmId = $db->query_result($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
 			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
 			$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
