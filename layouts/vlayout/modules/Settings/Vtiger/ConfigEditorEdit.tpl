@@ -55,13 +55,24 @@
 									<input type="checkbox" name="{$FIELD_NAME}" value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} checked {/if} />
 									</div>
 								{else}
-									<div class="col-md-4">
-										<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
-									</div>
-									<label class="control-label">
-										{if $FIELD_NAME == 'upload_maxsize'}{vtranslate('LBL_MB', $QUALIFIED_MODULE)}{/if}
+									
+									{if $FIELD_NAME == 'upload_maxsize'}
+										{assign var=MAXUPLOADSIZE value=Vtiger_Functions::getMaxUploadSize()}
+										<div class="col-md-4">
+										<div class="input-group">
+										  <input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+										  <div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
+										</div>
+										</div>
+										  <label class="control-label">
+											  (upload_max_filesize: {Vtiger_Functions::showBytes($MAXUPLOADSIZE)})
+										  </label>
+									{else}
+										<div class="col-md-4">
+											<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={Zend_Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+										</div>
+									{/if}
 								{/if}
-									</label>
 									</td></tr>
 					{/foreach}
 				</tbody>
