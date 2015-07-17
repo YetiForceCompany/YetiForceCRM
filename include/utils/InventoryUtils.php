@@ -485,7 +485,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 
 		$sub_prod_str = $_REQUEST['subproduct_ids'.$i];
 		if (!empty($sub_prod_str)) {
-			$sub_prod = split(":",$sub_prod_str);
+			$sub_prod = explode(":",$sub_prod_str);
 			for($j=0;$j<count($sub_prod);$j++){
 				$query ="insert into vtiger_inventorysubproductrel(id, sequence_no, productid) values(?,?,?)";
 				$qparams = array($focus->id,$prod_seq,$sub_prod[$j]);
