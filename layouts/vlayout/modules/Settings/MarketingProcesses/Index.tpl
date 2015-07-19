@@ -1,15 +1,15 @@
 {*/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/*}
+* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* in compliance with the License.
+* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+* See the License for the specific language governing rights and limitations under the License.
+* The Original Code is YetiForce.
+* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+* All Rights Reserved.
+*************************************************************************************************************************************/*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer" style="margin-top:10px;">
- 	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>
+	<h3>{vtranslate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</h3>
 	{vtranslate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}&nbsp;<hr>
 	<ul id="tabs" class="nav nav-tabs layoutTabs massEditTabs" data-tabs="tabs">
 		<li class="active"><a href="#conversiontoaccount" data-toggle="tab">{vtranslate('LBL_CONVERSION', $QUALIFIED_MODULE)} </a></li>
@@ -65,7 +65,7 @@
 										<select class="leadsFields select2 input-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]">
 											{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
 												<option value="{$FIELD_NAME}" {if $FIELD_NAME eq key($MAPPING_ARRAY)} selected {/if}>
-														{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
+													{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
 												</option>
 											{/foreach}
 										</select>
@@ -88,33 +88,33 @@
 									</td>
 								</tr>
 							{/foreach}
-								<tr class="hide newMapping listViewEntries">
-									<td>
-										<select class="leadsFields newSelect">
-											{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
-												<option value="{$FIELD_NAME}">
-													{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
-												</option>
-											{/foreach}
-										</select>
-									</td>
-									<td>
-										<div class="row">
-											<div class="col-xs-11">
-												<select class="accountsFields newSelect">
-													{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
-														<option value="{$FIELD_NAME}">
-															{vtranslate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
-														</option>
-													{/foreach}
-												</select>
-											</div>
-											<div class="actionImages">
-												<a class='btn'><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
-											</div>
-										</div>	
-									</td>
-								</tr>
+							<tr class="hide newMapping listViewEntries">
+								<td>
+									<select class="leadsFields newSelect">
+										{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
+											<option value="{$FIELD_NAME}">
+												{vtranslate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
+											</option>
+										{/foreach}
+									</select>
+								</td>
+								<td>
+									<div class="row">
+										<div class="col-xs-11">
+											<select class="accountsFields newSelect">
+												{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
+													<option value="{$FIELD_NAME}">
+														{vtranslate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
+													</option>
+												{/foreach}
+											</select>
+										</div>
+										<div class="actionImages">
+											<a class='btn'><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteMapping"></span></a>
+										</div>
+									</div>	
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>					
@@ -138,10 +138,10 @@
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td>
 							{assign var=ALL_ACTIVEGROUP_LIST value=$USER_MODEL->getAccessibleGroups('Leads')}
-								<select class="chzn-select configField" name="groups" data-type="lead" multiple>
+							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
-									{$OWNER_NAME}
+										{$OWNER_NAME}
 									</option>
 								{/foreach}
 							</select>
