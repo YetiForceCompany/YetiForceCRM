@@ -104,13 +104,9 @@ function vtws_convertlead($entityvalues, $user) {
 
 			try {
 				$create = true;
-				if ($entityvalue['name'] == 'Accounts' && $entityvalue['create_always']) {
-					$sql = "SELECT vtiger_account.accountid FROM vtiger_account,vtiger_crmentity WHERE vtiger_crmentity.crmid=vtiger_account.accountid AND vtiger_account.accountname=? AND vtiger_crmentity.deleted=0";
-					$result = $adb->pquery($sql, array($entityvalue['accountname']));
-					if ($adb->num_rows($result) > 0) {
-						$entityIds[$entityName] = vtws_getWebserviceEntityId('Accounts', $adb->query_result($result, 0, 'accountid'));
-						$create = false;
-					}
+				if ($entityvalue['name'] == 'Accounts' && $entityvalue['convert_to_id'] && is_int($entityvalue['convert_to_id'])) {
+					$entityIds[$entityName] = vtws_getWebserviceEntityId('Accounts', $entityvalue['convert_to_id']);
+					$create = false;
 				}
 				if ($create) {
 					$entityRecord = vtws_create($entityvalue['name'], $entityObjectValues, $user);

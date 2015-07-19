@@ -22458,6 +22458,7 @@ insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','status','');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('lead','currentuser_status','false');
 insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','create_always','false');
+insert  into `yetiforce_proc_marketing`(`type`,`param`,`value`) values ('conversion','mapping','[{\"company\":\"accountname\"}]');
 
 /*Data for the table `yetiforce_proc_sales` */
 

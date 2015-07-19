@@ -18,7 +18,10 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Grypy oznaczające brak właściciela rekordu',
 	'LBL_LEAD_STATUS' => 'Statusy oznaczające koniec pracy z leadem',
 	'LBL_CURRENTUSER_STATUS' => 'Ustaw właścicielem rekordu osobę dokonującą edycji',
-	'LBL_CONVERT_LEAD_MERGE' => 'Łącz podczas konwersji z Lead na Kontrahenta rekordy o tej samej nazwie kontrahenta',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Ta opcja powoduje, że system automatycznie będzie łączył rekord konwertowany z istniejącym rekordem po nazwie kontrahenta - nie zostanie utworzony nowe kontrahent, lecz do już istniejącego kontrahenta zostaną przeniesione wszystkie elementy z Leada',
+	'LBL_CONVERT_LEAD_MERGE' => 'Łącz podczas konwersji z Lead na Kontrahenta rekord spełniający określone warunki',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Ta opcja powoduje, że system automatycznie będzie łączył rekord konwertowany z istniejącym rekordem - nie zostanie utworzony nowe kontrahent, lecz do już istniejącego kontrahenta zostaną przeniesione wszystkie elementy z Leada',
+	'LBL_CONDITION' => 'Dodaj warunek',
 ];
-
+$jsLanguageStrings = [
+	'JS_NO_CONDITIONS' => 'Konieczny jest co najmnie jeden warunek.',
+];

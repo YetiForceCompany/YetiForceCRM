@@ -19,7 +19,10 @@ $languageStrings = [
 	'LBL_GROUPS_INFO' => 'Информация группы',
 	'LBL_LEAD_STATUS' => 'Состояние определяющее закрытие Обращения',
 	'LBL_CURRENTUSER_STATUS' => 'Назначить владельцем лицо вносящее изменение',
-	'LBL_CONVERT_LEAD_MERGE' => 'Объединить запись с таким же названием',
-	'LBL_CONVERT_LEAD_MERGE_ALERT' => 'Данная опция позволяет объединить уже существующую запись',
+	'LBL_CONVERT_LEAD_MERGE' => '__UNTRANSLATED__',
+	'LBL_CONVERT_LEAD_MERGE_ALERT' => '__UNTRANSLATED__',
+	'LBL_CONDITION' => 'Добавление условий',
 ];
-
+$jsLanguageStrings = [
+	'JS_NO_CONDITIONS' => '__UNTRANSLATED__',
+];
