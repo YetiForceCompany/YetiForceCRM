@@ -59,11 +59,11 @@
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}
 							<span>
-								<a class="cursorPointer replyComment"><span class="icon-share-alt"></span>{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
+								<a class="cursorPointer replyComment"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}</a>
 									{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 									&nbsp;<span style="color:black">|</span>&nbsp;
 									<a class="cursorPointer editComment feedback">
-										{vtranslate('LBL_EDIT',$MODULE_NAME)}
+										<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
 									</a>
 								{/if}
 							</span>
@@ -72,7 +72,7 @@
 							<span>
 								<span style="color:black">|</span>&nbsp;
 								<a class="cursorPointer deleteComment">
-									{vtranslate('LBL_DELETE',$MODULE_NAME)}
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
 								</a>
 							</span>
 						{/if}
