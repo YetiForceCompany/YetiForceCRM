@@ -1809,7 +1809,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var tagId = data.result[1][key];
 			var tagElement = jQuery('#tagsList').find("[data-tagid='" + tagId + "']");
 			if (tagElement.length == 0) {
-				jQuery('#tagsList').prepend('<div class="tag" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span class="cursorPointer deleteTag"> x</span></div>');
+				jQuery('#tagsList').prepend('<div class="tag btn-info btn-xs pull-right" data-tagname="' + key + '" data-tagid="' + tagId + '"><span class="tagName textOverflowEllipsis"><a class="cursorPointer">' + key + '</a></span><span id="deleteTag" class="glyphicon glyphicon-remove cursorPointer deleteTag" aria-hidden="true"></span></div>');
 			}
 		}
 	},
