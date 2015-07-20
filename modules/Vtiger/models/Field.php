@@ -355,7 +355,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isViewable()
 	{
-		if (!$this->isViewEnabled()) {
+		if (!$this->isViewEnabled() || !$this->isActiveReference()) {
 			return false;
 		}
 		return true;
@@ -367,7 +367,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isViewableInDetailView()
 	{
-		if (!$this->isViewable() || $this->getDisplayType() == '3' || $this->getDisplayType() == '5' || !$this->isActiveReference()) {
+		if (!$this->isViewable() || $this->getDisplayType() == '3' || $this->getDisplayType() == '5') {
 			return false;
 		}
 		return true;
@@ -435,7 +435,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	{
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true || $this->get('uitype') == 4 || !$this->isActiveReference()) {
+			$this->isReadOnly() == true || $this->get('uitype') == 4) {
 			return false;
 		}
 		return true;
