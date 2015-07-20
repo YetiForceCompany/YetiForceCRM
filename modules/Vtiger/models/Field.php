@@ -415,6 +415,19 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isEditable()
 	{
+		if($this->getFieldDataType() == 'reference'){
+			$webserviceField = $this->getWebserviceFieldObject();
+			$referenceList = $webserviceField->getReferenceList();
+			foreach ($referenceList as $key => $module) {
+				if(!vtlib_isModuleActive($module)){
+					unset($referenceList[$key]);
+				}
+			}
+			$webserviceField->setReferenceList($referenceList);
+			if(count($referenceList) == 0){
+				return false;
+			}
+		}
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
 			$this->isReadOnly() == true ||
