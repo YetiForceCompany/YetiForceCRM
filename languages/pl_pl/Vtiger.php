@@ -1184,4 +1184,5 @@ $jsLanguageStrings = [
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'Wprowadzono błędny zakres dat',
 	'JS_STARTED_GENERATING_FILE' => 'Trwa generowanie pliku...',
 	'JS_CAN_NOT_REMOVE_COMMENT' => 'Nie można usuwać komentarzy zawierających odpowiedzi. Usuń wszystkie odpowiedzi aby móc usunąć komentarz.',
+	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Czy na pewno chcesz usunąć komentarz?',
 ];

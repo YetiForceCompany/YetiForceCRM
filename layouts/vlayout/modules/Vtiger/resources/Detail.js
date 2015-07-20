@@ -2409,7 +2409,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if(relatedComments.length > 0 || viewThreadBlock.length > 0){
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CAN_NOT_REMOVE_COMMENT'));
 			}else{
-				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function (data) {
+				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('LBL_DELETE_COMMENT_CONFIRMATION')}).then(function (data) {
 					AppConnector.request(deleteUrl).then(
 						function (data) {
 							if (data.success == true) {
