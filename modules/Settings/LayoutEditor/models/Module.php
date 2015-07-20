@@ -190,7 +190,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model {
         $blockModel->addField($fieldModel);
 
         if($fieldType == 'Picklist' || $fieldType == 'MultiSelectCombo') {
-            $pickListValues = explode(',',$params['pickListValues']);
+			$pickListValues = $params['pickListValues'];
+			if(is_string($pickListValues))
+				$pickListValues = [$pickListValues];
             $fieldModel->setPicklistValues($pickListValues);
         }
 		if($fieldType == 'Related1M') {

@@ -504,8 +504,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						var fieldTypeValue = jQuery('[name="fieldType"]',form).val();
 						if(fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
 							var pickListValueElement = jQuery('#picklistUi',form);
-							var pickLisValues = pickListValueElement.val();
-							var pickListValuesArray = pickLisValues.split(',');
+							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/ ;
 							for(var i=0;i<pickListValuesArray.length;i++) {
