@@ -1520,4 +1520,5 @@ $jsLanguageStrings = [
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Не может быть проведено в будущем',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
 	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
+	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.';
 ];

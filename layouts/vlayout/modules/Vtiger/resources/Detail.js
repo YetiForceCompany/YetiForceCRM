@@ -2396,6 +2396,36 @@ jQuery.Class("Vtiger_Detail_Js", {
 			editCommentBlock.appendTo(commentInfoBlock).show();
 			app.registerEventForTextAreaFields(jQuery('.commentcontent', commentInfoBlock));
 		});
+		
+		detailContentsHolder.on('click', '.deleteComment', function (e) {
+			thisInstance.removeCommentBlockIfExists();
+			var currentTarget = jQuery(e.currentTarget);
+			var commentInfoBlock = currentTarget.closest('.singleComment');
+			var commentInfoHeader = commentInfoBlock.find('.commentInfoHeader');
+			var deleteUrl = "index.php?module=ModComments&action=DeleteAjax&record=" + commentInfoHeader.data('commentid')
+			var commentDetails = currentTarget.closest('.commentDetails');
+			var relatedComments = commentDetails.find('.commentDetails');
+			var viewThreadBlock = commentDetails.find('.viewThreadBlock');
+			if(relatedComments.length > 0 || viewThreadBlock.length > 0){
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CAN_NOT_REMOVE_COMMENT'));
+			}else{
+				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('LBL_DELETE_CONFIRMATION')}).then(function (data) {
+					AppConnector.request(deleteUrl).then(
+						function (data) {
+							if (data.success == true) {
+								commentDetails.fadeOut(400, function(){
+									commentDetails.remove();
+								});
+							} else {
+								Vtiger_Helper_Js.showPnotify(data.error.message);
+							}
+						});
+					},
+					function (error, err) {
+					}
+				);
+			}
+		});
 
 		detailContentsHolder.on('click', '.viewThread', function (e) {
 			var currentTarget = jQuery(e.currentTarget);

@@ -68,6 +68,14 @@
 								{/if}
 							</span>
 						{/if}
+						{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
+							<span>
+								<span style="color:black">|</span>&nbsp;
+								<a class="cursorPointer deleteComment">
+									{vtranslate('LBL_DELETE',$MODULE_NAME)}
+								</a>
+							</span>
+						{/if}
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							{if $COMMENTS_MODULE_MODEL->isPermitted('EditView')}&nbsp;<span style="color:black">|</span>&nbsp;{/if}
