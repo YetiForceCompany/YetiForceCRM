@@ -178,23 +178,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
             timeStartElement.trigger('changeTime');
         });
 		
-        container.find('[name="due_date"]').on('change',function(e) {
-			var endDateElement = jQuery(e.currentTarget);
-			var startDateElement = container.find('[name="date_start"]');
-			
-			var start = thisInstance.getDateInstance(container, 'start');
-			var end = thisInstance.getDateInstance(container, 'end');
-			var dateFormat = $('#userDateFormat').val();
-			var timeFormat = $('#userTimeFormat').val();
-			if(start > end){
-				var diff = start - end;
-				start.setTime(end.getTime() - diff)
-				var startDateString = app.getDateInVtigerFormat(dateFormat, start);
-				startDateElement.val(startDateString);
-				app.registerEventForDatePickerFields(container);
-			}
-        });
-		
 		container.find('input[name="time_start"]').on('focus',function(e){
 			var element = jQuery(e.currentTarget);
 			element.data('prevValue',element.val());
