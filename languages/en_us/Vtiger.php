@@ -1222,6 +1222,6 @@ $jsLanguageStrings = [
 	'JS_FUTURE_EVENT_CANNOT_BE_HELD' => 'Cannot hold future event',
 	'JS_AN_INCORRECT_RANGE_OF_DATES_WAS_ENTERED' => 'An incorrect range of dates was entered',
 	'JS_STARTED_GENERATING_FILE' => 'Generating a file',
-	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.';
+	'JS_CAN_NOT_REMOVE_COMMENT' => 'You can\'t delete comments with answers. Delete all the answers in order to delete the comment.',
 	'LBL_DELETE_COMMENT_CONFIRMATION' => 'Are you sure you want to delete the comment?',
 ];
