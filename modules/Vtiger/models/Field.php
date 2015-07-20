@@ -367,7 +367,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 	 */
 	public function isViewableInDetailView()
 	{
-		if (!$this->isViewable() || $this->getDisplayType() == '3' || $this->getDisplayType() == '5') {
+		if (!$this->isViewable() || $this->getDisplayType() == '3' || $this->getDisplayType() == '5' || !$this->isActiveReference()) {
 			return false;
 		}
 		return true;
@@ -409,11 +409,7 @@ class Vtiger_Field_Model extends Vtiger_Field
 		return ($this->get('summaryfield')) ? true : false;
 	}
 
-	/**
-	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
-	 */
-	public function isEditable()
+	public function isActiveReference()
 	{
 		if($this->getFieldDataType() == 'reference'){
 			$webserviceField = $this->getWebserviceFieldObject();
@@ -428,11 +424,18 @@ class Vtiger_Field_Model extends Vtiger_Field
 				return false;
 			}
 		}
+		return true;
+	}
+	
+	/**
+	 * Function to check whether the current field is editable
+	 * @return <Boolean> - true/false
+	 */
+	public function isEditable()
+	{
 		if (!$this->isEditEnabled() || !$this->isViewable() ||
 			( ((int) $this->get('displaytype')) != 1 && ((int) $this->get('displaytype')) != 10 ) ||
-			$this->isReadOnly() == true ||
-			$this->get('uitype') == 4) {
-
+			$this->isReadOnly() == true || $this->get('uitype') == 4 || !$this->isActiveReference()) {
 			return false;
 		}
 		return true;
