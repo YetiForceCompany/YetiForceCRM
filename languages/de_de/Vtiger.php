@@ -1103,6 +1103,7 @@ $jsLanguageStrings = [
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Sie sind auf Seite',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Sie können nur auswählen',
 	'LBL_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie löschen möchten?', // This is added as duplicate as we need to show different message for different modules. Ex:Accounts has different message
+	'JS_DELETE_CONFIRMATION' => '__UNTRANSLATED__',
 	'LBL_DELETE_USER_CONFIRMATION' => 'Wenn ein Benutzer gelöscht wird, wird der Benutzer als \"Inaktiv\" markiert und es können keine neuen Datensätze dem Nutzer zugeordnet werden und der Benutzer ist nicht mehr in der Lage sich anmelden. Die Abrechnung stoppt für diesen Benutzer. Melden Sie sich beim Administrator, wenn Sie einen gelöschten Benutzer wieder aktivieren müssen. Sind Sie sicher, dass Sie den Benutzer löschen möchten?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Bild erfolgreich gelöscht',
 	'LBL_IMAGE_NOT_DELETED' => 'Bild nicht gelöscht',

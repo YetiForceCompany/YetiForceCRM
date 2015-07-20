@@ -1086,6 +1086,7 @@ $jsLanguageStrings = [
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'You are in page number',
 	'JS_YOU_CAN_SELECT_ONLY' => 'You can select only',
 	'LBL_DELETE_CONFIRMATION' => 'Are you sure you want to delete?', // This is added as duplicate as we need to show different message for different modules. Ex:Accounts has different message
+	'JS_DELETE_CONFIRMATION' => '__UNTRANSLATED__',
 	'LBL_DELETE_USER_CONFIRMATION' => 'When a User is deleted, the user will be marked as "Inactive" and no new records can be assigned to the User, and the user will not be able to login. Billing will stop for this user.If you need to reactivate a deleted user, you will need to send email to support@vtiger.com.Are you sure you want to delete?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Image Deleted Successfully',
 	'LBL_IMAGE_NOT_DELETED' => 'Image Not Deleted',

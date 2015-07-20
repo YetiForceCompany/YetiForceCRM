@@ -332,7 +332,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 	},
 	getDeleteMessageKey: function () {
-		return 'LBL_DELETE_CONFIRMATION';
+		return 'JS_DELETE_CONFIRMATION';
 	},
 	loadWidgets: function () {
 		var thisInstance = this;

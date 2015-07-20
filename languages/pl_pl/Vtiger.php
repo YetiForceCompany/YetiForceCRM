@@ -1093,6 +1093,7 @@ $jsLanguageStrings = [
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Jesteś na stronie numer',
 	'JS_YOU_CAN_SELECT_ONLY' => 'Można wybrać tylko',
 	'LBL_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć rekord?', // This is added as duplicate as we need to show different message for different modules. Ex:Accounts has different message
+	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć powiązanie z tym rekordem? Usunięte zostanie tylko powiązanie, aby usunąć rekord musisz przejść do rekordu i kliknąć usuń.',
 	'LBL_DELETE_USER_CONFIRMATION' => 'Gdy użytkownik zostanie usunięty, użytkownik zostanie oznaczony jako "nieaktywny" i żadne nowe zapisy mogą być przypisane do użytkownika, i użytkownik nie będzie mógł się zalogować. Fakturowanie zatrzyma dla tego użytkownika. Czy na pewno chcesz usunąć?',
 	'LBL_IMAGE_DELETED_SUCCESSFULLY' => 'Zdjęcie zostało pomyślnie usunięte',
 	'LBL_IMAGE_NOT_DELETED' => 'Zdjęcie nie zostało usunięte',
