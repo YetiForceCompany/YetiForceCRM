@@ -748,8 +748,9 @@
 												{vtranslate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
 											</div>
 											<div class="col-md-8 controls">
-												<input type="hidden" id="picklistUi" class="form-control select2" name="pickListValues"
-													   placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])} />
+												<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{vtranslate('LBL_ENTER_PICKLIST_VALUES', $QUALIFIED_MODULE)}" 
+													data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={Zend_Json::encode([['name'=>'PicklistFieldValues']])}>
+												</select>
 											</div>
 										</div>
 										<div class="form-group supportedType preDefinedModuleList hide">
@@ -770,7 +771,7 @@
 												&nbsp;
 											</div>
 											<div class="col-md-8 controls">
-												<label class="checkbox form-control" style="margin-left: 0px;">
+												<label class="checkbox">
 													<input type="checkbox" class="checkbox" name="isRoleBasedPickList" value="1" >&nbsp;{vtranslate('LBL_ROLE_BASED_PICKLIST',$QUALIFIED_MODULE)}
 												</label>
 											</div>
