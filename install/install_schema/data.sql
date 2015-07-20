@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.6.17 : Database - yetiforce
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1084,7 +1085,7 @@ insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`c
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (91,'Poland, Zlotych','PLN','zł');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (92,'Qatar, Rials','QAR','﷼');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (93,'Romania, New Lei','RON','lei');
-insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (94,'Russia, Rubles','RUB','руб');
+insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (94,'Russia, Rubles','RUB','₽');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (95,'Saint Helena, Pounds','SHP','£');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (96,'Saudi Arabia, Riyals','SAR','﷼');
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (97,'Serbia, Dinars','RSD','Дин.');
