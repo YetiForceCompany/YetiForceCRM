@@ -713,7 +713,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: '.@filesize($tempFileName));
-		header('Content-disposition: attachment; filename="'.$fileName.'"');
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
@@ -740,7 +740,7 @@ class Reports_Record_Model extends Vtiger_Record_Model {
 
 		header('Content-Type: application/csv');
 		header('Content-Length: '.@filesize($tempFileName));
-		header('Content-disposition: attachment; filename="'.$fileName.'"');
+		header("Content-Disposition: attachment; filename=\"$fileName\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);

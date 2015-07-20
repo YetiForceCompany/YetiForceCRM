@@ -119,7 +119,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: ' . @filesize($tempFileName));
 		$filename = vtranslate($module, $module) . '-' . vtranslate(decode_html($customView->get('viewname')), $module) . ".xls";
-		header('Content-disposition: attachment; filename="' . $filename . '"');
+		header("Content-Disposition: attachment; filename=\"$filename\"");
 
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
