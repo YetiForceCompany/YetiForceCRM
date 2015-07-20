@@ -3374,3 +3374,9 @@ span[name=existingImages] img{
 	padding-left: 15px;
 	padding-right: 15px;
 }
+.clearReferenceSelection,.createReferenceRecord {
+	padding: 0px 6px;
+}
+.relatedPopup {
+	padding: 0px 4px;
+}
