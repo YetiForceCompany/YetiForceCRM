@@ -66,8 +66,8 @@
 															{assign var="REFERENCED_MODULE_NAME" value=$REFERENCED_MODULE_STRUCT->get('name')}
 														{/if}
 														<label class="muted textAlignRight">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
-														<span class="pull-right minWidth150">
-															<select class="chzn-select referenceModulesList" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
+														<span class="pull-right col-md-12 paddingLRZero">
+															<select class="chzn-select referenceModulesList form-control" id="referenceModulesList_{$FIELD_MODEL->get('id')}">
 																<optgroup>
 																	{foreach key=index item=value from=$refrenceList}
 																		<option value="{$value}" {if $value eq $REFERENCED_MODULE_NAME} selected {/if} >{vtranslate($value, $value)}</option>
