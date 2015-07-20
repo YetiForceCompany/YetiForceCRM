@@ -169,8 +169,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js",{
 			var dateFormat = $('#userDateFormat').val();
 			var timeFormat = $('#userTimeFormat').val();
 			if(start > end){
-				var diff = start - end;
-				end.setTime(start.getTime() + diff)
+				end = start;
 				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
 				endDateElement.val(endDateString);
 				app.registerEventForDatePickerFields(container);
