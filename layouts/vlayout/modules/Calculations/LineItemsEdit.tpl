@@ -14,7 +14,39 @@
 	<input type="hidden" class="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
     <table class="table table-bordered blockContainer lineItemTable" id="lineItemTab">
         <tr>
-            <th colspan="8"><span>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
+            <th colspan="5"><span>{vtranslate('LBL_ITEM_DETAILS', $MODULE)}</span></th>
+            <th colspan="3" class="chznDropDown">
+                <div class="">
+                    <span class="inventoryLineItemHeader">{vtranslate('LBL_CURRENCY', $MODULE)}</span>&nbsp;&nbsp;
+                    {assign var=SELECTED_CURRENCY value=$CURRENCINFO}
+                    {* Lookup the currency information if not yet set - create mode *}
+                    {if $SELECTED_CURRENCY eq ''}
+                        {assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
+                        {foreach item=currency_details from=$CURRENCIES}
+                            {if $currency_details.curid eq $USER_CURRENCY_ID}
+                                {assign var=SELECTED_CURRENCY value=$currency_details}
+                            {/if}
+                        {/foreach}
+                    {/if}
+
+                    <select class="chzn-select" id="currency_id" name="currency_id" title="{vtranslate('LBL_CURRENCY', $MODULE)}" style="width: 164px;">
+                        {foreach item=currency_details key=count from=$CURRENCIES}
+                            <option value="{$currency_details.curid}" class="textShadowNone" data-conversion-rate="{$currency_details.conversionrate}" {if $SELECTED_CURRENCY.currency_id eq $currency_details.curid} selected {/if}>
+                                {$currency_details.currencylabel|@getTranslatedCurrencyString} ({$currency_details.currencysymbol})
+                            </option>
+                        {/foreach}
+                    </select>
+
+                    {assign var="RECORD_CURRENCY_RATE" value=$RECORD_STRUCTURE_MODEL->getRecord()->get('conversion_rate')}
+                    {if $RECORD_CURRENCY_RATE eq ''}
+                        {assign var="RECORD_CURRENCY_RATE" value=$SELECTED_CURRENCY.conversionrate}
+                    {/if}
+                    <input type="hidden" name="conversion_rate" id="conversion_rate" value="{$RECORD_CURRENCY_RATE}" />
+                    <input type="hidden" value="{$SELECTED_CURRENCY.currency_id}" id="prev_selected_currency_id" />
+                    <!-- TODO : To get default currency in even better way than depending on first element -->
+                    <input type="hidden" id="default_currency_id" value="{$CURRENCIES.0.curid}" />
+                </div>
+            </th>
         </tr>
         <tr>
             <td><strong>{vtranslate('LBL_TOOLS',$MODULE)}</strong></td>
